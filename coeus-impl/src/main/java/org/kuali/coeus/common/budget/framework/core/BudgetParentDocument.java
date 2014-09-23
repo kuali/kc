@@ -17,15 +17,10 @@ package org.kuali.coeus.common.budget.framework.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
-import org.kuali.coeus.common.framework.auth.task.Task;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.datadictionary.KNSDocumentEntry;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 import javax.persistence.MappedSuperclass;
@@ -89,10 +84,6 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
     public abstract Permissionable getBudgetPermissionable();
 
     public abstract boolean isComplete();
-
-    public abstract String getTaskGroupName();
-
-    public abstract Task getParentAuthZTask(String taskName);
 
     public abstract ExtraButton configureReturnToParentTopButton();
 

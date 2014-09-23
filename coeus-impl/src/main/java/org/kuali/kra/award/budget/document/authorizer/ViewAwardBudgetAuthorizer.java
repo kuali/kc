@@ -16,7 +16,6 @@
 package org.kuali.kra.award.budget.document.authorizer;
 
 import org.kuali.coeus.common.framework.auth.task.Task;
-import org.kuali.coeus.common.budget.framework.auth.task.BudgetAuthorizer;
 
 /**
  * The Budget View Authorizer checks to see if the user has 

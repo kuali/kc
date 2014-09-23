@@ -19,7 +19,6 @@ import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
-import org.kuali.coeus.common.budget.framework.auth.task.BudgetAuthorizer;
 import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 

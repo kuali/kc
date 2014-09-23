@@ -32,7 +32,6 @@
 
     <util:set id="taskAuthorizerGroupNames">
         <value>applicationTaskAuthorizers</value>
-        <value>proposalBudgetTaskAuthorizers</value>
         <value>narrativeTaskAuthorizers</value>
         <value>awardTaskAuthorizers</value>
         <value>awardBudgetTaskAuthorizers</value>

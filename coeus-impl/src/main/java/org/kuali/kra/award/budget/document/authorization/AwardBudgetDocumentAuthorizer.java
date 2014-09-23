@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBa
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -107,7 +108,7 @@ public class AwardBudgetDocumentAuthorizer  extends KcTransactionalDocumentAutho
     
     @Override
     public boolean canApprove( Document document, Person user ) {
-        return super.canApprove(document,user) && canExecuteAwardBudgetTask( user, (AwardBudgetDocument)document, TaskName.APPROVE_AWARD_BUDGET);
+        return super.canApprove(document, user) && canExecuteAwardBudgetTask( user, (AwardBudgetDocument)document, TaskName.APPROVE_AWARD_BUDGET);
     }
     
     @Override
@@ -174,7 +175,7 @@ public class AwardBudgetDocumentAuthorizer  extends KcTransactionalDocumentAutho
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteParentDocumentTask(String userId, BudgetParentDocument doc, String taskName) {
-        Task task = doc.getParentAuthZTask(taskName);
+        Task task = ((AwardDocument) doc).getParentAuthZTask(taskName);
         return getTaskAuthorizationService().isAuthorized(userId, task);
     }
     

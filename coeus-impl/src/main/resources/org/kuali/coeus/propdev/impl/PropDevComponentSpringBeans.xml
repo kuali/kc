@@ -460,21 +460,9 @@
 
     <!--  S2S Scheduler configuration end -->
 
-    <bean id="parentBudgetAuthorizer" abstract="true" class="org.kuali.coeus.common.budget.framework.auth.task.BudgetAuthorizer">
+    <bean id="parentBudgetAuthorizer" abstract="true" class="org.kuali.kra.award.budget.document.authorizer.BudgetAuthorizer">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
-    </bean>
-
-    <bean id="proposalBudgetTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
-        <property name="groupName" value="proposalBudget" />
-        <property name="taskAuthorizers">
-            <list>
-                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ViewProposalBudgetPersonSalaryAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="viewPropPersonInstSalaries" />
-                    <property name="requiresWritableDoc" value="true" />
-                </bean>
-            </list>
-        </property>
     </bean>
     
     <bean id="exemptionTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.DataObjectValuesFinder">
