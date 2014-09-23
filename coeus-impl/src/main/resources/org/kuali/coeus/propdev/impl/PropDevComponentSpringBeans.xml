@@ -161,12 +161,6 @@
         <property name="groupName" value="proposal" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.coeus.propdev.impl.auth.task.BasicProposalAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="certify" />
-                    <property name="permission" value="Certify" />
-                    <property name="requiresWritableDoc" value="true" />
-                </bean>
-
                 <!-- Narrative -->
 
                 <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeAddAuthorizer" parent="parentProposalAuthorizer">

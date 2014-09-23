@@ -174,7 +174,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("addNarratives");
         }
                    
-        if (canExecuteTask(userId, doc, TaskName.CERTIFY)) {
+        if (isAuthorizedToCertify(doc, user)) {
             editModes.add("certify");
         }
         
@@ -399,7 +399,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return true;
     }
 
-    public boolean isAuthorizedToReplacePersonnelAttachement(Document document, Person user) {
+    protected boolean isAuthorizedToCertify(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.CERTIFY);
+    }
+
+    protected boolean isAuthorizedToReplacePersonnelAttachement(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         boolean result = false;
         if (pdDocument.getDevelopmentProposal().getProposalState() != null) {

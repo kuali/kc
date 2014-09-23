@@ -17,12 +17,14 @@ package org.kuali.coeus.propdev.impl.person.question;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
@@ -32,7 +34,10 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -43,18 +48,16 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     
     private static final Log LOG = LogFactory.getLog(ProposalPersonQuestionnaireHelper.class);
 
-    private ProposalPerson proposalPerson;
+    private transient ProposalPerson proposalPerson;
     
-    private QuestionnaireService questionnaireService;
+    private transient QuestionnaireService questionnaireService;
     
-    private ParameterService parameterService;
+    private transient ParameterService parameterService;
+
+    private transient KcAuthorizationService kcAuthorizationService;
     
     private boolean canAnswerAfterRouting = false;
-    
-    /**
-     * Constructs a ProposalPersonQuestionnaireHelper.java.
-     * @param form
-     */
+
     public ProposalPersonQuestionnaireHelper(ProposalPerson proposalPerson) {
         this.setProposalPerson(proposalPerson);
     }
@@ -72,7 +75,6 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
 
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
-        //ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument(); 
         ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean =
             new ProposalPersonModuleQuestionnaireBean(getProposalPerson().getDevelopmentProposal(), getProposalPerson());
         return moduleQuestionnaireBean;
@@ -86,12 +88,16 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
         initializePermissions(this.getProposalDevelopmentDocument());
     }
 
+    protected boolean isAuthorizedToCertify(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.CERTIFY);
+    }
+
     /*
      * authorization check.
      */
     private void initializePermissions(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        ProposalTask task = new ProposalTask(TaskName.CERTIFY, proposalDevelopmentDocument);
-        boolean canCertify = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        boolean canCertify = isAuthorizedToCertify(proposalDevelopmentDocument, GlobalVariables.getUserSession().getPerson());
         setAnswerQuestionnaire(canCertify);
 
         String keyPersonCertDeferral = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "KEY_PERSON_CERTIFICATION_DEFERRAL");
@@ -201,5 +207,16 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
 
     public void setCanAnswerAfterRouting(boolean canAnswerAfterRouting) {
         this.canAnswerAfterRouting = canAnswerAfterRouting;
+    }
+
+    public KcAuthorizationService getKcAuthorizationService() {
+        if (kcAuthorizationService == null) {
+            kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+        }
+        return kcAuthorizationService;
+    }
+
+    public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
+        this.kcAuthorizationService = kcAuthorizationService;
     }
 }

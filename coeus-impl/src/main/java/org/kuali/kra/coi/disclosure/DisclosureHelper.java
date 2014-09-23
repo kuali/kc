@@ -273,8 +273,6 @@ public class DisclosureHelper implements Serializable {
     }
 
     private boolean hasCanCertifyDisclosurePermission() {
-// for now        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.CERTIFY, getCoiDisclosure());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
         return (getCoiDisclosure().getPersonId() == null) || StringUtils.equals(getCoiDisclosure().getPersonId(), GlobalVariables.getUserSession().getPrincipalId());
 
     }
