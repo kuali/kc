@@ -143,7 +143,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
             editModes.add("addBudget");
         }
         
-        if (canExecuteParentDocumentTask(userId, doc, TaskName.OPEN_BUDGETS)) {
+        if (isAuthorizedToOpenBudget(doc, user)) {
             editModes.add("openBudgets");
         }
         
@@ -216,6 +216,13 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     protected boolean isAuthorizedToMaintainProposalHierarchy(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return !pdDocument.isViewOnly() && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
+    }
+
+    protected boolean isAuthorizedToOpenBudget(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_BUDGET)
+                || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
     }
 
     protected boolean isAuthorizedToAddBudget(Document document, Person user) {

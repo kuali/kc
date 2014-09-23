@@ -162,10 +162,6 @@
         <property name="taskAuthorizers">
             <list>
                 <!-- Budget -->
-                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetOpenAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="openBudgets" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ModifyBudgetPermission" parent="parentProposalAuthorizer">
                     <property name="taskName" value="modifyBudget" />
                     <property name="requiresWritableDoc" value="true" />
@@ -259,19 +255,6 @@
                 <entry key="save">
                     <bean class="org.kuali.coeus.propdev.impl.attachment.NarrtivesCommonTaskFactory">
                         <property name="taskName" value="modifyNarratives" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="proposalBudgetVersionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetVersionsAction" />
-        <property name="mappings">
-            <map>
-                <entry key="openBudgetVersion">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="openBudgets" />
                     </bean>
                 </entry>
             </map>
@@ -538,19 +521,6 @@
                 <entry key="save">
                     <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalBudgetTaskFactory">
                         <property name="taskName" value="modifyBudget" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="budgetVersionsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.common.budget.framework.version.BudgetVersionsAction" />
-        <property name="mappings">
-            <map>
-                <entry key="openBudgetVersion">
-                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetProposalTaskFactory">
-                        <property name="taskName" value="openBudgets" />
                     </bean>
                 </entry>
             </map>
