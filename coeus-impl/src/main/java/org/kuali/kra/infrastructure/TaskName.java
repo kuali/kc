@@ -40,7 +40,6 @@ public interface TaskName {
     /*
      * Budget Tasks.
      */
-    public static final String VIEW_BUDGET = "viewBudget"; 
     public static final String MODIFY_PROPOSAL_RATE = "modifyProposalBudgetRates";
     public static final String VIEW_SALARIES = "viewSalaries";
     
@@ -199,6 +198,7 @@ public interface TaskName {
     public static final String ADD_BUDGET = "addBudget";
     public static final String OPEN_BUDGETS = "openBudgets";
     public static final String MODIFY_BUDGET = "modifyBudget";
+    public static final String VIEW_BUDGET = "viewBudget";
 
     /*
      * COI tasks

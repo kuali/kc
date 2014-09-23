@@ -483,10 +483,6 @@
         <property name="groupName" value="proposalBudget" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ViewProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="viewBudget" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ModifyProposalBudgetRatesAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="modifyProposalBudgetRates" />
                     <property name="requiresWritableDoc" value="true" />

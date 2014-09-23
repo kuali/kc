@@ -92,7 +92,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
             }
             setPermissions(user, parentDocument, editModes);
         }
-        else if (canExecuteBudgetTask(userId, budget, TaskName.VIEW_BUDGET)) {
+        else if (isAuthorizedToViewBudget(budget, user)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             editModes.add("viewBudgets");
             
@@ -155,18 +155,6 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
             editModes.add("printProposal");
         }
     }
-    
-    /**
-     * Can the user execute the given proposal task?
-     * @param userId the user's unique user id
-     * @param doc the proposal development document
-     * @param taskName the name of the task
-     * @return true if has permission; otherwise false
-     */
-    private boolean canExecuteParentDocumentTask(String userId, BudgetParentDocument doc, String taskName) {
-        Task task = doc.getParentAuthZTask(taskName);       
-        return getTaskAuthorizationService().isAuthorized(userId, task);
-    }
 
     /**
      * Can the user execute the given budget task?
@@ -190,7 +178,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     }
 
     public boolean canOpen(ProposalDevelopmentBudgetExt budget, Person user) {
-        return canExecuteBudgetTask(user.getPrincipalId(), budget, TaskName.VIEW_BUDGET);
+        return isAuthorizedToViewBudget(budget, user);
     }
     
     public boolean canEdit(ProposalDevelopmentBudgetExt budget, Person user) {
@@ -211,6 +199,14 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     protected boolean isBudgetComplete(Budget budget) {
 		String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 		return StringUtils.equals(budgetStatusCompleteCode, budget.getBudgetStatus());
+    }
+
+    protected boolean isAuthorizedToViewBudget(ProposalDevelopmentBudgetExt budget, Person user) {
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budget.getBudgetParent().getDocument();
+
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), doc, PermissionConstants.VIEW_BUDGET)
+                || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), doc);
+
     }
 
     protected boolean isAuthorizedToMaintainProposalHierarchy(Document document, Person user) {
