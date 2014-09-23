@@ -27,6 +27,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -34,6 +35,9 @@ import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.file.FileMeta;
 import org.springframework.web.multipart.MultipartFile;
@@ -144,6 +148,12 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     private transient KcAttachmentService kcAttachmentService;
 
     @Transient
+    private transient PersonService personService;
+
+    @Transient
+    private transient GlobalVariableService globalVariableService;
+
+    @Transient
     private MultipartFile multipartFile;
 
     @Override
@@ -156,6 +166,8 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         attachment.setType(multipartFile.getContentType());
         attachment.setData(multipartFile.getBytes());
         attachment.setName(multipartFile.getOriginalFilename());
+        attachment.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+        attachment.setUpdateUser(getGlobalVariableService().getUserSession().getPrincipalName());
         setNarrativeAttachment(attachment);
     }
 
@@ -640,7 +652,11 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     public Timestamp getTimestampDisplay() {
-        return timestampDisplay;
+        if (getNarrativeAttachment() == null || getNarrativeAttachment().getUpdateTimestamp() == null){
+            return this.getUpdateTimestamp();
+        }
+
+        return getNarrativeAttachment().getUpdateTimestamp();
     }
 
     public void setTimestampDisplay(Timestamp timestampDisplay) {
@@ -648,7 +664,11 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     public String getUploadUserDisplay() {
-        return uploadUserDisplay;
+        if (getNarrativeAttachment() == null || StringUtils.isBlank(getNarrativeAttachment().getUpdateUser())){
+            return this.getUpdateUser();
+        }
+
+        return getNarrativeAttachment().getUpdateUser();
     }
 
     public void setUploadUserDisplay(String uploadUserDisplay) {
@@ -656,7 +676,8 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     public String getUploadUserFullName() {
-        return uploadUserFullName;
+        Person person = getPersonService().getPersonByPrincipalName(getUploadUserDisplay());
+        return person == null ? getUploadUserDisplay() : person.getName();
     }
 
     public void setUploadUserFullName(String uploadUserFullName) {
@@ -797,5 +818,24 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.kcAttachmentService = kcAttachmentService;
     }
 
+    public PersonService getPersonService() {
+        if (personService == null)
+            personService = KcServiceLocator.getService(PersonService.class);
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null)
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }
 

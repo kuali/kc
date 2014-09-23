@@ -26,10 +26,13 @@ import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyCont
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.KcFile;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.file.FileMeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -130,6 +133,12 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     @Transient
     private MultipartFile multipartFile;
 
+    @Transient
+    private PersonService personService;
+
+    @Transient
+    private transient GlobalVariableService globalVariableService;
+
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
         this.name = multipartFile.getOriginalFilename();
@@ -140,6 +149,8 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         attachment.setType(multipartFile.getContentType());
         attachment.setData(multipartFile.getBytes());
         attachment.setName(multipartFile.getName());
+        attachment.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+        attachment.setUpdateUser(getGlobalVariableService().getUserSession().getPrincipalName());
         setPersonnelAttachment(attachment);
     }
 
@@ -336,7 +347,11 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     }
 
     public Timestamp getTimestampDisplay() {
-        return timestampDisplay;
+        if (getPersonnelAttachment() == null || getPersonnelAttachment().getUpdateTimestamp() == null){
+            return this.getUpdateTimestamp();
+        }
+
+        return getPersonnelAttachment().getUpdateTimestamp();
     }
 
     public void setTimestampDisplay(Timestamp timestampDisplay) {
@@ -344,7 +359,11 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     }
 
     public String getUploadUserDisplay() {
-        return uploadUserDisplay;
+        if (getPersonnelAttachment() == null || StringUtils.isBlank(getPersonnelAttachment().getUpdateUser())){
+            return this.getUpdateUser();
+        }
+
+        return getPersonnelAttachment().getUpdateUser();
     }
 
     public void setUploadUserDisplay(String uploadUserDisplay) {
@@ -352,7 +371,8 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     }
 
     public String getUploadUserFullName() {
-        return uploadUserFullName;
+        Person person = getPersonService().getPersonByPrincipalName(getUploadUserDisplay());
+        return person == null ? getUploadUserDisplay() : person.getName();
     }
 
     public void setUploadUserFullName(String uploadUserFullName) {
@@ -490,5 +510,25 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     public void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
         this.kcAttachmentService = kcAttachmentService;
+    }
+
+    public PersonService getPersonService() {
+        if (personService == null)
+            personService = KcServiceLocator.getService(PersonService.class);
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null)
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 }
