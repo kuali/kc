@@ -74,7 +74,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     @Override
     public Set<String> getEditModes(View view, ViewModel model, Person user, Set<String> editModes) {
     	ProposalBudgetForm form = (ProposalBudgetForm) model;
-        Budget budget = form.getBudget();
+        ProposalDevelopmentBudgetExt budget = form.getBudget();
         ProposalDevelopmentDocument parentDocument = (ProposalDevelopmentDocument) budget.getBudgetParent().getDocument();
         String userId = user.getPrincipalId(); 
         
@@ -83,7 +83,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
             setPermissions(user, parentDocument, editModes);
         }
       
-        if (canExecuteBudgetTask(userId, budget, TaskName.MODIFY_BUDGET)) {
+        if (isAuthorizedToModifyBudget(budget, user)) {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             editModes.add("modifyBudgets");
             editModes.add("viewBudgets");
@@ -147,7 +147,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
             editModes.add("openBudgets");
         }
         
-        if (canExecuteParentDocumentTask(userId, doc, TaskName.MODIFY_BUDGET)) {
+        if (isAuthorizedToModifyBudget(doc, user)) {
             editModes.add("modifyProposalBudget");
         }
         
@@ -194,7 +194,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     }
     
     public boolean canEdit(ProposalDevelopmentBudgetExt budget, Person user) {
-        return canExecuteBudgetTask(user.getPrincipalId(), budget, TaskName.MODIFY_BUDGET);
+        return isAuthorizedToModifyBudget(budget, user);
     }
     
     public boolean canSave(ProposalDevelopmentBudgetExt budget, Person user) {
@@ -216,6 +216,22 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     protected boolean isAuthorizedToMaintainProposalHierarchy(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return !pdDocument.isViewOnly() && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
+    }
+
+    protected boolean isAuthorizedToModifyBudget(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        return ( (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) &&
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_BUDGET));
+    }
+
+    protected boolean isAuthorizedToModifyBudget(ProposalDevelopmentBudgetExt budget, Person user) {
+        ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument)budget.getBudgetParent().getDocument();
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+
+        return (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) &&
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_BUDGET) &&!pdDocument.getDevelopmentProposal().getSubmitFlag();
     }
 
     protected boolean isAuthorizedToOpenBudget(Document document, Person user) {

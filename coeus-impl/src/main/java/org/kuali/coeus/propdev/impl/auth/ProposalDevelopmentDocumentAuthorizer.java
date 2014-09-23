@@ -162,7 +162,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("openBudgets");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.MODIFY_BUDGET)) {
+        if (isAuthorizedToModifyBudget(doc, user)) {
             editModes.add("modifyProposalBudget");
         }
                 
@@ -397,6 +397,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    public boolean isAuthorizedToModifyBudget(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        return ( (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) &&
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_BUDGET));
     }
 
     protected boolean isAuthorizedToOpenBudget(Document document, Person user) {

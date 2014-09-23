@@ -161,14 +161,6 @@
         <property name="groupName" value="proposal" />
         <property name="taskAuthorizers">
             <list>
-                <!-- Budget -->
-                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ModifyBudgetPermission" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="modifyBudget" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
-                </bean>
-
                 <bean class="org.kuali.kra.irb.authorizer.CreateProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="createIrbProtocolFromProposal" />
                 </bean>
@@ -491,11 +483,6 @@
         <property name="groupName" value="proposalBudget" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ModifyProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
-                    <property name="taskName" value="modifyBudget" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ViewProposalBudgetAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="viewBudget" />
                     <property name="kraWorkflowService" ref="kcWorkflowService" />
@@ -511,19 +498,6 @@
                 </bean>
 
             </list>
-        </property>
-    </bean>
-
-    <bean id="budgetWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.common.budget.framework.core.BudgetAction" />
-        <property name="mappings">
-            <map>
-                <entry key="save">
-                    <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.ProposalBudgetTaskFactory">
-                        <property name="taskName" value="modifyBudget" />
-                    </bean>
-                </entry>
-            </map>
         </property>
     </bean>
     
