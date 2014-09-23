@@ -40,7 +40,6 @@ public interface TaskName {
     /*
      * Budget Tasks.
      */
-    public static final String MODIFY_PROPOSAL_RATE = "modifyProposalBudgetRates";
     public static final String VIEW_SALARIES = "viewSalaries";
     
     /*

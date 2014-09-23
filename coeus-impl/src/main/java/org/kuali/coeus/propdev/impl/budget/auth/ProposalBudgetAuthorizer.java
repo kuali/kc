@@ -87,7 +87,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             editModes.add("modifyBudgets");
             editModes.add("viewBudgets");
-            if (canExecuteBudgetTask(userId, budget, TaskName.MODIFY_PROPOSAL_RATE)) {
+            if (isAuthorizedToModifyRates(budget, user)) {
                 editModes.add("modifyProposalBudgetRates");
             }
             setPermissions(user, parentDocument, editModes);
@@ -137,7 +137,6 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
      * @param editModes the edit mode map
      */
     protected void setPermissions(Person user, BudgetParentDocument doc, Set<String> editModes) {
-        String userId = user.getPrincipalId();
 
         if (isAuthorizedToAddBudget(doc, user)) {
             editModes.add("addBudget");
@@ -199,6 +198,14 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     protected boolean isBudgetComplete(Budget budget) {
 		String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 		return StringUtils.equals(budgetStatusCompleteCode, budget.getBudgetStatus());
+    }
+
+    protected boolean isAuthorizedToModifyRates(ProposalDevelopmentBudgetExt budget, Person user) {
+        ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument)budget.getBudgetParent().getDocument();
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+
+        return (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) &&
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_PROPOSAL_RATES) &&!pdDocument.getDevelopmentProposal().getSubmitFlag();
     }
 
     protected boolean isAuthorizedToViewBudget(ProposalDevelopmentBudgetExt budget, Person user) {
