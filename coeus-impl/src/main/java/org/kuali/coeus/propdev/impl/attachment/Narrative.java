@@ -22,6 +22,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -29,11 +33,15 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.file.FileMeta;
 import org.springframework.web.multipart.MultipartFile;
@@ -138,13 +146,28 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     private String url;
 
     @Transient
+    private MultipartFile multipartFile;
+
+    @Transient
     private transient DateTimeService dateTimeService;
 
     @Transient
     private transient KcAttachmentService kcAttachmentService;
 
     @Transient
-    private MultipartFile multipartFile;
+    private KcAuthorizationService kcAuthorizationService;
+
+    @Transient
+    private UnitAuthorizationService unitAuthorizationService;
+
+    @Transient
+    private KcWorkflowService kcWorkflowService;
+
+    @Transient
+    private KcDocumentRejectionService kcDocumentRejectionService;
+
+    @Transient
+    private ProposalHierarchyService proposalHierarchyService;
 
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
@@ -453,9 +476,24 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * Can the current user modify the user rights for the attachment?
      * @return true if the user can modify the user rights; otherwise false
      */
-    public boolean getModifyNarrativeRights(String userId) {
-        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
-        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getDocument(), this));
+    public boolean getModifyNarrativeRights(Person user) {
+        return isAuthorizedToModifyNarrative(this, user);
+    }
+
+    protected boolean isAuthorizedToModifyNarrative(Narrative narrative, Person user) {
+        final ProposalDevelopmentDocument pdDocument = getDocument();
+
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        boolean hasPermission = false;
+        boolean inWorkflow = getKcWorkflowService().isInWorkflow(pdDocument);
+        if ((!inWorkflow || rejectedDocument) && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
+            hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
+        } else if(inWorkflow && !rejectedDocument && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
+            if(getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE)) {
+                hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
+            }
+        }
+        return hasPermission;
     }
 
     /**
@@ -797,5 +835,59 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.kcAttachmentService = kcAttachmentService;
     }
 
+    public KcAuthorizationService getKcAuthorizationService() {
+        if (kcAuthorizationService == null) {
+            kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+        }
+        return kcAuthorizationService;
+    }
+
+    public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
+        this.kcAuthorizationService = kcAuthorizationService;
+    }
+
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        if (unitAuthorizationService == null) {
+            unitAuthorizationService = KcServiceLocator.getService(UnitAuthorizationService.class);
+        }
+        return unitAuthorizationService;
+    }
+
+    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
+        this.unitAuthorizationService = unitAuthorizationService;
+    }
+
+    public KcWorkflowService getKcWorkflowService() {
+        if (kcWorkflowService == null) {
+            kcWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
+        }
+        return kcWorkflowService;
+    }
+
+    public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
+        this.kcWorkflowService = kcWorkflowService;
+    }
+
+    public KcDocumentRejectionService getKcDocumentRejectionService() {
+        if (kcDocumentRejectionService == null) {
+            kcDocumentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
+        }
+        return kcDocumentRejectionService;
+    }
+
+    public void setKcDocumentRejectionService(KcDocumentRejectionService kcDocumentRejectionService) {
+        this.kcDocumentRejectionService = kcDocumentRejectionService;
+    }
+
+    protected ProposalHierarchyService getProposalHierarchyService (){
+        if (kcDocumentRejectionService == null) {
+            proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
+        }
+        return proposalHierarchyService;
+    }
+
+    public void setProposalHierarchyService (ProposalHierarchyService proposalHierarchyService){
+        this.proposalHierarchyService = proposalHierarchyService;
+    }
 }
 

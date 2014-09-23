@@ -177,11 +177,6 @@
                     <property name="taskName" value="replaceNarrative" />
                     <property name="requiresWritableDoc" value="true" />
                 </bean>
-                <bean class="org.kuali.coeus.propdev.impl.attachment.ModifyNarrativesAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="modifyNarratives" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
             </list>
         </property>
     </bean>
@@ -190,11 +185,6 @@
         <property name="classname" value="org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsAttachmentsAction" />
         <property name="mappings">
             <map>
-                <entry key="addProposalAttachmentRights">
-                    <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
-                        <property name="taskName" value="modifyNarrativeRights" />
-                    </bean>
-                </entry>
                 <entry key="downloadProposalAttachment">
                     <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
                         <property name="taskName" value="downloadNarrative" />
@@ -210,11 +200,6 @@
                         <property name="taskName" value="replaceNarrative" />
                     </bean>
                 </entry>
-                <entry key="addInstituteAttachmentRights">
-                    <bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
-                        <property name="taskName" value="modifyNarrativeRights" />
-                    </bean>
-                </entry>
                 <entry key="downloadInstituteAttachment">
                     <bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
                         <property name="taskName" value="downloadNarrative" />
@@ -228,11 +213,6 @@
                 <entry key="replaceInstituteAttachment">
                     <bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
                         <property name="taskName" value="replaceNarrative" />
-                    </bean>
-                </entry>
-                <entry key="save">
-                    <bean class="org.kuali.coeus.propdev.impl.attachment.NarrtivesCommonTaskFactory">
-                        <property name="taskName" value="modifyNarratives" />
                     </bean>
                 </entry>
             </map>

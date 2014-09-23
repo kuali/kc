@@ -226,7 +226,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             if (narrative.getModifyAttachmentStatus(userId)) {
                 editModes.add(prefix + "modifyStatus");
             }
-            if (narrative.getModifyNarrativeRights(userId)) {
+            if (narrative.getModifyNarrativeRights(user)) {
                 editModes.add(prefix + "modifyRights");
             }
         }
@@ -243,7 +243,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             if (narrative.getDeleteAttachment(userId)) {
                 editModes.add(prefix + "delete");
             }
-            if (narrative.getModifyNarrativeRights(userId)) {
+            if (narrative.getModifyNarrativeRights(user)) {
                 editModes.add(prefix + "modifyRights");
             }
         }
