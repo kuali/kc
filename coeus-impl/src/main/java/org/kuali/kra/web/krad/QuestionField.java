@@ -49,7 +49,8 @@ public class QuestionField extends InputFieldBase {
         setControl((Control) ComponentFactory.getNewComponentInstance(getControlMappings().get(answer.getQuestion().getQuestionTypeId().toString())));
         getControl().getCssClasses().add("answer");
 
-        if (getControl() instanceof TextControlBase) {
+        if (getControl() instanceof TextControlBase
+                && !answer.getQuestion().getQuestionTypeId().equals(Constants.QUESTION_RESPONSE_TYPE_DATE)) {
             ((TextControlBase)getControl()).setMaxLength(answer.getQuestion().getAnswerMaxLength());
         }
         if (answer.getQuestion().getQuestionTypeId().equals(Constants.QUESTION_RESPONSE_TYPE_NUMBER)) {
