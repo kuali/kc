@@ -171,7 +171,10 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
         if (permissionable != null && StringUtils.isNotBlank(roleName)) {
             principals.addAll(roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), roleName, createStandardQualifiers(permissionable)));
             if (permissionable instanceof DocumentLevelPermissionable) {
-                principals.addAll(roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), toDocumentLevelRoleName(roleName), createStandardQualifiers(permissionable)));
+                String docLevelRole = toDocumentLevelRoleName(roleName);
+                if (roleManagementService.getRoleByNamespaceCodeAndName(permissionable.getNamespace(), docLevelRole) != null) {
+                    principals.addAll(roleManagementService.getRoleMemberPrincipalIds(permissionable.getNamespace(), toDocumentLevelRoleName(roleName), createStandardQualifiers(permissionable)));
+                }
             }
         }
 
