@@ -457,9 +457,8 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * Can the current user delete the attachment?
      * @return true if the user can delete the attachment; otherwise false
      */
-    public boolean getDeleteAttachment(String userId) {
-        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
-        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
+    public boolean getDeleteAttachment(Person user) {
+        return isAuthorizedToDeleteNarrative(this, user);
     }
 
     /**
@@ -514,6 +513,28 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
                     || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
         }
 
+        return hasPermission;
+    }
+
+    public boolean isAuthorizedToDeleteNarrative(Narrative narrative, Person user) {
+
+        final ProposalDevelopmentDocument pdDocument = getDocument();
+
+        // First, the user must have the MODIFY_NARRATIVE permission.  This is really
+        // a sanity check.  If they have the MODIFY_NARRATIVE_RIGHT, then they are
+        // required to have the MODIFY_NARRATIVE permission.
+
+        KcDocumentRejectionService documentRejectionService = getKcDocumentRejectionService();
+        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        boolean hasPermission = false;
+
+        boolean inWorkflow = getKcWorkflowService().isInWorkflow(pdDocument);
+
+        if ((!inWorkflow || rejectedDocument) && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
+            if (getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE)) {
+                hasPermission = hasNarrativeRight(user.getPrincipalId(), narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
+            }
+        }
         return hasPermission;
     }
 

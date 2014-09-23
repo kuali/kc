@@ -220,7 +220,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             if (narrative.getReplaceAttachment(userId)) {
                 editModes.add(prefix + "replace");
             }
-            if (narrative.getDeleteAttachment(userId)) {
+            if (narrative.getDeleteAttachment(user)) {
                 editModes.add(prefix + "delete");
             }
             if (narrative.getModifyAttachmentStatus(userId)) {
@@ -240,7 +240,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             if (narrative.getReplaceAttachment(userId) ) {
                 editModes.add(prefix + "replace");
             }
-            if (narrative.getDeleteAttachment(userId)) {
+            if (narrative.getDeleteAttachment(user)) {
                 editModes.add(prefix + "delete");
             }
             if (narrative.getModifyNarrativeRights(user)) {
