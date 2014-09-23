@@ -85,10 +85,8 @@ public class BudgetDistributionServiceImpl implements BudgetDistributionService 
                     budget.add(createBudgetCostShare(fiscalYearSummary));
                 }
             } else if (this.costShareService.validateProjectPeriodAsProjectPeriod()) {
-                int counter = 1;
                 for (BudgetPeriod period : budget.getBudgetPeriods()) {
-                    budget.add(createBudgetCostShare(counter, period.getCostSharingAmount()));
-                    counter++;
+                    budget.add(createBudgetCostShare(period.getBudgetPeriod().intValue(), period.getCostSharingAmount()));
                 }
             }
         }

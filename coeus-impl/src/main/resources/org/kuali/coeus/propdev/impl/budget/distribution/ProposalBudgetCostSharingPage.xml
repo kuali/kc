@@ -107,9 +107,8 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Reset to Default"
+                              p:methodToCall="resetCostSharing"
 							p:style="float: right;" p:order="10" />
-						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Recalculate"
-							p:style="float: right;" p:order="20" />
 					</list>
 				</property>
 			</bean>
