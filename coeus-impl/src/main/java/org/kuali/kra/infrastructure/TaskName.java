@@ -27,12 +27,6 @@ public interface TaskName {
     public static final String CREATE_AWARD = "createAward";
     public static final String CREATE_TAMD = "createTimeAndMoney";
 
-
-    /*
-     * Narrative Tasks.
-     */
-    public static final String REPLACE_NARRATIVE = "replaceNarrative";
-
     /*
      * Protocol Tasks.
      */

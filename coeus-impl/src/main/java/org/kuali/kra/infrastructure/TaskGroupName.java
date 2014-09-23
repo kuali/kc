@@ -24,8 +24,6 @@ package org.kuali.kra.infrastructure;
  */
 public interface TaskGroupName {
 
-    public static final String PROPOSAL = "proposal";
-    public static final String NARRATIVE = "narrative";
     public static final String AWARD_BUDGET = "awardBudget";
     public static final String PROTOCOL = "protocol";
     public static final String IACUC_PROTOCOL = "iacucProtocol";

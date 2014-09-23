@@ -22,27 +22,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
-import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
-import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
-import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.file.FileMeta;
 import org.springframework.web.multipart.MultipartFile;
@@ -130,9 +117,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     @Transient
     private String uploadUserFullName;
- 
-    @Transient
-    private transient TaskAuthorizationService taskAuthorizationService;
 
     @Transient
     private String id;
@@ -154,21 +138,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     @Transient
     private transient KcAttachmentService kcAttachmentService;
-
-    @Transient
-    private KcAuthorizationService kcAuthorizationService;
-
-    @Transient
-    private UnitAuthorizationService unitAuthorizationService;
-
-    @Transient
-    private KcWorkflowService kcWorkflowService;
-
-    @Transient
-    private KcDocumentRejectionService kcDocumentRejectionService;
-
-    @Transient
-    private ProposalHierarchyService proposalHierarchyService;
 
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
@@ -252,12 +221,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     public void setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
-    }
-
-    protected TaskAuthorizationService getTaskAuthorizationService(){
-        if (taskAuthorizationService == null)
-            taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService;
     }
 
     public Narrative() {
@@ -434,136 +397,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     public void setInstitutionalAttachmentTypeCode(String institutionalAttachmentTypeCode) {
         //this.institutionalAttachmentTypeCode = institutionalAttachmentTypeCode;  
         this.narrativeTypeCode = institutionalAttachmentTypeCode;
-    }
-
-    /**
-     * Can the current user download (view) the attachment?
-     * @return true if the user can view the attachment; otherwise false
-     */
-    public boolean getDownloadAttachment(Person user) {
-        return isAuthorizedToViewNarrative(this, user);
-    }
-
-    /**
-     * Can the current user replace the attachment?
-     * @return true if the user can replace the attachment; otherwise false
-     */
-    public boolean getReplaceAttachment(String userId) {
-        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
-        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getDocument(), this));
-    }
-
-    /**
-     * Can the current user delete the attachment?
-     * @return true if the user can delete the attachment; otherwise false
-     */
-    public boolean getDeleteAttachment(Person user) {
-        return isAuthorizedToDeleteNarrative(this, user);
-    }
-
-    /**
-     * Can the current user change the status of attachment?
-     * @return true if the user can modify the status of attachments; otherwise false
-     */
-    public boolean getModifyAttachmentStatus(Person user) {
-        return isAuthorizedToModifyNarrative(this, user);
-    }
-
-    /**
-     * Can the current user modify the user rights for the attachment?
-     * @return true if the user can modify the user rights; otherwise false
-     */
-    public boolean getModifyNarrativeRights(Person user) {
-        return isAuthorizedToModifyNarrative(this, user);
-    }
-
-    protected boolean isAuthorizedToModifyNarrative(Narrative narrative, Person user) {
-        final ProposalDevelopmentDocument pdDocument = getDocument();
-
-        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
-        boolean hasPermission = false;
-        boolean inWorkflow = getKcWorkflowService().isInWorkflow(pdDocument);
-        if ((!inWorkflow || rejectedDocument) && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
-            hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
-        } else if(inWorkflow && !rejectedDocument && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
-            if(getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE)) {
-                hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
-            }
-        }
-        return hasPermission;
-    }
-
-    protected boolean isAuthorizedToViewNarrative(Narrative narrative, Person user) {
-        final ProposalDevelopmentDocument pdDocument = getDocument();
-
-        // First, the user must have the VIEW_NARRATIVE permission.  This is really
-        // a sanity check.  If they have the VIEW or MODIFY_NARRATIVE_RIGHT, then they are
-        // required to have the VIEW_NARRATIVE permission.
-
-        boolean hasPermission = false;
-        if (getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_NARRATIVE)) {
-            hasPermission = hasNarrativeRight(user.getPrincipalId(), narrative, NarrativeRight.VIEW_NARRATIVE_RIGHT)
-                    || hasNarrativeRight(user.getPrincipalId(), narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
-        }
-
-        if (!hasPermission) {
-            hasPermission = getUnitAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument.getDevelopmentProposal().getOwnedByUnitNumber(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
-                    PermissionConstants.VIEW_NARRATIVE)
-                    || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
-        }
-
-        return hasPermission;
-    }
-
-    public boolean isAuthorizedToDeleteNarrative(Narrative narrative, Person user) {
-
-        final ProposalDevelopmentDocument pdDocument = getDocument();
-
-        // First, the user must have the MODIFY_NARRATIVE permission.  This is really
-        // a sanity check.  If they have the MODIFY_NARRATIVE_RIGHT, then they are
-        // required to have the MODIFY_NARRATIVE permission.
-
-        KcDocumentRejectionService documentRejectionService = getKcDocumentRejectionService();
-        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(pdDocument.getDocumentNumber());
-        boolean hasPermission = false;
-
-        boolean inWorkflow = getKcWorkflowService().isInWorkflow(pdDocument);
-
-        if ((!inWorkflow || rejectedDocument) && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
-            if (getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE)) {
-                hasPermission = hasNarrativeRight(user.getPrincipalId(), narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
-            }
-        }
-        return hasPermission;
-    }
-
-    /**
-     * Does the user have the given narrative right for the given narrative?
-     * @param userId the username of the user
-     * @param narrative the narrative
-     * @param narrativeRight the narrative right we are looking for
-     * @return true if the user has the narrative right for the narrative
-     */
-    protected final boolean hasNarrativeRight(String userId, Narrative narrative, NarrativeRight narrativeRight) {
-        List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
-        for (NarrativeUserRights userRights : userRightsList) {
-            if (StringUtils.equals(userId, userRights.getUserId())) {
-                if (StringUtils.equals(userRights.getAccessType(), narrativeRight.getAccessType())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Get the Proposal Development Document for the current session.  The
-     * document is within the current form.
-     * 
-     * @return the current document or null if not found
-     */
-    private ProposalDevelopmentDocument getDocument() {
-        return getDevelopmentProposal().getProposalDocument();
     }
 
     /**
@@ -893,61 +726,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     public void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
         this.kcAttachmentService = kcAttachmentService;
-    }
-
-    public KcAuthorizationService getKcAuthorizationService() {
-        if (kcAuthorizationService == null) {
-            kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
-        }
-        return kcAuthorizationService;
-    }
-
-    public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
-        this.kcAuthorizationService = kcAuthorizationService;
-    }
-
-    public UnitAuthorizationService getUnitAuthorizationService() {
-        if (unitAuthorizationService == null) {
-            unitAuthorizationService = KcServiceLocator.getService(UnitAuthorizationService.class);
-        }
-        return unitAuthorizationService;
-    }
-
-    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
-        this.unitAuthorizationService = unitAuthorizationService;
-    }
-
-    public KcWorkflowService getKcWorkflowService() {
-        if (kcWorkflowService == null) {
-            kcWorkflowService = KcServiceLocator.getService(KcWorkflowService.class);
-        }
-        return kcWorkflowService;
-    }
-
-    public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
-        this.kcWorkflowService = kcWorkflowService;
-    }
-
-    public KcDocumentRejectionService getKcDocumentRejectionService() {
-        if (kcDocumentRejectionService == null) {
-            kcDocumentRejectionService = KcServiceLocator.getService(KcDocumentRejectionService.class);
-        }
-        return kcDocumentRejectionService;
-    }
-
-    public void setKcDocumentRejectionService(KcDocumentRejectionService kcDocumentRejectionService) {
-        this.kcDocumentRejectionService = kcDocumentRejectionService;
-    }
-
-    protected ProposalHierarchyService getProposalHierarchyService (){
-        if (kcDocumentRejectionService == null) {
-            proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
-        }
-        return proposalHierarchyService;
-    }
-
-    public void setProposalHierarchyService (ProposalHierarchyService proposalHierarchyService){
-        this.proposalHierarchyService = proposalHierarchyService;
     }
 }
 

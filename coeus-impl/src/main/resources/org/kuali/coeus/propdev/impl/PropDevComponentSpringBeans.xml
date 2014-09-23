@@ -150,45 +150,6 @@
 
     <bean id="pendingReportDao" parent="platformAwareDao" class="org.kuali.coeus.common.proposal.impl.report.PendingReportDaoOjb" />
 
-    <!-- Proposal Development Task Authorizers -->
-
-    <bean id="parentProposalAuthorizer" class="org.kuali.coeus.propdev.impl.auth.task.ProposalAuthorizer" abstract="true">
-        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
-    </bean>
-
-    <!-- Narrative Task Authorizers -->
-
-    <bean id="narrativeTaskAuthorizers" class="org.kuali.coeus.common.framework.auth.task.TaskAuthorizerGroup">
-        <property name="groupName" value="narrative" />
-        <property name="taskAuthorizers">
-            <list>
-                <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeReplaceAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="replaceNarrative" />
-                    <property name="requiresWritableDoc" value="true" />
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="proposalAbstractsAttachmentsWebAuthorizer" class="org.kuali.coeus.common.framework.auth.task.WebAuthorizer">
-        <property name="classname" value="org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsAttachmentsAction" />
-        <property name="mappings">
-            <map>
-                <entry key="replaceProposalAttachment">
-                    <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
-                        <property name="taskName" value="replaceNarrative" />
-                    </bean>
-                </entry>
-                <entry key="replaceInstituteAttachment">
-                    <bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
-                        <property name="taskName" value="replaceNarrative" />
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
     <bean id="proposalTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
         <property name="businessObjectClass" value="org.kuali.coeus.common.framework.type.ProposalType"/>
         <property name="includeKeyInDescription" value="false"/>
@@ -409,11 +370,6 @@
     </bean>
 
     <!--  S2S Scheduler configuration end -->
-
-    <bean id="parentBudgetAuthorizer" abstract="true" class="org.kuali.kra.award.budget.document.authorizer.BudgetAuthorizer">
-        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
-        <property name="kraAuthorizationService" ref="kcAuthorizationService" />
-    </bean>
     
     <bean id="exemptionTypeValuesFinder" class="org.kuali.coeus.sys.framework.keyvalue.DataObjectValuesFinder">
         <property name="dataObjectClass" value="org.kuali.coeus.common.framework.compliance.exemption.ExemptionType"/>

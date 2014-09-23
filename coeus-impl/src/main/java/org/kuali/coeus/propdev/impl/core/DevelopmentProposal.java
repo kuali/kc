@@ -40,7 +40,6 @@ import org.kuali.coeus.propdev.api.core.DevelopmentProposalContract;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeStatus;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
@@ -2161,27 +2160,7 @@ public String getPrevGrantsGovTrackingID() {
 public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
     this.prevGrantsGovTrackingID = prevGrantsGovTrackingID;
 }
-   
-    public void markNarratives(NarrativeStatus narrativeStatus) {
-        if (narrativeStatus != null) {
-            for (Narrative narrative : narratives) {
-                if (narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
-                    narrative.setNarrativeStatus(narrativeStatus);
-                    narrative.setModuleStatusCode(narrativeStatus.getCode());
-                    narrative.refreshReferenceObject("narrativeStatus");
-                    getDataObjectService().save(narrative);
-                }
-            }
-        }
-    }
 
-    public void modifyNarrativeStatus(int selectedLine) {
-        Narrative narrative = getNarratives().get(selectedLine);
-        if (narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
-            narrative.refreshReferenceObject("narrativeStatus");
-            getDataObjectService().save(narrative);
-        }
-    }
     public String getAllUnitNumbers() {
         Set<String> unitNumbers = new HashSet<String>();
         unitNumbers.add(this.getOwnedByUnitNumber());
