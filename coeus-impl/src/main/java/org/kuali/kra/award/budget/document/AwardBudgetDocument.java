@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,55 +15,88 @@
  */
 package org.kuali.kra.award.budget.document;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.*;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.api.rate.RateClassType;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.kra.award.home.Award;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.api.rate.RateClassType;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
-import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
-import org.kuali.coeus.common.budget.framework.rate.RateType;
+import org.kuali.coeus.common.budget.framework.core.BudgetDocumentTypeChecker;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_AWARD_BUDGET)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home.Award> {
-
+@Entity
+@Table(name = "BUDGET_DOCUMENT")
+public class AwardBudgetDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements Copyable, SessionDocument, Permissionable, BudgetDocumentTypeChecker, KrmsRulesContext {
+	
     private static final String AWARD_BUDGET_DOCUMENT_TYPE_CODE = "ABGT";
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardBudgetDocument.class);
     
     private ScaleTwoDecimal obligatedTotal;
 
-    private transient BudgetParentDocument<Award> newestBudgetParentDocument;
     private transient AwardBudgetService awardBudgetService;
     private Award  currentAward;
+    private List<AwardBudgetExt> budgets;
 
     private static final long serialVersionUID = 3564659576355229703L;
 
     @Override
+    public void populateAgendaQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
+    }
+
+	@Override
+	public String getProposalBudgetFlag() {
+		return "N";
+	}
+
+    @Override
     public void initialize() {
+    	budgets = new ArrayList<>();
         Award award = (Award) getBudget().getBudgetParent();
         this.setCurrentAward(award);
         AwardBudgetExt awardBudget = getAwardBudget();
@@ -98,12 +131,14 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
      * This method returns Budget object. Creates new budget instance if the budgets list is empty
      * @return Budget
      */
-    public Budget getBudget(){
-        if(super.getBudget() == null){
-            setBudget(new AwardBudgetExt());
-        }
-
-        return super.getBudget();
+    public AwardBudgetExt getBudget(){
+    	if (budgets == null) {
+    		budgets = new ArrayList<>();
+    	}
+    	if (budgets.isEmpty()) {
+    		budgets.add(new AwardBudgetExt());
+    	}
+    	return budgets.get(0);
     }
 
     private void populateBudgetRateTypes(Budget budget,List<BudgetRate> budgetRates) {
@@ -215,8 +250,6 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
       
     }
 
-    
-    @Override
     public void documentHasBeenRejected( String reason ) {
         this.getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_REJECTED);
         try {
@@ -225,7 +258,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         catch (WorkflowException e) {
             throw new RuntimeException( "Could not save award document on action  taken.");
         }
-    } 
+    }
     
     @Override
     public void prepareForSave() {
@@ -235,7 +268,11 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         if (this.getBudget() != null && this.getBudget().getBudgetId() != null) {
             AwardBudgetExt budget = KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(AwardBudgetExt.class, this.getBudget().getBudgetId());
         }
-        super.prepareForSave();
+        if (ObjectUtils.isNull(this.getVersionNumber())) {
+            this.setVersionNumber(new Long(0));
+        }
+        this.getBudget().getRateClassTypes();
+        this.getBudget().handlePeriodToProjectIncomeRelationship();
     }
 
     protected AwardBudgetService getAwardBudgetService() {
@@ -248,7 +285,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
         this.awardBudgetService = awardBudgetService;
     }
- 
+
     @Override
     public void populateContextQualifiers(Map<String, String> qualifiers) {
         qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_AWARD_BUDGET);
@@ -259,4 +296,124 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("awardBudgetFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
+
+	public List<AwardBudgetExt> getBudgets() {
+		return budgets;
+	}
+
+	public void setBudgets(List<AwardBudgetExt> budgets) {
+		this.budgets = budgets;
+	}
+	
+    public Integer getHackedDocumentNextValue(String propertyName) {
+        Integer propNextValue = 1;
+        // search for property and get the latest number - increment for next call 
+        for (Object element : getDocumentNextvalues()) {
+            DocumentNextvalue documentNextvalue = (DocumentNextvalue) element;
+            if (documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
+                propNextValue = documentNextvalue.getNextValue();
+                BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
+                Map<String, Object> budgetIdMap = new HashMap<String, Object>();
+                budgetIdMap.put("budgetId", getBudget().getBudgetId());
+                if (budgetIdMap != null) {
+                    List<BudgetLineItem> lineItemNumber = (List<BudgetLineItem>) bos.findMatchingOrderBy(BudgetLineItem.class, budgetIdMap, "lineItemNumber", true);
+                    if (lineItemNumber != null) {
+                        for (BudgetLineItem budgetLineItem : lineItemNumber) {
+                            if (propNextValue.intValue() == budgetLineItem.getLineItemNumber().intValue()) {
+                                propNextValue++;
+                            }
+                        }
+                    }
+                }
+                documentNextvalue.setNextValue(propNextValue + 1);
+            }
+        }
+
+        /*****BEGIN BLOCK *****/
+        if (propNextValue == 1) {
+            BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
+            Map<String, Object> pkMap = new HashMap<String, Object>();
+            pkMap.put("documentKey", getBudget().getBudgetId());
+            pkMap.put("propertyName", propertyName);
+            DocumentNextvalue documentNextvalue = (DocumentNextvalue) bos.findByPrimaryKey(DocumentNextvalue.class, pkMap);
+            if (documentNextvalue != null) {
+                propNextValue = documentNextvalue.getNextValue();
+                documentNextvalue.setNextValue(propNextValue + 1);
+                getDocumentNextvalues().add(documentNextvalue);
+            }
+        }
+        /*****END BLOCK********/
+        // property does not exist - set initial value and increment for next call 
+        if (propNextValue == 1) {
+            DocumentNextvalue documentNextvalue = new DocumentNextvalue();
+            documentNextvalue.setNextValue(propNextValue + 1);
+            documentNextvalue.setPropertyName(propertyName);
+            documentNextvalue.setDocumentKey(getDocumentNumber());
+            getDocumentNextvalues().add(documentNextvalue);
+        }
+        setDocumentNextvalues(getDocumentNextvalues());
+        return propNextValue;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.addAll(getBudget().buildListOfDeletionAwareLists());
+        return managedLists;
+    }
+
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+                return getDocumentBoNumber() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName();
+        }
+        return null;
+    }
+
+    public String getDocumentBoNumber() {
+        return getBudget().getBudgetId().toString();
+    }
+
+    public String getDocumentKey() {
+        return getBudget().getBudgetParent().getDocument().getBudgetPermissionable().getDocumentKey();
+    }
+
+    public String getDocumentNumberForPermission() {
+        return getDocumentNumber();
+    }
+
+    public List<String> getRoleNames() {
+        return getBudget().getBudgetParent().getDocument().getBudgetPermissionable().getRoleNames();
+    }
+
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_BUDGET;
+    }
+
+    public String getLeadUnitNumber() {
+        return getBudget().getBudgetParent().getDocument().getBudgetPermissionable().getLeadUnitNumber();
+    }
+
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.PROPOSAL_ROLE_TYPE;
+    }
+
+    @Override
+    public List<String> getLockClearningMethodNames() {
+        List<String> methodToCalls = super.getLockClearningMethodNames();
+        methodToCalls.add("returnToProposal");
+        methodToCalls.add("returnToAward");
+        return methodToCalls;
+    }
+
+    public boolean isProcessComplete() {
+        return true;
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return new ArrayList();
+    }	
 }

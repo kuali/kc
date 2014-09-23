@@ -16,15 +16,12 @@
 package org.kuali.kra.award.budget;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -141,7 +138,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      */
     public boolean checkRateChange(Collection<BudgetRate> allPropRates,Award award);
     
-    public BudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
+    public AwardBudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
     	    throws WorkflowException;    
     
 }

@@ -78,7 +78,7 @@ public abstract class AbstractBudget extends KcPersistableBusinessObjectBase imp
 
     @Column(name = "MODULAR_BUDGET_FLAG")
     @Convert(converter = BooleanYNConverter.class)
-    private Boolean modularBudgetFlag;
+    private Boolean modularBudgetFlag = Boolean.FALSE;
 
     @Column(name = "UR_RATE_CLASS_CODE")
     private String urRateClassCode;

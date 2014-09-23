@@ -27,7 +27,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.ApplyToPeriodsBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetExpenseService;
@@ -36,6 +35,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintType;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
@@ -91,10 +91,10 @@ public class BudgetExpensesAction extends BudgetAction {
      */
     public ActionForward addBudgetLineItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
         Integer budgetCategoryTypeIndex = Integer.parseInt(getBudgetCategoryTypeIndex(request));
         BudgetLineItem newBudgetLineItem = budgetForm.getNewBudgetLineItems().get(budgetCategoryTypeIndex);        
-        Budget budget = budgetDocument.getBudget();
+        Budget budget = awardBudgetDocument.getBudget();
         
         BudgetService budgetService = KcServiceLocator.getService(BudgetService.class);
         
@@ -135,11 +135,11 @@ public class BudgetExpensesAction extends BudgetAction {
 
 
     private boolean isBudgetFormulatedCostEnabled() {
-        String formulatedCostEnabled = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ENABLED);
+        String formulatedCostEnabled = getParameterService().getParameterValueAsString(AwardBudgetDocument.class, Constants.FORMULATED_COST_ENABLED);
         return (formulatedCostEnabled!=null && formulatedCostEnabled.equalsIgnoreCase("Y"))?true:false;
     }
     private List<String> getFormulatedCostElements() {
-        String formulatedCEsValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ELEMENTS);
+        String formulatedCEsValue = getParameterService().getParameterValueAsString(AwardBudgetDocument.class, Constants.FORMULATED_COST_ELEMENTS);
         String[] formulatedCEs = formulatedCEsValue==null?new String[0]:formulatedCEsValue.split(",");
         return Arrays.asList(formulatedCEs);
     }

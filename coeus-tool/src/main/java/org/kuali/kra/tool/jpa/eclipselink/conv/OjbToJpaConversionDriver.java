@@ -7,11 +7,11 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.metadata.DescriptorRepository;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
 import org.kuali.coeus.sys.framework.persistence.OjbBlobClobFieldConversion;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.devtools.jpa.eclipselink.conv.common.CommonUtil;
 import org.kuali.rice.devtools.jpa.eclipselink.conv.ojb.OjbUtil;
 import org.kuali.rice.devtools.jpa.eclipselink.conv.parser.visitor.EntityVisitor;
@@ -101,7 +101,7 @@ public class OjbToJpaConversionDriver {
 
             //if (ojbMappedClass.endsWith("CongressionalDistrict") || ojbMappedClass.endsWith("S2sAppAttachments")) {
             //if (ojbMappedClass.endsWith("InstitutionalProposalComment") || ojbMappedClass.endsWith("InstitutionalProposalNotepad")) {
-            if (OjbUtil.getMappedTree(BudgetDocument.class.getName(), drs).contains(ojbMappedClass)) {
+            if (OjbUtil.getMappedTree(AwardBudgetDocument.class.getName(), drs).contains(ojbMappedClass)) {
                 //if (ojbMappedClass.endsWith("ProposalDevelopmentDocument")) {
                     System.out.println(ojbMappedClass);
                     visit(ojbMappedClass, ojbMappedClass, drs);

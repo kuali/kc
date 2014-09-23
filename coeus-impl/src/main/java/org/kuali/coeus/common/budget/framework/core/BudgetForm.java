@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
@@ -252,8 +253,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         Collections.sort(this.getBudgetDocument().getBudget().getBudgetSubAwards());
     }
     
-    public BudgetDocument getBudgetDocument() {
-        return (BudgetDocument) this.getDocument();
+    public AwardBudgetDocument getBudgetDocument() {
+        return (AwardBudgetDocument) this.getDocument();
     }
     
     @Override
@@ -410,8 +411,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
      * @return
      */
     public boolean isCostSharingEditFormVisible() {
-        BudgetDocument budgetDocument = getBudgetDocument();  
-        Budget budget = budgetDocument != null ? budgetDocument.getBudget() : null;
+        AwardBudgetDocument awardBudgetDocument = getBudgetDocument();  
+        Budget budget = awardBudgetDocument != null ? awardBudgetDocument.getBudget() : null;
         return budget != null && budget.isCostSharingApplicable() && budget.isCostSharingAvailable(); 
     }
     
@@ -420,8 +421,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
      * @return
      */
     public boolean isUnrecoveredFandAEditFormVisible() {
-        BudgetDocument budgetDocument = getBudgetDocument(); 
-        Budget budget = budgetDocument != null?budgetDocument.getBudget():null;
+        AwardBudgetDocument awardBudgetDocument = getBudgetDocument(); 
+        Budget budget = awardBudgetDocument != null?awardBudgetDocument.getBudget():null;
         return budget != null && budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable(); 
     }
     
@@ -696,8 +697,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
-        BudgetDocument budgetDocument = getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
+        AwardBudgetDocument awardBudgetDocument = getBudgetDocument();
+        BudgetParentDocument parentDocument = awardBudgetDocument.getBudget().getBudgetParent().getDocument();
         WorkflowDocument parentWorkflowDocument = null;
         
         try {
@@ -724,8 +725,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         
         String budgetName = Constants.EMPTY_STRING;
         String budgetVersionNumber = Constants.EMPTY_STRING;
-        if (budgetDocument != null && parentDocument != null) {
-            Budget budget = budgetDocument.getBudget();
+        if (awardBudgetDocument != null && parentDocument != null) {
+            Budget budget = awardBudgetDocument.getBudget();
             budgetName = budget.getName();
             if (budget.getBudgetVersionNumber() != null) {
                 budgetVersionNumber = Integer.toString(budget.getBudgetVersionNumber());

@@ -30,6 +30,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
@@ -81,8 +82,8 @@ public class BudgetVersionsAction extends BudgetAction {
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         
         final BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        BudgetParent budgetParent = budgetDocument.getBudget().getBudgetParent();
+        AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
+        BudgetParent budgetParent = awardBudgetDocument.getBudget().getBudgetParent();
         BudgetParentDocument parentDocument = budgetParent.getDocument();
    
         //when this is an award budget even though the budget cannot be saved a budget can still
@@ -162,8 +163,8 @@ public class BudgetVersionsAction extends BudgetAction {
     
 
     private BudgetParentDocument getBudgetParentDocument(BudgetForm budgetForm) {
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
+        AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
+        BudgetParentDocument parentDocument = awardBudgetDocument.getBudget().getBudgetParent().getDocument();
         return parentDocument;
     }
     
@@ -189,7 +190,7 @@ public class BudgetVersionsAction extends BudgetAction {
         if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             save(mapping, form, request, response);
         }
-        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
+        AwardBudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         
         Budget budget = budgetDoc.getBudget();
         BudgetParentDocument budgetParentDocument = getBudgetParentDocument(budgetForm);
@@ -197,9 +198,9 @@ public class BudgetVersionsAction extends BudgetAction {
         
         Budget budgetToOpen = budgetParentDocument.getBudgetDocumentVersion(getSelectedLine(request));
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-        Budget budgetOpen = budgetDocument.getBudget();
-        String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
+        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+        Budget budgetOpen = awardBudgetDocument.getBudget();
+        String routeHeaderId = awardBudgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         
         
         Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budgetOpen);
@@ -227,21 +228,21 @@ public class BudgetVersionsAction extends BudgetAction {
     }
     public ActionForward confirmSynchBudgetRateForBudgetDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
     
-        return synchBudgetRate(budgetDocument, true);
+        return synchBudgetRate(awardBudgetDocument, true);
     }
 
     public ActionForward noSynchBudgetRateForBudgetDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
 
-        return synchBudgetRate(budgetDocument, false);
+        return synchBudgetRate(awardBudgetDocument, false);
     }
-    protected ActionForward synchBudgetRate(BudgetDocument budgetDocument, boolean confirm) throws Exception {
-        Budget budgetOpen = budgetDocument.getBudget();
-        String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
-        budgetOpen.setActivityTypeCode(budgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent().getActivityTypeCode());
+    protected ActionForward synchBudgetRate(AwardBudgetDocument awardBudgetDocument, boolean confirm) throws Exception {
+        Budget budgetOpen = awardBudgetDocument.getBudget();
+        String routeHeaderId = awardBudgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
+        budgetOpen.setActivityTypeCode(awardBudgetDocument.getBudget().getBudgetParent().getDocument().getBudgetParent().getActivityTypeCode());
         budgetOpen.setRateClassTypesReloaded(true);
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
@@ -254,25 +255,25 @@ public class BudgetVersionsAction extends BudgetAction {
     
     public ActionForward confirmSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = getSelectedBudgetDocument(request, budgetForm);
+        AwardBudgetDocument awardBudgetDocument = getSelectedBudgetDocument(request, budgetForm);
 
-        return synchBudgetRate(budgetDocument, true);
+        return synchBudgetRate(awardBudgetDocument, true);
     }
 
 
-    private BudgetDocument getSelectedBudgetDocument(HttpServletRequest request, BudgetForm budgetForm) throws WorkflowException {
-        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
+    private AwardBudgetDocument getSelectedBudgetDocument(HttpServletRequest request, BudgetForm budgetForm) throws WorkflowException {
+        AwardBudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         BudgetParentDocument budgetParentDocument = budgetDoc.getBudget().getBudgetParent().getDocument();
         Budget budgetToOpen = budgetParentDocument.getBudgetDocumentVersion(getSelectedLine(request));
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-        return budgetDocument;
+        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+        return awardBudgetDocument;
     }
 
     public ActionForward noSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = getSelectedBudgetDocument(request, budgetForm);
-        return synchBudgetRate(budgetDocument, false);
+        AwardBudgetDocument awardBudgetDocument = getSelectedBudgetDocument(request, budgetForm);
+        return synchBudgetRate(awardBudgetDocument, false);
         }
 
     private BudgetRatesService getBudgetRateService() {
@@ -321,9 +322,9 @@ public class BudgetVersionsAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         boolean valid = true;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        BudgetParentDocument parentDocument = budgetDocument.getBudget().getBudgetParent().getDocument();
-        Budget budget = budgetDocument.getBudget();
+        AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
+        BudgetParentDocument parentDocument = awardBudgetDocument.getBudget().getBudgetParent().getDocument();
+        Budget budget = awardBudgetDocument.getBudget();
 
         if (parentDocument instanceof ProposalDevelopmentDocument && !(new ProposalHierarcyActionHelper()).checkParentChildStatusMatch((ProposalDevelopmentDocument)parentDocument)) {
             return mapping.findForward(Constants.MAPPING_BASIC);
@@ -369,7 +370,7 @@ public class BudgetVersionsAction extends BudgetAction {
     
     private void copyBudget(ActionForm form, HttpServletRequest request, boolean copyPeriodOneOnly) throws WorkflowException {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
+        AwardBudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         BudgetParentDocument pdDoc = budgetDoc.getBudget().getBudgetParent().getDocument();
         Budget budgetToCopy = getSelectedVersion(budgetForm, request);
         copyBudget(pdDoc, budgetToCopy, copyPeriodOneOnly);
@@ -387,8 +388,8 @@ public class BudgetVersionsAction extends BudgetAction {
      */
     public ActionForward rebudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        AwardDocument parentDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
+        AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
+        AwardDocument parentDocument = (AwardDocument)awardBudgetDocument.getBudget().getBudgetParent().getDocument();
 
         AwardBudgetDocument newBudgetDoc = getAwardBudgetService().rebudget(parentDocument, 
                                                         budgetForm.getNewBudgetVersionName());

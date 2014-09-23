@@ -18,10 +18,10 @@ package org.kuali.kra.award.budget;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -52,7 +52,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
 
     public boolean processRunAuditBusinessRules(Document document) {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) document;
-        AwardBudgetExt budget = (AwardBudgetExt)((BudgetDocument)document).getBudget();
+        AwardBudgetExt budget = (AwardBudgetExt)((AwardBudgetDocument)document).getBudget();
 
         Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getBudget().getBudgetParent().getDocument()).getAward().getAwardNumber());
         boolean valid = true;

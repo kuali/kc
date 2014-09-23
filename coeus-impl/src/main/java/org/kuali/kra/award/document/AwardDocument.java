@@ -32,7 +32,6 @@ import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
-import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
@@ -47,9 +46,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
@@ -513,6 +510,19 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     
     protected InstitutionalProposalService getInstitutionalProposalService() {
         return KcServiceLocator.getService(InstitutionalProposalService.class);
+    }
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public AwardBudgetExt getBudgetVersionOverview() {
+    	AwardBudgetExt budget = new AwardBudgetExt();
+        List<AwardBudgetExt> awardBudgetDocuments = this.getBudgetDocumentVersions();
+        for (AwardBudgetExt version : awardBudgetDocuments) {
+                if (version != null
+                        && (budget.getBudgetVersionNumber() == null || 
+                            (budget.getBudgetVersionNumber() != null && version.getBudgetVersionNumber() > budget.getBudgetVersionNumber()))) {
+                    budget = version;
+                }
+        }
+        return budget;
     }
 
     public boolean isPlaceHolderDocument() {

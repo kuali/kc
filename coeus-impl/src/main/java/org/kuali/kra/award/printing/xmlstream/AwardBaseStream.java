@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -49,7 +50,6 @@ import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApp
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.bo.CommentType;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.framework.costshare.CostShareService;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice;
@@ -781,11 +781,11 @@ public abstract class AwardBaseStream implements XmlStream {
 	/*
 	 * Fetch the BudgetDocument associated with Award
 	 */
-	protected BudgetDocument getBudgetDocument() {
-		BudgetDocument budgetDocument = null;
+	protected AwardBudgetDocument getBudgetDocument() {
+		AwardBudgetDocument awardBudgetDocument = null;
 		try {
 			if (!awardDocument.getBudgetDocumentVersions().isEmpty()) {
-				budgetDocument = (BudgetDocument) documentService
+				awardBudgetDocument = (AwardBudgetDocument) documentService
 						.getByDocumentHeaderId(awardDocument
 								.getBudgetDocumentVersion(0)
 								.getDocumentNumber());
@@ -793,7 +793,7 @@ public abstract class AwardBaseStream implements XmlStream {
 		} catch (WorkflowException e) {
 			LOG.error(e.getMessage(), e);
 		}
-		return budgetDocument;
+		return awardBudgetDocument;
 	}
 
 	/**

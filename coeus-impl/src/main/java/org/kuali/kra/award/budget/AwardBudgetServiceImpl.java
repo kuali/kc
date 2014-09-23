@@ -25,7 +25,7 @@ import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -38,7 +38,6 @@ import org.kuali.coeus.common.budget.framework.query.operator.And;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -48,7 +47,6 @@ import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionRule;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.kra.infrastructure.Constants;
@@ -106,8 +104,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             throw new RuntimeException("Not able to find any Budget Version associated with this document");
         }
         Budget budget = budgetDocument.getBudget();
-        Budget copiedBudget = copyBudgetVersion(budget,onlyOnePeriod);
-        budgetDocument.setBudget(copiedBudget);
+        AwardBudgetExt copiedBudget = (AwardBudgetExt) copyBudgetVersion(budget,onlyOnePeriod);
+        budgetDocument.getBudgets().add(copiedBudget);
         budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
         budgetDocument = (AwardBudgetDocument) saveBudgetDocument(budgetDocument, false);
         AwardDocument savedAwardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
@@ -249,18 +247,22 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     
     @Override
     public Budget getNewBudgetVersion(BudgetParentDocument parentBudgetDocument, String documentDescription, Map options){
-    	BudgetDocument<Award> budgetDocument;
+    	AwardBudgetDocument<Award> budgetDocument;
 		try {
 			budgetDocument = getNewBudgetVersionDocument(parentBudgetDocument, documentDescription, options);
 		} catch (WorkflowException e) {
 			throw new RuntimeException(e);
 		}
-    	return budgetDocument.getBudget();
+		if (budgetDocument != null) {
+			return budgetDocument.getBudget();
+		} else {
+			return null;
+		}
     }
 
 
     @Override
-    public BudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
+    public AwardBudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
     throws WorkflowException {
         
         AwardDocument parentDocument = (AwardDocument)parentBudgetDocument;
@@ -285,7 +287,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         if (isPostedBudgetExist(award)) {
             ScaleTwoDecimal obligatedChangeAmount = getTotalCostLimit(award);
             AwardBudgetExt previousPostedBudget = getLatestPostedBudget(award);
-            BudgetDocument<Award> postedBudgetDocument = (AwardBudgetDocument) previousPostedBudget.getBudgetDocument();
+            AwardBudgetDocument postedBudgetDocument = (AwardBudgetDocument) previousPostedBudget.getBudgetDocument();
             awardBudgetDocument =  (AwardBudgetDocument) copyBudgetVersion(postedBudgetDocument);
             copyObligatedAmountToLineItems(awardBudgetDocument,obligatedChangeAmount);
         } else {
@@ -315,7 +317,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             awardBudget.setUrRateClassCode(getBudgetParameterValue( Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         }
         awardBudget.setOhRateTypeCode(getBudgetParameterValue( Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
-        awardBudget.setModularBudgetFlag(parameterService.getParameterValueAsBoolean(BudgetDocument.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
+        awardBudget.setModularBudgetFlag(parameterService.getParameterValueAsBoolean(Budget.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         awardBudget.setAwardBudgetStatusCode(getAwardParameterValue( KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
         // do not want the Budget adjustment doc number to be copied over to the new budget.
         // this should be null so the budget can be posted again to the financial system.
@@ -335,7 +337,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
 
     private String getBudgetParameterValue(String parameter) {
-        return parameterService.getParameterValueAsString(BudgetDocument.class, parameter);
+        return parameterService.getParameterValueAsString(Budget.class, parameter);
     }
 
     private String getAwardParameterValue(String parameter) {
@@ -552,19 +554,10 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     /**
      * Copies budget version from previous one
      */
-    public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
+    public AwardBudgetDocument<Award> copyBudgetVersion(AwardBudgetDocument budgetDocument) throws WorkflowException {
         return copyBudgetVersion(budgetDocument, false);
     }
-    
-    public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
-        //clear awardbudgetlimits before copy as they should always be copied from
-        //award document
-    	AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument)budgetDocument;
-        ((AwardBudgetExt) budgetDocument.getBudget()).getAwardBudgetLimits().clear();
-        BudgetDocument newBudgetDocument = copyBudgetVersion(awardBudgetDocument, onlyOnePeriod);
-        setBudgetLimits((AwardBudgetDocument) newBudgetDocument, (Award) newBudgetDocument.getBudget().getBudgetParent());
-        return newBudgetDocument;        
-    }
+
 	@Override
 	public Budget copyBudgetVersion(Budget budget) {
 		return copyBudgetVersion(budget, false);
@@ -917,6 +910,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     	AwardDocument awardDocument = (AwardDocument)parentDocument;
         return !checkForOutstandingBudgets(awardDocument.getAward());
     }
+    
+    @Override
     public boolean checkRateChange(Collection<BudgetRate> savedBudgetRates,Award award){
         award.refreshReferenceObject("awardFandaRate");
         List<AwardFandaRate> awardFandaRates = award.getAwardFandaRate();

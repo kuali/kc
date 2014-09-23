@@ -19,9 +19,9 @@ import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -53,7 +53,7 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
     protected void copyBudget(BudgetParent budgetParent, Budget budgetToCopy, boolean copyPeriodOneOnly)
     throws WorkflowException {
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
+        AwardBudgetDocument budgetDocToCopy = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         Budget budget = budgetDocToCopy.getBudget();
 
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParent);

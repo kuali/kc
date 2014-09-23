@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.award.budget;
 
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -32,7 +32,7 @@ public class AwardBudgeCostTotalAuditRule implements DocumentAuditRule {
     public static final String AWARD_BUDGET_TOTAL_COST_ERROR_KEY = "awardBudgetTotalCostAuditErrors";
 
     public boolean processRunAuditBusinessRules(Document document) {
-        AwardBudgetExt budget = (AwardBudgetExt)((BudgetDocument)document).getBudget();
+        AwardBudgetExt budget = (AwardBudgetExt)((AwardBudgetDocument)document).getBudget();
 
         boolean valid = true;
         String[] params = { "Budget Overview Cost Total" };

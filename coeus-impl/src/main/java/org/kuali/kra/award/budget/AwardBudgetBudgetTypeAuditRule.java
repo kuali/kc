@@ -16,7 +16,7 @@
 package org.kuali.kra.award.budget;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -33,7 +33,7 @@ public class AwardBudgetBudgetTypeAuditRule implements DocumentAuditRule {
     public static final String AWARD_BUDGET_TYPE_ERROR_KEY = "awardBudgetTypeAuditErrors";
 
     public boolean processRunAuditBusinessRules(Document document) {
-        AwardBudgetExt budget = (AwardBudgetExt)((BudgetDocument)document).getBudget();
+        AwardBudgetExt budget = (AwardBudgetExt)((AwardBudgetDocument)document).getBudget();
 
         boolean valid = true;
         String[] params = { "Budget Overview Comments" };

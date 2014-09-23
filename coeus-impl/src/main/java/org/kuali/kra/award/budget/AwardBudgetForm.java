@@ -225,10 +225,7 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
      * @return
     */ 
     public Award getAward() {
-        AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getBudget().getBudgetParent();
-        ad.getBudgetDocumentVersions();
-        Award award = ad.getAward();
-        return award;
+        return this.getAwardBudgetDocument().getBudget().getBudgetParent();
     }
     
     /**

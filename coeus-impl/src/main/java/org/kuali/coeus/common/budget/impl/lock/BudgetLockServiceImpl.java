@@ -18,7 +18,7 @@ package org.kuali.coeus.common.budget.impl.lock;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.lock.BudgetLockService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -100,12 +100,12 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     @SuppressWarnings("unchecked")
     @Override
     protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, Person user) {
-        if (document instanceof BudgetDocument) {
-            BudgetDocument budgetDocument = (BudgetDocument) document;
+        if (document instanceof AwardBudgetDocument) {
+            AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) document;
             if (document.useCustomLockDescriptors()) {
                 String lockDescriptor = document.getCustomLockDescriptor(user);
                 //establish any locks needed on the parent document
-                this.establishLocks(budgetDocument.getBudget().getBudgetParent().getDocument(), editMode, user); 
+                this.establishLocks(awardBudgetDocument.getBudget().getBudgetParent().getDocument(), editMode, user); 
                 
                 return generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
             } 
@@ -120,9 +120,9 @@ public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements
     @SuppressWarnings("unchecked")
     @Override
     public boolean hasPreRouteEditAuthorization(Document document, Person user) {
-        BudgetDocument budgetDocument = (BudgetDocument) document;
+        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) document;
          
-        for (Iterator iterator = budgetDocument.getBudget().getBudgetParent().getDocument().getPessimisticLocks().iterator(); iterator.hasNext();) {
+        for (Iterator iterator = awardBudgetDocument.getBudget().getBudgetParent().getDocument().getPessimisticLocks().iterator(); iterator.hasNext();) {
             PessimisticLock lock = (PessimisticLock) iterator.next();
             if (lock.getLockDescriptor().endsWith(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) && lock.isOwnedByUser(user)) {
                 return true;

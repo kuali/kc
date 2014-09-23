@@ -17,10 +17,10 @@ package org.kuali.kra.award.budget;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -78,7 +78,7 @@ public class AwardBudgetExt extends Budget {
 
     private SortedMap<RateType, ScaleTwoDecimal> nonPersonnelCalculatedExpenseBudgetTotals;
     
-    private BudgetDocument<Award> budgetDocument;
+    private AwardBudgetDocument<Award> awardBudgetDocument;
 
     public AwardBudgetExt() {
         super();
@@ -376,12 +376,12 @@ public class AwardBudgetExt extends Budget {
         return amount;
     }
 
-	public BudgetDocument<Award> getBudgetDocument() {
-		return budgetDocument;
+	public AwardBudgetDocument<Award> getBudgetDocument() {
+		return awardBudgetDocument;
 	}
 
-	public void setBudgetDocument(BudgetDocument<Award> budgetDocument) {
-		this.budgetDocument = budgetDocument;
+	public void setBudgetDocument(AwardBudgetDocument<Award> budgetDocument) {
+		this.awardBudgetDocument = budgetDocument;
 	}
 
 	public Award getAward() {
