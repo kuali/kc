@@ -23,11 +23,9 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.web.controller.MethodAccessible;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.service.FileControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -63,6 +62,10 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Autowired
     @Qualifier("kcFileControllerService")
     private FileControllerService kcFileControllerService;
+
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
     
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=cancelAttachment")
     public ModelAndView cancelAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -298,6 +301,77 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getRefreshControllerService().refresh(form);
     }
 
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addProposalAttachmentRights"})
+    public ModelAndView addProposalAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+          HttpServletRequest request) throws Exception {
+        int selectedLine = Integer.parseInt(form.getNarrativeUserRightsSelectedAttachment());
+
+        boolean rulePassed = getKualiRuleService().applyRules(new NewNarrativeUserRightsEvent(form.getProposalDevelopmentDocument(), form.getNarrativeUserRights(), selectedLine));
+
+        if (rulePassed) {
+            form.getDevelopmentProposal().getNarrative(selectedLine).getNarrativeUserRights().clear();
+            form.getDevelopmentProposal().getNarrative(selectedLine).getNarrativeUserRights().addAll(form.getNarrativeUserRights());
+        }
+        return getModelAndViewService().getModelAndView(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=getProposalAttachmentRights"})
+    public ModelAndView getProposalAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                     @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine,
+                                     HttpServletRequest request) throws Exception {
+        form.getDevelopmentProposal().populateNarrativeRightsForLoggedinUser();
+        form.getDevelopmentProposal().populatePersonNameForNarrativeUserRights(Integer.parseInt(selectedLine));
+        Narrative selectedNarrative= form.getDevelopmentProposal().getNarratives().get(Integer.parseInt(selectedLine));
+
+        List<NarrativeUserRights> editableRights = new ArrayList<NarrativeUserRights>();
+        for (NarrativeUserRights right : selectedNarrative.getNarrativeUserRights()) {
+            NarrativeUserRights editableRight = new NarrativeUserRights();
+            PropertyUtils.copyProperties(editableRight,right);
+            editableRights.add(editableRight);
+        }
+
+        form.setNarrativeUserRights(editableRights);
+        form.setNarrativeUserRightsSelectedAttachment(selectedLine);
+        form.getActionParameters().put("attachmentType","proposalAttachment");
+        return getModelAndViewService().showDialog("PropDev-AttachmentPage-ViewEditRightDialog", true, form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addInstituteAttachmentRights"})
+    public ModelAndView addInstituteAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                                    HttpServletRequest request) throws Exception {
+        int selectedLine = Integer.parseInt(form.getNarrativeUserRightsSelectedAttachment());
+
+        boolean rulePassed = getKualiRuleService().applyRules(new NewNarrativeUserRightsEvent(form.getProposalDevelopmentDocument(), form.getNarrativeUserRights(), selectedLine));
+
+        if (rulePassed) {
+            form.getDevelopmentProposal().getInstituteAttachment(selectedLine).getNarrativeUserRights().clear();
+            form.getDevelopmentProposal().getInstituteAttachment(selectedLine).getNarrativeUserRights().addAll(form.getNarrativeUserRights());
+        }
+        return getModelAndViewService().getModelAndView(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=getInstituteAttachmentRights"})
+    public ModelAndView getInstituteAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                                    @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine,
+                                                    HttpServletRequest request) throws Exception {
+        form.getDevelopmentProposal().populateNarrativeRightsForLoggedinUser();
+        form.getDevelopmentProposal().populatePersonNameForInstituteAttachmentUserRights(Integer.parseInt(selectedLine));
+        Narrative selectedNarrative= form.getDevelopmentProposal().getInstituteAttachment(Integer.parseInt(selectedLine));
+
+        List<NarrativeUserRights> editableRights = new ArrayList<NarrativeUserRights>();
+        for (NarrativeUserRights right : selectedNarrative.getNarrativeUserRights()) {
+            NarrativeUserRights editableRight = new NarrativeUserRights();
+            PropertyUtils.copyProperties(editableRight,right);
+            editableRights.add(editableRight);
+        }
+
+        form.setNarrativeUserRights(editableRights);
+        form.setNarrativeUserRightsSelectedAttachment(selectedLine);
+        form.getActionParameters().put("attachmentType","instituteAttachment");
+        return getModelAndViewService().showDialog("PropDev-AttachmentPage-ViewEditRightDialog", true, form);
+    }
+
+
     public LegacyNarrativeService getLegacyNarrativeService() {
         return legacyNarrativeService;
     }
@@ -330,4 +404,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         this.kcFileControllerService = kcFileControllerService;
     }
 
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
 }

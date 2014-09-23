@@ -92,6 +92,8 @@
             <list>
                 <bean parent="PropDev-AttachmentPage-DetailsButton" p:refreshId="PropDev-AttachmentsPage-ProposalDetails"
                       p:order="10"/>
+                <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="20"/>
+                <bean parent="PropDev-AttachmentPage-ProposalRightsButton" p:order="30"/>
                 <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="30"/>
             </list>
         </property>
@@ -312,6 +314,11 @@
           p:collection.collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
           p:collection.propertyName="document.developmentProposal.instituteAttachments"
           p:collection.id="PropDev-AttachmentsPage-InternalCollection-Collection">
+        <property name="collection.lineActions">
+            <list merge="true">
+                <bean parent="PropDev-AttachmentPage-ProposalRightsButton" p:order="40" p:methodToCall="getInstituteAttachmentRights"/>
+            </list>
+        </property>
         <property name="collection.items">
             <list merge="true">
                 <bean parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField" p:order="30" />
@@ -422,6 +429,11 @@
           p:methodToCall="saveAttachment" p:actionLabel="Save"
           p:hidden="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
 
+
+    <bean id="PropDev-AttachmentPage-ProposalRightsButton" parent="PropDev-AttachmentPage-ProposalRightsButton-parentBean"/>
+    <bean id="PropDev-AttachmentPage-ProposalRightsButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
+          p:methodToCall="getProposalAttachmentRights" p:actionLabel="view/edit rights"/>
+
     <bean id="PropDev-AttachmentPage-DeleteFileButton" parent="PropDev-AttachmentPage-DeleteFileButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-DeleteFileButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
           p:methodToCall="deleteFileUploadLine" p:title="Delete"
@@ -527,4 +539,34 @@
         </property>
     </bean>
 
+
+    <bean id="PropDev-AttachmentPage-ViewEditRightDialog" parent="PropDev-AttachmentPage-ViewEditRightDialog-parentBean"/>
+    <bean id="PropDev-AttachmentPage-ViewEditRightDialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:header.headerText="Rights">
+            <property name="items">
+                <list>
+                    <bean parent="PropDev-AttachmentPage-RightsCollection" p:order="10"/>
+                </list>
+            </property>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addProposalAttachmentRights" p:order="10"
+                     p:render="@{actionParameters.get('attachmentType') eq 'proposalAttachment'}" p:dialogDismissOption="REQUEST"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addInstituteAttachmentRights" p:order="20"
+                     p:render="@{actionParameters.get('attachmentType') eq 'instituteAttachment'}" p:dialogDismissOption="REQUEST"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-AttachmentPage-RightsCollection" parent="PropDev-AttachmentPage-RightsCollection-parentBean"/>
+    <bean id="PropDev-AttachmentPage-RightsCollection-parentBean" abstract="true" parent="Uif-StackedCollectionGroup"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights"
+          p:propertyName="narrativeUserRights"
+          p:renderAddLine="false" p:renderLineActions="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="accessType" p:fieldLabel.labelText="@{#line.personName}" p:order="10"/>
+            </list>
+        </property>
+    </bean>
 </beans>

@@ -113,10 +113,10 @@
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.attachment.NarrativeUserRightsValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="optionsFinder">
-      <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeUserRightsValuesFinder"/>
+      <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeUserRightsValuesFinder" p:addBlankOption="false"/>
     </property>
     <property name="controlField">
-      <bean parent="Uif-VerticalRadioControl"/>
+      <bean parent="Uif-HorizontalRadioControl"/>
     </property>
     <property name="summary" value="Access Type" />
     <property name="description" value="Access Type" />
