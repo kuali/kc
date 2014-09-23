@@ -87,6 +87,7 @@
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="shareAmount" p:skipInTabOrder="false" p:order="40" p:label="Amount" />
             </list>
 		</property>
+
 		<property name="lineActions">
 			<list>
                 <bean parent="Uif-DeleteLineAction-IconOnly"
@@ -94,15 +95,24 @@
                       p:iconClass="icon-trash" />
 			</list>
 		</property>
-		<property name="layoutManager.columnCalculations">
-			<list>
-				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="shareAmount"
-					p:totalField.fieldLabel.labelText="Total Allocated" />
-				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="shareAmount"
-					p:totalField.fieldLabel.labelText="Total Unallocated" />
-			</list>
-		</property>
-		<property name="footer">
+        <property name="dataAttributes">
+            <map>
+                <entry key="total_costsharing" value="@{#this.getBudget().getAvailableCostSharing()}"/>
+            </map>
+        </property><property name="layoutManager.columnCalculations">
+            <list>
+                <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="shareAmount"
+                      p:totalField.fieldLabel.labelText="Total Allocated"/>
+                <bean parent="Uif-ColumnCalculationInfo" p:calculationFunctionName="totalUnallocatedCostSharing"
+                      p:calculateOnKeyUp="true"
+                      p:propertyName="shareAmount" p:showPageTotal="false">
+                    <property name="totalField.fieldLabel.labelText" value="Total Unallocated"/>
+                </bean>
+            </list>
+        </property>
+        <property name="layoutManager.showPageTotal" value="false"/>
+
+        <property name="footer">
 			<bean parent="Uif-FooterBase">
 				<property name="items">
 					<list>
