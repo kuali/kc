@@ -23,5 +23,8 @@ Kc.PropDev.Budget = Kc.PropDev.Budget || {};
 
 function totalUnallocatedCostSharing (values){
     return Kc.PropDev.Budget.totalUnallocatedCostSharing(values);
+}
 
+function totalUnallocatedFandA (values) {
+    return Kc.PropDev.Budget.totalUnallocatedFandA(values);
 }

@@ -121,7 +121,7 @@
 			<list>
 				<bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="amount"
 					p:totalField.fieldLabel.labelText="Total Allocated"/>
-                <bean parent="Uif-ColumnCalculationInfo" p:calculationFunctionName="Kc.PropDev.Budget.totalUnallocatedFandA"
+                <bean parent="Uif-ColumnCalculationInfo" p:calculationFunctionName="totalUnallocatedFandA"
                       p:calculateOnKeyUp="true"
                       p:propertyName="amount" p:showPageTotal="false">
                     <property name="totalField.fieldLabel.labelText" value="Total Unallocated"/>
