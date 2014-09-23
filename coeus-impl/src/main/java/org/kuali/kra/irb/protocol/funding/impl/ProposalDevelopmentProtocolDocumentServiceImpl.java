@@ -17,6 +17,7 @@ package org.kuali.kra.irb.protocol.funding.impl;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -27,7 +28,6 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolNumberService;
 import org.kuali.kra.irb.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
@@ -103,9 +103,15 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl
     protected String getSequenceNumberNameHook() {
         return "SEQ_IACUC_PROTOCOL_ID";
     }
-    
-    protected String getCreateProposalTaskNameHook() {
-        return ProposalTask.CREATE_IRB_PROTOCOL_FROM_PROPOSAL;
+
+    @Override
+    protected String getCreateProposalPermissionNamespaceHook() {
+        return Constants.MODULE_NAMESPACE_PROTOCOL;
+    }
+
+    @Override
+    protected String getCreateProposalPermissionNameHook() {
+        return PermissionConstants.CREATE_PROTOCOL;
     }
 
     @Override

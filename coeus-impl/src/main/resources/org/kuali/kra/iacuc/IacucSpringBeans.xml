@@ -1193,7 +1193,7 @@
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="iacucProtocolNumberService" ref="iacucProtocolNumberService" />
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
-        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="iacucProtocolPersonnelService" ref="iacucProtocolPersonnelService" />	
         <property name="parameterService" ref="parameterService" />
     </bean> 
