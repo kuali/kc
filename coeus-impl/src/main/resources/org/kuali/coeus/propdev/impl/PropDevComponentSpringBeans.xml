@@ -161,15 +161,6 @@
         <property name="groupName" value="proposal" />
         <property name="taskAuthorizers">
             <list>
-                <!-- Narrative -->
-
-                <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeAddAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="addNarrative" />
-                    <property name="requiresWritableDoc" value="true" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                    <property name="kcDocumentRejectionService" ref="kcDocumentRejectionService" />
-                </bean>
-
                 <!-- Budget -->
 
                 <bean class="org.kuali.coeus.propdev.impl.budget.auth.task.BudgetAddAuthorizer" parent="parentProposalAuthorizer">
@@ -232,11 +223,6 @@
         <property name="classname" value="org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsAttachmentsAction" />
         <property name="mappings">
             <map>
-                <entry key="addProposalAttachment">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="addNarrative" />
-                    </bean>
-                </entry>
                 <entry key="addProposalAttachmentRights">
                     <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
                         <property name="taskName" value="modifyNarrativeRights" />
@@ -255,11 +241,6 @@
                 <entry key="replaceProposalAttachment">
                     <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
                         <property name="taskName" value="replaceNarrative" />
-                    </bean>
-                </entry>
-                <entry key="addInstitutionalAttachment">
-                    <bean class="org.kuali.coeus.propdev.impl.auth.task.ProposalTaskFactory">
-                        <property name="taskName" value="addNarrative" />
                     </bean>
                 </entry>
                 <entry key="addInstituteAttachmentRights">
