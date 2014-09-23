@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
@@ -76,6 +77,13 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
             if (budgetUnrecoveredFandA != null) {
                 budgetUnrecoveredFandA.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
                 budgetUnrecoveredFandA.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getHackedDocumentNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
+            }
+        }
+        if (addLine instanceof BudgetCostShare) {
+            BudgetCostShare budgetCostShare = (BudgetCostShare) addLine;
+            if (budgetCostShare != null) {
+                budgetCostShare.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
+                budgetCostShare.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getHackedDocumentNextValue(budgetCostShare.getDocumentComponentIdKey()));
             }
         }
     }

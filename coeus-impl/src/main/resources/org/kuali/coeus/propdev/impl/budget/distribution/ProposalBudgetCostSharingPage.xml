@@ -19,8 +19,12 @@
 	<bean id="PropBudget-CostSharingPage-parentBean"
           parent="PropBudget-Page" p:fieldBindingObjectPath="budget">
 		<property name="items">
-			<list>
-                <bean id="PropBudget-CostSharingPage-CollectionGroup" parent="PropBudget-CostSharingPage-CollectionGroup-parentBean" p:order="10" />
+		    <list>
+                <bean id="PropBudget-CostSharingPage-CollectionGroup" parent="PropBudget-CostSharingPage-CollectionGroup-parentBean" p:order="10" 
+                      p:render="@{#this.isCostSharingEditFormVisible()}" />
+                <bean parent="Uif-Message" p:order="20"
+                      p:messageText="Cost Sharing doesn't apply or is not available"
+                      p:render="@{!#this.isCostSharingEditFormVisible()}" />
             </list>
 		</property>
 	</bean>
@@ -32,7 +36,7 @@
 		p:addWithDialog="true" p:layoutManager.renderSequenceField="true">
 		<property name="addWithDialogAction">
 			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Cost Sharing"
-                p:render="@{!#parent.readOnly}"
+                		p:render="@{!#parent.readOnly}"
 				p:iconClass="icon-plus" />
 		</property>
 		<property name="header.lowerGroup">
@@ -67,8 +71,8 @@
         </property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="projectPeriod"
-					p:order="10" p:label="Period" >
+			   <bean parent="Kc-InlineEdit-InputField" p:propertyName="projectPeriod"
+					p:order="10" p:label="Period" p:skipInTabOrder="false" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -76,24 +80,18 @@
                         <bean class="org.kuali.coeus.common.budget.impl.core.BudgetPeriodValuesFinder" p:addBlankOption="false"/>
                     </property>
                 </bean>
-				<bean parent="Uif-InputField" p:propertyName="sharePercentage"
-					p:order="20" p:label="Percentage" />
-			    <bean parent="Uif-InputField" p:propertyName="sourceAccount"
-					p:order="30" />
-				<bean parent="Uif-InputField" p:propertyName="shareAmount"
-					p:order="40" p:label="Amount" />
-				</list>
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="sharePercentage" p:skipInTabOrder="false" p:order="20" p:label="Percentage" >
+                    <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+                </bean>
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="sourceAccount" p:skipInTabOrder="false" p:order="30" />
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="shareAmount" p:skipInTabOrder="false" p:order="40" p:label="Amount" />
+            </list>
 		</property>
 		<property name="lineActions">
 			<list>
-				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEdit"
-					p:hidden="true" p:actionLabel="cancel" p:order="10" />
-				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLine"
-					p:hidden="false" p:actionLabel="Edit" p:order="20" />
-				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="saveLine"
-					p:hidden="true" p:actionLabel="Save" p:order="30" />
-				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
-					p:iconClass="icon-trash" />
+                <bean parent="Uif-DeleteLineAction-IconOnly"
+                      p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" p:order="10"
+                      p:iconClass="icon-trash" />
 			</list>
 		</property>
 		<property name="layoutManager.columnCalculations">

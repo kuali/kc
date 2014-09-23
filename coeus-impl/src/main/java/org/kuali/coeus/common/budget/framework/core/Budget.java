@@ -679,6 +679,10 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return getBudgetProjectIncomes().get(index);
     }
 
+    public void setBudgetCostShares(List<BudgetCostShare> budgetCostShares) {
+        this.budgetCostShares = budgetCostShares;
+    }
+
     public void setBudgetUnrecoveredFandAs(List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs) {
         this.budgetUnrecoveredFandAs = budgetUnrecoveredFandAs;
     }

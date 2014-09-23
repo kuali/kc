@@ -127,4 +127,7 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
         return budget != null && budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable();
     }
 
+    public boolean isCostSharingEditFormVisible() {
+        return budget != null && budget.isCostSharingApplicable() && budget.isCostSharingAvailable();
+    }
 }
