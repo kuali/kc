@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.distribution;
+package org.kuali.coeus.common.budget.impl.struts;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.AddBudgetProjectIncomeEvent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
@@ -29,8 +28,10 @@ import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFan
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
+import org.kuali.coeus.common.budget.impl.distribution.AddBudgetCostShareEvent;
+import org.kuali.coeus.common.budget.impl.distribution.AddBudgetUnrecoveredFandAEvent;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.service.KualiRuleService;
 
@@ -125,7 +126,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      */
     public ActionForward addUnrecoveredFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form; 
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        AwardBudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetUnrecoveredFandA budgetUnrecoveredFandA = budgetForm.getNewBudgetUnrecoveredFandA();
         boolean passed = getKcBusinessRulesEngine().applyRules(createRuleEvent(budgetForm, budgetUnrecoveredFandA));
         
@@ -263,9 +264,9 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @param form
      * @return
      */
-    private BudgetDocument getDocument(ActionForm form) {
+    private AwardBudgetDocument getDocument(ActionForm form) {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        AwardBudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         return budgetDocument;
     }
     
@@ -293,7 +294,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @param budgetDocument
      * @param budgetUnrecoveredFandA
      */
-    private void setUnrecoveredFandAAddRowDefaults(BudgetDocument budgetDocument, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
+    private void setUnrecoveredFandAAddRowDefaults(AwardBudgetDocument budgetDocument, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         if(budgetUnrecoveredFandA.getFiscalYear() == null) {
             budgetUnrecoveredFandA.setFiscalYear(0);
         }

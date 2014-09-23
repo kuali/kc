@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.core;
+package org.kuali.coeus.common.budget.impl.struts;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -122,6 +122,9 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
     }
 
 	public KcBusinessRulesEngine getKcBusinessRulesEngine() {
+		if (kcBusinessRulesEngine == null) {
+			kcBusinessRulesEngine = KcServiceLocator.getService(KcBusinessRulesEngine.class);
+		}
 		return kcBusinessRulesEngine;
 	}
 

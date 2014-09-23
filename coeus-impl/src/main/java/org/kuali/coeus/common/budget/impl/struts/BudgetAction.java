@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.core;
+package org.kuali.coeus.common.budget.impl.struts;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -26,8 +26,6 @@ import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
-import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
@@ -38,6 +36,12 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
+import org.kuali.coeus.common.budget.framework.core.BudgetCommonServiceFactory;
+import org.kuali.coeus.common.budget.framework.core.BudgetForm;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryTypeValuesFinder;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -45,14 +49,13 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.lock.BudgetLockService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -103,9 +106,7 @@ public class BudgetAction extends BudgetActionBase {
             budgetForm.initialize();
         }
         AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
-        if (awardBudgetDocument.isBudgetDeleted()) {
-            return mapping.findForward("deleted");
-        }
+
         Budget budget = awardBudgetDocument.getBudget();
         copyLineItemToPersonnelDetails(awardBudgetDocument);
         if (budget.getActivityTypeCode().equals("x")) {
@@ -261,7 +262,6 @@ public class BudgetAction extends BudgetActionBase {
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
-        populatePersonnelHierarchySummary(budgetForm);
         populatePersonnelCategoryTypeCodes(budgetForm);
         if (budgetForm.getBudgetDocument().getBudget().getBudgetPersons().isEmpty()) {
             KcServiceLocator.getService(BudgetPersonService.class).synchBudgetPersonsToProposal(budgetForm.getBudgetDocument().getBudget());
@@ -290,19 +290,6 @@ public class BudgetAction extends BudgetActionBase {
         String enableBudgetSalaryByPeriod = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ENABLE_BUDGET_CALCULATED_SALARY);
         budgetForm.setEnableBudgetSalaryByPeriod(enableBudgetSalaryByPeriod);
         return mapping.findForward(Constants.BUDGET_PERSONNEL_PAGE);
-    }
-    
-    protected void populatePersonnelHierarchySummary(BudgetForm budgetForm) {
-        if (budgetForm.getBudgetDocument().getBudget().isProposalBudget()) {
-            DevelopmentProposal parent = (DevelopmentProposal) budgetForm.getBudgetDocument().getBudget().getBudgetParent();
-            String proposalNumber = parent.getProposalNumber();
-            budgetForm.setHierarchyPersonnelSummaries(getHierarchyHelper().getHierarchyPersonnelSummaries(proposalNumber));
-            for (HierarchyPersonnelSummary hierarchyPersonnelSummary : budgetForm.getHierarchyPersonnelSummaries()) {
-                for (Budget budget : hierarchyPersonnelSummary.getHierarchyBudgets()) {
-                    reconcilePersonnelRoles(budget);
-                }
-            }
-        }
     }
 
     private String getPersonnelBudgetCategoryTypeCode() {
@@ -422,17 +409,6 @@ public class BudgetAction extends BudgetActionBase {
         budget.getBudgetTotals();
         budgetForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValueAsString(AwardBudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"));
         return mapping.findForward(Constants.BUDGET_SUMMARY_TOTALS_PAGE);
-    }
-
-    public ActionForward proposalHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward(Constants.PROPOSAL_HIERARCHY_PAGE);
-    }
-    public ActionForward hierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        BudgetForm budgetForm = (BudgetForm)form;
-        DevelopmentProposal pd = (DevelopmentProposal) budgetForm.getBudgetDocument().getBudget().getBudgetParent();
-        
-        budgetForm.setHierarchyProposalSummaries(getHierarchyHelper().getHierarchyProposalSummaries(pd.getProposalNumber()));
-        return mapping.findForward(Constants.HIERARCHY_PAGE);
     }
     
     public ActionForward budgetActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

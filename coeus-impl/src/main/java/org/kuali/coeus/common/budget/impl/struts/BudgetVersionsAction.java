@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.version;
+package org.kuali.coeus.common.budget.impl.struts;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,13 +23,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.core.*;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -84,7 +82,6 @@ public class BudgetVersionsAction extends BudgetAction {
         final BudgetForm budgetForm = (BudgetForm) form;
         AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
         BudgetParent budgetParent = awardBudgetDocument.getBudget().getBudgetParent();
-        BudgetParentDocument parentDocument = budgetParent.getDocument();
    
         //when this is an award budget even though the budget cannot be saved a budget can still
         //be copied. By doing this here we make sure that it will still save
@@ -325,10 +322,6 @@ public class BudgetVersionsAction extends BudgetAction {
         AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
         BudgetParentDocument parentDocument = awardBudgetDocument.getBudget().getBudgetParent().getDocument();
         Budget budget = awardBudgetDocument.getBudget();
-
-        if (parentDocument instanceof ProposalDevelopmentDocument && !(new ProposalHierarcyActionHelper()).checkParentChildStatusMatch((ProposalDevelopmentDocument)parentDocument)) {
-            return mapping.findForward(Constants.MAPPING_BASIC);
-        }
         
         if (budgetForm.isSaveAfterCopy()) {
             List<? extends Budget> overviews = parentDocument.getBudgetParent().getBudgets();

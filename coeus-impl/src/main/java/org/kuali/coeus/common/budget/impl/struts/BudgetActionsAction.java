@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.core;
+package org.kuali.coeus.common.budget.impl.struts;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -41,6 +41,9 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetException;
+import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
 import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetJustificationServiceImpl;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
@@ -696,17 +699,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward budgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return super.rates(mapping, form, request, response);
     }
-
-    public ActionForward syncBudgetToParent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm) form;
-        DevelopmentProposal childProposal = (DevelopmentProposal) budgetForm.getBudgetDocument().getBudget().getBudgetParent();
-        getHierarchyHelper().syncBudgetToParent((ProposalDevelopmentBudgetExt) budgetForm.getBudgetDocument().getBudget(), childProposal, false);
-        if (GlobalVariables.getMessageMap().containsMessageKey(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM)) {
-            return doEndDateConfirmation(mapping, form, request, response, "syncBudgetToParent", "syncToHierarchyParentConfirm");
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-
-    }
     
     private ActionForward doEndDateConfirmation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionId, String yesMethodName) throws Exception {
         List<ErrorMessage> errors = GlobalVariables.getMessageMap().getErrorMessagesForProperty(ProposalHierarchyKeyConstants.FIELD_CHILD_NUMBER);
@@ -722,13 +714,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         GlobalVariables.getMessageMap().getWarningMessages().clear();
         GlobalVariables.getMessageMap().getInfoMessages().clear();
         return confirm(question, yesMethodName, "hierarchyActionCanceled");
-    }
-    
-    public ActionForward syncBudgetToParentConfirm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm) form;
-        DevelopmentProposal childProposal = (DevelopmentProposal) budgetForm.getBudgetDocument().getBudget().getBudgetParent();
-        getHierarchyHelper().syncBudgetToParent((ProposalDevelopmentBudgetExt) budgetForm.getBudgetDocument().getBudget(), childProposal, true);
-        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     public PropDevBudgetSubAwardService getPropDevBudgetSubAwardService() {

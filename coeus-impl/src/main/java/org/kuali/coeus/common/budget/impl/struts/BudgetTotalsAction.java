@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.summary;
+package org.kuali.coeus.common.budget.impl.struts;
 
-import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 
 public class BudgetTotalsAction extends BudgetAction {
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.personnel;
+package org.kuali.coeus.common.budget.impl.struts;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +22,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpenseRule;
-import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpensesAction;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
