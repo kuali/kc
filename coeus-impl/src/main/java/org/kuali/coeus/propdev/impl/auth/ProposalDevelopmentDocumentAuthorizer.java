@@ -177,10 +177,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (isAuthorizedToCertify(doc, user)) {
             editModes.add("certify");
         }
-        
-        if (canExecuteTask(userId, doc, TaskName.MODIFY_NARRATIVE_STATUS)) {
-            editModes.add("modifyNarrativeStatus");
-        }
                 
         if (isAuthorizedToPrint(doc, user)) {
             editModes.add("printProposal");
@@ -223,7 +219,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             if (narrative.getDeleteAttachment(user)) {
                 editModes.add(prefix + "delete");
             }
-            if (narrative.getModifyAttachmentStatus(userId)) {
+            if (narrative.getModifyAttachmentStatus(user)) {
                 editModes.add(prefix + "modifyStatus");
             }
             if (narrative.getModifyNarrativeRights(user)) {

@@ -465,9 +465,8 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * Can the current user change the status of attachment?
      * @return true if the user can modify the status of attachments; otherwise false
      */
-    public boolean getModifyAttachmentStatus(String userId) {
-        TaskAuthorizationService taskAuthorizatioNService = getTaskAuthorizationService();
-        return taskAuthorizatioNService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_STATUS, getDocument(), this));
+    public boolean getModifyAttachmentStatus(Person user) {
+        return isAuthorizedToModifyNarrative(this, user);
     }
 
     /**

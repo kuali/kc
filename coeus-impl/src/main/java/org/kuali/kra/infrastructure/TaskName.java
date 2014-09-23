@@ -32,7 +32,6 @@ public interface TaskName {
      * Narrative Tasks.
      */
     public static final String REPLACE_NARRATIVE = "replaceNarrative";
-    public static final String MODIFY_NARRATIVE_STATUS = "modifyNarrativeStatus";
 
     /*
      * Protocol Tasks.
