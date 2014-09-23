@@ -25,6 +25,8 @@ import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
@@ -60,6 +62,14 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     @Autowired
     @Qualifier("kcAuthorizationService")
     private KcAuthorizationService kcAuthorizationService;
+
+    @Autowired
+    @Qualifier("kcDocumentRejectionService")
+    private KcDocumentRejectionService kcDocumentRejectionService;
+
+    @Autowired
+    @Qualifier("kcWorkflowService")
+    private KcWorkflowService kcWorkflowService;
 
     @Override
     public Set<String> getEditModes(View view, ViewModel model, Person user, Set<String> editModes) {
@@ -129,7 +139,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     protected void setPermissions(Person user, BudgetParentDocument doc, Set<String> editModes) {
         String userId = user.getPrincipalId();
 
-        if (canExecuteParentDocumentTask(userId, doc, TaskName.ADD_BUDGET)) {
+        if (isAuthorizedToAddBudget(doc, user)) {
             editModes.add("addBudget");
         }
         
@@ -208,6 +218,19 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         return !pdDocument.isViewOnly() && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY);
     }
 
+    protected boolean isAuthorizedToAddBudget(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        boolean hasPermission = false;
+
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+
+        if ((!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && !pdDocument.isViewOnly() && !pdDocument.getDevelopmentProposal().getSubmitFlag() && !pdDocument.getDevelopmentProposal().isParent()) {
+            hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_BUDGET);
+        }
+        return hasPermission;
+    }
+
     protected boolean isAuthorizedToPrintProposal(Document document, Person user) {
         final BudgetParentDocument bpDocument = ((BudgetParentDocument) document);
         return getKcAuthorizationService().hasPermission(user.getPrincipalId(), bpDocument, PermissionConstants.PRINT_PROPOSAL);
@@ -236,5 +259,21 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 
     public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
         this.kcAuthorizationService = kcAuthorizationService;
+    }
+
+    public KcDocumentRejectionService getKcDocumentRejectionService() {
+        return kcDocumentRejectionService;
+    }
+
+    public void setKcDocumentRejectionService(KcDocumentRejectionService kcDocumentRejectionService) {
+        this.kcDocumentRejectionService = kcDocumentRejectionService;
+    }
+
+    public KcWorkflowService getKcWorkflowService() {
+        return kcWorkflowService;
+    }
+
+    public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
+        this.kcWorkflowService = kcWorkflowService;
     }
 }

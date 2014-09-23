@@ -26,12 +26,7 @@ public interface TaskName {
     public static final String CREATE_PROTOCOL = "createProtocol";
     public static final String CREATE_AWARD = "createAward";
     public static final String CREATE_TAMD = "createTimeAndMoney";
-    
-    /*
-     * Proposal Tasks.
-     */
-    public static final String ADD_BUDGET = "addBudget";
-    public static final String OPEN_BUDGETS = "openBudgets";
+
 
     /*
      * Narrative Tasks.
@@ -203,6 +198,8 @@ public interface TaskName {
     public static final String POST_AWARD_BUDGET = "postAwardBudget";
     public static final String TOGGLE_AWARD_BUDGET_STATUS = "toggleAwardBudgetStatus";
     public static final String SUBMIT_TO_WORKFLOW = "submitToWorkflow";
+    public static final String ADD_BUDGET = "addBudget";
+    public static final String OPEN_BUDGETS = "openBudgets";
 
     /*
      * COI tasks
