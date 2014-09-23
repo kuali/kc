@@ -16,12 +16,9 @@
 package org.kuali.coeus.propdev.impl.budget.auth;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.auth.task.BudgetTask;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.common.framework.auth.task.Task;
-import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -29,8 +26,6 @@ import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -54,10 +49,6 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 	@Autowired
 	@Qualifier("parameterService")
 	private ParameterService parameterService;
-	
-	@Autowired
-	@Qualifier("taskAuthorizationService")
-	private TaskAuthorizationService taskAuthorizationService;
 
     @Autowired
     @Qualifier("kcAuthorizationService")
@@ -76,13 +67,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     	ProposalBudgetForm form = (ProposalBudgetForm) model;
         ProposalDevelopmentBudgetExt budget = form.getBudget();
         ProposalDevelopmentDocument parentDocument = (ProposalDevelopmentDocument) budget.getBudgetParent().getDocument();
-        String userId = user.getPrincipalId(); 
-        
-        if (canExecuteBudgetTask(userId, budget, TaskName.VIEW_SALARIES )) {
-            editModes.add(TaskName.VIEW_SALARIES); 
-            setPermissions(user, parentDocument, editModes);
-        }
-      
+
         if (isAuthorizedToModifyBudget(budget, user)) {
             editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             editModes.add("modifyBudgets");
@@ -153,27 +138,6 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         if (isAuthorizedToPrintProposal(doc, user)) {
             editModes.add("printProposal");
         }
-    }
-
-    /**
-     * Can the user execute the given budget task?
-     * @param userId the user's unique user id
-     * @param budget the budget
-     * @param taskName the name of the task
-     * @return true if has permission; otherwise false
-     */
-    private boolean canExecuteBudgetTask(String userId, Budget budget, String taskName) {
-        String taskGroupName = getTaskGroupName();
-        Task task = createNewBudgetTask(taskGroupName,taskName, budget);       
-        return getTaskAuthorizationService().isAuthorized(userId, task);
-    }
-    
-    protected Task createNewBudgetTask(String taskGroupName, String taskName, Budget budget) {
-        return new BudgetTask(taskGroupName,taskName, budget);
-    }
-
-    protected String getTaskGroupName() {
-        return TaskGroupName.PROPOSAL_BUDGET;
     }
 
     public boolean canOpen(ProposalDevelopmentBudgetExt budget, Person user) {
@@ -268,15 +232,6 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
-	}
-
-	public TaskAuthorizationService getTaskAuthorizationService() {
-		return taskAuthorizationService;
-	}
-
-	public void setTaskAuthorizationService(
-			TaskAuthorizationService taskAuthorizationService) {
-		this.taskAuthorizationService = taskAuthorizationService;
 	}
 
     public KcAuthorizationService getKcAuthorizationService() {

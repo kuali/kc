@@ -36,12 +36,7 @@ public interface TaskName {
     public static final String DELETE_NARRATIVE = "deleteNarrative";
     public static final String REPLACE_NARRATIVE = "replaceNarrative";
     public static final String MODIFY_NARRATIVE_STATUS = "modifyNarrativeStatus";
-    
-    /*
-     * Budget Tasks.
-     */
-    public static final String VIEW_SALARIES = "viewSalaries";
-    
+
     /*
      * Protocol Tasks.
      */
@@ -198,6 +193,7 @@ public interface TaskName {
     public static final String OPEN_BUDGETS = "openBudgets";
     public static final String MODIFY_BUDGET = "modifyBudget";
     public static final String VIEW_BUDGET = "viewBudget";
+    public static final String VIEW_SALARIES = "viewSalaries";
 
     /*
      * COI tasks
