@@ -214,7 +214,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             String prefix = "proposalAttachment." + narrative.getModuleNumber() + ".";
-            if (narrative.getDownloadAttachment(userId)) {
+            if (narrative.getDownloadAttachment(user)) {
                 editModes.add(prefix + "download");
             }
             if (narrative.getReplaceAttachment(userId)) {
@@ -234,7 +234,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         narratives = doc.getDevelopmentProposal().getInstituteAttachments();
         for (Narrative narrative : narratives) {
             String prefix = "instituteAttachment." + narrative.getModuleNumber() + ".";
-            if (narrative.getDownloadAttachment(userId)) {
+            if (narrative.getDownloadAttachment(user)) {
                 editModes.add(prefix + "download");
             }
             if (narrative.getReplaceAttachment(userId) ) {

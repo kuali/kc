@@ -35,6 +35,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
@@ -437,12 +438,10 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     /**
      * Can the current user download (view) the attachment?
-     * @param userId
      * @return true if the user can view the attachment; otherwise false
      */
-    public boolean getDownloadAttachment(String userId) {
-        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
-        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getDocument(), this));
+    public boolean getDownloadAttachment(Person user) {
+        return isAuthorizedToViewNarrative(this, user);
     }
 
     /**
@@ -494,6 +493,47 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
             }
         }
         return hasPermission;
+    }
+
+    protected boolean isAuthorizedToViewNarrative(Narrative narrative, Person user) {
+        final ProposalDevelopmentDocument pdDocument = getDocument();
+
+        // First, the user must have the VIEW_NARRATIVE permission.  This is really
+        // a sanity check.  If they have the VIEW or MODIFY_NARRATIVE_RIGHT, then they are
+        // required to have the VIEW_NARRATIVE permission.
+
+        boolean hasPermission = false;
+        if (getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_NARRATIVE)) {
+            hasPermission = hasNarrativeRight(user.getPrincipalId(), narrative, NarrativeRight.VIEW_NARRATIVE_RIGHT)
+                    || hasNarrativeRight(user.getPrincipalId(), narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
+        }
+
+        if (!hasPermission) {
+            hasPermission = getUnitAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument.getDevelopmentProposal().getOwnedByUnitNumber(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                    PermissionConstants.VIEW_NARRATIVE)
+                    || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
+        }
+
+        return hasPermission;
+    }
+
+    /**
+     * Does the user have the given narrative right for the given narrative?
+     * @param userId the username of the user
+     * @param narrative the narrative
+     * @param narrativeRight the narrative right we are looking for
+     * @return true if the user has the narrative right for the narrative
+     */
+    protected final boolean hasNarrativeRight(String userId, Narrative narrative, NarrativeRight narrativeRight) {
+        List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
+        for (NarrativeUserRights userRights : userRightsList) {
+            if (StringUtils.equals(userId, userRights.getUserId())) {
+                if (StringUtils.equals(userRights.getAccessType(), narrativeRight.getAccessType())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

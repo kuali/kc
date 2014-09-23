@@ -163,10 +163,6 @@
         <property name="groupName" value="narrative" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeReadAuthorizer" parent="parentProposalAuthorizer">
-                    <property name="taskName" value="downloadNarrative" />
-                    <property name="kraWorkflowService" ref="kcWorkflowService" />
-                </bean>
                 <bean class="org.kuali.coeus.propdev.impl.attachment.NarrativeModifyAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="deleteNarrative" />
                     <property name="requiresWritableDoc" value="true" />
@@ -185,11 +181,6 @@
         <property name="classname" value="org.kuali.coeus.propdev.impl.abstrct.ProposalDevelopmentAbstractsAttachmentsAction" />
         <property name="mappings">
             <map>
-                <entry key="downloadProposalAttachment">
-                    <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
-                        <property name="taskName" value="downloadNarrative" />
-                    </bean>
-                </entry>
                 <entry key="deleteProposalAttachment">
                     <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
                         <property name="taskName" value="deleteNarrative" />
@@ -198,11 +189,6 @@
                 <entry key="replaceProposalAttachment">
                     <bean class="org.kuali.coeus.propdev.impl.attachment.ProposalAttachmentTaskFactory">
                         <property name="taskName" value="replaceNarrative" />
-                    </bean>
-                </entry>
-                <entry key="downloadInstituteAttachment">
-                    <bean class="org.kuali.coeus.propdev.impl.attachment.institute.InstituteAttachmentTaskFactory">
-                        <property name="taskName" value="downloadNarrative" />
                     </bean>
                 </entry>
                 <entry key="deleteInstitutionalAttachment">
