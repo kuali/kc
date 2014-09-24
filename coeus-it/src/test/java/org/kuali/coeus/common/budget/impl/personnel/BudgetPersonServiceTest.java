@@ -54,7 +54,7 @@ public class BudgetPersonServiceTest extends KcIntegrationTestBase {
         budgetPersonService = (BudgetPersonServiceImpl) KcServiceLocator.getService(BudgetPersonService.class);
         budget = new ProposalDevelopmentBudgetExt() {
             int nextVal = 1;
-            public Integer getHackedDocumentNextValue(String documentComponentIdKey) {
+            public Integer getNextValue(String documentComponentIdKey) {
                 return nextVal++;
             }
         };

@@ -515,7 +515,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         newBudgetLineItem.setStartDate(budgetPeriod.getStartDate());
         newBudgetLineItem.setEndDate(budgetPeriod.getEndDate());
         newBudgetLineItem.setBudgetId(budget.getBudgetId());
-        newBudgetLineItem.setLineItemNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
+        newBudgetLineItem.setLineItemNumber(budget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
         newBudgetLineItem.setApplyInRateFlag(true);
         newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
         newBudgetLineItem.refreshReferenceObject("costElementBO");

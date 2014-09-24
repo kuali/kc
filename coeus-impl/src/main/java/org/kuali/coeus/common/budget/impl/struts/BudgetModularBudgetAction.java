@@ -54,7 +54,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();        
         BudgetModularIdc newBudgetModularIdc = budgetForm.getNewBudgetModularIdc();
-        newBudgetModularIdc.setRateNumber(budget.getHackedDocumentNextValue("rateNumber"));
+        newBudgetModularIdc.setRateNumber(budget.getNextValue("rateNumber"));
         newBudgetModularIdc.calculateFundsRequested();
         BudgetModular budgetModular = budget.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1).getBudgetModular();
         budgetModular.addNewBudgetModularIdc(newBudgetModularIdc);

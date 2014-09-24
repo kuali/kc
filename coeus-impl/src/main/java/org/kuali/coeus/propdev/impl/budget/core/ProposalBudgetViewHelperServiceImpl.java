@@ -67,7 +67,7 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
             BudgetProjectIncome budgetProjectIncome = (BudgetProjectIncome) addLine;
             if (budgetProjectIncome != null) {
                 budgetProjectIncome.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
-                budgetProjectIncome.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getHackedDocumentNextValue(budgetProjectIncome.getDocumentComponentIdKey()));
+                budgetProjectIncome.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetProjectIncome.getDocumentComponentIdKey()));
                 budgetProjectIncome.setBudgetPeriodId(((ProposalBudgetForm) model).getBudget().getBudgetPeriodId(budgetProjectIncome));
             }
         }
@@ -76,14 +76,14 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
             BudgetUnrecoveredFandA budgetUnrecoveredFandA = (BudgetUnrecoveredFandA) addLine;
             if (budgetUnrecoveredFandA != null) {
                 budgetUnrecoveredFandA.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
-                budgetUnrecoveredFandA.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getHackedDocumentNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
+                budgetUnrecoveredFandA.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
             }
         }
         if (addLine instanceof BudgetCostShare) {
             BudgetCostShare budgetCostShare = (BudgetCostShare) addLine;
             if (budgetCostShare != null) {
                 budgetCostShare.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
-                budgetCostShare.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getHackedDocumentNextValue(budgetCostShare.getDocumentComponentIdKey()));
+                budgetCostShare.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetCostShare.getDocumentComponentIdKey()));
             }
         }
     }

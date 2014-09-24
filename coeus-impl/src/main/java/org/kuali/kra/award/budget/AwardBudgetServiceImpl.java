@@ -510,7 +510,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                         "budgetLineItemCalculatedAmounts","budgetPersonnelDetailsList","budgetRateAndBaseList"};
             AwardBudgetLineItemExt awardBudgetLineItem = new AwardBudgetLineItemExt(); 
             BeanUtils.copyProperties(budgetLineItem, awardBudgetLineItem, ignoreProperties);
-            awardBudgetLineItem.setLineItemNumber(awardBudgetPeriod.getBudget().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
+            awardBudgetLineItem.setLineItemNumber(awardBudgetPeriod.getBudget().getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             awardBudgetLineItem.setBudgetId(awardBudgetPeriod.getBudgetId());
             awardBudgetLineItem.setStartDate(awardBudgetPeriod.getStartDate());
             awardBudgetLineItem.setEndDate(awardBudgetPeriod.getEndDate());
@@ -522,7 +522,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 BeanUtils.copyProperties(budgetPersonnelDetails, awardBudgetPerDetails, 
                         new String[]{"budgetPersonnelLineItemId","budgetLineItemId","budgetId","submitCostSharingFlag",
                         "budgetPersonnelCalculatedAmounts","budgetPersonnelRateAndBaseList","validToApplyInRate"});
-                awardBudgetPerDetails.setPersonNumber(awardBudgetPeriod.getBudget().getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+                awardBudgetPerDetails.setPersonNumber(awardBudgetPeriod.getBudget().getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
                 BudgetPerson oldBudgetPerson = budgetPersonnelDetails.getBudgetPerson();
                 BudgetPerson currentBudgetPerson = findMatchingPersonInBudget(awardBudgetPeriod.getBudget(), 
                 		oldBudgetPerson, budgetPersonnelDetails.getJobCode());
@@ -530,7 +530,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 	currentBudgetPerson = new BudgetPerson();
                 	BeanUtils.copyProperties(oldBudgetPerson, currentBudgetPerson, new String[]{"budgetId", "personSequenceNumber"});
                 	currentBudgetPerson.setBudgetId(awardBudgetPeriod.getBudgetId());
-                	currentBudgetPerson.setPersonSequenceNumber(awardBudgetPeriod.getBudget().getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
+                	currentBudgetPerson.setPersonSequenceNumber(awardBudgetPeriod.getBudget().getNextValue(Constants.PERSON_SEQUENCE_NUMBER));
                 	awardBudgetPeriod.getBudget().getBudgetPersons().add(currentBudgetPerson);
                 }
                 awardBudgetPerDetails.setBudgetPerson(currentBudgetPerson);

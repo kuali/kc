@@ -94,7 +94,7 @@ public class BudgetProjectIncomeTest {
         document = new Budget() {
             // stub out method to avoid loading Spring and database
             @Override
-            public Integer getHackedDocumentNextValue(String propertyName) {
+            public Integer getNextValue(String propertyName) {
                 return nextValue++;
             }            
         };

@@ -163,7 +163,7 @@ public class BudgetExpensesAction extends BudgetAction {
         if (getKcBusinessRulesEngine().applyRules(new AddFormulatedCostBudgetEvent(budget, "newBudgetFormulatedCost", newBudgetFormulatedCost))) {
             BudgetPeriod budgetPeriodBO = budget.getBudgetPeriod(budgetPeriod-1);
             BudgetLineItem budgetLineItem = budgetPeriodBO.getBudgetLineItem(lineItemNumber);
-            newBudgetFormulatedCost.setFormulatedNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_FORMULATED_NUMBER));
+            newBudgetFormulatedCost.setFormulatedNumber(budget.getNextValue(Constants.BUDGET_FORMULATED_NUMBER));
             newBudgetFormulatedCost.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
             calculateBudgetFormulatedCost(newBudgetFormulatedCost);
             budgetLineItem.getBudgetFormulatedCosts().add(newBudgetFormulatedCost);

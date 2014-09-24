@@ -698,7 +698,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     public void add(BudgetCostShare budgetCostShare) {
         if (budgetCostShare != null) {
             budgetCostShare.setBudgetId(getBudgetId());
-            budgetCostShare.setDocumentComponentId(getHackedDocumentNextValue(budgetCostShare.getDocumentComponentIdKey()));
+            budgetCostShare.setDocumentComponentId(getNextValue(budgetCostShare.getDocumentComponentIdKey()));
             budgetCostShares.add(budgetCostShare);
         } else {
             LOG.warn("Attempt to add null budgetCostShare was ignored.");
@@ -717,36 +717,23 @@ public class Budget extends AbstractBudget implements BudgetContract {
     	throw new UnsupportedOperationException("Not supported in Budget parent class");
     }
 
-    public Integer getHackedDocumentNextValue(String propertyName) {
+    public Integer getNextValue(String propertyName) {
         Integer propNextValue = 1;
         // search for property and get the latest number - increment for next call 
         for (Object element : getNextValues()) {
-        	NextValue documentNextvalue = (NextValue) element;
-            if (documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
-                propNextValue = documentNextvalue.getNextValue();
-                BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
-                Map<String, Object> budgetIdMap = new HashMap<String, Object>();
-                budgetIdMap.put("budgetId", getBudgetId());
-                if (budgetIdMap != null) {
-                    List<BudgetLineItem> lineItemNumber = (List<BudgetLineItem>) bos.findMatchingOrderBy(BudgetLineItem.class, budgetIdMap, "lineItemNumber", true);
-                    if (lineItemNumber != null) {
-                        for (BudgetLineItem budgetLineItem : lineItemNumber) {
-                            if (propNextValue.intValue() == budgetLineItem.getLineItemNumber().intValue()) {
-                                propNextValue++;
-                            }
-                        }
-                    }
-                }
-                documentNextvalue.setNextValue(propNextValue + 1);
+        	NextValue nextValue = (NextValue) element;
+            if (nextValue.getPropertyName().equalsIgnoreCase(propertyName)) {
+                propNextValue = nextValue.getNextValue();
+                nextValue.setNextValue(propNextValue + 1);
             }
         }
 
         // property does not exist - set initial value and increment for next call 
         if (propNextValue == 1) {
-        	NextValue documentNextvalue = getNewNextValue();
-            documentNextvalue.setNextValue(propNextValue + 1);
-            documentNextvalue.setPropertyName(propertyName);
-            add(documentNextvalue);
+        	NextValue nextValue = getNewNextValue();
+        	nextValue.setNextValue(propNextValue + 1);
+        	nextValue.setPropertyName(propertyName);
+            add(nextValue);
         }
         return propNextValue;
     }
@@ -763,7 +750,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
         if (budgetProjectIncome != null) {
             budgetProjectIncome.setBudgetId(getBudgetId());
-            budgetProjectIncome.setDocumentComponentId(getHackedDocumentNextValue(budgetProjectIncome.getDocumentComponentIdKey()));
+            budgetProjectIncome.setDocumentComponentId(getNextValue(budgetProjectIncome.getDocumentComponentIdKey()));
             budgetProjectIncomes.add(budgetProjectIncome);
 
             budgetProjectIncome.setBudgetPeriodId(getBudgetPeriodId(budgetProjectIncome));
@@ -811,7 +798,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     public void add(BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         if (budgetUnrecoveredFandA != null) {
             budgetUnrecoveredFandA.setBudgetId(getBudgetId());
-            budgetUnrecoveredFandA.setDocumentComponentId(getHackedDocumentNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
+            budgetUnrecoveredFandA.setDocumentComponentId(getNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
             budgetUnrecoveredFandAs.add(budgetUnrecoveredFandA);
         } else {
             LOG.warn("Attempt to add null budgetUnrecoveredFandA was ignored.");

@@ -92,7 +92,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     protected void populateBudgetPersonData(Budget budget, BudgetPerson budgetPerson) {
         budgetPerson.setBudgetId(budget.getBudgetId());
         budgetPerson.setBudget(budget);
-        budgetPerson.setPersonSequenceNumber(budget.getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
+        budgetPerson.setPersonSequenceNumber(budget.getNextValue(Constants.PERSON_SEQUENCE_NUMBER));
         populatePersonDefaultDataIfEmpty(budget, budgetPerson);
     }
 

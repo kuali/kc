@@ -84,7 +84,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
          * Need to solve the document next value refresh issue
          */
         
-        newBudgetPersonnelDetails.setPersonNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+        newBudgetPersonnelDetails.setPersonNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
         newBudgetPersonnelDetails.setPersonSequenceNumber(newBudgetPersonnelDetails.getPersonSequenceNumber());
         BudgetPerson budgetPerson = budgetPersonService.findBudgetPerson(newBudgetPersonnelDetails);
         if(budgetPerson != null) {
@@ -92,7 +92,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
             newBudgetPersonnelDetails.setBudgetPerson(budgetPerson);
         }
-        newBudgetPersonnelDetails.setSequenceNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
+        newBudgetPersonnelDetails.setSequenceNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
         //budgetCalculationService.populateCalculatedAmount(budget, newBudgetPersonnelDetails);
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);

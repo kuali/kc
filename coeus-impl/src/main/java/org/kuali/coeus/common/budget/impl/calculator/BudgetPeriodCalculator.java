@@ -204,7 +204,7 @@ public class BudgetPeriodCalculator {
                     budgetPersonnelDetail.getBudgetCalculatedAmounts().clear();
                     budgetPersonnelDetail.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                     budgetPersonnelDetail.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
-                    budgetPersonnelDetail.setLineItemSequence(budget.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
+                    budgetPersonnelDetail.setLineItemSequence(budget.getNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
                     
                     personnelDuration= KcServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
                     gap= KcServiceLocator.getService(DateTimeService.class).dateDiff(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
