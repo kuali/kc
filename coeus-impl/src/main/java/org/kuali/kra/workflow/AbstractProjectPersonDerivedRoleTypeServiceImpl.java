@@ -39,19 +39,19 @@ public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends De
      * @param persons
      * @param roleName
      */
-    protected void filterListByRole(List<? extends AbstractProjectPerson> persons, String roleName) {
+    protected List<AbstractProjectPerson> filterListByRole(List<? extends AbstractProjectPerson> persons, String roleName) {
+        List<AbstractProjectPerson> newPersons = new ArrayList<AbstractProjectPerson>();
         if (StringUtils.equals(roleName, Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                 || StringUtils.equals(roleName, Constants.CO_INVESTIGATOR_ROLE)
                 || StringUtils.equals(roleName, Constants.KEY_PERSON_ROLE)) {
-            Iterator<? extends AbstractProjectPerson> iter = persons.iterator();
-            while (iter.hasNext()) {
-                AbstractProjectPerson person = iter.next();
-                if (!StringUtils.equals(person.getRoleCode(), roleName)) {
-                    iter.remove();
+
+            for(AbstractProjectPerson person : persons) {
+                if (StringUtils.equals(person.getRoleCode(), roleName)) {
+                    newPersons.add(person);
                 }
             }
         }
-        
+        return newPersons;
     }
 
     @Override
@@ -63,9 +63,9 @@ public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends De
         String subQualification = qualification.get(KcKimAttributes.SUB_QUALIFIER);
         
         if (projectPersons != null && !projectPersons.isEmpty()) {
-            filterListByRole(projectPersons, roleName);
+            projectPersons = filterListByRole(projectPersons, roleName);
             if (StringUtils.isNotBlank(subQualification)) {
-                filterListByRole(projectPersons, subQualification);
+                projectPersons = filterListByRole(projectPersons, subQualification);
             }
             for (AbstractProjectPerson proposalPerson : projectPersons) {
                 if (proposalPerson.getPerson() != null) {
