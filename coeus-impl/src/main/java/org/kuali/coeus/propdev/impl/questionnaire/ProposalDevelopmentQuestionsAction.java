@@ -187,8 +187,6 @@ public class ProposalDevelopmentQuestionsAction extends ProposalDevelopmentActio
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
-        proposalDevelopmentForm.getQuestionnaireHelper().prepareView();
-        proposalDevelopmentForm.getS2sQuestionnaireHelper().prepareView();
         
         proposalDevelopmentForm.getQuestionnaireHelper().populateAnswers();
         proposalDevelopmentForm.getS2sQuestionnaireHelper().populateAnswers();
