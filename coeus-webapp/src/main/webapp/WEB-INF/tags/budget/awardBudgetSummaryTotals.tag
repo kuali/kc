@@ -720,7 +720,7 @@
 						</div>
 					</td>
         	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
-					<c:set var="cumTotal" value = "${cumTotal + krafn:getFloatValue(period.totalIndirectCost.floatValue)}" />
+					<c:set var="cumTotal" value = "${cumTotal + krafn:getFloatValue(period.totalIndirectCost)}" />
 				</c:forEach>    
                 <td class="infoline">
                 	<div align="right">  	

@@ -98,7 +98,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
 
     public BudgetActionsAction() {
         super();
-        setBudgetJustificationService(new BudgetJustificationServiceImpl());
     }
     
     /**
@@ -114,7 +113,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetForm budgetForm = (BudgetForm)form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         try {
-            budgetJustificationService.consolidateExpenseJustifications(budget, getBudgetJusticationWrapper(form));
+            getBudgetJustificationService().consolidateExpenseJustifications(budget, getBudgetJusticationWrapper(form));
         } catch (BudgetException exc) {
             GlobalVariables.getMessageMap().putError("budgetJustificationWrapper.justificationText", "error.custom", "There are no line item budget justifications");            
         }
@@ -130,7 +129,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm)form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        budgetJustificationService.preSave(budget, getBudgetJusticationWrapper(form));
+        getBudgetJustificationService().preSave(budget, getBudgetJusticationWrapper(form));
         return super.save(mapping, form, request, response);
     }
     
@@ -173,7 +172,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
                 Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
                 if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                     // if yes button clicked - save the doc
-                    budgetJustificationService.preSave(budget, getBudgetJusticationWrapper(form));
+                	getBudgetJustificationService().preSave(budget, getBudgetJusticationWrapper(form));
                 }
                 // else go to close logic below
             }
@@ -745,6 +744,13 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
 
 	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
 		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}
+
+	protected BudgetJustificationService getBudgetJustificationService() {
+		if (budgetJustificationService == null) {
+			budgetJustificationService = KcServiceLocator.getService(BudgetJustificationService.class);
+		}
+		return budgetJustificationService;
 	}
     
 }

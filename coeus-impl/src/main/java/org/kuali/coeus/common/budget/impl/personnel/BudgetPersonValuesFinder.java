@@ -64,7 +64,7 @@ public class BudgetPersonValuesFinder extends UifKeyValuesFinderBase {
     
     private List<KeyValue> buildKeyValues(List<BudgetPerson> budgetPersons) {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
-        KeyValues.add(new ConcreteKeyValue(null, "Select"));
+        KeyValues.add(new ConcreteKeyValue("", "Select"));
         List <BudgetPerson> dupBudgetPersons = (List <BudgetPerson>)ObjectUtils.deepCopy((Serializable)budgetPersons);
         for(BudgetPerson budgetPerson: budgetPersons) {
             if (StringUtils.isNotBlank(budgetPerson.getJobCode()) && StringUtils.isNotBlank(budgetPerson.getAppointmentTypeCode()) && budgetPerson.getCalculationBase().isGreaterEqual(ScaleTwoDecimal.ZERO) && budgetPerson.getEffectiveDate() != null) {

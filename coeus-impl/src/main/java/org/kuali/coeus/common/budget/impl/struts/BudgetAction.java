@@ -293,7 +293,7 @@ public class BudgetAction extends BudgetActionBase {
     }
 
     private String getPersonnelBudgetCategoryTypeCode() {
-        return this.getParameterService().getParameterValueAsString(AwardBudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        return this.getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
     }
     
     protected void populatePersonnelCategoryTypeCodes(BudgetForm budgetForm) {

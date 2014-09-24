@@ -69,8 +69,6 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_AWARD_BUDGET)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-@Entity
-@Table(name = "BUDGET_DOCUMENT")
 public class AwardBudgetDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements Copyable, SessionDocument, Permissionable, BudgetDocumentTypeChecker, KrmsRulesContext {
 	
     private static final String AWARD_BUDGET_DOCUMENT_TYPE_CODE = "ABGT";
@@ -96,7 +94,6 @@ public class AwardBudgetDocument<T extends BudgetParent> extends KcTransactional
 
     @Override
     public void initialize() {
-    	budgets = new ArrayList<>();
         Award award = (Award) getBudget().getBudgetParent();
         this.setCurrentAward(award);
         AwardBudgetExt awardBudget = getAwardBudget();

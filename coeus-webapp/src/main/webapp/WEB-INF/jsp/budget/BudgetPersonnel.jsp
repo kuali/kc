@@ -18,9 +18,7 @@
 
 	
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="hierarchyStatus" value="${KualiForm.document.parentDocument.budgetParent.hierarchyStatus}" />
 
-<c:set var="hierarchyParentStatus" value="${KualiForm.hierarchyParentStatus}"/>
 <div id="disablingDiv" style="z-index: 998;width: 100%;height: 100%;background: transparent;position:absolute;display: none"></div>
 <kra-b:swapProposalDevelopmentEditModes/>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
@@ -37,17 +35,8 @@
   	showTabButtons="true" 
   	headerTabActive="personnel"
   	extraTopButtons="${KualiForm.extraTopButtons}">
-  	
-	<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 
-     <c:choose>
-		 <c:when test="${proposalBudgetFlag}">
-        	<div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetPersonnelHelpUrl" altText="help"/></div>
-         </c:when>
-         <c:otherwise>
-        	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetPersonnelHelpUrl" altText="help"/></div>
-        </c:otherwise>
-    </c:choose>
+   	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetPersonnelHelpUrl" altText="help"/></div>
   	
 	<kra-b:budgetExpensesSelectBudgetPeriod />
 	<br><br>

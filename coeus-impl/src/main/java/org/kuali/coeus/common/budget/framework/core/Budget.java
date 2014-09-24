@@ -39,7 +39,7 @@ import org.kuali.coeus.sys.api.model.ScaleThreeDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetExt;
-import org.kuali.kra.bo.NextValueBase;
+import org.kuali.kra.bo.NextValue;
 import org.kuali.coeus.common.budget.framework.rate.InstituteLaRate;
 import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
@@ -705,15 +705,15 @@ public class Budget extends AbstractBudget implements BudgetContract {
         }
     }
 
-    public List<? extends NextValueBase> getNextValues() {
+    public List<? extends NextValue> getNextValues() {
     	throw new UnsupportedOperationException("Not supported in Budget parent class");
     }
     
-    public NextValueBase getNewNextValue() {
+    public NextValue getNewNextValue() {
     	throw new UnsupportedOperationException("Not supported in Budget parent class");
     }
     
-    public void add(NextValueBase nextValue) {
+    public void add(NextValue nextValue) {
     	throw new UnsupportedOperationException("Not supported in Budget parent class");
     }
 
@@ -721,7 +721,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
         Integer propNextValue = 1;
         // search for property and get the latest number - increment for next call 
         for (Object element : getNextValues()) {
-        	NextValueBase documentNextvalue = (NextValueBase) element;
+        	NextValue documentNextvalue = (NextValue) element;
             if (documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 propNextValue = documentNextvalue.getNextValue();
                 BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
@@ -743,7 +743,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
         // property does not exist - set initial value and increment for next call 
         if (propNextValue == 1) {
-        	NextValueBase documentNextvalue = getNewNextValue();
+        	NextValue documentNextvalue = getNewNextValue();
             documentNextvalue.setNextValue(propNextValue + 1);
             documentNextvalue.setPropertyName(propertyName);
             add(documentNextvalue);

@@ -126,8 +126,8 @@
   	<kra-b:budgetVersions 
   		budgetDocumentVersions="${KualiForm.document.budgetDocumentVersions}" 
   		pathToVersions="document"
-  		errorKey="document.parentDocument.budgetDocumentVersion*,
-  					document.award.budgetVersion*"
+  		errorKey="document.budgetDocumentVersion*,
+  					document.award.budget*"
   		requestedStartDateInitial="${KualiForm.document.award.beginDate}"
 		requestedEndDateInitial="${KualiForm.document.award.projectEndDate}"
 		hierarchyParentBudgetIsComplete="true"

@@ -96,7 +96,7 @@ public class BudgetJustificationWrapper implements Serializable {
             rootElement.setAttribute("lastUpdateOn", lastUpdateTime);
             document.appendChild(rootElement);
 
-            CDATASection cdata = document.createCDATASection(justificationText);
+            CDATASection cdata = document.createCDATASection(justificationText == null ? "" : justificationText);
             rootElement.appendChild(cdata);
 
             Transformer tf = TransformerFactory.newInstance().newTransformer();

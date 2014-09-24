@@ -58,9 +58,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Column(name = "BUDGET_PERSONNEL_DETAILS_ID")
     private Long budgetPersonnelLineItemId;
 
-    @DeepCopyIgnore
     @Column(name = "BUDGET_DETAILS_ID")
-    @Id
     private Long budgetLineItemId; 
 
     @Column(name = "LINE_ITEM_NUMBER")
@@ -188,17 +186,14 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Transient
     private BudgetPeriod budgetPeriodBO;
 
-    @Transient
+    @OneToMany(mappedBy = "budgetPersonnelLineItem")
     private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
 
-    @Transient
+    @OneToMany(mappedBy = "budgetPersonnelLineItem")
     private List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList;
 
     @Transient
     private List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails;
-
-    @Transient
-    private transient DataObjectService dataObjectService;
 
     public BudgetPersonnelDetails() {
         budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
@@ -332,10 +327,6 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 
     @Override
     public List<BudgetPersonnelCalculatedAmount> getBudgetPersonnelCalculatedAmounts() {
-        if (CollectionUtils.isEmpty(budgetPersonnelCalculatedAmounts)) {
-            budgetPersonnelCalculatedAmounts = getDataObjectService().findMatching(BudgetPersonnelCalculatedAmount.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetPersonnelLineItemId", budgetPersonnelLineItemId)).build()).getResults();
-        }
-
         return budgetPersonnelCalculatedAmounts;
     }
 
@@ -345,10 +336,6 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     }
 
     public List<BudgetPersonnelRateAndBase> getBudgetPersonnelRateAndBaseList() {
-        if (CollectionUtils.isEmpty(budgetPersonnelRateAndBaseList)) {
-            budgetPersonnelRateAndBaseList = getDataObjectService().findMatching(BudgetPersonnelRateAndBase.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetPersonnelLineItemId", budgetPersonnelLineItemId)).build()).getResults();
-        }
-
         return budgetPersonnelRateAndBaseList;
     }
 
@@ -497,13 +484,6 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 
     public AbstractBudgetCalculatedAmount getNewBudgetPersonnelCalculatedAmount() {
         return new BudgetPersonnelCalculatedAmount();
-    }
-
-    public DataObjectService getDataObjectService() {
-        if (dataObjectService == null) {
-            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
-        }
-        return dataObjectService;
     }
 
     @Override

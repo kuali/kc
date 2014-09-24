@@ -300,7 +300,7 @@
                         
       <!-- Time And Money -->
       <!-- Award Budget -->
-      <action path="/awardBudget*" name="AwardBudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.kra.budget.web.struts.action.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+      <action path="/awardBudget*" name="AwardBudgetForm" input="/WEB-INF/jsp/budget/Budget{1}.jsp" type="org.kuali.coeus.common.budget.impl.struts.Budget{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/budget/Budget{1}.jsp" />
           <forward name="versions" path="/WEB-INF/jsp/budget/BudgetVersions.jsp" />
           <forward name="parameters" path="/WEB-INF/jsp/budget/BudgetParameters.jsp" />

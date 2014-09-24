@@ -28,17 +28,9 @@
   	headerDispatch="${documentTypeName}" 
   	headerTabActive="summaryTotals"
   	extraTopButtons="${extraTopButtons}">
-  	
-   	<c:choose>
-		<c:when test="${proposalBudgetFlag}">
-         	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Summary" /></div>
-			<kra-b:budgetSummaryTotals headerDispatch="reloadWithoutWarning" /> 
-		</c:when>
-		<c:otherwise>
-		  	<div align="right"><kul:help documentTypeName="AwardBudgetDocument" pageName="Summary" /></div>
-			<kra-b:awardBudgetSummaryTotals/> 
-		</c:otherwise>
-	</c:choose>
+
+  	<div align="right"><kul:help documentTypeName="AwardBudgetDocument" pageName="Summary" /></div>
+	<kra-b:awardBudgetSummaryTotals/> 
 <kul:documentControls 
 		transactionalDocument="false" 
 		suppressRoutingControls="true" 

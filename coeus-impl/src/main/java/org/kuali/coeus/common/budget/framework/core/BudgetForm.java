@@ -982,17 +982,6 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         this.proposalHierarchyService = proposalHierarchyService;
     }
     
-    public boolean isSyncableBudget() throws ProposalHierarchyException {
-        ProposalDevelopmentBudgetExt budget = 
-                getProposalHierarchyService().getSyncableBudget((DevelopmentProposal) this.getBudgetDocument().getBudget().getBudgetParent());
-        if (budget != null
-                && StringUtils.equals(budget.getDocumentNumber(), getBudgetDocument().getDocumentNumber())) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
     public Budget getBudget() {
     	return this.getBudgetDocument().getBudget();
     }

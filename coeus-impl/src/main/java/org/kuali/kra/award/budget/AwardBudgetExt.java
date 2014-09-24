@@ -20,6 +20,9 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.bo.NextValue;
+import org.kuali.kra.bo.NextValueBase;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -353,12 +356,13 @@ public class AwardBudgetExt extends Budget {
 
     @Override
     public List buildListOfDeletionAwareLists() {
-        List deletionAwareList = super.buildListOfDeletionAwareLists();
         List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodSummaryCalculatedAmounts = new ArrayList<AwardBudgetPeriodSummaryCalculatedAmount>();
         for (BudgetPeriod persistableBusinessObject : getBudgetPeriods()) {
             awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt) persistableBusinessObject).getAwardBudgetPeriodFringeAmounts());
             awardBudgetPeriodSummaryCalculatedAmounts.addAll(((AwardBudgetPeriodExt) persistableBusinessObject).getAwardBudgetPeriodFnAAmounts());
         }
+    	
+        List deletionAwareList = super.buildListOfDeletionAwareLists();
         deletionAwareList.add(awardBudgetPeriodSummaryCalculatedAmounts);
         deletionAwareList.add(awardBudgetLimits);
         return deletionAwareList;
@@ -417,5 +421,17 @@ public class AwardBudgetExt extends Budget {
     public java.util.Date getBudgetEndDate() {
         return getAward().getAwardAmountInfos().get(getAward().getAwardAmountInfos().size() - 1).getObligationExpirationDate();
     }
+    
+    public List<? extends NextValue> getNextValues() {
+    	return getBudgetDocument().getDocumentNextvalues();
+    }
+    
+    public NextValue getNewNextValue() {
+    	return new DocumentNextvalue();
+    }
+    
+    public void add(NextValue nextValue) {
+    	getBudgetDocument().getDocumentNextvalues().add((DocumentNextvalue) nextValue);
+    }    
 	
 }

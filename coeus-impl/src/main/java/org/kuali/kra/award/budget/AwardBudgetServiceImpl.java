@@ -247,6 +247,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     
     @Override
     public Budget getNewBudgetVersion(BudgetParentDocument parentBudgetDocument, String documentDescription, Map options){
+    	AwardDocument awardDocument = (AwardDocument) parentBudgetDocument;
     	AwardBudgetDocument<Award> budgetDocument;
 		try {
 			budgetDocument = getNewBudgetVersionDocument(parentBudgetDocument, documentDescription, options);
@@ -254,6 +255,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 			throw new RuntimeException(e);
 		}
 		if (budgetDocument != null) {
+			awardDocument.getAward().getBudgets().add(budgetDocument.getBudget());
 			return budgetDocument.getBudget();
 		} else {
 			return null;
@@ -301,6 +303,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         awardBudget.setBudgetDocument(awardBudgetDocument);
         awardBudget.setAward(award);
         awardBudget.setAwardId(award.getAwardId());
+        awardBudget.setName(documentDescription);
+        awardBudget.setDocumentNumber(awardBudgetDocument.getDocumentNumber());
         AwardBudgetExt lastBudgetVersion = getLastBudgetVersion(award);
         awardBudget.setOnOffCampusFlag(lastBudgetVersion == null ? Constants.DEFALUT_CAMUS_FLAG : lastBudgetVersion.getOnOffCampusFlag());
         if (awardBudgetDocument.getDocumentHeader() != null && awardBudgetDocument.getDocumentHeader().hasWorkflowDocument()) {

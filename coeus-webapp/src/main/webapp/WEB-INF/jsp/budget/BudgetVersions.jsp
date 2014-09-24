@@ -26,25 +26,15 @@
   	headerTabActive="versions"
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	>
-  	
-	<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
-
-     <c:choose>
-		 <c:when test="${proposalBudgetFlag}">
-        	<div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetVersionsHelp" altText="help"/></div>
-         </c:when>
-         <c:otherwise>
+ 
         	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetVersionsHelpUrl" altText="help"/></div>
-        </c:otherwise>
-    </c:choose>
 
 	<kra-b:budgetVersions 
-		budgetDocumentVersions="${KualiForm.document.parentDocument.budgetDocumentVersions}"
-		pathToVersions="document.parentDocument"
+		budgetDocumentVersions="${KualiForm.document.budget.budgetParent.budgets}"
+		pathToVersions="document.budget.budgetParent.budgets"
 		errorKey="document.parentDocument.budgetDocumentVersion*,document.parentDocument.budgetParent.finalVersionFlag,document.parentDocument.documentDescription"
-		requestedStartDateInitial="${KualiForm.document.parentDocument.budgetParent.requestedStartDateInitial}"
-		requestedEndDateInitial="${KualiForm.document.parentDocument.budgetParent.requestedEndDateInitial}"
-		hierarchyParentBudgetIsComplete="${KualiForm.document.parentDocument.budgetParent.parentInHierarchyComplete}"
+		requestedStartDateInitial="${KualiForm.document.budget.budgetParent.requestedStartDateInitial}"
+		requestedEndDateInitial="${KualiForm.document.budget.budgetParent.requestedEndDateInitial}"
 		/>
 
 	<kul:documentControls 

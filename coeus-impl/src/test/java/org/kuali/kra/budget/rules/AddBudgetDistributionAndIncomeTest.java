@@ -95,17 +95,6 @@ public abstract class AddBudgetDistributionAndIncomeTest {
         public void refreshReferenceObject(String referenceObjectName) {
             // do nothing
         }
-
-		@Override
-		public Budget getBudget() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public void populateContextQualifiers(Map<String, String> qualifiers) {
-			// TODO Auto-generated method stub
-		}
     }
     
     /**
