@@ -20,6 +20,7 @@ import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsHelper
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.rice.core.api.util.KeyValue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,6 +55,8 @@ public class RolesValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
             return helper.getRoleSelection();
         }
         
-        return null;
+        /* Need to return an empty array list as returning null causes problems with optionsFinder in DD, even if the field is not used, 
+        such as in PermissionUser.xml in  COI Administrator Actions */
+        return new ArrayList<KeyValue>();
     }
 }
