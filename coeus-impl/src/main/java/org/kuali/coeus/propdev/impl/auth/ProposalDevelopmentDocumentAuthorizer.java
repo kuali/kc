@@ -15,11 +15,13 @@
  */
 package org.kuali.coeus.propdev.impl.auth;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeRight;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -29,14 +31,12 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
-import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -58,8 +58,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentDocumentAuthorizer.class);
 
-    private TaskAuthorizationService taskAuthenticationService;
-    
     private KcAuthorizationService kcAuthorizationService;
 
     private UnitAuthorizationService unitAuthorizationService;
@@ -153,15 +151,15 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("modifyProposal");
         }
         
-        if (canExecuteTask(userId, doc, TaskName.ADD_BUDGET)) {
+        if (isAuthorizedToAddBudget(doc, user)) {
             editModes.add("addBudget");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.OPEN_BUDGETS)) {
+        if (isAuthorizedToOpenBudget(doc, user)) {
             editModes.add("openBudgets");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.MODIFY_BUDGET)) {
+        if (isAuthorizedToModifyBudget(doc, user)) {
             editModes.add("modifyProposalBudget");
         }
                 
@@ -169,16 +167,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("modifyPermissions");
         }
                 
-        if (canExecuteTask(userId, doc, TaskName.ADD_NARRATIVE)) {
+        if (isAuthorizedToAddNarrative(doc, user)) {
             editModes.add("addNarratives");
         }
                    
-        if (canExecuteTask(userId, doc, TaskName.CERTIFY)) {
+        if (isAuthorizedToCertify(doc, user)) {
             editModes.add("certify");
-        }
-        
-        if (canExecuteTask(userId, doc, TaskName.MODIFY_NARRATIVE_STATUS)) {
-            editModes.add("modifyNarrativeStatus");
         }
                 
         if (isAuthorizedToPrint(doc, user)) {
@@ -204,26 +198,27 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("rejectProposal");
         }
         
-        setNarrativePermissions(userId, doc, editModes);
+        setNarrativePermissions(user, doc, editModes);
     } 
     
-    private void setNarrativePermissions(String userId, ProposalDevelopmentDocument doc, Set<String> editModes) {
+    private void setNarrativePermissions(Person user, ProposalDevelopmentDocument doc, Set<String> editModes) {
+
         List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
             String prefix = "proposalAttachment." + narrative.getModuleNumber() + ".";
-            if (narrative.getDownloadAttachment(userId)) {
+            if (isAuthorizedToViewNarrative(narrative, user)) {
                 editModes.add(prefix + "download");
             }
-            if (narrative.getReplaceAttachment(userId)) {
+            if (isAuthorizedToReplaceNarrative(narrative, user)) {
                 editModes.add(prefix + "replace");
             }
-            if (narrative.getDeleteAttachment(userId)) {
+            if (isAuthorizedToDeleteNarrative(narrative, user)) {
                 editModes.add(prefix + "delete");
             }
-            if (narrative.getModifyAttachmentStatus(userId)) {
+            if (isAuthorizedToModifyNarrative(narrative, user)) {
                 editModes.add(prefix + "modifyStatus");
             }
-            if (narrative.getModifyNarrativeRights(userId)) {
+            if (isAuthorizedToModifyNarrative(narrative, user)) {
                 editModes.add(prefix + "modifyRights");
             }
         }
@@ -231,23 +226,23 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         narratives = doc.getDevelopmentProposal().getInstituteAttachments();
         for (Narrative narrative : narratives) {
             String prefix = "instituteAttachment." + narrative.getModuleNumber() + ".";
-            if (narrative.getDownloadAttachment(userId)) {
+            if (isAuthorizedToViewNarrative(narrative, user)) {
                 editModes.add(prefix + "download");
             }
-            if (narrative.getReplaceAttachment(userId) ) {
+            if (isAuthorizedToReplaceNarrative(narrative, user) ) {
                 editModes.add(prefix + "replace");
             }
-            if (narrative.getDeleteAttachment(userId)) {
+            if (isAuthorizedToDeleteNarrative(narrative, user)) {
                 editModes.add(prefix + "delete");
             }
-            if (narrative.getModifyNarrativeRights(userId)) {
+            if (isAuthorizedToModifyNarrative(narrative, user)) {
                 editModes.add(prefix + "modifyRights");
             }
         }
         
 
         int i = 0;
-        boolean canReplace = getTaskAuthorizationService().isAuthorized(userId, new ProposalTask(TaskName.REPLACE_PERSONNEL_ATTACHMENT, doc));
+        boolean canReplace = isAuthorizedToReplacePersonnelAttachement(doc, user);
         for (ProposalPersonBiography ppb : doc.getDevelopmentProposal().getPropPersonBios()) {
             ppb.setPositionNumber(i);
             String prefix = "biographyAttachments." + ppb.getPositionNumber() + ".";
@@ -257,30 +252,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             
             i++;
         }
-    }
-
-    /**
-     * Can the user execute the given task?
-     * @param userId the user's username
-     * @param doc the proposal development document
-     * @param taskName the name of the task
-     * @return "TRUE" if has permission; otherwise "FALSE"
-     */
-    private boolean canExecuteTask(String userId, ProposalDevelopmentDocument doc, String taskName) {
-        return canExecuteProposalTask(userId, doc, taskName);
-    }
-    
-    /**
-     * Does the user have the given permission for the given proposal?
-     * @param userId the user's username
-     * @param doc the proposal development document
-     * @param taskName the name of the task
-     * @return true if has permission; otherwise false
-     */
-    private boolean canExecuteProposalTask(String userId, ProposalDevelopmentDocument doc, String taskName) {
-        ProposalTask task = new ProposalTask(taskName, doc);       
-        TaskAuthorizationService taskAuthenticationService = getTaskAuthenticationService();
-        return taskAuthenticationService.isAuthorized(userId, task);
     }
     
     public boolean canOpen(Document document, Person user) {
@@ -353,7 +324,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     
     @Override
     public boolean canAddNoteAttachment(Document document, String attachmentTypeCode, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.PROPOSAL_ADD_NOTE_ATTACHMENT);
+        return isAuthorizedToAddNote(document, user);
     }
     
     @Override
@@ -396,26 +367,172 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return true;
     }
 
-    public boolean isAuthorizedToRecallProposal(Document document, Person user) {
+    protected boolean isAuthorizedToReplaceNarrative(Narrative narrative, Person user) {
+        final ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) narrative.getDevelopmentProposal().getDocument();
+
+        boolean hasPermission = false;
+        if (!pdDocument.getDevelopmentProposal().getSubmitFlag() && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE)) {
+            hasPermission = hasNarrativeRight(user.getPrincipalId(), narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
+        }
+
+        return hasPermission;
+    }
+
+    protected boolean isAuthorizedToModifyNarrative(Narrative narrative, Person user) {
+        final ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) narrative.getDevelopmentProposal().getDocument();
+
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        boolean hasPermission = false;
+        boolean inWorkflow = getKcWorkflowService().isInWorkflow(pdDocument);
+        if ((!inWorkflow || rejectedDocument) && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
+            hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
+        } else if(inWorkflow && !rejectedDocument && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
+            if(getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE)) {
+                hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
+            }
+        }
+        return hasPermission;
+    }
+
+    protected boolean isAuthorizedToViewNarrative(Narrative narrative, Person user) {
+        final ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) narrative.getDevelopmentProposal().getDocument();
+
+        // First, the user must have the VIEW_NARRATIVE permission.  This is really
+        // a sanity check.  If they have the VIEW or MODIFY_NARRATIVE_RIGHT, then they are
+        // required to have the VIEW_NARRATIVE permission.
+
+        boolean hasPermission = false;
+        if (getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_NARRATIVE)) {
+            hasPermission = hasNarrativeRight(user.getPrincipalId(), narrative, NarrativeRight.VIEW_NARRATIVE_RIGHT)
+                    || hasNarrativeRight(user.getPrincipalId(), narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
+        }
+
+        if (!hasPermission) {
+            hasPermission = getUnitAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument.getDevelopmentProposal().getOwnedByUnitNumber(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                    PermissionConstants.VIEW_NARRATIVE)
+                    || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
+        }
+
+        return hasPermission;
+    }
+
+    public boolean isAuthorizedToDeleteNarrative(Narrative narrative, Person user) {
+        final ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) narrative.getDevelopmentProposal().getDocument();
+
+        // First, the user must have the MODIFY_NARRATIVE permission.  This is really
+        // a sanity check.  If they have the MODIFY_NARRATIVE_RIGHT, then they are
+        // required to have the MODIFY_NARRATIVE permission.
+
+        KcDocumentRejectionService documentRejectionService = getKcDocumentRejectionService();
+        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        boolean hasPermission = false;
+
+        boolean inWorkflow = getKcWorkflowService().isInWorkflow(pdDocument);
+
+        if ((!inWorkflow || rejectedDocument) && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
+            if (getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE)) {
+                hasPermission = hasNarrativeRight(user.getPrincipalId(), narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
+            }
+        }
+        return hasPermission;
+    }
+
+    /**
+     * Does the user have the given narrative right for the given narrative?
+     * @param userId the username of the user
+     * @param narrative the narrative
+     * @param narrativeRight the narrative right we are looking for
+     * @return true if the user has the narrative right for the narrative
+     */
+    protected final boolean hasNarrativeRight(String userId, Narrative narrative, NarrativeRight narrativeRight) {
+        List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
+        for (NarrativeUserRights userRights : userRightsList) {
+            if (StringUtils.equals(userId, userRights.getUserId())) {
+                if (StringUtils.equals(userRights.getAccessType(), narrativeRight.getAccessType())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    protected boolean isAuthorizedToModifyBudget(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        return ( (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) &&
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_BUDGET));
+    }
+
+    protected boolean isAuthorizedToOpenBudget(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_BUDGET)
+                || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
+    }
+
+    protected boolean isAuthorizedToAddBudget(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        boolean hasPermission = false;
+
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+
+        if ((!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && !pdDocument.isViewOnly() && !pdDocument.getDevelopmentProposal().getSubmitFlag() && !pdDocument.getDevelopmentProposal().isParent()) {
+            hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_BUDGET);
+        }
+        return hasPermission;
+    }
+
+    protected boolean isAuthorizedToAddNarrative(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        boolean hasPermission = false;
+        if ((!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && !pdDocument.isViewOnly() && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
+            hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
+        }
+        return hasPermission;
+    }
+
+    protected boolean isAuthorizedToCertify(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.CERTIFY);
+    }
+
+    protected boolean isAuthorizedToReplacePersonnelAttachement(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        boolean result = false;
+        if (pdDocument.getDevelopmentProposal().getProposalState() != null) {
+            boolean hasPerm = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
+            boolean isInProgress = StringUtils.equalsIgnoreCase(pdDocument.getDevelopmentProposal().getProposalState().getDescription(), "In Progress");
+            boolean isApprovalPending = StringUtils.equalsIgnoreCase(pdDocument.getDevelopmentProposal().getProposalState().getDescription(), "Approval Pending");
+            boolean isRevisionRequested = StringUtils.equalsIgnoreCase(pdDocument.getDevelopmentProposal().getProposalState().getDescription(), "Revisions Requested");
+            result = hasPerm && (isInProgress || isApprovalPending || isRevisionRequested);
+        }
+        return result;
+    }
+
+    protected boolean isAuthorizedToRecallProposal(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return pdDocument.getDocumentHeader().hasWorkflowDocument() && pdDocument.getDocumentHeader().getWorkflowDocument().isEnroute()
                 && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.RECALL_DOCUMENT);
     }
 
-    public boolean isAuthorizedToRejectProposal(Document document, Person user) {
+    protected boolean isAuthorizedToRejectProposal(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         WorkflowDocument workDoc = pdDocument.getDocumentHeader().getWorkflowDocument();
         return (!workDoc.isCompletionRequested()) && (! getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument)) && (workDoc.isApprovalRequested()) && (workDoc.isEnroute());
     }
 
-    public boolean isAuthorizedToSubmitToWorkflow(Document document, Person user) {
+    protected boolean isAuthorizedToSubmitToWorkflow(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return !getKcWorkflowService().isInWorkflow(pdDocument) &&
                 getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.SUBMIT_PROPOSAL) &&
                 !pdDocument.getDevelopmentProposal().isChild();
     }
 
-    public boolean isAuthorizedToHierarchyChildWorkflowAction(Document document, Person user) {
+    protected boolean isAuthorizedToHierarchyChildWorkflowAction(Document document, Person user) {
         boolean authorized = true;
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
 
@@ -434,7 +551,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return authorized;
     }
 
-    public boolean isAuthorizedToHierarchyChildAckWorkflowAction(Document document, Person user) {
+    protected boolean isAuthorizedToHierarchyChildAckWorkflowAction(Document document, Person user) {
         boolean authorized = true;
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
 
@@ -544,6 +661,23 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                 || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
     }
 
+    protected boolean isAuthorizedToAddNote(Document document, Person user) {
+
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+
+        String proposalNbr = pdDocument.getDevelopmentProposal().getProposalNumber();
+
+        final boolean hasPermission;
+        if (proposalNbr == null) {
+            hasPermission = hasPermissionByOwnedByUnit(document, user);
+        } else {
+
+            hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_PROPOSAL)
+                    || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), document);
+        }
+        return hasPermission;
+    }
+
     protected boolean isAuthorizedToModify(Document document, Person user) {
 
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
@@ -557,13 +691,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
         final boolean hasPermission;
         if (proposalNbr == null) {
-            String unitNumber = proposal.getOwnedByUnitNumber();
-
-            // If the unit number is not specified, we will let the save operation continue because it
-            // will fail with an error.  But if the user tries to save a proposal for a wrong unit, then
-            // we will indicate that the user does not have permission to do that.
-            hasPermission = (unitNumber != null && getUnitAuthorizationService().hasPermission(user.getPrincipalId(), unitNumber, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL)
-                    || unitNumber == null);
+            hasPermission = hasPermissionByOwnedByUnit(document, user);
         } else {
             /*
              * After the initial save, the proposal can only be modified if it is not in workflow
@@ -576,6 +704,19 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                     !proposal.getSubmitFlag();
         }
         return hasPermission;
+    }
+
+    protected boolean hasPermissionByOwnedByUnit(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
+        final DevelopmentProposal proposal = pdDocument.getDevelopmentProposal();
+
+        String unitNumber = proposal.getOwnedByUnitNumber();
+
+        // If the unit number is not specified, we will let the save operation continue because it
+        // will fail with an error.  But if the user tries to save a proposal for a wrong unit, then
+        // we will indicate that the user does not have permission to do that.
+        return (unitNumber != null && getUnitAuthorizationService().hasPermission(user.getPrincipalId(), unitNumber, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL)
+                || unitNumber == null);
     }
 
     protected boolean isEditableState(String propsalState) {
@@ -592,17 +733,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 	public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
 		this.kcAuthorizationService = kcAuthorizationService;
 	}
-
-    protected  TaskAuthorizationService getTaskAuthenticationService (){
-        if (taskAuthenticationService == null) {
-            taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        }
-        return taskAuthenticationService;
-    }
-
-    public void setTaskAuthenticationService(TaskAuthorizationService taskAuthenticationService) {
-        this.taskAuthenticationService = taskAuthenticationService;
-    }
 
     public UnitAuthorizationService getUnitAuthorizationService() {
         if (unitAuthorizationService == null) {

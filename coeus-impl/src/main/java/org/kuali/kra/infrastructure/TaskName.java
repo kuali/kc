@@ -26,36 +26,7 @@ public interface TaskName {
     public static final String CREATE_PROTOCOL = "createProtocol";
     public static final String CREATE_AWARD = "createAward";
     public static final String CREATE_TAMD = "createTimeAndMoney";
-    
-    /*
-     * Proposal Tasks.
-     */
-    public static final String ADD_BUDGET = "addBudget";
-    public static final String OPEN_BUDGETS = "openBudgets";
-    public static final String ADD_NARRATIVE = "addNarrative";
-    public static final String CERTIFY = "certify";
-    public static final String PROPOSAL_ADD_NOTE_ATTACHMENT = "proposalAddNoteAttachment";
-    public static final String ANSWER_PROPOSAL_QUESTIONNAIRE = "answerProposalQuestionnaire";
-    public static final String REPLACE_PERSONNEL_ATTACHMENT = "replacePersonnelAttachmentAuthorizer";
-    
-    /*
-     * Narrative Tasks.
-     */
-    public static final String MODIFY_NARRATIVE_RIGHTS = "modifyNarrativeRights";
-    public static final String DOWNLOAD_NARRATIVE = "downloadNarrative";
-    public static final String DELETE_NARRATIVE = "deleteNarrative";
-    public static final String REPLACE_NARRATIVE = "replaceNarrative";
-    public static final String MODIFY_NARRATIVE_STATUS = "modifyNarrativeStatus";
-    
-    /*
-     * Budget Tasks.
-     */
-    public static final String MODIFY_BUDGET = "modifyBudget";
-    public static final String VIEW_BUDGET = "viewBudget"; 
-    public static final String MODIFY_PROPOSAL_BUDGET = "modifyProposalBudget";
-    public static final String MODIFY_PROPOSAL_RATE = "modifyProposalBudgetRates";
-    public static final String VIEW_SALARIES = "viewSalaries";
-    
+
     /*
      * Protocol Tasks.
      */
@@ -208,6 +179,11 @@ public interface TaskName {
     public static final String POST_AWARD_BUDGET = "postAwardBudget";
     public static final String TOGGLE_AWARD_BUDGET_STATUS = "toggleAwardBudgetStatus";
     public static final String SUBMIT_TO_WORKFLOW = "submitToWorkflow";
+    public static final String ADD_BUDGET = "addBudget";
+    public static final String OPEN_BUDGETS = "openBudgets";
+    public static final String MODIFY_BUDGET = "modifyBudget";
+    public static final String VIEW_BUDGET = "viewBudget";
+    public static final String VIEW_SALARIES = "viewSalaries";
 
     /*
      * COI tasks

@@ -24,30 +24,24 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.propdev.api.core.ProposalDevelopmentDocumentContract;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatusService;
-import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
-import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyException;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
@@ -79,7 +73,6 @@ import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -438,18 +431,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     @Override
-    public Task getParentAuthZTask(String taskName) {
-        return new ProposalTask(taskName, this);
-    }
-
-    @Override
     public boolean isComplete() {
         return getDevelopmentProposal().isProposalComplete();
-    }
-
-    @Override
-    public String getTaskGroupName() {
-        return TaskGroupName.PROPOSAL_BUDGET;
     }
 
     @Override

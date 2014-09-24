@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.auth.task;
+package org.kuali.kra.award.budget.document.authorizer;
 
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.budget.framework.core.Budget;

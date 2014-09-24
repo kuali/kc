@@ -16,16 +16,16 @@
 package org.kuali.kra.protocol.protocol.funding.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -55,7 +55,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
     private KcAuthorizationService kraAuthorizationService;
     private KcPersonService kcPersonService;
     private SequenceAccessorService sequenceAccessorService;
-    private TaskAuthorizationService taskAuthorizationService;
+    private UnitAuthorizationService unitAuthorizationService;
     private DocumentService documentService;
 
     @SuppressWarnings("unchecked")
@@ -87,7 +87,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
     
     /**
      * Set the Kra Authorization Service.
-     * @param kralAuthorizationService
+     * @param kraAuthorizationService
      */
     public void setKraAuthorizationService(KcAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
@@ -134,7 +134,6 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
     /**
      * Initialize the Authorizations for a new proposal.  The initiator/creator
      * is assigned the Aggregator role.
-     * @param doc the proposal development document
      */
     protected void initializeAuthorization(ProtocolDocumentBase protocolDocument) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
@@ -175,12 +174,32 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
     
     }
 
-    public boolean isAuthorizedCreateProtocol(ProposalDevelopmentDocument document) {       
-        ProposalTask irbTask = new ProposalTask(getCreateProposalTaskNameHook(), document);
-        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), irbTask);
+    public boolean isAuthorizedCreateProtocol(ProposalDevelopmentDocument document) {
+        return hasProposalRequiredFields(document.getDevelopmentProposal()) && getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getCreateProposalPermissionNamespaceHook(), getCreateProposalPermissionNameHook());
     }
-    
-    protected abstract String getCreateProposalTaskNameHook();
+
+    protected boolean hasProposalRequiredFields(DevelopmentProposal proposal)
+    {
+        boolean validProposalRequiredFields=true;
+
+        if (StringUtils.isEmpty(proposal.getTitle()))
+        {
+            validProposalRequiredFields = false;
+        }
+        if (StringUtils.isEmpty(proposal.getOwnedByUnitNumber()))
+        {
+            validProposalRequiredFields = false;
+        }
+        ProposalPerson person = proposal.getPrincipalInvestigator();
+        if (person == null || StringUtils.isEmpty(person.getPersonId()))
+        {
+            validProposalRequiredFields = false;
+        }
+        return validProposalRequiredFields;
+    }
+
+    protected abstract String getCreateProposalPermissionNameHook();
+    protected abstract String getCreateProposalPermissionNamespaceHook();
 
     /**
      * This method is to get protocol location service
@@ -228,12 +247,12 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
     protected abstract ProtocolPersonnelService getProtocolPersonnelServiceHook();
     protected abstract ProtocolFundingSourceService getProtocolFundingSourceServiceHook() ;
 
-    protected TaskAuthorizationService getTaskAuthorizationService() {
-        return taskAuthorizationService;
+    public UnitAuthorizationService getUnitAuthorizationService() {
+        return unitAuthorizationService;
     }
 
-    public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
-        this.taskAuthorizationService = taskAuthorizationService;
+    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
+        this.unitAuthorizationService = unitAuthorizationService;
     }
 
     protected DocumentService getDocumentService() {

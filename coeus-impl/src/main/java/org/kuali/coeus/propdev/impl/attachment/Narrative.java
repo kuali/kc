@@ -24,12 +24,8 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
-import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.propdev.api.attachment.NarrativeContract;
 import org.kuali.rice.core.api.CoreConstants;
@@ -121,9 +117,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     @Transient
     private String uploadUserFullName;
- 
-    @Transient
-    private transient TaskAuthorizationService taskAuthorizationService;
 
     @Transient
     private String id;
@@ -138,13 +131,13 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     private String url;
 
     @Transient
+    private MultipartFile multipartFile;
+
+    @Transient
     private transient DateTimeService dateTimeService;
 
     @Transient
     private transient KcAttachmentService kcAttachmentService;
-
-    @Transient
-    private MultipartFile multipartFile;
 
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
@@ -228,12 +221,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     public void setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
-    }
-
-    protected TaskAuthorizationService getTaskAuthorizationService(){
-        if (taskAuthorizationService == null)
-            taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService;
     }
 
     public Narrative() {
@@ -410,62 +397,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     public void setInstitutionalAttachmentTypeCode(String institutionalAttachmentTypeCode) {
         //this.institutionalAttachmentTypeCode = institutionalAttachmentTypeCode;  
         this.narrativeTypeCode = institutionalAttachmentTypeCode;
-    }
-
-    /**
-     * Can the current user download (view) the attachment?
-     * @param userId
-     * @return true if the user can view the attachment; otherwise false
-     */
-    public boolean getDownloadAttachment(String userId) {
-        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
-        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getDocument(), this));
-    }
-
-    /**
-     * Can the current user replace the attachment?
-     * @return true if the user can replace the attachment; otherwise false
-     */
-    public boolean getReplaceAttachment(String userId) {
-        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
-        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getDocument(), this));
-    }
-
-    /**
-     * Can the current user delete the attachment?
-     * @return true if the user can delete the attachment; otherwise false
-     */
-    public boolean getDeleteAttachment(String userId) {
-        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
-        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
-    }
-
-    /**
-     * Can the current user change the status of attachment?
-     * @return true if the user can modify the status of attachments; otherwise false
-     */
-    public boolean getModifyAttachmentStatus(String userId) {
-        TaskAuthorizationService taskAuthorizatioNService = getTaskAuthorizationService();
-        return taskAuthorizatioNService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_STATUS, getDocument(), this));
-    }
-
-    /**
-     * Can the current user modify the user rights for the attachment?
-     * @return true if the user can modify the user rights; otherwise false
-     */
-    public boolean getModifyNarrativeRights(String userId) {
-        TaskAuthorizationService taskAuthorizationService = getTaskAuthorizationService();
-        return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getDocument(), this));
-    }
-
-    /**
-     * Get the Proposal Development Document for the current session.  The
-     * document is within the current form.
-     * 
-     * @return the current document or null if not found
-     */
-    private ProposalDevelopmentDocument getDocument() {
-        return getDevelopmentProposal().getProposalDocument();
     }
 
     /**
@@ -796,6 +727,5 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     public void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
         this.kcAttachmentService = kcAttachmentService;
     }
-
 }
 

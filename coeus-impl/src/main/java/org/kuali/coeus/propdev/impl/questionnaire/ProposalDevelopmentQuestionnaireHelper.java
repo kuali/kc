@@ -18,9 +18,6 @@ package org.kuali.coeus.propdev.impl.questionnaire;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
-import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 
@@ -30,7 +27,7 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
 
     private ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm;
     private ProposalDevelopmentDocument document;
-    
+
     public ProposalDevelopmentQuestionnaireHelper(ProposalDevelopmentDocumentForm form) {
         this.proposalDevelopmentDocumentForm = form;
         this.document = form.getProposalDevelopmentDocument();
@@ -47,40 +44,7 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
 
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(document.getDevelopmentProposal());
-        return moduleQuestionnaireBean;
-    }
-    
-    /**
-     * Gets the proposalDevelopmentForm attribute. 
-     * @return Returns the proposalDevelopmentForm.
-     */
-    public ProposalDevelopmentDocumentForm getProposalDevelopmentDocumentForm() {
-        return proposalDevelopmentDocumentForm;
-    }
-
-    /**
-     * Sets the proposalDevelopmentForm attribute value.
-     * @param proposalDevelopmentDocumentForm The proposalDevelopmentForm to set.
-     */
-    public void setProposalDevelopmentForm(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm) {
-        this.proposalDevelopmentDocumentForm = proposalDevelopmentDocumentForm;
-    }
-
-    /**
-     * 
-     * This method is to set up things for questionnaire page to be displayed.
-     */
-    public void prepareView() {
-        initializePermissions(document);
-    }
-
-    /*
-     * authorization check.
-     */
-    private void initializePermissions(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        ProposalTask task = new ProposalTask(TaskName.ANSWER_PROPOSAL_QUESTIONNAIRE, proposalDevelopmentDocument);
-        setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+        return new ProposalDevelopmentModuleQuestionnaireBean(document.getDevelopmentProposal());
     }
 
     protected ProposalDevelopmentDocument getDocument() {
@@ -91,5 +55,11 @@ public class ProposalDevelopmentQuestionnaireHelper extends QuestionnaireHelperB
         this.document = document;
     }
 
-    
+    public ProposalDevelopmentDocumentForm getProposalDevelopmentDocumentForm() {
+        return proposalDevelopmentDocumentForm;
+    }
+
+    public void setProposalDevelopmentForm(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm) {
+        this.proposalDevelopmentDocumentForm = proposalDevelopmentDocumentForm;
+    }
 }

@@ -414,7 +414,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Award
             }
         };
     }
-    @Override
+
     public String getTaskGroupName() {
         return TaskGroupName.AWARD_BUDGET;
     }
@@ -447,7 +447,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Award
         return getAward();
     }
 
-    @Override
     public Task getParentAuthZTask(String taskName) {
         return new AwardTask(taskName,getAward());
     }

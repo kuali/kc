@@ -32,9 +32,6 @@
 
     <util:set id="taskAuthorizerGroupNames">
         <value>applicationTaskAuthorizers</value>
-        <value>proposalTaskAuthorizers</value>
-        <value>proposalBudgetTaskAuthorizers</value>
-        <value>narrativeTaskAuthorizers</value>
         <value>awardTaskAuthorizers</value>
         <value>awardBudgetTaskAuthorizers</value>
         <value>subAwardTaskAuthorizers</value>
@@ -50,10 +47,6 @@
     </util:set>
 
     <util:set id="webAuthorizerNames">
-        <value>proposalAbstractsAttachmentsWebAuthorizer</value>
-        <value>proposalBudgetVersionsWebAuthorizer</value>
-        <value>budgetWebAuthorizer</value>
-        <value>budgetVersionsWebAuthorizer</value>
         <value>awardBudgetsWebAuthorizer</value>
     </util:set>
 

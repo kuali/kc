@@ -25,8 +25,8 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.coeus.propdev.impl.auth.task.ProposalTask;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
@@ -104,9 +104,15 @@ public class IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl
     protected String getSequenceNumberNameHook() {
         return "SEQ_IACUC_PROTOCOL_ID";
     }
-    
-    protected String getCreateProposalTaskNameHook() {
-        return ProposalTask.CREATE_IACUC_PROTOCOL_FROM_PROPOSAL;
+
+    @Override
+    protected String getCreateProposalPermissionNamespaceHook() {
+        return Constants.MODULE_NAMESPACE_IACUC;
+    }
+
+    @Override
+    protected String getCreateProposalPermissionNameHook() {
+        return PermissionConstants.CREATE_IACUC_PROTOCOL;
     }
 
     @Override

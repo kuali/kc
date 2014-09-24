@@ -554,10 +554,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         form.setQuestionnaireHelper(new ProposalDevelopmentQuestionnaireHelper(form));
         form.setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(form));
 
-        form.getQuestionnaireHelper().prepareView();
         form.getQuestionnaireHelper().populateAnswers();
 
-        form.getS2sQuestionnaireHelper().prepareView();
         form.getS2sQuestionnaireHelper().populateAnswers();
     }
 

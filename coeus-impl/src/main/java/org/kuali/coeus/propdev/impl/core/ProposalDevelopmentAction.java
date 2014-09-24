@@ -854,9 +854,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
         
-        proposalDevelopmentForm.getQuestionnaireHelper().prepareView();
-        proposalDevelopmentForm.getS2sQuestionnaireHelper().prepareView();
-        
         proposalDevelopmentForm.getQuestionnaireHelper().populateAnswers();        
         proposalDevelopmentForm.getS2sQuestionnaireHelper().populateAnswers();
         
@@ -895,8 +892,6 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             }
         }
         getProposalDevelopmentPrintingService().populateSponsorForms(pdform.getSponsorFormTemplates(), document.getDevelopmentProposal().getSponsorCode());
-        pdform.getQuestionnaireHelper().prepareView();
-        pdform.getS2sQuestionnaireHelper().prepareView();
         if (CollectionUtils.isEmpty(pdform.getQuestionnaireHelper().getAnswerHeaders())) {
             pdform.getQuestionnaireHelper().populateAnswers();
         } 
