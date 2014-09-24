@@ -13,32 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-/** overridding styles on controls to be 90% **/
-input[type="text"], .uif-textAreaControl {
-    width: 100%;
-}
-
-.form-control {
-    width: 100%;
-}
-
-.input-group-addon, .input-group-btn {
-    width: 1%;
-    vertical-align: top;
-}
-
-.input-group-msg {
-    width: 1%;
-}
 
 .input-range-msg {
     width: 1%;
     font-size: 14px;
-}
-
-.input-group {
-    width: 100%;
 }
 
 .input-group-btn:nth-child(2) > .btn {
@@ -197,3 +175,43 @@ input[type="checkbox"] {
 .uif-actionBar .dataOverride {
     color: orange;
 }
+
+/**  Nav menu responsive to screen size css **/
+
+.kc-navMenuDropdown .dropdown-menu a, .kc-navMenuDropdown .dropdown-menu h3, .kc-navMenuDropdown .dropdown-menu h4 {
+    font-size: .9em;
+}
+
+.kc-navMenuDropdown .dropdown-menu h3, .kc-navMenuDropdown .dropdown-menu h4 {
+    font-size: 1em !important;
+}
+
+@media (min-width: 768px) {
+    .kc-navMenuDropdown .dropdown-menu {
+        min-width: 40em !important;
+    }
+
+    .kc-researcherDropdown .dropdown-menu, .kc-unitDropdown .dropdown-menu, .kc-centralAdminDropdown .dropdown-menu {
+        left: 0;
+        right: inherit;
+    }
+}
+
+@media (min-width: 992px) {
+    .kc-navMenuDropdown .dropdown-menu {
+        min-width: 45em !important;
+    }
+
+    .kc-centralAdminDropdown .dropdown-menu {
+        left: inherit;
+        right: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .kc-researcherDropdown .dropdown-menu, .kc-unitDropdown .dropdown-menu {
+        left: inherit;
+        right: 0;
+    }
+}
+
