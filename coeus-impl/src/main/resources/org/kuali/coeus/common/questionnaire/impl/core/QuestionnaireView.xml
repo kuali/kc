@@ -153,5 +153,5 @@
 	</bean>
     <bean id="Questionnaire-DateControl" parent="Questionnaire-DateControl-parentBean"/>
     <bean id="Questionnaire-DateControl-parentBean" abstract="true" parent="Uif-DateControlOnFocus"
-          p:watermarkText="mm/dd/yyyy" p:maxLength="10"/>
+          p:watermarkText="mm/dd/yyyy"/>
 </beans>
