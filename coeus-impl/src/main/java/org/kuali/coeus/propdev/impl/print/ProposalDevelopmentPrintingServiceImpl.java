@@ -254,6 +254,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
         
         for (ProposalPerson person : persons) {
             ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
+            helper.populateAnswers();
             AnswerHeader header = helper.getAnswerHeaders().get(0);            
             reportParameters.put(QUESTIONNAIRE_SEQ_ID, header.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
             reportParameters.put(TEMPLATE, header.getQuestionnaire().getTemplate());
