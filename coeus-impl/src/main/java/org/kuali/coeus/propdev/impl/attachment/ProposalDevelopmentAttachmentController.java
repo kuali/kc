@@ -92,6 +92,9 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
         if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)){
             form.getEditableCollectionLines().get(selectedCollectionPath).remove(selectedLine);
+            if (form.getProposalDevelopmentAttachmentHelper().getEditableFileLineAttachments().get(selectedCollectionPath) != null){
+                form.getProposalDevelopmentAttachmentHelper().getEditableFileLineAttachments().get(selectedCollectionPath).remove(selectedLine);
+            }
         }
 
         return modelAndView;
@@ -266,6 +269,32 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         }
         form.getDevelopmentProposal().getNarratives().set(selectedLineIndex,narrative);
         form.getProposalDevelopmentAttachmentHelper().reset();
+
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=updateEditableFileAttachment")
+    public ModelAndView updateEditableFileAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+
+        String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+
+        ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).toggleAttachmentFile(form, collectionPath, selectedLine);
+        List<ProposalDevelopmentAttachment> attachments = (List<ProposalDevelopmentAttachment>)PropertyUtils.getNestedProperty(form, collectionPath);
+        attachments.get(Integer.parseInt(selectedLine)).setMultipartFile(null);
+
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=updateEditableProposalFileAttachment")
+    public ModelAndView updateEditableProposalFileAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        String collectionPath = ProposalDevelopmentConstants.PropertyConstants.NARRATIVES;
+        String selectedLine = form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex();
+
+        ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).toggleAttachmentFile(form, ProposalDevelopmentConstants.PropertyConstants.NARRATIVES, form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
+        List<ProposalDevelopmentAttachment> attachments = (List<ProposalDevelopmentAttachment>)PropertyUtils.getNestedProperty(form, collectionPath);
+        attachments.get(Integer.parseInt(selectedLine)).setMultipartFile(null);
+
         return getRefreshControllerService().refresh(form);
     }
 

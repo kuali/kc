@@ -24,6 +24,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
+import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachment;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -50,7 +51,7 @@ import java.util.Date;
 @Entity
 @Table(name = "EPS_PROP_PERSON_BIO")
 @IdClass(ProposalPersonBiography.ProposalPersonBiographyId.class)
-public class ProposalPersonBiography extends KcPersistableBusinessObjectBase implements ProposalPersonBiographyContract, KcFile, FileMeta {
+public class ProposalPersonBiography extends KcPersistableBusinessObjectBase implements ProposalPersonBiographyContract, KcFile, FileMeta, ProposalDevelopmentAttachment {
 
     @Id
     @Column(name = "PROP_PERSON_NUMBER")

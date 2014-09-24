@@ -2,6 +2,10 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ProposalDevelopmentAttachmentHelper {
     private Narrative narrative;
     private Narrative instituteAttachment;
@@ -10,16 +14,20 @@ public class ProposalDevelopmentAttachmentHelper {
     private String selectedLineIndex;
     private String markAllStatus;
 
+    private Map<String,List<String>> editableFileAttachments;
+
     public ProposalDevelopmentAttachmentHelper() {
         instituteAttachment = new Narrative();
         narrative = new Narrative();
         biography = new ProposalPersonBiography();
+        editableFileAttachments = new HashMap<String,List<String>>();
     }
 
     public void reset() {
         instituteAttachment = new Narrative();
         narrative = new Narrative();
         biography = new ProposalPersonBiography();
+        editableFileAttachments = new HashMap<String,List<String>>();
         selectedLineIndex = null;
     }
 
@@ -61,5 +69,13 @@ public class ProposalDevelopmentAttachmentHelper {
 
     public void setInstituteAttachment(Narrative instituteAttachment) {
         this.instituteAttachment = instituteAttachment;
+    }
+
+    public Map<String, List<String>> getEditableFileLineAttachments() {
+        return editableFileAttachments;
+    }
+
+    public void setEditableFileAttachments(Map<String, List<String>> editableFileAttachments) {
+        this.editableFileAttachments = editableFileAttachments;
     }
 }

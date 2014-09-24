@@ -27,6 +27,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.apache.log4j.Logger;
+import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
@@ -369,7 +370,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return result;
     }
 
-    public boolean isCollectionLineEditable(String selectedCollectionPath, String index, HashMap<String,List<String>> editableCollectionLines) {
+    public boolean isCollectionLineEditable(String selectedCollectionPath, String index, Map<String,List<String>> editableCollectionLines) {
         boolean retVal = false;
         if (editableCollectionLines.containsKey(selectedCollectionPath)) {
             if (editableCollectionLines.get(selectedCollectionPath).contains(index)) {
@@ -671,6 +672,41 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             return "label-warning";
         }
         return "label-info";
+    }
+
+
+    public boolean isAttachmentFileEditable(ProposalDevelopmentAttachmentHelper helper, String collectionPath, String index){
+        if (helper.getEditableFileLineAttachments().get(collectionPath) != null
+                && helper.getEditableFileLineAttachments().get(collectionPath).contains(index)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void toggleAttachmentFile(ProposalDevelopmentDocumentForm form, String collectionPath, String index) {
+        ProposalDevelopmentAttachmentHelper helper = form.getProposalDevelopmentAttachmentHelper();
+        if (!isAttachmentFileEditable(helper, collectionPath, index)){
+            if (helper.getEditableFileLineAttachments().get(collectionPath) == null){
+                List<String> tempList = new ArrayList<String>();
+                helper.getEditableFileLineAttachments().put(collectionPath, tempList);
+            }
+            helper.getEditableFileLineAttachments().get(collectionPath).add(index);
+        }
+        else{
+            helper.getEditableFileLineAttachments().get(collectionPath).remove(index);
+        }
+    }
+
+    public String showFileAttachmentName(ProposalDevelopmentAttachmentHelper helper){
+        if (hasNarrativeAttachment(helper)){
+            return helper.getNarrative().getNarrativeAttachment().getName();
+        }
+        return "";
+    }
+
+    public boolean hasNarrativeAttachment(ProposalDevelopmentAttachmentHelper helper){
+        return helper.getNarrative().getNarrativeAttachment() != null;
     }
 
     public String replaceLineBreaks(String string) {

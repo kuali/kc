@@ -47,7 +47,7 @@ import java.util.*;
 @Entity
 @Table(name = "NARRATIVE")
 @IdClass(Narrative.NarrativeId.class)
-public class Narrative extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, KcFile, NarrativeContract, FileMeta {
+public class Narrative extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, KcFile, NarrativeContract, FileMeta, ProposalDevelopmentAttachment {
 
     @Id
     @ManyToOne(cascade = { CascadeType.REFRESH })
