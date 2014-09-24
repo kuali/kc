@@ -28,11 +28,6 @@
                 <value>scripts/common/questionnaire.js</value>
             </list>
         </property>
-        <property name="additionalCssFiles">
-            <list>
-                <value>css/common/core.css</value>
-            </list>
-        </property>
         <property name="header" ref="PropBudget-MockView-DocumentHeader" />
         <property name="footer" ref="PropBudget-MockView-DocumentFooter" />
         <property name="navigation" ref="PropBudget-MockView-Menu" />

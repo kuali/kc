@@ -32,7 +32,6 @@
 				<value>rice-contrib/plugins/jquery.multiselect/jquery.multiselect.css</value>
 				<value>rice-contrib/plugins/jquery.multiselect/jquery.multiselect.filter.css</value>
 				<value>rice-contrib/multiselect.css</value>
-				<value>css/common/core.css</value>
 			</list>
 		</property>
 		<property name="header">
