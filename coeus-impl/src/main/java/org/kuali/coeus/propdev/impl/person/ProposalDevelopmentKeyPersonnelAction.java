@@ -167,7 +167,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document=pdform.getProposalDevelopmentDocument();
         for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers()) {
-            helper.prepareView();
             for (int i = 0; i < helper.getAnswerHeaders().size(); i++) {
                 helper.updateChildIndicator(i);
             }
