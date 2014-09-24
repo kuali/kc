@@ -12,4 +12,19 @@ Kc.PropDev.Budget = Kc.PropDev.Budget || {};
         }
         return totalUnallocated;
     };
+    namespace.totalUnallocatedCostSharing = function (values){
+        var totalUnallocated = $('#PropBudget-CostSharingPage-CollectionGroup').data('total_costsharing');
+        for (var i = 0; i < values.length; i++) {
+            totalUnallocated-=values[i];
+        }
+        return totalUnallocated;
+    };
 })(Kc.PropDev.Budget, jQuery);
+
+function totalUnallocatedCostSharing (values){
+    return Kc.PropDev.Budget.totalUnallocatedCostSharing(values);
+}
+
+function totalUnallocatedFandA (values) {
+    return Kc.PropDev.Budget.totalUnallocatedFandA(values);
+}
