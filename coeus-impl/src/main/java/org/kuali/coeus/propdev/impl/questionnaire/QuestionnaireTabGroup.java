@@ -46,7 +46,8 @@ public class QuestionnaireTabGroup extends TabGroup {
             if (answerHeader.isActive()) {
                 GroupBase group = (GroupBase) ComponentFactory.getNewComponentInstance("Uif-VerticalBoxGroup");
                 group.setHeader((Header)ComponentFactory.getNewComponentInstance("Uif-SectionHeader"));
-                group.setHeaderText(answerHeader.getLabel());
+                String cssClass = "questionaire-" + (answerHeader.isCompleted()?"":"in") + "complete";
+                group.setHeaderText(answerHeader.getLabel() + "&nbsp;<span class='" + cssClass + " icon-ok' />");
                 group.getHeader().setRender(false);
                 CollectionGroupBase questionCollection = ComponentUtils.copy(collectionGroupPrototype);
                 initiateActionMenuItems((ToggleMenu) questionCollection.getHeader().getRightGroup().getItems().get(0),index,helper,formKey);
