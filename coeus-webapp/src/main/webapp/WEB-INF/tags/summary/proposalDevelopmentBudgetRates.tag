@@ -25,11 +25,8 @@
 <bean:define id="irateClassType" name="KualiForm" property="${budgetRate}.rateClass.rateClassTypeCode" />
 <bean:define id="irateClassCode" name="KualiForm" property="${budgetRate}.rateClass.code" />
 <bean:define id="displayRow" name="KualiForm" property="${budgetRate}.displayLocation" />
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag" />
 <bean:define id="fandaRateType" name="KualiForm" property="${budgetRate}.rateType.description" />
 
-<%--<bean:define id="finalBudgetProposalRateClassCode" name="KualiForm" property="document.finalBudgetForThisProposal.rateClass.code" /> --%>
-<%-- <bean:define id="finalBudgetProposalRateClassCode" name="KualiForm" property="document.finalrateClassCode" />--%>
 <c:set var="finalBudgetProposalRateClassCode" value="${KualiForm.document.finalrateClassCode }"/>
 
 

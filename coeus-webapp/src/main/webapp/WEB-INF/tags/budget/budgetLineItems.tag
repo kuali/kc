@@ -28,16 +28,7 @@
 <c:set var="awardBudgetLineItemAttributes" value="${DataDictionary.AwardBudgetLineItemExt.attributes}" />
 <c:set var="action" value="budgetExpensesAction" />
 <c:set var="textAreaFieldNameLineItemDescription" value="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
-<c:choose>
-	<c:when test="${proposalBudgetFlag}" >
-		<c:set var="lineItemCostAttribute" value="${budgetLineItemAttributes}" />
-	</c:when>
-	<c:otherwise>
-		<c:set var="lineItemCostAttribute" value="${awardBudgetLineItemAttributes}" />
-	</c:otherwise>
-</c:choose>
-
+<c:set var="lineItemCostAttribute" value="${awardBudgetLineItemAttributes}" />
 <c:set var="applyRateFlagReadOnly" value="${budgetExpensePanelReadOnly}" />
 <c:set var="budgetExpensePanelReadOnly" value="${budgetExpensePanelReadOnly || budgetLineItem.subAwardLineItem}" />
 
@@ -105,13 +96,11 @@
        		<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].lineItemCost" attributeEntry="${lineItemCostAttribute.lineItemCost}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/> 
 		</div>
 	</td>
-	<c:if test="${!proposalBudgetFlag}">
-    	<td width="16%" valign="middle" >               	
-			<div align=center>
-       			<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].obligatedAmount" attributeEntry="${awardBudgetLineItemAttributes.obligatedAmount}" styleClass="amount" readOnly="true"/> 
-			</div>
-		</td>
-	</c:if>
+   	<td width="16%" valign="middle" >               	
+		<div align=center>
+      			<kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].obligatedAmount" attributeEntry="${awardBudgetLineItemAttributes.obligatedAmount}" styleClass="amount" readOnly="true"/> 
+		</div>
+	</td>
 	<td width="8%" valign="middle" >&nbsp;
 		<div align=center>
        		<kra:section permission="modifyBudgets">

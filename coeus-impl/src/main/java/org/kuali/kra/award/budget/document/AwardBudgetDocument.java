@@ -19,13 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
@@ -41,8 +37,6 @@ import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocumentTypeChecker;
-import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -58,7 +52,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -69,7 +62,7 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_AWARD_BUDGET)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class AwardBudgetDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements Copyable, SessionDocument, Permissionable, BudgetDocumentTypeChecker, KrmsRulesContext {
+public class AwardBudgetDocument extends KcTransactionalDocumentBase implements Copyable, SessionDocument, Permissionable, KrmsRulesContext {
 	
     private static final String AWARD_BUDGET_DOCUMENT_TYPE_CODE = "ABGT";
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardBudgetDocument.class);
@@ -86,11 +79,6 @@ public class AwardBudgetDocument<T extends BudgetParent> extends KcTransactional
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
     }
-
-	@Override
-	public String getProposalBudgetFlag() {
-		return "N";
-	}
 
     @Override
     public void initialize() {

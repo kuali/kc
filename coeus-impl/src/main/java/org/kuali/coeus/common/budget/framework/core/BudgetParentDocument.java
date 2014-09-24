@@ -30,7 +30,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements BudgetDocumentTypeChecker, Permissionable {
+public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements Permissionable {
 
     /**
      * Looks up and returns the ParameterService.

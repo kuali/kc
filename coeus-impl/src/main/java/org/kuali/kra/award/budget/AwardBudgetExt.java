@@ -81,7 +81,7 @@ public class AwardBudgetExt extends Budget {
 
     private SortedMap<RateType, ScaleTwoDecimal> nonPersonnelCalculatedExpenseBudgetTotals;
     
-    private AwardBudgetDocument<Award> awardBudgetDocument;
+    private AwardBudgetDocument awardBudgetDocument;
 
     public AwardBudgetExt() {
         super();
@@ -380,11 +380,11 @@ public class AwardBudgetExt extends Budget {
         return amount;
     }
 
-	public AwardBudgetDocument<Award> getBudgetDocument() {
+	public AwardBudgetDocument getBudgetDocument() {
 		return awardBudgetDocument;
 	}
 
-	public void setBudgetDocument(AwardBudgetDocument<Award> budgetDocument) {
+	public void setBudgetDocument(AwardBudgetDocument budgetDocument) {
 		this.awardBudgetDocument = budgetDocument;
 	}
 

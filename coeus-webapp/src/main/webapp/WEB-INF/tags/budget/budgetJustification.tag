@@ -24,14 +24,7 @@
 	<div class="tab-container" align="center">
 		<h3>
 	    	<span class="subhead-left">Budget Justification</span>
-			<c:choose>
-				<c:when test="${proposalBudgetFlag}">
-			        <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetActionJustificationHelpUrl" altText="help"/></span>
-				</c:when>
- 				<c:otherwise>
-		   			<span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetActionJustificationHelpUrl" altText="help"/></span>
-				</c:otherwise>
-    		</c:choose>
+   			<span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetActionJustificationHelpUrl" altText="help"/></span>
 	   	</h3>
 		<div align="center">
 			<table id="budget-justification-table" cellpadding="0" cellspacing="0" summary="Budget Justification">

@@ -197,7 +197,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
                     KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else {
             DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-            AwardBudgetDocument<Award> budgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+            AwardBudgetDocument budgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
             Budget budget = budgetDocument.getBudget();
             String forward = buildForwardUrl(routeHeaderId);

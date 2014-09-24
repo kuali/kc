@@ -19,8 +19,6 @@
 <c:set var="budgetRatesAttributes"
 	value="${DataDictionary.BudgetRate.attributes}" />
 <c:set var="action" value="budgetRates" />
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
-
 <div id="workarea"><c:forEach
 	items="${KualiForm.document.budget.rateClassTypes}" var="rates"
 	varStatus="gps">
@@ -68,56 +66,43 @@
 		<c:set var="transparent" value="false" />
 		<div class="tab-container" align="center">
 		<h3>
-			${rateClass}
-			<c:choose>
-		       <c:when test="${proposalBudgetFlag}">
-		           <c:if test="${rateClass eq 'Fringe Benefits'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetFringeBenefitsHelpUrl" altText="help"/></span>
-                   </c:if>
-		           <c:if test="${rateClass eq 'Inflation'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetInflationHelpUrl" altText="help"/></span>
-                   </c:if>                   
-		           <c:if test="${rateClass eq 'Lab Allocation - Other'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="labAllocationOther" altText="help"/></span>
-                   </c:if>                   
-		           <c:if test="${rateClass eq 'Lab Allocation - Salaries'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="labAllocationSalaries" altText="help"/></span>
-                   </c:if>     
-		           <c:if test="${rateClass eq 'Other'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetOtherHelpUrl" altText="help"/></span>
-                   </c:if>  
-                   <c:if test="${rateClass eq 'Research F & A'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="researchfaHelpUrl" altText="help"/></span>
-                   </c:if> 
-		           <c:if test="${rateClass eq 'Vacation'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetVacationHelpUrl" altText="help"/></span>
-                   </c:if>
-            </c:when>
-            <c:otherwise>
-		           <c:if test="${rateClass eq 'Fringe Benefits'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetFringeBenefitsHelpUrl" altText="help"/></span>
-                   </c:if>
-		           <c:if test="${rateClass eq 'Inflation'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetInflationHelpUrl" altText="help"/></span>
-                   </c:if>   
-		           <c:if test="${rateClass eq 'Lab Allocation - Other'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="labAllocationOther" altText="help"/></span>
-                   </c:if>                   
-		           <c:if test="${rateClass eq 'Lab Allocation - Salaries'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="labAllocationSalaries" altText="help"/></span>
-                   </c:if>                                     
-		           <c:if test="${rateClass eq 'Other'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetOtherHelpUrl" altText="help"/></span>
-                   </c:if>  
-		           <c:if test="${rateClass eq 'Public Service F & A'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardPublicServicefaHelpUrl" altText="help"/></span>
-                   </c:if> 
-		           <c:if test="${rateClass eq 'Vacation'}">
-                       <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetVacationHelpUrl" altText="help"/></span>
-                   </c:if>
-            </c:otherwise>	
-         </c:choose>
-		</h3>
+					${rateClass}
+					<c:if test="${rateClass eq 'Fringe Benefits'}">
+						<span class="subhead-right"><kul:help
+								parameterNamespace="KC-AB" parameterDetailType="Document"
+								parameterName="awardBudgetFringeBenefitsHelpUrl" altText="help" /></span>
+					</c:if>
+					<c:if test="${rateClass eq 'Inflation'}">
+						<span class="subhead-right"><kul:help
+								parameterNamespace="KC-AB" parameterDetailType="Document"
+								parameterName="awardBudgetInflationHelpUrl" altText="help" /></span>
+					</c:if>
+					<c:if test="${rateClass eq 'Lab Allocation - Other'}">
+						<span class="subhead-right"><kul:help
+								parameterNamespace="KC-AB" parameterDetailType="Document"
+								parameterName="labAllocationOther" altText="help" /></span>
+					</c:if>
+					<c:if test="${rateClass eq 'Lab Allocation - Salaries'}">
+						<span class="subhead-right"><kul:help
+								parameterNamespace="KC-AB" parameterDetailType="Document"
+								parameterName="labAllocationSalaries" altText="help" /></span>
+					</c:if>
+					<c:if test="${rateClass eq 'Other'}">
+						<span class="subhead-right"><kul:help
+								parameterNamespace="KC-AB" parameterDetailType="Document"
+								parameterName="awardBudgetOtherHelpUrl" altText="help" /></span>
+					</c:if>
+					<c:if test="${rateClass eq 'Public Service F & A'}">
+						<span class="subhead-right"><kul:help
+								parameterNamespace="KC-AB" parameterDetailType="Document"
+								parameterName="awardPublicServicefaHelpUrl" altText="help" /></span>
+					</c:if>
+					<c:if test="${rateClass eq 'Vacation'}">
+						<span class="subhead-right"><kul:help
+								parameterNamespace="KC-AB" parameterDetailType="Document"
+								parameterName="awardBudgetVacationHelpUrl" altText="help" /></span>
+					</c:if>
+				</h3>
 		<table id="${rateClass}" cellpadding=0 cellspacing="0"
 			class="result-table" summary="">
 			<kul:htmlAttributeHeaderCell

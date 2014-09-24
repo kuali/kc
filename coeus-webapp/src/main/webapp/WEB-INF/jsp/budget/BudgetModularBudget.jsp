@@ -15,9 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-
-<kra-b:swapProposalDevelopmentEditModes/>
-<kra-b:swapProposalDevelopmentEditModes/>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets'] && ( not parentReadOnlyFlag )}" scope="request" />
 
 
@@ -69,4 +66,3 @@
 		/>
 
 </kul:documentPage>
-<kra-b:swapProposalDevelopmentEditModes/>

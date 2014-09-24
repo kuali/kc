@@ -248,7 +248,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     @Override
     public Budget getNewBudgetVersion(BudgetParentDocument parentBudgetDocument, String documentDescription, Map options){
     	AwardDocument awardDocument = (AwardDocument) parentBudgetDocument;
-    	AwardBudgetDocument<Award> budgetDocument;
+    	AwardBudgetDocument budgetDocument;
 		try {
 			budgetDocument = getNewBudgetVersionDocument(parentBudgetDocument, documentDescription, options);
 		} catch (WorkflowException e) {
@@ -264,7 +264,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
 
     @Override
-    public AwardBudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
+    public AwardBudgetDocument getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
     throws WorkflowException {
         
         AwardDocument parentDocument = (AwardDocument)parentBudgetDocument;
@@ -558,7 +558,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     /**
      * Copies budget version from previous one
      */
-    public AwardBudgetDocument<Award> copyBudgetVersion(AwardBudgetDocument budgetDocument) throws WorkflowException {
+    public AwardBudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument) throws WorkflowException {
         return copyBudgetVersion(budgetDocument, false);
     }
 

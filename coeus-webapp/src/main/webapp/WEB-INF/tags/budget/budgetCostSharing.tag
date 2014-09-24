@@ -17,7 +17,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="budgetCostShareAttributes" value="${DataDictionary.BudgetCostShare.attributes}" />
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 
 <kul:tabTop 
 		tabTitle="Cost Sharing (${KualiForm.document.budget.budgetCostShareCount})" 
@@ -32,14 +31,7 @@
 			<div id="costSharingAvailable">
 		    	<h3>
 		    	 <span class="subhead-left">Cost Sharing Distribution List</span>
-				 <c:choose>
-					 <c:when test="${proposalBudgetFlag}">
-        				<div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetCostShareHelpUrl" altText="help"/></div>
-			         </c:when>
- 			        <c:otherwise>
-			        	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetCostShareHelpUrl" altText="help"/></div>
-			        </c:otherwise>
-   				 </c:choose>
+	        	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetCostShareHelpUrl" altText="help"/></div>
 		    	</h3>
 				<div align="center">
 					<table id="budget-cost-sharing-table" cellpadding="0" cellspacing="0" summary="Budget Cost Shares">

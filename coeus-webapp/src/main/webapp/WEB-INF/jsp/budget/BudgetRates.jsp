@@ -16,7 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="extraButtons" value="${KualiForm.ratesExtraButtons}" scope="request"/>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 
 <c:if test="${readOnly}">
 	<c:set var="extraButtons" value="" scope="request"/>

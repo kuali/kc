@@ -16,11 +16,8 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="extraTopButtons" value="${KualiForm.extraTotalsTopButtons}" scope="request"/>
 <c:set var="documentTypeName" value="reloadWithoutWarning" scope="request"/>
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
-<c:if test="${not proposalBudgetFlag}">
-	<c:set target="${KualiForm.documentActions}" property="canReload" value="true"/>
-	<c:set var="documentTypeName" value="${KualiForm.headerDispatch}"/>
-</c:if> 
+<c:set target="${KualiForm.documentActions}" property="canReload" value="true"/>
+<c:set var="documentTypeName" value="${KualiForm.headerDispatch}"/>
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionPrefix}SummaryTotals"
@@ -35,7 +32,6 @@
 		transactionalDocument="false" 
 		suppressRoutingControls="true" 
 		extraButtons="${extraButtons}"
-		viewOnly="${proposalBudgetFlag}"
 		suppressCancelButton="true"
 />
 

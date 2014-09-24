@@ -138,7 +138,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      */
     public boolean checkRateChange(Collection<BudgetRate> allPropRates,Award award);
     
-    public AwardBudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
+    public AwardBudgetDocument getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
     	    throws WorkflowException;    
     
 }

@@ -20,7 +20,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <div id="disablingDiv" style="z-index: 998;width: 100%;height: 100%;background: transparent;position:absolute;display: none"></div>
-<kra-b:swapProposalDevelopmentEditModes/>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 
 <c:if test="${KualiForm.editingMode['modifyBudgets']}">
