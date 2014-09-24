@@ -96,7 +96,7 @@
 	<class-descriptor class="org.kuali.kra.iacuc.procedures.IacucProtocolStudyCustomData" table="IACUC_PROTO_STUDY_CUSTOM_DATA">
 		<field-descriptor name="iacucProtocolStudyCustomDataId" column="IACUC_PROT_STUD_CUST_DATA_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IACUC_PROT_STUD_CUS_DAT_ID" autoincrement="true"/>
 		<field-descriptor name="iacucProtocolStudyGroupId" column="IACUC_PROTOCOL_STUDY_GROUP_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="procedureCustomAttributeId" column="PROC_CUSTOM_ATTRIBUTE_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="procedureCustomAttributeId" column="PROC_CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
