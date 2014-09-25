@@ -37,7 +37,8 @@ public abstract class CommitteeScheduleAttachmentsBase extends KcPersistableBusi
 
 
     private static final long serialVersionUID = -5308464510751671978L;
-
+    
+    private Long scheduleId;
     private Integer attachmentId;
     private String attachmentsTypeCode;
     private String description;
@@ -355,4 +356,10 @@ public abstract class CommitteeScheduleAttachmentsBase extends KcPersistableBusi
     public byte[] getData() {
         return getDocument();
     }
+	public Long getScheduleId() {
+		return scheduleId;
+	}
+	public void setScheduleIdFk(Long scheduleId) {
+		this.scheduleId = scheduleId;
+	}
 }

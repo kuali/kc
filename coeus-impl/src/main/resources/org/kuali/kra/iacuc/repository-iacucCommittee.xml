@@ -69,7 +69,7 @@
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
 		<collection-descriptor name="committeeScheduleAttachments" proxy="true" element-class-ref="org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleAttachments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        	<inverse-foreignkey field-ref="scheduleIdFk" />
+        	<inverse-foreignkey field-ref="scheduleId" />
     	</collection-descriptor>
 	</class-descriptor>
 	
@@ -499,8 +499,8 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleAttachments" table="COMM_SCHEDULE_ATTACHMENTS">
-    	<field-descriptor name="scheduleIdFk" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
-		<field-descriptor name="attachmentId" column="ATTACHMENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="COMM_SCHEDULE_ATTACHMENT_ID" autoincrement="true"/>
+    	<field-descriptor name="scheduleId" column="SCHEDULE_ID_FK" jdbc-type="BIGINT" />
+		<field-descriptor name="attachmentId" column="ATTACHMENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_COMM_SCHED_ATTACH_ID" autoincrement="true"/>
 		<field-descriptor name="attachmentsTypeCode" column="ATTACHMENT_TYPE_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		 <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" /> 
@@ -513,7 +513,7 @@
 		<field-descriptor name="newUpdateTimestamp" column="NEW_UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" /> 
 		<field-descriptor name="newUpdateUser" column="NEW_UPDATE_USER" jdbc-type="VARCHAR" />
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="scheduleIdFk"/>
+			<foreignkey field-ref="scheduleId"/>
 		</reference-descriptor>
 		<reference-descriptor name="attachmentsEntryType" class-ref="org.kuali.coeus.common.committee.impl.meeting.AttachmentsEntryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="attachmentsTypeCode"/>
