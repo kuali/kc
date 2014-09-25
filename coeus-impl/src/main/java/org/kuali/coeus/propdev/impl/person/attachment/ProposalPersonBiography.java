@@ -23,7 +23,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
-import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachment;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.KcFile;
@@ -32,16 +31,12 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.file.FileMeta;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -140,7 +135,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         ProposalPersonBiographyAttachment attachment = new ProposalPersonBiographyAttachment();
         attachment.setType(multipartFile.getContentType());
         attachment.setData(multipartFile.getBytes());
-        attachment.setName(multipartFile.getName());
+        attachment.setName(multipartFile.getOriginalFilename());
         setPersonnelAttachment(attachment);
     }
 
@@ -156,12 +151,17 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     @Override
     public String getContentType() {
-        return this.getPersonnelAttachment().getType();
+        if (personnelAttachment != null){
+            return this.getPersonnelAttachment().getType();
+        }
+        return null;
     }
 
     @Override
     public void setContentType(String contentType) {
-        this.getPersonnelAttachment().setType(contentType);
+        if (personnelAttachment != null) {
+            this.getPersonnelAttachment().setType(contentType);
+        }
     }
 
     @Override

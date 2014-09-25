@@ -15,12 +15,21 @@
  */
 package org.kuali.coeus.propdev.impl.abstrct;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.view.ViewModel;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,49 +41,28 @@ import java.util.List;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class AbstractTypeValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
-    
-    /**
-     * Constructs the list of Proposal Abstract Types.  Each entry
-     * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
-     * type code and the "value" is the textual description that is viewed
-     * by a user.  The list is obtained from the Abstract Type database table
-     * via the "keyValuesService".  The intent of this method is to provide 
-     * a list which is viewed in a GUI.  As such, the first entry in the list 
-     * is the generic &lt;"", "select:"&gt; option.
-     * 
-     * The list is also filtered based upon the abstracts currently in the
-     * proposal development document.  Users are not allowed to create two or
-     * more abstracts with the same abstract type.  Therefore, if an abstract
-     * type is already being used, it is removed from the list.  If the document
-     * cannot be found, the entire list is returned (it is not filtered).
-     * 
-     * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
-     * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
+@Component("abstractTypeValuesFinder")
+public class AbstractTypeValuesFinder extends UifKeyValuesFinderBase {
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
     @Override
-    public List<KeyValue> getKeyValues() {
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument();
-        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
-        Collection<AbstractType> abstractTypes = keyValuesService.findAll(AbstractType.class);
+    public List<KeyValue> getKeyValues(ViewModel model, InputField field){
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
+        String selectedAbstractType = getFieldValue(model,field);
+        Collection<AbstractType> abstractTypes = getDataObjectService().findAll(AbstractType.class).getResults();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         for (AbstractType abstractType : abstractTypes) {
-            if (!hasAbstract(doc, abstractType)) {
+            if (!hasAbstract(form.getProposalDevelopmentDocument(), abstractType) || StringUtils.equals(abstractType.getCode(),selectedAbstractType)) {
                 keyValues.add(new ConcreteKeyValue(abstractType.getCode(), abstractType.getDescription()));
             }
         }
         return keyValues;
     }
-    
-    /**
-     * Does the document already have an abstract using the given abstract type?
-     * 
-     * @param doc the Proposal Development Document.
-     * @param abstractType the abstract type to look for.
-     * @return true if the abstract type is found; otherwise false.
-     */
+
     private boolean hasAbstract(ProposalDevelopmentDocument doc, AbstractType abstractType) {
         if (doc != null) {
             List<ProposalAbstract> proposalAbstracts = doc.getDevelopmentProposal().getProposalAbstracts();
@@ -85,5 +73,27 @@ public class AbstractTypeValuesFinder extends FormViewAwareUifKeyValuesFinderBas
             }
         }
         return false;
+    }
+
+    private String getFieldValue(ViewModel model, InputField field) {
+        if (!StringUtils.startsWith(field.getBindingInfo().getBindingPath(),"new")) {
+            try {
+                return (String) PropertyUtils.getNestedProperty(model,field.getBindingInfo().getBindingPath());
+            } catch (Exception e) {
+                throw new RuntimeException("could not retrieve abstract type from the input field", e);
+            }
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public DataObjectService getDataObjectService() {
+        if (dataObjectService == null) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 }

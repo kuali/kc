@@ -1,6 +1,8 @@
 package org.kuali.coeus.propdev.impl.attachment;
 
+import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.rice.krad.bo.Note;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +11,9 @@ import java.util.Map;
 public class ProposalDevelopmentAttachmentHelper {
     private Narrative narrative;
     private Narrative instituteAttachment;
+    private Note note;
     private ProposalPersonBiography biography;
+    private ProposalAbstract proposalAbstract;
 
     private String selectedLineIndex;
     private String markAllStatus;
@@ -20,6 +24,8 @@ public class ProposalDevelopmentAttachmentHelper {
         instituteAttachment = new Narrative();
         narrative = new Narrative();
         biography = new ProposalPersonBiography();
+        note = new Note();
+        proposalAbstract = new ProposalAbstract();
         editableFileAttachments = new HashMap<String,List<String>>();
     }
 
@@ -27,6 +33,8 @@ public class ProposalDevelopmentAttachmentHelper {
         instituteAttachment = new Narrative();
         narrative = new Narrative();
         biography = new ProposalPersonBiography();
+        note = new Note();
+        proposalAbstract = new ProposalAbstract();
         editableFileAttachments = new HashMap<String,List<String>>();
         selectedLineIndex = null;
     }
@@ -77,5 +85,21 @@ public class ProposalDevelopmentAttachmentHelper {
 
     public void setEditableFileAttachments(Map<String, List<String>> editableFileAttachments) {
         this.editableFileAttachments = editableFileAttachments;
+    }
+
+    public Note getNote() {
+        return note;
+    }
+
+    public void setNote(Note note) {
+        this.note = note;
+    }
+
+    public ProposalAbstract getProposalAbstract() {
+        return proposalAbstract;
+    }
+
+    public void setProposalAbstract(ProposalAbstract proposalAbstract) {
+        this.proposalAbstract = proposalAbstract;
     }
 }

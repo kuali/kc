@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;

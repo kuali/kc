@@ -18,11 +18,13 @@ package org.kuali.coeus.propdev.impl.attachment;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -66,51 +68,6 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Autowired
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
-    
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=cancelAttachment")
-    public ModelAndView cancelAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-
-        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)){
-            form.getEditableCollectionLines().get(selectedCollectionPath).remove(selectedLine);
-        }
-
-        return getRefreshControllerService().refresh(form);
-    }
-
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAttachment")
-    public ModelAndView saveAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ModelAndView modelAndView = getCollectionControllerService().saveLine(form);
-
-        if (getGlobalVariableService().getMessageMap().hasErrors()){
-            return getRefreshControllerService().refresh(form);
-        }
-
-        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-
-        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)){
-            form.getEditableCollectionLines().get(selectedCollectionPath).remove(selectedLine);
-            if (form.getProposalDevelopmentAttachmentHelper().getEditableFileLineAttachments().get(selectedCollectionPath) != null){
-                form.getProposalDevelopmentAttachmentHelper().getEditableFileLineAttachments().get(selectedCollectionPath).remove(selectedLine);
-            }
-        }
-
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addAttachment")
-    public ModelAndView addAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-
-        addEditableCollectionLine(form, selectedCollectionPath);
-        return getCollectionControllerService().addLine(form);
-    }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addFileUploadLine")
     public ModelAndView addFileUploadLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -149,35 +106,78 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNarrative")
-    public ModelAndView prepareNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                          HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public ModelAndView prepareNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
        form.getProposalDevelopmentAttachmentHelper().reset();
 
        if (StringUtils.isNotEmpty(selectedLine)) {
-           Narrative tmpNarrative = null;
-           tmpNarrative = form.getDevelopmentProposal().getNarrative(Integer.parseInt(selectedLine));
+           Narrative tmpNarrative = new Narrative();
            form.getProposalDevelopmentAttachmentHelper().setSelectedLineIndex(selectedLine);
+           PropertyUtils.copyProperties(tmpNarrative,form.getDevelopmentProposal().getNarrative(Integer.parseInt(selectedLine)));
            form.getProposalDevelopmentAttachmentHelper().setNarrative(tmpNarrative);
        }
 
-        return getRefreshControllerService().refresh(form);
+        return getModelAndViewService().showDialog("PropDev-AttachmentsPage-ProposalDetails",true,form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareBiography")
-    public ModelAndView prepareBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                         HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public ModelAndView prepareBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         form.getProposalDevelopmentAttachmentHelper().reset();
 
         if (StringUtils.isNotEmpty(selectedLine)) {
-            ProposalPersonBiography tmpBiography = null;
-            tmpBiography = form.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(selectedLine));
+            ProposalPersonBiography tmpBiography = new ProposalPersonBiography();
             form.getProposalDevelopmentAttachmentHelper().setSelectedLineIndex(selectedLine);
+            PropertyUtils.copyProperties(tmpBiography,form.getDevelopmentProposal().getPropPersonBio(Integer.parseInt(selectedLine)));
             form.getProposalDevelopmentAttachmentHelper().setBiography(tmpBiography);
         }
 
-        return getRefreshControllerService().refresh(form);
+        return getModelAndViewService().showDialog("PropDev-AttachmentsPage-PersonnelDetails", true, form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareAbstract")
+    public ModelAndView prepareAbstract(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+
+        if (StringUtils.isNotEmpty(selectedLine)) {
+            ProposalAbstract tmpAbstract = new ProposalAbstract();
+            form.getProposalDevelopmentAttachmentHelper().setSelectedLineIndex(selectedLine);
+            PropertyUtils.copyProperties(tmpAbstract,form.getDevelopmentProposal().getProposalAbstract(Integer.parseInt(selectedLine)));
+            form.getProposalDevelopmentAttachmentHelper().setProposalAbstract(tmpAbstract);
+        }
+
+        return getModelAndViewService().showDialog("PropDev-AttachmentsPage-AbstractDetails", true, form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareInstituteAttachment")
+    public ModelAndView prepareInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+
+        if (StringUtils.isNotEmpty(selectedLine)) {
+            Narrative tmpNarrative = new Narrative();
+            form.getProposalDevelopmentAttachmentHelper().setSelectedLineIndex(selectedLine);
+            PropertyUtils.copyProperties(tmpNarrative,form.getDevelopmentProposal().getInstituteAttachment(Integer.parseInt(selectedLine)));
+            form.getProposalDevelopmentAttachmentHelper().setInstituteAttachment(tmpNarrative);
+        }
+
+        return getModelAndViewService().showDialog("PropDev-AttachmentsPage-InternalDetails",true,form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNote")
+    public ModelAndView prepareNote(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+
+        if (StringUtils.isNotEmpty(selectedLine)) {
+            Note tmpNote = new Note();
+            form.getProposalDevelopmentAttachmentHelper().setSelectedLineIndex(selectedLine);
+            PropertyUtils.copyProperties(tmpNote,form.getProposalDevelopmentDocument().getNote(Integer.parseInt(selectedLine)));
+            form.getProposalDevelopmentAttachmentHelper().setNote(tmpNote);
+        }
+
+        return getModelAndViewService().showDialog("PropDev-AttachmentsPage-NoteDetails", true, form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addNarrative")
@@ -207,14 +207,6 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         form.getDevelopmentProposal().getInstituteAttachments().add(0,narrative);
         form.getProposalDevelopmentAttachmentHelper().reset();
 
-        String collectionPath = ProposalDevelopmentConstants.PropertyConstants.INSTITUTE_ATTACHMENTS;
-        if (!((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).validateNarrativeRequiredFields(narrative, collectionPath + "[0]",false)){
-            addEditableCollectionLine(form, collectionPath);
-        }
-        else if(form.getEditableCollectionLines().containsKey(collectionPath)
-                && form.getEditableCollectionLines().get(collectionPath).size() > 0) {
-            updateEditableCollectionLines(form, collectionPath);
-        }
         return getRefreshControllerService().refresh(form);
     }
 
@@ -228,8 +220,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addBiography")
-    public ModelAndView addBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public ModelAndView addBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         ProposalPersonBiography biography = form.getProposalDevelopmentAttachmentHelper().getBiography();
         biography.setDevelopmentProposal(document.getDevelopmentProposal());
@@ -246,21 +237,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         form.getDevelopmentProposal().getPropPersonBios().add(0,biography);
         form.getProposalDevelopmentAttachmentHelper().reset();
 
-        String collectionPath = ProposalDevelopmentConstants.PropertyConstants.PERSONNEL_BIOS;
-        if (!((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).validateProposalPersonBiographyRequiredFields(biography, collectionPath + "[0]",false)){
-            addEditableCollectionLine(form, collectionPath);
-        }
-        else if(form.getEditableCollectionLines().containsKey(collectionPath)
-                && form.getEditableCollectionLines().get(collectionPath).size() > 0) {
-            updateEditableCollectionLines(form, collectionPath);
-        }
-
         return getRefreshControllerService().refresh(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNarrative")
-    public ModelAndView saveNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public ModelAndView saveNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
         narrative.refreshReferenceObject("narrativeType");
@@ -275,6 +256,62 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
         return getRefreshControllerService().refresh(form);
     }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveBiography")
+    public ModelAndView saveBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        ProposalPersonBiography biography = form.getProposalDevelopmentAttachmentHelper().getBiography();
+        int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
+        biography.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
+        biography.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+        getDataObjectService().wrap(biography).fetchRelationship("propPerDocType");
+        try {
+            biography.init(biography.getMultipartFile());
+        } catch (Exception e) {
+            LOG.info("No File Attached");
+        }
+        form.getDevelopmentProposal().getPropPersonBios().set(selectedLineIndex,biography);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveInstituteAttachment")
+    public ModelAndView saveInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
+        int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
+        try {
+            narrative.init(narrative.getMultipartFile());
+        } catch (Exception e) {
+            LOG.info("No File Attached");
+        }
+        form.getDevelopmentProposal().getInstituteAttachments().set(selectedLineIndex,narrative);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAbstract")
+    public ModelAndView saveAbstract(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        ProposalAbstract proposalAbstract = form.getProposalDevelopmentAttachmentHelper().getProposalAbstract();
+        int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
+
+        form.getDevelopmentProposal().getProposalAbstracts().set(selectedLineIndex,proposalAbstract);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNote")
+    public ModelAndView saveNote(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        Note note = form.getProposalDevelopmentAttachmentHelper().getNote();
+        int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
+
+        form.getProposalDevelopmentDocument().getNotes().set(selectedLineIndex,note);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+
+        return getRefreshControllerService().refresh(form);
+    }
+
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=updateEditableFileAttachment")
     public ModelAndView updateEditableFileAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
@@ -302,8 +339,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addProposalAttachmentRights"})
-    public ModelAndView addProposalAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
-          HttpServletRequest request) throws Exception {
+    public ModelAndView addProposalAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         int selectedLine = Integer.parseInt(form.getNarrativeUserRightsSelectedAttachment());
 
         boolean rulePassed = getKualiRuleService().applyRules(new NewNarrativeUserRightsEvent(form.getProposalDevelopmentDocument(), form.getNarrativeUserRights(), selectedLine));
@@ -312,13 +348,12 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getDevelopmentProposal().getNarrative(selectedLine).getNarrativeUserRights().clear();
             form.getDevelopmentProposal().getNarrative(selectedLine).getNarrativeUserRights().addAll(form.getNarrativeUserRights());
         }
-        return getModelAndViewService().getModelAndView(form);
+        return  super.save(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=getProposalAttachmentRights"})
     public ModelAndView getProposalAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
-                                     @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine,
-                                     HttpServletRequest request) throws Exception {
+                                     @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
         form.getDevelopmentProposal().populateNarrativeRightsForLoggedinUser();
         form.getDevelopmentProposal().populatePersonNameForNarrativeUserRights(Integer.parseInt(selectedLine));
         Narrative selectedNarrative= form.getDevelopmentProposal().getNarratives().get(Integer.parseInt(selectedLine));
@@ -337,8 +372,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addInstituteAttachmentRights"})
-    public ModelAndView addInstituteAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
-                                                    HttpServletRequest request) throws Exception {
+    public ModelAndView addInstituteAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         int selectedLine = Integer.parseInt(form.getNarrativeUserRightsSelectedAttachment());
 
         boolean rulePassed = getKualiRuleService().applyRules(new NewNarrativeUserRightsEvent(form.getProposalDevelopmentDocument(), form.getNarrativeUserRights(), selectedLine));
@@ -347,13 +381,12 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getDevelopmentProposal().getInstituteAttachment(selectedLine).getNarrativeUserRights().clear();
             form.getDevelopmentProposal().getInstituteAttachment(selectedLine).getNarrativeUserRights().addAll(form.getNarrativeUserRights());
         }
-        return getModelAndViewService().getModelAndView(form);
+        return super.save(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=getInstituteAttachmentRights"})
     public ModelAndView getInstituteAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
-                                                    @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine,
-                                                    HttpServletRequest request) throws Exception {
+                                                    @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
         form.getDevelopmentProposal().populateNarrativeRightsForLoggedinUser();
         form.getDevelopmentProposal().populatePersonNameForInstituteAttachmentUserRights(Integer.parseInt(selectedLine));
         Narrative selectedNarrative= form.getDevelopmentProposal().getInstituteAttachment(Integer.parseInt(selectedLine));

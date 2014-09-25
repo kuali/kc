@@ -696,15 +696,28 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
     }
 
-    public String showFileAttachmentName(ProposalDevelopmentAttachmentHelper helper){
-        if (hasNarrativeAttachment(helper)){
-            return helper.getNarrative().getNarrativeAttachment().getName();
+    public String showFileAttachmentName(ProposalDevelopmentAttachmentHelper helper, String attachmentType){
+        if (hasAttachment(helper,attachmentType)){
+            if (StringUtils.equals(attachmentType,Constants.PROPOSAL_ATTACHMENT_TYPE_NAME)) {
+                return helper.getNarrative().getNarrativeAttachment().getName();
+            } else if (StringUtils.equals(attachmentType,Constants.PERSONNEL_ATTACHMENT_TYPE_NAME)) {
+                return helper.getBiography().getPersonnelAttachment().getName();
+            } else if (StringUtils.equals(attachmentType,Constants.INSTITUTIONAL_ATTACHMENT_TYPE_NAME)) {
+                return helper.getInstituteAttachment().getNarrativeAttachment().getName();
+            }
         }
         return "";
     }
 
-    public boolean hasNarrativeAttachment(ProposalDevelopmentAttachmentHelper helper){
-        return helper.getNarrative().getNarrativeAttachment() != null;
+    public boolean hasAttachment(ProposalDevelopmentAttachmentHelper helper, String attachmentType){
+        if (StringUtils.equals(attachmentType,Constants.PROPOSAL_ATTACHMENT_TYPE_NAME)) {
+            return helper.getNarrative().getNarrativeAttachment() != null;
+        } else if (StringUtils.equals(attachmentType,Constants.PERSONNEL_ATTACHMENT_TYPE_NAME)) {
+            return helper.getBiography().getPersonnelAttachment() != null;
+        } else if (StringUtils.equals(attachmentType,Constants.INSTITUTIONAL_ATTACHMENT_TYPE_NAME)) {
+            return helper.getInstituteAttachment().getNarrativeAttachment() != null;
+        }
+        return false;
     }
 
     public String replaceLineBreaks(String string) {
