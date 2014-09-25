@@ -27,19 +27,14 @@ import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import javax.persistence.*;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -58,9 +53,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Column(name = "BUDGET_PERSONNEL_DETAILS_ID")
     private Long budgetPersonnelLineItemId;
 
-    @DeepCopyIgnore
     @Column(name = "BUDGET_DETAILS_ID")
-    @Id
     private Long budgetLineItemId; 
 
     @Column(name = "LINE_ITEM_NUMBER")
@@ -188,17 +181,14 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Transient
     private BudgetPeriod budgetPeriodBO;
 
-    @Transient
+    @OneToMany(mappedBy = "budgetPersonnelLineItem")
     private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
 
-    @Transient
+    @OneToMany(mappedBy = "budgetPersonnelLineItem")
     private List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList;
 
     @Transient
     private List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails;
-
-    @Transient
-    private transient DataObjectService dataObjectService;
 
     public BudgetPersonnelDetails() {
         budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
@@ -332,10 +322,6 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 
     @Override
     public List<BudgetPersonnelCalculatedAmount> getBudgetPersonnelCalculatedAmounts() {
-        if (CollectionUtils.isEmpty(budgetPersonnelCalculatedAmounts)) {
-            budgetPersonnelCalculatedAmounts = getDataObjectService().findMatching(BudgetPersonnelCalculatedAmount.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetPersonnelLineItemId", budgetPersonnelLineItemId)).build()).getResults();
-        }
-
         return budgetPersonnelCalculatedAmounts;
     }
 
@@ -345,10 +331,6 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     }
 
     public List<BudgetPersonnelRateAndBase> getBudgetPersonnelRateAndBaseList() {
-        if (CollectionUtils.isEmpty(budgetPersonnelRateAndBaseList)) {
-            budgetPersonnelRateAndBaseList = getDataObjectService().findMatching(BudgetPersonnelRateAndBase.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetPersonnelLineItemId", budgetPersonnelLineItemId)).build()).getResults();
-        }
-
         return budgetPersonnelRateAndBaseList;
     }
 
@@ -497,13 +479,6 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 
     public AbstractBudgetCalculatedAmount getNewBudgetPersonnelCalculatedAmount() {
         return new BudgetPersonnelCalculatedAmount();
-    }
-
-    public DataObjectService getDataObjectService() {
-        if (dataObjectService == null) {
-            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
-        }
-        return dataObjectService;
     }
 
     @Override

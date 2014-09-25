@@ -27,10 +27,10 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -84,7 +84,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
          * Need to solve the document next value refresh issue
          */
         
-        newBudgetPersonnelDetails.setPersonNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+        newBudgetPersonnelDetails.setPersonNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
         newBudgetPersonnelDetails.setPersonSequenceNumber(newBudgetPersonnelDetails.getPersonSequenceNumber());
         BudgetPerson budgetPerson = budgetPersonService.findBudgetPerson(newBudgetPersonnelDetails);
         if(budgetPerson != null) {
@@ -92,7 +92,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
             newBudgetPersonnelDetails.setBudgetPerson(budgetPerson);
         }
-        newBudgetPersonnelDetails.setSequenceNumber(budget.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
+        newBudgetPersonnelDetails.setSequenceNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
         //budgetCalculationService.populateCalculatedAmount(budget, newBudgetPersonnelDetails);
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);

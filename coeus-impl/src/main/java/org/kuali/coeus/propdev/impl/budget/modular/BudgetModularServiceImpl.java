@@ -18,10 +18,10 @@ package org.kuali.coeus.propdev.impl.budget.modular;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -133,7 +133,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                   
                     if (budgetRateAndBase.getRateClass().getRateClassTypeCode().equals(fnaRateClassType)) {
                         BudgetModularIdc budgetModularIdc = new BudgetModularIdc();
-                        budgetModularIdc.setRateNumber(budget.getHackedDocumentNextValue(RATE_NUMBER_PROPERTY_NAME));
+                        budgetModularIdc.setRateNumber(budget.getNextValue(RATE_NUMBER_PROPERTY_NAME));
                         budgetModularIdc.setDescription(budgetRateAndBase.getRateClassCode());
                         budgetModularIdc.setIdcRate(budgetRateAndBase.getAppliedRate());
                         budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());  

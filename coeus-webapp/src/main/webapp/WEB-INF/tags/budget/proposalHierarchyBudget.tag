@@ -51,28 +51,6 @@
 					</div>
 				</td>
 			</tr>
-			<kra:section permission="${maintainProposalHierarchy}">
-			<c:choose>
-				<c:when test="${hierarchyStatus == hierarchyChildStatus && KualiForm.syncableBudget}" >
-					<tr>
-						<td class="infoline" colspan="3">
-							<div align="center">
-								<html:image property="methodToCall.syncBudgetToParent.anchor${tabKey}"
-						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncbudgettoparent.gif' styleClass="tinybutton"/>
-							</div>
-		                </td>
-					</tr>
-				</c:when><c:when test="${hierarchyStatus == hierarchyChildStatus}">
-					<tr>
-						<td class="infoline" colspan="3">
-							<div align="center">
-								This budget cannot be synced as it is not the final or most recent budget for the proposal.
-							</div>
-						</td>
-					</tr>
-				</c:when>
-			</c:choose>
-			</kra:section>
 			<c:if test="${not KualiForm.editingMode[maintainProposalHierarchy]}"><tr>
 				<td class="infoline" align="center">
 					<div align="center">You do not have permission to perform Proposal Hierarchy actions.</div>

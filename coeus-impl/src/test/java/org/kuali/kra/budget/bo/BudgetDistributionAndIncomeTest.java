@@ -107,7 +107,7 @@ public abstract class BudgetDistributionAndIncomeTest {
     public class Budget_TestRoot extends Budget {
         //removes dependence on BudgetDocument
         private Integer nextVal = 1;
-        public Integer getHackedDocumentNextValue(String key) {
+        public Integer getNextValue(String key) {
             return nextVal++;
         }
     }

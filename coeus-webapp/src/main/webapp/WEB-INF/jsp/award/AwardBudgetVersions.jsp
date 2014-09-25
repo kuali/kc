@@ -45,7 +45,7 @@
         	<tr>
                 <th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div></th>
                 <td width="25%" align="left" valign="middle">
-                	<bean:write name="KualiForm" property="document.budgetParent.accountNumber"/>
+                	<bean:write name="KualiForm" property="document.award.accountNumber"/>
                 </td>
                 <th width="25%"><div align="right">Budget Start Date</div></th>
                 <td width="25%" align="left" valign="middle">
@@ -55,7 +55,7 @@
         	<tr>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardNumber}" /></div></th>
            		<td>
-           			<bean:write name="KualiForm" property="document.budgetParent.awardNumber"/> 
+           			<bean:write name="KualiForm" property="document.award.awardNumber"/> 
            		</td>
 				<th><div align="right">Budget End Date</div></th>
                 <td>
@@ -70,7 +70,7 @@
        			<th>
            			<div align="right">Budget Total Cost Limit:</div>
            		<td>
-           			<bean:write name="KualiForm" property="document.budgetParent.budgetTotalCostLimit"/> 
+           			<bean:write name="KualiForm" property="document.award.budgetTotalCostLimit"/> 
            		</td>
         	</tr>
         	<tr>
@@ -121,16 +121,14 @@
         </table>
     </div>
 </kul:tabTop>
-  
   	
   	<kra-b:budgetVersions 
-  		budgetDocumentVersions="${KualiForm.document.budgetDocumentVersions}" 
-  		pathToVersions="document"
-  		errorKey="document.parentDocument.budgetDocumentVersion*,
-  					document.award.budgetVersion*"
+  		budgetDocumentVersions="${KualiForm.document.award.budgets}" 
+  		pathToVersions="document.award.budgets"
+  		errorKey="document.budgetDocumentVersion*,
+  					document.award.budget*"
   		requestedStartDateInitial="${KualiForm.document.award.beginDate}"
 		requestedEndDateInitial="${KualiForm.document.award.projectEndDate}"
-		hierarchyParentBudgetIsComplete="true"
 		/>
   	  	
   	 <kra-a:awardBudgetLimits /> 

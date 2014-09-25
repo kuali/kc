@@ -17,7 +17,7 @@ package org.kuali.kra.award.budget.document.authorizer;
 
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 
 /**
  * A Budget Task is a task that performs an action against a

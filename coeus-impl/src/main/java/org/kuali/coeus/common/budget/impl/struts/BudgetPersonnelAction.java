@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.personnel;
+package org.kuali.coeus.common.budget.impl.struts;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +22,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpenseRule;
-import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpensesAction;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
@@ -32,11 +31,11 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -506,8 +505,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
      */
     public ActionForward deleteBudgetPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        BudgetDocument budgetDocument = ((BudgetForm) form).getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        AwardBudgetDocument awardBudgetDocument = ((BudgetForm) form).getBudgetDocument();
+        Budget budget = awardBudgetDocument.getBudget();
         if (!getKcBusinessRulesEngine().applyRules(new DeleteBudgetPersonEvent(budget, budget.getBudgetPerson(getLineToDelete(request))))) {
             return mapping.findForward(MAPPING_BASIC);
         } else {
@@ -530,8 +529,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
 
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_BUDGET_PERSON.equals(question)) {
-            BudgetDocument budgetDocument = ((BudgetForm) form).getBudgetDocument();
-            Budget budget = budgetDocument.getBudget();
+            AwardBudgetDocument awardBudgetDocument = ((BudgetForm) form).getBudgetDocument();
+            Budget budget = awardBudgetDocument.getBudget();
             getBudgetPersonnelBudgetService()
                 .deleteBudgetPersonnelDetailsForPerson(budget,             
                                                        budget.getBudgetPerson(getLineToDelete(request)));            
@@ -617,8 +616,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
      * @see buildParameterizedConfirmationQuestion
      */
     private StrutsConfirmation buildDeleteBudgetPersonConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetDocument budgetDocument = ((BudgetForm) form).getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
+        AwardBudgetDocument awardBudgetDocument = ((BudgetForm) form).getBudgetDocument();
+        Budget budget = awardBudgetDocument.getBudget();
         String personName = budget.getBudgetPerson(getLineToDelete(request)).getPersonName();
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_BUDGET_PERSON, KeyConstants.QUESTION_DELETE_PERSON, personName);
     }

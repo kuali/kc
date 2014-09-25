@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.impl.rate;
 
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -29,7 +30,6 @@ import org.kuali.coeus.common.budget.framework.query.operator.LesserThan;
 import org.kuali.coeus.common.budget.framework.query.operator.Or;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;

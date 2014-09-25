@@ -34,7 +34,7 @@ import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
@@ -504,8 +504,8 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
                     if (editMode.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) {
                         document.setViewOnly(true);
                         //if budget document we need to set the parent document view only as well for authorization consistency.
-                        if (document instanceof BudgetDocument) {
-                            BudgetDocument budgetDoc = (BudgetDocument)document;
+                        if (document instanceof AwardBudgetDocument) {
+                            AwardBudgetDocument budgetDoc = (AwardBudgetDocument)document;
                             budgetDoc.getBudget().getBudgetParent().getDocument().setViewOnly(true);
                         }
                     }

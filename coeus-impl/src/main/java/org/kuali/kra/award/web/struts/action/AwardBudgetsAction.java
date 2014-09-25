@@ -30,24 +30,21 @@ import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.budget.framework.copy.CopyPeriodsQuestion;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -84,14 +81,13 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         //since the award budget versions panel is usually(always??) only usable when the award is
         //read only we need to make sure to perform post budget copy stuff here
         if (!StringUtils.equals(awardForm.getMethodToCall(), "save") && awardForm.isSaveAfterCopy()) {
-            final List<AwardBudgetDocumentVersion> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
-            final AwardBudgetDocumentVersion copiedDocumentOverview = overviews.get(overviews.size() - 1);
-            BudgetVersionOverview copiedOverview = copiedDocumentOverview.getBudgetVersionOverview();
-            final String copiedName = copiedOverview.getName();
-            copiedOverview.setName("copied placeholder");
+            final List<AwardBudgetExt> overviews = awardForm.getAwardDocument().getBudgetDocumentVersions();
+            final AwardBudgetExt copiedBudget = overviews.get(overviews.size() - 1);
+            final String copiedName = copiedBudget.getName();
+            copiedBudget.setName("copied placeholder");
             LOG.debug("validating " + copiedName);
             boolean valid = getBudgetService().isBudgetVersionNameValid(awardForm.getAwardDocument().getAward(), copiedName);
-            copiedOverview.setName(copiedName);
+            copiedBudget.setName(copiedName);
             awardForm.setSaveAfterCopy(!valid);
             if (!valid) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
@@ -102,7 +98,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
         ActionForward ac = super.execute(mapping, form, request, response);
-        getAwardBudgetService().populateBudgetLimitSummary(awardForm.getBudgetLimitSummary(), awardForm.getAwardDocument());
+        getAwardBudgetService().populateBudgetLimitSummary(awardForm.getBudgetLimitSummary(), awardForm.getAwardDocument().getAward());
         return ac;
     }
 
@@ -201,7 +197,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
                     KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else {
             DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-            BudgetDocument<Award> budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+            AwardBudgetDocument budgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
             Budget budget = budgetDocument.getBudget();
             String forward = buildForwardUrl(routeHeaderId);
@@ -231,12 +227,12 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         AwardDocument awardDoc = awardForm.getAwardDocument();
         Budget budgetToOpen = awardDoc.getBudgetDocumentVersion(getSelectedLine(request));
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-        String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
+        AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+        String routeHeaderId = awardBudgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
-            budgetDocument.getBudget().setActivityTypeCode(awardDoc.getBudgetParent().getActivityTypeCode());
-            Budget budget = budgetDocument.getBudget();
+            awardBudgetDocument.getBudget().setActivityTypeCode(awardDoc.getBudgetParent().getActivityTypeCode());
+            Budget budget = awardBudgetDocument.getBudget();
           
           budget.setRateClassTypesReloaded(false);
           forward = forward.replace("awardBudgetParameters.do?", "awardBudgetParameters.do?syncBudgetRate=Y&");

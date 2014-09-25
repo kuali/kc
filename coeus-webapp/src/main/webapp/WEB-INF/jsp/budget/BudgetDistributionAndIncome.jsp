@@ -15,13 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kra-b:swapProposalDevelopmentEditModes/>
-
-	
-<kra-b:swapProposalDevelopmentEditModes/>
 <c:set var="readOnly" value="${(not KualiForm.editingMode['modifyBudgets']) && ( not parentReadOnlyFlag )}" scope="request" />
 <c:set var="viewOnly" value="${readOnly}" scope="request" />
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -32,14 +27,7 @@
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	showTabButtons="true">
   	
-	 <c:choose>
-		 <c:when test="${proposalBudgetFlag}">
-        	<div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetDistributionAndIncomeHelp" altText="help"/></div>
-         </c:when>
-         <c:otherwise>
-        	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetDistributionAndIncomeHelpUrl" altText="help"/></div>
-        </c:otherwise>
-    </c:choose>
+   	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetDistributionAndIncomeHelpUrl" altText="help"/></div>
 	
 	<div align="center">
 		<kra-b:budgetCostSharing />
@@ -59,4 +47,3 @@
 		/>
 
 </kul:documentPage>
-<kra-b:swapProposalDevelopmentEditModes/>

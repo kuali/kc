@@ -17,9 +17,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="budgetPersonList" required="true" type="java.util.List" %>
 <%@ attribute name="budgetPersonProperty" required="true" %>
-<c:set var="proposalBudgetFlag" value="${KualiForm.document.parentDocument.proposalBudgetFlag}"  scope="session"/>
-<%-- <c:set target="${KualiForm.document}" property="proposalBudgetFlag" value="${proposalBudgetFlag}"/> --%>
-<bean:define id="proposalBudgetFlag" value="${proposalBudgetFlag}"/>
 <c:set var="budgetPersonSalaryDetailsAttributes" value="${DataDictionary.BudgetPersonSalaryDetails.attributes}" />
 
 <c:set var="attributes" value="${DataDictionary.BudgetPerson.attributes}" />	
@@ -130,36 +127,6 @@
 				                    
 				    </div>
 				   
-				    <c:if test="${KualiForm.enableBudgetSalaryByPeriod=='Y'}">
-						<c:if test="${proposalBudgetFlag}">
-						<c:if test= "${person.personId != null}" >
-							<div align=center>
-								&nbsp; <a id="budgetPersonSalaryDetail"
-									title="Person Salary Details" href="#"
-									onclick="showBudgetPersonSalaryDetails(${KualiForm.viewDivBooleanFlag}, ${status.index}, ${KualiForm.document.budget.budgetId}, ${person.personSequenceNumber}, ${person.personId}, showBudgetPersonSalaryDetails_Callback);"
-									noresize> Base Salary by Period </a>
-							</div>
-						</c:if>
-						<c:if test= "${person.personId == null}" >
-						<c:if test = "${person.rolodexId != null }" >
-							<div align=center>
-								&nbsp; <a id="budgetPersonSalaryDetail"
-									title="Person Salary Details" href="#"
-									onclick="showBudgetPersonSalaryDetails(${KualiForm.viewDivBooleanFlag}, ${status.index}, ${KualiForm.document.budget.budgetId}, ${person.personSequenceNumber}, ${person.rolodexId}, showBudgetPersonSalaryDetails_Callback);"
-									noresize> Base Salary by Period </a>
-							</div>
-							</c:if>
-							<c:if test = "${person.rolodexId == null}" >
-							<div align=center>
-								&nbsp; <a id="budgetPersonSalaryDetail"
-									title="Person Salary Details" href="#"
-									onclick="showBudgetPersonSalaryDetails(${KualiForm.viewDivBooleanFlag}, ${status.index}, ${KualiForm.document.budget.budgetId}, ${person.personSequenceNumber}, ${person.tbnId}, showBudgetPersonSalaryDetails_Callback);"
-									noresize> Base Salary by Period </a>
-							</div>
-							</c:if>
-						</c:if>
-					</c:if>
-					</c:if>
 					<div id="paramDiv+${status.index}" class="dialog"
 							style="z-index: 999; width: 450px; height: auto; min-height: 170px; border: 2; border-style: solid; top: 200px; left: 500px; position: absolute; border-color: #6B6B6B; background-color: #FFFFFF; display: none;"center" >
 							<kra:section permission="modifyBudgets">

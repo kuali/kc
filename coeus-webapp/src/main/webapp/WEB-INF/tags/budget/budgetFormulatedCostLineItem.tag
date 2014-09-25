@@ -30,7 +30,6 @@
 <c:set var="action" value="budgetExpensesAction" />
 <c:set var="textAreaFieldNameJustification" value="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
 <c:set var="applyInRateReadOnly" value="false" />
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 <c:if test="${!budgetLineItem.validToApplyInRate}">
     <c:set var="applyInRateReadOnly" value="true" />
 </c:if>
@@ -130,9 +129,7 @@
 	          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemCalculatedAmountAttributes.applyRateFlag}" noColon="true" /></div></th>
 	          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" noColon="true" /></div></th>
 	          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" noColon="true" /></div></th>
-	          		<c:if test="${!proposalBudgetFlag}">
-	          			<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardBudgetLineItemCalculatedAmountAttributes.obligatedAmount}" noColon="true" /></div></th>
-	          		</c:if>
+          			<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardBudgetLineItemCalculatedAmountAttributes.obligatedAmount}" noColon="true" /></div></th>
           		</tr>
           					          						          			
           		<c:forEach items="${budgetLineItem.budgetLineItemCalculatedAmounts}" varStatus="status">
@@ -151,11 +148,9 @@
 								<c:out value="${budgetLineItem.budgetLineItemCalculatedAmounts[status.index].rateTypeDescription}" />
 							</div></td>
 							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].applyRateFlag" attributeEntry="${budgetLineItemCalculatedAmountAttributes.applyRateFlag}" readOnly="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/></div></td>									
-							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].calculatedCost" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" readOnly="${proposalBudgetFlag}" /></div></td>
-							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].calculatedCostSharing" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" readOnly="${proposalBudgetFlag}" /></div></td>
-			          		<c:if test="${!proposalBudgetFlag}">
-			          			<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].obligatedAmount" attributeEntry="${awardBudgetLineItemCalculatedAmountAttributes.obligatedAmount}" readOnly="true" /></div></td>
-			          		</c:if>
+							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].calculatedCost" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" /></div></td>
+							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].calculatedCostSharing" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" /></div></td>
+		          			<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].obligatedAmount" attributeEntry="${awardBudgetLineItemCalculatedAmountAttributes.obligatedAmount}" readOnly="true" /></div></td>
 						</tr>
 					</c:if>
           		</c:forEach> 
@@ -172,11 +167,9 @@
 								<c:out value="${budgetLineItem.budgetLineItemCalculatedAmounts[overHeadRateIndex].rateTypeDescription}" />
 							</div></td>
 							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].applyRateFlag" attributeEntry="${budgetLineItemCalculatedAmountAttributes.applyRateFlag}" readOnly="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/></div></td>									
-							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].calculatedCost" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" readOnly="${proposalBudgetFlag}" /></div></td>
-							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].calculatedCostSharing" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" readOnly="${proposalBudgetFlag}" /></div></td>
-			          		<c:if test="${!proposalBudgetFlag}">
-								<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].obligatedAmount" attributeEntry="${awardBudgetLineItemCalculatedAmountAttributes.obligatedAmount}" readOnly="true" /></div></td>
-			          		</c:if>
+							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].calculatedCost" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" /></div></td>
+							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].calculatedCostSharing" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" /></div></td>
+							<td><div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${overHeadRateIndex}].obligatedAmount" attributeEntry="${awardBudgetLineItemCalculatedAmountAttributes.obligatedAmount}" readOnly="true" /></div></td>
 						</tr>
 					</c:forEach> 
 				</c:if>

@@ -16,7 +16,6 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:if test="${!proposalBudgetFlag}">
 <script language="javascript">
   //well IE7 is super helpful and doesn't support Array.indexOf(used below) so here we implement
   //our own if there isn't one.
@@ -63,41 +62,26 @@
 	  });
   });
 </script>
-</c:if>
 
 <%@ attribute name="budgetDocumentVersions" required="true" type="java.util.List"%>
 <%@ attribute name="pathToVersions" required="true"%>
 <%@ attribute name="requestedStartDateInitial" required="true" %>
 <%@ attribute name="requestedEndDateInitial" required="true" %>
 <%@ attribute name="errorKey" required="false"%>
-<%@ attribute name="hierarchyParentBudgetIsComplete" required="true"%>
 
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
 <c:set var="awardBudgetAttributes" value="${DataDictionary.AwardBudgetExt.attributes}" />
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
-<c:set var="budgetVersionOverviewAttributes" value="${DataDictionary.BudgetVersionOverview.attributes}" />
 <c:set var="javascriptEnabled" value="true" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
 <c:set var="readonly" value="true"/>
 <kra:section permission="modifyProposalBudget">
 	<c:set var="readonly" value="false"/>
-</kra:section> 
-<c:if test="${hierarchyParentBudgetIsComplete}">
-	<c:set var="readonly" value="true"/> 	
-</c:if>
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
+</kra:section>
 <c:set var="projectDatesString" value=""/>
  <c:set var="useRiceAuditMode" value="true" scope="request" />
 
 	<c:set var="transParent" value="false"/>
-<c:choose>	
-<c:when test="${proposalBudgetFlag}">
-	<c:set var="projectDatesString" value="(${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})"/>
-	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
-	<div id="workarea">
-	<c:set var="transParent" value="true"/>
-</c:when>
-<c:otherwise>
+
    <c:choose>
     <c:when test="${not empty awardBudgetPage}">
 	  <c:set var="projectDatesString" value ="(${KualiForm.document.award.awardIdAccount})" />
@@ -105,13 +89,11 @@
     <c:otherwise> 
 	  <div id="workarea">
 	  <c:set var="transParent" value="true"/>
-	  <c:set var="projectDatesString" value ="(${KualiForm.document.parentDocument.award.awardIdAccount})" />
+	  <c:set var="projectDatesString" value ="(${KualiForm.document.budget.award.awardIdAccount})" />
     </c:otherwise>
    </c:choose>
-</c:otherwise>
-</c:choose>
 
-<kul:tab tabTitle="Budget Versions ${projectDatesString}"  transparentBackground="${transParent}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*" auditCluster="awardBudgetTotalCostAuditErrors" tabAuditKey="document.budget.totalCost">
+<kul:tab tabTitle="Budget Versions ${projectDatesString}"  transparentBackground="${transParent}" defaultOpen="true" tabErrorKey="document.budget.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*" auditCluster="awardBudgetTotalCostAuditErrors" tabAuditKey="document.budget.totalCost">
 
 	<div class="tab-container" align="center">
 
@@ -124,34 +106,19 @@
     	<h3>
             <span class="subhead-left">Budget Versions</span>
             
-          <c:choose>
-		       <c:when test="${proposalBudgetFlag}">
-               <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetVersionsHelp" altText="help"/></span>
-            </c:when>
-            <c:otherwise>
-               <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetVersionsHelpUrl" altText="help"/></span>
-            </c:otherwise>
-         </c:choose>
-            
+            <span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetVersionsHelpUrl" altText="help"/></span>
          </h3>
         <table id="budget-versions-table" cellpadding="0" cellspacing="0" summary="Budget Versions">
             <thead>
 			<tr>
 				<th scope="row">&nbsp;</th>
-				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${budgetVersionOverviewAttributes.documentDescription}" useShortLabel="true" noColon="true" /></div></th>
+				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.name}" useShortLabel="true" noColon="true" /></div></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.budgetVersionNumber}" useShortLabel="true" noColon="true" /></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.totalDirectCost}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.totalIndirectCost}" useShortLabel="true" noColon="true"/></th>
 				<th>Total</th>
 				<th>Budget Status</th>
-          		<c:choose>
-    				<c:when test="${proposalBudgetFlag}">
-						<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" useShortLabel="true" noColon="true"/></th>
-					</c:when>
-					<c:otherwise>
-						<th><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" useShortLabel="true" noColon="true"/></th>
-					</c:otherwise>
-				</c:choose>
+					<th><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" useShortLabel="true" noColon="true"/></th>
 				<kra:section permission="openBudgets">
 				    <th><div align="center">Actions</div></th>
 				</kra:section>
@@ -169,14 +136,7 @@
             	<td class="infoline">&nbsp;</td>
 	            <td class="infoline">
             		<div align=center>
-            		<c:choose>
-    					<c:when test="${proposalBudgetFlag}">
-            				<html:image property="methodToCall.addBudgetVersion" styleClass="addButton" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
-            			</c:when>
-						<c:otherwise>
-    				    	<html:image property="methodToCall.addBudgetVersion" styleClass="addButton" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-new38.gif' />
-    					</c:otherwise>
-					</c:choose>
+   				    	<html:image property="methodToCall.addBudgetVersion" styleClass="addButton" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-new38.gif' />
 					</div>
 				</td>
           	</tr>
@@ -184,8 +144,8 @@
           	</thead>
           	
           	<c:forEach var="budgetVersion" items="${budgetDocumentVersions}" varStatus="status">
-          		<c:set var="version" value="${pathToVersions}.budgetDocumentVersion[${status.index}].budgetVersionOverview" />
-          		<bean:define id="descriptionUpdatable" name="KualiForm" property="${pathToVersions}.budgetDocumentVersion[${status.index}].budgetVersionOverview.descriptionUpdatable" />
+          		<c:set var="version" value="${pathToVersions}[${status.index}]" />
+          		<c:set var="descriptionUpdatable" value="${budgetVersion.nameUpdatable}" />
           		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
           		<c:set var="parentTab" value="Budget Versions" scope="request"/>
           		<c:set var="tabTitle" value="${status.index}" scope="request"/>
@@ -220,40 +180,19 @@
                				</c:if>
            				</div>
            			</td>
-           			<td class="tab-subhead"><kul:htmlControlAttribute property="${version}.documentDescription" attributeEntry="${budgetVersionOverviewAttributes.documentDescription}" readOnly="${descriptionUpdatable != 'Yes'}"/></td>
-	            	<td class="tab-subhead"><div align="center">${budgetVersion.budgetVersionOverview.budgetVersionNumber}</div></td>
+           			<td class="tab-subhead"><kul:htmlControlAttribute property="${version}.name" attributeEntry="${budgetAttributes.name}" readOnly="${!descriptionUpdatable}"/></td>
+	            	<td class="tab-subhead"><div align="center">${budgetVersion.budgetVersionNumber}</div></td>
 		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCost" attributeEntry="${budgetAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
 		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCost" attributeEntry="${budgetAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
 		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCost" attributeEntry="${budgetAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
 		            <td class="tab-subhead">
 		            	<div align="center">
-		            		<!--  This field is to hold select status if it's disabled by javascript -->
-			          		<c:choose>
-			    				<c:when test="${proposalBudgetFlag}">
-		            		        <html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
-				            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${not (KualiForm.editingMode['modifyCompletedBudgets'] || KualiForm.editingMode['modifyProposalBudget'])}"/>
-				            	<%--	<c:if test="${not (KualiForm.editingMode['modifyCompletedBudgets'] || KualiForm.editingMode['modifyProposalBudget'])}">
-				            			<html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
-				            		</c:if> --%>
-			    				</c:when>
-			    				<c:otherwise>
-				            		<kul:htmlControlAttribute property="${version}.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" onchange="javascript: toggleFinalCheckboxes(document)" disabled="${readonly}"/>
-			    				</c:otherwise>
-							</c:choose>
+		            		<kul:htmlControlAttribute property="${version}.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" disabled="true"/>
 		            	</div>
             		</td>
 		            	<td class="tab-subhead">
 		            		<div align="center">
-				          		<c:choose>
-				    				<c:when test="${proposalBudgetFlag}">
-				            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" disabled="${readonly}"/>
-				            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
-					           			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
-				            		</c:when>
-				            		<c:otherwise>
-				            			<kul:htmlControlAttribute property="${version}.awardBudgetTypeCode" attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" disabled="${readonly}"/>
-				            		</c:otherwise>
-				            	</c:choose>
+	            				<kul:htmlControlAttribute property="${version}.awardBudgetTypeCode" attributeEntry="${awardBudgetAttributes.awardBudgetTypeCode}" disabled="true"/>
 		            		</div>
 		            	</td>
 	            	<kra:section permission="openBudgets">
@@ -274,66 +213,46 @@
             		<td colspan="8" style="padding:0px; border-left:none">
             			<table cellpadding="0" cellspacing="0" summary="" style="width:100%;">
 	                		<tr>
-							   	<c:choose>
-									<c:when test="${proposalBudgetFlag}">
-		                    			<th width="1%" nowrap><div align="right">Residual Funds:</div></th>
-		                    			<td align="left" width="12%">${budgetVersion.budgetVersionOverview.residualFunds}&nbsp;</td>
+                    			<c:choose>
+									<c:when test="${not empty awardBudgetPage}">
+										<th width="1%" nowrap>Award Version</th>
+                    					<td align="left" width="12%">${budgetVersion.award.sequenceNumber}</td>
 									</c:when>
 									<c:otherwise>
-		                    			<c:choose>
-											<c:when test="${not empty awardBudgetPage}">
-												<th width="1%" nowrap>Award Version</th>
-		                    					<td align="left" width="12%">${budgetVersion.parentDocument.award.sequenceNumber}</td>
-											</c:when>
-											<c:otherwise>
-												<th width="1%" nowrap>&nbsp;</th>
-		                    					<td align="left" width="12%">&nbsp;</td>
-											</c:otherwise>
-										</c:choose>
+										<th width="1%" nowrap>&nbsp;</th>
+                    					<td align="left" width="12%">&nbsp;</td>
 									</c:otherwise>
 								</c:choose>
 	                    		<th width="40%" nowrap><div align="right">F&A Rate Type:</div></th>
-	                    		<td align="left" width="99%">${budgetVersion.budgetVersionOverview.rateClass.description}&nbsp;</td>
+	                    		<td align="left" width="99%">${budgetVersion.rateClass.description}&nbsp;</td>
                   			</tr>
 	                  		<tr>
 	                    		<th nowrap><div align="right">Cost Sharing:</div></th>
-	                    		<td align="left">${budgetVersion.budgetVersionOverview.costSharingAmount}&nbsp;</td>
+	                    		<td align="left">${budgetVersion.costSharingAmount}&nbsp;</td>
 	                    		<th nowrap><div align="right">Last Updated:</div></th>
-	                    		<td align="left"><fmt:formatDate value="${budgetVersion.budgetVersionOverview.updateTimestamp}" type="both" />&nbsp;</td>
+	                    		<td align="left"><fmt:formatDate value="${budgetVersion.updateTimestamp}" type="both" />&nbsp;</td>
 	                  		</tr>
 				            <tr>
 				                <th nowrap><div align="right">Unrecovered F&amp;A:</div></th>
-				                <td align="left">${budgetVersion.budgetVersionOverview.underrecoveryAmount}&nbsp;</td>
+				                <td align="left">${budgetVersion.underrecoveryAmount}&nbsp;</td>
 				                <th nowrap><div align="right">Last Updated By:</div></th>
-				                <td align="left">${budgetVersion.budgetVersionOverview.updateUser}&nbsp;</td>
+				                <td align="left">${budgetVersion.updateUser}&nbsp;</td>
 				            </tr>
                  			<tr>
                    				<th nowrap><div align="right">Comments:</div></th>
-                   				<td colspan="3" align="left">${budgetVersion.budgetVersionOverview.comments}&nbsp;</td>
+                   				<td colspan="3" align="left">${budgetVersion.comments}&nbsp;</td>
                  			</tr>
            				</table>
            			</td>
          		</tr>
          		</tbody>
           	</c:forEach>
-            <c:if test="${!proposalBudgetFlag}">
           	<tr class="showAllRow" style="display:none;">
           	  <td class="infoline" style="text-align:right;" colspan="9"><html:checkbox name="KualiForm" property="showAllBudgetVersions">Show All Budgets</html:checkbox></td>
           	</tr>
-          	</c:if>
         </table>
 	</div> 
 </kul:tab>
-<c:if test="${proposalBudgetFlag or empty awardBudgetPage}">
+<c:if test="${empty awardBudgetPage}">
   <kul:panelFooter />
-</c:if>
-<c:if test="${proposalBudgetFlag}">
-<c:choose>                    	
-	<c:when test="${readonly}">
-		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxesAndDisable(document);" />
- 	</c:when>
-	<c:otherwise>
-		<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxes(document); setupBudgetStatuses(document);" />
-	</c:otherwise>
-</c:choose>
 </c:if>

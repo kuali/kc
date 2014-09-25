@@ -34,9 +34,9 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.impl.core.CostElementValuesFinder;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -92,7 +92,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     protected void populateBudgetPersonData(Budget budget, BudgetPerson budgetPerson) {
         budgetPerson.setBudgetId(budget.getBudgetId());
         budgetPerson.setBudget(budget);
-        budgetPerson.setPersonSequenceNumber(budget.getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
+        budgetPerson.setPersonSequenceNumber(budget.getNextValue(Constants.PERSON_SEQUENCE_NUMBER));
         populatePersonDefaultDataIfEmpty(budget, budgetPerson);
     }
 

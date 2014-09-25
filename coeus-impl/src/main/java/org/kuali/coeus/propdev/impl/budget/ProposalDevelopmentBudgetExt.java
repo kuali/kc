@@ -25,8 +25,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetNextValue;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.kra.bo.NextValueBase;
-import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.kuali.kra.bo.NextValue;
 
 @Entity
 @Table(name = "EPS_PROPOSAL_BUDGET_EXT")
@@ -129,11 +128,11 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 		return true;
 	}
     
-    public NextValueBase getNewNextValue() {
+    public NextValue getNewNextValue() {
     	return new ProposalBudgetNextValue();
     }
     
-    public void add(NextValueBase nextValue) {
+    public void add(NextValue nextValue) {
     	((ProposalBudgetNextValue) nextValue).setParentObject(this);
     	nextValues.add((ProposalBudgetNextValue) nextValue);
     }

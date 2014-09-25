@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.period;
+package org.kuali.coeus.common.budget.impl.struts;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.common.budget.framework.core.BudgetAction;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetPeriodExt;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;

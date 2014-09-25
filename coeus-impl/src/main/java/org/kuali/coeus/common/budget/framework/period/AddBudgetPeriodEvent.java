@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.period;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 

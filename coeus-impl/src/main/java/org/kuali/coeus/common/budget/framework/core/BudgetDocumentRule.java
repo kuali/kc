@@ -24,6 +24,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgeCostTotalAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetBudgetTypeAuditRule;
 import org.kuali.kra.award.budget.AwardBudgetCostLimitAuditRule;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
@@ -38,6 +39,7 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -48,14 +50,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @KcBusinessRule("budgetDocumentRule")
-public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase {
+public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implements DocumentAuditRule {
 
 	@Autowired
 	@Qualifier("kcBusinessRulesEngine")
 	private KcBusinessRulesEngine kcBusinessRulesEngine;
 	
 	protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-		return getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(((BudgetDocument)document).getBudget()));
+		return getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(((AwardBudgetDocument)document).getBudget()));
 	}
 
     /**
@@ -307,9 +309,9 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase {
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
         
-        retval &= getKcBusinessRulesEngine().applyRules(new BudgetAuditEvent(((BudgetDocument) document).getBudget()));
+        retval &= getKcBusinessRulesEngine().applyRules(new BudgetAuditEvent(((AwardBudgetDocument) document).getBudget()));
 
-        if (!((BudgetDocument)document).getBudget().isProposalBudget()){
+        if (!((AwardBudgetDocument)document).getBudget().isProposalBudget()){
             retval &= new AwardBudgetBudgetTypeAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgeCostTotalAuditRule().processRunAuditBusinessRules(document);
             retval &= new AwardBudgetCostLimitAuditRule().processRunAuditBusinessRules(document);

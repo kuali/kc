@@ -20,12 +20,12 @@ import org.kuali.coeus.propdev.impl.core.ProposalAuditEvent;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -113,7 +113,7 @@ public class BudgetModularTotalDirectCostRule {
     }
 
     /**
-     * Checks the tdc on a {@link BudgetDocument BudgetDocument}
+     * Checks the tdc on a {@link AwardBudgetDocument BudgetDocument}
      * following the business rules described at
      * {@link #validateTotalDirectCost(ProposalDevelopmentDocument, boolean, Set) validateTotalDirectCost()}
      *

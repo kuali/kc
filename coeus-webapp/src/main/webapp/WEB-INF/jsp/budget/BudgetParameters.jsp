@@ -16,8 +16,6 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="extraButtons" value="${KualiForm.extraButtons}" scope="request"/>
-<kra-b:swapProposalDevelopmentEditModes/>
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 
 
 <kul:documentPage
@@ -28,21 +26,12 @@
   	headerTabActive="parameters"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
-   	<c:choose>
-		<c:when test="${proposalBudgetFlag}">
-        	<div align="right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetParametersHelp" altText="help"/></div>
-			<kra-b:budgetParameters />
-		</c:when>
-		<c:otherwise>
-        	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetParametersHelpUrl" altText="help"/></div>
-			<kra-b:awardBudgetParameters />
-		</c:otherwise>
-	</c:choose>
+	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetParametersHelpUrl" altText="help"/></div>
+	<kra-b:awardBudgetParameters />
 
 	<kra-b:budgetPeriodAndTotals /> 
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
-<kra-b:swapProposalDevelopmentEditModes/>
 <c:if test="${readOnly}">
 	<c:set var="extraButtons" value="" scope="request"/>
 </c:if>
@@ -54,5 +43,4 @@
 		suppressCancelButton="true"
 />
 </kul:documentPage>
-<kra-b:swapProposalDevelopmentEditModes/>
         	

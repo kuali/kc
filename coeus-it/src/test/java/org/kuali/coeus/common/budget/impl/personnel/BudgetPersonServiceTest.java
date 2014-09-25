@@ -28,7 +28,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
 import java.sql.Date;
@@ -54,7 +54,7 @@ public class BudgetPersonServiceTest extends KcIntegrationTestBase {
         budgetPersonService = (BudgetPersonServiceImpl) KcServiceLocator.getService(BudgetPersonService.class);
         budget = new ProposalDevelopmentBudgetExt() {
             int nextVal = 1;
-            public Integer getHackedDocumentNextValue(String documentComponentIdKey) {
+            public Integer getNextValue(String documentComponentIdKey) {
                 return nextVal++;
             }
         };

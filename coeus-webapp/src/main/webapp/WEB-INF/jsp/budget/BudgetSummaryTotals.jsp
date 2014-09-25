@@ -16,11 +16,8 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="extraTopButtons" value="${KualiForm.extraTotalsTopButtons}" scope="request"/>
 <c:set var="documentTypeName" value="reloadWithoutWarning" scope="request"/>
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
-<c:if test="${not proposalBudgetFlag}">
-	<c:set target="${KualiForm.documentActions}" property="canReload" value="true"/>
-	<c:set var="documentTypeName" value="${KualiForm.headerDispatch}"/>
-</c:if> 
+<c:set target="${KualiForm.documentActions}" property="canReload" value="true"/>
+<c:set var="documentTypeName" value="${KualiForm.headerDispatch}"/>
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="${KualiForm.actionPrefix}SummaryTotals"
@@ -28,22 +25,13 @@
   	headerDispatch="${documentTypeName}" 
   	headerTabActive="summaryTotals"
   	extraTopButtons="${extraTopButtons}">
-  	
-   	<c:choose>
-		<c:when test="${proposalBudgetFlag}">
-         	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Summary" /></div>
-			<kra-b:budgetSummaryTotals headerDispatch="reloadWithoutWarning" /> 
-		</c:when>
-		<c:otherwise>
-		  	<div align="right"><kul:help documentTypeName="AwardBudgetDocument" pageName="Summary" /></div>
-			<kra-b:awardBudgetSummaryTotals/> 
-		</c:otherwise>
-	</c:choose>
+
+  	<div align="right"><kul:help documentTypeName="AwardBudgetDocument" pageName="Summary" /></div>
+	<kra-b:awardBudgetSummaryTotals/> 
 <kul:documentControls 
 		transactionalDocument="false" 
 		suppressRoutingControls="true" 
 		extraButtons="${extraButtons}"
-		viewOnly="${proposalBudgetFlag}"
 		suppressCancelButton="true"
 />
 

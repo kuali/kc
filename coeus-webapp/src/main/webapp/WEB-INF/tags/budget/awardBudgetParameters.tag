@@ -27,7 +27,7 @@
 
 <input type="hidden" id="updateFinalVersion" name="updateFinalVersion" value='<bean:write name="KualiForm" property="updateFinalVersion"/>' />
 
-<c:forEach var="budgetDocumentVersions" items="${KualiForm.document.parentDocument.budgetDocumentVersions}" varStatus="status">
+<c:forEach var="budgetDocumentVersions" items="${KualiForm.document.budget.budgetParent.budgets}" varStatus="status">
 	<c:if test="${status.index + 1 != KualiForm.document.budget.budgetVersionNumber}">
 		<input type="hidden" id="budgetStatus${status.index}" name="KualiForm" property="document.budget.awardBudgetStatusCode" value='<bean:write name="KualiForm" property="document.budget.awardBudgetStatusCode"/>' />
 	</c:if> 
@@ -45,7 +45,7 @@
         	<tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div></th>
                 <td align="left" valign="middle">
-                	<bean:write name="KualiForm" property="document.parentDocument.budgetParent.accountNumber"/>
+                	<bean:write name="KualiForm" property="document.budget.budgetParent.accountNumber"/>
                 </td>
                 <th><div align="right">
                 	<kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" />
@@ -57,7 +57,7 @@
         	<tr>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardNumber}" /></div></th>
            		<td>
-           			<bean:write name="KualiForm" property="document.parentDocument.budgetParent.awardNumber"/> 
+           			<bean:write name="KualiForm" property="document.budget.budgetParent.awardNumber"/> 
            		</td>
 				<th><div align="right">
 					<kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" />

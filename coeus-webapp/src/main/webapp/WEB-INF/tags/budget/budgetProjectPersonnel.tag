@@ -18,13 +18,9 @@
 
 <c:set var="budgetPersonAttributes" value="${DataDictionary.BudgetPerson.attributes}" />
 
-<c:set var="hierarchyStatus" value="${KualiForm.document.parentDocument.budgetParent.hierarchyStatus}" />
-<c:set var="hierarchyParentStatus" value="${KualiForm.hierarchyParentStatus}"/>
 
 <div id="workarea">
 <kul:tab tabTitle="Project Personnel (All Periods)" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budget.budgetPerson*" auditCluster="budgetPersonnelAuditWarnings" tabAuditKey="document.budget.budgetPerson*" useRiceAuditMode="true">
-
-	<c:if test="${hierarchyStatus != hierarchyParentStatus}">
 	    <%-- handle job code error start--%>
 	    <c:set var="firstErrorFound" value="false" />
 	    <c:forEach var="property" items="${ErrorContainer.errorPropertyList}">
@@ -65,7 +61,6 @@
 	        </div> 
 	    </div>
 	    <%-- handle job code error end --%>
-	</c:if>
 		
     <div class="tab-container" align="center">
 		<h3>
@@ -73,22 +68,9 @@
 	       <span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetPersonHelpUrl" altText="help"/></span>
  		</h3>
 		
-		<c:choose>
-	        <c:when test="${hierarchyStatus != hierarchyParentStatus}">
-	            <kra-b:budgetProjectPersonnelDetails budgetPersonList="${KualiForm.document.budget.budgetPersons}" 
-	                                                 budgetPersonProperty="document.budget.budgetPersons" />
-	        </c:when>
-	        <c:otherwise>
-			    <c:forEach items="${KualiForm.hierarchyPersonnelSummaries}" varStatus="summaryStatus">
-			        <c:forEach items="${KualiForm.hierarchyPersonnelSummaries[summaryStatus.index].hierarchyBudgets}" varStatus="budgetStatus">
-			            <kul:innerTab tabTitle="Proposal # ${KualiForm.hierarchyPersonnelSummaries[summaryStatus.index].proposalNumber} - Budget Version ${KualiForm.hierarchyPersonnelSummaries[summaryStatus.index].hierarchyBudgets[budgetStatus.index].budgetVersionNumber}" parentTab="" defaultOpen="false" tabErrorKey="">
-			                <kra-b:budgetProjectPersonnelDetails budgetPersonList="${KualiForm.hierarchyPersonnelSummaries[summaryStatus.index].hierarchyBudgets[budgetStatus.index].budgetPersons}" 
-                                                                 budgetPersonProperty="hierarchyPersonnelSummaries[${summaryStatus.index}].hierarchyBudgets[${budgetStatus.index}].budgetPersons" />
-					    </kul:innerTab>
-					</c:forEach>
-	            </c:forEach>
-	        </c:otherwise>
-		</c:choose>
+       <kra-b:budgetProjectPersonnelDetails budgetPersonList="${KualiForm.document.budget.budgetPersons}" 
+                                            budgetPersonProperty="document.budget.budgetPersons" />
+
     </div>
 	
 </kul:tab>

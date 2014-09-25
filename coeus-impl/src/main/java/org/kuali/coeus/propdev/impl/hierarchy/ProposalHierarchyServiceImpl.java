@@ -45,11 +45,11 @@ import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -730,7 +730,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             Map<Integer, BudgetPerson> personMap = new HashMap<Integer, BudgetPerson>();
             for (BudgetPerson person : childBudget.getBudgetPersons()) {
                 newPerson = (BudgetPerson) ObjectUtils.deepCopy(person);
-                newPerson.setPersonSequenceNumber(parentBudget.getHackedDocumentNextValue(
+                newPerson.setPersonSequenceNumber(parentBudget.getNextValue(
                         Constants.PERSON_SEQUENCE_NUMBER));
                 newPerson.setBudgetId(parentBudget.getBudgetId());
                 newPerson.setHierarchyProposalNumber(childProposalNumber);
@@ -746,7 +746,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 newSubAwards = (BudgetSubAwards) ObjectUtils.deepCopy(childSubAwards);
                 newSubAwards.setBudgetId(parentBudget.getBudgetId());
                 newSubAwards.setBudgetVersionNumber(parentBudget.getBudgetVersionNumber());
-                newSubAwards.setSubAwardNumber(parentBudget.getHackedDocumentNextValue("subAwardNumber") != null ? parentBudget.getHackedDocumentNextValue("subAwardNumber") : 1);
+                newSubAwards.setSubAwardNumber(parentBudget.getNextValue("subAwardNumber") != null ? parentBudget.getNextValue("subAwardNumber") : 1);
                 newSubAwards.setVersionNumber(null);
                 newSubAwards.setHierarchyProposalNumber(childProposalNumber);
                 for (BudgetSubAwardAttachment attachment : newSubAwards.getBudgetSubAwardAttachments()) {
@@ -780,7 +780,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 if (StringUtils.isNotEmpty(costShare.getSourceAccount())) {
                     newCostShare = (BudgetCostShare)ObjectUtils.deepCopy(costShare);
                     newCostShare.setBudgetId(budgetId);
-                    newCostShare.setDocumentComponentId(parentBudget.getHackedDocumentNextValue(newCostShare.getDocumentComponentIdKey()));
+                    newCostShare.setDocumentComponentId(parentBudget.getNextValue(newCostShare.getDocumentComponentIdKey()));
                     newCostShare.setObjectId(null);
                     newCostShare.setVersionNumber(null);
                     newCostShare.setHierarchyProposalNumber(childProposalNumber);
@@ -794,7 +794,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 if (StringUtils.isNotEmpty(unrecoveredFandA.getSourceAccount())) {
                     newUnrecoveredFandA = (BudgetUnrecoveredFandA)ObjectUtils.deepCopy(unrecoveredFandA);
                     newUnrecoveredFandA.setBudgetId(budgetId);
-                    newUnrecoveredFandA.setDocumentComponentId(parentBudget.getHackedDocumentNextValue(newUnrecoveredFandA.getDocumentComponentIdKey()));
+                    newUnrecoveredFandA.setDocumentComponentId(parentBudget.getNextValue(newUnrecoveredFandA.getDocumentComponentIdKey()));
                     newUnrecoveredFandA.setObjectId(null);
                     newUnrecoveredFandA.setVersionNumber(null);
                     newUnrecoveredFandA.setHierarchyProposalNumber(childProposalNumber);
@@ -815,7 +815,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
                         ObjectUtils.materializeUpdateableCollections(childLineItem);
                         parentLineItem = (BudgetLineItem) (getDeepCopyPostProcessor().processDeepCopyWithDeepCopyIgnore(childLineItem));
-                        lineItemNumber = parentBudget.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
+                        lineItemNumber = parentBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         
                         parentLineItem.setHierarchyProposalNumber(childProposalNumber);
                         
@@ -843,7 +843,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                             details.setJobCode(budgetPerson.getJobCode());
                             details.setPersonId(budgetPerson.getPersonRolodexTbnId());
                             details.setPersonSequenceNumber(budgetPerson.getPersonSequenceNumber());
-                            details.setPersonNumber(parentBudget.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+                            details.setPersonNumber(parentBudget.getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
 
                             details.setBudgetPersonnelLineItemId(null);
                             details.setBudgetId(budgetId);
@@ -881,7 +881,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentLineItem.setBudgetId(budgetId);
                         parentLineItem.setBudgetPeriod(budgetPeriod);
                         parentLineItem.setVersionNumber(null);
-                        lineItemNumber = parentBudget.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
+                        lineItemNumber = parentBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         parentLineItem.setLineItemNumber(lineItemNumber);
                         parentLineItem.setLineItemSequence(lineItemNumber);
                         parentLineItem.setHierarchyProposalNumber(childProposalNumber);
@@ -903,7 +903,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentLineItem.setBudgetId(budgetId);
                         parentLineItem.setBudgetPeriod(budgetPeriod);
                         parentLineItem.setVersionNumber(null);
-                        lineItemNumber = parentBudget.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
+                        lineItemNumber = parentBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         parentLineItem.setLineItemNumber(lineItemNumber);
                         parentLineItem.setLineItemSequence(lineItemNumber);
                         parentLineItem.setHierarchyProposalNumber(childProposalNumber);

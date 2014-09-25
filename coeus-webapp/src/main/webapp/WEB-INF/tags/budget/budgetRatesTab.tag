@@ -22,7 +22,6 @@
 <c:set var="action" value="budgetRates" />
 				  <bean:define id="irateClassType" name="KualiForm" property="${budgetRate}.rateClass.rateClassTypeCode"/>
 				  <bean:define id="displayRow" name="KualiForm" property="${budgetRate}.displayLocation"/>
-				  <bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
     			  <c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
                   <tr>
                     <td width="10%" class="${tdClass}">

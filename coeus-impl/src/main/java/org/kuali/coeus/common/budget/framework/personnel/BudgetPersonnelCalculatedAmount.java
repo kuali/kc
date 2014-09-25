@@ -17,11 +17,8 @@ package org.kuali.coeus.common.budget.framework.personnel;
 
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelCalculatedAmountContract;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
@@ -43,6 +40,10 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
 
     @Column(name = "BUDGET_PERSONNEL_DETAILS_ID")
     private Long budgetPersonnelLineItemId;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "BUDGET_PERSONNEL_DETAILS_ID", referencedColumnName = "BUDGET_PERSONNEL_DETAILS_ID", insertable = false, updatable = false)
+    private BudgetPersonnelDetails budgetPersonnelLineItem;
 
     @Override
     public Integer getPersonNumber() {
@@ -70,4 +71,13 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
     public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
         this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
     }
+
+	public BudgetPersonnelDetails getBudgetPersonnelLineItem() {
+		return budgetPersonnelLineItem;
+	}
+
+	public void setBudgetPersonnelLineItem(
+			BudgetPersonnelDetails budgetPersonnelLineItem) {
+		this.budgetPersonnelLineItem = budgetPersonnelLineItem;
+	}
 }

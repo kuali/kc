@@ -17,7 +17,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="ufaAttributes" value="${DataDictionary.BudgetUnrecoveredFandA.attributes}" />
-<bean:define id="proposalBudgetFlag" name="KualiForm" property="document.proposalBudgetFlag"/>
 
 <kul:tab tabTitle="Unrecovered F&A" 
 		tabItemCount="${KualiForm.document.budget.budgetUnrecoveredFandACount}" 
@@ -31,14 +30,7 @@
 			<c:when test="${KualiForm.unrecoveredFandAEditFormVisible}">
 				<h3>
                 	<span class="subhead-left">Unrecovered F&A Distribution List</span>
- 					<c:choose>
-		 				<c:when test="${proposalBudgetFlag}">
-        					<span class="subhead-right"><kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetUnrecoveredFandAHelpUrl" altText="help"/></span>
-         				</c:when>
-         				<c:otherwise>
-        					<span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetUnrecoveredFandAHelpUrl" altText="help"/></span>
-        				</c:otherwise>
-    				</c:choose>
+   					<span class="subhead-right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetUnrecoveredFandAHelpUrl" altText="help"/></span>
                 </h3>
 				<div align="center">
 					<table id="budget-unrecovered-fna-table" cellpadding="0" cellspacing="0" summary="Budget Unrecovered F &amp; A">

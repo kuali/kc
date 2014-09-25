@@ -236,9 +236,11 @@ public class BudgetPersonnelRule {
 	    BudgetPersonnelDetails budgetPersonDetails = event.getBudgetPersonnelDetails();
 	    String errorKey = event.getErrorKey();
 	    
-	    if (dictionaryValidationService.validate(newBudgetLineItem).getErrorLevel() == ErrorLevel.ERROR) {
+	    GlobalVariables.getMessageMap().addToErrorPath(errorKey);
+	    if (dictionaryValidationService.validate(newBudgetLineItem).getNumberOfErrors() > 0) {
 	    	result = false;
 	    }
+	    GlobalVariables.getMessageMap().removeFromErrorPath(errorKey);
 	    
 	    if(budgetPeriod == null){
 	        GlobalVariables.getMessageMap().putError("viewBudgetPeriod", KeyConstants.ERROR_BUDGET_PERIOD_NOT_SELECTED);

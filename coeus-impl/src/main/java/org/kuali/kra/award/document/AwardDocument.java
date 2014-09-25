@@ -32,7 +32,6 @@ import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
-import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardPersonCreditSplit;
 import org.kuali.kra.award.contacts.AwardPersonUnit;
@@ -47,10 +46,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.version.AwardBudgetVersionCollection;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
@@ -95,7 +91,7 @@ import java.util.*;
  */
 @NAMESPACE(namespace=Constants.PARAMETER_MODULE_AWARD)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class AwardDocument extends BudgetParentDocument<Award> implements  AwardBudgetVersionCollection,Copyable, SessionDocument, KrmsRulesContext {
+public class AwardDocument extends BudgetParentDocument<Award> implements  Copyable, SessionDocument, KrmsRulesContext {
     private static final Log LOG = LogFactory.getLog(AwardDocument.class);
     
     public static final String PLACEHOLDER_DOC_DESCRIPTION = "*****PLACEHOLDER*****";
@@ -108,8 +104,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Award
     private static final String ALTERNATE_OPEN_TAB = "Parameters";
     
     private List<Award> awardList;
-    private List<AwardBudgetDocumentVersion> actualBudgetDocumentVersions;
-    private List<AwardBudgetDocumentVersion> budgetDocumentVersions;
+    private List<AwardBudgetExt> budgets;
     
     private static final String RETURN_TO_AWARD_ALT_TEXT = "return to award";
     private static final String RETURN_TO_AWARD_METHOD_TO_CALL = "methodToCall.returnToAward";
@@ -281,8 +276,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Award
     protected void init() {
         awardList = new ArrayList<Award>();
         awardList.add(new Award());
-        budgetDocumentVersions = new ArrayList<AwardBudgetDocumentVersion>();
-        actualBudgetDocumentVersions = new ArrayList<AwardBudgetDocumentVersion>();
+        budgets = new ArrayList<>();
     }
     
     @Override
@@ -303,6 +297,14 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Award
         }
             
     }
+    
+    public void updateDocumentDescriptions(List<AwardBudgetExt> budgets) {
+        for (Budget budgetVersion : budgets) {
+            if (budgetVersion.isNameUpdatable() && !StringUtils.isBlank(budgetVersion.getName())) {
+                budgetVersion.setNameUpdatable(false);
+            }
+        }
+    }    
 
 	void removeKeyPersonRoleForNoneKeyPerson() {
         for ( AwardPerson person : this.getAward().getProjectPersons() ) {
@@ -357,16 +359,12 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Award
         return KcServiceLocator.getService(AwardSyncService.class);
     }
 
-     public List<AwardBudgetDocumentVersion> getBudgetDocumentVersions() {
-        if (budgetDocumentVersions == null || budgetDocumentVersions.isEmpty()) {
-            budgetDocumentVersions = KcServiceLocator.getService(AwardBudgetService.class).getAllBudgetsForAward(this);
-        }
-        return budgetDocumentVersions;
+     public List<AwardBudgetExt> getBudgetDocumentVersions() {
+    	 return this.getAward().getBudgets();
     }
 
-    @Override
-    public void setBudgetDocumentVersions(List<AwardBudgetDocumentVersion> budgetDocumentVersions) {
-    	this.budgetDocumentVersions = budgetDocumentVersions;
+    public void setBudgets(List<AwardBudgetExt> budgets) {
+    	this.budgets = budgets;
     }
 
     public String getDocumentKey() {
@@ -514,15 +512,14 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Award
         return KcServiceLocator.getService(InstitutionalProposalService.class);
     }
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public AwardBudgetVersionOverviewExt getBudgetVersionOverview() {
-        AwardBudgetVersionOverviewExt budget = new AwardBudgetVersionOverviewExt();
-        List<AwardBudgetDocumentVersion> awardBudgetDocuments = getBudgetDocumentVersions();
-        for (AwardBudgetDocumentVersion budgetDocumentVersion : awardBudgetDocuments) {
-                AwardBudgetVersionOverviewExt budgetVersionOverview = (AwardBudgetVersionOverviewExt) budgetDocumentVersion.getBudgetVersionOverview();
-                if (budgetVersionOverview != null
+    public AwardBudgetExt getBudgetVersionOverview() {
+    	AwardBudgetExt budget = new AwardBudgetExt();
+        List<AwardBudgetExt> awardBudgetDocuments = this.getBudgetDocumentVersions();
+        for (AwardBudgetExt version : awardBudgetDocuments) {
+                if (version != null
                         && (budget.getBudgetVersionNumber() == null || 
-                            (budget.getBudgetVersionNumber() != null && budgetVersionOverview.getBudgetVersionNumber() > budget.getBudgetVersionNumber()))) {
-                    budget = budgetVersionOverview;
+                            (budget.getBudgetVersionNumber() != null && version.getBudgetVersionNumber() > budget.getBudgetVersionNumber()))) {
+                    budget = version;
                 }
         }
         return budget;
@@ -590,17 +587,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Award
         return isComplete;
     }
 
-    public List<AwardBudgetDocumentVersion> getActualBudgetDocumentVersions() {
-        return actualBudgetDocumentVersions;
-    }
-
-    public void setActualBudgetDocumentVersions(List<AwardBudgetDocumentVersion> actualBudgetDocumentVersions) {
-        this.actualBudgetDocumentVersions = actualBudgetDocumentVersions;
-    }
-
     public void refreshBudgetDocumentVersions() {
-        this.refreshReferenceObject("actualBudgetDocumentVersions");
-        budgetDocumentVersions.clear();
+        budgets.clear();
     }
 
     public AwardService getAwardService() {

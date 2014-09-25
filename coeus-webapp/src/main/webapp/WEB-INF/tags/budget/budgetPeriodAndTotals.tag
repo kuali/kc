@@ -26,18 +26,9 @@
 	<div class="tab-container" align="center">
     	<h3>
             <span class="subhead-left">Budget Periods</span>		
-      		<c:choose>	
-				<c:when test="${proposalBudgetFlag}">
-        		    <span class="subhead-right">	
-		 			    <kul:help parameterNamespace="KC-B" parameterDetailType="Document" parameterName="budgetPeriodHelpUrl" altText="help"/>
-	    		    </span>
-				</c:when>
-				<c:otherwise>
-            		<span class="subhead-right">
- 			    		<kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetPeriodHelpUrl" altText="help"/>
-	        		</span>
-				</c:otherwise>
-			</c:choose> 			
+			<span class="subhead-right">
+				<kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetPeriodHelpUrl" altText="help"/>
+			</span>
         </h3>
         
         <table cellpadding="0" cellspacing="0" summary="">
@@ -45,9 +36,6 @@
           		<th width="5%"><div align="center">&nbsp;</div></th> 
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.startDate}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.endDate}" noColon="true" /></div></th>
-          		<c:if test="${proposalBudgetFlag}">
-          			<th align="center">No. of Months</th>
-          		</c:if>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCost}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" noColon="true" /></div></th>
@@ -75,9 +63,6 @@
                 	<kul:htmlControlAttribute property="newBudgetPeriod.endDate" attributeEntry="${budgetPeriodAttributes.endDate}" />
                 	</div>
                 </td>
-                <c:if test="${proposalBudgetFlag}">
-                	<td class="infoline"></td>
-                </c:if>
                 <td width="10%" valign="middle" class="infoline">                	
                 	<div align="center">
                   	<kul:htmlControlAttribute property="newBudgetPeriod.totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" /> 
@@ -146,12 +131,6 @@
                 		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" />
 					</div>
 	                </td>
-	                <c:if test="${proposalBudgetFlag}">
-		                <td>
-		                	 <bean:define id="numberOfMonths" name="KualiForm" property="document.budget.budgetPeriods[${status.index}].numberOfMonths" />
-		                	${numberOfMonths }
-		                </td>
-	                </c:if>
 	                <td width="10%" valign="middle">                	
 					<div align="center">
                   		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" readOnly="${periodReadOnly}"/> 
@@ -199,12 +178,10 @@
 								<img class="nobord" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete2.gif' styleClass="tinybutton" />
 		    				</c:otherwise>
 						</c:choose>
-						<c:if test="${!proposalBudgetFlag}">
-    				    	<kul:multipleValueLookup boClassName="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"
-    				    							anchor="${tabKey}" 
-    				    							lookupParameters="document.parentDocument.award.awardNumber:budgetParentId"
-    				    							lookedUpCollectionName="${status.index}" autoSearch="yes" />						
-						</c:if>
+   				    	<kul:multipleValueLookup boClassName="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"
+   				    							anchor="${tabKey}" 
+   				    							lookupParameters="document.parentDocument.award.awardNumber:budgetParentId"
+   				    							lookedUpCollectionName="${status.index}" autoSearch="yes" />						
 						</kra:section>
 					</div>
 	                </td>
@@ -216,9 +193,7 @@
           	<tr>
           		<td width="5%" class="infoline"> 
           			<div align="center">
-          			  <c:if test="${not KualiForm.document.proposalBudgetFlag}" >  
           				<strong>Budget Change:</strong>
-          				</c:if>
           				&nbsp;
           			</div> 
           		</td> 
@@ -232,11 +207,6 @@
                 		<strong> <fmt:formatDate value="${KualiForm.document.budget.summaryPeriodEndDate}" pattern="MM/dd/yyyy" /> </strong>
                 	</div>
                 </td>
-                <c:if test="${proposalBudgetFlag}">
-	                <td class="infoline">
-	                	<strong>${KualiForm.document.budget.summaryNumberOfMonths }</strong>
-	                </td>
-                </c:if>
                 <td width="10%" valign="middle" class="infoline">                	
                 	<div align="center">
                 	    <strong> <kul:htmlControlAttribute property="document.budget.totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" readOnly="true"/> </strong>
@@ -284,7 +254,6 @@
           	</tr>        
           	
           	
-        <c:if test="${not KualiForm.document.proposalBudgetFlag}" >  	
           	<tr>
           		<td width="5%" class="infoline"> 
           			<div align="center">
@@ -369,9 +338,7 @@
           	    &nbsp;
           	    </td>
           	
-          	</tr>
-          	    
-          </c:if>  	
+          	</tr> 	
         </table>
         <br/>
     </div> 

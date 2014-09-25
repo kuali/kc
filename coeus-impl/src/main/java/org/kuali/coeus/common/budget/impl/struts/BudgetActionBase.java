@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.framework.core;
+package org.kuali.coeus.common.budget.impl.struts;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -23,11 +23,11 @@ import org.kuali.coeus.propdev.impl.lock.ProposalLockService;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonServiceFactory;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
@@ -78,7 +78,7 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
     protected void copyBudget(BudgetParentDocument budgetParentDocument, Budget budgetToCopy, boolean copyPeriodOneOnly) 
     throws WorkflowException {
         DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
+        AwardBudgetDocument budgetDocToCopy = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         Budget budget = budgetDocToCopy.getBudget();
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budget.getBudgetParent());
         Budget newBudget = budgetService.copyBudgetVersion(budget, copyPeriodOneOnly);
@@ -108,7 +108,7 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
     protected void setupPessimisticLockMessages(Document document, HttpServletRequest request) {
         super.setupPessimisticLockMessages(document, request);
         List<String> lockMessages = (List<String>)request.getAttribute(KRADConstants.PESSIMISTIC_LOCK_MESSAGES);
-        BudgetDocument budgetDoc = (BudgetDocument)document;
+        AwardBudgetDocument budgetDoc = (AwardBudgetDocument)document;
         for (PessimisticLock lock : budgetDoc.getBudget().getBudgetParent().getDocument().getPessimisticLocks()) {
             if (StringUtils.contains(lock.getLockDescriptor(), KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) 
                     && !lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
@@ -122,6 +122,9 @@ public class BudgetActionBase extends KcTransactionalDocumentActionBase {
     }
 
 	public KcBusinessRulesEngine getKcBusinessRulesEngine() {
+		if (kcBusinessRulesEngine == null) {
+			kcBusinessRulesEngine = KcServiceLocator.getService(KcBusinessRulesEngine.class);
+		}
 		return kcBusinessRulesEngine;
 	}
 

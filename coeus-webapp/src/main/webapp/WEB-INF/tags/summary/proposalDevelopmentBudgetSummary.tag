@@ -248,14 +248,7 @@
 							<h3>
 								<div align="center">
 									<span align="center">Actions</span>
-									<c:choose>
-										<c:when test="${proposalBudgetFlag}">
-											<span class="subhead-right"> </span>
-										</c:when>
-										<c:otherwise>
-											<span class="subhead-right"> </span>
-										</c:otherwise>
-									</c:choose>
+									<span class="subhead-right"> </span>
 								</div>
 							</h3></td>
 					</tr>

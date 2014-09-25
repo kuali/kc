@@ -27,7 +27,7 @@
         </property>
         <property name="titleAttribute" value="budgetId" />
         <property name="attributes" >
-            <list>
+            <list merge="true">
                 <ref bean="AwardBudgetExt-budgetId" />
                 <ref bean="AwardBudgetExt-awardBudgetStatusCode" />
                 <ref bean="AwardBudgetExt-awardBudgetTypeCode" />

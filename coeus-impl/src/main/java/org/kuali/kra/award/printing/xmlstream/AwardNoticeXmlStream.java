@@ -22,6 +22,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -29,7 +30,6 @@ import org.kuali.kra.award.home.AwardTransferringSponsor;
 import org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.AwardNoticeDocument.AwardNotice.PrintRequirement;
@@ -233,9 +233,9 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	private AwardBudgetDetails getAwardBudgetDetails() {
 		AwardBudgetDetails awardBudgetDetails = AwardBudgetDetails.Factory.newInstance();
 		List<BudgetDetails> budgetDetailsList = new ArrayList<BudgetDetails>();
-		BudgetDocument budgetDocument = getBudgetDocument();
-		if (budgetDocument != null) {
-			for (BudgetLineItem budgetLineItem : budgetDocument.getBudget().getBudgetPeriod(0).getBudgetLineItems()) {
+		AwardBudgetDocument awardBudgetDocument = getBudgetDocument();
+		if (awardBudgetDocument != null) {
+			for (BudgetLineItem budgetLineItem : awardBudgetDocument.getBudget().getBudgetPeriod(0).getBudgetLineItems()) {
 				BudgetDetails budgetDetails = BudgetDetails.Factory.newInstance();
 				budgetDetails.setAwardNumber(award.getAwardNumber());
 				budgetDetails.setSequenceNumber(award.getSequenceNumber());

@@ -16,15 +16,12 @@
 package org.kuali.kra.award.budget;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.budget.document.AwardBudgetDocumentVersion;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -95,9 +92,9 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @param limitSummary
      * @param awardDocument
      */
-    void populateBudgetLimitSummary(BudgetLimitSummaryHelper limitSummary, AwardDocument awardDocument);
+    void populateBudgetLimitSummary(BudgetLimitSummaryHelper limitSummary, Award award);
     
-    List<AwardBudgetDocumentVersion> getAllBudgetsForAward(AwardDocument awardDocument);
+    List<AwardBudgetExt> getAllBudgetsForAward(Award award);
 
     /**
      * 
@@ -105,7 +102,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @param awardDocument
      * @return
      */
-    ScaleTwoDecimal getTotalCostLimit(AwardDocument awardDocument);
+    ScaleTwoDecimal getTotalCostLimit(Award award);
     
     /**
      * Populates the budget limits from the award. This includes total cost limit and
@@ -113,7 +110,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @param awardBudgetDocument
      * @param parentDocument
      */
-    void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, AwardDocument parentDocument); 
+    void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, Award award); 
     
     /**
      * Returns the active award or if none exist, the newest non-cancelled award.
@@ -130,7 +127,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * @return true if any unfinalized budgets are found
      * @throws WorkflowException
      */
-    boolean checkForOutstandingBudgets(AwardDocument parentDoc);
+    boolean checkForOutstandingBudgets(Award award);
     
     /**
      * 
@@ -141,7 +138,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      */
     public boolean checkRateChange(Collection<BudgetRate> allPropRates,Award award);
     
-    public BudgetDocument<Award> getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
+    public AwardBudgetDocument getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
     	    throws WorkflowException;    
     
 }

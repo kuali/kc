@@ -30,7 +30,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements BudgetDocumentTypeChecker, Permissionable {
+public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTransactionalDocumentBase implements Permissionable {
 
     /**
      * Looks up and returns the ParameterService.
@@ -38,14 +38,6 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends KcTra
      */
     protected ParameterService getParameterService() {
         return KcServiceLocator.getService(ParameterService.class);
-    }
-    
-    public void updateDocumentDescriptions(List<? extends Budget> budgets) {
-        for (Budget budgetVersion : budgets) {
-            if (budgetVersion.isNameUpdatable() && !StringUtils.isBlank(budgetVersion.getName())) {
-                budgetVersion.setNameUpdatable(false);
-            }
-        }
     }
 
     /**

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="Budget" parent="Budget-parentBean"/>
   <bean id="Budget-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.coeus.common.budget.framework.core.Budget" />
 		<property name="objectLabel" value="Budget" />
@@ -32,6 +33,7 @@
         <ref bean="Budget-onOffCampusFlag"/>
         <ref bean="Budget-versionNumber"/>
         <ref bean="Budget-submitCostSharingFlag"/>
+        <ref bean="Budget-name"/>
       </list>
     </property>
   </bean>
@@ -318,6 +320,23 @@
     </property>
     <property name="summary" value="On Off CampusContractContract flag"/>
     <property name="description" value="On Off CampusContractContract flag allowing the user to set all expense line items to be either 'all on' or 'all off-campus'; overriding the object code level defaults."/>
+  </bean>
+  
+  <bean id="Budget-name" parent="Budget-name-parentBean"/>
+  <bean id="Budget-name-parentBean" abstract="true" parent="AttributeDefinition">
+   <property name="name" value="name" />
+   <property name="forceUppercase" value="false" />
+   <property name="label" value="Name" />
+   <property name="shortLabel" value="Name" />
+   <property name="maxLength" value="40" />
+   <property name="required" value="true" />
+   <property name="control" >
+     <bean parent="TextControlDefinition"
+            p:size="16" />
+   </property>
+   <property name="summary" value="&amp;nbsp;" />
+   <property name="description" value="A free-form text field that describes the purpose or
+                                        function of the document." />  
   </bean>
   
   <bean id="Budget-versionNumber" parent="Budget-versionNumber-parentBean"/>

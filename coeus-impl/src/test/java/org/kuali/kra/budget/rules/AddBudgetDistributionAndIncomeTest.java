@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.budget.framework.core.BudgetDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -30,7 +30,7 @@ import org.kuali.rice.krad.util.MessageMap;
  */
 public abstract class AddBudgetDistributionAndIncomeTest {
 
-    protected BudgetDocument document;
+    protected AwardBudgetDocument document;
     
     protected abstract void addArtifactToDocument(Object artifact);
     protected abstract Object generateReferenceArtifact();
@@ -89,7 +89,7 @@ public abstract class AddBudgetDistributionAndIncomeTest {
      * This class stubs out call to refreshReferenceObject
      */
     @SuppressWarnings("serial")
-    private class MockBudgetDocument extends BudgetDocument {
+    private class MockBudgetDocument extends AwardBudgetDocument {
 
         @Override
         public void refreshReferenceObject(String referenceObjectName) {
@@ -102,14 +102,14 @@ public abstract class AddBudgetDistributionAndIncomeTest {
      */
     @SuppressWarnings("serial")
     private class MockBudgetForm extends KualiForm {
-        private BudgetDocument document;
+        private AwardBudgetDocument document;
         
-        public MockBudgetForm(BudgetDocument document) {
+        public MockBudgetForm(AwardBudgetDocument document) {
             super();
             this.document = document;
         }
         
-        public BudgetDocument getBudgetDocument() { return document; }
-        public void setDocument(BudgetDocument document) { this.document = document; }
+        public AwardBudgetDocument getBudgetDocument() { return document; }
+        public void setDocument(AwardBudgetDocument document) { this.document = document; }
     }   
 }
