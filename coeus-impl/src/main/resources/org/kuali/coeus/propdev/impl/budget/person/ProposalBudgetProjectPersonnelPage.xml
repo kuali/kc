@@ -122,8 +122,8 @@
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectPersonnelHelper.editLineIndex}"
 							p:successCallback="dismissDialog('PropBudget-EditPersonnel-Section');"
 							p:order="10" />
-						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Cancel" p:methodToCall="refresh"
-							p:successCallback="dismissDialog('PropBudget-EditPersonnel-Section');"
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Cancel"
+							p:actionScript="dismissDialog('PropBudget-EditPersonnel-Section');"
 							p:order="30" />
 					</list>
 				</property>
