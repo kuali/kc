@@ -734,8 +734,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 		
 	}
 
+
     public boolean isSummaryAttachmentsPanelEnabled() {
     	return "Y".equalsIgnoreCase(getProposalDevelopmentService().getProposalDevelopmentParameters().get(ProposalDevelopmentService.SUMMARY_ATTACHMENTS_INDICATOR).getValue());
     }
+
+	public boolean isSummaryKeywordsPanelEnabled() {
+		return "Y".equalsIgnoreCase(getProposalDevelopmentService().getProposalDevelopmentParameters().get(ProposalDevelopmentService.SUMMARY_KEYWORDS_INDICATOR).getValue());
+		
+	}
 
 }
