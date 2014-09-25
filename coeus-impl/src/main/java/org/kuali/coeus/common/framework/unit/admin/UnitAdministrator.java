@@ -85,7 +85,10 @@ public class UnitAdministrator extends KcPersistableBusinessObjectBase implement
     }
 
     public KcPerson getPerson() {
-        return getKcPersonService().getKcPersonByPersonId(personId);
+        if (personId !=null) {
+            return getKcPersonService().getKcPersonByPersonId(personId);
+        }
+            return null;
     }
 
     /**
