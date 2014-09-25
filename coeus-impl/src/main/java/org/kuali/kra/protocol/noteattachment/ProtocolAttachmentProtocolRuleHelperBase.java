@@ -71,7 +71,7 @@ public abstract class ProtocolAttachmentProtocolRuleHelperBase {
             if (!ProtocolAttachmentProtocolBase.COMPLETE_STATUS_CODE.equals(attachmentProtocol.getStatusCode())) {
                 final AuditError error = new AuditError(this.propertyPrefix + "." + ProtocolAttachmentProtocolBase.PropertyName.STATUS_CODE,
                     KeyConstants.AUDIT_ERROR_PROTOCOL_ATTACHMENT_STATUS_COMPLETE, NOTE_AND_ATTACHMENT_LINK);
-                this.errorReporter.reportAuditError(error, NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY, NOTES_ATTACHMENTS_CLUSTER_LABEL, Constants.AUDIT_ERRORS);
+                getErrorReporter().reportAuditError(error, NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY, NOTES_ATTACHMENTS_CLUSTER_LABEL, Constants.AUDIT_ERRORS);
                 return false;
             }
         }
@@ -101,7 +101,7 @@ public abstract class ProtocolAttachmentProtocolRuleHelperBase {
 
     public ErrorReporter getErrorReporter() {
         if (errorReporter == null) {
-            KcServiceLocator.getService(ErrorReporter.class);
+        	errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         }
         return errorReporter;
     }
