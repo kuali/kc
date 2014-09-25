@@ -97,7 +97,7 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
         
         if (StringUtils.isBlank(attachment.getDescription()) && OTHER_TYPE_CODE.equals(attachment.getType().getCode())) {
             final ProtocolAttachmentTypeBase type = this.attachmentService.getTypeFromCode(attachment.getType().getCode());
-            this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.DESCRIPTION,
+            getErrorReporter().reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.DESCRIPTION,
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_DESC, (type != null) ? type.getDescription(): "");
             return false;
         }
@@ -130,7 +130,7 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
         }
         
         final ProtocolAttachmentTypeBase type = this.attachmentService.getTypeFromCode(attachment.getType().getCode());
-        this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.TYPE_CODE,
+        getErrorReporter().reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.TYPE_CODE,
             KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_TYPE, (type != null) ? type.getDescription(): "");
         
         return false;
@@ -152,7 +152,7 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
         //this got much more complex using anon keys
         if (attachmentBase.getFile() == null) {
             valid = false;
-            this.errorReporter.reportError(this.propertyPrefix + ".newFile",
+            getErrorReporter().reportError(this.propertyPrefix + ".newFile",
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_FILE);
         } else {
             valid = this.validationService.isBusinessObjectValid(attachmentBase.getFile(), this.propertyPrefix);
@@ -181,7 +181,7 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
 
     public ErrorReporter getErrorReporter() {
         if (errorReporter == null) {
-            KcServiceLocator.getService(ErrorReporter.class);
+        	errorReporter = KcServiceLocator.getService(ErrorReporter.class);
         }
         return errorReporter;
     }
