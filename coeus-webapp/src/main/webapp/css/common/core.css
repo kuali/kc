@@ -176,6 +176,16 @@ input[type="checkbox"] {
     color: orange;
 }
 
+/** Document info styling **/
+
+.uif-documentInfo {
+    margin-right: 15px;
+}
+
+.uif-documentInfo .dropdown-menu {
+    width: 40em;
+}
+
 /**  Nav menu responsive to screen size css **/
 
 .kc-navMenuDropdown .dropdown-menu a, .kc-navMenuDropdown .dropdown-menu h3, .kc-navMenuDropdown .dropdown-menu h4 {

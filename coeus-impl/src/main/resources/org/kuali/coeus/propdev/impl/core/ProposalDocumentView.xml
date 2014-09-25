@@ -186,18 +186,19 @@
 					<list>
 						<bean parent="Uif-Message" p:messageText="[strong]Document Info[/strong]"
 							p:order="10" />
-						<bean parent="Uif-MessageField" p:label="Doc Nbr"
+						<bean parent="Uif-MessageField" p:label="Doc Nbr" p:labelLeft="true"
 							p:messageText="@{document.documentNumber}" p:order="20" />
-                        <bean parent="Uif-MessageField" p:label="S2S Connected" p:order="30">
+                        <bean parent="Uif-MessageField" p:label="S2S Connected" p:order="30" p:labelLeft="true">
                                <property name="message">
                                    <bean parent="Uif-Message"
                                          p:messageText="@{#empty(document.developmentProposal.s2sOpportunity)?'no':'yes'}"
-                                         p:cssClasses="@{#empty(document.developmentProposal.s2sOpportunity)?'label,label-default':'label,label-success'}"/>
+                                         p:cssClasses="@{#empty(document.developmentProposal.s2sOpportunity)?'label,label-default':'label,label-success'}"
+                                         p:style="margin: 0;"/>
                                </property>
                         </bean>
-						<bean parent="Uif-MessageField" p:label="Initiator"
+						<bean parent="Uif-MessageField" p:label="Initiator" p:labelLeft="true"
 							p:messageText="@{documentInitiatorNetworkId}" p:order="40" />
-						<bean parent="Uif-MessageField" p:label="Status"
+						<bean parent="Uif-MessageField" p:label="Status" p:labelLeft="true"
 							p:messageText="@{document.developmentProposal.proposalState?.description}"
 							p:order="50" />
 						<bean parent="PropDev-DocumentHeader-MoreInfo" p:order="60" />
