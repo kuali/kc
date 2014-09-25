@@ -32,4 +32,14 @@ public interface ProposalPersonService {
      * @return divisionName based on the 4th level node on the Unit hierarchy.
      */
     public String getProposalPersonDivisionName(ProposalPerson proposalPerson);
+
+    /**
+     * This method is to get list of ProposalPersons by matching partial name.
+     * Wildcards work as well.
+     *
+     * @param partialName String representing partial name from search screen
+     * @return
+     */
+    public List<ProposalPerson> getProposalPersonsByPartialName(String partialName);
+
 }

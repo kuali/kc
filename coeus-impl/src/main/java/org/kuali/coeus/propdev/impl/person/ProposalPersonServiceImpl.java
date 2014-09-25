@@ -16,11 +16,14 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 
@@ -28,9 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component("proposalPersonService")
 public class ProposalPersonServiceImpl implements ProposalPersonService {
@@ -54,7 +55,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
     }
-    
+
     /**
      * Sets the KC Person Service.
      * @param kcPersonService the kc person service
@@ -118,4 +119,14 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         return personDivisionName;
     }
 
+    /**
+     * This method is to get list of ProposalPersons by matching partial name.
+     * Wildcards work as well.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ProposalPerson> getProposalPersonsByPartialName(String partialName) {
+        List<ProposalPerson> results = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.fromPredicates(PredicateFactory.likeIgnoreCase("fullName", partialName))).getResults();
+        return  results;
+    }
 }
