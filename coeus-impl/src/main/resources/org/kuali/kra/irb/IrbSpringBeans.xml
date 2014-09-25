@@ -107,7 +107,7 @@
         <property name="protocolLookupableHelperService" ref="protocolLookupableHelperService" />
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
-        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dataObjectService" ref="dataObjectService" />
     </bean>
     
     <bean id="protocolPersonnelService" class="org.kuali.kra.irb.personnel.ProtocolPersonnelServiceImpl">

@@ -40,6 +40,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.service.FundingSourceTypeService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -244,7 +245,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
     public void testCalculateDevProposalFunding() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setParameterService(getParameterService());
-        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        protocolFundingSourceService.setDataObjectService(getDataObjectService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         
         ProtocolFundingSource fundingSource 
@@ -259,7 +260,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
     public void testCalculateDevProposalFundingBadID() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setParameterService(getParameterService());
-        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        protocolFundingSourceService.setDataObjectService(getDataObjectService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         
         ProtocolFundingSource fundingSource 
@@ -273,7 +274,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
     public void testCalculateDevProposalFundingNegativeEmptyID() throws Exception {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setParameterService(getParameterService());
-        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        protocolFundingSourceService.setDataObjectService(getDataObjectService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         
         ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(DEVELOPMENT_PROP_SOURCE_TYPE_ID, EMPTY_NUMBER, null);
@@ -286,7 +287,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
         protocolFundingSourceService.setParameterService(getParameterService());
         protocolFundingSourceService.setInstitutionalProposalService(getInstProposalService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        protocolFundingSourceService.setDataObjectService(getDataObjectService());
         
         ProtocolFundingSource fundingSource  = 
             (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(INSTITUTE_PROP_SOURCE_TYPE_ID, INST_PROPOSAL_NUMBER_GOOD, null);
@@ -302,7 +303,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
         protocolFundingSourceService.setParameterService(getParameterService());
         protocolFundingSourceService.setInstitutionalProposalService(getInstProposalService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        protocolFundingSourceService.setDataObjectService(getDataObjectService());
         
         ProtocolFundingSource fundingSource 
             = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(INSTITUTE_PROP_SOURCE_TYPE_ID, INST_PROPOSAL_NUMBER_GOOD, null);
@@ -318,7 +319,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
         protocolFundingSourceService.setParameterService(getParameterService());
         protocolFundingSourceService.setInstitutionalProposalService(getInstProposalService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        protocolFundingSourceService.setDataObjectService(getDataObjectService());
         
         ProtocolFundingSource fundingSource 
             = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(INSTITUTE_PROP_SOURCE_TYPE_ID, INST_PROPOSAL_NUMBER_BAD, null);
@@ -333,7 +334,7 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
         protocolFundingSourceService.setParameterService(getParameterService());
         protocolFundingSourceService.setInstitutionalProposalService(getInstProposalService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
+        protocolFundingSourceService.setDataObjectService(getDataObjectService());
         
         ProtocolFundingSource fundingSource  
             = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(INSTITUTE_PROP_SOURCE_TYPE_ID, EMPTY_NUMBER, null);
@@ -571,15 +572,15 @@ public class ProtocolFundingSourceServiceTest extends KcIntegrationTestBase {
         return unitService;
     }
 
-    protected BusinessObjectService getBusinessObjectService() {
-        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+    protected DataObjectService getDataObjectService() {
+        final DataObjectService dataObjectService = context.mock(DataObjectService.class);
         context.checking(new Expectations() {{
-            allowing(businessObjectService).findBySinglePrimaryKey(DevelopmentProposal.class, DEV_PROPOSAL_NUMBER_GOOD);
+            allowing(dataObjectService).find(DevelopmentProposal.class, DEV_PROPOSAL_NUMBER_GOOD);
             will(returnValue(devProposalGood));
-            allowing(businessObjectService).findBySinglePrimaryKey(DevelopmentProposal.class, DEV_PROPOSAL_NUMBER_BAD);
+            allowing(dataObjectService).find(DevelopmentProposal.class, DEV_PROPOSAL_NUMBER_BAD);
             will(returnValue(null));
         }});
-        return businessObjectService;
+        return dataObjectService;
     }
     
     protected InstitutionalProposalService getInstProposalService() {

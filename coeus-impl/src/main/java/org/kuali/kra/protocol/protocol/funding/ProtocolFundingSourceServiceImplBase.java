@@ -39,11 +39,13 @@ import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,7 +82,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
     private LookupableHelperService protocolLookupableHelperService;
     private DocumentService documentService;
     private ParameterService parameterService;
-    private BusinessObjectService businessObjectService;
+    private DataObjectService dataObjectService;
     
     /**
      * This enum captures the elements for fundingSource for managing the multi type lookup.
@@ -260,7 +262,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @param fundingSourceNumber the human-readable number for the funding source
      * @return an instance of a ProtocolBase funding source
      */
-    private ProtocolFundingSourceBase buildSponsorFundingSource(String fundingSourceNumber) {
+    protected ProtocolFundingSourceBase buildSponsorFundingSource(String fundingSourceNumber) {
         ProtocolFundingSourceBase fundingSource = null;
         
         if (StringUtils.isNotBlank(fundingSourceNumber)) {
@@ -282,7 +284,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @param fundingSourceNumber the human-readable number for the funding source
      * @return an instance of a ProtocolBase funding source
      */
-    private ProtocolFundingSourceBase buildUnitFundingSource(String fundingSourceNumber) {
+    protected ProtocolFundingSourceBase buildUnitFundingSource(String fundingSourceNumber) {
         ProtocolFundingSourceBase fundingSource = null;
         
         if (StringUtils.isNotBlank(fundingSourceNumber)) {
@@ -301,7 +303,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @param fundingSourceName the name of the funding source
      * @return an instance of a ProtocolBase funding source
      */
-    private ProtocolFundingSourceBase buildProposalDevelopmentFundingSource(String fundingSourceNumber, String fundingSourceName) {
+    protected ProtocolFundingSourceBase buildProposalDevelopmentFundingSource(String fundingSourceNumber, String fundingSourceName) {
         ProtocolFundingSourceBase fundingSource = null;
 
         if (StringUtils.isNotBlank(fundingSourceNumber)) {
@@ -323,8 +325,8 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @param fundingSourceNumber the human-readable number for the funding source
      * @return the latest Development Proposal matching {@code fundingSourceNumber}
      */
-    private DevelopmentProposal getDevelopmentProposal(String fundingSourceNumber) {
-        return getBusinessObjectService().findBySinglePrimaryKey(DevelopmentProposal.class, fundingSourceNumber);
+    protected DevelopmentProposal getDevelopmentProposal(String fundingSourceNumber) {
+        return getDataObjectService().find(DevelopmentProposal.class, fundingSourceNumber);
     }
     
     /**
@@ -334,7 +336,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @param fundingSourceName the name of the funding source
      * @return an instance of a ProtocolBase funding source
      */
-    private ProtocolFundingSourceBase buildInstitutionalProposalFundingSource(String fundingSourceNumber, String fundingSourceName) {
+    protected ProtocolFundingSourceBase buildInstitutionalProposalFundingSource(String fundingSourceNumber, String fundingSourceName) {
         ProtocolFundingSourceBase fundingSource = null;
         
         if (StringUtils.isNotBlank(fundingSourceNumber)) {
@@ -356,7 +358,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @param fundingSourceNumber the human-readable number for the funding source
      * @return the latest Institutional Proposal matching {@code fundingSourceNumber}
      */
-    private InstitutionalProposal getInstitutionalProposal(String fundingSourceNumber) {
+    protected InstitutionalProposal getInstitutionalProposal(String fundingSourceNumber) {
         InstitutionalProposal institutionalProposal = getInstitutionalProposalService().getActiveInstitutionalProposalVersion(fundingSourceNumber);
         
         if (institutionalProposal == null) {
@@ -373,7 +375,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @param fundingSourceName the name of the funding source
      * @return an instance of a ProtocolBase funding source
      */
-    private ProtocolFundingSourceBase buildAwardFundingSource(String fundingSourceNumber, String fundingSourceName) {
+    protected ProtocolFundingSourceBase buildAwardFundingSource(String fundingSourceNumber, String fundingSourceName) {
         ProtocolFundingSourceBase fundingSource = null;
         
         if (StringUtils.isNotBlank(fundingSourceNumber)) {
@@ -395,7 +397,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @param fundingSourceNumber the human-readable number for the funding source
      * @return the latest Award matching {@code fundingSourceNumber}
      */
-    private Award getAward(String fundingSourceNumber) {
+    protected Award getAward(String fundingSourceNumber) {
         Award award = null;
         
         List<Award> awards = getAwardService().findAwardsForAwardNumber(fundingSourceNumber);
@@ -415,7 +417,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @param fundingSourceName the name of the funding source
      * @return an instance of a ProtocolBase funding source
      */
-    private ProtocolFundingSourceBase buildOtherFundingSource(String fundingSourceTypeCode, String fundingSourceNumber, String fundingSourceName) {
+    protected ProtocolFundingSourceBase buildOtherFundingSource(String fundingSourceTypeCode, String fundingSourceNumber, String fundingSourceName) {
         ProtocolFundingSourceBase fundingSource = null;
         
         FundingSourceType fundingSourceType = getFundingSourceTypeService().getFundingSourceType(fundingSourceTypeCode);
@@ -652,10 +654,6 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
     
     protected abstract Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook();
     
-    
-    
-    
-
     @Override
     public boolean isEditable(String fundingSourceTypeCode) {
         boolean isEditable = true;
@@ -758,12 +756,11 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         this.parameterService = parameterService;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
-
 }
