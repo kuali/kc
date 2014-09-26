@@ -70,6 +70,7 @@ public class QuestionField extends InputFieldBase {
             }
             
             getQuickfinder().setRender(true);
+            getQuickfinder().setReturnByScript(true);
             getQuickfinder().setDataObjectClassName(answer.getQuestion().getLookupClass());
             getQuickfinder().getFieldConversions().put(answer.getQuestion().getLookupReturn(), getPropertyName());
         }
