@@ -138,7 +138,7 @@
             <c:set var="personnelObjectCodes" />
             <c:forEach var="objectCodeMapEntry" items="${objectCodeListByBudgetCategoryType}" varStatus="mapIndex">
             	<c:set var="categoryType" value="${objectCodeMapEntry.key}" /> 
-            	<c:if test="${categoryType.budgetCategoryTypeCode eq 'P'}">
+            	<c:if test="${categoryType.code eq 'P'}">
             		<c:set var="personnelObjectCodes" value="${objectCodeMapEntry.value}" />
             	</c:if>
 			</c:forEach>
@@ -507,7 +507,7 @@
             
             <c:forEach var="objectCodeMapEntry" items="${objectCodeListByBudgetCategoryType}" varStatus="mapIndex">
             <c:set var="categoryType" value="${objectCodeMapEntry.key}" /> 
-	            <c:if test="${categoryType.budgetCategoryTypeCode ne 'P'}" >
+	            <c:if test="${categoryType.code ne 'P'}" >
 						<c:set var="anchorIndex" value="${anchorIndex+1}" />
 			            <tr>
 			           	  <td class="tab-subhead" width="5%">
@@ -516,7 +516,7 @@
 			              		</a>
 			           	  </td>
 			              <td colspan="2" class="tab-subhead" >${categoryType.description}</td>
-			              <c:set var="nonPersonnelSummaryTotals" value="${KualiForm.document.budget.budgetSummaryTotals[categoryType.budgetCategoryTypeCode]}" />
+			              <c:set var="nonPersonnelSummaryTotals" value="${KualiForm.document.budget.budgetSummaryTotals[categoryType.code]}" />
 			              <c:set var="nonPersonnelCumulativeTotals" value="0.00" />
 			              <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
 				              	<c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >

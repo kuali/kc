@@ -17,19 +17,15 @@ package org.kuali.kra.award.budget;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.NextValue;
-import org.kuali.kra.bo.NextValueBase;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 
@@ -432,6 +428,5 @@ public class AwardBudgetExt extends Budget {
     
     public void add(NextValue nextValue) {
     	getBudgetDocument().getDocumentNextvalues().add((DocumentNextvalue) nextValue);
-    }    
-	
+    }	
 }

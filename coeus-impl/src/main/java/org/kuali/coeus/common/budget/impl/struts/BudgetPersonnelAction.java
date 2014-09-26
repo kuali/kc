@@ -461,7 +461,10 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         for(BudgetPeriod budgetPeriod:budget.getBudgetPeriods()){
             int i = 0;
             toBeDeletedLineItems = new ArrayList<Integer>();
-            for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){    
+            for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
+            	if (budgetLineItem.getBudgetCategory() == null && budgetLineItem.getBudgetCategoryCode() != null) {
+            		budgetLineItem.setBudgetCategory(getBusinessObjectService().findBySinglePrimaryKey(BudgetCategory.class, budgetLineItem.getBudgetCategoryCode()));
+            	}
                 if(StringUtils.equalsIgnoreCase(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), Constants.BUDGET_CATEGORY_PERSONNEL)) { 
                     if(!StringUtils.equalsIgnoreCase(budgetLineItem.getCostElement(), budgetLineItem.getCostElementBO().getCostElement())){
                         budgetLineItem.refreshReferenceObject("costElementBO");

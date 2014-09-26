@@ -406,7 +406,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         DataObjectService dataObjectService = KcServiceLocator.getService(DataObjectService.class);
         Map fieldValues = new HashMap();
         fieldValues.put("lockDescriptor", lockDescriptor);
-        List<PessimisticLock> matchingLocks = (List<PessimisticLock>) dataObjectService.findMatching(PessimisticLock.class, QueryByCriteria.Builder.andAttributes(fieldValues).build());
+        List<PessimisticLock> matchingLocks = (List<PessimisticLock>) dataObjectService.findMatching(PessimisticLock.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
         return matchingLocks;
     }
     

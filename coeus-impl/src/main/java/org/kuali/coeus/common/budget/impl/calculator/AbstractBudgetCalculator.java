@@ -18,11 +18,11 @@ package org.kuali.coeus.common.budget.impl.calculator;
 import org.apache.commons.collections4.CollectionUtils;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.calculator.*;
-import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.query.*;
 import org.kuali.coeus.common.budget.framework.query.operator.*;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
+import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
@@ -418,13 +418,14 @@ public abstract class AbstractBudgetCalculator {
                 List<String> warningMessages = new ArrayList<String>();
 
                 for (AbstractBudgetCalculatedAmount budgetLineItemCalculatedAmount : qlLineItemCalcAmts) {
-                    budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
                     applyRateFlag = budgetLineItemCalculatedAmount.getApplyRateFlag();
                     rateClassCode = budgetLineItemCalculatedAmount.getRateClassCode();
                     rateTypeCode = budgetLineItemCalculatedAmount.getRateTypeCode();
                     // form the rate not available message
                     // These two statements have to move to the populate method of calculatedAmount later.
-                    budgetLineItemCalculatedAmount.refreshReferenceObject("rateClass");
+                    if (budgetLineItemCalculatedAmount.getRateClass() == null && rateClassCode != null) {
+                    	budgetLineItemCalculatedAmount.setRateClass(getBusinessObjectService().findBySinglePrimaryKey(RateClass.class, rateClassCode));
+                    }
                     rateClassType = budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode();
                     // end block to be moved
                     message = messageTemplate + budgetLineItemCalculatedAmount.getRateClass().getDescription()

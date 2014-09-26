@@ -206,9 +206,9 @@ function collapseAll() {
 			<c:forEach var="objectCodeByTypeEntry" items="${budgetSummary.combinedObjectCodeListByCategory}">
 			 <c:set var="catType" value="${objectCodeByTypeEntry.key}"/>
 			 <c:set var="objCodes" value="${objectCodeByTypeEntry.value}"/>
-			 <c:if test="${catType.budgetCategoryTypeCode ne 'P'}">
-			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals[catType.budgetCategoryTypeCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals[catType.budgetCategoryTypeCode])}" />
-             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals[catType.budgetCategoryTypeCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals[catType.budgetCategoryTypeCode])}" />
+			 <c:if test="${catType.code ne 'P'}">
+			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals[catType.code] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals[catType.code])}" />
+             <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals[catType.code] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals[catType.code])}" />
              <c:set var="total" value="${curTotal + prevTotal}" />
              <c:set var="currentNonPersonnelTotal" value="${currentNonPersonnelTotal + curTotal}"/>
              <c:set var="previousNonPersonnelTotal" value="${previousNonPersonnelTotal + prevTotal}"/>
