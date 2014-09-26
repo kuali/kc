@@ -176,6 +176,11 @@ input[type="checkbox"] {
     color: orange;
 }
 
+/** ie specific fix **/
+[data-role="Page"] {
+    display: block !important;
+}
+
 /** Document info styling **/
 
 .uif-documentInfo {
