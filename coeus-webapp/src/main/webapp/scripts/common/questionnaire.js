@@ -11,6 +11,11 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
            });
         });
     };
+    namespace.initAnswers = function(){
+        $(".uif-documentPage").find(".question").each(function(){
+                namespace.answerChanged(this);
+        });
+    };
     /*
      * function that handles answer change.   It will check whether to hide or show the affected descendant answers.
      * Notes : 1. check the siblings (of "input") of 'div[class^=Qresponsediv]', this input id contains answer header and question answer index
@@ -116,7 +121,10 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
             // ends text   
             isMatched = (answerValue.toUpperCase().match(conditionValue.toUpperCase() + "$"));
         } else if (condition == 4) {
-            // match text   
+            // match text
+                if (answerValue == ""){
+                    answerValue = "N"
+                }
               isMatched = (conditionValue.toUpperCase() == answerValue.toUpperCase());
         } else if (condition >= 5 && condition <= 10) {
             if (isNaN(answerValue)) {

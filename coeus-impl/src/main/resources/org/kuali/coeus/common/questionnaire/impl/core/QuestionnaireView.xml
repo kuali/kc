@@ -50,7 +50,8 @@
 		parent="Uif-ListCollectionGroup" p:collectionObjectClass="org.kuali.coeus.common.questionnaire.framework.question.QuestionDTO"
 		p:propertyName="questions" p:renderAddLine="false"
 		p:renderLineActions="false" p:additionalCssClasses="questionnaireContent"
-        p:onDocumentReadyScript="Kc.Questionnaire.Answer.initQuestions()">
+        p:onDocumentReadyScript="Kc.Questionnaire.Answer.initQuestions()"
+        p:onLoadScript="Kc.Questionnaire.Answer.initAnswers()">
 		<property name="subCollections">
 			<list>
 				<bean parent="Questionnaire-SubCollection" p:order="10" />
