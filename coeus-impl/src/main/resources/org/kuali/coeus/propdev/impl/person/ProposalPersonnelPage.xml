@@ -306,24 +306,24 @@
 		parent="Uif-CssGridSection-2FieldLabelColumn" p:headerText="Details">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="proposalPersonRoleId"
-					p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="projectRole"
-					p:required="true" p:label="Key Person's role will be" 
-					p:progressiveRender="@{#fp.proposalPersonRoleId == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
-					p:order="20" />
-				<bean parent="Uif-InputField" p:propertyName="fullName"
-					p:order="30" />
-				<bean parent="Uif-InputField" p:propertyName="userName"
-					p:order="40" />
-				<bean parent="Uif-InputField" p:propertyName="firstName"
-					p:order="50" />
-				<bean parent="Uif-InputField" p:propertyName="lastName"
-					p:order="60" />
-				<bean parent="Uif-InputField" p:propertyName="middleName"
-					p:order="70" />
-                <bean parent="Uif-InputField" p:propertyName="eraCommonsUserName"
-                    p:order="80" />
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="proposalPersonRoleId"
+                      p:order="10"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="projectRole"
+                      p:required="true" p:label="Key Person's role will be"
+                      p:progressiveRender="@{#fp.proposalPersonRoleId == '#{T(org.kuali.coeus.common.framework.person.PropAwardPersonRole).KEY_PERSON_CODE}'}"
+                      p:order="20"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="fullName"
+                      p:order="30"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="userName"
+                      p:order="40"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="firstName"
+                      p:order="50"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="lastName"
+                      p:order="60"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="middleName"
+                      p:order="70"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="eraCommonsUserName"
+                      p:order="80"/>
 			</list>
 		</property>
 	</bean>
@@ -332,50 +332,53 @@
 	<bean id="PropDev-PersonnelPage-Organization-parentBean" abstract="true"
 		parent="Uif-CssGridSection-2FieldLabelColumn" p:headerText="Organization">
 		<property name="items">
-			<list>
-				<bean parent="Uif-InputField" p:propertyName="emailAddress"
-					p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="secondaryOfficeLocation"
-					p:order="20" />					
-				<bean parent="Uif-InputField" p:propertyName="officePhone"
-					p:order="30" />
-				<bean parent="Uif-InputField" p:propertyName="addressLine1"
-					p:order="40" />					
-				<bean parent="Uif-InputField" p:propertyName="faxNumber"
-					p:order="50" />
-				<bean parent="Uif-InputField" p:propertyName="addressLine2"
-					p:order="60" />					
-				<bean parent="Uif-InputField" p:propertyName="pagerNumber"
-					p:order="70" />
-				<bean parent="Uif-InputField" p:propertyName="addressLine3"
-					p:order="80" />					
-				<bean parent="Uif-InputField" p:propertyName="mobilePhoneNumber"
-					p:order="90" />
-				<bean parent="Uif-InputField" p:propertyName="city" p:order="100" />					
-				<bean parent="Uif-InputField" p:propertyName="primaryTitle"
-					p:order="110" />
-				<bean parent="Uif-InputField" p:propertyName="county" p:order="120" />					
-				<bean parent="Uif-InputField" p:propertyName="directoryTitle"
-					p:order="130" />
-				<bean parent="Uif-InputField" p:propertyName="countryCode"
-					p:order="140" />					
-				<bean parent="Uif-InputField" p:propertyName="homeUnit"
-					p:order="150" />
-				<bean parent="Uif-InputField" p:propertyName="postalCode"
-					p:order="160" />					
-				<bean parent="Uif-InputField" p:propertyName="division"
-					p:order="170" />
-				<bean parent="Uif-InputField" p:propertyName="state" p:order="180" 
-					p:refreshWhenChangedPropertyNames="#lp.countryCode" />
-				<bean parent="Uif-InputField" p:propertyName="percentageEffort"
-					p:order="190" />
-				<bean parent="Uif-InputField" p:propertyName="officeLocation"
-					p:order="200" />
+            <list>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="emailAddress"
+                      p:order="10"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="secondaryOfficeLocation"
+                      p:order="20"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="officePhone"
+                      p:order="30"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="addressLine1"
+                      p:order="40"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="faxNumber"
+                      p:order="50"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="addressLine2"
+                      p:order="60"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="pagerNumber"
+                      p:order="70"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="addressLine3"
+                      p:order="80"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="mobilePhoneNumber"
+                      p:order="90"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="city"
+                      p:order="100"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="primaryTitle"
+                      p:order="110"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="county"
+                      p:order="120"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="directoryTitle"
+                      p:order="130"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="countryCode"
+                      p:order="140"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="homeUnit"
+                      p:order="150"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="postalCode"
+                      p:order="160"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="division"
+                      p:order="170"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="state"
+                      p:order="180"
+                      p:refreshWhenChangedPropertyNames="#lp.countryCode"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="percentageEffort"
+                      p:order="190"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="officeLocation"
+                      p:order="200"/>
                 <bean parent="Uif-DataField" p:propertyName="salaryAnniversaryDate"
-                    p:order="210" />
-				<bean parent="Uif-InputField" p:propertyName="facultyFlag"
-					p:order="220" />
-			</list>
+                      p:order="210"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="facultyFlag"
+                      p:order="220"/>
+            </list>
 		</property>
 	</bean>
 
@@ -406,46 +409,48 @@
 		abstract="true" parent="Uif-CssGridSubSection-2FieldLabelColumn"
 		p:headerText="Personal Information">
 		<property name="items">
-			<list>
-				<bean parent="Uif-InputField" p:propertyName="ageByFiscalYear"
-					p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="race" p:order="20" />
-				<bean parent="Uif-InputField" p:propertyName="personId"
-					p:order="30" />
-				<bean parent="Uif-InputField" p:propertyName="handicappedFlag"
-					p:order="40" />
-				<bean parent="Uif-InputField" p:propertyName="handicapType"
-					p:order="50" />
-				<bean parent="Uif-InputField" p:propertyName="veteranFlag"
-					p:order="60" />
-				<bean parent="Uif-InputField" p:propertyName="veteranType"
-					p:order="70" />
-				<bean parent="Uif-InputField" p:propertyName="hasVisa" p:order="80" />
-				<bean parent="Uif-InputField" p:propertyName="visaCode"
-					p:order="90" />
-				<bean parent="Uif-InputField" p:propertyName="visaType"
-					p:order="110" />
-				<bean parent="Uif-InputField" p:propertyName="visaRenewalDate"
-					p:order="120">
-					<property name="control">
-						<bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy" />
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="directoryDepartment"
-					p:order="130" />
-				<bean parent="Uif-InputField" p:propertyName="vacationAccrualFlag"
-					p:order="140" />
-				<bean parent="Uif-InputField" p:propertyName="onSabbaticalFlag"
-					p:order="150" />
-				<bean parent="Uif-InputField" p:propertyName="idProvided"
-					p:order="160" />
-				<bean parent="Uif-InputField" p:propertyName="idVerified"
-					p:order="170" />
-				<bean parent="Uif-InputField" p:propertyName="countryOfCitizenship"
-					p:order="180" />				
-				<bean parent="Uif-InputField" p:propertyName="citizenshipTypeCode"
-					p:order="190" p:enableAutoQuickfinder="false"/>
-			</list>
+            <list>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="ageByFiscalYear"
+                      p:order="10"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="race"
+                      p:order="20"/>
+                <bean parent="Uif-InputField" p:propertyName="personId"
+                      p:order="30"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="handicappedFlag"
+                      p:order="40"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="handicapType"
+                      p:order="50"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="veteranFlag"
+                      p:order="60"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="veteranType"
+                      p:order="70"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="hasVisa"
+                      p:order="80"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="visaCode"
+                      p:order="90"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="visaType"
+                      p:order="110"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="visaRenewalDate"
+                      p:order="120">
+                    <property name="control">
+                        <bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                </bean>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="directoryDepartment"
+                      p:order="130"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="vacationAccrualFlag"
+                      p:order="140"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="onSabbaticalFlag"
+                      p:order="150"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="idProvided"
+                      p:order="160"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="idVerified"
+                      p:order="170"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="countryOfCitizenship"
+                      p:order="180"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="citizenshipTypeCode"
+                      p:order="190" p:enableAutoQuickfinder="false"/>
+            </list>
 		</property>
 	</bean>
 
@@ -454,15 +459,18 @@
 		abstract="true" parent="Uif-CssGridSubSection-2FieldLabelColumn"
 		p:headerText="Education">
 		<property name="items">
-			<list>
-				<bean parent="Uif-InputField" p:propertyName="educationLevel"
-					p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="yearGraduated"
-					p:order="20" />
-				<bean parent="Uif-InputField" p:propertyName="major" p:order="30" />
-				<bean parent="Uif-InputField" p:propertyName="degree" p:order="40" />
-				<bean parent="Uif-InputField" p:propertyName="school" p:order="50" />
-			</list>
+            <list>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="educationLevel"
+                      p:order="10"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="yearGraduated"
+                      p:order="20"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="major"
+                      p:order="30"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="degree"
+                      p:order="40"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="school"
+                      p:order="50"/>
+            </list>
 		</property>
 	</bean>
 
@@ -565,4 +573,7 @@
         </property>
     </bean>
 
+
+    <bean id="PropDev-PersonnelPage-InputField" parent="Uif-InputField"
+          p:readOnly="@{!#ViewHelper.isPersonFieldEditable(#component.propertyName)}"/>
 </beans>
