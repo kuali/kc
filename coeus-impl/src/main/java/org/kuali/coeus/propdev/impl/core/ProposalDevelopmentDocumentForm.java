@@ -18,6 +18,8 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
+import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
@@ -39,6 +41,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
@@ -46,10 +49,7 @@ import org.kuali.rice.krad.uif.util.SessionTransient;
 import org.kuali.rice.krad.web.bind.ChangeTracking;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @ChangeTracking
 public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase implements Auditable {
@@ -64,6 +64,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private S2sOpportunity newS2sOpportunity;
     private ProposalDevelopmentPermissionsHelper permissionsHelper;
     private transient MedusaService medusaService;
+    private transient LegacyDataAdapter legacyDataAdapter;
     private Map<String,List<String>> editableCollectionLines;
     private ProposalDevelopmentCustomDataHelper customDataHelper;
     private List<ProposalDevelopmentCustomDataGroupDto> customDataGroups;
@@ -82,6 +83,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private S2sUserAttachedForm s2sUserAttachedForm;
 
     private ProposalChangedData newProposalChangedData;
+
+    private Map<String, Boolean> personEditableFields;
 
     @SessionTransient
     private Tree<Object, String> medusaTree;
@@ -138,6 +141,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         s2sUserAttachedForm = new S2sUserAttachedForm();
 
         newProposalChangedData = new ProposalChangedData();
+
+        populatePersonEditableFields();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -170,8 +175,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
                 }
             }
         }
-    }    
-    
+    }
+
     @Override
     protected String getDefaultDocumentTypeName() {
         return "ProposalDevelopmentDocument";
@@ -295,7 +300,32 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     	}
     	return medusaTree;
     }
-    
+
+    /**
+     * Creates the list of <code>{@link org.kuali.coeus.common.framework.person.attr.PersonEditableField}</code> field names.
+     */
+    public void populatePersonEditableFields() {
+        setPersonEditableFields(new HashMap<String, Boolean>());
+
+        Map fieldValues = new HashMap();
+        fieldValues.put("moduleCode", CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
+        Collection<PersonEditableField> fields = getLegacyDataAdapter().findMatching(PersonEditableField.class, fieldValues);
+        for (PersonEditableField field : fields) {
+            getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
+        }
+    }
+
+    private LegacyDataAdapter getLegacyDataAdapter() {
+        if (legacyDataAdapter == null) {
+            legacyDataAdapter = KcServiceLocator.getService(LegacyDataAdapter.class);
+        }
+        return legacyDataAdapter;
+    }
+
+    public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
+        this.legacyDataAdapter = legacyDataAdapter;
+    }
+
     protected MedusaService getMedusaService() {
     	if (medusaService == null) {
     		medusaService = KcServiceLocator.getService(MedusaService.class);
@@ -401,5 +431,16 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setS2sUserAttachedForm(S2sUserAttachedForm s2sUserAttachedForm) {
         this.s2sUserAttachedForm = s2sUserAttachedForm;
+    }
+
+    public Map<String, Boolean> getPersonEditableFields() {
+        if (personEditableFields == null) {
+            populatePersonEditableFields();
+        }
+        return personEditableFields;
+    }
+
+    public void setPersonEditableFields(Map<String, Boolean> personEditableFields) {
+        this.personEditableFields = personEditableFields;
     }
 }

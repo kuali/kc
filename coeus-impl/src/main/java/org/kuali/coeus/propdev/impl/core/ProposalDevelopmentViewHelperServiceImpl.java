@@ -156,7 +156,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
-	
+
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
@@ -721,6 +721,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
         form.getNotificationHelper().initializeDefaultValues(context);
     }
+
+    public boolean isPersonFieldEditable(String propertyName){
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
+        Boolean returnValue = form.getPersonEditableFields().get(propertyName);
+        return returnValue==null?false:returnValue.booleanValue();
+    }
+
     public ProposalDevelopmentService getProposalDevelopmentService() {
 		return proposalDevelopmentService;
 	}
