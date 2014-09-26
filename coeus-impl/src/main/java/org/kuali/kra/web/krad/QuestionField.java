@@ -17,8 +17,10 @@ package org.kuali.kra.web.krad;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
+import org.kuali.coeus.common.framework.rolodex.RolodexConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.datadictionary.validation.constraint.NumericPatternConstraint;
 import org.kuali.rice.krad.uif.control.Control;
@@ -68,11 +70,15 @@ public class QuestionField extends InputFieldBase {
                 getSuggest().setValuePropertyName(answer.getQuestion().getLookupReturn());
                 getSuggest().getSuggestQuery().setDataObjectClassName(answer.getQuestion().getLookupClass());
             }
-            
+
             getQuickfinder().setRender(true);
             getQuickfinder().setReturnByScript(true);
             getQuickfinder().setDataObjectClassName(answer.getQuestion().getLookupClass());
             getQuickfinder().getFieldConversions().put(answer.getQuestion().getLookupReturn(), getPropertyName());
+
+            if (answer.getQuestion().getLookupClass().equals(Rolodex.class.getName())) {
+                getQuickfinder().setViewName(RolodexConstants.EDITABLE_ROLODEX_QUICKFINDER);
+            }
         }
         super.performApplyModel(model, parent);
     }

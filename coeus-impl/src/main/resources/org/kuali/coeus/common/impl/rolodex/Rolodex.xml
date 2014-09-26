@@ -785,4 +785,24 @@
     </property>
   </bean>
 
+
+    <bean id="Rolodex-LookupView-AddButton" parent="Rolodex-LookupView-parentBean"
+          p:viewName="Rolodex-LookupView-AddButton">
+        <property name="page.header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Rolodex-AddNewAddressButton" p:order="10"
+                              p:render="@{#ViewHelper.allowsMaintenanceNewOrCopyAction()}"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Rolodex-AddNewAddressButton" parent="Rolodex-AddNewAddressButton-parentBean"/>
+    <bean id="Rolodex-AddNewAddressButton-parentBean" abstract="true" parent="Uif-Link" p:linkText="Add New Address Book"
+          p:href="@{#ConfigProperties['application.url']}/kr-krad/maintenance?viewTypeName=MAINTENANCE&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.coeus.common.framework.rolodex.Rolodex"
+          p:openInDialog="true"
+          p:cssClasses="btn,btn-xs"/>
 </beans>

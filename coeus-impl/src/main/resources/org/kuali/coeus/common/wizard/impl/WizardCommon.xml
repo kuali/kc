@@ -57,6 +57,16 @@
 
     <bean id="Kc-Wizard-NonEmployeeInputFields" parent="Kc-Wizard-NonEmployeeInputFields-parentBean" />
     <bean id="Kc-Wizard-NonEmployeeInputFields-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+        <property name="header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Rolodex-AddNewAddressButton"  p:order="10"
+                              p:render="@{#editModes['addAddressBook']}"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Kc-Wizard-RolodexInputField"
@@ -200,4 +210,5 @@
             </list>
         </property>
     </bean>
+
 </beans>

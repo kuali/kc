@@ -17,7 +17,6 @@ package org.kuali.coeus.common.impl.rolodex;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
@@ -27,11 +26,17 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.data.platform.MaxValueIncrementerFactory;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 
+@Component("rolodexMaintainableImpl")
 public class RolodexMaintainableImpl extends KraMaintainableImpl {
 
 
@@ -41,9 +46,17 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public static final String AUTO_GEN_ROLODEX_ID_PARM = "AUTO_GENERATE_NON_EMPLOYEE_ID";
     public static final String SECTION_ID = "Edit Address Book";
     public static final String ROLODEX_ID_NAME = "rolodexId";
-    
-    
+
+    @Autowired
+    @Qualifier("kradApplicationDataSource")
+    private DataSource kradApplicationDataSource;
+
+    @Autowired
+    @Qualifier("parameterService")
     private transient ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("sequenceAccessorService")
     private transient SequenceAccessorService sequenceAccessorService;
    
     @Override
@@ -79,13 +92,21 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
         }        
     }
 
+
+    public void processAfterNew(org.kuali.rice.krad.maintenance.MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        Rolodex rolodex = (Rolodex) document.getNewMaintainableObject().getDataObject();
+        rolodex.setActive(true);
+        if (isAutoGenerateCode()) {
+            rolodex.setRolodexId(Integer.parseInt(Long.valueOf(MaxValueIncrementerFactory.getIncrementer(getKradApplicationDataSource(), ROLODEX_ID_SEQUENCE_NAME).nextLongValue()).toString()));
+        }
+    }
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterCopy(document, parameters);
         setGenerateDefaultValues(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());       
     }
 
-    protected boolean isAutoGenerateCode() {
+    public boolean isAutoGenerateCode() {
         return getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, 
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, AUTO_GEN_ROLODEX_ID_PARM);
     }
@@ -119,5 +140,15 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
-    
+
+    public DataSource getKradApplicationDataSource() {
+        if(kradApplicationDataSource == null) {
+            kradApplicationDataSource = KcServiceLocator.getService("kradApplicationDataSource");
+        }
+        return kradApplicationDataSource;
+    }
+
+    public void setKradApplicationDataSource(DataSource kradApplicationDataSource) {
+        this.kradApplicationDataSource = kradApplicationDataSource;
+    }
 }

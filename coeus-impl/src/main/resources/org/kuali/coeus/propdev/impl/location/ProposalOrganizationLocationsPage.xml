@@ -204,7 +204,7 @@
         </property>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
-                  p:fieldConversions="rolodexId:rolodexId">
+                  p:fieldConversions="rolodexId:rolodexId" p:viewName="Rolodex-LookupView-AddButton">
                 <property name="quickfinderAction">
                     <bean parent="Uif-PrimaryActionButton" p:iconClass="icon-search" p:actionLabel="Add Performance Site" p:methodToCall="performLookup"/>
                 </property>

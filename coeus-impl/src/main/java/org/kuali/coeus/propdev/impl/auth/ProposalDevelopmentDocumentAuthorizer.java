@@ -197,6 +197,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (isAuthorizedToRejectProposal(doc, user)) {
             editModes.add("rejectProposal");
         }
+
+        if (isAuthorizedToAddAddressBook(doc,user)) {
+            editModes.add("addAddressBook");
+        }
         
         setNarrativePermissions(user, doc, editModes);
     } 
@@ -675,6 +679,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_PROPOSAL)
                     || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), document);
         }
+        return hasPermission;
+    }
+
+    protected boolean isAuthorizedToAddAddressBook(Document doc, Person user) {
+        final boolean hasPermission;
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) doc);
+
+        hasPermission = getPermissionService().hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_UNIT,PermissionConstants.ADD_ADDRESS_BOOK);
         return hasPermission;
     }
 

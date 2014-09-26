@@ -43,6 +43,7 @@ public interface PermissionConstants {
     public static final String DELETE_PROPOSAL = "Delete Proposal";
     public static final String VIEW_SALARIES = "View Personnel Salaries";
     public static final String RECALL_DOCUMENT = "Recall Document";
+    public static final String ADD_ADDRESS_BOOK = "Add Address Book";
         
     /* IRB Permissions */
     
