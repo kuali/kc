@@ -190,10 +190,6 @@ public abstract class ProposalDevelopmentControllerBase {
              saveDocumentPermissions(form);
          }
 
-         if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.CREDIT_ALLOCATION_PAGE)) {
-             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateCreditSplits(form);
-         }
-
          preSave(proposalDevelopmentDocument);
 
          proposalDevelopmentService.initializeUnitOrganizationLocation(
@@ -206,6 +202,10 @@ public abstract class ProposalDevelopmentControllerBase {
          saveAnswerHeaders(form, form.getPageId());
 
          getTransactionalDocumentControllerService().save(form);
+
+         if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.CREDIT_ALLOCATION_PAGE)) {
+             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateCreditSplits(form);
+         }
 
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
          ModelAndView view = null;
