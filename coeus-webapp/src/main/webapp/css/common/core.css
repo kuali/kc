@@ -178,6 +178,10 @@ input[type="checkbox"] {
 
 /** Document info styling **/
 
+#PropDev-DefaultView_header {
+    min-height: 5em;
+}
+
 .uif-documentInfo {
     margin-right: 15px;
 }
