@@ -21,3 +21,13 @@
 .question input[type="checkbox"] + label {
 	font-weight: bold;
 }
+
+.questionaire-complete{
+    font-size: 12px;
+    color: green;
+}
+
+.questionaire-incomplete{
+    font-size: 12px;
+    color: #cccccc;
+}
