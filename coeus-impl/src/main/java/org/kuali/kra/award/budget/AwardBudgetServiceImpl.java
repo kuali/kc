@@ -111,7 +111,18 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         AwardDocument savedAwardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
         savedAwardDocument.refreshBudgetDocumentVersions();
     	return budgetDocument;
-    }    
+    }
+    
+    @Override
+    public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod) {
+    	AwardBudgetExt copy = (AwardBudgetExt) super.copyBudgetVersion(budget, onlyOnePeriod);
+    	for (BudgetPeriod period : copy.getBudgetPeriods()) {
+    		AwardBudgetPeriodExt awardPeriod = (AwardBudgetPeriodExt) period;
+    		awardPeriod.getAwardBudgetPeriodFnAAmounts().clear();
+    		awardPeriod.getAwardBudgetPeriodFringeAmounts().clear();
+    	}
+    	return copy;
+    }
 
     @Override
     public void toggleStatus(AwardBudgetDocument awardBudgetDocument) {

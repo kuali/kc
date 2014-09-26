@@ -27,7 +27,7 @@
 		<th>&nbsp;</th>
 		<th>Person</th>
 		<th><kul:htmlAttributeLabel attributeEntry="${attributes.jobCode}" /></div></th>
-		<th><kul:htmlAttributeLabel attributeEntry="${attributes.appointmentType}" /></div></th>
+		<th><kul:htmlAttributeLabel attributeEntry="${attributes.appointmentTypeCode}" /></div></th>
 		<th><kul:htmlAttributeLabel attributeEntry="${attributes.calculationBase}" /></div></th>
 		<th><kul:htmlAttributeLabel attributeEntry="${attributes.effectiveDate}" /></th>
 		<c:if test="${KualiForm.document.budget.salaryInflationEnabled}">
@@ -84,7 +84,7 @@
                
 			<td>
 			    <kul:htmlControlAttribute property="${budgetPersonProperty}[${status.index}].appointmentTypeCode" 
-			                              attributeEntry="${attributes.appointmentType}" 
+			                              attributeEntry="${attributes.appointmentTypeCode}" 
 			                              readOnly="${readOnly}" />
 			</td>
 			

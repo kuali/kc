@@ -39,8 +39,10 @@ import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +59,18 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
 	private KcBusinessRulesEngine kcBusinessRulesEngine;
 	
 	protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-		return getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(((AwardBudgetDocument)document).getBudget()));
+		boolean result = true;
+        GlobalVariables.getMessageMap().addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
+        result &= getDictionaryValidationService().validateDefaultExistenceChecksForTransDoc((TransactionalDocument) document);
+		result &= getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(((AwardBudgetDocument)document).getBudget()));
+		GlobalVariables.getMessageMap().removeFromErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
+		return result;
+	}
+	
+	@KcEventMethod
+	public boolean processBudgetSaveRule(BudgetSaveEvent event) {
+		return getKnsDictionaryValidationService().validate(event.getBudget()).getNumberOfErrors() == 0;
+		
 	}
 
     /**

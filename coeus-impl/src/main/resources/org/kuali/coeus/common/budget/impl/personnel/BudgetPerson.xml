@@ -122,13 +122,6 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Appointment Type" />
     <property name="shortLabel" value="Appointment Type" />
-    <property name="maxLength" value="2" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.coeus.common.budget.framework.personnel.AppointmentType" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="appointmentTypeCode" p:labelAttribute="description"/>
