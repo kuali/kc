@@ -39,7 +39,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="PropDev-OpportunityPage-ButtonSection" parent="PropDev-OpportunityPage-ButtonSection-parentBean" />
  	<bean id="PropDev-OpportunityPage-ButtonSection-parentBean" abstract="true" parent="Uif-HorizontalBoxSubSection"
  			p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null}">
@@ -106,8 +106,20 @@
 					p:fieldLabel.renderColon="false" p:order="20" />
 				<bean parent="PropDev-OpportunityPage-S2sSubmissionTypeCode" 
  					p:enableAutoQuickfinder="false" p:propertyName="s2sSubmissionTypeCode" p:order="30" />
-				<bean parent="PropDev-OpportunityPage-S2sRevisionTypeCode" 
- 					p:enableAutoQuickfinder="false" p:propertyName="revisionCode" p:order="40" />
+				<bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="S2S Revision Type" p:order="40">
+                    <property name="group">
+                        <bean parent="Uif-VerticalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="PropDev-OpportunityPage-S2sRevisionTypeCode" p:fieldLabel.labelText=" "
+                                          p:enableAutoQuickfinder="false" p:propertyName="revisionCode" p:order="10" />
+                                    <bean parent="Uif-InputField" p:propertyName="revisionOtherDescription" p:order="20"
+                                          p:fieldLabel.labelText=" " p:progressiveRender="@{#fp.revisionCode eq '#{T(org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants).OTHER}'}"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+				</bean>
 				<bean parent="Uif-DataField" p:propertyName="cfdaNumber"
 					p:fieldLabel.renderColon="false" p:order="50" />
 				<bean parent="Uif-DataField" p:propertyName="competetionId"
