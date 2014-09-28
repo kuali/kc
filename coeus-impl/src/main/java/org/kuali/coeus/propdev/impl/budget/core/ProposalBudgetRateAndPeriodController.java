@@ -27,10 +27,6 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     @Qualifier("budgetSummaryService")
     private BudgetSummaryService budgetSummaryService;
 
-    @Autowired
-    @Qualifier("kualiConfigurationService")
-    private ConfigurationService kualiConfigurationService;
-
 	@MethodAccessible
     @RequestMapping(params="methodToCall=resetToBudgetPeriodDefault")
     public ModelAndView resetToBudgetPeriodDefault(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -103,11 +99,4 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         this.budgetSummaryService = budgetSummaryService;
     }
 
-    public ConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
 }

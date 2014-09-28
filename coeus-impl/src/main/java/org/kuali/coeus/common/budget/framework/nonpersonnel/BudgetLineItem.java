@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
@@ -33,19 +34,22 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name = "BUDGET_DETAILS")
 public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaintainable, Comparable<BudgetLineItem>, BudgetLineItemContract {
-
+	
     @Transient
     private ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 
     @DeepCopyIgnore
     @Column(name = "BUDGET_DETAILS_ID")
     @Id
+    @PortableSequenceGenerator(name = "SEQ_BUDGET_DETAILS_ID")
+    @GeneratedValue(generator = "SEQ_BUDGET_DETAILS_ID")
     private Long budgetLineItemId; 
 
     @Column(name = "BUDGET_PERIOD_NUMBER")
@@ -120,8 +124,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OneToMany(mappedBy="budgetLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
     @Column(name = "SUBAWARD_NUMBER")
@@ -138,8 +141,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private List<BudgetRateAndBase> budgetRateAndBaseList;
 
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OneToMany(mappedBy="budgetLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetFormulatedCostDetail> budgetFormulatedCosts;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
@@ -154,7 +156,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     //will cause generateAllPeriods to consume large amounts of memory
     @DeepCopyIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
-    @JoinColumn(name = "BUDGET_PERIOD", referencedColumnName = "BUDGET_PERIOD", insertable = false, updatable = false)
+    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
     private BudgetPeriod budgetPeriodBO;
 
     @Transient
@@ -186,7 +188,6 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         return budgetLineItemId;
     }
 
-    @Override
     public void setBudgetLineItemId(Long budgetLineItemId) {
         this.budgetLineItemId = budgetLineItemId;
     }
@@ -622,4 +623,16 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public void setFormulatedCostElementFlag(Boolean formulatedCostElementFlag) {
         this.formulatedCostElementFlag = formulatedCostElementFlag;
     }
+
+	public String getLineItemGroupDescription() {
+		StringBuffer personDetailGroup = new StringBuffer();
+		personDetailGroup.append(getCostElementBO().getDescription());
+		if(StringUtils.isNoneBlank(getGroupName())) {
+			personDetailGroup.append(" (");
+			personDetailGroup.append(getGroupName());
+			personDetailGroup.append(")");
+		}
+		return personDetailGroup.toString();
+	}
+
 }

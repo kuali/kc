@@ -70,6 +70,7 @@ public class PropDevBudgetSubAwardServiceTest {
         for (int i = 0; i < 2; i++) {
             BudgetPeriod period = new BudgetPeriod();
             period.setBudgetId(budget.getBudgetId());
+            period.setBudget(budget);
             period.setBudgetPeriod(i);
             period.setBudgetPeriodId(i+1029L);
             budget.getBudgetPeriods().add(period);

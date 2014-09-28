@@ -97,6 +97,9 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         budget.setRateClassTypesReloaded(true);
         budget.getRateClassTypes();
         getBudgetPersonService().synchBudgetPersonsToProposal(budget);
+        if (budget.getStartDate() != null) {
+            budget.setBudgetPeriods(getBudgetSummaryService().generateBudgetPeriods(budget));
+        }
         budget = saveBudget(budget);
 
         List<ProposalDevelopmentBudgetExt> budgets = budgetParent.getBudgets();

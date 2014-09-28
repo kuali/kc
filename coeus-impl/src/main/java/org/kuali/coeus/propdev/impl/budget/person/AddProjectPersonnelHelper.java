@@ -20,7 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
 import org.kuali.coeus.propdev.impl.core.AddLineHelper;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -34,19 +37,30 @@ public class AddProjectPersonnelHelper extends AddLineHelper {
     private String editLineIndex;
     private DataObjectService dataObjectService;
     private List<TbnPerson> tbnPersons;
-
+    private BudgetLineItem budgetLineItem;
+    private BudgetPersonnelDetails budgetPersonnelDetail;
+    private BudgetPeriod currentTabBudgetPeriod;
+    private String budgetPersonGroupName;
     
     public AddProjectPersonnelHelper() {
        super();
-       editBudgetPerson = new BudgetPerson();
+       initPersonDetails();
     }
     
     public void reset() {
         super.reset();
+        initPersonDetails();
+    }
+    
+    private void initPersonDetails() {
         editBudgetPerson = new BudgetPerson();
         editLineIndex = null;
+        budgetLineItem = new BudgetLineItem();
+        budgetPersonnelDetail = new BudgetPersonnelDetails();
+        budgetPersonGroupName="";
+        currentTabBudgetPeriod = new BudgetPeriod();
     }
-
+    
 	public BudgetPerson getEditBudgetPerson() {
 		return editBudgetPerson;
 	}
@@ -84,5 +98,38 @@ public class AddProjectPersonnelHelper extends AddLineHelper {
 	public void setTbnPersons(List<TbnPerson> tbnPersons) {
 		this.tbnPersons = tbnPersons;
 	}
-	
+
+	public BudgetLineItem getBudgetLineItem() {
+		return budgetLineItem;
+	}
+
+	public void setBudgetLineItem(BudgetLineItem budgetLineItem) {
+		this.budgetLineItem = budgetLineItem;
+	}
+
+	public BudgetPersonnelDetails getBudgetPersonnelDetail() {
+		return budgetPersonnelDetail;
+	}
+
+	public void setBudgetPersonnelDetail(
+			BudgetPersonnelDetails budgetPersonnelDetail) {
+		this.budgetPersonnelDetail = budgetPersonnelDetail;
+	}
+
+	public BudgetPeriod getCurrentTabBudgetPeriod() {
+		return currentTabBudgetPeriod;
+	}
+
+	public void setCurrentTabBudgetPeriod(BudgetPeriod currentTabBudgetPeriod) {
+		this.currentTabBudgetPeriod = currentTabBudgetPeriod;
+	}
+
+	public String getBudgetPersonGroupName() {
+		return budgetPersonGroupName;
+	}
+
+	public void setBudgetPersonGroupName(String budgetPersonGroupName) {
+		this.budgetPersonGroupName = budgetPersonGroupName;
+	}
+
 }

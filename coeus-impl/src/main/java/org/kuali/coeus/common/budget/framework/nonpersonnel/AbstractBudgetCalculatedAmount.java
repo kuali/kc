@@ -37,6 +37,9 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
     @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriod;
 
+    @Column(name = "BUDGET_PERIOD_NUMBER")
+    private Long budgetPeriodId;
+
     @Column(name = "LINE_ITEM_NUMBER")
     private Integer lineItemNumber;
 
@@ -61,9 +64,6 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
     @Column(name = "RATE_TYPE_DESCRIPTION")
     private String rateTypeDescription;
 
-    @Column(name = "BUDGET_DETAILS_ID")
-    private Long budgetLineItemId;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
@@ -73,9 +73,6 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
 
     @Transient
     private Integer rateNumber;
-
-    @Transient
-    private Long budgetPeriodId;
 
     public Long getBudgetPeriodId() {
         return budgetPeriodId;
@@ -182,15 +179,6 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
     }
 
     @Override
-    public Long getBudgetLineItemId() {
-        return budgetLineItemId;
-    }
-
-    public void setBudgetLineItemId(Long budgetLineItemId) {
-        this.budgetLineItemId = budgetLineItemId;
-    }
-
-    @Override
     public String getRateTypeDescription() {
         return rateTypeDescription;
     }
@@ -206,4 +194,5 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
         boolean isGoodVacation = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassTypeCode(), RateClassType.VACATION.getRateClassType());
         return isEmployee || isGoodVacation;
     }
+
 }

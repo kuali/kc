@@ -36,6 +36,9 @@ public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmou
     @Column(name = "BUDGET_DETAILS_CAL_AMTS_ID")
     private Long budgetLineItemCalculatedAmountId;
 
+    @Column(name = "BUDGET_DETAILS_ID")
+    private Long budgetLineItemId;
+    
     private static final long serialVersionUID = -1755216989884993632L;
 
     public BudgetLineItemCalculatedAmount() {
@@ -48,5 +51,13 @@ public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmou
 
     public void setBudgetLineItemCalculatedAmountId(Long budgetLineItemCalculatedAmountId) {
         this.budgetLineItemCalculatedAmountId = budgetLineItemCalculatedAmountId;
+    }
+
+    public Long getBudgetLineItemId() {
+        return budgetLineItemId;
+    }
+
+    public void setBudgetLineItemId(Long budgetLineItemId) {
+        this.budgetLineItemId = budgetLineItemId;
     }
 }

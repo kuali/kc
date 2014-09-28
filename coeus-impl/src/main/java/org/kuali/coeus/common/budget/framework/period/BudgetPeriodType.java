@@ -15,12 +15,22 @@
  */
 package org.kuali.coeus.common.budget.framework.period;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
+@Entity
+@Table(name = "BUDGET_PERIOD_TYPE")
 public class BudgetPeriodType extends KcPersistableBusinessObjectBase {
 
+    @Id
+    @Column(name = "BUDGET_PERIOD_TYPE_CODE")
     private String budgetPeriodTypeCode;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public String getBudgetPeriodTypeCode() {

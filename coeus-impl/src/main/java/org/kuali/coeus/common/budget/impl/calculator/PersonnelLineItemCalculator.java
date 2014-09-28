@@ -69,9 +69,6 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
     
     @Override
     public void populateCalculatedAmountLineItems() {
-       if (CollectionUtils.isEmpty(budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts())) { 
-            budgetPersonnelLineItem.refreshReferenceObject("budgetPersonnelCalculatedAmounts");
-       }
        Long versionNumber = -1L;
        Map<String, Boolean> applyRateFlags = null;
        
@@ -97,14 +94,12 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
        }
 
        for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts()) {
-           budgetPersonnelCalculatedAmount.refreshReferenceObject("rateClass");
-//           budgetPersonnelCalculatedAmount.refreshReferenceObject("rateType");
-           
            if(applyRateFlags != null && applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+ budgetPersonnelCalculatedAmount.getRateTypeCode()) != null) {
                budgetPersonnelCalculatedAmount.setApplyRateFlag(applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+budgetPersonnelCalculatedAmount.getRateTypeCode()));
            }
-           LOG.debug(budgetPersonnelCalculatedAmount);
            LOG.debug(budgetPersonnelCalculatedAmount.getRateClass());
+           LOG.debug(budgetPersonnelCalculatedAmount.getBudgetPersonnelLineItem());
+           LOG.debug(budgetPersonnelCalculatedAmount);
        }        
     }
 
@@ -120,6 +115,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
     protected void addCalculatedAmount(AbstractBudgetCalculatedAmount budgetCalculatedAmount) {
         BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmt = (BudgetPersonnelCalculatedAmount)budgetCalculatedAmount;
         budgetPersonnelCalculatedAmt.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
+        budgetPersonnelCalculatedAmt.setBudgetPersonnelLineItem(budgetPersonnelLineItem);
         budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().add(budgetPersonnelCalculatedAmt);
     }
 
@@ -166,6 +162,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                 budgetRateBase.setRateTypeCode(rateAndCost.getRateTypeCode());
                 java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
                 budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
+                budgetRateBase.setBudgetPersonnelLineItem(budgetPersonnelLineItem);
                 budgetRateAndBaseList.add(budgetRateBase);
             }   
         }

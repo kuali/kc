@@ -19,6 +19,7 @@ import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContrac
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 
@@ -30,9 +31,11 @@ import java.util.Calendar;
 import java.util.List;
 import javax.persistence.*;
 
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriodType;
 import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
@@ -53,9 +56,9 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Column(name = "BUDGET_PERSONNEL_DETAILS_ID")
     private Long budgetPersonnelLineItemId;
 
-    @Column(name = "BUDGET_DETAILS_ID")
+    @Column(name = "BUDGET_DETAILS_ID", insertable = false, updatable = false)
     private Long budgetLineItemId; 
-
+    
     @Column(name = "LINE_ITEM_NUMBER")
     private Integer lineItemNumber; 
 
@@ -121,6 +124,9 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Column(name = "SEQUENCE_NUMBER")
     private Integer sequenceNumber;
 
+    @Column(name = "BUDGET_PERIOD_NUMBER")
+    private Long budgetPeriodId;
+    
     @Column(name = "PERSON_SEQUENCE_NUMBER")
     private Integer personSequenceNumber;
 
@@ -136,8 +142,17 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false), @JoinColumn(name = "PERSON_SEQUENCE_NUMBER", referencedColumnName = "PERSON_SEQUENCE_NUMBER", insertable = false, updatable = false) })
     private BudgetPerson budgetPerson;
 
-    @Transient
-    private Long budgetPeriodId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    private Budget budget;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_DETAILS_ID")
+    private BudgetLineItem budgetLineItem;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "PERIOD_TYPE", referencedColumnName = "BUDGET_PERIOD_TYPE_CODE", insertable = false, updatable = false)
+    private BudgetPeriodType budgetPeriodType;
 
     @Transient
     private String costElement;
@@ -385,16 +400,6 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 
     public void setBudgetPersonnelLineItemId(Long budgetPersonnelLineItemId) {
         this.budgetPersonnelLineItemId = budgetPersonnelLineItemId;
-    }
-
-    @Override
-    public Long getBudgetLineItemId() {
-        return budgetLineItemId;
-    }
-
-    @Override
-    public void setBudgetLineItemId(Long budgetLineItemId) {
-        this.budgetLineItemId = budgetLineItemId;
     }
 
     @Override
@@ -661,4 +666,57 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     public void setBudgetPeriodId(Long budgetPeriodId) {
         this.budgetPeriodId = budgetPeriodId;
     }
+
+	public Budget getBudget() {
+		return budget;
+	}
+
+	public void setBudget(Budget budget) {
+		this.budget = budget;
+	}
+
+	public BudgetLineItem getBudgetLineItem() {
+		return budgetLineItem;
+	}
+
+	public void setBudgetLineItem(BudgetLineItem budgetLineItem) {
+		this.budgetLineItem = budgetLineItem;
+	}
+
+	@Override
+	public Long getBudgetLineItemId() {
+		return getBudgetLineItem().getBudgetLineItemId();
+	}
+
+	public BudgetPeriodType getBudgetPeriodType() {
+		return budgetPeriodType;
+	}
+
+	public void setBudgetPeriodType(BudgetPeriodType budgetPeriodType) {
+		this.budgetPeriodType = budgetPeriodType;
+	}
+
+	public String getPersonDetailGroup() {
+		StringBuffer personDetailGroup = new StringBuffer();
+		personDetailGroup.append(getBudgetLineItem().getCostElementBO().getDescription());
+		personDetailGroup.append(" (");
+		personDetailGroup.append(getBudgetLineItem().getGroupName());
+		personDetailGroup.append(")");
+		return personDetailGroup.toString();
+	}
+	
+	public ScaleTwoDecimal getCalculatedFringe() {
+		ScaleTwoDecimal calculatedFringe = ScaleTwoDecimal.ZERO;
+		for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : getBudgetPersonnelCalculatedAmounts()) {
+			if(budgetPersonnelCalculatedAmount.getAddToFringeRate()) {
+				calculatedFringe.add(budgetPersonnelCalculatedAmount.getCalculatedCost());
+			}
+		}
+		return calculatedFringe;
+	}
+
+	public void setBudgetLineItemId(Long budgetLineItemId) {
+		this.budgetLineItemId = budgetLineItemId;
+	}
+
 }

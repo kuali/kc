@@ -15,8 +15,13 @@
  */
 package org.kuali.coeus.common.budget.impl.nonpersonnel;
 
-import org.apache.commons.collections4.CollectionUtils;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -34,59 +39,59 @@ import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.*;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.springframework.stereotype.Component;
 
+@Component("groupNameValuesFinder")
 public class GroupNameValuesFinder extends UifKeyValuesFinderBase {
     
     /**
      * Constructs the list of existing Group Names.  
      * 
      * @return the list of &lt;key, value&gt; pairs of existing Group Names.  The first entry
-     * is always &lt;"", "select:"&gt;.
+     * is always &lt;"", "Default:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        AwardBudgetForm budgetForm = (AwardBudgetForm) KNSGlobalVariables.getKualiForm();
-        AwardBudgetDocument budgetDocument = (AwardBudgetDocument) budgetForm.getBudgetDocument();
-        
-        return getKeyValues(budgetDocument.getBudget(), budgetForm.getViewBudgetPeriod() == null ? 1 : budgetForm.getViewBudgetPeriod()); 
-    }
-    
-    protected List<KeyValue> getKeyValues(Budget budget, Integer budgetPeriodNumber) {
-        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
         List<KeyValue> keyValues = new ArrayList<KeyValue>();        
         keyValues.add(new ConcreteKeyValue("", "select"));
-
-        Set<String> distinctGroupNames = new HashSet<String>();
-        
+        AwardBudgetForm budgetForm = (AwardBudgetForm) KNSGlobalVariables.getKualiForm();
+        AwardBudgetDocument budgetDocument = (AwardBudgetDocument) budgetForm.getBudgetDocument();
         BudgetPeriod curPeriod = null;
-        for (BudgetPeriod period : budget.getBudgetPeriods()) {
+        Integer budgetPeriodNumber = budgetForm.getViewBudgetPeriod() == null ? 1 : budgetForm.getViewBudgetPeriod();
+        for (BudgetPeriod period : budgetDocument.getBudget().getBudgetPeriods()) {
         	if (period.getBudgetPeriod().equals(budgetPeriodNumber)) {
         		curPeriod = period;
+        		break;
         	}
         }
-        if (curPeriod != null) {        
-	        boolean distinct = false;
-	        for (BudgetLineItem budgetLineItem : curPeriod.getBudgetLineItems()) {
-	             if(StringUtils.isNotEmpty(budgetLineItem.getGroupName())) {
-	                 distinct = distinctGroupNames.add(budgetLineItem.getGroupName());
-	                 if(distinct) {
-	                     keyValues.add(new ConcreteKeyValue(budgetLineItem.getGroupName(), budgetLineItem.getGroupName()));
-	                 }
-	             }
-	        }       
-	        
-	        for (BudgetLineItem newBudgetLineItem : budget.getBudgetPeriod(budgetPeriodNumber-1).getBudgetLineItems()) {
-	            if(StringUtils.isNotEmpty(newBudgetLineItem.getGroupName())) {
-	                distinct = distinctGroupNames.add(newBudgetLineItem.getGroupName());
-	                if(distinct) {
-	                    keyValues.add(new ConcreteKeyValue(newBudgetLineItem.getGroupName(), newBudgetLineItem.getGroupName()));
-	                }
-	            }
-	        }
-        }
-
+        keyValues.addAll(getKeyValues(curPeriod));
+        return keyValues; 
+    }
+    
+    public List<KeyValue> getKeyValues(ViewModel model) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();        
+        keyValues.add(new ConcreteKeyValue("", "Default"));
+        BudgetPeriod budgetPeriod = ((ProposalBudgetForm)model).getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
+        keyValues.addAll(getKeyValues(budgetPeriod));
+        keyValues.add(new ConcreteKeyValue(BudgetConstants.BUDGET_PERSONNEL_NEW_GROUP_NAME, BudgetConstants.BUDGET_PERSONNEL_NEW_GROUP_NAME));
         return keyValues;
     }
 
+    public List<KeyValue> getKeyValues(BudgetPeriod budgetPeriod) {
+        Set<String> distinctGroupNames = new HashSet<String>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();        
+        for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+            if(StringUtils.isNotEmpty(budgetLineItem.getGroupName())) {
+                boolean distinct = distinctGroupNames.add(budgetLineItem.getGroupName());
+                if(distinct) {
+                    keyValues.add(new ConcreteKeyValue(budgetLineItem.getGroupName(), budgetLineItem.getGroupName()));
+                }
+            }
+        }
+        return keyValues;
+    }
+    
 }
