@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
+import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
@@ -81,7 +82,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
  	private String newHierarchyChildProposalNumber;
     private String newHierarchyProposalNumber;
     private S2sUserAttachedForm s2sUserAttachedForm;
-
+    private List<NarrativeUserRights> narrativeUserRights;
+    private String narrativeUserRightsSelectedAttachment;
     private ProposalChangedData newProposalChangedData;
 
     private Map<String, Boolean> personEditableFields;
@@ -141,6 +143,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         s2sUserAttachedForm = new S2sUserAttachedForm();
 
         newProposalChangedData = new ProposalChangedData();
+
+        narrativeUserRights = new ArrayList<NarrativeUserRights>();
 
         populatePersonEditableFields();
     }
@@ -431,6 +435,22 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setS2sUserAttachedForm(S2sUserAttachedForm s2sUserAttachedForm) {
         this.s2sUserAttachedForm = s2sUserAttachedForm;
+    }
+
+    public List<NarrativeUserRights> getNarrativeUserRights() {
+        return narrativeUserRights;
+    }
+
+    public void setNarrativeUserRights(List<NarrativeUserRights> narrativeUserRights) {
+        this.narrativeUserRights = narrativeUserRights;
+    }
+
+    public String getNarrativeUserRightsSelectedAttachment() {
+        return narrativeUserRightsSelectedAttachment;
+    }
+
+    public void setNarrativeUserRightsSelectedAttachment(String narrativeUserRightsSelectedAttachment) {
+        this.narrativeUserRightsSelectedAttachment = narrativeUserRightsSelectedAttachment;
     }
 
     public Map<String, Boolean> getPersonEditableFields() {

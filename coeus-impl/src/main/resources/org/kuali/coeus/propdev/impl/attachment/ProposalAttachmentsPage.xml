@@ -89,9 +89,10 @@
         p:collection.propertyName="document.developmentProposal.narratives"
         p:collection.id="PropDev-AttachmentsPage-ProposalCollection-Collection">
         <property name="collection.lineActions">
-            <list>
-                <bean parent="PropDev-AttachmentPage-DetailsButton" p:refreshId="PropDev-AttachmentsPage-ProposalDetails"
+            <list merge="true">
+                <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareNarrative"
                       p:order="10"/>
+                <bean parent="PropDev-AttachmentPage-ProposalRightsButton" p:order="20"/>
                 <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="30"/>
             </list>
         </property>
@@ -108,9 +109,7 @@
 	</bean>
 
     <bean id="PropDev-AttachmentsPage-ProposalDetails" parent="PropDev-AttachmentsPage-ProposalDetails-parentBean"/>
-    <bean id="PropDev-AttachmentsPage-ProposalDetails-parentBean" abstract="true" parent="Uif-DialogGroup"
-          p:fieldBindingObjectPath="proposalDevelopmentAttachmentHelper"
-          p:header.headerText="Details">
+    <bean id="PropDev-AttachmentsPage-ProposalDetails-parentBean" abstract="true" parent="PropDev-AttachmentPage-DetailsDialog">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="narrative.narrativeTypeCode"
@@ -131,11 +130,11 @@
                       p:order="60" />
                 <bean parent="Uif-InputField" p:propertyName="narrative.moduleTitle"
                       p:order="70" />
-                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.showFileAttachmentName(proposalDevelopmentAttachmentHelper)}"
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.showFileAttachmentName(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PROPOSAL_ATTACHMENT_TYPE_NAME}')}"
                       p:fieldLabel.labelText="Current File"
-                      p:render="@{#ViewHelper.hasNarrativeAttachment(proposalDevelopmentAttachmentHelper)}"
+                      p:render="@{#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PROPOSAL_ATTACHMENT_TYPE_NAME}')}"
                       p:order="80"/>
-                <bean parent="Uif-InputField" p:propertyName="narrative.multipartFile" p:fieldLabel.labelText="@{!#ViewHelper.hasNarrativeAttachment(proposalDevelopmentAttachmentHelper)?'File':'New File'}"
+                <bean parent="Uif-InputField" p:propertyName="narrative.multipartFile" p:fieldLabel.labelText="@{!#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PROPOSAL_ATTACHMENT_TYPE_NAME}')?'File':'New File'}"
                       p:order="90">
                     <property name="control">
                         <bean parent="Uif-FileControl"/>
@@ -143,23 +142,18 @@
                 </bean>
             </list>
         </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addNarrative"
-                              p:refreshId="PropDev-AttachmentsPage-ProposalCollection-Collection"
-                              p:actionParameters="propertyName:narratives"
-                              p:onClickScript="dismissDialog('PropDev-AttachmentsPage-ProposalDetails')"
-                              p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex eq null}" p:order="10"/>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveNarrative"
-                              p:refreshId="PropDev-AttachmentsPage-ProposalCollection-Collection"
-                              p:onClickScript="dismissDialog('PropDev-AttachmentsPage-ProposalDetails')"
-                              p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex ne null}" p:order="20"/>
-                        <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="30"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addNarrative"
+                      p:refreshId="PropDev-AttachmentsPage-ProposalCollection-Collection"
+                      p:actionParameters="propertyName:narratives"
+                      p:dialogDismissOption="REQUEST"
+                      p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex eq null}" p:order="0"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveNarrative"
+                      p:refreshId="PropDev-AttachmentsPage-ProposalCollection-Collection"
+                      p:dialogDismissOption="REQUEST"
+                      p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex ne null}" p:order="10"/>
+            </list>
         </property>
     </bean>
 
@@ -183,9 +177,16 @@
           p:collection.collectionObjectClass="org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography"
           p:collection.propertyName="document.developmentProposal.propPersonBios"
           p:collection.id="PropDev-AttachmentsPage-PersonnelCollection-Collection"  >
+        <property name="collection.lineActions">
+            <list merge="true">
+                <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareBiography"
+                      p:order="10"/>
+                <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="20"/>
+            </list>
+        </property>
         <property name="collection.items">
             <list merge="true">
-                <bean parent="PropDev-AttachmentPage-EditField" p:propertyName="proposalPersonNumberString"
+                <bean parent="Uif-InputField" p:propertyName="proposalPersonNumberString" p:readOnly="true"
                       p:fieldLabel.LabelText="Person" p:required="true" p:order="40">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -194,18 +195,16 @@
                         <bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonValueFinder"/>
                     </property>
                 </bean>
-                <bean parent="PropDev-AttachmentPage-EditField" p:propertyName="documentTypeCode"
+                <bean parent="Uif-DataField" p:propertyName="documentTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="propPerDocType.description"
-                      p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:order="50"/>
-                <bean parent="PropDev-AttachmentPage-EditField" p:propertyName="description" p:order="60"/>
+                      p:fieldLabel.labelText="Type" p:order="50"/>
+                <bean parent="Uif-DataField" p:propertyName="description" p:order="60"/>
             </list>
         </property>
     </bean>
 
     <bean id="PropDev-AttachmentsPage-PersonnelDetails" parent="PropDev-AttachmentsPage-PersonnelDetails-parentBean"/>
-    <bean id="PropDev-AttachmentsPage-PersonnelDetails-parentBean" abstract="true" parent="Uif-DialogGroup"
-          p:fieldBindingObjectPath="proposalDevelopmentAttachmentHelper"
-          p:header.headerText="Details">
+    <bean id="PropDev-AttachmentsPage-PersonnelDetails-parentBean" abstract="true" parent="PropDev-AttachmentPage-DetailsDialog">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="biography.proposalPersonNumberString"
@@ -221,25 +220,29 @@
                       p:readOnlyDisplayReplacementPropertyName="biography.propPerDocType.description"
                       p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:order="20"/>
                 <bean parent="Uif-InputField" p:propertyName="biography.description" p:order="30"/>
-                <bean parent="Uif-InputField" p:propertyName="biography.multipartFile" p:fieldLabel.labelText="File"
-                      p:order="40">
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.showFileAttachmentName(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PERSONNEL_ATTACHMENT_TYPE_NAME}')}"
+                      p:fieldLabel.labelText="Current File"
+                      p:render="@{#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PERSONNEL_ATTACHMENT_TYPE_NAME}')}"
+                      p:order="40"/>
+                <bean parent="Uif-InputField" p:propertyName="biography.multipartFile" p:fieldLabel.labelText="@{!#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PERSONNEL_ATTACHMENT_TYPE_NAME}')?'File':'New File'}"
+                      p:order="50">
                     <property name="control">
                         <bean parent="Uif-FileControl"/>
                     </property>
                 </bean>
             </list>
         </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addBiography"
-                              p:refreshId="PropDev-AttachmentsPage-PersonnelCollection-Collection"
-                              p:onClickScript="dismissDialog('PropDev-AttachmentsPage-PersonnelDetails')" p:order="10"/>
-                        <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addBiography"
+                      p:refreshId="PropDev-AttachmentsPage-PersonnelCollection-Collection"
+                      p:dialogDismissOption="REQUEST"
+                      p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex eq null}" p:order="0"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveBiography"
+                    p:refreshId="PropDev-AttachmentsPage-PersonnelCollection-Collection"
+                    p:dialogDismissOption="REQUEST"
+                    p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex ne null}" p:order="10"/>
+            </list>
         </property>
     </bean>
 
@@ -277,6 +280,13 @@
                 <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:readOnly="false" p:order="20"/>
             </list>
         </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareAbstract"
+                      p:order="10"/>
+                <bean parent="PropDev-AttachmentPage-DeleteButton" p:order="20"/>
+            </list>
+        </property>
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-DataField" p:propertyName="abstractTypeCode"
@@ -285,10 +295,29 @@
                         <bean parent="Uif-Inquiry" p:render="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:order="30"
-                      p:render="@{#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
-                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.replaceLineBreaks(#line.abstractDetails)}" p:fieldLabel.labelText="Abstract Details" p:order="40"
-                p:render="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.replaceLineBreaks(#line.abstractDetails)}" p:fieldLabel.labelText="Abstract Details" p:order="30"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-AttachmentsPage-AbstractDetails" parent="PropDev-AttachmentsPage-AbstractDetails-parentBean"/>
+    <bean id="PropDev-AttachmentsPage-AbstractDetails-parentBean" abstract="true" parent="PropDev-AttachmentPage-DetailsDialog">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="proposalAbstract.abstractTypeCode"
+                      p:enableAutoQuickfinder="false"
+                      p:readOnlyDisplayReplacementPropertyName="proposalAbstract.abstractType.description" p:order="20">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:render="false"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="proposalAbstract.abstractDetails" p:order="30"/>
+            </list>
+        </property>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveAbstract"
+                      p:dialogDismissOption="REQUEST" p:order="10"/>
             </list>
         </property>
     </bean>
@@ -299,8 +328,8 @@
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
             <list>
-                <bean parent="PropDev-AttachmentPage-AddLineButton" p:refreshId="PropDev-AttachmentsPage-InternalDetails"
-                      p:successCallback="showDialog('PropDev-AttachmentsPage-InternalDetails');" p:order="10"/>
+                <bean parent="PropDev-AttachmentPage-AddLineButton" p:methodToCall="prepareInstituteAttachment"
+                      p:refreshId="PropDev-AttachmentsPage-InternalDetails" p:order="10"/>
                 <bean parent="PropDev-AttachmentsPage-InternalCollection" p:order="20" />
             </list>
         </property>
@@ -312,19 +341,25 @@
           p:collection.collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.Narrative"
           p:collection.propertyName="document.developmentProposal.instituteAttachments"
           p:collection.id="PropDev-AttachmentsPage-InternalCollection-Collection">
+        <property name="collection.lineActions">
+            <list>
+                <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareInstituteAttachment"
+                      p:order="10"/>
+                <bean parent="PropDev-AttachmentPage-ProposalRightsButton" p:order="20" p:methodToCall="getInstituteAttachmentRights"/>
+                <bean parent="PropDev-AttachmentPage-DeleteButton" p:order="30"/>
+            </list>
+        </property>
         <property name="collection.items">
             <list merge="true">
                 <bean parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField" p:order="30" />
-                <bean parent="PropDev-AttachmentPage-EditField" p:propertyName="moduleTitle"
+                <bean parent="Uif-DataField" p:propertyName="moduleTitle"
                       p:order="40" />
             </list>
         </property>
     </bean>
 
     <bean id="PropDev-AttachmentsPage-InternalDetails" parent="PropDev-AttachmentsPage-InternalDetails-parentBean"/>
-    <bean id="PropDev-AttachmentsPage-InternalDetails-parentBean" abstract="true" parent="Uif-DialogGroup"
-          p:fieldBindingObjectPath="proposalDevelopmentAttachmentHelper"
-          p:header.headerText="Details">
+    <bean id="PropDev-AttachmentsPage-InternalDetails-parentBean" abstract="true" parent="PropDev-AttachmentPage-DetailsDialog">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField"
@@ -337,38 +372,38 @@
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="instituteAttachment.moduleTitle"
                      p:order="20" />
-                <bean parent="Uif-InputField" p:propertyName="instituteAttachment.multipartFile" p:fieldLabel.labelText="File"
-                     p:order="30">
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.showFileAttachmentName(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).INSTITUTIONAL_ATTACHMENT_TYPE_NAME}')}"
+                      p:fieldLabel.labelText="Current File"
+                      p:render="@{#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).INSTITUTIONAL_ATTACHMENT_TYPE_NAME}')}"
+                      p:order="30"/>
+                <bean parent="Uif-InputField" p:propertyName="instituteAttachment.multipartFile" p:fieldLabel.labelText="@{!#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).INSTITUTIONAL_ATTACHMENT_TYPE_NAME}')?'File':'New File'}"
+                     p:order="40">
                     <property name="control">
                         <bean parent="Uif-FileControl"/>
                     </property>
                 </bean>
             </list>
         </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addInstituteAttachment"
-                              p:refreshId="PropDev-AttachmentsPage-InternalCollection-Collection"
-                              p:onClickScript="dismissDialog('PropDev-AttachmentsPage-InternalDetails')"
-                              p:order="10"/>
-                        <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20"/>
-                    </list>
-                </property>
-            </bean>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addInstituteAttachment"
+                      p:refreshId="PropDev-AttachmentsPage-InternalCollection-Collection"
+                      p:dialogDismissOption="REQUEST"
+                      p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex eq null}" p:order="0"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveInstituteAttachment"
+                      p:refreshId="PropDev-AttachmentsPage-InternalCollection-Collection"
+                      p:dialogDismissOption="REQUEST"
+                      p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex ne null}" p:order="10"/>
+            </list>
         </property>
     </bean>
 
     <bean id="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField"
           parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField-parentBean" />
     <bean id="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField-parentBean"
-            abstract="true" parent="PropDev-AttachmentPage-EditField" p:propertyName="narrativeTypeCode"
+            abstract="true" parent="Uif-DataField" p:propertyName="narrativeTypeCode"
             p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
-            p:fieldLabel.labelText="Type"
-            p:enableAutoQuickfinder="false">
-        <property name="optionsFinder" value="#{#getService('instituteAttachmentTypeValuesFinder')}" />
-    </bean>
+            p:fieldLabel.labelText="Type"/>
 
     <bean id="PropDev-AttachmentsPage-NotesSection" parent="PropDev-AttachmentsPage-NotesSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-NotesSection-parentBean" abstract="true"
@@ -383,10 +418,17 @@
 
     <bean id="PropDev-AttachmentsPage-NotesCollection" parent="PropDev-AttachmentsPage-NotesCollection-parentBean"/>
     <bean id="PropDev-AttachmentsPage-NotesCollection-parentBean" abstract="true" parent="PropDev-AttachmentPage-Collection"
-          p:collectionObjectClass="org.kuali.rice.krad.bo.Note" p:propertyName="notes" p:renderLineActions="false">
+          p:collectionObjectClass="org.kuali.rice.krad.bo.Note" p:propertyName="notes">
         <property name="addWithDialogAction">
             <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Note" p:cssClasses="pull-right" p:iconClass="icon-plus"
                   p:render="@{!#parent.readOnly}"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareNote"
+                      p:order="10"/>
+                <bean parent="PropDev-AttachmentPage-DeleteButton" p:order="20"/>
+            </list>
         </property>
         <property name="items">
             <list>
@@ -398,9 +440,21 @@
         </property>
     </bean>
 
-    <bean id="PropDev-AttachmentPage-EditField" parent="PropDev-AttachmentPage-EditField-parentBean"/>
-    <bean id="PropDev-AttachmentPage-EditField-parentBean" abstract="true" parent="Uif-InputField"
-          p:readOnly="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
+    <bean id="PropDev-AttachmentsPage-NoteDetails" parent="PropDev-AttachmentsPage-NoteDetails-parentBean"/>
+    <bean id="PropDev-AttachmentsPage-NoteDetails-parentBean" abstract="true" parent="PropDev-AttachmentPage-DetailsDialog">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="note.noteTopicText" p:fieldLabel.labelText="Topic" />
+                <bean parent="Uif-InputField" p:propertyName="note.noteText" p:required="true" p:fieldLabel.labelText="Text"/>
+            </list>
+        </property>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveNote"
+                      p:dialogDismissOption="REQUEST" p:order="10"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="PropDev-AttachmentPage-AddLineButton" parent="PropDev-AttachmentPage-AddLineButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-AddLineButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
@@ -409,18 +463,11 @@
 
     <bean id="PropDev-AttachmentPage-DetailsButton" parent="PropDev-AttachmentPage-DetailsButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-DetailsButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
-          p:methodToCall="prepareNarrative" p:successCallback="showDialog('PropDev-AttachmentsPage-ProposalDetails');"
-          p:actionLabel="Details" p:iconClass="icon-caret-down" p:actionIconPlacement="RIGHT"/>
+          p:actionLabel="Details"/>
 
-    <bean id="PropDev-AttachmentPage-EditButton" parent="PropDev-AttachmentPage-EditButton-parentBean"/>
-    <bean id="PropDev-AttachmentPage-EditButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
-          p:methodToCall="editCollectionLine" p:actionLabel="Edit"
-          p:hidden="@{#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
-
-    <bean id="PropDev-AttachmentPage-SaveButton" parent="PropDev-AttachmentPage-SaveButton-parentBean"/>
-    <bean id="PropDev-AttachmentPage-SaveButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
-          p:methodToCall="saveAttachment" p:actionLabel="Save"
-          p:hidden="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
+    <bean id="PropDev-AttachmentPage-ProposalRightsButton" parent="PropDev-AttachmentPage-ProposalRightsButton-parentBean"/>
+    <bean id="PropDev-AttachmentPage-ProposalRightsButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
+          p:methodToCall="getProposalAttachmentRights" p:actionLabel="view/edit rights"/>
 
     <bean id="PropDev-AttachmentPage-DeleteFileButton" parent="PropDev-AttachmentPage-DeleteFileButton-parentBean"/>
     <bean id="PropDev-AttachmentPage-DeleteFileButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
@@ -440,15 +487,6 @@
           p:link.href="?methodToCall=getFileFromLine&amp;formKey=@{formKey}&amp;fileName=@{#line.name}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}&amp;selectedLineIndex=@{#index}"
           p:order="10"/>
 
-    <bean id="PropDev-AttachmentPage-AttachmentToggleButton" parent="PropDev-AttachmentPage-AttachmentToggleButton-parentBean"/>
-    <bean id="PropDev-AttachmentPage-AttachmentToggleButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
-          p:title="@{#ViewHelper.isAttachmentFileEditable(proposalDevelopmentAttachmentHelper,#collectionGroup.bindingInfo.bindingPath,#index)?'Cancel Edit':'Edit File'}"
-          p:actionLabel="@{#ViewHelper.isAttachmentFileEditable(proposalDevelopmentAttachmentHelper,#collectionGroup.bindingInfo.bindingPath,#index)?'Cancel Edit':'Edit File'}"
-          p:iconClass="icon-file3"
-          p:methodToCall="updateEditableFileAttachment"
-          p:render="@{#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"
-          p:order="20"/>
-
     <bean id="PropDev-AttachmentPage-AddedByField" parent="PropDev-AttachmentPage-AddedByField-parentBean"/>
     <bean id="PropDev-AttachmentPage-AddedByField-parentBean" abstract="true" parent="Uif-MessageField" p:label="Added By"
            p:messageText="@{#line.updateUser} [color=grey](@{#ViewHelper.getDateUploadedFormatted(#line.updateTimestamp)})[/color]"/>
@@ -456,14 +494,6 @@
     <bean id="PropDev-AttachmentPage-MultiFileCollection" parent="PropDev-AttachmentPage-MultiFileCollection-parentBean"/>
     <bean id="PropDev-AttachmentPage-MultiFileCollection-parentBean" abstract="true" parent="Uif-MultiFileUploadCollection"
           p:collection.layoutManager.richTable.render="false" p:addFilesButtonText="Upload &amp; Add">
-        <property name="collection.lineActions">
-            <list merge="true">
-                <bean parent="PropDev-AttachmentPage-EditButton" p:order="10"/>
-                <bean parent="PropDev-AttachmentPage-AttachmentToggleButton" p:order="20"/>
-                <bean parent="PropDev-AttachmentPage-SaveButton" p:order="30"/>
-                <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="40"/>
-            </list>
-        </property>
         <property name="collection.items">
             <list merge="true">
                 <bean parent="PropDev-AttachmentPage-LinkField"
@@ -500,15 +530,7 @@
         <property name="addLineActions">
             <list>
                 <bean parent="Uif-DialogDismissButton" p:order="10"/>
-                <bean parent="Uif-AddLineAction-Dialog" p:order="20" p:actionLabel="Add Entry"
-                        p:methodToCall="addAttachment"/>
-            </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="PropDev-AttachmentPage-EditButton" p:order="10"/>
-                <bean parent="PropDev-AttachmentPage-SaveButton" p:order="20"/>
-                <bean parent="PropDev-AttachmentPage-DeleteButton" p:order="30"/>
+                <bean parent="Uif-AddLineAction-Dialog" p:order="20" p:actionLabel="Add Entry"/>
             </list>
         </property>
         <property name="items">
@@ -527,4 +549,46 @@
         </property>
     </bean>
 
+
+    <bean id="PropDev-AttachmentPage-DetailsDialog" parent="PropDev-AttachmentPage-DetailsDialog-parentBean"/>
+    <bean id="PropDev-AttachmentPage-DetailsDialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:fieldBindingObjectPath="proposalDevelopmentAttachmentHelper"
+          p:header.headerText="Details">
+        <property name="footer.items">
+                    <list>
+                        <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20"/>
+                    </list>
+        </property>
+    </bean>
+
+
+    <bean id="PropDev-AttachmentPage-ViewEditRightDialog" parent="PropDev-AttachmentPage-ViewEditRightDialog-parentBean"/>
+    <bean id="PropDev-AttachmentPage-ViewEditRightDialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:header.headerText="Rights">
+            <property name="items">
+                <list>
+                    <bean parent="PropDev-AttachmentPage-RightsCollection" p:order="10"/>
+                </list>
+            </property>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addProposalAttachmentRights" p:order="10"
+                     p:render="@{actionParameters.get('attachmentType') eq 'proposalAttachment'}" p:dialogDismissOption="REQUEST"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="addInstituteAttachmentRights" p:order="20"
+                     p:render="@{actionParameters.get('attachmentType') eq 'instituteAttachment'}" p:dialogDismissOption="REQUEST"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-AttachmentPage-RightsCollection" parent="PropDev-AttachmentPage-RightsCollection-parentBean"/>
+    <bean id="PropDev-AttachmentPage-RightsCollection-parentBean" abstract="true" parent="Uif-StackedCollectionGroup"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights"
+          p:propertyName="narrativeUserRights"
+          p:renderAddLine="false" p:renderLineActions="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="accessType" p:fieldLabel.labelText="@{#line.personName}" p:order="10"/>
+            </list>
+        </property>
+    </bean>
 </beans>

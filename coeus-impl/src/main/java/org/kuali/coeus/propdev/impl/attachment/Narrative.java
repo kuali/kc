@@ -164,12 +164,17 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     @Override
     public String getContentType() {
-        return this.getNarrativeAttachment().getType();
+        if (narrativeAttachment != null) {
+            return this.getNarrativeAttachment().getType();
+        }
+        return null;
     }
 
     @Override
     public void setContentType(String contentType) {
-        this.getNarrativeAttachment().setType(contentType);
+        if (narrativeAttachment != null) {
+            this.getNarrativeAttachment().setType(contentType);
+        }
     }
 
     @Override
