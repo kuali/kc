@@ -235,6 +235,8 @@ public class ProposalSite extends KcPersistableBusinessObjectBase implements Pro
             String defaultDistrict = organization.getCongressionalDistrict();
             if (!StringUtils.isEmpty(defaultDistrict)) {
                 setDefaultCongressionalDistrictIdentifier(defaultDistrict);
+            } else {
+                this.getCongressionalDistricts().clear();
             }
         }
     }
