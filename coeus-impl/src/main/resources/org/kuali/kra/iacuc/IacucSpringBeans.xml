@@ -817,7 +817,7 @@
 		<property name="protocolLookupableHelperService" ref="iacucProtocolLookupableHelperService" />
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
-        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dataObjectService" ref="dataObjectService" />
     </bean>
     
     <bean id="iacucProtocolNotificationRoleQualifierService" class="org.kuali.kra.iacuc.notification.IacucProtocolNotificationRoleQualifierServiceImpl"
