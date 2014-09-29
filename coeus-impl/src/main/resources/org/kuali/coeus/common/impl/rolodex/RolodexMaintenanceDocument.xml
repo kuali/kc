@@ -3,7 +3,7 @@
   <bean id="RolodexMaintenanceDocument" parent="RolodexMaintenanceDocument-parentBean"/>
 
   <bean id="RolodexMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
+    <property name="dataObjectClass" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
     <property name="maintainableClass" value="org.kuali.coeus.common.impl.rolodex.RolodexMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -65,4 +65,48 @@
       </list>
     </property>
   </bean>
+
+    <bean id="Rolodex-MaintenaceView" parent="Rolodex-MaintenaceView-parentBean"/>
+    <bean id="Rolodex-MaintenaceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+        <property name="authorizer.documentAuthorizerClass" value="org.kuali.coeus.common.impl.rolodex.RolodexDocumentAuthorizer"/>
+        <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
+        <property name="viewHelperService" value="#{#getService('rolodexMaintainableImpl')}"/>
+        <property name="headerText" value="Edit Address Book"/>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-DocumentOverviewSection" p:order="10"/>
+                <bean parent="Uif-MaintenanceGridSection" p:order="20">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="rolodexId" p:order="10"
+                                    p:readOnly="@{#ViewHelper.isAutoGenerateCode()}"/>
+                            <bean parent="Uif-InputField" p:propertyName="addressLine1" p:order="20" />
+                            <bean parent="Uif-InputField" p:propertyName="addressLine2" p:order="30"/>
+                            <bean parent="Uif-InputField" p:propertyName="addressLine3" p:order="40"/>
+                            <bean parent="Uif-InputField" p:propertyName="city" p:order="50"/>
+                            <bean parent="Uif-InputField" p:propertyName="comments" p:order="60"/>
+                            <bean parent="Uif-InputField" p:propertyName="countryCode" p:order="70"/>
+                            <bean parent="Uif-InputField" p:propertyName="county" p:order="80"/>
+                            <bean parent="Uif-InputField" p:propertyName="deleteFlag" p:order="90"/>
+                            <bean parent="Uif-InputField" p:propertyName="emailAddress" p:order="100"/>
+                            <bean parent="Uif-InputField" p:propertyName="faxNumber" p:order="110"/>
+                            <bean parent="Uif-InputField" p:propertyName="firstName" p:order="120"/>
+                            <bean parent="Uif-InputField" p:propertyName="middleName" p:order="130"/>
+                            <bean parent="Uif-InputField" p:propertyName="lastName" p:order="140"/>
+                            <bean parent="Uif-InputField" p:propertyName="organization" p:required="true" p:order="150"/>
+                            <bean parent="Uif-InputField" p:propertyName="ownedByUnit" p:required="true" p:order="160"/>
+                            <bean parent="Uif-InputField" p:propertyName="phoneNumber" p:order="170"/>
+                            <bean parent="Uif-InputField" p:propertyName="postalCode" p:order="180"/>
+                            <bean parent="Uif-InputField" p:propertyName="prefix" p:order="190"/>
+                            <bean parent="Uif-InputField" p:propertyName="sponsorCode" p:order="200"/>
+                            <bean parent="Uif-InputField" p:propertyName="state" p:order="210"/>
+                            <bean parent="Uif-InputField" p:propertyName="suffix" p:order="220"/>
+                            <bean parent="Uif-InputField" p:propertyName="title" p:order="230"/>
+                            <bean parent="Uif-InputField" p:propertyName="active" p:order="240"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 </beans>

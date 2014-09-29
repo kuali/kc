@@ -4,7 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder;
+import org.kuali.coeus.common.framework.rolodex.RolodexConstants;
 import org.kuali.kra.web.krad.KcBindingInfo;
 import org.kuali.rice.kim.impl.identity.principal.PrincipalBo;
 import org.kuali.rice.krad.uif.control.Control;
@@ -45,6 +47,10 @@ public class ProposalDevelopmentCustomDataField extends InputFieldBase {
                 getQuickfinder().setRender(true);
                 getQuickfinder().setDataObjectClassName(customData.getCustomAttribute().getLookupClass());
                 getQuickfinder().getFieldConversions().put(customData.getCustomAttribute().getLookupReturn(), getPropertyName());
+
+                if (customData.getCustomAttribute().getLookupClass().equals(Rolodex.class.getName())) {
+                    getQuickfinder().setViewName(RolodexConstants.EDITABLE_ROLODEX_QUICKFINDER);
+                }
             }
         } else if (customData.getCustomAttribute().getDataTypeCode().equals("3")) {
             setControl((Control) ComponentFactory.getNewComponentInstance("Uif-DateControlOnFocus"));

@@ -138,6 +138,10 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         if (isAuthorizedToPrintProposal(doc, user)) {
             editModes.add("printProposal");
         }
+
+        if (isAuthorizedToAddAddressBook(doc,user)) {
+            editModes.add("addAddressBook");
+        }
     }
 
     public boolean canOpen(ProposalDevelopmentBudgetExt budget, Person user) {
@@ -206,6 +210,14 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 
         return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_BUDGET)
                 || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
+    }
+
+    protected boolean isAuthorizedToAddAddressBook(Document doc, Person user) {
+        final boolean hasPermission;
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) doc);
+
+        hasPermission = getPermissionService().hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_UNIT,PermissionConstants.ADD_ADDRESS_BOOK);
+        return hasPermission;
     }
 
     protected boolean isAuthorizedToAddBudget(Document document, Person user) {

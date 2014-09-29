@@ -76,7 +76,7 @@
 		</property>
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
-				p:hideCriteriaOnSearch="true"
+				p:hideCriteriaOnSearch="true" p:viewName="Rolodex-LookupView-AddButton"
 				p:fieldConversions="rolodexId:mailingAddressId" p:returnByScript="false" p:referencesToRefresh="rolodex">
 				<property name="quickfinderAction">
 					<bean parent="Uif-ActionLink" p:methodToCall="performLookup"

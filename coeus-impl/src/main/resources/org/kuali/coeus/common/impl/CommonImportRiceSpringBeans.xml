@@ -65,5 +65,6 @@
     <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
     <bean id="roleService" parent="grlImporter" p:serviceName="kimRoleService" />
     <bean id="kimTypeInfoService" parent="grlImporter" p:serviceName="kimTypeInfoService" />
+    <bean id="kradApplicationDataSource" parent="grlImporter" p:serviceName="kradApplicationDataSource"/>
 
 </beans>
