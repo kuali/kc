@@ -46,6 +46,7 @@ import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionn
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
@@ -161,6 +162,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
+    private String protocolStatusCode; 
 
     @Autowired
     @Qualifier("customAttributeService")
@@ -771,6 +773,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 	public boolean isSummaryKeywordsPanelEnabled() {
 		return "Y".equalsIgnoreCase(getProposalDevelopmentService().getProposalDevelopmentParameters().get(ProposalDevelopmentService.SUMMARY_KEYWORDS_INDICATOR).getValue());
 		
+	}
+	 public String getProtocolStatusCode() {
+			return protocolStatusCode;
+	}
+
+	public void setProtocolStatusCode(ProtocolStatusBase protocolStatusCode) {
+			this.protocolStatusCode = protocolStatusCode.getProtocolStatusCode();
 	}
 
     public boolean isS2sRevisionOther(S2sOpportunity s2sOpportunity) {
