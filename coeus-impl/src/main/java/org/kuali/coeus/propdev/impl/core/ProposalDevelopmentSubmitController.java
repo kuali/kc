@@ -97,6 +97,17 @@ public class ProposalDevelopmentSubmitController extends
     public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)throws Exception {
         
  	   if(proposalValidToRoute(form)) {
+           WorkflowDocument workflowDoc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
+           if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
+               DialogResponse dialogResponse = form.getDialogResponse("PropDev-SubmitPage-ReceiveFutureRequests");
+               if(dialogResponse == null) {
+                   return getModelAndViewService().showDialog("PropDev-SubmitPage-ReceiveFutureRequests", false, form);
+               }else if (dialogResponse.getResponseAsBoolean()){
+                   form.getWorkflowDocument().setReceiveFutureRequests();
+               } else {
+                   form.getWorkflowDocument().setDoNotReceiveFutureRequests();
+               }
+           }
  		  return getTransactionalDocumentControllerService().route(form);
 	   }
 	   else {
@@ -215,7 +226,7 @@ public class ProposalDevelopmentSubmitController extends
         if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
             DialogResponse dialogResponse = form.getDialogResponse("PropDev-SubmitPage-ReceiveFutureRequests");
             if(dialogResponse == null) {
-                return getModelAndViewService().showDialog("PropDev-SubmitPage-ReceiveFutureRequests", true, form);
+                return getModelAndViewService().showDialog("PropDev-SubmitPage-ReceiveFutureRequests", false, form);
             }else if (dialogResponse.getResponseAsBoolean()){
                 form.getWorkflowDocument().setReceiveFutureRequests();
             } else {
