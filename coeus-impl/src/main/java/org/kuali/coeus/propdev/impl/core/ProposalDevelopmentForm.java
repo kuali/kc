@@ -323,7 +323,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         setNewInstituteAttachment(createNarrative());
         setNewPropPersonBio(new ProposalPersonBiography());
-        setApproverViewTabTitle();
 
     }
 
@@ -1812,30 +1811,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public List<String> getBudgetDataOverrideMethodToCalls() {
         return BudgetDataOverrideMethodToCalls;
-    }
-
-    
-
-    private void setApproverViewTabTitle()
-    {
-        HeaderNavigation[] headerNavigationTabs = super.getHeaderNavigationTabs();
- 
-        for(HeaderNavigation headerNavigation: headerNavigationTabs)
-        {
-            if ( headerNavigation.getHeaderTabNavigateTo().equalsIgnoreCase(Constants.MAPPING_PROPOSAL_APPROVER_VIEW_PAGE) )
-            {
-                String approverViewTabTitle = this.getParameterService().getParameterValueAsString(
-                        ProposalDevelopmentDocument.class, Constants.PARAMETER_PROPOSAL_APPROVER_VIEW_TITLE);
-                 if (StringUtils.isEmpty(approverViewTabTitle))
-                 {
-                     approverViewTabTitle = "Proposal Summary";
-                 }
-
-                headerNavigation.setHeaderTabDisplayName(approverViewTabTitle);
-                break;
-            }
-        }
-
     }
 
     public String getCurrentPersonCountryCode() {
