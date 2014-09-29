@@ -359,7 +359,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user, ProposalPerson proposalPerson){
         if (getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.Parameters.KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY)) {
-            boolean isKeyPersonnel = proposalPerson.getPerson().getPersonId().equals(user.getPrincipalId());
+
+            // null person indicates non employee and only people with proxy perms can certify for them so return false below
+            boolean isKeyPersonnel = proposalPerson.getPerson() != null && proposalPerson.getPerson().getPersonId().equals(user.getPrincipalId());
             boolean canCertify = getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.CERTIFY);
 
             return isKeyPersonnel || canCertify;
