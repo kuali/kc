@@ -112,9 +112,10 @@
                             <property name="items">
                                 <list>
                                     <bean parent="PropDev-OpportunityPage-S2sRevisionTypeCode" p:fieldLabel.labelText=" "
-                                          p:enableAutoQuickfinder="false" p:propertyName="revisionCode" p:order="10" />
+                                          p:enableAutoQuickfinder="false" p:propertyName="revisionCode" p:order="10"
+                                            p:onChangeScript="Kc.PropDev.s2s.revisionToggle(this);"/>
                                     <bean parent="Uif-InputField" p:propertyName="revisionOtherDescription" p:order="20"
-                                          p:fieldLabel.labelText=" " p:progressiveRender="@{#fp.revisionCode eq '#{T(org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants).OTHER}'}"/>
+                                          p:fieldLabel.labelText=" " p:hidden="true" />
                                 </list>
                             </property>
                         </bean>

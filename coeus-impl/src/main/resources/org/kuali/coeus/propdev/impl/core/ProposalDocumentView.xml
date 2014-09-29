@@ -32,6 +32,7 @@
 				<value>scripts/propdev/person.js</value>
 				<value>scripts/propdev/attachments.js</value>
 				<value>scripts/propdev/budget.js</value>
+                <value>scripts/propdev/s2s.js</value>
 			</list>
 		</property>
 		<property name="additionalCssFiles">
