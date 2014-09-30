@@ -320,6 +320,18 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         }
     }
 
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refreshSubmissionDetails"})
+    public ModelAndView refreshSubmissionDetails( ProposalDevelopmentDocumentForm form) throws Exception {
+        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        try{
+            getS2sSubmissionService().refreshGrantsGov(document);
+        }catch(S2sCommunicationException ex){
+            LOG.error(ex.getMessage(),ex);
+            getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessage());
+        }
+        return getRefreshControllerService().refresh(form);
+    }
+
     public S2sSubmissionService getS2sSubmissionService() {
         return s2sSubmissionService;
     }

@@ -25,6 +25,7 @@ import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -82,6 +83,10 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Override
     public Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity) {
@@ -264,7 +269,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
                 }
             }
             if (statusChanged) {
-                businessObjectService.save(appSubmission);
+               getDataObjectService().save(appSubmission);
             }
         }
 
@@ -691,5 +696,13 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 }
