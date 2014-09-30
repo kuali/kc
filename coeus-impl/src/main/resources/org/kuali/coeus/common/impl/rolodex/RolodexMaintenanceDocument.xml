@@ -94,7 +94,7 @@
                             <bean parent="Uif-InputField" p:propertyName="middleName" p:order="130"/>
                             <bean parent="Uif-InputField" p:propertyName="lastName" p:order="140"/>
                             <bean parent="Uif-InputField" p:propertyName="organization" p:required="true" p:order="150"/>
-                            <bean parent="Uif-InputField" p:propertyName="ownedByUnit" p:required="true" p:order="160"/>
+                            <bean parent="Uif-DataField" p:propertyName="ownedByUnit" p:required="true" p:order="160"/>
                             <bean parent="Uif-InputField" p:propertyName="phoneNumber" p:order="170"/>
                             <bean parent="Uif-InputField" p:propertyName="postalCode" p:order="180"/>
                             <bean parent="Uif-InputField" p:propertyName="prefix" p:order="190"/>
