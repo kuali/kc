@@ -132,7 +132,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
     public List getLookupReturns(String lookupClass) throws Exception {
         List<String> lookupReturns = new ArrayList<String>();
         if (ARGVALUELOOKUPE_CLASS.equals(lookupClass)) {
-            for (ArgValueLookup argValueLookup : dataObjectService.findMatching(ArgValueLookup.class, QueryByCriteria.Builder.create().build()).getResults()) {
+            for (ArgValueLookup argValueLookup : businessObjectService.findAll(ArgValueLookup.class)) {
                 if (!lookupReturns.contains(argValueLookup.getArgumentName())) {
                     lookupReturns.add(argValueLookup.getArgumentName());
                 }
