@@ -543,7 +543,7 @@ public abstract class ProtocolHelperBase implements Serializable {
         if(StringUtils.isNotBlank(piId)) {
             if(!nonEmployeeFlag) {
                 KcPerson pi = getPersonService().getKcPersonByPersonId(getPrincipalInvestigatorId());
-                return pi == null? null : pi.getUnit().getUnitNumber();
+                return pi == null || pi.getUnit() == null ? null : pi.getUnit().getUnitNumber();
             } else {
                 if (StringUtils.isNotBlank(rolodexId)) {
                 	RolodexContract pi = getRolodexService().getRolodex(Integer.parseInt(rolodexId));
