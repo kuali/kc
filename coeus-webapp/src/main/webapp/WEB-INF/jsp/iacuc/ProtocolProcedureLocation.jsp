@@ -34,8 +34,10 @@
   	headerTabActive="procedures">
 
   	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Procedures" /></div>
-  	
-	<div id="workarea">
+
+    <link rel="stylesheet" href="scripts/fancybox2.1.5/jquery.fancybox.css" type="text/css" />
+
+    <div id="workarea">
 		<kra-iacuc:protocolProcedureOverviewAndTimeline businessObjectClassName="org.kuali.kra.iacuc.IacucProtocol"/>
 		<kra-iacuc:iacucProtocolProcedureLocation/>
 		<kul:panelFooter />
