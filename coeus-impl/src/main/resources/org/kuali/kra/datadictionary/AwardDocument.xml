@@ -97,8 +97,7 @@
     
     <property name="attributes">
       <list>      	
-        <ref bean="AwardDocument-versionNumber"/>
-        <ref bean="AwardDocument-documentNumber"/>
+        <ref bean="AwardDocument-versionNumber"/>        
       </list>
     </property>
   </bean>
@@ -110,11 +109,7 @@
   <bean id="AwardDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
   
-  <bean id="AwardDocument-documentNumber" parent="AwardDocument-documentNumber-parentBean" />
-  <bean id="AwardDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-      <property name="shortLabel" value="Document Id"/>
-  </bean>
-    
+
   <bean id="AwardDocument-workflowProperties" parent="AwardDocument-workflowProperties-parentBean"/>
   <bean id="AwardDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
     <property name="workflowPropertyGroups">

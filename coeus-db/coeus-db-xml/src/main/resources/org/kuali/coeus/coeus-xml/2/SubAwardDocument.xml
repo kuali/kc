@@ -12,17 +12,10 @@
 			<docHandler>${kuali.docHandler.url.prefix}/subAwardHome.do?methodToCall=docHandler</docHandler>
 			<helpDefinitionURL>default.htm?turl=Documents/subaward1.htm</helpDefinitionURL>
 			<active>true</active>
-			<policies>
-                <policy>
-                    <name>INITIATOR_MUST_ROUTE</name>
-                    <value>false</value>
-                </policy>
-            </policies>
 			<routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" nextNode="PeopleFlows"/>
-					<requests name="PeopleFlows" />
+					<start name="Initiated" />
 				</routePath>
 			</routePaths>
 			<routeNodes>
@@ -31,10 +24,6 @@
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
 				</start>
-	            <requests name="PeopleFlows">
-                    <activationType>R</activationType>
-                    <rulesEngine executorClass="org.kuali.kra.subaward.service.impl.SubAwardRulesEngineExecutorImpl"/>
-                </requests>
 			</routeNodes>
 			<parent>KC</parent>
 		</documentType>

@@ -111,9 +111,12 @@ public interface Constants {
     public static final String MODULE_NAMESPACE_NEGOTIATION = "KC-NEGOTIATION";
     public static final String MODULE_NAMESPACE_SUBAWARD = "KC-SUBAWARD";
     public static final String MODULE_NAMESPACE_IACUC = "KC-IACUC"; 
+<<<<<<< HEAD
     public static final String MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL = "KC-IP";
     public static final String MODULE_NAMESPACE_TIME_AND_MONEY = "KC-T";
     public static final String MODULE_NAMESPACE_UNIT = "KC-UNT";
+=======
+>>>>>>> Recommitting patches again
 
     public static final String PESSIMISTIC_LOCKING_EXPIRATION_AGE = "pessimisticLocking.expirationAge";
     
@@ -268,8 +271,7 @@ public interface Constants {
     public static final String SUBCONTRACTOR_DIRECT_GT_25K_PARAM = "SUBCONTRACTOR_DIRECT_GT_25K";
     public static final String SUBCONTRACTOR_DIRECT_LT_25K_PARAM = "SUBCONTRACTOR_DIRECT_LT_25K";
     
-    // research.gov 
-    public static final String RESEARCH_GOV_SERVICE_HOST = "research.gov.s2s.host";
+    
     //Grants.gov
     public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.developmentProposalList[0].s2sOpportunity.s2sSubmissionTypeCode";
     public static final String GRANTS_GOV_PANEL_ANCHOR  = "Opportunity";
@@ -744,7 +746,6 @@ public interface Constants {
     public static final String MAPPING_SUBAWARD_PAGE = "subAward";
     public static final String MAPPING_FUNDING_SOURCE_PAGE = "fundingSource";
     public static final String MAPPING_FINANCIAL_PAGE ="financial";
-    public static final String MAPPING_TEMPLATE_PAGE ="templateInformation";
     public static final String MAPPING_AMOUNT_RELEASED_PAGE="amountReleased";
     public static final String MAPPING_CONTACTS_PAGE="contacts";
     public static final String MAPPING_CLOSEOUT_PAGE="closeout";
@@ -757,17 +758,6 @@ public interface Constants {
     public static final String SUBAWARD_FINANCIAL_PANEL_NAME ="Financial";
     public static final String SUBAWARD_FINANCIAL_ANTICIPATED_AMOUNT = "document.subAwardList[0].totalAnticipatedAmount";
     public static final String SUBAWARD_FINANCIAL_OBLIGATED_AMOUNT = "document.subAwardList[0].totalObligatedAmount";
-    public static final String PARAMETER_FDP_PRIME_ADMINISTRATIVE_CONTACT_CODE = "FDP_Prime_Administrative_Contact_Code";
-    public static final String PARAMETER_FDP_PRIME_AUTHORIZED_OFFICIAL_CODE = "FDP_Prime_Authorized_Official_Code";
-    public static final String PARAMETER_FDP_PRIME_FINANCIAL_CONTACT_CODE = "FDP_Prime_Financial_Contact_Code";
-    public static final String PARAMETER_FDP_SUB_ADMINISTRATIVE_CONTACT_CODE = "FDP_Sub_Administrative_Contact_Code";
-    public static final String PARAMETER_FDP_SUB_AUTHORIZED_CONTACT_CODE = "FDP_Sub_Authorized_Official_Code";
-    public static final String PARAMETER_FDP_SUB_FINANCIAL_CONTACT_CODE = "FDP_Sub_Financial_Contact_Code";
-    public static final String PARAMETER_FDP_SUBAWARD_ATTACHMENT_3B = "Subaward_FDP_Attachment_3B_Form_ID";
-    public static final String PARAMETER_FDP_SUBAWARD_ATTACHMENT_4 = "Subaward_FDP_Attachment_4_Form_ID";
-    public static final String PARAMETER_FDP_SUBAWARD_ATTACHMENT_5 = "Subaward_FDP_Attachment_5_Form_ID";
-    public static final String PARAMETER_PRINT_ATTACHMENT_TYPE_INCLUSION = "Subaward_Print_Attachment_Type_Inclusion";
-    
     // coi
     public static final String MODULE_NAMESPACE_COIDISCLOSURE = "KC-COIDISCLOSURE";
     public static final String PARAMETER_COI_ATTACHMENT_DEFAULT_SORT = "coiAttachmentDefaultSort";
