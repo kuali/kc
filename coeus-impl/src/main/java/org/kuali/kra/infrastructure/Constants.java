@@ -333,10 +333,8 @@ public interface Constants {
     public static final String MAPPING_PROPOSAL_SUMMARY_PAGE = "proposalDevelopmentSummary";
     public static final String THIRD_PARTY_UNIT_NO="3RD-PRTY";
     
-    public static final String MAPPING_PROPOSAL_APPROVER_VIEW_PAGE = "approverView";
     public static final String HEADER_TAB = "headerTab";
-    public static final String PARAMETER_PROPOSAL_APPROVER_VIEW_TITLE = "proposaldevelopment.approver.view.title";
-    
+
     public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
 
     // Budget Rates
