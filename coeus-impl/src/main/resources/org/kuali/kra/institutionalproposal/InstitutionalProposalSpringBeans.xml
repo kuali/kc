@@ -163,8 +163,6 @@
 
     <bean id="proposalLogLookupableHelperService" class="org.kuali.kra.institutionalproposal.proposallog.ProposalLogLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype">
-        <property name="documentService" ref="documentService" />
-        <property name="legacyDataAdapter" ref="legacyDataAdapter" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="documentDictionaryService" ref="documentDictionaryService" />
     </bean>

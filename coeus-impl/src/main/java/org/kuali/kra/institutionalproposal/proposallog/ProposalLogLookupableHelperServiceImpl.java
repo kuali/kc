@@ -18,13 +18,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.kew.api.KEWPropertyConstants;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -36,8 +30,6 @@ import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.krad.document.DocumentPresentationController;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -56,14 +48,9 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     private static final String DOC_ROUTE_STATUS = "docRouteStatus";
     
     private boolean isLookupForProposalCreation;
-    private DocumentService documentService;
-    private LegacyDataAdapter legacyDataAdapter;
     private KcPersonService kcPersonService;
     private DocumentDictionaryService documentDictionaryService;
 
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
     
     /*
      * We want to allow users to query on principal name instead of person id, 
@@ -104,44 +91,19 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
             return searchList;
         }
     }
+    
     protected List<ProposalLog> filterForPermissions(List<ProposalLog> results) {
-        Person user = GlobalVariables.getUserSession().getPerson();
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        List<ProposalLog> proposalLogs = new ArrayList<ProposalLog>();
-        ProposalLogDocumentAuthorizer authorizer = new ProposalLogDocumentAuthorizer();
-        List<String> proposalIds = new ArrayList<String>();
-        fieldValues.put(KEWPropertyConstants.NAME, getMaintenanceDocumentDictionaryService().getDocumentTypeName(
-                ProposalLog.class));
-        List<String> docTypeIds = new ArrayList<String>();
-        for (DocumentType docType : (List<DocumentType>) getBusinessObjectService().findMatching(DocumentType.class, fieldValues)) {
-            docTypeIds.add(docType.getDocumentTypeId());
+    	List<ProposalLog> proposalLogs = new ArrayList<ProposalLog>();
+    	ProposalLogDocumentAuthorizer authorizer = new ProposalLogDocumentAuthorizer();
+    	Person user = GlobalVariables.getUserSession().getPerson();
+    	for(ProposalLog proposalLog : results){
+            if(proposalLog.getProposalNumber() != null){
+	            if(authorizer.canOpen(proposalLog, user)){
+	                proposalLogs.add(proposalLog);
+	            }
+            }
         }
-        fieldValues.clear();
-        fieldValues.put(KEWPropertyConstants.DOCUMENT_TYPE_ID, docTypeIds);
-        fieldValues.put(DOC_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_FINAL_CD);
-        List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) getLegacyDataAdapter().findMatching(DocumentRouteHeaderValue.class, fieldValues);
-        for (DocumentRouteHeaderValue docHeader : docHeaders) {
-            try {
-                MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader.getDocumentId());
-                for(ProposalLog proposalLog : results){
-                    ProposalLog proposalLogDoc = (ProposalLog)doc.getNoteTarget();
-                    if(proposalLog.getProposalNumber() != null && proposalLogDoc.getProposalNumber() != null && proposalLog.getProposalNumber().equalsIgnoreCase(proposalLogDoc.getProposalNumber())){
-                        if(!(proposalIds.contains(proposalLog.getProposalNumber()))){
-                            proposalIds.add(proposalLog.getProposalNumber());
-                            if(authorizer.canOpen(doc, user)){
-                                proposalLogs.add(proposalLog);
-                            }
-                        }
-                       
-                    }
-                }
-            } catch (Exception e) {
-                LOG.error(e.getMessage(), e);
-            }                
-        }
-
-        
-        return proposalLogs;
+    	return proposalLogs;
     }
         
     private List<ProposalLog> cleanSearchResultsForNegotiationLookup(Collection searchResults) {
@@ -272,14 +234,6 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         }
     }
 
-    public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
-        this.legacyDataAdapter = legacyDataAdapter;
-    }
-
-    public LegacyDataAdapter getLegacyDataAdapter() {
-        return legacyDataAdapter;
-    }
-
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
@@ -295,7 +249,5 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     public void setDocumentDictionaryService(DocumentDictionaryService documentDictionaryService) {
         this.documentDictionaryService = documentDictionaryService;
     }
-
     
 }
-    
