@@ -151,6 +151,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     private List<BudgetSubAwards> budgetSubAwards;
 
     @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OrderBy("budgetPeriod")
     private List<BudgetPeriod> budgetPeriods;
 
     @OneToMany(mappedBy="budget", cascade = { CascadeType.REFRESH })
