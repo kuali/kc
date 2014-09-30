@@ -67,4 +67,16 @@ public interface CustomAttributeService {
      * @throws Exception
      */
     public String getLookupReturnsForAjaxCall(String lookupClass) throws Exception ;
+    
+    /**
+     * 
+     * This method is to verify if a custom attribute is required.
+     * @param dataTypeCode 
+     * @param attr
+     * @param customDataList
+     * @return true if required false otherwise 
+     
+     */
+	public boolean isRequired(String dataTypeCode, CustomAttribute attr, List<? extends DocumentCustomData> customDataList);
+
 }

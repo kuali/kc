@@ -15,9 +15,11 @@
  */
 package org.kuali.coeus.common.impl.custom.attr;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
@@ -34,7 +36,6 @@ import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
 import java.util.*;
 
 /**
@@ -188,5 +189,14 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 	public void setBusinessDictionaryService(
 			BusinessObjectDictionaryService businessDictionaryService) {
 		this.businessDictionaryService = businessDictionaryService;
+	}
+	public boolean isRequired(String dataTypeCode, CustomAttribute attr, List<? extends DocumentCustomData> customDataList)
+	{
+		Map<String, CustomAttributeDocument> map = getDefaultCustomAttributeDocuments(dataTypeCode, customDataList );
+		for(Map.Entry<String, CustomAttributeDocument> document: map.entrySet()) {
+			if( document.getValue()!=null && document.getValue().getCustomAttribute()!=null && ObjectUtils.equals(document.getValue().getCustomAttribute().getId(),attr.getId()))
+				return document.getValue().isRequired();
+		}
+		return false;
 	}
 }

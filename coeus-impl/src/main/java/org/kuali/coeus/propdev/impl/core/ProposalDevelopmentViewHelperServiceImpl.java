@@ -22,6 +22,9 @@ import java.util.*;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.common.framework.auth.KcAuthConstants;
+import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
@@ -96,7 +99,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     private static final long serialVersionUID = -5122498699317873886L;
     private static final Logger LOG = Logger.getLogger(ProposalDevelopmentViewHelperServiceImpl.class);
-
+    private static final String PARENT_PROPOSAL_TYPE_CODE = "PRDV";
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
@@ -156,7 +159,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
-
+    
+    @Autowired
+    @Qualifier("customAttributeService")
+    private CustomAttributeService customAttributeService;
+    
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
@@ -764,4 +771,15 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 		
 	}
 
+	public CustomAttributeService getCustomAttributeService() {
+        return customAttributeService;
+    }
+
+	public void setCustomAttributeService(CustomAttributeService customAttributeService) {
+		this.customAttributeService = customAttributeService;
+	}
+	public boolean isRequired(CustomAttribute attr, List<? extends DocumentCustomData> customDataList){
+		return getCustomAttributeService().isRequired(PARENT_PROPOSAL_TYPE_CODE, attr, customDataList);
+		
+    }
 }
