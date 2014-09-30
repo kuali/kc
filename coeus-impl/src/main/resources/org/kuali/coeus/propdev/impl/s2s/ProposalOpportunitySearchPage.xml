@@ -62,7 +62,7 @@
 			<list>
 				<ref bean="PropDev-OpportunityPage-General" />
 				<ref bean="PropDev-OpportunityPage-Forms" />
-				<ref bean="PropDev-OpportunityPage-SubmissionDetails" />
+				<ref bean="PropDev-OpportunityPage-SubmissionDetailsSection" />
                 <ref bean="PropDev-OpportunityPage-UserAttachedForms" />
 			</list>
 		</property>
@@ -245,10 +245,69 @@
     <bean id="PropDev-OpportunityPage-SelectMenuAction-parentBean" abstract="true" parent="Uif-MenuAction"
           p:cssClasses="pull-left" p:refreshId="PropDev-OpportunityPage-Forms"/>
 
-	<bean id="PropDev-OpportunityPage-SubmissionDetails" parent="PropDev-OpportunityPage-SubmissionDetails-parentBean" />
-	<bean id="PropDev-OpportunityPage-SubmissionDetails-parentBean"
-		abstract="true" parent="Uif-GridSection" p:headerText="Submission Details" />
 
+    <bean id="PropDev-OpportunityPage-SubmissionDetailsSection" parent="PropDev-OpportunityPage-SubmissionDetailsSection-parentBean" />
+    <bean id="PropDev-OpportunityPage-SubmissionDetailsSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection"
+            p:header.headerText="Submission Detail">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Submission details will be available after the proposal is submitted." p:order="10"
+                      p:render="@{#empty(displayedS2sAppSubmission)}"/>
+                <bean parent="PropDev-OpportunityPage-SubmissionDetails" p:order="20"
+                      p:render="@{!#empty(displayedS2sAppSubmission)}"/>
+            </list>
+        </property>
+        <property name="header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="refreshSubmissionDetails" p:refreshId="PropDev-OpportunityPage-SubmissionDetails"
+                              p:iconClass="icon-loop2" p:actionLabel="Refresh" p:order="10"
+                              p:render="@{!#empty(displayedS2sAppSubmission)}"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+    </bean>
+
+    <bean id="PropDev-OpportunityPage-SubmissionDetails" parent="PropDev-OpportunityPage-SubmissionDetails-parentBean" />
+    <bean id="PropDev-OpportunityPage-SubmissionDetails-parentBean"
+		abstract="true" parent="Uif-GridSection"
+        p:layoutManager.libraryCssClasses="table,table-condensed"
+        p:layoutManager.cssClasses="" p:layoutManager.applyDefaultCellWidths="false"
+        p:fieldBindingObjectPath="displayedS2sAppSubmission">
+    <property name="items">
+        <list>
+            <bean parent="Uif-DataField" p:propertyName="receivedDate" p:order="10"/>
+            <bean parent="Uif-DataField" p:propertyName="lastModifiedDate" p:order="20"/>
+            <bean parent="Uif-DataField" p:propertyName="status" p:order="30"/>
+            <bean parent="Uif-DataField" p:propertyName="ggTrackingId" p:order="40"/>
+            <bean parent="Uif-DataField" p:propertyName="agencyTrackingId" p:order="50"/>
+            <bean parent="Uif-DataField" p:propertyName="comments" p:order="60"/>
+            <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Attachments" p:order="70">
+                <property name="group">
+                    <bean parent="Uif-VerticalBoxGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="PropDev-OpportunityPage-SubmissionAttachments" p:order="10"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </list>
+    </property>
+    </bean>
+
+    <bean id="PropDev-OpportunityPage-SubmissionAttachments" parent="PropDev-OpportunityPage-SubmissionAttachments-parentBean"/>
+    <bean id="PropDev-OpportunityPage-SubmissionAttachments-parentBean" abstract="true" parent="Uif-ListCollectionGroup"
+          p:propertyName="s2sApplication.s2sAppAttachmentList"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sAppAttachments">
+        <property name="items">
+            <bean parent="Uif-DataField" p:propertyName="contentId" p:fieldLabel.render="false" p:order="10"/>
+        </property>
+    </bean>
 
     <bean id="PropDev-OpportunityPage-UserAttachedForms" parent="PropDev-OpportunityPage-UserAttachedForms-parentBean"/>
     <bean id="PropDev-OpportunityPage-UserAttachedForms-parentBean" abstract="true" parent="Uif-VerticalBoxSection"

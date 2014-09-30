@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
@@ -34,6 +35,7 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDt
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
+import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmission;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.SpecialReviewHelper;
@@ -462,5 +464,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setPersonEditableFields(Map<String, Boolean> personEditableFields) {
         this.personEditableFields = personEditableFields;
+    }
+
+    public S2sAppSubmission getDisplayedS2sAppSubmission() {
+        if (CollectionUtils.isNotEmpty(this.getDevelopmentProposal().getS2sAppSubmission())){
+            return this.getDevelopmentProposal().getS2sAppSubmission().get(this.getDevelopmentProposal().getS2sAppSubmission().size()-1);
+        }
+        return null;
     }
 }
