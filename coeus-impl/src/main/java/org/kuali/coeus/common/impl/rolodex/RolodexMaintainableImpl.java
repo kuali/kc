@@ -16,7 +16,10 @@
 package org.kuali.coeus.common.impl.rolodex;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
@@ -58,6 +61,14 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     @Autowired
     @Qualifier("sequenceAccessorService")
     private transient SequenceAccessorService sequenceAccessorService;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("kcPersonService")
+    private KcPersonService kcPersonService;
    
     @Override
     public void setGenerateDefaultValues(String docTypeName) {
@@ -96,6 +107,8 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public void processAfterNew(org.kuali.rice.krad.maintenance.MaintenanceDocument document, Map<String, String[]> requestParameters) {
         Rolodex rolodex = (Rolodex) document.getNewMaintainableObject().getDataObject();
         rolodex.setActive(true);
+        KcPerson person = getKcPersonService().getKcPersonByPersonId(getGlobalVariableService().getUserSession().getPrincipalId());
+        rolodex.setOwnedByUnit(person.getUnit().getUnitNumber());
         if (isAutoGenerateCode()) {
             rolodex.setRolodexId(Integer.parseInt(Long.valueOf(MaxValueIncrementerFactory.getIncrementer(getKradApplicationDataSource(), ROLODEX_ID_SEQUENCE_NAME).nextLongValue()).toString()));
         }
@@ -150,5 +163,27 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
 
     public void setKradApplicationDataSource(DataSource kradApplicationDataSource) {
         this.kradApplicationDataSource = kradApplicationDataSource;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    public KcPersonService getKcPersonService() {
+        if (kcPersonService == null) {
+            kcPersonService = KcServiceLocator.getService(KcPersonService.class);
+        }
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 }
