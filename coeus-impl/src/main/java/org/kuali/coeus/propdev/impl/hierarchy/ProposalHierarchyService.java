@@ -15,15 +15,14 @@
  */
 package org.kuali.coeus.propdev.impl.hierarchy;
 
-import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.personnel.HierarchyPersonnelSummary;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -153,7 +152,7 @@ public interface ProposalHierarchyService {
      * @throws ProposalHierarchyException 
      * @throws IOException if there is a problem with the upload file.
      */
-    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalId, FormFile rejectFile) 
+    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalId, MultipartFile rejectFile)
     throws WorkflowException, ProposalHierarchyException, IOException;
     
     /**

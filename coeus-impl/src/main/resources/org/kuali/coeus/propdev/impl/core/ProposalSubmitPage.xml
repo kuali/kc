@@ -47,24 +47,29 @@
                     <bean parent="Uif-PrimaryActionButton" p:actionLabel="Approve" p:methodToCall="approve" p:order="20"
                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
 
+                    <bean parent="Uif-SecondaryActionButton" p:methodToCall="Disapprove" p:actionLabel="Disapprove"
+                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}" p:order="30">
+                        <property name="confirmationDialog">
+                            <bean id="DisapproveExplanationDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for disapprove?"/>
+                        </property>
+                    </bean>
+
+                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Reject" p:methodToCall="reject" p:order="40"
+                          p:render="@{#editModes['rejectProposal']}"/>
+
                     <bean parent="Uif-LinkField" p:linkText="View Route Log"
-                          p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="30"
+                          p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="50"
                     p:link.openInDialog="true" />
                     
-                    <bean parent="Uif-RecallAction" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RECALL]}"  p:order="40">
+                    <bean parent="Uif-RecallAction" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RECALL]}"  p:order="60">
               			<property name="confirmationDialog">
              				<bean id="ConfirmRecallDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for recall?"/>
             			</property>
            			</bean>
            			
-           			<bean parent="Uif-SecondaryActionButton" p:methodToCall="disapprove" p:actionLabel="Disapprove"
-			              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}" p:order="50">
-			          <property name="confirmationDialog">
-			          		<bean id="DisapproveExplanationDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for disapprove?"/>
-			          </property>
-			        </bean>
-			        
-			   		<bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="60"
+
+
+			   		<bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="70"
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}">
 					 	<property name="confirmationDialog">
 			          		<bean id="ProposalCancelDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to cancel ?"/>
@@ -73,14 +78,14 @@
 
 					<bean parent="Uif-Space"/><bean parent="Uif-Space"/>
 					 
-					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="70"
+					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="80"
 					 	p:render="@{#actionFlags[#{deleteDocument}]}">
 					 	<property name="confirmationDialog">
 			          		<bean id="ProposalDeleteDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete ?"/>
 			          	</property>
 					 </bean>						
 						
-					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="80">
+					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="90">
 					  <property name="menuItems">
 					    <list>
 					      <bean parent="Uif-MenuAction" p:actionLabel="Send Notifications" p:order="10" p:refreshId="Kc-SendNotification-Wizard" p:methodToCall="prepareNotificationWizard"
@@ -107,6 +112,25 @@
 
     <bean id="PropDev-SubmitPage-ReceiveFutureRequests" parent="Uif-DialogGroup-YesNo"
           p:promptText="Do you want to recieve future approval requests?"/>
+
+    <bean id="PropDev-SubmitPage-RejectDialog" parent="Uif-DialogGroup-YesNo"
+          p:fieldBindingObjectPath="proposalDevelopmentRejectionBean"
+          p:readOnly="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Are you sure you want to reject this document?" p:order="10"/>
+                <bean parent="Uif-InputField" p:propertyName="rejectReason" p:order="20"
+                        p:fieldLabel.labelText="Rejection Reason"/>
+                <bean parent="Uif-InputField" p:propertyName="rejectFile" p:order="30"
+                      p:fieldLabel.labelText="Attachment">
+                    <property name="control">
+                        <bean parent="Uif-FileControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+            </bean>
 
     <bean id="PropDev-SubmitPage-SummaryTabGroup" parent="PropDev-SubmitPage-SummaryTabGroup-parentBean" />
 <bean id="PropDev-SubmitPage-SummaryTabGroup-parentBean" abstract="true" parent="Uif-TabGroup">

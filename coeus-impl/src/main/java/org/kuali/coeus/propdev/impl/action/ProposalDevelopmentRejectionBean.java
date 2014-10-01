@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.action;
 
-import org.apache.struts.upload.FormFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
@@ -25,19 +25,19 @@ public class ProposalDevelopmentRejectionBean implements Serializable {
     private static final long serialVersionUID = 4081027512143550976L;
     
     private String rejectReason;
-    transient private FormFile rejectFile;
+    transient private MultipartFile rejectFile;
     
 
     public ProposalDevelopmentRejectionBean() {
         
     }
 
-    public FormFile getRejectFile() {
+    public MultipartFile getRejectFile() {
         return rejectFile;
     }
 
-    public void setRejectFile(FormFile rejectFile) {
-        this.rejectFile = (FormFile) rejectFile;
+    public void setRejectFile(MultipartFile rejectFile) {
+        this.rejectFile = rejectFile;
     }
 
     public String getRejectReason() {
