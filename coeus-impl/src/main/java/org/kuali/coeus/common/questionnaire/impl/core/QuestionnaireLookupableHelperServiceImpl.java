@@ -24,7 +24,8 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.KEWPropertyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -73,6 +74,10 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
     @Autowired
     @Qualifier("questionnaireAuthorizationService")
     private QuestionnaireAuthorizationService questionnaireAuthorizationService;
+    
+    @Autowired
+    @Qualifier("documentTypeService")
+    private DocumentTypeService documentTypeService;
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -217,21 +222,18 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
     protected void getQuestionnaireDocs() {
         questionnaireMaintenanceDocs = new ArrayList<MaintenanceDocumentBase>();
         newQuestionnaireDocs = new ArrayList<MaintenanceDocumentBase>();
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
         questionnaireIds = new ArrayList<String>();
-
-        fieldValues.put(KEWPropertyConstants.NAME, getMaintenanceDocumentDictionaryService().getDocumentTypeName(
-                Questionnaire.class));
         List<String> docTypeIds = new ArrayList<String>();
-        for (DocumentType docType : (List<DocumentType>) getBusinessObjectService().findMatching(DocumentType.class, fieldValues)) {
-            docTypeIds.add(docType.getDocumentTypeId());
-        }
-
-        fieldValues.clear();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        
+        DocumentType documentType = getDocumentTypeService().getDocumentTypeByName(getMaintenanceDocumentDictionaryService().getDocumentTypeName(Questionnaire.class));
+        docTypeIds.add(documentType.getId());
+        
         fieldValues.put(KEWPropertyConstants.DOCUMENT_TYPE_ID, docTypeIds);
         fieldValues.put(DOC_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_SAVED_CD);
-        List<DocumentRouteHeaderValue> docHeaders = 
-        		getDataObjectService().findMatching(DocumentRouteHeaderValue.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
+        List<DocumentRouteHeaderValue> docHeaders = getDataObjectService().findMatching(DocumentRouteHeaderValue.class, 
+        		QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
+
         try {
             for (DocumentRouteHeaderValue docHeader : docHeaders) {
                 MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader
@@ -277,6 +279,14 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
 
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
+	}
+
+	public DocumentTypeService getDocumentTypeService() {
+		return documentTypeService;
+	}
+
+	public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+		this.documentTypeService = documentTypeService;
 	}
 
 }

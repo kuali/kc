@@ -66,5 +66,6 @@
     <bean id="roleService" parent="grlImporter" p:serviceName="kimRoleService" />
     <bean id="kimTypeInfoService" parent="grlImporter" p:serviceName="kimTypeInfoService" />
     <bean id="kradApplicationDataSource" parent="grlImporter" p:serviceName="kradApplicationDataSource"/>
+    <bean id="documentTypeService" parent="grlImporter" p:serviceName="rice.kew.documentTypeService" />
 
 </beans>
