@@ -872,10 +872,26 @@ public interface Constants {
     public static final String IRB_MODULE = "irb";
     public static final String IACUC_MODULE = "iacuc";
     
-    public static final String PD_INITIATED_ROUTE_NODE_NAME = "Initiated";
 
     //Prop Dev Parameter
     public static final String SPONSOR_HIERACHY_REQ_DIV_PROG_CODES = "SPONSOR_HIERACHY_REQ_DIV_PROG_CODES";
+    public static final String MAPPING_TEMPLATE_PAGE ="templateInformation";
+    public static final String MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL = "KC-IP";
+    public static final String NEW_PERSON_LOOKUP_FLAG = "newPersonLookupFlag";
+    public static final String MODULE_NAMESPACE_TIME_AND_MONEY = "KC-T";
+    public static final String RESEARCH_GOV_SERVICE_HOST = "research.gov.s2s.host";
+    public static final String PARAMETER_FDP_PRIME_ADMINISTRATIVE_CONTACT_CODE = "FDP_Prime_Administrative_Contact_Code";
+    public static final String PARAMETER_FDP_PRIME_AUTHORIZED_OFFICIAL_CODE = "FDP_Prime_Authorized_Official_Code";
+    public static final String PARAMETER_FDP_PRIME_FINANCIAL_CONTACT_CODE = "FDP_Prime_Financial_Contact_Code";
+    public static final String PARAMETER_FDP_SUB_ADMINISTRATIVE_CONTACT_CODE = "FDP_Sub_Administrative_Contact_Code";
+    public static final String PARAMETER_FDP_SUB_AUTHORIZED_CONTACT_CODE = "FDP_Sub_Authorized_Official_Code";
+    public static final String PARAMETER_FDP_SUB_FINANCIAL_CONTACT_CODE = "FDP_Sub_Financial_Contact_Code";
+    public static final String PARAMETER_FDP_SUBAWARD_ATTACHMENT_3B = "Subaward_FDP_Attachment_3B_Form_ID";
+    public static final String PARAMETER_FDP_SUBAWARD_ATTACHMENT_4 = "Subaward_FDP_Attachment_4_Form_ID";
+    public static final String PARAMETER_FDP_SUBAWARD_ATTACHMENT_5 = "Subaward_FDP_Attachment_5_Form_ID";
+    public static final String PARAMETER_PRINT_ATTACHMENT_TYPE_INCLUSION = "Subaward_Print_Attachment_Type_Inclusion";
+    public static final String PD_INITIATED_ROUTE_NODE_NAME = "Initiated";
+
     
 }
 

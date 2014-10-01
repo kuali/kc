@@ -97,12 +97,18 @@
     
     <property name="attributes">
       <list>      	
-        <ref bean="AwardDocument-versionNumber"/>        
+        <ref bean="AwardDocument-versionNumber"/>      
+        <ref bean="AwardDocument-documentNumber"/>
       </list>
     </property>
   </bean>
 
 <!-- Attribute Definitions -->	
+  <bean id="AwardDocument-documentNumber" parent="AwardDocument-documentNumber-parentBean" />
+  <bean id="AwardDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+      <property name="shortLabel" value="Document Id"/>
+  </bean>
+    
   
   <bean id="AwardDocument-versionNumber" parent="AwardDocument-versionNumber-parentBean"/>
 

@@ -69,6 +69,11 @@
         <ref bean="Award-financialAccountDocumentNumber" /> 
         <ref bean="Award-financialAccountCreationDate" />
         <ref bean="Award-financialChartOfAccountsCode" />
+        <ref bean="Award-awardDocument.documentNumber" />
+        <ref bean="Award-awardStatus.description" /> 
+        <ref bean="Award-awardAmountInfo.obligationExpirationDate" />
+        <ref bean="Award-awardAmountInfo.amountObligatedToDate" />
+        <ref bean="Award-sponsor.sponsorName" />
       </list>
     </property>
         <property name="collections">
