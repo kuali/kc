@@ -361,8 +361,8 @@
                       p:order="130"/>
                 <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="countryCode"
                       p:order="140"/>
-                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="homeUnit"
-                      p:order="150"/>
+                <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="homeUnit" p:enableAutoQuickfinder="false" 
+                    p:readOnly="@{!#ViewHelper.isPersonFieldEditable(&quot;homeUnit&quot;)}"  p:order="150" />
                 <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="postalCode"
                       p:order="160"/>
                 <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="division"
