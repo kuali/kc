@@ -11,6 +11,9 @@ import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.rule.event.SendNotificationEvent;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
+import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
+import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionRule;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
@@ -80,6 +83,10 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("groupService")
     private GroupService groupService;
+
+    @Autowired
+    @Qualifier("proposalHierarchyService")
+    private ProposalHierarchyService proposalHierarchyService;
 
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=deleteProposal")
     public ModelAndView deleteProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
@@ -306,6 +313,23 @@ public class ProposalDevelopmentSubmitController extends
         return false;
     }
 
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=reject")
+    public ModelAndView reject(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        DialogResponse dialogResponse = form.getDialogResponse(ProposalDevelopmentConstants.KradConstants.REJECT_DIALOG);
+        if(dialogResponse == null) {
+            return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.REJECT_DIALOG, false, form);
+        }else if (dialogResponse.getResponseAsBoolean()){
+            ProposalDevelopmentRejectionBean bean = form.getProposalDevelopmentRejectionBean();
+            if (new ProposalDevelopmentRejectionRule().proccessProposalDevelopmentRejection(bean)){
+                getProposalHierarchyService().rejectProposalDevelopmentDocument(form.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(),
+                        getGlobalVariableService().getUserSession().getPrincipalId(),bean.getRejectFile());
+            }
+        } else {
+            form.setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
+        }
+        return getModelAndViewService().getModelAndView(form);
+    }
+
   public GlobalVariableService getGlobalVariableService() {
       return globalVariableService;
   }
@@ -368,5 +392,13 @@ public class ProposalDevelopmentSubmitController extends
 
     public void setGroupService(GroupService groupService) {
         this.groupService = groupService;
+    }
+
+    public ProposalHierarchyService getProposalHierarchyService() {
+        return proposalHierarchyService;
+    }
+
+    public void setProposalHierarchyService(ProposalHierarchyService proposalHierarchyService) {
+        this.proposalHierarchyService = proposalHierarchyService;
     }
 }

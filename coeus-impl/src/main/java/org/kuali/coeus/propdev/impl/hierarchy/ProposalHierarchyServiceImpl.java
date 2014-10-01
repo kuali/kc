@@ -18,7 +18,6 @@ package org.kuali.coeus.propdev.impl.hierarchy;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
@@ -49,7 +48,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -75,7 +73,6 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -84,6 +81,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.IOException;
@@ -1494,7 +1492,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     
     @Override
-    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName, FormFile rejectFile ) 
+    public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalName, MultipartFile rejectFile )
     throws WorkflowException, ProposalHierarchyException, IOException {
         DevelopmentProposal pbo = getDevelopmentProposal(proposalNumber);
         ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument)documentService.getByDocumentHeaderId(pbo.getProposalDocument().getDocumentNumber());
@@ -1507,11 +1505,15 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             throw new UnsupportedOperationException( String.format( "Cannot reject proposal %s it is a hierarchy child or ", proposalNumber ));
         }
         
-        if (rejectFile != null && rejectFile.getFileData().length > 0) {
+        if (rejectFile != null && rejectFile.getBytes().length > 0) {
             Narrative narrative = new Narrative();
-            narrative.setName(rejectFile.getFileName());
+            narrative.setName(rejectFile.getOriginalFilename());
             narrative.setComments(reason);
-            narrative.setNarrativeFile(rejectFile);
+            try {
+                narrative.init(rejectFile);
+            } catch (Exception e) {
+               throw new RuntimeException("Error Initializing narrative attachment file",e);
+            }
             narrative.setNarrativeTypeCode(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.REJECT_NARRATIVE_TYPE_CODE_PARAM));
             NarrativeStatus status = (NarrativeStatus) dataObjectService.findUnique(NarrativeStatus.class, QueryByCriteria.Builder.forAttribute("code", "C").build());
             narrative.setNarrativeStatus(status);
@@ -1520,7 +1522,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             narrative.setContactName(globalVariableService.getUserSession().getPrincipalName());
             narrative.setPhoneNumber(globalVariableService.getUserSession().getPerson().getPhoneNumber());
             narrative.setEmailAddress(globalVariableService.getUserSession().getPerson().getEmailAddress());
-            pDoc.getDevelopmentProposal().addInstituteAttachment(narrative);
+            getLegacyNarrativeService().prepareNarrative(pDoc,narrative);
+            pDoc.getDevelopmentProposal().getInstituteAttachments().add(narrative);
             dataObjectService.save(pDoc);
         }
         

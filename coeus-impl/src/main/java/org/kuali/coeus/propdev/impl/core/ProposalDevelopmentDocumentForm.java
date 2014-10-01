@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
+import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
@@ -87,6 +88,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private List<NarrativeUserRights> narrativeUserRights;
     private String narrativeUserRightsSelectedAttachment;
     private ProposalChangedData newProposalChangedData;
+    private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
 
     private Map<String, Boolean> personEditableFields;
 
@@ -148,6 +150,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
         narrativeUserRights = new ArrayList<NarrativeUserRights>();
 
+        proposalDevelopmentRejectionBean = new ProposalDevelopmentRejectionBean();
         populatePersonEditableFields();
     }
 
@@ -464,6 +467,14 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setPersonEditableFields(Map<String, Boolean> personEditableFields) {
         this.personEditableFields = personEditableFields;
+    }
+
+    public ProposalDevelopmentRejectionBean getProposalDevelopmentRejectionBean() {
+        return proposalDevelopmentRejectionBean;
+    }
+
+    public void setProposalDevelopmentRejectionBean(ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean) {
+        this.proposalDevelopmentRejectionBean = proposalDevelopmentRejectionBean;
     }
 
     public S2sAppSubmission getDisplayedS2sAppSubmission() {
