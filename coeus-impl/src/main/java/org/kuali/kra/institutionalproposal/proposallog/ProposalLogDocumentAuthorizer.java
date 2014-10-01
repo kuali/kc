@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -47,7 +48,11 @@ public class ProposalLogDocumentAuthorizer extends MaintenanceDocumentAuthorizer
     
     @Override
     public boolean canInitiate(String documentTypeName, Person user) {
-        boolean retVal = this.isAuthorized(new ProposalLog(), "KC-IP",  "Create Proposal Log", user.getPrincipalId());        
+        boolean retVal = this.isAuthorized(new ProposalLog(), Constants.INSTITUTIONAL_PROPOSAL_NAMESPACE,  "Create Proposal Log", user.getPrincipalId());        
         return retVal;
     }   
+    
+    public boolean canOpen(ProposalLog proposalLog, Person user) {
+    	return isAuthorized(proposalLog, Constants.INSTITUTIONAL_PROPOSAL_NAMESPACE, "Open Proposal Log", user.getPrincipalId());
+    }
 }
