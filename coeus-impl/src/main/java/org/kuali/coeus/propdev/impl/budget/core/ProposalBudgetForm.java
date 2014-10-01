@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.nonpersonnel.AddProjectBudgetLineItemHelper;
 import org.kuali.coeus.propdev.impl.budget.person.AddProjectPersonnelHelper;
@@ -28,14 +29,16 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     private AddBudgetDto copyBudgetDto;
     private List<BudgetPeriodIncomeTotal>budgetPeriodIncomeTotalSummary;
     private AddProjectBudgetLineItemHelper addProjectBudgetLineItemHelper;
+    private BudgetJustificationWrapper budgetJustificationWrapper;
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
     	addProjectPersonnelHelper = new AddProjectPersonnelHelper();
     	addProjectBudgetLineItemHelper = new AddProjectBudgetLineItemHelper();
-   }
-    
-	public ProposalDevelopmentBudgetExt getBudget() {
+        budgetJustificationWrapper = new BudgetJustificationWrapper (budget.getBudgetJustification());
+    }
+
+    public ProposalDevelopmentBudgetExt getBudget() {
 		return budget;
 	}
 	public void setBudget(ProposalDevelopmentBudgetExt budget) {
@@ -142,5 +145,13 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
 			AddProjectBudgetLineItemHelper addProjectBudgetLineItemHelper) {
 		this.addProjectBudgetLineItemHelper = addProjectBudgetLineItemHelper;
 	}
+
+    public BudgetJustificationWrapper getBudgetJustificationWrapper() {
+        return budgetJustificationWrapper;
+    }
+
+    public void setBudgetJustificationWrapper(BudgetJustificationWrapper budgetJustificationWrapper) {
+        this.budgetJustificationWrapper = budgetJustificationWrapper;
+    }
 
 }

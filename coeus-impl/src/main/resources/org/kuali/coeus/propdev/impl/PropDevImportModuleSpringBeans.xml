@@ -59,6 +59,7 @@
     <bean id="budgetPersonnelBudgetService" parent="grlImporter" p:serviceName="budgetPersonnelBudgetService" />
     <bean id="budgetRatesService" parent="grlImporter" p:serviceName="budgetRatesService" />
     <bean id="budgetDistributionService" parent="grlImporter" p:serviceName="budgetDistributionService" />
+    <bean id="budgetJustificationService" parent="grlImporter" p:serviceName="budgetJustificationService" />
 
     <!-- COMMON QUESTIONNAIRE -->
 
