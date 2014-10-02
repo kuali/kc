@@ -10,6 +10,7 @@ import org.kuali.rice.krad.uif.container.TabGroup;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleRestriction;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -81,7 +82,7 @@ public class QuestionnaireTabGroup extends TabGroup {
     }
 
 
-
+    @ViewLifecycleRestriction
     public CollectionGroupBase getCollectionGroupPrototype() {
         return collectionGroupPrototype;
     }
