@@ -37,6 +37,8 @@ import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotification
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
@@ -159,11 +161,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
-    
+
     @Autowired
     @Qualifier("customAttributeService")
     private CustomAttributeService customAttributeService;
-    
+
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
@@ -771,6 +773,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 		
 	}
 
+    public boolean isS2sRevisionOther(S2sOpportunity s2sOpportunity) {
+        if (s2sOpportunity != null) {
+            return StringUtils.equals(s2sOpportunity.getRevisionCode(), S2sRevisionTypeConstants.OTHER);
+        }
+        return false;
+    }
+
 	public CustomAttributeService getCustomAttributeService() {
         return customAttributeService;
     }
@@ -780,6 +789,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 	}
 	public boolean isRequired(CustomAttribute attr, List<? extends DocumentCustomData> customDataList){
 		return getCustomAttributeService().isRequired(PARENT_PROPOSAL_TYPE_CODE, attr, customDataList);
-		
+
     }
 }
