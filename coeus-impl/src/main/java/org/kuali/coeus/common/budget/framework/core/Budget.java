@@ -156,6 +156,9 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     @OneToMany(mappedBy="budget", cascade = { CascadeType.REFRESH })
     private List<BudgetPersonnelDetails> budgetPersonnelDetails;
+
+    @OneToMany(mappedBy="budget", cascade = { CascadeType.REFRESH })
+    private List<BudgetLineItem> budgetLineItems;
     
     @Transient
     private Date summaryPeriodStartDate;
@@ -1759,6 +1762,14 @@ public class Budget extends AbstractBudget implements BudgetContract {
 	public void setBudgetPersonnelDetails(
 			List<BudgetPersonnelDetails> budgetPersonnelDetails) {
 		this.budgetPersonnelDetails = budgetPersonnelDetails;
+	}
+
+	public List<BudgetLineItem> getBudgetLineItems() {
+		return budgetLineItems;
+	}
+
+	public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
+		this.budgetLineItems = budgetLineItems;
 	}
 
 }

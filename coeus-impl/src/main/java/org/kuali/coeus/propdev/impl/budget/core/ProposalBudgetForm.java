@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.nonpersonnel.AddProjectBudgetLineItemHelper;
 import org.kuali.coeus.propdev.impl.budget.person.AddProjectPersonnelHelper;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -26,10 +27,12 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     private AddBudgetDto addBudgetDto;
     private AddBudgetDto copyBudgetDto;
     private List<BudgetPeriodIncomeTotal>budgetPeriodIncomeTotalSummary;
+    private AddProjectBudgetLineItemHelper addProjectBudgetLineItemHelper;
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
     	addProjectPersonnelHelper = new AddProjectPersonnelHelper();
+    	addProjectBudgetLineItemHelper = new AddProjectBudgetLineItemHelper();
    }
     
 	public ProposalDevelopmentBudgetExt getBudget() {
@@ -130,4 +133,14 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     public boolean isCostSharingEditFormVisible() {
         return budget != null && budget.isCostSharingApplicable() && budget.isCostSharingAvailable();
     }
+
+	public AddProjectBudgetLineItemHelper getAddProjectBudgetLineItemHelper() {
+		return addProjectBudgetLineItemHelper;
+	}
+
+	public void setAddProjectBudgetLineItemHelper(
+			AddProjectBudgetLineItemHelper addProjectBudgetLineItemHelper) {
+		this.addProjectBudgetLineItemHelper = addProjectBudgetLineItemHelper;
+	}
+
 }

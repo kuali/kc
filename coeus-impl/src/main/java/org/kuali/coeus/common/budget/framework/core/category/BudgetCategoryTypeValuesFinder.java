@@ -15,44 +15,59 @@
  */
 package org.kuali.coeus.common.budget.framework.core.category;
 
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.service.KeyValuesService;
-import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component("budgetCategoryTypeValuesFinder")
 public class BudgetCategoryTypeValuesFinder extends UifKeyValuesFinderBase {
-    
+	@Autowired
+    @Qualifier("dataObjectService")
+	private DataObjectService dataObjectService;
+	
     /**
-     * Constructs the list of Budget Periods.  Each entry
+     * Constructs the list of Budget Categories.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
      * status code and the "value" is the textual description that is viewed
-     * by a user.  The list is obtained from the BudgetDocument if any are defined there. 
-     * Otherwise, it is obtained from a lookup of the BUDGET_PERIOD database table
-     * via the "KeyValueFinderService".
-     * 
-     * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
-     * is always &lt;"", "select:"&gt;.
+     * by a user.  The list is obtained BUDGET_CATEGORY database table
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
-        Collection budgetCategoryTypes = keyValuesService.findAllOrderBy(BudgetCategoryType.class,"sortId",true);
+    	return getKeyValues(new ArrayList<Predicate>());
+    }
+    
+    public List<KeyValue> getKeyValues(List<Predicate> predicates) {
+    	QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
+    	if(!predicates.isEmpty()) {
+        	builder.setPredicates(PredicateFactory.and(predicates.toArray(new Predicate[] {})));
+    	}
+    	builder.setOrderByAscending("sortId");
+    	List<BudgetCategoryType> budgetCategoryTypes = (List<BudgetCategoryType>)getDataObjectService().findMatching(BudgetCategoryType.class, 
+    			builder.build()).getResults();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        
-        for (Iterator iter = budgetCategoryTypes.iterator(); iter.hasNext();) {
-            BudgetCategoryType budgetCategoryType = (BudgetCategoryType) iter.next();
+        for (BudgetCategoryType budgetCategoryType : budgetCategoryTypes) {
             keyValues.add(new ConcreteKeyValue(budgetCategoryType.getCode(), budgetCategoryType.getDescription()));
         }
-                
         return keyValues;
     }
-   
+    
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
+
 }

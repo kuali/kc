@@ -520,4 +520,5 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
 	public void setBudgetId(Long budgetId) {
 		this.budgetId = budgetId;
 	}
+	
 }

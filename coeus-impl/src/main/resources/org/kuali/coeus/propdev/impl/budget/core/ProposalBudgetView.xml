@@ -46,7 +46,7 @@
 				<ref bean="PropBudget-RatesPage" />
 				<ref bean="PropBudget-ProjectPersonnelPage" />
 				<ref bean="PropBudget-AssignPersonnelToPeriodsPage" />
-				<bean id="PropBudget-NonPersonnel" parent="PropBudget-UnderDevelopmentPage" />
+				<ref bean="PropBudget-NonPersonnelCostsPage" />
 				<bean id="PropBudget-SubawardsPage" parent="PropBudget-UnderDevelopmentPage" />
 				<ref bean="PropBudget-CostSharingPage" />
                 <ref bean="PropBudget-UnrecoveredFandAPage" />
@@ -99,7 +99,7 @@
 	</bean>
 	<bean id="PropBudget-NavigationMenu-NonPersonnelCosts" parent="PropBudget-NavigationMenu-NonPersonnelCosts-parentBean" />
 	<bean id="PropBudget-NavigationMenu-NonPersonnelCosts-parentBean" abstract="true"
-		parent="Uif-MenuAction" p:navigateToPageId="PropBudget-NonPersonnelPage"
+		parent="Uif-MenuAction" p:navigateToPageId="PropBudget-NonPersonnelCostsPage"
 		p:actionLabel="Non-Personnel Costs" p:iconClass="icon-file" />
 	<bean id="PropBudget-NavigationMenu-Subawards" parent="PropBudget-NavigationMenu-Subawards-parentBean" />
 	<bean id="PropBudget-NavigationMenu-Subawards-parentBean" abstract="true"
