@@ -159,16 +159,4 @@ public class PropScienceKeyword extends KcPersistableBusinessObjectBase implemen
 	public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
 		this.developmentProposal = developmentProposal;
 	}
-	
-    @Override
-    /**
-     * current workaround to fix KRAD/Spring selecting to multiselect options for the Many-To-Many relationship.
-     */
-    public String toString() {
-        if (scienceKeyword != null) { 
-        	return scienceKeyword.getCode();
-        } else {
-        	return super.toString();
-        }
-    }
 }

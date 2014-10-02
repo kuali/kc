@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
@@ -26,6 +27,8 @@ import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -61,6 +64,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class ProposalDevelopmentControllerBase {
@@ -395,19 +399,77 @@ public abstract class ProposalDevelopmentControllerBase {
     @InitBinder
     protected void initBinder(WebDataBinder binder) throws Exception {
         binder.registerCustomEditor(List.class, "document.developmentProposal.propScienceKeywords", new PropScienceKeywordEditor());
+        binder.registerCustomEditor(List.class, "document.developmentProposal.propSpecialReviews.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
+
+        // For add line binding
+        binder.registerCustomEditor(List.class, "newCollectionLines.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
     }
 
     protected class PropScienceKeywordEditor extends CustomCollectionEditor {
         public PropScienceKeywordEditor() {
-            super(List.class);
+            super(List.class, true);
         }
 
         protected Object convertElement(Object element) {
-            if (element instanceof String) {
+            if (element != null && element instanceof String) {
                 return new PropScienceKeyword(null, getScienceKeyword(element));
+            }
+
+            return element;
+        }
+
+        public String getAsText() {
+            if (this.getValue() != null) {
+                Collection<PropScienceKeyword> keywords = (Collection<PropScienceKeyword>) this.getValue();
+                StringBuilder result = new StringBuilder();
+                for(PropScienceKeyword keyword : keywords) {
+                    result.append(keyword.getScienceKeyword().getCode());
+                    result.append(",");
+                }
+
+                if (result.length() > 0) {
+                    return result.substring(0, result.length() - 1);
+                }
             }
             return null;
         }
+    }
+
+    /**
+     * Editor to convert (to and from) a String list of exemption type codes to ProposalSpecialReviewExemption objects
+     */
+    protected class PropSpecialReviewExemptionTypeEditor extends CustomCollectionEditor {
+ 		public PropSpecialReviewExemptionTypeEditor() {
+ 			super(List.class, true);
+ 		}
+
+ 		protected Object convertElement(Object element) {
+ 			if (element != null && element instanceof String) {
+ 				return new ProposalSpecialReviewExemption(null, getExemptionType(element));
+ 			}
+
+            return element;
+ 		}
+
+        public String getAsText() {
+            if (this.getValue() != null) {
+                Collection<ProposalSpecialReviewExemption> exemptions = (Collection<ProposalSpecialReviewExemption>) this.getValue();
+                StringBuilder result = new StringBuilder();
+                for(ProposalSpecialReviewExemption exemption : exemptions) {
+                    result.append(exemption.getExemptionTypeCode());
+                    result.append(",");
+                }
+
+                if (result.length() > 0) {
+                    return result.substring(0, result.length() - 1);
+                }
+            }
+            return null;
+        }
+ 	}
+
+    protected ExemptionType getExemptionType(Object element) {
+ 	   return (ExemptionType) getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("code", element).build());
     }
 
     public boolean proposalValidToRoute(ProposalDevelopmentDocumentForm form) {

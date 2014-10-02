@@ -68,28 +68,6 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         getProposalDevelopmentSpecialReviewService().createProtocol(proposalSpecialReview, document);
         return getModelAndViewService().getModelAndView(form);
     }
-    
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) throws Exception {
- 	   binder.registerCustomEditor(List.class, "document.developmentProposal.propSpecialReviews.specialReviewExemptions", new PropSpecialReviewExemptionTypeEditor());
-    }
-    	  
-    protected class PropSpecialReviewExemptionTypeEditor extends CustomCollectionEditor {
- 		public PropSpecialReviewExemptionTypeEditor() {
- 			super(List.class);
- 		}
-
- 		protected Object convertElement(Object element) {
- 			if (element instanceof String) {
- 				return new ProposalSpecialReviewExemption(null, getExemptionType(element));
- 			}
- 			return null;
- 		}
- 	}
-    
-    protected ExemptionType getExemptionType(Object element) {
- 	   return (ExemptionType) getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("exemptionTypeCode", element).build());
-    }
 
     public ProposalDevelopmentSpecialReviewService getProposalDevelopmentSpecialReviewService() {
  		return proposalDevelopmentSpecialReviewService;
