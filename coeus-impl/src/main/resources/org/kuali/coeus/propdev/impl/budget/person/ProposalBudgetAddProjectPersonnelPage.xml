@@ -65,7 +65,7 @@
 						<bean parent="PropBudget-ProjectPersonnelPage-WizardButton-Continue"
 							p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType != 'T'}"
 							p:methodToCall="searchProjectPersonnel" p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:1"
-							p:order="10" />
+                            p:successCallback="Kc.Wizard.returnToFirstResultsPage();"							p:order="10" />
 						<bean parent="Uif-DialogDismissButton" p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType != '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).TBN.code}'}" p:actionLabel="Cancel" />
 					</list>
 				</property>
