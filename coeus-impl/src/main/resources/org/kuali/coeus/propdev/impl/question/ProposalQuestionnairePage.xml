@@ -39,6 +39,7 @@
     <bean id="PropDev-QuestionnairePage-Section" parent="PropDev-QuestionnairePage-Section-parentBean"/>
     <bean id="PropDev-QuestionnairePage-Section-parentBean" abstract="true" parent="Uif-VerticalBoxSection" 
     p:header.headerText="Questionnaire">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="There are no questions defined for this proposal."
