@@ -31,6 +31,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
+import org.kuali.coeus.propdev.impl.state.ProposalStateConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
@@ -508,21 +509,38 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     protected boolean isAuthorizedToReplacePersonnelAttachement(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
-        boolean result = false;
-        if (pdDocument.getDevelopmentProposal().getProposalState() != null) {
-            boolean hasPerm = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
-            boolean isInProgress = StringUtils.equalsIgnoreCase(pdDocument.getDevelopmentProposal().getProposalState().getDescription(), "In Progress");
-            boolean isApprovalPending = StringUtils.equalsIgnoreCase(pdDocument.getDevelopmentProposal().getProposalState().getDescription(), "Approval Pending");
-            boolean isRevisionRequested = StringUtils.equalsIgnoreCase(pdDocument.getDevelopmentProposal().getProposalState().getDescription(), "Revisions Requested");
-            result = hasPerm && (isInProgress || isApprovalPending || isRevisionRequested);
-        }
-        return result;
+        ProposalState proposalState = pdDocument.getDevelopmentProposal().getProposalState();
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE)
+                && (isInProgress(proposalState) || isApprovalPending(proposalState) || isRevisionRequested(proposalState));
+
     }
 
     protected boolean isAuthorizedToRecallProposal(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return pdDocument.getDocumentHeader().hasWorkflowDocument() && pdDocument.getDocumentHeader().getWorkflowDocument().isEnroute()
-                && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.RECALL_DOCUMENT);
+                && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.RECALL_DOCUMENT)
+                && !isRevisionRequested(pdDocument.getDevelopmentProposal().getProposalState());
+    }
+
+    protected boolean isInProgress(ProposalState proposalState) {
+        if (proposalState != null){
+            return StringUtils.equalsIgnoreCase(proposalState.getDescription(), ProposalStateConstants.IN_PROGRESS);
+        }
+        return false;
+    }
+
+    protected boolean isApprovalPending(ProposalState proposalState) {
+        if (proposalState != null){
+            return StringUtils.equalsIgnoreCase(proposalState.getDescription(), ProposalStateConstants.APPROVAL_PENDING);
+        }
+        return false;
+    }
+
+    protected boolean isRevisionRequested(ProposalState proposalState) {
+        if (proposalState != null){
+            return StringUtils.equalsIgnoreCase(proposalState.getDescription(), ProposalStateConstants.REVISION_REQUESTED);
+        }
+        return false;
     }
 
     protected boolean isAuthorizedToRejectProposal(Document document, Person user) {
