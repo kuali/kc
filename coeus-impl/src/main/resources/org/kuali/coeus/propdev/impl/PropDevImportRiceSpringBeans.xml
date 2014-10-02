@@ -60,6 +60,7 @@
     <bean id="mailService" parent="grlImporter" p:serviceName="mailService" />
     <bean id="krmsRulesExecutionService" parent="grlImporter" p:serviceName="krmsRulesExecutionService"/>
     <bean id="noteService" parent="grlImporter" p:serviceName="noteService"/>
+    <bean id="customAttributeService" parent="grlImporter" p:serviceName="customAttributeService"/>
     <bean id="maintenanceDocumentDictionaryService" parent="grlImporter" p:serviceName="maintenanceDocumentDictionaryService" />
     <bean id="documentHelperService" parent="grlImporter" p:serviceName="documentHelperService" />
     <bean id="groupService" parent="grlImporter" p:serviceName="groupService"/>

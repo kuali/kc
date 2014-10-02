@@ -1253,6 +1253,9 @@
         <property name="serviceName" value="noteService" />
     </bean>
     
+     <bean id="customAttributeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="customAttributeService" />
+    </bean>
     <bean id="documentHeaderService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="documentHeaderService" />
     </bean>
@@ -1493,7 +1496,7 @@
     <bean id="kcNotificationDocumentSecurityTypeService" class="org.kuali.kra.authorization.KcNotificationSecurityAttribute">
     	<property name="actionListService" ref="actionListService" />
     </bean> 
-          
+    
     <bean id="kcNotificationDocumentSecurityTypeServiceCallback" parent="kcCoreCallbackService"
       p:callbackService-ref="kcNotificationDocumentSecurityTypeService"
       p:localServiceName="kcNotificationDocumentSecurityTypeService"
