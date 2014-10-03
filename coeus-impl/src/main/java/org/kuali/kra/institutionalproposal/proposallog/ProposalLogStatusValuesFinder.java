@@ -54,28 +54,25 @@ public class ProposalLogStatusValuesFinder extends FormViewAwareUifKeyValuesFind
         Set<String> validStatuses = new HashSet<String>();
         Object form = getFormOrView();
         retval.add(new ConcreteKeyValue("", "select"));
-        boolean filterResults = true;
-        if (form instanceof LookupForm || form instanceof InquiryForm) {
-            filterResults = false;
-        }
-        else {
-            ProposalLog proposalLog = (ProposalLog)(((KualiMaintenanceForm)form).getDocument().getNoteTarget());
+        boolean filterResults = true;       
+        if (form instanceof KualiMaintenanceForm) {
+        	ProposalLog proposalLog = (ProposalLog)(((KualiMaintenanceForm)form).getDocument().getNoteTarget());
             
             if (proposalLog == null || proposalLog.getProposalLogType() == null) {
                 filterResults = false;
-            }
-            else if (StringUtils.equalsIgnoreCase(proposalLog.getProposalLogType().getProposalLogTypeCode(), ProposalLogUtils.getProposalLogTemporaryTypeCode())) {
+            } else if (StringUtils.equalsIgnoreCase(proposalLog.getProposalLogType().getProposalLogTypeCode(), ProposalLogUtils.getProposalLogTemporaryTypeCode())) {
                 // valid user choices are Temporary and Void
                 validStatuses.add(ProposalLogUtils.getProposalLogTemporaryStatusCode());
                 validStatuses.add(ProposalLogUtils.getProposalLogVoidStatusCode());
-            }
-            else {
+            } else {
                 // valid user choices are Pending and Void
                 validStatuses.add(ProposalLogUtils.getProposalLogPendingStatusCode());
                 validStatuses.add(ProposalLogUtils.getProposalLogVoidStatusCode());
             }
             // when Disclosure Type is implemented, the above else might need to be separated into 2 different options
-        }
+        } else {
+        	filterResults = false;
+        }       
         for (ProposalLogStatus status : statuses) {
             if (!filterResults || validStatuses.contains(status.getProposalLogStatusCode())) {
                 retval.add(new ConcreteKeyValue(status.getProposalLogStatusCode(), status.getDescription()));
