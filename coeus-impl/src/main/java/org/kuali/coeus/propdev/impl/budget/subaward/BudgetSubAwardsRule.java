@@ -77,7 +77,7 @@ public class BudgetSubAwardsRule  {
 	            }
 	            String contentType = event.getBudgetSubAwards().getNewSubAwardFile().getContentType();
 
-	            if(subAwardData==null || subAwardData.length==0 || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
+	            if(ArrayUtils.isEmpty(subAwardData) || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
 	            	result.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
 	            	result.setSuccess(false);
 	            }

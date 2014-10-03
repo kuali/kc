@@ -204,7 +204,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         }
         boolean success = true;
         if (newBudgetSubAward.getNewSubAwardFile() != null) {
-            String fileName = newBudgetSubAward.getNewSubAwardFile().getName();
+            String fileName = newBudgetSubAward.getNewSubAwardFile().getOriginalFilename();
             byte[] fileData = newBudgetSubAward.getNewSubAwardFile().getBytes(); 
             success = updateBudgetAttachment(budgetForm.getBudget(), newBudgetSubAward, fileName, fileData, "newSubAward");
         }
@@ -271,7 +271,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         AwardBudgetDocument awardBudgetDocument = budgetForm.getBudgetDocument();
         BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
         byte[] subAwardData = subAward.getNewSubAwardFile().getBytes();
-        String subAwardFileName = subAward.getNewSubAwardFile().getName();
+        String subAwardFileName = subAward.getNewSubAwardFile().getOriginalFilename();
         updateBudgetAttachment(budgetForm.getBudget(), subAward, subAwardFileName, subAwardData, 
                 SUBAWARD_BUDGET_EDIT_LINE_STARTER + getSelectedLine(request) + SUBAWARD_BUDGET_EDIT_LINE_ENDER);
         Collections.sort(awardBudgetDocument.getBudget().getBudgetSubAwards());

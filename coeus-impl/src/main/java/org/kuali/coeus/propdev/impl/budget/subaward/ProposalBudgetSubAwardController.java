@@ -68,9 +68,8 @@ public class ProposalBudgetSubAwardController extends
         boolean success = getKcBusinessRulesEngine().applyRules(new BudgetSubAwardsEvent(newBudgetSubAward, form.getBudget(), addLineBindingInfo.getBindingPath()));
         if (success && newBudgetSubAward.getNewSubAwardFile() != null) {
             String fileName = newBudgetSubAward.getNewSubAwardFile().getOriginalFilename();
-            byte[] fileData;
 			try {
-				fileData = newBudgetSubAward.getNewSubAwardFile().getBytes();
+				byte[] fileData = newBudgetSubAward.getNewSubAwardFile().getBytes();
 				success = updateBudgetAttachment(form.getBudget(), newBudgetSubAward, fileName, fileData, addLineBindingInfo.getBindingPath());
 			} catch (Exception e) {
 				LOG.warn("Error adding subaward", e);
@@ -124,14 +123,14 @@ public class ProposalBudgetSubAwardController extends
                     messageParameters = Arrays.copyOfRange(message, 1, message.length);
                 }
                 if (success) {
-                    GlobalVariables.getMessageMap().putWarning(ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION, message[0], messageParameters);
+                    globalVariableService.getMessageMap().putWarning(ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION, message[0], messageParameters);
                 } else {
-                    GlobalVariables.getMessageMap().putError(errorPath + Constants.SUBAWARD_FILE_FIELD_NAME, message[0], messageParameters);
+                	globalVariableService.getMessageMap().putError(errorPath + Constants.SUBAWARD_FILE_FIELD_NAME, message[0], messageParameters);
                 }
             }
         }
         if (success && errorMessages.isEmpty()) {
-            GlobalVariables.getMessageMap().putInfo(errorPath + Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_DETAILS_UPDATED);
+        	globalVariableService.getMessageMap().putInfo(errorPath + Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_DETAILS_UPDATED);
         }
         return success;
     }
