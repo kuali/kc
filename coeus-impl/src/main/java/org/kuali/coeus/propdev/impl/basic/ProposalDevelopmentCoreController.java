@@ -11,7 +11,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
@@ -29,8 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
-
 @SuppressWarnings("deprecation")
 @Controller
 public class ProposalDevelopmentCoreController extends ProposalDevelopmentControllerBase {
@@ -40,9 +37,6 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 	ProposalHierarchyService proposalHierarchyService;
 
 	public ProposalHierarchyService getProposalHierarchyService() {
-		if (proposalHierarchyService == null) {
-			proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
-		}
 		return proposalHierarchyService;
 	}
 
@@ -249,10 +243,15 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
             return getModelAndViewService().showDialog("PropDev-Close-Dialog", true, form);
         }else if (dialogResponse.getResponse().equals("yes")){
             super.save(form);
-            return getNavigationControllerService().returnToHub(form);
+            return closeWithoutSave(form);
         } else if (dialogResponse.getResponse().equals("no")) {
-            return getNavigationControllerService().returnToHub(form);
+            return closeWithoutSave(form);
         }
         return getModelAndViewService().getModelAndView(form);
+    }
+
+    @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=closeWithoutSave")
+    public ModelAndView closeWithoutSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        return getNavigationControllerService().returnToHub(form);
     }
 }

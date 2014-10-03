@@ -37,7 +37,10 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImp
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,8 +108,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    }
 
     protected  ModelAndView returnToDocument(ProposalDevelopmentDocumentForm form, String newDocNum) {
-        DocumentType docType = getDocumentTypeService().getDocumentTypeByName(form.getDocTypeName());
-        String docHandlerUrl = docType.getResolvedDocumentHandlerUrl();
+        String docHandlerUrl = getDocHandlerUrl(form);
         Properties props = new Properties();
         props.put(KewApiConstants.COMMAND_PARAMETER, KewApiConstants.DOCSEARCH_COMMAND);
         props.put(KewApiConstants.DOCUMENT_ID_PARAMETER, newDocNum);
@@ -115,6 +117,11 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         }
 
         return getModelAndViewService().performRedirect(form, docHandlerUrl, props);
+    }
+
+    protected String getDocHandlerUrl(ProposalDevelopmentDocumentForm form) {
+        DocumentType docType = getDocumentTypeService().getDocumentTypeByName(form.getDocTypeName());
+        return docType.getResolvedDocumentHandlerUrl();
     }
 
    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
@@ -199,18 +206,32 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=docHandler")
    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
            HttpServletResponse response) throws Exception {
-       ModelAndView modelAndView = getTransactionalDocumentControllerService().docHandler(form);
-       ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
-       propDevForm.initialize();
-       propDevForm.getCustomDataHelper().prepareCustomData();
-       if (CollectionUtils.isNotEmpty(propDevForm.getDevelopmentProposal().getProposalChangedDataList())) {
-        getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-DetailsPage","info.dataoverride.occured");
+       ProposalDevelopmentDocument document;
+       boolean isDeleted = false;
+       if(!ObjectUtils.isNull(form.getDocId())) {
+           document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(form.getDocId());
+           isDeleted = document.isProposalDeleted();
        }
-       if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
-           ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm);
-           propDevForm.getView().setEntryPageId("PropDev-SubmitPage");
+       if (isDeleted) {
+            Properties props = new Properties();
+            props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
+            props.put(UifConstants.UrlParams.VIEW_ID, "PropDev-DeletedView");
+            return getModelAndViewService().performRedirect(form, "proposalDevelopment", props);
        }
-       return modelAndView;
+       else {
+            ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
+            ModelAndView modelAndView = getTransactionalDocumentControllerService().docHandler(form);
+            propDevForm.initialize();
+            propDevForm.getCustomDataHelper().prepareCustomData();
+            if (CollectionUtils.isNotEmpty(propDevForm.getDevelopmentProposal().getProposalChangedDataList())) {
+               getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-DetailsPage", "info.dataoverride.occured");
+            }
+            if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
+               ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm);
+               propDevForm.getView().setEntryPageId("PropDev-SubmitPage");
+            }
+            return modelAndView;
+       }
    }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=editCollectionLine")
