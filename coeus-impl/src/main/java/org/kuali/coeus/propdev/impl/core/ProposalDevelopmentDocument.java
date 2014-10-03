@@ -130,7 +130,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @Convert(converter = BooleanYNConverter.class)
     private Boolean proposalDeleted = Boolean.FALSE;
 
-    @OneToOne(mappedBy = "proposalDocument", cascade = CascadeType.ALL)
+    @OneToOne(orphanRemoval = true, mappedBy = "proposalDocument", cascade = CascadeType.ALL)
     private DevelopmentProposal developmentProposal;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })

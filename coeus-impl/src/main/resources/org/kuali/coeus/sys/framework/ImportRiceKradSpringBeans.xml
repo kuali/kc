@@ -129,4 +129,8 @@
         </property>
     </bean>
 
+    <bean id="viewHelperService" class="org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl" />
+
+    <bean id="viewPresentationControllerBase" class="org.kuali.rice.krad.uif.view.ViewPresentationControllerBase" />
+
 </beans>
