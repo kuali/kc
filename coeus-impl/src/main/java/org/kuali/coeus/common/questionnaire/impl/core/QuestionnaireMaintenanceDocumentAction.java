@@ -81,8 +81,9 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private VersioningService versioningService;
 
     protected VersioningService getVersioningService (){
-        if (versioningService == null)
-            KcServiceLocator.getService(VersioningService.class);
+        if (versioningService == null) {
+         versioningService = KcServiceLocator.getService(VersioningService.class);
+        }
         return versioningService;
     }
 
