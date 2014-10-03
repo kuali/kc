@@ -150,10 +150,10 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
                 currentAnticipatedIndirect = currentAnticipatedIndirect.subtract(penTran.getAnticipatedIndirectAmount());
             }
         }
-        if(!awardHierarchyNode.getObligatedTotalDirect().equals(currentObligatedDirect)|| 
+        if(timeAndMoneyForm.getTimeAndMoneyDocument().getPendingTransactions().size() == 0 && (!awardHierarchyNode.getObligatedTotalDirect().equals(currentObligatedDirect)||
                 !awardHierarchyNode.getObligatedTotalIndirect().equals(currentObligatedIndirect) ||
                     !awardHierarchyNode.getAnticipatedTotalDirect().equals(currentAnticipatedDirect) ||
-                        !awardHierarchyNode.getAnticipatedTotalIndirect().equals(currentAnticipatedIndirect)){
+                        !awardHierarchyNode.getAnticipatedTotalIndirect().equals(currentAnticipatedIndirect))){
             ScaleTwoDecimal obligatedChangeDirect = awardHierarchyNode.getObligatedTotalDirect().subtract(currentObligatedDirect);
             ScaleTwoDecimal obligatedChangeIndirect = awardHierarchyNode.getObligatedTotalIndirect().subtract(currentObligatedIndirect);
             ScaleTwoDecimal anticipatedChangeDirect = awardHierarchyNode.getAnticipatedTotalDirect().subtract(currentAnticipatedDirect);
@@ -224,7 +224,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     private boolean createAndValidateDisabledViewTransaction(TimeAndMoneyForm timeAndMoneyForm, AwardAmountInfo aai, Award award,
                                                             TimeAndMoneyDocument timeAndMoneyDocument, AwardHierarchyNode ahn, List<TransactionDetail> moneyTransactionDetailItems) {
         boolean result = false;  // assume no change to totals
-        AwardHierarchyNode awardHierarchyNode = timeAndMoneyForm.getAwardHierarchyNodeItems().get(1);
+        AwardHierarchyNode awardHierarchyNode = timeAndMoneyForm.getAwardHierarchyNodeItems().get(timeAndMoneyForm.getAwardHierarchyNodeItems().size() - 1);
         transactionRuleImpl = new TransactionRuleImpl();
         PendingTransaction pendingTransaction = new PendingTransaction();
         pendingTransaction.setComments("Single Node Money Transaction");
@@ -242,10 +242,17 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
                 currentAnticipated = currentAnticipated.subtract(penTran.getAnticipatedAmount());
             }
         }
-        if(!awardHierarchyNode.getAmountObligatedToDate().equals(currentObligated)
-                || !awardHierarchyNode.getAnticipatedTotalAmount().equals(currentAnticipated)){
+
+        /*
+            the award hierarchy node loaded is for the current view and is not the updated total. we need to somehow compare to latest
+            total. If transactions are present, typically, this total is right so SNT do not
+            need to occur. hence checking for empty pending transactions
+             */
+        if(timeAndMoneyForm.getTimeAndMoneyDocument().getPendingTransactions().size() == 0 && (!awardHierarchyNode.getAmountObligatedToDate().equals(currentObligated)
+                || !awardHierarchyNode.getAnticipatedTotalAmount().equals(currentAnticipated))) {
             ScaleTwoDecimal obligatedChange = awardHierarchyNode.getAmountObligatedToDate().subtract(currentObligated);
             ScaleTwoDecimal anticipatedChange = awardHierarchyNode.getAnticipatedTotalAmount().subtract(currentAnticipated);
+
             if(transactionRuleImpl.processParameterDisabledRules(awardHierarchyNode, aai, timeAndMoneyDocument)){
                 List<Award> awardItems = new ArrayList<Award>();
                 awardItems.add(award);
@@ -774,7 +781,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, timeAndMoneyDocument);
         
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm, rootAwardNumber);
-        
+
         return forward;
     }
          
