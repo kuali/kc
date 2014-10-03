@@ -48,7 +48,6 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
     public static final String AWARD_PERSON_CREDIT_SPLIT_ERROR_MSG_KEY = "error.award.person.credit.split.error";
     public static final String AWARD_UNIT_CREDIT_SPLIT_LIST_ERROR_KEY = "document.awardList[0].projectPersons.awardPersonUnitCreditSplits";
     public static final String AWARD_PERSON_UNIT_CREDIT_SPLIT_ERROR_MSG_KEY = "error.award.person.unit.credit.split.error";
-    private static final String CONTACTS_AUDIT_ERRORS = "contactsCreditSplitAuditErrors";
     
     private transient Collection<InvestigatorCreditType> investigatorCreditTypes;
     private transient ParameterService parameterService;
@@ -370,8 +369,13 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_ERRORS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
-                                                                                          auditErrors, Constants.AUDIT_ERRORS));
+        	AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(Constants.CONTACTS_AUDIT_ERROR_KEY_NAME);
+            if (existingErrors == null) {
+                KNSGlobalVariables.getAuditErrorMap().put(Constants.CONTACTS_AUDIT_ERROR_KEY_NAME, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
+                                                                                              auditErrors, Constants.AUDIT_ERRORS));
+            } else {
+                existingErrors.getAuditErrorList().addAll(auditErrors);
+            }
         }
     }
 }
