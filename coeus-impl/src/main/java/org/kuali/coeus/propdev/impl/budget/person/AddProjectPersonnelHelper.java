@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.person;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
@@ -47,6 +48,7 @@ public class AddProjectPersonnelHelper extends AddProjectBudgetLineItemHelper {
         editBudgetPerson = new BudgetPerson();
         budgetPersonnelDetail = new BudgetPersonnelDetails();
         budgetPersonGroupName="";
+        tbnPersons = new ArrayList<TbnPerson>();
     }
     
 	public BudgetPerson getEditBudgetPerson() {
