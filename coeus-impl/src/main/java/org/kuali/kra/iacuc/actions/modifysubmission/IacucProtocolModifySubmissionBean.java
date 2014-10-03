@@ -95,20 +95,20 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
         if (submission != null) {
             // whenever submission is not null, we will show the data chosen for the last submission          
             IacucProtocolForm iacucProtocolForm = (IacucProtocolForm)getActionHelper().getProtocolForm();
-            reviewers.clear();
             if (iacucProtocolForm.isReinitializeModifySubmissionFields()) {
                 iacucProtocolForm.setReinitializeModifySubmissionFields(false);
+                reviewers.clear();
                 submissionTypeCode = submission.getSubmissionTypeCode();
                 protocolReviewTypeCode = submission.getProtocolReviewTypeCode();
                 submissionQualifierTypeCode = submission.getSubmissionTypeQualifierCode();
                 billable = submission.isBillable();
                 committeeId = submission.getCommitteeId();
                 scheduleId = submission.getScheduleId();
-            }
-                 
-            if (!StringUtils.isBlank(committeeId)) {
-                if (!StringUtils.isBlank(scheduleId) || !isFullCommmitteeReview(submission)) {
-                    populateReviewers(committeeId, scheduleId, submission);
+
+                if (!StringUtils.isBlank(committeeId)) {
+                    if (!StringUtils.isBlank(scheduleId) || !isFullCommmitteeReview(submission)) {
+                        populateReviewers(committeeId, scheduleId, submission);
+                    }
                 }
             }
         }   
