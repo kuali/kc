@@ -28,6 +28,7 @@
 			<list>
 				<value>scripts/common/questionnaire.js</value>
 				<value>scripts/common/medusa.js</value>
+                <value>scripts/common/wizard.js</value>
                 <value>scripts/common/dialog.js</value>
 				<value>scripts/propdev/core.js</value>
 				<value>scripts/propdev/person.js</value>

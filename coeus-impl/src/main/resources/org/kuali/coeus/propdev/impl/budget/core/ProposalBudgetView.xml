@@ -25,6 +25,7 @@
 		<property name="additionalScriptFiles">
 			<list>
 				<value>scripts/common/dialog.js</value>
+                <value>scripts/common/wizard.js</value>
 				<value>scripts/common/inlineEdit.js</value>
 				<value>scripts/propdev/budget.js</value>
 			</list>

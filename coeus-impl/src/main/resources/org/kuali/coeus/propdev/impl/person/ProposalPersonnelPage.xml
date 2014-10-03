@@ -71,7 +71,7 @@
                     <list>
                         <bean parent="PropDev-PersonnelPage-WizardButton-Continue"
                               p:methodToCall="performPersonnelSearch" p:actionParameters="PropDev-PersonnelPage-Wizard.step:1"
-                              p:order="10" />
+                              p:order="10" p:successCallback="Kc.Wizard.returnToFirstResultsPage();"/>
                     </list>
                 </property>
             </bean>

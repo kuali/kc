@@ -234,3 +234,8 @@ input[type="checkbox"] {
     }
 }
 
+a.paginate_active {
+    color: white;
+    background-color: #07C;
+}
+

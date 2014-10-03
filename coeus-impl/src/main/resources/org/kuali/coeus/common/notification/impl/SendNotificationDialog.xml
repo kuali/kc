@@ -45,6 +45,7 @@
                     <list>
                         <bean parent="Kc-SendNotification-WizardButton" p:actionLabel="Search for Recipients"
                               p:methodToCall="performRecipientSearch" p:actionParameters="Kc-SendNotification-Wizard.step:1"
+                              p:successCallback="Kc.Wizard.returnToFirstResultsPage();"
                               p:order="10" />
                     </list>
                 </property>
