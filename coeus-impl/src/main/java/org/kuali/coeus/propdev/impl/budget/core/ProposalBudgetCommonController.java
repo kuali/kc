@@ -14,6 +14,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -248,6 +249,16 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         }
         return getRefreshControllerService().refresh(form);
     }
+    
+    @RequestMapping(params="methodToCall=retrieveEditLineDialog")
+	public ModelAndView retrieveEditLineDialog(UifFormBase form) {
+		return getCollectionControllerService().retrieveEditLineDialog(form);
+	}
+
+    @RequestMapping(params="methodToCall=closeEditLineDialog")
+	public ModelAndView closeEditLineDialog(UifFormBase form) {
+		return getCollectionControllerService().closeEditLineDialog(form);
+	}    
 
 	public ProposalBudgetSharedController getProposalBudgetSharedController() {
 		return proposalBudgetSharedController;

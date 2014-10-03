@@ -115,8 +115,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             newSubAwardFile.setSubAwardXmlFileData(subAward.getSubAwardXmlFileData());
         }
         newSubAwardFile.setSubAwardXfdFileName(newFileName);
-        newSubAwardFile.setBudgetId(subAward.getBudgetId());
-        newSubAwardFile.setSubAwardNumber(subAward.getSubAwardNumber());
+        newSubAwardFile.setBudgetSubAward(subAward);
         subAward.setSubAwardXfdFileName(newFileName);
         subAward.setXfdUpdateUser(getLoggedInUserNetworkId());
         subAward.setXfdUpdateTimestamp(dateTimeService.getCurrentTimestamp());
@@ -429,12 +428,13 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         //extarct xml from the pdf because the stored xml has been modified
         if (budgetSubAward.getSubAwardXfdFileData() == null || budgetSubAward.getSubAwardXfdFileData().length == 0) {
             errors.add(new String[]{Constants.SUBAWARD_FILE_NOT_EXTRACTED});
-            return false;
+            return true;
         }
         PdfReader reader = new PdfReader(budgetSubAward.getSubAwardXfdFileData());
         byte[] xmlContents = getXMLFromPDF(reader);
         if (xmlContents == null) {
-            return false;
+        	errors.add(new String[]{Constants.SUBAWARD_FILE_NOT_EXTRACTED});
+            return true;
         }
         javax.xml.parsers.DocumentBuilderFactory domParserFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
         javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
@@ -626,8 +626,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             budgetSubAwardAttachmentBean.setName(encodedContentId);
 
             budgetSubAwardAttachmentBean.setType(contentType);
-            budgetSubAwardAttachmentBean.setBudgetId(budgetSubAwardBean.getBudgetId());
-            budgetSubAwardAttachmentBean.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
+            budgetSubAwardAttachmentBean.setBudgetSubAward(budgetSubAwardBean);
 
             attachmentList.add(budgetSubAwardAttachmentBean);
         }

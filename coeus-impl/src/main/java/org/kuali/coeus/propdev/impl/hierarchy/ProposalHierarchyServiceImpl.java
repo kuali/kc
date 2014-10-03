@@ -748,14 +748,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 newSubAwards.setVersionNumber(null);
                 newSubAwards.setHierarchyProposalNumber(childProposalNumber);
                 for (BudgetSubAwardAttachment attachment : newSubAwards.getBudgetSubAwardAttachments()) {
-                    attachment.setSubAwardNumber(newSubAwards.getSubAwardNumber());
-                    attachment.setBudgetId(parentBudget.getBudgetId());
+                	attachment.setBudgetSubAward(newSubAwards);
                     attachment.setId(null);
                     attachment.setVersionNumber(null);
                 }
                 for (BudgetSubAwardFiles files : newSubAwards.getBudgetSubAwardFiles()) {
-                    files.setSubAwardNumber(newSubAwards.getSubAwardNumber());
-                    files.setBudgetId(parentBudget.getBudgetId());
+                	files.setBudgetSubAward(newSubAwards);
                     files.setVersionNumber(null);
                 }
                 dataObjectService.save(newSubAwards);
@@ -852,7 +850,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                             
                             for (BudgetPersonnelCalculatedAmount calAmt : details.getBudgetPersonnelCalculatedAmounts()) {
                                 calAmt.setBudgetPersonnelCalculatedAmountId(null);
-                                calAmt.setBudgetPersonnelLineItemId(null);
                                 calAmt.setBudgetId(budgetId);
 
                                 calAmt.setBudgetPeriod(budgetPeriod);

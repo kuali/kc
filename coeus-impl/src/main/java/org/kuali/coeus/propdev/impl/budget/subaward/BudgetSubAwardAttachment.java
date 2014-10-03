@@ -38,29 +38,18 @@ public class BudgetSubAwardAttachment extends KcPersistableBusinessObjectBase im
     @Column(name = "CONTENT_TYPE")
     private String type;
 
-    @Column(name = "SUB_AWARD_NUMBER")
-    private Integer subAwardNumber;
-
     @PortableSequenceGenerator(name = "SEQ_SUB_AWD_BGT_ATT_ID")
     @GeneratedValue(generator = "SEQ_SUB_AWD_BGT_ATT_ID")
     @Id
     @Column(name = "SUB_AWARD_ATTACHMENT_ID")
     private Long id;
-
-    @Column(name = "BUDGET_ID")
-    private Long budgetId;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
+    private BudgetSubAwards budgetSubAward;
 
     public BudgetSubAwardAttachment() {
         super();
-    }
-
-    @Override
-    public Long getBudgetId() {
-        return budgetId;
-    }
-
-    public void setBudgetId(Long budgetId) {
-        this.budgetId = budgetId;
     }
 
     @Override
@@ -69,16 +58,7 @@ public class BudgetSubAwardAttachment extends KcPersistableBusinessObjectBase im
     }
 
     public void setName(String contentId) {
-        this.name = name;
-    }
-
-    @Override
-    public Integer getSubAwardNumber() {
-        return subAwardNumber;
-    }
-
-    public void setSubAwardNumber(Integer subAwardNumber) {
-        this.subAwardNumber = subAwardNumber;
+        this.name = contentId;
     }
 
     @Override
@@ -96,7 +76,7 @@ public class BudgetSubAwardAttachment extends KcPersistableBusinessObjectBase im
     }
 
     public void setType(String contentType) {
-        this.type = type;
+        this.type = contentType;
     }
 
     @Override
@@ -107,4 +87,30 @@ public class BudgetSubAwardAttachment extends KcPersistableBusinessObjectBase im
     public void setId(Long id) {
         this.id = id;
     }
+
+	public BudgetSubAwards getBudgetSubAward() {
+		return budgetSubAward;
+	}
+
+	public void setBudgetSubAward(BudgetSubAwards budgetSubAward) {
+		this.budgetSubAward = budgetSubAward;
+	}
+	
+	@Override
+	public Integer getSubAwardNumber() {
+		if (budgetSubAward != null) {
+			return budgetSubAward.getSubAwardNumber();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public Long getBudgetId() {
+		if (budgetSubAward != null) {
+			return budgetSubAward.getBudgetId();
+		} else {
+			return null;
+		}		
+	}	
 }

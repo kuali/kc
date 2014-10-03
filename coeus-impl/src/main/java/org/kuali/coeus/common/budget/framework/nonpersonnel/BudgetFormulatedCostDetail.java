@@ -172,9 +172,4 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
 	public void setBudgetLineItem(BudgetLineItem budgetLineItem) {
 		this.budgetLineItem = budgetLineItem;
 	}
-
-	public void setBudgetLineItemId(Long budgetLineItemId) {
-		this.budgetLineItemId = budgetLineItemId;
-	}
-
 }

@@ -19,6 +19,13 @@ Kc.PropDev.Budget = Kc.PropDev.Budget || {};
         }
         return totalUnallocated;
     };
+    namespace.closeDialogWithoutError = function(dialogId) {
+    	if ($("#" + dialogId).find(".uif-hasError").length == 0) {
+    		dismissDialog(dialogId);
+    		$("body").removeClass("modal-open");
+    		$(".modal-backdrop").remove();
+    	}
+    };
 })(Kc.PropDev.Budget, jQuery);
 
 function totalUnallocatedCostSharing (values){

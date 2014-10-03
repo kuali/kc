@@ -15,13 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -43,12 +37,10 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
     @Id
     @Column(name = "SUBAWARD_PERIOD_DETAIL_ID")
     private Long id;
-
-    @Column(name = "SUBAWARD_NUMBER")
-    private Integer subAwardNumber;
-
-    @Column(name = "BUDGET_ID")
-    private Long budgetId;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUBAWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
+    private BudgetSubAwards budgetSubAward;     
 
     @Column(name = "BUDGET_PERIOD")
     private Integer budgetPeriod;
@@ -73,11 +65,11 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
     private transient boolean amountsModified = false;
 
     public BudgetSubAwardPeriodDetail() {
+    	super();
     }
 
     public BudgetSubAwardPeriodDetail(BudgetSubAwards subAward, BudgetPeriod period) {
-        this.subAwardNumber = subAward.getSubAwardNumber();
-        this.budgetId = period.getBudgetId();
+    	this.budgetSubAward = subAward;
         this.budgetPeriod = period.getBudgetPeriod();
     }
 
@@ -135,14 +127,6 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
         this.costShare = costShare;
     }
 
-    public Long getBudgetId() {
-        return budgetId;
-    }
-
-    public void setBudgetId(Long budgetId) {
-        this.budgetId = budgetId;
-    }
-
     @Override
     public ScaleTwoDecimal getTotalCost() {
         return totalCost;
@@ -150,15 +134,6 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
 
     public void setTotalCost(ScaleTwoDecimal totalCost) {
         this.totalCost = totalCost;
-    }
-
-    @Override
-    public Integer getSubAwardNumber() {
-        return subAwardNumber;
-    }
-
-    public void setSubAwardNumber(Integer subAwardNumber) {
-        this.subAwardNumber = subAwardNumber;
     }
 
     public void computeTotal() {
@@ -175,4 +150,30 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
     public void setAmountsModified(boolean amountsModified) {
         this.amountsModified = amountsModified;
     }
+    
+	public BudgetSubAwards getBudgetSubAward() {
+		return budgetSubAward;
+	}
+
+	public void setBudgetSubAward(BudgetSubAwards budgetSubAward) {
+		this.budgetSubAward = budgetSubAward;
+	}
+
+	@Override
+	public Integer getSubAwardNumber() {
+		if (budgetSubAward != null) {
+			return budgetSubAward.getSubAwardNumber();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public Long getBudgetId() {
+		if (budgetSubAward != null) {
+			return budgetSubAward.getBudgetId();
+		} else {
+			return null;
+		}		
+	}    
 }

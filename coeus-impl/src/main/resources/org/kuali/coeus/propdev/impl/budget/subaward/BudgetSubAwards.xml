@@ -15,7 +15,6 @@
       <list>
         <ref bean="BudgetSubAwards-subAwardNumber" />
         <ref bean="BudgetSubAwards-comments" />
-        <ref bean="BudgetSubAwards-proposalNumber" />
         <ref bean="BudgetSubAwards-budgetVersionNumber" />
         <ref bean="BudgetSubAwards-organizationId" />
         <ref bean="BudgetSubAwards-organizationName" />
@@ -83,29 +82,6 @@
     </property>
     <property name="summary" value="Comments" />
     <property name="description" value="Comments" />
-  </bean>
-
-  <bean id="BudgetSubAwards-proposalNumber" parent="BudgetSubAwards-proposalNumber-parentBean"/>
-  <bean id="BudgetSubAwards-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="proposalNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Proposal Number" />
-    <property name="shortLabel" value="Proposal Number" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="12" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Proposal Number" />
-    <property name="description" value="Proposal Number" />
   </bean>
 
   <bean id="BudgetSubAwards-budgetVersionNumber" parent="BudgetSubAwards-budgetVersionNumber-parentBean"/>
@@ -338,7 +314,6 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="subAwardNumber" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="budgetVersionNumber" p:forceInquiry="true"/>
               <bean parent="FieldDefinition" p:attributeName="versionNumber" p:forceInquiry="true"/>
@@ -367,7 +342,6 @@
           <property name="layoutManager.numberOfColumns" value="2"/>
           <property name="items">
             <list>
-              <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
               <bean p:propertyName="subAwardNumber" parent="Uif-DataField"/>
               <bean p:propertyName="budgetVersionNumber" parent="Uif-DataField"/>
               <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
@@ -397,7 +371,6 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="subAwardNumber"/>
         <bean parent="FieldDefinition" p:attributeName="budgetVersionNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
         <bean parent="FieldDefinition" p:attributeName="versionNumber"/>
         <bean parent="FieldDefinition" p:attributeName="comments"/>
         <bean parent="FieldDefinition" p:attributeName="organizationName"/>
@@ -413,7 +386,6 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="subAwardNumber" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="budgetVersionNumber" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="versionNumber" p:forceInquiry="true"/>
         <bean parent="FieldDefinition" p:attributeName="comments"/>
         <bean parent="FieldDefinition" p:attributeName="organizationName"/>
@@ -434,7 +406,6 @@
       <list>
         <bean p:propertyName="subAwardNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="budgetVersionNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="proposalNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="versionNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="comments" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="organizationName" parent="Uif-LookupCriteriaInputField"/>
@@ -450,7 +421,6 @@
       <list>
         <bean p:propertyName="subAwardNumber" parent="Uif-DataField"/>
         <bean p:propertyName="budgetVersionNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
         <bean p:propertyName="versionNumber" parent="Uif-DataField"/>
         <bean p:propertyName="comments" parent="Uif-DataField"/>
         <bean p:propertyName="organizationName" parent="Uif-DataField"/>

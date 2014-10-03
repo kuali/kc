@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2014 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean id="PropBudget-SubawardsPage" parent="PropBudget-SubawardsPage-parentBean" />
+	<bean id="PropBudget-SubawardsPage-parentBean" parent="PropBudget-Page">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-SubawardsPage-CollectionGroup" />
+			</list>
+		</property>
+		<property name="header">
+			<bean parent="Uif-PageHeader" />
+		</property>
+
+	</bean>
+
+	<bean id="PropBudget-SubawardsPage-CollectionGroup"
+		parent="PropBudget-SubawardsPage-CollectionGroup-parentBean" />
+	<bean id="PropBudget-SubawardsPage-CollectionGroup-parentBean"
+		parent="Uif-TableCollectionSection" abstract="true" p:headerText="Subawards"
+		p:propertyName="budget.budgetSubAwards"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"
+		p:addWithDialog="true" p:layoutManager.renderSequenceField="false"
+		p:editWithDialog="true" p:customEditLineDialog="true">
+		<property name="editLineDialogPrototype">
+			<bean parent="PropBudget-Subawards-Details-Section"/>
+		</property>
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="addWithDialogAction">
+			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Subaward" p:cssClasses="pull-right" p:iconClass="icon-plus"/>
+		</property>
+	    <property name="addLineDialog">
+	    	<bean id="PropBudget-SubawardsPage-CollectionGroup-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Subaward">
+			   <property name="footer.items">
+			     <list>
+			       <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"/>
+			       <bean parent="Uif-AddLineAction-Dialog" p:actionLabel="Add Subaward" p:dialogDismissOption="" 
+			       		p:successCallback="Kc.PropDev.Budget.closeDialogWithoutError('PropBudget-SubawardsPage-CollectionGroup-AddDialog');"/>
+			     </list>
+			   </property>	    	    	
+	    	</bean>
+	    </property>
+		<property name="header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message"
+							p:messageText="Upload a pre-formatted budget document for a subawardee organization or enter details manually."
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="organizationId"
+					p:order="10" p:readOnly="@{!#isAddLine}" p:propertyNamesForAdditionalDisplay="organization.organizationName" 
+					p:readOnlyDisplayReplacement="@{#fp.organization?.organizationName} (@{#fp.organizationId})"/>
+				<bean parent="Uif-InputField" p:propertyName="subAwardXfdFileName" p:label="File Name" 
+					p:order="20" p:render="@{!#isAddLine}" p:readOnly="true"/>
+				<bean parent="Uif-InputField" p:propertyName="newSubAwardFile" p:label="File Name" 
+					p:order="30" p:render="@{#isAddLine}">
+					<property name="control">
+						<bean parent="Uif-FileControl"/>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="comments" p:order="40" p:render="@{#isAddLine}"/>
+			</list>
+		</property>
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
+					p:iconClass="icon-trash" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-Subawards-Details-Section" parent="PropBudget-Subawards-Details-Section-parent" />
+	<bean id="PropBudget-Subawards-Details-Section-parent"
+		parent="Uif-DialogGroup" p:headerText="Add Subaward">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-SubawardsAttachments-Buttons-Section" p:order="10" />
+				<bean parent="PropBudget-SubawardsAttachments-Details-Section" p:order="20" />
+			</list>
+		</property>
+		<property name="footer.items">
+			<list>
+				<bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Changes" p:order="10" />
+				<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-SubawardsAttachments-Buttons-Section"
+		parent="PropBudget-SubawardsAttachments-Buttons-Section-parent" />
+	<bean id="PropBudget-SubawardsAttachments-Buttons-Section-parent"
+		parent="Uif-HorizontalFieldGroup" p:label="Attachment Details">
+		<property name="items">
+			<list>
+				<bean p:actionLabel="View PDF" parent="Uif-SecondaryActionButton-Small"
+					p:style="float: right;" p:order="10" />
+				<bean p:actionLabel="View XML" parent="Uif-SecondaryActionButton-Small"
+					p:style="float: right;" p:order="20" />
+				<bean p:actionLabel="Sync from PDF" parent="Uif-SecondaryActionButton-Small"
+					p:style="float: right;" p:order="30" />
+				<bean p:actionLabel="Replace" parent="Uif-SecondaryActionButton-Small"
+					p:style="float: right;" p:order="40" />
+				<bean p:actionLabel="Delete" parent="Uif-SecondaryActionButton-Small"
+					p:style="float: right;" p:order="50" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-SubawardsAttachments-Details-Section"
+		parent="PropBudget-SubawardsAttachments-Details-Section-parent" />
+	<bean id="PropBudget-SubawardsAttachments-Details-Section-parent"
+		parent="Uif-HorizontalBoxGroup">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-SubawardsAttachments-Subdetails-Section" p:order="10" />
+				<bean parent="Uif-InputField" p:propertyName="comments" p:order="20"/>
+				<bean p:actionLabel="Edit Comments" parent="Uif-SecondaryActionButton-Mini" p:order="30" p:style="float: left;" />
+				<bean parent="PropBudget-SubawardsAttachments-Details-CollectionGroup" p:order="40" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-SubawardsAttachments-Subdetails-Section"
+		parent="PropBudget-SubawardsAttachments-Subdetails-Section-parent" />
+	<bean id="PropBudget-SubawardsAttachments-Subdetails-Section-parent"
+		parent="Uif-CssGridSubSection-2FieldLabelColumn">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="organizationName" p:order="10"/>
+				<bean parent="Uif-InputField" p:propertyName="formName" p:order="20"/>
+				<bean parent="Uif-InputField" p:propertyName="subAwardXfdFileName" p:order="30"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetSubAwardAttachments"
+					p:label="Attachments" p:order="40"/>
+				<bean parent="Uif-InputField" p:propertyName="xfdUpdateTimestamp" p:order="50" />
+				<bean parent="Uif-InputField" p:propertyName="xmlUpdateTimestamp" p:order="60" />
+				<bean parent="Uif-InputField" p:propertyName="subAwardStatusCode" p:order="70" />
+				<bean parent="Uif-InputField" p:propertyName="namespace" p:order="80" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-SubawardsAttachments-Details-CollectionGroup"
+		parent="PropBudget-SubawardsAttachments-Details-CollectionGroup-parentBean" />
+	<bean id="PropBudget-SubawardsAttachments-Details-CollectionGroup-parentBean"
+		parent="Uif-TableCollectionSection" abstract="true" p:headerText="Details"
+		p:propertyName="newBudgetSubaward"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"
+		p:addWithDialog="false" p:layoutManager.renderSequenceField="false"
+		p:renderLineActions="false">
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="totalDirectCost"
+					p:order="10"/>
+				<bean parent="Uif-InputField" p:propertyName="totalIndirectCost"
+					p:order="20"/>
+				<bean parent="Uif-InputField" p:propertyName="costSharingAmount"
+					p:order="30"/>
+				<bean parent="Uif-InputField" p:propertyName="totalCost"
+					p:label="Total Cost" p:order="40"/>
+			</list>
+		</property>
+	</bean>
+</beans>

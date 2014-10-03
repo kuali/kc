@@ -33,6 +33,7 @@ import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 
@@ -44,9 +45,6 @@ import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, Comparable<BudgetSubAwards>, BudgetSubAwardsContract {
 
     private static final long serialVersionUID = -857485535655759499L;
-
-    @Transient
-    private String proposalNumber;
 
     @Column(name = "BUDGET_ID")
     @Id
@@ -64,9 +62,6 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
 
     @Column(name = "ORGANIZATION_ID")
     private String organizationId;
-
-    @Column(name = "ORGANIZATION_NAME")
-    private String organizationName;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ORGANIZATION_ID", insertable = false, updatable = false)
@@ -106,16 +101,13 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
     @Column(name = "FORM_NAME")
     private String formName;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
+    @OneToMany(mappedBy = "budgetSubAward", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetSubAwardAttachment> budgetSubAwardAttachments;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
+    @OneToMany(mappedBy = "budgetSubAward", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetSubAwardFiles> budgetSubAwardFiles;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUB_AWARD_NUMBER", referencedColumnName = "SUBAWARD_NUMBER") })
+    @OneToMany(mappedBy = "budgetSubAward", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetSubAwardPeriodDetail> budgetSubAwardPeriodDetails;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
@@ -129,7 +121,7 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
     private transient boolean edit = false;
 
     @Transient
-    private transient FormFile newSubAwardFile;
+    private transient MultipartFile newSubAwardFile;
 
     @Transient
     private transient boolean newSubAwardFileError = false;
@@ -147,15 +139,6 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
 
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;
-    }
-
-    @Override
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
     }
 
     @Override
@@ -187,11 +170,11 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
 
     @Override
     public String getOrganizationName() {
-        return organizationName;
-    }
-
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
+    	if (organization != null) {
+    		return organization.getOrganizationName();
+    	} else {
+    		return null;
+    	}
     }
 
     @Override
@@ -399,11 +382,11 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
         this.edit = edit;
     }
 
-    public FormFile getNewSubAwardFile() {
+    public MultipartFile getNewSubAwardFile() {
         return newSubAwardFile;
     }
 
-    public void setNewSubAwardFile(FormFile newSubAwardFile) {
+    public void setNewSubAwardFile(MultipartFile newSubAwardFile) {
         this.newSubAwardFile = newSubAwardFile;
     }
 
@@ -448,13 +431,7 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
     }
 
     public void setOrganizationId(String organizationId) {
-        if (!StringUtils.equals(this.organizationId, organizationId)) {
-            this.organizationId = organizationId;
-            refreshReferenceObject("organization");
-            if (getOrganization() != null) {
-                setOrganizationName(getOrganization().getOrganizationName());
-            }
-        }
+        this.organizationId = organizationId;
     }
 
     public Organization getOrganization() {
@@ -462,6 +439,9 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
     }
 
     public void setOrganization(Organization organization) {
+    	if (organization != null) {
+    		organizationId = organization.getOrganizationId();
+    	}
         this.organization = organization;
     }
 
