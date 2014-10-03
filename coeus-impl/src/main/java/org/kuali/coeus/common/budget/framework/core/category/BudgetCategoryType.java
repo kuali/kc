@@ -17,6 +17,8 @@ package org.kuali.coeus.common.budget.framework.core.category;
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.budget.api.core.category.BudgetCategoryTypeContract;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -73,4 +75,9 @@ public class BudgetCategoryType extends KcPersistableBusinessObjectBase implemen
     public int compareTo(BudgetCategoryType o) {
         return this.sortId.compareTo(o.sortId);
     }
+
+    public boolean isCategoryParticipantSupport() {
+    	return getCode().equalsIgnoreCase(BudgetConstants.BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT);
+    }
+    
 }

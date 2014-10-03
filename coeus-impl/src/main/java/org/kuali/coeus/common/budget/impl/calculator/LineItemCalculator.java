@@ -65,9 +65,6 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
 
     public void populateCalculatedAmountLineItems() {
         if (bli.getBudgetLineItemCalculatedAmounts().size() <= 0) {
-            bli.refreshReferenceObject("budgetLineItemCalculatedAmounts");
-        }
-        if (bli.getBudgetLineItemCalculatedAmounts().size() <= 0) {
             setCalculatedAmounts(budget,bli);
         }
 
@@ -144,8 +141,6 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 budgetRateBase.setAppliedRate(ScaleTwoDecimal.returnZeroIfNull(appliedRate));
                 ScaleTwoDecimal calculatedCost = rateAndCost.getCalculatedCost();
                 ScaleTwoDecimal calculatedCostSharing = rateAndCost.getCalculatedCostSharing();
-//                budgetRateBase.setBaseCost(breakUpInterval.getApplicableAmt());
-//                budgetRateBase.setBaseCostSharing(breakUpInterval.getApplicableAmtCostSharing());
                 budgetRateBase.setBaseCostSharing(rateAndCost.getBaseCostSharingAmount());
                 budgetRateBase.setBaseCost(rateAndCost.getBaseAmount());
                 

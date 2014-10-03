@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2014 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="PropBudget-BudgetLineItem-Rates" parent="PropBudget-BudgetLineItem-Rates-parentBean" />
+	<bean id="PropBudget-BudgetLineItem-Rates-parentBean" parent="Uif-TableCollectionSection" p:propertyName="budgetLineItem.budgetLineItemCalculatedAmounts"
+		p:renderAddLine="false"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount"
+		p:renderLineActions="false" p:layoutManager.renderSequenceField="false">
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="rateClassCode"
+					p:label="Class" p:order="10"/>
+				<bean parent="Uif-DataField" p:propertyName="rateTypeCode"
+					p:label="Type" p:required="false" p:order="20"/>
+				<bean parent="Uif-DataField" p:propertyName="calculatedCost"
+					p:required="false" p:order="30"/>
+				<bean parent="Uif-DataField" p:propertyName="calculatedCostSharing"
+					p:order="40"/>
+				<bean parent="Uif-InputField" p:propertyName="applyRateFlag"
+					p:order="50"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- this dialog will be triggered from the controller -->
+	<bean id="PropBudget-ConfirmPeriodChangesDialog" parent="Uif-DialogGroup-YesNo"
+		p:promptText="You are about to enter costs in a later period. Doing so will prevent you from using the generate all periods function to auto-calculate later periods. Do you wish to continue?"/>
+
+</beans>

@@ -15,13 +15,15 @@
  */
 package org.kuali.coeus.common.budget.impl.core;
 
-import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -35,7 +37,7 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
     @Qualifier("dataObjectService")
 	DataObjectService dataObjectService;
     private String budgetCategoryTypeCode;
-    
+
     /**
      * Constructs the list of COST ELEMENT.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
@@ -49,25 +51,34 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();        
-        List<CostElement> costElements = (List<CostElement>)getDataObjectService().findAll(CostElement.class).getResults();
-        List<BudgetCategory> budgetCategoryCodes = (List<BudgetCategory>)getDataObjectService().findAll(BudgetCategory.class).getResults();
+        return getKeyValues(getBudgetCategoryTypeCode(), true);
+    }
 
+    public List<KeyValue> getKeyValues(String budgetCategoryTypeCode, boolean budgetCategoryTypeCodeEqual) {
+        return getCostElementKeyValues(budgetCategoryTypeCode, budgetCategoryTypeCodeEqual);
+    }
+    
+    private List<KeyValue> getCostElementKeyValues(String budgetCategoryTypeCode, boolean budgetCategoryTypeCodeEqual) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();        
+        List<CostElement> costElements = (List<CostElement>)getDataObjectService().findMatching(CostElement.class, QueryByCriteria.Builder.fromPredicates(getPredicates(budgetCategoryTypeCode, budgetCategoryTypeCodeEqual))).getResults();    
         for (CostElement costElement : costElements) {
-            for(BudgetCategory budgetCategory : budgetCategoryCodes){
-                if (costElement.getBudgetCategoryCode().equalsIgnoreCase(budgetCategory.getCode())){
-                    if (StringUtils.equalsIgnoreCase(budgetCategory.getBudgetCategoryTypeCode(),getBudgetCategoryTypeCode())){
-                        if (costElement.isActive()) {
-                            keyValues.add(new ConcreteKeyValue(costElement.getCostElement(), costElement.getDescription()));
-                        }
-                    }
-                }
-            } 
+            keyValues.add(new ConcreteKeyValue(costElement.getCostElement(), costElement.getDescription()));
         }
         // added comparator below to alphabetize lists on label
         Collections.sort(keyValues, new KeyValueComparator());
         keyValues.add(0, new ConcreteKeyValue("", "select"));
         return keyValues;
+    }
+    
+    private List<Predicate> getPredicates(String budgetCategoryTypeCode, boolean budgetCategoryTypeCodeEqual) {
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        predicates.add(PredicateFactory.equal(KRADPropertyConstants.ACTIVE, Boolean.TRUE));
+        if(budgetCategoryTypeCodeEqual) {
+            predicates.add(PredicateFactory.equal("budgetCategory.budgetCategoryTypeCode", budgetCategoryTypeCode));
+        }else {
+            predicates.add(PredicateFactory.notEqual("budgetCategory.budgetCategoryTypeCode", budgetCategoryTypeCode));
+        }
+        return predicates;
     }
     
     public String getBudgetCategoryTypeCode() {
@@ -90,4 +101,5 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
 	}
+
 }

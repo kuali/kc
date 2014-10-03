@@ -87,6 +87,9 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/distribution/ProposalBudgetCostSharingPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/person/ProposalBudgetAssignPersonnelToPeriodsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/nonpersonnel/ProposalBudgetBudgetNotesPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/nonpersonnel/ProposalBudgetNonPersonnelCostsPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/nonpersonnel/ProposalBudgetLineItemShared.xml</value>
+
 
                 <!-- Budget Mock View -->
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetView.xml</value>

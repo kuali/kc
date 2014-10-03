@@ -27,6 +27,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
@@ -151,6 +152,10 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
     @JoinColumn(name = "COST_ELEMENT", referencedColumnName = "COST_ELEMENT", insertable = false, updatable = false)
     private CostElement costElementBO;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    private Budget budget;
 
     //ignore the budget period bo during deep copy as any link up the budget object graph
     //will cause generateAllPeriods to consume large amounts of memory
@@ -633,6 +638,18 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 			personDetailGroup.append(")");
 		}
 		return personDetailGroup.toString();
+	}
+
+	public Budget getBudget() {
+		return budget;
+	}
+	
+	public void setBudget(Budget budget) {
+		this.budget = budget;
+	}
+	
+	public boolean isPersonnelLineItem() {
+		return getBudgetPersonnelDetailsList().size() > 0;
 	}
 
 }

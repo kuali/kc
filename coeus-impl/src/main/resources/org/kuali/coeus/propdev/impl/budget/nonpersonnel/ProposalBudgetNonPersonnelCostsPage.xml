@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2014 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="PropBudget-NonPersonnelCostsPage" parent="PropBudget-NonPersonnelCostsPage-parentBean" />
+	<bean id="PropBudget-NonPersonnelCostsPage-parentBean" parent="PropBudget-Page">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-NonPersonnelCosts-TabGroup" />
+			</list>
+		</property>
+		<property name="header">
+			<bean parent="Uif-PageHeader" />
+		</property>
+	</bean>
+
+	<bean id="PropBudget-NonPersonnelCosts-TabGroup" parent="PropBudget-NonPersonnelCosts-TabGroup-parentBean"/>
+	<bean id="PropBudget-NonPersonnelCosts-TabGroup-parentBean" abstract="true" parent="Kc-DynamicTabSection"
+		p:tabCollectionPropertyName="budget.budgetPeriods" p:expressionProperties="budgetPeriod:budgetPeriod,budgetPeriodId:budgetPeriodId"
+		p:idSuffixPropertyName="budgetPeriod" p:header.headerText="Non-Personnel Costs">
+		<property name="groupPrototype"><bean id="PropBudget-NonPersonnelCosts-LineItemDetails" parent="PropBudget-NonPersonnelCosts-PeriodTab"/></property>
+		<property name="header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message"
+							p:messageText="Add and configure non-personnel items for this budget period."
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-NonPersonnelCosts-PeriodTab" parent="PropBudget-NonPersonnelCosts-PeriodTab-parentBean" />
+	<bean id="PropBudget-NonPersonnelCosts-PeriodTab-parentBean" abstract="true" parent="Uif-TableCollectionSection" p:headerText="Period @{#budgetPeriod}"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem"
+		p:propertyName="budget.budgetLineItems" 
+		p:addWithDialog="false" p:renderAddLine="false" 
+		p:layoutManager.renderSequenceField="false"
+		p:renderInactiveToggleButton="false">
+		<property name="layoutManager.groupingTitle" value="@{#lp.budgetCategory.budgetCategoryType.description} @{#lp.budgetCategory.budgetCategoryType.categoryParticipantSupport ? '[css=pull-right]' + (#lp.budgetPeriodBO.numberOfParticipants == null ? 0: #lp.budgetPeriodBO.numberOfParticipants) + ' Participants (' + '[color=#B0BED9][action=editParticipantDetails,data={budgetPeriodId:' + #budgetPeriodId + '}][b]edit[/b][/action][/color])[/css]' : ' '}"/>
+		<property name="filters">
+			<list>
+				<bean parent="Uif-ConditionalCollectionFilter" p:expression="@{#line.budgetPeriod.toString() == #budgetPeriod and !#line.personnelLineItem}"/>
+			</list>
+		</property>
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="header.rightGroup">
+			<bean parent="Uif-HeaderRightGroup">
+				<property name="items">
+					<list>
+						<bean parent="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel" p:order="20"/>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="costElementBO.description"
+					p:order="10"/>
+				<bean parent="Uif-DataField" p:propertyName="lineItemDescription"
+					p:order="20"/>
+				<bean parent="Uif-DataField" p:propertyName="quantity" 
+					p:order="30"/>
+				<bean parent="Uif-DataField" p:propertyName="lineItemCost"
+					p:order="40"/>
+			</list>
+		</property>
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editNonPersonnelPeriodDetails"
+					p:actionLabel="Details" p:order="10">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="budgetPeriodId" value="@{#budgetPeriodId}"/>
+						</map>
+					</property>		
+				</bean>
+				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="20"
+					p:iconClass="icon-trash" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel" parent="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel-parentBean"/>
+	<bean id="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
+		p:successCallback="showDialog('PropBudget-NonPersonnelCostsPage-AddNonPersonnel');" p:actionLabel="Assign Non-Personnel..."
+		p:refreshId="PropBudget-NonPersonnelCostsPage-AddNonPersonnel"
+		p:methodToCall="assignLineItemToPeriod">
+		<property name="additionalSubmitData">
+			<map>
+				<entry key="budgetPeriodId" value="@{#budgetPeriodId}"/>
+			</map>
+		</property>		
+	</bean>	
+
+    <bean id="PropBudget-NonPersonnelCostsPage-AddNonPersonnel" parent="PropBudget-NonPersonnelCostsPage-AddNonPersonnel-parentBean"/>
+    <bean id="PropBudget-NonPersonnelCostsPage-AddNonPersonnel-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"
+          p:onHideDialogScript="jQuery('#PropBudget-NonPersonnelCostsPage-AddNonPersonnel').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-NonPersonnelCostsPage-AddNonPersonnel'));});"
+          p:header.headerText="Add Assigned Non-Personnel">
+        <property name="items">
+            <list>
+				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection" />
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add Non-Personnel Item to @{#fp.addProjectBudgetLineItemHelper.currentTabBudgetPeriod.budgetPeriod}" p:methodToCall="addLineItemToPeriod"
+                              p:refreshId="PropBudget-NonPersonnelCosts-LineItemDetails_@{#fp.addProjectBudgetLineItemHelper.currentTabBudgetPeriod.budgetPeriod}"
+                              p:dialogDismissOption="REQUEST"
+                              p:order="10"/>
+                        <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+	<!-- this dialog will be triggered from the controller -->
+	<bean id="PropBudget-ConfirmPeriodChangesDialog" parent="Uif-DialogGroup-YesNo"
+		p:promptText="You are about to enter costs in a later period. Doing so will prevent you from using the generate all periods function to auto-calculate later periods. Do you wish to continue?"/>
+
+	<bean id="PropBudget-EditNonPersonnelPeriod-Section" parent="PropBudget-EditNonPersonnelPeriod-Section-parent" />
+	<bean id="PropBudget-EditNonPersonnelPeriod-Section-parent" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper" abstract="true" parent="Uif-DialogGroup" 
+        p:onHideDialogScript="jQuery('#PropBudget-EditNonPersonnelPeriod-Section').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-EditNonPersonnelPeriod-Section'));});"
+		p:headerText="Edit Assigned Non-Personnel">
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="budgetLineItem.lineItemDescription"
+					p:style="font-weight: bold; font-size: larger;" p:order="10"/>
+				<ref bean="PropBudget-NonPersonnelCosts-Details-TabSection" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Changes" p:methodToCall="saveBudgetLineItem"
+							p:refreshId="PropBudget-NonPersonnelCosts-LineItemDetails_@{#fp.addProjectBudgetLineItemHelper.currentTabBudgetPeriod.budgetPeriod}"
+                      		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetLineItems,
+                      		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_ID}:PropBudget-NonPersonnelCosts-LineItemDetails,
+                      		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectBudgetLineItemHelper.editLineIndex}"
+							p:dialogDismissOption="REQUEST"
+							p:order="10" />
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Save And Apply To Other Periods"
+                      		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetLineItems,
+                      		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_ID}:PropBudget-NonPersonnelCosts-LineItemDetails,
+                      		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectBudgetLineItemHelper.editLineIndex}"
+							p:dialogDismissOption="REQUEST"
+							p:methodToCall="saveAndApplyToLaterPeriods" p:order="20" />
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync To Period Cost Direct Limit"
+							p:dialogDismissOption="REQUEST" p:methodToCall="syncToPeriodCostDirectLimit" p:order="30" />
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync To Period Cost Limit"
+							p:dialogDismissOption="REQUEST" 
+							p:methodToCall="syncToPeriodCostLimit" p:order="40" />
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
+							p:order="50" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-NonPersonnelCosts-Details-TabSection" parent="PropBudget-NonPersonnelCosts-Details-TabSection-parentBean" />
+	<bean id="PropBudget-NonPersonnelCosts-Details-TabSection-parentBean" parent="Uif-TabSection">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-NonPersonnelCosts-Details-Tab"
+					p:headerText="Details" p:order="10" />
+				<bean parent="PropBudget-NonPersonnelCosts-CostSharing-Tab"
+					p:headerText="Cost Sharing" p:order="20" />
+				<bean parent="PropBudget-NonPersonnelCosts-Rates-Tab"
+					p:headerText="Rates" p:order="30" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-NonPersonnelCosts-Details-Tab" parent="PropBudget-NonPersonnelCosts-Details-Tab-parentBean" />
+	<bean id="PropBudget-NonPersonnelCosts-Details-Tab-parentBean" abstract="true" parent="Uif-VerticalBoxSubSection">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection"/>
+				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection"/>
+				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PropBudget-NonPersonnelCosts-CostSharing-Tab" parent="PropBudget-NonPersonnelCosts-CostSharing-Tab-parentBean" />
+	<bean id="PropBudget-NonPersonnelCosts-CostSharing-Tab-parentBean" abstract="true" parent="Uif-VerticalBoxSubSection">
+		<property name="items">
+			<list>				
+				<ref bean="PropBudget-NonPersonnelCosts-CostSharing-Section" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PropBudget-NonPersonnelCosts-CostSharing-Section" parent="PropBudget-NonPersonnelCosts-CostSharing-Section-parentBean" />
+	<bean id="PropBudget-NonPersonnelCosts-CostSharing-Section-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.costSharingAmount"
+					p:required="false" p:order="10"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.underrecoveryAmount"
+					p:required="false" p:order="20"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.budgetJustification"
+					p:required="false" p:order="30" p:label="Justification"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-NonPersonnelCosts-Rates-Tab" parent="PropBudget-BudgetLineItem-Rates" />
+
+	<bean id="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean" />
+	<bean id="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="budgetCategoryTypeCode"
+					p:label="Category" p:order="10" p:required="false"
+					p:optionsFinder="#{#getService('budgetNonPersonnelBudgetCategoryTypeValuesFinder')}" 
+					p:optionsFinder.addBlankOption="false">
+			    	<property name="control">
+			      		<bean parent="Uif-DropdownControl"/>
+			    	</property>
+ 						</bean>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.costElement"
+					p:refreshWhenChangedPropertyNames="#fp.budgetCategoryTypeCode"
+					p:label="Object Code Name" p:optionsFinder="#{#getService('budgetNonPersonnelCostElementValuesFinder')}" 
+					p:optionsFinder.addBlankOption="false" p:order="20"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemCost"
+					p:label="Total Base Cost" p:order="30" p:required="false"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.quantity"
+					p:order="40" p:required="false"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemDescription"
+					p:order="50" p:required="false"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection-parentBean" />
+	<bean id="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.startDate"
+					p:required="false" p:order="10"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.endDate"
+					p:required="false" p:order="20"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection-parentBean" />
+	<bean id="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.applyInRateFlag"
+					p:order="10" p:label="Apply Inflation"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.submitCostSharingFlag"
+					p:order="20" p:label="Submit cost sharing"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.onOffCampusFlag"
+					p:order="30" p:label="On Campus"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection" parent="PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection-parent" />
+	<bean id="PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection-parent" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper" abstract="true" parent="Uif-DialogGroup" 
+        p:onHideDialogScript="jQuery('#PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection'));});"
+		p:headerText="Participants">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="currentTabBudgetPeriod.numberOfParticipants"
+					p:order="10" p:label="Number of Participants"/>
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Changes" p:methodToCall="saveParticipantDetails"
+							p:refreshId="PropBudget-NonPersonnelCosts-LineItemDetails_@{#fp.addProjectBudgetLineItemHelper.currentTabBudgetPeriod.budgetPeriod}"
+							p:dialogDismissOption="REQUEST"
+							p:order="10" />
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
+							p:order="20" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+</beans>
+                    

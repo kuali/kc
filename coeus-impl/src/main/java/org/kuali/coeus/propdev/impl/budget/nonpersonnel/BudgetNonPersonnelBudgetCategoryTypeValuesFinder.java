@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.core;
+package org.kuali.coeus.propdev.impl.budget.nonpersonnel;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -25,22 +30,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-@Component("budgetPersonnelCostElementValuesFinder")
-public class BudgetPersonnelCostElementValuesFinder extends CostElementValuesFinder {
-    
+@Component("budgetNonPersonnelBudgetCategoryTypeValuesFinder")
+public class BudgetNonPersonnelBudgetCategoryTypeValuesFinder extends BudgetCategoryTypeValuesFinder {
 	@Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
-	
-    @Override
+
+	@Override
     public List<KeyValue> getKeyValues() {
-        return super.getKeyValues(getPersonnelBudgetCategoryTypeCode(), true);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        predicates.add(PredicateFactory.notEqual("code", getPersonnelBudgetCategoryTypeCode()));
+        List<KeyValue> keyValues = super.getKeyValues(predicates);
+        keyValues.add(0, new ConcreteKeyValue("", "Select"));
+        return keyValues;
     }
-    
+
     private String getPersonnelBudgetCategoryTypeCode() {
         return this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.DOCUMENT_COMPONENT,Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
     }
-
+    
 	public ParameterService getParameterService() {
 		return parameterService;
 	}
@@ -48,4 +56,5 @@ public class BudgetPersonnelCostElementValuesFinder extends CostElementValuesFin
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
+   
 }

@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.budget.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -511,6 +512,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod) {
         Budget budget = budgetPeriod.getBudget();
         newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
+        newBudgetLineItem.setBudgetPeriodBO(budgetPeriod);
         newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
         newBudgetLineItem.setStartDate(budgetPeriod.getStartDate());
         newBudgetLineItem.setEndDate(budgetPeriod.getEndDate());
@@ -518,8 +520,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         newBudgetLineItem.setLineItemNumber(budget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
         newBudgetLineItem.setApplyInRateFlag(true);
         newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
-        newBudgetLineItem.refreshReferenceObject("costElementBO");
-        
+        refreshBudgetLineCostElement(newBudgetLineItem);
         // on/off campus flag enhancement
         String onOffCampusFlag = budget.getOnOffCampusFlag();
         if (onOffCampusFlag.equalsIgnoreCase(BudgetConstants.DEFAULT_CAMPUS_FLAG)) {
@@ -529,6 +530,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
         }
         newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
         newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
+        refreshBudgetLineBudgetCategory(newBudgetLineItem);
         
         if(isBudgetFormulatedCostEnabled()){
             List<String> formulatedCostElements = getFormulatedCostElements();
@@ -536,6 +538,18 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
                 newBudgetLineItem.setFormulatedCostElementFlag(true);
             }
         }
+    }
+
+    private void refreshBudgetLineCostElement(BudgetLineItem newBudgetLineItem) {
+		if(StringUtils.isNotEmpty(newBudgetLineItem.getCostElement())) {
+			getDataObjectService().wrap(newBudgetLineItem).fetchRelationship("costElementBO");
+		}
+    }
+
+    private void refreshBudgetLineBudgetCategory(BudgetLineItem newBudgetLineItem) {
+		if(StringUtils.isNotEmpty(newBudgetLineItem.getBudgetCategoryCode())) {
+			getDataObjectService().wrap(newBudgetLineItem).fetchRelationship("budgetCategory");
+		}
     }
     
     protected boolean isBudgetFormulatedCostEnabled() {

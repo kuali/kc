@@ -216,7 +216,7 @@
 							p:successCallback="dismissDialog('PropBudget-EditPersonnelPeriod-Section');"
 							p:order="10" />
 						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Calculate" p:methodToCall="calculatePersonSalaryDetails"
-							p:order="20" />
+							p:dialogDismissOption="REQUEST" p:order="20" />
 						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
 							p:order="30" />
 					</list>
@@ -263,10 +263,6 @@
 		</property>
 	</bean>
 
-	<!-- this dialog will be triggered from the controller -->
-	<bean id="PropBudget-ConfirmPersonnelPeriodChangesDialog" parent="Uif-DialogGroup-YesNo"
-		p:promptText="You are about to enter costs in a later period. Doing so will prevent you from using the generate all periods function to auto-calculate later periods. Do you wish to continue?"/>
-
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-SpinnerField" parent="PropBudget-AssignPersonnelToPeriodsPage-SpinnerField-parentBean" />
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-SpinnerField-parentBean" abstract="true" parent="Uif-InputField">
 		<property name="control">
@@ -297,7 +293,7 @@
 	
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates" parent="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-parent" />
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-parent" abstract="true" parent="Uif-DialogGroup" 
-		p:fieldBindingObjectPath="addProjectPersonnelHelper.budgetLineItem" p:headerText="Details &amp; Rates">
+		p:fieldBindingObjectPath="addProjectPersonnelHelper" p:headerText="Details &amp; Rates">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-TabSection" />
@@ -342,56 +338,28 @@
 	<bean id="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="budgetCategoryCode"
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.budgetCategoryCode"
 					p:order="10"/>
-				<bean parent="Uif-DataField" p:propertyName="underrecoveryAmount"
+				<bean parent="Uif-DataField" p:propertyName="budgetLineItem.underrecoveryAmount"
 					p:order="20"/>
-				<bean parent="Uif-DataField" p:propertyName="costSharingAmount"
+				<bean parent="Uif-DataField" p:propertyName="budgetLineItem.costSharingAmount"
 					p:order="30"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetJustification"
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.budgetJustification"
 					p:label="Notes" p:order="40"/>
-				<bean parent="Uif-InputField" p:propertyName="lineItemDescription"
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemDescription"
 					p:label="Group Description" p:order="50"/>
-				<bean parent="Uif-InputField" p:propertyName="quantity"
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.quantity"
 					p:label="# of Persons" p:order="60"/>
-				<bean parent="Uif-InputField" p:propertyName="applyInRateFlag"
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.applyInRateFlag"
 					p:order="70" p:label="Apply Inflation"/>
-				<bean parent="Uif-InputField" p:propertyName="submitCostSharingFlag"
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.submitCostSharingFlag"
 					p:order="80" p:label="Submit cost sharing"/>
-				<bean parent="Uif-InputField" p:propertyName="onOffCampusFlag"
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.onOffCampusFlag"
 					p:order="90" p:label="On Campus"/>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-RatesTab" parent="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-RatesTab-parentBean" />
-	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-RatesTab-parentBean" parent="Uif-TableCollectionSection" p:propertyName="budgetLineItemCalculatedAmounts"
-		p:renderAddLine="false"
-		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount"
-		p:renderLineActions="false" p:layoutManager.renderSequenceField="false">
-		<property name="layoutManager.richTable.templateOptions">
-			<map>
-				<entry key="sDom" value="tip" />
-				<entry key="bRetrieve" value="true" />
-				<entry key="bPaginate" value="false" />
-				<entry key="bInfo" value="false" />
-			</map>
-		</property>
-		<property name="items">
-			<list>
-				<bean parent="Uif-DataField" p:propertyName="rateClassCode"
-					p:label="Class" p:order="10"/>
-				<bean parent="Uif-DataField" p:propertyName="rateTypeCode"
-					p:label="Type" p:required="false" p:order="20"/>
-				<bean parent="Uif-DataField" p:propertyName="calculatedCost"
-					p:required="false" p:order="30"/>
-				<bean parent="Uif-DataField" p:propertyName="calculatedCostSharing"
-					p:order="40"/>
-				<bean parent="Uif-InputField" p:propertyName="applyRateFlag"
-					p:order="50"/>
-			</list>
-		</property>
-	</bean>
-	
+	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-RatesTab" parent="PropBudget-BudgetLineItem-Rates" />
 	
 </beans>

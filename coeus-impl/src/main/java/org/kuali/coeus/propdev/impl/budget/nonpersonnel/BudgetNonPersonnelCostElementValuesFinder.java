@@ -13,28 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.common.budget.impl.core;
+package org.kuali.coeus.propdev.impl.budget.nonpersonnel;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.impl.core.CostElementValuesFinder;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-@Component("budgetPersonnelCostElementValuesFinder")
-public class BudgetPersonnelCostElementValuesFinder extends CostElementValuesFinder {
-    
+@Component("budgetNonPersonnelCostElementValuesFinder")
+public class BudgetNonPersonnelCostElementValuesFinder extends CostElementValuesFinder {
 	@Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
-	
-    @Override
-    public List<KeyValue> getKeyValues() {
-        return super.getKeyValues(getPersonnelBudgetCategoryTypeCode(), true);
+    
+    public List<KeyValue> getKeyValues(ViewModel model) {
+        String budgetCategoryTypeCode = ((ProposalBudgetForm)model).getAddProjectBudgetLineItemHelper().getBudgetCategoryTypeCode();
+        boolean budgetCategoryTypeCodeEqual = true;
+        if(StringUtils.isEmpty(budgetCategoryTypeCode)) {
+        	budgetCategoryTypeCode = getPersonnelBudgetCategoryTypeCode();
+        	budgetCategoryTypeCodeEqual = false;
+        }
+        return super.getKeyValues(budgetCategoryTypeCode, budgetCategoryTypeCodeEqual);
     }
     
     private String getPersonnelBudgetCategoryTypeCode() {

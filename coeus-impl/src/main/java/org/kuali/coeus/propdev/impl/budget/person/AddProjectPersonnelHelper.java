@@ -15,31 +15,22 @@
  */
 package org.kuali.coeus.propdev.impl.budget.person;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
-import org.kuali.coeus.propdev.impl.core.AddLineHelper;
+import org.kuali.coeus.propdev.impl.budget.nonpersonnel.AddProjectBudgetLineItemHelper;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.data.DataObjectService;
 
 
-public class AddProjectPersonnelHelper extends AddLineHelper {
-
+public class AddProjectPersonnelHelper extends AddProjectBudgetLineItemHelper {
 
     private BudgetPerson editBudgetPerson;
-    private String editLineIndex;
     private DataObjectService dataObjectService;
     private List<TbnPerson> tbnPersons;
-    private BudgetLineItem budgetLineItem;
     private BudgetPersonnelDetails budgetPersonnelDetail;
-    private BudgetPeriod currentTabBudgetPeriod;
     private String budgetPersonGroupName;
     
     public AddProjectPersonnelHelper() {
@@ -54,11 +45,8 @@ public class AddProjectPersonnelHelper extends AddLineHelper {
     
     private void initPersonDetails() {
         editBudgetPerson = new BudgetPerson();
-        editLineIndex = null;
-        budgetLineItem = new BudgetLineItem();
         budgetPersonnelDetail = new BudgetPersonnelDetails();
         budgetPersonGroupName="";
-        currentTabBudgetPeriod = new BudgetPeriod();
     }
     
 	public BudgetPerson getEditBudgetPerson() {
@@ -67,14 +55,6 @@ public class AddProjectPersonnelHelper extends AddLineHelper {
 
 	public void setEditBudgetPerson(BudgetPerson editBudgetPerson) {
 		this.editBudgetPerson = editBudgetPerson;
-	}
-
-	public String getEditLineIndex() {
-		return editLineIndex;
-	}
-
-	public void setEditLineIndex(String editLineIndex) {
-		this.editLineIndex = editLineIndex;
 	}
 
 	public DataObjectService getDataObjectService() {
@@ -99,14 +79,6 @@ public class AddProjectPersonnelHelper extends AddLineHelper {
 		this.tbnPersons = tbnPersons;
 	}
 
-	public BudgetLineItem getBudgetLineItem() {
-		return budgetLineItem;
-	}
-
-	public void setBudgetLineItem(BudgetLineItem budgetLineItem) {
-		this.budgetLineItem = budgetLineItem;
-	}
-
 	public BudgetPersonnelDetails getBudgetPersonnelDetail() {
 		return budgetPersonnelDetail;
 	}
@@ -114,14 +86,6 @@ public class AddProjectPersonnelHelper extends AddLineHelper {
 	public void setBudgetPersonnelDetail(
 			BudgetPersonnelDetails budgetPersonnelDetail) {
 		this.budgetPersonnelDetail = budgetPersonnelDetail;
-	}
-
-	public BudgetPeriod getCurrentTabBudgetPeriod() {
-		return currentTabBudgetPeriod;
-	}
-
-	public void setCurrentTabBudgetPeriod(BudgetPeriod currentTabBudgetPeriod) {
-		this.currentTabBudgetPeriod = currentTabBudgetPeriod;
 	}
 
 	public String getBudgetPersonGroupName() {
