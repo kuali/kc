@@ -16,7 +16,8 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropDev-AttachmentsPage" parent="PropDev-AttachmentsPage-parentBean" />
-	<bean id="PropDev-AttachmentsPage-parentBean" parent="PropDev-DocumentPage">
+	<bean id="PropDev-AttachmentsPage-parentBean" parent="PropDev-DocumentPage"
+            p:onDocumentReadyScript="Kc.PropDev.Attachments.initAttachmentCounts();">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-AttachmentsPage-Section" p:order="10"/>
@@ -52,7 +53,7 @@
 
 	<bean id="PropDev-AttachmentsPage-ProposalSection" parent="PropDev-AttachmentsPage-ProposalSection-parentBean" />
 	<bean id="PropDev-AttachmentsPage-ProposalSection-parentBean" abstract="true"
-		parent="Uif-VerticalBoxSection" p:header.headerText="Proposal (@{document.developmentProposal.narratives.size()})"
+		parent="Uif-VerticalBoxSection" p:header.headerText="Proposal (&lt;span class='proposalAttachmentCount'&gt;@{document.developmentProposal.narratives.size()}&lt;/span&gt;)"
 		p:instructionalText="Add attachments to this proposal"
 		p:fieldBindingObjectPath="document.developmentProposal">
 		<property name="items">
@@ -159,7 +160,7 @@
 
     <bean id="PropDev-AttachmentsPage-PersonnelSection" parent="PropDev-AttachmentsPage-PersonnelSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-PersonnelSection-parentBean"
-          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Personnel (@{document.developmentProposal.propPersonBios.size()})"
+          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Personnel (&lt;span class='personnelAttachmentCount'&gt;@{document.developmentProposal.propPersonBios.size()}&lt;/span&gt;)"
           p:instructionalText="Add attachments to this proposal"
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
@@ -249,7 +250,7 @@
     <bean id="PropDev-AttachmentsPage-AbstractsSection" parent="PropDev-AttachmentsPage-AbstractsSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-AbstractsSection-parentBean"
           abstract="true" parent="Uif-VerticalBoxSection">
-        <property name="header.headerText" value="Abstracts (@{document.developmentProposal.proposalAbstracts.size()})" />
+        <property name="header.headerText" value="Abstracts (&lt;span class='abstractCount'&gt;@{document.developmentProposal.proposalAbstracts.size()}&lt;/span&gt;)" />
         <property name="items">
             <list>
                 <bean parent="PropDev-AttachmentsPage-AbstractsCollection" p:order="10" />
@@ -261,7 +262,7 @@
     <bean id="PropDev-AttachmentsPage-AbstractsCollection" parent="PropDev-AttachmentsPage-AbstractsCollection-parentBean" />
     <bean id="PropDev-AttachmentsPage-AbstractsCollection-parentBean" abstract="true"
           parent="PropDev-AttachmentPage-Collection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract"
-          p:propertyName="proposalAbstracts">
+          p:propertyName="proposalAbstracts" p:cssClasses="proposalAbstractCollection">
         <property name="addWithDialogAction">
             <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Abstract" p:cssClasses="pull-right" p:iconClass="icon-plus"
                   p:render="@{!#parent.readOnly}"/>
@@ -324,7 +325,7 @@
 
     <bean id="PropDev-AttachmentsPage-InternalSection" parent="PropDev-AttachmentsPage-InternalSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-InternalSection-parentBean"
-          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Internal (@{document.developmentProposal.instituteAttachments.size()})"
+          abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Internal (&lt;span class='internalAttachmentCount'&gt;@{document.developmentProposal.instituteAttachments.size()}&lt;/span&gt;)"
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
             <list>
@@ -407,7 +408,7 @@
 
     <bean id="PropDev-AttachmentsPage-NotesSection" parent="PropDev-AttachmentsPage-NotesSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-NotesSection-parentBean" abstract="true"
-          parent="Uif-VerticalBoxSection" p:header.headerText="Notes (@{document.notes.size()})"
+          parent="Uif-VerticalBoxSection" p:header.headerText="Notes (&lt;span class='noteCount'&gt;@{document.notes.size()}&lt;/span&gt;)"
           p:fieldBindingObjectPath="document">
         <property name="items">
             <list>
@@ -418,7 +419,7 @@
 
     <bean id="PropDev-AttachmentsPage-NotesCollection" parent="PropDev-AttachmentsPage-NotesCollection-parentBean"/>
     <bean id="PropDev-AttachmentsPage-NotesCollection-parentBean" abstract="true" parent="PropDev-AttachmentPage-Collection"
-          p:collectionObjectClass="org.kuali.rice.krad.bo.Note" p:propertyName="notes">
+          p:collectionObjectClass="org.kuali.rice.krad.bo.Note" p:propertyName="notes" p:cssClasses="proposalNoteCollection">
         <property name="addWithDialogAction">
             <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Note" p:cssClasses="pull-right" p:iconClass="icon-plus"
                   p:render="@{!#parent.readOnly}"/>
