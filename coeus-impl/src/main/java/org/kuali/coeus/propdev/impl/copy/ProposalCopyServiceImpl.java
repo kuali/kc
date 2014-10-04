@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.copy;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
@@ -65,7 +66,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -342,14 +342,17 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getId());
                 List<CustomAttributeDocValue> customAttributeDocValues = (List<CustomAttributeDocValue>) getDataObjectService().findMatching(CustomAttributeDocValue.class,
                         QueryByCriteria.Builder.andAttributes(primaryKeys).build()).getResults();
-                CustomAttributeDocValue customAttributeDocValue = customAttributeDocValues.get(0);
-                // Store a new CustomAttributeDocValue using the new document's document number
-                CustomAttributeDocValue newDocValue = new CustomAttributeDocValue();
-                newDocValue.setDocumentNumber(dest.getDocumentNumber());
-                newDocValue.setId(customAttributeDocument.getId().longValue());
-                newDocValue.setValue(customAttributeDocValue.getValue());
-                dest.getCustomDataList().add(newDocValue);
-                newDocValue.setValue(customAttributeDocValue == null ? customAttributeDocument.getCustomAttribute().getDefaultValue() : customAttributeDocValue.getValue());
+                if (!CollectionUtils.isEmpty(customAttributeDocValues)) {
+                    CustomAttributeDocValue customAttributeDocValue = customAttributeDocValues.get(0);
+
+                    // Store a new CustomAttributeDocValue using the new document's document number
+                    CustomAttributeDocValue newDocValue = new CustomAttributeDocValue();
+                    newDocValue.setDocumentNumber(dest.getDocumentNumber());
+                    newDocValue.setId(customAttributeDocument.getId().longValue());
+                    newDocValue.setValue(customAttributeDocValue.getValue());
+                    dest.getCustomDataList().add(newDocValue);
+                    newDocValue.setValue(customAttributeDocValue == null ? customAttributeDocument.getCustomAttribute().getDefaultValue() : customAttributeDocValue.getValue());
+                }
             }
         }
     }
