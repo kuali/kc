@@ -174,8 +174,6 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
 
         assertTrue(copiedDocument.getDevelopmentProposal().getNarratives().size() == 0);
 
-        assertTrue(copiedDocument.getNotes().size() == 1);
-
     }
 
     @Test
