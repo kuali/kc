@@ -73,6 +73,20 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
     	return getModelAndViewService().showDialog(EDIT_NONPERSONNEL_PERIOD_DIALOG_ID, true, form);
 	}
 
+	@RequestMapping(params="methodToCall=deleteBudgetLineItem")
+	public ModelAndView deleteBudgetLineItem(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+	    Budget budget = form.getBudget();
+	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotEmpty(selectedLine)) {
+        	BudgetLineItem deletedBudgetLineItem = form.getBudget().getBudgetLineItems().get(Integer.parseInt(selectedLine));
+		    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
+		    BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
+		    budgetPeriod.getBudgetLineItems().remove(deletedBudgetLineItem);
+		    budget.getBudgetLineItems().remove(deletedBudgetLineItem);
+	    }
+		return getModelAndViewService().getModelAndView(form);
+	}
+	
 	@RequestMapping(params="methodToCall=saveBudgetLineItem")
 	public ModelAndView saveBudgetLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    BudgetLineItem budgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();

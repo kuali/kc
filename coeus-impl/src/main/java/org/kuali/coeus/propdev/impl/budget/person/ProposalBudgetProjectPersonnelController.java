@@ -222,7 +222,22 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	    getBudgetCalculationService().applyToLaterPeriods(budget,currentTabBudgetPeriod,budgetLineItem);
 		return getModelAndViewService().getModelAndView(form);
 	}
-				
+
+	@RequestMapping(params="methodToCall=deletePersonnelLineItem")
+	public ModelAndView deletePersonnelLineItem(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+	    Budget budget = form.getBudget();
+	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotEmpty(selectedLine)) {
+        	BudgetPersonnelDetails deletedPersonnelLineItem = form.getBudget().getBudgetPersonnelDetails().get(Integer.parseInt(selectedLine));
+		    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
+		    BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
+		    BudgetLineItem budgetLineItem = getSelectedBudgetLineItem(deletedPersonnelLineItem.getPersonDetailGroup(), budgetPeriod);
+		    budgetLineItem.getBudgetPersonnelDetailsList().remove(deletedPersonnelLineItem);
+		    budget.getBudgetPersonnelDetails().remove(deletedPersonnelLineItem);
+	    }
+		return getModelAndViewService().getModelAndView(form);
+	}
+
 	private BudgetLineItem getSelectedBudgetLineItem(String lineItemGroupKey, BudgetPeriod budgetPeriod) {
         for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
         	if(budgetLineItem.getLineItemGroupDescription().equals(lineItemGroupKey)) {
