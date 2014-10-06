@@ -493,7 +493,8 @@
 
     <bean id="PropDev-AttachmentPage-MultiFileCollection" parent="PropDev-AttachmentPage-MultiFileCollection-parentBean"/>
     <bean id="PropDev-AttachmentPage-MultiFileCollection-parentBean" abstract="true" parent="Uif-MultiFileUploadCollection"
-          p:collection.layoutManager.richTable.render="false" p:addFilesButtonText="Upload &amp; Add">
+          p:collection.layoutManager.richTable.render="false" p:addFilesButtonText="Upload &amp; Add"
+            p:collection.layoutManager.renderSequenceField="true">
         <property name="collection.items">
             <list merge="true">
                 <bean parent="PropDev-AttachmentPage-LinkField"
@@ -522,8 +523,7 @@
 
     <bean id="PropDev-AttachmentPage-Collection" abstract="true" parent="PropDev-AttachmentPage-Collection-parentBean" />
     <bean id="PropDev-AttachmentPage-Collection-parentBean" abstract="true"
-          parent="Uif-TableCollectionSection" p:addWithDialog="true" p:layoutManager.richTable.render="false"
-          p:layoutManager.renderSequenceField="false">
+          parent="Uif-TableCollectionSection" p:addWithDialog="true" p:layoutManager.richTable.render="false">
         <property name="addWithDialogAction">
             <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add entry" p:cssClasses="pull-right" p:iconClass="icon-plus"/>
         </property>
