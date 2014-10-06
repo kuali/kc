@@ -461,6 +461,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             if (hasPermission(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION, (IacucProtocol) document.getProtocol())) {
                 actionBean.setReviewers(reviewers);
                 requestAuthorized = applyRules(new IacucProtocolModifySubmissionEvent(document, actionBean));
+                // don't want to reinitialize submission fields since we're modifying them
+                protocolForm.setReinitializeModifySubmissionFields(false);
                 actionBean.prepareView();
             }
         } else {
