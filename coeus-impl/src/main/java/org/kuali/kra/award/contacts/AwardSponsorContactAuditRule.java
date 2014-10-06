@@ -34,7 +34,6 @@ public class AwardSponsorContactAuditRule implements DocumentAuditRule {
 
     private static final String AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY = "document.awardList[0].sponsorContact.auditErrors";
     private static final String ERROR_AWARD_NO_SPONSOR_CONTACTS = "error.awardSponsorContact.none";
-    private static final String CONTACTS_AUDIT_ERRORS = "contactsAuditErrors";
     private List<AuditError> auditErrors;
 
     
@@ -66,9 +65,9 @@ public class AwardSponsorContactAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(CONTACTS_AUDIT_ERRORS);
+            AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(Constants.CONTACTS_AUDIT_ERROR_KEY_NAME);
             if (existingErrors == null) {
-                KNSGlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_ERRORS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
+                KNSGlobalVariables.getAuditErrorMap().put(Constants.CONTACTS_AUDIT_ERROR_KEY_NAME, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
                                                                                               auditErrors, Constants.AUDIT_ERRORS));
             } else {
                 existingErrors.getAuditErrorList().addAll(auditErrors);

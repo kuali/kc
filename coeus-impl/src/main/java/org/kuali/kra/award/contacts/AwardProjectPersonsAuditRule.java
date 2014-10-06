@@ -42,7 +42,6 @@ import java.util.List;
  */
 public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
 
-    private static final String CONTACTS_AUDIT_ERRORS = "contactsAuditErrors";
     private static final String CONTACTS_AUDIT_WARNINGS = "contactsAuditWarnings";    
     private static final String AWARD_UNCERTIFIED_PARAM = "awardUncertifiedKeyPersonnel";
     private List<AuditError> auditErrors;
@@ -53,6 +52,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
     public static final String ERROR_AWARD_PROJECT_PERSON_UNIT_DETAILS_REQUIRED = "error.awardProjectPerson.unit.details.required";
     public static final String ERROR_AWARD_PROJECT_PERSON_LEAD_UNIT_REQUIRED = "error.awardProjectPerson.lead.unit.required";
     public static final String ERROR_AWARD_PROJECT_PERSON_UNCERTIFIED = "error.awardProjectPerson.uncertified";
+    public static final String ERROR_AWARD_PRJECT_PERSON_UNIT_REQUIRED = "error.awardProjectPerson.unit.required";
     
     private ParameterService parameterService;
     private AwardService awardService;
@@ -75,11 +75,11 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
         auditErrors = new ArrayList<AuditError>();
         auditWarnings = new ArrayList<AuditError>();        
         
+        valid &= checkUnitExists(awardDocument.getAward().getProjectPersons());
         valid &= checkPrincipalInvestigators(awardDocument.getAward().getProjectPersons());
         valid &= checkUnits(awardDocument.getAward().getProjectPersons());
         valid &= checkLeadUnits(awardDocument.getAward().getProjectPersons());
         valid &= checkCertifiedInvestigators(awardDocument.getAward());
-        
          
         reportAndCreateAuditCluster();
         
@@ -92,8 +92,13 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_ERRORS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
-                                                                                          auditErrors, Constants.AUDIT_ERRORS));
+        	AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(Constants.CONTACTS_AUDIT_ERROR_KEY_NAME);
+            if (existingErrors == null) {
+                KNSGlobalVariables.getAuditErrorMap().put(Constants.CONTACTS_AUDIT_ERROR_KEY_NAME, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
+                                                                                              auditErrors, Constants.AUDIT_ERRORS));
+            } else {
+                existingErrors.getAuditErrorList().addAll(auditErrors);
+            }
         }
         if (auditWarnings.size() > 0) {
             KNSGlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_WARNINGS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
@@ -207,6 +212,20 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
         
         
         return retval;
+    }
+    
+    protected boolean checkUnitExists(List<AwardPerson> awardPersons) {
+        boolean valid = true;
+        for (AwardPerson person : awardPersons) {
+        	if (person.getUnits() == null || person.getUnits().size() < 1) {
+        		valid = false;
+        		String[] params = new String[1];
+        		params[0] = person.getContact().getFullName();
+                auditErrors.add(new AuditError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_AWARD_PRJECT_PERSON_UNIT_REQUIRED,
+                        Constants.MAPPING_AWARD_CONTACTS_PAGE + "." + Constants.CONTACTS_PANEL_ANCHOR, params));
+        	}
+        }
+        return valid;
     }
 
     public ParameterService getParameterService() {
