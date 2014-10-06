@@ -47,8 +47,8 @@ import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -67,11 +67,11 @@ public class MedusaServiceImpl implements MedusaService {
     private static final int INST_PROPOSAL_STATUS_FUNDED = 2;
 
     @Autowired
-    @Qualifier("legacyDataAdapter")
-    private LegacyDataAdapter legacyDataAdapter;
-    @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     @Autowired
     @Qualifier("awardAmountInfoService")
     private AwardAmountInfoService awardAmountInfoService;
@@ -539,7 +539,7 @@ public class MedusaServiceImpl implements MedusaService {
     }
     
     protected DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
-        return (DevelopmentProposal)legacyDataAdapter.findByPrimaryKey(DevelopmentProposal.class, getFieldValues("proposalNumber", proposalNumber));
+        return (DevelopmentProposal)dataObjectService.find(DevelopmentProposal.class, proposalNumber);
     }
     
     /**
@@ -915,7 +915,15 @@ public class MedusaServiceImpl implements MedusaService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
     protected Map<String, Object> getFieldValues(String key, Object value) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(key, value);
@@ -970,8 +978,4 @@ public class MedusaServiceImpl implements MedusaService {
         this.parameterService = parameterService;
     }
 
-    public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {this.legacyDataAdapter = legacyDataAdapter;}
-
-    public LegacyDataAdapter getLegacyDataAdapter() { return legacyDataAdapter; }
-    
 }

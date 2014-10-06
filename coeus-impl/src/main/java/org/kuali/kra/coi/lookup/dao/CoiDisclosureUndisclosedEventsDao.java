@@ -19,14 +19,12 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 import java.util.List;
 import java.util.Map;
 
 public interface CoiDisclosureUndisclosedEventsDao {
 
-    public List<ProposalPerson> getDevelopmentProposalPersons(Map<String,String> fieldValues);
     public List<InstitutionalProposalPerson> getInstituteProposalPersons(Map<String,String> fieldValues);
     public List<AwardPerson> getAwardPersons(Map<String,String> fieldValues);
     public List<IacucProtocolPerson> getIacucProtocolPersons(Map<String,String> fieldValues);

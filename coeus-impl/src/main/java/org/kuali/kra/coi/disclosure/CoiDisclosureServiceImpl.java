@@ -59,8 +59,10 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -77,6 +79,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public static final String UNIT_AGENDA_TYPE_ID = "KC1000";
 
     private BusinessObjectService businessObjectService;
+    private DataObjectService dataObjectService;
     private KcPersonService kcPersonService;
     private FinancialEntityService financialEntityService;
     private VersioningService versioningService;
@@ -572,9 +575,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * get PD by proposalNumber
      */
     private DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put("proposalNumber", proposalNumber);
-        DevelopmentProposal currentProposal = (DevelopmentProposal) businessObjectService.findByPrimaryKey(DevelopmentProposal.class, primaryKeys);
+        DevelopmentProposal currentProposal = dataObjectService.find(DevelopmentProposal.class, proposalNumber);
         return currentProposal;
     }
     
@@ -713,8 +714,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private List<ProposalPerson> getProposalPersons(String personId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
-        List<ProposalPerson> proposalPersons = (List<ProposalPerson>) businessObjectService.findMatching(ProposalPerson.class,
-                fieldValues);
+        List<ProposalPerson> proposalPersons = (List<ProposalPerson>) dataObjectService.findMatching(ProposalPerson.class,
+                QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
         return proposalPersons;
     }
     
@@ -881,6 +882,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 
     public void setKcPersonService(KcPersonService kcPersonService) {
@@ -2465,10 +2470,16 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private Map<String, List<ProposalPerson>> getDevelopmentProposalPersonsForUndisclosedEvents(Map<String, String> searchCriteria) {
         List<ProposalPerson> proposalPersons = new ArrayList<ProposalPerson>();
         if(isSearchByCriteriaRequired(searchCriteria)) {
-            proposalPersons = getCoiDisclosureUndisclosedEventsDao().getDevelopmentProposalPersons(searchCriteria);
-        } else {
-            proposalPersons =  (List<ProposalPerson>) businessObjectService.findAll(ProposalPerson.class);
-        }  
+            String personId = searchCriteria.get("personId");
+            if (StringUtils.isNotEmpty(personId)) {
+                // use DataObjectService for ProposalPerson's since CoiDisclosureUndisclosedEventsDao
+                // uses BusinessObjectService, which doesn't work well for JPA
+                Map<String, String> limitedFieldValues = new HashMap<String, String>();
+                limitedFieldValues.put("personId", personId);
+                proposalPersons = (List<ProposalPerson>) dataObjectService.findMatching(ProposalPerson.class,
+                        QueryByCriteria.Builder.andAttributes(limitedFieldValues).build()).getResults();
+            }
+        }
         
         Map<String, List<ProposalPerson>> personAndProposals = new HashMap<String, List<ProposalPerson>>();
         List<ProposalPerson> personProposals = null;

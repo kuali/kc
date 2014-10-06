@@ -30,7 +30,6 @@ import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -61,12 +60,6 @@ public class CoiDisclosureUndisclosedEventsDaoOjb extends PlatformAwareDaoBaseOj
     private static final String FUNDING_SOURCE_NUMBER_FIELD = "protocol.protocolFundingSources.fundingSourceNumber";
     private static final String FUNDING_SOURCE_COLLECTION = "protocol.protocolFundingSources";
     
-    @SuppressWarnings("unchecked")
-    public List<ProposalPerson> getDevelopmentProposalPersons(Map<String, String> fieldValues) {
-        QueryByCriteria query = QueryFactory.newQuery(ProposalPerson.class, getSearchCriteria(fieldValues, DEV_PROPOSAL_SAVE_DATE, DEV_PROPOSAL_SPONSOR_CODE));
-        return (List<ProposalPerson>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
-    }
-
     @SuppressWarnings("unchecked")
     public List<InstitutionalProposalPerson> getInstituteProposalPersons(Map<String, String> fieldValues) {
         QueryByCriteria query = QueryFactory.newQuery(InstitutionalProposalPerson.class, getSearchCriteria(fieldValues, INST_PROPOSAL_SAVE_DATE, INST_PROPOSAL_SPONSOR_CODE));

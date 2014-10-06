@@ -64,7 +64,11 @@
     <bean id="dataDictionaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dataDictionaryService" />
     </bean>
-    
+
+    <bean id="dataObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataObjectService" />
+    </bean>
+
     <bean id="dateTimeService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dateTimeService" />
     </bean>
@@ -250,6 +254,7 @@
     
      <bean id="coiDisclosureService" class="org.kuali.kra.coi.disclosure.CoiDisclosureServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dataObjectService" ref="dataObjectService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="financialEntityService" ref="financialEntityService" />
         <property name="versioningService" ref="versioningService" />
