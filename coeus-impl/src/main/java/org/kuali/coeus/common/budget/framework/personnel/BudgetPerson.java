@@ -17,8 +17,6 @@ package org.kuali.coeus.common.budget.framework.personnel;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import javax.persistence.*;
 
@@ -39,7 +37,6 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * BudgetPerson business object
@@ -48,7 +45,17 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 @Table(name = "BUDGET_PERSONS")
 public class BudgetPerson extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, DateSortable, BudgetPersonContract {
 
+    private static final String BUDGET_PERSON_GROUP_OTHER = "Other Personnel";
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "PERSON_SEQUENCE_NUMBER")
+    private Integer personSequenceNumber;
+
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    private Budget budget;
 
     @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
@@ -58,10 +65,6 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
 
     @Column(name = "JOB_CODE")
     private String jobCode;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "JOB_CODE", referencedColumnName = "JOB_CODE", insertable = false, updatable = false)
-    private JobCode jobCodeRef;
 
     @Column(name = "NON_EMPLOYEE_FLAG")
     @Convert(converter = BooleanYNConverter.class)
@@ -86,29 +89,8 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
     @Column(name = "PERSON_NAME")
     private String personName;
 
-    @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "APPOINTMENT_TYPE_CODE", referencedColumnName = "APPOINTMENT_TYPE_CODE", insertable = false, updatable = false)
-    private AppointmentType appointmentType;
-
-    @Id
-    @Column(name = "PERSON_SEQUENCE_NUMBER")
-    private Integer personSequenceNumber;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "ROLODEX_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
-    private Rolodex rolodex;
-
-    @Transient
-    private String role;
-
     @Column(name = "SALARY_ANNIVERSARY_DATE")
     private Date salaryAnniversaryDate;
-
-    @Transient
-    private transient KcPersonService kcPersonService;
-
-    @Transient
-    private transient BudgetPersonService budgetPersonService;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
@@ -117,15 +99,27 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
-    @Transient
-    private BudgetPersonSalaryDetails personSalaryDetails;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "JOB_CODE", referencedColumnName = "JOB_CODE", insertable = false, updatable = false)
+    private JobCode jobCodeRef;
 
-    @OneToMany(mappedBy="budgetPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
-    private List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails;
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "APPOINTMENT_TYPE_CODE", referencedColumnName = "APPOINTMENT_TYPE_CODE", insertable = false, updatable = false)
+    private AppointmentType appointmentType;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "ROLODEX_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
+    private Rolodex rolodex;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "TBN_ID", referencedColumnName = "TBN_ID", insertable = false, updatable = false)
     private TbnPerson tbnPerson;
+
+    @OneToMany(mappedBy="budgetPerson", orphanRemoval = true, cascade = { CascadeType.ALL })
+    private List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails;
+
+    @Transient
+    private String role;
 
     @Transient
     private boolean selected;
@@ -141,23 +135,25 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
 
     @Transient
     private String organization;
-    
+
     @Transient
     private String city;
-    
+
     @Transient
     private PersonRolodex personRolodex;
 
     @Transient
     private String contactRoleCode;
-    
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
-    private Budget budget;
 
-    private static final String BUDGET_PERSON_GROUP_OTHER = "Other Personnel";
-    
+    @Transient
+    private transient KcPersonService kcPersonService;
+
+    @Transient
+    private transient BudgetPersonService budgetPersonService;
+
+    @Transient
+    private BudgetPersonSalaryDetails personSalaryDetails;
+
     public BudgetPerson() {
         super();
         budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();

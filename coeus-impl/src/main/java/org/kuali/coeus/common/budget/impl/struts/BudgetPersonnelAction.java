@@ -16,12 +16,12 @@
 package org.kuali.coeus.common.budget.impl.struts;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.budget.framework.personnel.*;
-import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpenseRule;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
@@ -42,8 +42,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
@@ -119,16 +117,20 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     public ActionForward addPersonnelLineItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
-        DictionaryValidationService dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
 
         Integer budgetCategoryTypeIndex = Integer.parseInt(getBudgetCategoryTypeIndex(request));
         BudgetLineItem newBudgetLineItem = budgetForm.getNewBudgetLineItems().get(budgetCategoryTypeIndex);
-        BudgetPersonnelDetails budgetPersonDetails = budgetForm.getNewBudgetPersonnelDetails();
+        final BudgetPersonnelDetails budgetPersonDetails = budgetForm.getNewBudgetPersonnelDetails();
         budgetPersonDetails.setBudgetId(budget.getBudgetId());
         budgetPersonDetails.setPeriodTypeCode(this.getParameterService().getParameterValueAsString(
                 Budget.class, Constants.BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE));
         budgetPersonDetails.setCostElement(newBudgetLineItem.getCostElement());
-
+        budgetPersonDetails.setBudgetPerson(CollectionUtils.find(budget.getBudgetPersons(), new Predicate<BudgetPerson>() {
+            @Override
+            public boolean evaluate(BudgetPerson object) {
+                return object != null && object.getBudgetId().equals(budgetPersonDetails.getBudgetId()) && object.getPersonSequenceNumber().equals(budgetPersonDetails.getPersonSequenceNumber());
+            }
+        }));
 	    String groupErrorKey = "";
 	    if(StringUtils.isNotEmpty(newBudgetLineItem.getGroupName())) {
 	        groupErrorKey = "newBudgetLineItems[" + budgetCategoryTypeIndex + "].costElement" ;
@@ -143,7 +145,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             newBudgetLineItem.setGroupName(EMPTY_GROUP_NAME);  
         }
 
-        if (getKcBusinessRulesEngine().applyRules(new AddPersonnelBudgetEvent(budget, budget.getBudgetPeriod(budgetForm.getViewBudgetPeriod()),
+        if (getKcBusinessRulesEngine().applyRules(new AddPersonnelBudgetEvent(budget, budget.getBudgetPeriod(budgetForm.getViewBudgetPeriod() - 1),
         		newBudgetLineItem, budgetPersonDetails, groupErrorKey))) {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             primaryKeys.put("budgetId", budget.getBudgetId());
@@ -596,7 +598,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
      * Convenience method for adding populating a new budget person and adding to budget document
      * 
      * @param budgetPerson
-     * @param budgetDocument
+     * @param budget
      * @param budgetPersonService
      */
     private void populateAndAddBudgetPerson(BudgetPerson budgetPerson, Budget budget, BudgetPersonService budgetPersonService) {
@@ -614,10 +616,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
      * @param form The Proposal Development form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @param questionId String questionId. This needs to be unique for each type of attachment because there are different attachments to delete.
      * @return the confirmation question
      * @throws Exception
-     * @see buildParameterizedConfirmationQuestion
      */
     private StrutsConfirmation buildDeleteBudgetPersonConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardBudgetDocument awardBudgetDocument = ((BudgetForm) form).getBudgetDocument();
@@ -758,7 +758,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         int budgetPeriodNumber = Integer.parseInt(request.getParameter("budgetPeriod"));
         int budgetLineItemNumber = Integer.parseInt(request.getParameter("line"));
         int personNumber = Integer.parseInt(request.getParameter("personnelIndex"));
-        
+
         BudgetPeriod selectedBudgetPeriod = budget.getBudgetPeriod(budgetPeriodNumber-1);
         BudgetLineItem selectedLineItem = selectedBudgetPeriod.getBudgetLineItem(budgetLineItemNumber);
 
@@ -798,8 +798,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         Budget budget = budgetForm.getBudget();
         int sltdLineItem = getSelectedLine(request);
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
-        BudgetExpenseRule budgetExpenseRule = new BudgetExpenseRule();
-        if (getKcBusinessRulesEngine().applyRules(new PersonnelApplyToPeriodsBudgetEvent(budget, 
+        if (getKcBusinessRulesEngine().applyRules(new PersonnelApplyToPeriodsBudgetEvent(budget,
         		"document.budget.budgetPeriod[" + sltdBudgetPeriod + "].budgetLineItem[" + sltdLineItem + "]", budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem), 
         		budget.getBudgetPeriod(sltdBudgetPeriod)))) {
             getCalculationService().applyToLaterPeriods(budget, budget.getBudgetPeriod(sltdBudgetPeriod), budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem));

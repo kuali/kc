@@ -102,7 +102,7 @@
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateClassCode}" /></div></th>
            		<td>
-                	<bean:write name="KualiForm" property="document.budgetVersionOverview.rateClass.description"/>
+                	<c:out value="${KualiForm.document.budgetVersionOverview.rateClass.description}" />
            			<input type="hidden" name="ohRateClassCodePrevValue" value="${KualiForm.document.budgetVersionOverview.ohRateClassCode}">
            		</td>
         	</tr>
