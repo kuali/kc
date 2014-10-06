@@ -446,6 +446,10 @@
 			<foreignkey field-ref="tbnId"/>
 		</reference-descriptor>
 
+        <collection-descriptor name="budgetPersonSalaryDetails" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="budgetPersonSalaryDetailId"/>
+            <inverse-foreignkey field-ref="budgetId"/>
+        </collection-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.coeus.common.budget.framework.personnel.TbnPerson" table="TBN">
@@ -850,7 +854,7 @@
 	 	<collection-descriptor name="budgetPersonnelRateAndBaseList" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetPersonnelLineItemId"/>
 		</collection-descriptor>
-		<reference-descriptor name="budgetPerson" class-ref="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" auto-retrieve="false" auto-update="none" auto-delete="none">
+		<reference-descriptor name="budgetPerson" class-ref="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="budgetId"/>
 			<foreignkey field-ref="personSequenceNumber"/> 
 		</reference-descriptor>
@@ -1188,7 +1192,7 @@
 		<collection-descriptor name="budgetPersonnelCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetPersonnelLineItemId"/>
 		</collection-descriptor>
-		
+
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.award.budget.AwardBudgetPersonnelCalculatedAmountExt" table="AWD_BUDGET_PER_CAL_AMTS_EXT">
 		<field-descriptor name="budgetPersonnelCalculatedAmountId" column="BUDGET_PERSONNEL_CAL_AMTS_ID" jdbc-type="BIGINT" primarykey="true" />

@@ -401,7 +401,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 }
                 List<AwardBudgetLineItemCalculatedAmountExt> calcAmounts = budgetLineItem.getBudgetCalculatedAmounts();
                 for (AwardBudgetLineItemCalculatedAmountExt budgetLineItemCalculatedAmount : calcAmounts) {
-                    budgetLineItemCalculatedAmount = (AwardBudgetLineItemCalculatedAmountExt)budgetLineItemCalculatedAmount;
                     budgetLineItemCalculatedAmount.setObligatedAmount(
                             budgetLineItemCalculatedAmount.getObligatedAmount().add(
                             budgetLineItemCalculatedAmount.getCalculatedCost().add(
@@ -422,7 +421,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             awardBudgetPeriod.setTotalIndirectCost(ScaleTwoDecimal.ZERO);
             awardBudgetPeriod.setTotalCostLimit(obligatedChangeAmount);
         }
-//        getBudgetSummaryService().calculateBudget(newAwardBudgetFromPosted);
     }
 
     protected AwardBudgetExt getLatestPostedBudget(Award award) {
@@ -845,7 +843,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                     String costElement =  objectCodes.next();
                     String[] costElementAndPersonId = costElement.split(",");
 
-                    List<ScaleTwoDecimal> fringeTotals = objectCodePersonnelFringe.get(costElement);;
+                    List<ScaleTwoDecimal> fringeTotals = objectCodePersonnelFringe.get(costElement);
                     AwardBudgetPeriodSummaryCalculatedAmount oldAwardBudgetPeriodSummaryCalculatedAmount = 
                             getSummaryCalculatedAmountFromList(awardBudgetPeriodFringeAmounts,costElementAndPersonId[0]);
                     if(oldAwardBudgetPeriodSummaryCalculatedAmount==null){
