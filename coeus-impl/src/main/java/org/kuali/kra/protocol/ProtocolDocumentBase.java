@@ -67,6 +67,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     private List<ProtocolBase> protocolList;
     private String protocolWorkflowType;
     private boolean reRouted = false;
+    public ProtocolLocationService protocolLocationService;
     
 
     public ProtocolDocumentBase() { 
@@ -437,7 +438,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * Add default organization.
      */
     private void initializeProtocolLocation() {
-        KcServiceLocator.getService(getProtocolLocationServiceClassHook()).addDefaultProtocolLocation(this.getProtocol());
+    	getProtocolLocationService().addDefaultProtocolLocation(this.getProtocol());
     }
     
     protected abstract Class<? extends ProtocolLocationService> getProtocolLocationServiceClassHook();
@@ -489,4 +490,16 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getProtocol().getLeadUnitNumber());
     }
+
+	public ProtocolLocationService getProtocolLocationService() {
+		if (protocolLocationService == null) {
+			return KcServiceLocator.getService(getProtocolLocationServiceClassHook());
+		}		
+		return protocolLocationService;
+	}
+
+	public void setProtocolLocationService(
+			ProtocolLocationService protocolLocationService) {
+		this.protocolLocationService = protocolLocationService;
+	}
 }
