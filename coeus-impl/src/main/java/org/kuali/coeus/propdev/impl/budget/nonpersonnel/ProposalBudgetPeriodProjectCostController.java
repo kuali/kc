@@ -19,8 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetControllerBase {
 
-	private static final String EDIT_NONPERSONNEL_PERIOD_DIALOG_ID = "PropBudget-EditNonPersonnelPeriod-Section";
-	private static final String EDIT_NONPERSONNEL_PARTICIPANT_DIALOG_ID = "PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection";
+	private static final String EDIT_NONPERSONNEL_PERIOD_DIALOG_ID = "PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog";
+	private static final String EDIT_NONPERSONNEL_PARTICIPANT_DIALOG_ID = "PropBudget-NonPersonnelCostsPage-EditParticipantSupport-Dialog";
 	protected static final String CONFIRM_PERIOD_CHANGES_DIALOG_ID = "PropBudget-ConfirmPeriodChangesDialog";
 	
 
