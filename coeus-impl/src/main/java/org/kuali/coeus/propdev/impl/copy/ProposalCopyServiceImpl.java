@@ -110,8 +110,6 @@ import java.util.*;
 @Component("proposalCopyService")
 public class ProposalCopyServiceImpl implements ProposalCopyService {
     
-    private static final String MODULE_NUMBER = "moduleNumber";
-    private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalCopyServiceImpl.class);
 
     @Autowired
@@ -195,6 +193,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                     removeBudgets(doc, newDoc, criteria.getBudgetVersions());
                     setBudgetVersionsToIncomplete(newDoc);
                 }
+
+                newDoc.getDevelopmentProposal().setS2sOpportunity(null);
 
                 newDoc = (ProposalDevelopmentDocument) getDocumentService().saveDocument(newDoc);
 
@@ -371,13 +371,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         //We need to copy DocumentNextValues to properly handle copied collections
         fixNextValues(oldDoc, newDoc);
         
-        DevelopmentProposal copy = copyProperties(oldDoc.getDevelopmentProposal());
+        DevelopmentProposal copy = deepCopy(oldDoc.getDevelopmentProposal());
+
         newDoc.setDevelopmentProposal(copy);
+
         copy.setProposalDocument(newDoc);
 
     }
 
-    protected DevelopmentProposal copyProperties(DevelopmentProposal src) throws Exception {
+    protected DevelopmentProposal deepCopy(DevelopmentProposal src) throws Exception {
         return getDataObjectService().copyInstance(src, CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER, CopyOption.RESET_OBJECT_ID );
     }
     
@@ -455,6 +457,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
         setPreviousGrantsGovTrackingId(srcDoc.getDevelopmentProposal().getProposalNumber(), newDoc);
 
+
         /* update timestamp and set the PK on abstracts because proposal copy clears the PK out, there is no anonymous access and
            proposalNUmber is not available before save, so have to get it now and add.
          */
@@ -473,6 +476,25 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             copyQuestionnaire(srcDoc, newDoc);
 
         }
+
+        copyOpportunity(newDoc, srcDoc);
+
+    }
+
+    /*
+    The reset PK fields does not work well for composite PKs and this particular case, the mapping between S2SOpportunity and S2Sforms is not straightforward.
+    Hence have to do the following for the PK to be handled right.
+     */
+    protected void copyOpportunity(ProposalDevelopmentDocument newDoc, ProposalDevelopmentDocument srcDoc) {
+        S2sOpportunity opportunity = getDataObjectService().copyInstance(srcDoc.getDevelopmentProposal().getS2sOpportunity(), CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER, CopyOption.RESET_OBJECT_ID );
+
+        opportunity.setDevelopmentProposal(newDoc.getDevelopmentProposal());
+        newDoc.getDevelopmentProposal().setS2sOpportunity(opportunity);
+
+        for (S2sOppForms form : opportunity.getS2sOppForms()) {
+            form.getS2sOppFormsId().setProposalNumber(newDoc.getDevelopmentProposal().getProposalNumber());
+        }
+
     }
 
     protected void modifyAttachmentPermissions(DevelopmentProposal oldProposal, DevelopmentProposal copiedProposal) {
@@ -568,32 +590,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 proposalSite.initializeDefaultCongressionalDistrict();
             }
         }
-    }
-
-
-
-    /**
-     * Is the given method a getter method for a property?  Must conform to
-     * the following:
-     * <ol>
-     * <li>Must start with the <b>get</b></li>
-     * <li>Must have a corresponding setter method</li>
-     * <li>Must have zero arguments.</li>
-     * </ol>
-     * @param method the method to check
-     * @param methods the other methods in the object
-     * @return true if it is property getter method; otherwise false
-     */
-    protected boolean isPropertyGetterMethod(Method method, Method methods[]) {
-        if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
-            String setterName = method.getName().replaceFirst("get", "set");
-            for (Method m : methods) {
-                if (m.getName().equals(setterName)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**

@@ -1,13 +1,8 @@
 package org.kuali.coeus.propdev.impl.copy;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.cxf.common.util.CollectionUtils;
 import org.jmock.Mockery;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,25 +20,31 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sProvider;
+import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.springframework.mock.web.MockMultipartFile;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
 	ProposalCopyService proposalCopyService;
-	Mockery context;
-	ProposalCopyCriteria criteria;
-	KualiRuleService kualiRuleService;
 	ProposalDevelopmentDocument proposalDocument;
 
     String SPONSOR_CODE = "000162";
@@ -52,6 +53,15 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
     String PRIME_SPONSOR_CODE = "000120";
     String ORIGINAL_LEAD_UNIT = "000001";
     String NEW_LEAD_UNIT = "BL-IIDC";
+    String OPP_ID = "PA-C-R03";
+    String COMP_ID = "FORMS-C";
+    String INS_URL = "insUrl";
+    String SCHEMA_URL = "http://at07apply.grants.gov/apply/opportunities/schemas/applicant/oppPA-C-R03-cfda93.838-cidFORMS-C.xsd";
+    String CFDA = "93.838";
+    String PROVIDER_CODE = "1";
+    String SUB_TYPE_CODE = "2";
+    String AGENCY_CONTACT_INFO= "contactInfo";
+
     private ProposalDevelopmentDocument oldDocument;
 
     @Before
@@ -91,6 +101,52 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
 
 		return document;
 	}
+
+    protected S2sOpportunity getS2s(DevelopmentProposal proposal) throws DatatypeConfigurationException {
+        S2sOpportunity opportunity = new S2sOpportunity();
+        opportunity.setAgencyContactInfo(AGENCY_CONTACT_INFO);
+        opportunity.setSchemaUrl(SCHEMA_URL);
+        opportunity.setCompetetionId(COMP_ID);
+        opportunity.setInstructionUrl(INS_URL);
+        opportunity.setOpportunityId(OPP_ID);
+        opportunity.setCfdaNumber(CFDA);
+        opportunity.setS2sSubmissionTypeCode(SUB_TYPE_CODE);
+        opportunity.setProviderCode(PROVIDER_CODE);
+        opportunity.setMultiProject(false);
+        opportunity.setDevelopmentProposal(proposal);
+
+        GregorianCalendar c = new GregorianCalendar();
+        c.setTime(new Date(System.currentTimeMillis()));
+        XMLGregorianCalendar date1 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+
+
+        opportunity.setClosingDate(date1.toGregorianCalendar());
+        opportunity.setOpeningDate(date1.toGregorianCalendar());
+        Boolean mandatoryFormNotAvailable = false;
+        opportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, opportunity.getProviderCode()));
+        List<S2sOppForms> s2sOppForms = getS2sSubmissionService().parseOpportunityForms(opportunity);
+        if(s2sOppForms!=null){
+            for(S2sOppForms s2sOppForm:s2sOppForms){
+                if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
+                    mandatoryFormNotAvailable = true;
+                    break;
+                }
+            }
+        }
+        if(!mandatoryFormNotAvailable) {
+            Collections.sort(s2sOppForms, new Comparator<S2sOppForms>() {
+                public int compare(S2sOppForms arg0, S2sOppForms arg1) {
+                    int result = arg0.getMandatory().compareTo(arg1.getMandatory()) * -1;
+                    if (result == 0) {
+                        result = arg0.getFormName().compareTo(arg1.getFormName());
+                    }
+                    return result;
+                }
+            });
+            opportunity.setS2sOppForms(s2sOppForms);
+        }
+        return opportunity;
+    }
 
     protected void addNote(ProposalDevelopmentDocument proposalDocument) {
         Note note = new Note();
@@ -149,6 +205,8 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
 
     protected void saveDoc() throws Exception {
         oldDocument = (ProposalDevelopmentDocument) getDocumentService().saveDocument(createProposal());
+        oldDocument.getDevelopmentProposal().setS2sOpportunity(getS2s(oldDocument.getDevelopmentProposal()));
+        getDocumentService().saveDocument(oldDocument);
     }
 
 	@Test
@@ -173,6 +231,10 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         assertEquals(copiedSites.get(0).getDefaultCongressionalDistrict().getCongressionalDistrict(), "MA-008");
 
         assertTrue(copiedDocument.getDevelopmentProposal().getNarratives().size() == 0);
+
+        assertTrue(copiedDocument.getDevelopmentProposal().getS2sOpportunity() != null);
+        assertTrue(copiedDocument.getDevelopmentProposal().getS2sOpportunity().getOpportunityId() == OPP_ID);
+        assertTrue(copiedDocument.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms().size() == 11);
 
     }
 
@@ -266,5 +328,12 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         return KcServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
+    protected DataObjectService getDataObjectService() {
+        return KcServiceLocator.getService(DataObjectService.class);
+    }
 
+
+    public S2sSubmissionService getS2sSubmissionService() {
+        return KcServiceLocator.getService(S2sSubmissionService.class);
+    }
 }
