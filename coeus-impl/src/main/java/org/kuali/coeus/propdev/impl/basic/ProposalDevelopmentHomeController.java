@@ -129,14 +129,13 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return super.save(form);
    }
    
-   @MethodAccessible
+
    @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
    public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
 		   HttpServletRequest request, HttpServletResponse response) throws Exception {
 	   return super.navigate(form, result, request, response);
    }
-		   
-   
+
    @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getSponsor")
    public @ResponseBody Sponsor sponsorByCode(@RequestParam("sponsorCode") String sponsorCode) {

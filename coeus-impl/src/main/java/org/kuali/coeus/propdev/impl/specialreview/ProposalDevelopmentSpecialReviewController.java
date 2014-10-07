@@ -44,7 +44,6 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     @Qualifier("proposalDevelopmentSpecialReviewService")
     private ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
 
-    @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=linkProtocol")
     public ModelAndView linkProtocol(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -58,7 +57,6 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         return getModelAndViewService().getModelAndView(form);
     }
     
-    @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProtocol")
     public ModelAndView createProtocol(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {

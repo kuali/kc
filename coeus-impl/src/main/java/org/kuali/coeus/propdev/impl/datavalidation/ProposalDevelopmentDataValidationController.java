@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ProposalDevelopmentDataValidationController extends ProposalDevelopmentControllerBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDataValidationController.class);
 
-    @MethodAccessible
+
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=validateData")
     public ModelAndView validateData(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -31,7 +31,6 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
         return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
     }
 
-    @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=toggleValidation")
     public ModelAndView toggleValidation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -44,7 +43,6 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
     }
 
 
-    @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=navigateToError")
     public ModelAndView navigateToError(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) throws Exception {

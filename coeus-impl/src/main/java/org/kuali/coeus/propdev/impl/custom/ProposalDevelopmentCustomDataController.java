@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class ProposalDevelopmentCustomDataController extends ProposalDevelopmentControllerBase {
 
-    @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=customDataNavigate")
     public ModelAndView customDataNavigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {

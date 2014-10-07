@@ -54,7 +54,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Qualifier("keyPersonnelService")
 	private KeyPersonnelService keyPersonnelService;
 
-    @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
@@ -136,7 +135,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        return getRefreshControllerService().refresh(form);
    }
 
-    @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-CreditAllocationPage"})
     public ModelAndView navigateToCreditAllocation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {

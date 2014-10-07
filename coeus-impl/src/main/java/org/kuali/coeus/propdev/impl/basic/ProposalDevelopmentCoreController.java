@@ -46,14 +46,14 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 	}
 
 	
-	@MethodAccessible
+
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
 		return getTransactionalDocumentControllerService().start(form);
 	}
 
-	@MethodAccessible
+
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=start")
 	public ModelAndView start(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 		return getTransactionalDocumentControllerService().start(form);
@@ -69,7 +69,7 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 		return getTransactionalDocumentControllerService().reload(form);
 	}
 
-	@MethodAccessible
+
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=sessionTimeout")
 	public ModelAndView sessionTimeout(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -124,7 +124,7 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 		return getNavigationControllerService().returnToHistory(form, false, homeFlag, false);
 	}
 
-	@MethodAccessible
+
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=refresh")
 	public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -142,7 +142,7 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 		return getModelAndViewService().checkForm(form);
 	}
 
-	@MethodAccessible
+
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=performFieldSuggest")
 	public @ResponseBody AttributeQueryResult performFieldSuggest(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -155,7 +155,7 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 		return getTransactionalDocumentControllerService().downloadAttachment(form, response);
 	}
 
-	@MethodAccessible
+
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=performFieldQuery")
 	public @ResponseBody AttributeQueryResult performFieldQuery(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -180,21 +180,21 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 		return getUifExportControllerService().tableXmlRetrieval(form, request, response);
 	}
 
-	@MethodAccessible
+
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=tableJsonRetrieval")
 	public ModelAndView tableJsonRetrieval(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
 		return getCollectionControllerService().tableJsonRetrieval(form);
 	}
 	
-    @MethodAccessible
+
     @RequestMapping(params = "methodToCall=retrieveCollectionPage")
 	public ModelAndView retrieveCollectionPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		return getCollectionControllerService().retrieveCollectionPage(form);
 	}
     
-    @MethodAccessible
+
     @RequestMapping(params = "methodToCall=supervisorFunctions")
     public ModelAndView supervisorFunctions(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
