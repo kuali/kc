@@ -167,7 +167,11 @@ public class KcValidationActionTypeServiceImpl extends KrmsTypeServiceBase imple
         controlBuilder.setWatermark("");
 
         RemotableAttributeField.Builder builder = RemotableAttributeField.Builder.create(krmsAttributeDefinition.getName());
-        builder.setRequired(true);
+        if (KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_SECTION_ATTRIBUTE.equals(krmsAttributeDefinition.getName())) {
+            builder.setRequired(false);
+        } else {
+            builder.setRequired(true);
+        }
         builder.setDataType(DataType.STRING);
         builder.setControl(controlBuilder);
         builder.setLongLabel(krmsAttributeDefinition.getLabel());
