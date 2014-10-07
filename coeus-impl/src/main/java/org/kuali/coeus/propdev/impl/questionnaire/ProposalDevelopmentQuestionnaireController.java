@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.coeus.sys.api.model.KcFile;
+import org.kuali.coeus.sys.framework.controller.ControllerFileUtils;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -124,7 +125,7 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(form.getDevelopmentProposal(), reportParameters);
 
         if (dataStream.getData() != null) {
-            streamToResponse(dataStream, response);
+            ControllerFileUtils.streamToResponse(dataStream, response);
         }
 
         return getModelAndViewService().getModelAndView(form);
@@ -139,15 +140,6 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
         reportParameters.put("id",answerHeader.getQuestionnaire().getId());
 
         return reportParameters;
-    }
-
-    protected void streamToResponse(KcFile attachmentDataSource, HttpServletResponse response) throws Exception {
-        byte[] data = attachmentDataSource.getData();
-        long size = data.length;
-        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(data)) {
-            KRADUtils.addAttachmentToResponse(response, inputStream, attachmentDataSource.getType(), attachmentDataSource.getName(), size);
-            response.flushBuffer();
-        }
     }
 
     public QuestionnairePrintingService getQuestionnairePrintingService() {
