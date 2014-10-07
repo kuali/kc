@@ -43,7 +43,7 @@ public class ProposalPersonServiceTest {
 
 		final ProposalPerson proposalPerson = new ProposalPerson();
 
-		proposalPersonListBuilder = GenericQueryResults.Builder.create();
+		proposalPersonListBuilder = (GenericQueryResults.Builder<ProposalPerson>) GenericQueryResults.Builder.create();
 		proposalPersonListBuilder.setResults(new ArrayList<ProposalPerson>() {
 			{
 				add(proposalPerson);
