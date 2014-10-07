@@ -564,8 +564,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         form.setS2sQuestionnaireHelper(new ProposalDevelopmentS2sQuestionnaireHelper(form));
 
         form.getQuestionnaireHelper().populateAnswers();
+        form.getQuestionnaireHelper().updateChildIndicators();
 
         form.getS2sQuestionnaireHelper().populateAnswers();
+        form.getS2sQuestionnaireHelper().updateChildIndicators();
     }
 
     public List<ProposalDevelopmentDataValidationItem> populateDataValidation(ProposalDevelopmentDocumentForm form, ViewIndex viewIndex) {

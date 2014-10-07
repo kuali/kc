@@ -147,6 +147,11 @@ public abstract class QuestionnaireHelperBase implements Serializable {
         getQuestionnaireAnswerService().setupChildAnswerIndicator(answerHeaders.get(headerIndex));
     }
 
+    public void updateChildIndicators() {
+        for (AnswerHeader answerHeader : answerHeaders) {
+            getQuestionnaireAnswerService().setupChildAnswerIndicator(answerHeader);
+        }
+    }
     /**
      * 
      * This method get/setup questionnaire answers when 'questionnaire' page is clicked.
