@@ -102,7 +102,7 @@
 
 	<bean id="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel" parent="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel-parentBean"/>
 	<bean id="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
-		p:successCallback="showDialog('PropBudget-NonPersonnelCostsPage-AddNonPersonnel');" p:actionLabel="Assign Non-Personnel..."
+		p:successCallback="showDialog('PropBudget-NonPersonnelCostsPage-AddNonPersonnel-Dialog');" p:actionLabel="Assign Non-Personnel..."
 		p:refreshId="PropBudget-NonPersonnelCostsPage-AddNonPersonnel"
 		p:methodToCall="assignLineItemToPeriod">
 		<property name="additionalSubmitData">
@@ -115,7 +115,7 @@
     <bean id="PropBudget-NonPersonnelCostsPage-AddNonPersonnel" parent="PropBudget-NonPersonnelCostsPage-AddNonPersonnel-parentBean"/>
     <bean id="PropBudget-NonPersonnelCostsPage-AddNonPersonnel-parentBean" abstract="true" parent="Uif-DialogGroup"
           p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"
-          p:onHideDialogScript="jQuery('#PropBudget-NonPersonnelCostsPage-AddNonPersonnel').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-NonPersonnelCostsPage-AddNonPersonnel'));});"
+          p:onHideDialogScript="jQuery('#PropBudget-NonPersonnelCostsPage-AddNonPersonnel-Dialog').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-NonPersonnelCostsPage-AddNonPersonnel-Dialog'));});"
           p:header.headerText="Add Assigned Non-Personnel">
         <property name="items">
             <list>
@@ -143,7 +143,7 @@
 
 	<bean id="PropBudget-EditNonPersonnelPeriod-Section" parent="PropBudget-EditNonPersonnelPeriod-Section-parent" />
 	<bean id="PropBudget-EditNonPersonnelPeriod-Section-parent" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper" abstract="true" parent="Uif-DialogGroup" 
-        p:onHideDialogScript="jQuery('#PropBudget-EditNonPersonnelPeriod-Section').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-EditNonPersonnelPeriod-Section'));});"
+        p:onHideDialogScript="jQuery('#PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog'));});"
 		p:headerText="Edit Assigned Non-Personnel">
 		<property name="items">
 			<list>
@@ -286,7 +286,7 @@
 
 	<bean id="PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection" parent="PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection-parent" />
 	<bean id="PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection-parent" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper" abstract="true" parent="Uif-DialogGroup" 
-        p:onHideDialogScript="jQuery('#PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection'));});"
+        p:onHideDialogScript="jQuery('#PropBudget-NonPersonnelCostsPage-EditParticipantSupport-Dialog').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-NonPersonnelCostsPage-EditParticipantSupport-Dialog'));});"
 		p:headerText="Participants">
 		<property name="items">
 			<list>
