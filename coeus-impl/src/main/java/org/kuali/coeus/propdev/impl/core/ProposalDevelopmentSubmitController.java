@@ -127,7 +127,7 @@ public class ProposalDevelopmentSubmitController extends
 	   form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.CANCELED);
 	   return getTransactionalDocumentControllerService().cancel(form);
     }
-    @MethodAccessible
+
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-SubmitPage"}) 
     public ModelAndView navigateToSubmit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
         ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(form);

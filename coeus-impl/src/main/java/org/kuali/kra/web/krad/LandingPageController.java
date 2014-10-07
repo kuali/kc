@@ -45,40 +45,34 @@ public class LandingPageController {
     @Qualifier("kcCommonControllerService")
     private KcCommonControllerService kcCommonControllerService;
     
-    @MethodAccessible
     @RequestMapping(value = "/landingPage")
     public ModelAndView defaultRequest(@ModelAttribute("KualiForm") LandingPageForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         return getModelAndViewService().getModelAndView(form);
     }
 
-    @MethodAccessible
     @ModelAttribute(value = "KualiForm")
     public LandingPageForm initForm(HttpServletRequest request, HttpServletResponse response) {
         return (LandingPageForm) getKcCommonControllerService().initForm(new LandingPageForm(), request, response);
     }
 
-    @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=defaultMapping")
     public ModelAndView defaultMapping(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request,
             HttpServletResponse response) {
         return getControllerService().start(form);
     }
 
-    @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute(value = "KualiForm") LandingPageForm form, HttpServletRequest request, HttpServletResponse response) {
         return getControllerService().start(form);
     }
 
-    @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=sessionTimeout")
     public ModelAndView sessionTimeout(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request,
             HttpServletResponse response) {
         return getControllerService().sessionTimeout(form);
     }
 
-    @MethodAccessible
     @RequestMapping(value = "/landingPage", params = "methodToCall=checkForm")
     public ModelAndView checkForm(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         return getModelAndViewService().checkForm(form);

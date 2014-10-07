@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProposalDevelopmentOrganizationController extends ProposalDevelopmentControllerBase {
 
-    @MethodAccessible
+
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=Organization-LookupView"} )
     public ModelAndView refreshOrganization(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)
             throws Exception {
