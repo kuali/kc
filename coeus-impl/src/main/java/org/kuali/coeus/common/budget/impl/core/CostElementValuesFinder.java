@@ -15,7 +15,9 @@
  */
 package org.kuali.coeus.common.budget.impl.core;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -73,10 +75,12 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
     private List<Predicate> getPredicates(String budgetCategoryTypeCode, boolean budgetCategoryTypeCodeEqual) {
         List<Predicate> predicates = new ArrayList<Predicate>();
         predicates.add(PredicateFactory.equal(KRADPropertyConstants.ACTIVE, Boolean.TRUE));
-        if(budgetCategoryTypeCodeEqual) {
-            predicates.add(PredicateFactory.equal("budgetCategory.budgetCategoryTypeCode", budgetCategoryTypeCode));
-        }else {
-            predicates.add(PredicateFactory.notEqual("budgetCategory.budgetCategoryTypeCode", budgetCategoryTypeCode));
+        if (!StringUtils.isBlank(budgetCategoryTypeCode)){
+	        if(budgetCategoryTypeCodeEqual) {
+	            predicates.add(PredicateFactory.equal("budgetCategory.budgetCategoryTypeCode", budgetCategoryTypeCode));
+	        }else {
+	            predicates.add(PredicateFactory.notEqual("budgetCategory.budgetCategoryTypeCode", budgetCategoryTypeCode));
+	        }
         }
         return predicates;
     }
@@ -95,6 +99,10 @@ public class CostElementValuesFinder extends UifKeyValuesFinderBase {
     }
 
 	public DataObjectService getDataObjectService() {
+		//if this is coming from award budget, the autowiring won't work
+		if (dataObjectService == null) {
+			dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+		}
 		return dataObjectService;
 	}
 

@@ -267,11 +267,20 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 			throw new RuntimeException(e);
 		}
 		if (budgetDocument != null) {
-			awardDocument.getAward().getBudgets().add(budgetDocument.getBudget());
-			return budgetDocument.getBudget();
+			AwardBudgetExt budget = budgetDocument.getBudget();
+			if (budget.getStartDate() != null) {
+	            budget.setBudgetPeriods(getBudgetSummaryService().generateBudgetPeriods(budget));
+	        }
+			awardDocument.getAward().getBudgets().add(budget);
+			budget = saveBudget(budget);
+			return budget;
 		} else {
 			return null;
 		}
+    }
+    
+    protected AwardBudgetExt saveBudget(AwardBudgetExt budget) {
+    	return getBusinessObjectService().save(budget);
     }
 
 

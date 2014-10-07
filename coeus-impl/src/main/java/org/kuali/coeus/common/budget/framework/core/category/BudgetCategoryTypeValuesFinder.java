@@ -18,6 +18,7 @@ package org.kuali.coeus.common.budget.framework.core.category;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -63,6 +64,10 @@ public class BudgetCategoryTypeValuesFinder extends UifKeyValuesFinderBase {
     }
     
 	public DataObjectService getDataObjectService() {
+		//if this is coming from award budget, the autowiring won't work
+		if (dataObjectService == null) {
+			dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+		}
 		return dataObjectService;
 	}
 
