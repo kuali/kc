@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
@@ -93,6 +94,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private List<SponsorFormTemplateList> sponsorFormTemplates;
 
 
+    private AnswerHeader updateAnswerHeader;
     private Map<String, Boolean> personEditableFields;
 
     @SessionTransient
@@ -155,6 +157,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
         proposalDevelopmentRejectionBean = new ProposalDevelopmentRejectionBean();
         populatePersonEditableFields();
+
+        updateAnswerHeader = new AnswerHeader();
 
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
     }
@@ -487,6 +491,14 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
             return this.getDevelopmentProposal().getS2sAppSubmission().get(this.getDevelopmentProposal().getS2sAppSubmission().size()-1);
         }
         return null;
+    }
+
+    public AnswerHeader getUpdateAnswerHeader() {
+        return updateAnswerHeader;
+    }
+
+    public void setUpdateAnswerHeader(AnswerHeader updateAnswerHeader) {
+        this.updateAnswerHeader = updateAnswerHeader;
     }
 
     public List<SponsorFormTemplateList> getSponsorFormTemplates() {

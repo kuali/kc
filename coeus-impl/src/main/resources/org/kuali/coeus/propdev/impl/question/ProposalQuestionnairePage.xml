@@ -57,10 +57,16 @@
                        <property name="header">
                            <bean parent="Uif-SectionHeader">
                                <property name="rightGroup">
-                                   <bean parent="Uif-VerticalBoxGroup">
+                                   <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="PropDev-QuestionnairePage-ActionMenu"/>
+                                                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Update Available" p:order="10" p:methodToCall="prepareUpdateDialog"/>
+                                                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Clear" p:methodToCall="clearQuestionnaire" p:order="20"/>
+                                                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Print" p:order="30">
+                                                    <property name="actionUrl">
+                                                        <bean parent="Uif-Url"/>
+                                                    </property>
+                                                </bean>
                                             </list>
                                         </property>
                                    </bean>
@@ -71,17 +77,33 @@
             </property>
           </bean>
 
-
-    <bean id="PropDev-QuestionnairePage-ActionMenu" parent="PropDev-QuestionnairePage-ActionMenu-parentBean"/>
-    <bean id="PropDev-QuestionnairePage-ActionMenu-parentBean" abstract="true" parent="Uif-DropdownToggleMenu"
-          p:toggleText="Actions"  p:align="right" p:cssClasses="btn,btn-default">
-        <property name="menuItems">
+    <bean id="PropDev-QuestionnairePage-UpdateDialog" parent="PropDev-QuestionnairePage-UpdateDialog-parentBean"/>
+    <bean id="PropDev-QuestionnairePage-UpdateDialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+        p:header.headerText="Please make a selection.">
+        <property name="items">
             <list>
-                <bean parent="Uif-MenuAction" p:actionLabel="Clear" p:methodToCall="clearQuestionnaire" p:style="float:left" p:order="10"/>
-                <bean parent="Uif-MenuAction" p:actionLabel="Print" p:style="float:left" p:order="20"/>
-                <bean parent="Uif-MenuAction" p:actionLabel="Update" p:methodToCall="updateQuestionnaire" p:style="float:left" p:order="30"/>
-
+                <bean parent="Uif-MessageField" p:messageText="A newer version of this questionnaire has been published.  An Update is required." p:order="10"/>
+                <bean parent="Uif-InputField" p:propertyName="updateAnswerHeader.updateOption" p:required="true" p:order="20">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0" p:value="Copy the answers from the old version of questionnaire to the new one.  Only questions that have been changed in the new version will have to be answered." />
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Do not copy answers from previous version of the questionnaire.  Every question in the new version of the questionnaire will have to be answered." />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer.items">
+            <list>
+                <bean id="Uif-DialogConfirmButton" parent="Uif-PrimaryActionButton" p:actionLabel="Ok" p:order="10"
+                      p:dialogDismissOption="REQUEST" p:performClientSideValidation="true" p:methodToCall="updateQuestionnaire"/>
             </list>
         </property>
     </bean>
+
+
 </beans>

@@ -514,7 +514,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             questionnaire.setDocumentNumber("");
         }
         catch (Exception e) {
-
+            throw new RuntimeException("Error creating new questionnaire version",e);
         }
 
     }
