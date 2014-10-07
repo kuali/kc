@@ -17,7 +17,7 @@
 
 	<bean id="PropBudget-ProjectPersonnelPage-AddButton" parent="PropBudget-ProjectPersonnelPage-AddButton-parentBean" />
 	<bean id="PropBudget-ProjectPersonnelPage-AddButton-parentBean" abstract="true"
-		parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Add Personnel"
+		parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Add Personnel" p:render="@{!#parent.readOnly}"
 		p:refreshId="PropBudget-ProjectPersonnelPage-Wizard" p:methodToCall="refresh"
 		p:successCallback="showDialog('PropBudget-ProjectPersonnelPage-Wizard');"
 		p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:0" p:iconClass="icon-plus" />
@@ -119,7 +119,7 @@
 							p:actionParameters="PropDev-PersonnelPage-Wizard.step:2"
 							p:actionLabel="Add Selected Personnel" p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup"
 							p:methodToCall="addProjectPersonnel" p:successCallback="dismissDialog('PropBudget-ProjectPersonnelPage-Wizard');"
-							p:order="20" />
+							p:order="20" p:render="@{!#parent.readOnly}"/>
 						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
 					</list>
 				</property>
