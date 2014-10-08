@@ -80,9 +80,6 @@ public class KcValidationActionTypeServiceImpl extends KrmsTypeServiceBase imple
                     KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_SECTION_ATTRIBUTE + " attribute");
         }
         String validationActionSection = validationActionDefinition.getAttributes().get(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_SECTION_ATTRIBUTE);
-        if (StringUtils.isBlank(validationActionSection)) {
-            throw new RiceIllegalArgumentException(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_SECTION_ATTRIBUTE + " attribute must not be null or blank");
-        }
         //NavigateToPageId
         if (!validationActionDefinition.getAttributes().containsKey(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_NAVIGATE_TO_PAGE_ID_ATTRIBUTE)) {
             throw new RiceIllegalArgumentException("validationActionDefinition does not contain an " +
