@@ -73,9 +73,10 @@ import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -781,10 +782,10 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put("homePageAuditErrors", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditErrors, Constants.AUDIT_ERRORS));
+            GlobalVariables.getAuditErrorMap().put("homePageAuditErrors", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
         if (auditWarnings.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put("homePageAuditWarnings", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditWarnings, Constants.AUDIT_WARNINGS));            
+            GlobalVariables.getAuditErrorMap().put("homePageAuditWarnings", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditWarnings, Constants.AUDIT_WARNINGS));            
         }
     }
 

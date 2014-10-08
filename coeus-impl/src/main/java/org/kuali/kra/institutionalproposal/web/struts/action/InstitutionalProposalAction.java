@@ -48,7 +48,7 @@ import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
@@ -68,7 +68,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         ActionForward actionForward = super.execute(mapping, form, request, response);
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         
-        if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
+        if (GlobalVariables.getAuditErrorMap().isEmpty()) {
             KcServiceLocator.getService(AuditHelper.class).auditConditionally((InstitutionalProposalForm) form);
         }
         

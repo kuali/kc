@@ -27,8 +27,8 @@ import org.kuali.coeus.s2sgen.api.generate.FormValidationResult;
 import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.coeus.s2sgen.api.core.AuditError;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -84,24 +84,24 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         }
 
         if (auditErrors.size() > 0) {
-            List<org.kuali.rice.kns.util.AuditError> knsAuditErrors = new ArrayList<>();
+            List<org.kuali.rice.krad.util.AuditError> knsAuditErrors = new ArrayList<>();
             for (AuditError error : auditErrors) {
-                knsAuditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
+                knsAuditErrors.add(new org.kuali.rice.krad.util.AuditError(error.getErrorKey(),
                         error.getMessageKey(), error.getLink(),
                         new String[] { }));
             }
             String s2sprovider = proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sProvider().getDescription();
-            KNSGlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, knsAuditErrors, s2sprovider + " " + Constants.AUDIT_ERRORS));
+            GlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, knsAuditErrors, s2sprovider + " " + Constants.AUDIT_ERRORS));
         }
         return valid;
     }
 
-    protected void setValidationErrorMessage(List<AuditError> s2sErrors, List<org.kuali.rice.kns.util.AuditError> auditErrors) {
+    protected void setValidationErrorMessage(List<AuditError> s2sErrors, List<org.kuali.rice.krad.util.AuditError> auditErrors) {
         if (s2sErrors != null) {
             LOG.info("Error list size:" + s2sErrors.size() + s2sErrors.toString());
 
             for (AuditError error : s2sErrors) {
-                auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
+                auditErrors.add(new org.kuali.rice.krad.util.AuditError(error.getErrorKey(),
                         Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
                         new String[]{error.getMessageKey()}));
             }

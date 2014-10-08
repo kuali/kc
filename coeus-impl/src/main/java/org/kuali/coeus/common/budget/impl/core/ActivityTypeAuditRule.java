@@ -26,11 +26,12 @@ import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,7 +59,7 @@ public class ActivityTypeAuditRule {
                 auditErrors.add(new AuditError(Constants.ACTIVITY_TYPE_KEY, KeyConstants.WARNING_ACTIVITY_TYPE_CHANGED,
                     Constants.PROPOSAL_PAGE + "." + Constants.REQUIRED_FIELDS_PANEL_ANCHOR));
             }
-            KNSGlobalVariables.getAuditErrorMap().put("activityTypeAuditWarnings",
+            GlobalVariables.getAuditErrorMap().put("activityTypeAuditWarnings",
                     new AuditCluster("Activity type changed", auditErrors, Constants.AUDIT_WARNINGS));
             valid = false;
         }

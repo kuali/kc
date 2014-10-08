@@ -19,9 +19,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -69,7 +69,7 @@ public abstract class ProtocolPersonnelAuditRuleBase extends KcTransactionalDocu
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(PERSONNEL_AUDIT_ERRORS, new AuditCluster(Constants.PROTOCOL_PERSONNEL_PANEL_NAME,
+            GlobalVariables.getAuditErrorMap().put(PERSONNEL_AUDIT_ERRORS, new AuditCluster(Constants.PROTOCOL_PERSONNEL_PANEL_NAME,
                                                                                           auditErrors, Constants.AUDIT_ERRORS));
         }
     }

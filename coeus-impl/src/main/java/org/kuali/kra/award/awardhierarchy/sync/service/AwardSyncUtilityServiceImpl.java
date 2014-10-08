@@ -33,9 +33,9 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -75,7 +75,7 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
     @SuppressWarnings("unchecked")
     public List<AwardSyncLog> getLogsFromAuditErrors(AwardSyncStatus awardStatus) {
         List<AwardSyncLog> result = new ArrayList<AwardSyncLog>();
-        for (Object object : KNSGlobalVariables.getAuditErrorMap().values()) {
+        for (Object object : GlobalVariables.getAuditErrorMap().values()) {
             AuditCluster cluster = (AuditCluster) object;
             boolean logSuccess = StringUtils.equals(cluster.getCategory(), Constants.AUDIT_WARNINGS);
             for (AuditError error : (List<AuditError>) cluster.getAuditErrorList()) {
@@ -83,7 +83,7 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
                         logSuccess, error.getMessageKey());
             }
         }
-        KNSGlobalVariables.getAuditErrorMap().clear();
+        GlobalVariables.getAuditErrorMap().clear();
         return result;        
     }
     

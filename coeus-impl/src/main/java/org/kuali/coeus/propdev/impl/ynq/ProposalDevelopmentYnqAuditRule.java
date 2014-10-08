@@ -21,9 +21,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -99,11 +99,11 @@ public class ProposalDevelopmentYnqAuditRule extends KcTransactionalDocumentRule
         
         String key = String.format( PROPOSAL_QUESTIONS_PANEL_KEY, groupName );
         
-        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(key)) {
-           KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster(groupName, auditErrors, AUDIT_ERRORS));
+        if (!GlobalVariables.getAuditErrorMap().containsKey(key)) {
+           GlobalVariables.getAuditErrorMap().put(key, new AuditCluster(groupName, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
         }
         
         return auditErrors;

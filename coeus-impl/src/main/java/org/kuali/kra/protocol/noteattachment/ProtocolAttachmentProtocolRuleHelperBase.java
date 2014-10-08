@@ -20,7 +20,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
-import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.krad.util.AuditError;
 
 
 /**

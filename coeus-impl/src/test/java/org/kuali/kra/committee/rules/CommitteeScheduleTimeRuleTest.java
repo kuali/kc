@@ -26,7 +26,7 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleTimeEvent;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -65,7 +65,7 @@ public class CommitteeScheduleTimeRuleTest {
     @Before
     public void setUp(){
         GlobalVariables.setMessageMap(new MessageMap());
-        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        GlobalVariables.setAuditErrorMap(new HashMap());
 
     }
     

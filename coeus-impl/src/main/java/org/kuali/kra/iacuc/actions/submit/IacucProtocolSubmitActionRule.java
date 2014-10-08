@@ -24,9 +24,9 @@ import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRuleBase;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,7 @@ public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRuleBase 
             auditErrors.add(new AuditError(PROTOCOL_ALT_SEARCH_PROPERTY_KEY , KeyConstants.IACUC_PROTOCOL_ALT_SEARCH_DATA_NOT_ENTERED, PRINCIPLES_PANEL_NAME + "." + PRINCIPLES_ANCHOR_NAME));
         }
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(PRINCIPLES_CLUSTER_NAME, new AuditCluster(PRINCIPLES_ANCHOR_NAME, auditErrors, KNS_AUDIT_ERRORS));
+            GlobalVariables.getAuditErrorMap().put(PRINCIPLES_CLUSTER_NAME, new AuditCluster(PRINCIPLES_ANCHOR_NAME, auditErrors, KNS_AUDIT_ERRORS));
             return false;
         } else {
             return true;
@@ -98,11 +98,11 @@ public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRuleBase 
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(PRINCIPLES_CLUSTER_NAME)) {
+        if (!GlobalVariables.getAuditErrorMap().containsKey(PRINCIPLES_CLUSTER_NAME)) {
             auditErrors = new ArrayList<AuditError>();
         }
         else {
-            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(PRINCIPLES_CLUSTER_NAME)).getAuditErrorList();
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(PRINCIPLES_CLUSTER_NAME)).getAuditErrorList();
         }        
         return auditErrors;
     }

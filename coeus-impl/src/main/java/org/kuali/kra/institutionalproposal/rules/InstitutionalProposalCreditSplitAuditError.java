@@ -17,9 +17,9 @@ package org.kuali.kra.institutionalproposal.rules;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,11 +76,11 @@ public class InstitutionalProposalCreditSplitAuditError extends AuditError {
      */
     private static List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        if (!KNSGlobalVariables.getAuditErrorMap().containsKey("contactsAuditErrors")) {
-            KNSGlobalVariables.getAuditErrorMap().put("contactsAuditErrors", new AuditCluster(CONTACTS_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+        if (!GlobalVariables.getAuditErrorMap().containsKey("contactsAuditErrors")) {
+            GlobalVariables.getAuditErrorMap().put("contactsAuditErrors", new AuditCluster(CONTACTS_PANEL_NAME, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get("contactsAuditErrors")).getAuditErrorList();
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get("contactsAuditErrors")).getAuditErrorList();
         }
         
         return auditErrors;
@@ -95,7 +95,7 @@ public class InstitutionalProposalCreditSplitAuditError extends AuditError {
      * @param messageKey
      * @see CreditSplitAuditError
      * @see AuditError
-     * @see KNSGlobalVariables.getAuditErrorMap()
+     * @see GlobalVariables.getAuditErrorMap()
      */
     public static void addAuditError(String messageKey, String ... params) {
         AuditError error = new InstitutionalProposalCreditSplitAuditError(messageKey, params);

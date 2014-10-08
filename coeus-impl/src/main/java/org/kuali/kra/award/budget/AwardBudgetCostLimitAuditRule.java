@@ -25,8 +25,8 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -35,7 +35,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
+import static org.kuali.rice.krad.util.GlobalVariables.getAuditErrorMap;
 
 /**
  * 

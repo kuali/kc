@@ -27,9 +27,9 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -92,16 +92,16 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-        	AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(Constants.CONTACTS_AUDIT_ERROR_KEY_NAME);
+        	AuditCluster existingErrors = (AuditCluster) GlobalVariables.getAuditErrorMap().get(Constants.CONTACTS_AUDIT_ERROR_KEY_NAME);
             if (existingErrors == null) {
-                KNSGlobalVariables.getAuditErrorMap().put(Constants.CONTACTS_AUDIT_ERROR_KEY_NAME, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
+                GlobalVariables.getAuditErrorMap().put(Constants.CONTACTS_AUDIT_ERROR_KEY_NAME, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
                                                                                               auditErrors, Constants.AUDIT_ERRORS));
             } else {
                 existingErrors.getAuditErrorList().addAll(auditErrors);
             }
         }
         if (auditWarnings.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_WARNINGS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
+            GlobalVariables.getAuditErrorMap().put(CONTACTS_AUDIT_WARNINGS, new AuditCluster(Constants.CONTACTS_PANEL_NAME,
                     auditWarnings, Constants.AUDIT_WARNINGS));            
         }
     }

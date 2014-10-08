@@ -6,8 +6,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
@@ -81,8 +81,8 @@ public class AuditHelperImpl implements AuditHelper {
         }
         if (!auditPassed) {
             result = AuditHelper.ValidationState.WARNING;
-            for (Iterator iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
-                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(iter.next());
+            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
                 if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
                     result = AuditHelper.ValidationState.ERROR;
                     break;

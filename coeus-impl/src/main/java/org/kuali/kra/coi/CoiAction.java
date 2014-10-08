@@ -32,7 +32,7 @@ import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +51,7 @@ public abstract class CoiAction extends KcTransactionalDocumentActionBase {
         if (coiDisclosureForm.isAuditActivated()){
             coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
         }
-        if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
+        if(GlobalVariables.getAuditErrorMap().isEmpty()) {
             KcServiceLocator.getService(AuditHelper.class).auditConditionally(coiDisclosureForm);
         }
                 

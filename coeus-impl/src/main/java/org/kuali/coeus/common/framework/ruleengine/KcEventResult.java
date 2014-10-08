@@ -3,7 +3,7 @@ package org.kuali.coeus.common.framework.ruleengine;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.MessageMap;
 

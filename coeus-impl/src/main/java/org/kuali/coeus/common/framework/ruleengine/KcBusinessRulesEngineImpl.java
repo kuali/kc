@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

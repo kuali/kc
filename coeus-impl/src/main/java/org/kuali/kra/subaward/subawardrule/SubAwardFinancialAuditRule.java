@@ -21,9 +21,9 @@ import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -79,10 +79,10 @@ public class SubAwardFinancialAuditRule extends
     @SuppressWarnings("unchecked")
     protected void reportAndCreateFinancialAuditCluster() {
         if (auditWarnings.size() > 0) {
-            AuditCluster existingErrors = (AuditCluster) KNSGlobalVariables.
+            AuditCluster existingErrors = (AuditCluster) GlobalVariables.
             getAuditErrorMap().get(SUBAWARD_FINANCIAL_AUDIT_WARNINGS);
             if (existingErrors == null) {
-                KNSGlobalVariables.getAuditErrorMap().put(
+                GlobalVariables.getAuditErrorMap().put(
                 SUBAWARD_FINANCIAL_AUDIT_WARNINGS, new AuditCluster(Constants.
                 SUBAWARD_FINANCIAL_PANEL_NAME, auditWarnings,
                 Constants.AUDIT_WARNINGS));

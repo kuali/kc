@@ -54,7 +54,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
@@ -98,7 +98,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         
         ActionForward actionForward = super.
         execute(mapping, form, request, response);
-        if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
+        if (GlobalVariables.getAuditErrorMap().isEmpty()) {
             KcServiceLocator.getService(AuditHelper.class).auditConditionally((SubAwardForm) form);
         }
 

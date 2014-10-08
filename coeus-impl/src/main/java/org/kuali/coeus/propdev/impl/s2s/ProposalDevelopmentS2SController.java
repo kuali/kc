@@ -30,8 +30,8 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -199,9 +199,9 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     protected void setValidationErrorMessage(List<org.kuali.coeus.s2sgen.api.core.AuditError> errors) {
         if (errors != null) {
             LOG.info("Error list size:" + errors.size() + errors.toString());
-            List<org.kuali.rice.kns.util.AuditError> auditErrors = new ArrayList<>();
+            List<org.kuali.rice.krad.util.AuditError> auditErrors = new ArrayList<>();
             for (org.kuali.coeus.s2sgen.api.core.AuditError error : errors) {
-                auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
+                auditErrors.add(new org.kuali.rice.krad.util.AuditError(error.getErrorKey(),
                         Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
                         new String[]{error.getMessageKey()}));
             }

@@ -37,9 +37,9 @@ import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -920,11 +920,11 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
     protected List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
-           KNSGlobalVariables.getAuditErrorMap().put(BUDGET_RATE_AUDIT_WARNING_KEY, new AuditCluster(Constants.BUDGET_RATE_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
+        if (!GlobalVariables.getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
+           GlobalVariables.getAuditErrorMap().put(BUDGET_RATE_AUDIT_WARNING_KEY, new AuditCluster(Constants.BUDGET_RATE_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
         }
         else {
-            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(BUDGET_RATE_AUDIT_WARNING_KEY)).getAuditErrorList();
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(BUDGET_RATE_AUDIT_WARNING_KEY)).getAuditErrorList();
         }
         
         return auditErrors;

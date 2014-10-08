@@ -40,7 +40,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarcyActionHelper;
 import org.kuali.coeus.common.budget.framework.copy.CopyPeriodsQuestion;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -267,7 +267,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
              * messages weren't being displayed correctly.  Clearing the AuditMessageMap "fixes" this problem. KRACOEUS-4746.
              */
             if (pdForm.isAuditActivated()) {
-                KNSGlobalVariables.getAuditErrorMap().clear();
+                GlobalVariables.getAuditErrorMap().clear();
             }
         }
 

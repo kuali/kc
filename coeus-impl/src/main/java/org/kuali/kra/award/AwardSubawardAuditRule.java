@@ -21,9 +21,9 @@ import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -77,11 +77,11 @@ public class AwardSubawardAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_ERRORS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
+            GlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_ERRORS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
                                                                                           auditErrors, Constants.AUDIT_ERRORS));
         } 
         if (auditWarnings.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_WARNINGS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
+            GlobalVariables.getAuditErrorMap().put(SUBAWARD_AUDIT_WARNINGS, new AuditCluster(Constants.SUBAWARD_PANEL_NAME,
                     auditWarnings, Constants.AUDIT_WARNINGS));            
         }
     }

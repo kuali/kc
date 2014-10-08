@@ -20,7 +20,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolRuleHelperBase;
-import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.krad.util.AuditError;
 
 
 /**
