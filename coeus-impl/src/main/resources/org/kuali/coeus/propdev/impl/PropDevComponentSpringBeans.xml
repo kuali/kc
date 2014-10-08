@@ -74,6 +74,8 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDataOverrideDialog.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalPermissionsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/action/SuperUserActionsPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalPrintDialog.xml</value>
+
                 <!--  PD Budget -->
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetShared.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetView.xml</value>

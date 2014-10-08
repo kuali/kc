@@ -25,6 +25,7 @@ import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.print.FormPrintResult;
 import org.kuali.coeus.s2sgen.api.print.FormPrintService;
 import org.kuali.coeus.sys.api.model.KcFile;
+import org.kuali.coeus.sys.framework.controller.ControllerFileUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -191,7 +192,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
             proposalDevelopmentDocument.getDevelopmentProposal().setGrantsGovSelectFlag(false);
             return getModelAndViewService().getModelAndView(form);
         }
-        streamToResponse(attachmentDataSource, response);
+        ControllerFileUtils.streamToResponse(attachmentDataSource, response);
         return getModelAndViewService().getModelAndView(form);
     }
 
@@ -211,15 +212,6 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
                                 auditErrors, Constants.GRANTSGOV_ERRORS)
                 );
             }
-        }
-    }
-
-    protected void streamToResponse(KcFile attachmentDataSource, HttpServletResponse response) throws Exception {
-            byte[] data = attachmentDataSource.getData();
-            long size = data.length;
-        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(data)) {
-            KRADUtils.addAttachmentToResponse(response,inputStream,attachmentDataSource.getType(),attachmentDataSource.getName(),size);
-            response.flushBuffer();
         }
     }
 
@@ -280,7 +272,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
         S2sUserAttachedFormFileContract userAttachedFormFile = getUserAttachedFormService().findUserAttachedFormFile(selectedForm);
         if(userAttachedFormFile!=null){
-            streamToResponse(userAttachedFormFile.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
+            ControllerFileUtils.streamToResponse(userAttachedFormFile.getXmlFile().getBytes(), selectedForm.getFormName()+".xml", CONTENT_TYPE_XML, response);
         }else{
             return getModelAndViewService().getModelAndView(form);
         }
@@ -295,7 +287,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         S2sUserAttachedForm selectedForm = s2sAttachedForms.get(Integer.parseInt(selectedLine));
         S2sUserAttachedFormFileContract userAttachedFormFile = getUserAttachedFormService().findUserAttachedFormFile(selectedForm);
         if(userAttachedFormFile!=null){
-            streamToResponse(userAttachedFormFile.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
+            ControllerFileUtils.streamToResponse(userAttachedFormFile.getFormFile(), selectedForm.getFormFileName(), CONTENT_TYPE_PDF, response);
         }else{
             return getModelAndViewService().getModelAndView(form);
         }
@@ -311,14 +303,6 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         return getModelAndViewService().getModelAndView(form);
     }
 
-    protected void streamToResponse(byte[] fileContents, String fileName, String fileContentType, HttpServletResponse response) throws Exception {
-
-        long size = fileContents.length;
-        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContents)) {
-            KRADUtils.addAttachmentToResponse(response, inputStream, fileContentType, fileName, size);
-            response.flushBuffer();
-        }
-    }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refreshSubmissionDetails"})
     public ModelAndView refreshSubmissionDetails( ProposalDevelopmentDocumentForm form) throws Exception {

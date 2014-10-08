@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
+import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
@@ -89,6 +90,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private String narrativeUserRightsSelectedAttachment;
     private ProposalChangedData newProposalChangedData;
     private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
+    private List<SponsorFormTemplateList> sponsorFormTemplates;
+
 
     private Map<String, Boolean> personEditableFields;
 
@@ -152,6 +155,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
         proposalDevelopmentRejectionBean = new ProposalDevelopmentRejectionBean();
         populatePersonEditableFields();
+
+        sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -483,4 +488,13 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         }
         return null;
     }
+
+    public List<SponsorFormTemplateList> getSponsorFormTemplates() {
+        return sponsorFormTemplates;
+    }
+
+    public void setSponsorFormTemplates(List<SponsorFormTemplateList> sponsorFormTemplates) {
+        this.sponsorFormTemplates = sponsorFormTemplates;
+    }
+
 }
