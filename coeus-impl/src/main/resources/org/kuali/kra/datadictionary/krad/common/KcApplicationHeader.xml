@@ -12,6 +12,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+
+
     <bean id="GlobalTheme" parent="Kc-Theme"/>
 
     <bean id="Kc-Theme" parent="Kc-Theme-parentBean"/>
@@ -221,31 +223,31 @@
           parent="Uif-MenuList" p:headerText="Proposals">
         <property name="items">
             <list>
-                <bean parent="Uif-MenuAction" p:actionLabel="Create Proposal"
+                <bean parent="Uif-MenuAction" p:actionLabel="  Create Proposal"
                       p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kc-pd-krad"
                       p:actionUrl.viewId="PropDev-InitiateView"
                       p:actionUrl.controllerMapping="/proposalDevelopment"
                       p:actionUrl.methodToCall="docHandler"
-                      p:actionUrl.requestParameters="command:initiate" p:order="10"/>
-                <bean parent="Uif-MenuAction" p:actionLabel="Proposals Enroute"
+                      p:actionUrl.requestParameters="command:initiate" p:order="10" p:iconClass="icon-chevron-sign-right"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="  Proposals Enroute"
                       p:actionUrl.viewId="EnrouteDevelopmentProposals-LookupViewId"
                       p:actionUrl.controllerMapping="/lookup"
-                      p:order="20"/>
-                <bean parent="Uif-MenuAction" p:actionLabel="All My Proposals"
+                      p:order="20" p:iconClass="icon-chevron-sign-right"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="  All My Proposals"
                       p:actionUrl.viewId="AllDevelopmentProposals-LookupViewId"
                       p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName"
-                      p:actionUrl.controllerMapping="/lookup" p:order="30"/>
-                <bean parent="Uif-MenuAction" p:actionLabel="Create Proposal For S2S Opportunity"
-                      p:order="40"/>
+                      p:actionUrl.controllerMapping="/lookup" p:order="30"  p:iconClass="icon-chevron-sign-right"/>
+                <bean parent="Uif-MenuAction" p:actionLabel="  Create Proposal For S2S Opportunity"
+                      p:order="40" p:iconClass="icon-chevron-sign-right"/>
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
                       p:order="50"/>
-                <bean parent="Uif-MenuAction" p:actionLabel="Search Proposals"
+                <bean parent="Uif-MenuAction" p:actionLabel="  Search Proposals"
                       p:actionUrl.viewId="DevelopmentProposals-LookupViewId"
                       p:actionParameters="viewName:DevelopmentProposals-LookupViewName"
                       p:actionUrl.controllerMapping="/lookup"
-                      p:order="60"/>
+                      p:order="60" p:iconClass="icon-chevron-sign-right"/>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Search Proposal Log" p:order="70">
+                      p:actionLabel="  Search Proposal Log" p:order="70" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -254,7 +256,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Search Institutional Proposals" p:order="80">
+                      p:actionLabel="  Search Institutional Proposals" p:order="80" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -272,16 +274,7 @@
         <property name="items">
             <list>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Awards in Progress" p:order="10">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.award.home.Award&amp;statusCode=1&amp;docFormKey=88888888&amp;includeCustomActionUrls=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
-                        </map>
-                    </property>
-                </bean>
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All my Awards" p:order="20">
+                      p:actionLabel="  All my Awards" p:order="10" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -292,19 +285,26 @@
             </list>
         </property>
     </bean>
-
-    <bean id="Kc-Header-Researcher-NegotiationGroup" parent="Kc-Header-Researcher-NegotiationGroup-parentBean"/>
+<bean id="Kc-Header-Researcher-NegotiationGroup" parent="Kc-Header-Researcher-NegotiationGroup-parentBean"/>
     <bean id="Kc-Header-Researcher-NegotiationGroup-parentBean"
           abstract="true" parent="Uif-MenuList" p:headerText="Negotiations">
         <property name="items">
             <list>
-                <bean parent="Uif-MenuAction" p:actionLabel="All My Negotiations"
-                      p:actionUrl.viewId="Negotiation-LookupView"
-                      p:actionUrl.controllerMapping="/lookup"
-                      p:order="10"/>
+              <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
+                      p:actionLabel="  All My Negotiations" p:order="10" p:iconClass="icon-chevron-sign-right">
+                    <property name="actionUrl.requestParameters">
+                        <map>
+                            <entry key="href"																														
+                           value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.negotiations.bo.Negotiation&amp;docFormKey=88888888&amp;includeCustomActionUrls=true&amp;hideReturnLink=true&amp;associatedNegotiable.piName=@{#userSession == null ? '' : #userSession.getPerson().getFirstName()+'*'+#userSession.getPerson().getLastName()}&amp;searchCriteriaEnabled=true"/>
+                        </map>
+                    </property>
+                </bean>
+
             </list>
         </property>
     </bean>
+
+   
     <bean id="Kc-Header-Researcher-IRBGroup" parent="Kc-Header-Researcher-IRBGroup-parentBean"/>
     <bean id="Kc-Header-Researcher-IRBGroup-parentBean" abstract="true"
           parent="Uif-MenuList" p:headerText="IRB Protocols">
@@ -313,7 +313,7 @@
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Actions"
                       p:order="10"/>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Create IRB Protocol" p:order="20">
+                      p:actionLabel="  Create IRB Protocol" p:order="20"  p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -322,7 +322,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Amend or Renew IRB Protocol" p:order="30">
+                      p:actionLabel="  Amend or Renew IRB Protocol" p:order="30" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -331,7 +331,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Notify IRB on a Protocol" p:order="40">
+                      p:actionLabel="  Notify IRB on a Protocol" p:order="40" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -340,7 +340,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Request a Status Change on a IRB Protocol" p:order="50">
+                      p:actionLabel="  Request a Status Change on a IRB Protocol" p:order="50" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -351,7 +351,7 @@
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
                       p:order="60"/>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Pending Protocols" p:order="70">
+                      p:actionLabel="  Pending Protocols" p:order="70" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -360,8 +360,8 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Protocols Pending PI Action"
-                      p:order="80">
+                      p:actionLabel="  Protocols Pending PI Action"
+                      p:order="80" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -370,7 +370,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Protocols Pending Committee Action" p:order="90">
+                      p:actionLabel="  Protocols Pending Committee Action" p:order="90" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -379,53 +379,60 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Protocols Under Development"
-                      p:order="100">
+                      p:actionLabel="  Protocols Under Development"
+                      p:order="100" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.irb.Protocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.irb.Protocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;protocolStatusCode=101"/>
+
                         </map>
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All My Protocols"
-                      p:order="110">
+                      p:actionLabel="  All My Protocols"
+                      p:order="110" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.irb.Protocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true"/>
+
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.irb.Protocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupProtocolPersonId=@{#userSession == null ? '' : #userSession.getPerson().getPrincipalId()}"/>
+
                         </map>
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Search Protocols"
-                      p:order="120">
+                      p:actionLabel="  Search Protocols"
+                      p:order="120" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.irb.onlinereview.ProtocolOnlineReview&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.irb.Protocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+
                         </map>
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All My Reviews"
-                      p:order="130">
+                      p:actionLabel="  All My Reviews"
+                      p:order="130" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
 
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupProtocolPersonId=10000000001"/>
+                                value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupReviewerPersonId=@{#userSession == null ? '' : #userSession.getPerson().getPrincipalId()}"/>
                         </map>
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All My Schedules"
-                      p:order="140">
+                      p:actionLabel="  All My Schedules"
+                      p:order="140" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.committee.bo.CommitteeSchedule&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.committee.bo.CommitteeSchedule&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;committee.committeeMemberships.personId=@{#userSession == null ? '' : #userSession.getPerson().getPrincipalId()}"/>
                         </map>
                     </property>
                 </bean>
@@ -438,10 +445,10 @@
           parent="Uif-MenuList" p:headerText="Conflict of Interest">
         <property name="items">
             <list>
-                <bean parent="Uif-SimpleHeaderFour" p:headerText="My Financial Entities" p:order="10"/>
+                <bean parent="Uif-SimpleHeaderFour" p:headerText="  My Financial Entities" p:order="10" />
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Financial Entity"
-                      p:order="20">
+                      p:actionLabel="  Financial Entity"
+                      p:order="20" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -451,8 +458,8 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="View/Edit Financial Entities"
-                      p:order="30">
+                      p:actionLabel="  View/Edit Financial Entities"
+                      p:order="30" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -461,12 +468,13 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All My Financial Entities"
-                      p:order="40">
+                      p:actionLabel="  All My Financial Entities"
+                      p:order="40" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
                         </map>
                     </property>
                 </bean>
@@ -474,8 +482,8 @@
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="My Disclosures"
                       p:order="50"/>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Master Disclosure"
-                      p:order="60">
+                      p:actionLabel="  Master Disclosure"
+                      p:order="60" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -484,18 +492,18 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Create Annual Disclosure"
-                      p:order="70">
+                      p:actionLabel="  Create Annual Disclosure"
+                      p:order="70" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/coiDisclosure.do?methodToCall=docHandler&amp;command=initiate&amp;docTypeName=CoiDisclosureDocument"/>
+                               value="@{#ConfigProperties['application.url']}/coiDisclosure.do?methodToCall=docHandler&amp;command=initiate&amp;docTypeName=CoiDisclosureDocument"/>
                         </map>
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Create Manual Disclosure" p:order="80">
-                    <property name="actionUrl.requestParameters">
+                      p:actionLabel="  Create Manual Disclosure" p:order="80" p:iconClass="icon-chevron-sign-right">
+                    <property name="actionUrl.requestParameters" >
                         <map>
                             <entry key="href"
                                    value="@{#ConfigProperties['application.url']}/coiDisclosure.do?methodToCall=docHandler&amp;command=initiate_12&amp;docTypeName=CoiDisclosureDocument"/>
@@ -503,7 +511,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="New Project Disclosures To Complete" p:order="90">
+                      p:actionLabel="  New Project Disclosures To Complete" p:order="90" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -512,7 +520,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Update Master Disclosure" p:order="100">
+                      p:actionLabel="  Update Master Disclosure" p:order="100" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -521,28 +529,28 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All My Disclosures"
-                      p:order="110">
+                      p:actionLabel="  All My Disclosures"
+                      p:order="110" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.coi.CoiDisclosure&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+
+       <entry key="href" value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.coi.CoiDisclosure&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;personId=@{#userSession == null ? '' : #userSession.getPerson().getPrincipalId()}"/>
                         </map>
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All My Disclosure Reviews"
-                      p:order="120">
+                      p:actionLabel="  All My Disclosure Reviews"
+                      p:order="120" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.coi.CoiDisclosureReviews&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+                               value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.coi.CoiDisclosureReviews&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
                         </map>
                     </property>
                 </bean>
 
-                <bean parent="Uif-MenuAction" p:actionLabel="Search Disclosures"
-                      p:order="130">
+                <bean parent="Uif-MenuAction" p:actionLabel="  Search Disclosures"
+                      p:order="130" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -562,7 +570,7 @@
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Actions"
                       p:order="10"/>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Create IACUC Protocol" p:order="20">
+                      p:actionLabel="  Create IACUC Protocol" p:order="20" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -573,17 +581,17 @@
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
                       p:order="30"/>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All My Protocols"
-                      p:order="40">
+                      p:actionLabel="  All My Protocols"
+                      p:order="40" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.iacuc.IacucProtocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+                                value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.iacuc.IacucProtocol&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=@{#userSession == null ? '' : #userSession.getPerson().getPrincipalId()}"/>
                         </map>
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Search Protocols" p:order="50">
+                      p:actionLabel="  Search Protocols" p:order="50" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -592,22 +600,23 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All My Reviews" p:order="60">
+                      p:actionLabel="  All My Reviews" p:order="60" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview
-&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+
+value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;ookupReviewerPersonId=@{#userSession == null ? '' : #userSession.getPerson().getPrincipalId()}"/>
                         </map>
                     </property>
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All My Schedules" p:order="70">
+                      p:actionLabel="  All My Schedules" p:order="70" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;committee.committeeMemberships.personId=@{#userSession == null ? '' : #userSession.getPerson().getPrincipalId()}"/>
                         </map>
                     </property>
                 </bean>
@@ -621,8 +630,8 @@
         <property name="items">
             <list>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Pessimistic Lock"
-                      p:order="10">
+                      p:actionLabel="  Pessimistic Lock"
+                      p:order="10" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -631,16 +640,17 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Grants.gov Opportunity Lookup" p:order="20">
+                      p:actionLabel="  Grants.gov Opportunity Lookup" p:order="20" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.coeus.propdev.impl.s2s.S2sOpportunity&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.coeus.propdev.impl.s2s.S2sOpportunity&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;docFormKey = 88888888"/>
+
                         </map>
                     </property>
                 </bean>
-                <bean parent="Uif-MenuAction" p:actionLabel="Change Password"
-                      p:order="30"/>
+               
             </list>
         </property>
     </bean>
@@ -650,10 +660,9 @@
           abstract="true" parent="Uif-MenuList" p:headerText="Personnel">
         <property name="items">
             <list>
-                <bean parent="Uif-MenuAction" p:actionLabel="Degree Information"
-                      p:order="10"/>
+               
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Current &amp; Pending Support" p:order="20">
+                      p:actionLabel="  Current &amp; Pending Support" p:order="10" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -661,10 +670,7 @@
                         </map>
                     </property>
                 </bean>
-                <bean parent="Uif-MenuAction" p:actionLabel="Bio-sketches"
-                      p:order="30"/>
-                <bean parent="Uif-MenuAction" p:actionLabel="All my Training"
-                      p:order="40"/>
+                
             </list>
         </property>
     </bean>
@@ -675,7 +681,7 @@
         <property name="items">
             <list>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Preferences" p:order="10">
+                      p:actionLabel="  Preferences" p:order="10" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/kew/Preferences.do"/>
@@ -721,32 +727,26 @@
                 <bean parent="Uif-HorizontalBoxSection" p:order="10">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="Proposal Development" p:order="10"/>
-                            <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                                  p:iconClass="icon-plus" p:order="20">
-                                <property name="actionUrl.requestParameters">
-                                    <map>
-                                        <entry key="href"
-                                               value="@{#ConfigProperties['application.url']}/proposalDevelopmentProposal.do?methodToCall=docHandler&amp;command=initiate&amp;docFormKey=88888888&amp;docTypeName=ProposalDevelopmentDocument"/>
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                                  p:iconClass="icon-search" p:order="30">
-                                <property name="actionUrl.requestParameters">
-                                    <map>
-                                        <entry key="href"
-                                               value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.coeus.propdev.impl.core.DevelopmentProposal&amp;docFormKey=88888888&amp;includeCustomActionUrls=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
-                                    </map>
-                                </property>
-                            </bean>
+              <bean parent="Uif-Label" p:labelText="Proposal Development" p:renderColon="false" p:cssClasses="icon-chevron-sign-right"  />
+                <bean parent="Uif-MenuAction"   p:iconClass="icon-plus"
+                      p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kc-pd-krad"
+                      p:actionUrl.viewId="PropDev-InitiateView"
+                      p:actionUrl.controllerMapping="/proposalDevelopment"
+                      p:actionUrl.methodToCall="docHandler"
+                      p:actionUrl.requestParameters="command:initiate" p:order="20"/>
+                
+                <bean parent="Uif-MenuAction" p:iconClass="icon-search"
+                      p:actionUrl.viewId="AllDevelopmentProposals-LookupViewId"
+                      p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName"
+                      p:actionUrl.controllerMapping="/lookup" p:order="30"/>
+
                         </list>
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalBoxSection" p:order="20">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="Proposal Log" p:order="10"/>
+                          <bean parent="Uif-Label" p:labelText="Proposal Log" p:renderColon="false" p:cssClasses="icon-chevron-sign-right" p:order="10" />
                             <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
                                   p:iconClass="icon-plus" p:order="20">
                                 <property name="actionUrl.requestParameters">
@@ -773,7 +773,7 @@
                 <bean parent="Uif-HorizontalBoxSection" p:order="30">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="Institutional Proposal" p:order="10"/>
+                         <bean parent="Uif-Label" p:labelText="Institutional Proposal" p:renderColon="false" p:cssClasses="icon-chevron-sign-right" p:order="10" />
                             <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
                                   p:iconClass="icon-plus" p:order="20">
                                 <property name="actionUrl.requestParameters">
@@ -799,7 +799,7 @@
                 <bean parent="Uif-HorizontalBoxSection" p:order="40">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="Negotiations" p:order="10"/>
+                         <bean parent="Uif-Label" p:labelText="Negotiations" p:renderColon="false" p:cssClasses="icon-chevron-sign-right" p:order="10" />
                             <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
                                   p:iconClass="icon-plus" p:order="20">
                                 <property name="actionUrl.requestParameters">
@@ -823,11 +823,10 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="All My Negotiations" p:order="50">
+                      p:actionLabel="  All My Negotiations" p:order="50" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.negotiations.bo.Negotiation&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001&amp;searchCriteriaEnabled=true"/>
+                        <entry key="href" value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.negotiations.bo.Negotiation&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;negotiatorName=@{#userSession == null ? '' : #userSession.getPerson().getFirstName()+'*'+#userSession.getPerson().getLastName()}&amp;lookupProtocolPersonId=@{#userSession == null ? '' : #userSession.getPerson().getPrincipalId()}&amp;searchCriteriaEnabled=true"/>
                         </map>
                     </property>
                 </bean>
@@ -841,7 +840,7 @@
         <property name="items">
             <list>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Awards" p:order="10">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Awards" p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -851,7 +850,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Award Report Tracking" p:order="20">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Award Report Tracking" p:order="20"  p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -860,7 +859,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Subawards" p:order="30">
+                      p:actionLabel="  Subawards" p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -882,8 +881,8 @@
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Conflict of Interest"
                       p:order="5"/>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Disclosure"
-                      p:order="10">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Disclosure"
+                      p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -892,8 +891,8 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Event Disclosures"
-                      p:order="20">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Event Disclosures"
+                      p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -902,8 +901,8 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Non Project Event Disclosures"
-                      p:order="30">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Non Project Event Disclosures"
+                      p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -912,8 +911,8 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Submitted Disclosures"
-                      p:order="40">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Submitted Disclosures"
+                      p:order="40" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -922,8 +921,8 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Annual Event Disclosures"
-                      p:order="50">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Annual Event Disclosures"
+                      p:order="50" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -932,8 +931,8 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Undisclosed Events"
-                      p:order="60">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Undisclosed Events"
+                      p:order="60" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -941,20 +940,10 @@
                         </map>
                     </property>
                 </bean>
-
+              
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Open and In Progress Disclosures"
-                      p:order="70">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/coiSearchOpen.do?methodToCall=openCustomSearch&amp;docFormKey=88888888"/>
-                        </map>
-                    </property>
-                </bean>
-                <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Person Search"
-                      p:order="80">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Person Search"
+                      p:order="70" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -962,13 +951,13 @@
                         </map>
                     </property>
                 </bean>
-                <bean parent="Uif-SimpleHeaderFour" p:headerText="Protocols" p:order="90"/>
+                <bean parent="Uif-SimpleHeaderFour" p:headerText="Protocols" p:order="80"/>
 
 
-                <bean parent="Uif-HorizontalBoxSection" p:order="100">
+                <bean parent="Uif-HorizontalBoxSection" p:order="90">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="Animals"/>
+                            <bean parent="Uif-Label" p:labelText="Animals" p:renderColon="false" p:cssClasses="icon-chevron-sign-right"/>
                             <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
                                   p:iconClass="icon-plus">
                                 <property name="actionUrl.requestParameters">
@@ -992,10 +981,10 @@
                 </bean>
 
 
-                <bean parent="Uif-HorizontalBoxSection" p:order="110">
+                <bean parent="Uif-HorizontalBoxSection" p:order="100">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="Human Participants" p:order="10"/>
+                          <bean parent="Uif-Label" p:labelText="Human Participants" p:renderColon="false" p:cssClasses="icon-chevron-sign-right" p:order="10" />
                             <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
                                   p:iconClass="icon-plus" p:order="20">
                                 <property name="actionUrl.requestParameters">
@@ -1029,7 +1018,7 @@
                 <bean parent="Uif-HorizontalBoxSection" p:order="10">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="IRB Committee" p:order="10"/>
+                           <bean parent="Uif-Label" p:labelText="IRB Committee" p:renderColon="false" p:cssClasses="icon-chevron-sign-right" p:order="10" />
                             <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
                                   p:iconClass="icon-plus" p:order="20">
                                 <property name="actionUrl.requestParameters">
@@ -1055,7 +1044,7 @@
                 <bean parent="Uif-HorizontalBoxSection" p:order="20">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="IACUC Committee" p:order="10"/>
+                           <bean parent="Uif-Label" p:labelText="IACUC Committee" p:renderColon="false" p:cssClasses="icon-chevron-sign-right" p:order="10" />
                             <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
                                   p:iconClass="icon-plus" p:order="20">
                                 <property name="actionUrl.requestParameters">
@@ -1078,8 +1067,8 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Protocol Submissions"
-                      p:order="30">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Protocol Submissions"
+                      p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1089,8 +1078,8 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="IACUC Submissions"
-                      p:order="40">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  IACUC Submissions"
+                      p:order="40" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1099,8 +1088,8 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="IRB Schedules"
-                      p:order="50">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  IRB Schedules"
+                      p:order="50" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1110,8 +1099,8 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="IACUC Schedules"
-                      p:order="60">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  IACUC Schedules"
+                      p:order="60" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1127,8 +1116,8 @@
         <property name="items">
             <list>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Pessimistic Lock"
-                      p:order="10">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Pessimistic Lock"
+                      p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1137,32 +1126,33 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Grants.gov Opportunity Lookup"
-                      p:order="20">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Grants.gov Opportunity Lookup"
+                      p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.coeus.propdev.impl.s2s.S2sOpportunity&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
+
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.coeus.propdev.impl.s2s.S2sOpportunity&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;docFormKey=88888888"/>
+
                         </map>
                     </property>
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Address Book"
-                      p:order="30">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Address Book"
+                      p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
+      value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.coeus.common.framework.rolodex.Rolodex&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;docFormKey=88888888"/>
 
-
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.coeus.common.framework.rolodex.Rolodex&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;lookupProtocolPersonId=10000000001"/>
                         </map>
                     </property>
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Sponsor Lookup"
-                      p:order="40">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Sponsor Lookup"
+                      p:order="40" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1171,8 +1161,8 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Keyword Lookup"
-                      p:order="50">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Keyword Lookup"
+                      p:order="50" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1181,7 +1171,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Current &amp; Pending Support" p:order="60">
+                      p:actionLabel="  Current &amp; Pending Support" p:order="60" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1191,7 +1181,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Perform Person Mass Change" p:order="70">
+                      p:actionLabel="  Perform Person Mass Change" p:order="70" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1202,7 +1192,7 @@
 
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="ISR/SSR Reporting" p:order="80">
+                      p:actionLabel="  ISR/SSR Reporting" p:order="80" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1212,7 +1202,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Award subcontracting goals and expenditures" p:order="90">
+                      p:actionLabel="  Award Subcontracting Goals and Expenditures" p:order="90" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1222,7 +1212,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Subcontracting Expenditures Data Generation" p:order="100">
+                      p:actionLabel="  Subcontracting Expenditures Data Generation" p:order="100" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1230,16 +1220,7 @@
                         </map>
                     </property>
                 </bean>
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Change Password" p:order="110">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value=""/>
-                        </map>
-                    </property>
-                </bean>
-
+                
             </list>
         </property>
     </bean>
@@ -1249,8 +1230,8 @@
         <property name="items">
             <list>
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="People Flow"
-                      p:order="10">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  People Flow"
+                      p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1260,7 +1241,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Preferences" p:order="20">
+                      p:actionLabel="  Preferences" p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/kew/Preferences.do"/>
@@ -1269,8 +1250,8 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Routing Report"
-                      p:order="30">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Routing Report"
+                      p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/kew/RoutingReport.do"/>
@@ -1279,8 +1260,8 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Rules"
-                      p:order="40">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Rules"
+                      p:order="40" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1290,8 +1271,8 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Rule QuickLinks"
-                      p:order="50">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Rule QuickLinks"
+                      p:order="50" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/kew/RuleQuickLinks.do"/>
@@ -1308,7 +1289,7 @@
         <property name="items">
             <list>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Agenda" p:order="10">
+                      p:actionLabel="  Agenda" p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1318,8 +1299,8 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Context"
-                      p:order="20">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Context"
+                      p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1330,8 +1311,8 @@
 
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Attribute Definition"
-                      p:order="30">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Attribute Definition"
+                      p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1341,8 +1322,8 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Term"
-                      p:order="40">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Term"
+                      p:order="40"  p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1353,8 +1334,8 @@
 
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Term Specification"
-                      p:order="50">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Term Specification"
+                      p:order="50" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1365,8 +1346,8 @@
 
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Category"
-                      p:order="60">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Category"
+                      p:order="60" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1431,13 +1412,12 @@
                 <property name="items">
                     <list>
                         <bean parent="Kc-Header-SystemAdmin-Group1" p:order="10"/>
-                        <bean parent="Kc-Header-SystemAdmin-Group2" p:order="20"/>
-                        <bean parent="Kc-Header-SystemAdmin-Group3" p:order="30"/>
-                        <bean parent="Kc-Header-SystemAdmin-Group4" p:order="40"/>
-                        <bean parent="Kc-Header-SystemAdmin-Group5" p:order="50"/>
-                        <bean parent="Kc-Header-SystemAdmin-Group6" p:order="60"/>
-                        <bean parent="Kc-Header-SystemAdmin-Group7" p:order="70"/>
-                        <bean parent="Kc-Header-SystemAdmin-Group8" p:order="80"/>
+                        <bean parent="Kc-Header-SystemAdmin-Group3" p:order="20"/>
+                        <bean parent="Kc-Header-SystemAdmin-Group4" p:order="30"/>
+                        <bean parent="Kc-Header-SystemAdmin-Group5" p:order="40"/>
+                        <bean parent="Kc-Header-SystemAdmin-Group6" p:order="50"/>
+                        <bean parent="Kc-Header-SystemAdmin-Group7" p:order="60"/>
+                        <bean parent="Kc-Header-SystemAdmin-Group8" p:order="70"/>
                     </list>
                 </property>
             </bean>
@@ -1449,13 +1429,7 @@
         <property name="items">
             <list>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Employee Status" p:order="10"/>
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Employee Type" p:order="20"/>
-
-
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Messages Of The Day" p:order="30">
+                      p:actionLabel="  Messages Of The Day" p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1464,7 +1438,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Person Extended Attributes" p:order="40">
+                      p:actionLabel="  Person Extended Attributes" p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1474,7 +1448,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Document Configuration Hierarchy" p:order="50">
+                      p:actionLabel="  Document Configuration Hierarchy" p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1483,19 +1457,6 @@
                     </property>
                 </bean>
 
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="System Options" p:order="60"/>
-
-            </list>
-        </property>
-    </bean>
-
-    <bean id="Kc-Header-SystemAdmin-Group2" parent="Kc-Header-SystemAdmin-Group2-parentBean"/>
-    <bean id="Kc-Header-SystemAdmin-Group2-parentBean" abstract="true" parent="Uif-MenuList" p:headerText="Batch">
-        <property name="items">
-            <list>
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Batch Schedule" p:order="10"/>
             </list>
         </property>
     </bean>
@@ -1508,7 +1469,7 @@
             <list>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Parameter" p:order="10">
+                      p:actionLabel="  Parameter" p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1518,7 +1479,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Parameter Type" p:order="20">
+                      p:actionLabel="  Parameter Type" p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1528,7 +1489,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Component" p:order="30">
+                      p:actionLabel="  Component" p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1539,7 +1500,7 @@
 
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Namespace" p:order="40">
+                      p:actionLabel="  Namespace" p:order="40" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1549,7 +1510,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Pessimistic Lock" p:order="50">
+                      p:actionLabel="  Pessimistic Lock" p:order="50" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1559,7 +1520,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Configuration Viewer" p:order="60">
+                      p:actionLabel="  Configuration Viewer" p:order="60" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/ksb/ConfigViewer.do"/>
@@ -1578,7 +1539,7 @@
         <property name="items">
             <list>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Cache Admin" p:order="10">
+                      p:actionLabel="  Cache Admin" p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1597,7 +1558,7 @@
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Identity" p:order="5"/>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Person" p:order="10">
+                      p:actionLabel="  Person" p:order="10"  p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1607,7 +1568,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Group" p:order="20">
+                      p:actionLabel="  Group" p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1616,8 +1577,8 @@
                     </property>
                 </bean>
 
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Role"
-                      p:order="30">
+                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Role"
+                      p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1627,7 +1588,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Permission" p:order="40">
+                      p:actionLabel="  Permission" p:order="40" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1637,7 +1598,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Responsibility" p:order="50">
+                      p:actionLabel="  Responsibility" p:order="50" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1650,7 +1611,7 @@
 
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Campus" p:order="60">
+                      p:actionLabel="  Campus" p:order="60" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1660,7 +1621,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Country" p:order="70">
+                      p:actionLabel="  Country" p:order="70" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1670,7 +1631,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="County" p:order="80">
+                      p:actionLabel="  County" p:order="80" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1680,7 +1641,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Postal Code" p:order="90">
+                      p:actionLabel="  Postal Code" p:order="90" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1690,7 +1651,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="State" p:order="100">
+                      p:actionLabel="  State" p:order="100" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1703,7 +1664,7 @@
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Reference" p:order="105"/>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Address Type" p:order="110">
+                      p:actionLabel="  Address Type" p:order="110" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1712,7 +1673,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Affiliation Type" p:order="120">
+                      p:actionLabel="  Affiliation Type" p:order="120" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1722,7 +1683,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Campus Type" p:order="130">
+                      p:actionLabel="  Campus Type" p:order="130" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1731,7 +1692,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Citizenship Status" p:order="140">
+                      p:actionLabel="  Citizenship Status" p:order="140" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1741,7 +1702,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Email Type" p:order="150">
+                      p:actionLabel="  Email Type" p:order="150" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1750,7 +1711,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Employment Status" p:order="160">
+                      p:actionLabel="  Employment Status" p:order="160" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1759,7 +1720,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Employment Type" p:order="170">
+                      p:actionLabel="  Employment Type" p:order="170" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1768,7 +1729,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Entity Type" p:order="180">
+                      p:actionLabel="  Entity Type" p:order="180" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1778,7 +1739,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="External Identifier Type" p:order="190">
+                      p:actionLabel="  External Identifier Type" p:order="190"  p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1787,7 +1748,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Name Type" p:order="200">
+                      p:actionLabel="  Name Type" p:order="200" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1796,7 +1757,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Phone Type" p:order="210">
+                      p:actionLabel="  Phone Type" p:order="210" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1805,7 +1766,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Role/Group/Permission/Responsibility Type" p:order="220">
+                      p:actionLabel="Role/Group/Permission/Responsibility Type" p:order="220" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1827,7 +1788,7 @@
 
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Rule Attribute" p:order="10">
+                      p:actionLabel="  Rule Attribute" p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1837,7 +1798,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Rule Template" p:order="20">
+                      p:actionLabel="  Rule Template" p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1847,7 +1808,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="XML Stylesheets" p:order="30">
+                      p:actionLabel="  XML Stylesheets" p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1857,7 +1818,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="XML Ingester" p:order="40">
+                      p:actionLabel="  XML Ingester" p:order="40" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/kew/../core/Ingester.do"/>
@@ -1866,7 +1827,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Statistics" p:order="50">
+                      p:actionLabel="  Statistics" p:order="50" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/kew/Stats.do"/>
@@ -1875,7 +1836,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Document Operation" p:order="60">
+                      p:actionLabel="  Document Operation" p:order="60" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/kew/DocumentOperation.do"/>
@@ -1884,7 +1845,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Document Type" p:order="70">
+                      p:actionLabel="  Document Type" p:order="70" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1894,7 +1855,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Security Management" p:order="80">
+                      p:actionLabel="  Security Management" p:order="80" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1915,7 +1876,7 @@
             <list>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Send Simple Notification" p:order="10">
+                      p:actionLabel="  Send Simple Notification" p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1925,7 +1886,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Send Event Notification" p:order="20">
+                      p:actionLabel="  Send Event Notification" p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1935,7 +1896,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Manage Content Types" p:order="30">
+                      p:actionLabel="  Manage Content Types" p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -1953,7 +1914,7 @@
             <list>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Message Queue" p:order="10">
+                      p:actionLabel="  Message Queue" p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/ksb/MessageQueue.do"/>
@@ -1962,7 +1923,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Thread Pool" p:order="20">
+                      p:actionLabel="  Thread Pool" p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/ksb/ThreadPool.do"/>
@@ -1971,7 +1932,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Service Registry" p:order="30">
+                      p:actionLabel="  Service Registry" p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/ksb/ServiceRegistry.do"/>
@@ -1980,7 +1941,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Service Bus" p:order="40">
+                      p:actionLabel="  Service Bus" p:order="40" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/ksb/ServiceBus.do"/>
@@ -1989,7 +1950,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Quartz" p:order="50">
+                      p:actionLabel="  Quartz" p:order="50"  p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href" value="@{#ConfigProperties['application.url']}/ksb/Quartz.do"/>
@@ -1998,7 +1959,7 @@
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Security Management" p:order="60">
+                      p:actionLabel="  Security Management" p:order="60" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
