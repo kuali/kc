@@ -1,12 +1,18 @@
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -14,23 +20,26 @@ import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.service.impl.CollectionControllerServiceImpl.CollectionActionParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller("proposalBudgetSubAwardController")
+@RequestMapping("/proposalBudget")
 public class ProposalBudgetSubAwardController extends
 		ProposalBudgetControllerBase {
 	
@@ -48,9 +57,102 @@ public class ProposalBudgetSubAwardController extends
 	@Qualifier("kcAttachmentService")
 	private KcAttachmentService kcAttachmentService;
 	
-	@MethodAccessible
-	@RequestMapping(value="/proposalBudget", params={"methodToCall=addLine","actionParameters["+UifParameters.SELECTED_COLLECTION_PATH+"]=budget.budgetSubAwards"})
-	public ModelAndView addSubAward(ProposalBudgetForm form) throws Exception {
+
+	@RequestMapping(params={"methodToCall=retrieveEditLineDialog","actionParameters["+UifParameters.SELECTED_COLLECTION_PATH+"]=budget.budgetSubAwards"})
+	public ModelAndView showSubawardEditLineDialog(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
+		//pre-fetch the period details as this item will be serialized as part of
+		BudgetSubAwards budgetSubAward = form.getBudget().getBudgetSubAwards().get(Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX)));
+		budgetSubAward.getBudgetSubAwardPeriodDetails().iterator();
+		budgetSubAward.getBudgetSubAwardFiles().iterator();
+		return getCollectionControllerService().retrieveEditLineDialog(form);
+	}
+	
+	@RequestMapping(params="methodToCall=viewSubAwardPdf")
+	public void viewPdf(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form, HttpServletResponse response) {
+		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
+		BudgetSubAwardAttachment attachment = getDataObjectService().findUnique(BudgetSubAwardAttachment.class, QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("budgetSubAward.budgetId", subAward.getBudgetId()), PredicateFactory.equal("budgetSubAward.subAwardNumber", subAwardNumber)));
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(attachment.getData());
+            KRADUtils.addAttachmentToResponse(response,inputStream,attachment.getType(), attachment.getName(), attachment.getData().length);
+            response.flushBuffer();
+        } catch (Exception e) {
+            LOG.error("Error while downloading attachment");
+            throw new RuntimeException("IOException occurred while downloading attachment", e);
+        }
+	}
+	
+	@RequestMapping(params="methodToCall=viewSubAwardXml")
+	public void viewXml(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form, HttpServletResponse response) {
+		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
+		BudgetSubAwardFiles file = getDataObjectService().findUnique(BudgetSubAwardFiles.class, QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("budgetSubAward.budgetId", subAward.getBudgetId()), PredicateFactory.equal("budgetSubAward.subAwardNumber", subAwardNumber)));
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(file.getSubAwardXmlFileData().getBytes());
+            KRADUtils.addAttachmentToResponse(response,inputStream,"text/xml", createXMLFileName(file.getBudgetSubAward()), file.getSubAwardXmlFileData().length());
+            response.flushBuffer();
+        } catch (Exception e) {
+            LOG.error("Error while downloading attachment");
+            throw new RuntimeException("IOException occurred while downloading attachment", e);
+        }
+	}
+	
+	@RequestMapping(params="methodToCall=syncFromPdf")
+	public ModelAndView syncFromPdf(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
+		updateSubAwardBudgetDetails(form.getBudget(), subAward, ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION);
+		return getRefreshControllerService().refresh(form);
+	}
+	
+	@RequestMapping(params="methodToCall=removeAttachment")
+	public ModelAndView removeAttachment(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
+		getPropDevBudgetSubAwardService().removeSubAwardAttachment(subAward);
+		return getRefreshControllerService().refresh(form);
+	}
+	
+	@RequestMapping(params="methodToCall=replaceAttachment")
+	public ModelAndView replaceAttachment(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
+		BudgetSubAwards dialogSubAward = (BudgetSubAwards) form.getDialogDataObject();
+		subAward.setNewSubAwardFile(dialogSubAward.getNewSubAwardFile());
+        boolean success = getKcBusinessRulesEngine().applyRules(new BudgetSubAwardsEvent(subAward, form.getBudget(), "dialogDataObject"));
+        
+        if (success && subAward.getNewSubAwardFile() != null) {
+            String fileName = subAward.getNewSubAwardFile().getOriginalFilename();
+			try {
+				byte[] fileData = subAward.getNewSubAwardFile().getBytes();
+				success = updateBudgetAttachment(form.getBudget(), subAward, fileName, fileData, "dialogDataObject");
+			} catch (Exception e) {
+				LOG.warn("Error adding subaward", e);
+				success = false;
+				globalVariableService.getMessageMap().putError("dialogDataObject." + Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+			} 
+        }
+        //on success make sure that dialogDataObject is the new, updated version.
+        form.setDialogDataObject(subAward);
+        return getRefreshControllerService().refresh(form);
+	}
+	
+    private String createXMLFileName(BudgetSubAwards subAward) {
+        return subAward.getSubAwardXfdFileName().substring(0, subAward.getSubAwardXfdFileName().lastIndexOf(".") + 1) + "xml";
+    }
+    
+    private BudgetSubAwards getSubAwardByNumber(Integer subAwardNumber, ProposalBudgetForm form) {
+    	for (BudgetSubAwards subAward : form.getBudget().getBudgetSubAwards()) {
+    		if (Objects.equals(subAward.getSubAwardNumber(), subAwardNumber)) {
+    			return subAward;
+    		}
+    	}
+    	return null;
+    }
+    
+    @RequestMapping(params={"methodToCall=editLine","actionParameters["+UifParameters.SELECTED_COLLECTION_PATH+"]=budget.budgetSubAwards"})
+	public ModelAndView editLine(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		getCollectionControllerService().editLine(form);
+		return super.save(form);
+	}    
+	
+	@RequestMapping(params={"methodToCall=addLine","actionParameters["+UifParameters.SELECTED_COLLECTION_PATH+"]=budget.budgetSubAwards"})
+	public ModelAndView addSubAward(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		
 		final CollectionActionParameters parameters = new CollectionActionParameters(form, false);
         BindingInfo addLineBindingInfo = (BindingInfo) form.getViewPostMetadata().getComponentPostData(
@@ -95,21 +197,37 @@ public class ProposalBudgetSubAwardController extends
         }
 	}
 	
+	@RequestMapping(params={"methodToCall=deleteLine", "actionParameters[selectedCollectionPath]=budget.budgetSubAwards"})
+	public ModelAndView deleteLine(@RequestParam("actionParameters[lineIndex]") Integer subAwardIndex, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+		BudgetSubAwards subAwardToDelete = form.getBudget().getBudgetSubAwards().get(subAwardIndex);
+		form.getBudget().getBudgetLineItems().removeAll(subAwardToDelete.getBudgetLineItems());
+		for (BudgetPeriod period : form.getBudget().getBudgetPeriods()) {
+			period.getBudgetLineItems().removeAll(subAwardToDelete.getBudgetLineItems());
+		}
+
+		getDataObjectService().deleteMatching(BudgetLineItem.class, QueryByCriteria.Builder.fromPredicates(
+				PredicateFactory.equal("budgetSubAward.budgetId", subAwardToDelete.getBudgetId()), 
+				PredicateFactory.equal("budgetSubAward.subAwardNumber", subAwardToDelete.getSubAwardNumber())));
+        getCollectionControllerService().deleteLine(form);
+        return super.save(form);
+	}
+	
+	
     protected boolean updateBudgetAttachment(Budget budget, BudgetSubAwards subAward, String fileName, byte[] fileData, String errorPath) throws Exception {
         subAward.setSubAwardXmlFileData(null);
         subAward.setFormName(null);
         subAward.setNamespace(null);
         boolean success = true;
+        getPropDevBudgetSubAwardService().populateBudgetSubAwardFiles(budget, subAward, fileName, fileData);
         if (subAward.getNewSubAwardFile().getContentType().equalsIgnoreCase(Constants.PDF_REPORT_CONTENT_TYPE)) {
-            getPropDevBudgetSubAwardService().populateBudgetSubAwardFiles(budget, subAward, fileName, fileData);
 	        success &= updateSubAwardBudgetDetails(budget, subAward, errorPath);
-        	if (subAward.getSubAwardXmlFileData() != null && kcAttachmentService.getSpecialCharacter(subAward.getSubAwardXmlFileData().toString())) {
-        		globalVariableService.getMessageMap().putWarning(ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
-	            subAward.getBudgetSubAwardFiles().get(0).setSubAwardXmlFileData(kcAttachmentService.
-	                    checkAndReplaceSpecialCharacters(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData().toString()));
-	            subAward.setSubAwardXmlFileData(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData());
-        	}
         }
+    	if (subAward.getSubAwardXmlFileData() != null && kcAttachmentService.getSpecialCharacter(subAward.getSubAwardXmlFileData().toString())) {
+    		globalVariableService.getMessageMap().putWarning(ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
+            subAward.getBudgetSubAwardFiles().get(0).setSubAwardXmlFileData(kcAttachmentService.
+                    checkAndReplaceSpecialCharacters(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData().toString()));
+            subAward.setSubAwardXmlFileData(subAward.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData());
+    	}
         return success;
     }
 

@@ -72,43 +72,89 @@
 				</property>
 			</bean>
 		</property>
-		<property name="items">
+		<property name="addLineItems">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="organizationId"
-					p:order="10" p:readOnly="@{!#isAddLine}" p:propertyNamesForAdditionalDisplay="organization.organizationName" 
-					p:readOnlyDisplayReplacement="@{#fp.organization?.organizationName} (@{#fp.organizationId})"/>
-				<bean parent="Uif-InputField" p:propertyName="subAwardXfdFileName" p:label="File Name" 
-					p:order="20" p:render="@{!#isAddLine}" p:readOnly="true"/>
+					p:order="10" p:propertyNamesForAdditionalDisplay="organization.organizationName"/>
 				<bean parent="Uif-InputField" p:propertyName="newSubAwardFile" p:label="File Name" 
-					p:order="30" p:render="@{#isAddLine}">
+					p:order="30">
 					<property name="control">
 						<bean parent="Uif-FileControl"/>
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="comments" p:order="40" p:render="@{#isAddLine}"/>
+				<bean parent="Uif-InputField" p:propertyName="comments" p:order="40"/>			
+			</list>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="organizationId"
+					p:order="10" 
+					p:readOnlyDisplayReplacement="@{#fp.organization?.organizationName} (@{#fp.organizationId})"/>
+				<bean parent="Uif-DataField" p:propertyName="subAwardXfdFileName" p:label="File Name" 
+					p:order="20" />
 			</list>
 		</property>
 		<property name="lineActions">
 			<list>
 				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
-					p:iconClass="icon-trash" />
+					p:iconClass="icon-trash">
+					<property name="confirmationDialog">
+						<bean parent="Uif-DialogGroup-OkCancel"
+							p:promptText="Are you sure you want to delete this subaward?"
+							p:header.headerText="Delete subaward?"/>
+					</property>
+				</bean>					
 			</list>
 		</property>
 	</bean>
 
 	<bean id="PropBudget-Subawards-Details-Section" parent="PropBudget-Subawards-Details-Section-parent" />
 	<bean id="PropBudget-Subawards-Details-Section-parent"
-		parent="Uif-DialogGroup" p:headerText="Add Subaward">
+		parent="Uif-EditLineDialog" p:headerText="Subaward Details" p:dialogCssClass="modal-lg"
+		p:onLoadScript="jQuery('.calculateTotal').on('change', Kc.PropDev.Budget.calculateTotal);">
 		<property name="items">
 			<list>
-				<bean parent="PropBudget-SubawardsAttachments-Buttons-Section" p:order="10" />
-				<bean parent="PropBudget-SubawardsAttachments-Details-Section" p:order="20" />
+				<bean parent="PropBudget-SubawardsAttachments-Buttons-Group" p:order="10"/>
+				<bean parent="Uif-Space" p:postRenderContent="&lt;hr/&gt;" p:order="20"/>
+				<bean parent="PropBudget-SubawardsAttachments-Details-Section" p:order="30" />
 			</list>
 		</property>
-		<property name="footer.items">
+	</bean>
+	
+	<bean id="PropBudget-SubawardsAttachments-Buttons-Group" parent="PropBudget-SubawardsAttachments-Buttons-Group-parentBean"/>
+	<bean id="PropBudget-SubawardsAttachments-Buttons-Group-parentBean" abstract="true" parent="Uif-VerticalBoxGroup" 
+		p:additionalCssClasses="clearfix">
+		<property name="items">
 			<list>
-				<bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Changes" p:order="10" />
-				<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20" />
+				<bean parent="PropBudget-SubawardsAttachments-Buttons-Section"
+					p:hidden="@{dialogDataObject?.budgetSubAwardFiles == null ? true : dialogDataObject.budgetSubAwardFiles.isEmpty()}" 
+					p:order="10" />
+				<bean parent="PropBudget-SubawardsAttachments-FileUpload-Section" 
+					p:hidden="@{dialogDataObject?.budgetSubAwardFiles == null ? false : !dialogDataObject.budgetSubAwardFiles.isEmpty()}" 
+					p:order="20" />
+			</list>
+		</property>
+	
+	</bean>
+	
+	<bean id="PropBudget-SubawardsAttachments-FileUpload-Section" parent="PropBudget-SubawardsAttachments-FileUpload-Section-parentBean"/>
+	<bean id="PropBudget-SubawardsAttachments-FileUpload-Section-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="subAwardDetailsFileUpload,pull-right">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="newSubAwardFile" p:label="File Name" p:order="10">
+					<property name="control">
+						<bean parent="Uif-FileControl"/>
+					</property>
+				</bean>
+				<bean parent="Uif-SecondaryActionButton-Mini" p:order="20" p:additionalCssClasses="subAwardDetailsFileUpload-replace" p:actionLabel="Cancel"
+					p:actionScript="jQuery('.subAwardDetailButtons').toggle(); jQuery('.subAwardDetailsFileUpload').toggle(); jQuery('.subAwardDetailsFileUpload').removeClass('replaceAttachment');"/>
+				<bean parent="Uif-SecondaryActionButton-Mini" p:order="30" p:actionLabel="Add" p:methodToCall="replaceAttachment">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="subAwardNumber" value="@{dialogDataObject?.subAwardNumber}"/>
+						</map>
+					</property>				
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -116,19 +162,52 @@
 	<bean id="PropBudget-SubawardsAttachments-Buttons-Section"
 		parent="PropBudget-SubawardsAttachments-Buttons-Section-parent" />
 	<bean id="PropBudget-SubawardsAttachments-Buttons-Section-parent"
-		parent="Uif-HorizontalFieldGroup" p:label="Attachment Details">
+		parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="subAwardDetailButtons,pull-right">
 		<property name="items">
 			<list>
-				<bean p:actionLabel="View PDF" parent="Uif-SecondaryActionButton-Small"
-					p:style="float: right;" p:order="10" />
-				<bean p:actionLabel="View XML" parent="Uif-SecondaryActionButton-Small"
-					p:style="float: right;" p:order="20" />
-				<bean p:actionLabel="Sync from PDF" parent="Uif-SecondaryActionButton-Small"
-					p:style="float: right;" p:order="30" />
-				<bean p:actionLabel="Replace" parent="Uif-SecondaryActionButton-Small"
-					p:style="float: right;" p:order="40" />
-				<bean p:actionLabel="Delete" parent="Uif-SecondaryActionButton-Small"
-					p:style="float: right;" p:order="50" />
+				<bean p:actionLabel="View PDF" parent="Uif-SecondaryActionButton-Mini" p:order="10"
+					p:methodToCall="viewSubAwardPdf" p:disabled="@{dialogDataObject == null}" 
+					p:ajaxSubmit="false" p:performClientSideValidation="false" p:performDirtyValidation="false" p:disableBlocking="true">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="subAwardNumber" value="@{dialogDataObject?.subAwardNumber}"/>
+						</map>
+					</property>
+				</bean>
+				<bean p:actionLabel="View XML" parent="Uif-SecondaryActionButton-Mini" p:order="20" 
+					p:disabled="@{dialogDataObject == null}"
+					p:methodToCall="viewSubAwardXml" 
+					p:ajaxSubmit="false" p:performClientSideValidation="false" p:performDirtyValidation="false" p:disableBlocking="true">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="subAwardNumber" value="@{dialogDataObject?.subAwardNumber}"/>
+						</map>
+					</property>
+				</bean>
+				<bean p:actionLabel="Sync from PDF" parent="Uif-SecondaryActionButton-Mini" p:order="30" 
+					p:disabled="@{dialogDataObject == null}" p:methodToCall="syncFromPdf">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="subAwardNumber" value="@{dialogDataObject?.subAwardNumber}"/>
+						</map>
+					</property>				
+				</bean>
+				<bean p:actionLabel="Replace" parent="Uif-SecondaryActionButton-Mini" 
+					p:actionScript="jQuery('.subAwardDetailButtons').toggle(); jQuery('.subAwardDetailsFileUpload').toggle(); jQuery('.subAwardDetailsFileUpload').addClass('replaceAttachment');"
+					p:order="40" />
+				<bean p:actionLabel="Delete" parent="Uif-SecondaryActionButton-Mini" p:order="50" 
+					p:methodToCall="removeAttachment">
+					<property name="confirmationDialog">
+						<bean parent="Uif-DialogGroup-OkCancel"
+							p:promptText="Are you sure you want to remove the attachment from this subaward?"
+							p:header.headerText="Remove attachment?"/>
+					</property>
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="subAwardNumber" value="@{dialogDataObject?.subAwardNumber}"/>
+						</map>
+					</property>					
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -136,12 +215,10 @@
 	<bean id="PropBudget-SubawardsAttachments-Details-Section"
 		parent="PropBudget-SubawardsAttachments-Details-Section-parent" />
 	<bean id="PropBudget-SubawardsAttachments-Details-Section-parent"
-		parent="Uif-HorizontalBoxGroup">
+		parent="Uif-VerticalBoxGroup">
 		<property name="items">
 			<list>
 				<bean parent="PropBudget-SubawardsAttachments-Subdetails-Section" p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="comments" p:order="20"/>
-				<bean p:actionLabel="Edit Comments" parent="Uif-SecondaryActionButton-Mini" p:order="30" p:style="float: left;" />
 				<bean parent="PropBudget-SubawardsAttachments-Details-CollectionGroup" p:order="40" />
 			</list>
 		</property>
@@ -153,15 +230,22 @@
 		parent="Uif-CssGridSubSection-2FieldLabelColumn">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="organizationName" p:order="10"/>
-				<bean parent="Uif-InputField" p:propertyName="formName" p:order="20"/>
-				<bean parent="Uif-InputField" p:propertyName="subAwardXfdFileName" p:order="30"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetSubAwardAttachments"
-					p:label="Attachments" p:order="40"/>
-				<bean parent="Uif-InputField" p:propertyName="xfdUpdateTimestamp" p:order="50" />
-				<bean parent="Uif-InputField" p:propertyName="xmlUpdateTimestamp" p:order="60" />
-				<bean parent="Uif-InputField" p:propertyName="subAwardStatusCode" p:order="70" />
-				<bean parent="Uif-InputField" p:propertyName="namespace" p:order="80" />
+				<bean parent="Uif-DataField" p:propertyName="organizationName" p:order="10"
+					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"/>
+				<bean parent="Uif-DataField" p:propertyName="formName" p:order="20"
+					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"/>
+				<bean parent="Uif-DataField" p:propertyName="subAwardXfdFileName" p:order="30"
+					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"/>
+				<bean parent="Uif-DataField" p:propertyName="xfdUpdateTimestamp" p:order="40" 
+					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"/>
+				<bean parent="Uif-DataField" p:propertyName="xmlUpdateTimestamp" p:order="50"
+					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards" />
+				<bean parent="Uif-DataField" p:propertyName="subAwardStatusCode" p:order="60"
+					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards" />
+				<bean parent="Uif-DataField" p:propertyName="namespace" p:order="70"
+					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"/>
+				<bean parent="Uif-InputField" p:propertyName="comments" p:order="80"
+					p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"/>
 			</list>
 		</property>
 	</bean>
@@ -170,9 +254,9 @@
 		parent="PropBudget-SubawardsAttachments-Details-CollectionGroup-parentBean" />
 	<bean id="PropBudget-SubawardsAttachments-Details-CollectionGroup-parentBean"
 		parent="Uif-TableCollectionSection" abstract="true" p:headerText="Details"
-		p:propertyName="newBudgetSubaward"
-		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"
-		p:addWithDialog="false" p:layoutManager.renderSequenceField="false"
+		p:propertyName="budgetSubAwardPeriodDetails"
+		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail"
+		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
 		p:renderLineActions="false">
 		<property name="layoutManager.richTable.templateOptions">
 			<map>
@@ -184,14 +268,21 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="totalDirectCost"
-					p:order="10"/>
-				<bean parent="Uif-InputField" p:propertyName="totalIndirectCost"
+				<bean parent="Uif-DataField" p:propertyName="budgetPeriod" p:label="" p:order="10"/>
+				<bean parent="Uif-InputField" p:propertyName="directCost" p:additionalCssClasses="calculateTotal"
+					p:onChangeScript="Kc.PropDev.Budget.calculateTotal(this);" p:onKeyUpScript="Kc.PropDev.Budget.calculateTotal(this);"
 					p:order="20"/>
-				<bean parent="Uif-InputField" p:propertyName="costSharingAmount"
+				<bean parent="Uif-InputField" p:propertyName="indirectCost" p:additionalCssClasses="calculateTotal"
+					p:onChangeScript="Kc.PropDev.Budget.calculateTotal(this);" p:onKeyUpScript="Kc.PropDev.Budget.calculateTotal(this);"
 					p:order="30"/>
-				<bean parent="Uif-InputField" p:propertyName="totalCost"
-					p:label="Total Cost" p:order="40"/>
+				<bean parent="Uif-InputField" p:propertyName="costShare"
+					p:order="40"/>
+				<bean parent="Uif-InputField" p:propertyName="totalCost" p:additionalCssClasses="totalCost"
+					p:order="50">
+				    <property name="control">
+      					<bean parent="Uif-CurrencyTextControl" p:size="13" p:maxLength="15"  p:disabled="true"/>
+    				</property>
+    			</bean>   
 			</list>
 		</property>
 	</bean>

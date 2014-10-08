@@ -105,8 +105,8 @@ public abstract class ProposalBudgetControllerBase {
     	return getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build());
     }
 
-    public ModelAndView save(ProposalBudgetForm form) throws Exception {
-        getBudgetCalculationService().calculateBudget(form.getBudget());
+    public ModelAndView save(ProposalBudgetForm form) {
+    	budgetService.calculateBudgetOnSave(form.getBudget());
     	getDataObjectService().save(form.getBudget());
         getBudgetJustificationService().preSave(form.getBudget(),form.getBudgetJustificationWrapper());
         return getModelAndViewService().getModelAndView(form);
