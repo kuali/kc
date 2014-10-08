@@ -24,7 +24,6 @@ import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -62,6 +61,7 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
     private Unit parentUnit;
 
     @OneToMany(mappedBy = "unit")
+    @OrderBy("unitNumber")
     private List<UnitAdministrator> unitAdministrators;
 
     @ManyToOne(cascade = { CascadeType.REFRESH })
@@ -161,10 +161,6 @@ public class Unit extends KcPersistableBusinessObjectBase implements MutableInac
 
     @Override
     public List<UnitAdministrator> getUnitAdministrators() {
-        //KRACOEUS-5499 - Sort the List for better grouping. 
-        if (unitAdministrators != null) {
-            Collections.sort(unitAdministrators);
-        }
         return unitAdministrators;
     }
 

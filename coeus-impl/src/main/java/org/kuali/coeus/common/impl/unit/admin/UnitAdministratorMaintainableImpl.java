@@ -27,10 +27,8 @@ import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl implements Maintainable {
@@ -41,7 +39,19 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
     private static final String UNIT_ID_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.unitId";
     private static final String PRINCIPAL_ID_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.principalId";
     private static final String UNIT_ADMINISTRATOR_TYPE_CODE_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.unitAdministratorTypeCode";
-    
+
+    private transient DataObjectService dataObjectService;
+
+    public DataObjectService getDataObjectService() {
+        if (dataObjectService == null) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -114,21 +124,13 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
 
     
     private boolean isUnitIdValid(String unitNumber) {
-        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        Map<String, String> validUnitParams = new HashMap<String, String>();
-        validUnitParams.put("unitNumber", unitNumber);
-        Collection<Unit> units = businessObjectService.findMatching(Unit.class, validUnitParams);
-        return !units.isEmpty();
+        Unit result = getDataObjectService().find(Unit.class, unitNumber);
+        return result != null;
     }
 
     private boolean isUnitAdministratorTypeCodeValid(String unitAdministratorTypeCode) {
-        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        Map<String, String> validParams = new HashMap<String, String>();
-        validParams.put("unitAdministratorTypeCode", unitAdministratorTypeCode);
-        Collection<UnitAdministratorType> units = businessObjectService.findMatching(UnitAdministratorType.class, validParams);
-        return !units.isEmpty();
-        
+        UnitAdministratorType adminType = getDataObjectService().find(UnitAdministratorType.class, unitAdministratorTypeCode);
+        return adminType != null;
     }
 
-    
 }
