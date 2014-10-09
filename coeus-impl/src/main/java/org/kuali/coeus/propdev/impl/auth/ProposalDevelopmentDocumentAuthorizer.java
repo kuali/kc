@@ -388,7 +388,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     protected boolean isAuthorizedToModifyNarrative(Narrative narrative, Person user) {
         final ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) narrative.getDevelopmentProposal().getDocument();
 
-        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument());
         boolean hasPermission = false;
         boolean inWorkflow = getKcWorkflowService().isInWorkflow(pdDocument);
         if ((!inWorkflow || rejectedDocument) && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
@@ -431,7 +431,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         // required to have the MODIFY_NARRATIVE permission.
 
         KcDocumentRejectionService documentRejectionService = getKcDocumentRejectionService();
-        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        boolean rejectedDocument = documentRejectionService.isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument());
         boolean hasPermission = false;
 
         boolean inWorkflow = getKcWorkflowService().isInWorkflow(pdDocument);
@@ -466,7 +466,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     protected boolean isAuthorizedToModifyBudget(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
 
-        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument());
         return ( (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) &&
                 getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_BUDGET));
     }
@@ -483,7 +483,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
         boolean hasPermission = false;
 
-        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument());
 
         if ((!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && !pdDocument.isViewOnly() && !pdDocument.getDevelopmentProposal().getSubmitFlag() && !pdDocument.getDevelopmentProposal().isParent()) {
             hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_BUDGET);
@@ -494,7 +494,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     protected boolean isAuthorizedToAddNarrative(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
 
-        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentNumber());
+        boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument());
         boolean hasPermission = false;
         if ((!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && !pdDocument.isViewOnly() && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
             hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
@@ -546,7 +546,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     protected boolean isAuthorizedToRejectProposal(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         WorkflowDocument workDoc = pdDocument.getDocumentHeader().getWorkflowDocument();
-        return (!workDoc.isCompletionRequested()) && (! getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument)) && (workDoc.isApprovalRequested()) && (workDoc.isEnroute());
+        return (!workDoc.isCompletionRequested()) && (! getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument())) && (workDoc.isApprovalRequested()) && (workDoc.isEnroute());
     }
 
     protected boolean isAuthorizedToSubmitToWorkflow(Document document, Person user) {
@@ -729,7 +729,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
              * After the initial save, the proposal can only be modified if it is not in workflow
              * and the user has the require permission.
              */
-            final boolean hasBeenRejected = getKcDocumentRejectionService().isDocumentOnInitialNode(document);
+            final boolean hasBeenRejected = getKcDocumentRejectionService().isDocumentOnInitialNode(document.getDocumentHeader().getWorkflowDocument());
             hasPermission = !pdDocument.isViewOnly() &&
                     getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_PROPOSAL) &&
                     (!getKcWorkflowService().isInWorkflow(document) || hasBeenRejected) &&

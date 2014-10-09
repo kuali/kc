@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.sys.framework.workflow;
 
-import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Encapsulates reject functionality.
@@ -32,40 +32,25 @@ public interface KcDocumentRejectionService {
      * @param principalId The principal to reject the document as.
      * @param appDocStatus The application document status for the document.  Only applied if non-null.
      */
-    void reject(Document document, String reason, String principalId, String appDocStatus);
-    
-    /**
-     * Determine if the document is on it's initial node.  A document can be in workflow and on it's initial node
-     * if it has been rejected ( returned to the initial node ).
-     * @param documentNumber the document number
-     * @return if doc is on initial node
-     */
-    boolean isDocumentOnInitialNode(String documentNumber);
+    void reject(WorkflowDocument document, String reason, String principalId, String appDocStatus);
 
     /**
-     * Determine if the document is on it's initial node.  A document can be in workflow and on it's initial node
-     * if it has been rejected ( returned to the initial node ).
-     * @param documentNumber the document number
-     * @return if doc is on initial node
-     */
-    boolean isDocumentOnInitialNode(Document documentNumber);
-
-    /**
-     * Reject a document.
-     * @param documentNumber The number of the document to reject.
-     * @param reason An explanation of why the document has been rejected.
-     * @param principalId The principal to reject the document as.
-     */
-    void reject(String documentNumber, String reason, String principalId);
-
-    /**
-     * Reject a document and send it back to a particular node.  
-     * @param document The document number to reject
+     * Reject a document and send it back to a particular node.
+     * @param document The document to reject
      * @param reason An explanation of why the document has been rejected.
      * @param principalId The principal to reject the document as.
      * @param appDocStatus The application document status for the document.  Only applied if non-null.
+     * @param nodeName the node name to return to
      */
-    void reject(Document document, String reason, String principalId, String appDocStatus, String nodeName);
-    
+    void reject(WorkflowDocument document, String reason, String principalId, String appDocStatus, String nodeName);
+
+
+    /**
+     * Determine if the document is on it's initial node.  A document can be in workflow and on it's initial node
+     * if it has been rejected ( returned to the initial node ).
+     * @param document the document
+     * @return if doc is on initial node
+     */
+    boolean isDocumentOnInitialNode(WorkflowDocument document);
 }
 

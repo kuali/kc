@@ -156,7 +156,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             }
             boolean rejectedDocument = false;
             if(proposalDevelopmentForm.getDocument().getDocumentNumber() != null){
-                rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(proposalDevelopmentForm.getDocument().getDocumentNumber());
+                rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(proposalDevelopmentForm.getDocument().getDocumentHeader().getWorkflowDocument());
             }
 
             if (canPerformWorkflowAction(proposalDevelopmentForm.getProposalDevelopmentDocument()) && !rejectedDocument) {
