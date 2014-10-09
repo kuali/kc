@@ -89,6 +89,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        initialSave(proposalDevelopmentDocument);
        save(form, result, request, response);
        initializeProposalUsers(form.getProposalDevelopmentDocument());
+       getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalType");
        //setting to null so the previous page id(PropDev-InitiatePage) doesn't override the default
        form.setPageId(null);
        return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
