@@ -24,6 +24,11 @@
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
 		p:breadcrumbs.render="false" p:cssClasses="uif-formView"
 		p:unifiedHeader="false" p:defaultBindingObjectPath="">
+		<property name="context">
+			<map>
+				<entry key="budgetAuthConsts" value="@{T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants)}"/>
+			</map>
+		</property>		
 		<property name="additionalScriptFiles">
 			<list>
 				<value>scripts/common/questionnaire.js</value>

@@ -35,7 +35,7 @@
 		p:propertyName="budget.budgetSubAwards"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"
 		p:addWithDialog="true" p:layoutManager.renderSequenceField="false"
-		p:editWithDialog="true" p:customEditLineDialog="true">
+		p:editWithDialog="true" p:customEditLineDialog="true" p:readOnly="@{#parent.readOnly}">
 		<property name="editLineDialogPrototype">
 			<bean parent="PropBudget-Subawards-Details-Section"/>
 		</property>
@@ -48,7 +48,7 @@
 			</map>
 		</property>
 		<property name="addWithDialogAction">
-			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Subaward" p:cssClasses="pull-right" p:iconClass="icon-plus"/>
+			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Subaward" p:cssClasses="pull-right" p:iconClass="icon-plus" p:disabled="@{#parent.readOnly}"/>
 		</property>
 	    <property name="addLineDialog">
 	    	<bean id="PropBudget-SubawardsPage-CollectionGroup-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Subaward">

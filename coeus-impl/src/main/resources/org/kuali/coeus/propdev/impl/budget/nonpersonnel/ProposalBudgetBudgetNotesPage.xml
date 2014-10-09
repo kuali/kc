@@ -62,7 +62,7 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Consolidate Expense Justifications"
-							p:style="float: right;" p:methodToCall="consolidateExpenseJustifications" p:order="10" />
+							p:style="float: right;" p:methodToCall="consolidateExpenseJustifications" p:order="10" p:disabled="@{#parent.readOnly}"/>
 					</list>
 				</property>
 			</bean>

@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
@@ -105,11 +106,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             }
     
 	        if (isBudgetComplete(developmentProposal)) {
-	            if (editModes.contains("addBudget")) {
-	                editModes.add("modifyCompletedBudgets");
-	            }
-        	    editModes.remove("modifyProposalBudget");
-            	editModes.remove("addBudget");
+        	    editModes.remove(AuthConstants.MODIFY_BUDGET_EDIT_MODE);
+            	editModes.remove(AuthConstants.ADD_BUDGET_EDIT_MODE);
         	}
         }
         
@@ -153,15 +151,15 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         }
         
         if (isAuthorizedToAddBudget(doc, user)) {
-            editModes.add("addBudget");
+            editModes.add(AuthConstants.ADD_BUDGET_EDIT_MODE);
         }
                 
         if (isAuthorizedToOpenBudget(doc, user)) {
-            editModes.add("openBudgets");
+            editModes.add(AuthConstants.VIEW_BUDGET_EDIT_MODE);
         }
                 
         if (isAuthorizedToModifyBudget(doc, user)) {
-            editModes.add("modifyProposalBudget");
+            editModes.add(AuthConstants.MODIFY_BUDGET_EDIT_MODE);
         }
                 
         if (isAuthorizedToModifyProposalRoles(doc, user)) {
