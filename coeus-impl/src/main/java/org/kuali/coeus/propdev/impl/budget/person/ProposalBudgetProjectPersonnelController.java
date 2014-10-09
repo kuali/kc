@@ -50,6 +50,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	private static final String EDIT_PERSONNEL_PERIOD_DIALOG_ID = "PropBudget-EditPersonnelPeriod-Section";
 	private static final String EDIT_LINE_ITEM_DETAILS_DIALOG_ID = "PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates";
 	private static final String CONFIRM_PERSONNEL_PERIOD_CHANGES_DIALOG_ID = "PropBudget-ConfirmPeriodChangesDialog";
+	private static final String ADD_PERSONNEL_PERIOD_DIALOG_ID = "PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel";
 	
 	@RequestMapping(params="methodToCall=searchProjectPersonnel")
 	public ModelAndView searchProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
@@ -128,12 +129,13 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 
 	@RequestMapping(params="methodToCall=assignPersonnelToPeriod")
 	public ModelAndView assignPersonnelToPeriod(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
 		Budget budget = form.getBudget();
         Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
 		BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
         DialogResponse dialogResponse = form.getDialogResponse(CONFIRM_PERSONNEL_PERIOD_CHANGES_DIALOG_ID);
-        if(dialogResponse == null && budgetPeriod.getBudgetPeriod() > 1 && !isPersonnelBudgetExists(budgetPeriod)) {
-        	return getModelAndViewService().showDialog(CONFIRM_PERSONNEL_PERIOD_CHANGES_DIALOG_ID, true, form);
+        if(dialogResponse == null && budgetPeriod.getBudgetPeriod() > 1 && !isPersonnelBudgetExists(budget)) {
+        	modelAndView = getModelAndViewService().showDialog(CONFIRM_PERSONNEL_PERIOD_CHANGES_DIALOG_ID, true, form);
         }else {
             boolean confirmResetDefault = dialogResponse == null ? true : dialogResponse.getResponseAsBoolean();
             if(confirmResetDefault) {
@@ -141,18 +143,25 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
         		form.getAddProjectPersonnelHelper().setCurrentTabBudgetPeriod(budgetPeriod);
         		form.getAddProjectPersonnelHelper().getBudgetLineItem().setStartDate(budgetPeriod.getStartDate());
         		form.getAddProjectPersonnelHelper().getBudgetLineItem().setEndDate(budgetPeriod.getEndDate());
+        		modelAndView = getModelAndViewService().showDialog(ADD_PERSONNEL_PERIOD_DIALOG_ID, true, form);
             }
-    		return getModelAndViewService().getModelAndView(form);
         }
+		return modelAndView;
 	}
 	
-	private boolean isPersonnelBudgetExists(BudgetPeriod budgetPeriod) {
-		for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			if(budgetLineItem.getBudgetPersonnelDetailsList().size() > 0) {
-				return true;
+	private boolean isPersonnelBudgetExists(Budget budget) {
+		boolean lineItemExists = false;
+		for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+			if(budgetPeriod.getBudgetPeriod() > 1 ) {
+				for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+					if(budgetLineItem.getBudgetPersonnelDetailsList().size() > 0) {
+						lineItemExists = true;
+						break;
+					}
+				}
 			}
 		}
-		return false;
+		return lineItemExists;
 	}
 	
 	private BudgetPeriod getBudgetPeriod(Long currentTabBudgetPeriodId, Budget budget) {

@@ -108,7 +108,7 @@
 
 	<bean id="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel" parent="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel-parentBean"/>
 	<bean id="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
-		p:successCallback="showDialog('PropBudget-NonPersonnelCostsPage-AddNonPersonnel-Dialog');" p:actionLabel="Assign Non-Personnel..."
+		p:actionLabel="Assign Non-Personnel..."
 		p:refreshId="PropBudget-NonPersonnelCostsPage-AddNonPersonnel"
 		p:methodToCall="assignLineItemToPeriod" p:render="@{!#parent.readOnly}">
 		<property name="additionalSubmitData">

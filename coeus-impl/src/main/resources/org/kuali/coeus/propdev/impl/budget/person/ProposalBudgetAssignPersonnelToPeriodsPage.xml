@@ -131,7 +131,7 @@
 	
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-AssignPersonnel" parent="PropBudget-AssignPersonnelToPeriodsPage-AssignPersonnel-parentBean"/>
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-AssignPersonnel-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
-		p:successCallback="showDialog('PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel');" p:actionLabel="Assign Personnel..."
+		p:actionLabel="Assign Personnel..."
 		p:refreshId="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel"
 		p:methodToCall="assignPersonnelToPeriod">
 		<property name="additionalSubmitData">
