@@ -15,9 +15,6 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
-import org.kuali.rice.kns.lookup.Lookupable;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.BeanIsAbstractException;
 import org.springframework.context.ApplicationContext;
@@ -154,18 +151,25 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
     }
 
     @Test
-    public void test_view_helper_service_are_prototype_scope() {
-        toEachSpringBean(new PrototypeVerification(ViewHelperService.class), true);
+    public void test_krad_maintainable_are_prototype_scope() {
+        toEachSpringBean(new PrototypeVerification(org.kuali.rice.krad.maintenance.Maintainable.class), true);
+    }
+
+    //the kns maintainable extends the krad maintainable for now.  Placing this here for completeness
+    //and in case this relationship ever changes
+    @Test
+    public void test_kns_maintainable_are_prototype_scope() {
+        toEachSpringBean(new PrototypeVerification(org.kuali.rice.kns.maintenance.Maintainable.class), true);
     }
 
     @Test
-    public void test_lookupables_are_prototype_scope() {
-        toEachSpringBean(new PrototypeVerification(Lookupable.class), true);
+    public void test_kns_lookupables_are_prototype_scope() {
+        toEachSpringBean(new PrototypeVerification(org.kuali.rice.kns.lookup.Lookupable.class), true);
     }
 
     @Test
-    public void test_lookup_helper_service_are_prototype_scope() {
-        toEachSpringBean(new PrototypeVerification(LookupableHelperService.class), true);
+    public void test_kns_lookup_helper_service_are_prototype_scope() {
+        toEachSpringBean(new PrototypeVerification(org.kuali.rice.kns.lookup.LookupableHelperService.class), true);
     }
 
     @Test
