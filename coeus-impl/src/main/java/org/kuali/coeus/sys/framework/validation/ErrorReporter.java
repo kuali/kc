@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.sys.framework.validation;
 
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 import java.util.*;
@@ -43,7 +43,7 @@ public interface ErrorReporter {
     
     /**
      * Adds an audit error to the
-     * {@link KNSGlobalVariables#getAuditErrorMap() KNSGlobalVariables.getAuditErrorMap()}.
+     * {@link GlobalVariables#getAuditErrorMap() GlobalVariables.getAuditErrorMap()}.
      * 
      * @param error the error to add.
      * @param errorKey the error map key

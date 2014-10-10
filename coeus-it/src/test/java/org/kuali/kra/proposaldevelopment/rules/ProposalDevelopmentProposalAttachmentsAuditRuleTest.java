@@ -22,8 +22,8 @@ import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentProposalAttach
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import static org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentProposalAttachmentsAuditRule.AUDIT_CLUSTER_KEY;
 import static org.junit.Assert.*;
@@ -56,11 +56,11 @@ public class ProposalDevelopmentProposalAttachmentsAuditRuleTest extends Proposa
     public void testIncompleteAttachments() {
         developmentProposal.getNarratives().add(narrativeComplete);
         assertTrue(rule.checkForIncompleteAttachments(developmentProposal));
-        assertTrue(KNSGlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY) == null);
+        assertTrue(GlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY) == null);
         
         developmentProposal.getNarratives().add(narrativeIncomplete);
         assertFalse(rule.checkForIncompleteAttachments(developmentProposal));
-        assertFalse(((AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY)).getAuditErrorList().isEmpty());        
+        assertFalse(((AuditCluster) GlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY)).getAuditErrorList().isEmpty());        
     }
 
 }

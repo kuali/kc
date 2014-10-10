@@ -18,22 +18,22 @@ package org.kuali.kra.award.budget;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
+import static org.kuali.rice.krad.util.GlobalVariables.getAuditErrorMap;
 
 public class AwardBudgeCostTotalAuditRule implements DocumentAuditRule {
     public static final String AWARD_BUDGET_TOTAL_COST_ERROR_KEY = "awardBudgetTotalCostAuditErrors";
 
     public boolean processRunAuditBusinessRules(Document document) {
         AwardBudgetExt budget = (AwardBudgetExt)((AwardBudgetDocument)document).getBudget();
-
+        
         boolean valid = true;
         String[] params = { "Budget Overview Cost Total" };
         if (!budget.getTotalCost().equals(budget.getTotalCostLimit())) {

@@ -31,9 +31,9 @@ import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -151,11 +151,11 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         String key = DISCLOSURE_QUESTIONNAIRE_PANEL_KEY;
 
-        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(key)) {
-            KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster("Questionnaire", auditErrors, Constants.AUDIT_ERRORS));
+        if (!GlobalVariables.getAuditErrorMap().containsKey(key)) {
+            GlobalVariables.getAuditErrorMap().put(key, new AuditCluster("Questionnaire", auditErrors, Constants.AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
         }
 
         return auditErrors;

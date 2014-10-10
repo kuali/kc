@@ -6,9 +6,9 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.stereotype.Component;
@@ -45,7 +45,7 @@ public class ErrorReporterImpl implements ErrorReporter {
         }
 
         @SuppressWarnings("unchecked")
-        final Map<String, AuditCluster> errorMap = KNSGlobalVariables.getAuditErrorMap();
+        final Map<String, AuditCluster> errorMap = GlobalVariables.getAuditErrorMap();
 
         AuditCluster cluster = errorMap.get(errorKey);
 

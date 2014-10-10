@@ -35,9 +35,9 @@ import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -195,11 +195,11 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
     private List<AuditError> getAuditErrors(String auditClusterCategory) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(AUDIT_CLUSTER_KEY)) {
-            KNSGlobalVariables.getAuditErrorMap().put(AUDIT_CLUSTER_KEY, 
+        if (!GlobalVariables.getAuditErrorMap().containsKey(AUDIT_CLUSTER_KEY)) {
+            GlobalVariables.getAuditErrorMap().put(AUDIT_CLUSTER_KEY, 
                     new AuditCluster(Constants.ABSTRACTS_AND_ATTACHMENTS_PANEL, auditErrors, auditClusterCategory));
         } else {
-            auditErrors = ((AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY)).getAuditErrorList();
+            auditErrors = ((AuditCluster) GlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY)).getAuditErrorList();
                 }
         
         return auditErrors;

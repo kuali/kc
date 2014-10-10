@@ -36,8 +36,8 @@ import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintTy
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPrintingService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -257,8 +257,8 @@ public class InstitutionalProposalActionsAction extends InstitutionalProposalAct
         boolean auditPassed = KcServiceLocator.getService(AuditHelper.class).auditUnconditionally(institutionalProposalDocument);
         if (!auditPassed) {
             state = WARNING;
-            for (Iterator iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
-                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(iter.next());
+            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
                 if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
                     state = ERROR;
                     GlobalVariables.getMessageMap().putError("noKey", KeyConstants.ERROR_VALIDATION_ERRORS_EXIST);

@@ -68,9 +68,9 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -575,9 +575,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public List<ProposalDevelopmentDataValidationItem> populateDataValidation(ProposalDevelopmentDocumentForm form, ViewIndex viewIndex) {
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         List<ProposalDevelopmentDataValidationItem> dataValidationItems = new ArrayList<ProposalDevelopmentDataValidationItem>();
-        KNSGlobalVariables.getAuditErrorMap().clear();
+        GlobalVariables.getAuditErrorMap().clear();
         getAuditHelper().auditConditionally(form);
-        for (Map.Entry<String,AuditCluster> entry : KNSGlobalVariables.getAuditErrorMap().entrySet()) {
+        for (Map.Entry<String,AuditCluster> entry : GlobalVariables.getAuditErrorMap().entrySet()) {
             AuditCluster auditCluster = (AuditCluster) entry.getValue();
             List<AuditError> auditErrors = auditCluster.getAuditErrorList();
             for (AuditError auditError : auditErrors) {

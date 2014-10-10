@@ -24,9 +24,9 @@ import org.kuali.kra.award.home.ValidBasisMethodPayment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.award.service.AwardPaymentAndInvoicesService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -93,7 +93,7 @@ public class AwardPaymentAndInvoicesAuditRule implements DocumentAuditRule {
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster( List<AuditError> auditErrors ) {
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(PAYMENTS_AND_INVOICES_AUDIT_ERRORS, new AuditCluster(Constants.PAYMENT_AND_INVOICES_PANEL_NAME,
+            GlobalVariables.getAuditErrorMap().put(PAYMENTS_AND_INVOICES_AUDIT_ERRORS, new AuditCluster(Constants.PAYMENT_AND_INVOICES_PANEL_NAME,
                                                                                           auditErrors, Constants.AUDIT_ERRORS));
         }
     }

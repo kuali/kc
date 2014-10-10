@@ -22,7 +22,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -45,7 +45,7 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        GlobalVariables.setAuditErrorMap(new HashMap());
         validator = new CreditSplitValidator();
         document = NORMAL_DOCUMENT.getDocument();
     }
@@ -69,7 +69,7 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
         INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.populatePerson(document, person1);
         document.getDevelopmentProposal().addProposalPerson(person1);
         assertTrue("Audit Rule shouldn't produce audit errors", validator.validate(document));
-        assertEquals(0, KNSGlobalVariables.getAuditErrorMap().size());
+        assertEquals(0, GlobalVariables.getAuditErrorMap().size());
         LOG.info("Ending validProposalInvetigatorNormal");
     }
 
@@ -80,7 +80,7 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
         document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
-        assertFalse(KNSGlobalVariables.getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
     
     @Test
@@ -90,7 +90,7 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
         document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_OVER_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
-        assertFalse(KNSGlobalVariables.getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
         document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNDER_ZERO.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
-        assertFalse(KNSGlobalVariables.getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
 
     @Test
@@ -110,7 +110,7 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
         document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNIT_UNDER_ZERO.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
-        assertFalse(KNSGlobalVariables.getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
 
     @Test
@@ -120,6 +120,6 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
         document.getDevelopmentProposal().addProposalPerson(person);
         INVESTIGATOR_UNIT_OVER_ONE_HUNDRED.populatePerson(document, person);
         assertFalse("Audit Rule should produce audit errors", validator.validate(document));
-        assertFalse(KNSGlobalVariables.getAuditErrorMap().size() < 1);
+        assertFalse(GlobalVariables.getAuditErrorMap().size() < 1);
     }
 }

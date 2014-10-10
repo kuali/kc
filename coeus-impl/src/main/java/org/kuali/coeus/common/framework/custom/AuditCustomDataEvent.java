@@ -19,9 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +34,11 @@ public class AuditCustomDataEvent extends SaveCustomDataEvent {
     
     public void reportError(CustomAttribute customAttribute, String propertyName, String errorKey, String... errorParams) {
         String key = "CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors";
-        AuditCluster auditCluster = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key);
+        AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
         if (auditCluster == null) {
             List<AuditError> auditErrors = new ArrayList<AuditError>();
             auditCluster = new AuditCluster(customAttribute.getGroupName(), auditErrors, Constants.AUDIT_ERRORS);
-            KNSGlobalVariables.getAuditErrorMap().put(key, auditCluster);
+            GlobalVariables.getAuditErrorMap().put(key, auditCluster);
         }
         List<AuditError> auditErrors = auditCluster.getAuditErrorList();
         auditErrors.add(new AuditError(propertyName, errorKey, StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttribute.getGroupName()), errorParams));

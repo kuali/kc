@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
 
-import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
+import static org.kuali.rice.krad.util.GlobalVariables.getAuditErrorMap;
 import static org.junit.Assert.*;
 /*
  * WARNING: Please do not move this test.  It does not like to pass with the entire suite unless it is further up the testing chain.

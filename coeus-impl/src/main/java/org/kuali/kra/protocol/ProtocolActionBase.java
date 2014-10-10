@@ -48,7 +48,7 @@ import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.Note;
@@ -82,7 +82,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         if (protocolForm.isAuditActivated()) {
             protocolForm.setUnitRulesMessages(getUnitRulesMessages(protocolForm.getProtocolDocument()));
         }
-        if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
+        if(GlobalVariables.getAuditErrorMap().isEmpty()) {
             KcServiceLocator.getService(AuditHelper.class).auditConditionally((ProtocolFormBase) form);
         }
         

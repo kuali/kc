@@ -74,9 +74,9 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -313,7 +313,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (proposalDevelopmentForm.isAuditActivated()){
             proposalDevelopmentForm.setUnitRulesMessages(getUnitRulesMessages(proposalDevelopmentForm.getProposalDevelopmentDocument()));
         }
-        if( KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
+        if( GlobalVariables.getAuditErrorMap().isEmpty()) {
             KcServiceLocator.getService(AuditHelper.class).auditConditionally(proposalDevelopmentForm);
         }
         getProposalDevelopmentService().sortS2sForms(document.getDevelopmentProposal());    
@@ -799,14 +799,14 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     protected void setValidationErrorMessage(List<org.kuali.coeus.s2sgen.api.core.AuditError> errors) {
         if (errors != null) {
             LOG.info("Error list size:" + errors.size() + errors.toString());
-            List<org.kuali.rice.kns.util.AuditError> auditErrors = new ArrayList<>();
+            List<org.kuali.rice.krad.util.AuditError> auditErrors = new ArrayList<>();
             for (org.kuali.coeus.s2sgen.api.core.AuditError error : errors) {
-                auditErrors.add(new org.kuali.rice.kns.util.AuditError(error.getErrorKey(),
+                auditErrors.add(new org.kuali.rice.krad.util.AuditError(error.getErrorKey(),
                         Constants.GRANTS_GOV_GENERIC_ERROR_KEY, error.getLink(),
                         new String[]{error.getMessageKey()}));
             }
             if (!auditErrors.isEmpty()) {
-                KNSGlobalVariables.getAuditErrorMap().put(
+                GlobalVariables.getAuditErrorMap().put(
                         "grantsGovAuditErrors",
                         new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL,
                                 auditErrors, Constants.GRANTSGOV_ERRORS)
@@ -1274,10 +1274,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
          */
         public static boolean copyAuditErrorsToPage(String auditClusterCategory, String errorkey) {
             boolean auditClusterFound = false;
-            Iterator<String> iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator();
+            Iterator<String> iter = GlobalVariables.getAuditErrorMap().keySet().iterator();
             while (iter.hasNext()) {
                String errorKey = (String) iter.next();
-                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(errorKey);
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(errorKey);
                 if(auditClusterCategory == null || StringUtils.equalsIgnoreCase(auditCluster.getCategory(), auditClusterCategory)){
                     auditClusterFound = true;
                     for (Object error : auditCluster.getAuditErrorList()) {

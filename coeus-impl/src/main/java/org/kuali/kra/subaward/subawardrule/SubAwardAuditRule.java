@@ -20,9 +20,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.subaward.document.SubAwardDocument;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -74,9 +74,9 @@ public class SubAwardAuditRule extends
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
             AuditCluster existingErrors = (AuditCluster)
-            KNSGlobalVariables.getAuditErrorMap().get(CONTACTS_AUDIT_ERRORS);
+            GlobalVariables.getAuditErrorMap().get(CONTACTS_AUDIT_ERRORS);
             if (existingErrors == null) {
-                KNSGlobalVariables.getAuditErrorMap().put(
+                GlobalVariables.getAuditErrorMap().put(
             CONTACTS_AUDIT_ERRORS, new AuditCluster(
             Constants.SUBAWARD_CONTACTS_PANEL_NAME,
                         auditErrors, Constants.AUDIT_ERRORS));

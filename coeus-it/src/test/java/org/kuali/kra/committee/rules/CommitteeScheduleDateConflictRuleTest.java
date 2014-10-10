@@ -25,7 +25,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.ScheduleData;
 import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -47,7 +47,7 @@ public class CommitteeScheduleDateConflictRuleTest extends KcIntegrationTestBase
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setMessageMap(new MessageMap());
-        KNSGlobalVariables.setAuditErrorMap(new HashMap());  
+        GlobalVariables.setAuditErrorMap(new HashMap());  
     }
     
     @Test

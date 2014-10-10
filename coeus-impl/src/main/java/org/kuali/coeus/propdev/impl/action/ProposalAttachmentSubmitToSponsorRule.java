@@ -27,9 +27,9 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -97,11 +97,11 @@ public class ProposalAttachmentSubmitToSponsorRule extends KcTransactionalDocume
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!KNSGlobalVariables.getAuditErrorMap().containsKey(ATTACHMENTS_AUDIT_CLUSTER_KEY)) {
-            KNSGlobalVariables.getAuditErrorMap().put(ATTACHMENTS_AUDIT_CLUSTER_KEY, 
+        if (!GlobalVariables.getAuditErrorMap().containsKey(ATTACHMENTS_AUDIT_CLUSTER_KEY)) {
+            GlobalVariables.getAuditErrorMap().put(ATTACHMENTS_AUDIT_CLUSTER_KEY, 
                     new AuditCluster(Constants.ABSTRACTS_AND_ATTACHMENTS_PANEL, auditErrors, Constants.AUDIT_ERRORS));
         } else {
-            auditErrors = ((AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(ATTACHMENTS_AUDIT_CLUSTER_KEY)).getAuditErrorList();
+            auditErrors = ((AuditCluster) GlobalVariables.getAuditErrorMap().get(ATTACHMENTS_AUDIT_CLUSTER_KEY)).getAuditErrorList();
                 }
         
         return auditErrors;

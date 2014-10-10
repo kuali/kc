@@ -18,7 +18,7 @@ package org.kuali.kra.irb.protocol.participant;
 import org.junit.Before;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class ParticipantTypeValuesFinderTest extends ValuesFinderTestBase {
     @Before
     public void setUp() throws Exception {
         GlobalVariables.clear();
-        KNSGlobalVariables.clear();
+        GlobalVariables.clear();
     }
     
     @Override

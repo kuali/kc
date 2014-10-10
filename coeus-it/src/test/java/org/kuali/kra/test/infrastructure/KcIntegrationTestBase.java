@@ -27,8 +27,8 @@ import org.kuali.kra.test.infrastructure.lifecycle.KcIntegrationTestMainLifecycl
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -63,7 +63,7 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
         logBeforeRun();
         LIFECYCLE.startPerTest(true);
         GlobalVariables.setMessageMap(new MessageMap());
-        KNSGlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
+        GlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
         GlobalVariables.setUserSession(new UserSession(DEFAULT_USER));
     }
 
@@ -73,7 +73,7 @@ public class KcIntegrationTestBase implements KcIntegrationTestMethodAware {
     @After
     public final void baseAfterTest() {
         GlobalVariables.setMessageMap(new MessageMap());
-        KNSGlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
+        GlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
         GlobalVariables.setUserSession(null);
         LIFECYCLE.stopPerTest();
         logAfterRun();

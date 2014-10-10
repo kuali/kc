@@ -1,9 +1,9 @@
 package org.kuali.coeus.sys.impl.gv;
 
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -40,12 +40,12 @@ public class GlobalVariableServiceImpl implements GlobalVariableService {
     
     @Override
     public Map<String, AuditCluster> getAuditErrorMap() {
-    	return KNSGlobalVariables.getAuditErrorMap();
+    	return GlobalVariables.getAuditErrorMap();
     }
     
     @Override
     public void setAuditErrorMap(Map<String, AuditCluster> auditErrorMap) {
-    	KNSGlobalVariables.setAuditErrorMap(new HashMap<>(auditErrorMap));
+    	GlobalVariables.setAuditErrorMap(new HashMap<>(auditErrorMap));
     }
 
     @Override

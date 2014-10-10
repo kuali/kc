@@ -32,9 +32,9 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -67,7 +67,7 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        GlobalVariables.setAuditErrorMap(new HashMap());
         documentService = KRADServiceLocatorWeb.getDocumentService();
         parameterService = CoreFrameworkServiceLocator.getParameterService();
         auditRule = new ProposalDevelopmentProposalRequiredFieldsAuditRule();
@@ -89,7 +89,7 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        KNSGlobalVariables.setAuditErrorMap(null);
+        GlobalVariables.setAuditErrorMap(null);
         documentService = null;
         auditRule = null;
     }
@@ -100,10 +100,10 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
         proposal.getS2sOpportunity().setS2sSubmissionTypeCode(changeCorrectedTypeCode);
         proposal.setSponsorProposalNumber(null);
         validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
-        KNSGlobalVariables.getAuditErrorMap().clear();
+        GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
         validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", false);
-        KNSGlobalVariables.getAuditErrorMap().clear();
+        GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber(null);
         proposal.setContinuedFrom("1");
         //will report error as the instprop found won't be linked to a propdev
@@ -120,8 +120,8 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
      */
     private void validateAuditRule(ProposalDevelopmentDocument document, String fieldKey, String messageKey, String auditKey, boolean expectError) {
         assertTrue("Audit Rule did not produce expected results", auditRule.processRunAuditBusinessRules(document) ^ expectError);
-        assertEquals(expectError?1:0, KNSGlobalVariables.getAuditErrorMap().size());
-        AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(auditKey);
+        assertEquals(expectError?1:0, GlobalVariables.getAuditErrorMap().size());
+        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(auditKey);
 
         if (expectError) {
             assertEquals("Required Fields for Saving Document ", auditCluster.getLabel());

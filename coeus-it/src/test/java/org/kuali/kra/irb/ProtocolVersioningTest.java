@@ -29,7 +29,7 @@ import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -55,7 +55,7 @@ public class ProtocolVersioningTest extends KcIntegrationTestBase {
     public void setUp() throws Exception {
        GlobalVariables.setUserSession(new UserSession("quickstart"));
        GlobalVariables.setMessageMap(new MessageMap());
-       KNSGlobalVariables.setAuditErrorMap(new HashMap());
+       GlobalVariables.setAuditErrorMap(new HashMap());
        locateServices();
     }
     

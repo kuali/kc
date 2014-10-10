@@ -21,8 +21,8 @@ import org.junit.Test;
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -39,7 +39,7 @@ public class AwardFandARateAuditRuleTest {
     
     @Before
     public void setUp() throws Exception {
-        KNSGlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
+        GlobalVariables.setAuditErrorMap(new HashMap<String, AuditCluster>());
         rule = new AwardFandARateAuditRule();
         rule.setFinder(new KeyValuesBase() {
             @Override

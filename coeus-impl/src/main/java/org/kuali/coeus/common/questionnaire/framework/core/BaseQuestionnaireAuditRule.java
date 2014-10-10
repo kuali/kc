@@ -23,9 +23,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
-import org.kuali.rice.kns.util.AuditCluster;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
@@ -98,7 +98,7 @@ public abstract class BaseQuestionnaireAuditRule<T extends KcTransactionalDocume
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster(String label) {
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(MANDATORY_QUESTIONNAIRE_AUDIT_ERRORS, 
+            GlobalVariables.getAuditErrorMap().put(MANDATORY_QUESTIONNAIRE_AUDIT_ERRORS, 
                     new AuditCluster(label, auditErrors, Constants.AUDIT_ERRORS));
         }
     }

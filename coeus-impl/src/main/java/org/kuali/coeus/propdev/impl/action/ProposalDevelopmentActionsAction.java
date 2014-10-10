@@ -84,7 +84,8 @@ import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -468,7 +469,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         proposalDevelopmentForm.setAuditActivated(true);
         //success=KcServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getProposalDevelopmentDocument()));
-        //HashMap map=KNSGlobalVariables.getAuditErrorMap();
+        //HashMap map=GlobalVariables.getAuditErrorMap();
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         String methodToCall = ((KualiForm) form).getMethodToCall();
@@ -594,8 +595,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     private int putErrorInGlobalMessageMap() {
         int state = WARNING;
-        for (Iterator iter = KNSGlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
-            AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(iter.next());
+        for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+            AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
             if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
                 GlobalVariables.getMessageMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
                 return ERROR;
@@ -697,7 +698,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
              * Opportunity, then the user wants to submit the proposal manually (printing and sending via
              * snail mail).
              */
-            if (!KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
+            if (!GlobalVariables.getAuditErrorMap().isEmpty()) {
                 auditPassed = false;
             }
             FormValidationResult result = null;

@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -41,7 +41,7 @@ public class ProtocolAttachmentProtocolRuleHelperTest {
     
     @Before
     public void setupGlobalVars() {
-        KNSGlobalVariables.setAuditErrorMap(new HashMap());
+        GlobalVariables.setAuditErrorMap(new HashMap());
         GlobalVariables.setMessageMap(new MessageMap());
     }
     
