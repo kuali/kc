@@ -1,8 +1,6 @@
 package org.kuali.coeus.propdev.impl.budget.person;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -10,7 +8,6 @@ import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelBudgetService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
@@ -112,11 +109,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	
 	@RequestMapping(params="methodToCall=calculatePersonSalaryDetails")
 	public ModelAndView calculatePersonSalaryDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-	    Budget budget = form.getBudget();
-	    int selectedLine = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());
-	    List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
-        budgetPersonSalaryDetails =  budgetPersonnelBudgetService.calculatePersonSalary(budget, selectedLine);        
-        form.getBudget().getBudgetPerson(selectedLine).setBudgetPersonSalaryDetails(budgetPersonSalaryDetails);
+		calculatePersonSalary(form);
 	    return getModelAndViewService().getModelAndView(form);
 	}
 	
@@ -194,11 +187,27 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     	return getModelAndViewService().showDialog(EDIT_PERSONNEL_PERIOD_DIALOG_ID, true, form);
 	}
 
+	@RequestMapping(params="methodToCall=savePersonPeriodDetails")
+	public ModelAndView savePersonPeriodDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		calculatePersonSalary(form);
+	    getCollectionControllerService().saveLine(form);
+		return getModelAndViewService().getModelAndView(form);
+	}
+	
+	protected void calculatePersonSalary(ProposalBudgetForm form) {
+	    Budget budget = form.getBudget();
+	    String selectedLine = form.getAddProjectPersonnelHelper().getEditLineIndex();
+	    BudgetPersonnelDetails budgetPersonnelDetails = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
+	    BudgetLineItem budgetLineItem = budgetPersonnelDetails.getBudgetLineItem();
+	    getBudgetPersonnelBudgetService().calculateBudgetPersonnelLineItem(budget, budgetLineItem, budgetPersonnelDetails, Integer.parseInt(selectedLine));
+	}
+
 	@RequestMapping(params="methodToCall=calculateCurrentPeriod")
 	public ModelAndView calculateCurrentPeriod(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 	    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
 		BudgetPeriod currentTabBudgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
+	    form.getAddProjectPersonnelHelper().setCurrentTabBudgetPeriod(currentTabBudgetPeriod);
 		getBudgetPersonnelBudgetService().calculateCurrentBudgetPeriod(currentTabBudgetPeriod);
 		return getModelAndViewService().getModelAndView(form);
 	}

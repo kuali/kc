@@ -49,4 +49,7 @@ public interface BudgetPersonnelBudgetService {
     public void addBudgetPersonnelToPeriod(BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail);
     
     public void calculateCurrentBudgetPeriod(BudgetPeriod budgetPeriod);
+    
+    public void calculateBudgetPersonnelLineItem(Budget budget, BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails, int lineItemNumber);
+    
 }

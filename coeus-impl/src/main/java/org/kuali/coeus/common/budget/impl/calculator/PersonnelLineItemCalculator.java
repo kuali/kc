@@ -97,9 +97,6 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
            if(applyRateFlags != null && applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+ budgetPersonnelCalculatedAmount.getRateTypeCode()) != null) {
                budgetPersonnelCalculatedAmount.setApplyRateFlag(applyRateFlags.get(budgetPersonnelCalculatedAmount.getRateClassCode()+budgetPersonnelCalculatedAmount.getRateTypeCode()));
            }
-           LOG.debug(budgetPersonnelCalculatedAmount.getRateClass());
-           LOG.debug(budgetPersonnelCalculatedAmount.getBudgetPersonnelLineItem());
-           LOG.debug(budgetPersonnelCalculatedAmount);
        }        
     }
 

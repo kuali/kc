@@ -27,9 +27,9 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="rateClassCode"
+				<bean parent="Uif-DataField" p:propertyName="rateClass.description"
 					p:label="Class" p:order="10"/>
-				<bean parent="Uif-DataField" p:propertyName="rateTypeCode"
+				<bean parent="Uif-DataField" p:propertyName="rateTypeDescription"
 					p:label="Type" p:required="false" p:order="20"/>
 				<bean parent="Uif-DataField" p:propertyName="calculatedCost"
 					p:required="false" p:order="30"/>

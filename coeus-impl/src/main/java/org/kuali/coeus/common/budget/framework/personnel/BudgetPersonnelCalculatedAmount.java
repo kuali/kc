@@ -40,7 +40,7 @@ public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmo
     @Column(name = "BUDGET_PERSONNEL_DETAILS_ID", insertable = false, updatable = false)
     private Long budgetPersonnelLineItemId;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "BUDGET_PERSONNEL_DETAILS_ID", referencedColumnName = "BUDGET_PERSONNEL_DETAILS_ID")
     private BudgetPersonnelDetails budgetPersonnelLineItem;
 
