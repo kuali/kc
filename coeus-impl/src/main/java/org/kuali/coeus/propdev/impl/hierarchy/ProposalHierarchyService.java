@@ -110,6 +110,7 @@ public interface ProposalHierarchyService {
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     public List<HierarchyPersonnelSummary> getHierarchyPersonnelSummaries(String parentProposalNumber) throws ProposalHierarchyException;
     public List<HierarchyProposalSummary> getHierarchyProposalSummaries(String proposalNumber) throws ProposalHierarchyException;
+    public List<DevelopmentProposal> getHierarchyProposals(DevelopmentProposal developmentProposal);
     public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException;
     
     
@@ -178,5 +179,6 @@ public interface ProposalHierarchyService {
      */
     public ProposalDevelopmentBudgetExt getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     
-    public HierarchyProposalSummary getProposalSummary(String proposalNumber) throws ProposalHierarchyException; 
+    public HierarchyProposalSummary getProposalSummary(String proposalNumber) throws ProposalHierarchyException;
+    public boolean isSynchronized(DevelopmentProposal childProposal);
 }

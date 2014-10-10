@@ -143,6 +143,7 @@
                 <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="50" />
                 <bean parent="PropDev-SubmitPage-Attachments" p:render="@{#ViewHelper.isSummaryAttachmentsPanelEnabled()}" p:order="60" />
                 <bean parent="PropDev-SubmitPage-Keyword"  p:render="@{#ViewHelper.isSummaryKeywordsPanelEnabled()}" p:order="70" />
+                <bean parent="PropDev-SubmitPage-Hierarchy" p:render="@{document.developmentProposal.isInHierarchy()}" p:order="80"/>
             </list>
         </property>
     </bean>
@@ -250,7 +251,7 @@
                       p:propertyName="units">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:fieldLabel.render="false" p:propertyName="unit.unitName"/>
+                            <bean parent="Uif-MessageField" p:messageText="@{#lp.leadUnit ? '(Lead Unit) ':''}@{#lp.unit.unitNumber} - @{#lp.unit.UnitName}" p:order="10"/>
                         </list>
                     </property>
                 </bean>
@@ -339,6 +340,139 @@
         <property name="layoutManager.cssClasses">
             <null/>
         </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-Hierarchy" parent="PropDev-SubmitPage-Hierarchy-parentBean"/>
+    <bean id="PropDev-SubmitPage-Hierarchy-parentBean" abstract="true" parent="Uif-StackedCollectionSection"
+          p:header.headerText="Hierarchy" p:header.headerTagCssClasses=""
+          p:propertyName="hierarchyDevelopmentProposals"
+          p:collectionObjectClass="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
+          p:renderAddLine="false" p:renderLineActions="false"
+          p:layoutManager.summaryTitle="@{#line.isParent()?'Parent':'Child'} (Proposal # @{#line.proposalNumber})">
+        <property name="items">
+            <list>
+                <bean parent="Uif-FieldGroupBase" p:order="10">
+                    <property name="group">
+                        <bean parent="PropDev-SubmitPage-HierarchyDetails"
+                                />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype">
+            <bean parent="Uif-CollectionHorizontalBoxItem"
+                  p:style="@{#line.isChild()?'margin-left:5%':''}">
+                <property name="layoutManager">
+                    <bean parent="Uif-SimpleLayout" />
+                </property>
+                <property name="header">
+                    <bean parent="Uif-HeaderFour">
+                        <property name="rightGroup">
+                            <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall=""
+                                              p:render="@{#line.isChild() and #ViewHelper.isChildSynchronized(#line)}"
+                                              p:actionLabel="Synced to Parent"  p:order="10"/>
+                                        <bean parent="Uif-SecondaryActionButton-Mini" p:iconClass="icon-warning" p:methodToCall=""
+                                              p:render="@{#line.isChild() and !#ViewHelper.isChildSynchronized(#line)}"
+                                              p:actionLabel="Sync to Parent"  p:order="20"/>
+                                        <bean parent="Uif-SecondaryActionButton-Mini"
+                                              p:actionLabel="Unlink Hierarchy" p:methodToCall="" p:order="30"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </property>
+                        <property name="headerTagCssClasses">
+                            <null/>
+                        </property>
+                    </bean>
+                </property>
+                <property name="cssClasses">
+                    <list>
+                        <value>uif-collectionItem</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-HierarchyDetails" parent="PropDev-SubmitPage-HierarchyDetails-parentBean"/>
+    <bean id="PropDev-SubmitPage-HierarchyDetails-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link" p:linkText="View Document" p:order="10" p:openInDialog="true"
+                     p:href="@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=docHandler&amp;docId=@{#line.proposalDocument.documentNumber}&amp;command=displayDocSearchView&amp;pageId=PropDev-DetailsPage" />
+                <bean parent="PropDev-SubmitPage-HierarchyOverview" p:order="20"/>
+                <bean parent="PropDev-SubmitPage-HierarchySponsorProgramInfo" p:order="30"/>
+                <bean parent="PropDev-SubmitPage-HierarchyInvestigatorInfo" p:order="40"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-HierarchyOverview" parent="PropDev-SubmitPage-HierarchyOverview-parentBean"/>
+    <bean id="PropDev-SubmitPage-HierarchyOverview-parentBean" abstract="true" parent="Uif-Disclosure-GridSection"
+          p:disclosure.defaultOpen="false" p:header.headerText="Overview"
+          p:layoutManager.numberOfColumns="4">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="proposalNumber" p:order="10"/>
+                <bean parent="Uif-DataField" p:propertyName="proposalState.description" p:order="20"/>
+                <bean parent="Uif-DataField" p:propertyName="requestedStartDateInitial" p:order="30"/>
+                <bean parent="Uif-DataField" p:propertyName="proposalType.description" p:order="40"/>
+                <bean parent="Uif-DataField" p:propertyName="requestedEndDateInitial" p:order="50"/>
+                <bean parent="Uif-MessageField" p:messageText="" p:fieldLabel.labelText="Narrative" p:order="60"/>
+                <bean parent="Uif-DataField" p:propertyName="ownedByUnit.unitName" p:order="70"/>
+                <bean parent="Uif-DataField" p:propertyName="budgetStatusDescription" p:order="80"
+                        p:fieldLabel.labelText="Budget:"/>
+                <bean parent="Uif-DataField" p:propertyName="activityType.description" p:order="90"/>
+                <bean parent="Uif-DataField" p:propertyName="title" p:order="100"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-HierarchySponsorProgramInfo" parent="PropDev-SubmitPage-HierarchySponsorProgramInfo-parentBean"/>
+    <bean id="PropDev-SubmitPage-HierarchySponsorProgramInfo-parentBean" abstract="true" parent="Uif-Disclosure-GridSection"
+          p:disclosure.defaultOpen="false" p:header.headerText="Sponsor &amp; Program Information"
+          p:layoutManager.numberOfColumns="4">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="deadlineDate" p:order="10"/>
+                <bean parent="Uif-DataField" p:propertyName="noticeOfOpportunityCode" p:order="20"/>
+                <bean parent="Uif-DataField" p:propertyName="deadlineType" p:order="30"/>
+                <bean parent="Uif-DataField" p:propertyName="cfdaNumber" p:order="40"/>
+                <bean parent="Uif-DataField" p:propertyName="sponsor.sponsorName" p:order="50"/>
+                <bean parent="Uif-DataField" p:propertyName="programAnnouncementNumber" p:order="60"/>
+                <bean parent="Uif-DataField" p:propertyName="primeSponsorCode" p:order="70"/>
+                <bean parent="Uif-DataField" p:propertyName="sponsorProposalNumber" p:order="80"/>
+                <bean parent="Uif-DataField" p:propertyName="subcontracts" p:order="90"/>
+                <bean parent="Uif-DataField" p:propertyName="agencyDivisionCode" p:order="100"/>
+                <bean parent="Uif-DataField" p:propertyName="agencyProgramCode" p:order="110"/>
+                <bean parent="Uif-DataField" p:propertyName="programAnnouncementTitle" p:order="120"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-HierarchyInvestigatorInfo" parent="PropDev-SubmitPage-HierarchyInvestigatorInfo-parentBean"/>
+    <bean id="PropDev-SubmitPage-HierarchyInvestigatorInfo-parentBean" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
+            p:header.headerText="Investigator/Units"
+            p:propertyName="document.developmentProposal.proposalPersons"
+            p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
+            p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
+            p:renderLineActions="false" p:layoutManager.richTable.render="false"
+            p:renderInactiveToggleButton="false" p:disclosure.defaultOpen="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="fullName" p:fieldLabel.labelText="Key Person" p:order="10"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.getRole().getDescription()}" p:fieldLabel.labelText="Role" p:order="20"/>
+                <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Units" p:order="30">
+                    <property name="group">
+                        <bean parent="PropDev-SubmitPage-UnitCollectionGroup" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+
     </bean>
 
 </beans>
