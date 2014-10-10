@@ -80,7 +80,7 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
             clearAnswers(form.getS2sQuestionnaireHelper().getAnswerHeaders().get(Integer.parseInt(index)).getAnswers());
         }
 
-        return getModelAndViewService().getModelAndView(form);
+        return super.save(form);
     }
 
     protected void clearAnswers(List<Answer> answers) {
@@ -89,19 +89,33 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
         }
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=updateQuestionnaire")
-    public ModelAndView updateQuestionnaire(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response,
-                                           @RequestParam("actionParameters[index]") String index,  @RequestParam("actionParameters[helper]") String helper ) throws Exception {
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareUpdateDialog")
+    public ModelAndView prepareUpdateDialog(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                            @RequestParam("actionParameters[index]") String index,  @RequestParam("actionParameters[helper]") String helper ) throws Exception {
 
         if(helper.equals("questionnaireHelper")) {
-            form.getQuestionnaireHelper().updateQuestionnaireAnswer(Integer.parseInt(index));
-            getLegacyDataAdapter().save(form.getQuestionnaireHelper().getAnswerHeaders().get(Integer.parseInt(index)));
+            form.setUpdateAnswerHeader(form.getQuestionnaireHelper().getAnswerHeaders().get(Integer.parseInt(index)));
         } else if (helper.equals("s2sQuestionnaireHelper")) {
-            form.getS2sQuestionnaireHelper().updateQuestionnaireAnswer(Integer.parseInt(index));
-            getLegacyDataAdapter().save(form.getS2sQuestionnaireHelper().getAnswerHeaders().get(Integer.parseInt(index)));
+            form.setUpdateAnswerHeader(form.getS2sQuestionnaireHelper().getAnswerHeaders().get(Integer.parseInt(index)));
         }
 
-        return getModelAndViewService().getModelAndView(form);
+        return getModelAndViewService().showDialog("PropDev-QuestionnairePage-UpdateDialog",true,form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=updateQuestionnaire")
+    public ModelAndView updateQuestionnaire(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+
+        if (form.getQuestionnaireHelper().getAnswerHeaders().contains(form.getUpdateAnswerHeader())){
+            int index = form.getQuestionnaireHelper().getAnswerHeaders().indexOf(form.getUpdateAnswerHeader());
+            form.getQuestionnaireHelper().updateQuestionnaireAnswer(index);
+        } else if (form.getS2sQuestionnaireHelper().getAnswerHeaders().contains(form.getUpdateAnswerHeader())){
+            int index = form.getS2sQuestionnaireHelper().getAnswerHeaders().indexOf(form.getUpdateAnswerHeader());
+            form.getS2sQuestionnaireHelper().updateQuestionnaireAnswer(index);
+        }
+
+        form.setUpdateAnswerHeader(new AnswerHeader());
+        return super.save(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=printQuestionnaire")

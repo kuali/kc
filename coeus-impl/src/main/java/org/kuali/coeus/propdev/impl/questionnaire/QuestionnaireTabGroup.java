@@ -5,11 +5,11 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroupBase;
+import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.container.TabGroup;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Header;
-import org.kuali.rice.krad.uif.element.ToggleMenu;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleRestriction;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
@@ -51,7 +51,7 @@ public class QuestionnaireTabGroup extends TabGroup {
                 group.setHeaderText(answerHeader.getLabel() + "&nbsp;<span class='" + cssClass + " icon-ok' />");
                 group.getHeader().setRender(false);
                 CollectionGroupBase questionCollection = ComponentUtils.copy(collectionGroupPrototype);
-                initiateActionMenuItems((ToggleMenu) questionCollection.getHeader().getRightGroup().getItems().get(0),index,helper,formKey);
+                initiateActionMenuItems(questionCollection.getHeader().getRightGroup(),index,helper,formKey,answerHeader.isNewerVersionPublished());
                 questionCollection.setHeaderText(answerHeader.getLabel() + (answerHeader.isCompleted() ? "[color=green] (Complete)" : " [color=gray](Incomplete)") + "[/color]");
                 questionCollection.setPropertyName(helper + ".answerHeaders[" + index + "].questions");
                 group.setItems(Collections.singletonList(questionCollection));
@@ -63,19 +63,24 @@ public class QuestionnaireTabGroup extends TabGroup {
         return tabs;
     }
 
-    protected void initiateActionMenuItems(ToggleMenu actionMenu,int index, String helper, String formKey) {
-        for (Component component : actionMenu.getMenuItems()) {
-            Action menuItem = (Action) component;
-            if (menuItem.getActionLabel().equals("Print")) {
-                Properties parameters = new Properties();
-                parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "printQuestionnaire");
-                parameters.put(KRADConstants.FORM_KEY, formKey);
-                parameters.put("helper", helper);
-                parameters.put("index", String.valueOf(index));
-                menuItem.getActionUrl().setHref(UrlFactory.parameterizeUrl("../kc-pd-krad/proposalDevelopment", parameters));
-            } else {
-                menuItem.addActionParameter("helper",helper);
-                menuItem.addActionParameter("index",String.valueOf(index));
+    protected void initiateActionMenuItems(Group group,int index, String helper, String formKey, boolean newerVersionPublished) {
+        for (Component component : group.getItems()) {
+
+            if (component instanceof Action){
+                Action action = (Action) component;
+                if (action.getActionLabel().equals("Print")) {
+                    Properties parameters = new Properties();
+                    parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "printQuestionnaire");
+                    parameters.put(KRADConstants.FORM_KEY, formKey);
+                    parameters.put("helper", helper);
+                    parameters.put("index", String.valueOf(index));
+                    action.getActionUrl().setHref(UrlFactory.parameterizeUrl("../kc-pd-krad/proposalDevelopment", parameters));
+                } else if (action.getActionLabel().equals("Update Available")) {
+                    action.setRender(newerVersionPublished);
+                }
+                action.addActionParameter("helper",helper);
+                action.addActionParameter("index",String.valueOf(index));
+
             }
         }
 
