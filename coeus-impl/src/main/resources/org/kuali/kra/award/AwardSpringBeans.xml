@@ -454,6 +454,7 @@
             
     <bean id="awardBaseStream" class="org.kuali.kra.award.printing.xmlstream.AwardBaseStream" abstract="true">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dataObjectService" ref="dataObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
