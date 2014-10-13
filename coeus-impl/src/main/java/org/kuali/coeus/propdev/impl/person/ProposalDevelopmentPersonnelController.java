@@ -130,7 +130,6 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         newProposalPerson.setProjectRole((String)form.getAddKeyPersonHelper().getParameter("keyPersonProjectRole"));
        }
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
-       Collections.sort(form.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
        form.getAddKeyPersonHelper().reset();
        return getRefreshControllerService().refresh(form);
    }
