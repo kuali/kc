@@ -11,6 +11,7 @@ import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotification
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
+import org.kuali.rice.krad.data.MaterializeOption;
 import org.kuali.rice.krad.data.metadata.DataObjectAttribute;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
 
         Object propertyObject = getPropertyValue(form.getDevelopmentProposal(),form.getNewProposalChangedData().getAttributeName());
         String propertyValue = null;
-        if (form.getNewProposalChangedData().getEditableColumn().getDataType().equals(DATE_TYPE)) {
+        if (form.getNewProposalChangedData().getEditableColumn().getDataType().equals(DATE_TYPE) && propertyObject != null) {
             propertyValue = getDateTimeService().toDateString((Date)propertyObject);
         } else {
             propertyValue = (String) propertyObject;
@@ -58,8 +59,9 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
 
         form.getNewProposalChangedData().setDisplayValue(propertyValue);
         form.getNewProposalChangedData().setOldDisplayValue(propertyValue);
-
-        return getModelAndViewService().getModelAndView(form);
+        form.setUpdateComponentId("PropDev-DataOverride-Dialog");
+        form.setAjaxReturnType("update-component");
+        return getRefreshControllerService().refresh(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createOverride")
@@ -72,9 +74,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         int changeNumber = pdDocument.getDocumentNextValue("proposalDevelopment.proposalChangedDataList.changeNumber");
         newProposalChangedData.setProposalNumber(pdDocument.getDevelopmentProposal().getProposalNumber());
         newProposalChangedData.setChangeNumber(changeNumber);
-        if(StringUtils.isEmpty(newProposalChangedData.getDisplayValue()) && StringUtils.isNotEmpty(newProposalChangedData.getChangedValue())) {
-            newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
-        }
+        newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
 
         if(getKualiRuleService().applyRules(new ProposalDataOverrideEvent(pdDocument, newProposalChangedData))){
 
@@ -85,9 +85,13 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
                 PropertyUtils.setNestedProperty(pdDocument.getDevelopmentProposal(),propertyName,newProposalChangedData.getChangedValue());
             }
             growProposalChangedHistory(pdDocument, newProposalChangedData);
-            form.getDevelopmentProposal().getProposalChangedDataList().add(newProposalChangedData);
-            super.save(form);
+            List<ProposalChangedData> proposalChangedDataList= new ArrayList<ProposalChangedData>();
+            proposalChangedDataList.add(newProposalChangedData);
+            proposalChangedDataList.addAll(form.getDevelopmentProposal().getProposalChangedDataList());
+            form.getDevelopmentProposal().setProposalChangedDataList(proposalChangedDataList);
 
+            super.save(form);
+            getDataObjectService().wrap(form.getDevelopmentProposal()).materializeReferencedObjects(MaterializeOption.INCLUDE_EAGER_REFS);
 
             form.setNewProposalChangedData(new ProposalChangedData());
 
@@ -97,7 +101,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
             ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(pdDocument.getDevelopmentProposal());
             if (form.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                 form.getNotificationHelper().initializeDefaultValues(context);
-                return getModelAndViewService().showDialog("Kc-SendNotification-Wizard",true,form);
+                form.setSendOverrideNotification(true);
             } else {
                 getKcNotificationService().sendNotification(context);
             }
@@ -105,6 +109,15 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         }
 
        return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendOverrideNotification")
+    public ModelAndView sendOverrideNotification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        if (form.isSendOverrideNotification()) {
+            return getModelAndViewService().showDialog("Kc-SendNotification-Wizard",true,form);
+        }
+        form.setSendOverrideNotification(false);
+        return getModelAndViewService().getModelAndView(form);
     }
 
 

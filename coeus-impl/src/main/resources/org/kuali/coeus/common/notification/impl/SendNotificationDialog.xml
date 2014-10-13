@@ -187,7 +187,7 @@
                 <property name="items">
                     <list merge="true">
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Send Notifications" p:methodToCall="sendNotifications"
-                              p:order="10" p:successCallback="dismissDialog('Kc-SendNotification-Wizard');"/>
+                              p:order="10" p:dialogDismissOption="REQUEST"/>
                     </list>
                 </property>
             </bean>

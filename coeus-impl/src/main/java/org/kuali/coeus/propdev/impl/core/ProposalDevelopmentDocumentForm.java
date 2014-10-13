@@ -89,6 +89,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private List<NarrativeUserRights> narrativeUserRights;
     private String narrativeUserRightsSelectedAttachment;
     private ProposalChangedData newProposalChangedData;
+    private boolean sendOverrideNotification;
     private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
     private List<SponsorFormTemplateList> sponsorFormTemplates;
 
@@ -497,4 +498,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.sponsorFormTemplates = sponsorFormTemplates;
     }
 
+    public boolean isSendOverrideNotification() {
+        return sendOverrideNotification;
+    }
+
+    public void setSendOverrideNotification(boolean proposalChangedDataSendNotification) {
+        this.sendOverrideNotification = proposalChangedDataSendNotification;
+    }
 }
