@@ -21,9 +21,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
+import org.kuali.coeus.common.framework.person.PersonRolodexComparator;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.location.*;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -135,10 +135,10 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         }
 
         if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons().size() > 0)
-            sort(proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
+            sort(proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons(), new PersonRolodexComparator());
 
         if (proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators().size() > 0)
-            sort(proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
+            sort(proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators(), new PersonRolodexComparator());
         
         return actionForward;
     }

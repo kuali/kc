@@ -56,6 +56,7 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculat
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
+import org.kuali.coeus.common.framework.person.PersonRolodexComparator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
@@ -142,7 +143,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
     private String budgetAdjustmentDocumentNumber;
 
     @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
-    @OrderBy("personSequenceNumber")
     private List<BudgetPerson> budgetPersons;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
@@ -811,6 +811,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     @Override
     public List<BudgetPerson> getBudgetPersons() {
+    	Collections.sort(budgetPersons, new PersonRolodexComparator());
         return budgetPersons;
     }
 

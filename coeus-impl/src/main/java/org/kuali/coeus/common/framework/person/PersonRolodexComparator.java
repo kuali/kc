@@ -13,28 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.person;
+package org.kuali.coeus.common.framework.person;
 
 import java.util.Comparator;
+
+import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
- * Used to order <code>{@link ProposalPerson}</code> instances by the role.
+ * Used to order <code>{@link PersonRolodex}</code> instances by the role.
  */
-public class ProposalPersonComparator implements Comparator<ProposalPerson> {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonComparator.class);
+public class PersonRolodexComparator implements Comparator<PersonRolodex> {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(PersonRolodexComparator.class);
 
 
     /**
-     * compare one <code>{@link ProposalPerson}</code> instance to another. Sort by the role of the
-     *  <code>{@link ProposalPerson}</code>
+     * compare one <code>{@link PersonRolodex}</code> instance to another. Sort by the role of the
+     *  <code>{@link PersonRolodex}</code>
      * 
      * @param person1
      * @param person2
      * @return int
      */
-    public int compare(ProposalPerson person1, ProposalPerson person2) {
+    public int compare(PersonRolodex person1, PersonRolodex person2) {
         int retval = 0;
                
         if (person1.isInvestigator() || person2.isInvestigator()) {
@@ -81,7 +83,7 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
         return retval;
     }
 
-    private Integer massageOrdinalNumber(ProposalPerson person) {
+    private Integer massageOrdinalNumber(PersonRolodex person) {
         return person.getOrdinalPosition() != null ? person.getOrdinalPosition() : -1;
     }
     

@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.person.PersonRolodexComparator;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -162,7 +163,7 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
                      }
                }
            }
-            sort(document.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
+            sort(document.getDevelopmentProposal().getProposalPersons(), new PersonRolodexComparator());
         }
      return retval;
     }

@@ -333,4 +333,25 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
 			PropAwardPersonRoleService propAwardPersonRoleService) {
 		this.propAwardPersonRoleService = propAwardPersonRoleService;
 	}
+
+	@Override
+	public Integer getOrdinalPosition() {
+		return 0;
+	}
+	
+	@Override
+	public boolean isInvestigator() {
+		return isPrincipalInvestigator() || isMultiplePi() || isCoInvestigator();
+	}
+
+    public String getLastName() {
+        String lastName = null;
+        if (getPerson() != null) {
+            lastName = getPerson().getLastName();
+        } else if (getRolodex() != null) {
+            lastName = getRolodex().getLastName();
+        }
+        return lastName;
+    }
+    
 }
