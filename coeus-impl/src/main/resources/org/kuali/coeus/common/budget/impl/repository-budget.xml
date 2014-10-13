@@ -447,8 +447,8 @@
 		</reference-descriptor>
 
         <collection-descriptor name="budgetPersonSalaryDetails" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-            <inverse-foreignkey field-ref="budgetPersonSalaryDetailId"/>
             <inverse-foreignkey field-ref="budgetId"/>
+            <inverse-foreignkey field-ref="personSequenceNumber"/>
         </collection-descriptor>
 	</class-descriptor>
 	
