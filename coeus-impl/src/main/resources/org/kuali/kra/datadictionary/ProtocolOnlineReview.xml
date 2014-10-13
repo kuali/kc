@@ -227,11 +227,13 @@
 		<property name="shortLabel" value="Online Review Status" />
 		<property name="maxLength" value="300" />
 		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+	    </property>
+	    <property name="validCharactersConstraint">
+	      <bean parent="AnyCharacterPatternConstraint">
+	        <property name="allowWhitespace" value="true"/>
+	      </bean>
 		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
 		<property name="control">
 				<bean p:size="30" parent="TextControlDefinition"/>
 		</property>
@@ -276,11 +278,13 @@
 		<property name="shortLabel" value="Determination Recommendation" />
 		<property name="maxLength" value="200" />
 		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+	    </property>
+	    <property name="validCharactersConstraint">
+	      <bean parent="AnyCharacterPatternConstraint">
+	        <property name="allowWhitespace" value="true"/>
+	      </bean>
 		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
 		<property name="control">
 			<bean p:size="30" parent="TextControlDefinition"/>
 		</property>
