@@ -173,7 +173,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
         
         String documentNumber = (String)params.get(DOCUMENT_NUMBER);
-        Long questionnaireId= Long.parseLong(params.get("questionnaireSeqId").toString());
+        Long questionnaireId= Long.parseLong(params.get("questionnaireId").toString());
         org.kuali.coeus.common.questionnaire.framework.core.Questionnaire questionnaire =
                 (org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)params.get(QUESTIONNAIRE);
         if (questionnaire == null) {
