@@ -31,10 +31,13 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.exception.DocumentAuthorizationException;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -80,6 +83,10 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
+    @Autowired
+    @Qualifier("documentDictionaryService")
+    private DocumentDictionaryService documentDictionaryService;
+
    @MethodAccessible
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -107,6 +114,44 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
        return returnToDocument(form, newDoc.getDocumentNumber());
    }
+
+    /**
+     * Starts a view of the proposal development document, the only difference between this method and the docHandler
+     * method is that this will allow for non-document views to retrieve and show the data by not going through
+     * TransactionalDocumentControllerService.
+     */
+    @MethodAccessible
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=viewUtility")
+    public ModelAndView viewUtility(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentDocument document = null;
+        boolean isDeleted = false;
+
+        if (!ObjectUtils.isNull(form.getDocId())) {
+            document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(form.getDocId());
+            isDeleted = document.isProposalDeleted();
+        }
+
+        if (isDeleted) {
+            Properties props = new Properties();
+            props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
+            props.put(UifConstants.UrlParams.VIEW_ID, "PropDev-DeletedView");
+            return getModelAndViewService().performRedirect(form, "proposalDevelopment", props);
+        } else {
+            form.setDocument(document);
+            WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            form.setDocTypeName(workflowDocument.getDocumentTypeName());
+            form.setProposalCopyCriteria(new ProposalCopyCriteria(document));
+
+            if (!this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,
+                    getGlobalVariableService().getUserSession().getPerson())) {
+                throw new DocumentAuthorizationException(getGlobalVariableService().getUserSession().getPerson().getPrincipalName(),
+                                "open", document.getDocumentNumber());
+            }
+
+            return getModelAndViewService().getModelAndView(form);
+        }
+    }
 
     protected  ModelAndView returnToDocument(ProposalDevelopmentDocumentForm form, String newDocNum) {
         String docHandlerUrl = getDocHandlerUrl(form);
@@ -298,4 +343,11 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         return globalVariableService;
     }
 
+    public DocumentDictionaryService getDocumentDictionaryService() {
+        return documentDictionaryService;
+    }
+
+    public void setDocumentDictionaryService(DocumentDictionaryService documentDictionaryService) {
+        this.documentDictionaryService = documentDictionaryService;
+    }
 }

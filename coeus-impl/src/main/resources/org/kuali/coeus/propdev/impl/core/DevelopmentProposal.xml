@@ -1268,33 +1268,121 @@
         <bean p:propertyName="hierarchyStatusName" parent="Uif-DataField"/>
       </list>
     </property>
-    <property name="resultsGroup">
-      <bean parent="Uif-LookupResultsCollectionSection" p:renderLineActions="@{#ViewHelper.showActionUrls(!#emptyList(#form.lookupResults) ? #form.lookupResults : null)}">
-      	    <property name="lineActions">
-		      <list>
-		        <bean parent="Development-Proposal-Lookup-result-ViewLink" p:order="10"/>
-		        <bean parent="Development-Proposal-Lookup-result-EditLink" p:order="20"/>		  
-		      </list>
-		    </property>
-      </bean>
-    </property>
+      <property name="resultsGroup">
+          <bean parent="Uif-LookupResultsCollectionSection"
+                p:renderLineActions="@{#ViewHelper.showActionUrls(!#emptyList(#form.lookupResults) ? #form.lookupResults : null)}">
+              <property name="lineActions">
+                  <list>
+                      <bean parent="Development-Proposal-Lookup-result-ViewLink" p:order="10"/>
+                      <bean parent="Development-Proposal-Lookup-result-EditLink" p:order="20"/>
+
+                      <bean parent="Uif-ActionLink" p:actionLabel="copy" p:order="30"
+                            p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-CopyView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-CopyDialog@{#lineSuffix}');">
+                          <property name="finalizeMethodToCall" value="buildPropDevCopyActionLink"/>
+                          <property name="finalizeMethodAdditionalArguments">
+                              <list>
+                                  <value>@{#line.document.documentNumber}</value>
+                              </list>
+                          </property>
+                      </bean>
+                      <bean id="Development-Proposal-Lookup-CopyDialog" parent="Uif-DialogGroup-Iframe"
+                            p:headerText="Copy To New Document" p:retrieveViaAjax="true"/>
+
+                      <bean parent="Uif-ActionLink" p:actionLabel="medusa" p:order="40"
+                            p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-MedusaView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-MedusaDialog@{#lineSuffix}');"/>
+                      <bean id="Development-Proposal-Lookup-MedusaDialog" parent="Uif-DialogGroup-Iframe"
+                            p:headerText="Medusa" p:retrieveViaAjax="true"/>
+
+                  </list>
+              </property>
+          </bean>
+      </property>
   </bean>
-  <bean id="Development-Proposal-Lookup-result-ViewLink" parent="Uif-Link">
-  	<property name="finalizeMethodToCall" value="buildPropDevViewActionLink"/>
-    <property name="href" value="@{#line.document.documentNumber}"/>
-    <property name="finalizeMethodAdditionalArguments">
-      <list>
-        <value>view</value>
-      </list>
-    </property>
-  </bean>
-  <bean id="Development-Proposal-Lookup-result-EditLink" parent="Uif-Link">
-  	<property name="finalizeMethodToCall" value="buildPropDevEditActionLink"/>
-    <property name="href" value="@{#line.document.documentNumber}"/>
-    <property name="finalizeMethodAdditionalArguments">
-      <list>
-        <value>edit</value>
-      </list>
-    </property>
-  </bean>
+
+
+    <bean id="Development-Proposal-Lookup-result-ViewLink" parent="Uif-Link">
+        <property name="finalizeMethodToCall" value="buildPropDevViewActionLink"/>
+        <property name="href" value="@{#line.document.documentNumber}"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>view</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Development-Proposal-Lookup-result-EditLink" parent="Uif-Link">
+        <property name="finalizeMethodToCall" value="buildPropDevEditActionLink"/>
+        <property name="href" value="@{#line.document.documentNumber}"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>edit</value>
+            </list>
+        </property>
+    </bean>
+
+<!--Speical proposal sub-views for copy and medusa functions accessed from Lookup-->
+
+    <bean id="PropDev-CopyView" parent="PropDev-CopyView-parentBean"/>
+    <bean id="PropDev-CopyView-parentBean" abstract="true"
+          parent="Uif-FormView" p:header.render="false" p:breadcrumbs.render="false"
+          p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm">
+        <property name="stickyFooter" value="@{renderedInDialog}"/>
+        <property name="applicationHeader.render" value="@{!renderedInDialog}"/>
+        <property name="singlePageView" value="true"/>
+        <property name="onDocumentReadyScript" value="KradResponse.prototype.redirectHandler = function(content, dataAttr) {var redirectUrl = jQuery(content).text().trim();dirtyFormState.skipDirtyChecks = true;window.top.location.href = redirectUrl;};"/>
+        <property name="page">
+          <bean parent="Uif-Page" p:header.render="false">
+              <property name="items">
+                  <list>
+                      <bean parent="PropDev-CopyDialog" p:fieldBindingObjectPath="proposalCopyCriteria" p:order="10" />
+                  </list>
+              </property>
+          </bean>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="PropDev-CopyDialog-Button-Continue"
+                              p:actionLabel="Copy..." p:methodToCall="copy"
+                              p:performClientSideValidation="false" p:order="10"/>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+                              p:onClickScript="e.preventDefault();closeIframeDialog();return false;"
+                              p:dialogResponse="false" p:order="20"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-MedusaView" parent="PropDev-MedusaView-parentBean"/>
+    <bean id="PropDev-MedusaView-parentBean" abstract="true"
+          parent="Uif-FormView" p:header.render="false" p:breadcrumbs.render="false"
+          p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm">
+        <property name="stickyFooter" value="@{renderedInDialog}"/>
+        <property name="applicationHeader.render" value="@{!renderedInDialog}"/>
+        <property name="singlePageView" value="true"/>
+        <property name="page">
+          <bean parent="Uif-Page" p:header.render="false">
+              <property name="items">
+                  <list>
+                      <bean parent="PropDev-MedusaSection-TabGroup"/>
+                  </list>
+              </property>
+          </bean>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+                              p:onClickScript="e.preventDefault();closeIframeDialog();return false;"
+                              p:dialogResponse="false" p:order="20"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
 </beans>
