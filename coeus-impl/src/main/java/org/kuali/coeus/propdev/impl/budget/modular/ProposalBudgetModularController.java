@@ -38,6 +38,7 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
 
     @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-ModularPage"})
     public ModelAndView navigateToModular(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+
         Budget budget = form.getBudget();
         int index = 0;
         for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()){
