@@ -279,6 +279,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     public ModelAndView saveInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
+        getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
         try {
             narrative.init(narrative.getMultipartFile());
         } catch (Exception e) {
