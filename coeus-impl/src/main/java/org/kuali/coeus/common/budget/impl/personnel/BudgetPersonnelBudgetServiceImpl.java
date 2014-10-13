@@ -269,6 +269,13 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         this.parameterService = parameterService;
     }
     
+    public void calculateBudgetPersonnelLineItem(Budget budget, BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails, int lineItemNumber) {
+    	getBudgetCalculationService().updatePersonnelBudgetRate(budgetLineItem);
+    	calculateBudgetPersonnelBudget(budget, budgetLineItem, budgetPersonnelDetails, lineItemNumber);
+    	getBudgetCalculationService().populateCalculatedAmount(budget, budgetLineItem);
+    	getBudgetCalculationService().populateCalculatedAmount(budget, budgetPersonnelDetails);
+    }
+    
     public void addBudgetPersonnelToPeriod(BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
     	Budget budget = budgetPeriod.getBudget();
     	BudgetLineItem groupedBudgetLineItem = getExistingBudgetLineItemBasedOnCostElementAndGroup(budgetPeriod, newBudgetLineItem);
@@ -279,7 +286,8 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     	}
     	addPersonnelToPeriod(budgetPeriod, groupedBudgetLineItem, newBudgetPersonnelDetail);
     	groupedBudgetLineItem.setQuantity(getLineItemQuantity(newBudgetLineItem));
-    	getBudgetCalculationService().updatePersonnelBudgetRate(groupedBudgetLineItem);
+    	int newLineNumber = groupedBudgetLineItem.getBudgetPersonnelDetailsList().size() + 1;
+    	calculateBudgetPersonnelLineItem(budget, groupedBudgetLineItem, newBudgetPersonnelDetail, newLineNumber);
         budget.getBudgetPersonnelDetails().add(newBudgetPersonnelDetail);
     }
     
@@ -316,9 +324,6 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
         newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
         newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
-        newBudgetLineItem.setStartDate(budgetPeriod.getStartDate());
-        newBudgetLineItem.setEndDate(budgetPeriod.getEndDate());
-        newBudgetLineItem.setBudgetId(budgetPeriod.getBudgetId());
         newBudgetLineItem.setLineItemNumber(lineItemNumber);
         newBudgetLineItem.setLineItemSequence(lineItemNumber);
         newBudgetLineItem.setApplyInRateFlag(true);

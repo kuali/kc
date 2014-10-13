@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.budget.framework.personnel;
 
 import javax.persistence.*;
+
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetRateAndBase;
@@ -51,7 +52,7 @@ public class BudgetPersonnelRateAndBase extends AbstractBudgetRateAndBase {
     @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal salaryRequested;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "BUDGET_PERSONNEL_DETAILS_ID", referencedColumnName = "BUDGET_PERSONNEL_DETAILS_ID")
     private BudgetPersonnelDetails budgetPersonnelLineItem;
 

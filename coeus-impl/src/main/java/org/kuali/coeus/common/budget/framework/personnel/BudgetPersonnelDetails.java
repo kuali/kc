@@ -138,7 +138,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Convert(converter = BooleanYNConverter.class)
     private Boolean submitCostSharingFlag = Boolean.TRUE; 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false), @JoinColumn(name = "PERSON_SEQUENCE_NUMBER", referencedColumnName = "PERSON_SEQUENCE_NUMBER", insertable = false, updatable = false) })
     private BudgetPerson budgetPerson;
 
@@ -196,10 +196,10 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Transient
     private BudgetPeriod budgetPeriodBO;
 
-    @OneToMany(mappedBy = "budgetPersonnelLineItem")
+    @OneToMany(mappedBy = "budgetPersonnelLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
 
-    @OneToMany(mappedBy = "budgetPersonnelLineItem")
+    @OneToMany(mappedBy = "budgetPersonnelLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList;
 
     @Transient
@@ -708,7 +708,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 		ScaleTwoDecimal calculatedFringe = ScaleTwoDecimal.ZERO;
 		for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : getBudgetPersonnelCalculatedAmounts()) {
 			if(budgetPersonnelCalculatedAmount.getAddToFringeRate()) {
-				calculatedFringe.add(budgetPersonnelCalculatedAmount.getCalculatedCost());
+	    		calculatedFringe = calculatedFringe.add(budgetPersonnelCalculatedAmount.getCalculatedCost());
 			}
 		}
 		return calculatedFringe;
