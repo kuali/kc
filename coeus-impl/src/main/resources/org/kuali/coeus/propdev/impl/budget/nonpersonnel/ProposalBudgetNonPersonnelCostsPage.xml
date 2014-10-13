@@ -17,6 +17,12 @@
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-NonPersonnelCosts-TabGroup" />
+            	<bean id="PropBudget-NonPersonnelCostsPage-AddNonPersonnel-Dialog" parent="PropBudget-NonPersonnelCostsPage-AddNonPersonnel"
+            		p:retrieveViaAjax="true"/>
+            	<bean id="PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog" parent="PropBudget-EditNonPersonnelPeriod-Section"
+            		p:retrieveViaAjax="true"/>
+            	<bean id="PropBudget-NonPersonnelCostsPage-EditParticipantSupport-Dialog" parent="PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection"
+            		p:retrieveViaAjax="true"/>
 			</list>
 		</property>
 		<property name="header">

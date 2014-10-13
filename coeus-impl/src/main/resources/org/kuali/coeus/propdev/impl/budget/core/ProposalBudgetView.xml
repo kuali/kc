@@ -57,16 +57,6 @@
 				<bean id="PropBudget-SummaryPage" parent="PropBudget-UnderDevelopmentPage" />				
 			</list>
 		</property>
- 		<property name="dialogs">
-            <list>
-            	<bean id="PropBudget-NonPersonnelCostsPage-AddNonPersonnel-Dialog" parent="PropBudget-NonPersonnelCostsPage-AddNonPersonnel"
-            		p:retrieveViaAjax="true"/>
-            	<bean id="PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog" parent="PropBudget-EditNonPersonnelPeriod-Section"
-            		p:retrieveViaAjax="true"/>
-            	<bean id="PropBudget-NonPersonnelCostsPage-EditParticipantSupport-Dialog" parent="PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection"
-            		p:retrieveViaAjax="true"/>
-            </list>
-        </property>		
 	</bean>
 
 	<bean id="PropBudget-Menu" parent="PropBudget-Menu-parentBean" />
