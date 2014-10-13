@@ -945,7 +945,6 @@
 
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="organizationName" column="ORGANIZATION_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="subAwardStatusCode" column="SUB_AWARD_STATUS_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="subAwardXfdFileData" column="SUB_AWARD_XFD_FILE" jdbc-type="LONGVARBINARY"/>
 		<field-descriptor name="subAwardXfdFileName" column="SUB_AWARD_XFD_FILE_NAME" jdbc-type="VARCHAR"/>
