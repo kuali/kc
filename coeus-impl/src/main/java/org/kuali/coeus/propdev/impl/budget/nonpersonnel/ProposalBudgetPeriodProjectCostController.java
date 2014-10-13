@@ -22,24 +22,27 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	private static final String EDIT_NONPERSONNEL_PERIOD_DIALOG_ID = "PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog";
 	private static final String EDIT_NONPERSONNEL_PARTICIPANT_DIALOG_ID = "PropBudget-NonPersonnelCostsPage-EditParticipantSupport-Dialog";
 	protected static final String CONFIRM_PERIOD_CHANGES_DIALOG_ID = "PropBudget-ConfirmPeriodChangesDialog";
+	protected static final String ADD_NONPERSONNEL_PERIOD_DIALOG_ID = "PropBudget-NonPersonnelCostsPage-AddNonPersonnel-Dialog";
 	
 
 	@RequestMapping(params="methodToCall=assignLineItemToPeriod")
 	public ModelAndView assignLineItemToPeriod(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
 		Budget budget = form.getBudget();
         Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
 		BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
         DialogResponse dialogResponse = form.getDialogResponse(CONFIRM_PERIOD_CHANGES_DIALOG_ID);
-        if(dialogResponse == null && budgetPeriod.getBudgetPeriod() > 1 && !isBudgetLineItemExists(budgetPeriod)) {
-        	return getModelAndViewService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
+        if(dialogResponse == null && budgetPeriod.getBudgetPeriod() > 1 && !isBudgetLineItemExists(budget)) {
+        	modelAndView = getModelAndViewService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
         }else {
             boolean confirmResetDefault = dialogResponse == null ? true : dialogResponse.getResponseAsBoolean();
             if(confirmResetDefault) {
         		form.getAddProjectBudgetLineItemHelper().reset();
         		form.getAddProjectBudgetLineItemHelper().setCurrentTabBudgetPeriod(budgetPeriod);
+        		modelAndView = getModelAndViewService().showDialog(ADD_NONPERSONNEL_PERIOD_DIALOG_ID, true, form);
              }
-    		return getModelAndViewService().getModelAndView(form);
         }
+ 		return modelAndView;
 	}
 	
 	@RequestMapping(params="methodToCall=addLineItemToPeriod")
@@ -157,8 +160,15 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		getDataObjectService().wrap(budgetLineItem).fetchRelationship("budgetCategory");
 	}
 
-	private boolean isBudgetLineItemExists(BudgetPeriod budgetPeriod) {
-		return budgetPeriod.getBudgetLineItems().size() > 0 ;
+	private boolean isBudgetLineItemExists(Budget budget) {
+		boolean lineItemExists = false;
+		for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+			if(budgetPeriod.getBudgetPeriod() > 1 && budgetPeriod.getBudgetLineItems().size() > 0) {
+				lineItemExists = true;
+				break;
+			}
+		}
+		return lineItemExists;
 	}
 	
 }
