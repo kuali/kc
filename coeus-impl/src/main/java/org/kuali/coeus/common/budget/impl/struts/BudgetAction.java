@@ -614,8 +614,8 @@ public class BudgetAction extends BudgetActionBase {
                 //reject the document using the service.
                 AwardBudgetDocument document = ((BudgetForm)form).getBudgetDocument();
                 document.documentHasBeenRejected(reason);
-                KcServiceLocator.getService(KcDocumentRejectionService.class).reject(document.getDocumentNumber(), reason,
-                        GlobalVariables.getUserSession().getPrincipalId());
+                KcServiceLocator.getService(KcDocumentRejectionService.class).reject(document.getDocumentHeader().getWorkflowDocument(), reason,
+                        GlobalVariables.getUserSession().getPrincipalId(), null);
                 //tell the document it is being rejected and returned to the initial node.
                 forward = super.returnToSender(request, mapping, kualiDocumentFormBase);
             }

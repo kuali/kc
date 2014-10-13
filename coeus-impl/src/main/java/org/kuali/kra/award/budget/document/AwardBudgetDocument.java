@@ -219,7 +219,7 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
         if( LOG.isDebugEnabled() ) {
             LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()) );
         }
-        if( StringUtils.equals( KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode()) && documentRejectionService.isDocumentOnInitialNode(this) ) {
+        if( StringUtils.equals( KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode()) && documentRejectionService.isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument()) ) {
             //the document is being approved from the initial node.
             //this means it was rejected and is now being approved by the initiator.
             //set the status back to in progress

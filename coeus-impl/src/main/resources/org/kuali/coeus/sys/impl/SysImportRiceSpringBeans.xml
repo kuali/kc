@@ -14,8 +14,7 @@
     <bean id="businessObjectService" parent="grlImporter" p:serviceName="businessObjectService" />
     <bean id="persistenceStructureServiceOjb" parent="grlImporter" p:serviceName="persistenceStructureServiceOjb" />
     <bean id="documentService" parent="grlImporter" p:serviceName="documentService" />
-    <bean id="kradWorkflowDocumentService" parent="grlImporter" p:serviceName="workflowDocumentService" />
-    <bean id="enDocumentTypeService" parent="grlImporter" p:serviceName="enDocumentTypeService" />
+    <bean id="documentTypeService" parent="grlImporter" p:serviceName="rice.kew.documentTypeService" />
     <bean id="kewWorkflowDocumentService" parent="grlImporter" p:serviceName="rice.kew.workflowDocumentService" />
     <bean id="postProcessorService" parent="grlImporter" p:serviceName="postProcessorService" />
     <bean id="workflowDocumentActionsService" parent="grlImporter" p:serviceName="rice.kew.workflowDocumentActionsService" />

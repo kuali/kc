@@ -39,7 +39,7 @@ public class CancelAwardBudgetAuthorizer extends BudgetAuthorizer {
         AwardBudgetDocument doc = task.getAwardBudgetDocument();
         WorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
         return !workDoc.isCompletionRequested() 
-            && !getKraDocumentRejectionService().isDocumentOnInitialNode(doc) 
+            && !getKraDocumentRejectionService().isDocumentOnInitialNode(doc.getDocumentHeader().getWorkflowDocument())
             && StringUtils.equals(username, workDoc.getRoutedByPrincipalId())
             && workDoc.isEnroute();
     }

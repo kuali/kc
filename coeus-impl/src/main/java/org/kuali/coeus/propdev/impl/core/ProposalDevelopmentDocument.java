@@ -278,7 +278,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         if (!isProposalDeleted()) {
             if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode())) {
                 try {
-                    if (getKcDocumentRejectionService().isDocumentOnInitialNode(this)) {
+                    if (getKcDocumentRejectionService().isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument())) {
                         DocumentRouteStatusChange dto = new DocumentRouteStatusChange(getDocumentHeader().getWorkflowDocument().getDocumentId(), getDocumentNumber(), KewApiConstants.ROUTE_HEADER_ENROUTE_CD, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
                         //DocumentRouteStatusChange.documentEventCode is always returned as rt_status_change 
                         //dto.setDocumentEventCode("REJECTED_APPROVED"); 
@@ -296,7 +296,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 }
             }
             String pCode = getDevelopmentProposal().getProposalStateTypeCode();
-            getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, false, getKcDocumentRejectionService().isDocumentOnInitialNode(this)));
+            getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, false, getKcDocumentRejectionService().isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument())));
             if (!StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode())) {
                 getDataObjectService().save(getDevelopmentProposal());
             }

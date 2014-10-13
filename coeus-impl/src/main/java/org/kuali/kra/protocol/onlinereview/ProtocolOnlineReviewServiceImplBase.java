@@ -354,7 +354,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     }
         
     public void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocumentBase reviewDocument, String reason, String principalId) {
-        kraDocumentRejectionService.reject(reviewDocument, reason, principalId, (String)null, reviewerApproveNodeName);     
+        kraDocumentRejectionService.reject(reviewDocument.getDocumentHeader().getWorkflowDocument(), reason, principalId, (String)null, reviewerApproveNodeName);
     }
     
     /**

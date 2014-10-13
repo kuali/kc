@@ -1455,7 +1455,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @throws WorkflowException
      */
     protected void rejectProposal( ProposalDevelopmentDocument proposalDoc, String reason, String principalId, String appDocStatus ) throws WorkflowException  {
-        kcDocumentRejectionService.reject(proposalDoc, reason, principalId, appDocStatus );
+        kcDocumentRejectionService.reject(proposalDoc.getDocumentHeader().getWorkflowDocument(), reason, principalId, appDocStatus );
     }
     
     
