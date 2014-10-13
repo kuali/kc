@@ -16,6 +16,8 @@
 package org.kuali.coeus.common.budget.impl.nonpersonnel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -37,6 +39,8 @@ import java.util.TreeMap;
 @Component("budgetJustificationService")
 public class BudgetJustificationServiceImpl implements BudgetJustificationService {
 
+    protected final Log LOG = LogFactory.getLog(BudgetJustificationServiceImpl.class);
+
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
@@ -50,6 +54,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
         if(budget.areLineItemJustificationsPresent()) {
             addConsolidatedLineItemJustificationText(budget, budgetJustificationWrapper);
         } else {
+            LOG.error( "There are no line item budget justifications");
             throw new BudgetException();
         }
     }

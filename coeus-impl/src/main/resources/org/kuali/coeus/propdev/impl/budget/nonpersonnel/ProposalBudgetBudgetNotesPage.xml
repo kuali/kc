@@ -16,7 +16,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropBudget-NotesPage" parent="PropBudget-NotesPage-parentBean" />
-	<bean id="PropBudget-NotesPage-parentBean" parent="PropBudget-Page" p:fieldBindingObjectPath="budget">
+	<bean id="PropBudget-NotesPage-parentBean" parent="PropBudget-Page" p:fieldBindingObjectPath="budgetJustificationWrapper">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-NotesPage-Section" />
@@ -44,7 +44,7 @@
 			<list>
 				<bean parent="PropBudget-NotesPage-UpdateFields"
 					p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="budgetJustification" p:label="Notes"
+				<bean parent="Uif-InputField" p:propertyName="justificationText" p:label="Notes"
 					p:order="20">
 					<property name="control">
 						<bean parent="Uif-TextAreaControl"
@@ -62,7 +62,7 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Consolidate Expense Justifications"
-							p:style="float: right;" p:order="10" />
+							p:style="float: right;" p:methodToCall="consolidateExpenseJustifications" p:order="10" />
 					</list>
 				</property>
 			</bean>
@@ -75,11 +75,11 @@
 		parent="Uif-CssGridSection-2FieldLabelColumn">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:style="float: left;" p:label="Updated by"
-					p:order="10" />
-				<bean parent="Uif-InputField" p:style="float: left;" p:label="Last updated"
-					p:order="20" />
-			</list>
+                <bean parent="Uif-DataField" p:style="float: left;" p:label="Updated by"
+                      p:propertyName="lastUpdateUser" p:order="10" />
+                <bean parent="Uif-DataField" p:style="float: left;" p:label="Last updated"
+                      p:propertyName="lastUpdateTime" p:order="20" />
+            </list>
 		</property>
 	</bean>
 

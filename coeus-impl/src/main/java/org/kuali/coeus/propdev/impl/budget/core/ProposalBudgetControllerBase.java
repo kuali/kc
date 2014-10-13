@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -85,7 +86,11 @@ public abstract class ProposalBudgetControllerBase {
 	@Autowired
     @Qualifier("kualiConfigurationService")
     private ConfigurationService kualiConfigurationService;
-	
+
+    @Autowired
+    @Qualifier("budgetJustificationService")
+    private BudgetJustificationService budgetJustificationService;
+
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
     }
@@ -103,6 +108,7 @@ public abstract class ProposalBudgetControllerBase {
     public ModelAndView save(ProposalBudgetForm form) throws Exception {
         getBudgetCalculationService().calculateBudget(form.getBudget());
     	getDataObjectService().save(form.getBudget());
+        getBudgetJustificationService().preSave(form.getBudget(),form.getBudgetJustificationWrapper());
         return getModelAndViewService().getModelAndView(form);
     }
     
@@ -228,4 +234,13 @@ public abstract class ProposalBudgetControllerBase {
 	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
 		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
 	}
+
+    public BudgetJustificationService getBudgetJustificationService() {
+        return budgetJustificationService;
+    }
+
+    public void setBudgetJustificationService(BudgetJustificationService budgetJustificationService) {
+        this.budgetJustificationService = budgetJustificationService;
+    }
+
 }
