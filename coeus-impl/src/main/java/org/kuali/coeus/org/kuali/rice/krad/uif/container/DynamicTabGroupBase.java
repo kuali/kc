@@ -36,6 +36,7 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
 	private Group groupPrototype;
 	private Map<String, String> expressionProperties;
 	private String idSuffixPropertyName;
+	private Boolean setFieldBindingObjectPath = Boolean.FALSE;
 	
     /**
      * {@inheritDoc}
@@ -61,8 +62,12 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
 	        	}
 	        	ContextUtils.pushAllToContextDeep(newGroup, tabContext);
         	}
+        	if (setFieldBindingObjectPath) {
+        		newGroup.setFieldBindingObjectPath(tabCollectionPropertyName + "[" + index + "]");
+        	}
         	
         	items.add(newGroup);
+            index ++;
         }
         setItems(items);
         super.performInitialization(model);
@@ -110,5 +115,13 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
      */
 	public void setIdSuffixPropertyName(String idSuffixPropertyName) {
 		this.idSuffixPropertyName = idSuffixPropertyName;
+	}
+
+	public Boolean getSetFieldBindingObjectPath() {
+		return setFieldBindingObjectPath;
+	}
+
+	public void setSetFieldBindingObjectPath(Boolean setFieldBindingObjectPath) {
+		this.setFieldBindingObjectPath = setFieldBindingObjectPath;
 	}
 }

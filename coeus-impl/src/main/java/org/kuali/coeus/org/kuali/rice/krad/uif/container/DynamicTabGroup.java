@@ -36,4 +36,10 @@ public interface DynamicTabGroup extends Group {
 	 * @param idSuffixPropertyName
 	 */
 	void setIdSuffixPropertyName(String idSuffixPropertyName);
+	
+	/**
+	 * When set to true will set the prototype group's fieldBindingObjectPath to the path into the tab groups collection.
+	 * @param setFieldBindingObjectPath
+	 */
+	void setSetFieldBindingObjectPath(Boolean setFieldBindingObjectPath);
 }

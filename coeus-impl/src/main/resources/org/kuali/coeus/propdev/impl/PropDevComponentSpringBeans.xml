@@ -94,6 +94,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/nonpersonnel/ProposalBudgetNonPersonnelCostsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/nonpersonnel/ProposalBudgetLineItemShared.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/subaward/ProposalBudgetSubawardsPage.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/modular/ProposalBudgetModularPage.xml</value>
 
                 <!-- Budget Mock View -->
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetView.xml</value>
