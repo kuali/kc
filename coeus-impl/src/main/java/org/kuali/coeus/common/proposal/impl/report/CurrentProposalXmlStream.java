@@ -1,4 +1,4 @@
-package org.kuali.coeus.propdev.impl.print;
+package org.kuali.coeus.common.proposal.impl.report;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.coeus.common.framework.print.PrintConstants;

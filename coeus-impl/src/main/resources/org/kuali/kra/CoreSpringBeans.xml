@@ -399,8 +399,6 @@
                 <value>classpath:org/kuali/coeus/common/impl/person/attr/KcPersonExtendedAttributes.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/KraAttributeReferenceDummy.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/LookupableDevelopmentProposal.xml</value>
-                <value>classpath:org/kuali/coeus/common/proposal/impl/mail/MailBy.xml</value>
-                <value>classpath:org/kuali/coeus/common/proposal/impl/mail/MailType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/MembershipRole.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/motd/MessageOfTheDay.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/MinuteEntryType.xml</value>
@@ -793,8 +791,6 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/KcKrmsTermFunParamMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/KcMaintenanceDocumentEntry.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/attr/KcPersonExtendedAttributesMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/coeus/common/proposal/impl/mail/MailByMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/coeus/common/proposal/impl/mail/MailTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/MembershipRoleMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/motd/MessageOfTheDayMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/MinuteEntryTypeMaintenanceDocument.xml</value>

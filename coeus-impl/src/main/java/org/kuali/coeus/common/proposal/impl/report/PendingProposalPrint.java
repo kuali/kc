@@ -38,7 +38,7 @@ import java.util.List;
  * 
  * 
  */
-@Component("currentProposalPrint")
+@Component("pendingProposalPrint")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PendingProposalPrint extends AbstractPrint {
 
