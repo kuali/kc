@@ -236,7 +236,7 @@
                 <bean parent="Uif-MenuAction" p:actionLabel="  All My Proposals"
                       p:actionUrl.viewId="AllDevelopmentProposals-LookupViewId"
                       p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName"
-                      p:actionUrl.controllerMapping="/lookup" p:order="30"  p:iconClass="icon-chevron-sign-right"/>
+                      p:actionUrl.controllerMapping="/lookup" p:order="30"  p:iconClass="icon-chevron-sign-right" />
                 <bean parent="Uif-MenuAction" p:actionLabel="  Create Proposal For S2S Opportunity"
                       p:order="40" p:iconClass="icon-chevron-sign-right"/>
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
