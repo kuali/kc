@@ -7,7 +7,7 @@ public class ProposalDevelopmentDataValidationItem {
     private String severity;
     private String navigateToPageId;
     private String navigateToSectionId;
-    private String metodToCall;
+
     
     public String getArea() {
         return area;
@@ -56,12 +56,5 @@ public class ProposalDevelopmentDataValidationItem {
     public void setNavigateToSectionId(String navigateToSectionId) {
         this.navigateToSectionId = navigateToSectionId;
     }
-    
-	public String getMetodToCall() {
-		return metodToCall;
-	}
 
-	public void setMetodToCall(String metodToCall) {
-		this.metodToCall = metodToCall;
-	}
 }

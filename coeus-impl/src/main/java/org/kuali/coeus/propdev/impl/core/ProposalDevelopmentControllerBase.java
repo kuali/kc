@@ -33,6 +33,7 @@ import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -147,6 +148,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("documentAdHocService")
     private DocumentAdHocService documentAdHocService;
+
+    @Autowired
+    @Qualifier("auditHelper")
+    private AuditHelper auditHelper;
 
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
@@ -281,6 +286,10 @@ public abstract class ProposalDevelopmentControllerBase {
      }
      
      protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+         if (form.isAuditActivated()){
+            getAuditHelper().auditConditionally(form);
+         }
+         return save(form);
          populateAdHocRecipients(form.getProposalDevelopmentDocument());
          return save(form);
      }
@@ -601,5 +610,13 @@ public abstract class ProposalDevelopmentControllerBase {
 
     public void setDocumentAdHocService(DocumentAdHocService documentAdHocService) {
         this.documentAdHocService = documentAdHocService;
+    }
+
+    public AuditHelper getAuditHelper() {
+        return auditHelper;
+    }
+
+    public void setAuditHelper(AuditHelper auditHelper) {
+        this.auditHelper = auditHelper;
     }
 }

@@ -26,8 +26,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
 
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
-import static org.kuali.kra.infrastructure.Constants.*;
+
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
 
@@ -199,11 +200,11 @@ public class CreditSplitValidator {
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
-        if (!GlobalVariables.getAuditErrorMap().containsKey("keyPersonnelAuditErrors")) {
-           GlobalVariables.getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+        if (!GlobalVariables.getAuditErrorMap().containsKey(CREDIT_ALLOCATION_PAGE_NAME)) {
+           GlobalVariables.getAuditErrorMap().put(CREDIT_ALLOCATION_PAGE_NAME, new AuditCluster(CREDIT_ALLOCATION_PAGE_NAME, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get("keyPersonnelAuditErrors")).getAuditErrorList();
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(CREDIT_ALLOCATION_PAGE_NAME)).getAuditErrorList();
         }
         
         return auditErrors;
@@ -310,7 +311,7 @@ public class CreditSplitValidator {
          * @param params varargs array of parameters for the messagekey
          */
         public CreditSplitAuditError(String messageKey, String ... params) {
-            super(CREDIT_SPLIT_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, params);
+            super(CREDIT_ALLOCATION_PAGE_ID, messageKey, CREDIT_ALLOCATION_PAGE_ID, params);
         }
         
         /**

@@ -599,23 +599,22 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         for (Map.Entry<String,AuditCluster> entry : GlobalVariables.getAuditErrorMap().entrySet()) {
             AuditCluster auditCluster = (AuditCluster) entry.getValue();
             List<AuditError> auditErrors = auditCluster.getAuditErrorList();
+            String areaName = StringUtils.substringBefore(auditCluster.getLabel(),".");
+            String sectionName = StringUtils.substringAfter(auditCluster.getLabel(),".");
             for (AuditError auditError : auditErrors) {
             	ProposalDevelopmentDataValidationItem dataValidationItem = new ProposalDevelopmentDataValidationItem();
-                String page = StringUtils.substringBefore(auditError.getLink()," ");
-                String section = StringUtils.substringAfter(auditError.getLink()," ");
+                String pageId = StringUtils.substringBefore(auditError.getLink(),".");
+                String sectionId = StringUtils.substringAfter(auditError.getLink(),".");
                 ErrorMessage errorMessage = new ErrorMessage();
                 errorMessage.setErrorKey(auditError.getMessageKey());
                 errorMessage.setMessageParameters(auditError.getParams());
 
-                dataValidationItem.setArea(auditCluster.getLabel());
-                dataValidationItem.setSection(getComponentLabel(section,viewIndex));
+                dataValidationItem.setArea(areaName);
+                dataValidationItem.setSection(sectionName);
                 dataValidationItem.setDescription(KRADUtils.getMessageText(errorMessage, false));
                 dataValidationItem.setSeverity(auditCluster.getCategory());
-                dataValidationItem.setNavigateToPageId(page);
-                if(page != null && page.equals(org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE)) {
-                    dataValidationItem.setMetodToCall("navigateToPersonError");
-                }
-                dataValidationItem.setNavigateToSectionId(section);
+                dataValidationItem.setNavigateToPageId(pageId);
+                dataValidationItem.setNavigateToSectionId(sectionId);
 
                 dataValidationItems.add(dataValidationItem);
             }
@@ -651,16 +650,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public void setAuditHelper(AuditHelper auditHelper) {
         this.auditHelper = auditHelper;
-    }
-
-    private String getComponentLabel(String componentId, ViewIndex viewIndex) {
-        try {
-            Header header = (Header) PropertyUtils.getProperty(viewIndex.getComponentById(componentId), "header");
-            return header.getHeaderText();
-        } catch (Exception e) {
-            LOG.error("SectionID does not have a header property");
-        }
-        return null;
     }
 
     public KualiRuleService getKualiRuleService() {

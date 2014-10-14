@@ -34,8 +34,8 @@
                         <property name="items">
                             <list>
                                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{auditActivated?'Turn Off':'Turn On'}" p:methodToCall="toggleValidation"
-                                      p:dialogDismissOption="REQUEST"
-                                      p:order="10" p:cssClasses="@{auditActivated?'btn-success':'btn-danger'}" p:successCallback="retrieveComponent('PropDev-DataValidationSection');"/>
+                                      p:refreshId="PropDev-DataValidationSection"
+                                      p:order="10" p:cssClasses="@{auditActivated?'btn-success':'btn-danger'}"/>
                             </list>
                         </property>
                     </bean>
@@ -76,7 +76,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Fix It" p:methodToCall="@{#line.metodToCall != null  ? #line.metodToCall : 'navigateToError'}"
+                <bean parent="Uif-ActionLink" p:actionLabel="Fix It" p:methodToCall="navigateToError"
                       p:navigateToPageId="@{#line.navigateToPageId}" p:onClickScript="dismissDialog('PropDev-DataValidationSection')"
                       p:successCallback="jQuery(&quot;a[href='#@{#line.navigateToSectionId}_tab']&quot;).click()"
                       p:refreshId="@{#line.navigateToPageId}"/>

@@ -16,12 +16,12 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
@@ -36,8 +36,9 @@ import java.util.Map.Entry;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.kuali.kra.infrastructure.Constants.*;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
+
 
 
 
@@ -67,8 +68,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
 
         if (!hasPrincipalInvestigator(pd)) {
             retval = false;
-
-            getAuditErrors().add(new AuditError(PRINCIPAL_INVESTIGATOR_KEY , ERROR_INVESTIGATOR_LOWBOUND, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
+            getAuditErrors(StringUtils.EMPTY).add(new AuditError(PERSONNEL_PAGE_ID, ERROR_INVESTIGATOR_LOWBOUND, PERSONNEL_PAGE_ID));
         }
         // Include normal save document business rules
         retval &= new ProposalDevelopmentKeyPersonsRule().processCustomSaveDocumentBusinessRules(pd);
@@ -76,7 +76,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         boolean hasInvestigator = false;
         int  personCount = 0;
         for (ProposalPerson person : pd.getDevelopmentProposal().getProposalPersons()) {
-            retval &= validateInvestigator(person);
+            retval &= validateInvestigator(person,personCount);
             if (pd.getDevelopmentProposal().getS2sOpportunity() != null && !pd.getDevelopmentProposal().getS2sOpportunity().getOpportunityId().isEmpty() && getSponsorHierarchyService().isSponsorNihMultiplePi(pd.getDevelopmentProposal().getSponsorCode())) {
                 if (person.isMultiplePi() || person.isPrincipalInvestigator()) {
                     retval &= validateEraCommonUserName(person, personCount);
@@ -87,6 +87,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
             if (!hasInvestigator && isInvestigator(person)) {
                 hasInvestigator = true;
             }
+            personCount++;
         }
         
         if (hasInvestigator) {
@@ -99,10 +100,10 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
     private boolean validateEraCommonUserName(ProposalPerson person, int personCount) {
         boolean retval = true;
         if (person.getEraCommonsUserName() == null) {
-            getAuditErrors().add(new AuditError(
-                    "document.developmentProposalList[0].proposalPersons[" + personCount + "].eraCommonUserName", 
-                        ERROR_ERA_COMMON_USER_NAME, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()}));
             retval = false;
+            getAuditErrors(PERSONNEL_DETAIL_SECTION_NAME).add(new AuditError("document.developmentProposal.proposalPersons[" + personCount + "].eraCommonsUserName",
+                    ERROR_ERA_COMMON_USER_NAME,PERSONNEL_PAGE_ID,new String[]{person.getFullName()}));
+
         }
         return retval;
     }
@@ -113,14 +114,14 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
     * @boolean investigator is valid
     * @Wsee #validateInvestigatorUnits(ProposalPerson)
     */
-   protected boolean validateInvestigator(ProposalPerson person) {
+   protected boolean validateInvestigator(ProposalPerson person,int personCount) {
        boolean retval = true;
        
        if (!isInvestigator(person)) {
            return retval;
        }
 
-       retval &= validateInvestigatorUnits(person);
+       retval &= validateInvestigatorUnits(person, personCount);
        
        return retval;
    }
@@ -130,7 +131,7 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
     * @param person <code>{@link ProposalPerson}</code> instance who's units we want to validate
     * @return boolean Investigator Units are valid
     */
-   protected boolean validateInvestigatorUnits(ProposalPerson person) {
+   protected boolean validateInvestigatorUnits(ProposalPerson person,int personCount) {
        boolean retval = true;
        
        List<AuditError> auditErrors = new ArrayList<AuditError>();
@@ -138,22 +139,18 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
        
        if (person.getUnits().size() < 1) {
            LOG.info("error.investigatorUnits.limit");
-           auditErrors.add(new AuditError("document.developmentProposalList[0].proposalPerson",ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
+           getAuditErrors(PERSONNEL_UNIT_SECTION_NAME).add(new AuditError("document.developmentProposal.proposalPersons[" + personCount + "].units", ERROR_INVESTIGATOR_UNITS_UPBOUND,PERSONNEL_PAGE_ID));
        }
        
        for (ProposalPersonUnit unit : person.getUnits()) {
            if (isBlank(unit.getUnitNumber())) {
                LOG.trace("error.investigatorUnits.limit");
-               auditErrors.add(new AuditError("document.developmentProposalList[0].proposalPerson",ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
+               getAuditErrors(PERSONNEL_UNIT_SECTION_NAME).add(new AuditError("document.developmentProposal.proposalPersons[" + personCount + "].units", ERROR_INVESTIGATOR_UNITS_UPBOUND,PERSONNEL_PAGE_ID));
            }
            
            retval &= validateUnit(unit);
        }
-       
-       if (auditErrors.size() > 0) {
-          GlobalVariables.getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
-       }
-       
+
        return retval;
    }
 
@@ -196,9 +193,6 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
        return new DefaultMapEntry(key, value);
    }
 
-   /**
-     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
-     */
     private boolean isInvestigator(ProposalPerson person) {
         return person.isInvestigator();
     }
@@ -210,22 +204,22 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
     /**
      * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
      * to the auditErrorMap.
-     * 
+     *
      * @return List of AuditError instances
      */
-    private List<AuditError> getAuditErrors() {
+    private List<AuditError> getAuditErrors(String sectionName ) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        
-        if (!GlobalVariables.getAuditErrorMap().containsKey("keyPersonnelAuditErrors")) {
-           GlobalVariables.getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+        String clusterKey = PERSONNEL_PAGE_NAME + "." + sectionName;
+        if (!GlobalVariables.getAuditErrorMap().containsKey(clusterKey)) {
+           GlobalVariables.getAuditErrorMap().put(clusterKey, new AuditCluster(clusterKey, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get("keyPersonnelAuditErrors")).getAuditErrorList();
+            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(clusterKey)).getAuditErrorList();
         }
-        
+
         return auditErrors;
     }
-    
+
     /**
      * Check if credit split totals validate
      *

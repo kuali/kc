@@ -202,8 +202,20 @@ public class ProposalDevelopmentSubmitController extends
     public ModelAndView navigateToSubmit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
         ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(form);
         return super.navigate(form,result,request,response);
+   }
     }
 
+   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=blanketApprove")
+   public  ModelAndView blanketApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
+       
+	   if(proposalValidToRoute(form)) {
+		   return getTransactionalDocumentControllerService().blanketApprove(form);
+	   }
+	   else {
+		   return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+	   }
+   	}
+   
    
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=blanketApprove")
     public  ModelAndView blanketApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {

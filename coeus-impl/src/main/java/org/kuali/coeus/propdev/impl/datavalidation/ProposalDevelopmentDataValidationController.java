@@ -1,9 +1,10 @@
 package org.kuali.coeus.propdev.impl.datavalidation;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
-import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.uif.UifParameters;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -44,8 +45,13 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
 
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=navigateToError")
-    public ModelAndView navigateToError(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView navigateToError(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
+        if (StringUtils.equals(pageId,ProposalDevelopmentDataValidationConstants.CREDIT_ALLOCATION_PAGE_ID)) {
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateCreditSplits(form);
+        }
+
+        getAuditHelper().auditConditionally(form);
         form.setAjaxReturnType("update-page");
         return getNavigationControllerService().navigate(form);
     }
