@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.coeus.common.view.lineitemtable.impl;
+package org.kuali.coeus.common.framework.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 /**
  * LineItemRow used by the LineItemTable to create the UI, its values are set by LineItemTable component code.
@@ -33,7 +34,7 @@ public class LineItemRow {
 
     private String cssClass;
     private List<String> cellContent = new ArrayList<String>();
-    private List<BigDecimal> values = new ArrayList<BigDecimal>();
+    private List<ScaleTwoDecimal> values = new ArrayList<ScaleTwoDecimal>();
     private boolean groupRow;
 
     public LineItemRow() {
@@ -91,11 +92,11 @@ public class LineItemRow {
         this.cellContent = cellContent;
     }
 
-    public List<BigDecimal> getValues() {
+    public List<ScaleTwoDecimal> getValues() {
         return values;
     }
 
-    public void setValues(List<BigDecimal> values) {
+    public void setValues(List<ScaleTwoDecimal> values) {
         this.values = values;
     }
 

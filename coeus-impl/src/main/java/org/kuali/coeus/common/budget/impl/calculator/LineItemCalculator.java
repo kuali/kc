@@ -122,7 +122,9 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
     }
     @Override
     protected void addCalculatedAmount(AbstractBudgetCalculatedAmount budgetCalculatedAmount) {
-        bli.getBudgetLineItemCalculatedAmounts().add((BudgetLineItemCalculatedAmount)budgetCalculatedAmount);
+    	BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount)budgetCalculatedAmount;
+    	budgetLineItemCalculatedAmount.setBudgetLineItem(bli);
+        bli.getBudgetLineItemCalculatedAmounts().add(budgetLineItemCalculatedAmount);
     }
     @Override
     protected void populateBudgetRateBaseList() {
@@ -159,6 +161,8 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 budgetRateBase.setRateTypeCode(rateAndCost.getRateTypeCode());
                 java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
                 budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
+                budgetRateBase.setBudgetPeriodId(bli.getBudgetPeriodId());
+                budgetRateBase.setBudgetLineItem(bli);
                 budgetRateAndBaseList.add(budgetRateBase);
             }   
         }

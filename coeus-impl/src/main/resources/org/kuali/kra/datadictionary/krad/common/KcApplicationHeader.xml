@@ -29,6 +29,7 @@
             <list merge="true">
                 <value>rice-contrib/plugins/bootstrap-select/bootstrap-select.js</value>
                 <value>rice-contrib/multiselect.js</value>
+                <value>scripts/common/lineItemTable.js</value>
             </list>
         </property>
     </bean>

@@ -78,8 +78,8 @@ public abstract class AbstractBudgetRateAndBase extends KcPersistableBusinessObj
     @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
-    @Transient
-    private Long budgetPeriodId;
+    @Column(name = "BUDGET_PERIOD_NUMBER")
+    private Long budgetPeriodId; 
 
     @Override
     public Long getBudgetId() {

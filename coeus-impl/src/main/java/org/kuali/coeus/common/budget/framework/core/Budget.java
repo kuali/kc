@@ -56,6 +56,7 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculat
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
+import org.kuali.coeus.common.framework.impl.Period;
 import org.kuali.coeus.common.framework.person.PersonRolodexComparator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
@@ -161,6 +162,9 @@ public class Budget extends AbstractBudget implements BudgetContract {
     private List<BudgetLineItem> budgetLineItems;
     
     @Transient
+    private List<Period> budgetSummaryDetails;
+    
+    @Transient
     private Date summaryPeriodStartDate;
 
     @Transient
@@ -262,6 +266,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
         budgetCategoryTypeCodes = new ArrayList<KeyValue>();
         budgetPrintForms = new ArrayList<BudgetPrintForm>();
         budgetSubAwards = new ArrayList<BudgetSubAwards>();
+        budgetSummaryDetails = new ArrayList<Period>();
         setOnOffCampusFlag("D");
     }
 
@@ -1771,6 +1776,14 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
 	public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
 		this.budgetLineItems = budgetLineItems;
+	}
+
+	public List<Period> getBudgetSummaryDetails() {
+		return budgetSummaryDetails;
+	}
+
+	public void setBudgetSummaryDetails(List<Period> budgetSummaryDetails) {
+		this.budgetSummaryDetails = budgetSummaryDetails;
 	}
 
 }

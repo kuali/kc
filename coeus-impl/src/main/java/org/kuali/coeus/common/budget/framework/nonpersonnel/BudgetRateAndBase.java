@@ -15,11 +15,15 @@
  */
 package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetRateAndBaseContract;
@@ -48,8 +52,12 @@ public class BudgetRateAndBase extends AbstractBudgetRateAndBase implements Budg
     @Column(name = "BUDGET_DETAILS_CAL_AMTS_ID")
     private Long budgetLineItemCalculatedAmountId;
 
-    @Column(name = "BUDGET_DETAILS_ID")
+    @Column(name = "BUDGET_DETAILS_ID", insertable = false, updatable = false)
     private Long budgetLineItemId;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_DETAILS_ID", referencedColumnName = "BUDGET_DETAILS_ID")
+    private BudgetLineItem budgetLineItem;
 
     @Override
     public ScaleTwoDecimal getBaseCost() {
@@ -86,4 +94,12 @@ public class BudgetRateAndBase extends AbstractBudgetRateAndBase implements Budg
     public void setBudgetLineItemId(Long budgetLineItemId) {
         this.budgetLineItemId = budgetLineItemId;
     }
+
+	public BudgetLineItem getBudgetLineItem() {
+		return budgetLineItem;
+	}
+
+	public void setBudgetLineItem(BudgetLineItem budgetLineItem) {
+		this.budgetLineItem = budgetLineItem;
+	}
 }

@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.api.nonpersonnel.AbstractBudgetCalculatedAmountContract;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
+import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
@@ -68,6 +69,10 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
     @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumns({ @JoinColumn(name = "RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false), @JoinColumn(name = "RATE_TYPE_CODE", referencedColumnName = "RATE_TYPE_CODE", insertable = false, updatable = false) })
+    private RateType rateType;
+    
     @Transient
     private String rateClassType;
 
@@ -190,9 +195,15 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
     public boolean getAddToFringeRate() {
         //employee benefits, research rate (not EB on LA)  
         boolean isEmployee = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassTypeCode(), RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-        //vacation, vacation (not vacation LA)  
-        boolean isGoodVacation = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassTypeCode(), RateClassType.VACATION.getRateClassType());
-        return isEmployee || isGoodVacation;
+        return isEmployee;
     }
+
+	public RateType getRateType() {
+		return rateType;
+	}
+
+	public void setRateType(RateType rateType) {
+		this.rateType = rateType;
+	}
 
 }

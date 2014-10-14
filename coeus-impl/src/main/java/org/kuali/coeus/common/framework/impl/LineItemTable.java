@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package org.kuali.coeus.common.view.lineitemtable.impl;
+package org.kuali.coeus.common.framework.impl;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.view.lineitemtable.framework.LineItem;
-import org.kuali.coeus.common.view.lineitemtable.framework.LineItemGroup;
-import org.kuali.coeus.common.view.lineitemtable.framework.LineItemObject;
-import org.kuali.coeus.common.view.lineitemtable.framework.Period;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.datadictionary.parse.BeanTag;
 import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
 import org.kuali.rice.krad.uif.component.BindingInfo;
@@ -33,7 +30,6 @@ import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.bind.UifCurrencyEditor;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,8 +146,8 @@ public class LineItemTable extends GroupBase implements DataBinding {
                         continue;
                     }
 
-                    BigDecimal rowTotal = new BigDecimal(0);
-                    for (BigDecimal value : row.getValues()) {
+                    ScaleTwoDecimal rowTotal = new ScaleTwoDecimal(0);
+                    for (ScaleTwoDecimal value : row.getValues()) {
                         rowTotal = rowTotal.add(value);
                     }
 
@@ -217,8 +213,8 @@ public class LineItemTable extends GroupBase implements DataBinding {
 
             // if this line item didn't exist for some periods, use 0 for those previous values
             while (row.getValues().size() + 1 < columnNum) {
-                row.getValues().add(new BigDecimal(0));
-                currencyEditor.setValue(new BigDecimal(0));
+                row.getValues().add(new ScaleTwoDecimal(0));
+                currencyEditor.setValue(new ScaleTwoDecimal(0));
                 row.getCellContent().add(currencyEditor.getAsText());
             }
 
@@ -244,9 +240,9 @@ public class LineItemTable extends GroupBase implements DataBinding {
 
             // Add 0s to any rows which do not match the current period column number
             while (row.getValues().size() < columnNum) {
-                row.getValues().add(new BigDecimal(0));
+                row.getValues().add(new ScaleTwoDecimal(0));
 
-                currencyEditor.setValue(new BigDecimal(0));
+                currencyEditor.setValue(new ScaleTwoDecimal(0));
                 row.getCellContent().add(currencyEditor.getAsText());
             }
         }
@@ -260,7 +256,7 @@ public class LineItemTable extends GroupBase implements DataBinding {
      * @param cssClass the css class to use for this row
      */
     private void processGroupSubTotal(LineItemGroup lineItemGroup, LineItemRow parentRow, String cssClass) {
-        BigDecimal total = new BigDecimal(0);
+    	ScaleTwoDecimal total = new ScaleTwoDecimal(0);
         if (!lineItemGroup.isCalculateGroupSubTotal()) {
             return;
         }
@@ -319,7 +315,7 @@ public class LineItemTable extends GroupBase implements DataBinding {
      * The property name of the LineItemTable, this property MUST be a list of Period objects.
      *
      * @return the propertyName for binding
-     * @see org.kuali.coeus.common.view.lineitemtable.framework.Period
+     * @see org.kuali.coeus.common.framework.impl.Period
      */
     @BeanTagAttribute
     public String getPropertyName() {
