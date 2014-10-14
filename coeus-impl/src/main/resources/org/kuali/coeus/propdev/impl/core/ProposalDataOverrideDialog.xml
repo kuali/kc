@@ -13,13 +13,17 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="PropDev-DataOverride-Dialog" parent="PropDev-DataOverride-Dialog-parentBean" />
-    <bean id="PropDev-DataOverride-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup">
+    <bean id="PropDev-DataOverride-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:onHideDialogScript="jQuery('#PropDev-DataOverride-Dialog').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropDev-DataOverride-Dialog'));});"
+          p:onShowDialogScript="jQuery('#PropDev-DataOverride-ColumnName').on('change', function(e) {ajaxSubmitForm('prepareDataOverride');});"
+          p:resetDataOnRefresh="true" p:retrieveViaAjax="true"
+          p:readOnly="false">
         <property name="header">
             <bean parent="Uif-DialogHeader" p:headerText="Data Override"/>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-TabGroup">
+                <bean parent="Uif-TabGroup" p:order="10">
                     <property name="items">
                         <list>
                             <bean parent="PropDev-DataOverride-Override"/>
@@ -39,14 +43,12 @@
           p:header.headerText="Override">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="newProposalChangedData.columnName" p:order="10"
-                        p:enableAutoQuickfinder="false" p:readOnly="false"
-                        p:onChangeScript="ajaxSubmitForm('prepareDataOverride');"/>
+                <bean id="PropDev-DataOverride-ColumnName" parent="Uif-InputField" p:propertyName="newProposalChangedData.columnName" p:order="10"
+                        p:enableAutoQuickfinder="false" p:readOnly="false"/>
                 <bean parent="PropDev-DataOverride-DevelopmentProposalInput" p:propertyName="newProposalChangedData.oldDisplayValue" p:order="20"
-                      p:fieldLabel.labelText="Current Value"
-                      p:refreshWhenChangedPropertyNames="newProposalChangedData.columnName"/>
+                      p:fieldLabel.labelText="Current Value"/>
                 <bean parent="PropDev-DataOverride-DevelopmentProposalInput" p:propertyName="newProposalChangedData.changedValue" p:order="30"
-                      p:refreshWhenChangedPropertyNames="newProposalChangedData.columnName" p:readOnly="false"
+                      p:readOnly="false"
                       p:fieldLabel.labelText="New Value"/>
                 <bean parent="Uif-InputField" p:propertyName="newProposalChangedData.comments" p:order="40" p:readOnly="false"/>
             </list>
@@ -56,7 +58,8 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Create Override" p:methodToCall="createOverride"
-                              p:successCallback="dismissDialog('PropDev-DataOverride-Dialog');"/>
+                              p:dialogDismissOption="REQUEST"
+                              p:successCallback="ajaxSubmitForm('sendOverrideNotification');"/>
                     </list>
                 </property>
             </bean>
