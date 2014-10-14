@@ -183,7 +183,7 @@ input[type="checkbox"] {
 
 /** Document info styling **/
 
-#PropDev-DefaultView_header {
+#PropDev-DefaultView_header, #PropBudget-DefaultView_header {
     min-height: 5em;
 }
 
