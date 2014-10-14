@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.coeus.propdev.impl.print;
+package org.kuali.coeus.common.proposal.impl.report;
 
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
