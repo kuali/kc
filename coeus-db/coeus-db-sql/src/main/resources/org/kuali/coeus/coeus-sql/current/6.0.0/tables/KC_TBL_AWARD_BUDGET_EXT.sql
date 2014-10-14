@@ -6,4 +6,3 @@ update AWARD_BUDGET_EXT budget set AWARD_ID = (select award.AWARD_ID from AWARD 
 
 alter table AWARD_BUDGET_EXT modify AWARD_ID number(22,0) not null
 /
-
