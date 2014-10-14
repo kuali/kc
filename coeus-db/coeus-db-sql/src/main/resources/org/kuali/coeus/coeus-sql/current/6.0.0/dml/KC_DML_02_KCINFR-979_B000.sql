@@ -1657,4 +1657,3 @@ VALUES (SEQ_S2S_ERROR_ID.NEXTVAL, '/GrantApplication/Forms/PHS_Fellowship_Supple
 INSERT INTO S2S_ERROR (S2S_ERROR_ID, MESSAGE_KEY, MESSAGE, FIX_LINK, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
 VALUES (SEQ_S2S_ERROR_ID.NEXTVAL, '/GrantApplication/Forms/PHS_Fellowship_Supplemental_2_0/Sponsors/SponsorCosponsorInformation', 'Sponsor(s) and Co-Sponsor(s) Information is a required attachment for the PHS Fellowship Supplemental Form, please add this file in the proposal attachments panel.', 'abstractsAttachments',SYSDATE,'admin',1,SYS_GUID())
 /
-

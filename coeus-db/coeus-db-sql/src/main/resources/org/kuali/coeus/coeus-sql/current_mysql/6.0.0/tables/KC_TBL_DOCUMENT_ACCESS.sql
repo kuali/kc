@@ -27,5 +27,3 @@ UNIQUE (OBJ_ID)
 /
 
 DELIMITER ;
-
-
