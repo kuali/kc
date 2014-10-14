@@ -80,6 +80,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sUserAttachedForm;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.jpa.FilterGenerator;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
@@ -1862,7 +1863,10 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     public ProposalDevelopmentDocument getProposalDocument() {
         if (proposalDocument == null) {
             proposalDocument = new ProposalDevelopmentDocument();
+        } else if (proposalDocument.getDocumentHeader() != null && !proposalDocument.getDocumentHeader().hasWorkflowDocument()) {
+            proposalDocument.getDocumentHeader().setWorkflowDocument(WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), proposalDocument.getDocumentNumber()));
         }
+
         return proposalDocument;
     }
 
