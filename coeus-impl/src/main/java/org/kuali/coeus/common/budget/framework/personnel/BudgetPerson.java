@@ -33,6 +33,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -41,6 +42,7 @@ import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.kra.award.home.ContactRole;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 /**
@@ -48,7 +50,7 @@ import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
  */
 @Entity
 @Table(name = "BUDGET_PERSONS")
-public class BudgetPerson extends KcPersistableBusinessObjectBase implements HierarchyMaintainable, DateSortable, BudgetPersonContract {
+public class BudgetPerson extends KcPersistableBusinessObjectBase implements PersonRolodex, HierarchyMaintainable, DateSortable, BudgetPersonContract {
 
     private static final String BUDGET_PERSON_GROUP_OTHER = "Other Personnel";
     private static final long serialVersionUID = 1L;
@@ -649,6 +651,65 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Hie
 
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
+	}
+	
+	@Override
+	public String getFullName() {
+		return personName;
+	}
+
+	@Override
+	public boolean isOtherSignificantContributorFlag() {
+		return getPersonRolodex() != null ? getPersonRolodex().isOtherSignificantContributorFlag() : false;
+	}
+
+	@Override
+	public String getProjectRole() {
+		return getPersonRolodex() != null ? getPersonRolodex().getProjectRole() : null;
+	}
+
+	@Override
+	public ContactRole getContactRole() {
+		return getPersonRolodex() != null ? getPersonRolodex().getContactRole() : null;
+	}
+
+	@Override
+	public Sponsorable getParent() {
+		return getPersonRolodex() != null ? getPersonRolodex().getParent() : null;
+	}
+
+	@Override
+	public String getInvestigatorRoleDescription() {
+		return getPersonRolodex() != null ? getPersonRolodex().getInvestigatorRoleDescription() : null;
+	}
+
+	@Override
+	public boolean isInvestigator() {
+		return getPersonRolodex() != null ? getPersonRolodex().isInvestigator() : false;
+	}
+
+	@Override
+	public boolean isPrincipalInvestigator() {
+		return getPersonRolodex() != null ? getPersonRolodex().isPrincipalInvestigator() : false;
+	}
+
+	@Override
+	public boolean isMultiplePi() {
+		return getPersonRolodex() != null ? getPersonRolodex().isMultiplePi() : false;
+	}
+
+	@Override
+	public String getLastName() {
+		String lastName = null;
+		if(getTbnId() == null) {
+			lastName = getRolodexId() == null ? getKcPersonService().getKcPersonByPersonId(personId).getLastName() : getRoldex().getLastName();
+		}
+		return lastName;
+	}
+
+	@Override
+	public Integer getOrdinalPosition() {
+		return getPersonRolodex() != null ? getPersonRolodex().getOrdinalPosition() : getPersonSequenceNumber();
 	}
 
 }

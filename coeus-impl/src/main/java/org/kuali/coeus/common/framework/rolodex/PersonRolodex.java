@@ -28,4 +28,10 @@ public interface PersonRolodex {
     public ContactRole getContactRole();
     public Sponsorable getParent();
     public String getInvestigatorRoleDescription();
+	public boolean isInvestigator();
+	public boolean isPrincipalInvestigator();
+	public boolean isMultiplePi();
+	public String getLastName();
+	public Integer getOrdinalPosition();
+
 }

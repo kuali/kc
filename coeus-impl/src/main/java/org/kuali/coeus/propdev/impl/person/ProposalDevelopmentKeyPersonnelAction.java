@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.person.PersonRolodexComparator;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -308,8 +309,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             ProposalPerson proposalPerson = pdform.getNewProposalPerson();
             
             getKeyPersonnelService().addProposalPerson(proposalPerson, document);
-            sort(document.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
-            sort(document.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
+            sort(document.getDevelopmentProposal().getProposalPersons(), new PersonRolodexComparator());
+            sort(document.getDevelopmentProposal().getInvestigators(), new PersonRolodexComparator());
             
             ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(proposalPerson);
             pdform.getProposalPersonQuestionnaireHelpers().add(helper);

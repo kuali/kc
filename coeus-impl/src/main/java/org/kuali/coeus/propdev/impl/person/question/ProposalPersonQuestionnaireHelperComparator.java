@@ -15,7 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.person.question;
 
-import org.kuali.coeus.propdev.impl.person.ProposalPersonComparator;
+import org.kuali.coeus.common.framework.person.PersonRolodexComparator;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 
 import java.util.Comparator;
@@ -28,7 +28,7 @@ public class ProposalPersonQuestionnaireHelperComparator implements Comparator<P
 
     @Override
     public int compare(ProposalPersonQuestionnaireHelper helper1, ProposalPersonQuestionnaireHelper helper2) {
-        ProposalPersonComparator personComp = new ProposalPersonComparator();
+        PersonRolodexComparator personComp = new PersonRolodexComparator();
         return personComp.compare(helper1.getProposalPerson(), helper2.getProposalPerson());
     }
 
