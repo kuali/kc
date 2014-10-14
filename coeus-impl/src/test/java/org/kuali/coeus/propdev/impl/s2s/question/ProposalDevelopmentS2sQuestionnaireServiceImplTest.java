@@ -6,14 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Assert;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
@@ -28,6 +25,7 @@ import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuest
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOppForms.S2sOppFormsId;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.rice.kew.impl.document.WorkflowDocumentImpl;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -55,7 +53,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		answerServiceImpl = new QuestionnaireAnswerServiceImpl();
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test
 	public void test_getProposalS2sAnswerHeaders_withoutS2sOpportunity() {
 		final DevelopmentProposal proposal = initializeDevelopmentProposal();
@@ -95,7 +92,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		assertEquals(expectedAnswerHeaders, answerHeaders);
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test
 	public void test_getProposalS2sAnswerHeaders_empty_questionnaireUsage() {
 		final DevelopmentProposal proposal = initializeDevelopmentProposal();
@@ -142,7 +138,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		assertEquals(expectedAnswerHeaders, answerHeaders);
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test
 	public void test_getProposalS2sAnswerHeaders_withProposal() {
 		final DevelopmentProposal proposal = initializeDevelopmentProposal();
@@ -195,14 +190,12 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		assertEquals(expectedAnswerHeaders, answerHeaders);
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test(expected = NullPointerException.class)
 	public void test_getProposalS2sAnswerHeaders_proposalNull() {
 		final DevelopmentProposal proposal = null;
 		s2sQuestionnaireServiceImpl.getProposalS2sAnswerHeaders(proposal);
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test
 	public void test_getQuestionnaireUsages_returnEmptyList() {
 		final DevelopmentProposal proposal = initializeDevelopmentProposal();
@@ -224,7 +217,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		assertTrue(usageList.isEmpty());
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test
 	public void test_getQuestionnaireUsages_empty_s2sOppFormQuestionnaire() {
 		final DevelopmentProposal proposal = initializeDevelopmentProposal();
@@ -254,7 +246,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		assertTrue(questionnaireUsages.isEmpty());
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test
 	public void test_getQuestionnaireUsages_withArguments() {
 		final DevelopmentProposal proposal = initializeDevelopmentProposal();
@@ -289,7 +280,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		assertEquals(4, questionnaireUsages.size());
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test
 	public void test_getQuestionnaireUsages_without_nameSpace_and_formName() {
 		final DevelopmentProposal proposal = initializeDevelopmentProposal();
@@ -319,7 +309,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		assertTrue(questionnaireUsages.isEmpty());
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test(expected = NullPointerException.class)
 	public void test_getQuestionnaireUsages_withNullArguments() {
 		final DevelopmentProposal proposal = null;
@@ -328,7 +317,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		s2sQuestionnaireServiceImpl.getQuestionnaireUsages(oppNameSpace, formName, proposal);
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test
 	public void test_getProposalAnswerHeaderForForm_without_s2sOpportunity() {
 		final DevelopmentProposal developmentProposal = initializeDevelopmentProposal();
@@ -348,7 +336,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		assertTrue(answerHeadersList.isEmpty());
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test
 	public void test_getProposalAnswerHeaderForForm_withProposal() {
 		final DevelopmentProposal proposal = initializeDevelopmentProposal();
@@ -401,7 +388,6 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		assertEquals(expectedAnswerHeaders, answerHeaders);
 	}
 
-    @Ignore("Broke build on 10/14/14 related to KRACOEUS-8104, needs to be added back")
     @Test(expected = NullPointerException.class)
 	public void test_getProposalAnswerHeaderForForm_withNullArguments() {
 		DevelopmentProposal developmentProposal = null;
@@ -414,6 +400,12 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		ProposalDevelopmentDocument proposalDevelopmentDocument = new ProposalDevelopmentDocument();
 		proposalDevelopmentDocument.setDocumentNumber("123");
 		DocumentHeader documentHeader = new DocumentHeader();
+        documentHeader.setWorkflowDocument(new WorkflowDocumentImpl() {
+            @Override
+            public boolean isApproved() {
+                return true;
+            }
+        });
 		documentHeader.setDocumentNumber("123");
 		proposalDevelopmentDocument.setDocumentHeader(documentHeader);
 

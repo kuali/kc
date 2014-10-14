@@ -1863,7 +1863,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     public ProposalDevelopmentDocument getProposalDocument() {
         if (proposalDocument == null) {
             proposalDocument = new ProposalDevelopmentDocument();
-        } else if (proposalDocument.getDocumentHeader() != null && !proposalDocument.getDocumentHeader().hasWorkflowDocument()) {
+        } else if (proposalDocument.getDocumentHeader() != null && proposalDocument.getDocumentNumber() != null && !proposalDocument.getDocumentHeader().hasWorkflowDocument()) {
             proposalDocument.getDocumentHeader().setWorkflowDocument(WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), proposalDocument.getDocumentNumber()));
         }
 
