@@ -53,7 +53,6 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
-import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -111,10 +110,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("legacyNarrativeService")
     private LegacyNarrativeService narrativeService;
-
-    @Autowired
-    @Qualifier("proposalDevelopmentAttachmentService")
-    private ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService;
 
     @Autowired
     @Qualifier("lookupService")
@@ -262,7 +257,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
   			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, pdForm.getOrderedNavigationActions().get(indexOfCurrentAction+1).getNavigateToPageId());
   		 }
   	 }
-   }
+   }    
 
     public void setInvestigatorCreditTypes(Object model) {
         ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().setInvestigatorCreditTypes(getKeyPersonnelService().getInvestigatorCreditTypes());
@@ -312,15 +307,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
            getDataObjectService().save(lineObject);
            if (lineObject instanceof ProposalPersonBiography) {
                try {
-                   ((ProposalPersonBiography)lineObject).init(((ProposalPersonBiography)lineObject).getMultipartFile());
-                   getProposalDevelopmentAttachmentService().standardizeAttachment(pdForm.getDevelopmentProposal(),(ProposalPersonBiography) lineObject);
+                   ((ProposalPersonBiography)lineObject).init(((ProposalPersonBiography) lineObject).getMultipartFile());
                } catch (Exception e) {
                    LOG.info("No File Attached");
                }
            } else if (lineObject instanceof  Narrative) {
                try {
-                   ((Narrative)lineObject).init(((Narrative)lineObject).getMultipartFile());
-                   getProposalDevelopmentAttachmentService().standardizeAttachment(pdForm.getDevelopmentProposal(),(Narrative) lineObject);
+                   ((Narrative)lineObject).init(((Narrative) lineObject).getMultipartFile());
                } catch (Exception e) {
                    LOG.info("No File Attached");
                }
@@ -468,13 +461,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     	return parameterService;
     }
 
-    public ProposalDevelopmentAttachmentService getProposalDevelopmentAttachmentService() {
-        return proposalDevelopmentAttachmentService;
-    }
-
-    public void setProposalDevelopmentAttachmentService(ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService) {
-        this.proposalDevelopmentAttachmentService = proposalDevelopmentAttachmentService;
-    }
     public boolean isCreditSplitEnabled(){
     	return getKeyPersonnelService().isCreditSplitEnabled();
     }

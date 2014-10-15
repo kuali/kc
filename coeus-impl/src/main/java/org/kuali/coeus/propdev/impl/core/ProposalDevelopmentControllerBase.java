@@ -20,14 +20,14 @@ import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
-import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
@@ -124,10 +124,6 @@ public abstract class ProposalDevelopmentControllerBase {
     private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
 
     @Autowired
-    @Qualifier("proposalDevelopmentAttachmentService")
-    private ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService;
-
-    @Autowired
     @Qualifier("legacyDataAdapter")
     private LegacyDataAdapter legacyDataAdapter;
     
@@ -142,6 +138,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("proposalPersonBiographyService")
+    private ProposalPersonBiographyService proposalPersonBiographyService;
 
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
@@ -201,7 +201,10 @@ public abstract class ProposalDevelopmentControllerBase {
          proposalDevelopmentService.initializeProposalSiteNumbers(
                  proposalDevelopmentDocument);
 
-         getProposalDevelopmentAttachmentService().prepareAttachmentsForSave(form.getDevelopmentProposal());
+         for (ProposalPersonBiography biography : form.getDevelopmentProposal().getPropPersonBios()) {
+             getProposalPersonBiographyService().prepareProposalPersonBiographyForSave(form.getDevelopmentProposal(),biography);
+         }
+
          ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).setOrdinalPosition(form.getDevelopmentProposal().getProposalPersons());
          saveAnswerHeaders(form, form.getPageId());
 
@@ -312,14 +315,6 @@ public abstract class ProposalDevelopmentControllerBase {
 
     public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
         this.proposalDevelopmentService = proposalDevelopmentService;
-    }
-
-    public ProposalDevelopmentAttachmentService getProposalDevelopmentAttachmentService() {
-        return proposalDevelopmentAttachmentService;
-    }
-
-    public void setProposalDevelopmentAttachmentService(ProposalDevelopmentAttachmentService proposalDevelopmentAttachmentService) {
-        this.proposalDevelopmentAttachmentService = proposalDevelopmentAttachmentService;
     }
 
     protected TransactionalDocumentControllerService getTransactionalDocumentControllerService() {
@@ -575,5 +570,13 @@ public abstract class ProposalDevelopmentControllerBase {
 
     public void setProposalDevelopmentPermissionsService(ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService) {
         this.proposalDevelopmentPermissionsService = proposalDevelopmentPermissionsService;
+    }
+
+    public ProposalPersonBiographyService getProposalPersonBiographyService() {
+        return proposalPersonBiographyService;
+    }
+
+    public void setProposalPersonBiographyService(ProposalPersonBiographyService proposalPersonBiographyService) {
+        this.proposalPersonBiographyService = proposalPersonBiographyService;
     }
 }
