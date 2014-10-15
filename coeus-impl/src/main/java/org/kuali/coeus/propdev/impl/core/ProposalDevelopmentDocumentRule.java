@@ -170,6 +170,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
             valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
             valid &= proccessValidateSponsor(proposalDevelopmentDocument);
             valid &= processCustomDataRule(proposalDevelopmentDocument);
+            valid &= processAttachmentRules(proposalDevelopmentDocument);
             GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposal");
         }
 
@@ -504,6 +505,14 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         return retval;
     }
 
+    public boolean processAttachmentRules(ProposalDevelopmentDocument document) {
+        boolean retVal = true;
+        for (ProposalPersonBiography biography : document.getDevelopmentProposal().getPropPersonBios()) {
+            retVal &= processSavePersonnelAttachmentBusinessRules(new SavePersonnelAttachmentEvent("",document,biography));
+        }
+        return retVal;
+    }
+
     @Override
     public boolean processAddAbstractBusinessRules(ProposalDevelopmentDocument document, ProposalAbstract proposalAbstract) {
         return new ProposalDevelopmentAbstractsRule().processAddAbstractBusinessRules(document, proposalAbstract);
@@ -532,7 +541,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     }
 
     public boolean processAddPersonnelAttachmentBusinessRules(AddPersonnelAttachmentEvent addPersonnelAttachmentEvent) {
-        return new ProposalDevelopmentPersonnelAttachmentRule().processAddPersonnelAttachmentBusinessRules(addPersonnelAttachmentEvent);    
+        return new ProposalDevelopmentPersonnelAttachmentRule().processAddPersonnelAttachmentBusinessRules(addPersonnelAttachmentEvent);
     }
 
     public boolean processSavePersonnelAttachmentBusinessRules(SavePersonnelAttachmentEvent savePersonnelAttachmentEvent) {
