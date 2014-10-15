@@ -16,6 +16,8 @@
 package org.kuali.coeus.sys.framework.model;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -26,6 +28,8 @@ import org.kuali.rice.krad.service.PersistenceStructureService;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
@@ -153,4 +157,24 @@ public abstract class KcPersistableBusinessObjectBase extends PersistableBusines
     void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
     }
+    
+    @Override
+    public String toString() {
+        class BusinessObjectToStringBuilder extends ReflectionToStringBuilder {
+            private BusinessObjectToStringBuilder(Object object) {
+                super(object);
+            }
+
+            public boolean accept(Field field) {
+                if (String.class.isAssignableFrom(field.getType())
+                		|| ClassUtils.isPrimitiveOrWrapper(field.getType())) {
+                	return true;
+                } else {
+                	return false;
+                }
+            }
+        };
+        ReflectionToStringBuilder toStringBuilder = new BusinessObjectToStringBuilder(this);
+        return toStringBuilder.toString();
+    }    
 }
