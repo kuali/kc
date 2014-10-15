@@ -140,7 +140,7 @@
 				<bean parent="Uif-DataField" p:propertyName="rateType.description" p:order="10" p:skipInTabOrder="true"/>
 				<bean parent="Uif-DataField" p:propertyName="onOffCampusFlag" p:readOnlyDisplayReplacement="@{#line.onOffCampusFlag?'Yes':'No'}" 
 					p:skipInTabOrder="true" p:order="20"/>
-				<bean parent="Uif-DataField" p:propertyName="fiscalYear" p:skipInTabOrder="true" p:order="30"/>
+				<bean parent="Uif-DataField" p:propertyName="fiscalYear" p:skipInTabOrder="true" p:order="30" p:enableAutoInquiry="false"/>
 				<bean parent="Uif-DataField" p:propertyName="startDate" p:skipInTabOrder="true" p:order="40"/>
 				<bean parent="Uif-DataField" p:propertyName="instituteRate" p:skipInTabOrder="true" p:order="50">
 					<property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
