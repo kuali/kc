@@ -14,11 +14,13 @@
 
     <bean id="PropDev-Print-Dialog" parent="PropDev-Print-Dialog-parentBean" />
     <bean id="PropDev-Print-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
-            p:header.headerText="Print">
+            p:header.headerText="Print"
+            p:dialogCssClass="modal-lg">
         <property name="items">
                 <list>
                     <bean parent="PropDev-Print-GrantsSection" p:order="10"/>
                     <bean parent="PropDev-Print-SponsorSection" p:order="20"/>
+                    <bean parent="PropDev-Print-ReportsSection" p:order="30"/>
                 </list>
         </property>
         <property name="footer.items">
@@ -105,4 +107,145 @@
             <null/>
         </property>
     </bean>
+
+    <bean id="PropDev-Print-ReportsSection" parent="PropDev-Print-ReportsSection-parentBean"/>
+    <bean id="PropDev-Print-ReportsSection-parentBean" abstract="true" parent="Uif-Disclosure-VerticalBoxSection"
+          p:headerText="Reports" p:disclosure.defaultOpen="false">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-Print-GenerateReport" p:order="10"/>
+                <bean parent="PropDev-Print-CurrentReport" p:order="20"
+                        p:render="@{!#empty(reportHelper.personId) and reportHelper.reportType=='current'}"/>
+                <bean parent="PropDev-Print-PendingReport" p:order="30"
+                      p:render="@{!#empty(reportHelper.personId) and reportHelper.reportType=='pending'}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Print-GenerateReport" parent="PropDev-Print-GenerateReport-parentBean"/>
+    <bean id="PropDev-Print-GenerateReport-parentBean" abstract="true" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="reportHelper.reportType" p:order="10">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="current" p:value="Current"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="pending" p:value="Pending"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="reportHelper.targetPerson.fullName" p:order="20"
+                      p:fieldLabel.render="false"
+                      p:widgetInputOnly="true">
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="reportHelper.personId" p:order="30"
+                      p:fieldLabel.render="false">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript"
+                              p:dataObjectClassName="org.kuali.coeus.common.framework.person.KcPerson"
+                              p:fieldConversions="personId:reportHelper.personId,fullName:reportHelper.targetPerson.fullName">
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Generate Report" p:order="40"
+                      p:methodToCall="generateReport" p:refreshId="PropDev-Print-Dialog"
+                      p:progressiveRender="@{!#empty(reportHelper.personId)}"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Print" p:order="50"
+                      p:methodToCall="refresh" p:refreshId="PropDev-Print-Dialog"
+                      p:progressiveRender="@{!#empty(reportHelper.personId)}"
+                      p:successCallback="window.location.href='@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=printReport&amp;formKey=@{formKey}';">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Print-CurrentReport" parent="PropDev-Print-CurrentReport-parentBean"/>
+    <bean id="PropDev-Print-CurrentReport-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+          p:headerText="Current Support - @{reportHelper.targetPerson.fullName}"
+          p:propertyName="reportHelper.currentReportBeans"
+          p:collectionObjectClass="org.kuali.coeus.common.framework.print.CurrentReportBean"
+          p:layoutManager.renderSequenceField="false" p:renderInactiveToggleButton="false"
+          p:renderAddLine="false" p:renderLineActions="false"
+          p:layoutManager.richTable.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="sponsorAwardNumber" p:order="10"
+                        p:fieldLabel.labelText="Sponsor Award ID"/>
+                <bean parent="Uif-DataField" p:propertyName="sponsorName" p:order="20"
+                      p:fieldLabel.labelText="Sponsor"/>
+                <bean parent="Uif-DataField" p:propertyName="roleCode" p:order="30"
+                      p:fieldLabel.labelText="Role"/>
+                <bean parent="Uif-DataField" p:propertyName="awardTitle" p:order="40"
+                      p:fieldLabel.labelText="Title"/>
+                <bean parent="Uif-DataField" p:propertyName="totalDirectCostTotal" p:order="50"
+                      p:fieldLabel.labelText="Total Direct Cost"
+                      p:render="@{#ViewHelper.displayDirectIndierctCosts()}"/>
+                <bean parent="Uif-DataField" p:propertyName="totalIndirectCostTotal" p:order="60"
+                      p:fieldLabel.labelText="Total F&amp;A Cost"
+                      p:render="@{#ViewHelper.displayDirectIndierctCosts()}"/>
+                <bean parent="Uif-DataField" p:propertyName="awardAmount" p:order="70"
+                      p:fieldLabel.labelText="Award Amount"/>
+                <bean parent="Uif-DataField" p:propertyName="projectStartDate" p:order="80"
+                      p:fieldLabel.labelText="Effective Date"/>
+                <bean parent="Uif-DataField" p:propertyName="projectEndDate" p:order="90"
+                      p:fieldLabel.labelText="End Date"/>
+                <bean parent="Uif-DataField" p:propertyName="totalEffort" p:order="100"
+                      p:fieldLabel.labelText="Effort %"/>
+                <bean parent="Uif-DataField" p:propertyName="academicYearEffort" p:order="110"
+                      p:fieldLabel.labelText="Academic Year Effort %"/>
+                <bean parent="Uif-DataField" p:propertyName="summerEffort" p:order="120"
+                      p:fieldLabel.labelText="Summer Effort %"/>
+                <bean parent="Uif-DataField" p:propertyName="calendarYearEffort" p:order="130"
+                      p:fieldLabel.labelText="Calendar Year Effort %"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-Print-PendingReport" parent="PropDev-Print-PendingReport-parentBean"/>
+    <bean id="PropDev-Print-PendingReport-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+          p:headerText="Pending Support - @{reportHelper.targetPerson.fullName}"
+          p:propertyName="reportHelper.pendingReportBeans"
+          p:collectionObjectClass="org.kuali.coeus.common.framework.print.PendingReportBean"
+          p:layoutManager.renderSequenceField="false" p:renderInactiveToggleButton="false"
+          p:renderAddLine="false" p:renderLineActions="false"
+          p:layoutManager.richTable.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="proposalNumber" p:order="10"
+                      p:fieldLabel.labelText="Proposal Number"/>
+                <bean parent="Uif-DataField" p:propertyName="sponsorName" p:order="20"
+                      p:fieldLabel.labelText="Agency"/>
+                <bean parent="Uif-DataField" p:propertyName="roleCode" p:order="30"
+                      p:fieldLabel.labelText="Role"/>
+                <bean parent="Uif-DataField" p:propertyName="proposalTitle" p:order="40"
+                      p:fieldLabel.labelText="Title"/>
+                <bean parent="Uif-DataField" p:propertyName="totalDirectCostTotal" p:order="50"
+                      p:fieldLabel.labelText="Total Direct Cost"/>
+                <bean parent="Uif-DataField" p:propertyName="totalIndirectCostTotal" p:order="60"
+                      p:fieldLabel.labelText="Total F&amp;A Cost"/>
+                <bean parent="Uif-DataField" p:propertyName="totalRequestedCost" p:order="70"
+                      p:fieldLabel.labelText="Total Requested Cost"/>
+                <bean parent="Uif-DataField" p:propertyName="projectStartDate" p:order="80"
+                      p:fieldLabel.labelText="Effective Date"/>
+                <bean parent="Uif-DataField" p:propertyName="projectEndDate" p:order="90"
+                      p:fieldLabel.labelText="End Date"/>
+                <bean parent="Uif-DataField" p:propertyName="totalEffort" p:order="100"
+                      p:fieldLabel.labelText="Effort %"/>
+                <bean parent="Uif-DataField" p:propertyName="academicYearEffort" p:order="110"
+                      p:fieldLabel.labelText="Academic Year Effort %"/>
+                <bean parent="Uif-DataField" p:propertyName="summerEffort" p:order="120"
+                      p:fieldLabel.labelText="Summer Effort %"/>
+                <bean parent="Uif-DataField" p:propertyName="calendarYearEffort" p:order="130"
+                      p:fieldLabel.labelText="Calendar Year Effort %"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

@@ -87,24 +87,30 @@ public class CurrentAndPendingReportServiceImpl implements CurrentAndPendingRepo
     }
 
     @Override
-    public AttachmentDataSource printCurrentAndPendingSupportReport(
-            String reportName, Map<String, Object> reportParameters) throws PrintingException {
-        AttachmentDataSource source = null;
-        AbstractPrint printable = null;
-        if (reportName.equals(PrintConstants.CURRENT_REPORT_TYPE)) {
-            reportParameters.put(PrintConstants.CURRENT_REPORT_BEANS_KEY, loadCurrentReportData((String)reportParameters.get(PrintConstants.PERSON_ID_KEY)));
-            printable = currentProposalPrint;
-        } else if (reportName
-                .equals(PrintConstants.PENDING_REPORT_TYPE)) {
-            reportParameters.put(PrintConstants.PENDING_REPORT_BEANS_KEY, loadPendingReportData((String)reportParameters.get(PrintConstants.PERSON_ID_KEY)));
-            printable = pendingProposalPrint;
-        }
+    public AttachmentDataSource printCurrentReport(Map<String, Object> reportParameters) throws PrintingException {
+        reportParameters.put(PrintConstants.CURRENT_REPORT_BEANS_KEY, loadCurrentReportData((String)reportParameters.get(PrintConstants.PERSON_ID_KEY)));
+        AbstractPrint printable = currentProposalPrint;
+
         printable.setPrintableBusinessObject(null);
         printable.setReportParameters(reportParameters);
-        source = printingService.print(printable);
-        source.setName(reportName.replace(' ', '_')+Constants.PDF_FILE_EXTENSION);
+        AttachmentDataSource source = printingService.print(printable);
+        source.setName(PrintConstants.CURRENT_REPORT_TYPE.replace(' ', '_')+Constants.PDF_FILE_EXTENSION);
         return source;
     }
+
+    @Override
+    public AttachmentDataSource printPendingReport(Map<String, Object> reportParameters) throws PrintingException {
+        reportParameters.put(PrintConstants.PENDING_REPORT_BEANS_KEY, loadPendingReportData((String)reportParameters.get(PrintConstants.PERSON_ID_KEY)));
+        AbstractPrint printable = pendingProposalPrint;
+
+        printable.setPrintableBusinessObject(null);
+        printable.setReportParameters(reportParameters);
+        AttachmentDataSource source= printingService.print(printable);
+        source.setName(PrintConstants.PENDING_REPORT_TYPE.replace(' ', '_')+Constants.PDF_FILE_EXTENSION);
+        return source;
+    }
+
+
 
 
 }

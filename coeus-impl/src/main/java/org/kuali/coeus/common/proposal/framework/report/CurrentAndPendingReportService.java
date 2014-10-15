@@ -32,11 +32,9 @@ public interface CurrentAndPendingReportService {
     List<PendingReportBean> loadPendingReportData(String personId);
 
     /**
-     * This method generates the required report and returns the PDF stream as
+     * This method generates the current report and returns the PDF stream as
      * {@link AttachmentDataSource}
-     * 
-     * @param reportName
-     *            report to be generated
+     *
      * @param reportParameters
      *            {@link Map} of parameters required for report generation
      * @return {@link AttachmentDataSource} which contains the byte array of the
@@ -44,6 +42,18 @@ public interface CurrentAndPendingReportService {
      * @throws PrintingException
      *             if any errors occur during report generation
      */
-    public AttachmentDataSource printCurrentAndPendingSupportReport(
-            String reportName, Map<String, Object> reportParameters) throws PrintingException;
+    public AttachmentDataSource printCurrentReport(Map<String, Object> reportParameters) throws PrintingException;
+
+    /**
+     * This method generates the pending report and returns the PDF stream as
+     * {@link AttachmentDataSource}
+     *
+     * @param reportParameters
+     *            {@link Map} of parameters required for report generation
+     * @return {@link AttachmentDataSource} which contains the byte array of the
+     *         generated PDF
+     * @throws PrintingException
+     *             if any errors occur during report generation
+     */
+    public AttachmentDataSource printPendingReport(Map<String, Object> reportParameters) throws PrintingException;
 }

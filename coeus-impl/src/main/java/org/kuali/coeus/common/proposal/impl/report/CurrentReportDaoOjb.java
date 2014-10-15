@@ -9,12 +9,14 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.common.framework.print.CurrentReportBean;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
  * OJB implementation of CurrentReportDao using OJB Report Query (see http://db.apache.org/ojb/docu/guides/query.html#Report+Queries)
  */
+@Component("currentReportDao")
 public class CurrentReportDaoOjb extends BaseReportDaoOjb implements CurrentReportDao {
     
     private VersionHistoryService versionHistoryService;

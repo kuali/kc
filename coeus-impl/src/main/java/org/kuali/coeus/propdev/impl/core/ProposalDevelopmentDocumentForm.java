@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
+import org.kuali.coeus.common.framework.print.ReportHelper;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorFormTemplateList;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
@@ -93,6 +94,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private boolean sendOverrideNotification;
     private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
     private List<SponsorFormTemplateList> sponsorFormTemplates;
+    private ReportHelper reportHelper;
     private List<DevelopmentProposal> hierarchyDevelopmentProposals;
 
 
@@ -163,6 +165,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         updateAnswerHeader = new AnswerHeader();
 
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
+
+        reportHelper = new ReportHelper();
 
         hierarchyDevelopmentProposals = new ArrayList<DevelopmentProposal>();
     }
@@ -526,5 +530,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setSendOverrideNotification(boolean proposalChangedDataSendNotification) {
         this.sendOverrideNotification = proposalChangedDataSendNotification;
+    }
+    public ReportHelper getReportHelper() {
+        return reportHelper;
+    }
+
+    public void setReportHelper(ReportHelper reportHelper) {
+        this.reportHelper = reportHelper;
     }
 }
