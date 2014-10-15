@@ -42,7 +42,7 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
-							p:methodToCall="cancel" p:actionLabel="Cancel" p:order="10" />
+							p:methodToCall="closeWithoutSave" p:actionLabel="Cancel" p:order="10" />
 						<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false"
 							p:performClientSideValidation="true" p:methodToCall="createProposal"
 							p:actionLabel="Save and continue" p:order="20" />
