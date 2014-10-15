@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -162,11 +163,15 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("proposalDevelopmentService")
     private ProposalDevelopmentService proposalDevelopmentService;
-    private String protocolStatusCode; 
+    private String protocolStatusCode;
 
     @Autowired
     @Qualifier("customAttributeService")
     private CustomAttributeService customAttributeService;
+
+    @Autowired
+    @Qualifier("proposalHierarchyService")
+    private ProposalHierarchyService proposalHierarchyService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -257,13 +262,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
   			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, pdForm.getOrderedNavigationActions().get(indexOfCurrentAction+1).getNavigateToPageId());
   		 }
   	 }
-   }    
+   }
 
     public void setInvestigatorCreditTypes(Object model) {
         ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal().setInvestigatorCreditTypes(getKeyPersonnelService().getInvestigatorCreditTypes());
     }
 
-    @Override   
+    @Override
     protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
             String collectionPath) {
     	boolean isValid = true;
@@ -275,7 +280,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         if (newLine instanceof CongressionalDistrict) {
             Collection<CongressionalDistrict> CongressionalDistricts= ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
         	isValid = getKualiRuleService().applyRules(
-                    new AddProposalCongressionalDistrictEvent(document, (List<CongressionalDistrict>) CongressionalDistricts, (CongressionalDistrict) newLine, collectionId, collectionLabel));        	
+                    new AddProposalCongressionalDistrictEvent(document, (List<CongressionalDistrict>) CongressionalDistricts, (CongressionalDistrict) newLine, collectionId, collectionLabel));
         }
         else if (newLine instanceof ProposalUserRoles){
             ProposalUserRoles newProposalUserRoles = (ProposalUserRoles) newLine;
@@ -367,7 +372,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             return sponsor.getSponsorName();
         }
     }
-    
+
     public List<SponsorSuggestResult> performSponsorFieldSuggest(String sponsorCode) {
         List<SponsorSuggestResult> result = new ArrayList<SponsorSuggestResult>();
         List<Sponsor> allSponsors = new ArrayList<Sponsor>();
@@ -440,7 +445,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public void setNarrativeService(LegacyNarrativeService narrativeService) {
         this.narrativeService = narrativeService;
     }
-    
+
     protected LookupService getLookupService() {
         return lookupService;
     }
@@ -462,7 +467,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     protected ParameterService getParameterService (){
     	return parameterService;
     }
-    
+
     public ProposalDevelopmentAttachmentService getProposalDevelopmentAttachmentService() {
         return proposalDevelopmentAttachmentService;
     }
@@ -492,14 +497,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public String displayProposalProgressCode(WorkflowDocument wd) {
   	  String proposalProgressCode;
-  	  
+
   	  if (wd.isSaved())
   	   proposalProgressCode = DocumentStatus.SAVED.name();
   	  else if (wd.isEnroute() || wd.isException())
   	   proposalProgressCode = DocumentStatus.ENROUTE.name();
   	  else if (wd.isApproved())
   	   proposalProgressCode = DocumentStatus.FINAL.name();
-  	  else 
+  	  else
   	   proposalProgressCode = "";
 
   	  return proposalProgressCode;
@@ -539,7 +544,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     		view.getActionFlags().put(KcAuthConstants.DocumentActions.DELETE_DOCUMENT, Boolean.TRUE);
     	}
     }
-    
+
     public KcWorkflowService getKcWorkflowService() {
 		return kcWorkflowService;
 	}
@@ -710,7 +715,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public String showFileAttachmentName(ProposalDevelopmentAttachmentHelper helper, String attachmentType){
-        if (hasAttachment(helper,attachmentType)){
+        if (hasAttachment(helper, attachmentType)){
             if (StringUtils.equals(attachmentType,Constants.PROPOSAL_ATTACHMENT_TYPE_NAME)) {
                 return helper.getNarrative().getNarrativeAttachment().getName();
             } else if (StringUtils.equals(attachmentType,Constants.PERSONNEL_ATTACHMENT_TYPE_NAME)) {
@@ -746,6 +751,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getDevelopmentProposal(), null, "Ad-Hoc Notification", renderer);
 
         form.getNotificationHelper().initializeDefaultValues(context);
+
+        if (form.getDevelopmentProposal().isInHierarchy()) {
+            form.setHierarchyDevelopmentProposals(getProposalHierarchyService().getHierarchyProposals(form.getDevelopmentProposal()));
+        }
+    }
+
+    public boolean isChildSynchronized(DevelopmentProposal proposal) {
+       return getProposalHierarchyService().isSynchronized(proposal);
     }
 
     public boolean isPersonFieldEditable(String propertyName){
@@ -764,7 +777,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 	}
 	public boolean isSummaryQuestionsPanelEnabled() {
 		return "Y".equalsIgnoreCase(getProposalDevelopmentService().getProposalDevelopmentParameters().get(ProposalDevelopmentService.SUMMARY_QUESTIONS_INDICATOR).getValue());
-		
+
 	}
 
 
@@ -774,7 +787,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
 	public boolean isSummaryKeywordsPanelEnabled() {
 		return "Y".equalsIgnoreCase(getProposalDevelopmentService().getProposalDevelopmentParameters().get(ProposalDevelopmentService.SUMMARY_KEYWORDS_INDICATOR).getValue());
-		
+
 	}
 	 public String getProtocolStatusCode() {
 			return protocolStatusCode;
@@ -801,5 +814,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 	public boolean isRequired(CustomAttribute attr, List<? extends DocumentCustomData> customDataList){
 		return getCustomAttributeService().isRequired(PARENT_PROPOSAL_TYPE_CODE, attr, customDataList);
 
+    }
+
+    public ProposalHierarchyService getProposalHierarchyService() {
+        return proposalHierarchyService;
+    }
+
+    public void setProposalHierarchyService(ProposalHierarchyService proposalHierarchyService) {
+        this.proposalHierarchyService = proposalHierarchyService;
     }
 }

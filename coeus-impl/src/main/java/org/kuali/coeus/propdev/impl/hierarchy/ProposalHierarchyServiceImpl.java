@@ -59,6 +59,8 @@ import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.criteria.OrderByField;
+import org.kuali.rice.core.api.criteria.OrderDirection;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -1051,7 +1053,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return (DevelopmentProposal) (dataObjectService.findUnique(DevelopmentProposal.class, QueryByCriteria.Builder.forAttribute("proposalNumber", proposalNumber).build()));
     }
     
-    protected boolean isSynchronized(DevelopmentProposal childProposal) throws ProposalHierarchyException {
+    public boolean isSynchronized(DevelopmentProposal childProposal) {
         Integer hc1 = computeHierarchyHashCode(childProposal);
         Integer hc2 = childProposal.getHierarchyLastSyncHashCode();
         return org.apache.commons.lang3.ObjectUtils.equals(hc1, hc2);
@@ -1759,6 +1761,28 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         ProposalDevelopmentBudgetExt budget = getSyncableBudget(childProposal);
         summary.setBudgetSynced(isBudgetSynchronized(childProposal, budget));
         return summary;
+    }
+
+    @Override
+    public List<DevelopmentProposal> getHierarchyProposals(DevelopmentProposal proposal) {
+        List<DevelopmentProposal> hierachyProposals = new ArrayList<DevelopmentProposal>();
+
+        List<String> proposalNumbers = new ArrayList<String>();
+        if (proposal.isParent()) {
+            proposalNumbers.add(proposal.getProposalNumber());
+        }
+        else if (proposal.isChild()) {
+            proposalNumbers.add(proposal.getHierarchyParentProposalNumber());
+        }
+        else {
+            return hierachyProposals;
+        }
+        proposalNumbers.addAll(proposalHierarchyDao.getHierarchyChildProposalNumbers(proposalNumbers.get(0)));
+
+        hierachyProposals.addAll(getDataObjectService().findMatching(DevelopmentProposal.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("proposalNumber", proposalNumbers))
+                .setOrderByFields(OrderByField.Builder.create("hierarchyStatus", OrderDirection.DESCENDING).build()).build()).getResults());
+
+        return hierachyProposals;
     }
 
     public boolean validateRemovePermissions(DevelopmentProposal childProposal, String principalId) {

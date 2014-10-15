@@ -93,6 +93,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private boolean sendOverrideNotification;
     private ProposalDevelopmentRejectionBean proposalDevelopmentRejectionBean;
     private List<SponsorFormTemplateList> sponsorFormTemplates;
+    private List<DevelopmentProposal> hierarchyDevelopmentProposals;
 
 
     private AnswerHeader updateAnswerHeader;
@@ -162,6 +163,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         updateAnswerHeader = new AnswerHeader();
 
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
+
+        hierarchyDevelopmentProposals = new ArrayList<DevelopmentProposal>();
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -510,6 +513,13 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.sponsorFormTemplates = sponsorFormTemplates;
     }
 
+    public List<DevelopmentProposal> getHierarchyDevelopmentProposals() {
+        return hierarchyDevelopmentProposals;
+    }
+
+    public void setHierarchyDevelopmentProposals(List<DevelopmentProposal> hierarchyDevelopmentProposals) {
+        this.hierarchyDevelopmentProposals = hierarchyDevelopmentProposals;
+    }
     public boolean isSendOverrideNotification() {
         return sendOverrideNotification;
     }
