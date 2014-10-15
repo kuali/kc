@@ -1,0 +1,2 @@
+DELETE FROM KRIM_ROLE_PERM_T WHERE ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Maintain Proposal Questionnaire Document Level' AND NMSPC_CD = 'KC-PD')
+/
