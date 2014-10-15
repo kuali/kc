@@ -486,15 +486,16 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     Hence have to do the following for the PK to be handled right.
      */
     protected void copyOpportunity(ProposalDevelopmentDocument newDoc, ProposalDevelopmentDocument srcDoc) {
-        S2sOpportunity opportunity = getDataObjectService().copyInstance(srcDoc.getDevelopmentProposal().getS2sOpportunity(), CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER, CopyOption.RESET_OBJECT_ID );
+        if (srcDoc.getDevelopmentProposal().getS2sOpportunity() != null) {
+            S2sOpportunity opportunity = getDataObjectService().copyInstance(srcDoc.getDevelopmentProposal().getS2sOpportunity(), CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER, CopyOption.RESET_OBJECT_ID);
 
-        opportunity.setDevelopmentProposal(newDoc.getDevelopmentProposal());
-        newDoc.getDevelopmentProposal().setS2sOpportunity(opportunity);
+            opportunity.setDevelopmentProposal(newDoc.getDevelopmentProposal());
+            newDoc.getDevelopmentProposal().setS2sOpportunity(opportunity);
 
-        for (S2sOppForms form : opportunity.getS2sOppForms()) {
-            form.getS2sOppFormsId().setProposalNumber(newDoc.getDevelopmentProposal().getProposalNumber());
+            for (S2sOppForms form : opportunity.getS2sOppForms()) {
+                form.getS2sOppFormsId().setProposalNumber(newDoc.getDevelopmentProposal().getProposalNumber());
+            }
         }
-
     }
 
     protected void modifyAttachmentPermissions(DevelopmentProposal oldProposal, DevelopmentProposal copiedProposal) {
@@ -563,7 +564,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
 
     protected void cleanupHierarchy(ProposalDevelopmentDocument newDoc) {
-        newDoc.getDevelopmentProposal().setHierarchyStatus(HierarchyStatusConstants.None.code());
+        // if proposal is parent, users want to be able to copy it and retain parent status so they can retain all data but still
+        // link children, otherwise
+        // this becomes an unlinked proposal and not all data syncs up to parent.
+        if (!StringUtils.equals(newDoc.getDevelopmentProposal().getHierarchyStatus(), HierarchyStatusConstants.Parent.code()))
+        {
+            newDoc.getDevelopmentProposal().setHierarchyStatus(HierarchyStatusConstants.None.code());
+        }
         newDoc.getDevelopmentProposal().setHierarchyParentProposalNumber(null);
         newDoc.getDevelopmentProposal().setHierarchyLastSyncHashCode(null);
     }

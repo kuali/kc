@@ -25,6 +25,7 @@ import org.kuali.coeus.propdev.impl.attachment.AttachmentDao;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -42,8 +43,8 @@ import java.util.List;
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
 
     @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Autowired
     @Qualifier("attachmentDao")
@@ -61,17 +62,18 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      */
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPersonBiography proposalPersonBiography) {
+
         proposalPersonBiography.setDevelopmentProposal(proposaldevelopmentDocument.getDevelopmentProposal());
         proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument
                 .getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
         proposalPersonBiography.setPropPerDocType(new PropPerDocType());
+
         ProposalPerson proposalPerson = getPerson(proposaldevelopmentDocument.getDevelopmentProposal(), proposalPersonBiography.getProposalPersonNumber());
         if (proposalPerson != null) {
             proposalPersonBiography.setPersonId(proposalPerson.getPersonId());
             proposalPersonBiography.setRolodexId(proposalPerson.getRolodexId());
         }
         proposalPersonBiography.getPropPerDocType().setCode(proposalPersonBiography.getDocumentTypeCode());
-        proposalPersonBiography.refreshReferenceObject("propPerDocType");
         FormFile personnelAttachmentFile = proposalPersonBiography.getPersonnelAttachmentFile();
         if (personnelAttachmentFile != null) {
             try {
@@ -87,6 +89,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
                     proposalPersonBiography.setType(personnelAttachmentFile.getContentType());
 
                     proposalPersonBiography.setPersonnelAttachment(personnelAttachment);
+                    personnelAttachment.setProposalPersonBiography(proposalPersonBiography);
                 }
             }
             catch (Exception e) {
@@ -94,10 +97,8 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
             }
         }
         DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalueBo(Constants.PROP_PERSON_BIO_NUMBER);
-        List<PersistableBusinessObject> businessObjects = new ArrayList<PersistableBusinessObject>();
-        businessObjects.add(documentNextvalue);
-        businessObjects.add(proposalPersonBiography);
-        getBusinessObjectService().save(businessObjects);
+        getDataObjectService().save(documentNextvalue);
+        proposalPersonBiography = getDataObjectService().save(proposalPersonBiography);
         proposalPersonBiography.setPersonnelAttachment(null);
         proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().add(proposalPersonBiography);
 
@@ -143,7 +144,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
     public void deleteProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete) {
         ProposalPersonBiography proposalPersonBiography = proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().get(lineToDelete);
         proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().remove(proposalPersonBiography);
-        getBusinessObjectService().delete(proposalPersonBiography);
+        getDataObjectService().delete(proposalPersonBiography);
 
     }
 
@@ -163,23 +164,12 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         return null;
     }
 
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
     
     @Override

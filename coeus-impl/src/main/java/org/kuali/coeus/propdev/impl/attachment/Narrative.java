@@ -654,6 +654,11 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
         private Integer moduleNumber;
 
+        public NarrativeId(String proposalNumber, Integer moduleNumber) {
+            this.moduleNumber = moduleNumber;
+            this.developmentProposal = proposalNumber;
+        }
+
         public Integer getModuleNumber() {
             return this.moduleNumber;
         }

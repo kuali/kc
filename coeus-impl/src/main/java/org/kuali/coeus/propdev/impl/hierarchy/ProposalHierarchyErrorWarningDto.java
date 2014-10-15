@@ -16,23 +16,36 @@
 package org.kuali.coeus.propdev.impl.hierarchy;
 
 
-public class ProposalHierarchyErrorDto {
+public class ProposalHierarchyErrorWarningDto {
+    private boolean severe;
     private String errorKey;
     private String[] errorParameters;
-
-
-    public ProposalHierarchyErrorDto() {
-        this(null);
-    }
 
     /**
      * Constructs a ProposalHierarchyErrorDto.
      * @param errorKey
      * @param errorParameters
      */
-    public ProposalHierarchyErrorDto(String errorKey, String... errorParameters) {
+    public ProposalHierarchyErrorWarningDto(String errorKey, boolean severe, String... errorParameters) {
         this.errorKey = errorKey;
         this.errorParameters = errorParameters;
+        this.severe = severe;
+    }
+
+    /**
+     * Gets the errorKey attribute.
+     * @return Returns the errorKey.
+     */
+    public boolean isSevere() {
+        return severe;
+    }
+
+    /**
+     * Sets the errorKey attribute value.
+     * @param errorKey The errorKey to set.
+     */
+    public void setSevere(boolean errorKey) {
+        this.severe = severe;
     }
 
     /**

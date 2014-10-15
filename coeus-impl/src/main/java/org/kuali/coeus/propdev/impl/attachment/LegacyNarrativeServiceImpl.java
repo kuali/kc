@@ -30,6 +30,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,15 +80,19 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
     /**
      * 
      * Method to add a new narrative to narratives list
      * @param narrative
      */
     public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
+
         prepareNarrative(proposaldevelopmentDocument, narrative);
-        
-        getBusinessObjectService().save(narrative);
+        narrative = getDataObjectService().save(narrative);
         narrative.clearAttachment();
         proposaldevelopmentDocument.getDevelopmentProposal().getNarratives().add(narrative);
     }
@@ -255,8 +260,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(document));
         narrative.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         narrative.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
-        narrative.refreshReferenceObject("narrativeType");
-        narrative.refreshReferenceObject("narrativeStatus");
         narrative.populateAttachment();
         populateNarrativeUserRights(document,narrative);
     }
@@ -502,5 +505,13 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 }

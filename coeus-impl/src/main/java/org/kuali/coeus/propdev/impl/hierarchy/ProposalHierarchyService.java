@@ -60,7 +60,7 @@ public interface ProposalHierarchyService {
      * This method takes a proposal, creates a Hierarchy
      * and links the proposal as the initial child.
      * 
-     * @param initialChildProposal 
+     * @param initialChild
      * @return the proposal number of the new hierarchy
      * @throws ProposalHierarchyException if the proposal is already a member of a hierarchy
      */
@@ -110,9 +110,9 @@ public interface ProposalHierarchyService {
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     public List<HierarchyPersonnelSummary> getHierarchyPersonnelSummaries(String parentProposalNumber) throws ProposalHierarchyException;
     public List<HierarchyProposalSummary> getHierarchyProposalSummaries(String proposalNumber) throws ProposalHierarchyException;
+    public ProposalHierarchyErrorWarningDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException;
     public List<DevelopmentProposal> getHierarchyProposals(DevelopmentProposal developmentProposal);
-    public ProposalHierarchyErrorDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException;
-    
+
     
     /**
      * Get the parent workflow document of the hierarchy child document.
@@ -160,7 +160,6 @@ public interface ProposalHierarchyService {
      * Given the proposalDevelopmentDocument, RouteStatusChangeDTO, and the current user principal name, route all of the child proposal appropriately. 
      * @param proposalDevelopmentDocument The heirarchy being routed.
      * @param dto the route status change dto object.
-     * @param currentUserPrincipalName the name of the user to perform submit or approve operations on the child document.
      * @throws ProposalHierarchyException If there is a problem routing the children.
      */
     public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChange dto ) throws ProposalHierarchyException;
@@ -180,5 +179,18 @@ public interface ProposalHierarchyService {
     public ProposalDevelopmentBudgetExt getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     
     public HierarchyProposalSummary getProposalSummary(String proposalNumber) throws ProposalHierarchyException;
+
+    public List<ProposalHierarchyErrorWarningDto> validateChildCandidate(DevelopmentProposal proposal);
+
+    public List<ProposalHierarchyErrorWarningDto> validateChildForSync (DevelopmentProposal child, DevelopmentProposal hierarchy, boolean allowEndDateChange);
+
+    public List<ProposalHierarchyErrorWarningDto> validateChildForRemoval(DevelopmentProposal child);
+
+    public List<ProposalHierarchyErrorWarningDto> validateParent(DevelopmentProposal proposal);
+
+    public List<ProposalHierarchyErrorWarningDto> validateChildCandidateForHierarchy(DevelopmentProposal hierarchy, DevelopmentProposal child, boolean allowEndDateChange);
+
+    public List<ProposalHierarchyErrorWarningDto> validateLinkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal);
+
     public boolean isSynchronized(DevelopmentProposal childProposal);
 }

@@ -104,7 +104,7 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         int result = super.hashCode();
         result = prime * result + (hiddenInHierarchy ? 1231 : 1237);
         result = prime * result + ((hierarchyProposalNumber == null) ? 0 : hierarchyProposalNumber.hashCode());
-        result = prime * result + ((getDevelopmentProposal() == null) ? 0 : getDevelopmentProposal().getProposalNumber().hashCode());
+        result = prime * result + ((getDevelopmentProposal() == null) || getDevelopmentProposal().getProposalNumber() == null ? 0 : getDevelopmentProposal().getProposalNumber().hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
