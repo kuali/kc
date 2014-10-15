@@ -5,6 +5,8 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SModularBudgetTestBase;
@@ -35,6 +37,14 @@ public class PHS398ModularBudgetV1_2GeneratorTest extends
         budget.setParentDocumentTypeCode("PRDV");
         budget.setDevelopmentProposal(document.getDevelopmentProposal());
         budget.setName("test document description");
+       
+        List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
+        BudgetPeriod budgetPeriod = new BudgetPeriod();
+        budgetPeriod.setBudgetPeriod(1);
+        budgetPeriod.setStartDate(new Date(new Long("1183316613046")));        
+        budgetPeriod.setEndDate(new Date(new Long("1214852613046")));
+        budgetPeriods.add(budgetPeriod);        
+        budget.setBudgetPeriods(budgetPeriods);
         
 		budget = getService(DataObjectService.class).save(budget);
 		List<ProposalDevelopmentBudgetExt> budgets = new ArrayList<>();
