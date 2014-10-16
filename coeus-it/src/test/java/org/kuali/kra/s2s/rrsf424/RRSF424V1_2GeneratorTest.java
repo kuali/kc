@@ -24,11 +24,11 @@ import org.kuali.coeus.propdev.impl.s2s.S2sRevisionType;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
 import org.kuali.coeus.s2sgen.impl.generate.support.RRSF424V1_2Generator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.s2s.generator.S2SModularBudgetTestBase;
+import org.kuali.kra.s2s.generator.S2STestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class RRSF424V1_2GeneratorTest extends
-		S2SModularBudgetTestBase<RRSF424V1_2Generator> {
+		S2STestBase<RRSF424V1_2Generator> {
 
 	private BusinessObjectService businessObjectService = null;
 
@@ -135,11 +135,38 @@ public class RRSF424V1_2GeneratorTest extends
 		answer3.setAnswerNumber(1);
 		answer3.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
 		answer3.setQuestionnaireQuestion(questionnaireQuestion);
+		
+		Answer answer4 = new Answer();
+		answer4.setQuestionId(766L);
+		answer4.setAnswer("11-10-2014");
+		answer4.setQuestionNumber(1);
+		answer4.setAnswerNumber(1);
+		answer4.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
+		answer4.setQuestionnaireQuestion(questionnaireQuestion);
+		
+		Answer answer5 = new Answer();
+		answer5.setQuestionId(765L);
+		answer5.setAnswer("N");
+		answer5.setQuestionNumber(1);
+		answer5.setAnswerNumber(1);
+		answer5.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
+		answer5.setQuestionnaireQuestion(questionnaireQuestion);
+		
+		Answer answer6 = new Answer();
+		answer6.setQuestionId(767L);
+		answer6.setAnswer("Not Covered");
+		answer6.setQuestionNumber(1);
+		answer6.setAnswerNumber(1);
+		answer6.setQuestionnaireQuestionsId(questionnaireQuestion.getId());
+		answer6.setQuestionnaireQuestion(questionnaireQuestion);
 
 		List<Answer> answers = new ArrayList<Answer>();
 		answers.add(answer1);
 		answers.add(answer2);
 		answers.add(answer3);
+		answers.add(answer4);
+		answers.add(answer5);
+		answers.add(answer6);
 
 		answerHeader.setAnswers(answers);
 		businessObjectService.save(answerHeader);
