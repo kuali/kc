@@ -1,26 +1,27 @@
 package org.kuali.kra.s2s.rrfednonfedbudget;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
+
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.s2sgen.impl.generate.support.RRFedNonFedBudget10V1_1Generator;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.s2s.generator.S2SModularBudgetTestBase;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
@@ -35,22 +36,8 @@ public class RRFedNonFedBudget10V1_1GeneratorTest extends
 	@Override
 	protected void prepareData(ProposalDevelopmentDocument document)
 			throws Exception {
-		Organization organization = new Organization();
-		organization.setOrganizationName("University");
-		organization.setOrganizationId("000001");
-		organization.setContactAddressId(1);
-
-		ProposalSite applicantOrganization = new ProposalSite();
-		applicantOrganization.setLocationTypeCode(2);
-		applicantOrganization.setOrganization(organization);
-
-		applicantOrganization.setSiteNumber(1);
-		applicantOrganization.setLocationName(organization
-				.getOrganizationName());
-		document.getDevelopmentProposal().setApplicantOrganization(
-				applicantOrganization);
-		document.getDevelopmentProposal().getApplicantOrganization()
-				.getOrganization().setDunsNumber("00-176-5866");
+		Organization organization = getService(DataObjectService.class).findUnique(Organization.class, QueryByCriteria.Builder.forAttribute("organizationId", "000001").build());
+		document.getDevelopmentProposal().getApplicantOrganization().setOrganization(organization);
 
 		NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
 		DefaultResourceLoader resourceLoader = new DefaultResourceLoader(
@@ -65,15 +52,10 @@ public class RRFedNonFedBudget10V1_1GeneratorTest extends
 		Narrative narrative = new Narrative();
 		List<Narrative> narrativeList = new ArrayList<Narrative>();
 		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
-		NarrativeType narrativeType = new NarrativeType();
-		narrativeType.setCode("133");
-		narrativeType.setAllowMultiple(true);
-		narrativeType.setSystemGenerated(false);
-		narrativeType.setDescription("Testing for Attachments Attachment");
-		getService(DataObjectService.class).save(narrativeType);
+		NarrativeType narrativeType = getService(DataObjectService.class).findUnique(NarrativeType.class, QueryByCriteria.Builder.forAttribute("code", "133").build());
         narrative.setName("exercise1");
         narrative.setNarrativeType(narrativeType);
-		narrative.setNarrativeTypeCode("133");
+		narrative.setNarrativeTypeCode(narrativeType.getCode());
 		narrative.setNarrativeAttachment(narrativeAttachment);
         narrative.setModuleNumber(1);
         narrative.setModuleSequenceNumber(1);
@@ -109,6 +91,18 @@ public class RRFedNonFedBudget10V1_1GeneratorTest extends
 		proposalDevelopmentBudgetExt.setOhRateClassCode("1");
 		proposalDevelopmentBudgetExt.setModularBudgetFlag(false);
 		proposalDevelopmentBudgetExt.setUrRateClassCode("1");
+		
+		List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
+		BudgetPeriod budgetPeriod = new BudgetPeriod();
+		budgetPeriod.setBudgetPeriodId(1L);
+		budgetPeriod.setStartDate(new Date(new Long("1183316613046")));
+		budgetPeriod.setEndDate(new Date(new Long("1214852613046")));
+		budgetPeriod.setBudgetPeriod(1);
+		budgetPeriod.setBudgetId(proposalDevelopmentBudgetExt.getBudgetId());
+		budgetPeriod.setBudget(proposalDevelopmentBudgetExt);
+		budgetPeriods.add(budgetPeriod);
+		proposalDevelopmentBudgetExt.setBudgetPeriods(budgetPeriods);
+		
 		List<ProposalDevelopmentBudgetExt> proposalDevelopmentBudgetExtList = new ArrayList<ProposalDevelopmentBudgetExt>();
 		proposalDevelopmentBudgetExtList.add(proposalDevelopmentBudgetExt);
 		document.getDevelopmentProposal().setBudgets(proposalDevelopmentBudgetExtList);	
