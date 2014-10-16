@@ -477,7 +477,8 @@ public abstract class ProposalDevelopmentControllerBase {
                 .populateDataValidation(form,form.getView().getViewIndex());
         if(dataValidationItems != null && dataValidationItems.size() > 0 ) {
             for(ProposalDevelopmentDataValidationItem validationItem : dataValidationItems) {
-                if (StringUtils.equalsIgnoreCase(validationItem.getSeverity(), Constants.AUDIT_ERRORS)) {
+                if (StringUtils.equalsIgnoreCase(validationItem.getSeverity(), Constants.AUDIT_ERRORS)|| 
+                		StringUtils.equalsIgnoreCase(validationItem.getSeverity(), Constants.GRANTSGOV_ERROR_SEVIRITY_KEY)) {
                     isValid = false;
                     form.setDataValidationItems(dataValidationItems);
                     break;

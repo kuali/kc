@@ -83,7 +83,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
-
+    
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
@@ -592,13 +592,12 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             }
 
             appSubmission.setSubmissionNumber(submissionNumber);
-
-            businessObjectService.save(appSubmission);
+            getDataObjectService().save(appSubmission);
             pdDoc.getDevelopmentProposal().refreshReferenceObject("s2sAppSubmission");
         }
     }
 
-    public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
+	public File getGrantsGovSavedFile(ProposalDevelopmentDocument pdDoc)
             throws IOException {
 
         String loggingDirectory = s2SConfigurationService.getValueAsString(ConfigurationConstants.PRINT_XML_DIRECTORY);

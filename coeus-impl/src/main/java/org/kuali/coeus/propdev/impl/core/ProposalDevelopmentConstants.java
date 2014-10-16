@@ -21,4 +21,23 @@ public class ProposalDevelopmentConstants {
         public static final String NARRATIVES = DOCUMENT_DEVELOPMENT_PROPOSAL + ".narratives";
         public static final String INSTITUTE_ATTACHMENTS = DOCUMENT_DEVELOPMENT_PROPOSAL + ".instituteAttachments";
     }
+    
+    public static class NotificationConstants {
+    	public static final String NOTIFICATION_STEP_0 = "0";
+    	public static final String NOTIFICATION_STEP_2 = "2";
+    	public static final String NOTIFICATION_S2S_SUBMIT_ACTION_CODE = "101";
+    	public static final String NOTIFICATION_S2S_SUBMIT_CONTEXT_NAME =  "Proposal Submitted";
+    }
+    
+    public static class ResubmissionOptions {
+    	public static final String GENERATE_NEW_IP = "N";
+    	public static final String GENERATE_NEW_VERSION_OF_IP = "A";
+    	public static final String GENERATE_NEW_VERSION_OF_ORIGINAL_IP = "O";
+    	public static final String DO_NOT_GENERATE_NEW_IP = "X";
+    }
+    
+    public static class PropDevDocumentActions {
+		public static final String SUBMIT_TO_S2S = "submitToS2S";
+		public static final String SUBMIT_TO_SPONSOR = "submitToSponsor";
+    }
 }

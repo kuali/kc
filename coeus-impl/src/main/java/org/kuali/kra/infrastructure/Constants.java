@@ -129,6 +129,7 @@ public interface Constants {
     public static final String PROJECT_TITLE_KEY = "document.developmentProposalList[0].title";
 
     public static final String AUDIT_ERRORS = "Error";
+    public static final String GRANTSGOV_ERROR_SEVIRITY_KEY = "Grants.Gov Error";
     public static final String AUDIT_WARNINGS = "Warnings";
     public static final String GRANTSGOV_ERRORS= "Grants.Gov Errors";
     public static final String KNS_AUDIT_ERRORS = AUDIT_ERRORS;

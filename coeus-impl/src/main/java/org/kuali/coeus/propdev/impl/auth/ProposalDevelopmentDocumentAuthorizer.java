@@ -38,6 +38,7 @@ import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -45,8 +46,10 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -122,6 +125,21 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     		return getKcAuthorizationService().hasPermission(user.getPrincipalId(), (Permissionable)document, PermissionConstants.DELETE_PROPOSAL);
     	else 
     		return false;
+    }
+    
+    public boolean canCreateInstitutionalProposal(Document document, Person user) {
+        boolean hasPermission = true;
+        Map<String,String> permissionDetails =new HashMap<String,String>();
+        permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
+        
+        hasPermission &= getPermissionService().hasPermission(user.getPrincipalId(), InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
+    			PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL);
+        if (hasPermission) {
+        	hasPermission &= getPermissionService().hasPermission(user.getPrincipalId(), 
+                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
+                PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL);
+    	}
+        return hasPermission;
     }
     
     
