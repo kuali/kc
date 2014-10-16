@@ -30,12 +30,15 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,13 +47,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestBase {
 
-    private QuestionnaireLookupableHelperServiceImpl questionnaireLookupableHelperServiceImpl;
+    private LookupableHelperService questionnaireLookupableHelperServiceImpl;
     private DocumentService documentService;
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 
     @Before
     public void setUp() throws Exception {
-        questionnaireLookupableHelperServiceImpl = new QuestionnaireLookupableHelperServiceImpl();
+        questionnaireLookupableHelperServiceImpl = KcServiceLocator.getService("questionnaireLookupableHelperService");
         questionnaireLookupableHelperServiceImpl.setBusinessObjectClass(Questionnaire.class);
         documentService = KcServiceLocator.getService(DocumentService.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
@@ -63,14 +66,12 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         GlobalVariables.setUserSession(null);
     }
 
-
     /**
      * 
      * This method to test getSearchResults
      * @throws Exception
      */
     @Test
-    @Ignore("KCINFR-981")
     public void testGetSearchResults() throws Exception {
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
@@ -114,10 +115,11 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
      * @throws Exception
      */
     @Test
-    @Ignore("KCINFR-981")
-    public void testCustomActionUrlWithVIEW_QUESTIONNAIRE() throws Exception {
+    public void testCustomActionUrlWithVIEW_QUESTIONNAIRE() throws Throwable {
         final QuestionnaireAuthorizationService questionnaireAuthorizationService = context.mock(QuestionnaireAuthorizationService.class);
-        questionnaireLookupableHelperServiceImpl.setQuestionnaireAuthorizationService(questionnaireAuthorizationService);
+        Method m = QuestionnaireLookupableHelperServiceImpl.class.getMethod("setQuestionnaireAuthorizationService", QuestionnaireAuthorizationService.class);
+        Proxy.getInvocationHandler(questionnaireLookupableHelperServiceImpl).invoke(questionnaireLookupableHelperServiceImpl, m, new Object[] {questionnaireAuthorizationService});
+
         context.checking(new Expectations() {{
             one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
             will(returnValue(false));
@@ -137,7 +139,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
         Assert.assertEquals(htmldata.size(), 1);
-        Assert.assertTrue(((AnchorHtmlData)htmldata.get(0)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
+        Assert.assertTrue(((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
     }
     
     /**
@@ -147,10 +149,11 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
      * @throws Exception
      */
     @Test
-    @Ignore("KCINFR-981")
-    public void testCustomActionUrlWithMODIFY_QUESTIONNAIRE() throws Exception {
+    public void testCustomActionUrlWithMODIFY_QUESTIONNAIRE() throws Throwable {
         final QuestionnaireAuthorizationService questionnaireAuthorizationService = context.mock(QuestionnaireAuthorizationService.class);
-        questionnaireLookupableHelperServiceImpl.setQuestionnaireAuthorizationService(questionnaireAuthorizationService);
+        Method m = QuestionnaireLookupableHelperServiceImpl.class.getMethod("setQuestionnaireAuthorizationService", QuestionnaireAuthorizationService.class);
+        Proxy.getInvocationHandler(questionnaireLookupableHelperServiceImpl).invoke(questionnaireLookupableHelperServiceImpl, m, new Object[] {questionnaireAuthorizationService});
+
         context.checking(new Expectations() {{
             one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
             will(returnValue(true));
@@ -170,9 +173,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
         Assert.assertEquals(4, htmldata.size());
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() + "&id="+questionnaire.getId()+"&methodToCall=edit");
-        Assert.assertTrue(((AnchorHtmlData)htmldata.get(1)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() + "&idd="+questionnaire.getId()+"&methodToCall=copy");
+        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit" + "&id="+questionnaire.getId());
+        Assert.assertTrue(((AnchorHtmlData)htmldata.get(1)).getHref(), ((AnchorHtmlData)htmldata.get(1)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
+        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), ((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() + "&methodToCall=copy" + "&id="+questionnaire.getId());
     }
     
     /**
@@ -181,10 +184,11 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
      * @throws Exception
      */
     @Test
-    @Ignore("KCINFR-981")
-    public void testCustomActionUrlWithNoPermission() throws Exception {
+    public void testCustomActionUrlWithNoPermission() throws Throwable {
         final QuestionnaireAuthorizationService questionnaireAuthorizationService = context.mock(QuestionnaireAuthorizationService.class);
-        questionnaireLookupableHelperServiceImpl.setQuestionnaireAuthorizationService(questionnaireAuthorizationService);
+        Method m = QuestionnaireLookupableHelperServiceImpl.class.getMethod("setQuestionnaireAuthorizationService", QuestionnaireAuthorizationService.class);
+        Proxy.getInvocationHandler(questionnaireLookupableHelperServiceImpl).invoke(questionnaireLookupableHelperServiceImpl, m, new Object[] {questionnaireAuthorizationService});
+
         context.checking(new Expectations() {{
             one(questionnaireAuthorizationService).hasPermission(PermissionConstants.MODIFY_QUESTIONNAIRE);
             will(returnValue(false));
@@ -220,21 +224,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         questionnaire.setName(name);
         questionnaire.setDescription(desc);
         questionnaire.setSequenceNumber(1);
-        
-        /**
-         * @ToDo get QuestionnaireQuestion working
-         */
-        
-        /*
-        QuestionnaireQuestion q1 = new QuestionnaireQuestion();
-        q1.setParentQuestionNumber(0);
-        q1.setQuestionNumber(1);
-        q1.setQuestionId(1L);
-        q1.setQuestionSeqNumber(1);
-        List<QuestionnaireQuestion> questions = new ArrayList<QuestionnaireQuestion>();
-        questions.add(q1);
-        questionnaire.setQuestionnaireQuestions(questions);
-        */
+
         return questionnaire;
     }
 }

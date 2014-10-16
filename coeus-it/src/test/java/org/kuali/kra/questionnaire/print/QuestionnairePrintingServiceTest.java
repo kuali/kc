@@ -18,7 +18,6 @@ package org.kuali.kra.questionnaire.print;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
@@ -53,13 +52,13 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
     /**
      * This method tests QuestionnairePrintingService. It generates Questionnaire report.
      */
-    @Test @Ignore("KCINFR-981")
+    @Test
     public void testQuestionnairePrinting() {
         try {
             String docNumber = createQuestionnaireMaintDocument();
             Map<String, Object> reportParameters = new HashMap<String, Object>();
             reportParameters.put("documentNumber", docNumber);
-
+            reportParameters.put("questionnaireSeqId", 1);
             AttachmentDataSource pdfBytes = getPrintingService().printQuestionnaire(null, reportParameters);
 
             // FIXME Writing PDF to disk for testing purpose only.
@@ -97,34 +96,19 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         questionnaire.setName(name);
         questionnaire.setDescription(desc);
         questionnaire.setSequenceNumber(1);
-        
-        /**
-         * @ToDo get QuestionnaireQuestion working
-         */
-        
-        /*
-        QuestionnaireQuestion q1 = new QuestionnaireQuestion();
-        q1.setParentQuestionNumber(0);
-        q1.setQuestionNumber(1);
-        q1.setQuestionId(1L);
-        q1.setQuestionSeqNumber(1);
-        q1.setQuestion(createQuestion(1,"Question 1"));
-        List<QuestionnaireQuestion> questions = new ArrayList<QuestionnaireQuestion>();
-        questions.add(q1);
-        questionnaire.setQuestionnaireQuestions(questions);
-        */
+
         return questionnaire;
     }
 
     /**
      * This method tests QuestionnairePrintingService. It generates Questionnaire Answer report.
      */
-    @Test @Ignore("KCINFR-981")
+    @Test
     public void testQuestionnaireAnswerPrinting() {
         try {
             Map<String, Object> reportParameters = new HashMap<String, Object>();
-//            reportParameters.put("questionnaireId", "123");
             reportParameters.put("documentNumber", createQuestionnaireMaintDocument());
+            reportParameters.put("questionnaireSeqId", 1);
             ProtocolDocument document = new ProtocolDocument();
             document.getProtocol().setProtocolNumber("1234");
             AttachmentDataSource pdfBytes = getPrintingService().printQuestionnaireAnswer(document.getProtocol(), reportParameters);
@@ -135,7 +119,6 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
             assertNotNull(pdfBytes);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            //assert false;
             throw new RuntimeException(e);
         }
     }
@@ -186,7 +169,6 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
             assertEquals(((AbstractPrint)printables.get(0)).getReportParameters().get("questionnaireSeqId"), 1);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            //assert false;
             throw new RuntimeException(e);
         }
     }
