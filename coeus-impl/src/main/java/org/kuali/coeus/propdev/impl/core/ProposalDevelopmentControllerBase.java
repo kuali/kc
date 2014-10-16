@@ -289,7 +289,6 @@ public abstract class ProposalDevelopmentControllerBase {
          if (form.isAuditActivated()){
             getAuditHelper().auditConditionally(form);
          }
-         return save(form);
          populateAdHocRecipients(form.getProposalDevelopmentDocument());
          return save(form);
      }

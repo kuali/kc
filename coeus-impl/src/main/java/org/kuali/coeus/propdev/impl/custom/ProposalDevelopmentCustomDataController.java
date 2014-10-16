@@ -4,6 +4,7 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,21 +21,7 @@ public class ProposalDevelopmentCustomDataController extends ProposalDevelopment
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=customDataNavigate")
     public ModelAndView customDataNavigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        for (CustomAttributeDocValue customAttributeDocValue : form.getProposalDevelopmentDocument().getCustomDataList()) {
-            boolean groupNamePresent = false;
-            for(ProposalDevelopmentCustomDataGroupDto customDataGroupDto : form.getCustomDataGroups()) {
-               if (customDataGroupDto.getDescription().equals(customAttributeDocValue.getCustomAttribute().getGroupName())){
-                   groupNamePresent = true;
-                   break;
-               }
-           }
-            if (!groupNamePresent) {
-                ProposalDevelopmentCustomDataGroupDto customDataGroupDto = new ProposalDevelopmentCustomDataGroupDto();
-                customDataGroupDto.setDescription(customAttributeDocValue.getCustomAttribute().getGroupName());
-                customDataGroupDto.setIdSuffix(customAttributeDocValue.getCustomAttribute().getGroupName().replace(" ","_"));
-                form.getCustomDataGroups().add(customDataGroupDto);
-            }
-        }
+        ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateCustomData(form);
         return super.navigate(form,result,request,response);
     }
 }

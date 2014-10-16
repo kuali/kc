@@ -1,9 +1,11 @@
 package org.kuali.coeus.propdev.impl.datavalidation;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
+import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.rice.krad.uif.UifParameters;
 
 import org.springframework.stereotype.Controller;
@@ -51,6 +53,13 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateCreditSplits(form);
         }
 
+        if (StringUtils.equals(pageId,ProposalDevelopmentDataValidationConstants.QUESTIONNAIRE_PAGE_ID)) {
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateQuestionnaires(form);
+        }
+
+        if (StringUtils.equals(pageId,ProposalDevelopmentDataValidationConstants.SUPPLEMENTAL_PAGE_ID)) {
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateCustomData(form);
+        }
         getAuditHelper().auditConditionally(form);
         form.setAjaxReturnType("update-page");
         return getNavigationControllerService().navigate(form);

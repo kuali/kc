@@ -15,15 +15,15 @@
  */
 package org.kuali.coeus.propdev.impl.s2s.question;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
+
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
@@ -34,37 +34,29 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.QUESTIONNAIRE_PAGE_ID;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.QUESTIONNAIRE_PAGE_NAME;
 
 public class ProposalDevelopmentS2sQuestionnaireAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
 
-    private static final String PROPOSAL_S2S_QUESTIONS_KEY="s2sQuestionnaireHelper.answerHeaders[%s].answers[0].answer";
-    private static final String PROPOSAL_S2S_QUESTIONNAIRE_PANEL_KEY="%s%s%s";
    
     private transient ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
     
     public boolean processRunAuditBusinessRules(Document document) {
-        
+
         boolean valid = true;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         S2sOpportunity opp = developmentProposal.getS2sOpportunity();
-        
+
         if (opp!=null && opp.getS2sOppForms()!=null) {
-            for (S2sOppForms oppforms : opp.getS2sOppForms()) {
-                List<QuestionnaireUsage> usages = getProposalDevelopmentS2sQuestionnaireService().getQuestionnaireUsages(oppforms.getS2sOppFormsId().getOppNameSpace(), oppforms.getFormName(), developmentProposal);
-                // if the returned usages list is empty, there are no Questionnaires for that opp form.
-                if (usages.size()>0) {
-                    List<AnswerHeader> headers = proposalDevelopmentS2sQuestionnaireService.getProposalAnswerHeaderForForm(developmentProposal,oppforms.getS2sOppFormsId().getOppNameSpace(),oppforms.getFormName());
-                    for (int i=0;i<headers.size();i++) {
-                        AnswerHeader header = headers.get(i);
-                        if (!header.isCompleted()) {
-                            valid = false;
-                            getProposalS2sAuditErrorsByGroup("s2sQuestionnaireHelper",usages.get(0).getQuestionnaireLabel(),i).add(
-                                    new AuditError(String.format(PROPOSAL_S2S_QUESTIONS_KEY, i), KeyConstants.ERROR_S2S_QUESTIONNAIRE_NOT_COMPLETE,
-                                            Constants.QUESTIONS_PAGE+"."+usages.get(0).getQuestionnaireLabel(), new String[] {usages.get(0).getQuestionnaireLabel()}));
-                        }
-                    }
+            List<AnswerHeader> headers = getProposalDevelopmentS2sQuestionnaireService().getProposalS2sAnswerHeaders(developmentProposal);
+            for (AnswerHeader header : headers) {
+                if (!header.isCompleted()) {
+                    valid = false;
+                    getAuditErrors(header.getLabel()).add(
+                            new AuditError(QUESTIONNAIRE_PAGE_ID + "-" +StringUtils.removePattern(header.getLabel(), "([^0-9a-zA-Z\\-_])"), KeyConstants.ERROR_S2S_QUESTIONNAIRE_NOT_COMPLETE,
+                                    QUESTIONNAIRE_PAGE_ID + "." +QUESTIONNAIRE_PAGE_ID+ "-" + StringUtils.removePattern(header.getLabel(),"([^0-9a-zA-Z\\-_])"), new String[] {header.getLabel()}));
                 }
             }
         }
@@ -77,26 +69,17 @@ public class ProposalDevelopmentS2sQuestionnaireAuditRule extends KcTransactiona
         }
         return proposalDevelopmentS2sQuestionnaireService;
     }
-    
-    
-    /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
-     * to the auditErrorMap.
-     * 
-     * @return List of AuditError instances
-     */
-    @SuppressWarnings("unchecked")
-    private List<AuditError> getProposalS2sAuditErrorsByGroup(String formProperty, String usageLabel, Integer answerHeaderIndex) {
+
+
+    private List<AuditError> getAuditErrors(String sectionName) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String key = String.format( PROPOSAL_S2S_QUESTIONNAIRE_PANEL_KEY, formProperty, usageLabel, answerHeaderIndex );
-        
-        if (!GlobalVariables.getAuditErrorMap().containsKey(key)) {
-           GlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, AUDIT_ERRORS));
+        String clusterKey = QUESTIONNAIRE_PAGE_NAME + "." + sectionName;
+        if (!GlobalVariables.getAuditErrorMap().containsKey(clusterKey)) {
+            GlobalVariables.getAuditErrorMap().put(clusterKey, new AuditCluster(clusterKey, auditErrors, ProposalDevelopmentDataValidationConstants.AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
+            auditErrors = GlobalVariables.getAuditErrorMap().get(clusterKey).getAuditErrorList();
         }
-        
         return auditErrors;
     }
 

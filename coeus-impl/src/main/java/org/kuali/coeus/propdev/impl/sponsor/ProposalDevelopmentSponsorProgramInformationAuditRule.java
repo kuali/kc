@@ -24,18 +24,23 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
 
 /**
  * This class processes audit rules (warnings) for the Sponsor & Program Information related
@@ -44,7 +49,7 @@ import java.util.Map;
 public class ProposalDevelopmentSponsorProgramInformationAuditRule implements DocumentAuditRule { 
     
     private ParameterService parameterService;
-    private BusinessObjectService businessObjectService;
+    private DataObjectService dataObjectService;
     private SubmissionInfoService submissionInfoService;
     
     @Override
@@ -53,46 +58,39 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        
 
         //The Proposal Deadline Date should return a warning during validation for the
         //following conditions: a) if the date entered is older than the current date,
         //or b) if there is no data entered.
         if (proposal.getDeadlineDate() == null) {
-            auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+            getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_WARNINGS).add(new AuditError(DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, SPONSOR_PROGRAM_INFO_PAGE_ID));
         } else if (proposal.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
-            auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_PAST_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+            getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_WARNINGS).add(new AuditError(DEADLINE_DATE_KEY, KeyConstants.WARNING_PAST_DEADLINE_DATE, SPONSOR_PROGRAM_INFO_PAGE_ID));
         }
-        
-        if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("sponsorProgramInformationAuditWarnings", new AuditCluster(Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
-            valid &= false;
-        }
-        
-        auditErrors = new ArrayList<AuditError>();
         
         if (proposal.getS2sOpportunity() != null) {
             if (proposal.getS2sOpportunity().getOpportunityId() != null && proposal.getProgramAnnouncementNumber() != null 
                     && !StringUtils.equalsIgnoreCase(proposal.getS2sOpportunity().getOpportunityId(), proposal.getProgramAnnouncementNumber())) {
                 valid &= false;
-                auditErrors.add(new AuditError(Constants.OPPORTUNITY_ID_KEY, KeyConstants.ERROR_OPPORTUNITY_ID_DIFFER , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+                getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(OPPORTUNITY_ID_KEY, KeyConstants.ERROR_OPPORTUNITY_ID_DIFFER, SPONSOR_PROGRAM_INFO_PAGE_ID));
             }
             if (proposal.getS2sOpportunity().getCfdaNumber() != null && proposal.getCfdaNumber() != null 
                     && !StringUtils.equalsIgnoreCase(proposal.getS2sOpportunity().getCfdaNumber(), proposal.getCfdaNumber())) {
                 valid &= false;
-                auditErrors.add(new AuditError(Constants.CFDA_NUMBER_KEY, KeyConstants.ERROR_CFDA_NUMBER_DIFFER , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+                getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(CFDA_NUMBER_KEY, KeyConstants.ERROR_CFDA_NUMBER_DIFFER, SPONSOR_PROGRAM_INFO_PAGE_ID));
             }
             if (proposal.getProgramAnnouncementTitle() == null 
                     || StringUtils.equalsIgnoreCase(proposal.getProgramAnnouncementTitle().trim(), "")) {
                 valid &= false;
-                auditErrors.add(new AuditError(Constants.OPPORTUNITY_TITLE_KEY, KeyConstants.ERROR_OPPORTUNITY_TITLE_DELETED , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+                getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(OPPORTUNITY_TITLE_KEY, KeyConstants.ERROR_OPPORTUNITY_TITLE_DELETED, SPONSOR_PROGRAM_INFO_PAGE_ID));
             }
             
             String federalIdComesFromAwardStr = null;
             try {
                 federalIdComesFromAwardStr = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
-            } catch (Exception e) { }
+            } catch (Exception e) {
+                throw new RuntimeException("error retrieving FEDERAL_ID_COMES_FROM_CURRENT_AWARD parameter",e);
+            }
             Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null 
                                             && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
             String sponsorAwardNumber = null;
@@ -103,7 +101,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
                     && !(StringUtils.isNotBlank(proposal.getSponsorProposalNumber())
                     || (StringUtils.isNotBlank(sponsorAwardNumber) && federalIdComesFromAward))) {
                 valid = false;
-                auditErrors.add(new AuditError(Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+                getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, SPONSOR_PROGRAM_INFO_PAGE_ID));
             }
             String sponsorProposalNumber = null;
             if (StringUtils.isNotBlank(proposal.getContinuedFrom())) {
@@ -113,30 +111,18 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
                     && StringUtils.isBlank(proposal.getSponsorProposalNumber())
                     && (StringUtils.isBlank(sponsorProposalNumber))) {
                 valid = false;
-                auditErrors.add(new AuditError(Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+                getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, SPONSOR_PROGRAM_INFO_PAGE_ID));
             }            
         }
-        
-        if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("sponsorProgramInformationAuditErrors", new AuditCluster(Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_NAME, auditErrors, Constants.GRANTSGOV_ERRORS));
-        }
-        auditErrors = new ArrayList<AuditError>();
-        
+
         if (!StringUtils.isEmpty(proposal.getPrimeSponsorCode())) {
-            Map<String, String> primaryKeys = new HashMap<String, String>();
-            primaryKeys.put("sponsorCode", proposal.getPrimeSponsorCode());
-            Sponsor sp = (Sponsor) getBusinessObjectService().findByPrimaryKey(Sponsor.class, primaryKeys);
+            Sponsor sp = (Sponsor) getDataObjectService().find(Sponsor.class, proposal.getPrimeSponsorCode());
             if (sp == null) {
-                auditErrors.add(new AuditError(Constants.PRIME_SPONSOR_KEY, KeyConstants.ERROR_EMPTY_PRIME_SPONSOR_ID, 
-                        Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+                getAuditErrors(DETAILS_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(PRIME_SPONSOR_KEY, KeyConstants.ERROR_EMPTY_PRIME_SPONSOR_ID, DETAILS_PAGE_ID));
                 valid &= false;
             }
         }
-        
-        if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("sponsorProgramInformationAuditErrors", new AuditCluster(Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
-            valid &= false;
-        }
+
 
         return valid;
     }
@@ -169,6 +155,20 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
                (proposalTypeCode.equals(proposalTypeCodeResubmission));
     }
 
+
+    private List<AuditError> getAuditErrors(String areaName, String severity) {
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        String clusterKey = areaName;
+        if (!GlobalVariables.getAuditErrorMap().containsKey(clusterKey+severity)) {
+            GlobalVariables.getAuditErrorMap().put(clusterKey+severity, new AuditCluster(clusterKey, auditErrors,severity));
+        }
+        else {
+            auditErrors = GlobalVariables.getAuditErrorMap().get(clusterKey+severity).getAuditErrorList();
+        }
+
+        return auditErrors;
+    }
+
     protected SubmissionInfoService getSubmissionInfoService() {
         if (this.submissionInfoService == null) {
             this.submissionInfoService = KcServiceLocator.getService(SubmissionInfoService.class);
@@ -191,15 +191,15 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         this.parameterService = parameterService;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        if (this.businessObjectService == null) {
-            this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+    public DataObjectService getDataObjectService() {
+        if (this.dataObjectService == null) {
+            this.dataObjectService = KcServiceLocator.getService(DataObjectService.class);
         }
-        return this.businessObjectService;
+        return this.dataObjectService;
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 
 }

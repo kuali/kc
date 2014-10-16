@@ -78,7 +78,7 @@
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Fix It" p:methodToCall="navigateToError"
                       p:navigateToPageId="@{#line.navigateToPageId}" p:onClickScript="dismissDialog('PropDev-DataValidationSection')"
-                      p:successCallback="jQuery(&quot;a[href='#@{#line.navigateToSectionId}_tab']&quot;).click()"
+                      p:successCallback="jQuery(&quot;a[id$='@{#line.navigateToSectionId}_tab']&quot;).click()"
                       p:refreshId="@{#line.navigateToPageId}"/>
             </list>
         </property>
