@@ -1,7 +1,6 @@
 package org.kuali.kra.service.impl;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -74,7 +73,7 @@ public class ProtocolAuthorizationServiceImplTest extends KcIntegrationTestBase 
     /**
      * Test the getAllRolePersons() service method.
      */
-    @Test @Ignore("KCINFR-982")
+    @Test
     public void testGetAllRolePersons() throws Exception {
         ProposalDevelopmentDocument doc = createProposal("Proposal-8", "000001");
 
