@@ -15,6 +15,7 @@ import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
 import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBoLookupableHelperService;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -218,6 +219,23 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 	                + KRADConstants.DOCHANDLER_URL_CHUNK);
 		}
 	}
+
+    /**
+     * Check to see if the copy action should be rendered (must have modify permission).
+     *
+     * @param actionLink link that will be used to return the copy action
+     * @param model lookup form containing the data
+     * @param docId the id of document to check
+     * @throws WorkflowException
+     */
+    public void buildPropDevCopyActionLink(Action actionLink, Object model, String docId) throws WorkflowException {
+        boolean canModifyProposal = getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
+        				(ProposalDevelopmentDocument)(getDocumentService().getByDocumentHeaderId(docId)),
+        				PermissionConstants.MODIFY_PROPOSAL);
+        if (!canModifyProposal) {
+            actionLink.setRender(false);
+        }
+    }
 
 	public KcAuthorizationService getKcAuthorizationService() {
 		return kcAuthorizationService;

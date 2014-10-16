@@ -35,6 +35,7 @@
     <bean id="dataDictionaryService" parent="grlImporter" p:serviceName="dataDictionaryService" />
     <bean id="dateTimeService" parent="grlImporter" p:serviceName="dateTimeService" />
     <bean id="documentService" parent="grlImporter" p:serviceName="documentService" />
+    <bean id="documentDictionaryService" parent="grlImporter" p:serviceName="documentDictionaryService" />
     <bean id="documentTypeService" parent="grlImporter" p:serviceName="rice.kew.documentTypeService" />
     <bean id="encryptionService" parent="grlImporter" p:serviceName="encryptionService" />
     <bean id="identityService" parent="grlImporter" p:serviceName="identityService" />

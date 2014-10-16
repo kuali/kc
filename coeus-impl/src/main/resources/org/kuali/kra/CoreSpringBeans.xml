@@ -1081,6 +1081,10 @@
     <bean id="lookupResultsService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="lookupResultsService" />
     </bean>
+
+    <bean id="documentDictionaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="documentDictionaryService" />
+    </bean>
     
     <bean id="maintenanceDocumentDictionaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="maintenanceDocumentDictionaryService" />
