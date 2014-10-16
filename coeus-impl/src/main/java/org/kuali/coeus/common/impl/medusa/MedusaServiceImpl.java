@@ -102,8 +102,7 @@ public class MedusaServiceImpl implements MedusaService {
             proposal.setNsfCodeBo(getNsfCode(proposal.getNsfCode()));
             curNode.setBo(proposal);
         } else if (StringUtils.equalsIgnoreCase(Constants.DEVELOPMENT_PROPOSAL_MODULE , moduleName)) {
-            DevelopmentProposal devProp = 
-                (DevelopmentProposal) businessObjectService.findByPrimaryKey(DevelopmentProposal.class, getFieldValues("proposalNumber", moduleId));
+            DevelopmentProposal devProp = getDevelopmentProposal(moduleId.toString());
             devProp.setNsfCodeBo(getNsfCode(devProp.getNsfCode()));
             curNode.setBo(devProp);
         } else if (StringUtils.equalsIgnoreCase(Constants.NEGOTIATION_MODULE, moduleName)) {

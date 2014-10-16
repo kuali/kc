@@ -55,10 +55,13 @@ import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -87,6 +90,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private InstitutionalProposalVersioningService institutionalProposalVersioningService;
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
+    
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     
     /**
      * Creates a new pending Institutional Proposal based on given development proposal and budget.
@@ -312,7 +319,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             List<ProposalAdminDetails> details = new ArrayList<ProposalAdminDetails>(businessObjectService.findMatching(ProposalAdminDetails.class,
                     Collections.singletonMap("instProposalId", curProposal.getProposalId())));
             for (ProposalAdminDetails detail : details) {
-            	result.add(businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, detail.getDevProposalNumber()));
+            	result.add(dataObjectService.find(DevelopmentProposal.class, detail.getDevProposalNumber()));
             }
         }
         return result;
@@ -718,5 +725,13 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
     
 }

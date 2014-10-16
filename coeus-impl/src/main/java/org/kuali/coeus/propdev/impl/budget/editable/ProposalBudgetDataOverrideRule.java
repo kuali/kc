@@ -34,6 +34,7 @@ import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValida
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -57,6 +58,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
     private DataDictionaryService dataDictionaryService;
     private ProposalDevelopmentService proposalDevelopmentService;
     private DateTimeService dateTimeService;
+    private DataObjectService dataObjectService;
 
     protected KcPersistenceStructureService getKcPersistenceStructureService (){
         if (kcPersistenceStructureService == null)
@@ -178,12 +180,7 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
             }
         }
         
-      
-        
-        BusinessObjectService boService =getBusinessObjectService();
-        Map<String, String> documentMap = new HashMap<String, String>();
-        documentMap.put("proposalNumber", budgetOverriddenData.getProposalNumber());
-        DevelopmentProposal developmentProposal = boService.findByPrimaryKey(DevelopmentProposal.class, documentMap);
+        DevelopmentProposal developmentProposal = getDataObjectService().find(DevelopmentProposal.class, budgetOverriddenData.getProposalNumber());
         
         Budget finalBudget = developmentProposal.getFinalBudget();
         
@@ -229,4 +226,15 @@ public class ProposalBudgetDataOverrideRule extends KcTransactionalDocumentRuleB
         
         return true;
     }
+    
+	protected DataObjectService getDataObjectService() {
+		if (dataObjectService == null) {
+			dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+		}
+		return dataObjectService;
+	}
+	
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 }

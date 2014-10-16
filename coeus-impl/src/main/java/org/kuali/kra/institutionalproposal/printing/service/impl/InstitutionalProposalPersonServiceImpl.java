@@ -20,7 +20,10 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposalPersonService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +38,10 @@ public class InstitutionalProposalPersonServiceImpl implements
 		InstitutionalProposalPersonService {
 	private static final String PROPOSAL_NUMBER_PARAMETER = "proposalNumber";
 	private BusinessObjectService businessObjectService;
+	
+	@Autowired
+	@Qualifier("dataObjectService")
+	private DataObjectService dataObjectService;
 
 	/**
 	 * This method will return the list of proposal persons if proposal person
@@ -48,10 +55,8 @@ public class InstitutionalProposalPersonServiceImpl implements
 	public List<ProposalPerson> getInvestigatorsFromDevelopmentProposal(
 			String proposalNumber) {
 		List<ProposalPerson> proposalPersonsList = new ArrayList<ProposalPerson>();
-		Map<String, String> proposalPersonMap = new HashMap<String, String>();
-		proposalPersonMap.put(PROPOSAL_NUMBER_PARAMETER, proposalNumber);
-		List<DevelopmentProposal> developmentProposals = (List<DevelopmentProposal>) businessObjectService
-				.findMatching(DevelopmentProposal.class, proposalPersonMap);
+		List<DevelopmentProposal> developmentProposals = (List<DevelopmentProposal>) dataObjectService
+				.find(DevelopmentProposal.class, proposalNumber);
 		if (developmentProposals != null && !developmentProposals.isEmpty()) {
 			DevelopmentProposal developmentProposal = developmentProposals
 					.get(0);
@@ -73,5 +78,13 @@ public class InstitutionalProposalPersonServiceImpl implements
 	public void setBusinessObjectService(
 			BusinessObjectService businessObjectService) {
 		this.businessObjectService = businessObjectService;
+	}
+
+	protected DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
 	}
 }

@@ -32,11 +32,14 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
 
@@ -57,6 +60,10 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     private boolean includeMergeCustomActionUrls;
     private DocumentService documentService;
     private InstitutionalProposalService institutionalProposalService;
+    
+	@Autowired
+	@Qualifier("dataObjectService")
+	private DataObjectService dataObjectService;
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
@@ -263,7 +270,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
                                                                 getFieldValues("instProposalId", instProposal.getProposalId()), "devProposalNumber", true);
         if(proposalAdminDetails.size() > 0) {
             String latestDevelopmentProposalDocNumber = proposalAdminDetails.get(proposalAdminDetails.size() - 1).getDevProposalNumber();
-            DevelopmentProposal devProp = (DevelopmentProposal)businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, latestDevelopmentProposalDocNumber);
+            DevelopmentProposal devProp = (DevelopmentProposal)dataObjectService.find(DevelopmentProposal.class, latestDevelopmentProposalDocNumber);
             devProposals.add(devProp);
         }
         return devProposals;
@@ -320,5 +327,11 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
         this.institutionalProposalService = institutionalProposalService;
     }
+	protected DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 
 }

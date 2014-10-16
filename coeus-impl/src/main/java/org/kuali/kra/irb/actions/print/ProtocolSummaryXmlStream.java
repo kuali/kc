@@ -56,8 +56,11 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryXmlStreamBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.w3.x2001.protocolSummarySchema.*;
 import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument.ProtocolSummary;
 import org.w3.x2001.protocolSummarySchema.ProtocolSummaryDocument.ProtocolSummary.PrintRequirement;
@@ -79,6 +82,10 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
     private BusinessObjectService businessObjectService;
     private InstitutionalProposalService institutionalProposalService;
     private AwardService awardService;
+    
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
 
     @Override
@@ -464,7 +471,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
     }
     
     private String getDevelopmentProposalTitle(String fundingSourceNumber) {
-        DevelopmentProposal developmentProposal = getBusinessObjectService().findBySinglePrimaryKey(DevelopmentProposal.class, fundingSourceNumber);
+        DevelopmentProposal developmentProposal = getDataObjectService().find(DevelopmentProposal.class, fundingSourceNumber);
         
         return developmentProposal == null ? null : developmentProposal.getTitle();
     }
@@ -722,5 +729,13 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
     }
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 
 }

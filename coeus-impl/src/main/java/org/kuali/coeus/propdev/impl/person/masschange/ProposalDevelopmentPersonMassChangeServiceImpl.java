@@ -73,7 +73,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonCh
     }
     
     private List<DevelopmentProposal> getDevelopmentProposals() {
-        return new ArrayList<DevelopmentProposal>(getBusinessObjectService().findAll(DevelopmentProposal.class));
+        return new ArrayList<DevelopmentProposal>(getDataObjectService().findAll(DevelopmentProposal.class).getResults());
     }
     
     private boolean isProposalDevelopmentChangeCandidate(PersonMassChange personMassChange, DevelopmentProposal developmentProposal) {

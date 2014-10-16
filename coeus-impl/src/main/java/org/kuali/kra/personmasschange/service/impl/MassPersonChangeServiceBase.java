@@ -25,6 +25,7 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,6 +41,10 @@ public abstract class MassPersonChangeServiceBase {
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Autowired
     @Qualifier("kcPersonService")
@@ -148,4 +153,12 @@ public abstract class MassPersonChangeServiceBase {
     public void setRolodexService(RolodexService rolodexService) {
         this.rolodexService = rolodexService;
     }
+
+	protected DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 }

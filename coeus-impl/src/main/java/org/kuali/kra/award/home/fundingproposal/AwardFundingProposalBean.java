@@ -29,6 +29,7 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -52,6 +53,8 @@ public class AwardFundingProposalBean implements Serializable {
 
     
     private List<Award> allAwardsForAwardNumber;
+    
+    private DataObjectService dataObjectService;
     
     public AwardFundingProposalBean(AwardForm awardForm) {
         this.awardForm = awardForm;
@@ -314,7 +317,7 @@ public class AwardFundingProposalBean implements Serializable {
                                                                 getFieldValues("instProposalId", instProposal.getProposalId()), "devProposalNumber", true);
         if(proposalAdminDetails.size() > 0) {
             String latestDevelopmentProposalDocNumber = proposalAdminDetails.get(proposalAdminDetails.size() - 1).getDevProposalNumber();
-            DevelopmentProposal devProp = (DevelopmentProposal)getBusinessObjectService().findBySinglePrimaryKey(DevelopmentProposal.class, latestDevelopmentProposalDocNumber);
+            DevelopmentProposal devProp = (DevelopmentProposal)getDataObjectService().find(DevelopmentProposal.class, latestDevelopmentProposalDocNumber);
             devProposals.add(devProp);
         }
         return devProposals;
@@ -398,5 +401,16 @@ public class AwardFundingProposalBean implements Serializable {
     
     protected PermissionService getPermissionService() {
         return KcServiceLocator.getService(PermissionService.class);
-    }    
+    }
+
+	protected DataObjectService getDataObjectService() {
+		if (dataObjectService == null) {
+			dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+		}
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}    
 }
