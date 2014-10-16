@@ -18,7 +18,6 @@ package org.kuali.kra.timeandmoney.document.authorization;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -39,6 +38,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -67,7 +67,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         addIrbAdminToAGroupWithTimeAndMoneyPerm();
         addIacucAdminToTimeAndMoneyRole();
     }
-    
+
     @After
     public void teardown() {
         documentService = null;
@@ -98,84 +98,82 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         String roleName = timeAndMoneyModifier.getName();
         rs.assignGroupToRole(groupId, namespaceCode, roleName, new HashMap<String, String>());
 
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put("roleId", timeAndMoneyModifier.getId());
         fieldValues.put("memberId", timeAndMoneyTestGroup.getId());
         Collection<RoleMemberBo> roleMembers = dataObjectService.findMatching(RoleMemberBo.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
         RoleMemberBo roleMember =  roleMembers.iterator().next();
 
         RoleMemberAttributeDataBo attrData = new RoleMemberAttributeDataBo();
+        attrData.setId("KCTEST1");
         attrData.setAttributeValue("000001");
         attrData.setKimAttributeId("47");
         attrData.setKimTypeId("69");
+        attrData.setObjectId(UUID.randomUUID().toString());
+        attrData.setVersionNumber(0L);
         attrData.setAssignedToId(roleMember.getId());
 
         RoleMemberAttributeDataBo attrDataTwo = new RoleMemberAttributeDataBo();
+        attrDataTwo.setId("KCTEST2");
         attrDataTwo.setAttributeValue("Y");
         attrDataTwo.setKimAttributeId("48");
         attrDataTwo.setKimTypeId("69");
+        attrDataTwo.setObjectId(UUID.randomUUID().toString());
+        attrDataTwo.setVersionNumber(0L);
         attrDataTwo.setAssignedToId(roleMember.getId());
 
         roleMember.getAttributeDetails().add(attrData);
         roleMember.getAttributeDetails().add(attrDataTwo);
         dataObjectService.save(roleMember);
-        dataObjectService.save(attrData);
-        dataObjectService.save(attrDataTwo);
+
     }
     
     private void addIacucAdminToTimeAndMoneyRole() {
         RoleService rs = KcServiceLocator.getService(RoleService.class);
         Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
-        
-        //GroupService gs = KcServiceLocator.getService(GroupService.class);
-        //gs.createGroup(Group.Builder.create("KC-T", "TimeAndMoneyTestGroup", "21").build());
-        
-        /**
-         * Get the group from the database so we have a valid ID
-         */
-        //Group timeAndMoneyTestGroup = gs.getGroupByNamespaceCodeAndName("KC-T", "TimeAndMoneyTestGroup");
-        //gs.addPrincipalToGroup(irbAdmin.getPrincipalId(), timeAndMoneyTestGroup.getId());
-        
-        //String groupId = timeAndMoneyTestGroup.getId();
+
         String namespaceCode = timeAndMoneyModifier.getNamespaceCode();
         String roleName = timeAndMoneyModifier.getName();
-        //rs.assignGroupToRole(groupId, namespaceCode, roleName, new HashMap<String, String>());
         rs.assignPrincipalToRole(iacucAdmin.getPrincipalId(), namespaceCode, roleName, new HashMap<String, String>());
 
 
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put("roleId", timeAndMoneyModifier.getId());
         fieldValues.put("memberId", iacucAdmin.getPrincipalId());
         Collection roleMembers = dataObjectService.findMatching(RoleMemberBo.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
         RoleMemberBo roleMember = (RoleMemberBo) roleMembers.iterator().next();
 
         RoleMemberAttributeDataBo attrData = new RoleMemberAttributeDataBo();
+        attrData.setId("KCTEST3");
         attrData.setAttributeValue("000001");
         attrData.setKimAttributeId("47");
         attrData.setKimTypeId("69");
+        attrData.setObjectId(UUID.randomUUID().toString());
+        attrData.setVersionNumber(0L);
         attrData.setAssignedToId(roleMember.getId());
 
         RoleMemberAttributeDataBo attrDataTwo = new RoleMemberAttributeDataBo();
+        attrDataTwo.setId("KCTEST4");
         attrDataTwo.setAttributeValue("Y");
         attrDataTwo.setKimAttributeId("48");
         attrDataTwo.setKimTypeId("69");
+        attrDataTwo.setObjectId(UUID.randomUUID().toString());
+        attrDataTwo.setVersionNumber(0L);
         attrDataTwo.setAssignedToId(roleMember.getId());
 
         roleMember.getAttributeDetails().add(attrData);
         roleMember.getAttributeDetails().add(attrDataTwo);
         dataObjectService.save(roleMember);
-        dataObjectService.save(attrData);
-        dataObjectService.save(attrDataTwo);
     }
     
-    @Test @Ignore("KCINFR-982")
+    @Test
     public void verifyRoleStuff() {
         RoleService rs = KcServiceLocator.getService(RoleService.class);
         Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
         GroupService gs = KcServiceLocator.getService(GroupService.class);
         Group timeAndMoneyTestGroup = gs.getGroupByNamespaceCodeAndName("KC-T", "TimeAndMoneyTestGroup");
         
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put("roleId", timeAndMoneyModifier.getId());
         fieldValues.put("memberId", timeAndMoneyTestGroup.getId());
         Collection roleMembers = dataObjectService.findMatching(RoleMemberBo.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
@@ -195,15 +193,15 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         assertTrue(foundHierarchFlag);
     }
 
-    @Test  @Ignore("KCINFR-982")
+    @Test
     public void testAddRoleQualificationObjectMapOfStringString() {
-        Map<String, String> roleQual = new HashMap<String, String>();
+        Map<String, String> roleQual = new HashMap<>();
         authorizer.addRoleQualification(timeAndMoneyDocument, roleQual);
         assertNotNull(roleQual.get(KcKimAttributes.UNIT_NUMBER));
     }
 
 
-    @Test  @Ignore("KCINFR-982")
+    @Test
     public void testCanAnnotate() {
         boolean canQuickstart = authorizer.canAnnotate(timeAndMoneyDocument, quickstart);
         boolean canBorst = authorizer.canAnnotate(timeAndMoneyDocument, borst);
@@ -212,31 +210,27 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcIntegrationTestBase {
         assertTrue(canQuickstart);
         assertFalse(canBorst);
         assertTrue(canIacucAdmin);
-        assertTrue(canQuickstart);
+        assertFalse(canIrbAdmin);
     }
 
-    @Test  @Ignore("KCINFR-982")
+    @Test
     public void testCanReload() {
         boolean canQuickstart = authorizer.canReload(timeAndMoneyDocument, quickstart);
-        //boolean canBorst = authorizer.canReload(timeAndMoneyDocument, borst);
         assertTrue(canQuickstart);
-        //assertFalse(canBorst);
     }
 
-    @Test @Ignore("KCINFR-982")
+    @Test
     public void testCanClose() {
         boolean canQuickstart = authorizer.canClose(timeAndMoneyDocument, quickstart);
-        //boolean canBorst = authorizer.canClose(timeAndMoneyDocument, borst);
         assertTrue(canQuickstart);
-        //assertFalse(canBorst);
     }
     
-    @Test  @Ignore("KCINFR-982")
+    @Test
     public void testQuickStartPerm() {
         RoleService rs = KcServiceLocator.getService(RoleService.class);
         Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
         
-        Map fieldValues = new HashMap();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put("roleId", timeAndMoneyModifier.getId());
         fieldValues.put("memberId", quickstart.getPrincipalId());
         Collection roleMembers = dataObjectService.findMatching(RoleMemberBo.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
