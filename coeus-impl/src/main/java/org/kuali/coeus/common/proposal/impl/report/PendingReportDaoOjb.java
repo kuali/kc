@@ -4,12 +4,14 @@ import org.kuali.coeus.common.framework.print.PendingReportBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
  * OJB implementation of PendingReportDao using OJB Report Query (see http://db.apache.org/ojb/docu/guides/query.html#Report+Queries)
  */
+@Component("pendingReportDao")
 public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingReportDao {
 
     public List<PendingReportBean> queryForPendingSupport(String personId) throws WorkflowException {

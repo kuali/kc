@@ -1364,8 +1364,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(PrintConstants.PERSON_ID_KEY, helper.getPersonId());
         reportParameters.put(PrintConstants.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
-        AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentAndPendingSupportReport(
-                PrintConstants.CURRENT_REPORT_TYPE, reportParameters);
+        AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentReport(reportParameters);
         streamToResponse(dataStream.getData(), dataStream.getName(), null, response);
         return null;
     }
@@ -1381,8 +1380,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(PrintConstants.PERSON_ID_KEY, helper.getPersonId());
         reportParameters.put(PrintConstants.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
-        AttachmentDataSource dataStream = currentAndPendingReportService.printCurrentAndPendingSupportReport(
-                PrintConstants.PENDING_REPORT_TYPE, reportParameters);
+        AttachmentDataSource dataStream = currentAndPendingReportService.printPendingReport(reportParameters);
         streamToResponse(dataStream.getData(), dataStream.getName(), null, response);
         return null;
     }

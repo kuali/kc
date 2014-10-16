@@ -48,6 +48,7 @@ import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
@@ -808,5 +809,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public void setProposalHierarchyService(ProposalHierarchyService proposalHierarchyService) {
         this.proposalHierarchyService = proposalHierarchyService;
+    }
+
+    public boolean displayDirectIndierctCosts() {
+        return StringUtils.equals(getParameterService().getParameter(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT,"ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST").getValue(),"1");
     }
 }
