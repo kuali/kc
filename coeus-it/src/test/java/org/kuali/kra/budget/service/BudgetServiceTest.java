@@ -17,7 +17,6 @@ package org.kuali.kra.budget.service;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -101,7 +100,7 @@ public class BudgetServiceTest extends KcIntegrationTestBase {
      * 
      * @throws Exception
      */
-    @Test @Ignore("KCINFR-983")
+    @Test
     public void testCopyBudgetVersion() throws Exception {
         
         ProposalDevelopmentDocument pdDocument = getPersistedProposalDevelopmentDocument();
