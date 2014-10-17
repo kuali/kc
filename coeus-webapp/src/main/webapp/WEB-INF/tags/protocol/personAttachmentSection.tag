@@ -20,6 +20,8 @@
 <%@ attribute name="protocolAttachmentTypeByGroupValuesFinder" required="true" %>
 <%@ attribute name="protocolAttachmentPersonnelAttributes" required="true" type="java.util.Map" %>
 
+<c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
+
 
 <c:choose>
 	<c:when test="${empty KualiForm.document.protocolList[0].protocolPersons[personIndex].personName}">
