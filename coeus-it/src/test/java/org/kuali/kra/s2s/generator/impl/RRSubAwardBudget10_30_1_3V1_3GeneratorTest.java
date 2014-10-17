@@ -227,7 +227,6 @@ public class RRSubAwardBudget10_30_1_3V1_3GeneratorTest extends
 		budgetPeriod.setStartDate(new Date(new Long("1183316613046")));
 		budgetPeriod.setEndDate(new Date(new Long("1214852613046")));
 		budgetPeriod.setBudgetPeriod(1);
-		budgetPeriod.setBudgetId(proposalDevelopmentBudgetExt.getBudgetId());
 		budgetPeriod.setBudget(proposalDevelopmentBudgetExt);
 		budgetPeriods.add(budgetPeriod);
 		proposalDevelopmentBudgetExt.setBudgetPeriods(budgetPeriods);
