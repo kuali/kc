@@ -13,6 +13,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.krad.data.MaterializeOption;
 import org.kuali.rice.krad.data.metadata.DataObjectAttribute;
+import org.kuali.rice.krad.data.metadata.DataObjectRelationship;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -93,6 +94,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
             super.save(form);
             getDataObjectService().wrap(form.getDevelopmentProposal()).materializeReferencedObjects(MaterializeOption.INCLUDE_EAGER_REFS);
 
+            getDisplayReferenceValue(newProposalChangedData,form.getDevelopmentProposal());
             form.setNewProposalChangedData(new ProposalChangedData());
 
             ProposalDevelopmentNotificationContext context =
@@ -110,6 +112,26 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
 
        return getRefreshControllerService().refresh(form);
     }
+
+    protected void getDisplayReferenceValue(ProposalChangedData proposalChangedData, DevelopmentProposal proposal) {
+        String refName = "";
+
+        DataObjectRelationship relationship = getDataObjectService().getMetadataRepository().getMetadata(DevelopmentProposal.class).getRelationshipByLastAttributeInRelationship(proposalChangedData.getAttributeName());
+        if (relationship != null) {
+            refName = relationship.getName();
+        }
+
+        if (StringUtils.isNotEmpty(refName)){
+            try {
+                Object refObject = PropertyUtils.getNestedProperty(proposal,refName);
+                String refDescription = (String) PropertyUtils.getNestedProperty(refObject,"description");
+                proposalChangedData.setDisplayValue(refDescription);
+            } catch (Exception e) {
+                LOG.warn("no description field found on ref object",e);
+            }
+        }
+    }
+
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendOverrideNotification")
     public ModelAndView sendOverrideNotification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
