@@ -395,7 +395,7 @@ public class ProposalDevelopmentSubmitController extends
             generateNewVersionOfOrigIp(proposalDevelopmentForm, isIPProtocolLinkingEnabled);
         } else if (ProposalDevelopmentConstants.ResubmissionOptions.GENERATE_NEW_VERSION_OF_IP.equals(proposalDevelopmentForm.getResubmissionOption())) {
             generateNewVersionIp(proposalDevelopmentForm, isIPProtocolLinkingEnabled);
-        } else if (ProposalDevelopmentConstants.ResubmissionOptions.GENERATE_NEW_IP.equals(proposalDevelopmentForm.getResubmissionOption())) {
+        } else if (null == proposalDevelopmentForm.getResubmissionOption() || ProposalDevelopmentConstants.ResubmissionOptions.GENERATE_NEW_IP.equals(proposalDevelopmentForm.getResubmissionOption())) {
             generateNewIp(proposalDevelopmentForm, isIPProtocolLinkingEnabled);
         } else {
             LOGGER.warn("Invalid resubmission option " + proposalDevelopmentForm.getResubmissionOption());
