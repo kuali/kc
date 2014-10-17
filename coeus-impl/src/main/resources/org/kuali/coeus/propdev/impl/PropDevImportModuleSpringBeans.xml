@@ -27,6 +27,8 @@
                            http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+    <bean id="institutionalProposalService" parent="grlImporter" p:serviceName="institutionalProposalService" />
+    <bean id="specialReviewService" parent="grlImporter" p:serviceName="specialReviewService"/> 
 
     <!-- SYS -->
 

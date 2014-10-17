@@ -16,16 +16,19 @@
 package org.kuali.coeus.common.framework.compliance.core;
 
 import org.kuali.coeus.common.framework.compliance.exemption.SpecialReviewExemption;
+import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 
 /**
  * Runs the rule processing for saving the Special Review links to the Protocol Funding Sources.
  * @param <T> The subclass of Special Review
  */
+@org.kuali.coeus.common.framework.ruleengine.KcBusinessRule("saveSpecialReviewLinkRule")
 public class SaveSpecialReviewLinkRule<T extends SpecialReview<? extends SpecialReviewExemption>> extends SpecialReviewRuleBase<T> 
     implements KcBusinessRule<SaveSpecialReviewLinkEvent<T>> {
     
     @Override
+    @KcEventMethod
     public boolean processRules(SaveSpecialReviewLinkEvent<T> event) {
         return processSaveSpecialReviewLinkEvent(event);
     }

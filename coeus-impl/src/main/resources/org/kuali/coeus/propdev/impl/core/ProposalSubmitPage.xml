@@ -16,6 +16,8 @@
      http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<util:constant id="deleteDocument" static-field="org.kuali.coeus.common.framework.auth.KcAuthConstants.DocumentActions.DELETE_DOCUMENT"/>
+	<util:constant id="submitToS2s" static-field="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_S2S"/>
+	<util:constant id="submitToSponsor" static-field="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_SPONSOR"/>
 	<bean id="PropDev-SubmitPage" parent="PropDev-SubmitPage-parentBean" />
 	<bean id="PropDev-SubmitPage-parentBean" abstract="true"
 		parent="Uif-DocumentPage" p:headerText="Submit">
@@ -61,7 +63,7 @@
                           p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="50"
                     p:link.openInDialog="true" />
                     
-                    <bean parent="Uif-RecallAction" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RECALL]}"  p:order="60">
+                    <bean parent="Uif-RecallAction" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RECALL]}"  p:order="50">
               			<property name="confirmationDialog">
              				<bean id="ConfirmRecallDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for recall?"/>
             			</property>
@@ -69,7 +71,7 @@
            			
 
 
-			   		<bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="70"
+			   		<bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="60"
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}">
 					 	<property name="confirmationDialog">
 			          		<bean id="ProposalCancelDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to cancel ?"/>
@@ -78,14 +80,22 @@
 
 					<bean parent="Uif-Space"/><bean parent="Uif-Space"/>
 					 
-					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="80"
+					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="70"
 					 	p:render="@{#actionFlags[#{deleteDocument}]}">
 					 	<property name="confirmationDialog">
 			          		<bean id="ProposalDeleteDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete ?"/>
 			          	</property>
-					 </bean>						
+					 </bean>			
+					 
+					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to S2S" p:methodToCall="submitToS2s" p:order="80" 
+					 	p:render="@{#actionFlags[#{submitToS2s}]}" p:successCallback="jQuery('#PropDev-OpportunityPage-SubmissionDetailsSection_tab').click()">					 	
+					</bean>		
+					
+					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to Sponsor" p:methodToCall="submitToSponsor" p:order="90" 
+					 	p:render="@{#actionFlags[#{submitToSponsor}]}">					 	
+					</bean>	
 						
-					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="90">
+					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="100">
 					  <property name="menuItems">
 					    <list>
 					      <bean parent="Uif-MenuAction" p:actionLabel="Send Notifications" p:order="10" p:refreshId="Kc-SendNotification-Wizard" p:methodToCall="prepareNotificationWizard"
@@ -341,6 +351,69 @@
             <null/>
         </property>
     </bean>
+    <bean id="PropDev-Resumbit-OptionsSection" parent="PropDev-Resumbit-OptionsSection-parentBean" />
+	<bean id="PropDev-Resumbit-OptionsSection-parentBean" abstract="true" parent="Uif-DialogGroup" p:resetDataOnRefresh="true"
+            p:dialogCssClass="modal-lg" p:header.headerText="Resubmission Options"   p:readOnly="false"
+            p:onHideDialogScript="jQuery('#PropDev-Resumbit-OptionsSection').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropDev-Resumbit-OptionsSection'));});">
+		<property name="items">
+			   <list>
+				    <bean id="PropDev-Resumbit-OptionsRadio" parent="Uif-InputField" p:required="true"
+				     p:propertyName="resubmissionOption"                 
+				     p:order="10" >
+				     <property name="control">
+					      <bean parent="Uif-VerticalRadioControl">
+					         <property name="options">
+		                       <list>
+			                        <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_VERSION_OF_IP}" p:value="Generate a new version of Institutional Proposal" />
+	                                <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_IP}" p:value="Generate a new Institutional Proposal" />
+	                                <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).DO_NOT_GENERATE_NEW_IP}" p:value="Do not generate a new Institutional Proposal or Institutional Proposal version" />
+		                      </list>
+				        	</property>
+					     	<property name="propertyReplacers">
+	            				<list>
+	                				<bean parent="Uif-ConditionalBeanPropertyReplacer"
+	                      				p:propertyName="options"
+	                      				p:condition="@{!#empty(document.developmentProposal.continuedFrom)}">
+					                    <property name="replacement">
+					                    	<bean parent="Uif-VerticalRadioControl">
+					                        	<property name="options">
+						                            <list>
+											            <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_VERSION_OF_ORIGINAL_IP}" p:value="Generate a new version of Original Institutional Proposal (@{document.developmentProposal.continuedFrom})" />
+								                        <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_VERSION_OF_IP}" p:value="Generate a new version of Institutional Proposal" />
+						                                <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_IP}" p:value="Generate a new Institutional Proposal" />
+						                                <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).DO_NOT_GENERATE_NEW_IP}" p:value="Do not generate a new Institutional Proposal or Institutional Proposal version" />						                           
+						                           </list>
+					                            </property>
+					                        </bean>
+	                    				</property>
+	                				</bean>
+	            				</list>
+        					</property>
+   						</bean>
+				     </property>
+	    			</bean>
+	    			<bean id="PropDev-Resumbit-Options-InstitutionalProposalToVersion" 
+					   parent="Uif-InputField" p:propertyName="institutionalProposalToVersion"
+					  p:progressiveRender="@{resubmissionOption == '#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_VERSION_OF_IP}'}" p:fieldLabel.labelText="Institutional Proposal To Version">
+					  	<property name="quickfinder">
+						   <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"
+						    p:returnByScript="true" p:hideCriteriaOnSearch="true"  p:fieldConversions="proposalNumber:institutionalProposalToVersion"/>
+						</property>
+					 </bean>
+    			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-DialogFooter">
+				<property name="items">
+					<list>
+						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:methodToCall="proceed" p:order="10" p:successCallback="dismissDialog('PropDev-Resumbit-OptionsSection');" p:performClientSideValidation="true"/>					 	
+						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
+						
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
 
     <bean id="PropDev-SubmitPage-Hierarchy" parent="PropDev-SubmitPage-Hierarchy-parentBean"/>
     <bean id="PropDev-SubmitPage-Hierarchy-parentBean" abstract="true" parent="Uif-StackedCollectionSection"

@@ -47,6 +47,7 @@ import org.kuali.coeus.propdev.impl.location.OrganizationAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.uif.component.Component;
@@ -99,12 +100,24 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
 
     private AnswerHeader updateAnswerHeader;
+
+    /* These 2 properties are used for autogenerating an institutional proposal for a resubmission */
+    private String resubmissionOption;
+    private String institutionalProposalToVersion;
+
+
+
     private Map<String, Boolean> personEditableFields;
+    
+    private transient boolean grantsGovSubmitFlag;
+    private transient boolean showSubmissionDetails;
 
     @SessionTransient
     private Tree<Object, String> medusaTree;
     
     private NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper;
+    
+    private List<String> unitRulesMessages = new ArrayList<String>();
 
 
     public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
@@ -538,4 +551,61 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setReportHelper(ReportHelper reportHelper) {
         this.reportHelper = reportHelper;
     }
+
+    public String getResubmissionOption() {
+		return resubmissionOption;
+	}
+
+	public void setResubmissionOption(String resubmissionOption) {
+		this.resubmissionOption = resubmissionOption;
+	}
+
+	public String getInstitutionalProposalToVersion() {
+		return institutionalProposalToVersion;
+	}
+
+	public void setInstitutionalProposalToVersion(
+			String institutionalProposalToVersion) {
+		this.institutionalProposalToVersion = institutionalProposalToVersion;
+	}
+
+	public List<String> getUnitRulesMessages() {
+		return unitRulesMessages;
+	}
+
+	public void setUnitRulesMessages(List<String> unitRulesMessages) {
+		this.unitRulesMessages = unitRulesMessages;
+	}
+    public boolean isUnitRulesErrorsExist() {
+        return getUnitRulesErrors().size() > 0;
+    }
+    public List<String> getUnitRulesErrors() {
+        return getUnitRulesMessages(KcKrmsConstants.MESSAGE_TYPE_ERROR);
+    }
+    protected List<String> getUnitRulesMessages(String messageType) {
+        List<String> messages = new ArrayList<String>();
+        for (String message : this.unitRulesMessages) {
+            if (StringUtils.substringBefore(message, KcKrmsConstants.MESSAGE_SEPARATOR).equals(messageType)) {
+                messages.add(StringUtils.substringAfter(message, KcKrmsConstants.MESSAGE_SEPARATOR));
+            }
+        }
+        return messages;
+    }
+
+	public boolean isGrantsGovSubmitFlag() {
+		return grantsGovSubmitFlag;
+	}
+
+	public void setGrantsGovSubmitFlag(boolean grantsGovSubmitFlag) {
+		this.grantsGovSubmitFlag = grantsGovSubmitFlag;
+	}
+
+	public boolean isShowSubmissionDetails() {
+		return showSubmissionDetails;
+	}
+
+	public void setShowSubmissionDetails(boolean showSubmissionDetails) {
+		this.showSubmissionDetails = showSubmissionDetails;
+	}
+
 }

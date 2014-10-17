@@ -6,6 +6,7 @@ import java.util.Set;
 import org.kuali.coeus.common.framework.auth.KcAuthConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocumentViewPresentationControllerBase;
 import org.kuali.rice.krad.uif.view.View;
@@ -34,11 +35,36 @@ public class ProposalDevelopmentDocumentViewPresentationController extends Trans
 		if(canDeleteDocument(((DocumentFormBase) model).getDocument())) {
 			documentActions.add(KcAuthConstants.DocumentActions.DELETE_DOCUMENT);
 		}
+		
+		if(canSubmitToS2S(((DocumentFormBase) model).getDocument())) {
+			documentActions.add(ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_S2S);
+		}
+		
+		if(canSubmitToSponsor(((DocumentFormBase) model).getDocument())) {
+			documentActions.add(ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_SPONSOR);
+		}
 		return documentActions;
 	}
 	
 	public boolean canDeleteDocument(Document doc) {
 		return ! getKcWorkflowService().isInWorkflow(doc);
+	}
+	
+	public boolean canSubmitToS2S(Document doc) {
+		 boolean canSubmitToS2s =  doc.getDocumentHeader().getWorkflowDocument().isProcessed() || doc.getDocumentHeader().getWorkflowDocument().isFinal() || 
+				 					doc.getDocumentHeader().getWorkflowDocument().isEnroute(); 
+		 DevelopmentProposal developmentProposal =  ((ProposalDevelopmentDocument)doc).getDevelopmentProposal();
+		 canSubmitToS2s &= developmentProposal.getS2sOpportunity() != null && 
+				 		(developmentProposal.getS2sAppSubmission() == null || developmentProposal.getS2sAppSubmission().size() == 0);
+		 return canSubmitToS2s;
+	}
+	
+	public boolean canSubmitToSponsor(Document doc) {
+		 boolean canSubmitToSponsor =  doc.getDocumentHeader().getWorkflowDocument().isProcessed() || doc.getDocumentHeader().getWorkflowDocument().isFinal() || 
+										doc.getDocumentHeader().getWorkflowDocument().isEnroute(); 
+		 
+		 canSubmitToSponsor &= ! ((ProposalDevelopmentDocument)doc).getDevelopmentProposal().getSubmitFlag();
+		 return canSubmitToSponsor;
 	}
 
 	public KcWorkflowService getKcWorkflowService() {
