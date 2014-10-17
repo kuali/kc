@@ -140,7 +140,7 @@
 	<bean id="PropDev-OtherOrganizationsPage-Details" parent="PropDev-OtherOrganizationsPage-Details-parentBean" />
 	<bean id="PropDev-OtherOrganizationsPage-Details-parentBean" abstract="true"
 		parent="Uif-StackedCollectionSection" p:headerText=""  
-		p:propertyName="document.developmentProposal.proposalSites"
+		p:propertyName="document.developmentProposal.otherOrganizations"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.ProposalSite"
 		p:renderAddLine="false">
 		<property name="layoutManager.pagerWidget">
@@ -156,14 +156,14 @@
 		</property>		
 		<property name="items">
 			<list>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="Organization" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}" >
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Organization">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="organization.organizationName"	p:order="10" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}" p:label=" " />
+                            <bean parent="Uif-DataField" p:propertyName="organization.organizationName"	p:order="10" p:label=" " />
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField"  p:order="30" p:propertyName="organization.address" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_OTHER_ORGANIZATION}"/>
+                <bean parent="Uif-DataField"  p:order="30" p:propertyName="organization.address" />
 			</list>
 		</property>
 		<property name="lineActions">
@@ -177,7 +177,7 @@
         </property>	
 		<property name="subCollections">
 			<list>
-				<bean parent="PropDev-CongressionalDistricts-SubSection" p:render="@{#line != null and #line.locationTypeCode == #line.PROPOSAL_SITE_OTHER_ORGANIZATION}" p:order="10" />
+				<bean parent="PropDev-CongressionalDistricts-SubSection" p:order="10" />
 			</list>
 		</property>
 	</bean>
@@ -196,7 +196,7 @@
     <bean id="PropDev-PerformanceSitesPage-Details" parent="PropDev-PerformanceSitesPage-Details-parentBean" />
     <bean id="PropDev-PerformanceSitesPage-Details-parentBean" abstract="true"
           parent="Uif-StackedCollectionSection" p:headerText=""
-          p:propertyName="document.developmentProposal.proposalSites"
+          p:propertyName="document.developmentProposal.performanceSites"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.location.ProposalSite"
           p:renderAddLine="false">
         <property name="layoutManager.pagerWidget">
@@ -212,12 +212,12 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="rolodex.organization"	p:order="10" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
-                <bean parent="Uif-DataField" p:propertyName="rolodex.city"	p:order="20" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
-                <bean parent="Uif-DataField" p:propertyName="rolodex.state"	p:order="30" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
-                <bean parent="Uif-DataField" p:propertyName="rolodex.addressLine1"	p:order="40" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
-                <bean parent="Uif-DataField" p:propertyName="rolodex.addressLine2"	p:order="50" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
-                <bean parent="Uif-DataField" p:propertyName="rolodex.postalCode"	p:order="60" p:render="@{#lp.locationTypeCode==#lp.PROPOSAL_SITE_PERFORMANCE_SITE}"  />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.organization"	p:order="10" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.city"	p:order="20" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.state"	p:order="30" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.addressLine1"	p:order="40" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.addressLine2"	p:order="50" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.postalCode"	p:order="60" />
             </list>
         </property>
         <property name="lineActions">
@@ -231,7 +231,7 @@
         </property>
         <property name="subCollections">
             <list>
-                <bean parent="PropDev-CongressionalDistricts-SubSection" p:render="@{#line != null and #line.locationTypeCode == #line.PROPOSAL_SITE_PERFORMANCE_SITE}" p:order="10" />
+                <bean parent="PropDev-CongressionalDistricts-SubSection" p:order="10" />
             </list>
         </property>
     </bean>
@@ -258,6 +258,15 @@
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="PropDev-CongressionalDistricts-BoxItem" />
         </property>
+        <property name="lineActions">
+          <list>
+            <bean parent="Uif-DeleteLineAction-IconOnly">
+                <property name="confirmationDialog">
+                    <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete this Congressional District?"/>
+                </property>
+            </bean>
+          </list>
+        </property>
     </bean>
 
     <bean id="PropDev-CongressionalDistricts-SubSection" parent="PropDev-CongressionalDistricts-SubSection-parentBean" />
@@ -280,6 +289,15 @@
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="PropDev-CongressionalDistricts-BoxItem" />
         </property>
+        <property name="lineActions">
+          <list>
+            <bean parent="Uif-DeleteLineAction-IconOnly">
+                <property name="confirmationDialog">
+                    <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete this Congressional District?"/>
+                </property>
+            </bean>
+          </list>
+        </property>
     </bean>
 
 
@@ -290,19 +308,6 @@
         </property>
         <property name="header">
             <bean parent="Uif-HeaderFour">
-                <property name="rightGroup">
-                    <bean parent="Uif-VerticalBoxGroup">
-                        <property name="items">
-                            <list>
-                                <bean parent="Uif-DeleteLineAction-IconOnly">
-                                    <property name="confirmationDialog">
-                                        <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete this Congressional District?"/>
-                                    </property>
-                                </bean>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
             </bean>
         </property>
     </bean>
