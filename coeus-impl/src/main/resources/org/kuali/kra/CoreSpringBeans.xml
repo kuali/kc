@@ -853,6 +853,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProtocolSubmissionQualifierTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProtocolSubmissionStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProtocolSubmissionTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/docs/ProtocolTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/docs/ProtocolUnitMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/questionnaire/impl/question/QuestionCategoryMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/questionnaire/impl/question/QuestionMaintenanceDocument.xml</value>
