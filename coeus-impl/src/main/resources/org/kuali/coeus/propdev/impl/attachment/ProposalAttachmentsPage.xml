@@ -428,14 +428,13 @@
             <list>
                 <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareNote"
                       p:order="10"/>
-                <bean parent="PropDev-AttachmentPage-DeleteButton" p:order="20"/>
             </list>
         </property>
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:label="Author" p:render="@{!#isAddLine}"
-                      p:messageText="@{#line.authorUniversal.principalName} [color=grey](@{#ViewHelper.getDateUploadedFormatted(#line.notePostedTimestamp)})[/color]"/>
-                <bean parent="Uif-InputField" p:propertyName="noteTopicText" p:fieldLabel.labelText="Topic" p:readOnly="@{!#isAddLine}"/>
+                      p:messageText="@{#line.authorUniversal.name} [color=grey](@{#ViewHelper.getDateUploadedFormatted(#line.notePostedTimestamp)})[/color]"/>
+                <bean parent="Uif-InputField" p:propertyName="noteTopicText" p:required="true" p:fieldLabel.labelText="Topic" p:readOnly="@{!#isAddLine}"/>
                 <bean parent="Uif-InputField" p:propertyName="noteText" p:required="true" p:fieldLabel.labelText="Text" p:readOnly="@{!#isAddLine}"/>
             </list>
         </property>
@@ -445,14 +444,14 @@
     <bean id="PropDev-AttachmentsPage-NoteDetails-parentBean" abstract="true" parent="PropDev-AttachmentPage-DetailsDialog">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="note.noteTopicText" p:fieldLabel.labelText="Topic" />
+                <bean parent="Uif-InputField" p:propertyName="note.noteTopicText" p:required="true" p:fieldLabel.labelText="Topic" />
                 <bean parent="Uif-InputField" p:propertyName="note.noteText" p:required="true" p:fieldLabel.labelText="Text"/>
             </list>
         </property>
         <property name="footer.items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveNote"
-                      p:dialogDismissOption="REQUEST" p:order="10"/>
+                      p:dialogDismissOption="REQUEST" p:order="10" p:performClientSideValidation="true"/>
             </list>
         </property>
     </bean>
