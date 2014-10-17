@@ -631,7 +631,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     @Override
     @SuppressWarnings("unchecked")
     public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber) {
-        BusinessObjectService businessObjectService = getBusinessObjectService();
         List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
         List<Award> awardVersions = findObjectsWithSingleKey(Award.class, "awardNumber", awardNumber);
         for (Award award : awardVersions) {
@@ -646,7 +645,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                         for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
                             String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
                             DevelopmentProposal proposalDevelopment = 
-                            		businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, developmentProposalNumber);
+                            		getDataObjectService().find(DevelopmentProposal.class, developmentProposalNumber);
                             ProposalDevelopmentBudgetExt budget = proposalDevelopment.getFinalBudget();
                             //if this result set is being used by @see org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl
                             //we need to populate these additional fields so always populate them.

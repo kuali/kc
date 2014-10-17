@@ -15,27 +15,30 @@
  */
 package org.kuali.kra.award.budget;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.impl.BusinessObjectServiceImpl;
+import org.kuali.rice.krad.data.DataObjectService;
 
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
 public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
 
+	protected Mockery context;
     protected AwardBudgetService awardBudgetService;
     protected String testAwardNumber = "000000-00000";
     protected Long awardId = 1L;
@@ -47,7 +50,7 @@ public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() {
-        
+        context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
     }
     
     @Test
@@ -57,7 +60,23 @@ public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
                 return mockedFindObjectsWithSingleKey(clazz, key, value);
             }
         };
-        ((AwardBudgetServiceImpl)awardBudgetService).setBusinessObjectService(new MyBOService());
+        
+        final DevelopmentProposal temp = new DevelopmentProposal();
+        ProposalDevelopmentDocument doc = new ProposalDevelopmentDocument();
+        doc.setDocumentNumber(devPropDocNumber);
+        ProposalDevelopmentBudgetExt temp2 = new ProposalDevelopmentBudgetExt();
+        temp2.add(new BudgetPeriod());
+        temp2.add(new BudgetPeriod());
+        temp.setFinalBudget(temp2);
+        temp.setProposalDocument(doc);
+        
+        final DataObjectService doService = context.mock(DataObjectService.class);
+        context.checking(new Expectations() {{
+            one(doService).find(DevelopmentProposal.class, devProposalNumber);
+            will(returnValue(temp));
+        }});
+        ((AwardBudgetServiceImpl)awardBudgetService).setDataObjectService(doService);
+        
         List<BudgetPeriod> periods = awardBudgetService.findBudgetPeriodsFromLinkedProposal(testAwardNumber);
         assertTrue(periods.size() == 2);
         assertEquals(proposalNumber, periods.get(0).getInstitutionalProposalNumber());
@@ -96,33 +115,5 @@ public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
             result.add(temp);
         }
         return result;
-    }
-    
-    class MyBOService extends BusinessObjectServiceImpl {
-        public MyBOService() { }
-        
-        @Override
-        public <T extends BusinessObject> T findBySinglePrimaryKey(Class<T> clazz, Object value) {
-            if (clazz == DevelopmentProposal.class) {
-                assertEquals(devProposalNumber, value);
-                DevelopmentProposal temp = new DevelopmentProposal();
-                ProposalDevelopmentDocument doc = new ProposalDevelopmentDocument();
-                doc.setDocumentNumber(devPropDocNumber);
-                ProposalDevelopmentBudgetExt temp2 = new ProposalDevelopmentBudgetExt();
-                temp2.add(new BudgetPeriod());
-                temp2.add(new BudgetPeriod());
-                temp.setFinalBudget(temp2);
-                temp.setProposalDocument(doc);
-                return (T) temp;
-            } else if (clazz == ProposalDevelopmentBudgetExt.class) {
-                assertEquals(budgetId, value);
-                ProposalDevelopmentBudgetExt temp = new ProposalDevelopmentBudgetExt();
-                temp.add(new BudgetPeriod());
-                temp.add(new BudgetPeriod());
-                return (T) temp;
-            } else {
-                return null;
-            }
-        }
     }
 }
