@@ -943,7 +943,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         result.setEndDate(childPeriod.getEndDate());
         result.setBudgetPeriod(parentBudget.getBudgetPeriods().get(priorPeriodIndex).getBudgetPeriod()+1);
         result.setBudget(parentBudget);
-        result.setBudgetId(parentBudget.getBudgetId());
+
         getBudgetSummaryService().addBudgetPeriod(parentBudget, result);
         return result;
     }

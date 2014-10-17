@@ -21,6 +21,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -397,7 +398,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         final DevelopmentProposal developmentProposal = proposalDocument.getDevelopmentProposal();
         final String proposalNumber = developmentProposal.getProposalNumber();
 
-        cleanupBudgetRates(developmentProposal);
+        cleanupBudgetObjects(developmentProposal);
         getDataObjectService().deleteMatching(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("developmentProposal.proposalNumber", proposalNumber)).build());
         developmentProposal.setBudgets(new ArrayList<ProposalDevelopmentBudgetExt>());
         developmentProposal.setFinalBudget(null);
@@ -411,10 +412,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     /**
-     * BudgetRate and BudgetLaRate will not cascade delete for some reason.  Manually cleaning them up here to avoid
+     * BudgetRate, BudgetLaRate, BudgetPeriods will not cascade delete for some reason.  Manually cleaning them up here to avoid
      * a constraint violation normally JPA's orphanRemoval should automatically take care of these deletes
      */
-    protected void cleanupBudgetRates(DevelopmentProposal developmentProposal) {
+    protected void cleanupBudgetObjects(DevelopmentProposal developmentProposal) {
         final Collection<Long> budgetIds = CollectionUtils.collect(developmentProposal.getBudgets(), new Transformer<ProposalDevelopmentBudgetExt, Long>() {
             @Override
             public Long transform(ProposalDevelopmentBudgetExt input) {
@@ -429,6 +430,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         if (!budgetIds.isEmpty()) {
             getDataObjectService().deleteMatching(BudgetRate.class, QueryByCriteria.Builder.fromPredicates(in("budgetId", budgetIds)));
             getDataObjectService().deleteMatching(BudgetLaRate.class, QueryByCriteria.Builder.fromPredicates(in("budgetId", budgetIds)));
+            getDataObjectService().deleteMatching(BudgetPeriod.class, QueryByCriteria.Builder.fromPredicates(in("budget.budgetId", budgetIds)));
         }
     }
 
