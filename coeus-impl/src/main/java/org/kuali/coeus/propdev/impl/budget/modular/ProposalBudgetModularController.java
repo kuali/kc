@@ -38,9 +38,7 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
 
     @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-ModularPage"})
     public ModelAndView navigateToModular(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-
         Budget budget = form.getBudget();
-        int index = 0;
         for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()){
             if (budgetPeriod.getBudgetModular() == null)
                 budgetModularService.generateModularPeriod(budgetPeriod);
@@ -48,6 +46,28 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
         return super.navigate(form);
     }
 
+    @MethodAccessible
+    @RequestMapping(value = "/proposalBudget", params={"methodToCall=synchModular"})
+    public ModelAndView synchModular (@ModelAttribute("KualiForm") ProposalBudgetForm form)
+            throws Exception{
+        Budget budget = form.getBudget();
+        budgetModularService.synchModularBudget(budget);
+      //do I need this
+        budgetModularService.generateModularSummary(budget);
+        return getRefreshControllerService().refresh(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(value = "/proposalBudget", params={"methodToCall=recalculateModular"})
+    public ModelAndView recalculateModular (@ModelAttribute("KualiForm") ProposalBudgetForm form)
+            throws Exception{
+        Budget budget = form.getBudget();
+        for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()){
+                budgetModularService.generateModularPeriod(budgetPeriod);
+        }
+        budgetModularService.generateModularSummary(budget);
+        return getRefreshControllerService().refresh(form);
+    }
     public BudgetModularService getBudgetModularService() {
         return budgetModularService;
     }
