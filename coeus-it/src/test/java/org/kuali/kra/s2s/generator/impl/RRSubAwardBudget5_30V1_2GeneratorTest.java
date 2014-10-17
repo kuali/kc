@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.junit.Assert;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
@@ -218,6 +219,18 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 		proposalDevelopmentBudgetExt.setOhRateClassCode("1");
 		proposalDevelopmentBudgetExt.setModularBudgetFlag(false);
 		proposalDevelopmentBudgetExt.setUrRateClassCode("1");
+		
+		List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
+		BudgetPeriod budgetPeriod = new BudgetPeriod();
+		budgetPeriod.setBudgetPeriodId(1L);
+		budgetPeriod.setStartDate(new Date(new Long("1183316613046")));
+		budgetPeriod.setEndDate(new Date(new Long("1214852613046")));
+		budgetPeriod.setBudgetPeriod(1);
+		budgetPeriod.setBudgetId(proposalDevelopmentBudgetExt.getBudgetId());
+		budgetPeriod.setBudget(proposalDevelopmentBudgetExt);
+		budgetPeriods.add(budgetPeriod);
+		proposalDevelopmentBudgetExt.setBudgetPeriods(budgetPeriods);
+		
 		List<ProposalDevelopmentBudgetExt> proposalDevelopmentBudgetExtList = new ArrayList<ProposalDevelopmentBudgetExt>();
 		proposalDevelopmentBudgetExtList.add(proposalDevelopmentBudgetExt);
 		document.getDevelopmentProposal().setBudgets(
