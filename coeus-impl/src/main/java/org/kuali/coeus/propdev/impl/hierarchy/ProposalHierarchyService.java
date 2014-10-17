@@ -64,7 +64,7 @@ public interface ProposalHierarchyService {
      * @return the proposal number of the new hierarchy
      * @throws ProposalHierarchyException if the proposal is already a member of a hierarchy
      */
-    public String createHierarchy(DevelopmentProposal initialChild) throws ProposalHierarchyException;
+    public String createHierarchy(DevelopmentProposal initialChild, String userId) throws ProposalHierarchyException;
 
     /**
      * This method links a proposal to a Hierarchy.

@@ -43,6 +43,7 @@ public interface ProposalHierarchyKeyConstants {
     public static final String ERROR_PROPOSAL_DOES_NOT_EXIST = "error.hierarchy.proposal.not.found";
     public static final String ERROR_PROPOSAL_NOT_HIERARCHY_PARENT = "error.hierarchy.proposal.not.hierarchy.parent";
     public static final String ERROR_NOT_HIERARCHY_CHILD = "error.hierarchy.proposal.not.hierarchy.child";
+    public static final String ERROR_DIFFERENT_SPONSORS = "error.child.and.parent.have.different.sponsors";
 
     public static final String FIELD_GENERIC = "newHierarchyProposal.x";
     public static final String FIELD_PARENT_NUMBER = "newHierarchyProposalNumber";

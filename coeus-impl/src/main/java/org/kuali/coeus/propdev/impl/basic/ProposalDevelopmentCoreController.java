@@ -11,6 +11,7 @@ import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorWarningDto;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
@@ -36,8 +37,11 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 	@Autowired
 	@Qualifier("proposalHierarchyService")
 	ProposalHierarchyService proposalHierarchyService;
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
-	public ProposalHierarchyService getProposalHierarchyService() {
+    public ProposalHierarchyService getProposalHierarchyService() {
 		if (proposalHierarchyService == null) {
 			proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
 		}
@@ -49,8 +53,15 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 		this.proposalHierarchyService = proposalHierarchyService;
 	}
 
-	
-	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
 		return getTransactionalDocumentControllerService().start(form);
@@ -203,7 +214,8 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
          List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateChildCandidate(initialChildProposal);
 
          if (!displayErrors(errors)) {
-            String hierarchyProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal);
+             String userId = globalVariableService.getUserSession().getPrincipalId();
+             String hierarchyProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal, userId);
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_CREATE_SUCCESS, new String[]{hierarchyProposalNumber});
          }
         return getModelAndViewService().getModelAndView(form);
@@ -214,8 +226,11 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
     public ModelAndView syncAllHierarchy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentDocument hierarchyProposalDoc = form.getProposalDevelopmentDocument();
-        getProposalHierarchyService().synchronizeAllChildren(hierarchyProposalDoc);
-        displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
+        List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateParent(hierarchyProposalDoc.getDevelopmentProposal());
+        if (!displayErrors(errors)) {
+            getProposalHierarchyService().synchronizeAllChildren(hierarchyProposalDoc);
+            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
+        }
         return getModelAndViewService().getModelAndView(form);
     }
 
@@ -253,12 +268,8 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
             errors.addAll(getProposalHierarchyService().validateChildCandidate(newChildProposal));
             errors.addAll(getProposalHierarchyService().validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal, true));
             if (!displayErrors(errors)) {
-                try {
-                    getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
-                    displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{hierarchyProposal.getProposalNumber(), newChildProposal.getProposalNumber()});
-                } catch (Exception e) {
-
-                }
+                getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
+                displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{hierarchyProposal.getProposalNumber(), newChildProposal.getProposalNumber()});
             }
 
             return getModelAndViewService().getModelAndView(form);
@@ -268,18 +279,12 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
     public ModelAndView hierarchyActionCanceled(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
     	return getNavigationControllerService().back(form);
-    	
     }
 
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=syncToHierarchyParent")
     public ModelAndView syncToHierarchyParent(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         DevelopmentProposal childProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
-
-        // need to add confirmation question here..
-        //if (GlobalVariables.getMessageMap().containsMessageKey(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM)) {
-        //    return doEndDateConfirmation(mapping, form, request, response, "syncToHierarchyParent", "syncToHierarchyParentConfirm");
-        //}
         DevelopmentProposal hierarchy = getProposalHierarchyService().getDevelopmentProposal(childProposal.getHierarchyParentProposalNumber());
         List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateChildForSync(childProposal, hierarchy, false);
         if (!displayErrors(errors)) {

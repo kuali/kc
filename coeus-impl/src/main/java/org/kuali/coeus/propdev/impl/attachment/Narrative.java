@@ -91,7 +91,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
-    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH})
     @JoinColumn(name = "NARRATIVE_TYPE_CODE", referencedColumnName = "NARRATIVE_TYPE_CODE", insertable = false, updatable = false)
     private NarrativeType narrativeType;
 

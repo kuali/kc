@@ -118,7 +118,8 @@ public class ProposalHierarcyActionHelper {
         if (validateChildCandidate(initialChildProposal)) {
             try {
                 MessageMap messageMap = GlobalVariables.getMessageMap();
-                String parentProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal);
+                String userId = GlobalVariables.getUserSession().getPrincipalId();
+                String parentProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal, userId);
                 if (GlobalVariables.getMessageMap() != messageMap) {
                     GlobalVariables.getMessageMap().merge(messageMap);
                 }
@@ -147,7 +148,6 @@ public class ProposalHierarcyActionHelper {
                 try {
 
                     getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
-                  //  GlobalVariables.getMessageMap().getMessageList().add(MESSAGE_LINK_SUCCESS, newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber());
                 }
                 catch (ProposalHierarchyException e) {
                     doUnexpectedError(e, FIELD_GENERIC, true);

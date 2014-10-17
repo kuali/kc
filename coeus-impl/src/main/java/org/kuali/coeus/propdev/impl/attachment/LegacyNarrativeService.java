@@ -70,4 +70,8 @@ public interface LegacyNarrativeService {
     
     public void prepareNarrative(ProposalDevelopmentDocument document, Narrative narrative);
 
+    public boolean doesProposalHaveNarrativeType(DevelopmentProposal proposal, NarrativeType narrativeType);
+
+    public Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument);
+
     }
