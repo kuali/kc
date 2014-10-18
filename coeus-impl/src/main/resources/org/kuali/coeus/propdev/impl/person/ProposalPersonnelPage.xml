@@ -27,10 +27,10 @@
 	<bean id="PropDev-PersonnelPage-Section" parent="PropDev-PersonnelPage-Section-parentBean" />
 	<bean id="PropDev-PersonnelPage-Section-parentBean" abstract="true"
 		parent="Uif-CssGridSection" p:header.headerText="Key Personnel"
-		p:instructionalText="Search for and add key personnel">
+		p:instructionalText="@{document.developmentProposal.isParent() ? 'Cannot add personnel to parent proposal' : 'Search for and add key personnel'}">
 		<property name="items">
 			<list>
-				<bean parent="PropDev-PersonnelPage-AddButton" p:order="10" />
+				<bean parent="PropDev-PersonnelPage-AddButton" p:order="10" p:render="@{!document.developmentProposal.isParent()}"/>
 				<bean parent="PropDev-PersonnelPage-Collection" p:order="20" />
 			</list>
 		</property>

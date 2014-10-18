@@ -30,7 +30,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -54,9 +54,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     @Qualifier("proposalPersonService")
     private ProposalPersonService proposalPersonService;
     @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
-    @Autowired
     @Qualifier("systemAuthorizationService")
     private SystemAuthorizationService systemAuthorizationService;
     @Autowired
@@ -79,15 +76,19 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
     /**
      * 
      * Method to add a new narrative to narratives list
      * @param narrative
      */
     public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
+
         prepareNarrative(proposaldevelopmentDocument, narrative);
-        
-        getBusinessObjectService().save(narrative);
+        narrative = getDataObjectService().save(narrative);
         narrative.clearAttachment();
         proposaldevelopmentDocument.getDevelopmentProposal().getNarratives().add(narrative);
     }
@@ -98,7 +99,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         return narrative;
     }
 
-    protected Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
+    public Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
         List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
@@ -227,7 +228,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
     protected void deleteAttachment(List<Narrative> narratives, int lineToDelete) {
         Narrative narrative = narratives.get(lineToDelete);
-        getBusinessObjectService().delete(narrative);
+        getDataObjectService().delete(narrative);
         NarrativeAttachment narrAtt = new NarrativeAttachment();
         narrAtt.setModuleNumber(narrative.getModuleNumber());
         narrative.setNarrativeAttachment(narrAtt);
@@ -244,7 +245,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
         prepareNarrative(proposaldevelopmentDocument, narrative);
         
-        getBusinessObjectService().save(narrative);
+        getDataObjectService().save(narrative);
         narrative.clearAttachment();
         proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments().add(narrative);  
     }
@@ -255,10 +256,18 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(document));
         narrative.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         narrative.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
-        narrative.refreshReferenceObject("narrativeType");
-        narrative.refreshReferenceObject("narrativeStatus");
         narrative.populateAttachment();
         populateNarrativeUserRights(document,narrative);
+    }
+
+    @Override
+    public boolean doesProposalHaveNarrativeType(DevelopmentProposal proposal, NarrativeType narrativeType) {
+        for (Narrative narrative : proposal.getNarratives()) {
+            if (StringUtils.equals(narrative.getNarrativeType().getCode(), narrativeType.getCode())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -278,7 +287,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         if (narrative.getNarrativeTypeCode().equalsIgnoreCase("200")) {
             narrative = changeDataManagementPlanAttachmentName(narrative);
         }
-        getBusinessObjectService().save(narrative);
+        getDataObjectService().save(narrative);
         narrative.clearAttachment();
     }
 
@@ -330,20 +339,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     public void setProposalPersonService(ProposalPersonService proposalPersonService) {
         this.proposalPersonService = proposalPersonService;
     }
-    /**
-     * Gets the businessObjectService attribute. 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
+
     /**
      * Gets the dateTimeService attribute. 
      * @return Returns the dateTimeService.
@@ -502,5 +498,13 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 }

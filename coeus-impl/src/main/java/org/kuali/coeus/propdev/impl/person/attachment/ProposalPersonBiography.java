@@ -421,6 +421,12 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
         private String developmentProposal;
 
+        public ProposalPersonBiographyId(Integer proposalPersonNumber, Integer biographyNumber, String developmentProposal) {
+            this.proposalPersonNumber = proposalPersonNumber;
+            this.biographyNumber = biographyNumber;
+            this.developmentProposal = developmentProposal;
+        }
+
         public Integer getProposalPersonNumber() {
             return this.proposalPersonNumber;
         }

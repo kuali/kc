@@ -145,7 +145,9 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
         if(isS2sCandidate(developmentProposal)){
             populateValidFormNarratives(developmentProposal,validS2SFormNarratives);
             populateGenericValidNarrativeTypes(validS2SFormNarratives);
-            populateValidNarrativeTypeFromParentProposal(developmentProposal,validS2SFormNarratives);
+            if (developmentProposal.isChild()) {
+                populateValidNarrativeTypeFromParentProposal(developmentProposal, validS2SFormNarratives);
+            }
         }else{
             String proposalNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
             Map<String,String> queryMap = new HashMap<String,String>();
@@ -217,11 +219,9 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
 
 
     private void populateValidNarrativeTypeFromParentProposal(DevelopmentProposal developmentProposal, List<NarrativeType> validaNarrativeTypes) {
-        if(developmentProposal.isInHierarchy()){
             String hierarchyProposalNumber = developmentProposal.getHierarchyParentProposalNumber();
             DevelopmentProposal parentProposal = getDevelopmentProposal(hierarchyProposalNumber);
             populateValidFormNarratives(parentProposal, validaNarrativeTypes);
-        }
     }
 
 

@@ -43,7 +43,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
               <property name="items">
                   <list>
                       <bean parent="PropDev-CopyDialog-Button-Continue" p:ajaxSubmit="false"
-                            p:actionLabel="Copy..." p:methodToCall="copy" p:successCallback="dismissDialog('PropDev-CopySection');" p:performClientSideValidation="false" p:order="10"/>
+                            p:actionLabel="Copy..." p:methodToCall="copy" p:successCallback="dismissDialog('PropDev-CopySection');" p:performClientSideValidation="true" p:order="10"/>
                       <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
                             p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
                   </list>
@@ -57,8 +57,8 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
           parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="items">
             <list>
-
-                <bean parent="Uif-MessageField" p:messageText="Yes" p:fieldLabel.labelText="Proposal" p:fieldLabel.renderColon="false" p:order="10"/>
+                <bean parent="Uif-MessageField" p:messageText="You are copying a parent proposal, budgets should not be copied" p:order="10" p:render="@{document.developmentProposal.isParent()}"/>
+                <bean parent="Uif-MessageField" p:messageText="Yes" p:fieldLabel.labelText="Proposal" p:fieldLabel.renderColon="false" p:order="20"/>
                 <bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.ownedByUnitNumber} - @{document.developmentProposal.ownedByUnit.unitName}"
                       p:fieldLabel.labelText="Original Lead Unit" p:fieldLabel.renderColon="false"
                       p:order="20" />
@@ -67,14 +67,14 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                       p:enableAutoQuickfinder="false"
                       p:order="30"/>
 
-                <bean parent="Uif-InputField" p:propertyName="includeBudget" p:order="40" p:fieldLabel.renderColon="false">
+                <bean parent="Uif-InputField" p:propertyName="includeBudget" p:order="40" p:fieldLabel.renderColon="false" p:render="@{!document.developmentProposal.isParent()}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes. Include Budget(s)." p:disabled="false"/>
                     </property>
                 </bean>
 
                 <bean id="PropDev-CopyDialog-BudgetSelection" parent="PropDev-CopyDialog-BudgetSelection-parentBean"
-                      p:order="50"/>
+                      p:order="50" p:render="@{!document.developmentProposal.isParent()}"/>
 
                 <bean parent="Uif-InputField" p:propertyName="includeAttachments" p:order="60" p:fieldLabel.renderColon="false">
                      <property name="control">

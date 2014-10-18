@@ -42,7 +42,7 @@
 
 	<bean id="PropDev-OpportunityPage-ButtonSection" parent="PropDev-OpportunityPage-ButtonSection-parentBean" />
  	<bean id="PropDev-OpportunityPage-ButtonSection-parentBean" abstract="true" parent="Uif-HorizontalBoxSubSection"
- 			p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null}">
+ 			p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null and !document.developmentProposal.isChild()}">
  		<property name="items">
  		<list>
  			<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Remove opportunity"
@@ -75,7 +75,7 @@
 	<bean id="PropDev-OpportunityPage-OpportunitySearch" parent="PropDev-OpportunityPage-OpportunitySearch-parentBean" />
 	<bean id="PropDev-OpportunityPage-OpportunitySearch-parentBean"
 		abstract="true" parent="Uif-InputField" p:fieldLabel.render="false"
-		p:propertyName="newS2sOpportunity.opportunityId">
+		p:propertyName="newS2sOpportunity.opportunityId" p:render="@{!document.developmentProposal.isChild()}">
 		<property name="control">
 			<bean parent="Uif-HiddenControl" />
 		</property>

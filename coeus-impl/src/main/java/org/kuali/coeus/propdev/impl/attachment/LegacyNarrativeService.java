@@ -17,7 +17,6 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.attachment.Narrative;
 
 import java.util.List;
 
@@ -56,7 +55,7 @@ public interface LegacyNarrativeService {
      * the narratives with the appropriate default narrative right based upon their permissions.
      * @param userId the id of the user
      * @param proposalDevelopmentDocument the Proposal Development Document
-     * @param roleName the initial proposal role of the user
+     * @param roleNames the initial proposal role of the user
      */
     public void addPerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames);
     
@@ -71,4 +70,8 @@ public interface LegacyNarrativeService {
     
     public void prepareNarrative(ProposalDevelopmentDocument document, Narrative narrative);
 
-}
+    public boolean doesProposalHaveNarrativeType(DevelopmentProposal proposal, NarrativeType narrativeType);
+
+    public Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument);
+
+    }

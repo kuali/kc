@@ -818,7 +818,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     }
 
     protected ProposalHierarchyService getProposalHierarchyService (){
-        if (kcDocumentRejectionService == null) {
+        if (proposalHierarchyService == null) {
             proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
         }
         return proposalHierarchyService;
