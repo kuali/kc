@@ -54,8 +54,8 @@
 	<bean id="PropDev-AttachmentsPage-ProposalSection" parent="PropDev-AttachmentsPage-ProposalSection-parentBean" />
 	<bean id="PropDev-AttachmentsPage-ProposalSection-parentBean" abstract="true"
 		parent="Uif-VerticalBoxSection" p:header.headerText="Proposal (&lt;span class='proposalAttachmentCount'&gt;@{document.developmentProposal.narratives.size()}&lt;/span&gt;)"
-		p:instructionalText="Add attachments to this proposal"
-		p:fieldBindingObjectPath="document.developmentProposal">
+        p:instructionalText= 'Add attachments to this proposal'
+        p:fieldBindingObjectPath="document.developmentProposal">
 		<property name="items">
 			<list>
                 <bean parent="PropDev-AttachmentPage-ProposalButtons" p:order="10"/>
@@ -162,12 +162,13 @@
     <bean id="PropDev-AttachmentsPage-PersonnelSection" parent="PropDev-AttachmentsPage-PersonnelSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-PersonnelSection-parentBean"
           abstract="true" parent="Uif-VerticalBoxSection" p:header.headerText="Personnel (&lt;span class='personnelAttachmentCount'&gt;@{document.developmentProposal.propPersonBios.size()}&lt;/span&gt;)"
-          p:instructionalText="@{document.developmentProposal.isParent() ? 'Cannot add personnel attachments to parent, please add to child.' : 'Add attachments to this proposal'}"
+          p:instructionalText="@{document.developmentProposal.isInHierarchy() ? 'Attachments for personnel in multiple child proposals can only be added at the parent. Attachments for all other personnel need to be added
+    at the respective child.' : 'Add attachments to this proposal'}"
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
             <list>
                <bean parent="PropDev-AttachmentPage-AddLineButton" p:methodToCall="prepareBiography" p:refreshId="PropDev-AttachmentsPage-PersonnelDetails"
-                     p:successCallback="showDialog('PropDev-AttachmentsPage-PersonnelDetails');" p:order="10" p:render="@{!document.developmentProposal.isParent() and !#parent.readOnly}"/>
+                     p:successCallback="showDialog('PropDev-AttachmentsPage-PersonnelDetails');" p:order="10" p:render="@{!#parent.readOnly}"/>
                <bean parent="PropDev-AttachmentsPage-PersonnelCollection" p:order="20" />
             </list>
         </property>
@@ -181,16 +182,20 @@
           p:collection.id="PropDev-AttachmentsPage-PersonnelCollection-Collection">
         <property name="collection.lineActions">
             <list merge="true">
-                <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareBiography"
-                      p:order="10"/>
-                <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="20"/>
+                <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareBiography" p:order="10"
+                      p:render="@{#ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal)}"/>
+
+                <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="20"
+                      p:render="@{#ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal)}"/>
             </list>
         </property>
         <property name="collection.items">
             <list merge="true">
                 <bean parent="Uif-InputField" p:propertyName="proposalPersonNumberString"
                       p:fieldLabel.LabelText="Person" p:required="true" p:order="40"
-                      p:enableAutoQuickfinder="false" p:readOnly="@{!#empty(#line.versionNumber) or #parent.readOnly}">
+                      p:readOnlyDisplayReplacementPropertyName="personId"
+                      p:enableAutoQuickfinder="false" p:readOnly="@{!#empty(#line.versionNumber) or #parent.readOnly}"
+                      >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -201,7 +206,8 @@
                 <bean parent="Uif-InputField" p:propertyName="documentTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="propPerDocType.description"
                       p:fieldLabel.labelText="Type" p:order="50"
-                      p:enableAutoQuickfinder="false"/>
+                      p:enableAutoQuickfinder="false" p:readOnly="@{#parent.readOnly or !#ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal)}"
+                      />
                 <bean parent="Uif-DataField" p:propertyName="description" p:order="60"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="70" />
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"

@@ -111,7 +111,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 
 	@Test
 	public void test_synchronizeAllChildren() {
-		hierarchyService.synchronizeAllChildren(pdDocument);
+		hierarchyService.synchronizeAllChildren(pdDocument.getDevelopmentProposal());
 	}
 
 	@Test

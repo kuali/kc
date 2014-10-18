@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.personnel.*;
+import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.propdev.impl.attachment.*;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
@@ -34,6 +35,8 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
+import org.kuali.coeus.propdev.impl.s2s.S2sOppForms;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.KcDataObject;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
@@ -201,6 +204,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         ProposalDevelopmentDocument hierarchyDoc = saveDocument(newDoc);
 
+        copyOpportunity(initialChild, hierarchyDoc.getDevelopmentProposal());
+
         // add aggregator to the document
         kcAuthorizationService.addDocumentLevelRole(userId, RoleConstants.AGGREGATOR, hierarchyDoc);
 
@@ -283,6 +288,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (childProposal.isInHierarchy()) {
             errors.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_NOT_HIERARCHY_CHILD, Boolean.TRUE, childProposal.getProposalNumber()));
         }
+
+        validateSponsor(childProposal, hierarchyProposal);
+
+        List<ProposalHierarchyErrorWarningDto> sponsorErrors = validateSponsor(childProposal, hierarchyProposal);
+
+        errors.addAll(sponsorErrors);
+
         return errors;
     }
 
@@ -326,13 +338,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
     }
 
-    @Override
-    public void synchronizeAllChildren(ProposalDevelopmentDocument pdDoc) throws ProposalHierarchyException {
-        prepareHierarchySync(pdDoc);
-        synchronizeAll(pdDoc.getDevelopmentProposal());
-    }
-
-    protected void synchronizeAllChildren(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+    public void synchronizeAllChildren(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         prepareHierarchySync(hierarchyProposal);
         synchronizeAll(hierarchyProposal);
     }
@@ -422,6 +428,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         hierarchyProposal.setNumberOfCopies(srcProposal.getNumberOfCopies());
         hierarchyProposal.setMailingAddressId(srcProposal.getMailingAddressId());
         hierarchyProposal.setMailDescription(srcProposal.getMailDescription());
+    }
+
+    protected void copyOpportunity(DevelopmentProposal srcProposal, DevelopmentProposal hierarchyProposal) {
+        S2sOpportunity opportunity = (S2sOpportunity) deepCopy(srcProposal.getS2sOpportunity());
+        opportunity.setDevelopmentProposal(hierarchyProposal);
+        hierarchyProposal.setS2sOpportunity(opportunity);
+
+        for (S2sOppForms form : opportunity.getS2sOppForms()) {
+            form.getS2sOppFormsId().setProposalNumber(hierarchyProposal.getProposalNumber());
+        }
     }
 
     protected KcDataObject deepCopy(KcDataObject oldObject) {
@@ -542,7 +558,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      */
     protected void synchronizeKeywords(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, List<PropScienceKeyword> oldKeywords) {
         for (PropScienceKeyword keyword : childProposal.getPropScienceKeywords()) {
-            PropScienceKeyword newKeyword = new PropScienceKeyword(hierarchyProposal, keyword.getScienceKeyword());
+            PropScienceKeyword newKeyword = new PropScienceKeyword(hierarchyProposal, getScienceKeyword(keyword.getScienceKeyword().getCode()));
             int index = oldKeywords.indexOf(newKeyword);
             if (index > -1) {
                 newKeyword = oldKeywords.get(index);
@@ -550,6 +566,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             newKeyword.setHierarchyProposalNumber(childProposal.getProposalNumber());
             hierarchyProposal.addPropScienceKeyword(newKeyword);
         }
+    }
+
+    protected ScienceKeyword getScienceKeyword(String code) {
+        return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", code).build());
     }
 
     /**
@@ -625,6 +645,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                                             List<Narrative> hierarchyAttachments) {
         Narrative newNarrative = (Narrative) deepCopy(narrative);
         newNarrative.setNarrativeTypeCode(narrative.getNarrativeTypeCode());
+        newNarrative.setNarrativeType(narrative.getNarrativeType());
         newNarrative.refreshReferenceObject("narrativeType");
         newNarrative.setHierarchyProposalNumber(childProposal.getProposalNumber());
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_INCOMPLETE);
@@ -666,8 +687,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
          */
         for (Iterator<ProposalPersonBiography> iteratorChild = childProposal.getPropPersonBios().iterator(); iteratorChild.hasNext();) {
             ProposalPersonBiography srcPropPersonBio = iteratorChild.next();
-            Integer hierarchyProposalPersonNumber = personNotPresentInMultipleProposals(srcPropPersonBio, childProposal, hierarchyProposal);
-            if (hierarchyProposalPersonNumber == null) {
+
+            if (!personInMultipleProposals(srcPropPersonBio.getPersonId(), hierarchyProposal)) {
                 // mark those persons that are not in multiple proposals since they will be copied over later
                 personInMultipleProp.put(srcPropPersonBio.getPersonId(), false);
                 for (Iterator<ProposalPersonBiography> iteratorParent = hierarchyProposal.getPropPersonBios().iterator(); iteratorParent.hasNext();) {
@@ -705,42 +726,25 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return null;
     }
 
-    protected Integer personNotPresentInMultipleProposals(ProposalPersonBiography srcPropPersonBio, DevelopmentProposal childProposal, DevelopmentProposal hierarchyProposal) {
-        // if person not on parent, add
-        // if it is on lead, then check if it is on any other children. If not, merge, if so, stop.
-        Integer hierarchyProposalPersonNumber = isPersonOnProposal(hierarchyProposal, srcPropPersonBio.getPersonId());
-        if (hierarchyProposalPersonNumber == null) {
-                return null;
-            } else {
-                // check other proposals
-                List<DevelopmentProposal> children = getAllChildren(hierarchyProposal.getProposalNumber());
-                for (DevelopmentProposal proposal : children) {
-                    if(!StringUtils.equals(proposal.getProposalNumber(), childProposal.getProposalNumber())) {
-                         Integer proposalPersonNumber = isPersonOnProposal(proposal, srcPropPersonBio.getPersonId());
-                         if (proposalPersonNumber != null) {
-                             return proposalPersonNumber;
-                        }
-
-                    }
-                }
-            }
-        return null;
+    public boolean personInMultipleProposals(String personId, DevelopmentProposal proposal) {
+        if (proposal.isChild()) {
+            return getProposalHierarchyDao().personInMultipleChildProposals(personId, proposal.getHierarchyParentProposalNumber());
+        } else {
+            return getProposalHierarchyDao().personInMultipleChildProposals(personId, proposal.getProposalNumber());
+        }
     }
 
-    protected List<DevelopmentProposal> getAllChildren(String hierarchyProposalNumber) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("hierarchyProposalNumber", hierarchyProposalNumber);
-            return (List<DevelopmentProposal>) dataObjectService.findMatching(DevelopmentProposal.class, QueryByCriteria.Builder.forAttribute("hierarchyParentProposalNumber", hierarchyProposalNumber).build()).getResults();
-    }
 
-    protected Integer isPersonOnProposal(DevelopmentProposal proposal, String id) {
+
+    protected boolean isPersonOnProposal(DevelopmentProposal proposal, String id) {
         for (ProposalPerson proposalPerson : proposal.getProposalPersons()) {
                if(StringUtils.equals(id, proposalPerson.getPersonId())) {
-                return proposalPerson.getProposalPersonNumber();
+                return true;
             }
         }
-        return null;
+        return false;
     }
+
  /**
   * Synchronizes the proposal persons from the child proposal to the parent proposal and then restores any proposal persons that were in the given child
   * proposal (and hence removed from the given parent proposal).
@@ -770,6 +774,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      */
     protected void synchronizePersons(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, ProposalPerson principalInvestigator) {
         for (ProposalPerson person : childProposal.getProposalPersons()) {
+
             int firstIndex = hierarchyProposal.getProposalPersons().indexOf(person);
             int lastIndex = hierarchyProposal.getProposalPersons().lastIndexOf(person);
             ProposalPerson firstInstance = (firstIndex == -1) ? null : hierarchyProposal.getProposalPersons().get(firstIndex);
@@ -797,9 +802,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 if (newPerson.equals(principalInvestigator) && (firstIndex == -1 || !firstInstance.isInvestigator())) {
                     newPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
                 }
-                
+
+
                 hierarchyProposal.addProposalPerson(newPerson);
             }
+
         }
     }
     
@@ -1887,6 +1894,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (child.getPrincipalInvestigator() == null) {
             errors.add(new ProposalHierarchyErrorWarningDto(ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR, Boolean.TRUE, child.getProposalNumber()));
         }
+        validateSponsor(child, hierarchy);
         try {
             // add budget validation here.
 
@@ -1943,7 +1951,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public List<ProposalHierarchyErrorWarningDto> validateSponsor(DevelopmentProposal childProposal, DevelopmentProposal parentProposal) {
         List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
         if(!StringUtils.equals(childProposal.getSponsorCode(),parentProposal.getSponsorCode())) {
-            errors.add(new ProposalHierarchyErrorWarningDto(ERROR_DIFFERENT_SPONSORS, Boolean.TRUE, new String[0]));
+            errors.add(new ProposalHierarchyErrorWarningDto(ERROR_DIFFERENT_SPONSORS, Boolean.FALSE, new String[0]));
         }
         return errors;
     }

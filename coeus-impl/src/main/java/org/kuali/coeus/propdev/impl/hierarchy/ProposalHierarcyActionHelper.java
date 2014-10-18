@@ -55,7 +55,7 @@ public class ProposalHierarcyActionHelper {
     public void syncAllHierarchy(ProposalDevelopmentDocument doc, boolean allowEndDateChange) {
         if (validateHierarchyForSyncAll(doc.getDevelopmentProposal(), allowEndDateChange)) {
             try {
-                getProposalHierarchyService().synchronizeAllChildren(doc);
+                getProposalHierarchyService().synchronizeAllChildren(doc.getDevelopmentProposal());
                 KNSGlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);    
             }
             catch (ProposalHierarchyException e) {

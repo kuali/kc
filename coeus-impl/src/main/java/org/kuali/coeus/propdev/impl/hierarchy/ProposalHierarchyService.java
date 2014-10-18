@@ -19,6 +19,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.personnel.HierarchyPersonnelSummary;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -101,10 +102,10 @@ public interface ProposalHierarchyService {
     
     /**
      * This method synchronizes the contents of all children into the hierarchy.  If any child has changed since its last synchronization, the parent is reaggregated.
-     * @param hierarchyProposalDocument the hierarchy in question
+     * @param developmentProposal the hierarchy in question
      * @throws ProposalHierarchyException if hierarchyProposalDocument is not a valid Hierarchy
      */
-    public void synchronizeAllChildren(ProposalDevelopmentDocument hierarchyProposalDocument) throws ProposalHierarchyException;
+    public void synchronizeAllChildren(DevelopmentProposal developmentProposal) throws ProposalHierarchyException;
 
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber);
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException;
@@ -193,4 +194,9 @@ public interface ProposalHierarchyService {
     public List<ProposalHierarchyErrorWarningDto> validateLinkToHierarchy(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal);
 
     public boolean isSynchronized(DevelopmentProposal childProposal);
-}
+
+    public List<ProposalHierarchyErrorWarningDto> validateSponsor(DevelopmentProposal childProposal, DevelopmentProposal parentProposal);
+
+    public boolean personInMultipleProposals(String personId, DevelopmentProposal childProposal);
+
+    }

@@ -239,7 +239,7 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
         ProposalDevelopmentDocument hierarchyProposalDoc = form.getProposalDevelopmentDocument();
         List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateParent(hierarchyProposalDoc.getDevelopmentProposal());
         if (!displayErrors(errors)) {
-            getProposalHierarchyService().synchronizeAllChildren(hierarchyProposalDoc);
+            getProposalHierarchyService().synchronizeAllChildren(hierarchyProposalDoc.getDevelopmentProposal());
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
         }
         return getModelAndViewService().getModelAndView(form);
@@ -278,6 +278,8 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
             List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateParent(hierarchyProposal);
             errors.addAll(getProposalHierarchyService().validateChildCandidate(newChildProposal));
             errors.addAll(getProposalHierarchyService().validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal, true));
+            errors.addAll(getProposalHierarchyService().validateSponsor(newChildProposal, hierarchyProposal));
+
             if (!displayErrors(errors)) {
                 getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
                 displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{hierarchyProposal.getProposalNumber(), newChildProposal.getProposalNumber()});
