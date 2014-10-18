@@ -1314,10 +1314,9 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                       p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Attribute Definition"
                       p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.AgendaBo&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
-                        </map>
+                      <map>
+						<entry key="href"  value="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+						</map>
                     </property>
                 </bean>
 
