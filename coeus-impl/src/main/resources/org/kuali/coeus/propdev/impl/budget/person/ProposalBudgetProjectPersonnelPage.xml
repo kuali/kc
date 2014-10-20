@@ -85,7 +85,7 @@
 		<property name="lineActions">
 			<list>
 				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editPersonDetails"
-					p:actionLabel="Details" p:order="10" />
+					p:actionLabel="Details" p:refreshId="null" p:order="10" />
 				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="20"
 					p:iconClass="icon-trash" p:render="@{!#parent.readOnly}"/>
 			</list>
