@@ -39,13 +39,11 @@ import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.util.AuditCluster;
-import org.kuali.rice.krad.util.AuditError;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.DocumentBase;
@@ -98,6 +96,10 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
     @Autowired
     @Qualifier("kcBusinessRulesEngine")
     private KcBusinessRulesEngine kcBusinessRulesEngine;
+    
+    @Autowired
+    @Qualifier("legacyDataAdapter")
+    private LegacyDataAdapter legacyDataAdapter;
 
     /**
      * Service method for adding a {@link BudgetVersionOverview} to a {@link ProposalDevelopmentDocument}. If a 
@@ -542,13 +544,21 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
 
     private void refreshBudgetLineCostElement(BudgetLineItem newBudgetLineItem) {
 		if(StringUtils.isNotEmpty(newBudgetLineItem.getCostElement())) {
-			getDataObjectService().wrap(newBudgetLineItem).fetchRelationship("costElementBO");
+			if (newBudgetLineItem instanceof AwardBudgetLineItemExt) {
+				getLegacyDataAdapter().refreshReferenceObject(newBudgetLineItem, "costElementBO");
+	    	} else {
+	    		getDataObjectService().wrap(newBudgetLineItem).fetchRelationship("costElementBO");
+	    	}
 		}
     }
 
     private void refreshBudgetLineBudgetCategory(BudgetLineItem newBudgetLineItem) {
 		if(StringUtils.isNotEmpty(newBudgetLineItem.getBudgetCategoryCode())) {
-			getDataObjectService().wrap(newBudgetLineItem).fetchRelationship("budgetCategory");
+			if (newBudgetLineItem instanceof AwardBudgetLineItemExt) {
+				getLegacyDataAdapter().refreshReferenceObject(newBudgetLineItem, "budgetCategory");
+	    	} else {
+	    		getDataObjectService().wrap(newBudgetLineItem).fetchRelationship("budgetCategory");
+	    	}
 		}
     }
     
@@ -604,5 +614,13 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
 
 	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
 		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}
+
+	public LegacyDataAdapter getLegacyDataAdapter() {
+		return legacyDataAdapter;
+	}
+
+	public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
+		this.legacyDataAdapter = legacyDataAdapter;
 	}
 }
