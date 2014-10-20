@@ -31,6 +31,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.data.MaterializeOption;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -256,6 +257,8 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(document));
         narrative.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         narrative.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+        getDataObjectService().wrap(narrative).materializeReferencedObjects(MaterializeOption.INCLUDE_EAGER_REFS);
+
         narrative.populateAttachment();
         populateNarrativeUserRights(document,narrative);
     }
