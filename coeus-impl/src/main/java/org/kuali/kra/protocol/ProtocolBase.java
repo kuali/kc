@@ -1083,12 +1083,14 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     public void merge(ProtocolBase amendment) {
         merge(amendment, true);
     }
-    
+
     // this method was modified during IRB backfit merge with the assumption that these changes are applicable to both IRB and IACUC
     public void merge(ProtocolBase amendment, boolean mergeActions) {
         // set this value here, since it is applicable regardless of which modules are amended
         this.lastApprovalDate = amendment.getLastApprovalDate();
         List<ProtocolAmendRenewModuleBase> modules = amendment.getProtocolAmendRenewal().getModules();
+        removeMergeableLists(modules);          // remove lists from copy of original protocol
+        getBusinessObjectService().save(this);  // force OJB to persist removal of lists
         for (ProtocolAmendRenewModuleBase module : modules) {
             merge(amendment, module.getProtocolModuleTypeCode());
         }
@@ -1126,6 +1128,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     
     public abstract void merge(ProtocolBase amendment, String protocolModuleTypeCode);
     
+    protected abstract void removeMergeableLists(List<ProtocolAmendRenewModuleBase> modules);
 
     protected void mergeProtocolQuestionnaire(ProtocolBase amendment) {
         // TODO : what if user did not edit questionnaire at all, then questionnaire will be wiped out ?

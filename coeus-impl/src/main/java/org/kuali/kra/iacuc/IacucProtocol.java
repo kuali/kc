@@ -41,11 +41,13 @@ import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
@@ -608,8 +610,39 @@ public class IacucProtocol extends ProtocolBase {
             mergeProtocolExceptions(amendment);
         }
     }
-    
-    
+
+    protected void removeMergeableLists(List<ProtocolAmendRenewModuleBase> modules) {
+        for (ProtocolAmendRenewModuleBase module: modules) {
+            String protocolModuleTypeCode = module.getProtocolModuleTypeCode();
+            if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.AREAS_OF_RESEARCH)) {
+                this.getProtocolResearchAreas().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.FUNDING_SOURCE)) {
+                this.getProtocolFundingSources().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_ORGANIZATIONS)) {
+                this.getProtocolLocations().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_PERSONNEL)) {
+                this.getProtocolPersons().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_REFERENCES)) {
+                this.getProtocolReferences().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.THREE_RS)) {
+                this.getIacucPrinciples().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROCEDURES)) {
+                this.getIacucPrinciples().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.EXCEPTIONS)) {
+                this.getIacucPrinciples().clear();
+            }
+        }
+    }
+
+
+
     /*
      * merge amendment/renewal protocol action to original protocol when A/R is approved
      */
