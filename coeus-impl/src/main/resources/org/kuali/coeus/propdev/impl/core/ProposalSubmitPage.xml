@@ -46,24 +46,27 @@
 					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10" 
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 
-                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Approve" p:methodToCall="approve" p:order="20"
+                    <bean  p:actionLabel="Ad Hoc Recipients" parent="Uif-PrimaryActionButton" p:methodToCall="populateAdHocs"  p:order="20"
+                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS]}" />
+
+                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Approve" p:methodToCall="approve" p:order="30"
                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
 
                     <bean parent="Uif-SecondaryActionButton" p:methodToCall="Disapprove" p:actionLabel="Disapprove"
-                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}" p:order="30">
+                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}" p:order="40">
                         <property name="confirmationDialog">
                             <bean id="DisapproveExplanationDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for disapprove?"/>
                         </property>
                     </bean>
 
-                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Reject" p:methodToCall="reject" p:order="40"
+                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Reject" p:methodToCall="reject" p:order="50"
                           p:render="@{#editModes['rejectProposal']}"/>
 
                     <bean parent="Uif-LinkField" p:linkText="View Route Log"
-                          p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="50"
+                          p:href="@{#ConfigProperties['application.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="60"
                     p:link.openInDialog="true" />
                     
-                    <bean parent="Uif-RecallAction" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RECALL]}"  p:order="50">
+                    <bean parent="Uif-RecallAction" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RECALL]}"  p:order="70">
               			<property name="confirmationDialog">
              				<bean id="ConfirmRecallDialog" parent="Uif-DialogGroup-OkCancelExpl" p:promptText="Reason for recall?"/>
             			</property>
@@ -71,7 +74,7 @@
            			
 
 
-			   		<bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="60"
+			   		<bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="80"
 						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}">
 					 	<property name="confirmationDialog">
 			          		<bean id="ProposalCancelDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to cancel ?"/>
@@ -80,22 +83,22 @@
 
 					<bean parent="Uif-Space"/><bean parent="Uif-Space"/>
 					 
-					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="70"
+					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="90"
 					 	p:render="@{#actionFlags[#{deleteDocument}]}">
 					 	<property name="confirmationDialog">
 			          		<bean id="ProposalDeleteDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete ?"/>
 			          	</property>
-					 </bean>			
-					 
-					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to S2S" p:methodToCall="submitToS2s" p:order="80" 
-					 	p:render="@{#actionFlags[#{submitToS2s}]}" p:successCallback="jQuery('#PropDev-OpportunityPage-SubmissionDetailsSection_tab').click()">					 	
-					</bean>		
-					
-					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to Sponsor" p:methodToCall="submitToSponsor" p:order="90" 
-					 	p:render="@{#actionFlags[#{submitToSponsor}]}">					 	
-					</bean>	
+					 </bean>
+
+					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to S2S" p:methodToCall="submitToS2s" p:order="100"
+					 	p:render="@{#actionFlags[#{submitToS2s}]}" p:successCallback="jQuery('#PropDev-OpportunityPage-SubmissionDetailsSection_tab').click()">
+					</bean>
+
+					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to Sponsor" p:methodToCall="submitToSponsor" p:order="110"
+					 	p:render="@{#actionFlags[#{submitToSponsor}]}">
+					</bean>
 						
-					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="100">
+					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="120">
 					  <property name="menuItems">
 					    <list>
 					      <bean parent="Uif-MenuAction" p:actionLabel="Send Notifications" p:order="10" p:refreshId="Kc-SendNotification-Wizard" p:methodToCall="prepareNotificationWizard"
@@ -358,7 +361,7 @@
 		<property name="items">
 			   <list>
 				    <bean id="PropDev-Resumbit-OptionsRadio" parent="Uif-InputField" p:required="true"
-				     p:propertyName="resubmissionOption"                 
+				     p:propertyName="resubmissionOption"
 				     p:order="10" >
 				     <property name="control">
 					      <bean parent="Uif-VerticalRadioControl">
@@ -381,7 +384,7 @@
 											            <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_VERSION_OF_ORIGINAL_IP}" p:value="Generate a new version of Original Institutional Proposal (@{document.developmentProposal.continuedFrom})" />
 								                        <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_VERSION_OF_IP}" p:value="Generate a new version of Institutional Proposal" />
 						                                <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_IP}" p:value="Generate a new Institutional Proposal" />
-						                                <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).DO_NOT_GENERATE_NEW_IP}" p:value="Do not generate a new Institutional Proposal or Institutional Proposal version" />						                           
+						                                <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).DO_NOT_GENERATE_NEW_IP}" p:value="Do not generate a new Institutional Proposal or Institutional Proposal version" />
 						                           </list>
 					                            </property>
 					                        </bean>
@@ -392,7 +395,7 @@
    						</bean>
 				     </property>
 	    			</bean>
-	    			<bean id="PropDev-Resumbit-Options-InstitutionalProposalToVersion" 
+	    			<bean id="PropDev-Resumbit-Options-InstitutionalProposalToVersion"
 					   parent="Uif-InputField" p:propertyName="institutionalProposalToVersion"
 					  p:progressiveRender="@{resubmissionOption == '#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.ResubmissionOptions).GENERATE_NEW_VERSION_OF_IP}'}" p:fieldLabel.labelText="Institutional Proposal To Version">
 					  	<property name="quickfinder">
@@ -406,9 +409,9 @@
 			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
-						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:methodToCall="proceed" p:order="10" p:successCallback="dismissDialog('PropDev-Resumbit-OptionsSection');" p:performClientSideValidation="true"/>					 	
+						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:methodToCall="proceed" p:order="10" p:successCallback="dismissDialog('PropDev-Resumbit-OptionsSection');" p:performClientSideValidation="true"/>
 						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
-						
+
 					</list>
 				</property>
 			</bean>
@@ -548,4 +551,81 @@
 
     </bean>
 
+    <bean id="PropDev-DocumentAdHocRecipientsSection" parent="PropDev-DocumentAdHocRecipientsSection-parentBean"/>
+    <bean id="PropDev-DocumentAdHocRecipientsSection-parentBean" abstract="true" parent="Uif-DialogGroup">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-DocumentAdHocRecipients" p:order="10"/>
+            </list>
+        </property>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:dialogDismissOption="REQUEST" p:actionLabel="Save"
+                      p:render="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument) eq T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}"
+                      p:methodToCall="saveAdHocChanges"  p:order="10"/>
+                <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
+                      p:render="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument) eq T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}"
+                      p:order="20"/>
+                <bean parent="Uif-DialogDismissButton" p:actionLabel="OK"
+                      p:render="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument) ne T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}"
+                      p:order="30"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-DocumentAdHocRecipients" parent="Uif-DocumentAdHocRecipientsSection"
+          p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-AdHocPersonCollection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="actionRequested">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.rice.krad.keyvalues.AdHocActionRequestCodesValuesFinder"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="id" p:label="Person" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-KimPersonControl" p:personObjectPropertyName="person"
+                                          p:principalIdPropertyName="person.principalId" p:personNamePropertyName="person.name"/>
+                                </property>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:returnByScript="true"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="CollectionGroup_AdHocWorkgroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="actionRequested">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.rice.krad.keyvalues.AdHocActionRequestCodesValuesFinder"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="recipientNamespaceCode"
+                                  p:label="Namespace Code"/>
+                            <bean parent="Uif-InputField" p:propertyName="recipientName" p:label="Name">
+                                <property name="control">
+                                    <bean parent="Uif-KimGroupControl" p:groupIdPropertyName="id"
+                                          p:namespaceCodePropertyName="recipientNamespaceCode"/>
+                                </property>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:returnByScript="true"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 </beans>

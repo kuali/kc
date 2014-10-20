@@ -147,6 +147,17 @@ public class ProposalDevelopmentSubmitController extends
     
     private final Logger LOGGER = Logger.getLogger(ProposalDevelopmentSubmitController.class);
 
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=populateAdHocs")
+    public ModelAndView populateAdHocs(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        populateAdHocRecipients(form.getProposalDevelopmentDocument());
+        return getModelAndViewService().showDialog("PropDev-DocumentAdHocRecipientsSection", true, form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=saveAdHocChanges")
+    public ModelAndView saveAdHocChanges(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        return super.save(form);
+    }
+
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=deleteProposal")
     public ModelAndView deleteProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 
@@ -174,6 +185,7 @@ public class ProposalDevelopmentSubmitController extends
                    form.getWorkflowDocument().setDoNotReceiveFutureRequests();
                }
            }
+           populateAdHocRecipients(form.getProposalDevelopmentDocument());
  		  return getTransactionalDocumentControllerService().route(form);
 	   }
 	   else {

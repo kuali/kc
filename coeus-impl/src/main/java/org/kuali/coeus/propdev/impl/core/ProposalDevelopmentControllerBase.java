@@ -44,6 +44,7 @@ import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.DocumentEventBase;
+import org.kuali.rice.krad.service.DocumentAdHocService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -142,6 +143,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("proposalPersonBiographyService")
     private ProposalPersonBiographyService proposalPersonBiographyService;
+
+    @Autowired
+    @Qualifier("documentAdHocService")
+    private DocumentAdHocService documentAdHocService;
 
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
@@ -276,7 +281,8 @@ public abstract class ProposalDevelopmentControllerBase {
      }
      
      protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	return save(form);
+         populateAdHocRecipients(form.getProposalDevelopmentDocument());
+         return save(form);
      }
     
     public void addEditableCollectionLine(ProposalDevelopmentDocumentForm form, String selectedCollectionPath){
@@ -489,6 +495,14 @@ public abstract class ProposalDevelopmentControllerBase {
         return isValid;
     }
 
+    /**
+     * During navigation and routing the ad hoc recipients which are transient get removed.  To solve this, repopulate them in the document before each save.
+     * This will stop the system from removing the current recipients from the database.
+     */
+    public void populateAdHocRecipients(ProposalDevelopmentDocument proposalDevelopmentDocument){
+        getDocumentAdHocService().addAdHocs(proposalDevelopmentDocument);
+    }
+
     protected ScienceKeyword getScienceKeyword(Object element) {
         return getDataObjectService().findUnique(ScienceKeyword.class, QueryByCriteria.Builder.forAttribute("code", element).build());
     }
@@ -579,5 +593,13 @@ public abstract class ProposalDevelopmentControllerBase {
 
     public void setProposalPersonBiographyService(ProposalPersonBiographyService proposalPersonBiographyService) {
         this.proposalPersonBiographyService = proposalPersonBiographyService;
+    }
+
+    public DocumentAdHocService getDocumentAdHocService() {
+        return documentAdHocService;
+    }
+
+    public void setDocumentAdHocService(DocumentAdHocService documentAdHocService) {
+        this.documentAdHocService = documentAdHocService;
     }
 }
