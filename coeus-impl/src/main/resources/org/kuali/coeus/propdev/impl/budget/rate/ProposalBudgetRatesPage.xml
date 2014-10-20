@@ -14,7 +14,7 @@
 
 	<bean id="PropBudget-RatesPage" parent="PropBudget-RatesPage-parentBean" />
 	<bean id="PropBudget-RatesPage-parentBean" abstract="true"
-		parent="PropBudget-Page">
+		parent="PropBudget-Page" p:readOnly="@{!#view.editModes.containsKey(#budgetAuthConsts.MODIFY_RATES_EDIT_MODE) or #parent.readOnly}">
 		<property name="items">
 			<list>
 				<bean parent="PropBudget-RatesPage-TabGroup" p:order="10"/>
@@ -56,7 +56,7 @@
 	
 	<bean id="PropBudget-RatesPage-RefreshAllRateAction" parent="PropBudget-RatesPage-RefreshAllRateAction-parentBean"/>
 	<bean id="PropBudget-RatesPage-RefreshAllRateAction-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
-		p:actionLabel="Refresh All Rates" p:methodToCall="refreshAllRates">
+		p:actionLabel="Refresh All Rates" p:methodToCall="refreshAllRates" p:disabled="@{#parent.readOnly}">
 		<property name="confirmationDialog">
 			<bean parent="Uif-DialogGroup-OkCancel"
 				p:promptText="Do you want to undo all rate type changes within the Applicable Rate fields and reset rates to match existing Institute Rates?  This action will cause recalculation of the budget."
@@ -66,7 +66,7 @@
 	
 	<bean id="PropBudget-RatesPage-SyncAllRatesAction" parent="PropBudget-RatesPage-SyncAllRatesAction-parentBean"/>
 	<bean id="PropBudget-RatesPage-SyncAllRatesAction-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
-		p:actionLabel="Sync All Rates" p:methodToCall="syncAllRates">
+		p:actionLabel="Sync All Rates" p:methodToCall="syncAllRates" p:disabled="@{#parent.readOnly}">
 		<property name="confirmationDialog">
 			<bean parent="Uif-DialogGroup-OkCancel" 
 				p:promptText="Do you want to sync all rate type Institute Rates &amp; Applicable Rates with the current Institute Rates identified in the Unit Hierarchy rate table?  This will override the existing rates within both columns and cause recalculation of the budget."
@@ -76,7 +76,7 @@
 	
 	<bean id="PropBudget-RatesPage-SyncRatesAction" parent="PropBudget-RatesPage-SyncRatesAction-parentBean"/>
 	<bean id="PropBudget-RatesPage-SyncRatesAction-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
-		p:actionLabel="Sync to Current Institutional Rates" p:methodToCall="syncRates">
+		p:actionLabel="Sync to Current Institutional Rates" p:methodToCall="syncRates" p:disabled="@{#parent.readOnly}">
 		<property name="additionalSubmitData">
 			<map>
 				<entry key="rateClassTypeCode" value="@{#rateClassType}"/>
@@ -91,7 +91,7 @@
 	
 	<bean id="PropBudget-RatesPage-ResetRates" parent="PropBudget-RatesPage-ResetRates-parentBean"/>
 	<bean id="PropBudget-RatesPage-ResetRates-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
-		p:actionLabel="Reset to Default Rates" p:methodToCall="resetRates">
+		p:actionLabel="Reset to Default Rates" p:methodToCall="resetRates" p:disabled="@{#parent.readOnly}">
 		<property name="additionalSubmitData">
 			<map>
 				<entry key="rateClassTypeCode" value="@{#rateClassType}"/>
@@ -137,7 +137,8 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="rateType.description" p:order="10" p:skipInTabOrder="true"/>
+				<bean parent="Uif-DataField" p:propertyName="rateType.description" p:order="10" p:skipInTabOrder="true"
+					p:enableAutoInquiry="false" />
 				<bean parent="Uif-DataField" p:propertyName="onOffCampusFlag" p:readOnlyDisplayReplacement="@{#line.onOffCampusFlag?'Yes':'No'}" 
 					p:skipInTabOrder="true" p:order="20"/>
 				<bean parent="Uif-DataField" p:propertyName="fiscalYear" p:skipInTabOrder="true" p:order="30" p:enableAutoInquiry="false"/>

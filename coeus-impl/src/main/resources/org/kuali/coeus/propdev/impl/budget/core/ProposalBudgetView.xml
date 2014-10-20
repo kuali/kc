@@ -21,7 +21,13 @@
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
 		p:breadcrumbs.render="false" p:cssClasses="uif-formView"
 		p:unifiedHeader="false" p:defaultBindingObjectPath=""
-		p:readOnly="@{!#view.editModes.containsKey(T(org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode).FULL_ENTRY)}">
+		p:readOnly="@{!#view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).MODIFY_BUDGET_EDIT_MODE)}"
+		p:render="@{#view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).VIEW_BUDGET_EDIT_MODE)}">
+		<property name="context">
+			<map>
+				<entry key="budgetAuthConsts" value="@{T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants)}"/>
+			</map>
+		</property>
 		<property name="additionalScriptFiles">
 			<list>
 				<value>scripts/common/dialog.js</value>

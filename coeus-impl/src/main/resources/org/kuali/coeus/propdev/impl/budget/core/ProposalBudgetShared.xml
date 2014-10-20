@@ -25,9 +25,11 @@
 						<list>
 							<bean parent="Uif-LinkField"
 								p:href="proposalBudget?methodToCall=start&amp;budgetId=@{#line.budgetId}"
-								p:linkText="@{#line.name}" p:order="10" />
+								p:linkText="@{#line.name}" p:order="10" p:render="@{#view.editModes.containsKey(#budgetAuthConsts.VIEW_BUDGET_EDIT_MODE)}"/>
+							<bean parent="Uif-MessageField" p:messageText="@{#line.name}" p:render="@{!#view.editModes.containsKey(#budgetAuthConsts.VIEW_BUDGET_EDIT_MODE)}"
+								p:order="20"/>
 							<bean parent="Uif-MessageField" p:messageText="[small](for submission)[/small]" 
-								p:additionalCssClasses="submissionMessage" p:order="20"/>
+								p:additionalCssClasses="submissionMessage" p:order="30"/>
 						</list>
 					</property>
 				</bean>
@@ -49,7 +51,7 @@
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Add Budget"
 							p:actionScript="showDialog('PropDev-BudgetPage-NewBudgetDialog')" p:iconClass="icon-plus"
-                            p:render="@{!#parent.readOnly}" p:order="10" />
+                            p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE)}" p:order="10" />
 					</list>
 				</property>
 			</bean>
@@ -80,8 +82,9 @@
 		<property name="listPrototype.items">
 			<list>
 				<bean parent="Uif-ActionLink" p:actionLabel="View Summary" p:iconClass="icon-eye-open" p:order="10"/>
-				<bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy" 
-					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})" p:order="20"/>
+				<bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy" p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE)}"
+					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})" 
+					p:order="20"/>
 				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:iconClass="icon-print" p:order="30"/>
 			</list>
 		</property>

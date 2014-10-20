@@ -17,7 +17,8 @@
 
 	<!-- Proposal Compliance Page -->
 	<bean id="PropDev-BudgetPage" parent="PropDev-BudgetPage-parentBean" />
-	<bean id="PropDev-BudgetPage-parentBean" parent="PropDev-DocumentPage">
+	<bean id="PropDev-BudgetPage-parentBean" parent="PropDev-DocumentPage" 
+			p:readOnly="@{!#view.editModes.containsKey(#budgetAuthConsts.MODIFY_BUDGET_EDIT_MODE)}">
 		<property name="items">
 			<list>
 				<ref bean="PropDev-BudgetPage-Collection"/>

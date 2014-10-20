@@ -34,7 +34,7 @@
 					p:iconClass="icon-chevron-right" p:actionIconPlacement="RIGHT"
 					p:order="20" />					
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
-					p:performClientSideValidation="true" p:methodToCall="save"
+					p:performClientSideValidation="true" p:methodToCall="save" p:disabled="@{#parent.readOnly}"
 					p:actionLabel="Save" p:order="30" />
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
 					p:performClientSideValidation="true" p:methodToCall="completeBudget"

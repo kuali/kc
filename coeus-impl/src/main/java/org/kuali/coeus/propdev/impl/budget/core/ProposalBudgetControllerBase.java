@@ -11,14 +11,17 @@ import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.auth.ProposalBudgetAuthorizer;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.ScaleTwoDecimalEditor;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.service.*;
@@ -90,6 +93,14 @@ public abstract class ProposalBudgetControllerBase {
     @Autowired
     @Qualifier("budgetJustificationService")
     private BudgetJustificationService budgetJustificationService;
+    
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+    
+    @Autowired
+    @Qualifier("proposalBudgetAuthorizer")
+    private ProposalBudgetAuthorizer proposalBudgetAuthorizer;
 
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
@@ -102,7 +113,11 @@ public abstract class ProposalBudgetControllerBase {
     }
 
     protected ProposalDevelopmentBudgetExt loadBudget(Long budgetId) {
-    	return getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build());
+    	ProposalDevelopmentBudgetExt budget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build());
+    	if (!proposalBudgetAuthorizer.isAuthorizedToViewBudget(budget, globalVariableService.getUserSession().getPerson())) {
+    		throw new AuthorizationException(globalVariableService.getUserSession().getPrincipalName(), "open", "Proposal Budget");
+    	}
+    	return budget;
     }
 
     public ModelAndView save(ProposalBudgetForm form) throws Exception {
@@ -115,7 +130,11 @@ public abstract class ProposalBudgetControllerBase {
     protected ModelAndView navigate(ProposalBudgetForm form) throws Exception {
 		form.setPageId(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID));
 		form.setDirtyForm(false);
-		return save(form);
+		if (form.getView().getCurrentPage().getReadOnly() == null || form.getView().getCurrentPage().getReadOnly()) {
+			return getModelAndViewService().getModelAndView(form);
+		} else {
+			return save(form);
+		}
     }
     
     @InitBinder
@@ -242,5 +261,22 @@ public abstract class ProposalBudgetControllerBase {
     public void setBudgetJustificationService(BudgetJustificationService budgetJustificationService) {
         this.budgetJustificationService = budgetJustificationService;
     }
+
+	protected GlobalVariableService getGlobalVariableService() {
+		return globalVariableService;
+	}
+
+	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+		this.globalVariableService = globalVariableService;
+	}
+
+	protected ProposalBudgetAuthorizer getProposalBudgetAuthorizer() {
+		return proposalBudgetAuthorizer;
+	}
+
+	public void setProposalBudgetAuthorizer(
+			ProposalBudgetAuthorizer proposalBudgetAuthorizer) {
+		this.proposalBudgetAuthorizer = proposalBudgetAuthorizer;
+	}
 
 }

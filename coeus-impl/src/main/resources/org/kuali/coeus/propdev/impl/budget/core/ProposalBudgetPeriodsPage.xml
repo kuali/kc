@@ -109,9 +109,9 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Recalculate with changes"
-                              p:methodToCall="recalculateBudgetWithChanges" p:order="10"/>
+                              p:methodToCall="recalculateBudgetWithChanges" p:order="10" p:disabled="@{#parent.readOnly}"/>
                         <bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Reset to period defaults"
-                              p:methodToCall="resetToBudgetPeriodDefault" p:order="20"/>
+                              p:methodToCall="resetToBudgetPeriodDefault" p:order="20" p:disabled="@{#parent.readOnly}"/>
                     </list>
                 </property>
             </bean>

@@ -9,4 +9,13 @@ public class ProposalBudgetConstants {
 		public static final String SUBAWARDS_COLLECTION = "PropBudget-SubawardsPage-CollectionGroup";
 		public static final String SUBAWARDS_ADD_DIALOG = "PropBudget-SubawardsPage-CollectionGroup-AddDialog";
 	}
+	
+	public static class AuthConstants {
+		public static final String MODIFY_BUDGET_EDIT_MODE = "modifyBudget";
+		public static final String VIEW_BUDGET_EDIT_MODE ="viewBudget";
+		public static final String MODIFY_RATES_EDIT_MODE = "modifyBudgetRates";
+		public static final String MAINTAIN_PROPOSAL_HIERARCHY = "maintainProposalHierarchy";
+		public static final String PRINT_EDIT_MODE = "canPrint";
+		public static final String ADD_BUDGET_EDIT_MODE = "addBudget";
+	}
 }
