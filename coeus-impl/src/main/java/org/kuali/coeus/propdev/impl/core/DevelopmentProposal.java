@@ -981,7 +981,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
             proposalSite.setLocationTypeCode(locationType);
             proposalSite.setDevelopmentProposal(this);
         }
-        proposalSites.addAll(proposalSites);
+        this.proposalSites.addAll(proposalSites);
     }
 
     private void deleteAllProposalSitesOfType(int locationType) {

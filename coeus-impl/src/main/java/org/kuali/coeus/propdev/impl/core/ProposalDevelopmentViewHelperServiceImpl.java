@@ -242,7 +242,21 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         else if (lineObject instanceof ProposalUserRoles){
             getProposalDevelopmentPermissionsService().processAddPermission(document,(ProposalUserRoles)lineObject);
         }
+        else if (lineObject instanceof ProposalSite) {
+            // Some collections of ProposalSites do not represent the full collection by ref so their special setter
+            // must be invoked to maintain the parent collection
+            List<ProposalSite> sites = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
+            if (sites == null) {
+                sites = new ArrayList<ProposalSite>();
+            }
+
+            if (!sites.contains(lineObject)) {
+                sites.add(0, (ProposalSite)lineObject);
+                ObjectPropertyUtils.setPropertyValue(model, collectionPath, sites);
+            }
+        }
     }
+
     public void finalizeNavigationLinks(Action action, Object model, String direction) {
      ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
      List<Action> actions = pdForm.getOrderedNavigationActions();
@@ -347,6 +361,19 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
                     proposalDevelopmentDocumentForm.getEditableCollectionLines().get(collectionPath).remove(index);
                     break;
                 }
+            }
+        }
+
+        // Special handling for proposal site subset deletions because delete assumes it has a handle to the actual
+        // collection its manipulating and in these cases it does not (so item was never actually deleted)
+        List collection = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
+        if (collection != null && !collection.isEmpty() && collection.size() > lineIndex &&
+                collection.get(lineIndex) instanceof ProposalSite) {
+            Integer typeCode = ((ProposalSite)(collection.get(lineIndex))).getLocationTypeCode();
+            if (typeCode.equals(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION)
+                    || typeCode.equals(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE)) {
+                collection.remove(lineIndex);
+                ObjectPropertyUtils.setPropertyValue(model, collectionPath, collection);
             }
         }
     }
