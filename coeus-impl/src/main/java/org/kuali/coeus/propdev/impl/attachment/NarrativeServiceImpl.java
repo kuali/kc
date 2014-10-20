@@ -81,12 +81,16 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     @Override
-    public boolean isSystemGeneratedNarrative(NarrativeContract narrative) {
-        if (narrative == null) {
+    public boolean isSystemGeneratedNarrative(NarrativeContract narrativeContract) {
+        if (narrativeContract == null) {
             throw new IllegalArgumentException("narrative is null");
         }
 
-        return narrative.getNarrativeType().isSystemGenerated();
+        if (narrativeContract instanceof Narrative) {
+            Narrative narrative = (Narrative) narrativeContract;
+            narrative.refreshReferenceObject("narrativeType");
+        }
+        return narrativeContract.getNarrativeType().isSystemGenerated();
     }
 
     @Override
