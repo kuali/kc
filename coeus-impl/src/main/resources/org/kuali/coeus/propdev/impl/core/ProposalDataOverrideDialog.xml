@@ -15,7 +15,7 @@
     <bean id="PropDev-DataOverride-Dialog" parent="PropDev-DataOverride-Dialog-parentBean" />
     <bean id="PropDev-DataOverride-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
           p:onHideDialogScript="jQuery('#PropDev-DataOverride-Dialog').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropDev-DataOverride-Dialog'));});"
-          p:onShowDialogScript="jQuery('#PropDev-DataOverride-ColumnName').on('change', function(e) {ajaxSubmitForm('prepareDataOverride');});"
+          p:onShowDialogScript="Kc.PropDev.DataOverride.init();"
           p:resetDataOnRefresh="true" p:retrieveViaAjax="true"
           p:readOnly="false">
         <property name="header">
@@ -89,7 +89,7 @@
                 <list>
                     <bean parent="Uif-DataField" p:propertyName="updateTimestamp"
                           p:fieldLabel.labelText="Date" p:order="10"/>
-                    <bean parent="Uif-MessageField" p:messageText="@{#line.attributeName}"
+                    <bean parent="Uif-MessageField" p:messageText="@{#line.editableColumn.columnLabel}"
                           p:fieldLabel.labelText="Field" p:order="20"/>
                     <bean parent="PropDev-DataOverride-DevelopmentProposalInput" p:propertyName="oldDisplayValue" p:order="30"
                           p:fieldLabel.labelText="Old"

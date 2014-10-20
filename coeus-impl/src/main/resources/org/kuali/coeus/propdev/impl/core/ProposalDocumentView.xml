@@ -40,6 +40,7 @@
 				<value>scripts/propdev/attachments.js</value>
 				<value>scripts/propdev/budget.js</value>
                 <value>scripts/propdev/s2s.js</value>
+                <value>scripts/propdev/dataoverride.js</value>
 			</list>
 		</property>
 		<property name="additionalCssFiles">
