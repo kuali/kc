@@ -339,8 +339,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         List<ProtocolReviewerBeanBase> reviewers = getReviewers(protocolForm, request, "iacucProtocolSubmitAction");
-        getProtocolActionRequestService().submitForReview(protocolForm, reviewers);
         super.route(mapping, protocolForm, request, response);
+        getProtocolActionRequestService().submitForReview(protocolForm, reviewers);
         return routeProtocolToHoldingPage(mapping, protocolForm);
     }
     

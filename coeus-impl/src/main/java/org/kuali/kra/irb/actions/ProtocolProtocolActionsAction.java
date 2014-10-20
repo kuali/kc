@@ -355,8 +355,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private ActionForward submitForReviewAndRedirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        boolean isPromptToNotifyUser = getProtocolActionRequestService().submitForReviewAndPromptToNotifyUser(protocolForm);
         super.route(mapping, protocolForm, request, response);
+        boolean isPromptToNotifyUser = getProtocolActionRequestService().submitForReviewAndPromptToNotifyUser(protocolForm);
         if (isPromptToNotifyUser) {
             return mapping.findForward(IrbConstants.PROTOCOL_NOTIFICATION_EDITOR);
         } else {             
