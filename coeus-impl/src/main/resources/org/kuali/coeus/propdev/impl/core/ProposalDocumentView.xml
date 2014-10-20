@@ -77,7 +77,6 @@
 				<ref bean="PropDev-PersonnelPage-Wizard" />
 				<ref bean="PropDev-BudgetPage-NewBudgetDialog"/>
 				<ref bean="PropDev-BudgetPage-CopyBudgetDialog"/>
-                <ref bean="PropDev-PermissionsDialog"/>
                 <ref bean="PropDev-DataOverride-Dialog"/>
 			</list>
 		</property>
@@ -240,8 +239,6 @@
 							p:iconClass="icon-tasks" p:order="40" p:actionScript="showDialog('PropDev-MedusaSection');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy"
 							p:iconClass="icon-list-ol" p:order="50"  p:actionScript="showDialog('PropDev-HierachySection');" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Access"
-                              p:iconClass="icon-lock" p:order="60" p:actionScript="showDialog('PropDev-PermissionsDialog');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropDev-BudgetVersions-Dialog');"
 							p:iconClass="icon-money" p:order="70" />
                         <bean parent="Uif-ActionLink" p:actionLabel="Data Override" p:actionScript="retrieveComponent('PropDev-DataOverride-Dialog');showDialog('PropDev-DataOverride-Dialog');"
