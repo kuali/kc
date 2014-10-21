@@ -26,7 +26,6 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String SPONSOR_PROPOSAL_KEY = "document.developmentProposal.sponsorProposalNumber";
     public static final String PRIME_SPONSOR_KEY = "document.developmentProposal.primeSponsorCode";
 
-    public static final String TITLE_KEY = "document.developmentProposal.title";
     public static final String ORIGINAL_PROPOSAL_ID_KEY = "document.developmentProposal.continuedFrom";
 
     public static final String PERSONNEL_PAGE_ID = "PropDev-PersonnelPage";

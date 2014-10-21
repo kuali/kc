@@ -50,10 +50,6 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
 
-        if (StringUtils.equalsIgnoreCase(proposal.getSponsorCode(),Constants.NIH_SPONSOR_CODE) && proposalDevelopmentDocument.getDevelopmentProposal().getTitle().length() > 81){
-            valid = false;
-            getAuditErrors(DETAILS_PAGE_NAME,NO_SECTION_ID).add(new AuditError(TITLE_KEY, KeyConstants.ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH, DETAILS_PAGE_ID));
-        }
         Long proposalId = null;
         if (StringUtils.isNotEmpty(proposal.getContinuedFrom())) {
            proposalId = getSubmissionInfoService().getProposalContinuedFromVersionProposalId(proposal.getContinuedFrom());
