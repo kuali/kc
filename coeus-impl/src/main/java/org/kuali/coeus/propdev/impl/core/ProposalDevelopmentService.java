@@ -20,7 +20,6 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.person.CoPiInfoDO;
 import org.kuali.coeus.propdev.impl.budget.CostShareInfoDO;
-import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -128,4 +127,6 @@ public interface ProposalDevelopmentService {
      * @return the list of units the user has this permission in
      */
     public List<Unit> getUnitsForCreateProposal(String userId);
+    
+    public boolean autogenerateInstitutionalProposal();
 }

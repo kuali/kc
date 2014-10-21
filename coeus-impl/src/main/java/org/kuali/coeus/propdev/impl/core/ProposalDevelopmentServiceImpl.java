@@ -47,6 +47,7 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -778,6 +779,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         //the above line could potentially be a performance problem - need to revisit
         return new ArrayList<Unit>(units);
+    }
+    
+    public boolean autogenerateInstitutionalProposal() {
+    	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+                ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
 
     protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) {

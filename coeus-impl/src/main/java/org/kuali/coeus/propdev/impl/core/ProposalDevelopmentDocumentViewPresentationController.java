@@ -26,6 +26,10 @@ public class ProposalDevelopmentDocumentViewPresentationController extends Trans
 	@Autowired
 	@Qualifier("kcWorkflowService")
 	private KcWorkflowService kcWorkflowService;
+	
+    @Autowired
+    @Qualifier("proposalDevelopmentService")
+    private ProposalDevelopmentService proposalDevelopmentService;
 
 
 	@Override
@@ -62,7 +66,7 @@ public class ProposalDevelopmentDocumentViewPresentationController extends Trans
 	public boolean canSubmitToSponsor(Document doc) {
 		 boolean canSubmitToSponsor =  doc.getDocumentHeader().getWorkflowDocument().isProcessed() || doc.getDocumentHeader().getWorkflowDocument().isFinal() || 
 										doc.getDocumentHeader().getWorkflowDocument().isEnroute(); 
-		 
+		 canSubmitToSponsor &= getProposalDevelopmentService().autogenerateInstitutionalProposal();
 		 canSubmitToSponsor &= ! ((ProposalDevelopmentDocument)doc).getDevelopmentProposal().getSubmitFlag();
 		 return canSubmitToSponsor;
 	}
@@ -77,4 +81,14 @@ public class ProposalDevelopmentDocumentViewPresentationController extends Trans
 		this.kcWorkflowService = kcWorkflowService;
 	}
 
+	public ProposalDevelopmentService getProposalDevelopmentService() {
+		return proposalDevelopmentService;
+	}
+
+	public void setProposalDevelopmentService(
+			ProposalDevelopmentService proposalDevelopmentService) {
+		this.proposalDevelopmentService = proposalDevelopmentService;
+	}
+
+	
 }
