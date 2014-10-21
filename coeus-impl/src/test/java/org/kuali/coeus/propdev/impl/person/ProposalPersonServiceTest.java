@@ -26,7 +26,7 @@ public class ProposalPersonServiceTest {
 	private ProposalPersonServiceImpl proposalPersonService;
 	private UnitService unitService;
 	private DataObjectService dataObjectService;
-	private GenericQueryResults.Builder<ProposalPerson> proposalPersonListBuilder;
+	private GenericQueryResults.Builder proposalPersonListBuilder;
 	private KcPersonService kcPersonService;
 
 	@Before

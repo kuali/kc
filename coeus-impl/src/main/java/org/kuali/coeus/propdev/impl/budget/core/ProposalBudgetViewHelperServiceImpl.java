@@ -18,10 +18,13 @@ package org.kuali.coeus.propdev.impl.budget.core;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
+import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
+import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
@@ -86,6 +89,18 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
                 budgetCostShare.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetCostShare.getDocumentComponentIdKey()));
             }
         }
+        if (addLine instanceof BudgetModularIdc) {
+            BudgetModularIdc budgetModularIdc = (BudgetModularIdc) addLine;
+            try {
+                budgetModularIdc.setBudgetModular((BudgetModular)PropertyUtils.getNestedProperty(model, StringUtils.replace(collectionPath, ".budgetModularIdcs", "")));
+            } catch (Exception e) {
+                throw new RuntimeException("proposal budget modular cannot be retrieved from propdev budget",e);
+            }
+            budgetModularIdc.setBudgetPeriod(budgetModularIdc.getBudgetModular().getBudgetPeriod());
+            budgetModularIdc.setBudgetId(budgetModularIdc.getBudgetModular().getBudgetId());
+            budgetModularIdc.setBudgetPeriodId(budgetModularIdc.getBudgetModular().getBudgetPeriodId());
+            budgetModularIdc.setRateNumber(((ProposalBudgetForm) model).getBudget().getNextValue("rateNumber"));
+          }
     }
 
     @Override

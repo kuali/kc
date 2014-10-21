@@ -36,7 +36,7 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
     private static final long serialVersionUID = 9162516694202776979L;
 
     @Id
-    @Column(name = "BUDGET_PERIOD_NUMBER")
+    @Column(name = "BUDGET_PERIOD_NUMBER" , insertable = false, updatable = false)
     private Long budgetPeriodId;
 
     @Column(name = "BUDGET_PERIOD")
@@ -67,6 +67,10 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DESCRIPTION", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
     private RateClass rateClass;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER")
+    private BudgetModular budgetModular;
 
     public BudgetModularIdc() {
         idcRate = new ScaleTwoDecimal(0.0);
@@ -212,4 +216,10 @@ public class BudgetModularIdc extends KcPersistableBusinessObjectBase implements
             return new CompareToBuilder().append(this.budgetPeriodId, other.budgetPeriodId).append(this.rateNumber, other.rateNumber).toComparison();
         }
     }
+    public BudgetModular getBudgetModular() { return budgetModular; }
+
+    public void setBudgetModular(BudgetModular budgetModular) {
+        this.budgetModular = budgetModular;
+    }
+
 }

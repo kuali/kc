@@ -58,7 +58,7 @@
 				<ref bean="PropBudget-CostSharingPage" />
                 <ref bean="PropBudget-UnrecoveredFandAPage" />
                 <ref bean="PropBudget-ProjectIncomePage" />
-				<bean id="PropBudget-ModularPage" parent="PropBudget-UnderDevelopmentPage" />
+				<ref bean="PropBudget-ModularPage" />
 				<ref bean="PropBudget-NotesPage" />
 				<bean id="PropBudget-SummaryPage" parent="PropBudget-UnderDevelopmentPage" />				
 			</list>

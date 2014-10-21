@@ -10,6 +10,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularSummary;
 import org.kuali.coeus.propdev.impl.budget.nonpersonnel.AddProjectBudgetLineItemHelper;
 import org.kuali.coeus.propdev.impl.budget.person.AddProjectPersonnelHelper;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -30,6 +31,7 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     private List<BudgetPeriodIncomeTotal>budgetPeriodIncomeTotalSummary;
     private AddProjectBudgetLineItemHelper addProjectBudgetLineItemHelper;
     private BudgetJustificationWrapper budgetJustificationWrapper;
+    private BudgetModularSummary budgetModularSummary;
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
@@ -152,6 +154,10 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
 
     public void setBudgetJustificationWrapper(BudgetJustificationWrapper budgetJustificationWrapper) {
         this.budgetJustificationWrapper = budgetJustificationWrapper;
+    }
+
+    public BudgetModularSummary getBudgetModularSummary() {
+        return budgetModularSummary;
     }
 
 }

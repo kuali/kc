@@ -59,8 +59,7 @@ public class BudgetModular extends KcPersistableBusinessObjectBase implements Bu
     @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal totalDirectCost;
 
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER")
+    @OneToMany(mappedBy="budgetModular", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetModularIdc> budgetModularIdcs;
 
     // Derived properties
