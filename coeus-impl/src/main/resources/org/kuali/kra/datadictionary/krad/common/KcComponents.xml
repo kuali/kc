@@ -27,6 +27,7 @@
 	<bean id="Uif-Lookup-MaintenanceReturnLink-parentBean" abstract="true"
 		parent="Uif-Link">
 		<property name="linkText" value="select" />
+        <property name="onClickScript" value="showLoading();" />
 		<property name="finalizeMethodToCall" value="buildReturnUrlForResult" />
 		<property name="render" value="@{#view.renderReturnLink}" />
 		<property name="additionalCssClasses" value="btn,btn-primary,btn-xs" />
