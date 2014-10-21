@@ -531,13 +531,13 @@
 														</fo:table-cell>															
 													</fo:table-row>
 													<fo:table-row>
-														<fo:table-cell number-columns-spanned="4" padding="2pt" display-align="left">
+														<fo:table-cell number-columns-spanned="4" padding="2pt" display-align="auto">
 															<fo:table>
 																<fo:table-column column-width="75%"/>
 																<fo:table-column column-width="25%"/>
 																<fo:table-body>
 																	<fo:table-row>
-																		<fo:table-cell padding="2pt" display-align="left">
+																		<fo:table-cell padding="2pt" display-align="auto">
 																			<fo:block>
 																				My signature below certifies that I hereby authorize MIT to submit the above referenced proposal as an institutionally
 																				authorized proposal. 
@@ -552,7 +552,7 @@
 																				Please contact your department head, center or laboratory director, or Vice-President for research if you cannot certify the following:
 																			</fo:block>
 																		</fo:table-cell>
-																		<fo:table-cell padding="2pt" display-align="left">
+																		<fo:table-cell padding="2pt" display-align="auto">
 																			<fo:block>
 																			</fo:block>
 																		</fo:table-cell>
@@ -706,7 +706,7 @@
 										<fo:table-cell>
 											<fo:block><xsl:text>&#160;</xsl:text></fo:block>
 										</fo:table-cell>
-										<fo:table-cell font-size="9pt" font-weight="bold" padding="2pt" text-align="Right" display-align="before">
+										<fo:table-cell font-size="9pt" font-weight="bold" padding="2pt" text-align="right" display-align="before">
 											<fo:block>
 												<fo:inline>
 													<xsl:text>Signature</xsl:text>
