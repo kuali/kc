@@ -131,7 +131,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     private String url;
 
     @Transient
-    private MultipartFile multipartFile;
+    private transient MultipartFile multipartFile;
 
     @Transient
     private transient DateTimeService dateTimeService;

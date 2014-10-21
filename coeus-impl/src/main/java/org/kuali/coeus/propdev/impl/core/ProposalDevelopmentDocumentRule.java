@@ -515,6 +515,11 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         for (ProposalPersonBiography biography : document.getDevelopmentProposal().getPropPersonBios()) {
             retVal &= processSavePersonnelAttachmentBusinessRules(new SavePersonnelAttachmentEvent("",document,biography));
         }
+        int index= 0;
+        for (Narrative narrative : document.getDevelopmentProposal().getNarratives()) {
+            retVal &= processSaveNarrativesBusinessRules(new SaveNarrativesEvent("document.developmentProposal.narratives["+index+"]",document,narrative,document.getDevelopmentProposal().getNarratives()));
+            index++;
+        }
         return retVal;
     }
 

@@ -29,16 +29,12 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 
@@ -51,9 +47,8 @@ import static org.kuali.kra.infrastructure.KeyConstants.*;
  * @version 1.0
  */
 public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRuleBase implements AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, NewNarrativeUserRightsRule { 
-    private static final String DOCUMENT_NARRATIVES = "document.narratives";
+    private static final String DOCUMENT_NARRATIVES = "document.developmentProposal.narratives";
     private static final String PROPOSAL = "Proposal";
-    private static final String NARRATIVE_TYPE_CODE = "code";
     private static final String MODULE_STATUS_CODE_COMPLETED = "C";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentNarrativeRule.class);
@@ -62,7 +57,6 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     private transient PersonService personService;
     private transient ParameterService parameterService;
     private transient KcAttachmentService  kcAttachmentService;
-    private DictionaryValidationService dictionaryValidationService;
     private transient KcAuthorizationService kcAuthorizationService;
 
     /**
@@ -74,7 +68,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)narrativeEvent.getDocument();
         Narrative narrative = narrativeEvent.getNarrative();
         boolean rulePassed = true;
-        populateNarrativeType(narrative);
+        getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
         MessageMap map = GlobalVariables.getMessageMap();
 
         if(narrative.getNarrativeType()==null)
@@ -84,23 +78,12 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
                 && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
                 && StringUtils.isBlank(narrative.getName())) {
             LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
-            reportError("newNarrative.moduleStatusCode", ERROR_NARRATIVE_STATUS_INVALID);
+            reportError("moduleStatusCode", ERROR_NARRATIVE_STATUS_INVALID);
             rulePassed = false;
         }
-        
-        if (StringUtils.isBlank(narrative.getName())) {
-            rulePassed = false;
-            reportError("newNarrative.narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
-        }
-        
-        rulePassed &= validFileNameCharacters(narrative);
-        
-        map.addToErrorPath("newNarrative");
-        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
-        map.removeFromErrorPath("newNarrative");
-        int size = map.getErrorMessages().keySet().size();
-        rulePassed &= size<=0;
+        rulePassed &= getDictionaryValidationService().isBusinessObjectValid(narrative);
         rulePassed &= checkNarrative(document.getDevelopmentProposal().getNarratives(), narrative);
+        rulePassed &= validFileNameCharacters(narrative);
         
         return rulePassed;
     }
@@ -116,12 +99,14 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
            
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                 rulePassed &= false;
-                reportError("newNarrative.narrativeFile", KeyConstants.INVALID_FILE_NAME,
+                reportError("multipartFile", KeyConstants.INVALID_FILE_NAME,
                         attachmentFileName, invalidCharacters);
             } else {
                 rulePassed &= true;
-                reportWarning("newNarrative.narrativeFile", KeyConstants.INVALID_FILE_NAME,
+                reportWarning("multipartFile",KeyConstants.INVALID_FILE_NAME,
                         attachmentFileName, invalidCharacters);
+                GlobalVariables.getMessageMap().getErrorPath().clear();
+                GlobalVariables.getMessageMap().putWarning(DOCUMENT_NARRATIVES, KeyConstants.INVALID_FILE_NAME, attachmentFileName, invalidCharacters);
             }
         }
         return rulePassed;
@@ -132,27 +117,20 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      * @see org.kuali.coeus.propdev.impl.attachment.SaveNarrativesRule#processSaveNarrativesBusinessRules(org.kuali.coeus.propdev.impl.attachment.SaveNarrativesEvent)
      */
     public boolean processSaveNarrativesBusinessRules(SaveNarrativesEvent saveNarrativesEvent) {
-        
-        boolean rulePassed = checkUserRights(saveNarrativesEvent);
-        
-        List<Narrative> narrativeList = saveNarrativesEvent.getNarratives();
-        int size = narrativeList.size();
-       
-        for (int i = 0; i < size; i++) {
-            Narrative narrative = narrativeList.get(0);
-            
-            narrativeList.remove(narrative);  
-            //--size;
-            rulePassed &= checkNarrative(narrativeList,narrative);
-        }
-        
+        boolean rulePassed = true;
         Narrative narrative = saveNarrativesEvent.getNarrative();
-        populateNarrativeType(narrative);
+        getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
+        List<Narrative> narrativeList = saveNarrativesEvent.getNarratives();
+        GlobalVariables.getMessageMap().getErrorPath().clear();
+        GlobalVariables.getMessageMap().getErrorPath().add(saveNarrativesEvent.getErrorPathPrefix());
+        rulePassed &= checkNarrative(narrativeList,saveNarrativesEvent.getNarrative());
+        rulePassed &= checkUserRights(saveNarrativesEvent);
+
         if(!StringUtils.isBlank(narrative.getModuleStatusCode()) 
                 && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
                 && StringUtils.isBlank(narrative.getName())) {
             LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
-            reportError("newNarrative.moduleStatusCode", ERROR_NARRATIVE_STATUS_INVALID);
+            reportError("moduleStatusCode", ERROR_NARRATIVE_STATUS_INVALID);
             rulePassed = false;
         }
         
@@ -167,7 +145,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     public boolean processReplaceNarrativeBusinessRules(ReplaceNarrativeEvent replaceNarrativeEvent) {
         Narrative narrative = replaceNarrativeEvent.getNarrative();
         boolean rulePassed = true;
-        populateNarrativeType(narrative);
+        getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
         MessageMap map = GlobalVariables.getMessageMap();
 
         if(narrative.getNarrativeType()==null)
@@ -176,11 +154,8 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
         rulePassed &= validFileNameCharacters(narrative);
         
         map.addToErrorPath(replaceNarrativeEvent.getErrorPathPrefix());
-        getKnsDictionaryValidationService().validateBusinessObject(narrative,false);
+        rulePassed &= getDictionaryValidationService().isBusinessObjectValid(narrative);
         map.removeFromErrorPath(replaceNarrativeEvent.getErrorPathPrefix());
-        int size = map.getErrorMessages().keySet().size();
-        rulePassed &= size<=0 ;
-        
         return rulePassed;
     } 
     
@@ -204,7 +179,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
                 Narrative narrative = findNarrative(narratives, origNarrative);
                 if (!origNarrative.equals(narrative)) {
                     isValid = false;
-                    reportError("newNarrative.narrativeTypeCode", ERROR_ATTACHMENT_NOT_AUTHORIZED, origNarrative.getNarrativeType().getDescription());
+                    reportError("narrativeTypeCode", ERROR_ATTACHMENT_NOT_AUTHORIZED, origNarrative.getNarrativeType().getDescription());
                 }
             }
         }
@@ -253,42 +228,36 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
      * @return true if rules passed, else false
      */
     private boolean checkNarrative(List<Narrative> narrativeList, Narrative narrative) {
-        String errorPath=DOCUMENT_NARRATIVES;
         boolean rulePassed = true;
         if(StringUtils.isBlank(narrative.getNarrativeTypeCode())){
             rulePassed = false;
-            reportError("newNarrative.narrativeTypeCode", ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
+            reportError("narrativeTypeCode", ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
         }
         if(StringUtils.isBlank(narrative.getModuleStatusCode())){
             rulePassed = false;
-            reportError("newNarrative.moduleStatusCode", ERROR_ATTACHMENT_STATUS_NOT_SELECTED);
+            reportError("moduleStatusCode", ERROR_ATTACHMENT_STATUS_NOT_SELECTED);
         }
         if (rulePassed) {
-            populateNarrativeType(narrative);
             String[] param = {PROPOSAL, narrative.getNarrativeType().getDescription()};
             if (!narrative.getNarrativeType().isAllowMultiple()) {
+                int matches = 0;
                 for (Narrative narr : narrativeList) {
                     if (narr!=null && StringUtils.equals(narr.getNarrativeTypeCode(),narrative.getNarrativeTypeCode())) {
-                        LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
-                        reportError(errorPath, ERROR_NARRATIVE_TYPE_DUPLICATE, param);
-                        rulePassed = false;
+                        matches ++;
+                        if (matches > 1) {
+                            LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
+                            reportError("narrativeTypeCode", ERROR_NARRATIVE_TYPE_DUPLICATE, param);
+                            rulePassed = false;
+                            break;
+                        }
                     }
                 }
             }else if (StringUtils.isBlank(narrative.getModuleTitle())) {
-                reportError(errorPath, ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED, param);
+                reportError("moduleTitle", ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED, param);
                 rulePassed = false;
             }
         }
         return rulePassed;
-    }
-    private void populateNarrativeType(Narrative narrative) {
-        Map<String,String> narrativeTypeMap = new HashMap<String,String>();
-        narrativeTypeMap.put(NARRATIVE_TYPE_CODE, narrative.getNarrativeTypeCode());
-        BusinessObjectService service = getBusinessObjectService();
-        NarrativeType narrType = (NarrativeType) service.findByPrimaryKey(NarrativeType.class, narrativeTypeMap);
-        if (narrType != null)
-            narrative.setNarrativeType(narrType);
-        
     }
     
     @Override
@@ -417,12 +386,4 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
    protected boolean hasPermission(String userId, Permissionable doc, String permissionName) {
         return getKcAuthorizationService().hasPermission(userId, doc, permissionName);
     }
-
-    protected DictionaryValidationService getKnsDictionaryValidationService() {
-        if (this.dictionaryValidationService == null) {
-            this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
-        }
-                return this.dictionaryValidationService;
-    }
-
 }

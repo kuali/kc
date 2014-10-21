@@ -22,6 +22,7 @@ import org.kuali.coeus.sys.framework.validation.SoftError;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
@@ -49,6 +50,7 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
     public static final String DOCUMENT_ERROR_PATH = "document";
     private ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
 
+    private DataObjectService dataObjectService;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private DictionaryValidationService knsDictionaryValidationService;
@@ -242,5 +244,14 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
         this.errorReporter = errorReporter;
     }
 
+    protected DataObjectService getDataObjectService() {
+        if (dataObjectService == null) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+        return dataObjectService;
+    }
 
+    protected void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

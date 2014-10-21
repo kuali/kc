@@ -56,7 +56,7 @@
 			     <list>
 			       <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"/>
 			       <bean parent="Uif-AddLineAction-Dialog" p:actionLabel="Add Subaward" p:dialogDismissOption="" 
-			       		p:successCallback="Kc.PropDev.Budget.closeDialogWithoutError('PropBudget-SubawardsPage-CollectionGroup-AddDialog');"/>
+			       		p:successCallback="Kc.Dialog.closeDialogWithoutError('PropBudget-SubawardsPage-CollectionGroup-AddDialog');"/>
 			     </list>
 			   </property>	    	    	
 	    	</bean>
