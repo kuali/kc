@@ -34,7 +34,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.util.GlobalVariables;
+
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -43,6 +43,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.SUPPLEMENTAL_PAGE_ID;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.SUPPLEMENTAL_PAGE_NAME;
+
 /**
  * This class tests the KcDocumentBaseAuditRule class
  */
@@ -106,11 +109,10 @@ public class KcDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
 
         for (String key: requiredFields.keySet()) {
             CustomAttribute customAttribute = requiredFields.get(key);
-            AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors");
+            AuditCluster auditCluster = GlobalVariables.getAuditErrorMap().get(SUPPLEMENTAL_PAGE_NAME + "." +customAttribute.getGroupName());
 
             assertEquals(1, auditCluster.getSize());
-            //assertEquals("Custom Data: " + customAttribute.getGroupName(), auditCluster.getLabel());
-            assertEquals(customAttribute.getGroupName(), auditCluster.getLabel());
+            assertEquals(SUPPLEMENTAL_PAGE_NAME + "." +customAttribute.getGroupName(), auditCluster.getLabel());
             assertEquals("Error", auditCluster.getCategory());
             AuditError auditError = (AuditError) auditCluster.getAuditErrorList().get(0);
             int index = 0;
@@ -120,8 +122,8 @@ public class KcDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
                 }
                 index++;
             }
-            assertEquals("customDataHelper.customDataList[" + index + "].value", auditError.getErrorKey());
-            assertEquals("customData." + StringUtils.deleteWhitespace(customAttribute.getGroupName()), auditError.getLink());
+            assertEquals(StringUtils.removePattern(customAttribute.getGroupName() + "_" + customAttribute.getLabel(), "([^0-9a-zA-Z\\-_])"), auditError.getErrorKey());
+            assertEquals(SUPPLEMENTAL_PAGE_ID + "." + customAttribute.getGroupName().replace(" ","_"), auditError.getLink());
             assertEquals(customAttribute.getLabel(), auditError.getParams()[0]);
             assertEquals(RiceKeyConstants.ERROR_REQUIRED, auditError.getMessageKey());
         }

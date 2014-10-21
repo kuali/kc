@@ -45,6 +45,9 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import static org.junit.Assert.*;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
+
+
 /**
  * This class tests the ProposalDevelopmentSponsorProgramInformationAuditRule class
  */
@@ -154,10 +157,10 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         proposal.setProgramAnnouncementTitle("Test Title");
         
         auditRule.setSubmissionInfoService(new SubmissionInfoServiceMock());
-        validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, true);
+        validateGGAuditRules(document,SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, true);
         GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
-        validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, false);
+        validateGGAuditRules(document, SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, false);
         GlobalVariables.getAuditErrorMap().clear();
         auditRule.setSubmissionInfoService(null);
         auditRule.setParameterService(null);
@@ -175,17 +178,17 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         proposal.setProgramAnnouncementTitle("Test Title");
 
         auditRule.setSubmissionInfoService(new SubmissionInfoServiceMock());
-        validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, true);
+        validateGGAuditRules(document, SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, true);
         GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
-        validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, false);
+        validateGGAuditRules(document, SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, false);
         GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber(null);
         proposal.setCurrentAwardNumber("000001-0001");
-        validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, true);
+        validateGGAuditRules(document, SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, true);
         GlobalVariables.getAuditErrorMap().clear();
         proposal.setContinuedFrom("1");
-        validateGGAuditRules(document, Constants.SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, false);
+        validateGGAuditRules(document, SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, false);
         GlobalVariables.getAuditErrorMap().clear();
         auditRule.setSubmissionInfoService(null);
         auditRule.setParameterService(null);
@@ -199,16 +202,16 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     private void validateAuditRule(ProposalDevelopmentDocument document, String messageKey) {
         assertFalse("Audit Rule should produce a Warning audit error", auditRule.processRunAuditBusinessRules(document));
         assertEquals(1, GlobalVariables.getAuditErrorMap().size());
-        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("sponsorProgramInformationAuditWarnings");
+        AuditCluster auditCluster = GlobalVariables.getAuditErrorMap().get(SPONSOR_PROGRAM_INFO_PAGE_NAME+AUDIT_WARNINGS);
 
-        assertEquals("Sponsor & Program Information", auditCluster.getLabel());
+        assertEquals(SPONSOR_PROGRAM_INFO_PAGE_NAME, auditCluster.getLabel());
         List auditErrors = auditCluster.getAuditErrorList();
         assertEquals(1, auditErrors.size());
         AuditError auditError = (AuditError) auditErrors.get(0);
 
-        assertEquals("document.developmentProposalList[0].deadlineDate", auditError.getErrorKey());
+        assertEquals("document.developmentProposal.deadlineDate", auditError.getErrorKey());
         assertEquals(messageKey, auditError.getMessageKey());
-        assertEquals("proposal.SponsorProgramInformation", auditError.getLink());
+        assertEquals(SPONSOR_PROGRAM_INFO_PAGE_ID, auditError.getLink());
 
         assertEquals("Warnings", auditCluster.getCategory());
     }
@@ -216,19 +219,19 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     private void validateGGAuditRules(ProposalDevelopmentDocument document, String fieldKey, String messageKey, boolean expectError) {
         assertTrue("Audit Rule did not produce expected results", auditRule.processRunAuditBusinessRules(document) ^ expectError);
         assertEquals(expectError?1:0, GlobalVariables.getAuditErrorMap().size());
-        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("sponsorProgramInformationAuditErrors");
+        AuditCluster auditCluster = GlobalVariables.getAuditErrorMap().get(SPONSOR_PROGRAM_INFO_PAGE_NAME+AUDIT_ERRORS);
 
         if (expectError) {
-            assertEquals("Sponsor & Program Information", auditCluster.getLabel());
+            assertEquals(SPONSOR_PROGRAM_INFO_PAGE_NAME, auditCluster.getLabel());
             List auditErrors = auditCluster.getAuditErrorList();
             assertEquals(1, auditErrors.size());
             AuditError auditError = (AuditError) auditErrors.get(0);
     
             assertEquals(fieldKey, auditError.getErrorKey());
             assertEquals(messageKey, auditError.getMessageKey());
-            assertEquals("proposal.SponsorProgramInformation", auditError.getLink());
+            assertEquals(SPONSOR_PROGRAM_INFO_PAGE_ID, auditError.getLink());
     
-            assertEquals(Constants.GRANTSGOV_ERRORS, auditCluster.getCategory());
+            assertEquals(AUDIT_ERRORS, auditCluster.getCategory());
         }
     }
     

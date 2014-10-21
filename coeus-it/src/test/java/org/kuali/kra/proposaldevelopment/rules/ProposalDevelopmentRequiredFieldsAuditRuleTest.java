@@ -19,10 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFieldsAuditRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentServiceImpl;
 import org.kuali.coeus.propdev.impl.core.SubmissionInfoServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -38,7 +36,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.util.GlobalVariables;
+
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -46,6 +44,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import static org.junit.Assert.*;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
+
 /**
  * This class tests the ProposalDevelopmentSponsorProgramInformationAuditRule class
  */
@@ -99,15 +99,15 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
         proposal.setProposalTypeCode(proposalTypeCodeNew);
         proposal.getS2sOpportunity().setS2sSubmissionTypeCode(changeCorrectedTypeCode);
         proposal.setSponsorProposalNumber(null);
-        validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
+        validateAuditRule(pdDoc, ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
         GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber("AA123456");
-        validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", false);
+        validateAuditRule(pdDoc, ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", false);
         GlobalVariables.getAuditErrorMap().clear();
         proposal.setSponsorProposalNumber(null);
         proposal.setContinuedFrom("1");
         //will report error as the instprop found won't be linked to a propdev
-        validateAuditRule(pdDoc, Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
+        validateAuditRule(pdDoc, ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, "requiredFieldsAuditErrors", true);
         auditRule.setSubmissionInfoService(null);
         //not sure how to easily test the last use case where an IP must be linked to
         //a propdev with a Grants.Gov submission with a gg tracking id.
@@ -121,17 +121,17 @@ public class ProposalDevelopmentRequiredFieldsAuditRuleTest extends KcIntegratio
     private void validateAuditRule(ProposalDevelopmentDocument document, String fieldKey, String messageKey, String auditKey, boolean expectError) {
         assertTrue("Audit Rule did not produce expected results", auditRule.processRunAuditBusinessRules(document) ^ expectError);
         assertEquals(expectError?1:0, GlobalVariables.getAuditErrorMap().size());
-        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(auditKey);
+        AuditCluster auditCluster = GlobalVariables.getAuditErrorMap().get(DETAILS_PAGE_NAME+".");
 
         if (expectError) {
-            assertEquals("Required Fields for Saving Document ", auditCluster.getLabel());
+            assertEquals(DETAILS_PAGE_NAME+".", auditCluster.getLabel());
             List auditErrors = auditCluster.getAuditErrorList();
             assertEquals(1, auditErrors.size());
             AuditError auditError = (AuditError) auditErrors.get(0);
     
             assertEquals(fieldKey, auditError.getErrorKey());
             assertEquals(messageKey, auditError.getMessageKey());
-            assertEquals("proposal.RequiredFieldsforSavingDocument", auditError.getLink());
+            assertEquals(DETAILS_PAGE_ID, auditError.getLink());
     
             assertEquals(Constants.AUDIT_ERRORS, auditCluster.getCategory());
         }
