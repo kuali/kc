@@ -187,8 +187,9 @@
         </property>
         <property name="collection.items">
             <list merge="true">
-                <bean parent="Uif-InputField" p:propertyName="proposalPersonNumberString" p:readOnly="true"
-                      p:fieldLabel.LabelText="Person" p:required="true" p:order="40">
+                <bean parent="Uif-InputField" p:propertyName="proposalPersonNumberString"
+                      p:fieldLabel.LabelText="Person" p:required="true" p:order="40"
+                      p:enableAutoQuickfinder="false">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -196,9 +197,10 @@
                         <bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonValueFinder"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="documentTypeCode"
+                <bean parent="Uif-InputField" p:propertyName="documentTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="propPerDocType.description"
-                      p:fieldLabel.labelText="Type" p:order="50"/>
+                      p:fieldLabel.labelText="Type" p:order="50"
+                      p:enableAutoQuickfinder="false"/>
                 <bean parent="Uif-DataField" p:propertyName="description" p:order="60"/>
             </list>
         </property>

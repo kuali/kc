@@ -37,16 +37,11 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NO
 public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule, ReplacePersonnelAttachmentRule {
     public static final String OTHER_DOCUMENT_TYPE_DESCRIPTION = "Other";
     
-    private static final String DOC_TYPE_DESCRIPTION = "description";
-    private static final String DOCUMENT_TYPE_CODE = "documentTypeCode";
-    private static final String FILE_NAME_PARM = "File Name";
-    private static final String NEW_PROP_PERSON_BIO_PREFIX = "newPropPersonBio.";
-    private static final String PERSONNEL_ATTACHMENT_FILE = "personnelAttachmentFile";
-    private static final String PROPOSAL_PERSON_NUMBER = "proposalPersonNumber";
-    
-    public static String buildErrorPath(String endPath) {
-        return NEW_PROP_PERSON_BIO_PREFIX + endPath;
-    }
+    private static final String DOC_TYPE_DESCRIPTION = ".description";
+    private static final String DOCUMENT_TYPE_CODE = ".documentTypeCode";
+    private static final String PERSONNEL_ATTACHMENT_FILE = ".multipartFile";
+    private static final String PROPOSAL_PERSON_NUMBER = ".proposalPersonNumberString";
+
     private transient KcAttachmentService kcAttachmentService;
     private transient ParameterService parameterService;
 
@@ -54,43 +49,29 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
     public boolean processAddPersonnelAttachmentBusinessRules(AddPersonnelAttachmentEvent addPersonnelAttachmentEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)addPersonnelAttachmentEvent.getDocument();
         ProposalPersonBiography proposalPersonBiography = addPersonnelAttachmentEvent.getProposalPersonBiography();
+        String errorPrefix = addPersonnelAttachmentEvent.getErrorPathPrefix();
         boolean rulePassed = true;
 
         if(StringUtils.isBlank(proposalPersonBiography.getDocumentTypeCode())){
             rulePassed = false;
-            reportError(buildErrorPath(DOCUMENT_TYPE_CODE), ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
-        }
-        if(proposalPersonBiography.getProposalPersonNumber() == null || StringUtils.isBlank(proposalPersonBiography.getProposalPersonNumber().toString())){
-            rulePassed = false;
-            reportError(buildErrorPath(PROPOSAL_PERSON_NUMBER), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
-        }
-        if (StringUtils.isBlank(proposalPersonBiography.getName())) {
-            rulePassed = false;
-            reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, FILE_NAME_PARM);
+            reportError(errorPrefix + DOCUMENT_TYPE_CODE, ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
         }
                 
-        rulePassed &= checkForInvalidCharacters(proposalPersonBiography);
+        rulePassed &= checkForInvalidCharacters(proposalPersonBiography, errorPrefix);
         
-        rulePassed &= checkForDescriptionWhenTypeIsOther(proposalPersonBiography);
+        rulePassed &= checkForDescriptionWhenTypeIsOther(proposalPersonBiography, errorPrefix);
+
+        rulePassed &= checkForProposalPerson(proposalPersonBiography, errorPrefix);
         
-        List<ProposalPersonBiography> existingPersonBiographyList = document.getDevelopmentProposal().getPropPersonBios();
-        if(CollectionUtils.isNotEmpty(existingPersonBiographyList)){
-            //Loop thru to filter attachment uploaded by the current user
-            for(ProposalPersonBiography personBiography: existingPersonBiographyList) {
-                if(personBiography.getProposalPersonNumber().equals(proposalPersonBiography.getProposalPersonNumber())
-                        && personBiography.getDocumentTypeCode().equals(proposalPersonBiography.getDocumentTypeCode())){
-                    rulePassed = false;
-                    reportError(buildErrorPath(DOCUMENT_TYPE_CODE), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
-                }
-            }
-        }
+        rulePassed &= checkForDuplicates(proposalPersonBiography,document.getDevelopmentProposal().getPropPersonBios(),errorPrefix);
         
         return rulePassed;
     }
 
     @Override
     public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
-        return checkForInvalidCharacters(event.getProposalPersonBiography());
+        String errorPrefix = event.getErrorPathPrefix();
+        return checkForInvalidCharacters(event.getProposalPersonBiography(),errorPrefix);
     }
 
     @Override
@@ -102,21 +83,37 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         List<ProposalPersonBiography> existingPersonBiographyList = document.getDevelopmentProposal().getPropPersonBios();
         if(CollectionUtils.isNotEmpty(existingPersonBiographyList)){
             //Loop thru to filter attachment uploaded by the current user
+            int index=0;
             for(ProposalPersonBiography personBiography: existingPersonBiographyList) {
-                if(personBiography.getProposalPersonNumber().equals(proposalPersonBiography.getProposalPersonNumber())
-                        && personBiography.getDocumentTypeCode().equals(proposalPersonBiography.getDocumentTypeCode())){
-                    rulePassed = false;
-                    reportError(buildErrorPath(DOCUMENT_TYPE_CODE), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
-                }
-                
-                rulePassed &= checkForDescriptionWhenTypeIsOther(personBiography);
+                String errorPrefix = "propPersonBios[" + index +"]";
+                rulePassed &= checkForInvalidCharacters(personBiography, errorPrefix);
+                rulePassed &= checkForDuplicates(personBiography,existingPersonBiographyList,errorPrefix);
+                rulePassed &= checkForDescriptionWhenTypeIsOther(personBiography, errorPrefix);
+                rulePassed &= checkForProposalPerson(proposalPersonBiography, errorPrefix);
+                index++;
             }
         }
 
         return rulePassed;
     }
+
+    private boolean checkForDuplicates(ProposalPersonBiography biography, List<ProposalPersonBiography> existingBiographies, String errorPrefix) {
+        boolean rulePassed = true;
+        if(CollectionUtils.isNotEmpty(existingBiographies) && biography.getProposalPersonNumber() != null){
+            //Loop thru to filter attachment uploaded by the current user
+            for(ProposalPersonBiography personBiography: existingBiographies) {
+                if(personBiography.getProposalPersonNumber() != null && personBiography.getDocumentTypeCode() != null &&
+                        personBiography.getProposalPersonNumber().equals(biography.getProposalPersonNumber())
+                        && personBiography.getDocumentTypeCode().equals(biography.getDocumentTypeCode())){
+                    rulePassed = false;
+                    reportError(errorPrefix+DOCUMENT_TYPE_CODE, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
+                }
+            }
+        }
+        return rulePassed;
+    }
     
-    private boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography) {
+    private boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography, String errorPrefix) {
         KcAttachmentService attachmentService = getKcAttachmentService();
         boolean rulePassed = true;
         // Checking attachment file name for invalid characters.
@@ -127,11 +124,11 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
                 getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
                 rulePassed &= false;
-                reportError(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
+                reportError(errorPrefix+PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_NAME,
                         attachmentFileName, invalidCharacters);
             } else {
                 rulePassed &= true;
-                reportWarning(buildErrorPath(PERSONNEL_ATTACHMENT_FILE), KeyConstants.INVALID_FILE_NAME,
+                reportWarning(errorPrefix+PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_NAME,
                         attachmentFileName, invalidCharacters);
             }
         }
@@ -155,16 +152,25 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
      * @param proposalPersonBiography
      * @return
      */
-    private boolean checkForDescriptionWhenTypeIsOther(ProposalPersonBiography proposalPersonBiography) {
+    private boolean checkForDescriptionWhenTypeIsOther(ProposalPersonBiography proposalPersonBiography, String errorPrefix) {
         boolean rulePassed = true;
         
         if(findPropPerDocTypeForOther().getCode().equalsIgnoreCase(proposalPersonBiography.getDocumentTypeCode())) {
             rulePassed = !StringUtils.isBlank(proposalPersonBiography.getDescription());
             if(!rulePassed) {
-                reportError(buildErrorPath(DOC_TYPE_DESCRIPTION), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);
+                reportError(errorPrefix+DOC_TYPE_DESCRIPTION, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);
             }
         }
         
+        return rulePassed;
+    }
+
+    private boolean checkForProposalPerson(ProposalPersonBiography proposalPersonBiography, String errorPrefix) {
+        boolean rulePassed= true;
+        if(proposalPersonBiography.getProposalPersonNumber() == null || StringUtils.isBlank(proposalPersonBiography.getProposalPersonNumber().toString())){
+            rulePassed = false;
+            reportError(errorPrefix+PROPOSAL_PERSON_NUMBER, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
+        }
         return rulePassed;
     }
     

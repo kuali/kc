@@ -77,21 +77,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
         
         assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
         
-        checkErrorCountAndContent("description", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);        
-    }
-    
-    /**
-     * 
-     * This method is to test that filename is required when attachment type and description are entered.
-     * @throws Exception
-     */
-    @Test
-    public void testFileNameRequired() throws Exception {
-        newProposalPersonBiography.setName(null);
-        
-        assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
-        
-        checkErrorCountAndContent("personnelAttachmentFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME);
+        checkErrorCountAndContent(".description", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);
     }
 
     /**
@@ -119,7 +105,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
         
         assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
         
-        checkErrorCountAndContent("documentTypeCode", KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
+        checkErrorCountAndContent(".documentTypeCode", KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
     }
     
     /**
@@ -135,7 +121,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
         
         assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
         
-        checkErrorCountAndContent("proposalPersonNumber", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
+        checkErrorCountAndContent(".proposalPersonNumberString", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
     }
 
     /**
@@ -144,7 +130,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
      * @param errorKey
      */
     private void checkErrorCountAndContent(String errorPathContext, String errorKey) {
-        List errors = GlobalVariables.getMessageMap().getMessages(ProposalDevelopmentPersonnelAttachmentRule.buildErrorPath(errorPathContext));
+        List errors = GlobalVariables.getMessageMap().getMessages(errorPathContext);
         assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
