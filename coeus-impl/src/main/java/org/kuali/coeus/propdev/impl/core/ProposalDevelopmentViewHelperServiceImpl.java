@@ -24,14 +24,15 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.common.framework.auth.KcAuthConstants;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
-import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
+import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
@@ -46,7 +47,6 @@ import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnai
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -80,7 +80,6 @@ import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -91,7 +90,6 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -135,10 +133,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("keyPersonnelService")
     private KeyPersonnelService keyPersonnelService;
-
-    @Autowired
-    @Qualifier("krmsRulesExecutionService")
-    private KrmsRulesExecutionService krmsRulesExecutionService;
 
     @Autowired
     @Qualifier("auditHelper")
@@ -599,50 +593,27 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         for (Map.Entry<String,AuditCluster> entry : GlobalVariables.getAuditErrorMap().entrySet()) {
             AuditCluster auditCluster = (AuditCluster) entry.getValue();
             List<AuditError> auditErrors = auditCluster.getAuditErrorList();
+            String areaName = StringUtils.substringBefore(auditCluster.getLabel(),".");
+            String sectionName = StringUtils.substringAfter(auditCluster.getLabel(),".");
             for (AuditError auditError : auditErrors) {
             	ProposalDevelopmentDataValidationItem dataValidationItem = new ProposalDevelopmentDataValidationItem();
-                String page = StringUtils.substringBefore(auditError.getLink()," ");
-                String section = StringUtils.substringAfter(auditError.getLink()," ");
+                String pageId = StringUtils.substringBefore(auditError.getLink(),".");
+                String sectionId = StringUtils.substringAfter(auditError.getLink(),".");
                 ErrorMessage errorMessage = new ErrorMessage();
                 errorMessage.setErrorKey(auditError.getMessageKey());
                 errorMessage.setMessageParameters(auditError.getParams());
 
-                dataValidationItem.setArea(auditCluster.getLabel());
-                dataValidationItem.setSection(getComponentLabel(section,viewIndex));
+                dataValidationItem.setArea(areaName);
+                dataValidationItem.setSection(sectionName);
                 dataValidationItem.setDescription(KRADUtils.getMessageText(errorMessage, false));
                 dataValidationItem.setSeverity(auditCluster.getCategory());
-                dataValidationItem.setNavigateToPageId(page);
-                if(page != null && page.equals(org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE)) {
-                    dataValidationItem.setMetodToCall("navigateToPersonError");
-                }
-                dataValidationItem.setNavigateToSectionId(section);
+                dataValidationItem.setNavigateToPageId(pageId);
+                dataValidationItem.setNavigateToSectionId(sectionId);
 
                 dataValidationItems.add(dataValidationItem);
             }
         }
-
-
-
-        List<Map<String,String>> krmsErrors = getKrmsRulesExecutionService().processUnitKcValidations(document.getLeadUnitNumber(),document);
-        for (Map<String,String> error: krmsErrors) {
-            ProposalDevelopmentDataValidationItem dataValidationItem = new ProposalDevelopmentDataValidationItem();
-            dataValidationItem.setArea(error.get(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_AREA_ATTRIBUTE));
-            dataValidationItem.setSection(error.get(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_SECTION_ATTRIBUTE));
-            dataValidationItem.setDescription(error.get(ValidationActionTypeService.VALIDATIONS_ACTION_MESSAGE_ATTRIBUTE));
-            dataValidationItem.setSeverity(error.get(ValidationActionTypeService.VALIDATIONS_ACTION_TYPE_CODE_ATTRIBUTE).equals("E")?"Error":"Warning");
-            dataValidationItem.setNavigateToPageId(error.get(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_NAVIGATE_TO_PAGE_ID_ATTRIBUTE));
-            dataValidationItem.setNavigateToSectionId(error.get(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_NAVIGATE_TO_SECTION_ID_ATTRIBUTE));
-            dataValidationItems.add(dataValidationItem);
-        }
         return dataValidationItems;
-    }
-
-    public KrmsRulesExecutionService getKrmsRulesExecutionService() {
-        return krmsRulesExecutionService;
-    }
-
-    public void setKrmsRulesExecutionService(KrmsRulesExecutionService krmsRulesExecutionService) {
-        this.krmsRulesExecutionService = krmsRulesExecutionService;
     }
 
     public AuditHelper getAuditHelper() {
@@ -651,16 +622,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public void setAuditHelper(AuditHelper auditHelper) {
         this.auditHelper = auditHelper;
-    }
-
-    private String getComponentLabel(String componentId, ViewIndex viewIndex) {
-        try {
-            Header header = (Header) PropertyUtils.getProperty(viewIndex.getComponentById(componentId), "header");
-            return header.getHeaderText();
-        } catch (Exception e) {
-            LOG.error("SectionID does not have a header property");
-        }
-        return null;
     }
 
     public KualiRuleService getKualiRuleService() {
@@ -773,6 +734,24 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public boolean isChildSynchronized(DevelopmentProposal proposal) {
        return getProposalHierarchyService().isSynchronized(proposal);
+    }
+
+    public void populateCustomData(ProposalDevelopmentDocumentForm form) {
+        for (CustomAttributeDocValue customAttributeDocValue : form.getProposalDevelopmentDocument().getCustomDataList()) {
+            boolean groupNamePresent = false;
+            for(ProposalDevelopmentCustomDataGroupDto customDataGroupDto : form.getCustomDataGroups()) {
+                if (customDataGroupDto.getDescription().equals(customAttributeDocValue.getCustomAttribute().getGroupName())){
+                    groupNamePresent = true;
+                    break;
+                }
+            }
+            if (!groupNamePresent) {
+                ProposalDevelopmentCustomDataGroupDto customDataGroupDto = new ProposalDevelopmentCustomDataGroupDto();
+                customDataGroupDto.setDescription(customAttributeDocValue.getCustomAttribute().getGroupName());
+                customDataGroupDto.setIdSuffix(customAttributeDocValue.getCustomAttribute().getGroupName().replace(" ","_"));
+                form.getCustomDataGroups().add(customDataGroupDto);
+            }
+        }
     }
 
     public boolean isPersonFieldEditable(String propertyName){

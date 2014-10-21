@@ -204,7 +204,7 @@ public class ProposalDevelopmentSubmitController extends
         return super.navigate(form,result,request,response);
     }
 
-   
+
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=blanketApprove")
     public  ModelAndView blanketApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
        return proposalValidToRoute(form) ? getTransactionalDocumentControllerService().blanketApprove(form) : getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);

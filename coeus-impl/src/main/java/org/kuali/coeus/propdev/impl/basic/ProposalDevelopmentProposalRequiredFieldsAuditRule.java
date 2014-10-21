@@ -32,6 +32,8 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
+
 /**
  * This class processes audit rules (warnings) for the Sponsor & Program Information related
  * data of the ProposalDevelopmenDocument.
@@ -47,11 +49,10 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
 
         if (StringUtils.equalsIgnoreCase(proposal.getSponsorCode(),Constants.NIH_SPONSOR_CODE) && proposalDevelopmentDocument.getDevelopmentProposal().getTitle().length() > 81){
             valid = false;
-            auditErrors.add(new AuditError(Constants.PROJECT_TITLE_KEY, KeyConstants.ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH, Constants.PROPOSAL_PAGE + "." + Constants.REQUIRED_FIELDS_PANEL_ANCHOR));
+            getAuditErrors(DETAILS_PAGE_NAME,NO_SECTION_ID).add(new AuditError(TITLE_KEY, KeyConstants.ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH, DETAILS_PAGE_ID));
         }
         Long proposalId = null;
         if (StringUtils.isNotEmpty(proposal.getContinuedFrom())) {
@@ -67,13 +68,9 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
             if (StringUtils.isBlank(proposal.getSponsorProposalNumber())
                     && StringUtils.isBlank(ggTrackingId)) {
                 valid = false;
-                auditErrors.add(new AuditError(Constants.ORIGINAL_PROPOSAL_ID_KEY,
-                        KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, Constants.PROPOSAL_PAGE + "." + Constants.REQUIRED_FIELDS_PANEL_ANCHOR));
+                getAuditErrors(DETAILS_PAGE_NAME,NO_SECTION_ID).add(new AuditError(ORIGINAL_PROPOSAL_ID_KEY,
+                        KeyConstants.ERROR_PROPOSAL_REQUIRE_ID_CHANGE_APP, DETAILS_PAGE_ID));
             }
-        }
-        
-        if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("requiredFieldsAuditErrors", new AuditCluster(Constants.REQUIRED_FIELDS_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
 
         return valid;
@@ -89,9 +86,20 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
                (proposalTypeCode.equals(proposalTypeCodeNew));
-    }     
-    
-    
+    }
+
+    private List<AuditError> getAuditErrors(String areaName, String sectionName ) {
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        String clusterKey = areaName + "." + sectionName;
+        if (!GlobalVariables.getAuditErrorMap().containsKey(clusterKey)) {
+            GlobalVariables.getAuditErrorMap().put(clusterKey, new AuditCluster(clusterKey, auditErrors, AUDIT_ERRORS));
+        }
+        else {
+            auditErrors = GlobalVariables.getAuditErrorMap().get(clusterKey).getAuditErrorList();
+        }
+
+        return auditErrors;
+    }
     /**
      * Looks up and returns the ParameterService.
      * @return the parameter service. 

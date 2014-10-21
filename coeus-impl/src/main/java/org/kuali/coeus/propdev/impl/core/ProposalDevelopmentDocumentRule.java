@@ -30,6 +30,7 @@ import org.kuali.coeus.propdev.impl.abstrct.AbstractsRule;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFieldsAuditRule;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
+import org.kuali.coeus.propdev.impl.krms.ProposalDevelopmentKRMSAuditRule;
 import org.kuali.coeus.propdev.impl.sponsor.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideRule;
@@ -476,6 +477,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         
         // audit check for budgetversion with final status
         retval &= processRunAuditBudgetVersionRule(proposalDevelopmentDocument.getDevelopmentProposal());
+        retval &= new ProposalDevelopmentKRMSAuditRule().processRunAuditBusinessRules(proposalDevelopmentDocument);
        
         return retval;
     }

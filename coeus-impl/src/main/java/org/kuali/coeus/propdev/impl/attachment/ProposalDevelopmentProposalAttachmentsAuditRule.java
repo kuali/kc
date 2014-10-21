@@ -25,7 +25,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -44,13 +43,13 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
+
 public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
 
-    public static final String AUDIT_CLUSTER_KEY = "proposalAttachmentsAuditWarnings";
-    
+
     private static final String AUDIT_PARAMETER = ProposalDevelopmentUtils.AUDIT_INCOMPLETE_PROPOSAL_ATTATCHMENTS_PARM;
     private static final String AUDIT_PARAMETER_VALUE_YES = "Y";
-    private static final String AUDIT_PARAMETER_VALUE_NO = "N";
     private static final String MODULE_STATUS_CODE_INCOMPLETE = "I";
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAttachmentsAuditRule.class);
@@ -88,8 +87,8 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
             if (StringUtils.equals(narrative.getModuleStatusCode(), MODULE_STATUS_CODE_INCOMPLETE )) {
                 if(validateIncompleteAttachments.equals(AUDIT_PARAMETER_VALUE_YES)) {
                     valid &= false;
-                    getAuditErrors(Constants.AUDIT_ERRORS).add(new AuditError("document.developmentProposalList[0].narrative[" + i + "].moduleStatusCode", 
-                            KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ATTACHMENTS_PAGE));
+                    getAuditErrors(ATTACHMENT_PROPOSAL_SECTION_NAME).add(new AuditError(String.format(NARRATIVES_STATUS_KEY,i),
+                            KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, ATTACHMENT_PAGE_ID+"."+ATTACHMENT_PROPOSAL_SECTION_ID));
                 }
             }
             i++;
@@ -104,8 +103,8 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
         for(Narrative narrative: developmentProposal.getNarratives()) {
             if (StringUtils.equals(narrative.getModuleStatusCode(), MODULE_STATUS_CODE_INCOMPLETE )) {
                 valid &= false;
-                getAuditErrors(Constants.AUDIT_ERRORS).add(new AuditError("document.developmentProposalList[0].narrative[" + i + "].moduleStatusCode", 
-                        KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, Constants.ATTACHMENTS_PAGE));
+                getAuditErrors(ATTACHMENT_PROPOSAL_SECTION_NAME).add(new AuditError(String.format(NARRATIVES_STATUS_KEY,i),
+                        KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE, ATTACHMENT_PAGE_ID+"."+ATTACHMENT_PROPOSAL_SECTION_ID));
             }
             i++;
         }
@@ -138,12 +137,12 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
                 }   
                 if(attachment && hasPI) {
                     valid=false;
-                    getAuditErrors(Constants.AUDIT_ERRORS).add(new AuditError("document.developmentProposalList[0].narrative", 
-                        KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_FOUND, Constants.ATTACHMENTS_PAGE));
+                    getAuditErrors(NO_SECTION_ID).add(new AuditError(NARRATIVES_KEY,
+                            KeyConstants.ERROR_PROPOSAL_ATTACHMENT_NOT_FOUND, ATTACHMENT_PAGE_ID));
                 }
            }
            return valid;
-    } 
+    }
            
     public boolean checkNsfRelatedAttachments(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
@@ -170,8 +169,8 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
                                     } 
                                     if(attachmentNotExists) {
                                         valid=false;
-                                    getAuditErrors(Constants.AUDIT_ERRORS).add(new AuditError("document.developmentProposalList[0].narrative", 
-                                            KeyConstants.ERROR_PROPOSAL_MENTORINGPLAN_ATTACHMENT_NOT_FOUND, Constants.ATTACHMENTS_PAGE));
+                                    getAuditErrors(NO_SECTION_ID).add(new AuditError(NARRATIVES_KEY,
+                                            KeyConstants.ERROR_PROPOSAL_MENTORINGPLAN_ATTACHMENT_NOT_FOUND, ATTACHMENT_PAGE_ID));
                                         break;
                                     }
                                 }
@@ -192,16 +191,16 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
      * @return List of AuditError instances
      */
     @SuppressWarnings("unchecked")
-    private List<AuditError> getAuditErrors(String auditClusterCategory) {
+    private List<AuditError> getAuditErrors(String sectionName ) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        
-        if (!GlobalVariables.getAuditErrorMap().containsKey(AUDIT_CLUSTER_KEY)) {
-            GlobalVariables.getAuditErrorMap().put(AUDIT_CLUSTER_KEY, 
-                    new AuditCluster(Constants.ABSTRACTS_AND_ATTACHMENTS_PANEL, auditErrors, auditClusterCategory));
-        } else {
-            auditErrors = ((AuditCluster) GlobalVariables.getAuditErrorMap().get(AUDIT_CLUSTER_KEY)).getAuditErrorList();
-                }
-        
+        String clusterKey = ATTACHMENT_PAGE_NAME + "." + sectionName;
+        if (!GlobalVariables.getAuditErrorMap().containsKey(clusterKey)) {
+            GlobalVariables.getAuditErrorMap().put(clusterKey, new AuditCluster(clusterKey, auditErrors, AUDIT_ERRORS));
+        }
+        else {
+            auditErrors = GlobalVariables.getAuditErrorMap().get(clusterKey).getAuditErrorList();
+        }
+
         return auditErrors;
     }
     

@@ -23,7 +23,7 @@ public class ProposalDevelopmentCustomDataField extends InputFieldBase {
     public void performApplyModel(Object model, LifecycleElement parent) {
         Object myBo = ObjectPropertyUtils.getPropertyValue(model, KcBindingInfo.getParentBindingInfo(getBindingInfo()));
         CustomAttributeDocValue customData = (CustomAttributeDocValue) myBo;
-
+        this.setId(StringUtils.removePattern(customData.getCustomAttribute().getGroupName() + "_" + customData.getCustomAttribute().getLabel(), "([^0-9a-zA-Z\\-_])"));
         if (StringUtils.isNotBlank(customData.getCustomAttribute().getLookupClass())) {
             if (customData.getCustomAttribute().getLookupClass().equals(ArgValueLookup.class.getName())) {
                 setControl((Control) ComponentFactory.getNewComponentInstance("Uif-DropdownControl"));

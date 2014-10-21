@@ -1,6 +1,8 @@
 package org.kuali.coeus.propdev.impl.questionnaire;
 
 
+
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.krad.uif.component.Component;
@@ -47,6 +49,7 @@ public class QuestionnaireTabGroup extends TabGroup {
             if (answerHeader.isActive()) {
                 GroupBase group = (GroupBase) ComponentFactory.getNewComponentInstance("Uif-VerticalBoxGroup");
                 group.setHeader((Header)ComponentFactory.getNewComponentInstance("Uif-SectionHeader"));
+                group.setId("PropDev-QuestionnairePage-" + StringUtils.removePattern(answerHeader.getLabel(),"([^0-9a-zA-Z\\-_])"));
                 String cssClass = "questionaire-" + (answerHeader.isCompleted()?"":"in") + "complete";
                 group.setHeaderText(answerHeader.getLabel() + "&nbsp;<span class='" + cssClass + " icon-ok' />");
                 group.getHeader().setRender(false);

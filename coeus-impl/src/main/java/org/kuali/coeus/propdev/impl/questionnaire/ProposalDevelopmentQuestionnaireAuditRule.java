@@ -15,10 +15,10 @@
  */
 package org.kuali.coeus.propdev.impl.questionnaire;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
@@ -32,36 +32,24 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
 
 public class ProposalDevelopmentQuestionnaireAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
 
-    private static final String PROPOSAL_QUESTIONNAIRE_KEY="questionnaireHelper.answerHeaders[%s].answers[0].answer";
-    private static final String PROPOSAL_QUESTIONNAIRE_PANEL_KEY="%s%s%s";
-   
     private transient QuestionnaireAnswerService questionnaireAnswerService;
     
     public boolean processRunAuditBusinessRules(Document document) {
         
         boolean valid = true;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
-        List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));  
-        List<QuestionnaireUsage> usages = getQuestionnaireAnswerService().getPublishedQuestionnaire(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));
-        int i = 0;
+        List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));
         for (AnswerHeader answerHeader : headers) {
             if (!answerHeader.isCompleted()) {
-                for(QuestionnaireUsage questionnaireUsage : usages){
-                    String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireSeqId();
-                    if (questionnaireId.equalsIgnoreCase(answerHeader.getQuestionnaire().getQuestionnaireSeqId())){
-                        valid = false;
-                        getProposalS2sAuditErrorsByGroup("questionnaireHelper",questionnaireUsage.getQuestionnaireLabel(),i).add(
-                            new AuditError(String.format(PROPOSAL_QUESTIONNAIRE_KEY, i, "complete"), KeyConstants.ERROR_QUESTIONNAIRE_NOT_COMPLETE,
-                                    Constants.QUESTIONS_PAGE+"."+questionnaireUsage.getQuestionnaireLabel(), new String[] {questionnaireUsage.getQuestionnaireLabel()}));
-                        break;
-                    }
-                }
+                valid = false;
+                getAuditErrors(answerHeader.getLabel()).add(
+                        new AuditError(QUESTIONNAIRE_PAGE_ID + "-" + StringUtils.removePattern(answerHeader.getLabel(),"([^0-9a-zA-Z\\-_])"), KeyConstants.ERROR_QUESTIONNAIRE_NOT_COMPLETE,
+                                QUESTIONNAIRE_PAGE_ID + "." + QUESTIONNAIRE_PAGE_ID + "-" + StringUtils.removePattern(answerHeader.getLabel(),"([^0-9a-zA-Z\\-_])"), new String[]{answerHeader.getLabel()}));
             }
-            i++; 
         }
         return valid;
     }
@@ -73,28 +61,18 @@ public class ProposalDevelopmentQuestionnaireAuditRule extends KcTransactionalDo
         }
         return questionnaireAnswerService;
     }
-    
-    
-    /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
-     * to the auditErrorMap.
-     * 
-     * @return List of AuditError instances
-     */
-    @SuppressWarnings("unchecked")
-    private List<AuditError> getProposalS2sAuditErrorsByGroup(String formProperty, String usageLabel, Integer answerHeaderIndex) {
+
+    private List<AuditError> getAuditErrors(String sectionName) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String key = String.format( PROPOSAL_QUESTIONNAIRE_PANEL_KEY, formProperty, usageLabel, answerHeaderIndex );
-        if (!GlobalVariables.getAuditErrorMap().containsKey(key)) {
-           GlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, AUDIT_ERRORS));
+        String clusterKey = QUESTIONNAIRE_PAGE_NAME + "." + sectionName;
+        if (!GlobalVariables.getAuditErrorMap().containsKey(clusterKey)) {
+            GlobalVariables.getAuditErrorMap().put(clusterKey, new AuditCluster(clusterKey, auditErrors, AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
+            auditErrors = GlobalVariables.getAuditErrorMap().get(clusterKey).getAuditErrorList();
         }
-        
         return auditErrors;
     }
-
     
     
 
