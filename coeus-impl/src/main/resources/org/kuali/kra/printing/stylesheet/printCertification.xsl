@@ -31,7 +31,7 @@
 								<fo:table-column column-width="45%"/>
 								<fo:table-body start-indent="0pt">
 									<fo:table-row>
-										<fo:table-cell border-bottom-style="none" border-bottom-width="0" font-family="Verdana" font-size="9pt" margin-bottom="0" padding-bottom="0" display-align="0" padding="2pt" text-align="left">
+										<fo:table-cell border-bottom-style="none" border-bottom-width="0" font-family="Verdana" font-size="9pt" margin-bottom="0" padding-bottom="0" display-align="auto" padding="2pt" text-align="left">
 											<fo:block>
 												<fo:block>
 													<fo:leader leader-pattern="space"/>
@@ -41,7 +41,7 @@
 														<xsl:text>&#x2029;</xsl:text>
 													</fo:block>
 												</fo:inline-container>
-												<fo:block border-bottom-style="none" border-bottom-width="0" font-family="Verdana" font-size="9pt" margin-bottom="0" padding-bottom="0" display-align="0" margin="0pt">
+												<fo:block border-bottom-style="none" border-bottom-width="0" font-family="Verdana" font-size="9pt" margin-bottom="0" padding-bottom="0" display-align="auto" margin="0pt">
 													<fo:block>
 														<xsl:for-each select="printCertification">
 															<xsl:for-each select="OfficeName">
@@ -66,7 +66,7 @@
 												</fo:block>
 											</fo:block>
 										</fo:table-cell>
-										<fo:table-cell border-bottom-style="none" border-bottom-width="0" font-size="xx-small" margin-bottom="0" padding-bottom="0" display-align="0" padding="2pt" text-align="left">
+										<fo:table-cell border-bottom-style="none" border-bottom-width="0" font-size="xx-small" margin-bottom="0" padding-bottom="0" display-align="auto" padding="2pt" text-align="left">
 											<fo:block>
 												<fo:external-graphic>
 													<xsl:attribute name="src">
@@ -84,7 +84,7 @@
 												</fo:external-graphic>
 											</fo:block>
 										</fo:table-cell>
-										<fo:table-cell border-bottom-style="none" border-bottom-width="0" font-family="Verdana" font-size="9pt" margin-bottom="0" padding-bottom="0" display-align="0" padding="2pt" text-align="justify">
+										<fo:table-cell border-bottom-style="none" border-bottom-width="0" font-family="Verdana" font-size="9pt" margin-bottom="0" padding-bottom="0" display-align="auto" padding="2pt" text-align="justify">
 											<fo:block>
 												<fo:block>
 													<fo:leader leader-pattern="space"/>
@@ -94,7 +94,7 @@
 														<xsl:text>&#x2029;</xsl:text>
 													</fo:block>
 												</fo:inline-container>
-												<fo:block border-bottom-style="none" border-bottom-width="0" font-family="Verdana" font-size="9pt" margin-bottom="0" display-align="0" margin="0pt">
+												<fo:block border-bottom-style="none" border-bottom-width="0" font-family="Verdana" font-size="9pt" margin-bottom="0" display-align="auto" margin="0pt">
 													<fo:block>
 														<xsl:for-each select="printCertification">
 															<xsl:for-each select="organizationInfo">
@@ -127,7 +127,7 @@
 														<xsl:text>&#x2029;</xsl:text>
 													</fo:block>
 												</fo:inline-container>
-												<fo:block border-bottom-style="none" border-bottom-width="0" font-family="Verdana" font-size="9pt" margin-bottom="0" display-align="0" margin="0pt">
+												<fo:block border-bottom-style="none" border-bottom-width="0" font-family="Verdana" font-size="9pt" margin-bottom="0" display-align="auto" margin="0pt">
 													<fo:block>
 														<xsl:choose>
 															<xsl:when test="boolean(  printCertification/organizationInfo/ContactName  )  and  boolean(  printCertification/organizationInfo/Address1 )  and  not(boolean(  printCertification/organizationInfo/Address2  ) ) and  not(boolean(  printCertification/organizationInfo/Address3  ))">
@@ -799,7 +799,7 @@
 								<fo:table-column column-width="35%"/>
 								<fo:table-body start-indent="0pt">
 									<fo:table-row>
-										<fo:table-cell border-top-style="none" border-top-width="0" color="#800040" font-size="larger" font-weight="bolder" line-height="0" margin="0" margin-bottom="0" padding="0" padding-bottom="0" padding-top="0" top="0" display-align="0" height="24" text-align="left">
+										<fo:table-cell border-top-style="none" border-top-width="0" color="#800040" font-size="larger" font-weight="bolder" line-height="0" margin="0" margin-bottom="0" padding="0" padding-bottom="0" padding-top="0" top="0" display-align="auto" height="24" text-align="left">
 											<fo:block>
 												<fo:inline border-top-style="none" border-top-width="0" line-height="0" margin="0" padding="0" padding-top="0">
 													<xsl:text>__________________________________________________________________________</xsl:text>
