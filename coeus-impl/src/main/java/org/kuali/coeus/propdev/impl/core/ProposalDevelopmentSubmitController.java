@@ -279,7 +279,10 @@ public class ProposalDevelopmentSubmitController extends
 
         if (!requiresResubmissionPrompt(form)) {
     		if (validToSubmitToSponsor(form) ) {
-                submitApplication(form);
+    			//Generate IP in case auto generate IP and no IP hasn't been generated yet (in other words no submit to sponsor button clicked)
+    			if(autogenerateInstitutionalProposal() && ! hasInstitutionalProposal(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber())) {
+    				submitApplication(form);
+    			}
                 handleSubmissionToS2S(form);
                 return getModelAndViewService().getModelAndView(form,"PropDev-OpportunityPage");
             } else {
@@ -292,13 +295,11 @@ public class ProposalDevelopmentSubmitController extends
 
     protected void handleSubmissionToS2S(ProposalDevelopmentDocumentForm form) throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
-        if (hasInstitutionalProposal(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber())) {
-            try {
-                submitS2sApplication(proposalDevelopmentDocument);
-            } catch(S2SException ex) {
-                LOGGER.error(ex.getStackTrace(), ex);
-                getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION,ex.getErrorMessage());
-            }
+        try {
+            submitS2sApplication(proposalDevelopmentDocument);
+        } catch(S2SException ex) {
+            LOGGER.error(ex.getStackTrace(), ex);
+            getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION,ex.getErrorMessage());
         }
     }
 
@@ -489,8 +490,7 @@ public class ProposalDevelopmentSubmitController extends
     }
     
     protected boolean autogenerateInstitutionalProposal() {
-    	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
-                ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
+    	return getProposalDevelopmentService().autogenerateInstitutionalProposal();
     }
     
     
