@@ -1233,9 +1233,9 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                       p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  People Flow"
                       p:order="10" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
-                        <map>
+                       		<map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.award.home.Award&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.kew.impl.peopleflow.PeopleFlowBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
                         </map>
                     </property>
                 </bean>
