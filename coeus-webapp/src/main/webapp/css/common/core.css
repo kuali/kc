@@ -239,3 +239,19 @@ a.paginate_active {
     background-color: #07C;
 }
 
+/** z-index fix for blocking element for component refreshes **/
+div.blockOverlay {
+    z-index: 1000 !important;
+}
+
+div.blockElement {
+    z-index: 1001 !important;
+}
+
+.modal div.blockOverlay {
+    z-index: 10000 !important;
+}
+
+.modal div.blockElement {
+    z-index: 10101 !important;
+}
