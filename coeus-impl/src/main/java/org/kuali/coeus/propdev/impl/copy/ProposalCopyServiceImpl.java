@@ -441,12 +441,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     protected void modifyNewProposal(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument newDoc, ProposalCopyCriteria criteria) throws Exception {
 
          // Fixing the title
-         newDoc.setDefaultDocumentDescription();
+        newDoc.setDefaultDocumentDescription();
 
-         cleanupHierarchy(newDoc);
-
-        /** special review cleanup**/
-        newDoc.getDevelopmentProposal().cleanupSpecialReviews(srcDoc.getDevelopmentProposal());
+        cleanupHierarchy(newDoc);
 
         changeKeyPersonnelUnits(newDoc, srcDoc.getDevelopmentProposal().getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
 
