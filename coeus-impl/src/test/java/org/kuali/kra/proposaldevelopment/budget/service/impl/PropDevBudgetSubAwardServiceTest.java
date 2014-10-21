@@ -204,6 +204,7 @@ public class PropDevBudgetSubAwardServiceTest {
         
         for (BudgetPeriod period : budget.getBudgetPeriods()) {
             BudgetLineItem newLineItem = new BudgetLineItem();
+            newLineItem.setBudgetSubAward(subAward);
             newLineItem.setSubAwardNumber(subAward.getSubAwardNumber());
             newLineItem.setDirectCost(new ScaleTwoDecimal(100L));
             newLineItem.setCostSharingAmount(new ScaleTwoDecimal(100L));

@@ -60,6 +60,10 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
     @Column(name = "TOTAL_COST")
     @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
+    
+    @Column(name = "SUBAWARD_NUMBER", insertable = false, updatable = false)
+    private Integer subAwardNumber;
+    
 
     @Transient
     private transient boolean amountsModified = false;
@@ -70,6 +74,7 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
 
     public BudgetSubAwardPeriodDetail(BudgetSubAwards subAward, BudgetPeriod period) {
     	this.budgetSubAward = subAward;
+    	this.subAwardNumber = subAward.getSubAwardNumber();
         this.budgetPeriod = period.getBudgetPeriod();
     }
 
@@ -101,6 +106,7 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
             amountsModified = true;
         }
         this.directCost = directCost;
+        computeTotal();
     }
 
     @Override
@@ -113,6 +119,7 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
             amountsModified = true;
         }
         this.indirectCost = indirectCost;
+        computeTotal();
     }
 
     @Override
@@ -161,11 +168,11 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
 
 	@Override
 	public Integer getSubAwardNumber() {
-		if (budgetSubAward != null) {
-			return budgetSubAward.getSubAwardNumber();
-		} else {
-			return null;
-		}
+		return subAwardNumber;
+	}
+	
+	public void setSubAwardNumber(Integer subAwardNumber) {
+		this.subAwardNumber = subAwardNumber;
 	}
 
 	@Override
@@ -175,5 +182,5 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
 		} else {
 			return null;
 		}		
-	}    
+	}  
 }

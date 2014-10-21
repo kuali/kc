@@ -30,13 +30,12 @@ import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingInfo;
 import org.kuali.coeus.s2sgen.api.generate.FormMappingService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -64,10 +63,10 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     @Autowired
     @Qualifier("proposalBudgetService")
     private BudgetService budgetService;
-
+    
     @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Autowired
     @Qualifier("dateTimeService")
@@ -169,7 +168,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             for (BudgetLineItem item : currentLineItems) {
                 item.setDirectCost(ScaleTwoDecimal.ZERO);
                 item.setCostSharingAmount(ScaleTwoDecimal.ZERO);
-                item.setSubAwardNumber(subAward.getSubAwardNumber());
+                item.setBudgetSubAward(subAward);
                 item.setLineItemDescription(subAward.getOrganizationName());
             }
             if (ScaleTwoDecimal.returnZeroIfNull(detail.getDirectCost()).isNonZero() || hasBeenChanged(detail, true)) {
@@ -232,9 +231,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     private boolean hasBeenChanged(BudgetSubAwardPeriodDetail detail, boolean checkDirect) {
         boolean changed = false;
         if (detail != null && detail.getId() != null) {
-            Map primaryKeys = new HashMap();
-            primaryKeys.put("SUBAWARD_PERIOD_DETAIL_ID", detail.getId());
-            BudgetSubAwardPeriodDetail dbDetail = getBusinessObjectService().findByPrimaryKey(BudgetSubAwardPeriodDetail.class, primaryKeys);
+            BudgetSubAwardPeriodDetail dbDetail = getDataObjectService().find(BudgetSubAwardPeriodDetail.class, detail.getId());
             if (checkDirect) {
                 changed = !ScaleTwoDecimal.returnZeroIfNull(detail.getDirectCost()).equals(ScaleTwoDecimal.returnZeroIfNull(dbDetail.getDirectCost()));
             } else {
@@ -271,7 +268,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         //if we didn't find one already
         BudgetLineItem newLineItem = new BudgetLineItem();        
         newLineItem.setCostElement(costElement);
-        newLineItem.setSubAwardNumber(subAwardDetail.getSubAwardNumber());
+        newLineItem.setBudgetSubAward(subAwardDetail.getBudgetSubAward());        
         newLineItem.setLineItemDescription(subAward.getOrganizationName());
         getBudgetService().populateNewBudgetLineItem(newLineItem, budgetPeriod);
         lineItems.add(newLineItem);
@@ -282,7 +279,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         List<BudgetLineItem> lineItems = new ArrayList<BudgetLineItem>();
         if (budgetPeriod.getBudgetLineItems() != null) {
             for (BudgetLineItem item : budgetPeriod.getBudgetLineItems()) {
-                if (ObjectUtils.equals(item.getSubAwardNumber(), subAwardNumber)) {
+                if (item.getBudgetSubAward() != null && ObjectUtils.equals(item.getBudgetSubAward().getSubAwardNumber(), subAwardNumber)) {
                     lineItems.add(item);
                 }
             }
@@ -747,14 +744,6 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         this.budgetService = budgetService;
     }
 
-    protected BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
@@ -786,4 +775,12 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 }

@@ -9,3 +9,11 @@ tr div.submissionMessage {
 tr.finalBudget div.submissionMessage {
 	display: block;
 }
+
+.subAwardDetailsFileUpload-replace {
+	display:none;
+}
+
+.replaceAttachment .subAwardDetailsFileUpload-replace {
+	display: block;
+}

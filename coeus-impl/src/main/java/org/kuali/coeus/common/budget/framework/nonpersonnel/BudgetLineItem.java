@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
+import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 
 import java.sql.Date;
@@ -128,8 +129,12 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @OneToMany(mappedBy="budgetLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
-    @Column(name = "SUBAWARD_NUMBER")
+    @Column(name = "SUBAWARD_NUMBER", insertable = false, updatable = false)
     private Integer subAwardNumber;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false), @JoinColumn(name = "SUBAWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
+    private BudgetSubAwards budgetSubAward;
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
@@ -554,7 +559,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     }
 
     public boolean isSubAwardLineItem() {
-        return subAwardNumber != null;
+        return getBudgetSubAward() != null;
     }
 
     @Override
@@ -650,6 +655,13 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 	
 	public boolean isPersonnelLineItem() {
 		return getBudgetPersonnelDetailsList().size() > 0;
+	}
+	public BudgetSubAwards getBudgetSubAward() {
+		return budgetSubAward;
+	}
+	public void setBudgetSubAward(BudgetSubAwards budgetSubAward) {
+		this.budgetSubAward = budgetSubAward;
+		subAwardNumber = budgetSubAward.getSubAwardNumber();
 	}
 
 }

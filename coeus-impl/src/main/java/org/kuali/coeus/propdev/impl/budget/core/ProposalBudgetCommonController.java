@@ -72,7 +72,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	}
 	
 	@RequestMapping(params="methodToCall=save")
-	public ModelAndView save(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+	public ModelAndView save(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		return super.save(form);
 	}
 
@@ -258,6 +258,11 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     @RequestMapping(params="methodToCall=closeEditLineDialog")
 	public ModelAndView closeEditLineDialog(UifFormBase form) {
 		return getCollectionControllerService().closeEditLineDialog(form);
+	}
+    
+    @RequestMapping(params="methodToCall=editLine")
+	public ModelAndView editLine(UifFormBase form) {
+		return getCollectionControllerService().editLine(form);
 	}    
 
 	public ProposalBudgetSharedController getProposalBudgetSharedController() {

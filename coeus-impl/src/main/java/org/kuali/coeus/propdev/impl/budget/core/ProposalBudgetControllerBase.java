@@ -120,8 +120,8 @@ public abstract class ProposalBudgetControllerBase {
     	return budget;
     }
 
-    public ModelAndView save(ProposalBudgetForm form) throws Exception {
-        getBudgetCalculationService().calculateBudget(form.getBudget());
+    public ModelAndView save(ProposalBudgetForm form) {
+    	budgetService.calculateBudgetOnSave(form.getBudget());
     	getDataObjectService().save(form.getBudget());
         getBudgetJustificationService().preSave(form.getBudget(),form.getBudgetJustificationWrapper());
         return getModelAndViewService().getModelAndView(form);
