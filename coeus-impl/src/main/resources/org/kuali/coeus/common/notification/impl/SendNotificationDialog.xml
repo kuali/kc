@@ -119,13 +119,27 @@
                       p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
                       p:order="20" >
                     <property name="items">
-                        <list merge="true">
+                        <list>
                             <bean parent="Uif-InputField" p:propertyName="selected"
                                   p:label="" p:readOnly="false" p:order="10" p:cssClasses="one_required">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl"/>
                                 </property>
                             </bean>
+                            <bean parent="Uif-DataField" p:propertyName="kcPerson.fullName"
+                                                  p:label="Full Name" p:order="20" />
+                            <bean parent="Uif-DataField" p:propertyName="kcPerson.userName"
+                                  p:label="User ID" p:order="30" />
+                            <bean parent="Uif-DataField" p:propertyName="kcPerson.emailAddress"
+                                  p:label="Email Address" p:order="40" />
+                            <bean parent="Uif-MessageField" p:messageText="@{#line.kcPerson.unit != null ? #line.kcPerson.unit.unitNumber:''}"
+                                  p:label="Unit Number" p:order="50" />
+                            <bean parent="Uif-MessageField" p:messageText="@{#line.kcPerson.unit != null ? #line.kcPerson.unit.unitName:''}"
+                                  p:label="Unit Name" p:order="60" />
+                            <bean parent="Uif-DataField" p:propertyName="kcPerson.contactOrganizationName"
+                                  p:label="Organization" p:order="70" />
+                            <bean parent="Uif-DataField" p:propertyName="kcPerson.city"
+                                  p:label="City" p:order="80" />
                         </list>
                     </property>
                     </bean>
