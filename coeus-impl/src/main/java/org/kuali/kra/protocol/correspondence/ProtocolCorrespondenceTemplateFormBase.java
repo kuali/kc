@@ -22,6 +22,7 @@ import org.kuali.rice.krad.service.LookupService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -106,7 +107,9 @@ public abstract class ProtocolCorrespondenceTemplateFormBase extends KualiForm {
     @SuppressWarnings("unchecked")
     private List<ProtocolCorrespondenceTypeBase> initCorrespondenceTypes() {
         LookupService lookupService = KRADServiceLocatorWeb.getLookupService();
-        return (List<ProtocolCorrespondenceTypeBase>) lookupService.findCollectionBySearchUnbounded(getProtocolCorrespondenceTypeBOClassHook(), new HashMap());
+        List results = (List<ProtocolCorrespondenceTypeBase>) lookupService.findCollectionBySearchUnbounded(getProtocolCorrespondenceTypeBOClassHook(), new HashMap());
+        Collections.sort(results);
+        return results;
     }
 
     protected abstract Class<? extends ProtocolCorrespondenceTypeBase> getProtocolCorrespondenceTypeBOClassHook();

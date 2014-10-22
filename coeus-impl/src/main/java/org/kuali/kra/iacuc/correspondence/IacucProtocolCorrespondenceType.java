@@ -76,5 +76,11 @@ public class IacucProtocolCorrespondenceType extends ProtocolCorrespondenceTypeB
     public void setModule(CorrespondenceTypeModuleIdConstants module) {
         this.module = module;
     }
+
+	@Override
+	public int compareTo(Object o) {
+		IacucProtocolCorrespondenceType other = (IacucProtocolCorrespondenceType)o;
+		return this.getDescription().compareTo(other.getDescription());
+	}
     
 }
