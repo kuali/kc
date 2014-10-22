@@ -19,6 +19,8 @@ package org.kuali.coeus.propdev.impl.s2s;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormFileContract;
 import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
+import org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentAuthorizer;
+import org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentDocumentViewAuthorizer;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.s2sgen.api.core.S2SException;
@@ -30,6 +32,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.KRADUtils;
@@ -79,6 +82,10 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentDocumentViewAuthorizer")
+    private ProposalDevelopmentDocumentViewAuthorizer proposalDevelopmentDocumentViewAuthorizer;
 
     private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
 
@@ -163,10 +170,15 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
    }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=printForms"})
-        public ModelAndView printForms(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
+        public ModelAndView printForms(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
-        boolean grantsGovErrorExists = false;
+
+        proposalDevelopmentDocumentViewAuthorizer.initializeDocumentAuthorizerIfNecessary(form.getProposalDevelopmentDocument());
+
+        if (!((ProposalDevelopmentDocumentAuthorizer) proposalDevelopmentDocumentViewAuthorizer.getDocumentAuthorizer()).isAuthorizedToPrint(proposalDevelopmentDocument, globalVariableService.getUserSession().getPerson())) {
+            throw new AuthorizationException(globalVariableService.getUserSession().getPrincipalName(), "printForms", "Proposal");
+        }
 
         if(proposalDevelopmentDocument.getDevelopmentProposal().getSelectedS2sOppForms().isEmpty()){
             getGlobalVariableService().getMessageMap().putError("noKey", ERROR_NO_GRANTS_GOV_FORM_SELECTED);
@@ -176,7 +188,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         setValidationErrorMessage(formPrintResult.getErrors());
         KcFile attachmentDataSource = formPrintResult.getFile();
         if(attachmentDataSource==null || attachmentDataSource.getData()==null || attachmentDataSource.getData().length==0){
-            grantsGovErrorExists = copyAuditErrorsToPage(Constants.GRANTSGOV_ERRORS, "grantsGovFormValidationErrors");
+            boolean grantsGovErrorExists = copyAuditErrorsToPage(Constants.GRANTSGOV_ERRORS, "grantsGovFormValidationErrors");
             if(grantsGovErrorExists){
                 getGlobalVariableService().getMessageMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
             }
@@ -363,6 +375,14 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
     public void setUserAttachedFormService(UserAttachedFormService userAttachedFormService) {
         this.userAttachedFormService = userAttachedFormService;
+    }
+
+    public ProposalDevelopmentDocumentViewAuthorizer getProposalDevelopmentDocumentViewAuthorizer() {
+        return proposalDevelopmentDocumentViewAuthorizer;
+    }
+
+    public void setProposalDevelopmentDocumentViewAuthorizer(ProposalDevelopmentDocumentViewAuthorizer proposalDevelopmentDocumentViewAuthorizer) {
+        this.proposalDevelopmentDocumentViewAuthorizer = proposalDevelopmentDocumentViewAuthorizer;
     }
 }
 
