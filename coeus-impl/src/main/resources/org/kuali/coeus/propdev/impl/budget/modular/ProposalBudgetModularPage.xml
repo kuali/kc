@@ -84,8 +84,8 @@
 			<bean parent="Uif-HeaderRightGroup">
 				<property name="items">
 					<list>
-						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Overview (Period @{#budgetPeriod})"
-							p:order="10" p:actionScript="showDialog('PropBudget-Modular-Overview')" />
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Summary Overview"
+							p:order="10" p:actionScript="showDialog('PropBudget-Modular-SummaryOverview')" />
 					</list>
 				</property>
 			</bean>
@@ -182,25 +182,6 @@
 		</property>
 	</bean>
 
-    <!--bean id="PropBudget-Modular-Overview" parent="PropBudget-Modular-Overview-parent" />
-    <bean id="PropBudget-Modular-Overview-parent" abstract="true"
-          parent="Uif-DialogGroup" p:headerText="Modular Summary (Period @{#budgetPeriod})">
-        <property name="items">
-            <list>
-                <bean parent="PropBudget-Modular-Overview-Section" p:order="10" />
-            </list>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-Label" p:labelText="" p:renderColon="false" />
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean-->
-
     <bean id="PropBudget-Modular-Overview-Section" parent="PropBudget-Modular-Overview-Section-parentBean" />
     <bean id="PropBudget-Modular-Overview-Section-parentBean"
           abstract="true" parent="Uif-VerticalBoxSubSection">
@@ -212,21 +193,87 @@
         </property>
     </bean>
 
-    <bean id="PropBudget-Modular-Overview-Section-Details" parent="PropBudget-Modular-Overview-Section-Details-parentBean" />
-    <bean id="PropBudget-Modular-Overview-Section-Details-parentBean"
-          parent="Uif-CssGridSection-1FieldLabelColumn">
+    <bean id="PropBudget-Modular-Overview-Section-Details" parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="budgetModular.totalRequestedCost"
                       p:order="30" p:label="Period @{#budgetPeriod} Total Requested Cost"
                       p:fieldLabel.renderColon="false"
-                     />
+                        />
                 <bean parent="Uif-DataField" p:propertyName="budgetModular.totalRequestedCost"
                       p:order="40" p:label="(need to change) Project Total Requested Cost"
                       p:fieldLabel.renderColon="false"
-                      />
+                        />
             </list>
         </property>
     </bean>
 
-</beans>
+    <bean id="PropBudget-Modular-SummaryOverview" parent="PropBudget-Modular-SummaryOverview-parent" />
+    <bean id="PropBudget-Modular-SummaryOverview-parent" abstract="true" p:fieldBindingObjectPath=""
+          parent="Uif-DialogGroup" p:headerText="Modular Summary Overview">
+        <property name="items">
+            <list>
+                <bean parent="PropBudget-Modular-SummaryOverview-Dialog" p:order="10" />
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+                              p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="10"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropBudget-Modular-SummaryOverview-Dialog"  parent="PropBudget-Modular-SummaryOverview-Dialog-parent" />
+    <bean id="PropBudget-Modular-SummaryOverview-Dialog-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean parent="PropBudget-Modular-SummaryOverview-Section" p:order="10" />
+                <bean parent="PropBudget-Modular-SummaryFandA-Section" p:order="20" />
+                <bean parent="PropBudget-Modular-SummaryDirectCost-Section" p:order="30" />
+            </list>
+        </property>
+    </bean>
+    <bean id="PropBudget-Modular-SummaryOverview-Section" parent="Uif-CssGridSection-1FieldLabelColumn" abstract="true">
+        <property name="items">
+        <list>
+            <bean parent="Uif-DataField" p:propertyName="budget.summaryPeriodStartDate" p:label="Project Start Date" p:fieldLabel.renderColon="false" p:order="10" />
+            <bean parent="Uif-DataField" p:propertyName="budget.summaryPeriodEndDate" p:label="Project End Date" p:fieldLabel.renderColon="false" p:order="20"/>
+            <bean parent="Uif-DataField" p:propertyName="budgetModularSummary.totalRequestedCost"  p:label="Total Funds Requested" p:fieldLabel.renderColon="false" p:order="60"/>
+        </list>
+        </property>
+    </bean>
+    <bean id="PropBudget-Modular-SummaryDirectCost-Section" parent="Uif-CssGridSection-1FieldLabelColumn" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="budgetModularSummary.directCostLessConsortiumFna" p:label="Direct Cost Less Consortium F&amp;A" p:fieldLabel.renderColon="false" p:order="30"/>
+                <bean parent="Uif-DataField" p:propertyName="budgetModularSummary.consortiumFna" p:label="Consortium F&amp;A" p:fieldLabel.renderColon="false" p:order="40"/>
+                <bean parent="Uif-DataField" p:propertyName="budgetModularSummary.totalDirectCost" p:label="Total Direct Cost" p:fieldLabel.renderColon="false" p:order="40"/>
+            </list>
+            </property>
+    </bean>
+    <bean id="PropBudget-Modular-SummaryFandA-Section"  parent="Uif-TableCollectionSection"
+                      p:header.headerText="F&amp;A"
+                      p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc"
+                      p:propertyName="budgetModularSummary.budgetModularIdcs" p:renderAddLine="false">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-DataField" p:propertyName="description" p:label="F&amp;A Rate Type"
+                              p:order="10" p:fieldLabel.renderColon="false" >
+                        </bean>
+                        <bean parent="Uif-DataField" p:propertyName="idcRate" p:label="F&amp;A Rate"
+                              p:order="20" p:fieldLabel.renderColon="false" />
+                        <bean parent="Uif-DataField" p:propertyName="idcBase" p:label="F&amp;A Base"
+                              p:order="30" p:fieldLabel.renderColon="false" >
+                            <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+                        </bean>
+                        <bean parent="Uif-DataField" p:propertyName="fundsRequested"
+                              p:order="40" p:label="Funds Requested" p:fieldLabel.renderColon="false" />
+                    </list>
+                </property>
+      </bean>
+ </beans>

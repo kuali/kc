@@ -43,6 +43,7 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
             if (budgetPeriod.getBudgetModular() == null)
                 budgetModularService.generateModularPeriod(budgetPeriod);
         }
+        form.setBudgetModularSummary(budgetModularService.generateModularSummary(budget));
         return super.navigate(form);
     }
 
@@ -52,7 +53,6 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
             throws Exception{
         Budget budget = form.getBudget();
         budgetModularService.synchModularBudget(budget);
-      //do I need this
         budgetModularService.generateModularSummary(budget);
         return getRefreshControllerService().refresh(form);
     }

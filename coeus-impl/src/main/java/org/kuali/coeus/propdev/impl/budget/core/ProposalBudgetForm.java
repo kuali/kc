@@ -156,6 +156,10 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
         this.budgetJustificationWrapper = budgetJustificationWrapper;
     }
 
+    public void setBudgetModularSummary(BudgetModularSummary budgetModularSummary) {
+        this.budgetModularSummary = budgetModularSummary;
+    }
+
     public BudgetModularSummary getBudgetModularSummary() {
         return budgetModularSummary;
     }
