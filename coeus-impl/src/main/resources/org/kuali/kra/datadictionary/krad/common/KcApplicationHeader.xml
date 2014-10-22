@@ -635,7 +635,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;docFormKey = 88888888"/>
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.rice.krad.document.authorization.PessimisticLock&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;docFormKey = 88888888"/>
                         </map>
                     </property>
                 </bean>
@@ -1121,7 +1121,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.rice.krad.document.authorization.PessimisticLock&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;docFormKey = 88888888"/>
                         </map>
                     </property>
                 </bean>
@@ -1511,13 +1511,13 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
                       p:actionLabel="  Pessimistic Lock" p:order="50" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
-                        <map>
+                       <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.rice.krad.document.authorization.PessimisticLock&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.rice.krad.document.authorization.PessimisticLock&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;lookupPendingProtocol=true&amp;docFormKey = 88888888"/>
                         </map>
                     </property>
                 </bean>
-
+ 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
                       p:actionLabel="  Configuration Viewer" p:order="60" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
