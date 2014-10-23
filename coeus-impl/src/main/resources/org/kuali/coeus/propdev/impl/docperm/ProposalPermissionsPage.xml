@@ -31,7 +31,7 @@
     <bean id="PropDev-PermissionsPage-UserTable"
           parent="Uif-TableCollectionSection" p:propertyName="permissionsHelper.workingUserRoles"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles"
-          p:renderAddLine="true" p:layoutManager.richTable.render="true"
+          p:renderAddLine="@{(#editModes['modifyPermissions'])}" p:layoutManager.richTable.render="true"
           p:layoutManager.renderSequenceField="false">
         <property name="layoutManager.addLineGroup.header">
             <bean parent="Uif-HeaderFour" p:headerText="Access: Add User"/>
@@ -77,12 +77,12 @@
     
     <bean id="PropDev-PermissionsPage-EditButton" parent="PropDev-PermissionsPage-EditButton-parentBean"/>
     <bean id="PropDev-PermissionsPage-EditButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
-          p:methodToCall="editCollectionLine" p:actionLabel="Edit"
+          p:methodToCall="editCollectionLine" p:actionLabel="Edit" p:render="@{(#editModes['modifyPermissions'])}"
           p:hidden="@{#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
 
     <bean id="PropDev-PermissionsPage-SaveButton" parent="PropDev-PermissionsPage-SaveButton-parentBean"/>
     <bean id="PropDev-PermissionsPage-SaveButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
-          p:methodToCall="savePermission" p:actionLabel="Save"
+          p:methodToCall="savePermission" p:actionLabel="Save" p:render="@{(#editModes['modifyPermissions'])}"
           p:hidden="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
 
 
