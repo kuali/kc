@@ -33,16 +33,16 @@
 			 <bean parent="Uif-InputField" p:label="Link Proposal" p:propertyName="newHierarchyChildProposalNumber"
                       p:render="@{document.developmentProposal.isParent()}" p:order="40">
                 <property name="quickfinder">
-                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
-                          p:fieldConversions="newHierarchyChildProposalNumber:proposalNumber" p:renderReturnLink="true"/>
+                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
+                          p:fieldConversions="proposalNumber:newHierarchyChildProposalNumber" p:renderReturnLink="true"/>
                 </property>
              </bean>
 
              <bean parent="Uif-InputField" p:label="Link Proposal" p:propertyName="newHierarchyProposalNumber"
                       p:render="@{!document.developmentProposal.isInHierarchy()}" p:order="50">
                  <property name="quickfinder">
-                     <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
-                           p:fieldConversions="newHierarchyProposalNumber:proposalNumber" p:renderReturnLink="true"/>
+                     <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
+                           p:fieldConversions="proposalNumber:newHierarchyProposalNumber" p:renderReturnLink="true"/>
                  </property>
              </bean>
 
