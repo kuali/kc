@@ -235,7 +235,7 @@
                         </bean>
 						<bean parent="Uif-ActionLink" p:methodToCall="preparePrintDialog"
             			    p:actionLabel="Print" p:iconClass="icon-print" p:order="20" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Copy"
+                        <bean parent="Uif-ActionLink" p:actionLabel="Copy" p:render="@{(#editModes[#proposalAuthConsts.FULL_ENTRY])}"
                               p:iconClass="icon-eye" p:order="30" p:actionScript="showDialog('PropDev-CopyDialog-Section');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Medusa"
 							p:iconClass="icon-tasks" p:order="40" p:actionScript="showDialog('PropDev-MedusaSection');" />
