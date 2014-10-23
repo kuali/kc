@@ -47,7 +47,6 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
         return super.navigate(form);
     }
 
-    @MethodAccessible
     @RequestMapping(value = "/proposalBudget", params={"methodToCall=synchModular"})
     public ModelAndView synchModular (@ModelAttribute("KualiForm") ProposalBudgetForm form)
             throws Exception{
@@ -57,7 +56,6 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
         return getRefreshControllerService().refresh(form);
     }
 
-    @MethodAccessible
     @RequestMapping(value = "/proposalBudget", params={"methodToCall=recalculateModular"})
     public ModelAndView recalculateModular (@ModelAttribute("KualiForm") ProposalBudgetForm form)
             throws Exception{
