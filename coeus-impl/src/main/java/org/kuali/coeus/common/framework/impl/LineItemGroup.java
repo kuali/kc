@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.coeus.common.view.lineitemtable.framework;
+package org.kuali.coeus.common.framework.impl;
 
 /**
  * A group which contains lineItemObjects, representing a grouping (or heading) within the table.

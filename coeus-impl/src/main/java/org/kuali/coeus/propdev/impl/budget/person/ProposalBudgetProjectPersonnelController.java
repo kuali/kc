@@ -249,8 +249,11 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
         	BudgetPersonnelDetails deletedPersonnelLineItem = form.getBudget().getBudgetPersonnelDetails().get(Integer.parseInt(selectedLine));
 		    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
 		    BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
-		    BudgetLineItem budgetLineItem = getSelectedBudgetLineItem(deletedPersonnelLineItem.getPersonDetailGroup(), budgetPeriod);
+		    BudgetLineItem budgetLineItem = deletedPersonnelLineItem.getBudgetLineItem();
 		    budgetLineItem.getBudgetPersonnelDetailsList().remove(deletedPersonnelLineItem);
+		    if(budgetLineItem.getBudgetPersonnelDetailsList().size() == 0) {
+		    	budgetPeriod.getBudgetLineItems().remove(budgetLineItem);
+		    }
 		    budget.getBudgetPersonnelDetails().remove(deletedPersonnelLineItem);
 	    }
 		return getModelAndViewService().getModelAndView(form);

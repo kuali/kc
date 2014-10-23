@@ -122,8 +122,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @Column(name = "IS_FORMULATED_COST_ELELMENT")
     private Boolean formulatedCostElementFlag;
 
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OneToMany(mappedBy="budgetLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 
     @OneToMany(mappedBy="budgetLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })
@@ -143,8 +142,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @Convert(converter = BooleanYNConverter.class)
     private boolean hiddenInHierarchy;
 
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    @OneToMany(mappedBy="budgetLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetRateAndBase> budgetRateAndBaseList;
 
     @OneToMany(mappedBy="budgetLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })

@@ -24,6 +24,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.query.operator.And;
 import org.kuali.coeus.common.budget.framework.query.operator.Equals;
+import org.kuali.coeus.common.budget.framework.query.operator.Operator;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
@@ -36,9 +37,15 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
+import org.kuali.coeus.common.framework.impl.LineItemGroup;
+import org.kuali.coeus.common.framework.impl.LineItemObject;
+import org.kuali.coeus.common.framework.impl.Period;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,9 +73,40 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     private ParameterService parameterService;
 
     @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+    
+    @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
 
+    private static final String BUDGET_SUMMARY_PERIOD_HEADER_LABEL = "P";
+    private static final String BUDGET_SUMMARY_PERSONNEL_GROUP_LABEL = "Personnel";
+    private static final String BUDGET_SUMMARY_NONPERSONNEL_GROUP_LABEL = "Non-personnel";
+    private static final String BUDGET_SUMMARY_TOTALS_GROUP_LABEL = "Totals";
+    
+    private enum BudgetSummaryConstants {
+        CalculatedDirectCost ("calculatedDirectCosts", "Calculated Direct Costs"),
+        TotalDirectCost ("totalDirectCost", "Total Direct Cost"),
+        TotalFnACost ("totalFnACost", "Total F&A Costs"),
+        PersonSalary("salary", "Salary"),
+        PersonFringe("fringe", "Fringe");
+        
+        private final String key;   
+        private final String label; 
+        BudgetSummaryConstants(String key, String label) {
+            this.key = key;
+            this.label = label;
+        }
+        public String getKey() { 
+            return key; 
+        }
+        public String getLabel() { 
+            return label; 
+        }
+    }
+    
+    
     @Override
     public void calculateBudget(Budget budget){
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
@@ -253,6 +291,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             budgetRateBase.setRateNumber(++rateNumber);
             budgetRateBase.setRateTypeCode(budgetPersonnelRateAndBase.getRateTypeCode());
             budgetRateBase.setStartDate(budgetPersonnelRateAndBase.getStartDate());
+            budgetRateBase.setBudgetLineItem(bli);
             budgetRateAndBaseList.add(budgetRateBase);
         }   
 
@@ -436,11 +475,14 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
     
     protected BudgetCategoryType getPersonnelCategoryType() {
-        final Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("code", "P");
-        return this.getBusinessObjectService().findByPrimaryKey(BudgetCategoryType.class, primaryKeys);
+        return getDataObjectService().find(BudgetCategoryType.class, getPersonnelBudgetCategoryTypeCode());
     }
 
+    protected List<BudgetCategoryType> getAllBudgetCategoryTypes() {
+        return getDataObjectService().findAll(BudgetCategoryType.class).getResults();
+    }
+    
+    @Deprecated
     @Override
     public void calculateBudgetSummaryTotals(Budget budget){
         calculateBudgetTotals(budget);
@@ -728,6 +770,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return rateType;
     }
 
+    @Deprecated
     @SuppressWarnings("unchecked")
     protected void calculateBudgetTotals(Budget budget){
         // do we need to cache the totals ?
@@ -892,4 +935,312 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }
+    
+    public void populateBudgetSummaryTotals(Budget budget){
+    	BudgetCategoryType personnelCategoryType = getPersonnelCategoryType();
+    	String personnelBudgetCategoryType = personnelCategoryType.getCode();
+    	
+    	List<BudgetLineItem> budgetLineItems = getAllBudgetSummaryLineItems(budget);
+    	
+    	SortedMap<BudgetCategoryType, SortedMap<CostElement, List<BudgetLineItem>>> uniqueBudgetCategoryLineItemCostElements = getBudgetSummaryUniqueBudgetCategoryLineItemCostElements(budgetLineItems);
+    	SortedMap<CostElement, List<BudgetLineItem>> personnelCostElementLineItems = uniqueBudgetCategoryLineItemCostElements.get(personnelCategoryType);
+    	
+    	List<Period> budgetSummaryPeriods = new ArrayList<Period>();
+        for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
+        	String periodHeader = BUDGET_SUMMARY_PERIOD_HEADER_LABEL.concat(budgetPeriod.getBudgetPeriod().toString());
+           	Period summaryPeriod = new Period(periodHeader);
+        	LineItemGroup personnelGroup = getPersonnelBudgetSummaryPeriods(budgetPeriod, personnelCostElementLineItems);
+            LineItemObject calculatedPersonnelDirectCosts = new LineItemObject(BudgetSummaryConstants.CalculatedDirectCost.getKey(), 
+            		BudgetSummaryConstants.CalculatedDirectCost.getLabel(), ScaleTwoDecimal.ZERO);
+            ScaleTwoDecimal personnelDirectCost = getCalculateBudgetSummaryExpenseTotal(budgetPeriod, true, personnelBudgetCategoryType);
+            calculatedPersonnelDirectCosts.setAmount(personnelDirectCost);
+            personnelGroup.getLineItems().add(calculatedPersonnelDirectCosts);
+
+        	uniqueBudgetCategoryLineItemCostElements.remove(personnelCategoryType);
+        	LineItemGroup nonPersonnelGroup = getNonPersonnelBudgetSummaryPeriods(budgetPeriod, uniqueBudgetCategoryLineItemCostElements);
+            LineItemObject calculatedNonPersonnelDirectCosts = new LineItemObject(BudgetSummaryConstants.CalculatedDirectCost.getKey(), 
+            		BudgetSummaryConstants.CalculatedDirectCost.getLabel(), ScaleTwoDecimal.ZERO);
+            ScaleTwoDecimal nonPersonnelDirectCost = getCalculateBudgetSummaryExpenseTotal(budgetPeriod, false, personnelBudgetCategoryType);
+            calculatedNonPersonnelDirectCosts.setAmount(nonPersonnelDirectCost);
+            nonPersonnelGroup.getLineItems().add(calculatedNonPersonnelDirectCosts);
+
+            LineItemGroup totalsGroup = getBudgetSummaryTotals(budgetPeriod);
+            
+        	summaryPeriod.getLineItemGroups().add(personnelGroup);
+        	summaryPeriod.getLineItemGroups().add(nonPersonnelGroup);
+        	summaryPeriod.getLineItemGroups().add(totalsGroup);
+            budgetSummaryPeriods.add(summaryPeriod);
+       }
+        budget.setBudgetSummaryDetails(budgetSummaryPeriods);
+    	
+    }
+
+    /**
+     * get all line items in budget (all periods)
+     * @param budget
+     * @return
+     */
+    private List<BudgetLineItem> getAllBudgetSummaryLineItems(Budget budget) {
+    	List<BudgetLineItem> summaryLineItems = new ArrayList<BudgetLineItem>();
+        for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
+        	for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+    			summaryLineItems.add(budgetLineItem);
+        	}
+        }
+        return summaryLineItems;
+    }
+    
+    /**
+     * This method is to get list of line items based on budget category type grouped by cost element.
+     * @param budgetLineItems
+     * @param budgetCategoryTypeCode
+     * @return
+     */
+    private SortedMap<CostElement, List<BudgetLineItem>> getBudgetSummaryUniqueLineItemCostElementsForBudgetCategory(List<BudgetLineItem> budgetLineItems, String budgetCategoryTypeCode) {
+    	SortedMap<CostElement, List<BudgetLineItem>> uniqueLineItemCostElements = new TreeMap<CostElement, List<BudgetLineItem>>();
+       	for(BudgetLineItem budgetLineItem : budgetLineItems) {
+       		CostElement costElement = budgetLineItem.getCostElementBO();
+       		String costElementBudgetCategoryTypeCode = costElement.getBudgetCategory().getBudgetCategoryTypeCode();
+       		if(costElementBudgetCategoryTypeCode.equalsIgnoreCase(budgetCategoryTypeCode)) {
+                if(!uniqueLineItemCostElements.containsKey(costElement)) {
+                	uniqueLineItemCostElements.put(costElement, new ArrayList<BudgetLineItem>());
+                }
+                uniqueLineItemCostElements.get(costElement).add(budgetLineItem);
+       		}
+        }
+       	return uniqueLineItemCostElements;
+    }
+
+    /**
+     * This method is to get list of line items grouped by budget category type
+     * @param budgetLineItems
+     * @return
+     */
+    private SortedMap<BudgetCategoryType, SortedMap<CostElement, List<BudgetLineItem>>> getBudgetSummaryUniqueBudgetCategoryLineItemCostElements(List<BudgetLineItem> budgetLineItems) {
+    	SortedMap<BudgetCategoryType, SortedMap<CostElement, List<BudgetLineItem>>> uniqueBudgetCategoryLineItemCostElements = new TreeMap<BudgetCategoryType, SortedMap<CostElement, List<BudgetLineItem>>>();
+    	List<BudgetCategoryType> budgetCategoryTypes = getAllBudgetCategoryTypes();
+    	for(BudgetCategoryType budgetCategoryType : budgetCategoryTypes) {
+       		SortedMap<CostElement, List<BudgetLineItem>> costElementLineItems = getBudgetSummaryUniqueLineItemCostElementsForBudgetCategory(budgetLineItems, budgetCategoryType.getCode());
+            if(!costElementLineItems.isEmpty()) {
+            	uniqueBudgetCategoryLineItemCostElements.put(budgetCategoryType, new TreeMap<CostElement, List<BudgetLineItem>>());
+                uniqueBudgetCategoryLineItemCostElements.put(budgetCategoryType, costElementLineItems);
+            }
+        }
+       	return uniqueBudgetCategoryLineItemCostElements;
+    }
+    
+    /**
+     * This method is to group personnel items for budget summary
+     * Start building data structure applicable for personnel items to format it with
+     * required details for budget summary
+     * @param budget
+     * @param uniqueLineItemCostElements
+     * @param budgetPeriodPersonnelLineItems
+     * @return
+     */
+    private LineItemGroup getPersonnelBudgetSummaryPeriods(BudgetPeriod budgetPeriod, SortedMap<CostElement, List<BudgetLineItem>> uniqueBudgetLineItemCostElements) {
+        LineItemGroup personnelGroup = new LineItemGroup(BUDGET_SUMMARY_PERSONNEL_GROUP_LABEL, true);
+        LineItemObject personnelSalaries = new LineItemObject(BudgetSummaryConstants.PersonSalary.getKey(), BudgetSummaryConstants.PersonSalary.getLabel(), ScaleTwoDecimal.ZERO);
+        LineItemObject personnelFringe = new LineItemObject(BudgetSummaryConstants.PersonFringe.getKey(), BudgetSummaryConstants.PersonFringe.getLabel(), ScaleTwoDecimal.ZERO);
+        ScaleTwoDecimal totalSalary = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalFringe = ScaleTwoDecimal.ZERO;
+       for(Map.Entry<CostElement, List<BudgetLineItem>> uniqueLineItem : uniqueBudgetLineItemCostElements.entrySet()) {
+     		CostElement personnelCostElement = uniqueLineItem.getKey();
+      		List<BudgetLineItem> personnelLineItemsForCostElement = uniqueLineItem.getValue();
+            
+            QueryList<BudgetLineItem> periodLineItemCostElementQueryList = getLineItemsFilteredByCostElement(budgetPeriod, personnelCostElement.getCostElement());
+        	QueryList<BudgetPersonnelDetails> periodLineItemPersonnelDetailsQueryList = getBudgetPersonnelDetails(periodLineItemCostElementQueryList);
+        	ScaleTwoDecimal totalSalaryForCostElement = periodLineItemPersonnelDetailsQueryList.sumObjects("salaryRequested");
+        	ScaleTwoDecimal totalFringeForCostElement = periodLineItemPersonnelDetailsQueryList.sumObjects("calculatedFringe");
+
+        	Map<String, String> uniquePersonList = getUniquePersonList(personnelLineItemsForCostElement);
+            LineItemObject salaryLineItemObject = new LineItemObject(personnelCostElement.getCostElement(), personnelCostElement.getDescription(), totalSalaryForCostElement);
+            LineItemObject fringeLineItemObject = new LineItemObject(personnelCostElement.getCostElement(), personnelCostElement.getDescription(), totalFringeForCostElement);
+            for(Map.Entry<String, String> personInfo : uniquePersonList.entrySet()) {
+         		String personId = personInfo.getKey();
+          		String personName = personInfo.getValue();
+                ScaleTwoDecimal personSalaryTotalsForCurrentPeriod = ScaleTwoDecimal.ZERO;
+                ScaleTwoDecimal personFringeTotalsForCurrentPeriod = ScaleTwoDecimal.ZERO;
+                Equals personIdEquals = new Equals("personId", personId);
+                QueryList<BudgetPersonnelDetails> personOccurrencesForSameObjectCode = periodLineItemPersonnelDetailsQueryList.filter(personIdEquals);
+                if(personOccurrencesForSameObjectCode != null && !personOccurrencesForSameObjectCode.isEmpty()) {
+                    personSalaryTotalsForCurrentPeriod = personOccurrencesForSameObjectCode.sumObjects("salaryRequested");
+                    personFringeTotalsForCurrentPeriod = personOccurrencesForSameObjectCode.sumObjects("calculatedFringe");
+                }
+                salaryLineItemObject.getLineItems().add(new LineItemObject(personId, personName, personSalaryTotalsForCurrentPeriod));
+                fringeLineItemObject.getLineItems().add(new LineItemObject(personId, personName, personFringeTotalsForCurrentPeriod));
+            }
+            totalSalary = totalSalary.add(totalSalaryForCostElement);
+            totalFringe = totalFringe.add(totalFringeForCostElement);
+            personnelSalaries.getLineItems().add(salaryLineItemObject);
+            personnelFringe.getLineItems().add(fringeLineItemObject);
+       }
+       personnelSalaries.setAmount(totalSalary);
+       personnelFringe.setAmount(totalFringe);
+       personnelGroup.getLineItems().add(personnelSalaries);
+       personnelGroup.getLineItems().add(personnelFringe);
+       return personnelGroup;
+    }
+    
+    /**
+     * Filter budget line items for given cost element
+     * @param budgetPeriod
+     * @param costElement
+     * @return
+     */
+    private QueryList<BudgetLineItem> getLineItemsFilteredByCostElement(BudgetPeriod budgetPeriod, String costElement) {
+  		QueryList<BudgetLineItem> lineItemQueryList = new QueryList<BudgetLineItem>();
+        lineItemQueryList.addAll(budgetPeriod.getBudgetLineItems());
+        Equals costElementEquals = new Equals("costElement", costElement);
+        QueryList<BudgetLineItem> periodLineItemCostElementQueryList = lineItemQueryList.filter(costElementEquals);
+        return periodLineItemCostElementQueryList;
+    }
+
+    /**
+     * This method is to group non-personnel items for budget summary
+     * Start building data structure applicable for non-personnel items to format it with
+     * required details for budget summary
+     * @param budgetPeriod
+     * @param uniqueBudgetCategoryLineItemCostElements
+     * @return
+     */
+    private LineItemGroup getNonPersonnelBudgetSummaryPeriods(BudgetPeriod budgetPeriod, SortedMap<BudgetCategoryType, SortedMap<CostElement, List<BudgetLineItem>>> uniqueBudgetCategoryLineItemCostElements) {
+        LineItemGroup nonPersonnelGroup = new LineItemGroup(BUDGET_SUMMARY_NONPERSONNEL_GROUP_LABEL, true);
+        for(Map.Entry<BudgetCategoryType, SortedMap<CostElement, List<BudgetLineItem>>> uniqueBudgetCategory : uniqueBudgetCategoryLineItemCostElements.entrySet()) {
+            ScaleTwoDecimal totalForCategory = ScaleTwoDecimal.ZERO;
+            BudgetCategoryType budgetCategoryType = uniqueBudgetCategory.getKey();
+            SortedMap<CostElement, List<BudgetLineItem>> uniqueLineItemCostElements = uniqueBudgetCategory.getValue();
+            LineItemObject lineItemCategory = new LineItemObject(budgetCategoryType.getCode(), budgetCategoryType.getDescription(), ScaleTwoDecimal.ZERO);
+
+            for(Map.Entry<CostElement, List<BudgetLineItem>> uniqueLineItem : uniqueLineItemCostElements.entrySet()) {
+         		CostElement costElement = uniqueLineItem.getKey();
+                QueryList<BudgetLineItem> periodLineItemCostElementQueryList = getLineItemsFilteredByCostElement(budgetPeriod, costElement.getCostElement());
+                ScaleTwoDecimal totalForCostElement = ScaleTwoDecimal.ZERO;
+                if(periodLineItemCostElementQueryList != null) {
+                    totalForCostElement = periodLineItemCostElementQueryList.sumObjects("lineItemCost");
+                }
+                LineItemObject costElementLineItemObject = new LineItemObject(costElement.getCostElement(), costElement.getDescription(), totalForCostElement);
+                lineItemCategory.getLineItems().add(costElementLineItemObject);
+                totalForCategory = totalForCategory.add(totalForCostElement);
+            }
+            lineItemCategory.setAmount(totalForCategory);
+            nonPersonnelGroup.getLineItems().add(lineItemCategory);
+        }
+       return nonPersonnelGroup;
+    }
+    
+    /**
+     * This method is to group totals for budget summary
+     * get budget summary totals - total direct and f&a
+     * @param budgetPeriod
+     * @return
+     */
+    private LineItemGroup getBudgetSummaryTotals(BudgetPeriod budgetPeriod) {
+        LineItemGroup totalsGroup = new LineItemGroup(BUDGET_SUMMARY_TOTALS_GROUP_LABEL, true);
+        LineItemObject totalDirectCost = new LineItemObject(BudgetSummaryConstants.TotalDirectCost.getKey(), BudgetSummaryConstants.TotalDirectCost.getLabel(), 
+        		budgetPeriod.getTotalDirectCost());
+        LineItemObject totalFnACost = new LineItemObject(BudgetSummaryConstants.TotalFnACost.getKey(), BudgetSummaryConstants.TotalFnACost.getLabel(), 
+        		budgetPeriod.getTotalIndirectCost());
+        totalsGroup.getLineItems().add(totalDirectCost);
+        totalsGroup.getLineItems().add(totalFnACost);
+       return totalsGroup;
+    }
+    
+    /**
+     * This method is to get personnel line item details associated with a cost element
+     * @param personnelLineItemsForCostElement
+     * @return
+     */
+    private QueryList<BudgetPersonnelDetails> getBudgetPersonnelDetails(List<BudgetLineItem> personnelLineItemsForCostElement) {
+        QueryList<BudgetPersonnelDetails> personnelQueryList = new QueryList<BudgetPersonnelDetails>();
+    	if(personnelLineItemsForCostElement != null) {
+            for(BudgetLineItem budgetLineItem : personnelLineItemsForCostElement) {
+                personnelQueryList.addAll(budgetLineItem.getBudgetPersonnelDetailsList());
+            }
+    	}
+        return personnelQueryList;
+    }
+    
+    /**
+     * This method is to get a unique list of persons associated to personnel line items for all periods
+     * @param personnelLineItems
+     * @return
+     */
+    private Map<String, String> getUniquePersonList(List<BudgetLineItem> personnelLineItems) {
+        Map<String, String> uniquePersonList = new HashMap<String,String>();
+        for(BudgetLineItem budgetLineItem : personnelLineItems) {
+            for(BudgetPersonnelDetails budgetPersonnelDetail : budgetLineItem.getBudgetPersonnelDetailsList()) {
+            	uniquePersonList.put(budgetPersonnelDetail.getPersonId(), budgetPersonnelDetail.getBudgetPerson().getPersonName());
+            }
+        }
+        return uniquePersonList;
+    }
+    
+    private String getPersonnelBudgetCategoryTypeCode() {
+        return this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.DOCUMENT_COMPONENT,Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+    }
+
+    /**
+     * Calculate direct cost for given period
+     * @param budgetPeriod
+     * @param personnelFlag
+     * @param personnelCategoryTypeCode
+     * @return
+     */
+    private ScaleTwoDecimal getCalculateBudgetSummaryExpenseTotal(BudgetPeriod budgetPeriod, boolean personnelFlag, String personnelCategoryTypeCode){
+        ScaleTwoDecimal calculatedExpenseTotal = ScaleTwoDecimal.ZERO;
+        SortedMap<RateType, QueryList<BudgetLineItemCalculatedAmount>> uniqueLineItemCalAmounts = getBudgetSummaryUniqueRateTypeCalAmounts(budgetPeriod.getBudgetLineItems(), 
+        		personnelFlag, personnelCategoryTypeCode);
+        for(Map.Entry<RateType, QueryList<BudgetLineItemCalculatedAmount>> uniqueLineItem : uniqueLineItemCalAmounts.entrySet()) {
+        	RateType rateType = uniqueLineItem.getKey();
+        	QueryList<BudgetLineItemCalculatedAmount> lineItemCalAmounts = uniqueLineItem.getValue();
+            RateClass rateClass = rateType.getRateClass();
+            if (((personnelFlag && rateClass != null && !StringUtils.equals(rateClass.getRateClassTypeCode(), RateClassType.EMPLOYEE_BENEFITS.getRateClassType())) || !personnelFlag)) {
+                if(!StringUtils.equals(rateClass.getRateClassTypeCode(), RateClassType.OVERHEAD.getRateClassType())) {
+                    ScaleTwoDecimal rateTypeTotalInThisPeriod = lineItemCalAmounts.sumObjects("calculatedCost");
+                    calculatedExpenseTotal = calculatedExpenseTotal.add(rateTypeTotalInThisPeriod); 
+                }
+            }
+        }
+        return calculatedExpenseTotal;
+    }
+    
+    /**
+     * This method is to categorize line item calculated amounts based on rate type
+     * @param budgetLineItems
+     * @param personnelFlag
+     * @param personnelCategoryTypeCode
+     * @return
+     */
+    private SortedMap<RateType, QueryList<BudgetLineItemCalculatedAmount>> getBudgetSummaryUniqueRateTypeCalAmounts(List<BudgetLineItem> budgetLineItems, boolean personnelFlag, String personnelCategoryTypeCode) {
+    	SortedMap<RateType, QueryList<BudgetLineItemCalculatedAmount>> uniqueLineItemCalAmounts = new TreeMap<RateType, QueryList<BudgetLineItemCalculatedAmount>>();
+       	for(BudgetLineItem budgetLineItem : budgetLineItems) {
+            if((personnelFlag && StringUtils.equals(budgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode(), personnelCategoryTypeCode)) ||  
+                    (!personnelFlag && !StringUtils.equals(budgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode(), personnelCategoryTypeCode))  ) {
+           		for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+               		RateType rateType = getRateType(budgetLineItemCalculatedAmount);
+                    if(!uniqueLineItemCalAmounts.containsKey(rateType)) {
+                    	uniqueLineItemCalAmounts.put(rateType, new QueryList<BudgetLineItemCalculatedAmount>());
+                    }
+                    uniqueLineItemCalAmounts.get(rateType).add(budgetLineItemCalculatedAmount);
+           		}
+       		}
+        }
+       	return uniqueLineItemCalAmounts;
+    }
+    
+    private RateType getRateType(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount) {
+    	if(budgetLineItemCalculatedAmount.getRateTypeCode() != null && budgetLineItemCalculatedAmount.getRateType() == null) {
+    		getDataObjectService().wrap(budgetLineItemCalculatedAmount).fetchRelationship("rateType");
+    	}
+    	return budgetLineItemCalculatedAmount.getRateType();
+    }
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
+    
 }

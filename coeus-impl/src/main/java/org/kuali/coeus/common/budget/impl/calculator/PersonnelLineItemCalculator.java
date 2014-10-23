@@ -160,6 +160,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                 java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
                 budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
                 budgetRateBase.setBudgetPersonnelLineItem(budgetPersonnelLineItem);
+                budgetRateBase.setBudgetPeriodId(budgetPersonnelLineItem.getBudgetPeriodId());
                 budgetRateAndBaseList.add(budgetRateBase);
             }   
         }

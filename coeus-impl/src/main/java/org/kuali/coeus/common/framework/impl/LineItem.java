@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.coeus.common.view.lineitemtable.framework;
+package org.kuali.coeus.common.framework.impl;
 
 import java.util.ArrayList;
 import java.util.List;

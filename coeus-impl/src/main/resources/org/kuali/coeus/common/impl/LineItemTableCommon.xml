@@ -5,8 +5,8 @@
 
     <bean id="Kc-LineItemTable" abstract="true" parent="Kc-LineItemTable-parentBean"/>
     <bean id="Kc-LineItemTable-parentBean" abstract="true"
-          class="org.kuali.coeus.common.view.lineitemtable.impl.LineItemTable" parent="Uif-GroupBase">
-        <property name="template" value="/krad/WEB-INF/ftl/components/group/lineItemTable.ftl"/>
+          class="org.kuali.coeus.common.framework.impl.LineItemTable" parent="Uif-GroupBase">
+        <property name="template" value="/WEB-INF/ftl/krad/coeus/group/lineItemTable.ftl"/>
         <property name="templateName" value="uif_lineItemTable"/>
         <property name="header">
             <bean parent="Uif-HeaderThree">

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.kuali.coeus.common.view.lineitemtable.framework;
+package org.kuali.coeus.common.framework.impl;
 
-import java.math.BigDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 /**
  * A line item object to be used by LineItemTable which represents an amount.  The line item objects are matched
@@ -28,9 +28,9 @@ public class LineItemObject extends LineItem {
     private String lineItemId;
     private String name;
 
-    private BigDecimal amount;
+    private ScaleTwoDecimal amount;
 
-    public LineItemObject(String lineItemId, String name, BigDecimal amount) {
+    public LineItemObject(String lineItemId, String name, ScaleTwoDecimal amount) {
         this.lineItemId = lineItemId;
         this.name = name;
         this.amount = amount;
@@ -69,18 +69,18 @@ public class LineItemObject extends LineItem {
     }
 
     /**
-     * The amount in BigDecimal format
+     * The amount in ScaleTwoDecimal format
      *
      * @return the amount
      */
-    public BigDecimal getAmount() {
+    public ScaleTwoDecimal getAmount() {
         return amount;
     }
 
     /**
      * @see #getAmount()
      */
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(ScaleTwoDecimal amount) {
         this.amount = amount;
     }
 }

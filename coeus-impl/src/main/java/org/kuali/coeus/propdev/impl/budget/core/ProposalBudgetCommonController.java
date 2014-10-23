@@ -274,4 +274,10 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		this.proposalBudgetSharedController = proposalBudgetSharedController;
 	}
 
+    @RequestMapping(params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-SummaryPage"})
+    public ModelAndView navigateToBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+    	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
+        return super.navigate(form);
+    }
+    
 }
