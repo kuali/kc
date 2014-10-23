@@ -105,8 +105,11 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
                 if(personBiography.getProposalPersonNumber() != null && personBiography.getDocumentTypeCode() != null &&
                         personBiography.getProposalPersonNumber().equals(biography.getProposalPersonNumber())
                         && personBiography.getDocumentTypeCode().equals(biography.getDocumentTypeCode())){
-                    rulePassed = false;
-                    reportError(errorPrefix+DOCUMENT_TYPE_CODE, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
+                	
+                	if(personBiography.getBiographyNumber() != biography.getBiographyNumber()) {
+	                    rulePassed = false;
+	                    reportError(errorPrefix+DOCUMENT_TYPE_CODE, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
+                	}
                 }
             }
         }

@@ -32,14 +32,9 @@ public abstract class PersonnelAttachmentEventBase extends KcDocumentEventBase i
 
 
         if ( proposalPersonBiography != null ) {
-            // by doing a deep copy, we are ensuring that the business rule class can't update
-            // the original object by reference
-            this.proposalPersonBiography = (ProposalPersonBiography) ObjectUtils.deepCopy(proposalPersonBiography);
-            // personnelattachmentfile will be lost during deepcopy, so implement filename this way.
-            if (proposalPersonBiography.getPersonnelAttachmentFile() != null) {
-                this.proposalPersonBiography.setName(proposalPersonBiography.getPersonnelAttachmentFile().getFileName());
-                this.proposalPersonBiography.setType(proposalPersonBiography.getPersonnelAttachmentFile().getContentType());
-            }
+        	//Deep copy is not needed here
+        	// No business validations should alter the BO itslef.
+            this.proposalPersonBiography = proposalPersonBiography;
         } else {
             //due to this rule requiring A proposal person biography, create one if null
             this.proposalPersonBiography = new ProposalPersonBiography();
