@@ -43,8 +43,8 @@
 	 	 <bean  parent="Uif-HorizontalBoxGroup" p:align="left" >
 			<property name="items">
 				<list>
-					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10" 
-						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10"
+                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and document.documentHeader.workflowDocument.saved}"/>
 
                     <bean  p:actionLabel="Ad Hoc Recipients" parent="Uif-PrimaryActionButton" p:methodToCall="populateAdHocs"  p:order="20"
                            p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS]}" />

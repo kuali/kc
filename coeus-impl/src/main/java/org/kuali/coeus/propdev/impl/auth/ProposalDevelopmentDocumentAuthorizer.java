@@ -162,7 +162,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
      * @param editModes the edit mode map
      */
     private void setPermissions(Person user, ProposalDevelopmentDocument doc, Set<String> editModes) {
-        final String userId = user.getPrincipalId();
 
         if (editModes.contains(AuthorizationConstants.EditMode.FULL_ENTRY)) {
             editModes.add("modifyProposal");
@@ -171,7 +170,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (isAuthorizedToAddBudget(doc, user)) {
             editModes.add(AuthConstants.ADD_BUDGET_EDIT_MODE);
         }
-                
+
         if (isAuthorizedToOpenBudget(doc, user)) {
             editModes.add(AuthConstants.VIEW_BUDGET_EDIT_MODE);
         }
@@ -379,7 +378,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     }
 
     public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user, ProposalPerson proposalPerson){
-        if (getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.Parameters.KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY)) {
+        final Boolean param = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.Parameters.KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY);
+
+        if (param != null && param) {
 
             // null person indicates non employee and only people with proxy perms can certify for them so return false below
             boolean isKeyPersonnel = proposalPerson.getPerson() != null && proposalPerson.getPerson().getPersonId().equals(user.getPrincipalId());
@@ -690,7 +691,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                 !pdDocument.getDevelopmentProposal().isChild();
     }
 
-    protected boolean isAuthorizedToPrint(Document document, Person user) {
+    public boolean isAuthorizedToPrint(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.PRINT_PROPOSAL);
     }

@@ -125,6 +125,14 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         }
     }
 
+    @Override
+    public boolean canOpenView(View view, ViewModel model, Person user) {
+        ProposalBudgetForm form = (ProposalBudgetForm) model;
+        ProposalDevelopmentBudgetExt budget = form.getBudget();
+
+        return canOpen(budget, user);
+    }
+
     public boolean canOpen(ProposalDevelopmentBudgetExt budget, Person user) {
         return isAuthorizedToViewBudget(budget, user);
     }
@@ -160,10 +168,8 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
 
     public boolean isAuthorizedToViewBudget(ProposalDevelopmentBudgetExt budget, Person user) {
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budget.getBudgetParent().getDocument();
-
         return getKcAuthorizationService().hasPermission(user.getPrincipalId(), doc, PermissionConstants.VIEW_BUDGET)
-                || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), doc);
-
+            || getKcAuthorizationService().hasPermission(user.getPrincipalId(), doc, PermissionConstants.MODIFY_BUDGET);
     }
 
     protected boolean isAuthorizedToMaintainProposalHierarchy(Document document, Person user) {
