@@ -112,15 +112,15 @@
 		parent="Uif-SidebarToggleMenu" p:toggleText="Basics" p:iconClass="icon-file-alt">
 		<property name="menuItems">
 			<list>
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-DetailsPage"
+				<bean parent="PropDev-MenuAction" p:navigateToPageId="PropDev-DetailsPage"
 					p:actionLabel="Proposal Details" p:order="10" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-OpportunityPage"
+				<bean parent="PropDev-MenuAction" p:navigateToPageId="PropDev-OpportunityPage"
 					p:actionLabel="S2S Opportunity Search" p:order="20" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-DeliveryInfoPage"
+				<bean parent="PropDev-MenuAction" p:navigateToPageId="PropDev-DeliveryInfoPage"
 					p:actionLabel="Delivery Info" p:order="30" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-SponsorProgramInfoPage"
+				<bean parent="PropDev-MenuAction" p:navigateToPageId="PropDev-SponsorProgramInfoPage"
 					p:actionLabel="Sponsor &amp; Program Information" p:order="40" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-OrganizationLocationsPage"
+				<bean parent="PropDev-MenuAction" p:navigateToPageId="PropDev-OrganizationLocationsPage"
 					p:actionLabel="Organization and Location" p:order="50" />
 			</list>
 		</property>
@@ -131,9 +131,9 @@
 		p:iconClass="icon-user">
 		<property name="menuItems">
 			<list>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-PersonnelPage"
+				<bean parent="PropDev-MenuAction" p:navigateToPageId="PropDev-PersonnelPage"
 					p:actionLabel="Personnel" p:order="10" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-CreditAllocationPage"
+				<bean parent="PropDev-MenuAction" p:navigateToPageId="PropDev-CreditAllocationPage"
 					p:actionLabel="Credit Allocation" p:order="20" />
 			</list>
 		</property>
@@ -144,41 +144,41 @@
 		p:iconClass="icon-user">
 		<property name="menuItems">
 			<list>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-PersonnelPage"
+				<bean parent="PropDev-MenuAction" p:navigateToPageId="PropDev-PersonnelPage"
 					p:actionLabel="Personnel" p:order="10" />
 			</list>
 		</property>
 	</bean>
 	<bean id="PropDev-NavigationMenu-Compliance" parent="PropDev-NavigationMenu-Compliance-parentBean" />
 	<bean id="PropDev-NavigationMenu-Compliance-parentBean" abstract="true"
-		parent="Uif-MenuAction" p:navigateToPageId="PropDev-CompliancePage"
+		parent="PropDev-MenuAction" p:navigateToPageId="PropDev-CompliancePage"
 		p:actionLabel="Compliance" p:iconClass="icon-ok" />
 	<bean id="PropDev-NavigationMenu-Attachments" parent="PropDev-NavigationMenu-Attachments-parentBean" />
 	<bean id="PropDev-NavigationMenu-Attachments-parentBean" abstract="true"
-		parent="Uif-MenuAction" p:navigateToPageId="PropDev-AttachmentsPage"
+		parent="PropDev-MenuAction" p:navigateToPageId="PropDev-AttachmentsPage"
         p:actionLabel="Attachments" p:iconClass="icon-paper-clip"/>
 	<bean id="PropDev-NavigationMenu-Questionnaire" parent="PropDev-NavigationMenu-Questionnaire-parentBean" />
 	<bean id="PropDev-NavigationMenu-Questionnaire-parentBean"
-		abstract="true" parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-QuestionnairePage"
+		abstract="true" parent="PropDev-MenuAction" p:navigateToPageId="PropDev-QuestionnairePage"
 		p:actionLabel="Questionnaire" p:actionEvent="navigateToQuestionnaire"
 		p:iconClass="icon-question" />
 	<bean id="PropDev-NavigationMenu-Budget" parent="PropDev-NavigationMenu-Budget-parentBean" />
 	<bean id="PropDev-NavigationMenu-Budget-parentBean" abstract="true" p:navigateToPageId="PropDev-BudgetPage"
-		parent="Uif-NavigationActionLink" p:actionLabel="Budget" p:iconClass="icon-money"/>
+		parent="PropDev-MenuAction" p:actionLabel="Budget" p:iconClass="icon-money"/>
     <bean id="PropDev-NavigationMenu-Access" parent="PropDev-NavigationMenu-Access-parentBean" />
     <bean id="PropDev-NavigationMenu-Access-parentBean" abstract="true" p:navigateToPageId="PropDev-PermissionsPage"
-          parent="Uif-MenuAction" p:actionLabel="Access" p:iconClass="icon-lock"/>
+          parent="PropDev-MenuAction" p:actionLabel="Access" p:iconClass="icon-lock"/>
 	<bean id="PropDev-NavigationMenu-CustomData" parent="PropDev-NavigationMenu-CustomData-parentBean" />
 	<bean id="PropDev-NavigationMenu-CustomData-parentBean" abstract="true"
-		parent="Uif-MenuAction" p:navigateToPageId="PropDev-SupplementalPage" p:actionLabel="Supplemental Information"
+		parent="PropDev-MenuAction" p:navigateToPageId="PropDev-SupplementalPage" p:actionLabel="Supplemental Information"
         p:iconClass="icon-bell" p:methodToCall="customDataNavigate"/>
 
 	<bean id="PropDev-NavigationMenu-Submit" parent="PropDev-NavigationMenu-Submit-parentBean" />
-	<bean id="PropDev-NavigationMenu-Submit-parentBean" parent="Uif-NavigationActionLink"
+	<bean id="PropDev-NavigationMenu-Submit-parentBean" parent="PropDev-MenuAction"
 		p:navigateToPageId="PropDev-SubmitPage" p:actionLabel="Summary/Submit"
 		p:iconClass="icon-signout" />
     <bean id="PropDev-NavigationMenu-SuperUserActions" parent="PropDev-NavigationMenu-SuperUserActions-parentBean" />
-    <bean id="PropDev-NavigationMenu-SuperUserActions-parentBean" parent="Uif-MenuAction"
+    <bean id="PropDev-NavigationMenu-SuperUserActions-parentBean" parent="PropDev-MenuAction"
           p:navigateToPageId="PropDev-SuperUserActionsPage" p:actionLabel="Super User Actions"
           p:iconClass="icon-user4" />
 
@@ -286,5 +286,9 @@
 			</bean>
 		</property>
 	</bean>
+
+    <bean id="PropDev-MenuAction" parent="PropDev-MenuAction-parentBean"/>
+    <bean id="PropDev-MenuAction-parentBean" abstract="true" parent="Uif-MenuAction"
+          p:performClientSideValidation="true"/>
 
 </beans>
