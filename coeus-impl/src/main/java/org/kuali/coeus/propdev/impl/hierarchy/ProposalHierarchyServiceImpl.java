@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.propdev.impl.attachment.*;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -41,7 +42,6 @@ import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationServi
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
-import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
@@ -55,12 +55,14 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardAttachment;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
+import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.OrderByField;
 import org.kuali.rice.core.api.criteria.OrderDirection;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -115,7 +117,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private LegacyNarrativeService legacyNarrativeService;
     @Autowired
     @Qualifier("proposalBudgetService")
-    private BudgetService budgetService;
+    private ProposalBudgetService budgetService;
     @Autowired
     @Qualifier("budgetSummaryService")
     private BudgetSummaryService budgetSummaryService;
@@ -144,14 +146,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     @Qualifier("keyPersonnelService")
     private KeyPersonnelService keyPersonnelService;
     @Autowired
-    @Qualifier("deepCopyPostProcessor")
-    private DeepCopyPostProcessor deepCopyPostProcessor;
-    @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
     @Autowired
     @Qualifier("budgetPersonnelBudgetService")
     private BudgetPersonnelBudgetService budgetPersonnelBudgetService;
+    @Autowired
+    @Qualifier("propDevBudgetSubAwardService")
+    private PropDevBudgetSubAwardService propDevBudgetSubAwardService;
 
     @Autowired
     @Qualifier("globalVariableService")
@@ -173,7 +175,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public void setLegacyNarrativeService(LegacyNarrativeService narrativeService) {
         this.legacyNarrativeService = narrativeService;
     }
-    public void setBudgetService(BudgetService budgetService) {
+    public void setBudgetService(ProposalBudgetService budgetService) {
         this.budgetService = budgetService;
     }
 
@@ -202,12 +204,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // add aggregator to the document
         kcAuthorizationService.addDocumentLevelRole(userId, RoleConstants.AGGREGATOR, hierarchyDoc);
 
-        // we are creating the attachments for the first time so do not sync personnel attachments at this time, just copy as is.
+        budgetService.addBudgetVersion(hierarchyDoc, "Hierarchy Budget", null);
+
+        initializeBudget(hierarchyDoc.getDevelopmentProposal(), initialChild);
+        
+        //we are creating the attachments for the first time so do not sync personnel attachments at this time, just copy as is.
         linkChild(hierarchyDoc.getDevelopmentProposal(), initialChild, HierarchyBudgetTypeConstants.SubBudget.code(), false);
-
-        // clear out budgets for now since this is not yet being handled
-        hierarchyDoc.getDevelopmentProposal().setBudgets(null);
-
         setInitialPi(hierarchyDoc.getDevelopmentProposal(), initialChild);
         copyInitialAttachments(initialChild, hierarchyDoc.getDevelopmentProposal());
 
@@ -441,7 +443,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         finalizeHierarchySync(hierarchyProposal.getProposalDocument());
 
         for (DevelopmentProposal childProposal : getHierarchyChildren(hierarchyProposal.getProposalNumber())) {
-
             List<PropScienceKeyword> oldKeywords = getOldKeywords(hierarchyProposal, childProposal);
             ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
             childProposal.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childProposal));
@@ -455,6 +456,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             // we deleted all internal at the beginning so just add now.
             addInternalAttachments(hierarchyProposal, childProposal);
             syncAllPersonnelAttachments(hierarchyProposal, childProposal);
+            synchronizeChildBudget(hierarchyProposal, childProposal);
             dataObjectService.save(childProposal);
             dataObjectService.save(hierarchyProposal);
             changed = true;
@@ -497,7 +499,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         List<PropScienceKeyword> oldKeywords = getOldKeywords(hierarchyProposal, childProposal);
         ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
         childProposal.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childProposal));
-
+        
+        removeChildElements(hierarchyProposal, childProposal.getProposalNumber());
+        
         synchronizeKeywords(hierarchyProposal, childProposal, oldKeywords);
         synchronizeSpecialReviews(hierarchyProposal, childProposal);
         synchronizePersonsAndAggregate(hierarchyProposal, childProposal, principalInvestigator);
@@ -507,6 +511,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             synchronizeInternalAttachments(hierarchyProposal, childProposal);
             syncAllPersonnelAttachments(hierarchyProposal, childProposal);
         }
+
+        synchronizeChildBudget(hierarchyProposal, childProposal);
         dataObjectService.save(childProposal);
         
         return true;
@@ -797,10 +803,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
     }
     
-    protected void synchronizeChildBudget(Budget parentBudget, Budget childBudget, String childProposalNumber, String hierarchyBudgetTypeCode, boolean isOriginatingChildBudget )
+    protected void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal)
             throws ProposalHierarchyException {
+    	String hierarchyBudgetTypeCode = childProposal.getHierarchyBudgetType();
+    	String childProposalNumber = childProposal.getProposalNumber();
+    	ProposalDevelopmentBudgetExt parentBudget = getHierarchyBudget(hierarchyProposal);
+    	ProposalDevelopmentBudgetExt childBudget = getSyncableBudget(childProposal);
+        boolean isOriginatingChildBudget = StringUtils.equals(childProposal.getProposalNumber(), hierarchyProposal.getHierarchyOriginatingChildProposalNumber());    	
         try {
-            
             if( isOriginatingChildBudget ) {
                 parentBudget.setUrRateClassCode( childBudget.getUrRateClassCode() );
                 parentBudget.setOhRateClassCode( childBudget.getOhRateClassCode() );
@@ -809,11 +819,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             BudgetPerson newPerson;
             Map<Integer, BudgetPerson> personMap = new HashMap<Integer, BudgetPerson>();
             for (BudgetPerson person : childBudget.getBudgetPersons()) {
-                newPerson = (BudgetPerson) ObjectUtils.deepCopy(person);
+                newPerson = (BudgetPerson) deepCopy(person);
                 newPerson.setPersonSequenceNumber(parentBudget.getNextValue(
                         Constants.PERSON_SEQUENCE_NUMBER));
                 newPerson.setBudgetId(parentBudget.getBudgetId());
                 newPerson.setHierarchyProposalNumber(childProposalNumber);
+                newPerson.setHierarchyProposal(childProposal);
                 newPerson.setVersionNumber(null);
                 parentBudget.addBudgetPerson(newPerson);
                 personMap.put(person.getPersonSequenceNumber(), newPerson);
@@ -821,9 +832,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             
             BudgetSubAwards newSubAwards;
             for (BudgetSubAwards childSubAwards : childBudget.getBudgetSubAwards()) {
-                childSubAwards.refreshReferenceObject("budgetSubAwardAttachments");
-                childSubAwards.refreshReferenceObject("budgetSubAwardFiles");
-                newSubAwards = (BudgetSubAwards) ObjectUtils.deepCopy(childSubAwards);
+            	for (BudgetSubAwardAttachment origAttachment : childSubAwards.getBudgetSubAwardAttachments()) {
+            		origAttachment.getData();
+            	}
+                newSubAwards = (BudgetSubAwards) deepCopy(childSubAwards);
                 newSubAwards.setBudgetId(parentBudget.getBudgetId());
                 newSubAwards.setBudgetVersionNumber(parentBudget.getBudgetVersionNumber());
                 newSubAwards.setSubAwardNumber(parentBudget.getNextValue("subAwardNumber") != null ? parentBudget.getNextValue("subAwardNumber") : 1);
@@ -838,7 +850,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 	files.setBudgetSubAward(newSubAwards);
                     files.setVersionNumber(null);
                 }
-                dataObjectService.save(newSubAwards);
                 parentBudget.getBudgetSubAwards().add(newSubAwards);
             }
             
@@ -856,28 +867,28 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             BudgetCostShare newCostShare;
             for (BudgetCostShare costShare : childBudget.getBudgetCostShares()) {
                 if (StringUtils.isNotEmpty(costShare.getSourceAccount())) {
-                    newCostShare = (BudgetCostShare)ObjectUtils.deepCopy(costShare);
+                    newCostShare = (BudgetCostShare) deepCopy(costShare);
                     newCostShare.setBudgetId(budgetId);
                     newCostShare.setDocumentComponentId(parentBudget.getNextValue(newCostShare.getDocumentComponentIdKey()));
                     newCostShare.setObjectId(null);
                     newCostShare.setVersionNumber(null);
                     newCostShare.setHierarchyProposalNumber(childProposalNumber);
                     newCostShare.setHiddenInHierarchy(true);
-                    dataObjectService.save(newCostShare);
+                    parentBudget.add(newCostShare);
                 }
             }
             
             BudgetUnrecoveredFandA newUnrecoveredFandA;
             for (BudgetUnrecoveredFandA unrecoveredFandA : childBudget.getBudgetUnrecoveredFandAs()) {
                 if (StringUtils.isNotEmpty(unrecoveredFandA.getSourceAccount())) {
-                    newUnrecoveredFandA = (BudgetUnrecoveredFandA)ObjectUtils.deepCopy(unrecoveredFandA);
+                    newUnrecoveredFandA = (BudgetUnrecoveredFandA) deepCopy(unrecoveredFandA);
                     newUnrecoveredFandA.setBudgetId(budgetId);
                     newUnrecoveredFandA.setDocumentComponentId(parentBudget.getNextValue(newUnrecoveredFandA.getDocumentComponentIdKey()));
                     newUnrecoveredFandA.setObjectId(null);
                     newUnrecoveredFandA.setVersionNumber(null);
                     newUnrecoveredFandA.setHierarchyProposalNumber(childProposalNumber);
                     newUnrecoveredFandA.setHiddenInHierarchy(true);
-                    dataObjectService.save(newUnrecoveredFandA);
+                    parentBudget.add(newUnrecoveredFandA);
                 }
             }
 
@@ -891,20 +902,28 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
-                        ObjectUtils.materializeUpdateableCollections(childLineItem);
-                        parentLineItem = (BudgetLineItem) (getDeepCopyPostProcessor().processDeepCopyWithDeepCopyIgnore(childLineItem));
+                    	if (childLineItem.getSubAwardNumber() != null) {
+                    		continue;
+                    	}
+                        parentLineItem = (BudgetLineItem) deepCopy(childLineItem);
                         lineItemNumber = parentBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         
                         parentLineItem.setHierarchyProposalNumber(childProposalNumber);
+                        parentLineItem.setHierarchyProposal(childProposal);
                         
                         parentLineItem.setBudgetLineItemId(null);
-                        parentLineItem.setBudgetId(budgetId);
+                        parentLineItem.setBudgetPeriodId(parentPeriod.getBudgetPeriodId());
+                        parentLineItem.setBudgetPeriod(parentPeriod.getBudgetPeriod());
+                        parentLineItem.setBudgetPeriodBO(parentPeriod);
+                        parentLineItem.setBudget(parentBudget);
+                        parentLineItem.setBudgetId(parentBudget.getBudgetId());
                         parentLineItem.setBudgetPeriod(budgetPeriod);
                         parentLineItem.setLineItemNumber(lineItemNumber);
                         parentLineItem.setVersionNumber(null);
                         parentLineItem.setObjectId(null);
                         
                         for (BudgetLineItemCalculatedAmount calAmt : parentLineItem.getBudgetLineItemCalculatedAmounts()) {
+                        	calAmt.setBudgetLineItem(parentLineItem);
                             calAmt.setBudgetLineItemCalculatedAmountId(null);
                             calAmt.setBudgetLineItemId(null);
                             calAmt.setBudgetId(budgetId);
@@ -917,6 +936,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         BudgetPerson budgetPerson;
                         for (BudgetPersonnelDetails details : parentLineItem.getBudgetPersonnelDetailsList()) {
                             budgetPerson = personMap.get(details.getPersonSequenceNumber());
+                            details.setBudgetLineItem(parentLineItem);
                             details.setBudgetPerson(budgetPerson);
                             details.setJobCode(budgetPerson.getJobCode());
                             details.setPersonId(budgetPerson.getPersonRolodexTbnId());
@@ -932,6 +952,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                             
                             for (BudgetPersonnelCalculatedAmount calAmt : details.getBudgetPersonnelCalculatedAmounts()) {
                                 calAmt.setBudgetPersonnelCalculatedAmountId(null);
+                                calAmt.setBudgetPersonnelLineItem(details);
                                 calAmt.setBudgetId(budgetId);
 
                                 calAmt.setBudgetPeriod(budgetPeriod);
@@ -955,13 +976,18 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentLineItem.setLineItemDescription(childProposalNumber);
                         parentLineItem.setStartDate(parentPeriod.getStartDate());
                         parentLineItem.setEndDate(parentPeriod.getEndDate());
-                        parentLineItem.setBudgetId(budgetId);
+                        parentLineItem.setHierarchyProposalNumber(childProposalNumber);
+                        parentLineItem.setHierarchyProposal(childProposal);
+                        parentLineItem.setBudget(parentBudget);
+                        parentLineItem.setBudgetId(parentBudget.getBudgetId());
+                        parentLineItem.setBudgetPeriodId(parentPeriod.getBudgetPeriodId());
+                        parentLineItem.setBudgetPeriod(parentPeriod.getBudgetPeriod());
+                        parentLineItem.setBudgetPeriodBO(parentPeriod);
                         parentLineItem.setBudgetPeriod(budgetPeriod);
                         parentLineItem.setVersionNumber(null);
                         lineItemNumber = parentBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         parentLineItem.setLineItemNumber(lineItemNumber);
                         parentLineItem.setLineItemSequence(lineItemNumber);
-                        parentLineItem.setHierarchyProposalNumber(childProposalNumber);
                         parentLineItem.setLineItemCost(childPeriod.getTotalIndirectCost());
                         parentLineItem.setIndirectCost(childPeriod.getTotalIndirectCost());
                         parentLineItem.setCostElementBO(costElement);
@@ -977,13 +1003,18 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentLineItem.setLineItemDescription(childProposalNumber);
                         parentLineItem.setStartDate(parentPeriod.getStartDate());
                         parentLineItem.setEndDate(parentPeriod.getEndDate());
-                        parentLineItem.setBudgetId(budgetId);
+                        parentLineItem.setHierarchyProposalNumber(childProposalNumber);
+                        parentLineItem.setHierarchyProposal(childProposal);
+                        parentLineItem.setBudget(parentBudget);
+                        parentLineItem.setBudgetId(parentBudget.getBudgetId());
+                        parentLineItem.setBudgetPeriodId(parentPeriod.getBudgetPeriodId());
+                        parentLineItem.setBudgetPeriod(parentPeriod.getBudgetPeriod());
+                        parentLineItem.setBudgetPeriodBO(parentPeriod);
                         parentLineItem.setBudgetPeriod(budgetPeriod);
                         parentLineItem.setVersionNumber(null);
                         lineItemNumber = parentBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         parentLineItem.setLineItemNumber(lineItemNumber);
                         parentLineItem.setLineItemSequence(lineItemNumber);
-                        parentLineItem.setHierarchyProposalNumber(childProposalNumber);
                         parentLineItem.setLineItemCost(childPeriod.getTotalDirectCost());
                         parentLineItem.setDirectCost(childPeriod.getTotalDirectCost());
                         parentLineItem.setCostElementBO(costElement);
@@ -1004,6 +1035,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
 
         budgetSummaryService.calculateBudget(parentBudget);
+        dataObjectService.save(parentBudget);
+        childProposal.setLastSyncedBudget(childBudget);
     }
     
     protected BudgetPeriod findOrCreateMatchingPeriod(BudgetPeriod childPeriod, Budget parentBudget) {
@@ -1048,7 +1081,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     
     protected boolean isBudgetSynchronized(DevelopmentProposal childProposal, ProposalDevelopmentBudgetExt childBudget) throws ProposalHierarchyException {
-        if (StringUtils.equals(childProposal.getLastSyncedBudgetDocumentNumber(), childBudget.getDocumentNumber())) {
+        if (Objects.equals(childProposal.getLastSyncedBudget(), childBudget)) {
             ObjectUtils.materializeAllSubObjects(childBudget);
             Integer hc1 = computeHierarchyHashCode(childBudget);
             Integer hc2 = childBudget.getHierarchyLastSyncHashCode();
@@ -1087,7 +1120,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
  
     public ProposalDevelopmentBudgetExt getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException {
-    	return childProposal.getFinalBudget();
+    	if (childProposal.getFinalBudget() == null) {
+    		return childProposal.getLatestBudget();
+    	} else {
+    		return childProposal.getFinalBudget();
+    	}
     }
     
     protected void initializeBudget (DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) throws ProposalHierarchyException {
@@ -1196,59 +1233,60 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 dataObjectService.delete(narratives.remove(i));
             }
         }
+        ProposalDevelopmentBudgetExt parentBudget = getHierarchyBudget(parentProposal);
+        if (parentBudget != null) {
+        	removeChildBudgetElements(parentProposal, parentBudget, childProposalNumber);
+        }
     }
     
-    protected void removeChildBudgetElements(DevelopmentProposal parentProposal, Budget parentBudget, String childProposalNumber) {
-        List<BudgetSubAwards> subAwards = parentBudget.getBudgetSubAwards();
-        for (int i=subAwards.size()-1; i>=0; i--) {
-            if (StringUtils.equals(childProposalNumber, subAwards.get(i).getHierarchyProposalNumber())) {
-                subAwards.remove(i);
-            }
-        }
-
-        List<BudgetProjectIncome> projectIncomes = parentBudget.getBudgetProjectIncomes();
-        for (int i=projectIncomes.size()-1; i>=0; i--) {
-            if (StringUtils.equals(childProposalNumber, projectIncomes.get(i).getHierarchyProposalNumber())) {
-                projectIncomes.remove(i);
-            }
-        }
-
-        QueryByCriteria query = QueryByCriteria.Builder.forAttribute("hierarchyProposalNumber", childProposalNumber).build();
+    protected void removeChildBudgetElements(DevelopmentProposal parentProposal, ProposalDevelopmentBudgetExt parentBudget, String childProposalNumber) {
+        QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("hierarchyProposalNumber", childProposalNumber), PredicateFactory.equal("budgetId", parentBudget.getBudgetId()));
+        dataObjectService.deleteMatching(BudgetProjectIncome.class, query);
         dataObjectService.deleteMatching(BudgetCostShare.class, query);
         dataObjectService.deleteMatching(BudgetUnrecoveredFandA.class, query);
-
-        BudgetPersonnelBudgetService budgetPersonnelBudgetService = getBudgetPersonnelBudgetService();
-        List<BudgetPeriod> periods = parentBudget.getBudgetPeriods();
-        List<BudgetLineItem> lineItems;
-        List<BudgetPersonnelDetails> personnelDetailsList;
-        BudgetPeriod period = null;
-        BudgetLineItem lineItem = null;
-        for (int i = periods.size()-1; i>=0; i--) {
-            period = periods.get(i);
-            lineItems = period.getBudgetLineItems();
-            for (int j = lineItems.size()-1; j>=0; j--) {
-                lineItem = lineItems.get(j);
-                if (StringUtils.equals(childProposalNumber, lineItem.getHierarchyProposalNumber())) {
-                    personnelDetailsList = lineItem.getBudgetPersonnelDetailsList();
-                    for (int k = personnelDetailsList.size()-1; k>=0; k--) {
-                        budgetPersonnelBudgetService.deleteBudgetPersonnelDetails(parentBudget, i, j, k);
-                    }
-                    lineItems.remove(j);
-                    parentBudget.setBudgetLineItemDeleted(true);
-                }
-            }
-            if (lineItems.isEmpty() && periods.indexOf(period)==periods.size()-1 && periods.indexOf(period)>0) {
-                periods.remove(period);
-            }
+        
+        for (Iterator<BudgetSubAwards> iter = parentBudget.getBudgetSubAwards().iterator(); iter.hasNext();) {
+        	BudgetSubAwards subAward = iter.next();
+        	if (StringUtils.equals(childProposalNumber, subAward.getHierarchyProposalNumber())) {
+        		dataObjectService.delete(subAward);
+        		parentBudget.removeBudgetLineItems(subAward.getBudgetLineItems());
+        		iter.remove();
+        	}
         }
-        parentBudget.setEndDate(periods.get(periods.size()-1).getEndDate());
-        List<BudgetPerson> budgetPersons = parentBudget.getBudgetPersons();
-        for (int i=budgetPersons.size()-1; i>=0; i--) {
-            if (StringUtils.equals(childProposalNumber, budgetPersons.get(i).getHierarchyProposalNumber())) {
-                budgetPersonnelBudgetService.deleteBudgetPersonnelDetailsForPerson(parentBudget, budgetPersons.get(i));
-                budgetPersons.remove(i);
-            }
-        }        
+
+        for (Iterator<BudgetPerson> iter = parentBudget.getBudgetPersons().iterator(); iter.hasNext(); ) {
+        	BudgetPerson person = iter.next();
+        	if (StringUtils.equals(childProposalNumber, person.getHierarchyProposalNumber())) {
+        		dataObjectService.delete(person);
+        		iter.remove();
+        	}
+        }
+        List<BudgetPeriod> periodsToDelete = new ArrayList<>();
+        boolean deletePeriods = true;
+        for (int i = parentBudget.getBudgetPeriods().size()-1; i >= 0; i--) {
+        	BudgetPeriod period = parentBudget.getBudgetPeriod(i);
+	        for (Iterator<BudgetLineItem> lineItemIter = period.getBudgetLineItems().iterator(); lineItemIter.hasNext();) {
+	        	BudgetLineItem lineItem = lineItemIter.next();
+	        	if (StringUtils.equals(childProposalNumber, lineItem.getHierarchyProposalNumber())) {
+	        		dataObjectService.delete(lineItem);
+	        		lineItemIter.remove();
+	        		parentBudget.getBudgetLineItems().remove(lineItem);
+	        	}
+	        }
+	        if (deletePeriods) {
+	        	if (parentBudget.getBudgetPeriods().get(i).getBudgetLineItems().size() == 0 && i > 0) {
+	        		periodsToDelete.add(parentBudget.getBudgetPeriods().get(i));
+	        	} else {
+	        		deletePeriods = true;
+	        	}
+	        }
+        }
+        for (BudgetPeriod period : periodsToDelete) {
+        	dataObjectService.delete(period);
+        	parentBudget.getBudgetPeriods().remove(period);
+        }
+
+        parentBudget.setEndDate(parentBudget.getBudgetPeriods().get(parentBudget.getBudgetPeriods().size()-1).getEndDate());       
     }
     
     protected void prepareHierarchySync(DevelopmentProposal hierarchyProposal) {
@@ -1823,7 +1861,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     protected BudgetCalculationService getBudgetCalculationService(){return budgetCalculationService;}
     protected BudgetPersonnelBudgetService getBudgetPersonnelBudgetService () {return budgetPersonnelBudgetService;}
-    protected DeepCopyPostProcessor getDeepCopyPostProcessor (){ return  deepCopyPostProcessor;}
 
     public IdentityService getIdentityService() {
         return identityService;
@@ -1922,5 +1959,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public KeyPersonnelService getKeyPersonnelService() {
         return keyPersonnelService;
     }
+	protected PropDevBudgetSubAwardService getPropDevBudgetSubAwardService() {
+		return propDevBudgetSubAwardService;
+	}
+	public void setPropDevBudgetSubAwardService(
+			PropDevBudgetSubAwardService propDevBudgetSubAwardService) {
+		this.propDevBudgetSubAwardService = propDevBudgetSubAwardService;
+	}
 
 }

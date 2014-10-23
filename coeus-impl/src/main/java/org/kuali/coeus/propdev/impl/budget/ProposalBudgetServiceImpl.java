@@ -86,9 +86,12 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         budget.setOhRateTypeCode(this.parameterService.getParameterValueAsString(Budget.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
         budget.setOhRateClassCode(this.parameterService.getParameterValueAsString(Budget.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
         budget.setUrRateClassCode(this.parameterService.getParameterValueAsString(Budget.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
-        budget.setModularBudgetFlag(this.parameterService.getParameterValueAsBoolean(Budget.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         budget.setBudgetStatus(this.parameterService.getParameterValueAsString(Budget.class, budgetParent.getDefaultBudgetStatusParameter()));
-        budget.setModularBudgetFlag((Boolean) options.get("modularBudgetFlag"));
+        if (options != null && options.containsKey("modularBudgetFlag")) {
+        	budget.setModularBudgetFlag((Boolean) options.get("modularBudgetFlag"));
+        } else {
+        	budget.setModularBudgetFlag(this.parameterService.getParameterValueAsBoolean(Budget.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
+        }
 		boolean success = isBudgetVersionNameValid(budgetParent, budgetName);
         if(!success)
             return null;
