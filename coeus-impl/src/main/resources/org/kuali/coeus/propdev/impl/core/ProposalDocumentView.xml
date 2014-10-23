@@ -131,7 +131,7 @@
 		p:iconClass="icon-user">
 		<property name="menuItems">
 			<list>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-PersonnelPage"
+				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-PersonnelPage"
 					p:actionLabel="Personnel" p:order="10" />
 				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-CreditAllocationPage"
 					p:actionLabel="Credit Allocation" p:order="20" />
@@ -144,7 +144,7 @@
 		p:iconClass="icon-user">
 		<property name="menuItems">
 			<list>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-PersonnelPage"
+				<bean parent="Uif-MenuAction" p:navigateToPageId="PropDev-PersonnelPage"
 					p:actionLabel="Personnel" p:order="10" />
 			</list>
 		</property>
@@ -159,12 +159,12 @@
         p:actionLabel="Attachments" p:iconClass="icon-paper-clip"/>
 	<bean id="PropDev-NavigationMenu-Questionnaire" parent="PropDev-NavigationMenu-Questionnaire-parentBean" />
 	<bean id="PropDev-NavigationMenu-Questionnaire-parentBean"
-		abstract="true" parent="Uif-NavigationActionLink" p:navigateToPageId="PropDev-QuestionnairePage"
+		abstract="true" parent="Uif-MenuAction" p:navigateToPageId="PropDev-QuestionnairePage"
 		p:actionLabel="Questionnaire" p:actionEvent="navigateToQuestionnaire"
 		p:iconClass="icon-question" />
 	<bean id="PropDev-NavigationMenu-Budget" parent="PropDev-NavigationMenu-Budget-parentBean" />
 	<bean id="PropDev-NavigationMenu-Budget-parentBean" abstract="true" p:navigateToPageId="PropDev-BudgetPage"
-		parent="Uif-NavigationActionLink" p:actionLabel="Budget" p:iconClass="icon-money"/>
+		parent="Uif-MenuAction" p:actionLabel="Budget" p:iconClass="icon-money"/>
     <bean id="PropDev-NavigationMenu-Access" parent="PropDev-NavigationMenu-Access-parentBean" />
     <bean id="PropDev-NavigationMenu-Access-parentBean" abstract="true" p:navigateToPageId="PropDev-PermissionsPage"
           parent="Uif-MenuAction" p:actionLabel="Access" p:iconClass="icon-lock"/>
@@ -174,7 +174,7 @@
         p:iconClass="icon-bell" p:methodToCall="customDataNavigate"/>
 
 	<bean id="PropDev-NavigationMenu-Submit" parent="PropDev-NavigationMenu-Submit-parentBean" />
-	<bean id="PropDev-NavigationMenu-Submit-parentBean" parent="Uif-NavigationActionLink"
+	<bean id="PropDev-NavigationMenu-Submit-parentBean" parent="Uif-MenuAction"
 		p:navigateToPageId="PropDev-SubmitPage" p:actionLabel="Summary/Submit"
 		p:iconClass="icon-signout" />
     <bean id="PropDev-NavigationMenu-SuperUserActions" parent="PropDev-NavigationMenu-SuperUserActions-parentBean" />
