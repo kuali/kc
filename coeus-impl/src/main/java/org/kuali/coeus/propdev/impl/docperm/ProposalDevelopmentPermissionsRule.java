@@ -139,7 +139,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
             
         // The user cannot delete the last Aggregator on a proposal.
             
-        else if (!hasAggregator(editRoles) && isLastAggregator(username, proposalUserRolesList)) {
+        else if (hasAggregator(editRoles) && isLastAggregator(username, proposalUserRolesList)) {
             isValid = false;
             getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
         }

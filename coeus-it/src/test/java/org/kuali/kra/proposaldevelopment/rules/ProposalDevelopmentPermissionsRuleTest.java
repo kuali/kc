@@ -127,7 +127,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
         ProposalUserRoles editRoles = createProposalUserRoles("chew");
-        editRoles.addRoleName(RoleConstants.NARRATIVE_WRITER);
+        editRoles.addRoleName(RoleConstants.AGGREGATOR);
         assertTrue(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
     }
 
@@ -158,9 +158,9 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
         ProposalUserRoles editRoles = createProposalUserRoles("quickstart");
-        editRoles.addRoleName(RoleConstants.NARRATIVE_WRITER);
+        editRoles.addRoleName(RoleConstants.AGGREGATOR);
         assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
-        assertError(Constants.EDIT_ROLES_PROPERTY_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
+        assertError(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
     }
     
     /**
