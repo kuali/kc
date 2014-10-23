@@ -279,7 +279,7 @@
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.award.home.Award&amp;docFormKey=88888888&amp;includeCustomActionUrls=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.award.home.Award&amp;docFormKey=88888888&amp;includeCustomActionUrls=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;projectPersons.fullName=@{#userSession == null ? '' : #userSession.getPerson().getFirstName()+'*'+#userSession.getPerson().getLastName()}"/>
                         </map>
                     </property>
                 </bean>
