@@ -92,9 +92,10 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	public ModelAndView editPersonDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         if (StringUtils.isNotEmpty(selectedLine)) {
-		       BudgetPerson editBudgetPerson = form.getBudget().getBudgetPerson(Integer.parseInt(selectedLine));
-		       form.getAddProjectPersonnelHelper().setEditBudgetPerson(editBudgetPerson);
-		       form.getAddProjectPersonnelHelper().setEditLineIndex(selectedLine);
+		    BudgetPerson editBudgetPerson = new BudgetPerson();
+		    editBudgetPerson = getDataObjectService().copyInstance(form.getBudget().getBudgetPerson(Integer.parseInt(selectedLine)));
+	        form.getAddProjectPersonnelHelper().setEditBudgetPerson(editBudgetPerson);
+			form.getAddProjectPersonnelHelper().setEditLineIndex(selectedLine);
 	    }
     	return getModelAndViewService().showDialog(EDIT_PROJECT_PERSONNEL_DIALOG_ID, true, form);
 	}
@@ -186,9 +187,11 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         if (StringUtils.isNotEmpty(selectedLine)) {
         	form.getAddProjectPersonnelHelper().reset();
-		    BudgetPersonnelDetails editBudgetPersonnel = form.getBudget().getBudgetPersonnelDetails().get(Integer.parseInt(selectedLine));
-		    form.getAddProjectPersonnelHelper().setBudgetPersonnelDetail(editBudgetPersonnel);
-		    form.getAddProjectPersonnelHelper().setEditLineIndex(selectedLine);
+        	BudgetPersonnelDetails budgetPersonnelDetails = form.getBudget().getBudgetPersonnelDetails().get(Integer.parseInt(selectedLine));
+    		BudgetLineItem budgetLineItem = budgetPersonnelDetails.getBudgetLineItem();
+		    form.getAddProjectPersonnelHelper().setEditLineIndex(Integer.toString(budgetLineItem.getBudgetPersonnelDetailsList().indexOf(budgetPersonnelDetails)));
+		    form.getAddProjectPersonnelHelper().setBudgetLineItem(budgetLineItem);
+		    form.getAddProjectPersonnelHelper().setBudgetPersonnelDetail(getDataObjectService().copyInstance(budgetPersonnelDetails));
 		    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
 		    BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
 		    form.getAddProjectPersonnelHelper().setCurrentTabBudgetPeriod(budgetPeriod);
@@ -198,8 +201,20 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 
 	@RequestMapping(params="methodToCall=savePersonPeriodDetails")
 	public ModelAndView savePersonPeriodDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+	    int editLineIndex = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());
+	    Budget budget = form.getBudget();
+		BudgetPeriod budgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
+		BudgetPersonnelDetails editBudgetPersonnel = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
+		BudgetLineItem budgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
+	    int budgetLineItemIndex = budgetPeriod.getBudgetLineItems().indexOf(budgetLineItem);
+		budgetLineItem.setStartDate(editBudgetPersonnel.getStartDate());
+		budgetLineItem.setEndDate(editBudgetPersonnel.getEndDate());
+		getDataObjectService().wrap(editBudgetPersonnel).fetchRelationship("budgetPeriodType");
 		calculatePersonSalary(form);
-	    getCollectionControllerService().saveLine(form);
+		budgetLineItem.getBudgetPersonnelDetailsList().set(editLineIndex, editBudgetPersonnel);
+		BudgetLineItem newBudgetLineItem = getDataObjectService().save(budgetLineItem);
+		budgetPeriod.getBudgetLineItems().set(budgetLineItemIndex, newBudgetLineItem);
+		getDataObjectService().wrap(budget).fetchRelationship("budgetPersonnelDetails");
 		return getModelAndViewService().getModelAndView(form);
 	}
 	
