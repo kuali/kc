@@ -1277,7 +1277,8 @@
                       <bean parent="Development-Proposal-Lookup-result-EditLink" p:order="20"/>
 
                       <bean parent="Uif-ActionLink" p:actionLabel="copy" p:order="30"
-                            p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-CopyView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-CopyDialog@{#lineSuffix}');">
+                            p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-CopyView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-CopyDialog@{#lineSuffix}');"
+                            p:render="@{!#view.renderReturnLink}">
                           <property name="finalizeMethodToCall" value="buildPropDevCopyActionLink"/>
                           <property name="finalizeMethodAdditionalArguments">
                               <list>
@@ -1289,10 +1290,11 @@
                             p:headerText="Copy To New Document" p:retrieveViaAjax="true"/>
 
                       <bean parent="Uif-ActionLink" p:actionLabel="medusa" p:order="40"
-                            p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-MedusaView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-MedusaDialog@{#lineSuffix}');"/>
+                            p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-MedusaView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-MedusaDialog@{#lineSuffix}');"
+                            p:render="@{!#view.renderReturnLink}"/>
                       <bean id="Development-Proposal-Lookup-MedusaDialog" parent="Uif-DialogGroup-Iframe"
                             p:headerText="Medusa" p:retrieveViaAjax="true"/>
-
+                      <bean parent="Uif-Lookup-MaintenanceReturnLink"/>
                   </list>
               </property>
           </bean>
@@ -1300,7 +1302,8 @@
   </bean>
 
 
-    <bean id="Development-Proposal-Lookup-result-ViewLink" parent="Uif-Link">
+    <bean id="Development-Proposal-Lookup-result-ViewLink" parent="Uif-Link"
+          p:render="@{!#view.renderReturnLink}">
         <property name="finalizeMethodToCall" value="buildPropDevViewActionLink"/>
         <property name="href" value="@{#line.document.documentNumber}"/>
         <property name="finalizeMethodAdditionalArguments">
@@ -1310,7 +1313,8 @@
         </property>
     </bean>
 
-    <bean id="Development-Proposal-Lookup-result-EditLink" parent="Uif-Link">
+    <bean id="Development-Proposal-Lookup-result-EditLink" parent="Uif-Link"
+          p:render="@{!#view.renderReturnLink}">
         <property name="finalizeMethodToCall" value="buildPropDevEditActionLink"/>
         <property name="href" value="@{#line.document.documentNumber}"/>
         <property name="finalizeMethodAdditionalArguments">
