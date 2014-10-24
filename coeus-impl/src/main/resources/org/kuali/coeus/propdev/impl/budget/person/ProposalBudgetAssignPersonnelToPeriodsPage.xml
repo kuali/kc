@@ -180,7 +180,7 @@
 							<bean parent="Uif-InputField" p:propertyName="budgetPersonnelDetail.percentCharged"
 								p:order="80" p:label="Charged %"/>
 							<bean parent="Uif-InputField" p:propertyName="budgetPersonnelDetail.periodTypeCode"
-								p:order="90"/>
+								p:order="90" p:enableAutoQuickfinder="false"/>
 						</list>
 					</property>
 				</bean>
@@ -238,7 +238,7 @@
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="budgetPerson.role"
 					p:label="Role" p:order="10"/>
-				<bean parent="Uif-InputField" p:propertyName="periodTypeCode" p:order="20"/>
+				<bean parent="Uif-InputField" p:propertyName="periodTypeCode" p:order="20" p:enableAutoQuickfinder="false"/>
 				<bean parent="Uif-InputField" p:propertyName="startDate"
 					p:required="false" p:order="30"/>
 				<bean parent="Uif-InputField" p:propertyName="endDate"
