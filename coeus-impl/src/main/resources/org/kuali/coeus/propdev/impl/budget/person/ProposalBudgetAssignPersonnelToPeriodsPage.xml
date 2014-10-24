@@ -253,11 +253,10 @@
 					p:label="Calculated Fringe" p:order="70"/>
 				<bean parent="Uif-DataField" p:propertyName="costSharingAmount" 
 					p:label="Cost Sharing Amount" p:order="80" />
-				<bean parent="Uif-DataField" p:propertyName="costSharingPercent" p:label="Cost Sharing Percent" p:order="90"/>
 				<bean parent="Uif-DataField" p:propertyName="underrecoveryAmount" 
-					p:label="Unrecovered F&amp;A" p:order="40" />
-				<bean parent="Uif-DataField" p:propertyName="personMonths" p:label="Person Months" p:order="110"/>
-				<bean parent="Uif-InputField" p:propertyName="lineItemDescription" p:order="120">
+					p:label="Unrecovered F&amp;A" p:order="90" />
+				<bean parent="Uif-DataField" p:propertyName="personMonths" p:label="Person Months" p:order="100"/>
+				<bean parent="Uif-InputField" p:propertyName="lineItemDescription" p:order="110">
   					<property name="control">
     					<bean parent="Uif-TextAreaControl" p:cols="60" p:rows="3"/>
   					</property>
