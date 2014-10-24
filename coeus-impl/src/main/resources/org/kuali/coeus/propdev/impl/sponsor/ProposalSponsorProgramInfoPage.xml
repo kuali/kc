@@ -60,8 +60,12 @@
 				p:order="100" />
 				<bean parent="Uif-InputField" p:propertyName="anticipatedAwardTypeCode" p:enableAutoQuickfinder="false"
 				p:order="110" />
+                <bean parent="Uif-InputField" p:propertyName="agencyRoutingIdentifier"
+                p:order="120"/>
+                <bean parent="Uif-InputField" p:propertyName="prevGrantsGovTrackingID"
+                p:order="130"/>
 				<bean parent="Uif-InputField" p:propertyName="programAnnouncementTitle" p:readOnly="@{document.developmentProposal.s2sOpportunity != null}"
-				p:order="120" />
+				p:order="140" />
 			</list>
 		</property>
 	</bean>
