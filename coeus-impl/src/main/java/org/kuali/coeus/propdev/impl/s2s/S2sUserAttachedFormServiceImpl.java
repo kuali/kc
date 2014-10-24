@@ -304,7 +304,6 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
             S2sUserAttachedForm userAttachedFormBean, Map attachments) throws Exception {
         S2sUserAttachedForm userAttachedForm = processForm(developmentProposal, form,userAttachedFormBean,attachments);
         if(userAttachedForm!=null){
-            validateForm(developmentProposal,userAttachedForm);
             formBeans.add(userAttachedForm);
         }
     }
@@ -356,6 +355,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         if(!validateUserAttachedFormFile(newUserAttachedFormFile))
             return null;
 
+        validateForm(developmentProposal,newUserAttachedForm);
 
         newUserAttachedForm = getDataObjectService().save(newUserAttachedForm);
 
