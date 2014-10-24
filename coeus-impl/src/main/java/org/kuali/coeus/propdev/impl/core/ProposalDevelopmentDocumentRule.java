@@ -30,6 +30,7 @@ import org.kuali.coeus.propdev.impl.abstrct.AbstractsRule;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFieldsAuditRule;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
+import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.krms.ProposalDevelopmentKRMSAuditRule;
 import org.kuali.coeus.propdev.impl.sponsor.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
@@ -499,11 +500,11 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
             finalAndCompleteBudgetVersionFound = true;
         }
         if (budgetVersionsExists && !finalAndCompleteBudgetVersionFound) {
-            auditErrors.add(new AuditError("document.parentBudget.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.PD_BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            auditErrors.add(new AuditError("document.developmentProposal.budgets", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID));
             retval = false;
         }
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+            GlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_NAME, auditErrors, ProposalDevelopmentDataValidationConstants.AUDIT_ERRORS));
         }
 
         return retval;

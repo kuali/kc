@@ -46,6 +46,9 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String QUESTIONNAIRE_PAGE_ID = "PropDev-QuestionnairePage";
     public static final String QUESTIONNAIRE_PAGE_NAME = "Questionnaire";
 
+    public static final String BUDGET_PAGE_ID = "PropDev-BudgetPage";
+    public static final String BUDGET_PAGE_NAME = "Budget";
+
     public static final String SUPPLEMENTAL_PAGE_ID = "PropDev-SupplementalPage";
     public static final String SUPPLEMENTAL_PAGE_NAME = "Supplemental Information";
 
