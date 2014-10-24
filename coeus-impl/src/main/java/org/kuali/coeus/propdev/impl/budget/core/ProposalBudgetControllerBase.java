@@ -122,7 +122,7 @@ public abstract class ProposalBudgetControllerBase {
 
     public ModelAndView save(ProposalBudgetForm form) {
     	budgetService.calculateBudgetOnSave(form.getBudget());
-    	getDataObjectService().save(form.getBudget());
+    	form.setBudget(getDataObjectService().save(form.getBudget()));
         getBudgetJustificationService().preSave(form.getBudget(),form.getBudgetJustificationWrapper());
         return getModelAndViewService().getModelAndView(form);
     }

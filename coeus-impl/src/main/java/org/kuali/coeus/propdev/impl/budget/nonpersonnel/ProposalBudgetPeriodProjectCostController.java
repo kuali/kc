@@ -64,12 +64,12 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	    Budget budget = form.getBudget();
 	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         if (StringUtils.isNotEmpty(selectedLine)) {
-        	form.getAddProjectBudgetLineItemHelper().reset();
-        	BudgetLineItem editBudgetLineItem = form.getBudget().getBudgetLineItems().get(Integer.parseInt(selectedLine));
-		    form.getAddProjectBudgetLineItemHelper().setBudgetLineItem(editBudgetLineItem);
-		    form.getAddProjectBudgetLineItemHelper().setEditLineIndex(selectedLine);
 		    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
 		    BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
+        	form.getAddProjectBudgetLineItemHelper().reset();
+        	BudgetLineItem editBudgetLineItem = form.getBudget().getBudgetLineItems().get(Integer.parseInt(selectedLine));
+		    form.getAddProjectBudgetLineItemHelper().setBudgetLineItem(getDataObjectService().copyInstance(editBudgetLineItem));
+		    form.getAddProjectBudgetLineItemHelper().setEditLineIndex(selectedLine);
 		    form.getAddProjectBudgetLineItemHelper().setCurrentTabBudgetPeriod(budgetPeriod);
 		    form.getAddProjectBudgetLineItemHelper().setBudgetCategoryTypeCode(editBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode());
 	    }
@@ -92,9 +92,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	
 	@RequestMapping(params="methodToCall=saveBudgetLineItem")
 	public ModelAndView saveBudgetLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-	    BudgetLineItem budgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();
-	    setLineItemBudgetCategory(budgetLineItem);
-		getCollectionControllerService().saveLine(form);
+	    setEditedBudgetLineItem(form);
 		return getModelAndViewService().getModelAndView(form);
 	}
 	
@@ -103,10 +101,20 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
 	    BudgetLineItem budgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();
-	    setLineItemBudgetCategory(budgetLineItem);
-		getCollectionControllerService().saveLine(form);
+	    setEditedBudgetLineItem(form);
 	    getBudgetCalculationService().applyToLaterPeriods(budget,currentTabBudgetPeriod,budgetLineItem);
 		return getModelAndViewService().getModelAndView(form);
+	}
+	
+	private void setEditedBudgetLineItem(ProposalBudgetForm form) {
+	    int selectedLine = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+	    BudgetLineItem budgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();
+	    BudgetPeriod budgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
+	    setLineItemBudgetCategory(budgetLineItem);
+	    int editLineIndex = budgetPeriod.getBudgetLineItems().indexOf(budgetLineItem);
+		BudgetLineItem newBudgetLineItem = getDataObjectService().save(budgetLineItem);
+	    budgetPeriod.getBudgetLineItems().set(editLineIndex, newBudgetLineItem);
+		form.getBudget().getBudgetLineItems().set(selectedLine, newBudgetLineItem);
 	}
 	
 	@RequestMapping(params="methodToCall=syncToPeriodCostDirectLimit")

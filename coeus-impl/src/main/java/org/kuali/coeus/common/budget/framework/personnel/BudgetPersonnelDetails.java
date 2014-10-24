@@ -146,7 +146,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
     private Budget budget;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "BUDGET_DETAILS_ID")
     private BudgetLineItem budgetLineItem;
     
@@ -698,9 +698,11 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 	public String getPersonDetailGroup() {
 		StringBuffer personDetailGroup = new StringBuffer();
 		personDetailGroup.append(getBudgetLineItem().getCostElementBO().getDescription());
-		personDetailGroup.append(" (");
-		personDetailGroup.append(getBudgetLineItem().getGroupName());
-		personDetailGroup.append(")");
+		if(getBudgetLineItem().getGroupName() != null) {
+			personDetailGroup.append(" (");
+			personDetailGroup.append(getBudgetLineItem().getGroupName());
+			personDetailGroup.append(")");
+		}
 		return personDetailGroup.toString();
 	}
 	
