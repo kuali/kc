@@ -63,8 +63,10 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         //following conditions: a) if the date entered is older than the current date,
         //or b) if there is no data entered.
         if (proposal.getDeadlineDate() == null) {
+            valid = false;
             getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_WARNINGS).add(new AuditError(DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, SPONSOR_PROGRAM_INFO_PAGE_ID));
         } else if (proposal.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
+            valid = false;
             getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_WARNINGS).add(new AuditError(DEADLINE_DATE_KEY, KeyConstants.WARNING_PAST_DEADLINE_DATE, SPONSOR_PROGRAM_INFO_PAGE_ID));
         }
         
