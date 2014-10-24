@@ -27,9 +27,8 @@ import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintin
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
-import org.kuali.coeus.sys.api.model.KcFile;
+import org.kuali.coeus.propdev.impl.print.ProposalDevelopmentPrintingService;
 import org.kuali.coeus.sys.framework.controller.ControllerFileUtils;
-import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +51,10 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
     @Autowired
     @Qualifier("questionnairePrintingService")
     private QuestionnairePrintingService questionnairePrintingService;
+
+    @Autowired
+    @Qualifier("proposalDevelopmentPrintingService")
+    private ProposalDevelopmentPrintingService proposalDevelopmentPrintingService;
 
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-QuestionnairePage"})
@@ -123,20 +125,36 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
                                            @RequestParam("index") int index,  @RequestParam("helper") String helper ) throws Exception {
 
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-
+        AttachmentDataSource dataStream = null;
         if (StringUtils.equals(helper, "questionnaireHelper")) {
             reportParameters.putAll(createReportParameters(form.getQuestionnaireHelper().getAnswerHeaders().get(index)));
             reportParameters.put("coeusModuleSubItemCode", CoeusSubModule.ZERO_SUBMODULE);
+            dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(form.getDevelopmentProposal(), reportParameters);
         } else if (StringUtils.equals(helper, "s2sQuestionnaireHelper")) {
             reportParameters.putAll(createReportParameters(form.getS2sQuestionnaireHelper().getAnswerHeaders().get(index)));
             reportParameters.put("coeusModuleSubItemCode", CoeusSubModule.PROPOSAL_S2S_SUBMODULE);
+            dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(form.getDevelopmentProposal(), reportParameters);
         } else if (StringUtils.equals(helper, "proposalPersonQuestionnaireHelper")) {
             reportParameters.putAll(createReportParameters(form.getProposalPersonQuestionnaireHelper().getAnswerHeaders().get(index)));
+            dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(form.getProposalPersonQuestionnaireHelper().getProposalPerson(), reportParameters);
         } else {
             throw new RuntimeException(String.format("Do not know how to process printQuestionnaireAnswer for formProperty %s",helper));
         }
 
-        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(form.getDevelopmentProposal(), reportParameters);
+
+
+        if (dataStream.getData() != null) {
+            ControllerFileUtils.streamToResponse(dataStream, response);
+        }
+
+        return getModelAndViewService().getModelAndView(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=printAllCertifications")
+    public ModelAndView printAllCertifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response) throws Exception {
+
+        AttachmentDataSource dataStream =
+                getProposalDevelopmentPrintingService().printPersonCertificationQuestionnaire(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons());
 
         if (dataStream.getData() != null) {
             ControllerFileUtils.streamToResponse(dataStream, response);
@@ -149,7 +167,7 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
 
         Map<String, Object> reportParameters = new HashMap<String, Object>();
 
-        reportParameters.put("questionnaireSeqId", answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
+        reportParameters.put("questionnaireId", answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template", answerHeader.getQuestionnaire().getTemplate());
         reportParameters.put("id",answerHeader.getQuestionnaire().getId());
 
@@ -164,4 +182,11 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
         this.questionnairePrintingService = questionnairePrintingService;
     }
 
+    public ProposalDevelopmentPrintingService getProposalDevelopmentPrintingService() {
+        return proposalDevelopmentPrintingService;
+    }
+
+    public void setProposalDevelopmentPrintingService(ProposalDevelopmentPrintingService proposalDevelopmentPrintingService) {
+        this.proposalDevelopmentPrintingService = proposalDevelopmentPrintingService;
+    }
 }

@@ -203,6 +203,20 @@
           p:propertyName="document.developmentProposal.proposalPersons" p:fieldBindingObjectPath="document.developmentProposal"
           p:renderAddLine="false" p:layoutManager.richTable.render="false" p:renderInactiveToggleButton="false"
           p:renderLineActions="false" p:layoutManager.renderSequenceField="false"  >
+        <property name="header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Print All" p:order="10">
+                            <property name="actionUrl">
+                                <bean parent="Uif-Url"
+                                      p:href="../kc-pd-krad/proposalDevelopment?methodToCall=printAllCertifications&amp;formKey=@{formKey}"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="fullName" p:fieldLabel.labelText="Key Person" p:order="10"/>

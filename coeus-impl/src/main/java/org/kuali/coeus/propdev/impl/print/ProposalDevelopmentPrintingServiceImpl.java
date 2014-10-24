@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.print;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.Printable;
@@ -58,7 +59,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 		ProposalDevelopmentPrintingService {
 
     private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
-    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
+    public static final String QUESTIONNAIRE_ID = "questionnaireId";
     public static final String TEMPLATE = "template";
     public static final String SPONSOR_HIERARCHY_NAME = "sponsorHierarchyName";
 
@@ -256,9 +257,15 @@ public class ProposalDevelopmentPrintingServiceImpl implements
             ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
             helper.populateAnswers();
             AnswerHeader header = helper.getAnswerHeaders().get(0);            
-            reportParameters.put(QUESTIONNAIRE_SEQ_ID, header.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
+            reportParameters.put(QUESTIONNAIRE_ID, header.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
             reportParameters.put(TEMPLATE, header.getQuestionnaire().getTemplate());
-            AbstractPrint printable = getQuestionnairePrint();
+            AbstractPrint printable = new QuestionnairePrint();
+            try {
+                PropertyUtils.copyProperties(printable,getQuestionnairePrint());
+            } catch (Exception e) {
+                throw new RuntimeException("error copying questionnaire print",e);
+            }
+
             if (printable != null) {
             	printable.setPrintableBusinessObject(person);
             	printable.setReportParameters(reportParameters);
