@@ -819,4 +819,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public boolean displayDirectIndierctCosts() {
         return StringUtils.equals(getParameterService().getParameter(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT,"ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST").getValue(),"1");
     }
+
+    public String getDisclaimerText() {
+       return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,"propSummaryDisclaimerText");
+    }
 }
