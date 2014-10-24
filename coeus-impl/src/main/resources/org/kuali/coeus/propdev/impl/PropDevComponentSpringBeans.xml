@@ -47,6 +47,7 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
+                <value>classpath:org/kuali/coeus/sys/impl/view/KcTransactionalDocumentView.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/attachment/ProposalAttachmentsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalCommon.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalCompliancePage.xml</value>

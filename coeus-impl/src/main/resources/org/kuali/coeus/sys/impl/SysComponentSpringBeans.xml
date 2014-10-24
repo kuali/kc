@@ -41,6 +41,11 @@
                 <ref bean="metadataProvider"/>
             </list>
         </property>
+        <property name="dataDictionaryPackages">
+            <list>
+               <value>classpath:org/kuali/coeus/sys/impl/view/KcTransactionalDocumentView.xml</value>
+            </list>
+        </property>
     </bean>
 
     <alias alias="kradApplicationDataSource" name="dataSource" />
