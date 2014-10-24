@@ -195,7 +195,7 @@
                     </property>
                 </bean>
 				<bean parent="Uif-MessageField" p:fieldLabel.labelText="Description"
-					p:messageText="@{#lp.available ? #lp.userAttachedForm ? 'User Attached From' : 'Available' : 'Unavailable'}" />
+					p:messageText="@{#lp.available ? #lp.userAttachedForm ? 'User Attached Form' : 'Available' : 'Unavailable'}" />
 				<bean parent="Uif-InputField" p:propertyName="selectToPrint"
 					p:fieldLabel.labelText="[0]" >
                     <property name="control">
