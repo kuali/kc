@@ -75,6 +75,11 @@ public class Answer extends KcPersistableBusinessObjectBase implements AnswerCon
     }
 
     @Override
+    public Integer getQuestionSeqId() {
+        return this.question.getQuestionSeqId();
+    }
+
+    @Override
     public Integer getQuestionNumber() {
         return this.questionNumber;
     }
