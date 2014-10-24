@@ -1,0 +1,109 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--Special proposal sub-views for copy and medusa functions accessed from Lookup-->
+    <bean id="PropDev-CopyView" parent="PropDev-CopyView-parentBean"/>
+    <bean id="PropDev-CopyView-parentBean" abstract="true"
+          parent="Uif-FormView" p:header.render="false" p:breadcrumbs.render="false"
+          p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm">
+        <property name="stickyFooter" value="@{renderedInDialog}"/>
+        <property name="applicationHeader.render" value="@{!renderedInDialog}"/>
+        <property name="singlePageView" value="true"/>
+        <property name="onDocumentReadyScript"
+                  value="KradResponse.prototype.redirectHandler = function(content, dataAttr) {var redirectUrl = jQuery(content).text().trim();dirtyFormState.skipDirtyChecks = true;window.top.location.href = redirectUrl;};"/>
+        <property name="page">
+            <bean parent="Uif-Page" p:header.render="false">
+                <property name="items">
+                    <list>
+                        <bean parent="PropDev-CopyDialog" p:fieldBindingObjectPath="proposalCopyCriteria" p:order="10"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="PropDev-CopyDialog-Button-Continue"
+                              p:actionLabel="Copy..." p:methodToCall="copy"
+                              p:performClientSideValidation="false" p:order="10"/>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+                              p:onClickScript="e.preventDefault();closeIframeDialog();return false;"
+                              p:dialogResponse="false" p:order="20"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PropDev-MedusaView" parent="PropDev-MedusaView-parentBean"/>
+    <bean id="PropDev-MedusaView-parentBean" abstract="true"
+          parent="Uif-FormView" p:header.render="false" p:breadcrumbs.render="false"
+          p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm">
+        <property name="stickyFooter" value="@{renderedInDialog}"/>
+        <property name="applicationHeader.render" value="@{!renderedInDialog}"/>
+        <property name="singlePageView" value="true"/>
+        <property name="page">
+            <bean parent="Uif-Page" p:header.render="false">
+                <property name="items">
+                    <list>
+                        <bean parent="PropDev-MedusaSection-TabGroup"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+                              p:onClickScript="e.preventDefault();closeIframeDialog();return false;"
+                              p:dialogResponse="false" p:order="20"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!--Special proposal summary view for the Action List -->
+    <bean id="PropDev-SummaryView" parent="PropDev-SummaryView-parentBean"/>
+    <bean id="PropDev-SummaryView-parentBean" abstract="true"
+          parent="Uif-FormView" p:header.render="false" p:breadcrumbs.render="false"
+          p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm"
+          p:authorizer="#{#getService('proposalDevelopmentDocumentViewAuthorizer')}"
+          p:viewHelperService="#{#getService('proposalDevelopmentViewHelperService')}"
+          p:readOnly="true">
+        <property name="stickyFooter" value="true"/>
+        <property name="applicationHeader">
+            <null/>
+        </property>
+        <property name="singlePageView" value="true"/>
+        <property name="page">
+            <bean parent="Uif-Page" p:header.render="false">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-TabGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="PropDev-SubmitPage-ProposalSummary"/>
+                                    <bean p:headerText="Budget (placeholder)" parent="Uif-VerticalBoxSection"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Link" p:linkText="Open Proposal" p:target="_top"
+                              p:href="@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=docHandler&amp;docId=@{document.documentNumber}&amp;command=displayActionListView"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+</beans>

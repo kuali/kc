@@ -37,6 +37,7 @@ import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.PessimisticLockService;
@@ -66,6 +67,10 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @Autowired
    @Qualifier("dataObjectService")
    private DataObjectService dataObjectService;
+
+   @Autowired
+   @Qualifier("dataDictionaryService")
+   private DataDictionaryService dataDictionaryService;
 
    @Autowired
    @Qualifier("documentService")
@@ -264,17 +269,35 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
             return getModelAndViewService().performRedirect(form, "proposalDevelopment", props);
        }
        else {
+           boolean summaryView = false;
+
+           // Change command when sent from an action list show
+           if (form.getCommand().equals("displayActionListInlineView")) {
+               summaryView = true;
+               // Command used to get document info
+               form.setCommand("displayActionListView");
+           }
+
             ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
             ModelAndView modelAndView = getTransactionalDocumentControllerService().docHandler(form);
             propDevForm.initialize();
             propDevForm.getCustomDataHelper().prepareCustomData();
+
+            if (summaryView) {
+                form.setView(this.getDataDictionaryService().getViewById("PropDev-SummaryView"));
+                form.setViewId("PropDev-SummaryView");
+                return modelAndView;
+            }
+
             if (CollectionUtils.isNotEmpty(propDevForm.getDevelopmentProposal().getProposalChangedDataList())) {
                getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-DetailsPage", "info.dataoverride.occured");
             }
+
             if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
                ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm);
                propDevForm.getView().setEntryPageId("PropDev-SubmitPage");
             }
+
             return modelAndView;
        }
    }
@@ -309,6 +332,14 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
     public DocumentService getDocumentService() {
