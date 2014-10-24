@@ -27,6 +27,7 @@ import java.util.*;
 @Controller
 public class ProposalDevelopmentDataOverrideController extends ProposalDevelopmentControllerBase {
     private static final String DATE_TYPE = "DATE";
+    private static final String NUMERIC_TYPE = "NUMBER";
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDataOverrideController.class);
 
     @Autowired
@@ -46,7 +47,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
             throws Exception {
 
         String columnName = form.getNewProposalChangedData().getColumnName();
-
+        if (StringUtils.isNotEmpty(columnName)){
         form.getNewProposalChangedData().setEditableColumn(getDataObjectService().find(ProposalColumnsToAlter.class,
                 columnName));
 
@@ -54,12 +55,17 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         String propertyValue = null;
         if (form.getNewProposalChangedData().getEditableColumn().getDataType().equals(DATE_TYPE) && propertyObject != null) {
             propertyValue = getDateTimeService().toDateString((Date)propertyObject);
+        } else if (form.getNewProposalChangedData().getEditableColumn().getDataType().equals(NUMERIC_TYPE)){
+           propertyValue = propertyObject.toString();
         } else {
             propertyValue = (String) propertyObject;
         }
 
         form.getNewProposalChangedData().setDisplayValue(propertyValue);
         form.getNewProposalChangedData().setOldDisplayValue(propertyValue);
+        } else {
+            form.setNewProposalChangedData(new ProposalChangedData());
+        }
         form.setUpdateComponentId("PropDev-DataOverride-Dialog");
         form.setAjaxReturnType("update-component");
         return getRefreshControllerService().refresh(form);
@@ -82,9 +88,12 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
             String propertyName = getPropertyName(form,newProposalChangedData.getColumnName());
             if (newProposalChangedData.getEditableColumn().getDataType().equals(DATE_TYPE)) {
                 PropertyUtils.setNestedProperty(pdDocument.getDevelopmentProposal(),propertyName,getDateTimeService().convertToSqlDate(newProposalChangedData.getChangedValue()));
-            } else {
-                PropertyUtils.setNestedProperty(pdDocument.getDevelopmentProposal(),propertyName,newProposalChangedData.getChangedValue());
+            } else if (newProposalChangedData.getEditableColumn().getDataType().equals(NUMERIC_TYPE)){
+                PropertyUtils.setNestedProperty(pdDocument.getDevelopmentProposal(),propertyName,Integer.parseInt(newProposalChangedData.getChangedValue()));
+            } else{
+                    PropertyUtils.setNestedProperty(pdDocument.getDevelopmentProposal(),propertyName,newProposalChangedData.getChangedValue());
             }
+
             growProposalChangedHistory(pdDocument, newProposalChangedData);
             List<ProposalChangedData> proposalChangedDataList= new ArrayList<ProposalChangedData>();
             proposalChangedDataList.add(newProposalChangedData);
@@ -92,7 +101,6 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
             form.getDevelopmentProposal().setProposalChangedDataList(proposalChangedDataList);
 
             super.save(form);
-            getDataObjectService().wrap(form.getDevelopmentProposal()).materializeReferencedObjects(MaterializeOption.INCLUDE_EAGER_REFS);
 
             getDisplayReferenceValue(newProposalChangedData,form.getDevelopmentProposal());
             form.setNewProposalChangedData(new ProposalChangedData());
@@ -122,6 +130,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         }
 
         if (StringUtils.isNotEmpty(refName)){
+            getDataObjectService().wrap(proposal).fetchRelationship(refName);
             try {
                 Object refObject = PropertyUtils.getNestedProperty(proposal,refName);
                 String refDescription = (String) PropertyUtils.getNestedProperty(refObject,"description");

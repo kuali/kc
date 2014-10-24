@@ -34,11 +34,11 @@ public class DataOverrideInputField extends InputFieldBase {
 
         if (StringUtils.equals(((ProposalDevelopmentDocumentForm)model).getNewProposalChangedData().getColumnName(),MAILING_ADDRESS_COLUMN)) {
             this.setControl(ComponentFactory.getTextControl());
-            this.setWidgetInputOnly(true);
+
             this.setQuickfinder(ComponentFactory.getQuickFinder());
             this.getQuickfinder().setReturnByScript(true);
             this.getQuickfinder().setDataObjectClassName(Rolodex.class.getName());
-            this.getQuickfinder().setFieldConversions(Collections.singletonMap("newProposalChangedData.changedValue","mailingAddressId"));
+            this.getQuickfinder().getFieldConversions().put("rolodexId","newProposalChangedData.changedValue");
         }
         super.performInitialization(model);
     }

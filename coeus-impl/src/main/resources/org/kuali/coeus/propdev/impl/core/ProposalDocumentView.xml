@@ -243,7 +243,7 @@
 							p:iconClass="icon-list-ol" p:order="50"  p:actionScript="showDialog('PropDev-HierachySection');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropDev-BudgetVersions-Dialog');"
 							p:iconClass="icon-money" p:order="70" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Data Override" p:actionScript="retrieveComponent('PropDev-DataOverride-Dialog');showDialog('PropDev-DataOverride-Dialog');"
+                        <bean parent="Uif-ActionLink" p:actionLabel="Data Override" p:actionScript="showDialog('PropDev-DataOverride-Dialog');"
                               p:render="@{#editModes['showAlterProposalData'] and #editModes['alterProposalData']}"
                               p:iconClass="icon-pencil2 @{!#emptyList(document.developmentProposal.proposalChangedDataList)?'dataOverride':''}"
                               p:order="80" />
