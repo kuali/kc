@@ -34,6 +34,7 @@ public final class KeyConstants {
     public static final String WARNING_PAST_DEADLINE_DATE = "warning.past.deadline.date";
     public static final String WARNING_ACTIVITY_TYPE_CHANGED = "warning.activityType.changed";
     public static final String ERROR_START_DATE_AFTER_END_DATE = "error.start.date.after.end.date";
+    public static final String ERROR_REQUIRED_GG_TRACKING_ID = "error.ggtrackingid.required";
     
     public static final String QUESTION_DELETE_CONFIRMATION = "document.question.delete.text";
     public static final String INVALID_DEADLINE_TIME = "error.invalid.deadLineTime";
