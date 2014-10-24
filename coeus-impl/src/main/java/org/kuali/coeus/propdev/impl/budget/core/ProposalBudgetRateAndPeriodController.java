@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControllerBase {
 
-	private static final String CONFIRM_PERIOD_CHANGES_DIALOG_ID = "PropBudget-ConfirmPeriodChangesDialog";
+	private static final String CONFIRM_PERIOD_CHANGES_DIALOG_ID = "PropBudget-PeriodsPage-ConfirmPeriodChangesDialog";
 
     @Autowired
     @Qualifier("budgetSummaryService")
@@ -54,20 +54,8 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     @RequestMapping(params="methodToCall=recalculateBudgetWithChanges")
     public ModelAndView recalculateBudgetWithChanges(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentBudgetExt budget = form.getBudget();
-        DialogResponse dialogResponse = form.getDialogResponse(CONFIRM_PERIOD_CHANGES_DIALOG_ID);
-        boolean confirmRecalculate = true;
-        
-    	if(dialogResponse == null) {
-    		form.setDefaultBudgetPeriodWarningMessage(getKualiConfigurationService().getPropertyValueAsString(QUESTION_RECALCULATE_BUDGET_CONFIRMATION));
-        	return getModelAndViewService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
-    	}else {
-        	confirmRecalculate = dialogResponse.getResponseAsBoolean();
-    	}
-    	
-        if(confirmRecalculate) {
-        	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
-        	getBudgetSummaryService().calculateBudget(budget);
-        }
+    	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
+    	getBudgetSummaryService().calculateBudget(budget);
         return getModelAndViewService().getModelAndView(form);
     }    
 		

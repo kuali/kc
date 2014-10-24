@@ -118,6 +118,6 @@
         </property>
     </bean>
 	<!-- this dialog will be triggered from the controller -->
-	<bean id="PropBudget-ConfirmPeriodChangesDialog" parent="Uif-DialogGroup-YesNo" p:promptText="@{defaultBudgetPeriodWarningMessage}"/>
+	<bean id="PropBudget-PeriodsPage-ConfirmPeriodChangesDialog" parent="Uif-DialogGroup-YesNo" p:promptText="@{defaultBudgetPeriodWarningMessage}"/>
       
 </beans>
