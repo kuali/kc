@@ -615,6 +615,10 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
         return this.kcPersonService;
     }
 
+    public void setKcPersonService(KcPersonService kcPersonService) {
+		this.kcPersonService = kcPersonService;
+	}
+
     /**
      * Adds a new degree to the collection in the person
      *
