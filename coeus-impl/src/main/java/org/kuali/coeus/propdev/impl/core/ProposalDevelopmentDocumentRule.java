@@ -38,6 +38,7 @@ import org.kuali.coeus.propdev.impl.budget.editable.ProposalBudgetDataOverrideRu
 import org.kuali.coeus.propdev.impl.copy.CopyProposalRule;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.copy.ProposalDevelopmentCopyRule;
+import org.kuali.coeus.propdev.impl.custom.AuditProposalCustomDataEvent;
 import org.kuali.coeus.propdev.impl.docperm.*;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideRule;
@@ -61,6 +62,7 @@ import org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentGrantsGovAuditRule;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireAuditRule;
 import org.kuali.coeus.propdev.impl.ynq.ProposalDevelopmentYnqAuditRule;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -450,7 +452,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         }
         boolean retval = true;
         
-        retval &= new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
+        retval &= new CustomDataRule().processRules(new AuditProposalCustomDataEvent((KcTransactionalDocumentBase)document));
         
         retval &= new ProposalDevelopmentProposalRequiredFieldsAuditRule().processRunAuditBusinessRules(document);
         

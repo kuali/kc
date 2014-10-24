@@ -26,9 +26,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
-
-
 public class AuditCustomDataEvent extends SaveCustomDataEvent {
 
     public AuditCustomDataEvent(KcTransactionalDocumentBase document) {
@@ -36,16 +33,15 @@ public class AuditCustomDataEvent extends SaveCustomDataEvent {
     }
     
     public void reportError(CustomAttribute customAttribute, String propertyName, String errorKey, String... errorParams) {
-        String key = SUPPLEMENTAL_PAGE_NAME + "." +customAttribute.getGroupName();
-        AuditCluster auditCluster = GlobalVariables.getAuditErrorMap().get(key);
+        String key = "CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors";
+        AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
         if (auditCluster == null) {
             List<AuditError> auditErrors = new ArrayList<AuditError>();
-            auditCluster = new AuditCluster(key, auditErrors, AUDIT_ERRORS);
+            auditCluster = new AuditCluster(customAttribute.getGroupName(), auditErrors, Constants.AUDIT_ERRORS);
             GlobalVariables.getAuditErrorMap().put(key, auditCluster);
         }
         List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-        auditErrors.add(new AuditError(StringUtils.removePattern(customAttribute.getGroupName() + "_" + customAttribute.getLabel(), "([^0-9a-zA-Z\\-_])"),
-                errorKey, SUPPLEMENTAL_PAGE_ID + "." + customAttribute.getGroupName().replace(" ","_"), errorParams));
+        auditErrors.add(new AuditError(propertyName, errorKey, StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttribute.getGroupName()), errorParams));
 
     }
 
