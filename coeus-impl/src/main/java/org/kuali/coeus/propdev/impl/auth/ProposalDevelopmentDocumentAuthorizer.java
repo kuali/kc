@@ -38,6 +38,7 @@ import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants;
@@ -189,6 +190,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
                    
         if (isAuthorizedToCertify(doc, user)) {
             editModes.add("certify");
+        }
+
+        if (isAuthorizedToCopyProposal(doc, user)) {
+            editModes.add("canCopyProposal");
         }
                 
         if (isAuthorizedToPrint(doc, user)) {
@@ -522,6 +527,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     protected boolean isAuthorizedToCertify(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.CERTIFY);
+    }
+
+    protected boolean isAuthorizedToCopyProposal(Document document, Person user) {
+        return getUnitAuthorizationService().hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
     }
 
     protected boolean isAuthorizedToReplacePersonnelAttachement(Document document, Person user) {
