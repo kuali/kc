@@ -548,7 +548,7 @@
                                value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.kra.coi.CoiDisclosureReviews&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
                         </map>
                     </property>
-                </bean>
+                </bean> 
                 <bean parent="Uif-MenuAction" p:actionLabel="  Search Disclosures"
                       p:order="130" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
