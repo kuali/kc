@@ -40,8 +40,7 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -80,11 +79,9 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
     private Date expirationDate; 
     private boolean currentDisclosure; 
     private boolean annualUpdate;
-//    private String moduleCode; 
-    private String eventTypeCode; 
+    private String eventTypeCode;
     private String moduleItemKey; 
-//    private String reviewStatusCode; 
-    private Integer discActiveStatus; 
+    private Integer discActiveStatus;
     private CoiDisclosureDocument coiDisclosureDocument;
     private List<DisclosurePerson> disclosurePersons;
     private List<CoiDisclosureAttachment> coiDisclosureAttachments;
@@ -113,12 +110,9 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
     private transient String coiDisclProjectTitle;
     @SkipVersioning
     private List<CoiDisclProject> coiDisclProjects; 
-//    private CoiDocuments coiDocuments; 
-//    private CoiNotepad coiNotepad; 
-    private List<CoiUserRole> coiUserRoles; 
+    private List<CoiUserRole> coiUserRoles;
 
     // help UI purposes
-    //private transient List<CoiDisclEventProject> coiDisclEventProjects; 
     private transient DateTimeService dateTimeService;
     private CoiDisclosureAttachmentFilter newAttachmentFilter; 
     private KcPersistableBusinessObjectBase eventBo;
@@ -127,6 +121,7 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
     private transient String reporterCreated;
     private transient KcPersonService kcPersonService;
     private transient BusinessObjectService businessObjectService;
+    private transient PersistenceService persistenceService;
     
     // must persist generated notifications
     List<CoiNotification> disclosureNotifications;
@@ -149,7 +144,15 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
         initializeCoiReviewStatus();
 
     } 
-    
+
+    protected PersistenceService getPersistenceService() {
+        if (persistenceService == null) {
+            persistenceService = KcServiceLocator.getService("persistenceServiceOjb");
+
+        }
+        return persistenceService;
+    }
+
     public KcPerson getPerson() {
         if (this.personId != null) {
             return this.getKcPersonService().getKcPersonByPersonId(this.personId);
@@ -635,7 +638,7 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
     
     public void initializeCoiReviewStatus() {
         setReviewStatusCode(CoiReviewStatus.IN_PROGRESS);
-        this.refreshReferenceObject("coiReviewStatus");
+        getPersistenceService().retrieveReferenceObject(this, "coiReviewStatus");
     }
     
     
