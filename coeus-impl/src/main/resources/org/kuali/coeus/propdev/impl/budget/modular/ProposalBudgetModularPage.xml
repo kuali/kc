@@ -200,10 +200,9 @@
                       p:order="30" p:label="Period @{#budgetPeriod} Total Requested Cost"
                       p:fieldLabel.renderColon="false"
                         />
-                <bean parent="Uif-DataField" p:propertyName="budgetModular.totalRequestedCost"
-                      p:order="40" p:label="(need to change) Project Total Requested Cost"
-                      p:fieldLabel.renderColon="false"
-                        />
+                <bean parent="Uif-MessageField" p:messageText="@{#this.budgetModularSummary.totalRequestedCost}"
+                      p:order="40" p:fieldLabel.labelText="Project Total Requested Cost"
+                      p:fieldLabel.renderColon="false" />
             </list>
         </property>
     </bean>
@@ -247,7 +246,7 @@
         </list>
         </property>
     </bean>
-    <bean id="PropBudget-Modular-SummaryDirectCost-Section" parent="Uif-CssGridSection-1FieldLabelColumn" abstract="true">
+    <bean id="PropBudget-Modular-SummaryDirectCost-Section" p:headerText="Total Direct Cost" parent="Uif-CssGridSection-1FieldLabelColumn" abstract="true">
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="budgetModularSummary.directCostLessConsortiumFna" p:label="Direct Cost Less Consortium F&amp;A" p:fieldLabel.renderColon="false" p:order="30"/>
