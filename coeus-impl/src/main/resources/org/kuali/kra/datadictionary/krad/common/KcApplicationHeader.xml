@@ -549,7 +549,6 @@
                         </map>
                     </property>
                 </bean>
-
                 <bean parent="Uif-MenuAction" p:actionLabel="  Search Disclosures"
                       p:order="130" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
