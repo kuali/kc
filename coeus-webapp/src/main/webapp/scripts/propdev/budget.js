@@ -6,18 +6,17 @@ Kc.PropDev.Budget = Kc.PropDev.Budget || {};
 		$(e.currentTarget).find("input[name$='originalBudgetId']").val(budgetId);
 	};
     namespace.totalUnallocatedFandA = function (values){
-        var totalUnallocated = $('#PropBudget-UnrecoveredFandAPage-Group').data('total_unrecovered');
-        for (var i = 0; i < values.length; i++) {
-            totalUnallocated-=values[i];
-        }
-        return totalUnallocated;
+        return namespace.calculateTotalFromValues(values, $('#PropBudget-UnrecoveredFandAPage-Group').data('total_unrecovered'));
     };
     namespace.totalUnallocatedCostSharing = function (values){
-        var totalUnallocated = $('#PropBudget-CostSharingPage-CollectionGroup').data('total_costsharing');
+        return namespace.calculateTotalFromValues(values, $('#PropBudget-CostSharingPage-CollectionGroup').data('total_costsharing'));
+    };
+    namespace.calculateTotalFromValues = function (values, total) {
+        var calcTotal = total * 100;
         for (var i = 0; i < values.length; i++) {
-            totalUnallocated-=values[i];
+            calcTotal -= (values[i] * 100);
         }
-        return totalUnallocated;
+        return (calcTotal / 100).toFixed(2);
     };
     namespace.closeDialogWithoutError = function(dialogId) {
     	if ($("#" + dialogId).find(".uif-hasError").length == 0) {
