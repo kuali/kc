@@ -32,6 +32,7 @@ import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewService;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -144,7 +145,11 @@ public class ProposalDevelopmentSubmitController extends
     @Autowired
     @Qualifier("legacyDataAdapter")
     private LegacyDataAdapter legacyDataAdapter;
-    
+
+    @Autowired
+    @Qualifier("kcWorkflowService")
+    private KcWorkflowService kcWorkflowService;
+
     private final Logger LOGGER = Logger.getLogger(ProposalDevelopmentSubmitController.class);
 
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=populateAdHocs")
@@ -236,7 +241,7 @@ public class ProposalDevelopmentSubmitController extends
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNotificationWizard")
     public ModelAndView prepareNotificationWizard(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         final String step = form.getNotificationHelper().getNotificationRecipients().isEmpty() ? "0" : "2";
-        form.getActionParameters().put("Kc-SendNotification-Wizard.step",step);
+        form.getActionParameters().put("Kc-SendNotification-Wizard.step", step);
         return getRefreshControllerService().refresh(form);
     }
 
@@ -542,6 +547,12 @@ public class ProposalDevelopmentSubmitController extends
         }
 
         getTransactionalDocumentControllerService().performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE);
+        if (form.getView().getAuthorizer().getActionFlags(form.getView(), form, getGlobalVariableService().getUserSession().getPerson(),
+                form.getView().getPresentationController().getActionFlags(form.getView(), form)).contains("submitToSponsor")
+                && getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, "autoSubmitToSponsorOnFinalApproval")
+                && getKcWorkflowService().isFinalApproval(workflowDoc)) {
+            return submitToSponsor(form);
+        }
         return getModelAndViewService().getModelAndView(form);
     }
 
@@ -771,5 +782,11 @@ public class ProposalDevelopmentSubmitController extends
 		return legacyDataAdapter;
 	}
 
+    public KcWorkflowService getKcWorkflowService() {
+        return kcWorkflowService;
+    }
 
+    public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
+        this.kcWorkflowService = kcWorkflowService;
+    }
 }
