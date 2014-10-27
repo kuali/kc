@@ -27,7 +27,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
   <bean id="PropDev-CopyDialog-Section" parent="PropDev-CopyDialog-Section-ParentBean" />
   <bean id="PropDev-CopyDialog-Section-ParentBean" abstract="true" parent="Uif-DialogBase"
-        p:fieldBindingObjectPath="proposalCopyCriteria" p:resetDataOnRefresh="true"
+        p:fieldBindingObjectPath="proposalCopyCriteria" p:resetDataOnRefresh="true" p:readOnly="false"
         p:retrieveViaAjax="true">
       <property name="header">
           <bean parent="Uif-DialogHeader" p:headerText="Copy To New Document"/>
