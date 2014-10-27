@@ -19,7 +19,6 @@ import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.framework.validation.SoftError;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -32,7 +31,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
-import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
@@ -48,14 +46,13 @@ import java.util.Map.Entry;
  */
 public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
     public static final String DOCUMENT_ERROR_PATH = "document";
-    private ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
-
-    private DataObjectService dataObjectService;
-    private BusinessObjectService businessObjectService;
-    private ParameterService parameterService;
-    private DictionaryValidationService knsDictionaryValidationService;
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
+
+    private ErrorReporter errorReporter;
+    private DataObjectService dataObjectService;
+    private BusinessObjectService businessObjectService;
+    private DictionaryValidationService knsDictionaryValidationService;
 
     /**
      * Delegates to {@link ErrorReporter#reportError(String, String, String...) ErrorReporter#reportError(String, String, String...)}
@@ -63,7 +60,7 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
      * @see ErrorReporter#reportError(String, String, String...)
      */
     protected void reportError(String propertyName, String errorKey, String... errorParams) {
-        this.errorReporter.reportError(propertyName, errorKey, errorParams);
+        this.getErrorReporter().reportError(propertyName, errorKey, errorParams);
     }
     
     /**
@@ -72,7 +69,7 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
      * @see ErrorReporter#reportError(String, String, String...)
      */
     protected void reportWarning(String propertyName, String errorKey, String... errorParams) {
-        this.errorReporter.reportWarning(propertyName, errorKey, errorParams);
+        this.getErrorReporter().reportWarning(propertyName, errorKey, errorParams);
     }
     
     /**
@@ -81,7 +78,7 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
      * @see ErrorReporter#reportAuditError(AuditError, String, String, String)
      */
     protected void addAuditError(AuditError error, String errorKey, String clusterLabel, String clusterCategory) {
-        this.errorReporter.reportAuditError(error, errorKey, clusterLabel, clusterCategory);
+        this.getErrorReporter().reportAuditError(error, errorKey, clusterLabel, clusterCategory);
     }
     
     /**
@@ -90,7 +87,7 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
      * @see ErrorReporter#reportSoftError(String, String, String...)
      */
     protected void reportSoftError(String propertyName, String errorKey, String... errorParams) {
-        this.errorReporter.reportSoftError(propertyName, errorKey, errorParams);
+        this.getErrorReporter().reportSoftError(propertyName, errorKey, errorParams);
     }
 
     /**
@@ -99,7 +96,7 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
      * @see ErrorReporter#getSoftErrors()
      */
     public Map<String, Collection<SoftError>> getSoftErrors() {
-        return this.errorReporter.getSoftErrors();
+        return this.getErrorReporter().getSoftErrors();
     }
 
     /**
@@ -154,34 +151,6 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
         }
         return retval;
     }
-    
-    /**
-     * Locate in Spring the <code>{@link BusinessObjectService}</code> singleton instance
-     * 
-     * @return BusinessObjectService
-     */
-    protected final BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null) {
-            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        }
-        return businessObjectService;
-    }
-    
-    /**
-     * This is a convenience method to use jmock to set the businessObjectService for unit testing.
-     * @param businessObjectService
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService){
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Gets the error reporter.
-     * @return the error reporter
-     */
-    public ErrorReporter getErrorReporter() {
-        return this.errorReporter;
-    }
 
     /*
      * Overriding the rice method since we need to use the knsDD validation service instead of the KRAd one.
@@ -233,6 +202,29 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
         return GlobalVariables.getMessageMap().hasNoErrors();
     }
 
+    protected final BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService){
+        this.businessObjectService = businessObjectService;
+    }
+
+    public ErrorReporter getErrorReporter() {
+        if (this.errorReporter == null) {
+            this.errorReporter = KcServiceLocator.getService(ErrorReporter.class);
+        }
+
+        return this.errorReporter;
+    }
+
+    public void setErrorReporter(ErrorReporter errorReporter) {
+        this.errorReporter = errorReporter;
+    }
+    
     protected DictionaryValidationService getKnsDictionaryValidationService() {
         if (this.knsDictionaryValidationService == null) {
             this.knsDictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();       
@@ -240,10 +232,10 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
         return this.knsDictionaryValidationService;
     }
 
-    public void setErrorReporter(ErrorReporter errorReporter) {
-        this.errorReporter = errorReporter;
+    public void setKnsDictionaryValidationService(DictionaryValidationService knsDictionaryValidationService) {
+        this.knsDictionaryValidationService = knsDictionaryValidationService;
     }
-
+    
     protected DataObjectService getDataObjectService() {
         if (dataObjectService == null) {
             dataObjectService = KcServiceLocator.getService(DataObjectService.class);
