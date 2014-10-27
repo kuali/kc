@@ -26,7 +26,7 @@ public class ProposalDevelopmentSponsorProgramInformationController extends Prop
                 StringUtils.isEmpty(form.getDevelopmentProposal().getPrevGrantsGovTrackingID())) {
             String instProposalId = getInstitutionalProposalId(form.getDevelopmentProposal().getContinuedFrom());
             DevelopmentProposal continuedFrom = getContinuedFromDevelopmentProposal(instProposalId);
-            if (continuedFrom != null && continuedFrom.getS2sAppSubmission() != null) {
+            if (continuedFrom != null && CollectionUtils.isNotEmpty(continuedFrom.getS2sAppSubmission())) {
                 String ggTrackingId = continuedFrom.getS2sAppSubmission().get(continuedFrom.getS2sAppSubmission().size() - 1).getGgTrackingId();
                 form.getDevelopmentProposal().setPrevGrantsGovTrackingID(ggTrackingId);
             }
