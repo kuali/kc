@@ -9336,6 +9336,7 @@
 												<fo:table-column column-width="160" />
 												<fo:table-column column-width="70" />
 												<fo:table-column column-width="proportional-column-width(1)" />
+												<fo:table-column column-width="proportional-column-width(1)" />
 												<fo:table-body start-indent="0pt">
 												<fo:table-row>
 														<fo:table-cell font-family="Arial"

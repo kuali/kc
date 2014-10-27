@@ -100,7 +100,6 @@ public class AwardPrintingServiceImplTest {
 		assertTrue(ads.getData().length > 0);
 	}
 	
-	@Ignore
 	@Test
 	public void testPrintAward2() {
 		AwardPrintingServiceImpl awardPrintingService = new AwardPrintingServiceImpl();
