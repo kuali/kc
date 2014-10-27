@@ -68,7 +68,7 @@ public class InstitutionalProposalXmlStream extends
 	private static final String SPONSOR_CODE = "sponsorCode";
 	private static final String NSF_CODE = "nsfCode";
 	private static final String NOTICE_OF_OPPORTUNITY_CODE = "noticeOfOpportunityCode";
-	private static final String PROPOSAL_TYPE_CODE = "proposalTypeCode";
+	private static final String PROPOSAL_TYPE_CODE = "code";
 	private static final String PROPOSAL_STATUS_CODE = "proposalStatusCode";
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
