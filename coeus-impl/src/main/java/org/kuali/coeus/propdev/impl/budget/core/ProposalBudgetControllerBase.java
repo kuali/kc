@@ -127,6 +127,16 @@ public abstract class ProposalBudgetControllerBase {
         return getModelAndViewService().getModelAndView(form);
     }
     
+    public ModelAndView saveLine(ProposalBudgetForm form) {
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+
+        if(form.getEditableBudgetLineItems() != null && selectedCollectionPath !=null && form.getEditableBudgetLineItems().containsKey(selectedCollectionPath)){
+            form.getEditableBudgetLineItems().get(selectedCollectionPath).remove(selectedLine);
+        }
+        return getCollectionControllerService().saveLine(form);
+    }
+    
     protected ModelAndView navigate(ProposalBudgetForm form) throws Exception {
 		form.setPageId(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID));
 		form.setDirtyForm(false);

@@ -123,14 +123,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 
 	@RequestMapping(params="methodToCall=saveLine")
 	public ModelAndView saveLine(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-
-        if(form.getEditableBudgetLineItems() != null && selectedCollectionPath !=null && form.getEditableBudgetLineItems().containsKey(selectedCollectionPath)){
-            form.getEditableBudgetLineItems().get(selectedCollectionPath).remove(selectedLine);
-        }
-
-        return getCollectionControllerService().saveLine(form);
+		return super.saveLine(form);
 	}
 
 	@RequestMapping(params="methodToCall=deleteLine")

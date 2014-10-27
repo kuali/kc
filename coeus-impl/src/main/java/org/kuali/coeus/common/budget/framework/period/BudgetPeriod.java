@@ -285,7 +285,6 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
      * @return
      */
     public boolean isReadOnly() {
-        //return (budgetPeriod != null && budgetPeriod == 1) || budgetLineItems.size() > 0;  
         return budgetLineItems != null && budgetLineItems.size() > 0;
     }
 
