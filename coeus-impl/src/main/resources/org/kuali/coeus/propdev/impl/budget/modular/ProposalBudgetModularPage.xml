@@ -258,7 +258,7 @@
     <bean id="PropBudget-Modular-SummaryFandA-Section"  parent="Uif-TableCollectionSection"
                       p:header.headerText="F&amp;A"
                       p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc"
-                      p:propertyName="budgetModularSummary.budgetModularIdcs" p:renderAddLine="false">
+                      p:renderLineActions="false" p:propertyName="budgetModularSummary.budgetModularIdcs" p:renderAddLine="false">
                 <property name="items">
                     <list>
                         <bean parent="Uif-DataField" p:propertyName="description" p:label="F&amp;A Rate Type"
