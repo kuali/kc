@@ -79,7 +79,7 @@
                   p:cssClasses="@{#line ne null?#line.getClass().getName().equals(#collectionGroup.collectionObjectClass)?#line.lineType:'':''}">
                 <property name="validCharactersConstraint">
                     <bean parent="FixedPointPatternConstraint">
-                        <property name="precision" value="6"/>
+                        <property name="precision" value="5"/>
                         <property name="scale" value="2"/>
                     </bean>
                 </property>
