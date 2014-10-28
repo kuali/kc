@@ -54,11 +54,9 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
-        propDevForm.getAddKeyPersonHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
-        for (ProposalPerson person : propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+        for (ProposalPerson person : form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
             //workaround for the document associated with the OJB retrived dev prop not having a workflow doc.
-            person.setDevelopmentProposal(propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal());
+            person.setDevelopmentProposal(form.getProposalDevelopmentDocument().getDevelopmentProposal());
             person.getQuestionnaireHelper().populateAnswers();
         }
         return super.navigate(form, result, request, response);
@@ -66,8 +64,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=prepareAddPersonDialog"})
     public ModelAndView prepareAddPersonDialog(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
-        form.getAddKeyPersonHelper().getParameterMap().put("personRole","");
-        form.getAddKeyPersonHelper().getParameterMap().put("keyPersonProjectRole","");
+        form.getAddKeyPersonHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
         return getModelAndViewService().showDialog("PropDev-PersonnelPage-Wizard",true,form);
     }
 
