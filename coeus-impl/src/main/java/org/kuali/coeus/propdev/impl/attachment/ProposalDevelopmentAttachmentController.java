@@ -75,7 +75,10 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         final String selectedCollectionPath = request.getParameter("bindingPath");
 
         addEditableCollectionLine(form, selectedCollectionPath);
-        return getFileControllerService().addFileUploadLine(form);
+
+        synchronized (ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath)) {
+            return getFileControllerService().addFileUploadLine(form);
+        }
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=deleteFileUploadLine")

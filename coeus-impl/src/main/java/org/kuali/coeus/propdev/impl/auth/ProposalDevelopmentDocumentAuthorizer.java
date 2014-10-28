@@ -229,53 +229,55 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     private void setNarrativePermissions(Person user, ProposalDevelopmentDocument doc, Set<String> editModes) {
 
         List<Narrative> narratives = doc.getDevelopmentProposal().getNarratives();
-        for (Narrative narrative : narratives) {
-            String prefix = "proposalAttachment." + narrative.getModuleNumber() + ".";
-            if (isAuthorizedToViewNarrative(narrative, user)) {
-                editModes.add(prefix + "download");
+        synchronized (narratives) {
+            for (Narrative narrative : narratives) {
+                String prefix = "proposalAttachment." + narrative.getModuleNumber() + ".";
+                if (isAuthorizedToViewNarrative(narrative, user)) {
+                    editModes.add(prefix + "download");
+                }
+                if (isAuthorizedToReplaceNarrative(narrative, user)) {
+                    editModes.add(prefix + "replace");
+                }
+                if (isAuthorizedToDeleteNarrative(narrative, user)) {
+                    editModes.add(prefix + "delete");
+                }
+                if (isAuthorizedToModifyNarrative(narrative, user)) {
+                    editModes.add(prefix + "modifyStatus");
+                }
+                if (isAuthorizedToModifyNarrative(narrative, user)) {
+                    editModes.add(prefix + "modifyRights");
+                }
             }
-            if (isAuthorizedToReplaceNarrative(narrative, user)) {
-                editModes.add(prefix + "replace");
-            }
-            if (isAuthorizedToDeleteNarrative(narrative, user)) {
-                editModes.add(prefix + "delete");
-            }
-            if (isAuthorizedToModifyNarrative(narrative, user)) {
-                editModes.add(prefix + "modifyStatus");
-            }
-            if (isAuthorizedToModifyNarrative(narrative, user)) {
-                editModes.add(prefix + "modifyRights");
-            }
-        }
-        
-        narratives = doc.getDevelopmentProposal().getInstituteAttachments();
-        for (Narrative narrative : narratives) {
-            String prefix = "instituteAttachment." + narrative.getModuleNumber() + ".";
-            if (isAuthorizedToViewNarrative(narrative, user)) {
-                editModes.add(prefix + "download");
-            }
-            if (isAuthorizedToReplaceNarrative(narrative, user) ) {
-                editModes.add(prefix + "replace");
-            }
-            if (isAuthorizedToDeleteNarrative(narrative, user)) {
-                editModes.add(prefix + "delete");
-            }
-            if (isAuthorizedToModifyNarrative(narrative, user)) {
-                editModes.add(prefix + "modifyRights");
-            }
-        }
-        
 
-        int i = 0;
-        boolean canReplace = isAuthorizedToReplacePersonnelAttachement(doc, user);
-        for (ProposalPersonBiography ppb : doc.getDevelopmentProposal().getPropPersonBios()) {
-            ppb.setPositionNumber(i);
-            String prefix = "biographyAttachments." + ppb.getPositionNumber() + ".";
-            if (canReplace) {
-                editModes.add(prefix + "replace");
+            narratives = doc.getDevelopmentProposal().getInstituteAttachments();
+            for (Narrative narrative : narratives) {
+                String prefix = "instituteAttachment." + narrative.getModuleNumber() + ".";
+                if (isAuthorizedToViewNarrative(narrative, user)) {
+                    editModes.add(prefix + "download");
+                }
+                if (isAuthorizedToReplaceNarrative(narrative, user) ) {
+                    editModes.add(prefix + "replace");
+                }
+                if (isAuthorizedToDeleteNarrative(narrative, user)) {
+                    editModes.add(prefix + "delete");
+                }
+                if (isAuthorizedToModifyNarrative(narrative, user)) {
+                    editModes.add(prefix + "modifyRights");
+                }
             }
-            
-            i++;
+
+
+            int i = 0;
+            boolean canReplace = isAuthorizedToReplacePersonnelAttachement(doc, user);
+            for (ProposalPersonBiography ppb : doc.getDevelopmentProposal().getPropPersonBios()) {
+                ppb.setPositionNumber(i);
+                String prefix = "biographyAttachments." + ppb.getPositionNumber() + ".";
+                if (canReplace) {
+                    editModes.add(prefix + "replace");
+                }
+
+                i++;
+            }
         }
     }
     
