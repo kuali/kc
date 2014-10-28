@@ -50,7 +50,7 @@ public class AttachmentsV1_1GeneratorTest extends S2STestBase<AttachmentsV1_1Gen
         narrative.setName("exercise1");
         NarrativeType narrativeType = new NarrativeType();
         narrativeType.setCode("1");
-        narrativeType.setAllowMultiple(true);
+        narrativeType.setAllowMultiple(false);
         narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for Attachments Attachment");
         getService(DataObjectService.class).save(narrativeType);

@@ -43,7 +43,7 @@ public class PHS398CareerDevelopmentAwardSupV2_0GeneratorTest extends
 		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType = new NarrativeType();
 		narrativeType.setCode("128");
-		narrativeType.setAllowMultiple(true);
+		narrativeType.setAllowMultiple(false);
 		narrativeType.setSystemGenerated(false);
 		narrativeType.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType);

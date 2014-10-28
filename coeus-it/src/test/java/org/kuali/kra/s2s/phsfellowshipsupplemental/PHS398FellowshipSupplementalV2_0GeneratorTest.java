@@ -117,6 +117,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrativeType.setAllowMultiple(true);
 		narrativeType.setSystemGenerated(false);
 		narrativeType.setDescription("Test for Attachment");
+        narrative.setModuleTitle("Allows Multiples Description");
 		getService(DataObjectService.class).save(narrativeType);
 		narrative.setName("exercise1");
         narrative.setNarrativeType(narrativeType);
@@ -132,7 +133,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrative.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType1 = new NarrativeType();
 		narrativeType1.setCode("98");
-		narrativeType1.setAllowMultiple(true);
+		narrativeType1.setAllowMultiple(false);
 		narrativeType1.setSystemGenerated(false);
 		narrativeType1.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType1);
@@ -150,7 +151,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrative2.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType2 = new NarrativeType();
 		narrativeType2.setCode("127");
-		narrativeType2.setAllowMultiple(true);
+		narrativeType2.setAllowMultiple(false);
 		narrativeType2.setSystemGenerated(false);
 		narrativeType2.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType2);
@@ -168,7 +169,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrative3.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType3 = new NarrativeType();
 		narrativeType3.setCode("88");
-		narrativeType3.setAllowMultiple(true);
+		narrativeType3.setAllowMultiple(false);
 		narrativeType3.setSystemGenerated(false);
 		narrativeType3.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType3);
@@ -186,7 +187,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrative4.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType4 = new NarrativeType();
 		narrativeType4.setCode("89");
-		narrativeType4.setAllowMultiple(true);
+		narrativeType4.setAllowMultiple(false);
 		narrativeType4.setSystemGenerated(false);
 		narrativeType4.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType4);
@@ -204,7 +205,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrative5.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType5 = new NarrativeType();
 		narrativeType5.setCode("90");
-		narrativeType5.setAllowMultiple(true);
+		narrativeType5.setAllowMultiple(false);
 		narrativeType5.setSystemGenerated(false);
 		narrativeType5.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType5);
@@ -222,7 +223,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrative6.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType6 = new NarrativeType();
 		narrativeType6.setCode("104");
-		narrativeType6.setAllowMultiple(true);
+		narrativeType6.setAllowMultiple(false);
 		narrativeType6.setSystemGenerated(false);
 		narrativeType6.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType5);
@@ -240,7 +241,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrative7.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType7 = new NarrativeType();
 		narrativeType7.setCode("92");
-		narrativeType7.setAllowMultiple(true);
+		narrativeType7.setAllowMultiple(false);
 		narrativeType7.setSystemGenerated(false);
 		narrativeType7.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType7);
@@ -258,7 +259,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrative8.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType8 = new NarrativeType();
 		narrativeType8.setCode("94");
-		narrativeType8.setAllowMultiple(true);
+		narrativeType8.setAllowMultiple(false);
 		narrativeType8.setSystemGenerated(false);
 		narrativeType8.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType8);
@@ -276,7 +277,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		narrative9.setDevelopmentProposal(document.getDevelopmentProposal());
 		NarrativeType narrativeType9 = new NarrativeType();
 		narrativeType9.setCode("134");
-		narrativeType9.setAllowMultiple(true);
+		narrativeType9.setAllowMultiple(false);
 		narrativeType9.setSystemGenerated(false);
 		narrativeType9.setDescription("Test for Attachment");
 		getService(DataObjectService.class).save(narrativeType9);
