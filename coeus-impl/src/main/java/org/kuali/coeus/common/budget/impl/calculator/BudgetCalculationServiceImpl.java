@@ -111,9 +111,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void calculateBudget(Budget budget){
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if(isCalculationRequired(budget,budgetPeriod)){
-                calculateBudgetPeriod(budget, budgetPeriod);
-            }
+            calculateBudgetPeriod(budget, budgetPeriod);
         }
         if(budgetPeriods!=null && !budgetPeriods.isEmpty()){
             syncCostsToBudget(budget);
@@ -309,6 +307,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod){
         if (isCalculationRequired(budget, budgetPeriod)){
             new BudgetPeriodCalculator().calculate(budget, budgetPeriod);
+        }else {
+        	updateBudgetTotalCost(budget);
         }
     }
 
@@ -1236,6 +1236,21 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     	return budgetLineItemCalculatedAmount.getRateType();
     }
 
+    public void updateBudgetTotalCost(Budget budget) {
+        ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalIndirectCost = ScaleTwoDecimal.ZERO;
+        ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+            totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
+            totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
+            totalCost = totalCost.add(budgetPeriod.getTotalCost());
+        }
+        budget.setTotalDirectCost(totalDirectCost);
+        budget.setTotalIndirectCost(totalIndirectCost);
+        budget.setTotalCost(totalCost);
+    }
+    
 	public DataObjectService getDataObjectService() {
 		return dataObjectService;
 	}

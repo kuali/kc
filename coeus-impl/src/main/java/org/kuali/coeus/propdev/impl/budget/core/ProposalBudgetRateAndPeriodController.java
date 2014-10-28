@@ -4,6 +4,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUD
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -58,6 +59,13 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     	getBudgetSummaryService().calculateBudget(budget);
         return getModelAndViewService().getModelAndView(form);
     }    
+	
+    @RequestMapping(params="methodToCall=saveBudgetPeriod")
+    public ModelAndView saveBudgetPeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+    	Budget budget = form.getBudget();
+    	getBudgetCalculationService().updateBudgetTotalCost(budget);
+		return super.saveLine(form);
+    }
 		
 	@MethodAccessible
     @RequestMapping(params="methodToCall=generateAllPeriods")

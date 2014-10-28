@@ -135,4 +135,6 @@ public interface BudgetCalculationService {
     
     public void populateBudgetSummaryTotals(Budget budget);
     
+    public void updateBudgetTotalCost(Budget budget);
+    
 }
