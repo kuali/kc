@@ -32,18 +32,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProposalBudgetModularController extends ProposalBudgetControllerBase  {
 
-    @Autowired
-    @Qualifier("budgetModularService")
-    private BudgetModularService budgetModularService;
-
     @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-ModularPage"})
     public ModelAndView navigateToModular(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         Budget budget = form.getBudget();
         for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()){
             if (budgetPeriod.getBudgetModular() == null)
-                budgetModularService.generateModularPeriod(budgetPeriod);
+                getBudgetModularService().generateModularPeriod(budgetPeriod);
         }
-        form.setBudgetModularSummary(budgetModularService.generateModularSummary(budget));
+        form.setBudgetModularSummary(getBudgetModularService().generateModularSummary(budget));
         return super.navigate(form);
     }
 
@@ -51,8 +47,9 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
     public ModelAndView synchModular (@ModelAttribute("KualiForm") ProposalBudgetForm form)
             throws Exception{
         Budget budget = form.getBudget();
-        budgetModularService.synchModularBudget(budget);
-        budgetModularService.generateModularSummary(budget);
+        getBudgetModularService().synchModularBudget(budget);
+        getBudgetModularService().generateModularSummary(budget);
+        form.setBudgetModularSummary(getBudgetModularService().generateModularSummary(budget));
         return getRefreshControllerService().refresh(form);
     }
 
@@ -61,17 +58,10 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
             throws Exception{
         Budget budget = form.getBudget();
         for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()){
-                budgetModularService.generateModularPeriod(budgetPeriod);
+                getBudgetModularService().generateModularPeriod(budgetPeriod);
         }
-        budgetModularService.generateModularSummary(budget);
+        getBudgetModularService().generateModularSummary(budget);
+        form.setBudgetModularSummary(getBudgetModularService().generateModularSummary(budget));
         return getRefreshControllerService().refresh(form);
     }
-    public BudgetModularService getBudgetModularService() {
-        return budgetModularService;
-    }
-
-    public void setBudgetModularService(BudgetModularService budgetModularService) {
-        this.budgetModularService = budgetModularService;
-    }
-
 }
