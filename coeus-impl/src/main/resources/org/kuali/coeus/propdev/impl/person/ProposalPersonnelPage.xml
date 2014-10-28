@@ -71,6 +71,8 @@
                         <bean parent="PropDev-PersonnelPage-WizardButton-Continue"
                               p:methodToCall="performPersonnelSearch" p:actionParameters="PropDev-PersonnelPage-Wizard.step:1"
                               p:order="10" p:successCallback="Kc.Wizard.returnToFirstResultsPage();"/>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
                     </list>
                 </property>
             </bean>
@@ -110,8 +112,8 @@
 
 	<bean id="PropDev-PersonnelPage-WizardButton-Back" parent="PropDev-PersonnelPage-WizardButton-Back-parentBean" />
 	<bean id="PropDev-PersonnelPage-WizardButton-Back-parentBean"
-		abstract="true" parent="PropDev-PersonnelPage-WizardButton"
-		p:actionLabel="Go back" />
+		abstract="true" parent="Uif-SecondaryActionButton" p:refreshId="PropDev-PersonnelPage-Wizard"
+		p:methodToCall="refresh" p:actionLabel="Go back" />
 
 	<bean id="PropDev-PersonnelPage-EmployeeInputFields" parent="Kc-Wizard-EmployeeInputFields"
           p:progressiveRender="@{#fp.addKeyPersonHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}" />
@@ -136,11 +138,14 @@
 			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
-						<bean parent="PropDev-PersonnelPage-WizardButton-Back"
-							p:actionParameters="PropDev-PersonnelPage-Wizard.step:0" p:order="10" />
+
 						<bean parent="PropDev-PersonnelPage-WizardButton-Continue"
 							p:preSubmitCall="return Kc.PropDev.Personnel.verifyCollectionRadioButtons('PropDev-PersonnelPage-Wizard', 'input[type=&quot;radio&quot;]')"
-							p:actionParameters="PropDev-PersonnelPage-Wizard.step:2" p:order="20" />
+							p:actionParameters="PropDev-PersonnelPage-Wizard.step:2" p:order="10" />
+                        <bean parent="PropDev-PersonnelPage-WizardButton-Back"
+                        	p:actionParameters="PropDev-PersonnelPage-Wizard.step:0" p:order="20" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="30"/>
 					</list>
 				</property>
 			</bean>
@@ -230,13 +235,16 @@
 			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
-						<bean parent="PropDev-PersonnelPage-WizardButton-Back"
-							p:actionParameters="PropDev-PersonnelPage-Wizard.step:1" p:order="10" />
+
 						<bean parent="PropDev-PersonnelPage-WizardButton-Continue"
 							p:actionParameters="PropDev-PersonnelPage-Wizard.step:2"
 							p:actionLabel="Add Person" p:ajaxSubmit="false"
 							p:methodToCall="addPerson" p:successCallback="dismissDialog('PropDev-PersonnelPage-Wizard');"
-							p:order="20" />
+							p:order="10" />
+                        <bean parent="PropDev-PersonnelPage-WizardButton-Back"
+                        	p:actionParameters="PropDev-PersonnelPage-Wizard.step:1" p:order="20" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="30"/>
 					</list>
 				</property>
 			</bean>

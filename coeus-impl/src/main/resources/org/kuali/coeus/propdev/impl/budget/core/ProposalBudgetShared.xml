@@ -83,7 +83,7 @@
 			<list>
 				<bean parent="Uif-ActionLink" p:actionLabel="View Summary" p:iconClass="icon-eye-open" p:order="10"/>
 				<bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy" p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE)}"
-					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})" 
+					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})"
 					p:order="20"/>
 				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:iconClass="icon-print" p:order="30"/>
 			</list>

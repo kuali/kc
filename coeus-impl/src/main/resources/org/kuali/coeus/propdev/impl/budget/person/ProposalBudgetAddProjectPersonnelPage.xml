@@ -44,7 +44,8 @@
 
 	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Back" parent="PropBudget-ProjectPersonnelPage-WizardButton-Back-parentBean" />
 	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Back-parentBean"
-		abstract="true" parent="PropBudget-ProjectPersonnelPage-WizardButton"
+		abstract="true" parent="Uif-SecondaryActionButton"
+        p:refreshId="PropBudget-ProjectPersonnelPage-Wizard" p:methodToCall="refresh"
 		p:actionLabel="Refine Search"/>
 
 	<bean id="PropBudget-ProjectPersonnelPage-SearchCriteria" parent="PropBudget-ProjectPersonnelPage-SearchCriteria-parentBean" />
@@ -59,14 +60,15 @@
 			</list>
 		</property>
 		<property name="footer">
-			<bean parent="Uif-FooterBase">
+			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
 						<bean parent="PropBudget-ProjectPersonnelPage-WizardButton-Continue"
 							p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType != 'T'}"
 							p:methodToCall="searchProjectPersonnel" p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:1"
-                            p:successCallback="Kc.Wizard.returnToFirstResultsPage();"							p:order="10" />
-						<bean parent="Uif-DialogDismissButton" p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType != '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).TBN.code}'}" p:actionLabel="Cancel" />
+                            p:successCallback="Kc.Wizard.returnToFirstResultsPage();" p:order="10" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
 					</list>
 				</property>
 			</bean>
@@ -124,17 +126,18 @@
 			</list>
 		</property>
 		<property name="footer">
-			<bean parent="Uif-FooterBase">
+			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
-						<bean parent="PropBudget-ProjectPersonnelPage-WizardButton-Back"
-							p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:0" p:order="10" />
 						<bean parent="PropDev-PersonnelPage-WizardButton-Continue"
 							p:actionParameters="PropDev-PersonnelPage-Wizard.step:2"
 							p:actionLabel="Add Selected Personnel" p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup"
 							p:methodToCall="addProjectPersonnel" p:successCallback="dismissDialog('PropBudget-ProjectPersonnelPage-Wizard');"
-							p:order="20" p:render="@{!#parent.readOnly}"/>
-						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
+							p:order="10" p:render="@{!#parent.readOnly}"/>
+                        <bean parent="PropBudget-ProjectPersonnelPage-WizardButton-Back"
+                        	p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:0" p:order="20" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="30"/>
 					</list>
 				</property>
 			</bean>
@@ -191,14 +194,15 @@
 			</list>
 		</property>
 		<property name="footer">
-			<bean parent="Uif-FooterBase">
+			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
 						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Add TBN Personnel to Budget" 
 							p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup"
 							p:successCallback="dismissDialog('PropBudget-ProjectPersonnelPage-Wizard');"
 							p:methodToCall="addProjectPersonnel"/>
-						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
 					</list>
 				</property>
 			</bean>
