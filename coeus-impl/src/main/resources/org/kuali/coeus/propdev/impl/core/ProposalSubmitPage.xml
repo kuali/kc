@@ -280,7 +280,7 @@
     <bean id="PropDev-SubmitPage-CreditAllocation-parentBean" abstract="true"
           parent="PropDev-CreditAllocation-Section">
         <property name="items">
-            <list merge="true">
+            <list>
                 <bean parent="PropDev-SubmitPage-CreditAllocationCollection"
                       p:render="@{!#emptyList(document.developmentProposal.investigators)}" p:order="10"/>
             </list>
