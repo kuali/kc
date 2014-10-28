@@ -17,9 +17,7 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
-import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,20 +45,10 @@ public abstract class NarrativeEventBase extends KcDocumentEventBase implements 
     protected NarrativeEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument document,
             Narrative narrative) {
         super(description, errorPathPrefix, document);
-        // by doing a deep copy, we are ensuring that the business rule class can't update
-        // the original object by reference
         if (narrative != null) {
-            this.narrative = (Narrative) ObjectUtils.deepCopy(narrative);
-            // deepcopy can not copy narrativefile
-            if (narrative.getNarrativeFile() != null) {
-                this.narrative.setName(narrative.getNarrativeFile().getFileName());
-            }
+            this.narrative = narrative;
         }
-        narratives = new ArrayList<Narrative>();
-        List<Narrative> narativeListToBeSaved = document.getDevelopmentProposal().getNarratives();
-        for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
-            narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
-        }
+        narratives = document.getDevelopmentProposal().getNarratives();
         logEvent();
     }
 
@@ -74,11 +62,7 @@ public abstract class NarrativeEventBase extends KcDocumentEventBase implements 
      */
     protected NarrativeEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument document) {
         super(description, errorPathPrefix, document);
-        narratives = new ArrayList<Narrative>();
-        List<Narrative> narativeListToBeSaved = document.getDevelopmentProposal().getNarratives();
-        for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
-            narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
-        }
+        narratives = document.getDevelopmentProposal().getNarratives();
     }
 
 
