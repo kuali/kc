@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
+import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
@@ -586,12 +587,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public List<ProposalDevelopmentDataValidationItem> populateDataValidation(ProposalDevelopmentDocumentForm form, ViewIndex viewIndex) {
-        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        if (StringUtils.equalsIgnoreCase(form.getPageId(), ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
+            populateAttachmentReferences(form.getDevelopmentProposal());
+        }
         List<ProposalDevelopmentDataValidationItem> dataValidationItems = new ArrayList<ProposalDevelopmentDataValidationItem>();
         GlobalVariables.getAuditErrorMap().clear();
         getAuditHelper().auditConditionally(form);
         for (Map.Entry<String,AuditCluster> entry : GlobalVariables.getAuditErrorMap().entrySet()) {
-            AuditCluster auditCluster = (AuditCluster) entry.getValue();
+            AuditCluster auditCluster = entry.getValue();
             List<AuditError> auditErrors = auditCluster.getAuditErrorList();
             String areaName = StringUtils.substringBefore(auditCluster.getLabel(),".");
             String sectionName = StringUtils.substringAfter(auditCluster.getLabel(),".");
@@ -614,6 +617,20 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             }
         }
         return dataValidationItems;
+    }
+
+    public void populateAttachmentReferences(DevelopmentProposal developmentProposal) {
+        for (Narrative narrative : developmentProposal.getNarratives()) {
+            getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
+            getDataObjectService().wrap(narrative).fetchRelationship("narrativeStatus");
+        }
+        for (Narrative narrative : developmentProposal.getInstituteAttachments()){
+            getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
+            getDataObjectService().wrap(narrative).fetchRelationship("narrativeStatus");
+        }
+        for (ProposalPersonBiography biography : developmentProposal.getPropPersonBios()) {
+            getDataObjectService().wrap(biography).fetchRelationship("propPerDocType");
+        }
     }
 
     public AuditHelper getAuditHelper() {
