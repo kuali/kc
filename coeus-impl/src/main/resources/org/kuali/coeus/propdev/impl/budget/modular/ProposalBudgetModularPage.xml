@@ -274,5 +274,11 @@
                               p:order="40" p:label="Funds Requested" p:fieldLabel.renderColon="false" />
                     </list>
                 </property>
+                <property name="layoutManager.columnCalculations">
+                    <list>
+                        <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="fundsRequested"
+                            p:totalField.fieldLabel.labelText="Total" />
+                    </list>
+                </property>
       </bean>
  </beans>
