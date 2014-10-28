@@ -20,6 +20,7 @@ import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
@@ -202,6 +203,10 @@ public abstract class ProposalDevelopmentControllerBase {
 
          if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.PROP_DEV_PERMISSIONS_PAGE)) {
              saveDocumentPermissions(form);
+         }
+
+         if (StringUtils.equalsIgnoreCase(form.getPageId(), ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
+             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateAttachmentReferences(form.getDevelopmentProposal());
          }
 
          preSave(proposalDevelopmentDocument);

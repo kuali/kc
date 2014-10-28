@@ -227,7 +227,8 @@
                                           p:actionLabel="Data Validation"
                                           p:iconClass="icon-ok"
                                           p:style="padding-left:0px;margin-right:0px"
-                                          p:order="10" 
+                                          p:order="10"
+                                          p:performClientSideValidation="true"
 										  p:refreshId="PropDev-DataValidationSection"/>
                                 </list>
                             </property>
