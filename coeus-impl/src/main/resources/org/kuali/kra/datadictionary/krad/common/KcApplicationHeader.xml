@@ -145,11 +145,11 @@
 
     <bean id="Kc-Header-ActionListView" parent="Kc-Header-ActionListView-parentBean"/>
     <bean id="Kc-Header-ActionListView-parentBean" abstract="true"
-          parent="Kc-Header-IframeView" p:location.controllerMapping="/kew/ActionList.do"/>
+          parent="Kc-Header-IframeView" p:location.baseUrl="@{#ConfigProperties['rice.server.url']}" p:location.controllerMapping="/kew/ActionList.do"/>
 
     <bean id="Kc-Header-DocSearchView" parent="Kc-Header-DocSearchView-parentBean"/>
     <bean id="Kc-Header-DocSearchView-parentBean" abstract="true"
-          parent="Kc-Header-IframeView" p:location.controllerMapping="/kew/DocumentSearch.do"/>
+          parent="Kc-Header-IframeView" p:location.baseUrl="@{#ConfigProperties['rice.server.url']}" p:location.controllerMapping="/kew/DocumentSearch.do"/>
 
     <bean id="Kc-Header-ApplicationLogo" parent="Kc-Header-ApplicationLogo-parentBean"/>
     <bean id="Kc-Header-ApplicationLogo-parentBean" parent="Uif-Image"
