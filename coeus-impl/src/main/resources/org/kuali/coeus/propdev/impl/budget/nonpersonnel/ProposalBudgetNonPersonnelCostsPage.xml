@@ -234,7 +234,7 @@
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.costSharingAmount"
 					p:required="false" p:order="10"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.underrecoveryAmount"
+				<bean parent="Uif-DataField" p:propertyName="budgetLineItem.underrecoveryAmount"
 					p:required="false" p:order="20"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.budgetJustification"
 					p:required="false" p:order="30" p:label="Justification"/>
