@@ -39,10 +39,9 @@
 	<bean id="PropDev-PersonnelPage-AddButton" parent="PropDev-PersonnelPage-AddButton-parentBean" />
 	<bean id="PropDev-PersonnelPage-AddButton-parentBean" abstract="true"
 		parent="Uif-PrimaryActionButton" p:actionLabel="Add Personnel"
-		p:refreshId="PropDev-PersonnelPage-Wizard" p:methodToCall="refresh"
-		p:successCallback="showDialog('PropDev-PersonnelPage-Wizard');"
+		p:methodToCall="prepareAddPersonDialog"
 		p:actionParameters="PropDev-PersonnelPage-Wizard.step:0" p:iconClass="icon-user"
-            p:render="@{!#parent.readOnly}"/>
+        p:render="@{!#parent.readOnly}"/>
 
 	<bean id="PropDev-PersonnelPage-Wizard" parent="Kc-Wizard"
 		p:fieldBindingObjectPath="addKeyPersonHelper">
