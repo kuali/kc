@@ -68,7 +68,7 @@ public class EDAbstractV1_1GeneratorTest extends S2STestBase<EDAbstractV1_1Gener
 
         NarrativeType narrativeType = new NarrativeType();
         narrativeType.setCode("52");
-        narrativeType.setAllowMultiple(true);
+        narrativeType.setAllowMultiple(false);
         narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for EDAbstract Attachment");
         getService(DataObjectService.class).save(narrativeType);

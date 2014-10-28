@@ -72,7 +72,7 @@ public class PHS398ResearchPlanV1_2GeneratorTest extends
 		narrative.setName("exercise1");
 		NarrativeType narrativeType = new NarrativeType();
         narrativeType.setCode("1");
-        narrativeType.setAllowMultiple(true);
+        narrativeType.setAllowMultiple(false);
         narrativeType.setSystemGenerated(false);
 		narrativeType.setDescription("Testing for Project Attachment");
         getService(DataObjectService.class).save(narrativeType);
