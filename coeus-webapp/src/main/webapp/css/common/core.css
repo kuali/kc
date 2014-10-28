@@ -255,3 +255,8 @@ div.blockElement {
 .modal div.blockElement {
     z-index: 10101 !important;
 }
+
+/** center modal footer buttons in all cases... **/
+.modal-footer {
+    text-align: center;
+}

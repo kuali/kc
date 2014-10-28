@@ -47,6 +47,8 @@
                               p:methodToCall="performRecipientSearch" p:actionParameters="Kc-SendNotification-Wizard.step:1"
                               p:successCallback="Kc.Wizard.returnToFirstResultsPage();"
                               p:order="10" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
                     </list>
                 </property>
             </bean>
@@ -91,8 +93,9 @@
           p:methodToCall="refresh" p:actionParameters="Kc-SendNotification-Wizard.step:1" />
 
     <bean id="Kc-SendNotification-WizardButton-Back" parent="Kc-SendNotification-WizardButton-Back-parentBean" />
-    <bean id="Kc-SendNotification-WizardButton-Back-parentBean"
-          abstract="true" parent="Kc-SendNotification-WizardButton"
+    <bean id="Kc-SendNotification-WizardButton-Back-parentBean" p:refreshId="Kc-SendNotification-Wizard"
+          p:methodToCall="refresh"
+          abstract="true" parent="Uif-SecondaryActionButton"
           p:actionLabel="Go back" />
 
     <bean id="Kc-SendNotification-WizardPage2" parent="Kc-SendNotification-WizardPage2-parentBean" />
@@ -163,11 +166,13 @@
             <bean parent="Uif-DialogFooter">
                 <property name="items">
                     <list>
-                        <bean parent="Kc-SendNotification-WizardButton-Back"
-                              p:actionParameters="Kc-SendNotification-Wizard.step:0" p:order="10" />
                         <bean parent="Kc-SendNotification-WizardButton" p:actionLabel="Add Recipients"
                               p:methodToCall="addRecipients"
-                              p:actionParameters="Kc-SendNotification-Wizard.step:2" p:order="20" />
+                              p:actionParameters="Kc-SendNotification-Wizard.step:2" p:order="10" />
+                        <bean parent="Kc-SendNotification-WizardButton-Back"
+                              p:actionParameters="Kc-SendNotification-Wizard.step:0" p:order="20" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="30"/>
                     </list>
                 </property>
             </bean>
@@ -179,8 +184,6 @@
           p:fieldBindingObjectPath="notificationHelper">
         <property name="items">
             <list>
-                <bean parent="Kc-SendNotification-WizardButton-Back" p:actionLabel="Add More Recipients"
-                      p:actionParameters="Kc-SendNotification-Wizard.step:0" p:order="10" />
                 <bean parent="Uif-FieldGroupBase" p:order="20">
                     <property name="group">
                         <bean parent="Uif-VerticalBoxGroup">
@@ -202,6 +205,10 @@
                     <list merge="true">
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Send Notifications" p:methodToCall="sendNotifications"
                               p:order="10" p:dialogDismissOption="REQUEST"/>
+                        <bean parent="Kc-SendNotification-WizardButton-Back" p:actionLabel="Add More Recipients"
+                              p:actionParameters="Kc-SendNotification-Wizard.step:0" p:order="20" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
+                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="30"/>
                     </list>
                 </property>
             </bean>
