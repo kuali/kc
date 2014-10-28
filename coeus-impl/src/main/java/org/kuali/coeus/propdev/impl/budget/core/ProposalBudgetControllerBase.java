@@ -12,6 +12,7 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationS
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.auth.ProposalBudgetAuthorizer;
+import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
@@ -102,6 +103,9 @@ public abstract class ProposalBudgetControllerBase {
     @Qualifier("proposalBudgetAuthorizer")
     private ProposalBudgetAuthorizer proposalBudgetAuthorizer;
 
+    @Autowired
+    @Qualifier("budgetModularService")
+    private BudgetModularService budgetModularService;
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
     }
@@ -124,6 +128,7 @@ public abstract class ProposalBudgetControllerBase {
     	budgetService.calculateBudgetOnSave(form.getBudget());
     	form.setBudget(getDataObjectService().save(form.getBudget()));
         getBudgetJustificationService().preSave(form.getBudget(),form.getBudgetJustificationWrapper());
+        form.setBudgetModularSummary(budgetModularService.generateModularSummary(form.getBudget()));
         return getModelAndViewService().getModelAndView(form);
     }
     
@@ -288,5 +293,13 @@ public abstract class ProposalBudgetControllerBase {
 			ProposalBudgetAuthorizer proposalBudgetAuthorizer) {
 		this.proposalBudgetAuthorizer = proposalBudgetAuthorizer;
 	}
+
+    public BudgetModularService getBudgetModularService() {
+        return budgetModularService;
+    }
+
+    public void setBudgetModularService(BudgetModularService budgetModularService) {
+        this.budgetModularService = budgetModularService;
+    }
 
 }
