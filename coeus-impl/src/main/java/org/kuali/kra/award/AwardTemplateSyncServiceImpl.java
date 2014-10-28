@@ -482,14 +482,6 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         
         List<Object> newAwardList = new ArrayList<Object>();
         List<Object> awardList = (List<Object>) ObjectUtils.getPropertyValue(awardObject, field.getName());
-        Method clearExistingElementMethod = getClearExistingElementMethod( awardSyncableList.syncClass() );
-        Method findTargetSourceMethod = getFindSourceListElementFromTargetMethod( awardSyncableList.syncClass() );
-        
-        if( !awardSyncableList.removeMissingListElementsFromTarget() && ( clearExistingElementMethod==null || findTargetSourceMethod==null) ) {
-            //in this case clearExistingElementMethod and findTargetSourceMethod must be defined for the
-            //object.
-            throw new RuntimeException( String.format( "Cannot process sync of %s since it is configured to not remove missing list elements from the target, but the necessary methods have not been defined.", awardSyncableList.syncClass() ));
-        }
         
         for( Object aObject : awardList ) {
             Boolean isInScope = (Boolean)awardIsInScopeMethod.invoke( null, aObject, scopes );
@@ -502,10 +494,13 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
                 //findTargetSourceMethod is a method that can determine if the target object has been sync'd to already by
                 //checking the sync'd map.  We cannot simply do syncdMap.values().contains( thisThing ) since if a new record
                 //was created as a result of the sync then it will not have non-null pks so equals() fails.
-                if( findTargetSourceMethod.invoke(this,aObject, syncdMap, award, awardTemplate ) == null ) {
-                    newAwardList.add(clearExistingElementMethod.invoke(this, aObject, awardSyncableList.syncClass(), award, awardTemplate ));
+                if (aObject instanceof AwardComment) {
+                    if(findSourceListElementFromTarget((AwardComment) aObject, syncdMap, award, awardTemplate ) == null ) {
+                        newAwardList.add(clearListElement((AwardComment) aObject, awardSyncableList.syncClass(), award, awardTemplate ));
+                    }
+                } else if (aObject != null){
+                    throw new RuntimeException(aObject.getClass().getName() + " is not supported");
                 }
-               
             }
         }
         newObjectList.addAll(newAwardList);
@@ -543,33 +538,6 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
             throw new IllegalStateException( "Could not find generic getOrCreateNewListElementObject, this should never happen." );
         }
     }
-    
-    protected Method getClearExistingElementMethod( Class targetClass ) {
-        Method m = null;
-        try {
-            m = AwardTemplateSyncServiceImpl.class.getDeclaredMethod("clearListElement", targetClass, Class.class, Award.class, AwardTemplate.class );
-            m.setAccessible(true);
-            return m;
-        } catch ( Exception e ) {
-            //could not find one, return null
-            LOG.error(e.getMessage(), e);
-        }
-        return m;
-    }
-    
-    protected Method getFindSourceListElementFromTargetMethod( Class targetClass ) {
-        Method m = null;
-        try {
-            m = AwardTemplateSyncServiceImpl.class.getDeclaredMethod("findSourceListElementFromTarget", targetClass, Map.class, Award.class, AwardTemplate.class );
-            m.setAccessible(true);
-            return m;
-        } catch ( Exception e ) {
-            //could not find one, return null
-            LOG.error(e.getMessage(), e);
-        }
-        return m;
-    }
-    
     
     @SuppressWarnings({ "unused", "unchecked" })
     protected Object getOrCreateNewListElementObject( Object sourceObject, java.lang.Class syncClass, Award award, AwardTemplate awardTemplate, boolean createNew ) {
@@ -674,7 +642,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * Gets the kualiRuleService attribute. 
      * @return Returns the kualiRuleService.
