@@ -358,6 +358,19 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
     }
 
+    protected void fixS2sUserAttachedForms(ProposalDevelopmentDocument newDoc) {
+        DevelopmentProposal developmentProposal = newDoc.getDevelopmentProposal();
+        List<S2sUserAttachedForm> userAttachedForms = developmentProposal.getS2sUserAttachedForms();
+        for (S2sUserAttachedForm s2sUserAttachedForm : userAttachedForms) {
+            s2sUserAttachedForm.setProposalNumber(newDoc.getDevelopmentProposal().getProposalNumber());
+            s2sUserAttachedForm.setDevelopmentProposal(developmentProposal);
+            List<S2sUserAttachedFormAtt> attachments = s2sUserAttachedForm.getS2sUserAttachedFormAtts();
+            for (S2sUserAttachedFormAtt s2sUserAttachedFormAtt : attachments) {
+                s2sUserAttachedFormAtt.setProposalNumber(newDoc.getDevelopmentProposal().getProposalNumber());
+            }
+        }
+    }
+
     /**
      * Copies over all Proposal Development Document properties.
      * Only the properties declared within the DevelopmentProposal
@@ -477,6 +490,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
         copyOpportunity(newDoc, srcDoc);
 
+        fixS2sUserAttachedForms(newDoc);
+
     }
 
     /*
@@ -514,7 +529,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
     protected void modifyNarrativesStatus(DevelopmentProposal oldProposal, DevelopmentProposal copiedProposal) {
         List<Narrative> narratives = copiedProposal.getNarratives();
-        List<Narrative> oldNarratives = oldProposal.getNarratives();
         for (int narrativeNumber = 0; narrativeNumber < narratives.size(); narrativeNumber++) {
             if (StringUtils.equals(narratives.get(narrativeNumber).getNarrativeType().getNarrativeTypeGroup(), Constants.PROPOSAL_NARRATIVE_TYPE_GROUP_CODE))
                 narratives.get(narrativeNumber).setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_INCOMPLETE);
