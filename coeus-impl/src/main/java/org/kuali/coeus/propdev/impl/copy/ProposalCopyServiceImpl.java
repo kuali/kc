@@ -41,6 +41,7 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.coeus.propdev.impl.s2s.*;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQuestionnaireBean;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
@@ -65,7 +66,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -196,6 +196,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
                 newDoc.getDevelopmentProposal().setS2sOpportunity(null);
 
+                // all copied proposals should always be in progress.
+                newDoc.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.IN_PROGRESS);
+
                 newDoc = (ProposalDevelopmentDocument) getDocumentService().saveDocument(newDoc);
 
                 newDoc.getDevelopmentProposal().setProposalAbstracts(abstracts);
@@ -207,8 +210,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 // Can't initialize authorization until a proposal is saved
                 // and we have a new proposal number.
                 initializeAuthorization(newDoc);
-
-                newDocNbr = newDoc.getDocumentNumber();
 
             } catch (Exception e) {
                     throw new RuntimeException("An error occured while trying to copy the proposal development document.", e);
