@@ -154,11 +154,13 @@
              <bean parent="PropDev-SubmitPage-ProposalSummary" p:order="10" />
                 <bean parent="PropDev-SubmitPage-Personnel" p:order="20" />
                 <bean parent="PropDev-SubmitPage-CreditAllocation" p:readOnly="true" p:render="@{#ViewHelper.isCreditSplitEnabled()}" p:order="30" />
-                <bean parent="PropDev-SubmitPage-Questionnaire" p:render="@{#ViewHelper.isSummaryQuestionsPanelEnabled()}" p:order="40" />
-                <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="50" />
-                <bean parent="PropDev-SubmitPage-Attachments" p:render="@{#ViewHelper.isSummaryAttachmentsPanelEnabled()}" p:order="60" />
-                <bean parent="PropDev-SubmitPage-Keyword"  p:render="@{#ViewHelper.isSummaryKeywordsPanelEnabled()}" p:order="70" />
-                <bean parent="PropDev-SubmitPage-Hierarchy" p:render="@{document.developmentProposal.isInHierarchy()}" p:order="80"/>
+                <bean parent="PropDev-SubmitPage-Compliance" p:order="40"/>
+                <bean parent="PropDev-SubmitPage-Attachments" p:render="@{#ViewHelper.isSummaryAttachmentsPanelEnabled()}" p:order="50" />
+                <bean parent="PropDev-SubmitPage-Questionnaire" p:render="@{#ViewHelper.isSummaryQuestionsPanelEnabled()}" p:order="60" />
+                <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="70" />
+                <bean parent="PropDev-SubmitPage-Keyword"  p:render="@{#ViewHelper.isSummaryKeywordsPanelEnabled()}" p:order="80" />
+                <bean parent="PropDev-SubmitPage-Hierarchy" p:render="@{document.developmentProposal.isInHierarchy()}" p:order="90"/>
+
             </list>
         </property>
     </bean>
@@ -292,6 +294,34 @@
         </property>
         <property name="columnFieldPrototype">
             <bean parent="Uif-DataField"  p:cssClasses="@{#line ne null?#line.getClass().getName().equals(#collectionGroup.collectionObjectClass)?#line.lineType:'':''}" />
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-Compliance" parent="PropDev-SubmitPage-Compliance-parentBean"/>
+    <bean id="PropDev-SubmitPage-Compliance-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+        p:header.headerText="Compliance" p:propertyName="document.developmentProposal.propSpecialReviews"
+        p:collectionObjectClass="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"
+        p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
+        p:renderLineActions="false" p:layoutManager.richTable.render="false" p:readOnly="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="specialReviewType.description"
+                      p:fieldLabel.labelText="Type" p:order="10"/>
+                <bean parent="Uif-DataField" p:propertyName="approvalType.description"
+                      p:fieldLabel.labelText="Approval Status" p:order="20"/>
+                <bean parent="Uif-DataField" p:propertyName="protocolNumber" p:order="30"/>
+                <bean parent="Uif-DataField" p:propertyName="applicationDate" p:order="40"/>
+                <bean parent="Uif-DataField" p:propertyName="comments" p:order="50"/>
+            </list>
+        </property>
+        <property name="layoutManager.libraryCssClasses">
+            <list>
+                <value>table</value>
+                <value>table-condensed</value>
+            </list>
+        </property>
+        <property name="layoutManager.cssClasses">
+            <null/>
         </property>
     </bean>
 
