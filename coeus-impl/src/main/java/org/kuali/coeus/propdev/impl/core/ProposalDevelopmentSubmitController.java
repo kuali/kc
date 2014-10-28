@@ -177,7 +177,7 @@ public class ProposalDevelopmentSubmitController extends
     }
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
     public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
-        
+       populateAdHocRecipients(form.getProposalDevelopmentDocument());
  	   if(proposalValidToRoute(form)) {
            WorkflowDocument workflowDoc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
            if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
@@ -190,7 +190,6 @@ public class ProposalDevelopmentSubmitController extends
                    form.getWorkflowDocument().setDoNotReceiveFutureRequests();
                }
            }
-           populateAdHocRecipients(form.getProposalDevelopmentDocument());
  		  return getTransactionalDocumentControllerService().route(form);
 	   }
 	   else {
@@ -639,6 +638,11 @@ public class ProposalDevelopmentSubmitController extends
             form.setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
         }
         return getModelAndViewService().getModelAndView(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendAdHocRequests")
+    public ModelAndView sendAdHocRequests(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        return getTransactionalDocumentControllerService().sendAdHocRequests(form);
     }
 
     public GlobalVariableService getGlobalVariableService() {

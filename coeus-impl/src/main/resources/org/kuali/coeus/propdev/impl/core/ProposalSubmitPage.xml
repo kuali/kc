@@ -45,11 +45,15 @@
 	 	 <bean  parent="Uif-HorizontalBoxGroup" p:align="left" >
 			<property name="items">
 				<list>
+                    <bean p:actionLabel="Send Adhoc" parent="Uif-PrimaryActionButton" p:methodToCall="sendAdHocRequests"  p:order="5"
+                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+
 					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10"
                            p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and document.documentHeader.workflowDocument.saved}"/>
 
                     <bean  p:actionLabel="Ad Hoc Recipients" parent="Uif-PrimaryActionButton" p:methodToCall="populateAdHocs"  p:order="20"
-                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS]}" />
+                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS] and !document.developmentProposal.isChild()}" />
+
 
                     <bean parent="Uif-PrimaryActionButton" p:actionLabel="Approve" p:methodToCall="approve" p:order="30"
                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
@@ -564,13 +568,13 @@
             <list>
                 <bean parent="Uif-SecondaryActionButton" p:dialogDismissOption="REQUEST" p:actionLabel="Save"
                       p:render="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument) eq T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}"
-                      p:methodToCall="saveAdHocChanges"  p:order="10"/>
+                      p:methodToCall="saveAdHocChanges" p:order="10"/>
                 <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
                       p:render="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument) eq T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}"
                       p:order="20"/>
-                <bean parent="Uif-DialogDismissButton" p:actionLabel="OK"
+                <bean parent="Uif-SecondaryActionButton" p:dialogDismissOption="REQUEST" p:actionLabel="OK"
                       p:render="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument) ne T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}"
-                      p:order="30"/>
+                      p:methodToCall="saveAdHocChanges" p:order="30"/>
             </list>
         </property>
     </bean>
@@ -579,10 +583,10 @@
           p:disclosure.render="false">
         <property name="items">
             <list>
-                <bean parent="Uif-AdHocPersonCollection">
+                <bean parent="Uif-AdHocPersonCollection" p:readOnly="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="actionRequested">
+                            <bean parent="Uif-InputField" p:propertyName="actionRequested" p:readOnly="false">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -590,7 +594,7 @@
                                     <bean class="org.kuali.rice.krad.keyvalues.AdHocActionRequestCodesValuesFinder"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="id" p:label="Person" p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="id" p:label="Person" p:required="true" p:readOnly="false">
                                 <property name="control">
                                     <bean parent="Uif-KimPersonControl" p:personObjectPropertyName="person"
                                           p:principalIdPropertyName="person.principalId" p:personNamePropertyName="person.name"/>
@@ -602,7 +606,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="CollectionGroup_AdHocWorkgroup">
+                <bean parent="CollectionGroup_AdHocWorkgroup" p:readOnly="false">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="actionRequested">
