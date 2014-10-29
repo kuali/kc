@@ -16,7 +16,9 @@
 
 package org.kuali.coeus.common.framework.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,9 +26,14 @@ import java.util.List;
  *
  * @author Kuali Coeus
  */
-public class Period {
+public class Period implements Serializable{
+
+    private static final long serialVersionUID = -8093204750065415832L;
+
     private String name;
     private List<LineItemGroup> lineItemGroups;
+    private Date startDate;
+    private Date endDate;
 
     public Period(String name) {
         this.name = name;
@@ -63,5 +70,37 @@ public class Period {
      */
     public void setLineItemGroups(List<LineItemGroup> lineItemGroups) {
         this.lineItemGroups = lineItemGroups;
+    }
+
+    /**
+     * The start date of the period.
+     *
+     * @return start date
+     */
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * @see #getStartDate()
+     */
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    /**
+     * The end date of the period.
+     *
+     * @return start date
+     */
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    /**
+     * @see #getEndDate()
+     */
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }
