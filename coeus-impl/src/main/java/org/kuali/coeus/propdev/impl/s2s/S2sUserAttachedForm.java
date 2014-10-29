@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
-import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormContract;
@@ -55,14 +54,12 @@ public class S2sUserAttachedForm extends KcPersistableBusinessObjectBase impleme
     private String formFileName;
     
     @Column(name = "DESCRIPTION")
-    private String description; 
-    
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", referencedColumnName = "S2S_USER_ATTACHED_FORM_ID")
+    private String description;
+
+    @OneToMany(mappedBy="s2sUserAttachedForm", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<S2sUserAttachedFormAtt> s2sUserAttachedFormAtts;
 
-    @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", referencedColumnName = "S2S_USER_ATTACHED_FORM_ID")
+    @OneToMany(mappedBy="s2sUserAttachedForm", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<S2sUserAttachedFormFile> s2sUserAttachedFormFileList;
 
     @Transient

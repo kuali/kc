@@ -357,10 +357,15 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
         validateForm(developmentProposal,newUserAttachedForm);
 
-        newUserAttachedForm = getDataObjectService().save(newUserAttachedForm);
+        for (S2sUserAttachedFormAtt attachment : newUserAttachedForm.getS2sUserAttachedFormAtts()) {
+            attachment.setS2sUserAttachedForm(newUserAttachedForm);
+            for (S2sUserAttachedFormAttFile file : attachment.getS2sUserAttachedFormAttFiles()) {
+                file.setS2sUserAttachedFormAtt(attachment);
+            }
+        }
 
         newUserAttachedFormFile.setFormFile(userAttachedForm.getNewFormFileBytes());
-        newUserAttachedFormFile.setS2sUserAttachedFormId(newUserAttachedForm.getId());
+        newUserAttachedFormFile.setS2sUserAttachedForm(newUserAttachedForm);
         newUserAttachedFormFile.setUpdateUser(userAttachedForm.getUpdateUser());
         newUserAttachedForm.getS2sUserAttachedFormFileList().add(newUserAttachedFormFile);
         return newUserAttachedForm;
@@ -505,7 +510,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
             userAttachedFormAttachment.setType(contentType);
 
             userAttachedFormAttachment.setProposalNumber(userAttachedFormBean.getProposalNumber());
-            userAttachedFormAttachment.setS2sUserAttachedFormId(userAttachedFormBean.getId());
+            userAttachedFormAttachment.setS2sUserAttachedForm(userAttachedFormBean);
             attachmentList.add(userAttachedFormAttachment);
         }
         userAttachedFormBean.setS2sUserAttachedFormAtts(attachmentList);
