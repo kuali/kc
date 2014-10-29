@@ -144,7 +144,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                         budgetModularIdc.setIdcRate(budgetRateAndBase.getAppliedRate());
                         budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());  
                         budgetModularIdc.setIdcBase(budgetRateAndBase.getBaseCost());
-                        //budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());
+                        budgetModularIdc.setBudgetModular(budgetModular);
                         budgetModular.addNewBudgetModularIdc(budgetModularIdc);
                     }
                 }
