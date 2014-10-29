@@ -510,9 +510,18 @@ public abstract class ProposalDevelopmentControllerBase {
     /**
      * During navigation and routing the ad hoc recipients which are transient get removed.  To solve this, repopulate them in the document before each save.
      * This will stop the system from removing the current recipients from the database.
+     *
+     * Extra logic added to assist in avoiding the null document number issue.
      */
     public void populateAdHocRecipients(ProposalDevelopmentDocument proposalDevelopmentDocument){
-        getDocumentAdHocService().addAdHocs(proposalDevelopmentDocument);
+        if (StringUtils.isEmpty(proposalDevelopmentDocument.getDocumentNumber())
+                && proposalDevelopmentDocument.getDocumentHeader() != null && StringUtils.isNotEmpty(proposalDevelopmentDocument.getDocumentHeader().getDocumentNumber())){
+            proposalDevelopmentDocument.setDocumentNumber(proposalDevelopmentDocument.getDocumentHeader().getDocumentNumber());
+        }
+        if (StringUtils.isNotEmpty(proposalDevelopmentDocument.getDocumentNumber())){
+            getDocumentAdHocService().addAdHocs(proposalDevelopmentDocument);
+        }
+
     }
 
     protected ScienceKeyword getScienceKeyword(Object element) {
