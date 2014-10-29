@@ -686,7 +686,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                       p:actionLabel="  Preferences" p:order="10" p:iconClass="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
-                            <entry key="href" value="@{#ConfigProperties['application.url']}/kew/Preferences.do"/>
+                            <entry key="href" value="@{#ConfigProperties['rice.server.url']}/kew/Preferences.do"/>
                         </map>
                     </property>
                 </bean>
@@ -1246,7 +1246,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                       p:actionLabel="  Preferences" p:order="20" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                         <map>
-                            <entry key="href" value="@{#ConfigProperties['application.url']}/kew/Preferences.do"/>
+                            <entry key="href" value="@{#ConfigProperties['rice.server.url']}/kew/Preferences.do"/>
                         </map>
                     </property>
                 </bean>
@@ -1393,7 +1393,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                 <bean parent="Kc-Header-IframeMenuAction" p:actionLabel="Preferences" p:actionUrl.viewId="Kc-Header-IframeView">
                     <property name="actionUrl.requestParameters">
                         <map>
-                            <entry key="href" value="@{#ConfigProperties['application.url']}/kew/Preferences.do"/>
+                            <entry key="href" value="@{#ConfigProperties['rice.server.url']}/kew/Preferences.do"/>
                         </map>
                     </property>
                 </bean>
