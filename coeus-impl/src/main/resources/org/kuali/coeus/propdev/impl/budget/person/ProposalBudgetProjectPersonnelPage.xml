@@ -94,7 +94,7 @@
 	
 	<bean id="PropBudget-EditPersonnel-Section" parent="PropBudget-EditPersonnel-Section-parentBean" />
 	<bean id="PropBudget-EditPersonnel-Section-parentBean" p:fieldBindingObjectPath="addProjectPersonnelHelper.editBudgetPerson"
-		abstract="true" parent="Uif-DialogGroup" p:headerText="Edit Personnel" p:onHideDialogScript="Kc.Dialog.resetDialogFields(this, e);">
+		abstract="true" parent="Uif-DialogGroup" p:headerText="Edit Personnel" p:destroyDialogOnHidden="true">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="personName"/>

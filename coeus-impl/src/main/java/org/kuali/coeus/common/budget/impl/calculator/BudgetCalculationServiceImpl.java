@@ -1241,7 +1241,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         ScaleTwoDecimal totalIndirectCost = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+            if (budgetPeriod.getTotalDirectCost().isGreaterThan(ScaleTwoDecimal.ZERO)
+                    || budgetPeriod.getTotalIndirectCost().isGreaterThan(ScaleTwoDecimal.ZERO)) {
+                budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+            }
             totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
             totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
             totalCost = totalCost.add(budgetPeriod.getTotalCost());

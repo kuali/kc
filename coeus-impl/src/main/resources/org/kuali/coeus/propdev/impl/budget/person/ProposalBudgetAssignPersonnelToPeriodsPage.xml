@@ -145,7 +145,7 @@
     <bean id="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel" parent="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel-parentBean"/>
     <bean id="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel-parentBean" abstract="true" parent="Uif-DialogGroup"
           p:fieldBindingObjectPath="addProjectPersonnelHelper"
-          p:onHideDialogScript="Kc.Dialog.resetDialogFields(this, e);"
+          p:destroyDialogOnHidden="true"
           p:header.headerText="Add Personnel to Period">
         <property name="items">
             <list>
@@ -203,7 +203,7 @@
 
 	<bean id="PropBudget-EditPersonnelPeriod-Section" parent="PropBudget-EditPersonnelPeriod-Section-parent" />
 	<bean id="PropBudget-EditPersonnelPeriod-Section-parent" p:fieldBindingObjectPath="addProjectPersonnelHelper.budgetPersonnelDetail" abstract="true" parent="Uif-DialogGroup" 
-		p:headerText="Edit Assigned Personnel" p:onHideDialogScript="Kc.Dialog.resetDialogFields(this, e);">
+		p:headerText="Edit Assigned Personnel" p:destroyDialogOnHidden="true">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="budgetPerson.personName"
@@ -276,7 +276,7 @@
 	
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates" parent="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-parent" />
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-parent" abstract="true" parent="Uif-DialogGroup" 
-		p:fieldBindingObjectPath="addProjectPersonnelHelper" p:headerText="Details &amp; Rates" p:onHideDialogScript="Kc.Dialog.resetDialogFields(this, e);">
+		p:fieldBindingObjectPath="addProjectPersonnelHelper" p:headerText="Details &amp; Rates" p:destroyDialogOnHidden="true">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-TabSection" />
