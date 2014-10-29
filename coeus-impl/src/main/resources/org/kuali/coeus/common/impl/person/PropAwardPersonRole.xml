@@ -17,7 +17,10 @@
         <ref bean="PropAwardPersonRole-code"/>
         <ref bean="PropAwardPersonRole-description" />
         <ref bean="PropAwardPersonRole-versionNumber" />
+        <ref bean="PropAwardPersonRole-readOnly" />
         <ref bean="PropAwardPersonRole-certificationRequired" />
+        <ref bean="PropAwardPersonRole-sponsorHierarchyName" />
+        <ref bean="PropAwardPersonRole-unitDetailsRequired" />
       </list>
     </property>
   </bean>
@@ -49,18 +52,60 @@
     <property name="shortLabel" value="Prop Per Role Id" />
     <property name="summary" value="Proposal Person Role Id" />
     <property name="description" value="Proposal Person Role Id" />
-  
   </bean>
+
 
   <bean id="PropAwardPersonRole-description" parent="PropAwardPersonRole-description-parentBean"/>
-  <bean id="PropAwardPersonRole-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
-  <bean id="PropAwardPersonRole-versionNumber" parent="PropAwardPersonRole-versionNumber-parentBean" />
-  <bean id="PropAwardPersonRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
-  <bean id="PropAwardPersonRole-certificationRequired" parent="PropAwardPersonRole-certificationRequired-parentBean" />
-  <bean id="PropAwardPersonRole-certificationRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-    <property name="name" value="certificationRequired" />
+  <bean id="PropAwardPersonRole-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"
+        p:maxLength="25">
+      <property name="controlField">
+          <bean p:size="25" parent="Uif-TextControl"/>
+      </property>
   </bean>
 
+  <bean id="PropAwardPersonRole-versionNumber" parent="PropAwardPersonRole-versionNumber-parentBean" />
+  <bean id="PropAwardPersonRole-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+
+  <bean id="PropAwardPersonRole-certificationRequired" parent="PropAwardPersonRole-certificationRequired-parentBean" />
+  <bean id="PropAwardPersonRole-certificationRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"
+        p:name="certificationRequired"
+        p:label="Certification Required"
+        p:shortLabel="Certification Required"
+        p:summary="Certification Required"
+        p:description="Certification Required" />
+
+    <bean id="PropAwardPersonRole-readOnly" parent="PropAwardPersonRole-readOnly-parentBean" />
+    <bean id="PropAwardPersonRole-readOnly-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"
+          p:name="readOnly"
+          p:label="Read Only"
+          p:shortLabel="Read Only"
+          p:summary="Read Only"
+          p:description="Read Only" />
+
+    <bean id="PropAwardPersonRole-unitDetailsRequired" parent="PropAwardPersonRole-unitDetailsRequired-parentBean" />
+    <bean id="PropAwardPersonRole-unitDetailsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"
+          p:name="unitDetailsRequired"
+          p:label="Unit Details Required"
+          p:shortLabel="Unit Details Required"
+          p:summary="Unit Details Required"
+          p:description="Unit Details Required" />
+
+    <bean id="PropAwardPersonRole-sponsorHierarchyName" parent="PropAwardPersonRole-sponsorHierarchyName-parentBean"/>
+    <bean id="PropAwardPersonRole-sponsorHierarchyName-parentBean" abstract="true" parent="AttributeDefinition"
+        p:name="sponsorHierarchyName"
+        p:forceUppercase="false"
+        p:label="Sponsor Hierarchy Name"
+        p:shortLabel="Sponsor Hierarchy Name"
+        p:summary="Sponsor Hierarchy Name"
+        p:description="Sponsor Hierarchy Name"
+        p:maxLength="50">
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="50"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="50" parent="Uif-TextControl"/>
+        </property>
+    </bean>
 <!-- Business Object Inquiry Definition -->
   <bean id="PropAwardPersonRole-inquiryDefinition" parent="PropAwardPersonRole-inquiryDefinition-parentBean" />
   <bean id="PropAwardPersonRole-InquiryView" parent="PropAwardPersonRole-InquiryView-parentBean"/>
@@ -83,25 +128,28 @@
     </property>
   </bean>
 
-  <bean id="PropAwardPersonRole-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
-    <property name="headerText" value="Proposal Person Role"/>
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.person.PropAwardPersonRole"/>
-    <property name="items">
-      <list>
-        <bean parent="Uif-Disclosure-GridSection">
-          <property name="headerText" value="Proposal Person Role"/>
-          <property name="layoutManager.numberOfColumns" value="2"/>
-          <property name="items">
+    <bean id="PropAwardPersonRole-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView"
+          p:headerText="Proposal Person Role"
+          p:dataObjectClassName="org.kuali.coeus.common.framework.person.PropAwardPersonRole">
+        <property name="items">
             <list>
-              <bean p:propertyName="id" parent="Uif-DataField"/>
-              <bean p:propertyName="description" parent="Uif-DataField"/>
-              <bean p:propertyName="certificationRequired" parent="Uif-DataField"/>
+                <bean parent="Uif-Disclosure-GridSection"
+                      p:headerText="Proposal Person Role"
+                      p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean p:propertyName="code" parent="Uif-DataField" p:order="10" />
+                            <bean p:propertyName="description" parent="Uif-DataField" p:order="20" />
+                            <bean p:propertyName="sponsorHierarchyName" parent="Uif-DataField" p:order="30" />
+                            <bean p:propertyName="readOnly" parent="Uif-DataField" p:order="40" />
+                            <bean p:propertyName="certificationRequired" parent="Uif-DataField" p:order="50" />
+                            <bean p:propertyName="unitDetailsRequired" parent="Uif-DataField" p:order="60" />
+                        </list>
+                    </property>
+                </bean>
             </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+        </property>
+    </bean>
 
   <!-- Business Object Lookup Definition -->
   <bean id="PropAwardPersonRole-lookupDefinition" parent="PropAwardPersonRole-lookupDefinition-parentBean" />
@@ -124,21 +172,29 @@
     </property>
   </bean>
 
-  <bean id="PropAwardPersonRole-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.person.PropAwardPersonRole"/>
-    <property name="headerText" value="Proposal Person Role"/>
-    <property name="criteriaFields">
-      <list>
-        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean p:propertyName="id" parent="Uif-DataField"/>
-        <bean p:propertyName="description" parent="Uif-DataField"/>
-        <bean p:propertyName="certificationRequired" parent="Uif-DataField"/>
-      </list>
-    </property>
-  </bean>
-
+    <bean id="PropAwardPersonRole-LookupView-parentBean" abstract="true" parent="Uif-LookupView"
+          p:viewName="PropAwardPersonRole-LookupViewName"
+          p:dataObjectClassName="org.kuali.coeus.common.framework.person.PropAwardPersonRole"
+          p:headerText="Proposal Person Role">
+        <property name="criteriaFields">
+            <list>
+                <bean p:propertyName="code" parent="Uif-LookupCriteriaInputField" p:order="10" />
+                <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField" p:order="20" />
+                <bean p:propertyName="sponsorHierarchyName" parent="Uif-LookupCriteriaInputField" p:order="30" />
+                <bean p:propertyName="readOnly" parent="Uif-LookupCriteriaInputField" p:order="40" />
+                <bean p:propertyName="certificationRequired" parent="Uif-LookupCriteriaInputField" p:order="50" />
+                <bean p:propertyName="unitDetailsRequired" parent="Uif-LookupCriteriaInputField" p:order="60" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean p:propertyName="code" parent="Uif-DataField" p:order="10" />
+                <bean p:propertyName="description" parent="Uif-DataField" p:order="20" />
+                <bean p:propertyName="sponsorHierarchyName" parent="Uif-DataField" p:order="30" />
+                <bean p:propertyName="readOnly" parent="Uif-DataField" p:order="40" />
+                <bean p:propertyName="certificationRequired" parent="Uif-DataField" p:order="50" />
+                <bean p:propertyName="unitDetailsRequired" parent="Uif-DataField" p:order="60" />
+            </list>
+        </property>
+    </bean>
 </beans>

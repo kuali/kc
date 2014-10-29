@@ -477,6 +477,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/specialreview/ProposalSpecialReviewExemption.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/state/ProposalState.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/person/PropAwardPersonRole.xml</value>
+                <value>classpath:org/kuali/coeus/common/impl/person/PropAwardPersonRoleMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/ProposalLog.xml</value>
                 <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/ProposalLogStatus.xml</value>
                 <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/ProposalLogType.xml</value> 
