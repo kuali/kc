@@ -539,6 +539,11 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
                 return false;
         } else if (!getLineItemNumber().equals(other.getLineItemNumber()))
             return false;
+        if (getCostElement() == null) {
+            if (other.getCostElement() != null)
+                return false;
+        } else if (!getCostElement().equals(other.getCostElement()))
+            return false;
         return true;
     }
 
