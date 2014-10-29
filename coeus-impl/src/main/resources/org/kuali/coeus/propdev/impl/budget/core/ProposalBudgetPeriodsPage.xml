@@ -47,19 +47,19 @@
                       p:readOnly="true"/>
                 <bean parent="Uif-InputField" p:propertyName="totalCost"
                       p:order="40"
-                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{#line.readOnly or !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="totalDirectCost"
                       p:order="50"
-                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{#line.readOnly or !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="totalIndirectCost"
                       p:order="60"
-                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{#line.readOnly or !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="underrecoveryAmount"
                       p:order="65"
-                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{#line.readOnly or !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="costSharingAmount"
                       p:order="70"
-                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{#line.readOnly or !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="totalCostLimit"
                       p:order="80"
                       p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
@@ -77,7 +77,7 @@
                       p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
                       p:actionLabel="Cancel" p:order="20"/>
                 <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLineItem"
-                      p:render="@{!#line.readOnly and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
+                      p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
                       p:actionLabel="Edit" p:order="30"/>
                 <bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
                       p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
