@@ -50,7 +50,7 @@
     <bean id="PropDev-Supplemental-Collection-parentBean" abstract="true" parent="Uif-ListCollectionSection"
             p:collectionObjectClass="org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue"
             p:propertyName="document.customDataList"
-            p:renderAddLine="false">
+            p:renderAddLine="false" p:renderLineActions="false">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" class="org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataField"
@@ -64,9 +64,6 @@
                     </property>
                 </bean>
             </list>
-        </property>
-        <property name="lineActions">
-            <null/>
         </property>
        <property name="filters">
             <bean parent="Uif-ConditionalCollectionFilter"
