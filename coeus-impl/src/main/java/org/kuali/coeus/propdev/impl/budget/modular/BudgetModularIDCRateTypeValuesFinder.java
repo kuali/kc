@@ -33,7 +33,7 @@ public class BudgetModularIDCRateTypeValuesFinder extends UifKeyValuesFinderBase
         KeyValueFinderService keyValueFinderService= (KeyValueFinderService) KcServiceLocator.getService("keyValueFinderService");
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("rateClassType", "O");
-        List<KeyValue> keyValueList = keyValueFinderService.getKeyValues(RateClass.class, "description", "description", queryMap);
+        List<KeyValue> keyValueList = keyValueFinderService.getKeyValues(RateClass.class, "code", "description", queryMap);
         KeyValue KeyValueSelect = new ConcreteKeyValue("", "select");
         for (KeyValue KeyValue : keyValueList) {
             if (StringUtils.isBlank(KeyValue.getKey().toString())) {
