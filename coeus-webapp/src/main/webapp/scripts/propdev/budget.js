@@ -48,3 +48,18 @@ function totalUnallocatedCostSharing (values){
 function totalUnallocatedFandA (values) {
     return Kc.PropDev.Budget.totalUnallocatedFandA(values);
 }
+
+/**
+ * Override
+ * KRAD calculation function - limit to 2 decimals
+ * Get the sum of the values passed in
+ *
+ * @param values the values
+ */
+function sumValues(values) {
+    var total = 0;
+    for (var i = 0; i < values.length; i++) {
+        total += values[i];
+    }
+    return total.toFixed(2);
+}
