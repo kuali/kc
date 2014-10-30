@@ -7,7 +7,7 @@ update EPS_PROPOSAL proposal set proposal.FINAL_BUDGET_ID =
 where budget.FINAL_VERSION_FLAG = 'Y' and proposal.DOCUMENT_NUMBER = budgetDoc.PARENT_DOCUMENT_KEY)
 /
 
-alter table EPS_PROPOSAL add column HIERARCHY_LAST_BUDGET_ID number(12)
+alter table EPS_PROPOSAL add HIERARCHY_LAST_BUDGET_ID number(12)
 /
 
 update EPS_PROPOSAL proposal set proposal.HIERARCHY_LAST_BUDGET_ID =
