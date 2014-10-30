@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.core.*;
+import org.kuali.coeus.propdev.impl.person.attachment.AddPersonnelAttachmentEvent;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
@@ -233,9 +234,14 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
-        form.getDevelopmentProposal().getPropPersonBios().add(0,biography);
-        form.getProposalDevelopmentAttachmentHelper().reset();
 
+        if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent("proposalDevelopmentAttachmentHelper.biography",document,biography))){
+            form.getDevelopmentProposal().getPropPersonBios().add(0,biography);
+            form.getProposalDevelopmentAttachmentHelper().reset();
+        } else {
+            form.setUpdateComponentId("PropDev-AttachmentsPage-PersonnelDetails");
+            form.setAjaxReturnType("update-component");
+        }
         return getRefreshControllerService().refresh(form);
     }
 
@@ -273,9 +279,13 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
-        form.getDevelopmentProposal().getPropPersonBios().set(selectedLineIndex,biography);
-        form.getProposalDevelopmentAttachmentHelper().reset();
-
+        if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent("proposalDevelopmentAttachmentHelper.biography",form.getProposalDevelopmentDocument(),biography))){
+            form.getDevelopmentProposal().getPropPersonBios().set(selectedLineIndex, biography);
+            form.getProposalDevelopmentAttachmentHelper().reset();
+        } else {
+            form.setUpdateComponentId("PropDev-AttachmentsPage-PersonnelDetails");
+            form.setAjaxReturnType("update-component");
+        }
         return getRefreshControllerService().refresh(form);
     }
 

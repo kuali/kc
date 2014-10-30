@@ -124,7 +124,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     private transient KcAttachmentService kcAttachmentService;
 
     @Transient
-    private MultipartFile multipartFile;
+    private transient MultipartFile multipartFile;
 
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
