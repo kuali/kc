@@ -38,6 +38,7 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.math.BigDecimal;
@@ -49,6 +50,7 @@ import java.util.List;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 public class BudgetPeriodCalculator {
+	private DataObjectService dataObjectService;
     private BudgetCalculationService budgetCalculationService;
     private List<String> errorMessages;
 
@@ -89,12 +91,16 @@ public class BudgetPeriodCalculator {
         int periodDuration = KcServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetPeriod.getEndDate(), false);
         // calculate for the apply-from item in case there is any change, so it will be updated properly after apply-to
         budgetCalculationService.calculateBudgetLineItem(budget, currentBudgetLineItem);
-        
+        if(currentBudgetLineItem.getBudgetCategory() == null) {
+        	getDataObjectService().wrap(currentBudgetLineItem).fetchRelationship("budgetCategory");
+        }        
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(budgetPeriod.getBudgetPeriod()<=currentBudgetPeriod.getBudgetPeriod()) continue;
-//            allLineItems.addAll(budgetPeriod.getBudgetLineItems());
             QueryList<BudgetLineItem> currentBudgetPeriodLineItems = new QueryList<BudgetLineItem>(budgetPeriod.getBudgetLineItems());
             for (BudgetLineItem budgetLineItemToBeApplied : currentBudgetPeriodLineItems) {
+            	if(budgetLineItemToBeApplied.getBudgetCategory() == null) {
+                	getDataObjectService().wrap(budgetLineItemToBeApplied).fetchRelationship("budgetCategory");
+                }            	
                 if(prevBudgetLineItem.getLineItemNumber().equals(budgetLineItemToBeApplied.getBasedOnLineItem())) {
                     budgetLineItemToBeApplied.setApplyInRateFlag(prevBudgetLineItem.getApplyInRateFlag());
                     if (prevBudgetLineItem.getApplyInRateFlag()){
@@ -474,4 +480,11 @@ public class BudgetPeriodCalculator {
         this.errorMessages = errorMessages;
     }
 
+	public DataObjectService getDataObjectService() {
+		if (dataObjectService == null) {
+			dataObjectService = getService(DataObjectService.class);
+		}
+		return dataObjectService;
+	}
+    
 }
