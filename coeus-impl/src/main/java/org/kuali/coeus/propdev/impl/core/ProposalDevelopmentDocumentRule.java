@@ -495,11 +495,11 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
                 Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
         budgetVersionsExists = !proposal.getBudgets().isEmpty();
-        if (proposal.getFinalBudget() != null &&
+        if (proposal.getFinalBudget() == null && budgetVersionsExists) {
+        	auditErrors.add(new AuditError("document.developmentProposal.budgets", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_FINAL, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID));
+        	retval = false;
+        } else if (proposal.getFinalBudget() != null &&
         		!StringUtils.equals(budgetStatusCompleteCode, proposal.getFinalBudget().getBudgetStatus())) {
-            finalAndCompleteBudgetVersionFound = true;
-        }
-        if (budgetVersionsExists && !finalAndCompleteBudgetVersionFound) {
             auditErrors.add(new AuditError("document.developmentProposal.budgets", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID));
             retval = false;
         }
