@@ -949,6 +949,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                             details.setPersonNumber(parentBudget.getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
 
                             details.setBudgetPersonnelLineItemId(null);
+                            details.setBudget(parentBudget);
                             details.setBudgetId(budgetId);
                             details.setBudgetPeriod(budgetPeriod);
                             details.setLineItemNumber(lineItemNumber);

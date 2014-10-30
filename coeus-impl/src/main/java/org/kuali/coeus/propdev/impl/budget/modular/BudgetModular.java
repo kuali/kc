@@ -17,14 +17,7 @@ package org.kuali.coeus.propdev.impl.budget.modular;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -43,7 +36,7 @@ public class BudgetModular extends KcPersistableBusinessObjectBase implements Bu
     private Long budgetId;
 
     @Column(name = "BUDGET_PERIOD")
-    private Integer budgetPeriod;
+    private Integer budgetPeriod;  
 
     @Column(name = "DIRECT_COST_LESS_CONSOR_FNA")
     @Convert(converter = ScaleTwoDecimalConverter.class)

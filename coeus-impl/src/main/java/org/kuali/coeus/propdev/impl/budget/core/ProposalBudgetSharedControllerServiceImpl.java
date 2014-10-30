@@ -17,11 +17,11 @@ import org.kuali.rice.krad.web.service.ModelAndViewService;
 import org.kuali.rice.krad.web.service.RefreshControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller("proposalBudgetSharedController")
-public class ProposalBudgetSharedController {
+@Component("proposalBudgetSharedControllerService")
+public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudgetSharedControllerService {
 	
 	@Autowired
 	@Qualifier("proposalBudgetService")

@@ -62,7 +62,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Column(name = "LINE_ITEM_NUMBER")
     private Integer lineItemNumber; 
 
-    @Column(name = "BUDGET_ID")
+    @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
 
     @Column(name = "BUDGET_PERIOD")
@@ -127,7 +127,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Column(name = "BUDGET_PERIOD_NUMBER")
     private Long budgetPeriodId;
     
-    @Column(name = "PERSON_SEQUENCE_NUMBER")
+    @Column(name = "PERSON_SEQUENCE_NUMBER", insertable = false, updatable = false)
     private Integer personSequenceNumber;
 
     @Column(name = "UNDERRECOVERY_AMOUNT")
@@ -139,7 +139,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     private Boolean submitCostSharingFlag = Boolean.TRUE; 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false), @JoinColumn(name = "PERSON_SEQUENCE_NUMBER", referencedColumnName = "PERSON_SEQUENCE_NUMBER", insertable = false, updatable = false) })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "PERSON_SEQUENCE_NUMBER", referencedColumnName = "PERSON_SEQUENCE_NUMBER") })
     private BudgetPerson budgetPerson;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })

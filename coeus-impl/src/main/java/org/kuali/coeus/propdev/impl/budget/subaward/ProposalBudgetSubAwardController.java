@@ -156,6 +156,7 @@ public class ProposalBudgetSubAwardController extends
         BindingInfo addLineBindingInfo = (BindingInfo) form.getViewPostMetadata().getComponentPostData(
                 parameters.getSelectedCollectionId(), UifConstants.PostMetadata.ADD_LINE_BINDING_INFO);
         BudgetSubAwards newBudgetSubAward = ObjectPropertyUtils.getPropertyValue(form, addLineBindingInfo.getBindingPath());
+        newBudgetSubAward.setBudget(form.getBudget());
         newBudgetSubAward.setBudgetId(form.getBudget().getBudgetId());
         newBudgetSubAward.setSubAwardNumber(form.getBudget().getNextValue("subAwardNumber"));
         newBudgetSubAward.setBudgetVersionNumber(form.getBudget().getBudgetVersionNumber());

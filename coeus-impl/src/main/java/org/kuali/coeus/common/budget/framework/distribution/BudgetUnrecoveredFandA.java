@@ -22,6 +22,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.budget.api.distribution.BudgetUnrecoveredFandAContract;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -48,8 +49,12 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
     private Integer documentComponentId;
 
     @Id
-    @Column(name = "BUDGET_ID")
+    @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    private Budget budget;
 
     @Column(name = "UNDERRECOVERY_OF_IDC")
     @Convert(converter = ScaleTwoDecimalConverter.class)
@@ -279,4 +284,17 @@ public class BudgetUnrecoveredFandA extends KcPersistableBusinessObjectBase impl
             return new CompareToBuilder().append(this.budgetId, other.budgetId).append(this.documentComponentId, other.documentComponentId).toComparison();
         }
     }
+
+	public Budget getBudget() {
+		return budget;
+	}
+
+	public void setBudget(Budget budget) {
+		this.budget = budget;
+		if (budget != null) {
+			budgetId = budget.getBudgetId();
+		} else {
+			budgetId = null;
+		}
+	}
 }

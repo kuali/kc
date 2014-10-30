@@ -29,6 +29,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
@@ -45,9 +46,13 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
 
     private static final long serialVersionUID = -857485535655759499L;
 
-    @Column(name = "BUDGET_ID")
-    @Id
+    @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
+    
+    @Id
+    @JoinColumn(name = "BUDGET_ID")
+    @ManyToOne(cascade = {CascadeType.REFRESH})
+    private ProposalDevelopmentBudgetExt budget;
 
     @Id
     @Column(name = "SUB_AWARD_NUMBER")
@@ -467,7 +472,7 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
 
         private Integer subAwardNumber;
 
-        private Long budgetId;
+        private Long budget;
 
         public Integer getSubAwardNumber() {
             return subAwardNumber;
@@ -477,17 +482,17 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
             this.subAwardNumber = subAwardNumber;
         }
 
-        public Long getBudgetId() {
-            return budgetId;
+        public Long getBudget() {
+            return budget;
         }
 
-        public void setBudgetId(Long budgetId) {
-            this.budgetId = budgetId;
+        public void setBudget(Long budget) {
+            this.budget = budget;
         }
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("budgetId", this.budgetId).append("subAwardNumber", this.subAwardNumber).toString();
+            return new ToStringBuilder(this).append("budget", this.budget).append("subAwardNumber", this.subAwardNumber).toString();
         }
 
         @Override
@@ -499,17 +504,17 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
             if (other.getClass() != this.getClass())
                 return false;
             final BudgetSubAwardsId rhs = (BudgetSubAwardsId) other;
-            return new EqualsBuilder().append(this.budgetId, rhs.budgetId).append(this.subAwardNumber, rhs.subAwardNumber).isEquals();
+            return new EqualsBuilder().append(this.budget, rhs.budget).append(this.subAwardNumber, rhs.subAwardNumber).isEquals();
         }
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 37).append(this.budgetId).append(this.subAwardNumber).toHashCode();
+            return new HashCodeBuilder(17, 37).append(this.budget).append(this.subAwardNumber).toHashCode();
         }
 
         @Override
         public int compareTo(BudgetSubAwardsId other) {
-            return new CompareToBuilder().append(this.budgetId, other.budgetId).append(this.subAwardNumber, other.subAwardNumber).toComparison();
+            return new CompareToBuilder().append(this.budget, other.budget).append(this.subAwardNumber, other.subAwardNumber).toComparison();
         }
     }
 
@@ -519,5 +524,13 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
 
 	public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
 		this.budgetLineItems = budgetLineItems;
+	}
+
+	public ProposalDevelopmentBudgetExt getBudget() {
+		return budget;
+	}
+
+	public void setBudget(ProposalDevelopmentBudgetExt budget) {
+		this.budget = budget;
 	}
 }

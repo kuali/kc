@@ -149,6 +149,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         return true;
     }
     protected void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
+    	budgetPersonnelDetails.setBudget(budgetLineItem.getBudget());
         budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
         budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
         budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());

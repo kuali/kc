@@ -172,6 +172,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     }
 
     protected void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
+    	budgetPersonnelDetails.setBudget(budgetLineItem.getBudget());
         budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
         budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
         budgetPersonnelDetails.setBudgetPeriodId(budgetLineItem.getBudgetPeriodId());
