@@ -93,7 +93,7 @@ public class BudgetPeriodCalculator {
         budgetCalculationService.calculateBudgetLineItem(budget, currentBudgetLineItem);
         if(currentBudgetLineItem.getBudgetCategory() == null) {
         	getDataObjectService().wrap(currentBudgetLineItem).fetchRelationship("budgetCategory");
-        }        
+        }
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(budgetPeriod.getBudgetPeriod()<=currentBudgetPeriod.getBudgetPeriod()) continue;
             QueryList<BudgetLineItem> currentBudgetPeriodLineItems = new QueryList<BudgetLineItem>(budgetPeriod.getBudgetLineItems());
@@ -170,9 +170,6 @@ public class BudgetPeriodCalculator {
                 budgetLineItem.getBudgetCalculatedAmounts().clear();
                 budgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                 budgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
-                //budgetLineItem.setStartDate(budgetPeriod.getStartDate());
-                //budgetLineItem.setEndDate(budgetPeriod.getEndDate());
-
                 boolean isLeapDateInPeriod = KcServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(prevBudgetLineItem.getStartDate(), prevBudgetLineItem.getEndDate()) ;
                 gap= KcServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate(), false);
                 boolean isLeapDayInGap = KcServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate());
@@ -479,12 +476,11 @@ public class BudgetPeriodCalculator {
     public void setErrorMessages(List<String> errorMessages) {
         this.errorMessages = errorMessages;
     }
-
+    
 	public DataObjectService getDataObjectService() {
 		if (dataObjectService == null) {
 			dataObjectService = getService(DataObjectService.class);
 		}
 		return dataObjectService;
 	}
-    
 }

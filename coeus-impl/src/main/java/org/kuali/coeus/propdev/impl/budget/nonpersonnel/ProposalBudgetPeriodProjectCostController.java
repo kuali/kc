@@ -55,7 +55,6 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
         getBudgetCalculationService().populateCalculatedAmount(budget, newBudgetLineItem);
         getBudgetService().recalculateBudgetPeriod(budget, currentTabBudgetPeriod);
 		form.getAddProjectBudgetLineItemHelper().reset();
-		budget.getBudgetLineItems().add(newBudgetLineItem);
 		return getModelAndViewService().getModelAndView(form);
 	}
 
@@ -68,8 +67,9 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		    BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
         	form.getAddProjectBudgetLineItemHelper().reset();
         	BudgetLineItem editBudgetLineItem = form.getBudget().getBudgetLineItems().get(Integer.parseInt(selectedLine));
+        	String editLineIndex = Integer.toString(budgetPeriod.getBudgetLineItems().indexOf(editBudgetLineItem));
 		    form.getAddProjectBudgetLineItemHelper().setBudgetLineItem(getDataObjectService().copyInstance(editBudgetLineItem));
-		    form.getAddProjectBudgetLineItemHelper().setEditLineIndex(selectedLine);
+		    form.getAddProjectBudgetLineItemHelper().setEditLineIndex(editLineIndex);
 		    form.getAddProjectBudgetLineItemHelper().setCurrentTabBudgetPeriod(budgetPeriod);
 		    form.getAddProjectBudgetLineItemHelper().setBudgetCategoryTypeCode(editBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode());
 	    }
@@ -85,7 +85,6 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
 		    BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
 		    budgetPeriod.getBudgetLineItems().remove(deletedBudgetLineItem);
-		    budget.getBudgetLineItems().remove(deletedBudgetLineItem);
 	    }
 		return getModelAndViewService().getModelAndView(form);
 	}
@@ -107,14 +106,12 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	}
 	
 	private void setEditedBudgetLineItem(ProposalBudgetForm form) {
-	    int selectedLine = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
 	    BudgetLineItem budgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();
 	    BudgetPeriod budgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
 	    setLineItemBudgetCategory(budgetLineItem);
-	    int editLineIndex = budgetPeriod.getBudgetLineItems().indexOf(budgetLineItem);
+	    int editLineIndex = Integer.parseInt(form.getAddProjectBudgetLineItemHelper().getEditLineIndex());
 		BudgetLineItem newBudgetLineItem = getDataObjectService().save(budgetLineItem);
-	    budgetPeriod.getBudgetLineItems().set(editLineIndex, newBudgetLineItem);
-		form.getBudget().getBudgetLineItems().set(selectedLine, newBudgetLineItem);
+		budgetPeriod.getBudgetLineItems().set(editLineIndex, newBudgetLineItem);
 	}
 	
 	@RequestMapping(params="methodToCall=syncToPeriodCostDirectLimit")

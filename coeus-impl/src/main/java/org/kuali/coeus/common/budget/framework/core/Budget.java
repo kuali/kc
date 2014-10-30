@@ -154,12 +154,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @OneToMany(mappedBy="budget", orphanRemoval = true, cascade = { CascadeType.ALL })
     @OrderBy("budgetPeriod")
     private List<BudgetPeriod> budgetPeriods;
-
-    @OneToMany(mappedBy="budget", cascade = { CascadeType.REFRESH })
-    private List<BudgetPersonnelDetails> budgetPersonnelDetails;
-
-    @OneToMany(mappedBy="budget", cascade = { CascadeType.REFRESH })
-    private List<BudgetLineItem> budgetLineItems;
     
     @Transient
     private List<Period> budgetSummaryDetails;
@@ -1762,20 +1756,25 @@ public class Budget extends AbstractBudget implements BudgetContract {
 	}
 	
 	public List<BudgetPersonnelDetails> getBudgetPersonnelDetails() {
-		return budgetPersonnelDetails;
-	}
-
-	public void setBudgetPersonnelDetails(
-			List<BudgetPersonnelDetails> budgetPersonnelDetails) {
-		this.budgetPersonnelDetails = budgetPersonnelDetails;
+		List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+		for(BudgetPeriod budgetPeriod : getBudgetPeriods()) {
+			for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+				budgetPersonnelDetailsList.addAll(budgetLineItem.getBudgetPersonnelDetailsList());
+			}
+		}
+		return budgetPersonnelDetailsList;
 	}
 
 	public List<BudgetLineItem> getBudgetLineItems() {
+		List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
+		for(BudgetPeriod budgetPeriod : getBudgetPeriods()) {
+		    for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+		    	if(!budgetLineItem.isPersonnelLineItem()) {
+					budgetLineItems.add(budgetLineItem);
+		    	}
+		    }
+		}
 		return budgetLineItems;
-	}
-
-	public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
-		this.budgetLineItems = budgetLineItems;
 	}
 
 	public List<Period> getBudgetSummaryDetails() {

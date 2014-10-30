@@ -34,7 +34,7 @@ public class BudgetCategory extends KcPersistableBusinessObjectBase implements B
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "CATEGORY_TYPE", referencedColumnName = "BUDGET_CATEGORY_TYPE_CODE", insertable = false, updatable = false)
     private BudgetCategoryType budgetCategoryType;
 

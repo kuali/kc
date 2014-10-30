@@ -206,7 +206,6 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	@RequestMapping(params="methodToCall=savePersonPeriodDetails")
 	public ModelAndView savePersonPeriodDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    int editLineIndex = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());
-	    Budget budget = form.getBudget();
 		BudgetPeriod budgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
 		BudgetPersonnelDetails editBudgetPersonnel = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
 		BudgetLineItem budgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
@@ -218,7 +217,6 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		budgetLineItem.getBudgetPersonnelDetailsList().set(editLineIndex, editBudgetPersonnel);
 		BudgetLineItem newBudgetLineItem = getDataObjectService().save(budgetLineItem);
 		budgetPeriod.getBudgetLineItems().set(budgetLineItemIndex, newBudgetLineItem);
-		getDataObjectService().wrap(budget).fetchRelationship("budgetPersonnelDetails");
 		return getModelAndViewService().getModelAndView(form);
 	}
 	
@@ -282,7 +280,6 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		    if(budgetLineItem.getBudgetPersonnelDetailsList().size() == 0) {
 		    	budgetPeriod.getBudgetLineItems().remove(budgetLineItem);
 		    }
-		    budget.getBudgetPersonnelDetails().remove(deletedPersonnelLineItem);
 	    }
 		return getModelAndViewService().getModelAndView(form);
 	}

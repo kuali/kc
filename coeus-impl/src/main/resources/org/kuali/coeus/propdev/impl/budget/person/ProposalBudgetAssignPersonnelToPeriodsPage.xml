@@ -153,10 +153,16 @@
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField" p:propertyName="budgetPersonnelDetail.personSequenceNumber"
-								p:optionsFinder="#{#getService('budgetPersonValuesFinder')}" p:order="10" p:required="true"/>
+								p:optionsFinder="#{#getService('budgetPersonValuesFinder')}" p:order="10" p:required="true"
+								p:enableAutoQuickfinder="false"/>
 							<bean parent="Uif-InputField" p:propertyName="budgetLineItem.costElement"
 								p:label="Object Code" p:optionsFinder="#{#getService('budgetPersonnelCostElementValuesFinder')}" 
-								p:optionsFinder.addBlankOption="false" p:order="20"/>
+								p:optionsFinder.addBlankOption="false" p:order="20">
+								<property name="quickfinder">
+            						<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.budget.framework.core.CostElement"
+                  						p:fieldConversions="costElement:addProjectPersonnelHelper.budgetLineItem.costElement" p:returnByScript="true"/>
+        						</property>
+							</bean>	
 							<bean parent="Uif-InputField" p:propertyName="budgetPersonGroupName"
 								p:label="Group" p:order="30" p:required="false"
 								p:optionsFinder="#{#getService('groupNameValuesFinder')}" 
@@ -289,7 +295,7 @@
 						<bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
 							p:order="10" />
 						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Apply To Later Periods" p:methodToCall="applyToLaterPeriods"
-							p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}" p:order="20" />
+							p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}" p:order="20" />
 					</list>
 				</property>
 			</bean>
