@@ -14,9 +14,9 @@
                     <bean parent="Uif-HeaderRightGroup">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-Action" p:iconClass="icon-arrow-left" p:disabled="true"
+                                <bean parent="Uif-SecondaryActionButton-Mini" p:iconClass="icon-arrow-left" p:disabled="true"
                                       p:actionLabel="Prev" p:actionScript="Kc.LineItemTable.prevPeriod(this)"></bean>
-                                <bean parent="Uif-Action" p:iconClass="icon-arrow-right" p:actionLabel="Next"
+                                <bean parent="Uif-SecondaryActionButton-Mini" p:iconClass="icon-arrow-right" p:actionLabel="Next"
                                       p:actionScript="Kc.LineItemTable.nextPeriod(this)"></bean>
                             </list>
                         </property>
@@ -32,6 +32,7 @@
         <property name="bindingInfo">
             <ref bean="Uif-BindingInfo"/>
         </property>
+        <property name="dateRangeFormat" value="MM/dd/yyyy"/>
         <property name="numPeriodColumns" value="5"/>
         <property name="renderRowTotalColumn" value="true"/>
         <property name="renderDisclosureLinks" value="true"/>

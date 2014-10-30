@@ -30,6 +30,7 @@ import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.bind.UifCurrencyEditor;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class LineItemTable extends GroupBase implements DataBinding {
     private List<LineItemRow> flattenedRows = new ArrayList<LineItemRow>();
     private LineItemRow headerRow;
 
+    private String dateRangeFormat;
 
     private boolean renderRowTotalColumn;
     private int numPeriodColumns;
@@ -96,10 +98,21 @@ public class LineItemTable extends GroupBase implements DataBinding {
                     numPeriodColumns >= periods.size()) {
                 this.getHeader().getRightGroup().setRender(false);
             }
-
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateRangeFormat);
             // Iterate over periods and create the header row and the other LineItemRows
             for (Period period : periods) {
-                headerRow.getCellContent().add(period.getName());
+                String startDate = "?";
+                String endDate = "?";
+                if (period.getStartDate() != null) {
+                    startDate = simpleDateFormat.format(period.getStartDate());
+                }
+
+                if (period.getEndDate() != null) {
+                    endDate = simpleDateFormat.format(period.getEndDate());
+                }
+
+                headerRow.getCellContent().add(period.getName() + "<span class='uif-period-dateRange'>(" +
+                         startDate + " - " + endDate + ")</span>");
 
                 List<LineItemGroup> lineItemGroups = period.getLineItemGroups();
                 columnNum++;
@@ -362,6 +375,23 @@ public class LineItemTable extends GroupBase implements DataBinding {
      */
     public List<LineItemRow> getFlattenedRows() {
         return flattenedRows;
+    }
+
+    /**
+     * The format the dates in the date range for the period column should used, such as "MM/dd/yyyy".
+     *
+     * @return the date format
+     */
+    @BeanTagAttribute
+    public String getDateRangeFormat() {
+        return dateRangeFormat;
+    }
+
+    /**
+     * @see #getDateRangeFormat()
+     */
+    public void setDateRangeFormat(String dateRangeFormat) {
+        this.dateRangeFormat = dateRangeFormat;
     }
 
     /**

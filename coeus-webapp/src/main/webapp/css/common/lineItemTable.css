@@ -41,3 +41,10 @@
 .uif-lineItem1 .uif-lineItem-disclosure {
     color: black;
 }
+
+.uif-period-dateRange {
+    color: gray;
+    display: block;
+    font-size: 0.9em;
+    font-weight: normal;
+}

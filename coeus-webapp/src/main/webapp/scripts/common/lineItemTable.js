@@ -14,16 +14,18 @@ Kc.LineItemTable = Kc.LineItemTable || {};
             var id = $lineItemRow.attr("id");
             var $children = $("[data-parent_row='" + id + "']");
 
-            // Hide or reopen children if they wer open previously
+            // Hide or reopen children if they were open previously
             if ($children.is(":visible")) {
                 namespace.hideSubItems($children);
                 $children.hide(400);
                 $lineItemRow.data("open", false);
+                $link.find("> .icon-chevron-down").removeClass("icon-chevron-down").addClass("icon-chevron-right");
             }
             else {
                 $children.show(400);
                 namespace.showSubItems($children);
                 $lineItemRow.data("open", true);
+                $link.find("> .icon-chevron-right").removeClass("icon-chevron-right").addClass("icon-chevron-down");
             }
         });
     }
