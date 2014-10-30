@@ -32,9 +32,6 @@ public class S2sUserAttachedFormFile extends KcPersistableBusinessObjectBase imp
     @Id
     @Column(name = "S2S_USER_ATTACHED_FORM_FILE_ID")
     private Long id;
-    
-    @Column(name = "S2S_USER_ATTACHED_FORM_ID")
-    private Long s2sUserAttachedFormId;
 
     @Basic(fetch = FetchType.LAZY)
     @Lob
@@ -44,13 +41,13 @@ public class S2sUserAttachedFormFile extends KcPersistableBusinessObjectBase imp
     @Column(name = "XML_FILE")
     private String xmlFile;
 
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID")
+    private S2sUserAttachedForm s2sUserAttachedForm;
+
     @Override
     public Long getS2sUserAttachedFormId() {
-        return s2sUserAttachedFormId;
-    }
-
-    public void setS2sUserAttachedFormId(Long s2sUserAttachedFormId) {
-        this.s2sUserAttachedFormId = s2sUserAttachedFormId;
+        return s2sUserAttachedForm != null ? s2sUserAttachedForm.getId() : null;
     }
 
     @Override
@@ -79,5 +76,12 @@ public class S2sUserAttachedFormFile extends KcPersistableBusinessObjectBase imp
 	public void setId(Long id) {
 		this.id = id;
 	}
-  
+
+    public S2sUserAttachedForm getS2sUserAttachedForm() {
+        return s2sUserAttachedForm;
+    }
+
+    public void setS2sUserAttachedForm(S2sUserAttachedForm s2sUserAttachedForm) {
+        this.s2sUserAttachedForm = s2sUserAttachedForm;
+    }
 }

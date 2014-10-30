@@ -33,20 +33,18 @@ public class S2sUserAttachedFormAttFile extends KcPersistableBusinessObjectBase 
     @Column(name = "S2S_USER_ATTD_FORM_ATT_FILE_ID")
     private Long id;
 
-    @Column(name = "S2S_USER_ATTACHED_FORM_ATT_ID")
-    private Long s2sUserAttachedFormAttId;
-
     @Column(name = "ATTACHMENT")
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] attachment;
 
-    public Long getS2sUserAttachedFormAttId() {
-        return s2sUserAttachedFormAttId;
-    }
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ATT_ID")
+    private S2sUserAttachedFormAtt s2sUserAttachedFormAtt;
 
-    public void setS2sUserAttachedFormAttId(Long s2sUserAttachedFormAttId) {
-        this.s2sUserAttachedFormAttId = s2sUserAttachedFormAttId;
+    @Override
+    public Long getS2sUserAttachedFormAttId() {
+        return s2sUserAttachedFormAtt != null ? s2sUserAttachedFormAtt.getId() : null;
     }
 
     @Override
@@ -65,6 +63,13 @@ public class S2sUserAttachedFormAttFile extends KcPersistableBusinessObjectBase 
 
 	public void setId(Long id) {
 		this.id = id;
-	} 
-    
+	}
+
+    public S2sUserAttachedFormAtt getS2sUserAttachedFormAtt() {
+        return s2sUserAttachedFormAtt;
+    }
+
+    public void setS2sUserAttachedFormAtt(S2sUserAttachedFormAtt s2sUserAttachedFormAtt) {
+        this.s2sUserAttachedFormAtt = s2sUserAttachedFormAtt;
+    }
 }
