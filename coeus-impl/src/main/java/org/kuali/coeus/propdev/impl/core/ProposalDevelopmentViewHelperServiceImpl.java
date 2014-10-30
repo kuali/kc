@@ -792,6 +792,17 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return developmentProposal.getS2sOpportunity() != null && getProposalDevelopmentService().getS2SSubmissionChangeCorrectedCode().equals(developmentProposal.getS2sOpportunity().getS2sSubmissionTypeCode());
     }
     
+    public boolean renderQuestionnaire(ProposalPerson proposalPerson){
+        if (proposalPerson.getRole().getCertificationRequired()){
+            return true;
+        }
+        else if (proposalPerson.getOptInCertificationStatus()){
+            return true;
+        }
+
+        return false;
+    }
+
     public ProposalDevelopmentService getProposalDevelopmentService() {
 		return proposalDevelopmentService;
 	}

@@ -176,6 +176,22 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 	   ModelAndView mv = this.save(pdForm, result, request, response);
 	   return mv;
    }
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certificationToggle")
+    public ModelAndView certificationToggle(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
+        String personNumber = pdForm.getActionParamaterValue("personNumber");
+        for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+            if (StringUtils.equals(personNumber, person.getProposalPersonNumber().toString())) {
+
+                person.setOptInCertificationStatus(!person.getOptInCertificationStatus());
+                if (!person.getOptInCertificationStatus()){
+                    return clearAnswers(form, result, request, response);
+                }
+            }
+        }
+        return getRefreshControllerService().refresh(form);
+    }
 
 
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=viewCertification")
