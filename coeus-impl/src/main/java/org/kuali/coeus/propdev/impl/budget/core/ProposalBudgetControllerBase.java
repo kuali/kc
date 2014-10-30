@@ -145,7 +145,7 @@ public abstract class ProposalBudgetControllerBase {
     protected ModelAndView navigate(ProposalBudgetForm form) throws Exception {
 		form.setPageId(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID));
 		form.setDirtyForm(false);
-		if (form.getView().getCurrentPage().getReadOnly() == null || form.getView().getCurrentPage().getReadOnly()) {
+		if (form.getView().getCurrentPage().getReadOnly() != null && form.getView().getCurrentPage().getReadOnly()) {
 			return getModelAndViewService().getModelAndView(form);
 		} else {
 			return save(form);

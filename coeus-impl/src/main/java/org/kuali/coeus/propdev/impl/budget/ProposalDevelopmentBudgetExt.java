@@ -21,6 +21,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.ProposalDevelopmentBudgetExtContract;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetNextValue;
@@ -143,5 +144,12 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 
 	public void setNextValues(List<ProposalBudgetNextValue> nextValues) {
 		this.nextValues = nextValues;
+	}
+	
+	public void removeBudgetLineItems(List<BudgetLineItem> lineItems) {
+		getBudgetLineItems().removeAll(lineItems);
+		for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
+			budgetPeriod.getBudgetLineItems().removeAll(lineItems);
+		}
 	}
 }

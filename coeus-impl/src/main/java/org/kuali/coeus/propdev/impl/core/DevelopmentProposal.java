@@ -227,9 +227,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Column(name = "HIERARCHY_BUDGET_TYPE")
     private String hierarchyBudgetType;
 
-    @Column(name = "HIERARCHY_LAST_BUDGET_DOC_NBR")
-    private String lastSyncedBudgetDocumentNumber;
-
     @Column(name = "PROPOSALNUMBER_GG")
     private String proposalNumberForGG;
 
@@ -339,7 +336,11 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     
     @OneToOne(cascade = { CascadeType.REFRESH, CascadeType.REMOVE })
     @JoinColumn(name = "FINAL_BUDGET_ID", referencedColumnName = "BUDGET_ID")
-    private ProposalDevelopmentBudgetExt finalBudget;    
+    private ProposalDevelopmentBudgetExt finalBudget;
+    
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
+    @JoinColumn(name = "HIERARCHY_LAST_BUDGET_ID", referencedColumnName = "BUDGET_ID")
+    private ProposalDevelopmentBudgetExt lastSyncedBudget;
 
     @OneToOne(mappedBy = "developmentProposal", cascade = CascadeType.ALL)
     private S2sOpportunity s2sOpportunity;
@@ -2102,14 +2103,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         return (KrmsRulesContext) getProposalDocument();
     }
 
-    public String getLastSyncedBudgetDocumentNumber() {
-        return lastSyncedBudgetDocumentNumber;
-    }
-
-    public void setLastSyncedBudgetDocumentNumber(String lastSyncedBudgetDocumentNumber) {
-        this.lastSyncedBudgetDocumentNumber = lastSyncedBudgetDocumentNumber;
-    }
-
 /**
  * Gets the agencyRoutingIdentifier attribute.
  * 
@@ -2332,5 +2325,13 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
 
 	public void setFinalBudget(ProposalDevelopmentBudgetExt finalBudget) {
 		this.finalBudget = finalBudget;
+	}
+
+	public ProposalDevelopmentBudgetExt getLastSyncedBudget() {
+		return lastSyncedBudget;
+	}
+
+	public void setLastSyncedBudget(ProposalDevelopmentBudgetExt lastSyncedBudget) {
+		this.lastSyncedBudget = lastSyncedBudget;
 	}
 }

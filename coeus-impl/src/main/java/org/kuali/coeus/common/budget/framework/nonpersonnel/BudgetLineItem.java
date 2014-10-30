@@ -20,6 +20,7 @@ import org.kuali.coeus.common.budget.api.nonpersonnel.BudgetLineItemContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 
 import java.sql.Date;
@@ -29,13 +30,11 @@ import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.sys.framework.persistence.BooleanNFConverter;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -125,7 +124,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @OneToMany(mappedBy="budgetLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 
-    @OneToMany(mappedBy="budgetLineItem", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToMany(mappedBy="budgetLineItem", orphanRemoval= true, cascade = { CascadeType.ALL })
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
     @Column(name = "SUBAWARD_NUMBER", insertable = false, updatable = false)
@@ -134,9 +133,13 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
     @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false), @JoinColumn(name = "SUBAWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
     private BudgetSubAwards budgetSubAward;
-
+    
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "HIERARCHY_PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private DevelopmentProposal hierarchyProposal;
 
     @Column(name = "HIDE_IN_HIERARCHY")
     @Convert(converter = BooleanYNConverter.class)
@@ -660,6 +663,12 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 	public void setBudgetSubAward(BudgetSubAwards budgetSubAward) {
 		this.budgetSubAward = budgetSubAward;
 		subAwardNumber = budgetSubAward.getSubAwardNumber();
+	}
+	public DevelopmentProposal getHierarchyProposal() {
+		return hierarchyProposal;
+	}
+	public void setHierarchyProposal(DevelopmentProposal hierarchyProposal) {
+		this.hierarchyProposal = hierarchyProposal;
 	}
 
 }
