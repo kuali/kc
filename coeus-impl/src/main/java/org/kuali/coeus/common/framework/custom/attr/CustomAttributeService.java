@@ -78,5 +78,17 @@ public interface CustomAttributeService {
      
      */
 	public boolean isRequired(String dataTypeCode, CustomAttribute attr, List<? extends DocumentCustomData> customDataList);
+	
+	/**
+	 * Return a map translating document type code to a full name.  Such as AWRD : Award.
+	 * @return
+	 */
+	public Map<String, String> getDocumentTypeMap();
+	
+	/**
+	 * Return a map translating the full document type name to a code.  Such as Award : AWRD.
+	 * @return
+	 */
+	public Map<String, String> getReverseDocumentTypeMap();
 
 }

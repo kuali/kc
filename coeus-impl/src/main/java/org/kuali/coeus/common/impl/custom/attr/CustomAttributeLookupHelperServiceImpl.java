@@ -17,31 +17,31 @@ package org.kuali.coeus.common.impl.custom.attr;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component("customAttributeDocumentLookupableHelperService")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CustomAttributeLookupHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
+	
+	@Autowired
+    @Qualifier("customAttributeService")
+	public transient CustomAttributeService customAttributeService;
 
     private static final String EQUAL_CHAR = "=";
-    private Collection<String> documentTypeParam;
     
     public CustomAttributeLookupHelperServiceImpl() {
-        documentTypeParam = getParameterService().getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
-                Constants.CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE, Constants.CUSTOM_ATTRIBUTE_DOCUMENT_PARAM_NAME);
     }
     
     /**
@@ -51,7 +51,7 @@ public class CustomAttributeLookupHelperServiceImpl extends KcKualiLookupableHel
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<CustomAttributeDocument> searchResults = (List<CustomAttributeDocument>) super.getSearchResults(fieldValues);
-        Map<String, String> documentTypes = getDocumentTypeMap();
+        Map<String, String> documentTypes = getCustomAttributeService().getDocumentTypeMap();
         for (CustomAttributeDocument customAttributeDocument : searchResults) {
             customAttributeDocument.setDocumentTypeName(documentTypes.get(customAttributeDocument.getDocumentTypeName()));
         }
@@ -65,7 +65,7 @@ public class CustomAttributeLookupHelperServiceImpl extends KcKualiLookupableHel
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-        Map<String, String> documentTypes = getReverseDocumentTypeMap();
+        Map<String, String> documentTypes = getCustomAttributeService().getReverseDocumentTypeMap();
         for (HtmlData htmlData : htmlDataList) {
             if (StringUtils.isNotBlank(((AnchorHtmlData) htmlData).getHref())) {
                 String docType = StringUtils.substringBetween(((AnchorHtmlData) htmlData).getHref(), "documentTypeName=", "&");
@@ -79,25 +79,12 @@ public class CustomAttributeLookupHelperServiceImpl extends KcKualiLookupableHel
         return htmlDataList;
     }
 
-    protected Map<String, String> getDocumentTypeMap() {
-        Map<String, String> documentTypes = new HashMap<String, String>();
-        for (String documentType : documentTypeParam) {
-            String[] params = documentType.split(EQUAL_CHAR);
-            documentTypes.put(params[0], params[1]);
-        }
-        return documentTypes;
+	public CustomAttributeService getCustomAttributeService() {
+		return customAttributeService;
+	}
 
-    }
-
-    protected Map<String, String> getReverseDocumentTypeMap() {
-        Map<String, String> documentTypes = new HashMap<String, String>();
-        for (String documentType : documentTypeParam) {
-            String[] params = documentType.split(EQUAL_CHAR);
-            documentTypes.put(params[1].replace(" ", "+"), params[0]);
-        }
-        return documentTypes;
-
-    }
-
-
+	public void setCustomAttributeService(
+			CustomAttributeService customAttributeService) {
+		this.customAttributeService = customAttributeService;
+	}
 }
