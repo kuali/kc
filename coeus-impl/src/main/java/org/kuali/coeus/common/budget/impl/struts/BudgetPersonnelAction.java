@@ -197,6 +197,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                 if(!existingCeGroupCombo) {
                     newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                     newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+                    newBudgetLineItem.setBudgetPeriodBO(budgetPeriod);
                     newBudgetLineItem.setBudgetCategory(newBudgetCategory);
                     
                     newBudgetLineItem.setStartDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getStartDate());

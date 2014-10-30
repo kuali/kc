@@ -321,6 +321,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     	newBudgetLineItem.setBudgetId(budget.getBudgetId());
         newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
         newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+        newBudgetLineItem.setBudgetPeriodBO(budgetPeriod);
         newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
         newBudgetLineItem.setLineItemNumber(lineItemNumber);
         newBudgetLineItem.setLineItemSequence(lineItemNumber);

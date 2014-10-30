@@ -307,9 +307,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod){
         if (isCalculationRequired(budget, budgetPeriod)){
             new BudgetPeriodCalculator().calculate(budget, budgetPeriod);
-        }else {
-        	updateBudgetTotalCost(budget);
         }
+    	updateBudgetTotalCost(budget);
     }
 
     /**

@@ -146,14 +146,10 @@ public class SalaryCalculator {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private QueryList<BudgetPerson> filterBudgetPersons() {
         QueryList<BudgetPerson> filteredPersons = new QueryList<BudgetPerson>();
-        List<BudgetPerson> savedBudgetPersons = new ArrayList<BudgetPerson>();
+        List<BudgetPerson> savedBudgetPersons = budget.getBudgetPersons();
 
-        BusinessObjectService businessObjectService = KNSServiceLocator.getBusinessObjectService();
-        Map queryMap = new HashMap();
-        queryMap.put("budgetId", budget.getBudgetId());
-        savedBudgetPersons = (List<BudgetPerson>) businessObjectService.findMatching(BudgetPerson.class, queryMap);
         if (savedBudgetPersons.isEmpty()){
-            return filteredPersons;
+        	return filteredPersons;
         }
 
         int i = 0;
