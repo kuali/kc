@@ -2,12 +2,16 @@ package org.kuali.coeus.propdev.impl.budget.person;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelBudgetService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
@@ -210,7 +214,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		budgetLineItem.setStartDate(editBudgetPersonnel.getStartDate());
 		budgetLineItem.setEndDate(editBudgetPersonnel.getEndDate());
 		getDataObjectService().wrap(editBudgetPersonnel).fetchRelationship("budgetPeriodType");
-		calculatePersonSalary(form);
+		calculatePersonnelLineItem(form);
 		budgetLineItem.getBudgetPersonnelDetailsList().set(editLineIndex, editBudgetPersonnel);
 		BudgetLineItem newBudgetLineItem = getDataObjectService().save(budgetLineItem);
 		budgetPeriod.getBudgetLineItems().set(budgetLineItemIndex, newBudgetLineItem);
@@ -218,7 +222,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		return getModelAndViewService().getModelAndView(form);
 	}
 	
-	protected void calculatePersonSalary(ProposalBudgetForm form) {
+	protected void calculatePersonnelLineItem(ProposalBudgetForm form) {
 	    Budget budget = form.getBudget();
 	    String selectedLine = form.getAddProjectPersonnelHelper().getEditLineIndex();
 	    BudgetPersonnelDetails budgetPersonnelDetails = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
@@ -226,6 +230,15 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	    getBudgetPersonnelBudgetService().calculateBudgetPersonnelLineItem(budget, budgetLineItem, budgetPersonnelDetails, Integer.parseInt(selectedLine));
 	}
 
+	protected void calculatePersonSalary(ProposalBudgetForm form) {
+	    Budget budget = form.getBudget();
+	    int selectedLine = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());
+        List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
+        BudgetPerson budgetPerson = form.getAddProjectPersonnelHelper().getEditBudgetPerson();
+        budgetPersonSalaryDetails =  getBudgetPersonnelBudgetService().calculatePersonSalary(budget, selectedLine);        
+        budgetPerson.setBudgetPersonSalaryDetails(budgetPersonSalaryDetails);
+	}
+	
 	@RequestMapping(params="methodToCall=calculateCurrentPeriod")
 	public ModelAndView calculateCurrentPeriod(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
