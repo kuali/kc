@@ -15,25 +15,26 @@
  */
 package org.kuali.coeus.propdev.impl.auth.perm;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.docperm.AddProposalUserEvent;
-import org.kuali.coeus.propdev.impl.docperm.DeleteProposalUserEvent;
-import org.kuali.coeus.propdev.impl.docperm.EditUserProposalRolesEvent;
-import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
+import org.kuali.coeus.propdev.impl.docperm.*;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component("proposalDevelopmentPermissionsService")
 public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelopmentPermissionsService {
+
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentPermissionsServiceImpl.class);
 
     @Autowired
     @Qualifier("kcAuthorizationService")
@@ -50,6 +51,45 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     @Autowired
     @Qualifier("legacyNarrativeService")
     private LegacyNarrativeService narrativeService;
+
+    @Autowired
+    @Qualifier("proposalRoleService")
+    private ProposalRoleService proposalRoleService;
+
+    @Override
+    public List<ProposalUserRoles> getPermissions(ProposalDevelopmentDocument document) {
+        Map<String, ProposalUserRoles> pendingRoleMap = new TreeMap<String, ProposalUserRoles>();
+
+        // Add persons into the ProposalUserRolesList for each of the roles.
+        Collection<Role> roles = proposalRoleService.getRolesForDisplay();
+        for (Role role : roles) {
+            List<String> personIds = kraAuthorizationService.getPrincipalsInRole(role.getName(), document);
+            for (String personId : personIds) {
+                Person person = personService.getPerson(personId);
+                if (person != null) {
+                    ProposalUserRoles proposalUserRole = pendingRoleMap.get(person.getPrincipalName());
+                    if (proposalUserRole != null) {
+                        proposalUserRole.addRoleName(role.getName());
+                    } else {
+                        ProposalUserRoles newRole = new ProposalUserRoles();
+                        newRole.setUsername(person.getPrincipalName());
+                        newRole.setFullname(getFullName(person.getFirstName(), person.getMiddleName(), person.getLastName()));
+                        newRole.addRoleName(role.getName());
+                        pendingRoleMap.put(person.getPrincipalName(), newRole);
+                    }
+                } else {
+                    LOG.error("Attempting to get roles for null user role!");
+                }
+            }
+        }
+        return new ArrayList<>(pendingRoleMap.values());
+    }
+
+    public String getFullName(String first, String middle, String last) {
+        final String middleName = middle != null ? middle + " " : "";
+
+        return (first + " " + middleName + last).trim();
+    }
 
     @Override
     public void savePermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> persistedUsers,
@@ -149,5 +189,13 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 
     public void setNarrativeService(LegacyNarrativeService narrativeService) {
         this.narrativeService = narrativeService;
+    }
+
+    public ProposalRoleService getProposalRoleService() {
+        return proposalRoleService;
+    }
+
+    public void setProposalRoleService(ProposalRoleService proposalRoleService) {
+        this.proposalRoleService = proposalRoleService;
     }
 }

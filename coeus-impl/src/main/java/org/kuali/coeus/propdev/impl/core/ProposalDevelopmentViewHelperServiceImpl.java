@@ -289,7 +289,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
         else if (newLine instanceof ProposalUserRoles){
             ProposalUserRoles newProposalUserRoles = (ProposalUserRoles) newLine;
-            isValid = getProposalDevelopmentPermissionsService().validateAddPermissions(document, form.getPermissionsHelper().getWorkingUserRoles(),newProposalUserRoles);
+            isValid = getProposalDevelopmentPermissionsService().validateAddPermissions(document, form.getWorkingUserRoles(),newProposalUserRoles);
         }
         else if (newLine instanceof Narrative) {
             Narrative narrative = (Narrative) newLine;
@@ -338,7 +338,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         int index = ((List<Object>) collection).indexOf(deleteLine);
         boolean isValid = true;
         if (deleteLine instanceof ProposalUserRoles){
-            isValid = getProposalDevelopmentPermissionsService().validateDeletePermissions(document, form.getPermissionsHelper().getWorkingUserRoles(),index);
+            isValid = getProposalDevelopmentPermissionsService().validateDeletePermissions(document, form.getWorkingUserRoles(),index);
             if (isValid){
                 getProposalDevelopmentPermissionsService().processDeletePermission(document,((ProposalUserRoles)deleteLine));
             }

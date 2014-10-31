@@ -22,7 +22,6 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
-import org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -268,7 +267,6 @@ public abstract class ProposalDevelopmentControllerBase {
          } else {
              view = getModelAndViewService().getModelAndView(form);
          }
-         initializeProposalUsers(proposalDevelopmentDocument);
 
          return view;
      }
@@ -408,8 +406,7 @@ public abstract class ProposalDevelopmentControllerBase {
             getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_UNFINISHED_PERMISSIONS);
         }
         else {
-            ProposalDevelopmentPermissionsHelper helper = pdForm.getPermissionsHelper();
-            getProposalDevelopmentPermissionsService().savePermissions(pdForm.getProposalDevelopmentDocument(), helper.getUserRoles(), helper.getWorkingUserRoles());
+            getProposalDevelopmentPermissionsService().savePermissions(pdForm.getProposalDevelopmentDocument(), getProposalDevelopmentPermissionsService().getPermissions(pdForm.getProposalDevelopmentDocument()), pdForm.getWorkingUserRoles());
         }
     }
 

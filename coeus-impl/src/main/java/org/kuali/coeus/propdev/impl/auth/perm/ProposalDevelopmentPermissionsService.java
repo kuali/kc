@@ -22,6 +22,8 @@ import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 
 public interface ProposalDevelopmentPermissionsService {
 
+    public List<ProposalUserRoles> getPermissions(ProposalDevelopmentDocument document);
+
     public void savePermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> persistedUsers, List<ProposalUserRoles> newUsers);
     
     public void saveProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc);

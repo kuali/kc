@@ -56,16 +56,15 @@ public class ProposalDevelopmentPermissionsController extends ProposalDevelopmen
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=savePermission")
     public ModelAndView savePermission(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-        ProposalDevelopmentPermissionsHelper helper = form.getPermissionsHelper();
 
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
-        boolean success = getProposalDevelopmentPermissionsService().validateUpdatePermissions(form.getProposalDevelopmentDocument(), helper.getWorkingUserRoles(),
-                helper.getWorkingUserRoles().get(Integer.parseInt(selectedLine)));
+        boolean success = getProposalDevelopmentPermissionsService().validateUpdatePermissions(form.getProposalDevelopmentDocument(), form.getWorkingUserRoles(),
+                form.getWorkingUserRoles().get(Integer.parseInt(selectedLine)));
 
         if (success){
-            getProposalDevelopmentPermissionsService().processUpdatePermission(form.getProposalDevelopmentDocument(),helper.getWorkingUserRoles().get(Integer.parseInt(selectedLine)));
+            getProposalDevelopmentPermissionsService().processUpdatePermission(form.getProposalDevelopmentDocument(),form.getWorkingUserRoles().get(Integer.parseInt(selectedLine)));
 
             if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)){
                 form.getEditableCollectionLines().get(selectedCollectionPath).remove(selectedLine);
