@@ -288,6 +288,7 @@ public class PropDevBudgetSubAwardServiceTest {
         public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod) {
             newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
             newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+            newBudgetLineItem.setBudgetPeriodBO(budgetPeriod);
             newBudgetLineItem.setStartDate(budgetPeriod.getStartDate());
             newBudgetLineItem.setEndDate(budgetPeriod.getEndDate());
             newBudgetLineItem.setBudgetId(budget.getBudgetId());

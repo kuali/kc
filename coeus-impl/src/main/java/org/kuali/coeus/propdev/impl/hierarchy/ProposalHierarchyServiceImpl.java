@@ -831,6 +831,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
             
             BudgetSubAwards newSubAwards;
+            Map<Integer, BudgetSubAwards> subAwardMap = new HashMap<>();
             for (BudgetSubAwards childSubAwards : childBudget.getBudgetSubAwards()) {
             	for (BudgetSubAwardAttachment origAttachment : childSubAwards.getBudgetSubAwardAttachments()) {
             		origAttachment.getData();
@@ -851,6 +852,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     files.setVersionNumber(null);
                 }
                 parentBudget.getBudgetSubAwards().add(newSubAwards);
+                subAwardMap.put(childSubAwards.getSubAwardNumber(), newSubAwards);
             }
             
             int parentStartPeriod = getCorrespondingParentPeriod(parentBudget, childBudget);
@@ -902,9 +904,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
-                    	if (childLineItem.getSubAwardNumber() != null) {
-                    		continue;
-                    	}
                         parentLineItem = (BudgetLineItem) deepCopy(childLineItem);
                         lineItemNumber = parentBudget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         
@@ -921,6 +920,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentLineItem.setLineItemNumber(lineItemNumber);
                         parentLineItem.setVersionNumber(null);
                         parentLineItem.setObjectId(null);
+                        
+                        if (parentLineItem.getSubAwardNumber() != null) {
+                        	BudgetSubAwards subAward = subAwardMap.get(childLineItem.getSubAwardNumber());
+                        	parentLineItem.setSubAwardNumber(subAward.getSubAwardNumber());
+                        	parentLineItem.setBudgetSubAward(subAward);
+                        }
                         
                         for (BudgetLineItemCalculatedAmount calAmt : parentLineItem.getBudgetLineItemCalculatedAmounts()) {
                         	calAmt.setBudgetLineItem(parentLineItem);
@@ -1034,7 +1039,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             throw new ProposalHierarchyException("Problem copying line items to parent", e);
         }
 
-        budgetSummaryService.calculateBudget(parentBudget);
+        budgetService.recalculateBudget(parentBudget);
         dataObjectService.save(parentBudget);
         childProposal.setLastSyncedBudget(childBudget);
     }

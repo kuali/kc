@@ -53,7 +53,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @GeneratedValue(generator = "SEQ_BUDGET_DETAILS_ID")
     private Long budgetLineItemId; 
 
-    @Column(name = "BUDGET_PERIOD_NUMBER")
+    @Column(name = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
     private Long budgetPeriodId; 
 
     @Column(name = "LINE_ITEM_NUMBER")
@@ -167,7 +167,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     //will cause generateAllPeriods to consume large amounts of memory
     @DeepCopyIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH})
-    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
+    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER")
     private BudgetPeriod budgetPeriodBO;
 
     @Transient

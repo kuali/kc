@@ -170,6 +170,7 @@ public class BudgetPeriodCalculator {
                 budgetLineItem.getBudgetCalculatedAmounts().clear();
                 budgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                 budgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+                budgetLineItem.setBudgetPeriodBO(budgetPeriod);
                 boolean isLeapDateInPeriod = KcServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(prevBudgetLineItem.getStartDate(), prevBudgetLineItem.getEndDate()) ;
                 gap= KcServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate(), false);
                 boolean isLeapDayInGap = KcServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate());
