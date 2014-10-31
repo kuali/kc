@@ -163,7 +163,7 @@
         <property name="items">
             <list>
                <bean parent="PropDev-AttachmentPage-AddLineButton" p:methodToCall="prepareBiography" p:refreshId="PropDev-AttachmentsPage-PersonnelDetails"
-                     p:successCallback="showDialog('PropDev-AttachmentsPage-PersonnelDetails');" p:order="10" p:render="@{!document.developmentProposal.isParent()}"/>
+                     p:successCallback="showDialog('PropDev-AttachmentsPage-PersonnelDetails');" p:order="10" p:render="@{!document.developmentProposal.isParent() and !#parent.readOnly}"/>
                <bean parent="PropDev-AttachmentsPage-PersonnelCollection" p:order="20" />
             </list>
         </property>

@@ -6,7 +6,6 @@ import java.util.Set;
 import org.kuali.coeus.common.framework.auth.KcAuthConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocumentViewPresentationControllerBase;
 import org.kuali.rice.krad.uif.view.View;
@@ -47,6 +46,10 @@ public class ProposalDevelopmentDocumentViewPresentationController extends Trans
 		if(canSubmitToSponsor(((DocumentFormBase) model).getDocument())) {
 			documentActions.add(ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_SPONSOR);
 		}
+
+        if (((ProposalDevelopmentDocumentForm)model).isViewOnly()){
+          documentActions.clear();
+        }
 		return documentActions;
 	}
 	

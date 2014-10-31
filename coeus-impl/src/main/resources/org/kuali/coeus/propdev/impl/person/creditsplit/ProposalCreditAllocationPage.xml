@@ -75,8 +75,8 @@
             </list>
         </property>
         <property name="columnFieldPrototype">
-            <bean parent="Uif-InputField" p:readOnly="@{#line ne null?#line.getClass().getName().equals(#collectionGroup.collectionObjectClass.getName())?#line.lineType eq 'unit-total' || #line.lineType eq 'investigator-total':false:false}"
-                  p:cssClasses="@{#line ne null?#line.getClass().getName().equals(#collectionGroup.collectionObjectClass)?#line.lineType:'':''}">
+            <bean parent="Uif-InputField" p:readOnly="@{#line?.lineType eq 'unit-total' || #line?.lineType eq 'investigator-total' || #parent.readOnly }"
+                  p:cssClasses="@{#line.lineType}">
                 <property name="validCharactersConstraint">
                     <bean parent="FixedPointPatternConstraint">
                         <property name="precision" value="5"/>

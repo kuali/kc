@@ -70,5 +70,13 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
     	}
     	return hasPermission;
     }
+
+    @Override
+    public boolean canEditGroup(View view, ViewModel model, Group group, String groupId, Person user) {
+        if (((ProposalDevelopmentDocumentForm)model).isViewOnly()){
+            return false;
+        }
+        return super.canEditGroup(view,model,group,groupId,user);
+    }
     
 }

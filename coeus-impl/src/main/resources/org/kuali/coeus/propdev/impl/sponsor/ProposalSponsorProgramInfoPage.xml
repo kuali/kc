@@ -36,9 +36,9 @@
 				p:order="20" />
 				<bean parent="Uif-InputField" p:propertyName="noticeOfOpportunityCode" p:enableAutoQuickfinder="false"
 				p:order="30" />
-				<bean parent="Uif-InputField" p:propertyName="programAnnouncementNumber" p:readOnly="@{document.developmentProposal.s2sOpportunity != null}"
+				<bean parent="Uif-InputField" p:propertyName="programAnnouncementNumber" p:readOnly="@{document.developmentProposal.s2sOpportunity != null or #parent.readOnly}"
 				p:order="40" />
-				<bean parent="Uif-InputField" p:propertyName="cfdaNumber" p:readOnly="@{document.developmentProposal.s2sOpportunity != null}"
+				<bean parent="Uif-InputField" p:propertyName="cfdaNumber" p:readOnly="@{document.developmentProposal.s2sOpportunity != null or #parent.readOnly}"
 				p:order="50" />
 				<bean parent="PropDev-SponsorProgramInfo-SubawardSection" 
 				p:order="60" />
@@ -64,7 +64,7 @@
                 p:order="120"/>
                 <bean parent="Uif-InputField" p:propertyName="prevGrantsGovTrackingID"
                 p:order="130"/>
-				<bean parent="Uif-InputField" p:propertyName="programAnnouncementTitle" p:readOnly="@{document.developmentProposal.s2sOpportunity != null}"
+				<bean parent="Uif-InputField" p:propertyName="programAnnouncementTitle" p:readOnly="@{document.developmentProposal.s2sOpportunity != null or #parent.readOnly}"
 				p:order="140" />
 			</list>
 		</property>
