@@ -74,7 +74,6 @@
         <ref bean="Award-awardAmountInfo.obligationExpirationDate" />
         <ref bean="Award-awardAmountInfo.amountObligatedToDate" />
         <ref bean="Award-sponsor.sponsorName" />
-        
       </list>
     </property>
         <property name="collections">
