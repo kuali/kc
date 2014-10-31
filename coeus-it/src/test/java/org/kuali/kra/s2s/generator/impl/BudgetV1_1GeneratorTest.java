@@ -71,6 +71,7 @@ public class BudgetV1_1GeneratorTest extends S2STestBase<BudgetV1_1Generator> {
         narrativeType.setAllowMultiple(true);
         narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for EDAbstract Attachment");
+        narrative.setModuleTitle("Multiple Allowed Description");
         getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);
         narrative.setNarrativeTypeCode("57");

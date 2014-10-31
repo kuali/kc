@@ -71,6 +71,7 @@ public class ProjectV1_1GeneratorTest extends S2STestBase<ProjectV1_1Generator> 
         narrativeType.setAllowMultiple(true);
         narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for Project Attachment");
+        narrative.setModuleTitle("Allows Multiples Description");
         getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);
         narrative.setNarrativeTypeCode("53");

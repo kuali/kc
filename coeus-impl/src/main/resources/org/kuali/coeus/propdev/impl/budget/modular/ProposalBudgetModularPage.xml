@@ -90,6 +90,20 @@
 				</property>
 			</bean>
 		</property>
+        <property name="addLineItems">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="description" p:label="F&amp;A Rate Type"
+                      p:order="10" p:required="true" p:fieldLabel.renderColon="false"
+                      p:enableAutoQuickfinder="false" >
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="idcRate" p:label="F&amp;A Rate"
+                      p:order="20" p:required="false" p:fieldLabel.renderColon="false" />
+                <bean parent="Uif-InputField" p:propertyName="idcBase" p:label="F&amp;A Base"
+                      p:order="30" p:required="false" p:fieldLabel.renderColon="false" >
+                    <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+                </bean>
+            </list>
+        </property>
 		<property name="items">
 			<list>
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="description" p:label="F&amp;A Rate Type"
@@ -261,8 +275,9 @@
                       p:renderLineActions="false" p:propertyName="budgetModularSummary.budgetModularIdcs" p:renderAddLine="false">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-DataField" p:propertyName="description" p:label="F&amp;A Rate Type"
-                              p:order="10" p:fieldLabel.renderColon="false" >
+                        <bean parent="Uif-InputField" p:readOnly="true" p:propertyName="description" p:label="F&amp;A Rate Type"
+                              p:order="10" p:required="true" p:fieldLabel.renderColon="false"
+                              p:enableAutoQuickfinder="false" >
                         </bean>
                         <bean parent="Uif-DataField" p:propertyName="idcRate" p:label="F&amp;A Rate"
                               p:order="20" p:fieldLabel.renderColon="false" />

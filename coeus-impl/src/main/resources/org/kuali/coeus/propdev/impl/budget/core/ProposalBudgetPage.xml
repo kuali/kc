@@ -55,7 +55,7 @@
 	
 	<bean id="PropDev-BudgetVersions-Dialog" parent="PropDev-BudgetVersions-Dialog-parentBean"/>
 	<bean id="PropDev-BudgetVersions-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
-		p:dialogCssClass="modal-lg" p:headerText="Budgets">
+		p:dialogCssClass="modal-lg" p:headerText="Budgets" p:retrieveViaAjax="true">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-BudgetPage-Collection" p:order="10" p:headerText=""/>

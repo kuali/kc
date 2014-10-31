@@ -180,6 +180,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, fundingSourceTypeCode)) {
             InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceNumber);
             if (institutionalProposal != null) {
+                institutionalProposal.refreshReferenceObject("specialReviews");
                 isLinkedToSpecialReview = isLinkedToSpecialReviews(institutionalProposal.getSpecialReviews(), protocolNumber);
             }
         }

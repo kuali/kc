@@ -287,7 +287,6 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     	groupedBudgetLineItem.setQuantity(getLineItemQuantity(newBudgetLineItem));
     	int newLineNumber = groupedBudgetLineItem.getBudgetPersonnelDetailsList().size() + 1;
     	calculateBudgetPersonnelLineItem(budget, groupedBudgetLineItem, newBudgetPersonnelDetail, newLineNumber);
-        budget.getBudgetPersonnelDetails().add(newBudgetPersonnelDetail);
     }
     
     /**

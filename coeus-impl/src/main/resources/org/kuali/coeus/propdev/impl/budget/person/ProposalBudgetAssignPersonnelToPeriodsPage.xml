@@ -145,7 +145,7 @@
     <bean id="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel" parent="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel-parentBean"/>
     <bean id="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel-parentBean" abstract="true" parent="Uif-DialogGroup"
           p:fieldBindingObjectPath="addProjectPersonnelHelper"
-          p:onHideDialogScript="Kc.Dialog.resetDialogFields(this, e);"
+          p:destroyDialogOnHidden="true"
           p:header.headerText="Add Personnel to Period">
         <property name="items">
             <list>
@@ -153,10 +153,16 @@
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField" p:propertyName="budgetPersonnelDetail.personSequenceNumber"
-								p:optionsFinder="#{#getService('budgetPersonValuesFinder')}" p:order="10" p:required="true"/>
+								p:optionsFinder="#{#getService('budgetPersonValuesFinder')}" p:order="10" p:required="true"
+								p:enableAutoQuickfinder="false"/>
 							<bean parent="Uif-InputField" p:propertyName="budgetLineItem.costElement"
 								p:label="Object Code" p:optionsFinder="#{#getService('budgetPersonnelCostElementValuesFinder')}" 
-								p:optionsFinder.addBlankOption="false" p:order="20"/>
+								p:optionsFinder.addBlankOption="false" p:order="20">
+								<property name="quickfinder">
+            						<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.budget.framework.core.CostElement"
+                  						p:fieldConversions="costElement:addProjectPersonnelHelper.budgetLineItem.costElement" p:returnByScript="true"/>
+        						</property>
+							</bean>	
 							<bean parent="Uif-InputField" p:propertyName="budgetPersonGroupName"
 								p:label="Group" p:order="30" p:required="false"
 								p:optionsFinder="#{#getService('groupNameValuesFinder')}" 
@@ -203,7 +209,7 @@
 
 	<bean id="PropBudget-EditPersonnelPeriod-Section" parent="PropBudget-EditPersonnelPeriod-Section-parent" />
 	<bean id="PropBudget-EditPersonnelPeriod-Section-parent" p:fieldBindingObjectPath="addProjectPersonnelHelper.budgetPersonnelDetail" abstract="true" parent="Uif-DialogGroup" 
-		p:headerText="Edit Assigned Personnel" p:onHideDialogScript="Kc.Dialog.resetDialogFields(this, e);">
+		p:headerText="Edit Assigned Personnel" p:destroyDialogOnHidden="true">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="budgetPerson.personName"
@@ -276,7 +282,7 @@
 	
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates" parent="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-parent" />
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-parent" abstract="true" parent="Uif-DialogGroup" 
-		p:fieldBindingObjectPath="addProjectPersonnelHelper" p:headerText="Details &amp; Rates" p:onHideDialogScript="Kc.Dialog.resetDialogFields(this, e);">
+		p:fieldBindingObjectPath="addProjectPersonnelHelper" p:headerText="Details &amp; Rates" p:destroyDialogOnHidden="true">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-TabSection" />
@@ -289,7 +295,7 @@
 						<bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
 							p:order="10" />
 						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Apply To Later Periods" p:methodToCall="applyToLaterPeriods"
-							p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}" p:order="20" />
+							p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}" p:order="20" />
 					</list>
 				</property>
 			</bean>

@@ -126,6 +126,7 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
         narrativeType.setAllowMultiple(true);
         narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for Project Attachment");
+        narrative.setModuleTitle("Allows Multiples Description");
         getService(DataObjectService.class).save(narrativeType);
         narrative.setNarrativeType(narrativeType);
         narrative.setNarrativeTypeCode("16");

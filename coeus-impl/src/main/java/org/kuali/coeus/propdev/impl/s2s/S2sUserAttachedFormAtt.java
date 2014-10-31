@@ -36,9 +36,6 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase impl
     @Column(name = "S2S_USER_ATTACHED_FORM_ATT_ID")
     private Long id;
     
-    @Column(name = "S2S_USER_ATTACHED_FORM_ID")
-    private Long s2sUserAttachedFormId;
-    
     @Column(name = "PROPOSAL_NUMBER")
     private String proposalNumber;
     
@@ -52,11 +49,10 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase impl
     private String contentId;
     
     @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ID")
     private S2sUserAttachedForm s2sUserAttachedForm;
 
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "S2S_USER_ATTACHED_FORM_ATT_ID", referencedColumnName = "S2S_USER_ATTACHED_FORM_ATT_ID")
+    @OneToMany(mappedBy="s2sUserAttachedFormAtt", orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<S2sUserAttachedFormAttFile> s2sUserAttachedFormAttFiles;
 
     public S2sUserAttachedFormAtt() {
@@ -74,11 +70,7 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase impl
 
     @Override
     public Long getS2sUserAttachedFormId() {
-        return s2sUserAttachedFormId;
-    }
-
-    public void setS2sUserAttachedFormId(Long s2sUserAttachedFormId) {
-        this.s2sUserAttachedFormId = s2sUserAttachedFormId;
+        return s2sUserAttachedForm != null ? s2sUserAttachedForm.getId() : null;
     }
 
     @Override
@@ -119,6 +111,10 @@ public class S2sUserAttachedFormAtt extends KcPersistableBusinessObjectBase impl
 
     public S2sUserAttachedForm getS2sUserAttachedForm() {
         return s2sUserAttachedForm;
+    }
+
+    public void setS2sUserAttachedForm(S2sUserAttachedForm s2sUserAttachedForm) {
+        this.s2sUserAttachedForm = s2sUserAttachedForm;
     }
 
     @Override

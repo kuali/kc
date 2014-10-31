@@ -25,6 +25,7 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -109,10 +110,12 @@ public class KcDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
 
         for (String key: requiredFields.keySet()) {
             CustomAttribute customAttribute = requiredFields.get(key);
-            AuditCluster auditCluster = GlobalVariables.getAuditErrorMap().get(SUPPLEMENTAL_PAGE_NAME + "." +customAttribute.getGroupName());
+
+            Map<String, AuditCluster> map = GlobalVariables.getAuditErrorMap();
+            AuditCluster auditCluster = map.get("CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors");
 
             assertEquals(1, auditCluster.getSize());
-            assertEquals(SUPPLEMENTAL_PAGE_NAME + "." +customAttribute.getGroupName(), auditCluster.getLabel());
+            assertEquals(customAttribute.getGroupName(), auditCluster.getLabel());
             assertEquals("Error", auditCluster.getCategory());
             AuditError auditError = (AuditError) auditCluster.getAuditErrorList().get(0);
             int index = 0;
@@ -122,8 +125,8 @@ public class KcDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
                 }
                 index++;
             }
-            assertEquals(StringUtils.removePattern(customAttribute.getGroupName() + "_" + customAttribute.getLabel(), "([^0-9a-zA-Z\\-_])"), auditError.getErrorKey());
-            assertEquals(SUPPLEMENTAL_PAGE_ID + "." + customAttribute.getGroupName().replace(" ","_"), auditError.getLink());
+            assertTrue(auditError.getErrorKey().matches("customDataHelper.customDataList.*value"));
+            assertEquals(StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttribute.getGroupName()), auditError.getLink());
             assertEquals(customAttribute.getLabel(), auditError.getParams()[0]);
             assertEquals(RiceKeyConstants.ERROR_REQUIRED, auditError.getMessageKey());
         }
@@ -170,7 +173,7 @@ public class KcDocumentBaseAuditRuleTest extends KcIntegrationTestBase {
      * @param sponsorCode String Sponsor code for the document
      * @param title String title of document
      * @param requestedStartDateInitial String start date
-     * @param requestedEndDateInitila String end date
+     * @param requestedEndDateInitial String end date
      * @param activityTypeCode String activity type code
      * @param proposalTypeCode String proposal type code
      * @param ownedByUnit String owned by unit

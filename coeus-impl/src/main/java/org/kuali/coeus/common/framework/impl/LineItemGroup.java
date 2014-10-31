@@ -16,13 +16,18 @@
 
 package org.kuali.coeus.common.framework.impl;
 
+import java.io.Serializable;
+
 /**
  * A group which contains lineItemObjects, representing a grouping (or heading) within the table.
  * It does not have its own amount.
  *
  * @author Kuali Coeus
  */
-public class LineItemGroup extends LineItem {
+public class LineItemGroup extends LineItem implements Serializable {
+
+    private static final long serialVersionUID = -2168538625791958767L;
+
     private String groupName;
     private boolean calculateGroupSubTotal;
 

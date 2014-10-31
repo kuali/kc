@@ -110,8 +110,9 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         biography.getPropPerDocType().setCode(biography.getDocumentTypeCode());
         biography.refreshReferenceObject("propPerDocType");
 
-        ProposalPerson proposalPerson = getPerson(developmentProposal, biography.getProposalPersonNumber());
-        if (proposalPerson != null) {
+
+        if (biography.getProposalPersonNumber() != null) {
+            ProposalPerson proposalPerson = getPerson(developmentProposal,biography.getProposalPersonNumber() );
             biography.setPersonId(proposalPerson.getPersonId());
             biography.setRolodexId(proposalPerson.getRolodexId());
         }

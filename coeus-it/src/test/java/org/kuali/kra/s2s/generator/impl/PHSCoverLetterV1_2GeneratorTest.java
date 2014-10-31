@@ -68,7 +68,7 @@ public class PHSCoverLetterV1_2GeneratorTest extends S2STestBase<PHSCoverLetterV
         narrative.setName("exercise1");
         NarrativeType narrativeType = new NarrativeType();
         narrativeType.setCode("39");
-        narrativeType.setAllowMultiple(true);
+        narrativeType.setAllowMultiple(false);
         narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for Project Attachment");
         getService(DataObjectService.class).save(narrativeType);

@@ -238,6 +238,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 KcPerson origPerson = person.getPerson();
                 for (PersonDegree degree : origPerson.getExtendedAttributes().getPersonDegrees()) {
                     ProposalPersonDegree newDegree = new ProposalPersonDegree();
+                    newDegree.setProposalPerson(person);
                     newDegree.setDegree(degree.getDegree());
                     newDegree.setDegreeCode(degree.getDegreeCode());
                     newDegree.setFieldOfStudy(degree.getFieldOfStudy());

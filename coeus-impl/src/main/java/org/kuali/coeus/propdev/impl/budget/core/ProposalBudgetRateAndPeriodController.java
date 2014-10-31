@@ -5,9 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.period.GenerateBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,23 +70,34 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
 	@MethodAccessible
     @RequestMapping(params="methodToCall=generateAllPeriods")
     public ModelAndView generateAllPeriods(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentBudgetExt budget = form.getBudget();
-        DialogResponse dialogResponse = form.getDialogResponse(CONFIRM_PERIOD_CHANGES_DIALOG_ID);
-        boolean confirmRecalculate = true;
-    	if(dialogResponse == null) {
-    		form.setDefaultBudgetPeriodWarningMessage(getKualiConfigurationService().getPropertyValueAsString(QUESTION_RECALCULATE_BUDGET_CONFIRMATION));
-        	return getModelAndViewService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
-    	}else {
-        	confirmRecalculate = dialogResponse.getResponseAsBoolean();
-    	}
-        if(confirmRecalculate) {
-        	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
-            getBudgetSummaryService().generateAllPeriods(budget);
+        Budget budget = form.getBudget();
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(
+                new GenerateBudgetPeriodEvent(form.getBudget(), null));
+        if(rulePassed) {
+            DialogResponse dialogResponse = form.getDialogResponse(CONFIRM_PERIOD_CHANGES_DIALOG_ID);
+            Budget originalBudget = getOriginalBudget(form);
+        	if(dialogResponse == null && isRateTypeChanged(originalBudget, budget)) {
+        		form.setDefaultBudgetPeriodWarningMessage(getKualiConfigurationService().getPropertyValueAsString(QUESTION_RECALCULATE_BUDGET_CONFIRMATION));
+            	return getModelAndViewService().showDialog(CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
+        	}
+            boolean confirmRecalculate = dialogResponse !=null ? dialogResponse.getResponseAsBoolean() : true;
+            if(confirmRecalculate) {
+            	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
+                getBudgetSummaryService().generateAllPeriods(budget);
+            }
         }
-		
         return getModelAndViewService().getModelAndView(form);
 	}
 
+    private Budget getOriginalBudget(ProposalBudgetForm form) {
+    	return getDataObjectService().find(Budget.class, form.getBudget().getBudgetId());
+    }
+
+	private boolean isRateTypeChanged(Budget originalBudget, Budget currentBudget) {
+        return (!StringUtils.equalsIgnoreCase(originalBudget.getOhRateClassCode(), currentBudget.getOhRateClassCode())
+            || !StringUtils.equalsIgnoreCase(originalBudget.getUrRateClassCode(), currentBudget.getUrRateClassCode()));
+    }
+ 	
     public BudgetSummaryService getBudgetSummaryService() {
         return budgetSummaryService;
     }

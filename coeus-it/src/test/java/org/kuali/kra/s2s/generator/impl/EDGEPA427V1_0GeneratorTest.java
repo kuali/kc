@@ -66,7 +66,7 @@ public class EDGEPA427V1_0GeneratorTest extends S2STestBase<EDGEPA427V1_0Generat
         narrative.setName("exercise3");
         NarrativeType narrativeType = new NarrativeType();
         narrativeType.setCode("1");
-        narrativeType.setAllowMultiple(true);
+        narrativeType.setAllowMultiple(false);
         narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for EDGEPA427 Attachment");
         getService(DataObjectService.class).save(narrativeType);

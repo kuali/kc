@@ -18,13 +18,18 @@ package org.kuali.coeus.common.framework.impl;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
+import java.io.Serializable;
+
 /**
  * A line item object to be used by LineItemTable which represents an amount.  The line item objects are matched
  * by the table for row by lineItemId, so the lineItemId MUST match across Periods to create a row.
  *
  * @author Kuali Coeus
  */
-public class LineItemObject extends LineItem {
+public class LineItemObject extends LineItem implements Serializable {
+
+    private static final long serialVersionUID = 2763265895600649723L;
+
     private String lineItemId;
     private String name;
 

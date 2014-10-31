@@ -33,6 +33,8 @@ import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.data.CopyOption;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -60,6 +62,10 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     @Qualifier("deepCopyPostProcessor")
     private DeepCopyPostProcessor deepCopyPostProcessor;
 
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+    
     public void setDateTimeService (DateTimeService dateTimeService){this.dateTimeService = dateTimeService;}
     protected DateTimeService getDateTimeService (){return dateTimeService;}
 
@@ -96,8 +102,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                     budgetPeriod.setNumberOfParticipants(budgetPeriod1.getNumberOfParticipants());
                     /* add line items for following periods */
                     for(BudgetLineItem periodLineItem: budgetLineItems) {
-                        BudgetLineItem budgetLineItem = (BudgetLineItem)(getDeepCopyPostProcessor().processDeepCopyWithDeepCopyIgnore(periodLineItem));
-                        budgetLineItem.setBudgetId(budget.getBudgetId());
+                    	BudgetLineItem budgetLineItem = getDataObjectService().copyInstance(periodLineItem, CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER, CopyOption.RESET_OBJECT_ID );
+                    	budgetLineItem.setBudgetId(budget.getBudgetId());
                         budgetLineItem.getBudgetCalculatedAmounts().clear();
                         budgetLineItem.setBudgetPeriod(budPeriod);
                         budgetLineItem.setBudgetPeriodId(budgetPeriodId);
@@ -712,5 +718,11 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
         
     }
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 
 }

@@ -45,11 +45,15 @@
 	 	 <bean  parent="Uif-HorizontalBoxGroup" p:align="left" >
 			<property name="items">
 				<list>
+                    <bean p:actionLabel="Send Adhoc" parent="Uif-PrimaryActionButton" p:methodToCall="sendAdHocRequests"  p:order="5"
+                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+
 					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10"
                            p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and document.documentHeader.workflowDocument.saved}"/>
 
                     <bean  p:actionLabel="Ad Hoc Recipients" parent="Uif-PrimaryActionButton" p:methodToCall="populateAdHocs"  p:order="20"
-                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS]}" />
+                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS] and !document.developmentProposal.isChild()}" />
+
 
                     <bean parent="Uif-PrimaryActionButton" p:actionLabel="Approve" p:methodToCall="approve" p:order="30"
                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
@@ -154,11 +158,13 @@
              <bean parent="PropDev-SubmitPage-ProposalSummary" p:order="10" />
                 <bean parent="PropDev-SubmitPage-Personnel" p:order="20" />
                 <bean parent="PropDev-SubmitPage-CreditAllocation" p:readOnly="true" p:render="@{#ViewHelper.isCreditSplitEnabled()}" p:order="30" />
-                <bean parent="PropDev-SubmitPage-Questionnaire" p:render="@{#ViewHelper.isSummaryQuestionsPanelEnabled()}" p:order="40" />
-                <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="50" />
-                <bean parent="PropDev-SubmitPage-Attachments" p:render="@{#ViewHelper.isSummaryAttachmentsPanelEnabled()}" p:order="60" />
-                <bean parent="PropDev-SubmitPage-Keyword"  p:render="@{#ViewHelper.isSummaryKeywordsPanelEnabled()}" p:order="70" />
-                <bean parent="PropDev-SubmitPage-Hierarchy" p:render="@{document.developmentProposal.isInHierarchy()}" p:order="80"/>
+                <bean parent="PropDev-SubmitPage-Compliance" p:order="40"/>
+                <bean parent="PropDev-SubmitPage-Attachments" p:render="@{#ViewHelper.isSummaryAttachmentsPanelEnabled()}" p:order="50" />
+                <bean parent="PropDev-SubmitPage-Questionnaire" p:render="@{#ViewHelper.isSummaryQuestionsPanelEnabled()}" p:order="60" />
+                <bean parent="PropDev-SubmitPage-SupplementalInfo" p:order="70" />
+                <bean parent="PropDev-SubmitPage-Keyword"  p:render="@{#ViewHelper.isSummaryKeywordsPanelEnabled()}" p:order="80" />
+                <bean parent="PropDev-SubmitPage-Hierarchy" p:render="@{document.developmentProposal.isInHierarchy()}" p:order="90"/>
+
             </list>
         </property>
     </bean>
@@ -205,6 +211,20 @@
           p:propertyName="document.developmentProposal.proposalPersons" p:fieldBindingObjectPath="document.developmentProposal"
           p:renderAddLine="false" p:layoutManager.richTable.render="false" p:renderInactiveToggleButton="false"
           p:renderLineActions="false" p:layoutManager.renderSequenceField="false"  >
+        <property name="header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Print All" p:order="10">
+                            <property name="actionUrl">
+                                <bean parent="Uif-Url"
+                                      p:href="../kc-pd-krad/proposalDevelopment?methodToCall=printAllCertifications&amp;formKey=@{formKey}"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="fullName" p:fieldLabel.labelText="Key Person" p:order="10"/>
@@ -278,7 +298,7 @@
     <bean id="PropDev-SubmitPage-CreditAllocation-parentBean" abstract="true"
           parent="PropDev-CreditAllocation-Section">
         <property name="items">
-            <list merge="true">
+            <list>
                 <bean parent="PropDev-SubmitPage-CreditAllocationCollection"
                       p:render="@{!#emptyList(document.developmentProposal.investigators)}" p:order="10"/>
             </list>
@@ -292,6 +312,34 @@
         </property>
         <property name="columnFieldPrototype">
             <bean parent="Uif-DataField"  p:cssClasses="@{#line ne null?#line.getClass().getName().equals(#collectionGroup.collectionObjectClass)?#line.lineType:'':''}" />
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-Compliance" parent="PropDev-SubmitPage-Compliance-parentBean"/>
+    <bean id="PropDev-SubmitPage-Compliance-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+        p:header.headerText="Compliance" p:propertyName="document.developmentProposal.propSpecialReviews"
+        p:collectionObjectClass="org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview"
+        p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
+        p:renderLineActions="false" p:layoutManager.richTable.render="false" p:readOnly="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="specialReviewType.description"
+                      p:fieldLabel.labelText="Type" p:order="10"/>
+                <bean parent="Uif-DataField" p:propertyName="approvalType.description"
+                      p:fieldLabel.labelText="Approval Status" p:order="20"/>
+                <bean parent="Uif-DataField" p:propertyName="protocolNumber" p:order="30"/>
+                <bean parent="Uif-DataField" p:propertyName="applicationDate" p:order="40"/>
+                <bean parent="Uif-DataField" p:propertyName="comments" p:order="50"/>
+            </list>
+        </property>
+        <property name="layoutManager.libraryCssClasses">
+            <list>
+                <value>table</value>
+                <value>table-condensed</value>
+            </list>
+        </property>
+        <property name="layoutManager.cssClasses">
+            <null/>
         </property>
     </bean>
 
@@ -564,13 +612,13 @@
             <list>
                 <bean parent="Uif-SecondaryActionButton" p:dialogDismissOption="REQUEST" p:actionLabel="Save"
                       p:render="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument) eq T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}"
-                      p:methodToCall="saveAdHocChanges"  p:order="10"/>
+                      p:methodToCall="saveAdHocChanges" p:order="10"/>
                 <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
                       p:render="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument) eq T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}"
                       p:order="20"/>
-                <bean parent="Uif-DialogDismissButton" p:actionLabel="OK"
+                <bean parent="Uif-SecondaryActionButton" p:dialogDismissOption="REQUEST" p:actionLabel="OK"
                       p:render="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument) ne T(org.kuali.rice.kew.api.document.DocumentStatus).SAVED.name()}"
-                      p:order="30"/>
+                      p:methodToCall="saveAdHocChanges" p:order="30"/>
             </list>
         </property>
     </bean>
@@ -579,10 +627,10 @@
           p:disclosure.render="false">
         <property name="items">
             <list>
-                <bean parent="Uif-AdHocPersonCollection">
+                <bean parent="Uif-AdHocPersonCollection" p:readOnly="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="actionRequested">
+                            <bean parent="Uif-InputField" p:propertyName="actionRequested" p:readOnly="false">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -590,7 +638,7 @@
                                     <bean class="org.kuali.rice.krad.keyvalues.AdHocActionRequestCodesValuesFinder"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="id" p:label="Person" p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="id" p:label="Person" p:required="true" p:readOnly="false">
                                 <property name="control">
                                     <bean parent="Uif-KimPersonControl" p:personObjectPropertyName="person"
                                           p:principalIdPropertyName="person.principalId" p:personNamePropertyName="person.name"/>
@@ -602,7 +650,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="CollectionGroup_AdHocWorkgroup">
+                <bean parent="CollectionGroup_AdHocWorkgroup" p:readOnly="false">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="actionRequested">

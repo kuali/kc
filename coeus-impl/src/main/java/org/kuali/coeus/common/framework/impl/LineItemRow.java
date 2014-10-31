@@ -16,6 +16,7 @@
 
 package org.kuali.coeus.common.framework.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,10 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
  *
  * @author Kuali Coeus
  */
-public class LineItemRow {
+public class LineItemRow implements Serializable{
+
+    private static final long serialVersionUID = -811018869493183494L;
+
     private String id;
     private String lineItemId;
     private String parentRow;

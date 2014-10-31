@@ -73,7 +73,7 @@
 			<list>
 				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="openProposal" p:actionLabel="« Return to proposal"/>
 				<bean parent="PropBudget-NavigationMenu-PeriodsAndTotals" p:order="10" />
-				<bean parent="PropBudget-NavigationMenu-Rates" p:order="20" />
+				<bean parent="PropBudget-NavigationMenu-Rates" p:order="20" p:render="@{!budget.developmentProposal.isParent()}"/>
 				<bean parent="PropBudget-NavigationMenu-PersonnelCosts" p:order="30" />
 				<bean parent="PropBudget-NavigationMenu-NonPersonnelCosts" p:order="40" />
 				<bean parent="PropBudget-NavigationMenu-Subawards" p:order="50" />
@@ -251,7 +251,7 @@
 	
 	<bean id="PropBudget-BudgetVersions-Collection" parent="PropBudget-BudgetVersions-Collection-parentBean"/>
 	<bean id="PropBudget-BudgetVersions-Collection-parentBean" abstract="true" parent="PropDev-BudgetVersions-GenericCollection"
-		p:propertyName="budget.budgetParent.budgets" p:headerText="">
+		p:propertyName="budget.budgetParent.budgets" p:headerText="" p:readOnly="false">
 		<property name="layoutManager.conditionalRowCssClasses">
            <map>
                <entry key="@{#line.budgetId == developmentProposal.finalBudget?.budgetId}" value="finalBudget"/>

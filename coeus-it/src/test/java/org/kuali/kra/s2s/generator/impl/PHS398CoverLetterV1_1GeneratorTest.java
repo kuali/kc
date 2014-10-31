@@ -68,7 +68,7 @@ public class PHS398CoverLetterV1_1GeneratorTest extends S2STestBase<PHS398CoverL
         narrative.setName("exercise1");
         NarrativeType narrativeType = new NarrativeType();
         narrativeType.setCode("39");
-        narrativeType.setAllowMultiple(true);
+        narrativeType.setAllowMultiple(false);
         narrativeType.setSystemGenerated(false);
         narrativeType.setDescription("Testing for Project Attachment");
         getService(DataObjectService.class).save(narrativeType);

@@ -11,6 +11,7 @@ import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroupBase;
 import org.kuali.rice.krad.uif.field.DataFieldBase;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleRestriction;
 import org.kuali.rice.krad.uif.util.*;
 
 
@@ -28,11 +29,6 @@ public class CreditSplitCustomColumnsCollection extends CollectionGroupBase {
 
     @Override
     public void performInitialization(Object model) {
-        super.performInitialization(model);
-    }
-
-    @Override
-    public void performApplyModel(Object model, LifecycleElement parent) {
 
         ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
         ((ProposalDevelopmentViewHelperServiceImpl) pdForm.getViewHelperService()).setInvestigatorCreditTypes(pdForm);
@@ -66,9 +62,10 @@ public class CreditSplitCustomColumnsCollection extends CollectionGroupBase {
             }
             this.setItems(columns);
         }
-        super.performApplyModel(model, parent);
+        super.performInitialization(model);
     }
 
+    @ViewLifecycleRestriction
     public DataFieldBase getColumnFieldPrototype() {
         return columnFieldPrototype;
     }

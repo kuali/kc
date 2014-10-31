@@ -949,25 +949,31 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
         	String periodHeader = BUDGET_SUMMARY_PERIOD_HEADER_LABEL.concat(budgetPeriod.getBudgetPeriod().toString());
            	Period summaryPeriod = new Period(periodHeader);
-        	LineItemGroup personnelGroup = getPersonnelBudgetSummaryPeriods(budgetPeriod, personnelCostElementLineItems);
-            LineItemObject calculatedPersonnelDirectCosts = new LineItemObject(BudgetSummaryConstants.CalculatedDirectCost.getKey(), 
-            		BudgetSummaryConstants.CalculatedDirectCost.getLabel(), ScaleTwoDecimal.ZERO);
-            ScaleTwoDecimal personnelDirectCost = getCalculateBudgetSummaryExpenseTotal(budgetPeriod, true, personnelBudgetCategoryType);
-            calculatedPersonnelDirectCosts.setAmount(personnelDirectCost);
-            personnelGroup.getLineItems().add(calculatedPersonnelDirectCosts);
+            summaryPeriod.setStartDate(budgetPeriod.getStartDate());
+            summaryPeriod.setEndDate(budgetPeriod.getEndDate());
 
-        	uniqueBudgetCategoryLineItemCostElements.remove(personnelCategoryType);
-        	LineItemGroup nonPersonnelGroup = getNonPersonnelBudgetSummaryPeriods(budgetPeriod, uniqueBudgetCategoryLineItemCostElements);
-            LineItemObject calculatedNonPersonnelDirectCosts = new LineItemObject(BudgetSummaryConstants.CalculatedDirectCost.getKey(), 
-            		BudgetSummaryConstants.CalculatedDirectCost.getLabel(), ScaleTwoDecimal.ZERO);
-            ScaleTwoDecimal nonPersonnelDirectCost = getCalculateBudgetSummaryExpenseTotal(budgetPeriod, false, personnelBudgetCategoryType);
-            calculatedNonPersonnelDirectCosts.setAmount(nonPersonnelDirectCost);
-            nonPersonnelGroup.getLineItems().add(calculatedNonPersonnelDirectCosts);
+            if (personnelCostElementLineItems != null) {
+                LineItemGroup personnelGroup = getPersonnelBudgetSummaryPeriods(budgetPeriod, personnelCostElementLineItems);
+                LineItemObject calculatedPersonnelDirectCosts = new LineItemObject(BudgetSummaryConstants.CalculatedDirectCost.getKey(),
+                        BudgetSummaryConstants.CalculatedDirectCost.getLabel(), ScaleTwoDecimal.ZERO);
+                ScaleTwoDecimal personnelDirectCost = getCalculateBudgetSummaryExpenseTotal(budgetPeriod, true, personnelBudgetCategoryType);
+                calculatedPersonnelDirectCosts.setAmount(personnelDirectCost);
+                personnelGroup.getLineItems().add(calculatedPersonnelDirectCosts);
+                summaryPeriod.getLineItemGroups().add(personnelGroup);
+            }
+
+            if (uniqueBudgetCategoryLineItemCostElements != null) {
+                uniqueBudgetCategoryLineItemCostElements.remove(personnelCategoryType);
+                LineItemGroup nonPersonnelGroup = getNonPersonnelBudgetSummaryPeriods(budgetPeriod, uniqueBudgetCategoryLineItemCostElements);
+                LineItemObject calculatedNonPersonnelDirectCosts = new LineItemObject(BudgetSummaryConstants.CalculatedDirectCost.getKey(),
+                        BudgetSummaryConstants.CalculatedDirectCost.getLabel(), ScaleTwoDecimal.ZERO);
+                ScaleTwoDecimal nonPersonnelDirectCost = getCalculateBudgetSummaryExpenseTotal(budgetPeriod, false, personnelBudgetCategoryType);
+                calculatedNonPersonnelDirectCosts.setAmount(nonPersonnelDirectCost);
+                nonPersonnelGroup.getLineItems().add(calculatedNonPersonnelDirectCosts);
+                summaryPeriod.getLineItemGroups().add(nonPersonnelGroup);
+            }
 
             LineItemGroup totalsGroup = getBudgetSummaryTotals(budgetPeriod);
-            
-        	summaryPeriod.getLineItemGroups().add(personnelGroup);
-        	summaryPeriod.getLineItemGroups().add(nonPersonnelGroup);
         	summaryPeriod.getLineItemGroups().add(totalsGroup);
             budgetSummaryPeriods.add(summaryPeriod);
        }
@@ -1241,7 +1247,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         ScaleTwoDecimal totalIndirectCost = ScaleTwoDecimal.ZERO;
         ScaleTwoDecimal totalCost = ScaleTwoDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+            if (budgetPeriod.getTotalDirectCost().isGreaterThan(ScaleTwoDecimal.ZERO)
+                    || budgetPeriod.getTotalIndirectCost().isGreaterThan(ScaleTwoDecimal.ZERO)) {
+                budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+            }
             totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
             totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
             totalCost = totalCost.add(budgetPeriod.getTotalCost());

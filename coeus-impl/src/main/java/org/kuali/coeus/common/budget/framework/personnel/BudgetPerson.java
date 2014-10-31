@@ -35,6 +35,7 @@ import org.kuali.coeus.common.framework.rolodex.PersonRolodex;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsorable;
 import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -101,6 +102,10 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "HIERARCHY_PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER", insertable = false, updatable = false)
+    private DevelopmentProposal hierarchyProposal;
 
     @Column(name = "HIDE_IN_HIERARCHY")
     @Convert(converter = BooleanYNConverter.class)
@@ -576,7 +581,11 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 	}
 
 	public String getPersonGroup() {
-		return getPersonRolodex() != null ? getBudget().getParentDocumentGroupName() : BUDGET_PERSON_GROUP_OTHER;
+		if (hierarchyProposal != null) {
+			return "Proposal # " + hierarchyProposal.getProposalNumber() + " - Budget Version " + hierarchyProposal.getLastSyncedBudget().getBudgetVersionNumber();
+		} else {
+			return getPersonRolodex() != null ? getBudget().getParentDocumentGroupName() : BUDGET_PERSON_GROUP_OTHER;
+		}
 	}
 
 	protected BudgetPersonService getBudgetPersonService() {
@@ -710,6 +719,14 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 	@Override
 	public Integer getOrdinalPosition() {
 		return getPersonRolodex() != null ? getPersonRolodex().getOrdinalPosition() : getPersonSequenceNumber();
+	}
+
+	public DevelopmentProposal getHierarchyProposal() {
+		return hierarchyProposal;
+	}
+
+	public void setHierarchyProposal(DevelopmentProposal hierarchyProposal) {
+		this.hierarchyProposal = hierarchyProposal;
 	}
 
 }
