@@ -771,6 +771,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         }
     }
 
+    public void updateAttachmentInformation(KcPersistableBusinessObjectBase attachment){
+        if (attachment != null){
+            attachment.setUpdateUser(getGlobalVariableService().getUserSession().getPrincipalName());
+            attachment.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+        }
+    }
+
     public boolean isPersonFieldEditable(String propertyName){
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
         Boolean returnValue = form.getPersonEditableFields().get(propertyName);
@@ -855,5 +862,4 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public String getDisclaimerText() {
        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,"propSummaryDisclaimerText");
     }
-
 }
