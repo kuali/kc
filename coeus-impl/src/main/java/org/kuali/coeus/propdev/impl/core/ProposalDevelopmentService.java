@@ -129,4 +129,13 @@ public interface ProposalDevelopmentService {
     public List<Unit> getUnitsForCreateProposal(String userId);
     
     public boolean autogenerateInstitutionalProposal();
+    
+	
+	public String getResubmissionProposalTypeCode();
+	
+	public String getContinuationProposalTypeCode();
+	
+	public String getRevisionProposalTypeCode();
+	
+	public String getS2SSubmissionChangeCorrectedCode();
 }

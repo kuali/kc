@@ -318,7 +318,7 @@ public class ProposalDevelopmentSubmitController extends
     		if(validToSubmitToSponsor(form) ) {
     			submitApplication(form);
                 handleSubmissionNotification(form);
-                return getRefreshControllerService().refresh(form);
+                return getModelAndViewService().showDialog("Kc-SendNotification-Wizard", true, form);
     		} else {
                 return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
     		}
@@ -481,16 +481,8 @@ public class ProposalDevelopmentSubmitController extends
     }
     
     protected boolean requiresResubmissionPrompt(ProposalDevelopmentDocumentForm proposalDevelopmentForm) {
-        DevelopmentProposal developmentProposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal();
-       return (ProposalType.RESUBMISSION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
-            || ProposalType.CONTINUATION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
-            || ProposalType.REVISION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
-            || isSubmissionChangeCorrected(developmentProposal))
-            && proposalDevelopmentForm.getResubmissionOption() == null;
-    }
-    
-    private boolean isSubmissionChangeCorrected(DevelopmentProposal developmentProposal) {
-        return developmentProposal.getS2sOpportunity() != null && S2sSubmissionType.CHANGE_CORRECTED_CODE.equals(developmentProposal.getS2sOpportunity().getS2sSubmissionTypeCode());
+    	return ((ProposalDevelopmentViewHelperService)proposalDevelopmentForm.getViewHelperService()).requiresResubmissionPrompt(proposalDevelopmentForm.getDevelopmentProposal(),
+    				proposalDevelopmentForm.getResubmissionOption());
     }
     
     protected boolean autogenerateInstitutionalProposal() {
