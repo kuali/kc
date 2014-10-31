@@ -148,6 +148,7 @@ public final class KeyConstants {
     public static final String CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE = "clear.audit.error.before.change.status.to.complete";
     public static final String ERROR_MULTIPLE_FINAL_BUDGETS = "error.final.multiple";
     public static final String AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL = "error.no.budgetVersion.completeAndFinal";
+    public static final String AUDIT_ERROR_NO_BUDGETVERSION_FINAL = "error.no.budgetVersion.noFinalBudget";
     public static final String ERROR_BUDGET_STATUS_COMPLETE_WHEN_NOT_MODULER = "error.budgetVersion.budgetStatusCompleteWhenNotModuler";
     public static final String ERROR_BUDGET_START_DATE_MISSING = "error.budgetVersion.startDate.required";
     public static final String ERROR_BUDGET_END_DATE_MISSING = "error.budgetVersion.endDate.required";

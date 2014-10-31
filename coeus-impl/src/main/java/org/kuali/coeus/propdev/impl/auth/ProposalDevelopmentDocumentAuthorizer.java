@@ -108,11 +108,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
-    
-	        if (isBudgetComplete(developmentProposal)) {
-        	    editModes.remove(AuthConstants.MODIFY_BUDGET_EDIT_MODE);
-            	editModes.remove(AuthConstants.ADD_BUDGET_EDIT_MODE);
-        	}
         }
         
         return editModes;
