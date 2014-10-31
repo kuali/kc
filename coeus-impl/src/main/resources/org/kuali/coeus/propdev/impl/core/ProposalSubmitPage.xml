@@ -95,14 +95,14 @@
 			          		<bean id="ProposalDeleteDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete ?"/>
 			          	</property>
 					 </bean>
-
-					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to S2S" p:methodToCall="submitToS2s" p:order="100"
+					 
+					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to Sponsor" p:methodToCall="submitToSponsor" p:order="100" 
+					 	p:render="@{#actionFlags[#{submitToSponsor}]}">					 	
+					</bean>	
+					
+					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to S2S" p:methodToCall="submitToS2s" p:order="110"
 					 	p:render="@{#actionFlags[#{submitToS2s}]}" p:successCallback="jQuery('#PropDev-OpportunityPage-SubmissionDetailsSection_tab').click()">
-					</bean>
-
-					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to Sponsor" p:methodToCall="submitToSponsor" p:order="110"
-					 	p:render="@{#actionFlags[#{submitToSponsor}]}">
-					</bean>
+					</bean>				
 						
 					<bean parent="Uif-DropdownToggleMenu" p:toggleText="More Actions"  p:align="right" p:order="120">
 					  <property name="menuItems">
@@ -459,7 +459,8 @@
 			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
-						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:methodToCall="proceed" p:order="10" p:successCallback="dismissDialog('PropDev-Resumbit-OptionsSection');" p:performClientSideValidation="true"/>
+						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:methodToCall="proceed" p:order="10" 
+							p:successCallback="dismissDialog('PropDev-Resumbit-OptionsSection');" p:performClientSideValidation="true"/>
 						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
 
 					</list>

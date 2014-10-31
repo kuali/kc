@@ -98,7 +98,7 @@ import org.springframework.stereotype.Service;
 
 @Service("proposalDevelopmentViewHelperService")
 @Scope("prototype")
-public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceImpl {
+public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceImpl implements ProposalDevelopmentViewHelperService {
 
     private static final long serialVersionUID = -5122498699317873886L;
     private static final Logger LOG = Logger.getLogger(ProposalDevelopmentViewHelperServiceImpl.class);
@@ -777,6 +777,21 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return returnValue==null?false:returnValue.booleanValue();
     }
 
+    public boolean requiresResubmissionPrompt(DevelopmentProposal developmentProposal, String resubmissionOption) {
+       return ( getProposalDevelopmentService().getResubmissionProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+            || getProposalDevelopmentService().getContinuationProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+            || getProposalDevelopmentService().getRevisionProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+            || isSubmissionChangeCorrected(developmentProposal))
+            && resubmissionOption == null;
+    }
+    
+
+    
+    
+    private boolean isSubmissionChangeCorrected(DevelopmentProposal developmentProposal) {
+        return developmentProposal.getS2sOpportunity() != null && getProposalDevelopmentService().getS2SSubmissionChangeCorrectedCode().equals(developmentProposal.getS2sOpportunity().getS2sSubmissionTypeCode());
+    }
+    
     public ProposalDevelopmentService getProposalDevelopmentService() {
 		return proposalDevelopmentService;
 	}
@@ -840,4 +855,5 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public String getDisclaimerText() {
        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,"propSummaryDisclaimerText");
     }
+
 }

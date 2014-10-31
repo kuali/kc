@@ -40,4 +40,10 @@ public class ProposalDevelopmentConstants {
 		public static final String SUBMIT_TO_S2S = "submitToS2S";
 		public static final String SUBMIT_TO_SPONSOR = "submitToSponsor";
     }
+    
+    public static class PropDevParameterConstants {
+		public static final String CHANGE_CORRECTED_CODE = "S2S_SUBMISSION_TYPE_CODE_CHANGE_CORRECTED_APPLICATION";
+    }
+    
+    
 }

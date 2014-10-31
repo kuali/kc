@@ -785,6 +785,31 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
                 ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
+    
+
+	@Override
+	public String getResubmissionProposalTypeCode() {
+		return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM);
+	}
+
+	@Override
+	public String getContinuationProposalTypeCode() {
+		return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM);
+	}
+
+	@Override
+	public String getRevisionProposalTypeCode() {
+		return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM);
+	}
+	
+	@Override
+	public String getS2SSubmissionChangeCorrectedCode() {
+		return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentConstants.PropDevParameterConstants.CHANGE_CORRECTED_CODE);
+	}
 
     protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) {
         List<Unit> subunits = getUnitService().getSubUnits(parentUnit.getUnitNumber());
