@@ -103,8 +103,12 @@
                 <bean parent="Uif-InputField" p:propertyName="narrativeTypeCode" p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
                       p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:width="5%" p:order="20" />
                <bean parent="Uif-InputField" p:propertyName="moduleStatusCode"
-                      p:readOnlyDisplayReplacementPropertyName="narrativeStatus.description"
-                      p:required="true" p:enableAutoQuickfinder="false" p:width="25%" p:order="30"/>
+                     p:readOnlyDisplayReplacementPropertyName="narrativeStatus.description"
+                     p:required="true" p:enableAutoQuickfinder="false" p:width="25%" p:order="30"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="40" />
+                <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
+                      p:fieldLabel.labelText="Posted Timestamp"
+                      p:readOnly="true" p:width="20%" p:order="50"/>
             </list>
         </property>
 	</bean>
@@ -199,6 +203,10 @@
                       p:fieldLabel.labelText="Type" p:order="50"
                       p:enableAutoQuickfinder="false"/>
                 <bean parent="Uif-DataField" p:propertyName="description" p:order="60"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="70" />
+                <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
+                      p:fieldLabel.labelText="Posted Timestamp"
+                      p:readOnly="true" p:width="20%" p:order="80"/>
             </list>
         </property>
     </bean>
@@ -353,6 +361,10 @@
                 <bean parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField" p:order="30" />
                 <bean parent="Uif-DataField" p:propertyName="moduleTitle"
                       p:order="40" />
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
+                <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
+                      p:fieldLabel.labelText="Posted Timestamp"
+                      p:readOnly="true" p:width="20%" p:order="60"/>
             </list>
         </property>
     </bean>

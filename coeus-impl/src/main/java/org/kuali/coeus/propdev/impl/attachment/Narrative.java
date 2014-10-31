@@ -110,12 +110,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     private transient FormFile narrativeFile;
 
     @Transient
-    private Timestamp timestampDisplay;
-
-    @Transient
-    private String uploadUserDisplay;
-
-    @Transient
     private String uploadUserFullName;
 
     @Transient
@@ -576,19 +570,19 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     public Timestamp getTimestampDisplay() {
-        return timestampDisplay;
-    }
+        if (getNarrativeAttachment() == null || getNarrativeAttachment().getUpdateTimestamp() == null) {
+            return getDateTimeService().getCurrentTimestamp();
+        }
 
-    public void setTimestampDisplay(Timestamp timestampDisplay) {
-        this.timestampDisplay = timestampDisplay;
-    }
+        return getNarrativeAttachment().getUpdateTimestamp();
+}
 
     public String getUploadUserDisplay() {
-        return uploadUserDisplay;
-    }
+        if (getNarrativeAttachment() == null || StringUtils.isBlank(getNarrativeAttachment().getUpdateUser())) {
+            return this.getUpdateUser();
+        }
 
-    public void setUploadUserDisplay(String uploadUserDisplay) {
-        this.uploadUserDisplay = uploadUserDisplay;
+        return getNarrativeAttachment().getUpdateUser();
     }
 
     public String getUploadUserFullName() {

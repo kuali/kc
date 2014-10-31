@@ -178,8 +178,8 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
             Iterator personBioAtt = attachmentDao.getPersonnelTimeStampAndUploadUser(proposalPersonBiography.getProposalPersonNumber(), proposalPersonBiography.getProposalNumber(), proposalPersonBiography.getBiographyNumber());
             if (personBioAtt.hasNext()) {
                 Object[] item = (Object[])personBioAtt.next();
-                proposalPersonBiography.setTimestampDisplay((Timestamp)item[0]);
-                proposalPersonBiography.setUploadUserDisplay((String)item[1]);
+                proposalPersonBiography.setUpdateTimestamp((Timestamp)item[0]);
+                proposalPersonBiography.setUpdateUser((String)item[1]);
                 //using PersonService as it will display the user's name the same as the notes panel does
                 Person person = personService.getPersonByPrincipalName(proposalPersonBiography.getUploadUserDisplay());
                 proposalPersonBiography.setUploadUserFullName(ObjectUtils.isNull(person) ? proposalPersonBiography.getUploadUserDisplay() + "(not found)" : person.getName());

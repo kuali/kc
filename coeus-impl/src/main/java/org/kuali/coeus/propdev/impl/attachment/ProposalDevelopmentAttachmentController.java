@@ -25,6 +25,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -69,6 +70,10 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Autowired
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
+
+    @Autowired
+    @Qualifier("personService")
+    private PersonService personService;
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addFileUploadLine")
     public ModelAndView addFileUploadLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -123,6 +128,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
         return getModelAndViewService().showDialog("PropDev-AttachmentsPage-ProposalDetails",true,form);
     }
+
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareBiography")
     public ModelAndView prepareBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
@@ -187,7 +193,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addNarrative")
     public ModelAndView addNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
-        initializeNarrative(narrative, form.getProposalDevelopmentDocument());
+        initializeNarrative(narrative, form);
         if ( getKualiRuleService().applyRules(new AddNarrativeEvent("proposalDevelopmentAttachmentHelper.narrative",form.getProposalDevelopmentDocument(),form.getProposalDevelopmentAttachmentHelper().getNarrative()))) {
             form.getDevelopmentProposal().getNarratives().add(0,narrative);
             form.getProposalDevelopmentAttachmentHelper().reset();
@@ -202,7 +208,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addInstituteAttachment")
     public ModelAndView addInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
-        initializeNarrative(narrative,form.getProposalDevelopmentDocument());
+        initializeNarrative(narrative,form);
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         form.getDevelopmentProposal().getInstituteAttachments().add(0,narrative);
         form.getProposalDevelopmentAttachmentHelper().reset();
@@ -210,10 +216,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getRefreshControllerService().refresh(form);
     }
 
-    protected void initializeNarrative(Narrative narrative, ProposalDevelopmentDocument document) {
-        getLegacyNarrativeService().prepareNarrative(document,narrative);
+    protected void initializeNarrative(Narrative narrative, ProposalDevelopmentDocumentForm form) {
+        getLegacyNarrativeService().prepareNarrative(form.getProposalDevelopmentDocument(),narrative);
         try {
             narrative.init(narrative.getMultipartFile());
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
@@ -231,6 +238,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         getDataObjectService().wrap(biography).fetchRelationship("propPerDocType");
         try {
             biography.init(biography.getMultipartFile());
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(biography.getPersonnelAttachment());
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
@@ -253,6 +261,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         narrative.refreshReferenceObject("narrativeStatus");
         try {
             narrative.init(narrative.getMultipartFile());
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
@@ -276,6 +285,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         getDataObjectService().wrap(biography).fetchRelationship("propPerDocType");
         try {
             biography.init(biography.getMultipartFile());
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(biography.getPersonnelAttachment());
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
@@ -296,6 +306,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
         try {
             narrative.init(narrative.getMultipartFile());
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
@@ -321,7 +332,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         Note note = form.getProposalDevelopmentAttachmentHelper().getNote();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
 
-        form.getProposalDevelopmentDocument().getNotes().set(selectedLineIndex,note);
+        form.getProposalDevelopmentDocument().getNotes().set(selectedLineIndex, note);
         form.getProposalDevelopmentAttachmentHelper().reset();
 
         return getRefreshControllerService().refresh(form);
@@ -419,7 +430,6 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getModelAndViewService().showDialog("PropDev-AttachmentPage-ViewEditRightDialog", true, form);
     }
 
-
     public LegacyNarrativeService getLegacyNarrativeService() {
         return legacyNarrativeService;
     }
@@ -458,5 +468,13 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 }
