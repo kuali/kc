@@ -50,8 +50,7 @@ public abstract class KcRulesEngineExecuter implements RulesEngineExecutor {
             return value;
 
         } catch (Exception e) {
-            LOG.error(e);
-            throw new RiceRuntimeException(e.getMessage());
+            throw new RiceRuntimeException(e.getMessage(),e);
         }
     }
     protected NodeList getElementValueAsNodeList(String docContent, String xpathExpression) {
@@ -64,7 +63,7 @@ public abstract class KcRulesEngineExecuter implements RulesEngineExecutor {
             return value;
 
         } catch (Exception e) {
-            throw new RiceRuntimeException(e);
+            throw new RiceRuntimeException(e.getMessage(),e);
         }
     }
 
