@@ -13,6 +13,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -71,13 +72,26 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	
 	@RequestMapping(params="methodToCall=openProposal")
 	public ModelAndView openProposal(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
-        Properties props = new Properties();
-        props.put("methodToCall", KRADConstants.DOC_HANDLER_METHOD);
-        props.put("command", KewApiConstants.DOCSEARCH_COMMAND);
-        props.put("pageId", ProposalDevelopmentConstants.KradConstants.BUDGET_PAGE);
-        props.put("docId", form.getBudget().getDevelopmentProposal().getProposalDocument().getDocumentNumber());
-        return getModelAndViewService().performRedirect(form, "proposalDevelopment", props);
+		save(form);
+		if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
+			form.setDirtyForm(false);	
+	        Properties props = new Properties();
+	        props.put("methodToCall", KRADConstants.DOC_HANDLER_METHOD);
+	        props.put("command", KewApiConstants.DOCSEARCH_COMMAND);
+	        props.put("pageId", ProposalDevelopmentConstants.KradConstants.BUDGET_PAGE);
+	        props.put("docId", form.getBudget().getDevelopmentProposal().getProposalDocument().getDocumentNumber());
+	        return getModelAndViewService().performRedirect(form, "proposalDevelopment", props);
+		} else {
+        	form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());			
+    		return getRefreshControllerService().refresh(form);
+    	}	        
 	}
+	
+	@RequestMapping(params="methodToCall=openBudget")
+	public ModelAndView openBudget(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		save(form);
+		return getProposalBudgetSharedController().openBudget(budgetId, form);
+	}	
 	
 	@RequestMapping(params="methodToCall=save")
 	public ModelAndView save(@ModelAttribute("KualiForm") ProposalBudgetForm form) {

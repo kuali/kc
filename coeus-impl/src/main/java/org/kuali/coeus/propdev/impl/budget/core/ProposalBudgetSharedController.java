@@ -8,11 +8,13 @@ import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.service.ModelAndViewService;
+import org.kuali.rice.krad.web.service.RefreshControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,7 +37,15 @@ public class ProposalBudgetSharedController {
     
     @Autowired
     @Qualifier("kcBusinessRulesEngine")
-    private KcBusinessRulesEngine kcBusinessRulesEngine;    
+    private KcBusinessRulesEngine kcBusinessRulesEngine;
+    
+    @Autowired
+    @Qualifier("refreshControllerService")
+    private RefreshControllerService refreshControllerService;
+    
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
 
     public ModelAndView addBudget(String budgetName, Boolean summaryBudget, Boolean modularBudget, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception {
 		ProposalDevelopmentBudgetExt budget = null;
@@ -78,6 +88,19 @@ public class ProposalBudgetSharedController {
         }		
 	}
 
+	public ModelAndView openBudget(String budgetId, UifFormBase form) throws Exception {
+		if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
+			form.setDirtyForm(false);
+	        Properties props = new Properties();
+	        props.put("methodToCall", "start");
+	        props.put("budgetId", budgetId);
+	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
+		} else {
+        	form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());			
+			return getRefreshControllerService().refresh(form);
+		}
+	}
+
 	public BudgetService getBudgetService() {
 		return budgetService;
 	}
@@ -108,5 +131,22 @@ public class ProposalBudgetSharedController {
 
 	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
 		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}
+
+	public RefreshControllerService getRefreshControllerService() {
+		return refreshControllerService;
+	}
+
+	public void setRefreshControllerService(
+			RefreshControllerService refreshControllerService) {
+		this.refreshControllerService = refreshControllerService;
+	}
+
+	public GlobalVariableService getGlobalVariableService() {
+		return globalVariableService;
+	}
+
+	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+		this.globalVariableService = globalVariableService;
 	}
 }
