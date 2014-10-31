@@ -628,6 +628,7 @@
         <bean parent="FieldDefinition" p:attributeName="auditReportSentForFy" />
         <bean parent="FieldDefinition" p:attributeName="ownedByUnit" />
         <bean parent="FieldDefinition" p:attributeName="rolodexId" />
+        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
       </list>
     </property>
     <property name="resultFields" >
