@@ -33,6 +33,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.KRADUtils;
@@ -327,6 +328,18 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
             getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessage());
         }
         return getRefreshControllerService().refresh(form);
+    }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveUserAttachedForm")
+    public ModelAndView saveUserAttachedForm(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+
+        if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)){
+            form.getEditableCollectionLines().get(selectedCollectionPath).remove(selectedLine);
+        }
+
+        return super.save(form);
     }
 
     public S2sSubmissionService getS2sSubmissionService() {

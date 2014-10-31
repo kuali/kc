@@ -346,7 +346,7 @@
                                     p:methodToCall="editCollectionLine"
                                     p:hidden="@{#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
                             <bean parent="Uif-MenuAction" p:actionLabel="Save" p:style="float:left" p:order="40"
-                                  p:methodToCall="saveAttachment"
+                                  p:methodToCall="saveUserAttachedForm"
                                   p:hidden="@{!#ViewHelper.isCollectionLineEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableCollectionLines)}"/>
                         </list>
                     </property>
