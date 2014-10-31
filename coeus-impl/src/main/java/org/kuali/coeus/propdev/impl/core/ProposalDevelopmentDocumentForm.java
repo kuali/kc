@@ -97,7 +97,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private List<SponsorFormTemplateList> sponsorFormTemplates;
     private ReportHelper reportHelper;
     private List<DevelopmentProposal> hierarchyDevelopmentProposals;
-
+    private boolean viewOnly = false;
 
     private AnswerHeader updateAnswerHeader;
 
@@ -108,15 +108,15 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
 
     private Map<String, Boolean> personEditableFields;
-    
+
     private transient boolean grantsGovSubmitFlag;
     private transient boolean showSubmissionDetails;
 
     @SessionTransient
     private Tree<Object, String> medusaTree;
-    
+
     private NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper;
-    
+
     private List<String> unitRulesMessages = new ArrayList<String>();
 
 
@@ -135,7 +135,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void initialize() {
         specialReviewHelper = new SpecialReviewHelper(getProposalDevelopmentDocument(), true);
         specialReviewHelper.prepareView();
-        
+
         questionnaireHelper = new ProposalDevelopmentQuestionnaireHelper(getProposalDevelopmentDocument());
 
         s2sQuestionnaireHelper = new ProposalDevelopmentS2sQuestionnaireHelper(this);
@@ -143,7 +143,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         addKeyPersonHelper = new AddLineHelper();
 
         addRecipientHelper = new AddLineHelper();
-        
+
         newS2sOpportunity = new S2sOpportunity();
 
         permissionsHelper = new ProposalDevelopmentPermissionsHelper(getProposalDevelopmentDocument());
@@ -187,7 +187,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public int findIndexOfPageId(List<Action> actions) {
         return findIndexOfPageId(actions, getPageId());
     }
-    
+
     public int findIndexOfPageId(List<Action> actions, String pageId) {
         for (int i = 0, len = actions.size(); i < len; i++) {
             Action action = actions.get(i);
@@ -197,13 +197,13 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         }
         return 0;
     }
-    
+
     public List<Action> getOrderedNavigationActions() {
         List<Action> actions = new ArrayList<Action>();
         addAllActions(actions, view.getNavigation().getItems());
         return actions;
     }
-    
+
     protected void addAllActions(List<Action> actionList, List<? extends Component> components) {
         if (components != null) {
             for (Component component : components) {
@@ -220,11 +220,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     protected String getDefaultDocumentTypeName() {
         return "ProposalDevelopmentDocument";
     }
-    
+
     public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
         return (ProposalDevelopmentDocument) getDocument();
     }
-    
+
     public DevelopmentProposal getDevelopmentProposal() {
         return getProposalDevelopmentDocument().getDevelopmentProposal();
     }
@@ -308,7 +308,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setDataValidationItems(List<ProposalDevelopmentDataValidationItem> dataValidationItems) {
         this.dataValidationItems = dataValidationItems;
     }
-    
+
     public OrganizationAddWizardHelper getAddOrganizationHelper() {
 		return addOrganizationHelper;
 	}
@@ -371,7 +371,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     	}
     	return medusaService;
     }
-    
+
     public void setMedusaService(MedusaService medusaService) {
     	this.medusaService = medusaService;
     }
@@ -608,4 +608,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 		this.showSubmissionDetails = showSubmissionDetails;
 	}
 
+    public boolean isViewOnly() {
+        return viewOnly;
+    }
+
+    public void setViewOnly(boolean viewOnly) {
+        this.viewOnly = viewOnly;
+    }
 }

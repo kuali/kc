@@ -10,6 +10,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
 import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBoLookupableHelperService;
@@ -42,6 +43,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Autowired
     @Qualifier("documentService")
     private DocumentService documentService;
+
+    @Autowired
+    @Qualifier("documentTypeService")
+    private DocumentTypeService documentTypeService;
 
     private DocumentSearchCriteriaBoLookupableHelperService documentSearchCriteriaBoLookupableHelperService;
 
@@ -190,11 +195,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 	public void buildPropDevViewActionLink(Link actionLink, Object model, String title) {
 		actionLink.setTitle(title);
 		actionLink.setLinkText(title);
-		actionLink.setHref(getConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY)
-                + KRADConstants.DOCHANDLER_DO_URL
+		actionLink.setHref(getDocumentTypeService().getDocumentTypeByName("ProposalDevelopmentDocument").getResolvedDocumentHandlerUrl()
+                + "&docId="
                 + actionLink.getHref()
                 + KRADConstants.DOCHANDLER_URL_CHUNK+"&viewDocument=true");
-		
 	}
 	
     /**
@@ -273,5 +277,13 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
     public void setDocumentSearchCriteriaBoLookupableHelperService(DocumentSearchCriteriaBoLookupableHelperService documentSearchCriteriaBoLookupableHelperService) {
         this.documentSearchCriteriaBoLookupableHelperService = documentSearchCriteriaBoLookupableHelperService;
+    }
+
+    public DocumentTypeService getDocumentTypeService() {
+        return documentTypeService;
+    }
+
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 }

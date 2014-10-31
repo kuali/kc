@@ -30,7 +30,7 @@
 		p:instructionalText="@{document.developmentProposal.isParent() ? 'Cannot add personnel to parent proposal' : 'Search for and add key personnel'}">
 		<property name="items">
 			<list>
-				<bean parent="PropDev-PersonnelPage-AddButton" p:order="10" p:render="@{!document.developmentProposal.isParent()}"/>
+				<bean parent="PropDev-PersonnelPage-AddButton" p:order="10" p:render="@{!document.developmentProposal.isParent() and !#parent.readOnly}"/>
 				<bean parent="PropDev-PersonnelPage-Collection" p:order="20" />
 			</list>
 		</property>
@@ -40,8 +40,7 @@
 	<bean id="PropDev-PersonnelPage-AddButton-parentBean" abstract="true"
 		parent="Uif-PrimaryActionButton" p:actionLabel="Add Personnel"
 		p:methodToCall="prepareAddPersonDialog"
-		p:actionParameters="PropDev-PersonnelPage-Wizard.step:0" p:iconClass="icon-user"
-        p:render="@{!#parent.readOnly}"/>
+		p:actionParameters="PropDev-PersonnelPage-Wizard.step:0" p:iconClass="icon-user"/>
 
 	<bean id="PropDev-PersonnelPage-Wizard" parent="Kc-Wizard"
 		p:fieldBindingObjectPath="addKeyPersonHelper">

@@ -298,6 +298,10 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                propDevForm.getView().setEntryPageId("PropDev-SubmitPage");
             }
 
+            if (StringUtils.equals(form.getRequest().getParameter("viewDocument"),"true")) {
+                propDevForm.setViewOnly(true);
+            }
+
             return modelAndView;
        }
    }
