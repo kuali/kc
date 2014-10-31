@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentProposalAttachmentsAuditRule;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
+import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -35,13 +36,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE;
 
 public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
@@ -178,19 +176,15 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
     }
     
     private void generateAuditError(int count, String personFullName) {
-        final String errorStarter = "proposalPersonQuestionnaireHelpers[";
-        final String errorFinish = "].answerHeaders[0].answers[0].answer";
-        final String errorLink = KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR;
+        final String errorStarter = "document.developmentProposal.proposalPersons[";
+        final String errorFinish = "].questionnaireHelper.answerHeaders[0].questions";
         
         String errorKey = errorStarter + count + errorFinish;
 
         //Displays the error within the audit log.
         AuditError error = new AuditError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
-                errorLink, new String[]{personFullName});
+                ProposalDevelopmentDataValidationConstants.PERSONNEL_PAGE_ID, new String[]{personFullName});
         getAuditErrors().add(error);
-        //Displays the error on the applicable tab.
-        reportError(errorKey, ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE,
-                new String[]{personFullName});
 
     }
 
