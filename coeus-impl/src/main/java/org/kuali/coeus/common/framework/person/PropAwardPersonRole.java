@@ -20,6 +20,7 @@ import org.kuali.coeus.sys.api.model.Identifiable;
 import org.kuali.coeus.sys.api.model.IdentifiableNumeric;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.ContactRole;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 import javax.persistence.*;
@@ -46,6 +47,8 @@ public class PropAwardPersonRole extends KcPersistableBusinessObjectBase impleme
 
     private static final long serialVersionUID = -2184772940618843909L;
 
+    @PortableSequenceGenerator(name = "SEQ_EPS_PROP_PERSON_ROLE")
+    @GeneratedValue(generator = "SEQ_EPS_PROP_PERSON_ROLE")
     @Id
     @Column(name = "PROP_PERSON_ROLE_ID")
     private Long id;
