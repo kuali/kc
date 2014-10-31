@@ -50,26 +50,9 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
         contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
         contextQualifiers.put("name", KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT);
 
-        // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
-//        List<String> unitNumbers = new ArrayList<String>();
-//        String unitNumber = getElementValue(docContent, "//ownedByUnitNumber");
-//        unitNumbers.add(unitNumber);
         String proposalNumber = getElementValue(docContent, "//proposalNumber");
         List<String> unitNumbers = getProposalPersonUnits(proposalNumber);
-//        NodeList otherUnits = getElementValueAsNodeList(docContent,"//proposalPerson[*]/units");
-//        XPathFactory factory = XPathFactory.newInstance();
-//        XPath xPath = factory.newXPath();
-//        for (int i = 0; i < otherUnits.getLength(); i++) {
-//            Element unit = (Element)otherUnits.item(i);
-//            try {
-//                String otherUnitNumber = (String)xPath.evaluate("unitNumber", unit);
-//                unitNumbers.add(otherUnitNumber);
-//            }catch (XPathExpressionException e) {
-//                throw new RuntimeException(e);
-//            }
-//            
-//        }
         String unitNumbersAsString = StringUtils.join(unitNumbers,',');
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, unitNumbersAsString));

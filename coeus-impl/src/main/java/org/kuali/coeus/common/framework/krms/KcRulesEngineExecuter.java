@@ -64,7 +64,7 @@ public abstract class KcRulesEngineExecuter implements RulesEngineExecutor {
             return value;
 
         } catch (Exception e) {
-            throw new RiceRuntimeException();
+            throw new RiceRuntimeException(e);
         }
     }
 
