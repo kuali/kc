@@ -38,7 +38,7 @@
 					p:actionLabel="Save" p:order="30" />
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
 					p:performClientSideValidation="true" p:methodToCall="completeBudget"
-					p:actionLabel="Complete Budget"
+					p:actionLabel="Complete Budget" p:render="@{#view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS) and !budget.isBudgetComplete()}"
 					p:order="50" />
 			</list>
 		</property>

@@ -69,16 +69,21 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         ProposalDevelopmentBudgetExt budget = form.getBudget();
         ProposalDevelopmentDocument parentDocument = (ProposalDevelopmentDocument) budget.getBudgetParent().getDocument();
 
-        if (isAuthorizedToModifyBudget(budget, user) && !isBudgetComplete(budget)) {
-            editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-            editModes.add(AuthConstants.MODIFY_BUDGET_EDIT_MODE);
-            editModes.add(AuthConstants.VIEW_BUDGET_EDIT_MODE);
-            if (isAuthorizedToModifyRates(budget, user)) {
-                editModes.add(AuthConstants.MODIFY_RATES_EDIT_MODE);
-            }
-            setPermissions(user, parentDocument, editModes);
+        if (isAuthorizedToAddBudget(parentDocument, user)) {
+        	editModes.add(AuthConstants.ADD_BUDGET_EDIT_MODE);
         }
-        else if (isAuthorizedToViewBudget(budget, user)) {
+        
+        if (isAuthorizedToModifyBudget(budget, user)) {
+        	editModes.add(AuthConstants.VIEW_BUDGET_EDIT_MODE);
+        	editModes.add(AuthConstants.CHANGE_COMPLETE_STATUS);
+        	if (!isBudgetComplete(budget)) {
+	            editModes.add(AuthConstants.MODIFY_BUDGET_EDIT_MODE);
+	            if (isAuthorizedToModifyRates(budget, user)) {
+	                editModes.add(AuthConstants.MODIFY_RATES_EDIT_MODE);
+	            }
+	            setPermissions(user, parentDocument, editModes);
+        	}
+        } else if (isAuthorizedToViewBudget(budget, user)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             editModes.add(AuthConstants.VIEW_BUDGET_EDIT_MODE);
             

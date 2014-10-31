@@ -28,7 +28,7 @@
 					<list>
 						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Apply Changes" p:methodToCall="save"
 							p:successCallback="dismissDialog('PropBudget-BudgetSettings-Dialog');"
-							p:order="10"  p:disabled="@{#parent.readOnly}"/>
+							p:order="10"  p:render="@{!#parent.readOnly or #view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS)}"/>
 						<bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
 							p:order="20" />
 					</list>
@@ -49,7 +49,8 @@
 				<bean parent="Uif-InputField" p:propertyName="totalDirectCostLimit"
 					p:order="30" p:fieldLabel.renderColon="false"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetStatus"
-					p:order="40" p:fieldLabel.renderColon="false" p:enableAutoQuickfinder="false"/>
+					p:order="40" p:fieldLabel.renderColon="false" p:enableAutoQuickfinder="false"
+					p:readOnly="@{!#view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS)}"/>
 				<bean parent="Uif-InputField" p:propertyName="onOffCampusFlag"
 					p:order="50" p:fieldLabel.renderColon="false"/>
 				<bean parent="Uif-InputField" p:propertyName="residualFunds"

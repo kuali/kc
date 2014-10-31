@@ -7,7 +7,10 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -32,6 +35,10 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@Autowired
 	@Qualifier("proposalBudgetSharedController")
 	private ProposalBudgetSharedController proposalBudgetSharedController;
+	
+	@Autowired
+	@Qualifier("parameterService")
+	private ParameterService parameterService;
 	
 	@MethodAccessible
 	@RequestMapping(params="methodToCall=defaultMapping")
@@ -97,6 +104,15 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 			@RequestParam("copyBudgetDto.originalBudgetId") Long originalBudgetId, 
 			@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, form.getDevelopmentProposal(), form);
+	}
+	
+	@RequestMapping(params="methodToCall=completeBudget")
+	public ModelAndView completeBudget(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
+                Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        form.getBudget().setBudgetStatus(budgetStatusCompleteCode);
+        getDataObjectService().wrap(form.getBudget()).fetchRelationship("budgetStatusDo");
+		return super.save(form);
 	}
 
 	public void checkViewAuthorization(@ModelAttribute("KualiForm") ProposalBudgetForm form, String methodToCall) throws AuthorizationException {
@@ -272,5 +288,13 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
         return super.navigate(form);
     }
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
     
 }
