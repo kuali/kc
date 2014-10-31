@@ -267,7 +267,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
      */
     private boolean hasAggregator(ProposalUserRoles editRoles) {
         for (String roleName : editRoles.getRoleNames()) {
-            if (StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
+            if (isAggregatorRole(roleName)) {
                 return true;
             }
         }
@@ -281,7 +281,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
      */
     private boolean hasNonAggregator(ProposalUserRoles editRoles) {
         for (String roleName : editRoles.getRoleNames()) {
-            if (!StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
+            if (!isAggregatorRole(roleName)) {
                 return true;
             }
         }
@@ -327,7 +327,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
             if (!StringUtils.equals(username, userRoles.getUsername())) {
                 List<String> roleNames = userRoles.getRoleNames();
                 for (String roleName : roleNames) {
-                    if (StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
+                    if (isAggregatorRole(roleName)) {
                         return false;
                     }
                 }
@@ -340,13 +340,17 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         KcPerson initiator = getKcPersonService().getKcPersonByPersonId(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         if (StringUtils.equals(initiator.getUserName(), proposalUserRole.getUsername())) {
             for (String roleName : proposalUserRole.getRoleNames()) {
-                if (StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
+                if (isAggregatorRole(roleName)) {
                     return true;
                 }
             }
         }
         return false;
-    }    
+    }
+
+    protected boolean isAggregatorRole(String roleName) {
+        return StringUtils.equals(roleName, RoleConstants.AGGREGATOR_DOCUMENT_LEVEL);
+    }
     
     /**
      * This method tests if the role for the ProposalUser is Viewer

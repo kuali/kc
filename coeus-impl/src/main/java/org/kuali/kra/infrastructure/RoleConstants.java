@@ -38,6 +38,7 @@ public interface RoleConstants {
     
     public static final String PROPOSAL_CREATOR = "Proposal Creator";
     public static final String AGGREGATOR = "Aggregator";
+    public static final String AGGREGATOR_DOCUMENT_LEVEL = "Aggregator Document Level";
     public static final String NARRATIVE_WRITER = "Narrative Writer";
     public static final String BUDGET_CREATOR = "Budget Creator";
     public static final String VIEWER = "Viewer";

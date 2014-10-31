@@ -29,7 +29,7 @@
 	</bean>
 
     <bean id="PropDev-PermissionsPage-UserTable"
-          parent="Uif-TableCollectionSection" p:propertyName="permissionsHelper.workingUserRoles"
+          parent="Uif-TableCollectionSection" p:propertyName="workingUserRoles"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles"
           p:renderAddLine="@{(#editModes['modifyPermissions'])}" p:layoutManager.richTable.render="true"
           p:layoutManager.renderSequenceField="false">

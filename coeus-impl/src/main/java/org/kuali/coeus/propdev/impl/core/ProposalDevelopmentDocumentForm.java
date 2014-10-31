@@ -32,7 +32,7 @@ import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
-import org.kuali.coeus.propdev.impl.docperm.ProposalDevelopmentPermissionsHelper;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
@@ -70,7 +70,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private AddLineHelper addKeyPersonHelper;
     private AddLineHelper addRecipientHelper;
     private S2sOpportunity newS2sOpportunity;
-    private ProposalDevelopmentPermissionsHelper permissionsHelper;
+    private List<ProposalUserRoles> workingUserRoles;
     private transient MedusaService medusaService;
     private transient LegacyDataAdapter legacyDataAdapter;
     private Map<String,List<String>> editableCollectionLines;
@@ -146,7 +146,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         
         newS2sOpportunity = new S2sOpportunity();
 
-        permissionsHelper = new ProposalDevelopmentPermissionsHelper(getProposalDevelopmentDocument());
+        workingUserRoles = new ArrayList<>();
 
         editableCollectionLines = new HashMap<String,List<String>>();
 
@@ -277,12 +277,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.editableCollectionLines = editableCollectionLines;
     }
 
-    public ProposalDevelopmentPermissionsHelper getPermissionsHelper() {
-        return permissionsHelper;
+    public List<ProposalUserRoles> getWorkingUserRoles() {
+        return workingUserRoles;
     }
 
-    public void setPermissionsHelper(ProposalDevelopmentPermissionsHelper permissionsHelper) {
-        this.permissionsHelper = permissionsHelper;
+    public void setWorkingUserRoles(List<ProposalUserRoles> workingUserRoles) {
+        this.workingUserRoles = workingUserRoles;
     }
 
     public ProposalDevelopmentCustomDataHelper getCustomDataHelper() {
