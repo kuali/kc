@@ -20,8 +20,12 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.rice.core.api.data.DataType;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+import org.kuali.rice.core.api.uif.RemotableAbstractWidget;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
+import org.kuali.rice.core.api.uif.RemotableAttributeLookupSettings;
+import org.kuali.rice.core.api.uif.RemotableQuickFinder;
 import org.kuali.rice.core.api.uif.RemotableTextInput;
+import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
@@ -36,6 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,14 +68,29 @@ public class UnitAgendaTypeServiceImpl extends AgendaTypeServiceBase  {
     }
 
     private RemotableAttributeField createUnitField() {
+    	
+    	String unitClassName = Unit.class.getName();
+    	String baseLookupUrl = LookupUtils.getBaseLookupUrl();
+    
+        RemotableQuickFinder.Builder quickFinderBuilder = RemotableQuickFinder.Builder.create(baseLookupUrl, unitClassName);
+        quickFinderBuilder.setLookupParameters(Collections.singletonMap("Unit", "unitNumber"));
+        quickFinderBuilder.setFieldConversions(Collections.singletonMap("unitNumber","Unit"));
 
         RemotableTextInput.Builder controlBuilder = RemotableTextInput.Builder.create();
         controlBuilder.setSize(30);
         controlBuilder = RemotableTextInput.Builder.create();
         controlBuilder.setSize(Integer.valueOf(40));
         controlBuilder.setWatermark("unit number");
+        
+        RemotableAttributeLookupSettings.Builder lookupSettingsBuilder = RemotableAttributeLookupSettings.Builder.create();
+        lookupSettingsBuilder.setCaseSensitive(Boolean.TRUE);
+        lookupSettingsBuilder.setInCriteria(true);
+        lookupSettingsBuilder.setInResults(true);
+        lookupSettingsBuilder.setRanged(false);
 
         RemotableAttributeField.Builder builder = RemotableAttributeField.Builder.create(KcKrmsConstants.UNIT_NUMBER);
+        builder.setAttributeLookupSettings(lookupSettingsBuilder);
+        builder.setName("Unit");
         builder.setRequired(true);
         builder.setDataType(DataType.STRING);
         builder.setControl(controlBuilder);
@@ -78,6 +98,7 @@ public class UnitAgendaTypeServiceImpl extends AgendaTypeServiceBase  {
         builder.setShortLabel("Unit Number");
         builder.setMinLength(Integer.valueOf(1));
         builder.setMaxLength(Integer.valueOf(40));
+        builder.setWidgets(Collections.<RemotableAbstractWidget.Builder> singletonList(quickFinderBuilder));
 
         return builder.build();
     }
@@ -121,7 +142,7 @@ public class UnitAgendaTypeServiceImpl extends AgendaTypeServiceBase  {
                         String[] unitNumbers = environmentQualifierValue.split(",");
                         for (int i = 0; i < unitNumbers.length; i++) {
                             String enviornmentUnitNumber = unitNumbers[i];
-                            if ((enviornmentUnitNumber.equals(agendaQualifierValue) || isChildUnit(environmentQualifierValue, agendaQualifierValue))) {
+                            if (enviornmentUnitNumber.equals(agendaQualifierValue)){ 
                                 canApply = true;
                                 break;
                             }
@@ -134,11 +155,7 @@ public class UnitAgendaTypeServiceImpl extends AgendaTypeServiceBase  {
             return canApply;
         }
         
-        private boolean isChildUnit(String childNumber, String parentNumber) {
-            Unit childUnit = unitService.getUnit(childNumber);
-            Unit parentUnit = unitService.getUnit(parentNumber);
-            return childUnit == null || parentUnit == null ? false : childUnit.isParentUnit(parentUnit);
-        }
+      
 
     }
 
