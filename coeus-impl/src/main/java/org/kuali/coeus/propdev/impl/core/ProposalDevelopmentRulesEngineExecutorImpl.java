@@ -42,7 +42,7 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
     private KcKrmsFactBuilderServiceHelper kcKrmsFactBuilderServiceHelper;
     protected KcKrmsFactBuilderServiceHelper getKcKrmsFactBuilderServiceHelper (){
         if (kcKrmsFactBuilderServiceHelper == null)
-            kcKrmsFactBuilderServiceHelper = KcServiceLocator.getService("proposalDevelopmentFactBuilderService");
+            kcKrmsFactBuilderServiceHelper = getProposalDevelopmentFactBuilderService();
         return kcKrmsFactBuilderServiceHelper;
     }
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
@@ -57,14 +57,17 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, unitNumbersAsString));
 
-        KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("proposalDevelopmentFactBuilderService");
+        KcKrmsFactBuilderServiceHelper fbService = getProposalDevelopmentFactBuilderService();
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, docContent);
         EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
         return results;
     }
+	private KcKrmsFactBuilderServiceHelper getProposalDevelopmentFactBuilderService() {
+		return KcServiceLocator.getService("proposalDevelopmentFactBuilderService");
+	}
     private List<String> getProposalPersonUnits(String proposalNumber) {
-    	DataObjectService dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+    	DataObjectService dataObjectService = getDataObjectService();
     	
         Map<String,String> params = new HashMap<String, String>();
         params.put("developmentProposal.proposalNumber", proposalNumber);
@@ -81,4 +84,7 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
         }
         return units;
     }
+	private DataObjectService getDataObjectService() {
+		return KcServiceLocator.getService(DataObjectService.class);
+	}
 }
