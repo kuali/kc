@@ -14,21 +14,28 @@
  * limitations under the License.
  */
 package org.kuali.coeus.propdev.impl.core;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.kuali.coeus.common.framework.krms.KcRulesEngineExecuter;
+import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.coeus.common.framework.krms.KcRulesEngineExecuter;
-import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineExecuter  {
 
@@ -45,15 +52,50 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
 
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
-        String unitNumber = getElementValue(docContent, "//ownedByUnitNumber");
-        
+//        List<String> unitNumbers = new ArrayList<String>();
+//        String unitNumber = getElementValue(docContent, "//ownedByUnitNumber");
+//        unitNumbers.add(unitNumber);
+        String proposalNumber = getElementValue(docContent, "//proposalNumber");
+        List<String> unitNumbers = getProposalPersonUnits(proposalNumber);
+//        NodeList otherUnits = getElementValueAsNodeList(docContent,"//proposalPerson[*]/units");
+//        XPathFactory factory = XPathFactory.newInstance();
+//        XPath xPath = factory.newXPath();
+//        for (int i = 0; i < otherUnits.getLength(); i++) {
+//            Element unit = (Element)otherUnits.item(i);
+//            try {
+//                String otherUnitNumber = (String)xPath.evaluate("unitNumber", unit);
+//                unitNumbers.add(otherUnitNumber);
+//            }catch (XPathExpressionException e) {
+//                throw new RuntimeException(e);
+//            }
+//            
+//        }
+        String unitNumbersAsString = StringUtils.join(unitNumbers,',');
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
-                Collections.singletonMap("Unit Number", unitNumber));
+                Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, unitNumbersAsString));
 
-        KcKrmsFactBuilderServiceHelper fbService = getKcKrmsFactBuilderServiceHelper();
+        KcKrmsFactBuilderServiceHelper fbService = KcServiceLocator.getService("proposalDevelopmentFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, docContent);
         EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
         return results;
+    }
+    private List<String> getProposalPersonUnits(String proposalNumber) {
+    	DataObjectService dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+    	
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("developmentProposal.proposalNumber", proposalNumber);
+        List<ProposalPerson> proposalPersons = (List<ProposalPerson>) dataObjectService.findMatching(ProposalPerson.class,
+        		QueryByCriteria.Builder.andAttributes(params).build()).getResults();
+        List<String> units = new ArrayList<String>();
+        for (ProposalPerson proposalPerson : proposalPersons) {
+            List<ProposalPersonUnit> proposalPersonUnits = proposalPerson.getUnits();
+            for (ProposalPersonUnit proposalPersonUnit : proposalPersonUnits) {
+                if(!units.contains(proposalPersonUnit.getUnitNumber())){
+                    units.add(proposalPersonUnit.getUnitNumber());
+                }
+            }
+        }
+        return units;
     }
 }
