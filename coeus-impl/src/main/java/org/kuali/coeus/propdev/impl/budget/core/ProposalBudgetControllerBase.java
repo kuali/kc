@@ -118,6 +118,8 @@ public abstract class ProposalBudgetControllerBase {
 
     protected ProposalDevelopmentBudgetExt loadBudget(Long budgetId) {
     	ProposalDevelopmentBudgetExt budget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build());
+    	budget.setStartDate(budget.getDevelopmentProposal().getRequestedStartDateInitial());
+    	budget.setEndDate(budget.getDevelopmentProposal().getRequestedEndDateInitial());
     	if (!proposalBudgetAuthorizer.isAuthorizedToViewBudget(budget, globalVariableService.getUserSession().getPerson())) {
     		throw new AuthorizationException(globalVariableService.getUserSession().getPrincipalName(), "open", "Proposal Budget");
     	}
