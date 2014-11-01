@@ -576,15 +576,23 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     public Timestamp getTimestampDisplay() {
-        return timestampDisplay;
-    }
+        if (getNarrativeAttachment() == null || getNarrativeAttachment().getUpdateTimestamp() == null) {
+            return getDateTimeService().getCurrentTimestamp();
+        }
+
+        return getNarrativeAttachment().getUpdateTimestamp();
+}
 
     public void setTimestampDisplay(Timestamp timestampDisplay) {
         this.timestampDisplay = timestampDisplay;
     }
 
     public String getUploadUserDisplay() {
-        return uploadUserDisplay;
+        if (getNarrativeAttachment() == null || StringUtils.isBlank(getNarrativeAttachment().getUpdateUser())) {
+            return this.getUpdateUser();
+        }
+
+        return getNarrativeAttachment().getUpdateUser();
     }
 
     public void setUploadUserDisplay(String uploadUserDisplay) {

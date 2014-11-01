@@ -7,4 +7,9 @@ public interface ProposalDevelopmentAttachment {
     public MultipartFile getMultipartFile();
 
     public void setMultipartFile(MultipartFile multipartFile);
+
+    public String getUploadUserDisplay();
+
+    public void setUploadUserDisplay(String uploadUserDisplay);
+
 }

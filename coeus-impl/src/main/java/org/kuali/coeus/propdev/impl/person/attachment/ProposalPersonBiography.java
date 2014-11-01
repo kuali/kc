@@ -337,7 +337,10 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     }
 
     public Timestamp getTimestampDisplay() {
-        return timestampDisplay;
+        if (getPersonnelAttachment() == null || getPersonnelAttachment().getUpdateTimestamp() == null) {
+            return getDateTimeService().getCurrentTimestamp();
+        }
+        return getPersonnelAttachment().getUpdateTimestamp();
     }
 
     public void setTimestampDisplay(Timestamp timestampDisplay) {
@@ -345,7 +348,11 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     }
 
     public String getUploadUserDisplay() {
-        return uploadUserDisplay;
+        if (getPersonnelAttachment() == null || StringUtils.isBlank(getPersonnelAttachment().getUpdateUser())) {
+            return this.getUpdateUser();
+        }
+
+        return getPersonnelAttachment().getUpdateUser();
     }
 
     public void setUploadUserDisplay(String uploadUserDisplay) {

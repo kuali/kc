@@ -16,9 +16,9 @@
 package org.kuali.coeus.propdev.impl.core;
 
 
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.common.framework.auth.KcAuthConstants;
@@ -30,6 +30,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.apache.log4j.Logger;
+import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachment;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
@@ -175,11 +176,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
             if (StringUtils.equals(collectionPath,"document.developmentProposal.instituteAttachments")) {
                 narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
             }
+            updateAttachmentInformation(narrative.getNarrativeAttachment());
         } else if (addLine instanceof ProposalPersonBiography) {
             ProposalPersonBiography biography = (ProposalPersonBiography) addLine;
             biography.setDevelopmentProposal(document.getDevelopmentProposal());
             biography.setBiographyNumber(document
                     .getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
+            updateAttachmentInformation(biography.getPersonnelAttachment());
         } else if (addLine instanceof ProposalPersonDegree) {
 			((ProposalPersonDegree)addLine).setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
             try {
@@ -730,6 +733,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return false;
     }
 
+    public String displayAttachmentFullName(ProposalDevelopmentAttachment attachment){
+        String name = getPersonService().getPersonByPrincipalName(attachment.getUploadUserDisplay()).getName();
+        return name;
+    }
+
     public String replaceLineBreaks(String string) {
         return StringUtils.replace(string,"\n","[br]");
     }
@@ -768,6 +776,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
                 customDataGroupDto.setIdSuffix(customAttributeDocValue.getCustomAttribute().getGroupName().replace(" ","_"));
                 form.getCustomDataGroups().add(customDataGroupDto);
             }
+        }
+    }
+
+    public void updateAttachmentInformation(KcPersistableBusinessObjectBase attachment){
+        if (attachment != null){
+            attachment.setUpdateUser(getGlobalVariableService().getUserSession().getPrincipalName());
+            attachment.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
         }
     }
 
@@ -855,5 +870,4 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public String getDisclaimerText() {
        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,"propSummaryDisclaimerText");
     }
-
 }
