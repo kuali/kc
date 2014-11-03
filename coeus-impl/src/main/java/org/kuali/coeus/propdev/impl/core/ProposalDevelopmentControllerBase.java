@@ -208,6 +208,8 @@ public abstract class ProposalDevelopmentControllerBase {
              ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateAttachmentReferences(form.getDevelopmentProposal());
          }
 
+         form.getEditableCollectionLines().clear();
+
          preSave(proposalDevelopmentDocument);
 
          proposalDevelopmentService.initializeUnitOrganizationLocation(
