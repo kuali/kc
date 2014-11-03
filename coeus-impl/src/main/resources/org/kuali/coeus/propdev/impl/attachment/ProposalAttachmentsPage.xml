@@ -186,7 +186,7 @@
             <list merge="true">
                 <bean parent="Uif-InputField" p:propertyName="proposalPersonNumberString"
                       p:fieldLabel.LabelText="Person" p:required="true" p:order="40"
-                      p:enableAutoQuickfinder="false">
+                      p:enableAutoQuickfinder="false" p:readOnly="@{!#empty(#line.versionNumber) or #parent.readOnly}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -208,7 +208,8 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="biography.proposalPersonNumberString"
-                      p:fieldLabel.LabelText="Person" p:required="true" p:order="10">
+                      p:fieldLabel.LabelText="Person" p:required="true" p:order="10"
+                      p:readOnly="@{!#empty(#fp.biography.versionNumber) or #parent.readOnly}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
