@@ -171,7 +171,7 @@
                             p:iconClass="icon-ok" p:order="10" />
 						<bean parent="Uif-ActionLink" p:actionScript="showDialog('PropBudget-BudgetSettings-Dialog');"
 							p:actionLabel="Budget Settings" p:iconClass="icon-cog" p:order="20" />
-						<bean parent="Uif-ActionLink" p:actionLabel="Summary"
+						<bean parent="Uif-ActionLink" p:actionLabel="Summary" p:methodToCall="populateBudgetSummary"
 							p:iconClass="ucon-eye" p:order="30" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropBudget-BudgetVersions-Dialog');"
 							p:iconClass="icon-money" p:order="40" />
