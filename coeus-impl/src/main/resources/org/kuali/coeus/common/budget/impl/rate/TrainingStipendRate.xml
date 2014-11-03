@@ -10,9 +10,10 @@
     <property name="lookupDefinition" >
       <ref bean="TrainingStipendRate-lookupDefinition" />
     </property>
-    <property name="titleAttribute" value="TrainingStipendRateCode" />
+    <property name="titleAttribute" value="id" />
     <property name="attributes" >
       <list>
+      	<ref bean="TrainingStipendRate-id" />
         <ref bean="TrainingStipendRate-careerLevel" />
         <ref bean="TrainingStipendRate-experienceLevel" />
         <ref bean="TrainingStipendRate-stipendRate" />
@@ -23,6 +24,29 @@
   </bean>
 
 <!-- Attribute Definitions -->
+
+  <bean id="TrainingStipendRate-id" parent="TrainingStipendRate-id-parentBean" />
+  <bean id="TrainingStipendRate-id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Id" />
+        <property name="shortLabel" value="Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+    	<property name="validCharactersConstraint">
+      		<bean parent="NumericPatternConstraint"/>
+    	</property>
+        <property name="control" >
+      		<bean parent="TextControlDefinition" p:size="15"/>
+    	</property>
+    	<property name="controlField">
+      		<bean p:size="15" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Id" />
+        <property name="description" value="Id" />
+  </bean>
 
   <bean id="TrainingStipendRate-careerLevel" parent="TrainingStipendRate-careerLevel-parentBean" />
 
@@ -113,9 +137,9 @@
   <bean id="TrainingStipendRate-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
   <bean id="TrainingStipendRate-versionNumber" parent="TrainingStipendRate-versionNumber-parentBean" />
   <bean id="TrainingStipendRate-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
-<!-- Business Object Inquiry Definition -->
+  
+  <!-- Business Object Inquiry Definition -->
   <bean id="TrainingStipendRate-inquiryDefinition" parent="TrainingStipendRate-inquiryDefinition-parentBean" />
-  <bean id="TrainingStipendRate-InquiryView" parent="TrainingStipendRate-InquiryView-parentBean"/>
   <bean id="TrainingStipendRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Training Stipend Rate" />
     <property name="inquirySections" >
@@ -136,7 +160,8 @@
       </list>
     </property>
   </bean>
-
+  
+  <bean id="TrainingStipendRate-InquiryView" parent="TrainingStipendRate-InquiryView-parentBean"/>
   <bean id="TrainingStipendRate-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
     <property name="headerText" value="Training Stipend Rate"/>
     <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.rate.TrainingStipendRate"/>
@@ -161,9 +186,9 @@
 
   <!-- Business Object Lookup Definition -->
   <bean id="TrainingStipendRate-lookupDefinition" parent="TrainingStipendRate-lookupDefinition-parentBean" />
-  <bean id="TrainingStipendRate-LookupView" parent="TrainingStipendRate-LookupView-parentBean"/>
   <bean id="TrainingStipendRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Training Stipend Rate Lookup" /><property name="defaultSort" >
+    <property name="title" value="Training Stipend Rate Lookup" />
+    <property name="defaultSort" >
       <bean parent="SortDefinition"/>
     </property>
 	<property name="helpDefinition" >
@@ -171,6 +196,7 @@
     </property>      
     <property name="lookupFields" >
       <list>
+      	<bean parent="FieldDefinition" p:attributeName="id"/>
         <bean parent="FieldDefinition" p:attributeName="careerLevel"/>
         <bean parent="FieldDefinition" p:attributeName="experienceLevel"/>
         <bean parent="FieldDefinition" p:attributeName="stipendRate"/>
@@ -180,6 +206,7 @@
     </property>
     <property name="resultFields" >
       <list>
+      	<bean parent="FieldDefinition" p:attributeName="id"/>
         <bean parent="FieldDefinition" p:attributeName="careerLevel"/>
         <bean parent="FieldDefinition" p:attributeName="experienceLevel"/>
         <bean parent="FieldDefinition" p:attributeName="stipendRate"/>
@@ -188,12 +215,14 @@
       </list>
     </property>
   </bean>
-
+  
+  <bean id="TrainingStipendRate-LookupView" parent="TrainingStipendRate-LookupView-parentBean"/>
   <bean id="TrainingStipendRate-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
     <property name="dataObjectClassName" value="org.kuali.coeus.common.budget.framework.rate.TrainingStipendRate"/>
     <property name="headerText" value="Training Stipend Rate Lookup"/>
     <property name="criteriaFields">
       <list>
+      	<bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="careerLevel" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="experienceLevel" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="stipendRate" parent="Uif-LookupCriteriaInputField"/>
@@ -203,6 +232,7 @@
     </property>
     <property name="resultFields">
       <list>
+      	<bean p:propertyName="id" parent="Uif-DataField"/>
         <bean p:propertyName="careerLevel" parent="Uif-DataField"/>
         <bean p:propertyName="experienceLevel" parent="Uif-DataField"/>
         <bean p:propertyName="stipendRate" parent="Uif-DataField"/>
