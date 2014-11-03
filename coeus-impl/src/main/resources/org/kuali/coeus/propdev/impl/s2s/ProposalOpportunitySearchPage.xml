@@ -262,7 +262,7 @@
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="refreshSubmissionDetails" p:refreshId="PropDev-OpportunityPage-SubmissionDetails"
+                        <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="refreshSubmissionDetails"
                               p:iconClass="icon-loop2" p:actionLabel="Refresh" p:order="10"
                               p:render="@{!#empty(displayedS2sAppSubmission)}"/>
                     </list>
