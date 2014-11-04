@@ -66,6 +66,12 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 		form.getProposalDevelopmentDocument().getDevelopmentProposal().setFinalBudget(finalBudget);
 		return super.save(form);
 	}
+	
+	@RequestMapping(params="methodToCall=openBudget")
+	public ModelAndView openBudget(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		super.save(form);
+		return getProposalBudgetSharedController().openBudget(budgetId, form);
+	}		
 
 	public ProposalBudgetSharedController getProposalBudgetSharedController() {
 		return proposalBudgetSharedController;
