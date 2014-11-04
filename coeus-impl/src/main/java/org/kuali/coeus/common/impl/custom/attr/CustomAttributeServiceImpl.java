@@ -24,8 +24,10 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDataType;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition;
@@ -47,6 +49,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
     private static final String ARGVALUELOOKUPE_CLASS = ArgValueLookup.class.getName();
     
+    private static final String EQUAL_CHAR = "=";
+    
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
@@ -62,6 +66,10 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
     @Autowired
     @Qualifier("businessObjectService")
 	private BusinessObjectService businessObjectService;
+    
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
 	@Override
     public Map<String, CustomAttributeDocument> getDefaultCustomAttributeDocuments(String documentTypeCode, List<? extends DocumentCustomData> customDataList) {
@@ -190,6 +198,23 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 			BusinessObjectDictionaryService businessDictionaryService) {
 		this.businessDictionaryService = businessDictionaryService;
 	}
+	
+	public BusinessObjectService getBusinessObjectService() {
+		return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
+
 	public boolean isRequired(String dataTypeCode, CustomAttribute attr, List<? extends DocumentCustomData> customDataList)
 	{
 		Map<String, CustomAttributeDocument> map = getDefaultCustomAttributeDocuments(dataTypeCode, customDataList );
@@ -198,5 +223,28 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 				return document.getValue().isRequired();
 		}
 		return false;
+	}
+	
+	public Map<String, String> getDocumentTypeMap() {
+		Map<String, String> documentTypes = new HashMap<String, String>();
+        for (String documentType : getDocumentTypeParam()) {
+            String[] params = documentType.split(EQUAL_CHAR);
+            documentTypes.put(params[0], params[1]);
+        }
+        return documentTypes;
+	}
+	
+	public Map<String, String> getReverseDocumentTypeMap() {
+		Map<String, String> documentTypes = new HashMap<String, String>();
+        for (String documentType : getDocumentTypeParam()) {
+            String[] params = documentType.split(EQUAL_CHAR);
+            documentTypes.put(params[1].replace(" ", "+"), params[0]);
+        }
+        return documentTypes;
+	}
+	
+	protected Collection<String> getDocumentTypeParam() {
+		return getParameterService().getParameterValuesAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                Constants.CUSTOM_ATTRIBUTE_DOCUMENT_DETAIL_TYPE_CODE, Constants.CUSTOM_ATTRIBUTE_DOCUMENT_PARAM_NAME);
 	}
 }

@@ -123,6 +123,7 @@
   <bean id="CustomAttributeDocument-inquiryDefinition" parent="CustomAttributeDocument-inquiryDefinition-parentBean"/>
   <bean id="CustomAttributeDocument-InquiryView" parent="CustomAttributeDocument-InquiryView-parentBean"/>
   <bean abstract="true" id="CustomAttributeDocument-inquiryDefinition-parentBean" parent="InquiryDefinition">
+  <property name="inquirableClass" value ="org.kuali.coeus.common.impl.custom.attr.CustomAtttributeDocumentInquirableImpl"/>
     <property name="title" value="Custom Attribute Document"/>
     <property name="inquirySections">
       <list>
