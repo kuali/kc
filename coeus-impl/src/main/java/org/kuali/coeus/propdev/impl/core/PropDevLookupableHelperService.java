@@ -8,10 +8,8 @@ import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Link;
 
 public interface PropDevLookupableHelperService extends Lookupable {
-	
-	public boolean showActionUrls(Collection<?> lookupResults);
-	
-	public void buildPropDevViewActionLink(Link actionLink, Object model, String title);
+
+	public void buildPropDevViewActionLink(Link actionLink, Object model, String title) throws WorkflowException;
 	
 	public void buildPropDevEditActionLink(Link actionLink, Object model, String title) throws WorkflowException;
 	

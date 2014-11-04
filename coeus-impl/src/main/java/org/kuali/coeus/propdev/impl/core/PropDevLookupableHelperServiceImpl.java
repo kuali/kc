@@ -18,6 +18,7 @@ import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Link;
+import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -77,8 +78,19 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         modifiedSearchCriteria.remove("aggregator");
         modifiedSearchCriteria.remove("principalInvestigatorName");
 
-        return getDataObjectService().findMatching(DevelopmentProposal.class,QueryByCriteria.Builder.andAttributes(modifiedSearchCriteria).build()).getResults();
+        return filterPermissions(getDataObjectService().findMatching(DevelopmentProposal.class,QueryByCriteria.Builder.andAttributes(modifiedSearchCriteria).build()).getResults());
 
+    }
+
+    private Collection<DevelopmentProposal> filterPermissions(Collection<DevelopmentProposal> results) {
+        Collection<DevelopmentProposal> filteredResults = new ArrayList<DevelopmentProposal>();
+        for (DevelopmentProposal developmentProposal : results) {
+            if (getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
+                    developmentProposal.getDocument(),PermissionConstants.VIEW_PROPOSAL)){
+                filteredResults.add(developmentProposal);
+            }
+        }
+        return  filteredResults;
     }
 
     private List<String> getPiProposalNumbers(String principalInvestigatorName) {
@@ -164,26 +176,6 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
         return proposalNumbers;
     }
-	/**
-	 * This method determines Action URLs to be displayed for current search result line
-	 * Default implementation is to return true
-	 * @param Object dataObject current line item from the search result collection
-	 */
-    @Override
-	public boolean showActionUrls(Collection<?> lookupResults) {
-		
-		boolean canViewProposal = false;
-		Object dataObject = null;
-		if(lookupResults != null && lookupResults.size() > 0) {
-			dataObject = lookupResults.iterator().next();
-		}
-		if(dataObject != null && dataObject instanceof DevelopmentProposal) {
-			DevelopmentProposal developmentProposal = (DevelopmentProposal)dataObject;
-			canViewProposal = getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
-					developmentProposal.getDocument(), PermissionConstants.VIEW_PROPOSAL);
-		}
-	    return canViewProposal;
-	}
 
     /**
      * Invoked to build view action URL for a result row.
@@ -192,13 +184,14 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
      * @param title will be assigned as the href text and title
      */
 	@Override
-	public void buildPropDevViewActionLink(Link actionLink, Object model, String title) {
+	public void buildPropDevViewActionLink(Link actionLink, Object model, String title) throws WorkflowException {
 		actionLink.setTitle(title);
 		actionLink.setLinkText(title);
 		actionLink.setHref(getDocumentTypeService().getDocumentTypeByName("ProposalDevelopmentDocument").getResolvedDocumentHandlerUrl()
                 + "&docId="
                 + actionLink.getHref()
                 + KRADConstants.DOCHANDLER_URL_CHUNK+"&viewDocument=true");
+
 	}
 	
     /**
@@ -210,34 +203,29 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
      */
 	@Override
 	public void buildPropDevEditActionLink(Link actionLink, Object model,String title) throws WorkflowException {
-		
-		boolean canModifyProposal = getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(), 
-				(ProposalDevelopmentDocument)(getDocumentService().getByDocumentHeaderId(actionLink.getHref())), 
-				PermissionConstants.MODIFY_PROPOSAL);
-		if(canModifyProposal) {
 			actionLink.setTitle(title);
 			actionLink.setLinkText(title);
 			actionLink.setHref(getConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY)
 	                + KRADConstants.DOCHANDLER_DO_URL
 	                + actionLink.getHref()
 	                + KRADConstants.DOCHANDLER_URL_CHUNK);
-		}
+
 	}
 
     /**
-     * Check to see if the copy action should be rendered (must have modify permission).
+     * Check to see if the modify action should be rendered (must have modify permission).
      *
-     * @param actionLink link that will be used to return the copy action
+     * @param fieldGroup link that will be used to return the copy action
      * @param model lookup form containing the data
      * @param docId the id of document to check
      * @throws WorkflowException
      */
-    public void buildPropDevCopyActionLink(Action actionLink, Object model, String docId) throws WorkflowException {
+    public void canModifyProposal(FieldGroup fieldGroup, Object model, String docId) throws WorkflowException {
         boolean canModifyProposal = getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
         				(ProposalDevelopmentDocument)(getDocumentService().getByDocumentHeaderId(docId)),
         				PermissionConstants.MODIFY_PROPOSAL);
         if (!canModifyProposal) {
-            actionLink.setRender(false);
+            fieldGroup.setRender(false);
         }
     }
 
