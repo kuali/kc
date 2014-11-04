@@ -20,9 +20,7 @@ import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBas
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.web.struts.form.InquiryForm;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.*;

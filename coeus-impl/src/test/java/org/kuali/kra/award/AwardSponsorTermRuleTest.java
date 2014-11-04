@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.sponsor.term.SponsorTerm;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.award.home.AwardSponsorTerm;
 import org.kuali.rice.krad.util.GlobalVariables;

@@ -17,7 +17,6 @@ package org.kuali.kra.irb.protocol.questionnaire;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.questionnaire.SaveProtocolQuestionnaireEvent;

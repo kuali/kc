@@ -22,8 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.IacucSpeciesCountType;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.util.ObjectUtils;

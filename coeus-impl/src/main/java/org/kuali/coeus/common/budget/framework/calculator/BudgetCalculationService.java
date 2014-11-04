@@ -22,7 +22,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalcul
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
-import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 /**
  * 
  * This class is for serving all calculations for a proposal budget.

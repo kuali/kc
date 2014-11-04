@@ -10,7 +10,6 @@ import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.stereotype.Component;
 
 import java.util.*;

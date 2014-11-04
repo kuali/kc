@@ -3,8 +3,6 @@ package org.kuali.coeus.propdev.impl.action;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;

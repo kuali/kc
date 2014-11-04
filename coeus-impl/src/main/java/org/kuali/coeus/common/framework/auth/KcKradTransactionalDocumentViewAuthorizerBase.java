@@ -8,8 +8,6 @@ import org.kuali.rice.krad.document.TransactionalDocumentViewAuthorizerBase;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service("kcKradTransactionalDocumentViewAuthorizerBase")

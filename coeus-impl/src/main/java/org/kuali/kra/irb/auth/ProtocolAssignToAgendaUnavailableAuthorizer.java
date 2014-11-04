@@ -15,14 +15,11 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule and the action is currently not available.

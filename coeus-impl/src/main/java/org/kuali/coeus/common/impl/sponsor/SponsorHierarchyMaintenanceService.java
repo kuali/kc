@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.impl.sponsor;
 
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyForm;
 
 import java.util.Collection;

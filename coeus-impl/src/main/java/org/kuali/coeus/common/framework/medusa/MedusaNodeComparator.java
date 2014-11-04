@@ -21,7 +21,6 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.rice.krad.bo.BusinessObject;
 
 import java.util.Comparator;
 

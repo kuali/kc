@@ -28,7 +28,6 @@ import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;

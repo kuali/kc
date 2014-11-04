@@ -19,7 +19,6 @@ import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ProposalPersonBiographyServiceTest {
 	private ProposalPersonBiographyServiceImpl proposalPersonBiographyService;

@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalAddBudgetVersionEvent;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetVersionRule;

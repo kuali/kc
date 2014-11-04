@@ -23,7 +23,6 @@ import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class CountryCodeValuesFinder extends UifKeyValuesFinderBase {

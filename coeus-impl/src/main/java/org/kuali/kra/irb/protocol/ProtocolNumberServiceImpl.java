@@ -17,9 +17,6 @@ package org.kuali.kra.irb.protocol;
 
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.protocol.ProtocolNumberServiceImplBase;
-import org.kuali.rice.krad.service.SequenceAccessorService;
-
-import java.util.Calendar;
 
 /**
  * ProtocolNumberService Implementation.

@@ -19,7 +19,6 @@ import org.kuali.kra.award.subcontracting.reporting.dao.SubcontractingExpenditur
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.sql.Date;
 import java.util.Collection;

@@ -18,7 +18,6 @@ package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.HashMap;
 import java.util.Map;

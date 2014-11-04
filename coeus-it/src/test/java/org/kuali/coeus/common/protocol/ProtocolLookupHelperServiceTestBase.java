@@ -3,8 +3,6 @@ package org.kuali.coeus.common.protocol;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
-import org.junit.After;
-import org.junit.Before;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;

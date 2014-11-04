@@ -28,14 +28,12 @@ import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineExecuter  {
 

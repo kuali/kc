@@ -21,7 +21,6 @@ import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.rule.SendNotificationRule;
 import org.kuali.coeus.common.notification.impl.rule.event.SendNotificationEvent;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.rules.TemplateRuleTest;
 

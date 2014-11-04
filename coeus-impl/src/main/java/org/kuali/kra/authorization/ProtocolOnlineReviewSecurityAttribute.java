@@ -18,18 +18,12 @@ package org.kuali.kra.authorization;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kew.api.actionlist.ActionListService;
 import org.kuali.rice.kew.api.document.Document;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.document.DocumentAuthorizer;
 
 
 public class ProtocolOnlineReviewSecurityAttribute implements DocumentSecurityAttribute {

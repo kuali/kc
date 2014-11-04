@@ -19,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationService;
 import org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.bo.IacucOrganizationCorrespondent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;

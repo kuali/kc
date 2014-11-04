@@ -19,7 +19,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.framework.support.krms.RulesEngineExecutor;

@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 /**
  * This class tests KraPersistableBusinessObjectBase.
  */

@@ -1,11 +1,8 @@
 package org.kuali.coeus.propdev.impl.custom;
 
-import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
-import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
-import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;

@@ -16,7 +16,6 @@
 package org.kuali.coeus.common.impl.print;
 
 import com.lowagie.text.*;
-import com.lowagie.text.Font;
 import com.lowagie.text.pdf.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;

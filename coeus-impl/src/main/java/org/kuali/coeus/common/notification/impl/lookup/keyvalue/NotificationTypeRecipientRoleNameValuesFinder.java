@@ -29,9 +29,7 @@ import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides a value finder for the Notification Type Recipient Role Namespace and Role name combination.

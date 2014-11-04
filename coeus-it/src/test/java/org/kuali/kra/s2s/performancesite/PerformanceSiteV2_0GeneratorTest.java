@@ -2,7 +2,6 @@ package  org.kuali.kra.s2s.performancesite;
 
 
 
-import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.s2sgen.impl.generate.support.PerformanceSiteV2_0Generator;
 import org.kuali.kra.s2s.generator.S2STestBase;
-import org.kuali.rice.krad.data.DataObjectService;
 
 public class PerformanceSiteV2_0GeneratorTest extends S2STestBase<PerformanceSiteV2_0Generator> {
 

@@ -16,7 +16,6 @@
 package org.kuali.coeus.common.framework.person;
 
 import org.kuali.coeus.sys.api.model.Coded;
-import org.kuali.coeus.sys.api.model.Identifiable;
 import org.kuali.coeus.sys.api.model.IdentifiableNumeric;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.home.ContactRole;

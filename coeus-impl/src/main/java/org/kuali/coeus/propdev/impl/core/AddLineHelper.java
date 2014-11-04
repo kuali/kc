@@ -1,6 +1,5 @@
 package org.kuali.coeus.propdev.impl.core;
 
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 import java.util.ArrayList;
 import java.util.HashMap;

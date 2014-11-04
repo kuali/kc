@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
-import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.service.ControllerService;
 import org.kuali.rice.krad.web.service.ModelAndViewService;
 import org.springframework.beans.factory.annotation.Autowired;

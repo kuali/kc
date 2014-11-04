@@ -31,7 +31,6 @@ import org.kuali.coeus.s2sgen.impl.generate.S2SBaseFormGenerator;
 import org.kuali.coeus.s2sgen.impl.generate.support.RRBudgetV1_1Generator;
 import org.kuali.coeus.s2sgen.impl.generate.support.RRSubAwardBudget5_30V1_2Generator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.s2s.generator.S2SModularBudgetTestBase;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;

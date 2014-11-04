@@ -37,15 +37,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.fail;
 
 /**
  * Unit Tests for validating an OJB repository XML file. The objective is to validate without initializing OJB. If OJB starts up and

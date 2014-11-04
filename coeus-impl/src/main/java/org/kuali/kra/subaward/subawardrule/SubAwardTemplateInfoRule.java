@@ -16,7 +16,6 @@
 package org.kuali.kra.subaward.subawardrule;
 
 import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.subaward.bo.SubAwardTemplateInfo;
 
 /**
  * This class is for rule validation for subAwardTemplateInfoRule...

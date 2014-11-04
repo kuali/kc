@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.propdev.impl.docperm;
 
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.kim.api.role.Role;
 
 import java.util.List;

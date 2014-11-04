@@ -20,7 +20,6 @@ import org.kuali.coeus.propdev.impl.lock.ProposalLockService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.krms.KcKrmsConstants.AwardBudget;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
@@ -32,7 +31,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class AwardLockServiceImpl extends PessimisticLockServiceImpl implements ProposalLockService {

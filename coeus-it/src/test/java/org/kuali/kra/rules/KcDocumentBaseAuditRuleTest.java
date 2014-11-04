@@ -44,8 +44,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.SUPPLEMENTAL_PAGE_ID;
-import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.SUPPLEMENTAL_PAGE_NAME;
 
 /**
  * This class tests the KcDocumentBaseAuditRule class

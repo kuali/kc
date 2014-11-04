@@ -4,14 +4,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRoleValuesFinder;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class ProposalPersonRoleValuesFinder extends PropAwardPersonRoleValuesFinder {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PropAwardPersonRoleValuesFinder.class);

@@ -18,7 +18,6 @@ package org.kuali.coeus.propdev.impl.location;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

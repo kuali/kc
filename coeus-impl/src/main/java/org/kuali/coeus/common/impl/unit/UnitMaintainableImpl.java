@@ -17,14 +17,12 @@ package org.kuali.coeus.common.impl.unit;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

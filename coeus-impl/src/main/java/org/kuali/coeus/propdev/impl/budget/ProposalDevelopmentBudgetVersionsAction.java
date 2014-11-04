@@ -33,8 +33,6 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
-import org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview;
-import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarcyActionHelper;
@@ -42,7 +40,6 @@ import org.kuali.coeus.common.budget.framework.copy.CopyPeriodsQuestion;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;

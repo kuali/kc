@@ -24,7 +24,6 @@ import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
 
 import java.util.ArrayList;

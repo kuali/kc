@@ -20,7 +20,6 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.core.api.util.tree.Node;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 

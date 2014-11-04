@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.propdev.impl.editable;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

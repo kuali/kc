@@ -24,7 +24,6 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.HashMap;
 

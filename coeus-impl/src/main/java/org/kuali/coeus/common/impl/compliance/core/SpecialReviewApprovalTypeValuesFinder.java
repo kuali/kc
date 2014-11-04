@@ -16,19 +16,12 @@
 package org.kuali.coeus.common.impl.compliance.core;
 
 import org.kuali.coeus.sys.framework.keyvalue.DataObjectValuesFinder;
-import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
-import org.kuali.coeus.sys.framework.keyvalue.SortedValuesFinder;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
-import org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * See {@link #getKeyValues()}.

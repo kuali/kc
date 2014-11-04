@@ -22,7 +22,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.api.person.creditsplit.ProposalUnitCreditSplitContract;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
