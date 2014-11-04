@@ -16,7 +16,6 @@
 package org.kuali.kra.subawardReporting.printing.print;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +24,8 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.kuali.coeus.common.framework.print.AbstractPrint;
-import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.subaward.bo.SubAwardForms;
-import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

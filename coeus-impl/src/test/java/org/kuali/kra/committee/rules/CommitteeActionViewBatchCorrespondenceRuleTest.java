@@ -19,7 +19,6 @@ import org.junit.Test;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.coeus.common.committee.impl.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
 import org.kuali.coeus.common.committee.impl.rules.CommitteeActionViewBatchCorrespondenceRule;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;

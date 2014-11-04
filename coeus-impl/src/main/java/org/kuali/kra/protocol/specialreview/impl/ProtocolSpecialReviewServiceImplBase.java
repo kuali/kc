@@ -25,10 +25,6 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewService;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public abstract class ProtocolSpecialReviewServiceImplBase implements ProtocolSpecialReviewService {

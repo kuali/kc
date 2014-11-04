@@ -42,7 +42,6 @@ import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractRepor
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ReportingPeriod;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;

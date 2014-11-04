@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award.document;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.UserSession;

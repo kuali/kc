@@ -16,10 +16,8 @@
 package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;

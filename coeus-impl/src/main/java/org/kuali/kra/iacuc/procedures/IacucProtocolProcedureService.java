@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 
 

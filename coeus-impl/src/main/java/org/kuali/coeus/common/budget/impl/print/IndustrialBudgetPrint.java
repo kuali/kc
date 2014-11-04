@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.budget.impl.print;
 
-import org.eclipse.persistence.annotations.StructConverter;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintType;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;

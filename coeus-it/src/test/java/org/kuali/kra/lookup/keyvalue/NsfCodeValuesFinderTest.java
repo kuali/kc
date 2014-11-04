@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.keyvalue.PersistableBusinessObjectValuesFinderTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;

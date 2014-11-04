@@ -15,18 +15,10 @@
  */
 package org.kuali.kra.subaward.subawardrule;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
-import org.kuali.kra.coi.CoiDisclosureStatus;
-import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 
 public class SubAwardFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     

@@ -22,7 +22,6 @@ import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 

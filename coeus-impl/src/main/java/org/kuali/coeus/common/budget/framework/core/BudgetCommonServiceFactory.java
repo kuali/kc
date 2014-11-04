@@ -17,7 +17,6 @@ package org.kuali.coeus.common.budget.framework.core;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.budget.AwardBudgetService;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 

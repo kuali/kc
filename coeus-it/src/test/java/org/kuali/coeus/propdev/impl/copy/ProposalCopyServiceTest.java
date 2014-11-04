@@ -1,6 +1,5 @@
 package org.kuali.coeus.propdev.impl.copy;
 
-import org.jmock.Mockery;
 import java.sql.Date;
 import java.util.*;
 
@@ -33,7 +32,6 @@ import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.KualiRuleService;
 import org.springframework.mock.web.MockMultipartFile;
 
 import javax.xml.datatype.DatatypeConfigurationException;

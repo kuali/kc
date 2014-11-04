@@ -17,11 +17,6 @@ package org.kuali.coeus.propdev.impl.s2s;
 
 import java.util.List;
 
-import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormAttContract;
-import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormAttFileContract;
-import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormContract;
-import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormFileContract;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 
 public interface S2sUserAttachedFormService {

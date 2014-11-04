@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.keyvalue;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.util.KeyValue;

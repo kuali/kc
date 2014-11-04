@@ -18,7 +18,6 @@ package org.kuali.kra.irb.actions.submit;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierTypeBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
 import org.kuali.kra.protocol.actions.submit.ValidProtoSubTypeQualMaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 
 
  /**

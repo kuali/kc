@@ -16,7 +16,6 @@
 package org.kuali.kra.irb.protocol.funding;
 
 import org.junit.Test;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;

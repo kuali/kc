@@ -19,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministrator;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.coeus.common.framework.unit.admin.AbstractUnitAdministratorDerivedRoleTypeService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;

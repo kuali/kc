@@ -39,7 +39,6 @@ import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;

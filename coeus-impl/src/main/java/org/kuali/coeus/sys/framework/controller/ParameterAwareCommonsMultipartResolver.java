@@ -3,7 +3,6 @@ package org.kuali.coeus.sys.framework.controller;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;

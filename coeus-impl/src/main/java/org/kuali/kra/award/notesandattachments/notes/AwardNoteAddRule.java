@@ -18,8 +18,6 @@ package org.kuali.kra.award.notesandattachments.notes;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 
 /**

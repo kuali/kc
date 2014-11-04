@@ -15,8 +15,6 @@
  */
 package org.kuali.coeus.propdev.impl.person.creditsplit;
 
-import java.lang.annotation.*;
-
 /**
  * Method interface for {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit} instances to determine the <code>name</code>
  * accessor of a {@link org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplit}.

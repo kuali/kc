@@ -19,7 +19,6 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import com.sun.mail.iap.ProtocolException;
 
 import java.util.ArrayList;
 import java.util.Collections;

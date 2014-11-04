@@ -2,7 +2,6 @@ package org.kuali.coeus.propdev.impl.auth;
 
 import java.util.Set;
 
-import org.kuali.coeus.common.framework.auth.KcAuthConstants;
 import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentViewAuthorizerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
