@@ -556,21 +556,42 @@
 	<bean id="PropDev-PersonnelPage-Questionnaire-parentBean"
 		abstract="true" parent="Uif-CssGridSection" p:id="personnelQuestionnaire"
         p:render="@{#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0}"
+        p:refreshWhenChangedPropertyNames="document.developmentProposal.proposalPersons[@{#index}].proposalPersonRoleId"
+        p:progressiveRenderAndRefresh="true"
 		p:headerText="@{(#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0 and #line.questionnaireHelper.answerHeaders[0].label != null) ? #line.questionnaireHelper.answerHeaders[0].label : 'None'}">
 		<property name="items">
 			<list>
+                <bean parent="PropDev-PersonnelPage-KeyPersonCertificationToggle"
+                      p:render="@{!#line.getRole().getCertificationRequired()}"
+                      p:order="10"/>
+
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="clearAnswers" p:actionLabel="Clear All Answers"
-                      p:actionParameters="personNumber:@{(#line.proposalPersonNumber)}" p:order="10">
+                      p:actionParameters="personNumber:@{(#line.proposalPersonNumber)}"
+                      p:render="@{#ViewHelper.renderQuestionnaire(#line)}"
+                      p:order="20">
                     <property name="confirmationDialog">
                         <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to clear all the answers?"/>
                     </property>
                 </bean>
-
 				<bean parent="Questionnaire-QuestionsGroup" p:propertyName="questionnaireHelper.answerHeaders[0].questions"
-					p:order="20" />
+                      p:render="@{#ViewHelper.renderQuestionnaire(#line)}"
+					p:order="30" />
 			</list>
 		</property>
 	</bean>
+
+    <bean id="PropDev-PersonnelPage-KeyPersonCertificationToggle" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="You have the option to @{#line.getOptInCertificationStatus()?'remove':'add'} Certification Questions for a @{#line.getRole().getDescription()}." p:order="10" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="certificationToggle" p:actionLabel="@{#line.getOptInCertificationStatus()?'Remove':'Include'} Certification Questions"
+                      p:actionParameters="personNumber:@{(#line.proposalPersonNumber)}"
+                      p:order="20">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 
     <bean id="PropDev-PersonnelPage-TrainingDetails" parent="PropDev-PersonnelPage-TrainingDetails-parentBean"/>
     <bean id="PropDev-PersonnelPage-TrainingDetails-parentBean" abstract="true" parent="Uif-TableCollectionSection"
