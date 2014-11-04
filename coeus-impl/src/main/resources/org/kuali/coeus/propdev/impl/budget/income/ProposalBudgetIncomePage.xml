@@ -38,6 +38,24 @@
               p:render="@{!#parent.readOnly}"
               p:iconClass="icon-plus" />
     </property>
+       <property name="addLineDialog" >
+            <bean parent="Uif-AddLineDialog" p:headerText="Add Income" p:retrieveViaAjax="true">
+            <property name="items">
+                <list>
+                    <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="budgetPeriodNumber" p:order="10" >
+                        <property name="control">
+                            <bean parent="Uif-DropdownControl"/>
+                        </property>
+                        <property name="optionsFinder">
+                            <bean class="org.kuali.coeus.common.budget.impl.core.BudgetPeriodValuesFinder" p:addBlankOption="false"/>
+                        </property>
+                    </bean>
+                    <bean parent="Uif-InputField" p:propertyName="description" p:order="20"/>
+                    <bean parent="Uif-InputField" p:propertyName="projectIncome" p:order="30"/>
+                </list>
+             </property>
+            </bean>
+        </property>
        <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="budgetPeriodNumber" p:order="10"
