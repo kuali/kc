@@ -51,7 +51,7 @@
 			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Subaward" p:cssClasses="pull-right" p:iconClass="icon-plus" p:disabled="@{#parent.readOnly}"/>
 		</property>
 	    <property name="addLineDialog">
-	    	<bean id="PropBudget-SubawardsPage-CollectionGroup-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Subaward">
+	    	<bean id="PropBudget-SubawardsPage-CollectionGroup-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Subaward" p:retrieveViaAjax="true">
 			   <property name="footer.items">
 			     <list>
 			       <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"/>
