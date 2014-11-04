@@ -22,6 +22,8 @@ import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -33,6 +35,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +44,7 @@ import java.util.Map;
 public class SponsorLookupableHelperServiceImpl  extends KcKualiLookupableHelperServiceImpl {
     private static final String HIERARCHY_NAME = "hierarchyName";
     private static final String SELECTED_HIERARCHY_NAME = "selectedHierarchyName";
+    private static final String CONVERSION_FIELD_PARAM_NAME = "conversionFields";
     
     protected static final String ACTIVE_FIELD_NAME = "active";
     protected static final String ACTIVE_FIELD_DEFAULT_VALUE_YES = "Y";
@@ -153,5 +157,29 @@ public class SponsorLookupableHelperServiceImpl  extends KcKualiLookupableHelper
     public void setSponsorHierarchyMaintenanceService(SponsorHierarchyMaintenanceService sponsorHierarchyMaintenanceService) {
         this.sponsorHierarchyMaintenanceService = sponsorHierarchyMaintenanceService;
     }
+    
+    @Override
+    public List<Row> getRows() {
+    	List<Row> rows = super.getRows();
+    	//if this is coming from a form of some sort, conversion fields are supplied.
+    	//if this is the case, we don't want to allow the user to search for inactive sponsors.
+    	if (getParameters().containsKey(CONVERSION_FIELD_PARAM_NAME) && !getParameters().get(CONVERSION_FIELD_PARAM_NAME)[0].isEmpty()) {
+    		Iterator<Row> i = rows.iterator();
+    		while (i.hasNext()) {
+    			Row row = i.next();
+    			boolean removeRow = false;
+    			for (Field field : row.getFields()) {
+        			if (StringUtils.equalsIgnoreCase("Active", field.getFieldLabel())) {
+        				removeRow = true;
+        				break;
+        			}
+        		}
+    			if (removeRow) {
+    				i.remove();
+    			}
+    		}
+    	}
+    	return rows;
+    }
+    
 }
-
