@@ -52,11 +52,15 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	private static final String EDIT_LINE_ITEM_DETAILS_DIALOG_ID = "PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates";
 	private static final String CONFIRM_PERSONNEL_PERIOD_CHANGES_DIALOG_ID = "PropBudget-ConfirmPeriodChangesDialog";
 	private static final String ADD_PERSONNEL_PERIOD_DIALOG_ID = "PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel";
+	private static final String ADD_PROJECT_PERSONNEL_DIALOG_ID = "PropBudget-ProjectPersonnelPage-Wizard";
+	
 	
 	@RequestMapping(params="methodToCall=searchProjectPersonnel")
 	public ModelAndView searchProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-       form.getAddProjectPersonnelHelper().getResults().clear();
-       form.getAddProjectPersonnelHelper().setResults(getWizardControllerService().performWizardSearch(form.getAddProjectPersonnelHelper().getLookupFieldValues(),form.getAddProjectPersonnelHelper().getLineType()));
+		if(!StringUtils.isEmpty(form.getAddProjectPersonnelHelper().getLineType())) {
+		       form.getAddProjectPersonnelHelper().getResults().clear();
+		       form.getAddProjectPersonnelHelper().setResults(getWizardControllerService().performWizardSearch(form.getAddProjectPersonnelHelper().getLookupFieldValues(),form.getAddProjectPersonnelHelper().getLineType()));
+		}
        return getModelAndViewService().getModelAndView(form);
 	}
 
@@ -104,6 +108,12 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     	return getModelAndViewService().showDialog(EDIT_PROJECT_PERSONNEL_DIALOG_ID, true, form);
 	}
 
+	@RequestMapping(params="methodToCall=prepareAddProjectPersonnel")
+	public ModelAndView prepareAddProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        form.getAddProjectPersonnelHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
+        return getModelAndViewService().showDialog(ADD_PROJECT_PERSONNEL_DIALOG_ID,true,form);
+	}
+	
 	@RequestMapping(params="methodToCall=updatePersonDetails")
 	public ModelAndView updatePersonDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    int selectedLine = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());

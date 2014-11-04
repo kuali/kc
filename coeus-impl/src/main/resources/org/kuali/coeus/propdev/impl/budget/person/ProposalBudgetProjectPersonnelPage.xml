@@ -94,7 +94,7 @@
 	
 	<bean id="PropBudget-EditPersonnel-Section" parent="PropBudget-EditPersonnel-Section-parentBean" />
 	<bean id="PropBudget-EditPersonnel-Section-parentBean" p:fieldBindingObjectPath="addProjectPersonnelHelper.editBudgetPerson"
-		abstract="true" parent="Uif-DialogGroup" p:headerText="Edit Personnel" p:destroyDialogOnHidden="true">
+		abstract="true" parent="Uif-DialogGroup" p:headerText="Edit Personnel" p:enterKeyAction="@DEFAULT" p:destroyDialogOnHidden="true">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="personName"/>
@@ -120,7 +120,7 @@
                       		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetPersons,
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_ID}:PropBudget-ProjectPersonnelPage-CollectionGroup,
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectPersonnelHelper.editLineIndex}"
-							p:dialogDismissOption="REQUEST"
+							p:dialogDismissOption="REQUEST" p:defaultEnterKeyAction="true"
 							p:order="10" p:render="@{!#parent.readOnly}" p:performClientSideValidation="true"/>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Cancel"
 							p:dialogDismissOption="IMMEDIATE"

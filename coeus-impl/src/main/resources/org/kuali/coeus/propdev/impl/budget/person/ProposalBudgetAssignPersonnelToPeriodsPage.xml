@@ -145,7 +145,7 @@
     <bean id="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel" parent="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel-parentBean"/>
     <bean id="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel-parentBean" abstract="true" parent="Uif-DialogGroup"
           p:fieldBindingObjectPath="addProjectPersonnelHelper"
-          p:destroyDialogOnHidden="true"
+          p:destroyDialogOnHidden="true" p:enterKeyAction="@DEFAULT"
           p:header.headerText="Add Personnel to Period">
         <property name="items">
             <list>
@@ -199,6 +199,7 @@
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Assign to Period @{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}" p:methodToCall="addPersonnelToPeriod"
                               p:refreshId="PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails_@{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}"
                               p:successCallback="dismissDialog('PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel')"
+                              p:defaultEnterKeyAction="true"
                               p:order="10" p:performClientSideValidation="true"/>
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20"/>
                     </list>
@@ -209,7 +210,7 @@
 
 	<bean id="PropBudget-EditPersonnelPeriod-Section" parent="PropBudget-EditPersonnelPeriod-Section-parent" />
 	<bean id="PropBudget-EditPersonnelPeriod-Section-parent" p:fieldBindingObjectPath="addProjectPersonnelHelper.budgetPersonnelDetail" abstract="true" parent="Uif-DialogGroup" 
-		p:headerText="Edit Assigned Personnel" p:destroyDialogOnHidden="true">
+		p:headerText="Edit Assigned Personnel" p:destroyDialogOnHidden="true" p:enterKeyAction="@DEFAULT">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="budgetPerson.personName"
@@ -226,7 +227,7 @@
                       		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetPersonnelDetails,
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_ID}:PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails,
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectPersonnelHelper.editLineIndex}"
-							p:dialogDismissOption="REQUEST" p:performClientSideValidation="true"
+							p:dialogDismissOption="REQUEST" p:performClientSideValidation="true" p:defaultEnterKeyAction="true"
 							p:render="@{!#parent.readOnly}" p:order="10" />
 						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Calculate" p:methodToCall="calculatePersonSalaryDetails"
 							p:render="@{!#parent.readOnly}" p:dialogDismissOption="REQUEST" p:order="20" />
