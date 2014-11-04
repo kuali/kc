@@ -122,15 +122,13 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
 		this.copyBudgetDto = copyBudgetDto;
 	}
 
-    public List<BudgetPeriodIncomeTotal> getBudgetPeriodIncomeTotalSummary() {
-        this.budgetPeriodIncomeTotalSummary = new ArrayList<BudgetPeriodIncomeTotal>();
-        Map <Integer,ScaleTwoDecimal> periodTotalMap = getBudget().mapProjectIncomeTotalsToBudgetPeriodNumbers();
-        for (Map.Entry<Integer,ScaleTwoDecimal> entry : periodTotalMap.entrySet()){
-            budgetPeriodIncomeTotalSummary.add (new BudgetPeriodIncomeTotal((Integer)entry.getKey(),(ScaleTwoDecimal)entry.getValue()));
-        }
-        return budgetPeriodIncomeTotalSummary;
+    public void setBudgetPeriodIncomeTotalSummary(List<BudgetPeriodIncomeTotal> budgetPeriodIncomeTotalSummary) {
+        this.budgetPeriodIncomeTotalSummary = budgetPeriodIncomeTotalSummary;
     }
 
+    public List<BudgetPeriodIncomeTotal> getBudgetPeriodIncomeTotalSummary() {
+        return budgetPeriodIncomeTotalSummary;
+    }
     public boolean isUnrecoveredFandAEditFormVisible() {
         return budget != null && budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable();
     }

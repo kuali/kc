@@ -108,7 +108,8 @@
     <bean id="PropBudget-ProjectIncomePage-Summary"
           parent="PropBudget-ProjectIncomePage-Summary-parentBean" />
     <bean id="PropBudget-ProjectIncomePage-Summary-parentBean"
-          abstract="true" parent="Uif-DialogGroup" p:headerText="Income Summary By Period">
+          abstract="true" parent="Uif-DialogGroup" p:headerText="Income Summary By Period"
+          p:fieldBindingObjectPath="">
         <property name="items">
             <list>
                 <bean parent="PropBudget-ProjectIncomePage-SummaryTable"
@@ -142,7 +143,8 @@
         </property>
         <property name="layoutManager.columnCalculations">
             <list>
-                <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="projectIncomePeriodTotal" />
+                <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="projectIncomePeriodTotal"
+                      p:totalField.fieldLabel.labelText="Total" />
             </list>
         </property>
     </bean>

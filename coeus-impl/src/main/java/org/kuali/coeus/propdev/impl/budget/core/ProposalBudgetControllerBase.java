@@ -1,12 +1,16 @@
 package org.kuali.coeus.propdev.impl.budget.core;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
@@ -129,11 +133,21 @@ public abstract class ProposalBudgetControllerBase {
     public ModelAndView save(ProposalBudgetForm form) {
     	budgetService.calculateBudgetOnSave(form.getBudget());
     	form.setBudget(getDataObjectService().save(form.getBudget()));
-        getBudgetJustificationService().preSave(form.getBudget(),form.getBudgetJustificationWrapper());
+        getBudgetJustificationService().preSave(form.getBudget(), form.getBudgetJustificationWrapper());
+        form.setBudgetPeriodIncomeTotalSummary(prepBudgetPeriodIncomeTotalSummary(form));
         form.setBudgetModularSummary(budgetModularService.generateModularSummary(form.getBudget()));
         return getModelAndViewService().getModelAndView(form);
     }
-    
+
+    private List<BudgetPeriodIncomeTotal> prepBudgetPeriodIncomeTotalSummary(ProposalBudgetForm form){
+        List<BudgetPeriodIncomeTotal> budgetPeriodIncomeTotalSummary = new ArrayList<BudgetPeriodIncomeTotal>();
+        Map<Integer,ScaleTwoDecimal> periodTotalMap = form.getBudget().mapProjectIncomeTotalsToBudgetPeriodNumbers();
+        for (Map.Entry<Integer,ScaleTwoDecimal> entry : periodTotalMap.entrySet()){
+            budgetPeriodIncomeTotalSummary.add (new BudgetPeriodIncomeTotal((Integer)entry.getKey(),(ScaleTwoDecimal)entry.getValue()));
+        }
+        return budgetPeriodIncomeTotalSummary;
+    }
+
     public ModelAndView saveLine(ProposalBudgetForm form) {
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
