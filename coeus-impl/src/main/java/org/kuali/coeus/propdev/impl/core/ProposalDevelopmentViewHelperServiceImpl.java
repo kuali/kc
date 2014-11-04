@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.auth.KcAuthConstants;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
@@ -163,6 +164,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("proposalHierarchyService")
     private ProposalHierarchyService proposalHierarchyService;
+
+    @Autowired
+    @Qualifier("sponsorHierarchyService")
+    private SponsorHierarchyService sponsorHierarchyService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -867,4 +872,15 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,"propSummaryDisclaimerText");
     }
 
+    public SponsorHierarchyService getSponsorHierarchyService() {
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
+    }
+
+    public boolean isShowModularBudgetQuestion(String sponsorCode) {
+        return getSponsorHierarchyService().isSponsorNihMultiplePi(sponsorCode);
+    }
 }

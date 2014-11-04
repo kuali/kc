@@ -17,7 +17,6 @@ package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.module.CoeusModule;
@@ -119,8 +118,6 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper;
 
     private List<String> unitRulesMessages = new ArrayList<String>();
-
-    private transient boolean showModularBudgetQuestion;
 
     public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
         return proposalPersonQuestionnaireHelper;
@@ -616,13 +613,6 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setViewOnly(boolean viewOnly) {
         this.viewOnly = viewOnly;
-    }
-
-    public boolean isShowModularBudgetQuestion() {
-        String sponsorCode = getDevelopmentProposal().getSponsorCode();
-        SponsorHierarchyService sponsorHierarchyService = getDevelopmentProposal().getSponsorHierarchyService();
-        showModularBudgetQuestion = sponsorHierarchyService.isSponsorNihMultiplePi(sponsorCode);
-        return showModularBudgetQuestion;
     }
 
 }
