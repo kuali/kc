@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
+	private static final String BUDGET_SUMMARY_DIALOG_ID = "PropBudget-SummaryPage-Dialog";
 
 	@Autowired
 	@Qualifier("proposalBudgetSharedController")
@@ -285,10 +286,18 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 
     @RequestMapping(params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-SummaryPage"})
     public ModelAndView navigateToBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+    	ModelAndView modelAndView = super.navigate(form);
     	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
-        return super.navigate(form);
+        return modelAndView;
     }
 
+    @RequestMapping(params="methodToCall=populateBudgetSummary")
+	public ModelAndView populateBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
+    	super.save(form);
+    	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
+    	return getModelAndViewService().showDialog(BUDGET_SUMMARY_DIALOG_ID, true, form);
+    }
+    
 	public ParameterService getParameterService() {
 		return parameterService;
 	}
