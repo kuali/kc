@@ -18,11 +18,10 @@
 	<bean id="PropBudget-ProjectPersonnelPage-AddButton" parent="PropBudget-ProjectPersonnelPage-AddButton-parentBean" />
 	<bean id="PropBudget-ProjectPersonnelPage-AddButton-parentBean" abstract="true"
 		parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Add Personnel" p:render="@{!#parent.readOnly}"
-		p:refreshId="PropBudget-ProjectPersonnelPage-Wizard" p:methodToCall="refresh"
-		p:successCallback="showDialog('PropBudget-ProjectPersonnelPage-Wizard');"
+		p:methodToCall="prepareAddProjectPersonnel"
 		p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:0" p:iconClass="icon-plus" />
 
-    <bean id="PropBudget-ProjectPersonnelPage-Wizard" parent="Kc-Wizard"
+    <bean id="PropBudget-ProjectPersonnelPage-Wizard" parent="Kc-Wizard" p:enterKeyAction="@DEFAULT"
           p:fieldBindingObjectPath="addProjectPersonnelHelper">
         <property name="items">
             <list>
@@ -40,7 +39,7 @@
 	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Continue" parent="PropBudget-ProjectPersonnelPage-WizardButton-Continue-parentBean" />
 	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Continue-parentBean"
 		abstract="true" parent="PropBudget-ProjectPersonnelPage-WizardButton"
-		p:actionLabel="Search"/>
+		p:actionLabel="Search" p:defaultEnterKeyAction="true" />
 
 	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Back" parent="PropBudget-ProjectPersonnelPage-WizardButton-Back-parentBean" />
 	<bean id="PropBudget-ProjectPersonnelPage-WizardButton-Back-parentBean"
@@ -60,11 +59,11 @@
 			</list>
 		</property>
 		<property name="footer">
-			<bean parent="Uif-DialogFooter">
+			<bean parent="Uif-DialogFooter" p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType != '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).TBN.code}'}">
 				<property name="items">
 					<list>
 						<bean parent="PropBudget-ProjectPersonnelPage-WizardButton-Continue"
-							p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType != 'T'}"
+							p:performClientSideValidation="true"
 							p:methodToCall="searchProjectPersonnel" p:actionParameters="PropBudget-ProjectPersonnelPage-Wizard.step:1"
                             p:successCallback="Kc.Wizard.returnToFirstResultsPage();" p:order="10" />
                         <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
@@ -147,7 +146,8 @@
     <bean id="PropBudget-ProjectPersonnelPage-TypeSelection" parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="items">
             <list>
-                <bean parent="PropDev-Personnel-TypeSelection-InputField" p:optionsFinder="#{#getService('personTypeValuesFinder')}" />
+                <bean parent="PropDev-Personnel-TypeSelection-InputField" p:optionsFinder="#{#getService('personTypeValuesFinder')}" 
+                p:optionsFinder.addBlankOption="false" p:required="true"/>
             </list>
         </property>
     </bean>
@@ -164,7 +164,7 @@
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.TbnPerson"
 		p:layoutManager.renderSequenceField="false" p:renderLineActions="false"
 		p:renderAddLine="false"
-		p:progressiveRenderAndRefresh="true"
+		p:progressiveRenderAndRefresh="true" 
 		p:progressiveRender="@{addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).TBN.code}'}">
 		<property name="layoutManager.richTable.templateOptions">
 			<map>
@@ -197,10 +197,11 @@
 			<bean parent="Uif-DialogFooter">
 				<property name="items">
 					<list>
-						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Add TBN Personnel to Budget" 
+						<bean parent="PropBudget-ProjectPersonnelPage-WizardButton-Continue"
+							p:actionLabel="Add TBN Personnel to Budget"
 							p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup"
 							p:successCallback="dismissDialog('PropBudget-ProjectPersonnelPage-Wizard');"
-							p:methodToCall="addProjectPersonnel"/>
+							p:order="10" p:methodToCall="addProjectPersonnel"/>
                         <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
                             p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
 					</list>

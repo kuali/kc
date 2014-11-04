@@ -13,7 +13,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
              
 	<bean id="PropBudget-Page" parent="PropBudget-Page-parentBean"/>
-	<bean id="PropBudget-Page-parentBean" abstract="true" parent="Uif-Page">
+	<bean id="PropBudget-Page-parentBean" abstract="true" parent="Uif-Page" p:enterKeyAction="@DEFAULT">
 		<property name="footer">
 			<bean parent="PropBudget-Footer" p:order="10"/>
 		</property>
