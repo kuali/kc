@@ -1237,7 +1237,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                     <property name="actionUrl.requestParameters">
                        		<map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.kew.impl.peopleflow.PeopleFlowBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.kew.impl.peopleflow.PeopleFlowBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
                         </map>
                     </property>
                 </bean>
@@ -1295,7 +1295,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.AgendaBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.AgendaBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
                         </map>
                     </property>
                 </bean>
@@ -1306,7 +1306,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.ContextBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.ContextBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
                         </map>
                     </property>
                 </bean>
@@ -1317,7 +1317,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                       p:order="30" p:cssClasses="icon-chevron-sign-right">
                     <property name="actionUrl.requestParameters">
                       <map>
-						<entry key="href"  value="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+						<entry key="href"  value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
 						</map>
                     </property>
                 </bean>
@@ -1328,7 +1328,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.TermBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.TermBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
                         </map>
                     </property>
                 </bean>
@@ -1340,7 +1340,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.TermSpecificationBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.TermSpecificationBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
                         </map>
                     </property>
                 </bean>
@@ -1352,7 +1352,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.CategoryBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.CategoryBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
                         </map>
                     </property>
                 </bean>
