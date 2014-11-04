@@ -38,7 +38,7 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
     @Column(name = "SUBAWARD_PERIOD_DETAIL_ID")
     private Long id;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), @JoinColumn(name = "SUBAWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
     private BudgetSubAwards budgetSubAward;     
 
