@@ -232,10 +232,12 @@
                       p:actionUrl.methodToCall="docHandler"
                       p:actionUrl.requestParameters="command:initiate" p:order="10" p:iconClass="icon-chevron-sign-right"/>
                 <bean parent="Uif-MenuAction" p:actionLabel="  Proposals Enroute"
+                      p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
                       p:actionUrl.viewId="EnrouteDevelopmentProposals-LookupViewId"
                       p:actionUrl.controllerMapping="/lookup"
                       p:order="20" p:iconClass="icon-chevron-sign-right"/>
                 <bean parent="Uif-MenuAction" p:actionLabel="  All My Proposals"
+                      p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
                       p:actionUrl.viewId="AllDevelopmentProposals-LookupViewId"
                       p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName"
                       p:actionUrl.controllerMapping="/lookup" p:order="30"  p:iconClass="icon-chevron-sign-right" />
@@ -244,6 +246,7 @@
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
                       p:order="50"/>
                 <bean parent="Uif-MenuAction" p:actionLabel="  Search Proposals"
+                      p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
                       p:actionUrl.viewId="DevelopmentProposals-LookupViewId"
                       p:actionParameters="viewName:DevelopmentProposals-LookupViewName"
                       p:actionUrl.controllerMapping="/lookup"
@@ -738,6 +741,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                       p:actionUrl.requestParameters="command:initiate" p:order="20"/>
                 
                 <bean parent="Uif-MenuAction" p:iconClass="icon-search"
+                      p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
                       p:actionUrl.viewId="AllDevelopmentProposals-LookupViewId"
                       p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName"
                       p:actionUrl.controllerMapping="/lookup" p:order="30"/>

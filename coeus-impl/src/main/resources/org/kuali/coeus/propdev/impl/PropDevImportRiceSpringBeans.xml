@@ -66,6 +66,7 @@
     <bean id="documentHelperService" parent="grlImporter" p:serviceName="documentHelperService" />
     <bean id="groupService" parent="grlImporter" p:serviceName="groupService"/>
     <bean id="workflowDocumentActionsService" parent="grlImporter" p:serviceName="workflowDocumentActionsService"/>
+    <bean id="kewWorkflowDocumentService" parent="grlImporter" p:serviceName="rice.kew.workflowDocumentService" />
 
     <bean id="collectionControllerService" parent="grlImporter" p:serviceName="collectionControllerService" />
     <bean id="transactionalDocumentControllerService" parent="grlImporter" p:serviceName="transactionalDocumentControllerService" />

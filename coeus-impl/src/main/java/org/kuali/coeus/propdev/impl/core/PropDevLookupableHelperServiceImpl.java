@@ -7,16 +7,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
-import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBoLookupableHelperService;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -49,7 +49,9 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Qualifier("documentTypeService")
     private DocumentTypeService documentTypeService;
 
-    private DocumentSearchCriteriaBoLookupableHelperService documentSearchCriteriaBoLookupableHelperService;
+    @Autowired
+    @Qualifier("kewWorkflowDocumentService")
+    private WorkflowDocumentService workflowDocumentService;
 
     @Override
     protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria,
@@ -142,15 +144,14 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
     private List<String> getDocumentIds(String aggregator) {
         List<String> documentIds = new ArrayList<String>();
-        Map<String,String> fieldValues = new HashMap<String,String>();
-        fieldValues.put("initiatorPrincipalName",aggregator);
-        fieldValues.put("documentTypeName","ProposalDevelopmentDocument");
-        getDocumentSearchCriteriaBoLookupableHelperService().setParameters(new HashMap<String, String[]>());
-        getDocumentSearchCriteriaBoLookupableHelperService().setBusinessObjectClass(DocumentSearchCriteriaBo.class);
 
-        List<DocumentSearchCriteriaBo> criteriaBos = (List<DocumentSearchCriteriaBo>) getDocumentSearchCriteriaBoLookupableHelperService().getSearchResults(fieldValues);
-        for (DocumentSearchCriteriaBo criteriaBo : criteriaBos) {
-            documentIds.add(criteriaBo.getDocumentId());
+        DocumentSearchCriteria.Builder builder = DocumentSearchCriteria.Builder.create();
+        builder.setInitiatorPrincipalName(aggregator);
+        builder.setDocumentTypeName("ProposalDevelopmentDocument");
+        DocumentSearchResults results = workflowDocumentService.documentSearch(globalVariableService.getUserSession().getPrincipalId(), builder.build());
+
+        for (DocumentSearchResult result : results.getSearchResults()) {
+            documentIds.add(result.getDocument().getDocumentId());
         }
         return documentIds;
     }
@@ -255,23 +256,19 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 		this.documentService = documentService;
 	}
 
-    public DocumentSearchCriteriaBoLookupableHelperService getDocumentSearchCriteriaBoLookupableHelperService() {
-        if (documentSearchCriteriaBoLookupableHelperService == null) {
-            documentSearchCriteriaBoLookupableHelperService = KcServiceLocator.getService(DocumentSearchCriteriaBoLookupableHelperService.class);
-        }
-
-        return documentSearchCriteriaBoLookupableHelperService;
-    }
-
-    public void setDocumentSearchCriteriaBoLookupableHelperService(DocumentSearchCriteriaBoLookupableHelperService documentSearchCriteriaBoLookupableHelperService) {
-        this.documentSearchCriteriaBoLookupableHelperService = documentSearchCriteriaBoLookupableHelperService;
-    }
-
     public DocumentTypeService getDocumentTypeService() {
         return documentTypeService;
     }
 
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
+    }
+
+    public WorkflowDocumentService getWorkflowDocumentService() {
+        return workflowDocumentService;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
     }
 }
