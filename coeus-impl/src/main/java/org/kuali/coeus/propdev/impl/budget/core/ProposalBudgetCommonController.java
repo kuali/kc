@@ -93,7 +93,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     @RequestMapping(params="methodToCall=addBudget")
     public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
     		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget, 
-    		@RequestParam("addBudgetDto.modularBudget") Boolean modularBudget, 
+    		@RequestParam(value="addBudgetDto.modularBudget",defaultValue="false") Boolean modularBudget,
     		@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		return getProposalBudgetSharedController().addBudget(budgetName, summaryBudget, modularBudget, form.getDevelopmentProposal(), form);
     }
