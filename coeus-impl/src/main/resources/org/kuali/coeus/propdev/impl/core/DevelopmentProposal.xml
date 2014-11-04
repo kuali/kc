@@ -1256,36 +1256,39 @@
         <bean p:propertyName="hierarchyStatusName" parent="Uif-DataField"/>
       </list>
     </property>
-      <property name="resultsGroup">
-          <bean parent="Uif-LookupResultsCollectionSection"
-                p:renderLineActions="@{#ViewHelper.showActionUrls(!#emptyList(#form.lookupResults) ? #form.lookupResults : null)}">
-              <property name="lineActions">
-                  <list>
-                      <bean parent="Development-Proposal-Lookup-result-ViewLink" p:order="10"/>
-                      <bean parent="Development-Proposal-Lookup-result-EditLink" p:order="20"/>
-
-                      <bean parent="Uif-ActionLink" p:actionLabel="copy" p:order="30"
-                            p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-CopyView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-CopyDialog@{#lineSuffix}');"
-                            p:render="@{!#view.renderReturnLink}">
-                          <property name="finalizeMethodToCall" value="buildPropDevCopyActionLink"/>
-                          <property name="finalizeMethodAdditionalArguments">
+      <property name="resultsGroup.lineActions">
+          <list>
+              <bean parent="Development-Proposal-Lookup-result-ViewLink" p:order="10"/>
+              <bean parent="Uif-FieldGroupBase" p:order="20">
+                  <property name="group">
+                      <bean parent="Uif-HorizontalBoxGroup">
+                          <property name="items">
                               <list>
-                                  <value>@{#line.document.documentNumber}</value>
+                                  <bean parent="Development-Proposal-Lookup-result-EditLink" p:order="10"/>
+                                  <bean parent="Uif-ActionLink" p:actionLabel="copy" p:order="20"
+                                        p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-CopyView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-CopyDialog@{#lineSuffix}');"
+                                        p:render="@{!#view.renderReturnLink}">
+                                  </bean>
+                                  <bean id="Development-Proposal-Lookup-CopyDialog" parent="Uif-DialogGroup-Iframe"
+                                        p:headerText="Copy To New Document" p:retrieveViaAjax="true"/>
                               </list>
                           </property>
                       </bean>
-                      <bean id="Development-Proposal-Lookup-CopyDialog" parent="Uif-DialogGroup-Iframe"
-                            p:headerText="Copy To New Document" p:retrieveViaAjax="true"/>
-
-                      <bean parent="Uif-ActionLink" p:actionLabel="medusa" p:order="40"
-                            p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-MedusaView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-MedusaDialog@{#lineSuffix}');"
-                            p:render="@{!#view.renderReturnLink}"/>
-                      <bean id="Development-Proposal-Lookup-MedusaDialog" parent="Uif-DialogGroup-Iframe"
-                            p:headerText="Medusa" p:retrieveViaAjax="true"/>
-                      <bean parent="Uif-Lookup-MaintenanceReturnLink"/>
-                  </list>
-              </property>
-          </bean>
+                  </property>
+                  <property name="finalizeMethodToCall" value="canModifyProposal"/>
+                  <property name="finalizeMethodAdditionalArguments">
+                      <list>
+                          <value>@{#line.document.documentNumber}</value>
+                      </list>
+                  </property>
+              </bean>
+              <bean parent="Uif-ActionLink" p:actionLabel="medusa" p:order="40"
+                    p:actionScript="openIframeDialog('@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-MedusaView&amp;docId=@{#line.document.documentNumber}&amp;renderedInDialog=true','Development-Proposal-Lookup-MedusaDialog@{#lineSuffix}');"
+                    p:render="@{!#view.renderReturnLink}"/>
+              <bean id="Development-Proposal-Lookup-MedusaDialog" parent="Uif-DialogGroup-Iframe"
+                    p:headerText="Medusa" p:retrieveViaAjax="true"/>
+              <bean parent="Uif-Lookup-MaintenanceReturnLink"/>
+          </list>
       </property>
   </bean>
 
