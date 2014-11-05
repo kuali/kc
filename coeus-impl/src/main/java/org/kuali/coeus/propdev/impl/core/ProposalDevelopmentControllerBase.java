@@ -224,6 +224,10 @@ public abstract class ProposalDevelopmentControllerBase {
          ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).setOrdinalPosition(form.getDevelopmentProposal().getProposalPersons());
          saveAnswerHeaders(form, form.getPageId());
 
+         if (form.isAuditActivated()){
+             getAuditHelper().auditConditionally(form);
+         }
+
          getTransactionalDocumentControllerService().save(form);
 
          if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.CREDIT_ALLOCATION_PAGE)) {
@@ -291,9 +295,6 @@ public abstract class ProposalDevelopmentControllerBase {
      }
      
      protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-         if (form.isAuditActivated()){
-            getAuditHelper().auditConditionally(form);
-         }
          populateAdHocRecipients(form.getProposalDevelopmentDocument());
          return save(form);
      }
