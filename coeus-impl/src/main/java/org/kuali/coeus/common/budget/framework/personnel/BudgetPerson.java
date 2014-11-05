@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -41,8 +40,6 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
@@ -165,9 +162,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 
     @Transient
     private BudgetPersonSalaryDetails personSalaryDetails;
-    
-    @Transient
-    private DataObjectService dataObjectService;
+
 
     public BudgetPerson() {
         super();
@@ -559,12 +554,6 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 	}
 
 	public Budget getBudget() {
-		if (budget == null) {
-			//In an award, OJB may not have populated budget before some getters that call this function are used.
-			QueryByCriteria builder = QueryByCriteria.Builder.fromPredicates(equal("budgetId", this.getBudgetId()));
-	    	List<Budget> budgets = getDataObjectService().findMatching(Budget.class, builder).getResults();
-	    	this.budget = budgets.get(0);
-		}
 		return budget;
 	}
 
@@ -651,17 +640,6 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 		this.personRolodex = personRolodex;
 	}
 
-	public DataObjectService getDataObjectService() {
-		if (dataObjectService == null) {
-			dataObjectService = KcServiceLocator.getService(DataObjectService.class);
-		}
-		return dataObjectService;
-	}
-
-	public void setDataObjectService(DataObjectService dataObjectService) {
-		this.dataObjectService = dataObjectService;
-	}
-	
 	@Override
 	public String getFullName() {
 		return personName;
