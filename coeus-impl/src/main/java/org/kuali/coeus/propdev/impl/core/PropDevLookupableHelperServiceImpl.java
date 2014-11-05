@@ -8,6 +8,8 @@ import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
@@ -17,6 +19,9 @@ import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.krad.service.impl.LookupCriteriaGenerator;
+import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -52,14 +57,21 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Autowired
     @Qualifier("kewWorkflowDocumentService")
     private WorkflowDocumentService workflowDocumentService;
+    @Autowired
+    @Qualifier("lookupCriteriaGenerator")
+    private LookupCriteriaGenerator lookupCriteriaGenerator;
+
+    @Autowired
+    @Qualifier("lookupService")
+    private LookupService lookupService;
 
     @Override
     protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria,
                                           List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
 
-        Map<String,Object> modifiedSearchCriteria = new HashMap<String,Object>();
+        Map<String,String> modifiedSearchCriteria = new HashMap<String,String>();
         modifiedSearchCriteria.putAll(adjustedSearchCriteria);
-
+        List<String> proposalNumbers = new ArrayList<String>();
         if (StringUtils.isEmpty(adjustedSearchCriteria.get("proposalNumber"))) {
             String principalInvestigatorName = adjustedSearchCriteria.get("principalInvestigatorName");
             String proposalPerson = adjustedSearchCriteria.get("proposalPerson");
@@ -67,20 +79,32 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             List<String> piProposals = getPiProposalNumbers(principalInvestigatorName);
             List<String> personProposals = getPersonProposalNumbers(proposalPerson);
             List<String> aggregatorProposals = getAggregatorProposalNumbers(aggregator);
-            List<String> proposalNumbers = combineProposalNumbers(piProposals,personProposals,aggregatorProposals);
+            proposalNumbers = combineProposalNumbers(piProposals,personProposals,aggregatorProposals);
 
-            if ((StringUtils.isNotEmpty(principalInvestigatorName) || StringUtils.isNotEmpty(proposalPerson) || StringUtils.isNotEmpty(aggregator))
-                    && CollectionUtils.isEmpty(proposalNumbers)) {
-                modifiedSearchCriteria.put("proposalNumber",null);
-            } else {
-                modifiedSearchCriteria.put("proposalNumber",proposalNumbers);
-            }
         }
         modifiedSearchCriteria.remove("proposalPerson");
         modifiedSearchCriteria.remove("aggregator");
         modifiedSearchCriteria.remove("principalInvestigatorName");
 
-        return filterPermissions(getDataObjectService().findMatching(DevelopmentProposal.class,QueryByCriteria.Builder.andAttributes(modifiedSearchCriteria).build()).getResults());
+
+        QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(DevelopmentProposal.class, modifiedSearchCriteria,
+                wildcardAsLiteralSearchCriteria, getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(DevelopmentProposal.class, modifiedSearchCriteria));
+        if (!bounded && searchResultsLimit != null) {
+            query.setMaxResults(searchResultsLimit);
+        }
+        if (StringUtils.isBlank(adjustedSearchCriteria.get("proposalNumber"))
+                && proposalNumbers.size() > 0) {
+            if (modifiedSearchCriteria.size() > 0){
+                List<Predicate> predicateList = new ArrayList(Arrays.asList(query.getPredicates()));
+                predicateList.add(PredicateFactory.in("proposalNumber", proposalNumbers));
+                query.setPredicates(PredicateFactory.and(predicateList.toArray(new Predicate[predicateList.size()])));
+            }
+            else{
+                query.setPredicates(PredicateFactory.in("proposalNumber", proposalNumbers));
+            }
+        }
+
+        return filterPermissions(getDataObjectService().findMatching(DevelopmentProposal.class, query.build()).getResults());
 
     }
 
@@ -270,5 +294,21 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
+    }
+
+    public LookupCriteriaGenerator getLookupCriteriaGenerator() {
+        return lookupCriteriaGenerator;
+    }
+
+    public void setLookupCriteriaGenerator(LookupCriteriaGenerator lookupCriteriaGenerator) {
+        this.lookupCriteriaGenerator = lookupCriteriaGenerator;
+    }
+
+    public LookupService getLookupService() {
+        return lookupService;
+    }
+
+    public void setLookupService(LookupService lookupService) {
+        this.lookupService = lookupService;
     }
 }
