@@ -173,7 +173,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=printForms"})
         public ModelAndView printForms(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response)
             throws Exception {
-        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = getUpdatedDocument(form);
 
         proposalDevelopmentDocumentViewAuthorizer.initializeDocumentAuthorizerIfNecessary(form.getProposalDevelopmentDocument());
 
@@ -208,6 +208,26 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         }
         ControllerFileUtils.streamToResponse(attachmentDataSource, response);
         return getModelAndViewService().getModelAndView(form);
+    }
+
+    /**
+     * Saves the form, and retrieves the document to update any reference objects before printing s2s forms.  Saves s2s forms
+     * selected to be printed, and selects them again after the document has been retrieved.
+     * @param form the form to save before retrieving new document
+     */
+    protected ProposalDevelopmentDocument getUpdatedDocument(ProposalDevelopmentDocumentForm form) throws Exception {
+        List<S2sOppForms> selectedS2sOppForms = form.getDevelopmentProposal().getSelectedS2sOppForms();
+
+        super.save(form);
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(form.getDocument().getDocumentNumber());
+        for (S2sOppForms s2sOppForm : proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms()) {
+            for (S2sOppForms selectedS2sOppForm : selectedS2sOppForms ) {
+                if (s2sOppForm.getS2sOppFormsId().equals(selectedS2sOppForm.getS2sOppFormsId())) {
+                    s2sOppForm.setSelectToPrint(true);
+                }
+            }
+        }
+        return proposalDevelopmentDocument;
     }
 
     protected void setValidationErrorMessage(List<org.kuali.coeus.s2sgen.api.core.AuditError> errors) {
