@@ -45,5 +45,10 @@ public class ProposalDevelopmentConstants {
 		public static final String CHANGE_CORRECTED_CODE = "S2S_SUBMISSION_TYPE_CODE_CHANGE_CORRECTED_APPLICATION";
     }
     
+    public static class AuthConstants {
+		public static final String MODIFY_PROPOSAL_EDIT_MODE = "modifyProposal";
+		public static final String VIEW_ONLY_PROPOSAL_EDIT_MODE = "viewProposal";
+    }
+    
     
 }

@@ -262,7 +262,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
   			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, pdForm.getOrderedNavigationActions().get(indexOfCurrentAction-1).getNavigateToPageId());
   		 }
   	 } else if (StringUtils.equals(direction, ProposalDevelopmentConstants.KradConstants.NEXT_PAGE_ARG)) {
-  		 action.setRender(indexOfCurrentAction < actions.size());
+  		 action.setRender(action.isRender() && indexOfCurrentAction < actions.size());
   		 if (indexOfCurrentAction < actions.size()) {
   			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, pdForm.getOrderedNavigationActions().get(indexOfCurrentAction+1).getNavigateToPageId());
   		 }

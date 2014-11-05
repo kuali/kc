@@ -28,11 +28,11 @@
 					p:finalizeMethodAdditionalArguments="previous" p:order="10" />				
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
 					p:performClientSideValidation="true" p:methodToCall="save"
-					p:actionLabel="Save" p:order="20" />
+					p:actionLabel="Save" p:order="20" p:render="@{#editModes[#proposalAuthConsts.MODIFY_PROPOSAL_EDIT_MODE]}"/>
 				<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
 					p:performClientSideValidation="true" p:methodToCall="navigate"
 					p:actionLabel="Save and Continue" p:finalizeMethodToCall="finalizeNavigationLinks"
-					p:finalizeMethodAdditionalArguments="next" p:order="30" />
+					p:finalizeMethodAdditionalArguments="next" p:order="30" p:render="@{#editModes[#proposalAuthConsts.MODIFY_PROPOSAL_EDIT_MODE]}"/>
                 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:order="40"
                       p:methodToCall="closeProposal"/>
 			</list>

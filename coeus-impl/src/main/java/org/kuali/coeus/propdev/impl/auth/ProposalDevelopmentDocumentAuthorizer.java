@@ -159,7 +159,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     private void setPermissions(Person user, ProposalDevelopmentDocument doc, Set<String> editModes) {
 
         if (editModes.contains(AuthorizationConstants.EditMode.FULL_ENTRY)) {
-            editModes.add("modifyProposal");
+            editModes.add(ProposalDevelopmentConstants.AuthConstants.MODIFY_PROPOSAL_EDIT_MODE);
+        }
+        
+        if (editModes.contains(AuthorizationConstants.EditMode.VIEW_ONLY)) {
+            editModes.add(ProposalDevelopmentConstants.AuthConstants.VIEW_ONLY_PROPOSAL_EDIT_MODE);
         }
         
         if (isAuthorizedToAddBudget(doc, user)) {
