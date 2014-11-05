@@ -44,6 +44,7 @@ public interface PermissionConstants {
     public static final String VIEW_SALARIES = "View Personnel Salaries";
     public static final String RECALL_DOCUMENT = "Recall Document";
     public static final String ADD_ADDRESS_BOOK = "Add Address Book";
+    public static final String NOTIFY_PROPOSAL_PERSONS = "NOTIFY_PROPOSAL_PERSONS";
         
     /* IRB Permissions */
     

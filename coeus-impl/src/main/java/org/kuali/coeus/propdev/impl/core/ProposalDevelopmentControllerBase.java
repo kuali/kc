@@ -18,6 +18,9 @@ package org.kuali.coeus.propdev.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
+import org.kuali.coeus.common.notification.impl.bo.KcNotification;
+import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
@@ -25,6 +28,8 @@ import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValida
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
@@ -41,6 +46,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
@@ -69,7 +75,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class ProposalDevelopmentControllerBase {
 
@@ -158,6 +167,14 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("pessimisticLockService")
     private PessimisticLockService pessimisticLockService;
+
+    @Autowired
+    @Qualifier("kcNotificationService")
+    private KcNotificationService kcNotificationService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
@@ -399,12 +416,21 @@ public abstract class ProposalDevelopmentControllerBase {
 	}
 
 	public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm,String pageId) {
-        if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE)) {
+        boolean allCertificationsWereComplete = true;
+        boolean allCertificationAreNowComplete = true;
+        if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE) ||
+                StringUtils.equalsIgnoreCase(pageId,"PropDev-CertificationView-Page")) {
             for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
                 if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null
                         && !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
                     for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
+                        boolean wasComplete = answerHeader.isCompleted();
+                        allCertificationsWereComplete &= wasComplete;
                         getLegacyDataAdapter().save(answerHeader);
+                        person.getQuestionnaireHelper().populateAnswers();
+                        boolean isComplete = person.getQuestionnaireHelper().getAnswerHeaders().get(0).isCompleted();
+                        allCertificationAreNowComplete &= isComplete;
+                        checkForCertifiedByProxy(pdForm.getDevelopmentProposal(),person,isComplete && !wasComplete);
                     }
                 }
             }
@@ -416,8 +442,29 @@ public abstract class ProposalDevelopmentControllerBase {
                 getLegacyDataAdapter().save(answerHeader);
             }
         }
+
+        boolean allowsSendCertificationCompleteNotification = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT,ProposalDevelopmentConstants.Parameters.NOTIFY_ALL_CERTIFICATIONS_COMPLETE);
+        if (!allCertificationsWereComplete && allCertificationAreNowComplete && allowsSendCertificationCompleteNotification) {
+            ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(pdForm.getDevelopmentProposal(),"105","All Proposal Persons Certification Completed");
+            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(pdForm.getDevelopmentProposal());
+            getKcNotificationService().sendNotification(context);
+        }
 	}
 
+    public void checkForCertifiedByProxy(DevelopmentProposal developmentProposal, ProposalPerson person, boolean recentlyCompleted) {
+        boolean selfCertifyOnly = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT,ProposalDevelopmentConstants.Parameters.KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY);
+        if (selfCertifyOnly) {
+            String proxyId = getGlobalVariableService().getUserSession().getPrincipalId();
+            if (!StringUtils.equals(person.getPersonId(), proxyId) && recentlyCompleted) {
+                ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(developmentProposal,"106","Proposal Person Certification Completed");
+                ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(developmentProposal);
+                KcNotification notification = getKcNotificationService().createNotificationObject(context);
+                NotificationTypeRecipient recipient = new NotificationTypeRecipient();
+                recipient.setPersonId(person.getPersonId());
+                getKcNotificationService().sendNotification(context,notification,Collections.singletonList(recipient));
+            }
+        }
+    }
     /**
      * Method calls the permissions service, where it will determine if any user permissions need to be added and/or removed.
      *
@@ -527,7 +574,7 @@ public abstract class ProposalDevelopmentControllerBase {
                     severityLevel = AuditHelper.ValidationState.ERROR;
                     break;
                 }
-                if (StringUtils.equals(validationItem.getSeverity(),Constants.AUDIT_WARNINGS)){
+                if (StringUtils.equals(validationItem.getSeverity(), Constants.AUDIT_WARNINGS)){
                     severityLevel = AuditHelper.ValidationState.WARNING;
                 }
             }
@@ -660,6 +707,22 @@ public abstract class ProposalDevelopmentControllerBase {
 
     public void setAuditHelper(AuditHelper auditHelper) {
         this.auditHelper = auditHelper;
+    }
+
+    public KcNotificationService getKcNotificationService() {
+        return kcNotificationService;
+    }
+
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public PessimisticLockService getPessimisticLockService() {

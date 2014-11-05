@@ -59,6 +59,10 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
 		if (actions.contains(ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_SPONSOR) && ! canCreateInstitutionalProposal(document, user)) {
             actions.remove(ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_SPONSOR);
         }
+
+        if (canNotifyProposalPerson(document,user)) {
+            actions.add(ProposalDevelopmentConstants.PropDevDocumentActions.NOTIFY_PROPOSAL_PERSONS);
+        }
 		return super.getActionFlags(view, model, user, actions);
 	}
     
@@ -69,6 +73,15 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
     		hasPermission = ((ProposalDevelopmentDocumentAuthorizer)getDocumentAuthorizer()).canCreateInstitutionalProposal(document, user);
     	}
     	return hasPermission;
+    }
+
+    private boolean canNotifyProposalPerson(Document document, Person user) {
+        boolean hasPermission = false;
+        initializeDocumentAuthorizerIfNecessary(document);
+        if(getDocumentAuthorizer() instanceof ProposalDevelopmentDocumentAuthorizer) {
+            hasPermission = ((ProposalDevelopmentDocumentAuthorizer)getDocumentAuthorizer()).canNotifyProposalPerson(document, user);
+        }
+        return hasPermission;
     }
 
     @Override
