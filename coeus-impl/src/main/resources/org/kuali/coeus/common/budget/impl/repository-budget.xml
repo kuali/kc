@@ -445,6 +445,10 @@
         <reference-descriptor name="tbnPerson" class-ref="org.kuali.coeus.common.budget.framework.personnel.TbnPerson" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="tbnId"/>
 		</reference-descriptor>
+		<!-- ojb mapping for BudgetPerson should only be used by award -->
+		<reference-descriptor name="budget" class-ref="org.kuali.kra.award.budget.AwardBudgetExt" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="budgetId"/>
+		</reference-descriptor>
 
         <collection-descriptor name="budgetPersonSalaryDetails" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="budgetId"/>

@@ -460,8 +460,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     
     /**
      * Gets the total posted amount from previously posted budgets
-     * @param awardDocument
-     * @return
      */
     protected ScaleTwoDecimal getPostedTotalAmount(Award award) {
         String postedStatusCode = getAwardPostedStatusCode();
@@ -671,7 +669,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                     || StringUtils.equals(awardBudget.getAwardBudgetStatusCode(), getCancelledBudgetStatus()))) {
                 result = true;
                 GlobalVariables.getMessageMap().putError(BUDGET_VERSION_ERROR_PREFIX, 
-                        KeyConstants.ERROR_AWARD_UNFINALIZED_BUDGET_EXISTS, awardBudget.getName());
+                        KeyConstants.ERROR_AWARD_UNFINALIZED_BUDGET_EXISTS, (StringUtils.isBlank(awardBudget.getName()) ? "UNNAMED" : awardBudget.getName()));
             }
         }
         
@@ -708,8 +706,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     /**
      * Returns the current budget for the award. Must be inprogress, submitted or to be posted
      * to be the current budget.
-     * @param awardDocument
-     * @return
      */
     protected AwardBudgetExt getCurrentBudget(Award award) {
         return getNewestBudgetByStatus(award, 
@@ -718,8 +714,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     
     /**
      * Returns the previous budget for this award document which will be the newest posted budget
-     * @param awardDocument
-     * @return
      */
     protected AwardBudgetExt getPreviousBudget(Award award) {
         return getNewestBudgetByStatus(award, Arrays.asList(new String[]{getPostedBudgetStatus()}));
