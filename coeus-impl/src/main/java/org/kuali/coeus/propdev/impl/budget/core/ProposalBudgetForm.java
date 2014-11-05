@@ -28,7 +28,6 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     private AddProjectPersonnelHelper addProjectPersonnelHelper;
     private AddBudgetDto addBudgetDto;
     private AddBudgetDto copyBudgetDto;
-    private List<BudgetPeriodIncomeTotal>budgetPeriodIncomeTotalSummary;
     private AddProjectBudgetLineItemHelper addProjectBudgetLineItemHelper;
     private BudgetJustificationWrapper budgetJustificationWrapper;
     private BudgetModularSummary budgetModularSummary;
@@ -122,11 +121,12 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
 		this.copyBudgetDto = copyBudgetDto;
 	}
 
-    public void setBudgetPeriodIncomeTotalSummary(List<BudgetPeriodIncomeTotal> budgetPeriodIncomeTotalSummary) {
-        this.budgetPeriodIncomeTotalSummary = budgetPeriodIncomeTotalSummary;
-    }
-
     public List<BudgetPeriodIncomeTotal> getBudgetPeriodIncomeTotalSummary() {
+        List<BudgetPeriodIncomeTotal> budgetPeriodIncomeTotalSummary = new ArrayList<BudgetPeriodIncomeTotal>();
+        Map <Integer,ScaleTwoDecimal> periodTotalMap = getBudget().mapProjectIncomeTotalsToBudgetPeriodNumbers();
+        for (Map.Entry<Integer,ScaleTwoDecimal> entry : periodTotalMap.entrySet()){
+            budgetPeriodIncomeTotalSummary.add (new BudgetPeriodIncomeTotal((Integer)entry.getKey(),(ScaleTwoDecimal)entry.getValue()));
+        }
         return budgetPeriodIncomeTotalSummary;
     }
     public boolean isUnrecoveredFandAEditFormVisible() {
@@ -158,8 +158,6 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
         this.budgetModularSummary = budgetModularSummary;
     }
 
-    public BudgetModularSummary getBudgetModularSummary() {
-        return budgetModularSummary;
-    }
+    public BudgetModularSummary getBudgetModularSummary() {return budgetModularSummary;}
 
 }
