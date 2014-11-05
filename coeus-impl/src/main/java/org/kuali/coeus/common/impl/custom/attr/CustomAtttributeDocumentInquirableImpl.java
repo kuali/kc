@@ -17,7 +17,8 @@ public class CustomAtttributeDocumentInquirableImpl extends KualiInquirableImpl 
 	public Object retrieveDataObject(Map fieldValues) {
 		Object docType = fieldValues.get(DOCUMENT_TYPE_NAME);
 		if (docType != null && docType instanceof String) {
-			String newDocType = getCustomAttributeService().getReverseDocumentTypeMap().get(docType);
+			String formatedDocType = StringUtils.replace(docType.toString(), " ", "+");
+			String newDocType = getCustomAttributeService().getReverseDocumentTypeMap().get(formatedDocType);
 			if (StringUtils.isNotBlank(newDocType)){
 				fieldValues.put(DOCUMENT_TYPE_NAME, newDocType);
 			}
