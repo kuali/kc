@@ -197,7 +197,7 @@
 				<bean parent="Uif-MessageField" p:fieldLabel.labelText="Description"
 					p:messageText="@{#lp.available ? #lp.userAttachedForm ? 'User Attached Form' : 'Available' : 'Unavailable'}" />
 				<bean parent="Uif-InputField" p:propertyName="selectToPrint"
-					p:fieldLabel.labelText="[0]" >
+					p:fieldLabel.labelText="[0]" p:readOnly="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="@{!#line.available or !#editModes['printProposal']}" />
                     </property>
