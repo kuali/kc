@@ -27,10 +27,14 @@ import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -39,6 +43,10 @@ import org.springframework.stereotype.Service;
 @Service("proposalBudgetViewHelperService")
 @Scope("prototype")
 public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     @Autowired
     @Qualifier("sponsorHierarchyService")
@@ -113,6 +121,20 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
     @Override
     public void processAfterSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
     	getDataObjectService().save(lineObject);
+    }
+
+    public String getWizardMaxResults() {
+        return getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE,
+                KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE,
+                KRADConstants.SystemGroupParameterNames.LOOKUP_RESULTS_LIMIT);
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     public SponsorHierarchyService getSponsorHierarchyService() {
