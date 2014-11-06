@@ -90,11 +90,13 @@
 
     <bean id="proposalDevelopmentProtocolDocumentService" parent="grlImporter" p:serviceName="proposalDevelopmentProtocolDocumentService" />
     <bean id="protocolSpecialReviewService" parent="grlImporter" p:serviceName="protocolSpecialReviewService" />
+    <bean id="protocolFinderDao" parent="grlImporter" p:serviceName="protocolFinderDao" />
 
     <!-- IACUC -->
 
     <bean id="iacucProtocolProposalDevelopmentProtocolDocumentService" parent="grlImporter" p:serviceName="iacucProtocolProposalDevelopmentProtocolDocumentService" />
     <bean id="iacucProtocolSpecialReviewService" parent="grlImporter" p:serviceName="iacucProtocolSpecialReviewService" />
+    <bean id="iacucProtocolFinderDao" parent="grlImporter" p:serviceName="iacucProtocolFinderDao" />
 
     <!-- INST PROP -->
 
