@@ -127,7 +127,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
         ProposalUserRoles editRoles = createProposalUserRoles("chew");
-        editRoles.addRoleName(RoleConstants.AGGREGATOR);
+        editRoles.addRoleName(RoleConstants.AGGREGATOR_DOCUMENT_LEVEL);
         assertTrue(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
     }
 
@@ -141,7 +141,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
         ProposalUserRoles editRoles = createProposalUserRoles("chew");
-        editRoles.addRoleName(RoleConstants.AGGREGATOR);
+        editRoles.addRoleName(RoleConstants.AGGREGATOR_DOCUMENT_LEVEL);
         editRoles.addRoleName(RoleConstants.NARRATIVE_WRITER);
         assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
         assertError(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
@@ -158,7 +158,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
         ProposalUserRoles editRoles = createProposalUserRoles("quickstart");
-        editRoles.addRoleName(RoleConstants.AGGREGATOR);
+        editRoles.addRoleName(RoleConstants.AGGREGATOR_DOCUMENT_LEVEL);
         assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
         assertError(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
     }
@@ -172,7 +172,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
         
         ProposalUserRoles userRoles = new ProposalUserRoles();
         userRoles.setUsername("quickstart");
-        userRoles.addRoleName("Aggregator");
+        userRoles.addRoleName("Aggregator Document Level");
         proposalUserRolesList.add(userRoles);
         
         userRoles = new ProposalUserRoles();
@@ -191,7 +191,7 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     private ProposalUserRoles createProposalUserRoles(String username) {
         ProposalUserRoles proposalUser = new ProposalUserRoles();
         proposalUser.setUsername(username);
-        proposalUser.getRoleNames().add("Aggregator");
+        proposalUser.getRoleNames().add("Aggregator Document Level");
         return proposalUser;
     }
     
