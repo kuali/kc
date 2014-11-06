@@ -150,7 +150,7 @@
           parent="PropBudget-ProjectIncomePage-SummaryTable-parentBean" />
     <bean id="PropBudget-ProjectIncomePage-SummaryTable-parentBean"
           parent="Uif-TableCollectionSection" p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
-          p:propertyName="budgetPeriodIncomeTotalSummary"  p:layoutManager.richTable.render="false"
+          p:propertyName="budgetPeriodIncomeTotalSummary"
           p:renderLineActions="false"
           p:collectionObjectClass="org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal">
         <property name="items">
