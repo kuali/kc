@@ -266,7 +266,7 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         criteria.setLeadUnitNumber(ORIGINAL_LEAD_UNIT);
         criteria.setIncludeAttachments(true);
         ProposalDevelopmentDocument copiedDocument = getProposalCopyService().copyProposal(oldDocument, criteria);
-        copiedDocument.getDevelopmentProposal().setNarratives(null);
+        copiedDocument.getDevelopmentProposal().setNarratives(new ArrayList<Narrative>());
         getDocumentService().saveDocument(copiedDocument);
         assertTrue(copiedDocument.getDevelopmentProposal().getNarratives().size() == 0);
         assertTrue(oldDocument.getDevelopmentProposal().getNarratives().size() == 1);
