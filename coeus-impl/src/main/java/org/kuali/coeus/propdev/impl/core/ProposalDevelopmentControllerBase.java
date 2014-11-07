@@ -65,9 +65,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public abstract class ProposalDevelopmentControllerBase {
 
@@ -488,22 +486,25 @@ public abstract class ProposalDevelopmentControllerBase {
  	   return (ExemptionType) getDataObjectService().findUnique(ExemptionType.class, QueryByCriteria.Builder.forAttribute("code", element).build());
     }
 
-    public boolean proposalValidToRoute(ProposalDevelopmentDocumentForm form) {
-        boolean isValid = true;
+    public AuditHelper.ValidationState getValidationState(ProposalDevelopmentDocumentForm form) {
+        AuditHelper.ValidationState severityLevel = AuditHelper.ValidationState.OK;
         form.setAuditActivated(true);
         List<ProposalDevelopmentDataValidationItem> dataValidationItems = ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService())
                 .populateDataValidation(form,form.getView().getViewIndex());
         if(dataValidationItems != null && dataValidationItems.size() > 0 ) {
             for(ProposalDevelopmentDataValidationItem validationItem : dataValidationItems) {
                 if (StringUtils.endsWith(validationItem.getSeverity(),Constants.AUDIT_ERRORS)) {
-                    isValid = false;
-                    form.setDataValidationItems(dataValidationItems);
+                    severityLevel = AuditHelper.ValidationState.ERROR;
                     break;
                 }
+                if (StringUtils.equals(validationItem.getSeverity(),Constants.AUDIT_WARNINGS)){
+                    severityLevel = AuditHelper.ValidationState.WARNING;
+                }
             }
+            form.setDataValidationItems(dataValidationItems);
         }
         getGlobalVariableService().getMessageMap().clearErrorMessages();
-        return isValid;
+        return severityLevel;
     }
 
     /**

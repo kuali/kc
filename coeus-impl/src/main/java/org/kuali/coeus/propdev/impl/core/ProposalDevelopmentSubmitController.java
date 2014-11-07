@@ -30,6 +30,7 @@ import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewLinkEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewService;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
@@ -176,24 +177,33 @@ public class ProposalDevelopmentSubmitController extends
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
     public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
        populateAdHocRecipients(form.getProposalDevelopmentDocument());
- 	   if(proposalValidToRoute(form)) {
-           WorkflowDocument workflowDoc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
-           if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
-               DialogResponse dialogResponse = form.getDialogResponse("PropDev-SubmitPage-ReceiveFutureRequests");
-               if(dialogResponse == null) {
-                   return getModelAndViewService().showDialog("PropDev-SubmitPage-ReceiveFutureRequests", false, form);
-               }else if (dialogResponse.getResponseAsBoolean()){
-                   form.getWorkflowDocument().setReceiveFutureRequests();
-               } else {
-                   form.getWorkflowDocument().setDoNotReceiveFutureRequests();
-               }
-           }
- 		  return getTransactionalDocumentControllerService().route(form);
-	   }
-	   else {
-		   return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
-	   }
-   } 
+       AuditHelper.ValidationState severityLevel = getValidationState(form);
+ 	   if(severityLevel.equals(AuditHelper.ValidationState.ERROR)) {
+           return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+	   } else if (severityLevel.equals(AuditHelper.ValidationState.WARNING)) {
+           return getModelAndViewService().showDialog("PropDev-DataValidationSection-WithSubmit", true, form);
+	   } else {
+           return internalSubmit(form);
+       }
+   }
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=internalSubmit")
+    public  ModelAndView internalSubmit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
+            WorkflowDocument workflowDoc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
+            if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
+                DialogResponse dialogResponse = form.getDialogResponse("PropDev-SubmitPage-ReceiveFutureRequests");
+                if(dialogResponse == null) {
+                    return getModelAndViewService().showDialog("PropDev-SubmitPage-ReceiveFutureRequests", false, form);
+                }else if (dialogResponse.getResponseAsBoolean()){
+                    form.getWorkflowDocument().setReceiveFutureRequests();
+                } else {
+                    form.getWorkflowDocument().setDoNotReceiveFutureRequests();
+                }
+            }
+            return getTransactionalDocumentControllerService().route(form);
+    }
+
+
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=cancelProposal")
     public ModelAndView cancelProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
        form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.CANCELED);
@@ -209,7 +219,7 @@ public class ProposalDevelopmentSubmitController extends
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=blanketApprove")
     public  ModelAndView blanketApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
-       return proposalValidToRoute(form) ? getTransactionalDocumentControllerService().blanketApprove(form) : getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+       return !getValidationState(form).equals(AuditHelper.ValidationState.ERROR) ? getTransactionalDocumentControllerService().blanketApprove(form) : getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
     }
    
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=recall")
@@ -346,7 +356,7 @@ public class ProposalDevelopmentSubmitController extends
     }
 
     protected boolean validToSubmitToSponsor(ProposalDevelopmentDocumentForm form) {
-    	boolean isValid = proposalValidToRoute(form);
+    	boolean isValid = !getValidationState(form).equals(AuditHelper.ValidationState.ERROR);
     	isValid &= getKcBusinessRulesEngine().applyRules(new SubmitToSponsorEvent(form.getProposalDevelopmentDocument()));
     	return isValid;
     }
@@ -518,7 +528,7 @@ public class ProposalDevelopmentSubmitController extends
     public ModelAndView approve(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         form.setAuditActivated(true);
 
-        if (!proposalValidToRoute(form)) {
+        if (getValidationState(form).equals(AuditHelper.ValidationState.ERROR)) {
             getGlobalVariableService().getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION);
             return getModelAndViewService().getModelAndView(form);
         }
