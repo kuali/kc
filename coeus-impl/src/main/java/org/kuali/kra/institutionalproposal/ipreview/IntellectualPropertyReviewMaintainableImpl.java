@@ -22,6 +22,9 @@ import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.krad.data.MaterializeOption;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -34,6 +37,8 @@ public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableI
     private static final long serialVersionUID = 1L;
     
     private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
+    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IntellectualPropertyReviewMaintainableImpl.class);
     
     /**
      * If returning from a person lookup, default the lead unit to the selected person's home unit.
@@ -82,7 +87,24 @@ public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableI
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy()
      */
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterCopy(document, parameters);
+    	/*
+    	 * KualiMaintainableImpl.processAfterCopy causes problems here, So I copied the code in here, and fixed the code causing problems.
+    	 * Note, this change is how Rice was coded for KC 5.2.
+    	 */
+    	try {
+			getDataObjectService().wrap(businessObject).materializeReferencedObjectsToDepth(2, MaterializeOption.COLLECTIONS, MaterializeOption.UPDATE_UPDATABLE_REFS);
+			/*
+			 * KualiMaintainableImpl  originally called this line.  However, Rice was changed such that KNSLegacyDataAdapterImpl.setObjectPropertyDeep
+			 * makes this same call, without the last parameter, which determines how deep the copy goes.  The original implementation works, but if you go deeper,
+			 * We get erroneous errors for attachments on Award, and budgets on AwardDocument.  See KRACOEUS-7798 for details.
+			 */
+			ObjectUtils.setObjectPropertyDeep(businessObject, KRADPropertyConstants.NEW_COLLECTION_RECORD, boolean.class, true, 2);
+		} catch (Exception e) {
+			LOG.error("unable to set newCollectionRecord property: " + e.getMessage(), e);
+			throw new RuntimeException("unable to set newCollectionRecord property: " + e.getMessage(), e);
+		}
+        
+        
         String proposalIdToLink = parameters.get("proposalId")[0];
         ((IntellectualPropertyReview) this.getBusinessObject()).setProposalIdToLink(Long.parseLong(proposalIdToLink));
     }
