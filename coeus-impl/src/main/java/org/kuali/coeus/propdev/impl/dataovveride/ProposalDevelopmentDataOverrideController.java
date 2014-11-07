@@ -9,9 +9,9 @@ import org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
+import org.kuali.rice.core.api.data.DataType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.rice.krad.data.metadata.DataObjectAttribute;
 import org.kuali.rice.krad.data.metadata.DataObjectRelationship;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 
 @Controller
@@ -51,15 +53,17 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
                 columnName));
 
         Object propertyObject = getPropertyValue(form.getDevelopmentProposal(),form.getNewProposalChangedData().getAttributeName());
+        DataType dataType = DataType.getDataTypeFromClass(DevelopmentProposal.class.getDeclaredField(form.getNewProposalChangedData().getAttributeName()).getType());
         String propertyValue = null;
-        if (form.getNewProposalChangedData().getEditableColumn().getDataType().equals(DATE_TYPE) && propertyObject != null) {
-            propertyValue = getDateTimeService().toDateString((Date)propertyObject);
-        } else if (form.getNewProposalChangedData().getEditableColumn().getDataType().equals(NUMERIC_TYPE)){
-           propertyValue = propertyObject.toString();
-        } else {
-            propertyValue = (String) propertyObject;
+        if (propertyObject != null) {
+            if (dataType.isTemporal()) {
+                propertyValue = getDateTimeService().toDateString((Date)propertyObject);
+            } else if (dataType.equals(DataType.STRING)){
+                propertyValue = (String) propertyObject;
+            } else {
+                propertyValue = propertyObject.toString();
+            }
         }
-
         form.getNewProposalChangedData().setDisplayValue(propertyValue);
         form.getNewProposalChangedData().setOldDisplayValue(propertyValue);
         } else {
@@ -83,16 +87,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
 
         if(getKualiRuleService().applyRules(new ProposalDataOverrideEvent(pdDocument, newProposalChangedData))){
-
-            String propertyName = getPropertyName(form,newProposalChangedData.getColumnName());
-            if (newProposalChangedData.getEditableColumn().getDataType().equals(DATE_TYPE)) {
-                PropertyUtils.setNestedProperty(pdDocument.getDevelopmentProposal(),propertyName,getDateTimeService().convertToSqlDate(newProposalChangedData.getChangedValue()));
-            } else if (newProposalChangedData.getEditableColumn().getDataType().equals(NUMERIC_TYPE)){
-                PropertyUtils.setNestedProperty(pdDocument.getDevelopmentProposal(),propertyName,Integer.parseInt(newProposalChangedData.getChangedValue()));
-            } else{
-                    PropertyUtils.setNestedProperty(pdDocument.getDevelopmentProposal(),propertyName,newProposalChangedData.getChangedValue());
-            }
-
+            setChangedValue(pdDocument.getDevelopmentProposal(),newProposalChangedData);
             growProposalChangedHistory(pdDocument, newProposalChangedData);
             List<ProposalChangedData> proposalChangedDataList= new ArrayList<ProposalChangedData>();
             proposalChangedDataList.add(newProposalChangedData);
@@ -118,6 +113,30 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         }
 
        return getRefreshControllerService().refresh(form);
+    }
+
+    protected void setChangedValue(DevelopmentProposal developmentProposal, ProposalChangedData proposalChangedData) throws Exception {
+        String propertyName = proposalChangedData.getAttributeName();
+        DataType dataType = DataType.getDataTypeFromClass(DevelopmentProposal.class.getDeclaredField(propertyName).getType());
+        if (dataType.isTemporal()) {
+            PropertyUtils.setNestedProperty(developmentProposal,propertyName,getDateTimeService().convertToSqlDate(proposalChangedData.getChangedValue()));
+        } else if (dataType.equals(DataType.INTEGER)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, Integer.valueOf(proposalChangedData.getChangedValue()));
+        } else if (dataType.equals(DataType.LONG)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, Long.valueOf(proposalChangedData.getChangedValue()));
+        } else if (dataType.equals(DataType.FLOAT)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, Float.valueOf(proposalChangedData.getChangedValue()));
+        } else if (dataType.equals(DataType.DOUBLE)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, Double.valueOf(proposalChangedData.getChangedValue()));
+        } else if (dataType.equals(DataType.LARGE_INTEGER)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, BigInteger.valueOf(Long.valueOf(proposalChangedData.getChangedValue())));
+        } else if (dataType.equals(DataType.PRECISE_DECIMAL)){
+            PropertyUtils.setNestedProperty(developmentProposal, propertyName, BigDecimal.valueOf(Long.valueOf(proposalChangedData.getChangedValue())));
+        } else if (dataType.equals(DataType.STRING)){
+            PropertyUtils.setNestedProperty(developmentProposal,propertyName,proposalChangedData.getChangedValue());
+        } else {
+            throw new RuntimeException("Data override does not work for this class");
+        }
     }
 
     protected void getDisplayReferenceValue(ProposalChangedData proposalChangedData, DevelopmentProposal proposal) {
@@ -148,16 +167,6 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         }
         form.setSendOverrideNotification(false);
         return getModelAndViewService().getModelAndView(form);
-    }
-
-
-    protected String getPropertyName(ProposalDevelopmentDocumentForm form, String columnName) {
-        for (DataObjectAttribute attribute : getDataObjectService().wrap(form.getDevelopmentProposal()).getMetadata().getAttributes()) {
-            if (attribute.getBackingObjectName().equals(columnName)) {
-                return attribute.getName();
-            }
-        }
-        return StringUtils.EMPTY;
     }
 
     protected Object getPropertyValue(DevelopmentProposal developmentProposal, String propertyName) {
