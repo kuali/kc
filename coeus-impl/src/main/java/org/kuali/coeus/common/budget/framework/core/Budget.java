@@ -229,6 +229,9 @@ public class Budget extends AbstractBudget implements BudgetContract {
     private transient ParameterService parameterService;
 
     @Transient
+    private transient BudgetCalculationService budgetCalculationService;
+    
+    @Transient
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
     @Transient
@@ -912,7 +915,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     }
 
     public void getBudgetTotals() {
-        KcServiceLocator.getService(BudgetCalculationService.class).calculateBudgetSummaryTotals(this);
+    	getBudgetCalculationService().calculateBudgetSummaryTotals(this);
     }
 
     public SortedMap<CostElement, List<ScaleTwoDecimal>> getObjectCodeTotals() {
@@ -1756,20 +1759,28 @@ public class Budget extends AbstractBudget implements BudgetContract {
 	}
 	
 	public List<BudgetPersonnelDetails> getBudgetPersonnelDetails() {
+		String personnelBudgetCategoryTypeCode = getBudgetCalculationService().getPersonnelBudgetCategoryTypeCode();
 		List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
 		for(BudgetPeriod budgetPeriod : getBudgetPeriods()) {
 			for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-				budgetPersonnelDetailsList.addAll(budgetLineItem.getBudgetPersonnelDetailsList());
+				if(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equalsIgnoreCase(personnelBudgetCategoryTypeCode)) {
+					if(budgetLineItem.getBudgetPersonnelDetailsList().size() > 0) {
+						budgetPersonnelDetailsList.addAll(budgetLineItem.getBudgetPersonnelDetailsList());
+					}else {
+						budgetPersonnelDetailsList.add(new BudgetPersonnelDetails(budgetLineItem));
+					}
+				}
 			}
 		}
 		return budgetPersonnelDetailsList;
 	}
 
 	public List<BudgetLineItem> getBudgetLineItems() {
+		String personnelBudgetCategoryTypeCode = getBudgetCalculationService().getPersonnelBudgetCategoryTypeCode();
 		List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
 		for(BudgetPeriod budgetPeriod : getBudgetPeriods()) {
 		    for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-		    	if(!budgetLineItem.isPersonnelLineItem()) {
+				if(!budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equalsIgnoreCase(personnelBudgetCategoryTypeCode)) {
 					budgetLineItems.add(budgetLineItem);
 		    	}
 		    }
@@ -1784,5 +1795,12 @@ public class Budget extends AbstractBudget implements BudgetContract {
 	public void setBudgetSummaryDetails(List<Period> budgetSummaryDetails) {
 		this.budgetSummaryDetails = budgetSummaryDetails;
 	}
+
+    protected BudgetCalculationService getBudgetCalculationService() {
+        if (this.budgetCalculationService == null) {
+            this.budgetCalculationService = KcServiceLocator.getService(BudgetCalculationService.class);
+        }
+        return this.budgetCalculationService;
+    }
 
 }

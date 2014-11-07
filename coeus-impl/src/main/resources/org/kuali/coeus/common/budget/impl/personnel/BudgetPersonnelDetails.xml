@@ -398,9 +398,6 @@
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
     <property name="control" >
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.common.budget.impl.personnel.BudgetPersonValuesFinder" p:includeKeyInLabel="false"/>
     </property>

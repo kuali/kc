@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -82,6 +83,7 @@ public class BudgetPersonValuesFinder extends UifKeyValuesFinderBase {
             	keyValues.add(new ConcreteKeyValue(budgetPerson.getPersonSequenceNumber().toString(), budgetPerson.getPersonName()));
             }
     	}
+    	keyValues.add(new ConcreteKeyValue(BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonId(), BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonName()));
         return keyValues;
     }
     

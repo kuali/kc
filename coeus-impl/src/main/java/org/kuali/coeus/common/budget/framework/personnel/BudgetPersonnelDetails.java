@@ -21,6 +21,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 
 import java.math.BigDecimal;
@@ -32,6 +33,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -206,12 +208,28 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     private List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails;
 
     public BudgetPersonnelDetails() {
+    	initializeBudgetPersonnelDetails();
+    }
+
+    public BudgetPersonnelDetails(BudgetLineItem personnelBudgetSummaryLineItem) {
+    	initializeBudgetPersonnelDetails();
+    	this.budgetLineItem = personnelBudgetSummaryLineItem;
+    	this.startDate = personnelBudgetSummaryLineItem.getStartDate();
+    	this.endDate = personnelBudgetSummaryLineItem.getEndDate();
+    	this.budgetPeriod = personnelBudgetSummaryLineItem.getBudgetPeriod();
+    	this.budgetId = personnelBudgetSummaryLineItem.getBudgetId();
+    	this.salaryRequested = personnelBudgetSummaryLineItem.getLineItemCost();
+    	this.personSequenceNumber = BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonSequenceNumber();
+    	this.personId = BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonId();
+    }
+
+    private void initializeBudgetPersonnelDetails() {
         budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
         budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
         budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
         budgetFormulatedCosts = new ArrayList<BudgetFormulatedCostDetail>();
     }
-
+    
     @Override
     public Long getBudgetId() {
         return budgetId;
@@ -707,6 +725,14 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 	}
 	
 	public ScaleTwoDecimal getCalculatedFringe() {
+		if(!getBudgetPersonnelCalculatedAmounts().isEmpty()) {
+			return getPersonnelCalculatedFringe();
+		}else {
+			return getSummaryCalculatedFringe();
+		}
+	}
+
+	private ScaleTwoDecimal getPersonnelCalculatedFringe() {
 		ScaleTwoDecimal calculatedFringe = ScaleTwoDecimal.ZERO;
 		for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : getBudgetPersonnelCalculatedAmounts()) {
 			if(budgetPersonnelCalculatedAmount.getAddToFringeRate()) {
@@ -715,7 +741,17 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 		}
 		return calculatedFringe;
 	}
-
+	
+	private ScaleTwoDecimal getSummaryCalculatedFringe() {
+		ScaleTwoDecimal calculatedFringe = ScaleTwoDecimal.ZERO;
+		for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : getBudgetLineItem().getBudgetLineItemCalculatedAmounts()) {
+			if(budgetLineItemCalculatedAmount.getAddToFringeRate()) {
+	    		calculatedFringe = calculatedFringe.add(budgetLineItemCalculatedAmount.getCalculatedCost());
+			}
+		}
+		return calculatedFringe;
+	}
+	
 	public void setBudgetLineItemId(Long budgetLineItemId) {
 		this.budgetLineItemId = budgetLineItemId;
 	}
