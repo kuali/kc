@@ -7,13 +7,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorWarningDto;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.DialogResponse;
@@ -32,13 +35,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @SuppressWarnings("deprecation")
 @Controller
 public class ProposalDevelopmentCoreController extends ProposalDevelopmentControllerBase {
-	
+
+    private static final Logger LOG = Logger.getLogger(ProposalDevelopmentCoreController.class);
 	@Autowired
 	@Qualifier("proposalHierarchyService")
 	ProposalHierarchyService proposalHierarchyService;
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("pessimisticLockService")
+    private PessimisticLockService pessimisticLockService;
 
     public ProposalHierarchyService getProposalHierarchyService() {
 		if (proposalHierarchyService == null) {
@@ -59,6 +67,13 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
         return globalVariableService;
     }
 
+    public PessimisticLockService getPessimisticLockService() {
+        return pessimisticLockService;
+    }
+
+    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
+        this.pessimisticLockService = pessimisticLockService;
+    }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
@@ -340,6 +355,15 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 
     @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=closeWithoutSave")
     public ModelAndView closeWithoutSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
+            for (PessimisticLock lock : form.getProposalDevelopmentDocument().getPessimisticLocks()){
+                try {
+                    getPessimisticLockService().delete(String.valueOf(lock.getId()));
+                } catch (AuthorizationException e) {
+                    LOG.error("user does not have permission to delete this lock",e);
+                }
+            }
+        }
         return getNavigationControllerService().returnToHub(form);
     }
 }
