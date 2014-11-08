@@ -326,9 +326,6 @@ public class ProposalDevelopmentSubmitController extends
     }
 
     protected void handleSubmissionNotification(ProposalDevelopmentDocumentForm form) {
-        final String step = form.getNotificationHelper().getNotificationRecipients().isEmpty() ? ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_0 : 
-        																	ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_2;
-        form.getActionParameters().put("Kc-SendNotification-Wizard.step",step);
         getRenderer().setDevelopmentProposal(form.getDevelopmentProposal());
         ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
         ProposalDevelopmentNotificationContext notificationContext = new ProposalDevelopmentNotificationContext(
@@ -338,6 +335,9 @@ public class ProposalDevelopmentSubmitController extends
                 getRenderer());
         form.getNotificationHelper().setNotificationContext(notificationContext);
         form.getNotificationHelper().initializeDefaultValues(notificationContext);
+        final String step = form.getNotificationHelper().getNotificationRecipients().isEmpty() ? ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_0 : 
+							ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_2;
+        form.getActionParameters().put("Kc-SendNotification-Wizard.step",step);
     }
     
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=proceed")
