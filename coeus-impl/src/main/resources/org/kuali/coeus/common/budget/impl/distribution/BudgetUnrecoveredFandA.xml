@@ -79,22 +79,22 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Applicable Rate" />
     <property name="shortLabel" value="Applicable Rate" />
-    <property name="maxLength" value="7" />
+    <property name="maxLength" value="6" />
     <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="6" p:scale="3"/>
+      <bean parent="FixedPointValidationPattern" p:precision="5" p:scale="2"/>
     </property>
     <property name="validCharactersConstraint">
       <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="6"/>
-        <property name="scale" value="3"/>
+        <property name="precision" value="5"/>
+        <property name="scale" value="2"/>
       </bean>
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition" p:size="7"/>
+      <bean parent="TextControlDefinition" p:size="6"/>
     </property>
     <property name="controlField">
-      <bean p:size="7" parent="Uif-TextControl"/>
+      <bean p:size="6" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Applicable Rate" />
     <property name="description" value="Applicable Rate" />
