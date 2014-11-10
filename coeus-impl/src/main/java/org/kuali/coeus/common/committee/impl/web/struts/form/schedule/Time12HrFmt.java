@@ -64,7 +64,9 @@ public class Time12HrFmt implements Serializable {
     
     private void parseTimeTo12HrFmt(Timestamp day) {
         Calendar cl = new GregorianCalendar();
+        if(day != null) {
         cl.setTime(day);
+        }
         
         if(cl.get(Calendar.AM_PM) == 0) 
             this.meridiem = MERIDIEM.AM.name();
