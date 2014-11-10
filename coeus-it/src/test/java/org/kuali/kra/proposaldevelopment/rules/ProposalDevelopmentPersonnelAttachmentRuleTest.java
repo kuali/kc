@@ -77,7 +77,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
         
         assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
         
-        checkErrorCountAndContent(".description", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);
+        checkErrorCountAndContent("description", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);
     }
 
     /**
@@ -105,7 +105,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
         
         assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
         
-        checkErrorCountAndContent(".documentTypeCode", KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
+        checkErrorCountAndContent("documentTypeCode", KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
     }
     
     /**
@@ -121,7 +121,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
         
         assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
         
-        checkErrorCountAndContent(".proposalPersonNumberString", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
+        checkErrorCountAndContent("proposalPersonNumberString", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
     }
 
     /**
