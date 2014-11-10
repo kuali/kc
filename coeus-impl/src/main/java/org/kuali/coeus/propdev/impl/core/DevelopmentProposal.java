@@ -332,9 +332,10 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     private List<ProposalPersonBiography> propPersonBios;
 
     @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE })
+    @OrderBy("budgetVersionNumber")
     private List<ProposalDevelopmentBudgetExt> budgets;
     
-    @OneToOne(cascade = { CascadeType.REFRESH, CascadeType.REMOVE })
+    @OneToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "FINAL_BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private ProposalDevelopmentBudgetExt finalBudget;
     

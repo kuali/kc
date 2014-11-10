@@ -15,6 +15,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -31,4 +32,14 @@ public interface ProposalBudgetService extends BudgetCommonService<DevelopmentPr
      * @throws org.kuali.rice.kew.api.exception.WorkflowException
      */
     public ProposalDevelopmentBudgetExt getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument) throws WorkflowException;
+    
+    /**
+     * Copy the specified budget, using the optional developmentProposal as the new budget parent if provided.
+     * @param budget
+     * @param onlyOnePeriod
+     * @param developmentProposal
+     * @return
+     */
+    public ProposalDevelopmentBudgetExt copyBudgetVersion(ProposalDevelopmentBudgetExt budget, boolean onlyOnePeriod, DevelopmentProposal developmentProposal);
+
 }

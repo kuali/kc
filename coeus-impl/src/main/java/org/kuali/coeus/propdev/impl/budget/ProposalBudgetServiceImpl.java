@@ -203,10 +203,15 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         }
         budgetCalculationService.calculateBudget(budget);
     }
+    
+    @Override
+    public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod) {
+    	return copyBudgetVersion((ProposalDevelopmentBudgetExt) budget, onlyOnePeriod, null);
+    }
 
     @Override
-    public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod){
-    	Budget newBudget = copyBudgetVersionInternal(budget);
+    public ProposalDevelopmentBudgetExt copyBudgetVersion(ProposalDevelopmentBudgetExt budget, boolean onlyOnePeriod, DevelopmentProposal developmentProposal){
+    	ProposalDevelopmentBudgetExt newBudget = copyBudgetVersionInternal((ProposalDevelopmentBudgetExt) budget, developmentProposal);
         if (onlyOnePeriod) {
             //Copy full first version, then include empty periods for remainder
             List<BudgetPeriod> oldBudgetPeriods = newBudget.getBudgetPeriods(); 
@@ -242,7 +247,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         return newBudget;
     } 
     
-    protected Budget copyBudgetVersionInternal(Budget budget) {
+    protected ProposalDevelopmentBudgetExt copyBudgetVersionInternal(ProposalDevelopmentBudgetExt budget, DevelopmentProposal developmentProposal) {
         for (BudgetSubAwards subAwards : budget.getBudgetSubAwards()) {
         	for (BudgetSubAwardAttachment origAttachment : subAwards.getBudgetSubAwardAttachments()) {
         		origAttachment.getData();
@@ -251,7 +256,17 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         		files.getSubAwardXfdFileData();
         	}
         }
-		return (Budget) getDataObjectService().copyInstance(budget, CopyOption.RESET_OBJECT_ID, CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER);
+        DevelopmentProposal parent = budget.getDevelopmentProposal();
+        budget.setDevelopmentProposal(null);
+		ProposalDevelopmentBudgetExt doServiceCopy = 
+				(ProposalDevelopmentBudgetExt) getDataObjectService().copyInstance(budget, CopyOption.RESET_OBJECT_ID, CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER);
+		budget.setDevelopmentProposal(parent);
+		if (developmentProposal != null) {
+			doServiceCopy.setDevelopmentProposal(developmentProposal);
+		} else {
+			doServiceCopy.setDevelopmentProposal(parent);
+		}
+		return doServiceCopy;
     }
 
     /**

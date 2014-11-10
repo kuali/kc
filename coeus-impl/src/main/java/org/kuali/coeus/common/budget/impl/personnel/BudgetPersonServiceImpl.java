@@ -326,14 +326,16 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     public PersonRolodex getBudgetPersonRolodex(Budget budget, BudgetPersonContract budgetPerson) {
         BudgetParent budgetParent = budget.getBudgetParent();
         PersonRolodex personRolodex = null;
-        for (PersonRolodex person: budgetParent.getPersonRolodexList()) {
-            if (person.getPersonId() != null && person.getPersonId().equals(budgetPerson.getPersonId())) {
-            	personRolodex = person;
-            	break;
-            } else if (person.getRolodexId() != null && person.getRolodexId().equals(budgetPerson.getRolodexId())) {
-            	personRolodex = person;
-            	break;
-            }
+        if (budgetParent != null) {
+	        for (PersonRolodex person: budgetParent.getPersonRolodexList()) {
+	            if (person.getPersonId() != null && person.getPersonId().equals(budgetPerson.getPersonId())) {
+	            	personRolodex = person;
+	            	break;
+	            } else if (person.getRolodexId() != null && person.getRolodexId().equals(budgetPerson.getRolodexId())) {
+	            	personRolodex = person;
+	            	break;
+	            }
+	        }
         }
         return personRolodex;
     }
