@@ -301,14 +301,15 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     @RequestMapping(params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-SummaryPage"})
     public ModelAndView navigateToBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
     	ModelAndView modelAndView = super.navigate(form);
-    	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
+    	if(form.getBudget().getBudgetSummaryDetails().isEmpty()) {
+           	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
+    	}
         return modelAndView;
     }
 
     @RequestMapping(params="methodToCall=populateBudgetSummary")
 	public ModelAndView populateBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
     	super.save(form);
-    	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
     	return getModelAndViewService().showDialog(BUDGET_SUMMARY_DIALOG_ID, true, form);
     }
     
