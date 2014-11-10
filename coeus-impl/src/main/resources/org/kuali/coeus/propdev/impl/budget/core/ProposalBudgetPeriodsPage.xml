@@ -119,5 +119,6 @@
     </bean>
 	<!-- this dialog will be triggered from the controller -->
 	<bean id="PropBudget-PeriodsPage-ConfirmPeriodChangesDialog" parent="Uif-DialogGroup-YesNo" p:promptText="@{defaultBudgetPeriodWarningMessage}"/>
+	<bean id="PropBudget-PeriodsPage-ChangePeriodDialog" parent="Uif-DialogGroup-YesNo" p:promptText="Changing the budget period dates will result in changes being made to line item expenses and recalculation of the budget. Do you want to proceed?"/>
       
 </beans>

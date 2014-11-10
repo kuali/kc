@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
+import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.auth.ProposalBudgetAuthorizer;
@@ -106,6 +107,11 @@ public abstract class ProposalBudgetControllerBase {
     @Autowired
     @Qualifier("budgetModularService")
     private BudgetModularService budgetModularService;
+    
+    @Autowired
+    @Qualifier("budgetSummaryService")
+    private BudgetSummaryService budgetSummaryService;
+    
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
     }
@@ -120,6 +126,7 @@ public abstract class ProposalBudgetControllerBase {
     	ProposalDevelopmentBudgetExt budget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build());
     	budget.setStartDate(budget.getDevelopmentProposal().getRequestedStartDateInitial());
     	budget.setEndDate(budget.getDevelopmentProposal().getRequestedEndDateInitial());
+        getBudgetSummaryService().setupOldStartEndDate(budget, false);
     	if (!proposalBudgetAuthorizer.isAuthorizedToViewBudget(budget, globalVariableService.getUserSession().getPerson())) {
     		throw new AuthorizationException(globalVariableService.getUserSession().getPrincipalName(), "open", "Proposal Budget");
     	}
@@ -131,6 +138,7 @@ public abstract class ProposalBudgetControllerBase {
     	form.setBudget(getDataObjectService().save(form.getBudget()));
        	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
         getBudgetJustificationService().preSave(form.getBudget(), form.getBudgetJustificationWrapper());
+        getBudgetSummaryService().setupOldStartEndDate(form.getBudget(), false);
         form.setBudgetModularSummary(budgetModularService.generateModularSummary(form.getBudget()));
         return getModelAndViewService().getModelAndView(form);
     }
@@ -304,5 +312,13 @@ public abstract class ProposalBudgetControllerBase {
     public void setBudgetModularService(BudgetModularService budgetModularService) {
         this.budgetModularService = budgetModularService;
     }
+
+	public BudgetSummaryService getBudgetSummaryService() {
+		return budgetSummaryService;
+	}
+
+	public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
+		this.budgetSummaryService = budgetSummaryService;
+	}
 
 }
