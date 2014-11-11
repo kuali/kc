@@ -89,7 +89,8 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
                     ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM);
 
             if ( StringUtils.equals(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), S2sSubmissionType.CHANGE_CORRECTED_CODE) &&
-                    StringUtils.equals(proposal.getProposalTypeCode(),newProposalType)) {
+                    StringUtils.equals(proposal.getProposalTypeCode(),newProposalType) &&
+                    StringUtils.isEmpty(proposal.getPrevGrantsGovTrackingID())) {
                 getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(PREV_GG_TRACKING_ID_KEY, KeyConstants.ERROR_REQUIRED_GG_TRACKING_ID, SPONSOR_PROGRAM_INFO_PAGE_ID));
                 valid = false;
             }
