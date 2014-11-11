@@ -1971,5 +1971,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 			PropDevBudgetSubAwardService propDevBudgetSubAwardService) {
 		this.propDevBudgetSubAwardService = propDevBudgetSubAwardService;
 	}
+	public void setKradWorkflowDocumentService(
+			WorkflowDocumentService kradWorkflowDocumentService) {
+		this.kradWorkflowDocumentService = kradWorkflowDocumentService;
+	}
+	public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
+		this.budgetSummaryService = budgetSummaryService;
+	}
+	public void setKcDocumentRejectionService(
+			KcDocumentRejectionService kcDocumentRejectionService) {
+		this.kcDocumentRejectionService = kcDocumentRejectionService;
+	}
 
 }
