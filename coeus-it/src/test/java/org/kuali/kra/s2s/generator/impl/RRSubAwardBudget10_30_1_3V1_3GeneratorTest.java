@@ -190,6 +190,7 @@ public class RRSubAwardBudget10_30_1_3V1_3GeneratorTest extends
 		narrative.setNarrativeType(narrativeType);
 		narrative.setNarrativeTypeCode("132");
 		narrative.setNarrativeAttachment(narrativeAttachment);
+		narrative.setModuleTitle("Allows Multiple Description");
 		narrativeList.add(narrative);
 		document.getDevelopmentProposal().setNarratives(narrativeList);
 
