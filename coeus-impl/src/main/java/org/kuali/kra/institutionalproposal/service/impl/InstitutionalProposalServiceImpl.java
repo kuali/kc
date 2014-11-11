@@ -15,9 +15,11 @@
  */
 package org.kuali.kra.institutionalproposal.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersionStatus;
@@ -463,12 +465,20 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                 ipCustomData.getCustomAttribute().setId(dpCustomAttributeDocument.getId());
                 ipCustomData.setCustomAttributeId((long) dpCustomAttributeDocument.getId());
                 ipCustomData.setInstitutionalProposal(institutionalProposalDocument.getInstitutionalProposal());
-                ipCustomData.setValue(dpCustomAttributeDocument.getCustomAttribute().getValue());
+                ipCustomData.setValue(getCustomAttributeValue(developmentProposal.getProposalDocument().getCustomDataList(),key));
                 ipCustomDataList.add(ipCustomData);
             }
         }
     }
 
+    protected String getCustomAttributeValue(List<CustomAttributeDocValue> values, String key) {
+        for (CustomAttributeDocValue value : values) {
+            if (StringUtils.equals(String.valueOf(value.getId()),key)) {
+                return value.getValue();
+            }
+        }
+        return null;
+    }
     
     protected InstitutionalProposalPerson generateInstitutionalProposalPerson(ProposalPerson pdPerson) {
         InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
