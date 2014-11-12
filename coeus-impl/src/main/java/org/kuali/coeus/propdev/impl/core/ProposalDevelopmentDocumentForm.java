@@ -49,6 +49,7 @@ import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.data.util.Link;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
@@ -60,6 +61,7 @@ import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 import java.util.*;
 
 @ChangeTracking
+@Link(path = "document.developmentProposal")
 public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase implements Auditable {
 
     private static final long serialVersionUID = 1381360399393420225L;
