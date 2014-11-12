@@ -448,6 +448,7 @@ public class BudgetPersonnelRule {
           return valid;
     }
     
+    @Deprecated
     private boolean personnelDetailsCheck(Budget budget, BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails, String errorPath) {
         boolean errorFound = false;
         GlobalVariables.getMessageMap().addToErrorPath(errorPath);
@@ -475,6 +476,7 @@ public class BudgetPersonnelRule {
         return errorFound;
     }
 
+    @Deprecated
     private boolean personnelDatesCheck(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails, String errorPath) {
         boolean errorFound = false;
         

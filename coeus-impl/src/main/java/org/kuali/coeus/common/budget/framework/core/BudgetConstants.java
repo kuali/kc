@@ -7,7 +7,6 @@ public class BudgetConstants {
     
     public enum BudgetPerson {
         SUMMARYPERSON ("-1", "Summary");
-
         private final String personId;   
         private final String personName; 
         
