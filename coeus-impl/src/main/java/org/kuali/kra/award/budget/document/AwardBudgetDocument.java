@@ -37,6 +37,7 @@ import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -401,4 +402,8 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return new ArrayList();
     }	
+    
+    public BudgetParentDocument getParentDocument() {
+    	return this.getBudget().getBudgetParent().getDocument();
+    }
 }
