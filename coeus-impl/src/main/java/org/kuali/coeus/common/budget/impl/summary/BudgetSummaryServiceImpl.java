@@ -385,33 +385,36 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
      */
     @Override
     public void adjustStartEndDatesForLineItems(Budget budget) {
-        
         for(BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
-            if ( (budgetPeriod.getOldStartDate() != null && budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0) || 
-                    (budgetPeriod.getOldEndDate() != null && budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0) ) {
-                List <BudgetLineItem >budgetLineItems = budgetPeriod.getBudgetLineItems();
-                setupOldStartEndDate(budgetLineItems);
-                for(BudgetLineItem budgetLineItem: budgetLineItems) {
-                    Date newStartDate = budgetLineItem.getStartDate();
-                    Date newEndDate = budgetLineItem.getEndDate();
-                    List <Date> startEndDates = new ArrayList<Date>();
-                    startEndDates.add(0, budgetLineItem.getStartDate());
-                    startEndDates.add(1, budgetLineItem.getEndDate());
-                    
-                    getNewStartEndDates(budgetPeriod.getStartDate(), budgetPeriod.getOldStartDate(), budgetPeriod.getEndDate(), budgetPeriod.getOldEndDate(), startEndDates);
-                    newStartDate=startEndDates.get(0);
-                    newEndDate=startEndDates.get(1);
-                    
-                    budgetLineItem.setStartDate(newStartDate);
-                    budgetLineItem.setEndDate(newEndDate);
-                    budgetLineItem.setBasedOnLineItem(budgetLineItem.getLineItemNumber());
-                }
-                adjustStartEndDatesForPersonnelLineItems(budgetLineItems);
-           }       
-            // set old start/end date - rollback may be needed if rule is failed
-            budgetPeriod.setOldStartDate(budgetPeriod.getStartDate());
-            budgetPeriod.setOldEndDate(budgetPeriod.getEndDate());
+        	adjustStartEndDatesForLineItems(budgetPeriod);
         }
+    }
+
+    public void adjustStartEndDatesForLineItems(BudgetPeriod budgetPeriod) {
+        if ( (budgetPeriod.getOldStartDate() != null && budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0) || 
+                (budgetPeriod.getOldEndDate() != null && budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0) ) {
+            List <BudgetLineItem >budgetLineItems = budgetPeriod.getBudgetLineItems();
+            setupOldStartEndDate(budgetLineItems);
+            for(BudgetLineItem budgetLineItem: budgetLineItems) {
+                Date newStartDate = budgetLineItem.getStartDate();
+                Date newEndDate = budgetLineItem.getEndDate();
+                List <Date> startEndDates = new ArrayList<Date>();
+                startEndDates.add(0, budgetLineItem.getStartDate());
+                startEndDates.add(1, budgetLineItem.getEndDate());
+                
+                getNewStartEndDates(budgetPeriod.getStartDate(), budgetPeriod.getOldStartDate(), budgetPeriod.getEndDate(), budgetPeriod.getOldEndDate(), startEndDates);
+                newStartDate=startEndDates.get(0);
+                newEndDate=startEndDates.get(1);
+                
+                budgetLineItem.setStartDate(newStartDate);
+                budgetLineItem.setEndDate(newEndDate);
+                budgetLineItem.setBasedOnLineItem(budgetLineItem.getLineItemNumber());
+            }
+            adjustStartEndDatesForPersonnelLineItems(budgetLineItems);
+       }       
+        // set old start/end date - rollback may be needed if rule is failed
+        budgetPeriod.setOldStartDate(budgetPeriod.getStartDate());
+        budgetPeriod.setOldEndDate(budgetPeriod.getEndDate());
     }
 
 

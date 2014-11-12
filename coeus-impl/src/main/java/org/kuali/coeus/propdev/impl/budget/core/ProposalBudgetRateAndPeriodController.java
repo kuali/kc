@@ -1,13 +1,24 @@
 package org.kuali.coeus.propdev.impl.budget.core;
 
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.period.GenerateBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +34,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControllerBase {
 
 	private static final String CONFIRM_PERIOD_CHANGES_DIALOG_ID = "PropBudget-PeriodsPage-ConfirmPeriodChangesDialog";
-
-    @Autowired
-    @Qualifier("budgetSummaryService")
-    private BudgetSummaryService budgetSummaryService;
-
+	private static final String PERIOD_CHANGES_DIALOG_ID = "PropBudget-PeriodsPage-ChangePeriodDialog";
+	
+	
 	@MethodAccessible
     @RequestMapping(params="methodToCall=resetToBudgetPeriodDefault")
     public ModelAndView resetToBudgetPeriodDefault(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -63,8 +72,30 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     @RequestMapping(params="methodToCall=saveBudgetPeriod")
     public ModelAndView saveBudgetPeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
     	Budget budget = form.getBudget();
-    	getBudgetCalculationService().updateBudgetTotalCost(budget);
-		return super.saveLine(form);
+    	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
+        int selectedLine = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+        BudgetPeriod budgetPeriod = budget.getBudgetPeriods().get(selectedLine);
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+        if (isBudgetPeriodDateChanged(budgetPeriod) && isOnlyLineItemDateError()) {
+        	getGlobalVariableService().getMessageMap().clearErrorMessages();
+            DialogResponse dialogResponse = form.getDialogResponse(PERIOD_CHANGES_DIALOG_ID);
+            if(dialogResponse == null) {
+            	return getModelAndViewService().showDialog(PERIOD_CHANGES_DIALOG_ID, true, form);
+            }else {
+                rulePassed = false;
+                boolean confirmResetDefault = dialogResponse.getResponseAsBoolean();
+                if(confirmResetDefault) {
+                    getBudgetSummaryService().adjustStartEndDatesForLineItems(budgetPeriod);
+                    //check rules again after adjusting date
+                    rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+                }
+            }
+        }
+        if(rulePassed) {
+        	getBudgetCalculationService().calculateBudgetPeriod(budget, budgetPeriod);
+            modelAndView = super.saveLine(form);
+        }
+        return modelAndView;
     }
 		
 	@MethodAccessible
@@ -98,12 +129,92 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
             || !StringUtils.equalsIgnoreCase(originalBudget.getUrRateClassCode(), currentBudget.getUrRateClassCode()));
     }
  	
-    public BudgetSummaryService getBudgetSummaryService() {
-        return budgetSummaryService;
+    @RequestMapping(params={"methodToCall=save", "pageId=PropBudget-PeriodsPage"})
+    public ModelAndView save(ProposalBudgetForm form) {
+    	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
+        Budget budget = form.getBudget();
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+        if (isBudgetPeriodDateChanged(budget) && isOnlyLineItemDateError()) {
+        	getGlobalVariableService().getMessageMap().clearErrorMessages();
+            DialogResponse dialogResponse = form.getDialogResponse(PERIOD_CHANGES_DIALOG_ID);
+            if(dialogResponse == null) {
+            	return getModelAndViewService().showDialog(PERIOD_CHANGES_DIALOG_ID, true, form);
+            }else {
+                rulePassed = false;
+                boolean confirmResetDefault = dialogResponse.getResponseAsBoolean();
+                if(confirmResetDefault) {
+                    getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
+                    //check rules again after adjusting date
+                    rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+                }
+            }
+        }
+        if(rulePassed) {
+            modelAndView = super.save(form);
+            form.getEditableBudgetLineItems().clear();
+        }
+        return modelAndView;
+    }
+    
+    /**
+     * Method is to verify whether budget dates changed.
+     * @param budget
+     * @return
+     */
+    private boolean isBudgetPeriodDateChanged(Budget budget) {
+    	boolean budgetPeriodDateChanged = false;
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+        	budgetPeriodDateChanged = isBudgetPeriodDateChanged(budgetPeriod);
+        	if(budgetPeriodDateChanged) {
+        		break;
+        	}
+        }
+        return budgetPeriodDateChanged;
+    }
+    
+    private boolean isBudgetPeriodDateChanged(BudgetPeriod budgetPeriod) {
+        if (budgetPeriod.getStartDate() != null && budgetPeriod.getOldStartDate() != null && 
+                budgetPeriod.getEndDate() != null && budgetPeriod.getOldEndDate() != null && 
+                (budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0
+                || budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0)) {
+            return true;
+        }
+        return false;
     }
 
-    public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
-        this.budgetSummaryService = budgetSummaryService;
+    /**
+     * This method is to check the error map to see if there is any error other than line item date error.
+     * line item date date error should be resolved with adjustlineitem start/end date.
+     * This is called after rule verification and before save.
+     * @return
+     */
+    private boolean isOnlyLineItemDateError() {
+    	Map<String, List<ErrorMessage>> errors = getGlobalVariableService().getMessageMap().getErrorMessages();
+    	List<String> lineItemDateErrors = getLineItemDateErrors();
+    	if (!errors.isEmpty()) {
+            for (Map.Entry<String, List<ErrorMessage>> entry : errors.entrySet()) {
+                List<ErrorMessage> errorMessages = entry.getValue();
+                for(ErrorMessage errorMessage : errorMessages) {
+                    if (!lineItemDateErrors.contains(errorMessage.getErrorKey())) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * List of line item errors specific to date that we can skip 
+     * to adjust line item dates as per adjusted period dates
+     * @return
+     */
+    private List<String> getLineItemDateErrors() {
+    	List<String> lineItemDateErrors = new ArrayList<String>();
+    	lineItemDateErrors.add("error.lineItem.dateDoesNotmatch");
+    	lineItemDateErrors.add("error.line.item.start.date");
+    	lineItemDateErrors.add("error.line.item.end.date");
+    	return lineItemDateErrors;
     }
 
 }

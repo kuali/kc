@@ -78,7 +78,7 @@ public class BudgetPeriodRule {
         }else if(!isValidBudgetPeriodBoundaries(budget)){
             rulePassed = false;
         }
-        if (budget.isProposalBudget()) {
+        if (!budget.isProposalBudget()) {
             rulePassed &= isValidBudgetPeriodCostLimit(budget);
         }
 
