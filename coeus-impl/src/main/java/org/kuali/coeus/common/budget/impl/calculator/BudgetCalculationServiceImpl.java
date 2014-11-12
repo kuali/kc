@@ -950,7 +950,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             summaryPeriod.setEndDate(budgetPeriod.getEndDate());
 
             if (personnelCostElementLineItems != null) {
-                LineItemGroup personnelGroup = getPersonnelBudgetSummaryPeriods(budgetPeriod, personnelCostElementLineItems);
+                LineItemGroup personnelGroup = getPersonnelBudgetSummaryPeriods(budgetPeriod, personnelCostElementLineItems, personnelBudgetCategoryType);
                 LineItemObject calculatedPersonnelDirectCosts = new LineItemObject(BudgetSummaryConstants.CalculatedDirectCost.getKey(),
                         BudgetSummaryConstants.CalculatedDirectCost.getLabel(), ScaleTwoDecimal.ZERO);
                 ScaleTwoDecimal personnelDirectCost = getCalculateBudgetSummaryExpenseTotal(budgetPeriod, true, personnelBudgetCategoryType);
@@ -1041,7 +1041,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * @param budgetPeriodPersonnelLineItems
      * @return
      */
-    private LineItemGroup getPersonnelBudgetSummaryPeriods(BudgetPeriod budgetPeriod, SortedMap<CostElement, List<BudgetLineItem>> uniqueBudgetLineItemCostElements) {
+    private LineItemGroup getPersonnelBudgetSummaryPeriods(BudgetPeriod budgetPeriod, SortedMap<CostElement, List<BudgetLineItem>> uniqueBudgetLineItemCostElements, String personnelBudgetCategoryType) {
         LineItemGroup personnelGroup = new LineItemGroup(BUDGET_SUMMARY_PERSONNEL_GROUP_LABEL, true);
         LineItemObject personnelSalaries = new LineItemObject(BudgetSummaryConstants.PersonSalary.getKey(), BudgetSummaryConstants.PersonSalary.getLabel(), ScaleTwoDecimal.ZERO);
         LineItemObject personnelFringe = new LineItemObject(BudgetSummaryConstants.PersonFringe.getKey(), BudgetSummaryConstants.PersonFringe.getLabel(), ScaleTwoDecimal.ZERO);
@@ -1052,11 +1052,11 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
       		List<BudgetLineItem> personnelLineItemsForCostElement = uniqueLineItem.getValue();
             
             QueryList<BudgetLineItem> periodLineItemCostElementQueryList = getLineItemsFilteredByCostElement(budgetPeriod, personnelCostElement.getCostElement());
-        	QueryList<BudgetPersonnelDetails> periodLineItemPersonnelDetailsQueryList = getBudgetPersonnelDetails(periodLineItemCostElementQueryList);
+        	QueryList<BudgetPersonnelDetails> periodLineItemPersonnelDetailsQueryList = getBudgetPersonnelDetails(periodLineItemCostElementQueryList, personnelBudgetCategoryType);
         	ScaleTwoDecimal totalSalaryForCostElement = periodLineItemPersonnelDetailsQueryList.sumObjects("salaryRequested");
         	ScaleTwoDecimal totalFringeForCostElement = periodLineItemPersonnelDetailsQueryList.sumObjects("calculatedFringe");
 
-        	Map<String, String> uniquePersonList = getUniquePersonList(personnelLineItemsForCostElement);
+        	Map<String, String> uniquePersonList = getUniquePersonList(personnelLineItemsForCostElement, personnelBudgetCategoryType);
             LineItemObject salaryLineItemObject = new LineItemObject(personnelCostElement.getCostElement(), personnelCostElement.getDescription(), totalSalaryForCostElement);
             LineItemObject fringeLineItemObject = new LineItemObject(personnelCostElement.getCostElement(), personnelCostElement.getDescription(), totalFringeForCostElement);
             for(Map.Entry<String, String> personInfo : uniquePersonList.entrySet()) {
@@ -1154,11 +1154,17 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * @param personnelLineItemsForCostElement
      * @return
      */
-    private QueryList<BudgetPersonnelDetails> getBudgetPersonnelDetails(List<BudgetLineItem> personnelLineItemsForCostElement) {
+    private QueryList<BudgetPersonnelDetails> getBudgetPersonnelDetails(List<BudgetLineItem> personnelLineItemsForCostElement, String personnelBudgetCategoryType) {
         QueryList<BudgetPersonnelDetails> personnelQueryList = new QueryList<BudgetPersonnelDetails>();
     	if(personnelLineItemsForCostElement != null) {
             for(BudgetLineItem budgetLineItem : personnelLineItemsForCostElement) {
-                personnelQueryList.addAll(budgetLineItem.getBudgetPersonnelDetailsList());
+				if(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equalsIgnoreCase(personnelBudgetCategoryType)) {
+					if(budgetLineItem.getBudgetPersonnelDetailsList().size() > 0) {
+						personnelQueryList.addAll(budgetLineItem.getBudgetPersonnelDetailsList());
+					}else {
+						personnelQueryList.add(new BudgetPersonnelDetails(budgetLineItem));
+					}
+				}
             }
     	}
         return personnelQueryList;
@@ -1169,17 +1175,23 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * @param personnelLineItems
      * @return
      */
-    private Map<String, String> getUniquePersonList(List<BudgetLineItem> personnelLineItems) {
+    private Map<String, String> getUniquePersonList(List<BudgetLineItem> personnelLineItems,String personnelBudgetCategoryType) {
         Map<String, String> uniquePersonList = new HashMap<String,String>();
         for(BudgetLineItem budgetLineItem : personnelLineItems) {
-            for(BudgetPersonnelDetails budgetPersonnelDetail : budgetLineItem.getBudgetPersonnelDetailsList()) {
-            	uniquePersonList.put(budgetPersonnelDetail.getPersonId(), budgetPersonnelDetail.getBudgetPerson().getPersonName());
-            }
+			if(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equalsIgnoreCase(personnelBudgetCategoryType)) {
+				if(budgetLineItem.getBudgetPersonnelDetailsList().size() > 0) {
+		            for(BudgetPersonnelDetails budgetPersonnelDetail : budgetLineItem.getBudgetPersonnelDetailsList()) {
+		            	uniquePersonList.put(budgetPersonnelDetail.getPersonId(), budgetPersonnelDetail.getBudgetPerson().getPersonName());
+		            }
+				}else {
+	            	uniquePersonList.put(BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonId(), BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonName());
+				}
+			}
         }
         return uniquePersonList;
     }
     
-    private String getPersonnelBudgetCategoryTypeCode() {
+    public String getPersonnelBudgetCategoryTypeCode() {
         return this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.DOCUMENT_COMPONENT,Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
     }
 

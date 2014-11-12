@@ -18,6 +18,7 @@ package org.kuali.coeus.common.budget.framework.personnel;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemEventBase;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -104,4 +105,43 @@ public class BudgetPersonnelExpenseRule {
         
         return valid;
     }
+
+    @KcEventMethod
+    public boolean processCheckBudgetSummaryPersonnel(BudgetPersonnelDetailsLineItemEvent event) {
+    	boolean valid = true;
+    	BudgetLineItem newBudgetLineItem = event.getBudgetLineItem();
+    	String newBudgetCategoryTypeCode = newBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode();
+        for(BudgetLineItem budgetLineItem : event.getBudgetPeriod().getBudgetLineItems()) {
+        	String existingBudgetCategoryTypeCode = budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode();
+            if(existingBudgetCategoryTypeCode.equalsIgnoreCase(newBudgetCategoryTypeCode)) {
+                if(newBudgetLineItem.getCostElement().equalsIgnoreCase(budgetLineItem.getCostElement()) && 
+                        (StringUtils.equals(newBudgetLineItem.getGroupName(), budgetLineItem.getGroupName()) ||
+                                (StringUtils.isEmpty(newBudgetLineItem.getGroupName()) && StringUtils.isEmpty(budgetLineItem.getGroupName())))) { 
+                	valid = isValidPersonnelLineItem(event);
+                	if(!valid) {
+                		break;
+                	}
+                }
+            }
+        }
+        return valid;
+    }
+    
+    private boolean isValidPersonnelLineItem(BudgetLineItemEventBase event) {
+        boolean valid = true;
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+        errorMap.addToErrorPath(event.getErrorPath());
+        //Summary is already added and user is attempting to add a second summary
+        if(event.getBudgetLineItem().getBudgetPersonnelDetailsList().isEmpty()) {
+            errorMap.putError("personSequenceNumber", KeyConstants.ERROR_SUMMARY_LINEITEM_EXISTS);
+            valid = false;
+        }else {
+            //Condition where Personnel are already added for the line item
+            errorMap.putError("personSequenceNumber", KeyConstants.ERROR_PERSONNEL_EXISTS);
+            valid = false;
+        }
+        errorMap.removeFromErrorPath(event.getErrorPath());
+        return valid;
+     }
+
 }

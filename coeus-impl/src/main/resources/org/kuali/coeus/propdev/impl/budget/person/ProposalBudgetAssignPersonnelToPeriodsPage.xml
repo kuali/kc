@@ -79,8 +79,8 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="budgetPerson.personName"
-					p:order="10"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.budgetPerson != null ? #line.budgetPerson.personName:'#{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personName}'}"
+                    p:label="Person" p:order="10" />
 				<bean parent="Uif-DataField" p:propertyName="startDate"
 					p:label="Start" p:order="20" p:required="false"/>
 				<bean parent="Uif-DataField" p:propertyName="endDate" p:label="End"
@@ -89,8 +89,8 @@
 					p:label="Effort" p:order="40"/>
 				<bean parent="Uif-DataField" p:propertyName="percentCharged"
 					p:label="Charged" p:order="50"/>
-				<bean parent="Uif-DataField" p:propertyName="budgetPeriodType.description"
-					p:label="Period Type" p:order="60"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.budgetPeriodType != null ? #line.budgetPeriodType.description:''}"
+                    p:label="Period Type" p:order="60" />
 				<bean parent="Uif-DataField" p:propertyName="salaryRequested"
 					p:order="70"/>
 				<bean parent="Uif-DataField" p:propertyName="calculatedFringe"
@@ -145,6 +145,7 @@
     <bean id="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel" parent="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel-parentBean"/>
     <bean id="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel-parentBean" abstract="true" parent="Uif-DialogGroup"
           p:fieldBindingObjectPath="addProjectPersonnelHelper"
+          p:onHideDialogScript="retrieveComponent('PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails_@{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}');"
           p:destroyDialogOnHidden="true" p:enterKeyAction="@DEFAULT"
           p:header.headerText="Add Personnel to Period">
         <property name="items">
@@ -182,10 +183,17 @@
 							<bean parent="Uif-InputField" p:propertyName="budgetLineItem.endDate"
 								p:order="60" p:required="true"/>
 							<bean parent="Uif-InputField" p:propertyName="budgetPersonnelDetail.percentEffort"
+								p:readOnly="@{#fp.budgetPersonnelDetail.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+								p:refreshWhenChangedPropertyNames="#fp.budgetPersonnelDetail.personSequenceNumber"
 								p:order="70" p:label="Effort %"/>
 							<bean parent="Uif-InputField" p:propertyName="budgetPersonnelDetail.percentCharged"
+								p:readOnly="@{#fp.budgetPersonnelDetail.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+								p:refreshWhenChangedPropertyNames="#fp.budgetPersonnelDetail.personSequenceNumber"
 								p:order="80" p:label="Charged %"/>
 							<bean parent="Uif-InputField" p:propertyName="budgetPersonnelDetail.periodTypeCode"
+								p:readOnly="@{#fp.budgetPersonnelDetail.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+								p:refreshWhenChangedPropertyNames="#fp.budgetPersonnelDetail.personSequenceNumber"
+								p:readOnlyDisplayReplacement=""
 								p:order="90" p:enableAutoQuickfinder="false"/>
 						</list>
 					</property>
@@ -197,9 +205,10 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Assign to Period @{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}" p:methodToCall="addPersonnelToPeriod"
-                              p:refreshId="PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails_@{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}"
-                              p:successCallback="dismissDialog('PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel')"
+                              p:refreshId="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel"
                               p:defaultEnterKeyAction="true"
+                              p:dialogDismissOption=""
+			       			  p:successCallback="Kc.Dialog.closeDialogWithoutError('PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel');"
                               p:order="10" p:performClientSideValidation="true"/>
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20"/>
                     </list>
@@ -245,16 +254,21 @@
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="budgetPerson.role"
 					p:label="Role" p:order="10"/>
-				<bean parent="Uif-InputField" p:propertyName="periodTypeCode" p:order="20" p:enableAutoQuickfinder="false"/>
+				<bean parent="Uif-InputField" p:propertyName="periodTypeCode" p:order="20" p:enableAutoQuickfinder="false"
+					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+					p:readOnlyDisplayReplacement=''/>
 				<bean parent="Uif-InputField" p:propertyName="startDate"
 					p:required="true" p:order="30"/>
 				<bean parent="Uif-InputField" p:propertyName="endDate"
 					p:required="true" p:order="40"/>
 				<bean parent="PropBudget-AssignPersonnelToPeriodsPage-PercentField" p:propertyName="percentEffort" 
+					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
 					p:label="Effort" p:order="40" />
 				<bean parent="PropBudget-AssignPersonnelToPeriodsPage-PercentField" p:propertyName="percentCharged" 
+					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
 					p:label="Charged" p:order="50" />
-				<bean parent="Uif-DataField" p:propertyName="salaryRequested" 
+				<bean parent="Uif-InputField" p:propertyName="salaryRequested" 
+					p:readOnly="@{#fp.personSequenceNumber != #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
 					p:label="Requested Salary" p:order="60" />
 				<bean parent="Uif-DataField" p:propertyName="calculatedFringe"
 					p:label="Calculated Fringe" p:order="70"/>
@@ -263,7 +277,8 @@
 				<bean parent="Uif-DataField" p:propertyName="underrecoveryAmount" 
 					p:label="Unrecovered F&amp;A" p:order="90" />
 				<bean parent="Uif-DataField" p:propertyName="personMonths" p:label="Person Months" p:order="100"/>
-				<bean parent="Uif-InputField" p:propertyName="lineItemDescription" p:order="110">
+				<bean parent="Uif-InputField" p:propertyName="lineItemDescription" p:order="110"
+					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}">
   					<property name="control">
     					<bean parent="Uif-TextAreaControl" p:cols="60" p:rows="3"/>
   					</property>
@@ -351,5 +366,5 @@
 	</bean>
 
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-RatesTab" parent="PropBudget-BudgetLineItem-Rates" />
-	
+
 </beans>

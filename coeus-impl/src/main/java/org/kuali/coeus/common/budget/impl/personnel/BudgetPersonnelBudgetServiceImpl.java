@@ -268,9 +268,14 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     
     public void calculateBudgetPersonnelLineItem(Budget budget, BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails, int lineItemNumber) {
     	getBudgetCalculationService().updatePersonnelBudgetRate(budgetLineItem);
-    	calculateBudgetPersonnelBudget(budget, budgetLineItem, budgetPersonnelDetails, lineItemNumber);
-    	getBudgetCalculationService().populateCalculatedAmount(budget, budgetLineItem);
-    	getBudgetCalculationService().populateCalculatedAmount(budget, budgetPersonnelDetails);
+    	if(budgetPersonnelDetails.getPersonSequenceNumber() == BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonSequenceNumber()) {
+    		getBudgetCalculationService().calculateBudgetLineItem(budget, budgetLineItem); 
+        	getBudgetCalculationService().populateCalculatedAmount(budget, budgetLineItem);
+    	}else {
+        	calculateBudgetPersonnelBudget(budget, budgetLineItem, budgetPersonnelDetails, lineItemNumber);
+        	getBudgetCalculationService().populateCalculatedAmount(budget, budgetLineItem);
+        	getBudgetCalculationService().populateCalculatedAmount(budget, budgetPersonnelDetails);
+    	}
     }
     
     public void addBudgetPersonnelToPeriod(BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
@@ -281,10 +286,12 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     		setNewBudgetLineItemAttributes(budgetPeriod, groupedBudgetLineItem);
             budgetPeriod.getBudgetLineItems().add(groupedBudgetLineItem);
     	}
-    	addPersonnelToPeriod(budgetPeriod, groupedBudgetLineItem, newBudgetPersonnelDetail);
     	groupedBudgetLineItem.setQuantity(getLineItemQuantity(newBudgetLineItem));
     	int newLineNumber = groupedBudgetLineItem.getBudgetPersonnelDetailsList().size() + 1;
-    	calculateBudgetPersonnelLineItem(budget, groupedBudgetLineItem, newBudgetPersonnelDetail, newLineNumber);
+    	if(newBudgetPersonnelDetail.getPersonSequenceNumber() != BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonSequenceNumber()) {
+        	addPersonnelToPeriod(budgetPeriod, groupedBudgetLineItem, newBudgetPersonnelDetail);
+        	calculateBudgetPersonnelLineItem(budget, groupedBudgetLineItem, newBudgetPersonnelDetail, newLineNumber);
+    	}
     }
     
     /**
@@ -314,13 +321,11 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     
     protected void setNewBudgetLineItemAttributes(BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem) {
     	Budget budget = budgetPeriod.getBudget();
-    	refreshBudgetLineItemReferences(newBudgetLineItem);
     	Integer lineItemNumber = budget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER);
     	newBudgetLineItem.setBudgetId(budget.getBudgetId());
         newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
         newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
         newBudgetLineItem.setBudgetPeriodBO(budgetPeriod);
-        newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
         newBudgetLineItem.setLineItemNumber(lineItemNumber);
         newBudgetLineItem.setLineItemSequence(lineItemNumber);
         newBudgetLineItem.setApplyInRateFlag(true);
@@ -331,15 +336,6 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         } else {
             newBudgetLineItem.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMUS_FLAG));                 
         }
-    }
-    
-    private void refreshBudgetLineItemReferences(BudgetLineItem newBudgetLineItem) {
-		if(StringUtils.isNotEmpty(newBudgetLineItem.getCostElement())) {
-			getDataObjectService().wrap(newBudgetLineItem).fetchRelationship("costElementBO");
-		}
-		if(StringUtils.isNotEmpty(newBudgetLineItem.getBudgetCategoryCode())) {
-			getDataObjectService().wrap(newBudgetLineItem).fetchRelationship("budgetCategory");
-		}
     }
     
     private Integer getLineItemQuantity(BudgetLineItem personnelLineItem) {

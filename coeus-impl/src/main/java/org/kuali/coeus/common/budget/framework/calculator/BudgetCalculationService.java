@@ -136,4 +136,6 @@ public interface BudgetCalculationService {
     
     public void updateBudgetTotalCost(Budget budget);
     
+    public String getPersonnelBudgetCategoryTypeCode();
+    
 }
