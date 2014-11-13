@@ -32,6 +32,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
@@ -403,7 +404,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      * selected person/rolodex is in memberabsentbean list, then removed it from the membersentbean list; so this person will not be
      * displayed in member absent panel.
      * 
-     * @param memberAbsentBeans
+     * @param meetingHelper
      * @param otherPresentBean
      */
     protected void memberHandling(MeetingHelperBase meetingHelper, OtherPresentBeanBase otherPresentBean) {
@@ -812,22 +813,41 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     // this method will refresh the set of protocol submissions and review comments before saving because 
     // they could have been changed asynchronously in a different concurrent user session.
     private void refreshAndSaveSchedule(CS committeeSchedule) {
-        // Since a refresh will wipe out all the newly added (unsaved) minutes from the schedule, we will
-        // collect all newly added minutes in a separate collection and add them back after the refresh        
-        List<CSM> preRefreshMinutes = committeeSchedule.getCommitteeScheduleMinutes();
-        List<CSM> newlyAddedMinutes = new ArrayList<CSM>();  
-        for(CSM minute:preRefreshMinutes) {
-            if(null == minute.getCommScheduleMinutesId()) {
-                newlyAddedMinutes.add(minute);
-            }
+        // have to do it this way because other users might be adding minutes. So first
+        // make a copy of minutes being edited, refresh original list (to catch any updates
+        // from other users), then merge lists
+        List<CSM> preRefreshMinutes = new ArrayList<CSM>();
+        for (CSM preRefreshMinute:committeeSchedule.getCommitteeScheduleMinutes()) {
+            preRefreshMinutes.add(preRefreshMinute);
         }
         committeeSchedule.refreshReferenceObject(COMMITTEE_SCHEDULE_MINUTES_REF_ID);
         List<CSM> postRefreshMinutes = committeeSchedule.getCommitteeScheduleMinutes();
-        postRefreshMinutes.addAll(newlyAddedMinutes);
+        for(CSM newMinute:preRefreshMinutes) {
+            if(null == newMinute.getCommScheduleMinutesId()) {
+                postRefreshMinutes.add(newMinute);
+            } else {
+                for (CSM oldMinute:postRefreshMinutes) {
+                    if (newMinute.getCommScheduleMinutesId().equals(oldMinute.getCommScheduleMinutesId())) {
+                        if (importantChanges(oldMinute, newMinute)) {
+                        	// only replacing those three fields that are editable
+                            oldMinute.setMinuteEntry(newMinute.getMinuteEntry());
+                            oldMinute.setFinalFlag(newMinute.isFinal());
+                            oldMinute.setPrivateCommentFlag(newMinute.getPrivateCommentFlag());
+                            oldMinute.setEntryNumber(newMinute.getEntryNumber());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         committeeSchedule.refreshReferenceObject(PROTOCOL_SUBMISSIONS_REF_ID);
         
         businessObjectService.save(committeeSchedule);
     }
 
-
+    private boolean importantChanges(CSM oldMinute, CSM newMinute) {
+        return oldMinute.getPrivateCommentFlag() != newMinute.getPrivateCommentFlag() ||
+               oldMinute.isFinal() != newMinute.isFinal() ||
+               !StringUtils.equals(oldMinute.getMinuteEntry(), newMinute.getMinuteEntry());
+    }
 }
