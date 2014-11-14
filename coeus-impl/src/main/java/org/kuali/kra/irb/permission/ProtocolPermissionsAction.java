@@ -22,6 +22,7 @@ import org.kuali.coeus.common.permissions.impl.web.struts.action.PermissionsActi
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,10 +91,23 @@ public class ProtocolPermissionsAction extends ProtocolAction implements Permiss
                 HttpServletResponse response) throws Exception {
         return permissionsActionHelper.editRoles( mapping, form, request, response) ;
     }
-    
+
     @Override
     public ActionForward setEditRoles(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                HttpServletResponse response) throws Exception {
-       return permissionsActionHelper.setEditRoles(mapping, form, request, response);
+                                      HttpServletResponse response) throws Exception {
+        ActionForward forward = permissionsActionHelper.setEditRoles(mapping, form, request, response);
+        saveRolesIfDocEnroute(form);
+        return forward;
+    }
+
+    /*
+     * save roles if allowed, since they could have changed during editing
+     */
+    protected void saveRolesIfDocEnroute(ActionForm form) throws Exception {
+        ProtocolForm pForm = (ProtocolForm) form;
+        if ((!pForm.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE) &&
+              pForm.getPermissionsHelper().canModifyPermissions())) {
+            permissionsActionHelper.save(pForm);
+        }
     }
 }
