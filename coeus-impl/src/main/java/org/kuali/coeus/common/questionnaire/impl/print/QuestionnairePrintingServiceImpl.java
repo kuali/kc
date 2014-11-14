@@ -29,6 +29,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -78,7 +79,7 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
             printable.setPrintableBusinessObject(printableBusinessObject);
             printable.setReportParameters(reportParameters);
             source = getPrintingService().print(printable);
-            source.setName("QuestionnaireAnswer" + reportParameters.get("questionnaireId") + Constants.PDF_FILE_EXTENSION);
+            source.setName("QuestionnaireAnswer" + reportParameters.get(QuestionnaireConstants.QUESTIONNAIRE_ID_PARAMETER_NAME) + Constants.PDF_FILE_EXTENSION);
             source.setType(Constants.PDF_REPORT_CONTENT_TYPE);
         }
         return source;
@@ -103,8 +104,8 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
                 printable.setXmlStream(getQuestionnairePrint().getXmlStream());
                 Map<String, Object> reportParameters = new HashMap<String, Object>();
                 Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireId());
-                reportParameters.put("questionnaireSeqId", questionnaire.getQuestionnaireSeqIdAsInteger());
-                reportParameters.put("id", questionnaire.getId());
+                reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, questionnaire.getQuestionnaireSeqIdAsInteger());
+                reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_ID_PARAMETER_NAME, questionnaire.getId());
                 reportParameters.put("template", questionnaire.getTemplate());
                 //  will be used by amendquestionnaire
                 reportParameters.put("moduleSubItemCode", printOption.getSubItemCode());

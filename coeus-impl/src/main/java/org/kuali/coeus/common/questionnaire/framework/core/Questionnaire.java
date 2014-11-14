@@ -149,7 +149,7 @@ public class Questionnaire extends KcPersistableBusinessObjectBase implements Co
     }
 
     public String getVersionNameField() {
-        return "questionnaireSeqId";
+        return QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME;
     }
 
     public void incrementSequenceNumber() {

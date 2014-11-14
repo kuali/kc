@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
@@ -167,9 +168,9 @@ public class ProposalDevelopmentQuestionnaireController extends ProposalDevelopm
 
         Map<String, Object> reportParameters = new HashMap<String, Object>();
 
-        reportParameters.put("questionnaireId", answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
+        reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template", answerHeader.getQuestionnaire().getTemplate());
-        reportParameters.put("id",answerHeader.getQuestionnaire().getId());
+        reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_ID_PARAMETER_NAME,answerHeader.getQuestionnaire().getId());
 
         return reportParameters;
     }

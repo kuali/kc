@@ -42,6 +42,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaire
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerRule;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -146,7 +147,7 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
         final int answerHeaderIndex = this.getSelectedLine(request);
         // TODO : a flag to check whether to print answer or not
         // for release 3 : if questionnaire questions has answer, then print answer. 
-        reportParameters.put("questionnaireSeqId", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireSeqIdAsInteger());
+        reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
         reportParameters.put("moduleSubItemCode", ((IacucProtocolForm) form).getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getModuleSubItemCode());
 

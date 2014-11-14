@@ -33,6 +33,7 @@ import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sModuleQue
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
@@ -61,7 +62,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
-    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
     public static final String SEQUENCE_NUMBER = "sequenceNumber";
     public static final String QUESTIONNAIRE_AGENDA_TYPE_ID = "KC1004";
 
@@ -291,10 +291,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * @param questionnaireId
      * @return
      */
-    protected Questionnaire getLatestQuestionnaireVersion(Integer questionnaireId) {
+    protected Questionnaire getLatestQuestionnaireVersion(Integer questionniareSeqId) {
         Questionnaire latestQnnrInstance = null;
         Map<String, Long> fieldValues = new HashMap<String, Long>();
-        fieldValues.put(QUESTIONNAIRE_SEQ_ID, Long.valueOf(questionnaireId));
+        fieldValues.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, Long.valueOf(questionniareSeqId));
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class,
                 fieldValues, SEQUENCE_NUMBER, false);
         // since we sorted by descending order of seq numbers, and the largest seq number is the latest version, so we return the
@@ -307,9 +307,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     
     
     @Override
-    public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String moduleItemCode, String moduleSubItemCode) {
+    public boolean checkIfQuestionnaireIsActiveForModule(Integer questionniareSeqId, String moduleItemCode, String moduleSubItemCode) {
         boolean isActive = false;
-        Questionnaire latestQnnrInstance = getLatestQuestionnaireVersion(questionnaireId);
+        Questionnaire latestQnnrInstance = getLatestQuestionnaireVersion(questionniareSeqId);
         if(null != latestQnnrInstance && latestQnnrInstance.isActive()) {
             isActive = latestQnnrInstance.hasUsageFor(moduleItemCode, moduleSubItemCode);
         }       
