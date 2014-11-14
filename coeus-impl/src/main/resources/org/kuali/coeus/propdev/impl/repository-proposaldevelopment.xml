@@ -65,7 +65,6 @@
         <field-descriptor name="hierarchyLastSyncHashCode" column="HIERARCHY_HASH_CODE" jdbc-type="INTEGER"  />
         <field-descriptor name="hierarchyBudgetType" column="HIERARCHY_BUDGET_TYPE" jdbc-type="CHAR"  />
         <field-descriptor name="hierarchyOriginatingChildProposalNumber" column="HIERARCHY_ORIG_CHILD_PROP_NBR" jdbc-type="VARCHAR" />
-        <field-descriptor name="lastSyncedBudgetDocumentNumber" column="HIERARCHY_LAST_BUDGET_DOC_NBR" jdbc-type="VARCHAR" />
         
         <reference-descriptor name="anticipatedAwardType" class-ref="org.kuali.kra.award.home.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="anticipatedAwardTypeCode"/>
