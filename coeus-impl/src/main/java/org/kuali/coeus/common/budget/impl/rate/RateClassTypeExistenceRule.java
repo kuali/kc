@@ -56,7 +56,7 @@ public class RateClassTypeExistenceRule extends KcMaintenanceDocumentRuleBase {
         RateClass rateClass = (RateClass) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         Map pkMap = new HashMap();
-        pkMap.put("rateClassType", rateClass.getRateClassTypeCode());
+        pkMap.put("code", rateClass.getRateClassTypeCode());
         valid=checkExistenceFromTable(RateClassType.class,pkMap,"rateClassType", "Rate Class Type");
 
 
