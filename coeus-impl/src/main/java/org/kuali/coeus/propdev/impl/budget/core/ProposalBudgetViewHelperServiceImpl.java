@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
@@ -30,12 +31,18 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service("proposalBudgetViewHelperService")
 @Scope("prototype")
 public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
+
+    @Autowired
+    @Qualifier("sponsorHierarchyService")
+    private SponsorHierarchyService sponsorHierarchyService;
 
     public void finalizeNavigationLinks(Action action, Object model, String direction) {
     	ProposalBudgetForm propBudgetForm = (ProposalBudgetForm) model;
@@ -107,5 +114,16 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
     public void processAfterSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
     	getDataObjectService().save(lineObject);
     }
-    
+
+    public SponsorHierarchyService getSponsorHierarchyService() {
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
+    }
+
+    public boolean isShowModularBudgetQuestion(String sponsorCode) {
+        return getSponsorHierarchyService().isSponsorNihMultiplePi(sponsorCode);
+    }
 }
