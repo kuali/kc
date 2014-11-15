@@ -139,7 +139,7 @@
 		p:actionLabel="Budget Notes" p:iconClass="icon-th-list" />
 	<bean id="PropBudget-NavigationMenu-Summary" parent="PropBudget-NavigationMenu-Summary-parentBean" />
 	<bean id="PropBudget-NavigationMenu-Summary-parentBean" parent="Uif-NavigationActionLink"
-		p:navigateToPageId="PropBudget-SummaryPage" p:actionLabel="Budget Summary"
+		p:navigateToPageId="PropBudget-SummaryPage" p:actionLabel="Budget Summary" p:additionalSubmitData="budgetId:@{#line.budgetId}"
 		p:iconClass="icon-file" />		
 		
 	<bean id="PropBudget-DocumentHeader" parent="PropBudget-DocumentHeader-parentBean" />
@@ -171,7 +171,7 @@
                             p:iconClass="icon-ok" p:order="10" />
 						<bean parent="Uif-ActionLink" p:actionScript="showDialog('PropBudget-BudgetSettings-Dialog');"
 							p:actionLabel="Budget Settings" p:iconClass="icon-cog" p:order="20" />
-						<bean parent="Uif-ActionLink" p:actionLabel="Summary" p:methodToCall="populateBudgetSummary"
+						<bean parent="Uif-ActionLink" p:actionLabel="Summary" p:methodToCall="populateBudgetSummary" p:additionalSubmitData="budgetId:@{#line.budgetId}"
 							p:iconClass="ucon-eye" p:order="30" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropBudget-BudgetVersions-Dialog');"
 							p:iconClass="icon-money" p:order="40" />

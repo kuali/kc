@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
@@ -31,6 +32,7 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     private AddProjectBudgetLineItemHelper addProjectBudgetLineItemHelper;
     private BudgetJustificationWrapper budgetJustificationWrapper;
     private BudgetModularSummary budgetModularSummary;
+    private Budget selectedBudget;
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
@@ -162,5 +164,13 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     }
 
     public BudgetModularSummary getBudgetModularSummary() {return budgetModularSummary;}
+
+    public Budget getSelectedBudget() {
+        return selectedBudget;
+    }
+
+    public void setSelectedBudget(Budget selectedBudget) {
+        this.selectedBudget = selectedBudget;
+    }
 
 }
