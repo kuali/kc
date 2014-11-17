@@ -202,6 +202,9 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         final AwardBudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         
+        //take care of OJB caching issues when in the awardbudgetdocument.
+        budgetForm.getDocument().prepareForSave();
+        
         Budget budget = budgetDoc.getBudget();
         getBudgetCommonService(budget.getBudgetParent()).calculateBudgetOnSave(budget);
         ActionForward forward = super.save(mapping, form, request, response);

@@ -16,6 +16,7 @@
 package org.kuali.kra.award.budget.document;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.kra.award.home.Award;
@@ -74,6 +76,8 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
     private List<AwardBudgetExt> budgets;
 
     private static final long serialVersionUID = 3564659576355229703L;
+    
+    private transient BusinessObjectService businessObjectService;
 
     @Override
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
@@ -139,16 +143,12 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
     }
 
     private RateType createAwardRateType(BudgetRate rate) {
-        FandaRateType awardRateType = getBusinesssObjectService().findBySinglePrimaryKey(FandaRateType.class, rate.getRateTypeCode());
+        FandaRateType awardRateType = getBusinessObjectService().findBySinglePrimaryKey(FandaRateType.class, rate.getRateTypeCode());
         RateType newRateType = new RateType();
         newRateType.setRateClassCode(rate.getRateClassCode());
         newRateType.setRateTypeCode(awardRateType.getFandaRateTypeCode().toString());
         newRateType.setDescription(awardRateType.getDescription());
         return newRateType;
-    }
-
-    private BusinessObjectService getBusinesssObjectService() {
-        return KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     public AwardBudgetExt getAwardBudget(){
@@ -251,7 +251,10 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
         //without this it caches the budget as a Budget which causes problems
         //when assuming it must be an awardbudgetext for an awardbudgetdocument
         if (this.getBudget() != null && this.getBudget().getBudgetId() != null) {
-            AwardBudgetExt budget = KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(AwardBudgetExt.class, this.getBudget().getBudgetId());
+            AwardBudgetExt budget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, this.getBudget().getBudgetId());
+            Map<String, Long> params = new HashMap<String, Long>();
+            params.put("budgetId", budget.getBudgetId());
+            Collection<AwardBudgetLineItemExt> items = getBusinessObjectService().findMatching(AwardBudgetLineItemExt.class, params);
         }
         if (ObjectUtils.isNull(this.getVersionNumber())) {
             this.setVersionNumber(new Long(0));
@@ -259,8 +262,19 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
         this.getBudget().getRateClassTypes();
         this.getBudget().handlePeriodToProjectIncomeRelationship();
     }
+    
+    public BusinessObjectService getBusinessObjectService(){
+    	if (businessObjectService == null ) {
+    		businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+    	}
+    	return businessObjectService;
+    }
 
-    protected AwardBudgetService getAwardBudgetService() {
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+
+	protected AwardBudgetService getAwardBudgetService() {
         if (awardBudgetService == null) {
             awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         }
@@ -297,11 +311,10 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
             DocumentNextvalue documentNextvalue = (DocumentNextvalue) element;
             if (documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 propNextValue = documentNextvalue.getNextValue();
-                BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
                 Map<String, Object> budgetIdMap = new HashMap<String, Object>();
                 budgetIdMap.put("budgetId", getBudget().getBudgetId());
                 if (budgetIdMap != null) {
-                    List<BudgetLineItem> lineItemNumber = (List<BudgetLineItem>) bos.findMatchingOrderBy(BudgetLineItem.class, budgetIdMap, "lineItemNumber", true);
+                    List<BudgetLineItem> lineItemNumber = (List<BudgetLineItem>) getBusinessObjectService().findMatchingOrderBy(BudgetLineItem.class, budgetIdMap, "lineItemNumber", true);
                     if (lineItemNumber != null) {
                         for (BudgetLineItem budgetLineItem : lineItemNumber) {
                             if (propNextValue.intValue() == budgetLineItem.getLineItemNumber().intValue()) {
@@ -316,11 +329,10 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
 
         /*****BEGIN BLOCK *****/
         if (propNextValue == 1) {
-            BusinessObjectService bos = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String, Object> pkMap = new HashMap<String, Object>();
             pkMap.put("documentKey", getBudget().getBudgetId());
             pkMap.put("propertyName", propertyName);
-            DocumentNextvalue documentNextvalue = (DocumentNextvalue) bos.findByPrimaryKey(DocumentNextvalue.class, pkMap);
+            DocumentNextvalue documentNextvalue = (DocumentNextvalue) getBusinessObjectService().findByPrimaryKey(DocumentNextvalue.class, pkMap);
             if (documentNextvalue != null) {
                 propNextValue = documentNextvalue.getNextValue();
                 documentNextvalue.setNextValue(propNextValue + 1);
