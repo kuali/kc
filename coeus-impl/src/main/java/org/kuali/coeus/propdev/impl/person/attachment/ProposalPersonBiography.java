@@ -93,12 +93,6 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     private transient FormFile personnelAttachmentFile;
 
     @Transient
-    private Timestamp timestampDisplay;
-
-    @Transient
-    private String uploadUserDisplay;
-
-    @Transient
     private String uploadUserFullName;
 
     @Transient
@@ -337,19 +331,18 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     }
 
     public Timestamp getTimestampDisplay() {
-        return timestampDisplay;
-    }
-
-    public void setTimestampDisplay(Timestamp timestampDisplay) {
-        this.timestampDisplay = timestampDisplay;
+        if (getPersonnelAttachment() == null || getPersonnelAttachment().getUpdateTimestamp() == null) {
+            return getDateTimeService().getCurrentTimestamp();
+        }
+        return getPersonnelAttachment().getUpdateTimestamp();
     }
 
     public String getUploadUserDisplay() {
-        return uploadUserDisplay;
-    }
+        if (getPersonnelAttachment() == null || StringUtils.isBlank(getPersonnelAttachment().getUpdateUser())) {
+            return this.getUpdateUser();
+        }
 
-    public void setUploadUserDisplay(String uploadUserDisplay) {
-        this.uploadUserDisplay = uploadUserDisplay;
+        return getPersonnelAttachment().getUpdateUser();
     }
 
     public String getUploadUserFullName() {
