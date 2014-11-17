@@ -70,16 +70,9 @@
 											<fo:block>
 												<fo:external-graphic>
 													<xsl:attribute name="src">
-														<xsl:text>url(</xsl:text>
-														<xsl:call-template name="double-backslash">
-															<xsl:with-param name="text">
-																<xsl:value-of select="string(concat(printCertification/LogoPath,&apos;printCertificationLogo.gif&apos;))"/>
-															</xsl:with-param>
-															<xsl:with-param name="text-length">
-																<xsl:value-of select="string-length(string(concat(printCertification/LogoPath,&apos;printCertificationLogo.gif&apos;)))"/>
-															</xsl:with-param>
-														</xsl:call-template>
-														<xsl:text>)</xsl:text>
+														<xsl:text>url('</xsl:text>
+														<xsl:text disable-output-escaping="yes">/kc-dev/static/images/printCertificationLogo.gif</xsl:text>
+														<xsl:text>')</xsl:text>
 													</xsl:attribute>
 												</fo:external-graphic>
 											</fo:block>
