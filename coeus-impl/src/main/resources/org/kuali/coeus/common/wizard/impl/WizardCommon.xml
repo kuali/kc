@@ -138,7 +138,8 @@
           p:propertyName="results" p:additionalCssClasses="kc-personnel-table"
           p:renderAddLine="false" p:renderLineActions="false"
           p:layoutManager.renderSequenceField="false"
-          p:renderInactiveToggleButton="false">
+          p:renderInactiveToggleButton="false"
+          p:instructionalText="Only the top @{#ViewHelper.getWizardMaxResults()} results were returned. If you cannot find what you are looking for, please refine the search criteria">
         <property name="layoutManager.richTable.templateOptions">
             <map>
                 <entry key="bAutoWidth" value="false" />
@@ -181,14 +182,12 @@
             <list>
                 <bean parent="Uif-DataField" p:propertyName="rolodex.fullName"
                       p:label="Full Name" p:order="20" />
-                <bean parent="Uif-MessageField"
-                      p:label="User ID" p:order="30" />
                 <bean parent="Uif-DataField" p:propertyName="rolodex.emailAddress"
-                      p:label="Email Address" p:order="40" />
+                      p:label="Email Address" p:order="30" />
                 <bean parent="Uif-DataField" p:propertyName="rolodex.organization"
-                      p:label="Organization" p:order="70" />
+                      p:label="Organization" p:order="40" />
                 <bean parent="Uif-DataField" p:propertyName="rolodex.city"
-                      p:label="City" p:order="80" />
+                      p:label="City" p:order="50" />
             </list>
         </property>
     </bean>

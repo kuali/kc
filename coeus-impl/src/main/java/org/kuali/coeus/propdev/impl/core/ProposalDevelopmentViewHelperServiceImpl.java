@@ -71,9 +71,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.util.AuditCluster;
-import org.kuali.rice.krad.util.AuditError;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.*;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -88,8 +86,6 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewIndex;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.util.ErrorMessage;
-import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -725,7 +721,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public boolean hasAttachment(ProposalDevelopmentAttachmentHelper helper, String attachmentType){
-        if (StringUtils.equals(attachmentType,Constants.PROPOSAL_ATTACHMENT_TYPE_NAME)) {
+        if (StringUtils.equals(attachmentType, Constants.PROPOSAL_ATTACHMENT_TYPE_NAME)) {
             return helper.getNarrative().getNarrativeAttachment() != null;
         } else if (StringUtils.equals(attachmentType,Constants.PERSONNEL_ATTACHMENT_TYPE_NAME)) {
             return helper.getBiography().getPersonnelAttachment() != null;
@@ -872,6 +868,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,"propSummaryDisclaimerText");
     }
 
+    public String getWizardMaxResults() {
+        return getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE,
+                KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE,
+                KRADConstants.SystemGroupParameterNames.LOOKUP_RESULTS_LIMIT);
+    }
     public SponsorHierarchyService getSponsorHierarchyService() {
         return sponsorHierarchyService;
     }

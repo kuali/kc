@@ -7,13 +7,15 @@ import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.criteria.*;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.impl.role.RoleBo;
-import org.kuali.rice.krad.service.LookupService;
+import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -36,8 +38,12 @@ public class WizardControllerServiceImpl implements WizardControllerService {
     private PersonService personService;
 
     @Autowired
-    @Qualifier("lookupService")
-    private LookupService lookupService;
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     @Override
     public List<Object> performWizardSearch(Map<String,String> searchCriteria, String lineType){
@@ -54,7 +60,7 @@ public class WizardControllerServiceImpl implements WizardControllerService {
         List<Object> results = new ArrayList<Object>();
         getKcPersonService().modifyFieldValues(searchCriteria);
         searchCriteria.put("active","Y");
-        List<Person> persons = getPersonService().findPeople(filterCriteria(searchCriteria));
+        List<Person> persons = getPersonService().findPeople(filterCriteria(searchCriteria),false);
         List<KcPerson> kcPersons = getKcPersonService().createKcPersonsFromPeople(persons);
         for (KcPerson person: kcPersons) {
             WizardResultsDto result = new WizardResultsDto();
@@ -66,18 +72,39 @@ public class WizardControllerServiceImpl implements WizardControllerService {
 
     protected List<Object> prepareRolodexResults(Map<String,String> searchCriteria) {
         List<Object> results = new ArrayList<Object>();
-        Collection<Rolodex> rolodexes = getLookupService().findCollectionBySearchHelper(Rolodex.class, filterCriteria(searchCriteria), Collections.EMPTY_LIST, false, 100);
-        for (Rolodex rolodex : rolodexes) {
-            WizardResultsDto result = new WizardResultsDto();
-            result.setRolodex(rolodex);
-            results.add(result);
+        searchCriteria.put("active","Y");
+
+
+        QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
+        builder.setPredicates(PredicateFactory.and(
+                PredicateFactory.isNotNull("firstName"),
+                PredicateFactory.isNotNull("lastName")),
+                PredicateUtils.convertMapToPredicate(filterCriteria(searchCriteria)));
+        builder.setMaxResults(Integer.parseInt(getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE,
+                KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE,
+                KRADConstants.SystemGroupParameterNames.LOOKUP_RESULTS_LIMIT)));
+        builder.setOrderByFields(OrderByField.Builder.create("lastName", OrderDirection.ASCENDING).build());
+
+        Collection<Rolodex> rolodexes = getDataObjectService().findMatching(Rolodex.class, builder.build()).getResults();
+
+       for (Rolodex rolodex : rolodexes) {
+                WizardResultsDto result = new WizardResultsDto();
+                result.setRolodex(rolodex);
+                results.add(result);
+
         }
         return results;
     }
 
     protected List<Object> prepareRoleResults(Map<String,String> searchCriteria) {
         List<Object> results = new ArrayList<Object>();
-        Collection<Role> roles = getRoleService().findRoles(QueryByCriteria.Builder.andAttributes(filterCriteria(searchCriteria)).build()).getResults();
+        searchCriteria.put("active","Y");
+        QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
+        builder.setPredicates(PredicateUtils.convertMapToPredicate(filterCriteria(searchCriteria)));
+        builder.setMaxResults(Integer.parseInt(getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE,
+                KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE,
+                KRADConstants.SystemGroupParameterNames.LOOKUP_RESULTS_LIMIT)));
+        Collection<Role> roles = getRoleService().findRoles(builder.build()).getResults();
         for (Role role : roles) {
             WizardResultsDto result = new WizardResultsDto();
             result.setRole(RoleBo.from(role));
@@ -120,11 +147,19 @@ public class WizardControllerServiceImpl implements WizardControllerService {
         this.personService = personService;
     }
 
-    public LookupService getLookupService() {
-        return lookupService;
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
 
-    public void setLookupService(LookupService lookupService) {
-        this.lookupService = lookupService;
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }
