@@ -770,6 +770,7 @@ public final class KeyConstants {
     public static final String ERROR_MISSING_PRINCIPAL_INVESTIGATOR = "error.proposalLog.noPi";
     public static final String ERROR_INVALID_PI = "error.proposalLog.invalidPi";
     public static final String INVALID_FILE_NAME = "error.institutionalProposal.notesAndAttachments.fileName.invalid";
+    public static final String INVALID_FILE_TYPE = "error.s2s.fileType.invalid";
 
     // Institutional Proposal Actions
     public static final String QUESTION_UNLOCK_FUNDED_AWARDS = "question.unlock.fundedAwards";
