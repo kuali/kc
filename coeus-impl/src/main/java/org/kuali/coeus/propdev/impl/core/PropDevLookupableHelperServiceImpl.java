@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -21,7 +22,6 @@ import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.service.impl.LookupCriteriaGenerator;
-import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -122,7 +122,12 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     private List<String> getPiProposalNumbers(String principalInvestigatorName) {
         List<String> piProposals = new ArrayList<String>();
         if (StringUtils.isNotEmpty(principalInvestigatorName)) {
-            List<ProposalPerson> principalInvestigators = getDataObjectService().findMatching(ProposalPerson.class,QueryByCriteria.Builder.andAttributes(Collections.singletonMap("fullName",principalInvestigatorName)).build()).getResults();
+            Map<String,String> criteria = new HashMap<String,String>();
+            criteria.put("fullName",principalInvestigatorName);
+            criteria.put("proposalPersonRoleId", Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+            QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(ProposalPerson.class, criteria,
+                   new ArrayList<String>(), false);
+            List<ProposalPerson> principalInvestigators = getDataObjectService().findMatching(ProposalPerson.class, query.build()).getResults();
             for (ProposalPerson pi : principalInvestigators) {
                 piProposals.add(pi.getProposalNumber());
             }
@@ -136,7 +141,9 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     private List<String> getPersonProposalNumbers(String proposalPerson) {
         List<String> personProposals = new ArrayList<String>();
         if (StringUtils.isNotEmpty(proposalPerson)) {
-            List<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class,QueryByCriteria.Builder.andAttributes(Collections.singletonMap("fullName",proposalPerson)).build()).getResults();
+            QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(ProposalPerson.class, Collections.singletonMap("fullName",proposalPerson),
+                    new ArrayList<String>(), false);
+            List<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class,query.build()).getResults();
             for (ProposalPerson person : proposalPersons) {
                 personProposals.add(person.getProposalNumber());
             }

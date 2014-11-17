@@ -1198,11 +1198,22 @@
                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
                       p:inquiryParameters="sponsorCode:sponsorCode"/>
             </property>
+            <property name="quickfinder">
+                <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
+                      p:fieldConversions="sponsorName:sponsor.sponsorName"/>
+            </property>
         </bean>
         <bean p:propertyName="ownedByUnitNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField">
             <property name="inquiry">
                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
                       p:inquiryParameters="ownedByUnitNumber:unitNumber"/>
+            </property>
+            <property name="control">
+                <bean parent="Uif-TextControl"/>
+            </property>
+            <property name="quickfinder">
+                <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                      p:fieldConversions="unitNumber:ownedByUnitNumber"/>
             </property>
         </bean>
         <bean p:propertyName="ownedByUnit.unitName" parent="Uif-LookupCriteriaInputField">
@@ -1212,7 +1223,7 @@
             </property>
         </bean>
         <bean p:propertyName="currentAwardNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="opportunityIdForGG" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="programAnnouncementNumber" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="hierarchyStatus" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>
@@ -1252,7 +1263,7 @@
             </property>
         </bean>
         <bean p:propertyName="deadlineDate" parent="Uif-DataField"/>
-        <bean p:propertyName="opportunityIdForGG" parent="Uif-DataField"/>
+        <bean p:propertyName="programAnnouncementNumber" parent="Uif-DataField"/>
         <bean p:propertyName="hierarchyStatusName" parent="Uif-DataField"/>
       </list>
     </property>
