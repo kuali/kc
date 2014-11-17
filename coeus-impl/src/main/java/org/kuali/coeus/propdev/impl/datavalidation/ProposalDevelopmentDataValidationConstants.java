@@ -41,8 +41,13 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String ATTACHMENT_PAGE_NAME = "Attachments";
     public static final String ATTACHMENT_PROPOSAL_SECTION_ID = "PropDev-AttachmentsPage-ProposalSection";
     public static final String ATTACHMENT_PROPOSAL_SECTION_NAME = "Proposal Attachments";
+    public static final String ATTACHMENT_PERSONNEL_SECTION_ID = "PropDev-AttachmentsPage-PersonnelSection";
+    public static final String ATTACHMENT_PERSONNEL_SECTION_NAME = "Personnel Attachments";
     public static final String NARRATIVES_KEY = "document.developmentProposal.narratives";
     public static final String NARRATIVES_STATUS_KEY = "document.developmentProposal.narratives[%d].moduleStatusCode";
+    public static final String BIOGRAPHIES_KEY = "document.developmentProposal.propPersonBios";
+    public static final String BIOGRAPHY_TYPE_KEY = "document.developmentProposal.propPersonBios[%d].documentTypeCode";
+    public static final String BIOGRAPHY_PERSON_KEY = "document.developmentProposal.propPersonBios[%d].proposalPersonNumberString";
 
     public static final String QUESTIONNAIRE_PAGE_ID = "PropDev-QuestionnairePage";
     public static final String QUESTIONNAIRE_PAGE_NAME = "Questionnaire";

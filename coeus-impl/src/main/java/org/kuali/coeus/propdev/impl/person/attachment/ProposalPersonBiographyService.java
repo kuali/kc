@@ -55,5 +55,5 @@ public interface ProposalPersonBiographyService {
 
     public void setPersonnelBioTimeStampUser(List<ProposalPersonBiography> proposalPersonBios);
     public void prepareProposalPersonBiographyForSave(DevelopmentProposal developmentProposal, ProposalPersonBiography biography);
-
+    public PropPerDocType findPropPerDocTypeForOther();
 }

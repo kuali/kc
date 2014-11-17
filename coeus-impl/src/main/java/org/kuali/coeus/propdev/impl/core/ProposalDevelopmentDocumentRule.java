@@ -449,7 +449,9 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
             throw new RuntimeException(new ProposalHierarchyException("Cannot run validation on a Proposal Hierarchy Child."));
         }
         boolean retval = true;
-        
+
+        retval &= processAttachmentAuditRules((ProposalDevelopmentDocument)document);
+
         retval &= new CustomDataRule().processRules(new AuditProposalCustomDataEvent((KcTransactionalDocumentBase)document));
         
         retval &= new ProposalDevelopmentProposalRequiredFieldsAuditRule().processRunAuditBusinessRules(document);
@@ -509,12 +511,19 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
 
     public boolean processAttachmentRules(ProposalDevelopmentDocument document) {
         boolean retVal = true;
-        for (ProposalPersonBiography biography : document.getDevelopmentProposal().getPropPersonBios()) {
-            retVal &= processSavePersonnelAttachmentBusinessRules(new SavePersonnelAttachmentEvent("",document,biography));
-        }
         int index= 0;
         for (Narrative narrative : document.getDevelopmentProposal().getNarratives()) {
             retVal &= processSaveNarrativesBusinessRules(new SaveNarrativesEvent("document.developmentProposal.narratives["+index+"]",document,narrative,document.getDevelopmentProposal().getNarratives()));
+            index++;
+        }
+        return retVal;
+    }
+
+    public boolean processAttachmentAuditRules(ProposalDevelopmentDocument document){
+        boolean retVal = true;
+        int index = 0;
+        for (ProposalPersonBiography biography : document.getDevelopmentProposal().getPropPersonBios()){
+           retVal &= processSavePersonnelAttachmentBusinessRules(new SavePersonnelAttachmentEvent(String.valueOf(index),document,biography));
             index++;
         }
         return retVal;
