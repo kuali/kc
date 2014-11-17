@@ -76,6 +76,8 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
     private List<AwardBudgetExt> budgets;
 
     private static final long serialVersionUID = 3564659576355229703L;
+    
+    private transient BusinessObjectService businessObjectService;
 
     @Override
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
@@ -262,10 +264,17 @@ public class AwardBudgetDocument extends KcTransactionalDocumentBase implements 
     }
     
     public BusinessObjectService getBusinessObjectService(){
-    	return KcServiceLocator.getService(BusinessObjectService.class);
+    	if (businessObjectService == null ) {
+    		businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+    	}
+    	return businessObjectService;
     }
 
-    protected AwardBudgetService getAwardBudgetService() {
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+
+	protected AwardBudgetService getAwardBudgetService() {
         if (awardBudgetService == null) {
             awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
         }
