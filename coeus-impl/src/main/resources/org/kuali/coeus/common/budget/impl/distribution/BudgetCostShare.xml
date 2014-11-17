@@ -102,14 +102,23 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Share Percentage" />
     <property name="shortLabel" value="Share Percentage" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-    </property>
+    <property name="maxLength" value="6" />
+      <property name="validationPattern" >
+          <bean parent="FixedPointValidationPattern" p:precision="5" p:scale="2"/>
+      </property>
+      <property name="validCharactersConstraint">
+          <bean parent="FixedPointPatternConstraint">
+              <property name="precision" value="5"/>
+              <property name="scale" value="2"/>
+          </bean>
+      </property>
+      <property name="required" value="false" />
+      <property name="control" >
+          <bean parent="TextControlDefinition" p:size="7"/>
+      </property>
+      <property name="controlField">
+          <bean p:size="7" parent="Uif-TextControl"/>
+      </property>
     <property name="summary" value="Share Percentage" />
     <property name="description" value="Share Percentage" />
   </bean>
