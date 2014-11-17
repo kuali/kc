@@ -84,5 +84,17 @@
         </property>
     </bean>
 
+    <bean id="PropDev-DataValidationSection-WithSubmit" parent="PropDev-DataValidationSection-WithSubmit-parentBean"/>
+    <bean id="PropDev-DataValidationSection-WithSubmit-parentBean" parent="PropDev-DataValidationSection">
+        <property name="footer.items">
+            <list>
+                <bean  p:actionLabel="Submit With Warnings" parent="Uif-PrimaryActionButton" p:methodToCall="internalSubmit"  p:order="10"
+                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and document.documentHeader.workflowDocument.saved}"
+                       p:dialogDismissOption="REQUEST"/>
+                <bean parent="Uif-DialogDismissButton" p:actionLabel="Close" p:order="20"/>
+            </list>
+        </property>
+    </bean>
+
 
 </beans>
