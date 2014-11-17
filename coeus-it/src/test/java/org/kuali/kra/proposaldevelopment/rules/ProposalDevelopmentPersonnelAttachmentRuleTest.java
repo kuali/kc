@@ -74,7 +74,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
     public void testDescriptionRequiredForAttachementTypeOther() throws Exception {
         newProposalPersonBiography.setDocumentTypeCode(findOtherDocumentTypeCode());
         newProposalPersonBiography.setDescription(null);
-        
+
         assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
         
         checkErrorCountAndContent("description", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);

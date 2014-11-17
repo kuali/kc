@@ -19,19 +19,21 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
+import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.ATTACHMENT_PERSONNEL_SECTION_ID;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 
 
@@ -45,7 +47,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
 
     private transient KcAttachmentService kcAttachmentService;
     private transient ParameterService parameterService;
-    private transient GlobalVariableService globalVariableService;
+    private transient ProposalPersonBiographyService proposalPersonBiographyService;
 
     @Override
     public boolean processAddPersonnelAttachmentBusinessRules(AddPersonnelAttachmentEvent addPersonnelAttachmentEvent) {
@@ -58,86 +60,20 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
             reportError(DOCUMENT_TYPE_CODE, ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
         }
 
-        if(findPropPerDocTypeForOther().getCode().equalsIgnoreCase(proposalPersonBiography.getDocumentTypeCode())) {
+        if(getProposalPersonBiographyService().findPropPerDocTypeForOther().getCode().equalsIgnoreCase(proposalPersonBiography.getDocumentTypeCode())) {
             if(StringUtils.isBlank(proposalPersonBiography.getDescription())) {
                 reportError(DOC_TYPE_DESCRIPTION, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);
                 rulePassed = false;
             }
         }
 
-        rulePassed &= checkForInvalidCharacters(proposalPersonBiography);
-
-        rulePassed &= checkForProposalPerson(proposalPersonBiography);
-        
-        rulePassed &= checkForDuplicates(proposalPersonBiography,document.getDevelopmentProposal().getPropPersonBios());
-        
-        return rulePassed;
-    }
-
-    @Override
-    public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
-        String errorPrefix = event.getErrorPathPrefix();
-        return checkForInvalidCharacters(event.getProposalPersonBiography());
-    }
-
-    @Override
-    public boolean processSavePersonnelAttachmentBusinessRules(SavePersonnelAttachmentEvent savePersonnelAttachmentEvent) {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) savePersonnelAttachmentEvent.getDocument();
-        ProposalPersonBiography proposalPersonBiography = savePersonnelAttachmentEvent.getProposalPersonBiography();
-        boolean rulePassed = true;
-        
-        List<ProposalPersonBiography> existingPersonBiographyList = document.getDevelopmentProposal().getPropPersonBios();
-        if(CollectionUtils.isNotEmpty(existingPersonBiographyList)){
-            //Loop thru to filter attachment uploaded by the current user
-            int index=0;
-            for(ProposalPersonBiography personBiography: existingPersonBiographyList) {
-                if(findPropPerDocTypeForOther().getCode().equalsIgnoreCase(personBiography.getDocumentTypeCode())) {
-                    if(StringUtils.isBlank(personBiography.getDescription())) {
-                        reportError("document.developmentProposal.propPersonBios", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);
-                        rulePassed = false;
-                    }
-                }
-                getGlobalVariableService().getMessageMap().clearErrorPath();
-                getGlobalVariableService().getMessageMap().getErrorPath().add("document.developmentProposal.propPersonBios[" + index +"]");
-                rulePassed &= checkForInvalidCharacters(personBiography);
-                rulePassed &= checkForDuplicates(personBiography,existingPersonBiographyList);
-                rulePassed &= checkForProposalPerson(proposalPersonBiography);
-                index++;
-            }
-        }
-
-        return rulePassed;
-    }
-
-    private boolean checkForDuplicates(ProposalPersonBiography biography, List<ProposalPersonBiography> existingBiographies) {
-        boolean rulePassed = true;
-        if(CollectionUtils.isNotEmpty(existingBiographies) && biography.getProposalPersonNumber() != null){
-            for(ProposalPersonBiography personBiography: existingBiographies) {
-                if(personBiography.getProposalPersonNumber() != null && personBiography.getDocumentTypeCode() != null &&
-                        personBiography.getProposalPersonNumber().equals(biography.getProposalPersonNumber())
-                        && personBiography.getDocumentTypeCode().equals(biography.getDocumentTypeCode())){
-
-                	if(personBiography.getBiographyNumber() != biography.getBiographyNumber()) {
-	                    rulePassed = false;
-	                    reportError(DOCUMENT_TYPE_CODE, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
-                	}
-                }
-            }
-        }
-        return rulePassed;
-    }
-    
-    private boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography) {
-        KcAttachmentService attachmentService = getKcAttachmentService();
-        boolean rulePassed = true;
-        // Checking attachment file name for invalid characters.
         String attachmentFileName = proposalPersonBiography.getName();
-        String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
-        if (ObjectUtils.isNotNull(invalidCharacters)) {
+        String invalidCharacters = getKcAttachmentService().getInvalidCharacters(attachmentFileName);
+        if (!checkForInvalidCharacters(proposalPersonBiography,invalidCharacters)){
             String parameter = getParameterService().
-                getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+                    getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
-                rulePassed &= false;
+                rulePassed = false;
                 reportError(PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_NAME,
                         attachmentFileName, invalidCharacters);
             } else {
@@ -146,28 +82,113 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
                         attachmentFileName, invalidCharacters);
             }
         }
+
+        if (!checkForProposalPerson(proposalPersonBiography)) {
+            rulePassed = false;
+            reportError(PROPOSAL_PERSON_NUMBER, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
+        }
+
+        if (!checkForDuplicates(proposalPersonBiography,document.getDevelopmentProposal().getPropPersonBios())) {
+            rulePassed = false;
+            reportError(DOCUMENT_TYPE_CODE, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
+        }
+        
         return rulePassed;
     }
-    
-    /**
-     * This method looks up the "Other" PropPerDocType. Method is protected to allow stubbing/mocking out the class
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    protected PropPerDocType findPropPerDocTypeForOther() {
-        Map<String,String> narrativeTypeMap = new HashMap<String,String>();
-        narrativeTypeMap.put(DOC_TYPE_DESCRIPTION, OTHER_DOCUMENT_TYPE_DESCRIPTION);
-        BusinessObjectService service = getBusinessObjectService();
-        return ((List<PropPerDocType>)service.findMatching(PropPerDocType.class, narrativeTypeMap)).get(0);        
+
+    @Override
+    public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
+        String errorPrefix = event.getErrorPathPrefix();
+        return checkForInvalidCharacters(event.getProposalPersonBiography(),getKcAttachmentService().getInvalidCharacters(event.getProposalPersonBiography().getName()));
+    }
+
+    @Override
+    public boolean processSavePersonnelAttachmentBusinessRules(SavePersonnelAttachmentEvent savePersonnelAttachmentEvent) {
+        boolean retVal = true;
+        ProposalPersonBiography biography = savePersonnelAttachmentEvent.getProposalPersonBiography();
+        List<ProposalPersonBiography> biographies = ((ProposalDevelopmentDocument)savePersonnelAttachmentEvent.getDocument()).getDevelopmentProposal().getPropPersonBios();
+        int index = Integer.parseInt(savePersonnelAttachmentEvent.getErrorPathPrefix());
+
+        if (!checkForDescription(biography)) {
+            retVal = false;
+            getAuditErrors(ATTACHMENT_PERSONNEL_SECTION_NAME,AUDIT_ERRORS).add(new AuditError(BIOGRAPHIES_KEY, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED,ATTACHMENT_PAGE_ID + "." + ATTACHMENT_PERSONNEL_SECTION_ID));
+        }
+        if (!checkForInvalidCharacters(biography,getKcAttachmentService().getInvalidCharacters(biography.getName()))) {
+            retVal = false;
+            String parameter = getParameterService().
+                    getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
+                getAuditErrors(ATTACHMENT_PERSONNEL_SECTION_NAME,AUDIT_ERRORS).add(new AuditError(BIOGRAPHIES_KEY,KeyConstants.INVALID_FILE_NAME,ATTACHMENT_PAGE_ID+"."+ATTACHMENT_PERSONNEL_SECTION_ID));
+            } else {
+                getAuditErrors(ATTACHMENT_PERSONNEL_SECTION_NAME,AUDIT_WARNINGS).add(new AuditError(BIOGRAPHIES_KEY, KeyConstants.INVALID_FILE_NAME, ATTACHMENT_PAGE_ID + "." + ATTACHMENT_PERSONNEL_SECTION_ID));
+            }
+        }
+        if (!checkForDuplicates(biography,biographies)){
+            retVal = false;
+            getAuditErrors(ATTACHMENT_PERSONNEL_SECTION_NAME,AUDIT_ERRORS).add(new AuditError(String.format(BIOGRAPHY_TYPE_KEY,index),KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE,ATTACHMENT_PAGE_ID + "." + ATTACHMENT_PERSONNEL_SECTION_ID));
+        }
+        if (!checkForProposalPerson(biography)){
+            retVal = false;
+            getAuditErrors(ATTACHMENT_PERSONNEL_SECTION_NAME,AUDIT_ERRORS).add(new AuditError(String.format(BIOGRAPHY_PERSON_KEY,index),KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED,ATTACHMENT_PAGE_ID + "." + ATTACHMENT_PERSONNEL_SECTION_ID));
+        }
+        return retVal;
+    }
+
+    private boolean checkForDescription(ProposalPersonBiography biography){
+        boolean valid = true;
+        String otherCode = getProposalPersonBiographyService().findPropPerDocTypeForOther().getCode();
+        if(StringUtils.equalsIgnoreCase(otherCode,biography.getDocumentTypeCode())) {
+            if(StringUtils.isBlank(biography.getDescription())) {
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
+    private boolean checkForDuplicates(ProposalPersonBiography biography, List<ProposalPersonBiography> existingBiographies) {
+        boolean rulePassed = true;
+        if(CollectionUtils.isNotEmpty(existingBiographies) && biography.getProposalPersonNumber() != null){
+            for(ProposalPersonBiography personBiography: existingBiographies) {
+                if(personBiography.getProposalPersonNumber() != null && personBiography.getDocumentTypeCode() != null &&
+                        !StringUtils.equalsIgnoreCase(getProposalPersonBiographyService().findPropPerDocTypeForOther().getCode(),personBiography.getDocumentTypeCode()) &&
+                        personBiography.getProposalPersonNumber().equals(biography.getProposalPersonNumber())
+                        && personBiography.getDocumentTypeCode().equals(biography.getDocumentTypeCode())){
+                	if(personBiography.getBiographyNumber() != biography.getBiographyNumber()) {
+	                    rulePassed = false;
+                	}
+                }
+            }
+        }
+        return rulePassed;
+    }
+
+    private boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography, String invalidCharacters) {
+        boolean rulePassed = true;
+        if (StringUtils.isNotEmpty(invalidCharacters)) {
+            rulePassed = false;
+        }
+        return rulePassed;
     }
 
     private boolean checkForProposalPerson(ProposalPersonBiography proposalPersonBiography) {
         boolean rulePassed= true;
         if(proposalPersonBiography.getProposalPersonNumber() == null || StringUtils.isBlank(proposalPersonBiography.getProposalPersonNumber().toString())){
             rulePassed = false;
-            reportError(PROPOSAL_PERSON_NUMBER, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
         }
         return rulePassed;
+    }
+
+    private List<AuditError> getAuditErrors(String sectionName, String severity ) {
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        String clusterKey = ATTACHMENT_PAGE_NAME + "." + sectionName;
+        if (!GlobalVariables.getAuditErrorMap().containsKey(clusterKey+severity)) {
+            GlobalVariables.getAuditErrorMap().put(clusterKey+severity, new AuditCluster(clusterKey, auditErrors, severity));
+        }
+        else {
+            auditErrors = GlobalVariables.getAuditErrorMap().get(clusterKey+severity).getAuditErrorList();
+        }
+
+        return auditErrors;
     }
     
     /**
@@ -190,10 +211,10 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         return this.parameterService;
     }
 
-    public GlobalVariableService getGlobalVariableService() {
-        if (this.globalVariableService == null ) {
-            this.globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+    public ProposalPersonBiographyService getProposalPersonBiographyService() {
+        if (this.proposalPersonBiographyService == null ) {
+            this.proposalPersonBiographyService = KcServiceLocator.getService(ProposalPersonBiographyService.class);
         }
-        return globalVariableService;
+        return proposalPersonBiographyService;
     }
 }
