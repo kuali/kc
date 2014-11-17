@@ -66,7 +66,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         }
 
         rulePassed &= checkForInvalidCharacters(proposalPersonBiography);
-
+        rulePassed &= checkForValidFileType(proposalPersonBiography);
         rulePassed &= checkForProposalPerson(proposalPersonBiography);
         
         rulePassed &= checkForDuplicates(proposalPersonBiography,document.getDevelopmentProposal().getPropPersonBios());
@@ -76,8 +76,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
 
     @Override
     public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
-        String errorPrefix = event.getErrorPathPrefix();
-        return checkForInvalidCharacters(event.getProposalPersonBiography());
+        return checkForInvalidCharacters(event.getProposalPersonBiography()) && checkForValidFileType(event.getProposalPersonBiography());
     }
 
     @Override
@@ -100,6 +99,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
                 getGlobalVariableService().getMessageMap().clearErrorPath();
                 getGlobalVariableService().getMessageMap().getErrorPath().add("document.developmentProposal.propPersonBios[" + index +"]");
                 rulePassed &= checkForInvalidCharacters(personBiography);
+                rulePassed &= checkForValidFileType(personBiography);
                 rulePassed &= checkForDuplicates(personBiography,existingPersonBiographyList);
                 rulePassed &= checkForProposalPerson(proposalPersonBiography);
                 index++;
@@ -126,8 +126,17 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         }
         return rulePassed;
     }
-    
-    private boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography) {
+
+    protected boolean  checkForValidFileType(ProposalPersonBiography proposalPersonBiography) {
+        if (!Constants.PDF_REPORT_CONTENT_TYPE.equals(proposalPersonBiography.getType())) {
+            reportWarning(PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_TYPE,
+                    proposalPersonBiography.getName(), Constants.PDF_REPORT_CONTENT_TYPE);
+        }
+
+        return true;
+    }
+
+    protected boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography) {
         KcAttachmentService attachmentService = getKcAttachmentService();
         boolean rulePassed = true;
         // Checking attachment file name for invalid characters.
