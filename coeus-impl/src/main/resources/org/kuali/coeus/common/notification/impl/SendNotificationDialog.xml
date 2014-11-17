@@ -16,8 +16,8 @@
      http://www.springframework.org/schema/util/spring-util.xsd">
 
 
-    <bean id="Kc-SendNotification-Wizard" parent="Kc-Wizard"
-          p:header.headerText="Send Notifications" p:readOnly="false">
+    <bean id="Kc-SendNotification-Wizard" parent="Kc-Wizard" p:destroyDialogOnHidden="true"
+          p:header.headerText="Send Notifications" p:readOnly="false" p:retrieveViaAjax="true">
         <property name="items">
             <list>
                 <bean parent="Kc-SendNotification-WizardPage1" p:order="10" />

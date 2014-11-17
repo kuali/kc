@@ -96,8 +96,8 @@
 			          	</property>
 					 </bean>
 					 
-					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to Sponsor" p:methodToCall="submitToSponsor" p:order="100" 
-					 	p:render="@{#actionFlags[#{submitToSponsor}]}">					 	
+					<bean id="PropDev-Resumbit-SubmitToSponsorButton" parent="Uif-SecondaryActionButton" p:actionLabel="Submit to Sponsor" p:methodToCall="submitToSponsor" p:order="100"
+					 	p:render="@{#actionFlags[#{submitToSponsor}]}" p:onClickScript="jQuery(this).hide();">
 					</bean>	
 					
 					<bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit to S2S" p:methodToCall="submitToS2s" p:order="110"
@@ -155,7 +155,7 @@
 <bean id="PropDev-SubmitPage-SummaryTabGroup-parentBean" abstract="true" parent="Uif-TabGroup">
         <property name="items">
             <list>
-             <bean parent="PropDev-SubmitPage-ProposalSummary" p:order="10" />
+                <bean parent="PropDev-SubmitPage-ProposalSummary" p:order="10" />
                 <bean parent="PropDev-SubmitPage-Personnel" p:order="20" />
                 <bean parent="PropDev-SubmitPage-CreditAllocation" p:readOnly="true" p:render="@{#ViewHelper.isCreditSplitEnabled()}" p:order="30" />
                 <bean parent="PropDev-SubmitPage-Compliance" p:order="40"/>
@@ -406,9 +406,12 @@
     </bean>
     <bean id="PropDev-Resumbit-OptionsSection" parent="PropDev-Resumbit-OptionsSection-parentBean" />
 	<bean id="PropDev-Resumbit-OptionsSection-parentBean" abstract="true" parent="Uif-DialogGroup" p:resetDataOnRefresh="true"
-            p:dialogCssClass="modal-lg" p:header.headerText="Resubmission Options"   p:readOnly="false"
+            p:dialogCssClass="modal-lg" p:header.headerText="Resubmission Options" p:readOnly="false"
             p:onHideDialogScript="jQuery('#PropDev-Resumbit-OptionsSection').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropDev-Resumbit-OptionsSection'));});">
-		<property name="items">
+		<property name="header.upperGroup">
+            <null/>
+		</property>
+        <property name="items">
 			   <list>
 				    <bean id="PropDev-Resumbit-OptionsRadio" parent="Uif-InputField" p:required="true"
 				     p:propertyName="resubmissionOption"
@@ -461,7 +464,9 @@
 					<list>
 						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Proceed" p:methodToCall="proceed" p:order="10" 
 							p:successCallback="dismissDialog('PropDev-Resumbit-OptionsSection');" p:performClientSideValidation="true"/>
-						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="20"/>
+						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:dialogDismissOption="IMMEDIATE"
+                              p:onClickScript="jQuery('#PropDev-Resumbit-SubmitToSponsorButton').show();"
+                              p:dialogResponse="false" p:order="20"/>
 
 					</list>
 				</property>
@@ -480,8 +485,7 @@
             <list>
                 <bean parent="Uif-FieldGroupBase" p:order="10">
                     <property name="group">
-                        <bean parent="PropDev-SubmitPage-HierarchyDetails"
-                                />
+                        <bean parent="PropDev-SubmitPage-HierarchyDetails"/>
                     </property>
                 </bean>
             </list>
