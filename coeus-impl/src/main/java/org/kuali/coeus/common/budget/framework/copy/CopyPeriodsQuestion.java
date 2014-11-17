@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Component("CopyPeriodsQuestion")
+@Component("copyPeriodsQuestion")
 public class CopyPeriodsQuestion extends QuestionBase {
     
     public static final String ONE = "1";
