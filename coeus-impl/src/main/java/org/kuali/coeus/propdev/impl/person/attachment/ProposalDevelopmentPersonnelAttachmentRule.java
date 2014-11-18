@@ -76,7 +76,9 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
 
     @Override
     public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
-        return checkForInvalidCharacters(event.getProposalPersonBiography()) && checkForValidFileType(event.getProposalPersonBiography());
+        boolean rulePassed = checkForInvalidCharacters(event.getProposalPersonBiography());
+        rulePassed &= checkForValidFileType(event.getProposalPersonBiography());
+        return rulePassed;
     }
 
     @Override
@@ -117,7 +119,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
                         personBiography.getProposalPersonNumber().equals(biography.getProposalPersonNumber())
                         && personBiography.getDocumentTypeCode().equals(biography.getDocumentTypeCode())){
 
-                	if(personBiography.getBiographyNumber() != biography.getBiographyNumber()) {
+                	if(personBiography.getBiographyNumber().equals(biography.getBiographyNumber())) {
 	                    rulePassed = false;
 	                    reportError(DOCUMENT_TYPE_CODE, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
                 	}
