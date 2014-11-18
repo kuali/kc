@@ -158,7 +158,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
                         !StringUtils.equalsIgnoreCase(getProposalPersonBiographyService().findPropPerDocTypeForOther().getCode(),personBiography.getDocumentTypeCode()) &&
                         personBiography.getProposalPersonNumber().equals(biography.getProposalPersonNumber())
                         && personBiography.getDocumentTypeCode().equals(biography.getDocumentTypeCode())){
-                	if(personBiography.getBiographyNumber().equals(biography.getBiographyNumber())) {
+                	if(!personBiography.getBiographyNumber().equals(biography.getBiographyNumber())) {
 	                    rulePassed = false;
                 	}
                 }
