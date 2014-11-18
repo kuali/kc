@@ -104,7 +104,8 @@
 							<bean parent="PropBudget-ProjectPersonnel-Details-Tab"
 								p:headerText="Details" p:order="10" />
 							<bean parent="PropBudget-ProjectPersonnel-SalaryDetails-Tab"
-								p:headerText="Salary by Period" p:order="20" />
+								p:headerText="Salary by Period" p:order="20" 
+								p:render="@{#ViewHelper.displayPersonSalaryByPeriod()}"/>
 
 						</list>
 					</property>
