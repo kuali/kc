@@ -273,6 +273,7 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
      * @return
      */
     @KcEventMethod
+    @Deprecated
     public boolean processBudgetPersonnelBudgetBusinessRules(BudgetSaveEvent event) {
         boolean valid = true;
 
