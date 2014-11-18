@@ -420,19 +420,19 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                 for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                     KcPerson person = (KcPerson) iter.next();
                     BudgetPerson budgetPerson = new BudgetPerson(person);
-                    populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudget(), budgetPersonService);
+                    populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudget());
                 }
             } else if (lookupResultsBOClass.isAssignableFrom(NonOrganizationalRolodex.class)) {
                 for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                     Rolodex rolodex = (Rolodex) iter.next();
                     BudgetPerson budgetPerson = new BudgetPerson(rolodex);
-                    populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudget(), budgetPersonService);
+                    populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudget());
                 }
             } else if (lookupResultsBOClass.isAssignableFrom(TbnPerson.class)) {
                 for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                     TbnPerson tbn = (TbnPerson) iter.next();
                     BudgetPerson budgetPerson = new BudgetPerson(tbn);
-                    populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudget(), budgetPersonService);
+                    populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudget());
                 }
             }
         }
@@ -587,8 +587,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
      * @param budget
      * @param budgetPersonService
      */
-    private void populateAndAddBudgetPerson(BudgetPerson budgetPerson, Budget budget, BudgetPersonService budgetPersonService) {
-        budgetPersonService.addBudgetPerson(budget, budgetPerson);
+    private void populateAndAddBudgetPerson(BudgetPerson budgetPerson, Budget budget) {
+        getBudgetPersonService().addBudgetPerson(budget, budgetPerson);
     }
     
     /**

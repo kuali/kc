@@ -1110,4 +1110,11 @@
     <bean id="awardJavaFunctionKrmsTermService" class="org.kuali.kra.award.service.impl.AwardJavaFunctionKrmsTermServiceImpl">
     </bean>
     
+    <bean id="awardBudgetPersonService" class="org.kuali.kra.award.budget.service.impl.AwardBudgetPersonServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <!-- <property name="dataObjectService" ref="dataObjectService" /> -->
+        <property name="globalVariableService" ref="globalVariableService" />
+    </bean>
 </beans>

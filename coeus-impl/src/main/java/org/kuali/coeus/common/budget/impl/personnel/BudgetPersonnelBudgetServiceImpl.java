@@ -26,6 +26,7 @@ import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
@@ -33,6 +34,7 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCost
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.kra.award.budget.service.AwardBudgetPersonService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -76,10 +78,12 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     @Autowired
 	@Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
+    
+    private AwardBudgetPersonService awardBudgetPersonService;
 
     @Override
     public void addBudgetPersonnelDetails(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) {
-        try {
+    	try {
             ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);
             ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
             BeanUtils.copyProperties(newBudgetPersonnelDetails,(BudgetLineItemBase)budgetLineItem);
@@ -94,8 +98,17 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
          */
         newBudgetPersonnelDetails.setPersonNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
         newBudgetPersonnelDetails.setPersonSequenceNumber(newBudgetPersonnelDetails.getPersonSequenceNumber());
-        newBudgetPersonnelDetails.setPersonId(newBudgetPersonnelDetails.getBudgetPerson().getPersonId());
-        newBudgetPersonnelDetails.setJobCode(newBudgetPersonnelDetails.getBudgetPerson().getJobCode());
+        BudgetPerson budgetPerson;
+        if(budget instanceof org.kuali.kra.award.budget.AwardBudgetExt) {
+        	budgetPerson = getAwardBudgetPersonService().findBudgetPerson(newBudgetPersonnelDetails);
+        } else {
+        	budgetPerson = getBudgetPersonService().findBudgetPerson(newBudgetPersonnelDetails);
+        }
+        if(budgetPerson != null) {
+            newBudgetPersonnelDetails.setPersonId(budgetPerson.getPersonRolodexTbnId());
+            newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
+            newBudgetPersonnelDetails.setBudgetPerson(budgetPerson);
+        }
         newBudgetPersonnelDetails.setSequenceNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);
@@ -263,7 +276,20 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         this.parameterService = parameterService;
     }
     
-    public void calculateBudgetPersonnelLineItem(Budget budget, BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails, int lineItemNumber) {
+    public AwardBudgetPersonService getAwardBudgetPersonService() {
+    	if (awardBudgetPersonService == null) {
+    		awardBudgetPersonService = KcServiceLocator.getService(AwardBudgetPersonService.class);
+    	}
+		return awardBudgetPersonService;
+	}
+
+	public void setAwardBudgetPersonService(AwardBudgetPersonService awardBudgetPersonService) {
+		this.awardBudgetPersonService = awardBudgetPersonService;
+	}
+
+
+
+	public void calculateBudgetPersonnelLineItem(Budget budget, BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails, int lineItemNumber) {
     	getBudgetCalculationService().updatePersonnelBudgetRate(budgetLineItem);
     	if(budgetPersonnelDetails.getPersonSequenceNumber() == BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonSequenceNumber()) {
     		getBudgetCalculationService().calculateBudgetLineItem(budget, budgetLineItem); 
