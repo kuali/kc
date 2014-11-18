@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialRevie
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
@@ -206,7 +207,9 @@ public abstract class ProposalDevelopmentControllerBase {
              ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateAttachmentReferences(form.getDevelopmentProposal());
          }
 
-         form.getEditableCollectionLines().clear();
+         if (getGlobalVariableService().getMessageMap().getErrorCount() == 0) {
+            form.getEditableCollectionLines().clear();
+         }
 
          preSave(proposalDevelopmentDocument);
 
@@ -405,10 +408,17 @@ public abstract class ProposalDevelopmentControllerBase {
         List<String> editableLines = pdForm.getEditableCollectionLines().get(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_PROPERTY_KEY);
         if (editableLines != null && editableLines.size() > 0) {
             getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_UNFINISHED_PERMISSIONS);
-        }
-        else {
+        } else if (arePermissionsValid(pdForm.getProposalDevelopmentDocument(),pdForm.getWorkingUserRoles())) {
             getProposalDevelopmentPermissionsService().savePermissions(pdForm.getProposalDevelopmentDocument(), getProposalDevelopmentPermissionsService().getPermissions(pdForm.getProposalDevelopmentDocument()), pdForm.getWorkingUserRoles());
         }
+    }
+
+    protected boolean arePermissionsValid(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUsers) {
+        boolean retVal = true;
+        for (ProposalUserRoles proposalUser : proposalUsers) {
+            retVal &= getProposalDevelopmentPermissionsService().validateUpdatePermissions(document,proposalUsers,proposalUser);
+        }
+        return retVal;
     }
 
     @InitBinder

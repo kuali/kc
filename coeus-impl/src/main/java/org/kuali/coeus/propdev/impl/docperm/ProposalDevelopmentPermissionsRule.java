@@ -139,7 +139,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
             
         // The user cannot delete the last Aggregator on a proposal.
             
-        else if (hasAggregator(editRoles) && isLastAggregator(username, proposalUserRolesList)) {
+        else if (!isAggregatorRolePresent(proposalUserRolesList)) {
             isValid = false;
             getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
         }
@@ -152,7 +152,17 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         
         return isValid;
     }
-    
+
+
+    protected boolean isAggregatorRolePresent(List<ProposalUserRoles> proposalUserRolesList) {
+        for (ProposalUserRoles proposalUserRoles : proposalUserRolesList) {
+            if (hasAggregator(proposalUserRoles)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * This method tests if the user is the only user with modify narrative rights for the narrative
      * @param username the user
