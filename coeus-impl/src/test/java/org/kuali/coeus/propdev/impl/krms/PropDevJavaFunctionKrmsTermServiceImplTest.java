@@ -915,12 +915,18 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 	}
 
 	private Budget getBudget() {
-		ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
+		final  List<BudgetLineItem> lineItems = new ArrayList<BudgetLineItem>();
+		ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt() {
+			@Override
+			public List<BudgetLineItem> getBudgetLineItems() {
+				return lineItems;
+			}
+		};
 
 		List<BudgetPeriod> periods = new ArrayList<BudgetPeriod>();
 		BudgetPeriod period = new BudgetPeriod();
 
-		List<BudgetLineItem> lineItems = new ArrayList<BudgetLineItem>();
+
 		BudgetLineItem lineItem = budget.getNewBudgetLineItem();
 		lineItem.setLineItemSequence(1);
 
@@ -966,7 +972,7 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 		budget.setBudgetPersons(persons);
 		budget.setBudgetVersionNumber(1);
 		budget.setVersionNumber(1L);
-		budget.setBudgetLineItems(lineItems);
+
 		return budget;
 	}
 
