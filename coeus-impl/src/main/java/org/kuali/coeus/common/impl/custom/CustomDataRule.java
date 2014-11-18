@@ -182,7 +182,7 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
                 }
             } else if (lookupClass != null && lookupClass.equals(ArgValueLookup.class.getName()))
             {
-                Collection<ArgValueLookup> searchResults = getLegacyDataAdapter().findMatching(ArgValueLookup.class,Collections.singletonMap("argumentName","yes_no_flag"));
+                Collection<ArgValueLookup> searchResults = getLegacyDataAdapter().findAll(ArgValueLookup.class);
                 boolean argValueValid = false;
                 for (ArgValueLookup argValueLookup : searchResults) {
                     if (customAttribute.getValue().equals(argValueLookup.getValue())){
