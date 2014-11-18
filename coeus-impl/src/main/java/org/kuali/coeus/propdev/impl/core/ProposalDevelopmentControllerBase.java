@@ -40,7 +40,9 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -48,6 +50,7 @@ import org.kuali.rice.krad.rules.rule.event.DocumentEventBase;
 import org.kuali.rice.krad.service.DocumentAdHocService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
+import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -150,6 +153,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("auditHelper")
     private AuditHelper auditHelper;
+
+    @Autowired
+    @Qualifier("pessimisticLockService")
+    private PessimisticLockService pessimisticLockService;
 
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
@@ -294,8 +301,20 @@ public abstract class ProposalDevelopmentControllerBase {
      
      protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
          populateAdHocRecipients(form.getProposalDevelopmentDocument());
+         releasePessimisticLocks(form);
+
          return save(form);
      }
+
+    protected void releasePessimisticLocks(DocumentFormBase form) {
+        Document document = form.getDocument();
+
+        if (!document.getPessimisticLocks().isEmpty()) {
+            Person user = getGlobalVariableService().getUserSession().getPerson();
+            getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(), user);
+            document.refreshPessimisticLocks();
+        }
+    }
     
     public void addEditableCollectionLine(ProposalDevelopmentDocumentForm form, String selectedCollectionPath){
         if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
@@ -631,5 +650,13 @@ public abstract class ProposalDevelopmentControllerBase {
 
     public void setAuditHelper(AuditHelper auditHelper) {
         this.auditHelper = auditHelper;
+    }
+
+    public PessimisticLockService getPessimisticLockService() {
+        return pessimisticLockService;
+    }
+
+    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
+        this.pessimisticLockService = pessimisticLockService;
     }
 }
