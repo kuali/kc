@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.api.s2s.S2sUserAttachedFormFileContract;
 import org.kuali.coeus.propdev.api.s2s.UserAttachedFormService;
@@ -118,18 +119,17 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
        try {
            if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
-               Boolean mandatoryFormNotAvailable = false;
+               List<String> missingMandatoryForms = new ArrayList<String>();
                s2sOpportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, s2sOpportunity.getProviderCode()));
                List<S2sOppForms> s2sOppForms = getS2sSubmissionService().parseOpportunityForms(s2sOpportunity);
                if(s2sOppForms!=null){
                    for(S2sOppForms s2sOppForm:s2sOppForms){
                        if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
-                           mandatoryFormNotAvailable = true;
-                           break;
+                           missingMandatoryForms.add(s2sOppForm.getFormName());
                        }
                    }
                }
-               if(!mandatoryFormNotAvailable){
+               if(CollectionUtils.isEmpty(missingMandatoryForms)){
                    Collections.sort(s2sOppForms, new Comparator<S2sOppForms>() {
                        public int compare(S2sOppForms arg0, S2sOppForms arg1) {
                            int result = arg0.getMandatory().compareTo(arg1.getMandatory())*-1;
@@ -141,7 +141,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
                    });
                    s2sOpportunity.setS2sOppForms(s2sOppForms);
                }else{
-                   globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID, s2sOpportunity.getOpportunityId());
+                   globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(),StringUtils.join(missingMandatoryForms,","));
                    proposal.setS2sOpportunity(new S2sOpportunity());
                }            
            }
