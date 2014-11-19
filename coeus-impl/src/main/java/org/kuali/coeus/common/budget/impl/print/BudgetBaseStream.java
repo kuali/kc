@@ -41,12 +41,13 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -304,9 +305,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 					Date endDate = budgetRateAndBase.getEndDate();
 					String key = new StringBuilder(startDate.toString())
 							.append(endDate.toString()).toString();
-					if (laRateBaseMap.containsKey(key)) {
-						continue;
-					}
 					calculatedCost = calculatedCost.add(budgetRateAndBase
 							.getCalculatedCost());
 					laRateBaseMap.put(key, budgetRateAndBase);
@@ -820,7 +818,8 @@ public abstract class BudgetBaseStream implements XmlStream {
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId4();
 			ReportType reportTypeForSortId4 = getReportTypeForExclusions(
 					sortId, categoryDesc, calculatedCost);
-			reportTypeList.add(reportTypeForSortId4);
+			if(calculatedCost.doubleValue()>0.0d)
+				reportTypeList.add(reportTypeForSortId4);
 		} else {
 			sortId = 1;
 			setReportTypeOHExclusionForSortId(reportTypeList, sortId);
@@ -859,7 +858,8 @@ public abstract class BudgetBaseStream implements XmlStream {
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId4();
 			ReportType reportTypeForSortId4 = getReportTypeForExclusions(
 					sortId, categoryDesc, calculatedCost);
-			reportTypeList.add(reportTypeForSortId4);
+			if(calculatedCost.doubleValue()>0.0d)
+				reportTypeList.add(reportTypeForSortId4);
 		}
 		subReportType.setGroupArray(getGroupsType(reportTypeList));
 		return subReportType;
@@ -915,26 +915,27 @@ public abstract class BudgetBaseStream implements XmlStream {
 		Map<String, ReportTypeVO> reportTypeMap = new HashMap<String, ReportTypeVO>();
 		for (ReportTypeVO reportTypeVO : tempReportTypeVOList) {
 			String budgetOHExclusionKey = reportTypeVO.getCostElementDesc();
+			ScaleTwoDecimal calculatedCost = reportTypeVO.getCalculatedCost();
 			if (reportTypeMap.containsKey(budgetOHExclusionKey)) {
-				continue;
+			    ReportTypeVO reportTypeVO1 = reportTypeMap.get(budgetOHExclusionKey);
+                calculatedCost = calculatedCost.add(reportTypeVO1.getCalculatedCost());
+                reportTypeVO1.setCalculatedCost(calculatedCost);
+			    reportTypeMap.put(budgetOHExclusionKey, reportTypeVO1);
+			}else{
+			    reportTypeMap.put(budgetOHExclusionKey, reportTypeVO);
 			}
-			ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
-			for (ReportTypeVO reportTypeVO1 : tempReportTypeVOList) {
-				String budgetOHExclusionTempKey = reportTypeVO1
-						.getCostElementDesc();
-				if (budgetOHExclusionTempKey.equals(budgetOHExclusionKey)) {
-					calculatedCost = calculatedCost.add(reportTypeVO1
-							.getCalculatedCost());
-				}
-			}
-			reportTypeMap.put(budgetOHExclusionKey, reportTypeVO);
-			ReportType reportType = ReportType.Factory.newInstance();
-			reportType.setSortId(sortId);
-			reportType.setCostElementDescription(reportTypeVO
-					.getCostElementDesc());
-			reportType.setCalculatedCost(calculatedCost.doubleValue());
-			reportTypeList.add(reportType);
 		}
+		Iterator<String> it = reportTypeMap.keySet().iterator();
+		while (it.hasNext()) {
+            String budgetOHExclusionKey = (String) it.next();
+            ReportTypeVO reportTypeVO1 = reportTypeMap.get(budgetOHExclusionKey);
+            ReportType reportType = ReportType.Factory.newInstance();
+            reportType.setSortId(sortId);
+            reportType.setCostElementDescription(budgetOHExclusionKey);
+            reportType.setCalculatedCost(reportTypeVO1.getCalculatedCost().doubleValue());
+            reportTypeList.add(reportType);
+        }
+
 	}
 
 	/**
@@ -1043,7 +1044,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 					&& isLineItemCalAmountOfRateClassTypeOverhead(budgetLineItemCalcAmount)) {
 				if (budgetLineItemCalcAmount.getLineItemNumber().equals(
 						lineItemNumber)) {
-					availabe = true;
+					return true;
 				}
 			}
 		}
@@ -1640,10 +1641,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 						&& rateClassType.equals(budgetPersRateAndBase
 								.getRateClass().getRateClassTypeCode())) {
 					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
-					if (otherBudgetPersRateBaseMap
-							.containsKey(budgetPersRateBaseKey)) {
-						continue;
-					}
 					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetPersRateAndBase);
 					reportTypeVO.setRateTypeDesc(getRateTypeDesc(
 							budgetPersRateAndBase.getRateClassCode(),
@@ -1681,10 +1678,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 						&& budgetPersRateAndBase.getRateClass()
 								.getRateClassTypeCode().equals(rateClassType)) {
 					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
-					if (vacBudgetPersRateBaseMap
-							.containsKey(budgetPersRateBaseKey)) {
-						continue;
-					}
 					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetPersRateAndBase);
 					reportTypeVO.setRateTypeDesc(getRateTypeDesc(
 							budgetPersRateAndBase.getRateClassCode(),
@@ -1761,10 +1754,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 						&& budgetPersRateAndBase.getRateClass()
 								.getRateClassTypeCode().equals(rateClassType)) {
 					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
-					if (ebBudgetPersRateBaseMap
-							.containsKey(budgetPersRateBaseKey)) {
-						continue;
-					}
 					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetPersRateAndBase);
 					reportTypeVO.setRateTypeDesc(getRateTypeDesc(
 							budgetPersRateAndBase.getRateClassCode(),
@@ -1801,10 +1790,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 						&& budgetPersRateAndBase.getRateClass()
 								.getRateClassTypeCode().equals(rateClassType)) {
 					String budgetPersRateBaseKey = getBudgetPersRateAndBaseKey(budgetPersRateAndBase);
-					if (ohBudgetPersRateBaseMap
-							.containsKey(budgetPersRateBaseKey)) {
-						continue;
-					}
 					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetPersonnelRateAndBase(budgetPersRateAndBase);
 					reportTypeVOList.add(reportTypeVO);
 					ohBudgetPersRateBaseMap.put(budgetPersRateBaseKey,
