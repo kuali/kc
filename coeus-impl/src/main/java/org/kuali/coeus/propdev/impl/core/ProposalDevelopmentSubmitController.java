@@ -51,6 +51,7 @@ import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -200,7 +201,12 @@ public class ProposalDevelopmentSubmitController extends
                     form.getWorkflowDocument().setDoNotReceiveFutureRequests();
                 }
             }
-            return getTransactionalDocumentControllerService().route(form);
+            getTransactionalDocumentControllerService().route(form);
+            for (PessimisticLock lock : form.getProposalDevelopmentDocument().getPessimisticLocks()){
+                getDataObjectService().delete(lock);
+            }
+            form.getProposalDevelopmentDocument().refreshPessimisticLocks();
+            return getModelAndViewService().getModelAndView(form);
     }
 
 
