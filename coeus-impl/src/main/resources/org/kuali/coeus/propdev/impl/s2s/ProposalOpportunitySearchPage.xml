@@ -56,8 +56,7 @@
 
 	<bean id="PropDev-OpportunityPage-Info" parent="PropDev-OpportunityPage-Info-parentBean" />
 	<bean id="PropDev-OpportunityPage-Info-parentBean" abstract="true"
-		parent="Uif-TabSection"
-		p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null}">
+		parent="Uif-TabSection" p:defaultActiveTabId="@{document.developmentProposal.s2sOpportunity?.opportunityId != null ? 'PropDev-OpportunityPage-General':'PropDev-OpportunityPage-UserAttachedForms'}">
 		<property name="items">
 			<list>
 				<ref bean="PropDev-OpportunityPage-General" />
@@ -97,7 +96,8 @@
 		parent="Uif-GridSection" p:headerText="Opportunity"
 		p:layoutManager.libraryCssClasses="table,table-condensed"
 		p:layoutManager.cssClasses="" p:layoutManager.applyDefaultCellWidths="false"
-        p:fieldBindingObjectPath="document.developmentProposal.s2sOpportunity">
+        p:fieldBindingObjectPath="document.developmentProposal.s2sOpportunity"
+        p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null}">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="opportunityId"
@@ -166,7 +166,8 @@
 		parent="Uif-TableCollectionSection" p:headerText="Forms"
 		p:propertyName="document.developmentProposal.s2sOpportunity.s2sOppForms" p:collectionObjectClass="org.kuali.coeus.propdev.impl.s2s.S2sOppForms"
 		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
-		p:renderLineActions="false" p:layoutManager.richTable.render="false">
+		p:renderLineActions="false" p:layoutManager.richTable.render="false"
+        p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null}">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="formName" />
@@ -249,7 +250,8 @@
 
     <bean id="PropDev-OpportunityPage-SubmissionDetailsSection" parent="PropDev-OpportunityPage-SubmissionDetailsSection-parentBean" />
     <bean id="PropDev-OpportunityPage-SubmissionDetailsSection-parentBean" abstract="true" parent="Uif-VerticalBoxSection"
-            p:header.headerText="Submission Detail">
+            p:header.headerText="Submission Detail"
+            p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null}">
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Submission details will be available after the proposal is submitted." p:order="10"
