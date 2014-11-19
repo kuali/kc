@@ -27,7 +27,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +68,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
 
         String attachmentFileName = proposalPersonBiography.getName();
         String invalidCharacters = getKcAttachmentService().getInvalidCharacters(attachmentFileName);
-        if (!checkForInvalidCharacters(proposalPersonBiography,invalidCharacters)){
+        if (!checkForInvalidCharacters(invalidCharacters)){
             String parameter = getParameterService().
                     getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
             if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
@@ -82,6 +81,8 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
                         attachmentFileName, invalidCharacters);
             }
         }
+
+        rulePassed &= checkForValidFileType(proposalPersonBiography);
 
         if (!checkForProposalPerson(proposalPersonBiography)) {
             rulePassed = false;
@@ -98,8 +99,9 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
 
     @Override
     public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
-        String errorPrefix = event.getErrorPathPrefix();
-        return checkForInvalidCharacters(event.getProposalPersonBiography(),getKcAttachmentService().getInvalidCharacters(event.getProposalPersonBiography().getName()));
+        boolean retVal = checkForInvalidCharacters(getKcAttachmentService().getInvalidCharacters(event.getProposalPersonBiography().getName()));
+        retVal &= checkForValidFileType(event.getProposalPersonBiography());
+        return retVal;
     }
 
     @Override
@@ -113,7 +115,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
             retVal = false;
             getAuditErrors(ATTACHMENT_PERSONNEL_SECTION_NAME,AUDIT_ERRORS).add(new AuditError(BIOGRAPHIES_KEY, KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED,ATTACHMENT_PAGE_ID + "." + ATTACHMENT_PERSONNEL_SECTION_ID));
         }
-        if (!checkForInvalidCharacters(biography,getKcAttachmentService().getInvalidCharacters(biography.getName()))) {
+        if (!checkForInvalidCharacters(getKcAttachmentService().getInvalidCharacters(biography.getName()))) {
             retVal = false;
             String parameter = getParameterService().
                     getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
@@ -123,6 +125,9 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
                 getAuditErrors(ATTACHMENT_PERSONNEL_SECTION_NAME,AUDIT_WARNINGS).add(new AuditError(BIOGRAPHIES_KEY, KeyConstants.INVALID_FILE_NAME, ATTACHMENT_PAGE_ID + "." + ATTACHMENT_PERSONNEL_SECTION_ID));
             }
         }
+
+        retVal &= checkForValidFileType(biography);
+
         if (!checkForDuplicates(biography,biographies)){
             retVal = false;
             getAuditErrors(ATTACHMENT_PERSONNEL_SECTION_NAME,AUDIT_ERRORS).add(new AuditError(String.format(BIOGRAPHY_TYPE_KEY,index),KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE,ATTACHMENT_PAGE_ID + "." + ATTACHMENT_PERSONNEL_SECTION_ID));
@@ -153,7 +158,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
                         !StringUtils.equalsIgnoreCase(getProposalPersonBiographyService().findPropPerDocTypeForOther().getCode(),personBiography.getDocumentTypeCode()) &&
                         personBiography.getProposalPersonNumber().equals(biography.getProposalPersonNumber())
                         && personBiography.getDocumentTypeCode().equals(biography.getDocumentTypeCode())){
-                	if(personBiography.getBiographyNumber() != biography.getBiographyNumber()) {
+                	if(!personBiography.getBiographyNumber().equals(biography.getBiographyNumber())) {
 	                    rulePassed = false;
                 	}
                 }
@@ -162,7 +167,16 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         return rulePassed;
     }
 
-    private boolean checkForInvalidCharacters(ProposalPersonBiography proposalPersonBiography, String invalidCharacters) {
+    protected boolean checkForValidFileType(ProposalPersonBiography proposalPersonBiography) {
+        if (!Constants.PDF_REPORT_CONTENT_TYPE.equals(proposalPersonBiography.getType())) {
+            reportWarning(PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_TYPE,
+                    proposalPersonBiography.getName(), Constants.PDF_REPORT_CONTENT_TYPE);
+        }
+
+        return true;
+    }
+
+    protected boolean checkForInvalidCharacters(String invalidCharacters) {
         boolean rulePassed = true;
         if (StringUtils.isNotEmpty(invalidCharacters)) {
             rulePassed = false;
