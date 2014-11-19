@@ -84,25 +84,10 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
    
     public ActionForward closePopUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
-        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetForm budgetForm = (BudgetForm) form;
         budgetForm.setViewDivFlag(false);
         return mapping.findForward(Constants.BUDGET_PERSONNEL_PAGE);
-       
-        
-    }
-    
-   private BudgetPeriod getSelectedBudgetPeriod(BudgetForm budgetForm) {
-        Budget budget = budgetForm.getBudget();
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put("budgetId", budget.getBudgetId());
-        primaryKeys.put("budgetPeriod", budgetForm.getViewBudgetPeriod().toString());
-        List<BudgetPeriod> budgetPeriods = (List<BudgetPeriod>) getBusinessObjectService().findMatching(BudgetPeriod.class, primaryKeys);
-        BudgetPeriod budgetPeriod = null;
-        if(CollectionUtils.isNotEmpty(budgetPeriods)) {
-            budgetPeriod = budgetPeriods.get(0);
-        }
-        
-        return budgetPeriod;
+
     }
 
     /**
