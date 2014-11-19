@@ -4,6 +4,7 @@ public class BudgetConstants {
     public static final String BUDGET_PERSONNEL_NEW_GROUP_NAME = "Create New Group";
     public static final String DEFAULT_CAMPUS_FLAG = "D";
     public static final String BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT = "S";
+    public static final String ENABLE_BUDGET_CALCULATED_SALARY = "enableBudgetCalculatedSalary";
     
     public enum BudgetPerson {
         SUMMARYPERSON ("-1", "Summary");

@@ -351,7 +351,6 @@ public interface Constants {
     //Budget Change Data
     public static final String BUDGETDATA_CHANGED_VAL_KEY = "newBudgetChangedData.changedValue";
     public static final String BUDGETDATA_COMMENTS_KEY = "newBudgetChangedData.comments";
-    public static final String ENABLE_BUDGET_CALCULATED_SALARY = "enableBudgetCalculatedSalary";
 
     public static final String PERSONNEL_BUDGET_PANEL_NAME = "Personnel Budget";
     public static final String INITIAL_UNIT_HIERARCHY_LOAD_DEPTH = "initialUnitLoadDepth";
