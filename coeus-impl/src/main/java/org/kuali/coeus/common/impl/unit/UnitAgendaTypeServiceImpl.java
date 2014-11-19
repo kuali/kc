@@ -73,8 +73,8 @@ public class UnitAgendaTypeServiceImpl extends AgendaTypeServiceBase  {
     	String baseLookupUrl = LookupUtils.getBaseLookupUrl();
     
         RemotableQuickFinder.Builder quickFinderBuilder = RemotableQuickFinder.Builder.create(baseLookupUrl, unitClassName);
-        quickFinderBuilder.setLookupParameters(Collections.singletonMap("Unit", "unitNumber"));
-        quickFinderBuilder.setFieldConversions(Collections.singletonMap("unitNumber","Unit"));
+        quickFinderBuilder.setLookupParameters(Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, "unitNumber"));
+        quickFinderBuilder.setFieldConversions(Collections.singletonMap("unitNumber",KcKrmsConstants.UNIT_NUMBER));
 
         RemotableTextInput.Builder controlBuilder = RemotableTextInput.Builder.create();
         controlBuilder.setSize(30);
@@ -90,7 +90,7 @@ public class UnitAgendaTypeServiceImpl extends AgendaTypeServiceBase  {
 
         RemotableAttributeField.Builder builder = RemotableAttributeField.Builder.create(KcKrmsConstants.UNIT_NUMBER);
         builder.setAttributeLookupSettings(lookupSettingsBuilder);
-        builder.setName("Unit");
+        builder.setName(KcKrmsConstants.UNIT_NUMBER);
         builder.setRequired(true);
         builder.setDataType(DataType.STRING);
         builder.setControl(controlBuilder);
