@@ -356,8 +356,12 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return KcServiceLocator.getService(AwardSyncService.class);
     }
 
-     public List<AwardBudgetExt> getBudgetDocumentVersions() {
+    public List<AwardBudgetExt> getBudgetDocumentVersions() {
     	 return this.getAward().getBudgets();
+    }
+
+    public List<AwardBudgetExt> getBudgets() {
+        return budgets;
     }
 
     public void setBudgets(List<AwardBudgetExt> budgets) {
