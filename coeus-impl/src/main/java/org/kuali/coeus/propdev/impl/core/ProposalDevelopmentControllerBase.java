@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
@@ -233,6 +234,9 @@ public abstract class ProposalDevelopmentControllerBase {
 
          if (getGlobalVariableService().getMessageMap().getErrorCount() == 0) {
             form.getEditableCollectionLines().clear();
+         }
+         if (StringUtils.equalsIgnoreCase(form.getPageId(), ProposalDevelopmentDataValidationConstants.DETAILS_PAGE_ID)) {
+             handleSponsorChange(proposalDevelopmentDocument);
          }
 
          preSave(proposalDevelopmentDocument);
@@ -599,6 +603,21 @@ public abstract class ProposalDevelopmentControllerBase {
             getDocumentAdHocService().addAdHocs(proposalDevelopmentDocument);
         }
 
+    }
+
+    /**
+     *
+     * If the sponsor has changed, default the key personnel role codes to COI if the role can't be found
+     */
+    public void handleSponsorChange(ProposalDevelopmentDocument proposalDevelopmentDocument){
+        for (int i=0; i< proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons().size();i++){
+            ProposalPerson person = proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons().get(i);
+            if (person.getRole() == null){
+                person.setProposalPersonRoleId(PropAwardPersonRole.CO_INVESTIGATOR);
+                String propertyName = ProposalDevelopmentConstants.PropertyConstants.PROPOSAL_PERSONS;
+                getGlobalVariableService().getMessageMap().putInfo(propertyName + "[" + i + "].proposalPersonRoleId", KeyConstants.INFO_PERSONNEL_INVALID_ROLE, person.getDevelopmentProposal().getSponsorCode(), person.getFullName());
+            }
+        }
     }
 
     protected ScienceKeyword getScienceKeyword(Object element) {

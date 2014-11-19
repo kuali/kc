@@ -21,6 +21,7 @@ public class ProposalDevelopmentConstants {
         public static final String PERSONNEL_BIOS = DOCUMENT_DEVELOPMENT_PROPOSAL + ".propPersonBios";
         public static final String NARRATIVES = DOCUMENT_DEVELOPMENT_PROPOSAL + ".narratives";
         public static final String INSTITUTE_ATTACHMENTS = DOCUMENT_DEVELOPMENT_PROPOSAL + ".instituteAttachments";
+        public static final String PROPOSAL_PERSONS = DOCUMENT_DEVELOPMENT_PROPOSAL + ".proposalPersons";
     }
     
     public static class NotificationConstants {
