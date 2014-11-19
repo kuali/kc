@@ -51,6 +51,7 @@ import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnai
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -899,5 +900,54 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 
     public boolean isShowModularBudgetQuestion(String sponsorCode) {
         return getSponsorHierarchyService().isSponsorNihMultiplePi(sponsorCode);
+    }
+
+    // Returns piece that should be locked for this form
+    protected String getLockRegion(ProposalDevelopmentDocumentForm form) {
+        //default lock region
+        String lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
+        if (isNarrativeAction(form)) {
+            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES;
+        } else if (isBudgetVersionsAction(form)) {
+            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
+        }
+
+        return lockRegion;
+    }
+
+    // Checks whether the action associated with this form instance maps to the Narrative page
+    private boolean isNarrativeAction(ProposalDevelopmentDocumentForm form) {
+        boolean isNarrativeAction = false;
+        String navigateTo = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
+        if (StringUtils.equals(form.getPageId(), ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)
+                && StringUtils.isEmpty(navigateTo)) {
+            isNarrativeAction = true;
+        } else if (StringUtils.isNotEmpty(navigateTo) && navigateTo.equalsIgnoreCase(ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
+            isNarrativeAction = true;
+        }
+
+        return isNarrativeAction;
+
+    }
+
+    // Checks whether the action associated with this form instance maps to the BudgetVersions page
+    private boolean isBudgetVersionsAction(ProposalDevelopmentDocumentForm form) {
+        boolean isBudgetVersionsAction = false;
+        String navigateTo = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
+        if (StringUtils.equals(form.getPageId(),ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID)
+                && StringUtils.isEmpty(navigateTo)) {
+            isBudgetVersionsAction = true;
+        }
+        else if (StringUtils.isNotEmpty(navigateTo)
+                && (navigateTo.equalsIgnoreCase(ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID))) {
+            isBudgetVersionsAction = true;
+        }
+
+        return isBudgetVersionsAction;
+    }
+
+    public void setupLockRegions(ProposalDevelopmentDocumentForm form) {
+        String lockRegion = getLockRegion(form);
+        GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);
     }
 }

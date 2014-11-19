@@ -6,6 +6,7 @@ import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentViewAuth
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
@@ -76,6 +77,14 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
             return false;
         }
         return super.canEditGroup(view,model,group,groupId,user);
+    }
+
+    @Override
+    public boolean canEditView(View view, ViewModel model, Person user) {
+       ProposalDevelopmentDocumentForm pdForm = ((ProposalDevelopmentDocumentForm)model);
+       ProposalDevelopmentViewHelperService pdViewService = (ProposalDevelopmentViewHelperService) pdForm.getViewHelperService();
+       pdViewService.setupLockRegions((ProposalDevelopmentDocumentForm) model);
+       return super.canEditView(view, model, user);
     }
     
 }
