@@ -157,8 +157,9 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testEditLastAggregator() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUserRoles editRoles = createProposalUserRoles("quickstart");
-        editRoles.addRoleName(RoleConstants.AGGREGATOR_DOCUMENT_LEVEL);
+        ProposalUserRoles editRoles = proposalUserRolesList.get(0);
+        editRoles.getRoleNames().clear();
+        editRoles.getRoleNames().add("Viewer");
         assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
         assertError(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
     }
