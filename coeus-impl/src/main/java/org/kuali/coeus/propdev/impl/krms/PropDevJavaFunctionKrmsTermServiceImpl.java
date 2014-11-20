@@ -33,6 +33,7 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
+import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -87,6 +88,10 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+    
+    @Autowired
+    @Qualifier("proposalTypeService")
+    private ProposalTypeService proposalTypeService;
 
     /**
      * 
@@ -657,7 +662,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     @Override
     public String s2sFederalIdRule(DevelopmentProposal developmentProposal) {
         if (developmentProposal.getS2sOpportunity() != null) {
-            String renewalType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
+            String renewalType = getProposalTypeService().getRenewProposalTypeCode();
             if (StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
                     || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
                     || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
@@ -1116,4 +1121,15 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }
+
+	public ProposalTypeService getProposalTypeService() {
+		return proposalTypeService;
+	}
+
+	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+		this.proposalTypeService = proposalTypeService;
+	}
+
+    
+    
 }

@@ -18,6 +18,7 @@ package org.kuali.coeus.propdev.impl.basic;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -27,6 +28,8 @@ import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,10 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
     
     private ParameterService parameterService;
     private SubmissionInfoService submissionInfoService;
+    
+    @Autowired
+    @Qualifier("proposalTypeService")
+    private ProposalTypeService proposalTypeService;
 
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
@@ -77,10 +84,9 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
      * @return true or false
      */
     private boolean isProposalTypeNew(String proposalTypeCode) {
-        String proposalTypeCodeNew = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
-               (proposalTypeCode.equals(proposalTypeCodeNew));
+               (proposalTypeCode.equals(getProposalTypeService().getNewProposalTypeCode()));
     }
 
     private List<AuditError> getAuditErrors(String areaName, String sectionName ) {
@@ -120,4 +126,13 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+
+	public ProposalTypeService getProposalTypeService() {
+		return proposalTypeService;
+	}
+
+	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+		this.proposalTypeService = proposalTypeService;
+	}
+
 }

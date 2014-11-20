@@ -44,7 +44,6 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.SalariesAndWagesTy
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.*;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectCostsDocument.OtherDirectCosts;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -62,8 +61,8 @@ import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.api.location.ProposalSiteContract;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -88,7 +87,6 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
@@ -164,8 +162,8 @@ public class NIHResearchAndRelatedXmlStream extends
     protected ParameterService parameterService;
 
     @Autowired
-    @Qualifier("proposalDevelopmentService")
-    private ProposalDevelopmentService proposalDevelopmentService;
+    @Qualifier("proposalTypeService")
+    private ProposalTypeService proposalTypeService;
 
     @Autowired
     @Qualifier("organizationRepositoryService")
@@ -273,17 +271,7 @@ public class NIHResearchAndRelatedXmlStream extends
         return researchAndRelatedProject;
     }
     protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = 
-            parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        String proposalTypeCodeRevision = 
-            parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        String proposalTypeCodeContinuation = 
-            parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
-
-        return !StringUtils.isEmpty(proposalTypeCode) &&
-        (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
-                proposalTypeCode.equals(proposalTypeCodeRevision) ||
-                proposalTypeCode.equals(proposalTypeCodeContinuation));
+    	return getProposalTypeService().isProposalTypeRenewalRevisionContinuation(proposalTypeCode);
     }  
 
     private void setNIHDeatils(
@@ -1847,15 +1835,15 @@ public class NIHResearchAndRelatedXmlStream extends
         this.parameterService = parameterService;
     }
 
-    public ProposalDevelopmentService getProposalDevelopmentService() {
-        return proposalDevelopmentService;
-    }
+    public ProposalTypeService getProposalTypeService() {
+		return proposalTypeService;
+	}
 
-    public void setProposalDevelopmentService(ProposalDevelopmentService proposalDevelopmentService) {
-        this.proposalDevelopmentService = proposalDevelopmentService;
-    }
+	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+		this.proposalTypeService = proposalTypeService;
+	}
 
-    public OrganizationRepositoryService getOrganizationRepositoryService() {
+	public OrganizationRepositoryService getOrganizationRepositoryService() {
         return organizationRepositoryService;
     }
 

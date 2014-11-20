@@ -30,6 +30,7 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -45,7 +46,6 @@ import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
@@ -156,7 +156,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     @Qualifier("proposalRoleTemplateService")
     private ProposalRoleTemplateService proposalRoleTemplateService;
 
+    @Autowired
+    @Qualifier("proposalTypeService")
+    private ProposalTypeService proposalTypeService;
 
+    
     /**
      * This method makes a copy of the DevelopmentProposal and sets it on a newly created doc and returns
      * the new doc.
@@ -825,14 +829,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @return true or false
      */
     protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        String proposalTypeCodeRevision = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        String proposalTypeCodeContinuation = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
-         
-        return !StringUtils.isEmpty(proposalTypeCode) &&
-               (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
-                proposalTypeCode.equals(proposalTypeCodeRevision) ||
-                proposalTypeCode.equals(proposalTypeCodeContinuation));
+       return getProposalTypeService().isProposalTypeRenewalRevisionContinuation(proposalTypeCode);
     }
 
     /**
@@ -863,5 +860,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         return proposalRoleTemplateService;
     }
 
+	public ProposalTypeService getProposalTypeService() {
+		return proposalTypeService;
+	}
 
+	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+		this.proposalTypeService = proposalTypeService;
+	}
+    
+    
 }

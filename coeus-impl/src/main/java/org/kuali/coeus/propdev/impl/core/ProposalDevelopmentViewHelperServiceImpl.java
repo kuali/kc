@@ -19,7 +19,6 @@ package org.kuali.coeus.propdev.impl.core;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.Date;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -167,6 +166,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
     @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
+    
+    @Autowired
+    @Qualifier("proposalTypeService")
+    private ProposalTypeService proposalTypeService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -796,9 +799,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     }
 
     public boolean requiresResubmissionPrompt(DevelopmentProposal developmentProposal, String resubmissionOption) {
-       return ( getProposalDevelopmentService().getResubmissionProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
-            || getProposalDevelopmentService().getContinuationProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
-            || getProposalDevelopmentService().getRevisionProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+       return ( getProposalTypeService().equals(developmentProposal.getProposalTypeCode())
+            || getProposalTypeService().equals(developmentProposal.getProposalTypeCode())
+            || getProposalTypeService().equals(developmentProposal.getProposalTypeCode())
             || isSubmissionChangeCorrected(developmentProposal))
             && resubmissionOption == null;
     }
@@ -807,7 +810,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     
     
     private boolean isSubmissionChangeCorrected(DevelopmentProposal developmentProposal) {
-        return developmentProposal.getS2sOpportunity() != null && getProposalDevelopmentService().getS2SSubmissionChangeCorrectedCode().equals(developmentProposal.getS2sOpportunity().getS2sSubmissionTypeCode());
+        return developmentProposal.getS2sOpportunity() != null && getProposalTypeService().getS2SSubmissionChangeCorrectedCode().equals(developmentProposal.getS2sOpportunity().getS2sSubmissionTypeCode());
     }
     
     public boolean renderQuestionnaire(ProposalPerson proposalPerson){
@@ -960,4 +963,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         String lockRegion = getLockRegion(form);
         GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);
     }
+
+	public ProposalTypeService getProposalTypeService() {
+		return proposalTypeService;
+	}
+
+	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+		this.proposalTypeService = proposalTypeService;
+	}
+    
+    
 }
