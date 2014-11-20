@@ -45,15 +45,15 @@ public class BudgetProjectIncome extends KcPersistableBusinessObjectBase impleme
     private Integer documentComponentId;
 
     @Id
-    @Column(name = "BUDGET_ID")
+    @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
 
-    @Column(name = "BUDGET_PERIOD_NUMBER")
+    @Column(name = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
     private Long budgetPeriodId;
 
     @ManyToOne
-    @JoinColumns(value = {@JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false),
-            @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)})
+    @JoinColumns(value = {@JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER"),
+            @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")})
     private BudgetPeriod budgetPeriod;
 
     @Column(name = "BUDGET_PERIOD")
@@ -133,6 +133,11 @@ public class BudgetProjectIncome extends KcPersistableBusinessObjectBase impleme
 
     public void setBudgetPeriod(BudgetPeriod budgetPeriod) {
         this.budgetPeriod = budgetPeriod;
+        if (budgetPeriod != null) {
+        	budgetPeriodId = budgetPeriod.getBudgetPeriodId();
+        } else {
+        	budgetPeriodId = null;
+        }
     }
 
     @Override

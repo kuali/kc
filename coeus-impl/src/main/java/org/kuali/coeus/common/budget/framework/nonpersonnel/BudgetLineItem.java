@@ -59,7 +59,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @Column(name = "LINE_ITEM_NUMBER")
     private Integer lineItemNumber; 
 
-    @Column(name = "BUDGET_ID")
+    @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
 
     @Column(name = "BUDGET_PERIOD")
@@ -130,7 +130,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @Column(name = "SUBAWARD_NUMBER", insertable = false, updatable = false)
     private Integer subAwardNumber;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false), @JoinColumn(name = "SUBAWARD_NUMBER", referencedColumnName = "SUB_AWARD_NUMBER") })
     private BudgetSubAwards budgetSubAward;
     
@@ -159,8 +159,8 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     @JoinColumn(name = "COST_ELEMENT", referencedColumnName = "COST_ELEMENT", insertable = false, updatable = false)
     private CostElement costElementBO;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false)
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private Budget budget;
 
     //ignore the budget period bo during deep copy as any link up the budget object graph
@@ -657,6 +657,11 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 	
 	public void setBudget(Budget budget) {
 		this.budget = budget;
+		if (budget != null) {
+			budgetId = budget.getBudgetId();
+		} else {
+			budgetId = null;
+		}
 	}
 	
 	public boolean isPersonnelLineItem() {
@@ -668,6 +673,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 	public void setBudgetSubAward(BudgetSubAwards budgetSubAward) {
 		this.budgetSubAward = budgetSubAward;
 		subAwardNumber = budgetSubAward.getSubAwardNumber();
+		setBudget(budgetSubAward.getBudget());
 	}
 	public DevelopmentProposal getHierarchyProposal() {
 		return hierarchyProposal;

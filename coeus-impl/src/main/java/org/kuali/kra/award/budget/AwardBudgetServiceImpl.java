@@ -552,6 +552,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 }
                 awardBudgetPerDetails.setBudgetPerson(currentBudgetPerson);
                 awardBudgetPerDetails.setPersonSequenceNumber(currentBudgetPerson.getPersonSequenceNumber());
+                awardBudgetPerDetails.setBudget(awardBudgetPeriod.getBudget());
                 awardBudgetPerDetails.setBudgetId(awardBudgetPeriod.getBudgetId());
                 awardBudgetPerDetails.setCostElement(awardBudgetLineItem.getCostElement());
                 awardBudgetPerDetails.setStartDate(awardBudgetLineItem.getStartDate());

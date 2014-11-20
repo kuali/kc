@@ -448,6 +448,7 @@ public abstract class AbstractBudgetService<T extends BudgetParent> implements B
                 for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {        
                     if (budgetLineItem.getBudgetPersonnelDetailsList() != null && !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
                         for (BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+                        	budgetPersonnelDetails.setBudget(budgetLineItem.getBudget());
                             budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
                             budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
                             budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());

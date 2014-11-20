@@ -704,6 +704,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     public void add(BudgetCostShare budgetCostShare) {
         if (budgetCostShare != null) {
             budgetCostShare.setBudgetId(getBudgetId());
+            budgetCostShare.setBudget(this);
             budgetCostShare.setDocumentComponentId(getNextValue(budgetCostShare.getDocumentComponentIdKey()));
             budgetCostShares.add(budgetCostShare);
         } else {
@@ -759,18 +760,18 @@ public class Budget extends AbstractBudget implements BudgetContract {
             budgetProjectIncome.setDocumentComponentId(getNextValue(budgetProjectIncome.getDocumentComponentIdKey()));
             budgetProjectIncomes.add(budgetProjectIncome);
 
-            budgetProjectIncome.setBudgetPeriodId(getBudgetPeriodId(budgetProjectIncome));
+            budgetProjectIncome.setBudgetPeriod(getBudgetPeriod(budgetProjectIncome));
         } else {
             LOG.warn("Attempt to add null budgetProjectIncome was ignored.");
         }
     }
 
-    public Long getBudgetPeriodId(BudgetProjectIncome budgetProjectIncome) {
+    public BudgetPeriod getBudgetPeriod(BudgetProjectIncome budgetProjectIncome) {
         List<BudgetPeriod> bPeriods = getBudgetPeriods();
         if (bPeriods != null && bPeriods.size() > 0) {
             for (BudgetPeriod bPeriod : bPeriods) {
                 if (bPeriod.getBudgetPeriod() != null && budgetProjectIncome.getBudgetPeriodNumber() != null && bPeriod.getBudgetPeriod().intValue() == budgetProjectIncome.getBudgetPeriodNumber().intValue()) {
-                    return bPeriod.getBudgetPeriodId();
+                    return bPeriod;
                 }
             }
         }
@@ -804,6 +805,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     public void add(BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         if (budgetUnrecoveredFandA != null) {
             budgetUnrecoveredFandA.setBudgetId(getBudgetId());
+            budgetUnrecoveredFandA.setBudget(this);
             budgetUnrecoveredFandA.setDocumentComponentId(getNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
             budgetUnrecoveredFandAs.add(budgetUnrecoveredFandA);
         } else {

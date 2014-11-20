@@ -20,17 +20,24 @@ import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalAddBudgetVersionEvent;
+import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardAttachment;
+import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles;
+import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.data.CopyOption;
 import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -195,6 +202,56 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
             getPropDevBudgetSubAwardService().generateSubAwardLineItems(subAward, budget);
         }
         budgetCalculationService.calculateBudget(budget);
+    }
+
+    @Override
+    public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod){
+    	Budget newBudget = copyBudgetVersionInternal(budget);
+        if (onlyOnePeriod) {
+            //Copy full first version, then include empty periods for remainder
+            List<BudgetPeriod> oldBudgetPeriods = newBudget.getBudgetPeriods(); 
+            for ( int i = 1 ; i < oldBudgetPeriods.size(); i++ ) {
+                BudgetPeriod period = oldBudgetPeriods.get(i);
+                period.getBudgetLineItems().clear();
+                period.setCostSharingAmount(new ScaleTwoDecimal(0.0));
+                period.setExpenseTotal(new ScaleTwoDecimal(0.0));
+                period.setTotalCost(new ScaleTwoDecimal(0.0));
+                period.setTotalCostLimit(new ScaleTwoDecimal(0.0));
+                period.setTotalDirectCost(new ScaleTwoDecimal(0.0));
+                period.setTotalIndirectCost(new ScaleTwoDecimal(0.0));
+                period.setUnderrecoveryAmount(new ScaleTwoDecimal(0.0));
+            }            
+
+            if (newBudget.getBudgetSubAwards() != null && newBudget.getBudgetSubAwards().size() > 0) {
+                List<BudgetSubAwardPeriodDetail> budetSubawardPeriodDetail = newBudget.getBudgetSubAwards().get(0).getBudgetSubAwardPeriodDetails();
+                for ( int i = 1 ; i < budetSubawardPeriodDetail.size(); i++ ) {
+                    BudgetSubAwardPeriodDetail period = budetSubawardPeriodDetail.get(i);
+                    period.setAmountsModified(true);
+                    period.setCostShare(new ScaleTwoDecimal(0.0));
+                    period.setDirectCost(new ScaleTwoDecimal(0.0));
+                    period.setIndirectCost(new ScaleTwoDecimal(0.0));
+                    period.setTotalCost(new ScaleTwoDecimal(0.0));
+                }
+            }
+        }
+        
+        newBudget.setBudgetVersionNumber(newBudget.getBudgetParent().getNextBudgetVersionNumber());
+
+        copyLineItemToPersonnelDetails(newBudget);
+
+        return newBudget;
+    } 
+    
+    protected Budget copyBudgetVersionInternal(Budget budget) {
+        for (BudgetSubAwards subAwards : budget.getBudgetSubAwards()) {
+        	for (BudgetSubAwardAttachment origAttachment : subAwards.getBudgetSubAwardAttachments()) {
+        		origAttachment.getData();
+        	}
+        	for (BudgetSubAwardFiles files : subAwards.getBudgetSubAwardFiles()) {
+        		files.getSubAwardXfdFileData();
+        	}
+        }
+		return (Budget) getDataObjectService().copyInstance(budget, CopyOption.RESET_OBJECT_ID, CopyOption.RESET_PK_FIELDS, CopyOption.RESET_VERSION_NUMBER);
     }
 
     /**

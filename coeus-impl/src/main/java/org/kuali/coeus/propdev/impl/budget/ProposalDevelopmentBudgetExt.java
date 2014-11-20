@@ -39,7 +39,6 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
     public static final String PARENT_BUDGET_TYPE_CODE = "PRDV";
     private static final String BUDGET_COMPLETE = "1";
 
-    @Id
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "PROPOSAL_NUMBER")
     private DevelopmentProposal developmentProposal;

@@ -88,21 +88,21 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
             if (budgetProjectIncome != null) {
                 budgetProjectIncome.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
                 budgetProjectIncome.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetProjectIncome.getDocumentComponentIdKey()));
-                budgetProjectIncome.setBudgetPeriodId(((ProposalBudgetForm) model).getBudget().getBudgetPeriodId(budgetProjectIncome));
+                budgetProjectIncome.setBudgetPeriod(((ProposalBudgetForm) model).getBudget().getBudgetPeriod(budgetProjectIncome));
             }
         }
 
         if (addLine instanceof BudgetUnrecoveredFandA) {
             BudgetUnrecoveredFandA budgetUnrecoveredFandA = (BudgetUnrecoveredFandA) addLine;
             if (budgetUnrecoveredFandA != null) {
-                budgetUnrecoveredFandA.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
+                budgetUnrecoveredFandA.setBudget(((ProposalBudgetForm) model).getBudget());
                 budgetUnrecoveredFandA.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetUnrecoveredFandA.getDocumentComponentIdKey()));
             }
         }
         if (addLine instanceof BudgetCostShare) {
             BudgetCostShare budgetCostShare = (BudgetCostShare) addLine;
             if (budgetCostShare != null) {
-                budgetCostShare.setBudgetId(((ProposalBudgetForm) model).getBudget().getBudgetId());
+                budgetCostShare.setBudget(((ProposalBudgetForm) model).getBudget());
                 budgetCostShare.setDocumentComponentId(((ProposalBudgetForm) model).getBudget().getNextValue(budgetCostShare.getDocumentComponentIdKey()));
             }
         }

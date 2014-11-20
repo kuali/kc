@@ -171,7 +171,7 @@
 		p:headerText="Copy this Budget Version" p:fieldBindingObjectPath="copyBudgetDto">
 		<property name="items">
 			<list merge="true">
-				<bean parent="Uif-InputField" p:propertyName="originalBudgetId" p:order="20">
+				<bean parent="Uif-InputField" p:propertyName="originalBudgetId" p:order="50">
 					<property name="control"><bean parent="Uif-HiddenControl"/></property>
 				</bean>
 			</list>

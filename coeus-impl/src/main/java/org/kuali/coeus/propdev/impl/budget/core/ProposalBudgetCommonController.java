@@ -29,14 +29,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@Controller("proposalBudgetCommonController")
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
 	private static final String BUDGET_SUMMARY_DIALOG_ID = "PropBudget-SummaryPage-Dialog";
 
 	@Autowired
-	@Qualifier("proposalBudgetSharedController")
-	private ProposalBudgetSharedController proposalBudgetSharedController;
+	@Qualifier("proposalBudgetSharedControllerService")
+	private ProposalBudgetSharedControllerService proposalBudgetSharedController;
 	
 	@Autowired
 	@Qualifier("parameterService")
@@ -289,12 +289,12 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		return getCollectionControllerService().editLine(form);
 	}    
 
-	public ProposalBudgetSharedController getProposalBudgetSharedController() {
+	public ProposalBudgetSharedControllerService getProposalBudgetSharedController() {
 		return proposalBudgetSharedController;
 	}
 
 	public void setProposalBudgetSharedController(
-			ProposalBudgetSharedController proposalBudgetSharedController) {
+			ProposalBudgetSharedControllerService proposalBudgetSharedController) {
 		this.proposalBudgetSharedController = proposalBudgetSharedController;
 	}
 

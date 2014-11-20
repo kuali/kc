@@ -33,8 +33,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProposalBudgetController extends ProposalDevelopmentControllerBase {
 
 	@Autowired
-	@Qualifier("proposalBudgetSharedController")
-	private ProposalBudgetSharedController proposalBudgetSharedController;
+	@Qualifier("proposalBudgetSharedControllerService")
+	private ProposalBudgetSharedControllerService proposalBudgetSharedController;
     
 	@MethodAccessible
     @RequestMapping(params="methodToCall=addBudget")
@@ -73,12 +73,12 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 		return getProposalBudgetSharedController().openBudget(budgetId, form);
 	}		
 
-	public ProposalBudgetSharedController getProposalBudgetSharedController() {
+	public ProposalBudgetSharedControllerService getProposalBudgetSharedController() {
 		return proposalBudgetSharedController;
 	}
 
 	public void setProposalBudgetSharedController(
-			ProposalBudgetSharedController proposalBudgetSharedController) {
+			ProposalBudgetSharedControllerService proposalBudgetSharedController) {
 		this.proposalBudgetSharedController = proposalBudgetSharedController;
 	}
 }
