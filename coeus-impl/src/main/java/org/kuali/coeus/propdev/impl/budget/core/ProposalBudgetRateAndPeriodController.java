@@ -120,15 +120,6 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         return getModelAndViewService().getModelAndView(form);
 	}
 
-    private Budget getOriginalBudget(ProposalBudgetForm form) {
-    	return getDataObjectService().find(Budget.class, form.getBudget().getBudgetId());
-    }
-
-	private boolean isRateTypeChanged(Budget originalBudget, Budget currentBudget) {
-        return (!StringUtils.equalsIgnoreCase(originalBudget.getOhRateClassCode(), currentBudget.getOhRateClassCode())
-            || !StringUtils.equalsIgnoreCase(originalBudget.getUrRateClassCode(), currentBudget.getUrRateClassCode()));
-    }
- 	
     @RequestMapping(params={"methodToCall=save", "pageId=PropBudget-PeriodsPage"})
     public ModelAndView save(ProposalBudgetForm form) {
     	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);

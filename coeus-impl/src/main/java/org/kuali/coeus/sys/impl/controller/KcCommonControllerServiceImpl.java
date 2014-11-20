@@ -5,13 +5,16 @@ import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ScriptUtils;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.form.HistoryManager;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.form.UifFormManager;
+import org.kuali.rice.krad.web.service.ModelAndViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +28,12 @@ public class KcCommonControllerServiceImpl implements KcCommonControllerService 
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("modelAndViewService")
+    private ModelAndViewService modelAndViewService;
+
+    private static final String CLOSE_DIALOG_JS_FN = "dismissDialog";
 
     @Override
     public UifFormBase initForm(UifFormBase requestForm, HttpServletRequest request, HttpServletResponse response) {
@@ -98,6 +107,30 @@ public class KcCommonControllerServiceImpl implements KcCommonControllerService 
         return requestForm;
     }
 
+    public ModelAndView closeDialog(String dialogId, UifFormBase form) {
+        ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
+        getModelAndViewService().prepareView(form.getRequest(), modelAndView);
+        org.kuali.rice.krad.uif.component.Component updateComponent;
+        if (form.isAjaxRequest()) {
+            updateComponent = form.getUpdateComponent();
+        } else {
+            updateComponent = form.getView();
+        }
+        String onReadyScript = ScriptUtils.appendScript(updateComponent.getOnDocumentReadyScript(), getCloseDialogScript(form.getUpdateComponentId()));
+        updateComponent.setOnDocumentReadyScript(onReadyScript);
+        form.getRequest().setAttribute(UifParameters.Attributes.VIEW_LIFECYCLE_COMPLETE, "true");
+        return modelAndView;
+    }
+    
+    protected String getCloseDialogScript(String dialogId) {
+        StringBuilder closeDialogScript = new StringBuilder();
+        closeDialogScript.append(CLOSE_DIALOG_JS_FN);
+        closeDialogScript.append("('");
+        closeDialogScript.append(dialogId);
+        closeDialogScript.append("');");
+        return closeDialogScript.toString();
+    }
+    
     public GlobalVariableService getGlobalVariableService() {
         return globalVariableService;
     }
@@ -105,4 +138,12 @@ public class KcCommonControllerServiceImpl implements KcCommonControllerService 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }
+
+	public ModelAndViewService getModelAndViewService() {
+		return modelAndViewService;
+	}
+
+	public void setModelAndViewService(ModelAndViewService modelAndViewService) {
+		this.modelAndViewService = modelAndViewService;
+	}
 }

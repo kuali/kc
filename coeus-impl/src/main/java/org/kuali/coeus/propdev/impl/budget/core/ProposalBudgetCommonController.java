@@ -33,6 +33,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
 	private static final String BUDGET_SUMMARY_DIALOG_ID = "PropBudget-SummaryPage-Dialog";
+	private static final String CONFIRM_RATE_CHANGES_DIALOG_ID = "PropBudget-BudgetSettings-ChangeRateDialog";
+	private static final String BUDGET_SETTINGS_DIALOG_ID = "PropBudget-BudgetSettings-Dialog";
 
 	@Autowired
 	@Qualifier("proposalBudgetSharedControllerService")
@@ -130,6 +132,35 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		return super.save(form);
 	}
 
+	@RequestMapping(params="methodToCall=saveBudgetSettings")
+	public ModelAndView saveBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		Budget budget = form.getBudget();
+        Budget originalBudget = getOriginalBudget(form);
+    	if(isRateTypeChanged(originalBudget, budget)) {
+        	return getModelAndViewService().showDialog(CONFIRM_RATE_CHANGES_DIALOG_ID, true, form);
+    	}
+    	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
+        super.save(form);
+		return getKcCommonControllerService().closeDialog(BUDGET_SETTINGS_DIALOG_ID, form);
+	}
+	
+	@RequestMapping(params="methodToCall=confirmBudgetSettings")
+	public ModelAndView confirmBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		Budget budget = form.getBudget();
+    	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
+    	getBudgetCalculationService().resetBudgetLineItemCalculatedAmounts(budget);
+        return super.save(form);
+	}
+
+	@RequestMapping(params="methodToCall=resetBudgetSettings")
+	public ModelAndView resetBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		Budget budget = form.getBudget();
+        Budget originalBudget = getOriginalBudget(form);
+        budget.setOhRateClassCode(originalBudget.getOhRateClassCode());
+        budget.setUrRateClassCode(originalBudget.getUrRateClassCode());
+		return getModelAndViewService().getModelAndView(form);
+	}
+	
 	public void checkViewAuthorization(@ModelAttribute("KualiForm") ProposalBudgetForm form, String methodToCall) throws AuthorizationException {
         getTransactionalDocumentControllerService().checkViewAuthorization(form);
 	}
@@ -320,5 +351,5 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
-    
+	
 }
