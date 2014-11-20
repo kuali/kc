@@ -6,7 +6,9 @@ import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
@@ -168,6 +170,15 @@ public abstract class ProposalBudgetControllerBase {
         binder.registerCustomEditor(ScaleTwoDecimal.class, new ScaleTwoDecimalEditor(new DecimalFormat("##0.00"), true));
     }
 
+    protected Budget getOriginalBudget(ProposalBudgetForm form) {
+    	return getDataObjectService().find(Budget.class, form.getBudget().getBudgetId());
+    }
+
+	protected boolean isRateTypeChanged(Budget originalBudget, Budget currentBudget) {
+        return (!StringUtils.equalsIgnoreCase(originalBudget.getOhRateClassCode(), currentBudget.getOhRateClassCode())
+            || !StringUtils.equalsIgnoreCase(originalBudget.getUrRateClassCode(), currentBudget.getUrRateClassCode()));
+    }
+    
 	public DataObjectService getDataObjectService() {
 		return dataObjectService;
 	}

@@ -138,4 +138,6 @@ public interface BudgetCalculationService {
     
     public String getPersonnelBudgetCategoryTypeCode();
     
+    public void resetBudgetLineItemCalculatedAmounts(Budget budget);
+    
 }

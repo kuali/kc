@@ -1270,6 +1270,15 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         budget.setTotalCost(totalCost);
     }
     
+    public void resetBudgetLineItemCalculatedAmounts(Budget budget) {
+    	for(BudgetLineItem budgetLineItem : budget.getBudgetLineItems()) {
+    		budgetLineItem.getBudgetLineItemCalculatedAmounts().clear();
+    		for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+    			budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts().clear();
+    		}
+    	}
+    }
+    
 	public DataObjectService getDataObjectService() {
 		return dataObjectService;
 	}
