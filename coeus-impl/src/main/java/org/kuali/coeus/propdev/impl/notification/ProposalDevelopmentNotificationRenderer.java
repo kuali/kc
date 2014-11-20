@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.notification;
 
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
@@ -43,6 +44,7 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
     private DevelopmentProposal developmentProposal;
     private ProposalChangedData proposalChangedData;
     private Narrative modifiedNarrative;
+    private ProposalPerson proposalPerson;
 
     @Autowired
     @Qualifier("proposalDevelopmentService")
@@ -64,10 +66,14 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
     public Map<String, String> getDefaultReplacementParameters() {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         Map<String, String> result = super.getDefaultReplacementParameters();
+        result.put("{DOCUMENT_NUMBER}",developmentProposal.getProposalDocument().getDocumentNumber());
         result.put("{PROPOSAL_NUMBER}", developmentProposal.getProposalNumber());
         result.put("{PROPOSAL_TITLE}", developmentProposal.getTitle());
+        result.put("{PRINCIPAL INVESTIGATOR}",developmentProposal.getPrincipalInvestigatorName());
         result.put("{SPONSOR_CODE}", developmentProposal.getSponsorCode());
         result.put("{SPONSOR_NAME}", developmentProposal.getSponsorName());
+        result.put("{START_DATE}",developmentProposal.getRequestedStartDateInitial().toString());
+        result.put("{END_DATE}",developmentProposal.getRequestedEndDateInitial().toString());
         result.put("{PROGRAM_ANNOUNCEMENT_NUMBER}", developmentProposal.getProgramAnnouncementNumber());
         result.put("{PROGRAM_ANNOUNCEMENT_TITLE}", developmentProposal.getProgramAnnouncementTitle());
         result.put("{CFDA_NUMBER}", developmentProposal.getCfdaNumber());
@@ -76,7 +82,6 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         } else {
             result.put("{DEADLINE_DATE}", "");
         }
-        result.put("{DEADLINE_DATE}", developmentProposal.getDeadlineTime());
         result.put("{PI_NAME}", developmentProposal.getPrincipalInvestigatorName());
         result.put("{LEAD_UNIT}", developmentProposal.getUnitNumber());
         result.put("{LEAD_UNIT_NAME}", developmentProposal.getUnit().getUnitName());
@@ -92,6 +97,9 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
             result.put("{NARRATIVE_MODULE_NUM}", modifiedNarrative.getModuleNumber().toString());
             result.put("{NARRATIVE_TYPE}", modifiedNarrative.getNarrativeType().getDescription());
             result.put("{NARRATIVE_MODULE_DESCRIPTION}", modifiedNarrative.getModuleTitle() == null ? "" : modifiedNarrative.getModuleTitle());
+        }
+        if (proposalPerson != null) {
+            result.put("{USER_NAME}",proposalPerson.getUserName());
         }
         return result;
     }
@@ -127,6 +135,12 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
     public void setModifiedNarrative(Narrative modifiedNarrative) {
         this.modifiedNarrative = modifiedNarrative;
     }
-    
-    
+
+    public ProposalPerson getProposalPerson() {
+        return proposalPerson;
+    }
+
+    public void setProposalPerson(ProposalPerson proposalPerson) {
+        this.proposalPerson = proposalPerson;
+    }
 }

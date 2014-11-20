@@ -135,7 +135,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return hasPermission;
     }
     
-    
+    public boolean canNotifyProposalPerson(Document document, Person user) {
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(),(Permissionable)document,PermissionConstants.NOTIFY_PROPOSAL_PERSONS);
+    }
     
     /**
      * Set the permissions to be used during the creation of the web pages.  

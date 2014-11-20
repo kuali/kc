@@ -29,6 +29,7 @@ import org.kuali.coeus.propdev.impl.copy.ProposalCopyService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -127,8 +128,8 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
      */
     @MethodAccessible
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=viewUtility")
-    public ModelAndView viewUtility(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView viewUtility(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                    @RequestParam(value="userName",required = false) String userName) throws Exception {
         ProposalDevelopmentDocument document = null;
         boolean isDeleted = false;
 
@@ -154,8 +155,29 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                                 "open", document.getDocumentNumber());
             }
 
+            if (StringUtils.isNotEmpty(userName)) {
+                for (ProposalPerson person : form.getDevelopmentProposal().getProposalPersons()) {
+                    if (StringUtils.equals(person.getUserName(),userName)) {
+                        form.setProposalPersonQuestionnaireHelper(person.getQuestionnaireHelper());
+                        break;
+                    }
+                }
+            }
+
             return getModelAndViewService().getModelAndView(form);
         }
+    }
+
+    @MethodAccessible
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certifyAnswers")
+    public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        String selectedPersonId = form.getProposalPersonQuestionnaireHelper().getProposalPerson().getPersonId();
+        for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
+            if (StringUtils.equals(proposalPerson.getPersonId(),selectedPersonId)) {
+                proposalPerson.setQuestionnaireHelper(form.getProposalPersonQuestionnaireHelper());
+            }
+        }
+        return super.save(form);
     }
 
     protected  ModelAndView returnToDocument(ProposalDevelopmentDocumentForm form, String newDocNum) {

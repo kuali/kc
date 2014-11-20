@@ -13,6 +13,7 @@ public class ProposalDevelopmentConstants {
 
     public static class Parameters {
         public static final String KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY = "KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY";
+        public static final String NOTIFY_ALL_CERTIFICATIONS_COMPLETE = "notifyAggregatorWhenAllCertificationsComplete";
     }
 
     public static class PropertyConstants {
@@ -39,6 +40,7 @@ public class ProposalDevelopmentConstants {
     public static class PropDevDocumentActions {
 		public static final String SUBMIT_TO_S2S = "submitToS2S";
 		public static final String SUBMIT_TO_SPONSOR = "submitToSponsor";
+        public static final String NOTIFY_PROPOSAL_PERSONS = "NOTIFY_PROPOSAL_PERSONS";
     }
     
     public static class PropDevParameterConstants {

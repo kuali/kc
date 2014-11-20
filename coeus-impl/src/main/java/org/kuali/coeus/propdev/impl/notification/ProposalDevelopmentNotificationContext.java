@@ -19,11 +19,14 @@ import org.kuali.coeus.common.framework.mail.EmailAttachment;
 import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.notification.impl.NotificationContextBase;
 import org.kuali.coeus.common.notification.impl.NotificationRenderer;
+import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
+import org.kuali.coeus.common.notification.impl.exception.UnknownRoleException;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationModuleRoleService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -122,6 +125,14 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
         return emailAttachments;
     }
 
+    @Override
+    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
+        if (notificationRecipient.getRoleQualifiers() == null) {
+            notificationRecipient.setRoleQualifiers(new HashMap<String,String>());
+        }
+        notificationRecipient.getRoleQualifiers().put("documentNumber", this.getDocumentNumber());
+        super.populateRoleQualifiers(notificationRecipient);
+    }
     /**
      * {@inheritDoc}
      * @param emailAttachments

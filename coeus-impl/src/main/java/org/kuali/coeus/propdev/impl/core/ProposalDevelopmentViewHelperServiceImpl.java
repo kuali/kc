@@ -238,7 +238,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         if (lineObject instanceof Note) {
-            getNoteService().save((Note)lineObject);
+            getNoteService().save((Note) lineObject);
         }
         else if (lineObject instanceof ProposalUserRoles){
             getProposalDevelopmentPermissionsService().processAddPermission(document,(ProposalUserRoles)lineObject);
@@ -885,6 +885,16 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,"propSummaryDisclaimerText");
     }
 
+    public boolean areAllCertificationsComplete(List<ProposalPerson> proposalPersons) {
+        for (ProposalPerson person : proposalPersons) {
+            for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders())  {
+                if (!answerHeader.isCompleted()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public String getWizardMaxResults() {
         return getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE,
                 KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE,

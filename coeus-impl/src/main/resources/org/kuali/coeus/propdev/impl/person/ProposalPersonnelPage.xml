@@ -30,7 +30,18 @@
 		p:instructionalText="@{document.developmentProposal.isParent() ? 'Cannot add personnel to parent proposal' : 'Search for and add key personnel'}">
 		<property name="items">
 			<list>
-				<bean parent="PropDev-PersonnelPage-AddButton" p:order="10" p:render="@{!document.developmentProposal.isParent() and !#parent.readOnly}"/>
+                <bean parent="Uif-HorizontalBoxGroup" p:order="10">
+                    <property name="items">
+                        <list>
+                            <bean parent="PropDev-PersonnelPage-AddButton" p:order="10" p:render="@{!document.developmentProposal.isParent() and !#parent.readOnly}"/>
+                            <bean parent="Uif-PrimaryActionButton" p:order="20" p:actionLabel="Notify All" p:methodToCall="sendAllCertificationNotifications" p:cssClasses="pull-right"
+                                  p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}]
+                                  and document.developmentProposal.proposalPersons.size() > 0
+                                  and !#ViewHelper.areAllCertificationsComplete(document.developmentProposal.proposalPersons)
+                                  and !#parent.readOnly}"/>
+                        </list>
+                    </property>
+                </bean>
 				<bean parent="PropDev-PersonnelPage-Collection" p:order="20" />
 			</list>
 		</property>
@@ -285,12 +296,15 @@
 							<bean parent="Uif-HorizontalBoxGroup">
 								<property name="items">
 									<list>
+                                        <bean parent="Uif-PrimaryActionButton-Mini" p:actionLabel="Notify @{#lp.fullName}" p:methodToCall="sendCertificationNotification"
+                                              p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}] and #lp.questionnairesCompleted ne true and !#parent.readOnly}"
+                                              p:order="10"/>
                                         <bean parent="Uif-ActionLink" p:iconClass="icon-arrow-up" p:render="@{#line.moveUpAllowed}"
-                                              p:actionLabel="" p:methodToCall="movePersonUp" p:order="10"/>
+                                              p:actionLabel="" p:methodToCall="movePersonUp" p:order="20"/>
                                         <bean parent="Uif-ActionLink" p:iconClass="icon-arrow-down" p:render="@{#line.moveDownAllowed}"
-                                              p:actionLabel="" p:methodToCall="movePersonDown" p:order="20"/>
+                                              p:actionLabel="" p:methodToCall="movePersonDown" p:order="30"/>
 										<bean parent="Uif-DeleteLineAction" p:actionLabel=""
-											p:iconClass="icon-trash" p:order="30" p:render="@{!#parent.readOnly}">
+											p:iconClass="icon-trash" p:order="40" p:render="@{!#parent.readOnly}">
                                             <property name="confirmationDialog">
                                                 <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete @{#lp.fullName}?"/>
                                             </property>
