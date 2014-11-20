@@ -19,13 +19,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
+import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.AuditCluster;
@@ -33,6 +31,8 @@ import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -49,6 +49,10 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
     private ParameterService parameterService;
     private DataObjectService dataObjectService;
     private SubmissionInfoService submissionInfoService;
+    
+    @Autowired
+    @Qualifier("proposalTypeService")
+    private ProposalTypeService proposalTypeService;
     
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
@@ -85,11 +89,9 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
                 getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(OPPORTUNITY_TITLE_KEY, KeyConstants.ERROR_OPPORTUNITY_TITLE_DELETED, SPONSOR_PROGRAM_INFO_PAGE_ID));
             }
 
-            String newProposalType = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
-                    ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM);
 
             if ( StringUtils.equals(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), S2sSubmissionType.CHANGE_CORRECTED_CODE) &&
-                    StringUtils.equals(proposal.getProposalTypeCode(),newProposalType) &&
+                    StringUtils.equals(proposal.getProposalTypeCode(),getProposalTypeService().getNewProposalTypeCode()) &&
                     StringUtils.isEmpty(proposal.getPrevGrantsGovTrackingID())) {
                 getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(PREV_GG_TRACKING_ID_KEY, KeyConstants.ERROR_REQUIRED_GG_TRACKING_ID, SPONSOR_PROGRAM_INFO_PAGE_ID));
                 valid = false;
@@ -107,7 +109,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
             if (StringUtils.isNotBlank(proposal.getCurrentAwardNumber())) {
                 sponsorAwardNumber = getSubmissionInfoService().getProposalCurrentAwardSponsorAwardNumber(proposal.getCurrentAwardNumber());
             }
-            if (isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode()) 
+            if (getProposalTypeService().isProposalTypeRenewalRevisionContinuation(proposal.getProposalTypeCode()) 
                     && !(StringUtils.isNotBlank(proposal.getSponsorProposalNumber())
                     || (StringUtils.isNotBlank(sponsorAwardNumber) && federalIdComesFromAward))) {
                 valid = false;
@@ -137,21 +139,6 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         return valid;
     }
     
-    /**
-     * Is the Proposal Type set to Renewal, Revision, or a Continuation?
-     * @param proposalTypeCode proposal type code
-     * @return true or false
-     */
-    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        String proposalTypeCodeRevision = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        String proposalTypeCodeContinuation = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
-         
-        return !StringUtils.isEmpty(proposalTypeCode) &&
-               (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
-                proposalTypeCode.equals(proposalTypeCodeRevision) ||
-                proposalTypeCode.equals(proposalTypeCodeContinuation));
-    }
     
     /**
      * Is the Proposal Type set to Resubmission?
@@ -159,10 +146,9 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
      * @return true or false
      */
     private boolean isProposalTypeResubmission(String proposalTypeCode) {
-        String proposalTypeCodeResubmission = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
-               (proposalTypeCode.equals(proposalTypeCodeResubmission));
+               (proposalTypeCode.equals(getProposalTypeService().getResubmissionProposalTypeCode()));
     }
 
 
@@ -211,5 +197,13 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
     }
+
+	public ProposalTypeService getProposalTypeService() {
+		return proposalTypeService;
+	}
+
+	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+		this.proposalTypeService = proposalTypeService;
+	}
 
 }

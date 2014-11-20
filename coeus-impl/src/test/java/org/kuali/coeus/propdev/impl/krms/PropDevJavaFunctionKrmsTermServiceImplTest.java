@@ -39,8 +39,10 @@ import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
+import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.attachment.PropPerDocType;
@@ -69,6 +71,7 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 	private String TRUE = "true";
 	private String FALSE = "false";
 	private PropDevJavaFunctionKrmsTermServiceImpl propDevJavaFunctionKrmsTermService;
+	private ProposalTypeService proposalTypeService;
 
 	@Before()
 	public void setUpMockery() {
@@ -80,11 +83,13 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 		dateTimeService = context.mock(DateTimeService.class);
 		questionnaireAnswerService = context.mock(QuestionnaireAnswerService.class);
 		unitService = context.mock(UnitService.class);
+		proposalTypeService = context.mock(ProposalTypeService.class);
 		propDevJavaFunctionKrmsTermService.setParameterService(parameterService);
 		propDevJavaFunctionKrmsTermService.setBusinessObjectService(businessObjectService);
 		propDevJavaFunctionKrmsTermService.setDateTimeService(dateTimeService);
 		propDevJavaFunctionKrmsTermService.setQuestionnaireAnswerService(questionnaireAnswerService);
 		propDevJavaFunctionKrmsTermService.setUnitService(unitService);
+		propDevJavaFunctionKrmsTermService.setProposalTypeService(proposalTypeService);
 	}
 
 	@Test
@@ -528,14 +533,28 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 		final String renewalType2 = "0";
 		context.checking(new Expectations() {
 			{
-				oneOf(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
+				oneOf(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.PropDevParameterConstants.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
 				will(returnValue(renewalType1));
-				oneOf(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
+				oneOf(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.PropDevParameterConstants.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
 				will(returnValue(renewalType2));
-				oneOf(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
+				oneOf(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.PropDevParameterConstants.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
 				will(returnValue(renewalType1));
-				oneOf(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
+				oneOf(parameterService).getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.PropDevParameterConstants.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
 				will(returnValue(renewalType2));
+			}
+		});
+		
+		context.checking(new Expectations() {
+			{
+				oneOf(proposalTypeService).getRenewProposalTypeCode();
+				will(returnValue(renewalType1));
+				oneOf(proposalTypeService).getRenewProposalTypeCode();
+				will(returnValue(renewalType2));
+				oneOf(proposalTypeService).getRenewProposalTypeCode();
+				will(returnValue(renewalType1));
+				oneOf(proposalTypeService).getRenewProposalTypeCode();
+				will(returnValue(renewalType2));
+
 			}
 		});
 		String result = null;

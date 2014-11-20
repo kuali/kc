@@ -46,6 +46,10 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
     @Autowired
     @Qualifier("legacyDataAdapter")
     private LegacyDataAdapter legacyDataAdapter;
+    
+    @Autowired
+    @Qualifier("proposalTypeService")
+    private ProposalTypeService proposalTypeService;
 
 
     @Override
@@ -227,16 +231,7 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
     }
 
     protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        String proposalTypeCodeRevision = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        String proposalTypeCodeContinuation = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
-
-        return !StringUtils.isEmpty(proposalTypeCode)
-                && (proposalTypeCode.equals(proposalTypeCodeRenewal) || proposalTypeCode.equals(proposalTypeCodeRevision) || proposalTypeCode
-                .equals(proposalTypeCodeContinuation));
+    	return getProposalTypeService().isProposalTypeRenewalRevisionContinuation(proposalTypeCode);
     }
 
     /**
@@ -246,10 +241,7 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
      * @return true or false
      */
     protected boolean isProposalTypeResubmission(String proposalTypeCode) {
-        String proposalTypeCodeResubmission = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
-
-        return !StringUtils.isEmpty(proposalTypeCode) && (proposalTypeCode.equals(proposalTypeCodeResubmission));
+        return !StringUtils.isEmpty(proposalTypeCode) && (proposalTypeCode.equals(getProposalTypeService().getResubmissionProposalTypeCode()));
     }
 
     /**
@@ -259,10 +251,7 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
      * @return true or false
      */
     protected boolean isProposalTypeNew(String proposalTypeCode) {
-        String proposalTypeCodeNew = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
-
-        return !StringUtils.isEmpty(proposalTypeCode) && (proposalTypeCode.equals(proposalTypeCodeNew));
+        return !StringUtils.isEmpty(proposalTypeCode) && (proposalTypeCode.equals(getProposalTypeService().getNewProposalTypeCode()));
     }
 
 
@@ -341,4 +330,12 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
     public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
         this.legacyDataAdapter = legacyDataAdapter;
     }
+
+	public ProposalTypeService getProposalTypeService() {
+		return proposalTypeService;
+	}
+
+	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
+		this.proposalTypeService = proposalTypeService;
+	}
 }

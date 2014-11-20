@@ -130,12 +130,4 @@ public interface ProposalDevelopmentService {
     
     public boolean autogenerateInstitutionalProposal();
     
-	
-	public String getResubmissionProposalTypeCode();
-	
-	public String getContinuationProposalTypeCode();
-	
-	public String getRevisionProposalTypeCode();
-	
-	public String getS2SSubmissionChangeCorrectedCode();
 }
