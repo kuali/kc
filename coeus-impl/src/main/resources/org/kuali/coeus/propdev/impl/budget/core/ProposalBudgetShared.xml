@@ -54,8 +54,10 @@
 				<bean parent="Uif-DataField" p:label="Direct Cost" p:propertyName="totalDirectCost" p:order="30" />
 				<bean parent="Uif-DataField" p:label="F&amp;A" p:propertyName="totalIndirectCost" p:order="40" />
 				<bean parent="Uif-DataField" p:label="Total" p:propertyName="totalCost" p:order="50" />
-				<bean parent="Uif-DataField" p:label="Status" p:propertyName="budgetStatusDo.description" p:order="60"/>
-				<bean parent="Uif-DataField" p:propertyName="comments" p:order="70" />
+				<bean parent="Uif-DataField" p:label="Start" p:propertyName="summaryPeriodStartDate" p:order="60" />
+				<bean parent="Uif-DataField" p:label="End" p:propertyName="summaryPeriodEndDate" p:order="70" />
+				<bean parent="Uif-DataField" p:label="Status" p:propertyName="budgetStatusDo.description" p:order="80"/>
+				<bean parent="Uif-DataField" p:propertyName="comments" p:order="90" />
 			</list>
 		</property>
 		<property name="lineActions">
