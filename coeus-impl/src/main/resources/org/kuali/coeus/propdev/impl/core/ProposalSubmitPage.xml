@@ -120,6 +120,7 @@
 					    </list>
 					  </property>
 					 </bean> 
+					 <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="true" p:methodToCall="closeWithoutSave" p:actionLabel="Close" p:order="130" />
 				</list>
 			</property>
 		</bean> 
