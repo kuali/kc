@@ -94,8 +94,6 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		budgetSummaryReport.setCumilativePage(cumulativePageType);
         ReportPageType[] reportPageTypeList = new ReportPageType[1];
         reportPageTypeList[0]=cumulativePageType;
-//
-//		ReportPageType[] reportPageTypeArray = getReportPageTypes();
 		budgetSummaryReport.setReportPageArray(reportPageTypeList);
 		return budgetSummaryReport;
 	}
@@ -547,8 +545,9 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			ReportType reportTypeForSortId4 = getReportTypeForExclusions(
 					sortId, categoryDesc, calculatedCost);
 			reportTypeList.add(reportTypeForSortId4);
-			if(calculatedCost.doubleValue()>0.0d)
+			if(calculatedCost.doubleValue()>0.0d){
 	             reportTypeList.add(reportTypeForSortId4);
+			}
 		} else {
 			sortId = 1;
 			setReportTypeOHExclusionForSortId(reportTypeList, sortId);
@@ -659,8 +658,9 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId4ForCumulativeReport();
 			ReportType reportTypeForSortId4 = getReportTypeForExclusions(
 					sortId, categoryDesc, calculatedCost);
-			if(calculatedCost.doubleValue()>0.0d)
+			if(calculatedCost.doubleValue()>0.0d){
 				reportTypeList.add(reportTypeForSortId4);
+			}
 		}
 		subReportType.setGroupArray(getGroupsType(reportTypeList));
 		return subReportType;

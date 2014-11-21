@@ -342,8 +342,9 @@ public class IndustrialBudgetXmlStream extends BudgetBaseStream {
 			}
 			ReportType reportType = getReportTypeForNonPersonnel(categoryDesc,
 					costElementDesc, calculatedCost, null);
-			if(calculatedCost.doubleValue()>0.0d)
+			if(calculatedCost.doubleValue()>0.0d){
 				reportTypeList.add(reportType);
+			}
 		}
 		setReportTypeForIndustrialBudgetNonPersonnel(reportTypeList);
 		Collections.sort(reportTypeList, new Comparator<ReportType>() {

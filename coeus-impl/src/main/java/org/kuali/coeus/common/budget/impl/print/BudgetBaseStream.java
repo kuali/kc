@@ -818,8 +818,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId4();
 			ReportType reportTypeForSortId4 = getReportTypeForExclusions(
 					sortId, categoryDesc, calculatedCost);
-			if(calculatedCost.doubleValue()>0.0d)
+			if(calculatedCost.doubleValue()>0.0d){
 				reportTypeList.add(reportTypeForSortId4);
+			}
 		} else {
 			sortId = 1;
 			setReportTypeOHExclusionForSortId(reportTypeList, sortId);
@@ -858,8 +859,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId4();
 			ReportType reportTypeForSortId4 = getReportTypeForExclusions(
 					sortId, categoryDesc, calculatedCost);
-			if(calculatedCost.doubleValue()>0.0d)
+			if(calculatedCost.doubleValue()>0.0d){
 				reportTypeList.add(reportTypeForSortId4);
+			}
 		}
 		subReportType.setGroupArray(getGroupsType(reportTypeList));
 		return subReportType;
@@ -925,9 +927,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 			    reportTypeMap.put(budgetOHExclusionKey, reportTypeVO);
 			}
 		}
-		Iterator<String> it = reportTypeMap.keySet().iterator();
-		while (it.hasNext()) {
-            String budgetOHExclusionKey = (String) it.next();
+		for (String budgetOHExclusionKey : reportTypeMap.keySet()) {
             ReportTypeVO reportTypeVO1 = reportTypeMap.get(budgetOHExclusionKey);
             ReportType reportType = ReportType.Factory.newInstance();
             reportType.setSortId(sortId);
