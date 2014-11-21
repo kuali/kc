@@ -88,7 +88,23 @@ public interface CommonMeetingService<CS extends CommitteeScheduleBase<CS, ?, ?,
      * @param itemNumber
      */
     public void deleteCommitteeScheduleMinute(CS committeeSchedule, List<CSM> deletedCommitteeScheduleMinutes, int itemNumber);
-    
+
+    /**
+     *
+     * This method is to move a committee schedule minute entry up in minute entry list.
+     * @param committeeSchedule
+     * @param itemNumber
+     */
+    public void moveupCommitteeScheduleMinute(CS committeeSchedule, int itemNumber);
+
+    /**
+     *
+     * This method is to move a committee schedule minute entry down in minute entry list.
+     * @param committeeSchedule
+     * @param itemNumber
+     */
+    public void movedownCommitteeScheduleMinute(CS committeeSchedule, int itemNumber);
+
     /**
      * 
      * This method is to populate meeting form/helper data when meeting page is loaded.

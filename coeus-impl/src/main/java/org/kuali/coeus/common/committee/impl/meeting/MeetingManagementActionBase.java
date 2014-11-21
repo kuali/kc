@@ -194,7 +194,6 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC); 
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-        String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String callerString = String.format("deleteCommitteeScheduleMinute.line%s.anchor%s",getLineToDelete(request),0);
         if (question == null){
             forward =  this.performQuestionWithoutInput(mapping, form, request, response, DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION, Resources.getMessage(request, KeyConstants.QUESTION_COMMITTEE_MANAGEMENT_DELETE_MINUTE_CONFIRMATION), KRADConstants.CONFIRMATION_QUESTION, callerString, "");
@@ -207,6 +206,42 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
                     ((MeetingFormBase) form).getMeetingHelper().getDeletedCommitteeScheduleMinutes(), getLineToDelete(request));
         } 
         return forward; 
+    }
+
+    /**
+     *
+     * This method is to move a CommitteeBase Schedule Minute up in the CommitteeBase Schedule Minute list.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward moveupCommitteeScheduleMinute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                                       HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        getMeetingService().moveupCommitteeScheduleMinute(((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule(), getLineToDelete(request));
+        return forward;
+    }
+
+    /**
+     *
+     * This method is to move a CommitteeBase Schedule Minute down in the CommitteeBase Schedule Minute list.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward movedownCommitteeScheduleMinute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                                       HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        getMeetingService().movedownCommitteeScheduleMinute(((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule(), getLineToDelete(request));
+        return forward;
     }
 
     /*
@@ -336,7 +371,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
      * 
      * @param mapping
      * @param form
-     * @param requesta
+     * @param request
      * @param response
      * @return
      */
@@ -356,7 +391,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         committeScheduleAttachment.setNewUpdateTimestamp(dateTimeService.getCurrentTimestamp());
         committeScheduleAttachment.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
         committeScheduleAttachment.setNewUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
-        addScheduleAttachmentsToCommitteSchedule( meetingForm.getMeetingHelper().getCommitteeSchedule(),committeScheduleAttachment);
+        addScheduleAttachmentsToCommitteeSchedule(meetingForm.getMeetingHelper().getCommitteeSchedule(), committeScheduleAttachment);
         meetingForm.getMeetingHelper().setCommitteeSchedule(committeSchedule);
         meetingHelper.getNewCommitteeScheduleAttachments().getAttachmentsTypeCode();
         meetingForm.getMeetingHelper().setNewCommitteeScheduleAttachments(getNewCommitteeScheduleAttachmentsInstanceHook());
@@ -368,7 +403,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
     protected abstract CommitteeScheduleAttachmentsBase getNewCommitteeScheduleAttachmentsInstanceHook();
     
     
-    public void addScheduleAttachmentsToCommitteSchedule(CommitteeScheduleBase committeSchedule,CommitteeScheduleAttachmentsBase  committeScheduleAttachment)
+    public void addScheduleAttachmentsToCommitteeSchedule(CommitteeScheduleBase committeSchedule, CommitteeScheduleAttachmentsBase committeScheduleAttachment)
     {
         committeScheduleAttachment.setCommitteeschedule(committeSchedule) ;
         committeScheduleAttachment.populateAttachment();
@@ -380,7 +415,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
      * 
      * @param mapping
      * @param form
-     * @param requesta
+     * @param request
      * @param response
      * @return
      */
@@ -406,11 +441,11 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
      * 
      * @param mapping
      * @param form
-     * @param requesta
+     * @param request
      * @param response
      * @return
      */
-    public ActionForward deleteCommitteScheduleAttachmentsAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteCommitteeScheduleAttachmentsAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MeetingFormBase meetingForm = (MeetingFormBase) form;
         MeetingHelperBase meetingHelper = meetingForm.getMeetingHelper();
         CommitteeScheduleBase committeSchedule= meetingHelper.getCommitteeSchedule();
@@ -429,7 +464,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
      * 
      * @param mapping
      * @param form
-     * @param requesta
+     * @param request
      * @param response
      * @return
      */
