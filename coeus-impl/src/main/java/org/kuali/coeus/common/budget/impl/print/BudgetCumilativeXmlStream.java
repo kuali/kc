@@ -393,8 +393,9 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		}
 		ReportType reportType = getReportTypeForNonPersonnel(categoryDesc,
 				costElementDesc, calculatedCost, null);
-		if(calculatedCost.doubleValue()>0.0)
+		if(calculatedCost.doubleValue()>0.0){
 			reportTypeList.add(reportType);
+		}
 		setReportTypeForBudgetCumulativeNonPersonnel(reportTypeList);
 		Collections.sort(reportTypeList, new Comparator<ReportType>() {
 			public int compare(ReportType reportType1, ReportType reportType2) {
