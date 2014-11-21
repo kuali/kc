@@ -37,6 +37,7 @@ import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.protocol.questionnaire.SaveProtocolQuestionnaireEvent;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerEvent;
@@ -529,7 +530,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         AnswerHeader answerHeader = helper.getAnswerHeaders().get(answerHeaderIndex);
         // TODO : a flag to check whether to print answer or not
         // for release 3 : if questionnaire questions has answer, then print answer. 
-        reportParameters.put("questionnaireId",
+        reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME,
                 answerHeader.getQuestionnaire()
                         .getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template",

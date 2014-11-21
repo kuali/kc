@@ -33,6 +33,7 @@ import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.QuestionnaireDocument.Questionnaire;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
@@ -173,13 +174,13 @@ public class QuestionnaireXmlStream implements XmlStream {
         Questionnaire questionnaireType = questionnaireDocument.addNewQuestionnaire();
         
         String documentNumber = (String)params.get(DOCUMENT_NUMBER);
-        Long questionnaireId= Long.parseLong(params.get("questionnaireId").toString());
+        Long questionnaireSeqenceId= Long.parseLong(params.get(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME).toString());
         org.kuali.coeus.common.questionnaire.framework.core.Questionnaire questionnaire =
                 (org.kuali.coeus.common.questionnaire.framework.core.Questionnaire)params.get(QUESTIONNAIRE);
         if (questionnaire == null) {
-            if (questionnaireId != null) { 
+            if (questionnaireSeqenceId != null) { 
                 Map<String,Long> qParam = new HashMap<String,Long>();
-                qParam.put("questionnaireSeqId", questionnaireId);
+                qParam.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, questionnaireSeqenceId);
                 List<org.kuali.coeus.common.questionnaire.framework.core.Questionnaire> questionnaires =
                     (List)businessObjectService.findMatchingOrderBy(
                             org.kuali.coeus.common.questionnaire.framework.core.Questionnaire.class, qParam, ID, false);

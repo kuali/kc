@@ -66,10 +66,10 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
     }
 
     private boolean isQuestionnaireActive(AnswerHeader answerHeader) {        
-        Integer questionnaireId = answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger();
+        Integer questionniareSeqId = answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger();
         String coeusModuleCode = answerHeader.getModuleItemCode();
         String coeusSubModuleCode = answerHeader.getModuleSubItemCode(); 
-        return getQuestionnaireAnswerService().checkIfQuestionnaireIsActiveForModule(questionnaireId, coeusModuleCode, coeusSubModuleCode);
+        return getQuestionnaireAnswerService().checkIfQuestionnaireIsActiveForModule(questionniareSeqId, coeusModuleCode, coeusSubModuleCode);
     }
     
     private int getMaxSubmissionNumber() {

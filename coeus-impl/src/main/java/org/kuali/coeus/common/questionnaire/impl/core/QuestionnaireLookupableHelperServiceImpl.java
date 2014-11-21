@@ -19,6 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireAuthorizationService;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -57,7 +58,6 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
     private static final String MAINTENANCE = "maintenance";
     private static final String NEW_MAINTENANCE = "../maintenanceQn";
     private static final String DOC_ROUTE_STATUS = "docRouteStatus";
-    private static final String QUESTIONNAIRE_ID = "questionnaireSeqId";
     private List<MaintenanceDocumentBase> questionnaireMaintenanceDocs;
     private List<MaintenanceDocumentBase> newQuestionnaireDocs;
     private List<String> questionnaireIds;
@@ -96,12 +96,13 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
      */
     private List<? extends BusinessObject> getCurrentVersionQuestionnaires(List<? extends BusinessObject> searchResults) {
         List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
-        int qId = 0;
-        for (BusinessObject questionnaire : searchResults) {
-            if (qId != ((Questionnaire) questionnaire).getQuestionnaireSeqIdAsInteger()) {
-                if (isCurrent((Questionnaire) questionnaire)) {
-                    questionnaires.add((Questionnaire) questionnaire);
-                    qId = ((Questionnaire) questionnaire).getQuestionnaireSeqIdAsInteger();
+        Integer questionnaireSeqId = 0;
+        for (BusinessObject bo : searchResults) {
+        	Questionnaire questionnaire = (Questionnaire) bo;
+            if (!questionnaire.getQuestionnaireSeqIdAsInteger().equals(questionnaireSeqId)) {
+                if (isCurrent(questionnaire)) {
+                    questionnaires.add(questionnaire);
+                    questionnaireSeqId = questionnaire.getQuestionnaireSeqIdAsInteger();
                 }
             }
         }
@@ -119,16 +120,16 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
      * search results is indeed the current version.
      */
     private boolean isCurrent(Questionnaire questionnaire) {
-        Questionnaire currentQnaire = getQuestionnaireById(questionnaire.getQuestionnaireSeqId());
+        Questionnaire currentQnaire = getQuestionnaireBySeqId(questionnaire.getQuestionnaireSeqId());
         return questionnaire.getId().equals(currentQnaire.getId());
     }
 
-    protected Questionnaire getQuestionnaireById(String questionnaireSeqId) {
+    protected Questionnaire getQuestionnaireBySeqId(String questionnaireSeqId) {
         Questionnaire questionnaire = null;
         if (questionnaireSeqId != null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(QUESTIONNAIRE_ID, questionnaireSeqId);
-            Collection<Questionnaire> questionnaires = getBusinessObjectService().findMatchingOrderBy(Questionnaire.class, fieldValues, "UPDATE_TIMESTAMP", false);
+            fieldValues.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, questionnaireSeqId);
+            Collection<Questionnaire> questionnaires = getBusinessObjectService().findMatchingOrderBy(Questionnaire.class, fieldValues, "SEQUENCE_NUMBER", false);
             if (questionnaires.size() > 0) {
                 questionnaire = Collections.max(questionnaires);
             }

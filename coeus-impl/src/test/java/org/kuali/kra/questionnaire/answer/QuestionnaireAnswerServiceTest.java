@@ -33,6 +33,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.impl.core.QuestionnaireServiceImpl;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
@@ -47,7 +48,6 @@ public class QuestionnaireAnswerServiceTest {
     public static final String SEQUENCE_NUMBER = "sequenceNumber";
     public static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
     public static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
-    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
     public static final String MODULE_ITEM_CODE = "moduleItemCode";
     public static final String MODULE_ITEM_KEY = "moduleItemKey";
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
@@ -67,7 +67,7 @@ public class QuestionnaireAnswerServiceTest {
         fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
         fieldValues.put(MODULE_SUB_ITEM_CODE, "0");
         final Map <String, String> fieldValues1 = new HashMap<String, String>();
-        fieldValues1.put(QUESTIONNAIRE_SEQ_ID, "1");
+        fieldValues1.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, "1");
 
         final Questionnaire questionnairenew = getQuestionnaire(1, 1, 2L); 
         questionnairenew.getQuestionnaireQuestions().add(createChildQuestionnaireQuestion(4,1,"1","N"));
@@ -202,7 +202,7 @@ public class QuestionnaireAnswerServiceTest {
         fieldValues.put(MODULE_SUB_ITEM_KEY, "0");
         fieldValues.put(MODULE_SUB_ITEM_CODE, "0");
         final Map <String, String> fieldValues1 = new HashMap<String, String>();
-        fieldValues1.put(QUESTIONNAIRE_SEQ_ID, "1");
+        fieldValues1.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, "1");
         final Map <String, String> fieldValues2 = new HashMap<String, String>();
         fieldValues2.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
         fieldValues2.put(MODULE_SUB_ITEM_CODE, "0");
@@ -363,9 +363,9 @@ public class QuestionnaireAnswerServiceTest {
         fieldValues.put(MODULE_SUB_ITEM_CODE, "0");
         fieldValues.put(MODULE_SUB_ITEM_KEY, "0");
         final Map <String, String> fieldValues2 = new HashMap<String, String>();
-        fieldValues2.put(QUESTIONNAIRE_SEQ_ID, "1");
+        fieldValues2.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, "1");
         final Map <String, String> fieldValues3 = new HashMap<String, String>();
-        fieldValues3.put(QUESTIONNAIRE_SEQ_ID, "2");
+        fieldValues3.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, "2");
 
         final Collection<AnswerHeader> headers = new ArrayList<AnswerHeader>();
         AnswerHeader answerHeader = createAnswerHeaderForVersioning(1L, "0912000001", "0");
@@ -478,7 +478,7 @@ public class QuestionnaireAnswerServiceTest {
         
         // create the field values map for the mock service
         final Map <String, Long> fieldValues = new HashMap<String, Long>();
-        fieldValues.put(QUESTIONNAIRE_SEQ_ID, Long.valueOf(questionnaireId));
+        fieldValues.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, Long.valueOf(questionnaireId));
                 
         // define the mock business object service
         final Collection<Questionnaire> questionnaires = new ArrayList<Questionnaire>();

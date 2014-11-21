@@ -49,6 +49,7 @@ import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.document.Document;
@@ -87,7 +88,6 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     private static final String SUFFIX_T = "T";
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
     public static final String TEMPLATE = "template";
     public static final String SEQUENCE_NUMBER = "sequenceNumber";
 
@@ -207,7 +207,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         AnswerHeader answerHeader = getAnswerHeader(request);
         // for release 3 : if questionnaire questions has answer, then print answer.
-        reportParameters.put(QUESTIONNAIRE_SEQ_ID, answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
+        reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, answerHeader.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
         reportParameters.put(TEMPLATE, answerHeader.getQuestionnaire().getTemplate());
         Protocol protocol;
         if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {

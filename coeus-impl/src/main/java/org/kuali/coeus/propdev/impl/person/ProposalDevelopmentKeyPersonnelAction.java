@@ -38,6 +38,7 @@ import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireH
 import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitEvent;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -742,7 +743,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
         AnswerHeader header = helper.getAnswerHeaders().get(0);
         
-        reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
+        reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, header.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template", header.getQuestionnaire().getTemplate());
 
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(person, reportParameters);

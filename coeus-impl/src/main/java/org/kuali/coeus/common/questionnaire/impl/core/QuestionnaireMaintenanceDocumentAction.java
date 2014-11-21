@@ -485,7 +485,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private void preRouteCopy(ActionForm form) {
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         Map fieldValues = new HashMap<String, Object>();
-        fieldValues.put("id", ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+        fieldValues.put(QuestionnaireConstants.QUESTIONNAIRE_ID_PARAMETER_NAME, ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                 .getOldMaintainableObject().getDataObject()).getId());
         Questionnaire oldQuestionnaire = (Questionnaire) getBusinessObjectService().findByPrimaryKey(Questionnaire.class,
                 fieldValues);
@@ -593,6 +593,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         } else {
            reportParameters.put(TEMPLATE, questionnaire.getTemplate());
         }
+        reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, questionnaire.getId());
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaire(null, reportParameters);
         if (dataStream.getData() != null) {
             PrintingUtils.streamToResponse(dataStream, response);

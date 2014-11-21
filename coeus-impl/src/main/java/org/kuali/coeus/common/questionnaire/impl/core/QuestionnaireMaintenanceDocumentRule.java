@@ -17,6 +17,7 @@ package org.kuali.coeus.common.questionnaire.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
@@ -128,7 +129,7 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
      */
     protected boolean checkForLatestQuuestionnaireSequenceNumber(Long id, Integer sequenceNumber) {
         Map fieldValues = new HashMap();
-        fieldValues.put("QUESTIONNAIRE_REF_ID", id);
+        fieldValues.put(QuestionnaireConstants.QUESTIONNAIRE_ID_PARAMETER_NAME, id);
         boolean sortAscending = true;
         Collection<Questionnaire> questionnaires = getBusinessObjectService().findMatchingOrderBy(Questionnaire.class, fieldValues, "SEQUENCE_NUMBER", sortAscending);
         boolean foundCurrentSequence = false;

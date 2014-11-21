@@ -33,6 +33,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrint;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -59,7 +60,6 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 		ProposalDevelopmentPrintingService {
 
     private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
-    public static final String QUESTIONNAIRE_ID = "questionnaireId";
     public static final String TEMPLATE = "template";
     public static final String SPONSOR_HIERARCHY_NAME = "sponsorHierarchyName";
 
@@ -257,7 +257,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
             ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(person);
             helper.populateAnswers();
             AnswerHeader header = helper.getAnswerHeaders().get(0);            
-            reportParameters.put(QUESTIONNAIRE_ID, header.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
+            reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, header.getQuestionnaire().getQuestionnaireSeqIdAsInteger());
             reportParameters.put(TEMPLATE, header.getQuestionnaire().getTemplate());
             AbstractPrint printable = new QuestionnairePrint();
             try {

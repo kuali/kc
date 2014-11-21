@@ -23,6 +23,7 @@ import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -41,7 +42,6 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     private static final String PARAM_NAME = "associateModuleQuestionnairePermission";
     public static final String MODULE_ITEM_CODE = "moduleItemCode";
     public static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
-    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
     public static final String NAME = "name";
     @Autowired
     @Qualifier("businessObjectService")
@@ -166,7 +166,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     
     public boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(QUESTIONNAIRE_SEQ_ID, questionnaire.getQuestionnaireSeqId());
+        fieldValues.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, questionnaire.getQuestionnaireSeqId());
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class, fieldValues, "sequenceNumber", false);
         return questionnaire.getId().equals(questionnaires.get(0).getId());
     }

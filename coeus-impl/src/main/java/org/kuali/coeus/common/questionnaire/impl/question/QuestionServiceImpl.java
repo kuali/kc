@@ -18,6 +18,7 @@ package org.kuali.coeus.common.questionnaire.impl.question;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,7 +37,6 @@ public class QuestionServiceImpl implements QuestionService {
     private static final String QUESTION_REF_ID = "id";
     private static final String QUESTION_ID = "questionSeqId";
     private static final String QUESTION_QUESTION_ID = "questionnaireQuestions.question.questionSeqId";
-    private static final String QUESTIONNAIRE_ID = "questionnaireSeqId";
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -108,7 +108,7 @@ public class QuestionServiceImpl implements QuestionService {
     @SuppressWarnings("unchecked")
     protected boolean isActiveQuestionnaire(Questionnaire questionnaire) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(QUESTIONNAIRE_ID, questionnaire.getQuestionnaireSeqId());
+        fieldValues.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, questionnaire.getQuestionnaireSeqId());
         Collection<Questionnaire> questionnaires = businessObjectService.findMatching(Questionnaire.class, fieldValues);
         if (questionnaires.size() > 0) {
             Questionnaire maxQuestionnaire = (Questionnaire) Collections.max(questionnaires);

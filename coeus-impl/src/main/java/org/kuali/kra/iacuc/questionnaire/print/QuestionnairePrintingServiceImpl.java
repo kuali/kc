@@ -24,6 +24,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrint;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -37,19 +38,17 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SUBMISSION_NUMBER = "submissionNumber";
     private static final String SEQUENCE_NUMBER = "SEQUENCE_NUMBER";
-    public static final String QUESTIONNAIRE_SEQ_ID = "questionnaireSeqId";
     public static final String TEMPLATE = "template";
     public static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
     public static final String SUBMISSION_ID = "submissionId";
-    public static final String ID = "id";
     private PrintingService printingService;
     private QuestionnairePrint questionnairePrint;
     private BusinessObjectService businessObjectService;
 
     
-    private Questionnaire getQuestionnaire(Long questionnaireRefId) {
+    private Questionnaire getQuestionnaire(Long id) {
         Map pkMap = new HashMap();
-        pkMap.put(ID, questionnaireRefId);
+        pkMap.put(QuestionnaireConstants.QUESTIONNAIRE_ID_PARAMETER_NAME, id);
         return (Questionnaire)businessObjectService.findByPrimaryKey(Questionnaire.class, pkMap);
         
     }
@@ -64,8 +63,8 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
                 printable.setXmlStream(getQuestionnairePrint().getXmlStream());
                 Map<String, Object> reportParameters = new HashMap<String, Object>();
                 Questionnaire questionnaire = getQuestionnaire(printOption.getQuestionnaireId());
-                reportParameters.put(QUESTIONNAIRE_SEQ_ID, questionnaire.getQuestionnaireSeqIdAsInteger());
-                reportParameters.put(ID, questionnaire.getId());
+                reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, questionnaire.getQuestionnaireSeqIdAsInteger());
+                reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_ID_PARAMETER_NAME, questionnaire.getId());
                 reportParameters.put(TEMPLATE, questionnaire.getTemplate());
                 //reportParameters.put("documentNumber", questionnaire.getDocumentNumber());
                 //  will be used by amendquestionnaire

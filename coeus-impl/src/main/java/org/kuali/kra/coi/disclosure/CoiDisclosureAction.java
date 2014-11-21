@@ -44,6 +44,7 @@ import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
@@ -1015,7 +1016,7 @@ public class CoiDisclosureAction extends CoiAction {
         AnswerHeader answerHeader = helper.getAnswerHeaders().get(answerHeaderIndex);
         // TODO : a flag to check whether to print answer or not
         // for release 3 : if questionnaire questions has answer, then print answer. 
-        reportParameters.put("questionnaireId",
+        reportParameters.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME,
                 answerHeader.getQuestionnaire()
                         .getQuestionnaireSeqIdAsInteger());
         reportParameters.put("template",
