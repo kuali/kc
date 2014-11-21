@@ -231,7 +231,7 @@ public abstract class ProposalDevelopmentControllerBase {
              ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateAttachmentReferences(form.getDevelopmentProposal());
          }
 
-         if (getGlobalVariableService().getMessageMap().getErrorCount() == 0) {
+         if (getGlobalVariableService().getMessageMap().getErrorCount() == 0 && form.getEditableCollectionLines() != null) {
             form.getEditableCollectionLines().clear();
          }
 
