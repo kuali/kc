@@ -46,7 +46,7 @@ public class ProposalSpecialReviewApprovalTypeValuesFinder extends SpecialReview
     @Override
     public List<KeyValue> getKeyValues(ViewModel model, InputField field) {
     	ProposalDevelopmentDocumentForm proposalDevelopmentForm = (ProposalDevelopmentDocumentForm)model;
-    	ProposalSpecialReview proposalSpecialReview = ObjectPropertyUtils.getPropertyValue(model, field.getBindingInfo().getBindByNamePrefix());
+    	ProposalSpecialReview proposalSpecialReview = ObjectPropertyUtils.getPropertyValue(model, field.getBindingInfo().getBindingPathPrefix());
         List<KeyValue> approvalTypes = new ArrayList<KeyValue>();
     	Map<String,String> matchingCriteria = new HashMap<String,String>();
         if(proposalSpecialReview != null && proposalSpecialReview.getSpecialReviewTypeCode() != null && 

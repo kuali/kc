@@ -34,6 +34,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
@@ -270,6 +271,15 @@ public abstract class ProposalDevelopmentControllerBase {
          } else {
              view = getModelAndViewService().getModelAndView(form);
          }
+
+         if (form.getProposalDevelopmentDocument().getDevelopmentProposal() != null
+                 && form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews() != null) {
+             for (ProposalSpecialReview specialReview : form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews()) {
+                 if (!specialReview.isLinkedToProtocol()) {
+                     form.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
+                 }
+             }
+         }
          
          return view;
      }
@@ -297,6 +307,15 @@ public abstract class ProposalDevelopmentControllerBase {
              view = getModelAndViewService().getModelAndView(form, pageId);
          } else {
              view = getModelAndViewService().getModelAndView(form);
+         }
+
+         if (pdForm.getProposalDevelopmentDocument().getDevelopmentProposal() != null
+                 && pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews() != null) {
+             for (ProposalSpecialReview specialReview : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews()) {
+                 if (!specialReview.isLinkedToProtocol()) {
+                     pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
+                 }
+             }
          }
 
          return view;

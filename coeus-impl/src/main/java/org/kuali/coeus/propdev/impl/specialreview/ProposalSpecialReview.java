@@ -131,11 +131,12 @@ public class ProposalSpecialReview extends SpecialReview<ProposalSpecialReviewEx
         } else if (!hierarchyProposalNumber.equals(other.hierarchyProposalNumber)) {
             return false;
         }
-        if (getDevelopmentProposal().getProposalNumber() == null) {
-            if (other.getDevelopmentProposal().getProposalNumber() != null) {
+        if (getDevelopmentProposal() != null && getDevelopmentProposal().getProposalNumber() == null) {
+            if (other.getDevelopmentProposal() == null || other.getDevelopmentProposal().getProposalNumber() != null) {
                 return false;
             }
-        } else if (!getDevelopmentProposal().getProposalNumber().equals(other.getDevelopmentProposal().getProposalNumber())) {
+        } else if (getDevelopmentProposal() != null && other.getDevelopmentProposal() != null
+                && !getDevelopmentProposal().getProposalNumber().equals(other.getDevelopmentProposal().getProposalNumber())) {
             return false;
         }
         if (id == null) {
