@@ -2907,7 +2907,7 @@ var documentWebScope;
   if (personnelDetailsWindow && personnelDetailsWindow.open && !personnelDetailsWindow.closed){
   	personnelDetailsWindow.focus();
   }else{
-    personnelDetailsWindow = window.open(extractUrlBase()+"/budgetPersonnel.do?methodToCall=personnelDetails&budgetPeriod="+budgetPeriod+"&line="+lineNumber+"&personNumber="+personNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "personnelDetailsWindow", "width=650, height=400, scrollbars=yes");
+    personnelDetailsWindow = window.open(extractUrlBase()+"/awardBudgetPersonnel.do?methodToCall=personnelDetails&budgetPeriod="+budgetPeriod+"&line="+lineNumber+"&personNumber="+personNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "personnelDetailsWindow", "width=650, height=400, scrollbars=yes");
     if (window.focus) {
          personnelDetailsWindow.focus();
     }

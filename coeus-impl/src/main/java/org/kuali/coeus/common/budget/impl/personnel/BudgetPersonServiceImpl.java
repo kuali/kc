@@ -40,6 +40,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.krad.data.CompoundKey;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -258,10 +259,10 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     @SuppressWarnings("unchecked")
     @Override
     public BudgetPerson findBudgetPerson(BudgetPersonnelDetails budgetPersonnelDetails) {
-        Map queryMap = new HashMap();
+        final Map queryMap = new HashMap();
         queryMap.put("budgetId", budgetPersonnelDetails.getBudgetId());
         queryMap.put("personSequenceNumber", budgetPersonnelDetails.getPersonSequenceNumber());
-        return (BudgetPerson)businessObjectService.findByPrimaryKey(BudgetPerson.class, queryMap);
+        return dataObjectService.find(BudgetPerson.class, new CompoundKey(queryMap));
     }
 
     /**
@@ -345,11 +346,12 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         String jobCodeValidationEnabledInd = this.parameterService.getParameterValueAsString(
                 Budget.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
         
-        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
-            Map fieldValues = new HashMap();
+        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) {
+
+            final Map fieldValues = new HashMap();
             fieldValues.put("budgetId", budgetId);
             fieldValues.put("personSequenceNumber", personSequenceNumber);
-            BudgetPerson budgetPerson = (BudgetPerson) businessObjectService.findByPrimaryKey(BudgetPerson.class, fieldValues);
+            BudgetPerson budgetPerson = dataObjectService.find(BudgetPerson.class, new CompoundKey(fieldValues));
             
             fieldValues.clear();
             if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {

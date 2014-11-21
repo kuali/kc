@@ -86,20 +86,16 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             //budget justification should never end up on the personnel details
             newBudgetPersonnelDetails.setBudgetJustification(null);
         }catch (Exception e) {
+            LOG.error(e.getMessage(), e);
             copyLineItemToPersonnelDetails(budgetLineItem, newBudgetPersonnelDetails);
         }
         /*
          * Need to solve the document next value refresh issue
          */
-        
         newBudgetPersonnelDetails.setPersonNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
         newBudgetPersonnelDetails.setPersonSequenceNumber(newBudgetPersonnelDetails.getPersonSequenceNumber());
-        BudgetPerson budgetPerson = budgetPersonService.findBudgetPerson(newBudgetPersonnelDetails);
-        if(budgetPerson != null) {
-            newBudgetPersonnelDetails.setPersonId(budgetPerson.getPersonRolodexTbnId());
-            newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
-            newBudgetPersonnelDetails.setBudgetPerson(budgetPerson);
-        }
+        newBudgetPersonnelDetails.setPersonId(newBudgetPersonnelDetails.getBudgetPerson().getPersonId());
+        newBudgetPersonnelDetails.setJobCode(newBudgetPersonnelDetails.getBudgetPerson().getJobCode());
         newBudgetPersonnelDetails.setSequenceNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);

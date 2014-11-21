@@ -271,17 +271,17 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 	            budget.setBudgetPeriods(getBudgetSummaryService().generateBudgetPeriods(budget));
 	        }
 			awardDocument.getAward().getBudgets().add(budget);
-			budget = saveBudget(budget);
-			return budget;
+            try {
+                budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
+            } catch (WorkflowException e) {
+                throw new RuntimeException(e);
+            }
+
+			return budgetDocument.getBudget();
 		} else {
 			return null;
 		}
     }
-    
-    protected AwardBudgetExt saveBudget(AwardBudgetExt budget) {
-    	return getBusinessObjectService().save(budget);
-    }
-
 
     @Override
     public AwardBudgetDocument getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
