@@ -6,9 +6,9 @@
     <xsl:variable name="XML" select="/"/>
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
-            <fo:simple-page-master master-name="default-page" page-height="8.5in" page-width="11in" margin-left="1.2in" margin-right="0.65in">
+            <fo:simple-page-master master-name="default-page" page-height="8.5in" page-width="11in" margin-left="0.2in" margin-right="0.2in">
                 <fo:region-body margin-top="1.6in" margin-bottom="0.2in"/>
-                <fo:region-before extent="1.5in"/>
+                <fo:region-before extent="1.3in"/>
                 <fo:region-after extent="0.2in"/>
             </fo:simple-page-master>
         </fo:layout-master-set>
@@ -518,12 +518,12 @@
                                         </fo:inline-container>
                                         <xsl:if test="salary">
                                             <fo:table font-family="Times New Roman" font-size="8pt" table-layout="fixed" width="100%" border="solid 0.4pt gray">
-                                                <fo:table-column column-width="24%"/>
-                                                <fo:table-column column-width="33%"/>
+                                                <fo:table-column column-width="25%"/>
+                                                <fo:table-column column-width="28%"/>
                                                 <fo:table-column column-width="11%"/>
                                                 <fo:table-column column-width="11%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="13%"/>
+                                                <fo:table-column column-width="11%"/>
+                                                <fo:table-column column-width="14%"/>
                                                 <fo:table-header start-indent="0pt">
                                                     <fo:table-row>
                                                         <fo:table-cell border="solid 0.4pt gray"   display-align="center">
@@ -854,13 +854,13 @@
                                         </fo:inline-container>
                                         <xsl:if test="salary">
                                             <fo:table font-family="Times New Roman" font-size="8pt" table-layout="fixed" width="100%" border="solid 0.4pt gray">
-                                                <fo:table-column column-width="20%"/>
-                                                <fo:table-column column-width="30%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
+												<fo:table-column column-width="18%"/>
+												<fo:table-column column-width="25%"/>
+												<fo:table-column column-width="11%"/>
+												<fo:table-column column-width="11%"/>
+												<fo:table-column column-width="11%"/>
+												<fo:table-column column-width="11%"/>
+												<fo:table-column column-width="13%"/>
                                                 <fo:table-header start-indent="0pt">
                                                     <fo:table-row>
                                                         <fo:table-cell border="solid 0.4pt gray"   display-align="center">
@@ -1252,14 +1252,14 @@
                                         </fo:inline-container>
                                         <xsl:if test="salary">
                                             <fo:table font-family="Times New Roman" font-size="8pt" table-layout="fixed" width="100%" border="solid 0.4pt gray">
-                                                <fo:table-column column-width="16%"/>
-                                                <fo:table-column column-width="33%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="12%"/>
+												<fo:table-column column-width="16%"/>
+												<fo:table-column column-width="20%"/>
+												<fo:table-column column-width="10%"/>
+												<fo:table-column column-width="10%"/>
+												<fo:table-column column-width="10%"/>
+												<fo:table-column column-width="10%"/>
+												<fo:table-column column-width="10%"/>
+												<fo:table-column column-width="12%"/>
                                                 <fo:table-header start-indent="0pt">
                                                     <fo:table-row>
                                                         <fo:table-cell border="solid 0.4pt gray"   display-align="center">
@@ -1712,13 +1712,15 @@
                                         </fo:inline-container>
                                         <xsl:if test="salary">
                                             <fo:table font-family="Times New Roman" font-size="8pt" table-layout="fixed" width="100%" border="solid 0.4pt gray">
-                                                <fo:table-column column-width="16%"/>
-                                                <fo:table-column column-width="33%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
+												<fo:table-column column-width="16%"/>
+												<fo:table-column column-width="24%"/>
+												<fo:table-column column-width="8%"/>
+												<fo:table-column column-width="8%"/>
+												<fo:table-column column-width="8%"/>
+												<fo:table-column column-width="8%"/>
+												<fo:table-column column-width="8%"/>
+												<fo:table-column column-width="8%"/>
+												<fo:table-column column-width="12%"/>
                                                 <fo:table-header start-indent="0pt">
                                                     <fo:table-row>
                                                         <fo:table-cell border="solid 0.4pt gray"   display-align="center">
@@ -2314,13 +2316,16 @@
                                         </fo:inline-container>
                                         <xsl:if test="salary">
                                             <fo:table font-family="Times New Roman" font-size="8pt" table-layout="fixed" width="100%" border="solid 0.4pt gray">
-                                                <fo:table-column column-width="16%"/>
-                                                <fo:table-column column-width="33%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
+												<fo:table-column column-width="16%"/>
+												<fo:table-column column-width="24%"/>
+												<fo:table-column column-width="7%"/>
+												<fo:table-column column-width="7%"/>
+												<fo:table-column column-width="7%"/>
+												<fo:table-column column-width="7%"/>
+												<fo:table-column column-width="7%"/>
+												<fo:table-column column-width="7%"/>
+												<fo:table-column column-width="7%"/>
+												<fo:table-column column-width="10%"/>
                                                 <fo:table-header start-indent="0pt">
                                                     <fo:table-row>
                                                         <fo:table-cell border="solid 0.4pt gray"   display-align="center">
@@ -2978,13 +2983,17 @@
                                         </fo:inline-container>
                                         <xsl:if test="salary">
                                             <fo:table font-family="Times New Roman" font-size="8pt" table-layout="fixed" width="100%" border="solid 0.4pt gray">
-                                                <fo:table-column column-width="16%"/>
-                                                <fo:table-column column-width="33%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
+												<fo:table-column column-width="16%"/>
+												<fo:table-column column-width="24%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="10%"/>
                                                 <fo:table-header start-indent="0pt">
                                                     <fo:table-row>
                                                         <fo:table-cell border="solid 0.4pt gray"   display-align="center">
@@ -3704,13 +3713,18 @@
                                         </fo:inline-container>
                                         <xsl:if test="salary">
                                             <fo:table font-family="Times New Roman" font-size="8pt" table-layout="fixed" width="100%" border="solid 0.4pt gray">
-                                                <fo:table-column column-width="16%"/>
-                                                <fo:table-column column-width="33%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
+												<fo:table-column column-width="14%"/>
+												<fo:table-column column-width="22%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="8%"/>
                                                 <fo:table-header start-indent="0pt">
                                                     <fo:table-row>
                                                         <fo:table-cell border="solid 0.4pt gray"   display-align="center">
@@ -4492,13 +4506,19 @@
                                         </fo:inline-container>
                                         <xsl:if test="salary">
                                             <fo:table font-family="Times New Roman" font-size="8pt" table-layout="fixed" width="100%" border="solid 0.4pt gray">
-                                                <fo:table-column column-width="16%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
-                                                <fo:table-column column-width="10%"/>
+												<fo:table-column column-width="10%"/>
+												<fo:table-column column-width="20%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="6%"/>
+												<fo:table-column column-width="8%"/>
                                                 <fo:table-header start-indent="0pt">
                                                     <fo:table-row>
                                                         <fo:table-cell border="solid 0.4pt gray"   display-align="center">

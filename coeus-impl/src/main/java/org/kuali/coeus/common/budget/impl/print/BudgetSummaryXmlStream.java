@@ -301,7 +301,9 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
 			}
 			ReportType reportType = getReportTypeForNonPersonnel(categoryDesc,
 					costElementDesc, calculatedCost, costSharingAmount);
-			reportTypeList.add(reportType);
+			 if(calculatedCost.doubleValue()>0.0d){
+				 reportTypeList.add(reportType);
+			 }
 		}
 		setReportTypeForBudgetSummaryNonPersonnel(reportTypeList);
 		Collections.sort(reportTypeList, new Comparator<ReportType>() {
