@@ -63,7 +63,7 @@
     <property name="shortLabel" value="District Number" />
     <property name="maxLength" value="3" />
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+      <bean parent="AlphaNumericPatternConstraint"/>
     </property>
     <property name="required" value="false" />
     <property name="controlField">

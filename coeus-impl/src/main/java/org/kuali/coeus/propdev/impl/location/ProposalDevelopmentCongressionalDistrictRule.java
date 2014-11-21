@@ -42,7 +42,7 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
         CongressionalDistrict  congressionalDistrict= addCongressionalDistrictEvent.getCongressionalDistrict();
 
         String stateCode = congressionalDistrict.getNewState();
-        String districtNumber = congressionalDistrict.getNewDistrictNumber();
+        String districtNumber = congressionalDistrict.getNewDistrictNumber().toLowerCase();
         CongressionalDistrict newDistrict = new CongressionalDistrict();
         newDistrict.setCongressionalDistrict(stateCode, districtNumber);
             
@@ -56,7 +56,7 @@ public class ProposalDevelopmentCongressionalDistrictRule extends ProposalSiteRu
         if (isValid) {
             isValid = checkUniqueness(addCongressionalDistrictEvent, congressionalDistrict);
         }
-        
+
         return isValid;
     }
 
