@@ -60,7 +60,7 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, form.getDevelopmentProposal(), form);
 	}
 
-	@RequestMapping(params="methodToCall=markForSubmission")
+	@RequestMapping(params="methodToCall=populateBudgetSummary")
     public ModelAndView populateBudgetSummary(@RequestParam("budgetId") Long budgetId,
                                               @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         super.save(form);
