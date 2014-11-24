@@ -18,6 +18,8 @@ package org.kuali.coeus.common.framework.person;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.person.KcPersonContract;
 import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
@@ -67,6 +69,8 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     private KcPersonExtendedAttributes extendedAttributes;
     
     private transient CountryService countryService;
+    
+    private static final Log LOG = LogFactory.getLog(KcPerson.class);
 
     /**
      * When using this ctor {@link #setPersonId(String)} must be call else this call is in an invalid state.
@@ -385,7 +389,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
             birthDate = (bio.getBirthDate() != null) ? DateUtils.parseDate(bio.getBirthDate(), new String[] {"mm/dd/yyyy"}) : null;
         }
         catch (ParseException e) {
-            throw new RuntimeException(e);
+        	LOG.warn(e.getMessage(),e);
         }
         
         return birthDate != null ?  this.calcAge(birthDate): null;
