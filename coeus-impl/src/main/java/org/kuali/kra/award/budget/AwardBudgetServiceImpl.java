@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.commitments.AwardFandaRate;
@@ -800,9 +801,14 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
 
     private ScaleTwoDecimal getPeriodFringeTotal(BudgetPeriod budgetPeriod, Budget budget) {
-        if(budget.getBudgetSummaryTotals()==null || budget.getBudgetSummaryTotals().get("personnelFringeTotals")==null) return ScaleTwoDecimal.ZERO;
-        ScaleTwoDecimal periodFringeTotal = budget.getBudgetSummaryTotals().get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod()-1);
-        return periodFringeTotal;
+        if (budget == null ||
+                budget.getBudgetSummaryTotals() == null ||
+                budget.getBudgetSummaryTotals().get("personnelFringeTotals") == null ||
+                budgetPeriod == null ||
+                CollectionUtils.validIndexForList(budgetPeriod.getBudgetPeriod() - 1, budget.getBudgetSummaryTotals().get("personnelFringeTotals"))) {
+            return ScaleTwoDecimal.ZERO;
+        }
+        return budget.getBudgetSummaryTotals().get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1);
     }
 
     public void recalculateBudget(Budget budget) {
