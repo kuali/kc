@@ -891,7 +891,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public boolean areAllCertificationsComplete(List<ProposalPerson> proposalPersons) {
         for (ProposalPerson person : proposalPersons) {
             for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders())  {
-                if (!answerHeader.isCompleted()) {
+                if (!answerHeader.isCompleted() && person.getVersionNumber() != null) {
                     return false;
                 }
             }
