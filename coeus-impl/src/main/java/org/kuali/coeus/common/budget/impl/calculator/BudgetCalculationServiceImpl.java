@@ -832,28 +832,14 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 
     }
     @Override
-    public void syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
+    public boolean syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
         BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
-        periodCalculator.syncToPeriodCostLimit(budget, budgetPeriod, budgetLineItem);
-        List<String> errors = periodCalculator.getErrorMessages();
-        MessageMap errorMap = globalVariableService.getMessageMap();
-        if(!errors.isEmpty()){
-            for (String error : errors) {
-                errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].lineItemCost", error);
-            }
-        }
+        return periodCalculator.syncToPeriodCostLimit(budget, budgetPeriod, budgetLineItem);
     }
     @Override
-    public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
+    public boolean syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
         BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
-        periodCalculator.syncToPeriodDirectCostLimit(budget, budgetPeriod, budgetLineItem);
-        List<String> errors = periodCalculator.getErrorMessages();
-        MessageMap errorMap = globalVariableService.getMessageMap();
-        if(!errors.isEmpty()){
-            for (String error : errors) {
-                errorMap.putError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["+ (budgetLineItem.getLineItemNumber() - 1) +"].lineItemCost", error);
-            }
-        }
+        return periodCalculator.syncToPeriodDirectCostLimit(budget, budgetPeriod, budgetLineItem);
     }
     @Override
     public void applyToLaterPeriods(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {

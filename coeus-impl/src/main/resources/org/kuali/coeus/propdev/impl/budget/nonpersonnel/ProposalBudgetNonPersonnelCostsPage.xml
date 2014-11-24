@@ -182,9 +182,10 @@
 							p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}"
 							p:methodToCall="saveAndApplyToLaterPeriods" p:order="20" p:performClientSideValidation="true"/>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync To Period Cost Direct Limit"
-							p:dialogDismissOption="REQUEST" p:methodToCall="syncToPeriodCostDirectLimit" p:order="30" />
+							p:refreshId="PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog" p:render="@{!#parent.readOnly}"
+							p:methodToCall="syncToPeriodCostDirectLimit" p:order="30" />
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync To Period Cost Limit"
-							p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}"
+							p:refreshId="PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog" p:render="@{!#parent.readOnly}"
 							p:methodToCall="syncToPeriodCostLimit" p:order="40"/>
 						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
 							p:order="50" />
@@ -368,6 +369,12 @@
 			</bean>
 		</property>
 	</bean>
+
+	<bean id="PropBudget-NonPersonnelCosts-SyncToPeriodCostLimit" parent="Uif-DialogGroup-YesNo" 
+	p:promptText="Period total cost is greater than the cost limit for this period. Do you want to reduce this line item cost to make the period total cost the same as the period cost limit?"/>
+
+	<bean id="PropBudget-NonPersonnelCosts-SyncToDirectCostLimit" parent="Uif-DialogGroup-YesNo" 
+	p:promptText="Period direct cost is greater than the direct cost limit for this period. Do you want to reduce this line item cost to make the period direct cost the same as the period direct cost limit?"/>
 
 </beans>
                     

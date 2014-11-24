@@ -98,7 +98,7 @@ public interface BudgetCalculationService {
      * @param budgetPeriod
      * @param budgetLineItem
      */
-    public void syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
+    public boolean syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
     /**
      * 
      * This method is for calculating calculated amounts for each cost element. It looks at all
@@ -130,7 +130,7 @@ public interface BudgetCalculationService {
      * @param budgetPeriod
      * @param budgetLineItem
      */
-    public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
+    public boolean syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
     
     public void populateBudgetSummaryTotals(Budget budget);
     

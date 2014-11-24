@@ -333,19 +333,11 @@ public class BudgetPeriodCalculator {
         }
     }
 
-    public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
+    public boolean syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
         ScaleTwoDecimal directCostLimit = budgetPeriodBean.getDirectCostLimit();
-        if(!checkSyncToLimitErrors(budget,budgetDetailBean,directCostLimit)){
-            return;
-        }
-        calculate(budget, budgetPeriodBean);
         ScaleTwoDecimal periodDirectTotal = budgetPeriodBean.getTotalDirectCost();
         directCostLimit = budgetPeriodBean.getDirectCostLimit();
-        if (periodDirectTotal == directCostLimit) {
-            errorMessages.add(KeyConstants.TOTAL_DIRECT_COST_ALREADY_IN_SYNC);
-            return;
-        }
 
         // Set the Difference as TotalCostLimit minus TotalCost.
         BigDecimal difference = directCostLimit.subtract(periodDirectTotal).bigDecimalValue();
@@ -379,31 +371,22 @@ public class BudgetPeriodCalculator {
         }
 
         if (isProposalBudget(budget) && new ScaleTwoDecimal(totalCost.add(difference)).isLessEqual(ScaleTwoDecimal.ZERO)) {
-            errorMessages.add(KeyConstants.INSUFFICIENT_AMOUNT_TO_PERIOD_DIRECT_COST_LIMIT_SYNC);
-            return;
+            return false;
         }
 
         // Set New Cost
         ScaleTwoDecimal newCost = lineItemCost.add(new ScaleTwoDecimal(difference.divide(multifactor, RoundingMode.HALF_UP)));
         budgetDetailBean.setLineItemCost(newCost);
         calculate(budget, budgetPeriodBean);
+        return true;
 
 
     }
-    public void syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
+    public boolean syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
 
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
         ScaleTwoDecimal costLimit = budgetPeriodBean.getTotalCostLimit();
-        if(!checkSyncToLimitErrors(budget,budgetDetailBean,costLimit)){
-            return;
-        }
-        calculate(budget, budgetPeriodBean);
         ScaleTwoDecimal periodTotal = budgetPeriodBean.getTotalCost();
-        costLimit = budgetPeriodBean.getTotalCostLimit();
-        if (periodTotal == costLimit) {
-            errorMessages.add(KeyConstants.TOTAL_COST_ALREADY_IN_SYNC);
-            return;
-        }
 
         // Set the Difference as TotalCostLimit minus TotalCost.
         BigDecimal difference = costLimit.subtract(periodTotal).bigDecimalValue();
@@ -441,14 +424,14 @@ public class BudgetPeriodCalculator {
         }
 
         if (isProposalBudget(budget) && new ScaleTwoDecimal(totalCost.add(difference)).isLessEqual(ScaleTwoDecimal.ZERO)) {
-            errorMessages.add(KeyConstants.INSUFFICIENT_AMOUNT_TO_SYNC);
-            return;
+            return false;
         }
 
         // Set New Cost
         ScaleTwoDecimal newCost = lineItemCost.add(new ScaleTwoDecimal(difference.divide(multifactor, RoundingMode.HALF_UP)));
         budgetDetailBean.setLineItemCost(newCost);
         calculate(budget, budgetPeriodBean);
+        return true;
     }
 
     private boolean checkSyncToLimitErrors(Budget budget,BudgetLineItem budgetDetailBean,ScaleTwoDecimal costLimit) {
