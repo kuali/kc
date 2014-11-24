@@ -206,7 +206,8 @@ public class ProposalDevelopmentSubmitController extends
                 getDataObjectService().delete(lock);
             }
             form.getProposalDevelopmentDocument().refreshPessimisticLocks();
-            return getModelAndViewService().getModelAndView(form);
+
+        return updateProposalState(form);
     }
 
 
@@ -558,7 +559,8 @@ public class ProposalDevelopmentSubmitController extends
                 && getKcWorkflowService().isFinalApproval(workflowDoc)) {
             return submitToSponsor(form);
         }
-        return getModelAndViewService().getModelAndView(form);
+
+        return updateProposalState(form);
     }
 
     private boolean canGenerateRequestsInFuture(WorkflowDocument workflowDoc, String principalId) throws Exception {
@@ -627,6 +629,18 @@ public class ProposalDevelopmentSubmitController extends
         }
 
         return false;
+    }
+
+    protected ModelAndView updateProposalState(ProposalDevelopmentDocumentForm form) throws Exception{
+    if (getKcWorkflowService().isFinalApproval(form.getWorkflowDocument())) {
+        form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVAL_GRANTED);
+        getGlobalVariableService().getMessageMap().getInfoMessages().clear();
+        getGlobalVariableService().getMessageMap().putInfoForSectionId(ProposalDevelopmentConstants.KradConstants.SUBMIT_PAGE, KeyConstants.APPROVAL_CYCLE_COMPLETE);
+    } else {
+        form.getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(form.getProposalDevelopmentDocument(), true, false));
+    }
+    getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalState");
+    return getModelAndViewService().getModelAndView(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=reject")

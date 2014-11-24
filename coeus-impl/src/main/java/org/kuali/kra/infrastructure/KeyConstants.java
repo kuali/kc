@@ -133,6 +133,7 @@ public final class KeyConstants {
     public static final String ERROR_INVESTIGATOR_CREDIT_TYPE_EXISTS = "error.investigator.credit.type.exists";
 
     public static final String INFO_PERSONNEL_INVALID_ROLE = "info.personnel.invalid.role";
+    public static final String APPROVAL_CYCLE_COMPLETE = "info.proposal.approval.final";
 
     // proposal ynq errors
     public static final String ERROR_REQUIRED_FOR_EXPLANATION = "error.required.for.explanation";

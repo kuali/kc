@@ -26,16 +26,15 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
+import org.kuali.coeus.propdev.impl.state.ProposalStateConstants;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.service.DataDictionaryService;
@@ -105,6 +104,8 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalType");
        //setting to null so the previous page id(PropDev-InitiatePage) doesn't override the default
        form.setPageId(null);
+       form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.IN_PROGRESS);
+       getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalState");
        return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
 
@@ -319,7 +320,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
             if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
                ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm);
-               propDevForm.getView().setEntryPageId("PropDev-SubmitPage");
+               propDevForm.getView().setEntryPageId(ProposalDevelopmentConstants.KradConstants.SUBMIT_PAGE);
             }
 
             if (StringUtils.equals(form.getRequest().getParameter("viewDocument"),"true")) {
