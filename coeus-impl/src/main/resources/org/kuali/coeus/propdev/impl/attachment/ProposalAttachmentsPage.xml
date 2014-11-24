@@ -39,14 +39,15 @@
     </bean>
 
     <bean id="PropDev-AttachmentsPage-TabGroup" parent="PropDev-AttachmentsPage-TabGroup-parentBean"/>
-    <bean id="PropDev-AttachmentsPage-TabGroup-parentBean" abstract="true" parent="Uif-TabGroup">
+    <bean id="PropDev-AttachmentsPage-TabGroup-parentBean" abstract="true" parent="Uif-TabGroup"
+            p:defaultActiveTabId="@{#ViewHelper.getDefaultOpenTab()}">
             <property name="items">
                 <list>
                     <bean parent="PropDev-AttachmentsPage-ProposalSection" p:order="10"/>
                     <bean parent="PropDev-AttachmentsPage-PersonnelSection" p:order="20"/>
                     <bean parent="PropDev-AttachmentsPage-AbstractsSection" p:order="30"/>
                     <bean parent="PropDev-AttachmentsPage-InternalSection" p:order="40"/>
-                    <bean parent="PropDev-AttachmentsPage-NotesSection" p:order="50"/>
+                    <bean parent="PropDev-AttachmentsPage-NotesSection" p:id="PropDev-AttachmentsPage-NotesSection" p:order="50"/>
                 </list>
             </property>
     </bean>
