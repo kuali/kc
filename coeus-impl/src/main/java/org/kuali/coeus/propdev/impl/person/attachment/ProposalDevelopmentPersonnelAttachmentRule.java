@@ -168,7 +168,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
     }
 
     protected boolean checkForValidFileType(ProposalPersonBiography proposalPersonBiography) {
-        if (!Constants.PDF_REPORT_CONTENT_TYPE.equals(proposalPersonBiography.getType())) {
+        if (!Constants.PDF_REPORT_CONTENT_TYPE.equals(proposalPersonBiography.getContentType())) {
             reportWarning(PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_TYPE,
                     proposalPersonBiography.getName(), Constants.PDF_REPORT_CONTENT_TYPE);
         }
