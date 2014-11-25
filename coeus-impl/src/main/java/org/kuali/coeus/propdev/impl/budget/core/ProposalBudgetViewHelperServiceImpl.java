@@ -64,8 +64,8 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
    			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, propBudgetForm.getOrderedNavigationActions().get(indexOfCurrentAction-1).getNavigateToPageId());
    		 }
    	 } else if (StringUtils.equals(direction, ProposalDevelopmentConstants.KradConstants.NEXT_PAGE_ARG)) {
-   		 action.setRender(indexOfCurrentAction < actions.size());
-   		 if (indexOfCurrentAction < actions.size()) {
+   		 action.setRender(indexOfCurrentAction < actions.size()-1);
+   		 if (indexOfCurrentAction < actions.size()-1) {
    			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, propBudgetForm.getOrderedNavigationActions().get(indexOfCurrentAction+1).getNavigateToPageId());
    		 }
    	 }
