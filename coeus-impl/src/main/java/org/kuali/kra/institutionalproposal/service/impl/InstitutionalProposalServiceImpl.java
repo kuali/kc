@@ -555,7 +555,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.setRequestedEndDateInitial(budget.getBudgetPeriods().get(0).getEndDate());
         
         if (budget.getModularBudgetFlag()) {
-            if (budget.getBudgetPeriod(0).getBudgetModular().getTotalDirectCost() != null) {
+            if (budget.getBudgetPeriod(0) != null &&
+                budget.getBudgetPeriod(0).getBudgetModular() != null &&
+                budget.getBudgetPeriod(0).getBudgetModular().getTotalDirectCost() != null) {
                 institutionalProposal.setTotalDirectCostInitial(
                     new ScaleTwoDecimal(budget.getBudgetPeriod(0).getBudgetModular().getTotalDirectCost().bigDecimalValue()));
             }

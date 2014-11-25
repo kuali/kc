@@ -343,7 +343,7 @@
 		<property name="shortLabel" value="Principal Investigator" />
 		<property name="maxLength" value="40" />
 		<property name="validationPattern" >
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" />
 		</property>
     <property name="validCharactersConstraint">
       <bean parent="NumericPatternConstraint"/>
@@ -1046,7 +1046,7 @@
         <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
-        <property name="resultSetLimit" value="200" />
+        <!-- <property name="resultSetLimit" value="500" /> -->
  	</bean>
 
   <bean id="Protocol-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

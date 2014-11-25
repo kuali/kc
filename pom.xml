@@ -25,7 +25,7 @@
     <artifactId>coeus</artifactId>
     <version>6.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Kuali Coeus</name>
+    <name>KualiCo Cloud Express</name>
     <description>
         The Kuali Coeus (KC) project is building a comprehensive system to manage the complexities of research
         administration that fully addresses the needs from the faculty researcher through grants administration to
@@ -122,7 +122,6 @@
         <org.eclipse.persistence.version>2.5.2</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.2</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
         <spring.version>3.2.12.RELEASE</spring.version>
@@ -220,6 +219,15 @@
         <error_prone_core.version>1.1.2</error_prone_core.version>
         <plexus-compiler-javac.version>2.3</plexus-compiler-javac.version>
         <plexus-compiler-javac-errorprone.version>2.3</plexus-compiler-javac-errorprone.version>
+
+        <!-- Cloud Express stuff -->
+        <rice.version>2.5.2.0-kualico-SNAPSHOT</rice.version>
+        <!-- TODO bind to a release version -->
+        <coeus-api-all.version>6.0-SNAPSHOT</coeus-api-all.version>
+        <rsmart.cx.token.auth.version>1.0.7</rsmart.cx.token.auth.version>
+        <rsmart.hr.rest.version>1.0-SNAPSHOT</rsmart.hr.rest.version>
+        <rsmart.cx.data.migration.version>6.0.0.0-SNAPSHOT</rsmart.cx.data.migration.version>
+        <wagon.s3.version>1.2.1</wagon.s3.version>
     </properties>
 
     <build>
@@ -248,7 +256,8 @@
                         <target>${project.compile.target}</target>
                         <fork>true</fork>
                         <meminitial>512m</meminitial>
-                        <maxmem>1024m</maxmem>
+                        <maxmem>2048m</maxmem>
+                        <permgensize>512m</permgensize>
                     </configuration>
                 </plugin>
 
@@ -701,6 +710,13 @@
                 <artifactId>license-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.kuali.maven.wagons</groupId>
+                <artifactId>maven-s3-wagon</artifactId>
+                <version>${wagon.s3.version}</version>
+            </extension>
+        </extensions>
     </build>
 
     <dependencyManagement>
@@ -1954,6 +1970,55 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+
+            <dependency>
+                <groupId>com.rsmart</groupId>
+                <artifactId>tokenauth</artifactId>
+                <version>${rsmart.cx.token.auth.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.rsmart.kuali</groupId>
+                <artifactId>cx_data_migration</artifactId>
+                <version>${rsmart.cx.data.migration.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.rsmart.kuali</groupId>
+                <artifactId>kc_hr_rest</artifactId>
+                <version>${rsmart.hr.rest.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-core-asl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>asm</groupId>
+                        <artifactId>asm</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -2070,6 +2135,17 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>rsmart-dev</id>
+            <name>rsmart-dev</name>
+            <url>https://nexus.rsmart.com/nexus/content/groups/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -2087,14 +2163,28 @@
     </pluginRepositories>
 
     <scm>
-        <connection>scm:git:git@github.com:kuali/kc.git</connection>
-        <developerConnection>scm:git:git@github.com:kuali/kc.git</developerConnection>
-        <url>https://github.com/kuali/kc</url>
+        <connection>scm:git:git://github.com/rSmart/kuali_kc.git</connection>
+        <developerConnection>scm:git:git@github.com:rSmart/kuali_kc.git</developerConnection>
+        <url>https://github.com/rSmart/kuali_kc</url>
     </scm>
 
+    <distributionManagement>
+        <downloadUrl>https://github.com/rSmart/kc_platform</downloadUrl>
+        <snapshotRepository>
+            <id>rsmart.snapshot.repo</id>
+            <name>rsmart snapshot repository</name>
+            <url>s3://rsmart-dev/artifacts/maven/snapshot</url>
+        </snapshotRepository>
+        <repository>
+            <id>rsmart.release.repo</id>
+            <name>rsmart release repository</name>
+            <url>s3://rsmart-dev/artifacts/maven/release</url>
+        </repository>
+    </distributionManagement>
+
     <issueManagement>
-        <system>Jira</system>
-        <url>https://jira.kuali.org</url>
+        <system>github</system>
+        <url>https://github.com/rSmart/kuali_kc/issues</url>
     </issueManagement>
 
     <ciManagement>

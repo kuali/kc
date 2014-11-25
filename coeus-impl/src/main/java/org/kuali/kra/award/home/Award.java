@@ -123,6 +123,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public static final String NOTIFICATION_IACUC_SPECIAL_REVIEW_LINK_DELETED = "555";
     
     private static final long serialVersionUID = 3797220122448310165L;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Award.class);
     private Long awardId;
     private AwardDocument awardDocument;
     private String awardNumber;
@@ -262,7 +263,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     // transient for award header label
     private transient String docIdStatus;
-    private transient String awardIdAccount;
 
     private transient String lookupOspAdministratorName;
     transient AwardAmountInfoService awardAmountInfoService;
@@ -1784,7 +1784,12 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
                 }
                 return 0;
               }});
-        awardCloseoutItems.addAll(TOTAL_STATIC_REPORTS, awardCloseoutNewItems);
+        // https://github.com/rSmart/issues/issues/361
+        // java.lang.IndexOutOfBoundsException: Index: 5, Size: 4
+        // at org.kuali.kra.award.home.Award.add(Award.java:1931)
+        // Be aware, this *could* be a behavioral change - not sure.
+        // awardCloseoutItems.addAll(TOTAL_STATIC_REPORTS, awardCloseoutNewItems);
+        awardCloseoutItems.addAll(awardCloseoutNewItems);
         awardCloseoutItem.setAward(this);
     }
 
@@ -2964,14 +2969,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public String getAwardIdAccount() {
-        if (awardIdAccount == null) {
             if (StringUtils.isNotBlank(getAccountNumber())) {
-                awardIdAccount = getAwardNumber() + ":" + getAccountNumber();
+                return getAwardNumber() + ":" + getAccountNumber();
             } else {
-                awardIdAccount = getAwardNumber() + ":";
+                return getAwardNumber() + ":";
             }
-        }
-        return awardIdAccount;
     }
 
     public void setLookupOspAdministratorName(String lookupOspAdministratorName) {
@@ -3006,13 +3008,20 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
             KcServiceLocator.getService(UnitService.class).retrieveUnitAdministratorsByUnitNumber(getUnitNumber());
         for (UnitAdministrator unitAdministrator : unitAdministrators) {
             if(unitAdministrator.getUnitAdministratorType().getDefaultGroupFlag().equals(DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS)) {
-                KcPerson person = getKcPersonService().getKcPersonByPersonId(unitAdministrator.getPersonId());
+                KcPerson person = null;
+                try {
+                  person = getKcPersonService().getKcPersonByPersonId(unitAdministrator.getPersonId());
+                } catch (IllegalArgumentException e) {
+                  LOG.info("initCentralAdminContacts(): entity/person missing: " + unitAdministrator.getPersonId());
+                }
+                if (person != null) {
                 AwardUnitContact newAwardUnitContact = new AwardUnitContact();
                 newAwardUnitContact.setAward(this);
                 newAwardUnitContact.setPerson(person);
                 newAwardUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
                 newAwardUnitContact.setFullName(person.getFullName());
                 centralAdminContacts.add(newAwardUnitContact);
+                }
             }
         }
     }

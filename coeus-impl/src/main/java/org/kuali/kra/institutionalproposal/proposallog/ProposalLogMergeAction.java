@@ -33,20 +33,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ProposalLogMergeAction extends KualiAction {
+    protected static final String PAGE_ENTRY_REDIRECT_URL_FORMAT = "kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.institutionalproposal.home.InstitutionalProposal&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=%s/mergeProposalLog.do&hideReturnLink=true%s";
+    protected static final String PROPOSAL_LOG_PARAMETER_FORMAT = "&proposalLogNumber=%s";
     
     public ActionForward pageEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalLogMergeForm proposalLogMergeForm = (ProposalLogMergeForm) form;
-        String applicationUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
+        final ProposalLogMergeForm proposalLogMergeForm = (ProposalLogMergeForm) form;
+        final String applicationUrl       = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
+        final String proposalLogParameter = String.format(PROPOSAL_LOG_PARAMETER_FORMAT, proposalLogMergeForm.getProposalLogNumber());
+        final String redirectUrl          = String.format(PAGE_ENTRY_REDIRECT_URL_FORMAT, applicationUrl, proposalLogParameter);
+
         request.getSession().setAttribute("proposalLogNumber", proposalLogMergeForm.getProposalLogNumber());
-        response.sendRedirect("kr/lookup.do?methodToCall=start&businessObjectClassName=" + InstitutionalProposal.class + "&docFormKey=88888888&includeCustomActionUrls=true&returnLocation="
-                + applicationUrl + "/mergeProposalLog.do&hideReturnLink=true");
-        return null;
+        return new ActionForward(redirectUrl, true);
     }
     
     public ActionForward mergeToInstitutionalProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String proposalLogNumber = (String) request.getSession().getAttribute("proposalLogNumber");
+
+        if (proposalLogNumber != null) {
         request.getSession().removeAttribute("proposalLogNumber");
+        }
+        else {
+            final ProposalLogMergeForm proposalLogMergeForm = (ProposalLogMergeForm) form;
+            proposalLogNumber = proposalLogMergeForm.getProposalLogNumber();
+        }
+
+        if (proposalLogNumber != null) {
         getProposalLogService().mergeProposalLog(proposalLogNumber);
+        }
         return mapping.findForward("portal");
     }
     

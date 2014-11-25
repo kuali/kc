@@ -159,6 +159,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             protocolForm.getActionHelper().setCurrentTask("");
         }
         ActionForward actionForward = super.execute(mapping, form, request, response);
+
+        if ("close".equals(protocolForm.getMethodToCall()) || protocolForm.getMethodToCall() == null) {
+            // If we're closing, we can just leave right here.
+            return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        }
+
         protocolForm.getActionHelper().prepareView();
         protocolForm.getActionHelper().initFilterDatesView();
         // submit action may change "submission details", so re-initialize it

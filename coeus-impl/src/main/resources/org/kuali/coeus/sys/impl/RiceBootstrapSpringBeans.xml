@@ -29,7 +29,11 @@
 
     <import resource="classpath:org/kuali/coeus/sys/impl/DataSourceSpringBeans.xml"/>
 
-    <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
+    <bean id="flywayMigrator" class="com.rsmart.kuali.coeus.data.migration.FlywayMigrator" init-method="migrate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer" depends-on="flywayMigrator">
         <property name="dataSource" ref="dataSource" />
         <property name="serverDataSource" ref="riceDataSource" />
         <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />

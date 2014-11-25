@@ -211,6 +211,9 @@
     <property name="required" value="false" />
     <property name="summary" value="Last Update By" />
     <property name="description" value="Last Update By" />
+    <property name="validationPattern" >
+        <bean parent="AnyCharacterValidationPattern" />
+    </property>
   </bean>
   
   <bean id="NegotiationActivity-lastModifiedUser.fullName" parent="NegotiationActivity-lastModifiedUser.fullName-parentBean" />

@@ -29,7 +29,7 @@
     </parent>
     <artifactId>coeus-impl</artifactId>
     <packaging>jar</packaging>
-    <name>Kuali Coeus Impl</name>
+    <name>KualiCo Cloud Express Impl</name>
     <description>
         The Kuali Coeus Impl module contains the main source code (implementation and framework code) and unit tests for the Kuali Coeus application.
     </description>
@@ -668,5 +668,21 @@
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.rsmart</groupId>
+            <artifactId>tokenauth</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.rsmart.kuali</groupId>
+            <artifactId>cx_data_migration</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.rsmart.kuali</groupId>
+            <artifactId>kc_hr_rest</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

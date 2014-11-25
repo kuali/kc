@@ -532,7 +532,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<List<Answer>> parentAnswers = setupParentAnswers(answers);
         List<String> ruleIds = new ArrayList<String>();
         for (Answer answer : answers) {
-            if (answer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
+            if (answer.getQuestionnaireQuestion() != null && answer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
                 answer.setParentAnswers(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
             }
             if (StringUtils.isNotBlank(answer.getQuestionnaireQuestion().getRuleId())) {

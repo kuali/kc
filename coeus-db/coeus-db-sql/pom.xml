@@ -29,7 +29,7 @@
     </parent>
     <artifactId>coeus-db-sql</artifactId>
     <packaging>jar</packaging>
-    <name>Kuali Coeus Database SQL</name>
+    <name>KualiCo Cloud Express Database SQL</name>
     <description>
         The Kuali Coeus Database SQL module contains sql files for the Kuali Coeus application.  These scripts include
         support for MySQL, and Oracle.  They include both bootstrap and demo data.

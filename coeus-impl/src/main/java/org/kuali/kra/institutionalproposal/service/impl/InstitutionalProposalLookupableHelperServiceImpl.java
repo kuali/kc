@@ -60,6 +60,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     private static final String OPEN = "open";
     
     private boolean includeMainSearchCustomActionUrls;
+    protected String proposalLogNumber;
     private boolean includeMergeCustomActionUrls;
     private DocumentService documentService;
     private InstitutionalProposalService institutionalProposalService;
@@ -297,6 +298,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
             } else if (returnLocation.contains(MERGE_PROPOSAL_LOG_ACTION)) {
                 includeMainSearchCustomActionUrls = false;
                 includeMergeCustomActionUrls = true;
+                setProposalLogNumber(fieldValues.get("proposalLogNumber"));
             } else {
                 includeMainSearchCustomActionUrls = true;
                 includeMergeCustomActionUrls = false;
@@ -313,6 +315,9 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "mergeToInstitutionalProposal");
         parameters.put("institutionalProposalNumber", institutionalProposal.getProposalNumber());
+        if (getProposalLogNumber() != null) {
+            parameters.put("proposalLogNumber", getProposalLogNumber());
+        }
         String href  = UrlFactory.parameterizeUrl("../" + MERGE_PROPOSAL_LOG_ACTION, parameters);
         htmlData.setHref(href);
         return htmlData;
@@ -337,4 +342,12 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
 		this.dataObjectService = dataObjectService;
 	}
 
+
+    protected void setProposalLogNumber(final String proposalLogNumber) {
+        this.proposalLogNumber = proposalLogNumber;
+    }
+
+    protected String getProposalLogNumber() {
+        return this.proposalLogNumber;
+    }
 }

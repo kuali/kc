@@ -50,6 +50,7 @@
 
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportRiceKradSpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/krad/config/KRADDependentModuleCommonImports.xml" />
+    <!-- <import resource="classpath:com/rsmart/kuali/coeus/hr/JerseyBeans.xml" /> -->
 
     <bean id="coreModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
         <property name="moduleConfiguration" ref="coreModuleConfiguration"/>
@@ -1515,5 +1516,12 @@
       p:callbackService-ref="kcNotificationDocumentSecurityTypeService"
       p:localServiceName="kcNotificationDocumentSecurityTypeService"
       p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute"/>
+
+    <bean id="tokenGenerator" class="com.rsmart.rfabric.auth.tokenauth.AuthTokenGenerator">
+        <property name="secret" value="SECRETKEYVALUE"/>
+    </bean>
+    <bean id="urlGenerator" class="com.rsmart.rfabric.auth.tokenauth.AuthTokenURLGenerator">
+        <property name="tokenGenerator" ref="tokenGenerator"/>
+    </bean>
 
 </beans>

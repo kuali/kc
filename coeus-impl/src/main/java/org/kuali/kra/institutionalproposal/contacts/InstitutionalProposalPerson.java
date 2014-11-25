@@ -265,7 +265,15 @@ public class InstitutionalProposalPerson extends InstitutionalProposalContact im
     }
 
     public String toString() {
-        return String.format("%s:%s", getContact().getIdentifier().toString(), getContact().getFullName());
+        final StringBuilder id = new StringBuilder();
+        if (getContact() != null && getContact().getIdentifier() != null) {
+          id.append(getContact().getIdentifier().toString());
+        }
+        final StringBuilder name = new StringBuilder();
+        if (getContact() != null && getContact().getFullName() != null) {
+          name.append(getContact().getFullName());
+        }
+        return String.format("%s:%s", id.toString(), name.toString());
     }
 
     @SuppressWarnings("unchecked")

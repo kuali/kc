@@ -148,21 +148,23 @@ public class KcAuthorizationServiceImpl implements KcAuthorizationService {
 
     @Override
     public boolean hasPermission(String userId, Permissionable permissionable, String permissionName) {
-        return hasPermission(userId, permissionable, permissionable.getNamespace(), permissionName);
+        return hasPermission(userId, permissionable, permissionable == null ? null : permissionable.getNamespace(), permissionName);
     }
 
     protected boolean hasPermission(String userId, Permissionable permissionable, String permissionNamespace, String permissionName) {
         boolean userHasPermission = false;
-        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
-        permissionable.populateAdditionalQualifiedRoleAttributes(qualifiedRoleAttributes);
-
-        String unitNumber = permissionable.getLeadUnitNumber();
-        
-        if(StringUtils.isNotEmpty(permissionable.getDocumentNumberForPermission())) {
-            userHasPermission = permissionService.isAuthorized(userId, permissionNamespace, permissionName, qualifiedRoleAttributes); 
-        }
-        if (!userHasPermission && StringUtils.isNotEmpty(unitNumber)) {
-            userHasPermission = unitAuthorizationService.hasPermission(userId, unitNumber, permissionNamespace, permissionName);
+        if (permissionable != null) {
+	        final Map<String, String> qualifiedRoleAttributes = createStandardQualifiers(permissionable);
+	        permissionable.populateAdditionalQualifiedRoleAttributes(qualifiedRoleAttributes);
+	
+	        String unitNumber = permissionable.getLeadUnitNumber();
+	        
+	        if(StringUtils.isNotEmpty(permissionable.getDocumentNumberForPermission())) {
+	            userHasPermission = permissionService.isAuthorized(userId, permissionNamespace, permissionName, qualifiedRoleAttributes); 
+	        }
+	        if (!userHasPermission && StringUtils.isNotEmpty(unitNumber)) {
+	            userHasPermission = unitAuthorizationService.hasPermission(userId, unitNumber, permissionNamespace, permissionName);
+	        }
         }
         return userHasPermission;
     }
