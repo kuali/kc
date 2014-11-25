@@ -30,5 +30,6 @@ ${kfunc:registerEditableProperty(KualiForm, prop)}
 <input type="text" class="Qanswer answer questionnaireAnswer" id="${prop}" name="${prop}" 
 	maxlength="${question.answerMaxLength}" size="${question.answerMaxLength}" 
 	value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" readonly = "true"/>
-<kul:lookup boClassName="${question.lookupClass}" 
-	fieldConversions="${question.lookupReturn}:${prop}" />
+<kra-questionnaire:questionLookup boClassName="${question.lookupClass}" fieldConversions="${question.lookupReturn}:${prop}" 
+	onClickScript="excludeSubmitRestriction = true;"/>
+	
