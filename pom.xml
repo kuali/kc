@@ -103,10 +103,10 @@
         <org.eclipse.persistence.version>2.5.2</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.1-r49008</rice.version>
+        <rice.version>2.5.2-r49199</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
-        <spring.version>3.2.10.RELEASE</spring.version>
+        <spring.version>3.2.12.RELEASE</spring.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
         <struts.version>1.3.10</struts.version>
         <validation-api.version>1.0.0.GA</validation-api.version>
