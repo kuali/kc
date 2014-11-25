@@ -47,6 +47,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
@@ -155,6 +156,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     @Autowired
     @Qualifier("proposalRoleTemplateService")
     private ProposalRoleTemplateService proposalRoleTemplateService;
+    
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    private ProposalBudgetService proposalBudgetService;
 
     @Autowired
     @Qualifier("proposalTypeService")
@@ -194,7 +199,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 List<ProposalAbstract>abstracts = getAbstracts(newDoc);
 
                 if (criteria.getIncludeBudget()) {
-                    removeBudgets(doc, newDoc, criteria.getBudgetVersions());
+                    copyBudgets(doc, newDoc, criteria.getBudgetVersions());
                     setBudgetVersionsToIncomplete(newDoc);
                 }
 
@@ -390,6 +395,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         fixNextValues(oldDoc, newDoc);
         
         DevelopmentProposal copy = deepCopy(oldDoc.getDevelopmentProposal());
+        
+        copy.getBudgets().clear();
+        copy.setFinalBudget(null);
 
         newDoc.setDevelopmentProposal(copy);
 
@@ -624,7 +632,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
                     Budget.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             
-            doc.getDevelopmentProposal().setBudgetStatus(budgetStatusIncompleteCode);
+            for (ProposalDevelopmentBudgetExt budget : doc.getDevelopmentProposal().getBudgets()) {
+            	budget.setBudgetStatus(budgetStatusIncompleteCode);
+            }
         }
     }
     
@@ -733,18 +743,17 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param dest the destination proposal development document, i.e. the new document.
      * @param budgetVersions
      */
-    protected void removeBudgets(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
-        if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
-            ProposalDevelopmentBudgetExt finalBudgetVersion = (ProposalDevelopmentBudgetExt) src.getDevelopmentProposal().getFinalBudget();
-            if (finalBudgetVersion != null) {
-                ArrayList<ProposalDevelopmentBudgetExt> budgets = (ArrayList<ProposalDevelopmentBudgetExt>) src.getDevelopmentProposal().getBudgets();
-                ProposalDevelopmentBudgetExt finalBudget = src.getDevelopmentProposal().getFinalBudget();
-                for (int budgetVersionNumber = 0; budgetVersionNumber < budgets.size(); budgetVersionNumber++) {
-                    if (budgets.get(budgetVersionNumber).getBudgetVersionNumber() != finalBudget.getBudgetVersionNumber()) {
-                        budgets.remove(budgetVersionNumber);
-                    }
-                }
-            }
+    protected void copyBudgets(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
+    	dest.getDevelopmentProposal().getBudgets().clear();
+    	ProposalDevelopmentBudgetExt finalBudgetVersion = (ProposalDevelopmentBudgetExt) src.getDevelopmentProposal().getFinalBudget();
+        if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION) && finalBudgetVersion != null) {
+        	ProposalDevelopmentBudgetExt budgetCopy = (ProposalDevelopmentBudgetExt) getProposalBudgetService().copyBudgetVersion(finalBudgetVersion, false, dest.getDevelopmentProposal());
+        	dest.getDevelopmentProposal().getBudgets().add(budgetCopy);
+        } else {
+        	for (ProposalDevelopmentBudgetExt budget : src.getDevelopmentProposal().getBudgets()) {
+            	ProposalDevelopmentBudgetExt budgetCopy = (ProposalDevelopmentBudgetExt) getProposalBudgetService().copyBudgetVersion(budget, false, dest.getDevelopmentProposal());
+            	dest.getDevelopmentProposal().getBudgets().add(budgetCopy);   		
+        	}
         }
     }
 
@@ -864,9 +873,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 		return proposalTypeService;
 	}
 
-	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
-		this.proposalTypeService = proposalTypeService;
+	public ProposalBudgetService getProposalBudgetService() {
+		return proposalBudgetService;
 	}
-    
-    
+
+	public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+		this.proposalBudgetService = proposalBudgetService;
+	}
 }
