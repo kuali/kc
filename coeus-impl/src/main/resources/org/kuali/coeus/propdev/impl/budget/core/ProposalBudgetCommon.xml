@@ -24,15 +24,16 @@
 		p:dataAttributes="sticky_footer:true">
 		<property name="items">
 			<list>
-				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:performClientSideValidation="true"
-					p:methodToCall="previousPage" p:actionLabel="Back"
-					p:iconClass="icon-chevron-left" p:actionIconPlacement="LEFT"
-					p:order="10" />
-				<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false"
-					p:performClientSideValidation="true" p:methodToCall="saveAndContinue"
-					p:actionLabel="Continue"
-					p:iconClass="icon-chevron-right" p:actionIconPlacement="RIGHT"
-					p:order="20" />					
+                <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
+                      p:performClientSideValidation="true" p:methodToCall="navigate"
+                      p:iconClass="icon-chevron-left"
+                      p:actionLabel="Back" p:finalizeMethodToCall="finalizeNavigationLinks"
+                      p:finalizeMethodAdditionalArguments="previous" p:order="10" />
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
+                      p:performClientSideValidation="true" p:methodToCall="navigate"
+                      p:actionLabel="Continue" p:finalizeMethodToCall="finalizeNavigationLinks"
+                      p:iconClass="icon-chevron-right" p:actionIconPlacement="RIGHT"
+                      p:finalizeMethodAdditionalArguments="next" p:order="20" p:render="@{!#parent.readOnly}"/>
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
 					p:performClientSideValidation="true" p:methodToCall="save" p:disabled="@{#parent.readOnly}"
 					p:actionLabel="Save" p:order="30" />

@@ -61,7 +61,10 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
             if (component instanceof ToggleMenu) {
                 addAllActions(actionList, ((ToggleMenu) component).getMenuItems());
             } else if (component instanceof Action) {
-                actionList.add((Action) component);
+                Action action =(Action) component;
+                if (!StringUtils.equals(action.getId(),ProposalBudgetConstants.KradConstants.RETURN_TO_PROPOSAL_LINK)){
+                    actionList.add(action);
+                }
             }
         }
     }    

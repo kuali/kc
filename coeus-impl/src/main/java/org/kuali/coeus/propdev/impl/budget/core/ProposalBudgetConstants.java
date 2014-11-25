@@ -8,6 +8,7 @@ public class ProposalBudgetConstants {
 		public static final String PERIODS_AND_TOTALS_PAGE_ID = "PropBudget-PeriodsPage";
 		public static final String SUBAWARDS_COLLECTION = "PropBudget-SubawardsPage-CollectionGroup";
 		public static final String SUBAWARDS_ADD_DIALOG = "PropBudget-SubawardsPage-CollectionGroup-AddDialog";
+        public static final String RETURN_TO_PROPOSAL_LINK = "PropBudget-Menu-ReturnToProposal";
 	}
 	
 	public static class AuthConstants {
