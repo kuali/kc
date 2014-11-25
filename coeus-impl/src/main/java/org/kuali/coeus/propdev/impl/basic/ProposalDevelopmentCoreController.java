@@ -3,10 +3,8 @@ package org.kuali.coeus.propdev.impl.basic;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorWarningDto;
@@ -32,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-@SuppressWarnings("deprecation")
 @Controller
 public class ProposalDevelopmentCoreController extends ProposalDevelopmentControllerBase {
 
@@ -103,8 +100,8 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 	}
 
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=addLine")
-	public ModelAndView addLine(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		return getCollectionControllerService().addLine(form);
+	public ModelAndView addLine(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+			return getCollectionControllerService().addLine(form); 
 	}
 
 	@RequestMapping(value = "/proposalDevelopment", params="methodToCall=complete")
