@@ -22,6 +22,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -35,7 +36,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -157,8 +157,9 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
                 proposalSpecialReview.setProtocolNumber(null);
             }
         }
-
-        return getCollectionControllerService().addLine(pdForm);
+        getCollectionControllerService().addLine(pdForm);
+        super.save(pdForm);
+        return getModelAndViewService().getModelAndView(pdForm);
     }
     
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProtocol")
@@ -173,13 +174,15 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
             getGlobalVariableService().getMessageMap().putError(request.getParameter(UifParameters.UPDATE_COMPONENT_ID), "error.special.review.protocol.noprincipal");
         }
         else {
-            getProposalDevelopmentSpecialReviewService().createProtocol(proposalSpecialReview, document);
+        	if(!getProposalDevelopmentSpecialReviewService().createProtocol(proposalSpecialReview, document)){
+        		getGlobalVariableService().getMessageMap().putError("document.developmentProposal.propSpecialReviews", KeyConstants.ERROR_PROTOCOL_UNIT_NOT_FOUND);
+        	}else{
+        		super.save((ProposalDevelopmentDocumentForm) pdForm); 
+        	}
         }
-
         pdForm.getNewCollectionLines().clear();
         return getModelAndViewService().getModelAndView(pdForm);
     }
-
     public ProposalDevelopmentSpecialReviewService getProposalDevelopmentSpecialReviewService() {
  		return proposalDevelopmentSpecialReviewService;
  	}
