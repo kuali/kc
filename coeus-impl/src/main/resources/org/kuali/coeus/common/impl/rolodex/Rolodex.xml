@@ -479,7 +479,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Sponsor Address Flag"/>
     <property name="shortLabel" value="Sponsor Address Flag"/>
-    <property name="maxLength" value="1"/>
+    <property name="maxLength" value="3"/>
     <property name="validationPattern">
       <bean parent="AlphaNumericValidationPattern"/>
     </property>
@@ -492,7 +492,7 @@
       p:script="updateOrganizationLookupReturn(this)"/>
     </property>
     <property name="controlField">
-      <bean p:size="1" parent="Uif-TextControl"/>
+      <bean p:size="3" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Sponsor Address Flag"/>
     <property name="description" value="Sponsor Address Flag"/>

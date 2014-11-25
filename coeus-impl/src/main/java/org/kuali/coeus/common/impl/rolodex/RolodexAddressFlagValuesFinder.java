@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.impl.rolodex;
 
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -29,8 +28,8 @@ public class RolodexAddressFlagValuesFinder extends UifKeyValuesFinderBase {
     private static final List<KeyValue> KEY_VALUES;
     static {
         final List<KeyValue> temp = new ArrayList<>();
-        temp.add(new ConcreteKeyValue(Constants.FALSE_FLAG,"N"));
-        temp.add(new ConcreteKeyValue(Constants.TRUE_FLAG,"Y"));
+        temp.add(new ConcreteKeyValue("No","No"));
+        temp.add(new ConcreteKeyValue("Yes","Yes"));
         KEY_VALUES = Collections.unmodifiableList(temp);
     }
 
