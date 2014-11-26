@@ -287,6 +287,7 @@ public class ProposalDevelopmentSubmitController extends
 
         form.getNotificationHelper().initializeDefaultValues(context);
         form.getAddRecipientHelper().reset();
+        populateDeferredMessages(form);
         return getRefreshControllerService().refresh(form);
     }
     
@@ -333,6 +334,7 @@ public class ProposalDevelopmentSubmitController extends
     		if(validToSubmitToSponsor(form) ) {
     			submitApplication(form);
                 handleSubmissionNotification(form);
+                form.setDeferredMessages(getGlobalVariableService().getMessageMap());
                 return getModelAndViewService().showDialog("Kc-SendNotification-Wizard", true, form);
     		} else {
                 return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
