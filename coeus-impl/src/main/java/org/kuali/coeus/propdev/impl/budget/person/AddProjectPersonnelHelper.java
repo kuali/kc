@@ -97,5 +97,12 @@ public class AddProjectPersonnelHelper extends AddProjectBudgetLineItemHelper {
 	public void setBudgetPersonGroupName(String budgetPersonGroupName) {
 		this.budgetPersonGroupName = budgetPersonGroupName;
 	}
+	
+	public String getJobTitle() {
+		if(getEditBudgetPerson().getJobCode() != null) {
+			getDataObjectService().wrap(getEditBudgetPerson()).fetchRelationship("jobCodeRef");
+		}
+		return getEditBudgetPerson().getJobCodeRef() != null ? getEditBudgetPerson().getJobCodeRef().getJobTitle() : "";
+	}
 
 }

@@ -30,15 +30,21 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetSavePersonnelEvent;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetSaveProjectPersonnelEvent;
 import org.kuali.coeus.common.budget.framework.personnel.DeleteBudgetPersonEvent;
+import org.kuali.coeus.common.budget.framework.personnel.JobCode;
+import org.kuali.coeus.common.budget.framework.personnel.JobCodeService;
 import org.kuali.coeus.common.budget.framework.personnel.ValidCeJobCode;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
+import org.kuali.coeus.common.framework.ruleengine.KcEventResult;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.data.CompoundKey;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -72,6 +78,14 @@ public class BudgetPersonnelRule {
     @Qualifier("dictionaryValidationService")
     private DictionaryValidationService dictionaryValidationService;
     
+	@Autowired
+	@Qualifier("dataObjectService")
+	private DataObjectService dataObjectService;
+	
+	@Autowired
+	@Qualifier("jobCodeService")
+	private JobCodeService jobCodeService;
+	
     /**
      * 
      * This method to check the 'selected' person to delete is not associate with budget personnel details
@@ -207,18 +221,19 @@ public class BudgetPersonnelRule {
             = this.getBudgetPersonSequencesFromPersonnelDetails(selectedBudgetPeriod.getBudgetLineItems());
         
         if (CollectionUtils.isNotEmpty(budgetPersonSequences)) {
-            int i = 0;
+            int personIndex = 0;
             List<BudgetPerson> budgetPersons = event.getBudget().getBudgetPersons();
             for (BudgetPerson person : budgetPersons) {
+            	String errorKey = BUDGET_PERSONS_FIELD_NAME_START + personIndex + BUDGET_PERSONS_FIELD_NAME_JOBCODE;
                 if (budgetPersonSequences.contains(person.getPersonSequenceNumber())) {
                     if(CollectionUtils.isNotEmpty(this.getMappedCostElements(person))) {
-                        valid &= this.validateJobCodeChange(i, person);
+                        valid &= this.validateJobCodeChange(person, errorKey);
                     } else {
-                        valid &= this.validateJobCodeValue(i, person);
+                        valid &= this.validateJobCodeValue(person, errorKey);
                         this.updateJobCodeOnDetailsFromPerson(selectedBudgetPeriod.getBudgetLineItems(), person);
                     }
                 }
-                i++;
+                personIndex++;
             }
         }
         
@@ -266,25 +281,24 @@ public class BudgetPersonnelRule {
      * @param person the current person
      * @return true is valid false if not valid
      */
-    private boolean validateJobCodeChange(final int personNumber, final BudgetPerson person) {
-        assert person != null : "the person is null";
-        assert personNumber >= 0 : "the personNumber: " + personNumber + " is invalid";
-        
+    private boolean validateJobCodeChange(final BudgetPerson person, String errorKey) {
         boolean valid = true;
-        
-        final Map<String, Object> queryMap = new HashMap<String, Object>();
-        queryMap.put("budgetId", person.getBudgetId());
-        queryMap.put("personSequenceNumber", person.getPersonSequenceNumber());
-        final BudgetPerson personCopy = (BudgetPerson) this.boService.findByPrimaryKey(BudgetPerson.class, queryMap);
+        BudgetPerson personCopy = getOriginalBudgetPerson(person);
         if (!person.isDuplicatePerson(personCopy)) {
             if (!StringUtils.equals(person.getJobCode(), personCopy.getJobCode())) {
                 final MessageMap messageMap = GlobalVariables.getMessageMap();
-                messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + personNumber + BUDGET_PERSONS_FIELD_NAME_JOBCODE,
-                    KeyConstants.ERROR_PERSON_JOBCODE_CHANGE, person.getPersonName());
+                messageMap.putError(errorKey, KeyConstants.ERROR_PERSON_JOBCODE_CHANGE, person.getPersonName());
                 valid = false;
             }
         }
         return valid;
+    }
+    
+    protected BudgetPerson getOriginalBudgetPerson(BudgetPerson person) {
+        Map<String, Object> queryMap = new HashMap<String, Object>();
+        queryMap.put("budgetId", person.getBudgetId());
+        queryMap.put("personSequenceNumber", person.getPersonSequenceNumber());
+        return getDataObjectService().find(BudgetPerson.class, new CompoundKey(queryMap));
     }
     
     /**
@@ -293,15 +307,13 @@ public class BudgetPersonnelRule {
      * @param person the current person
      * @return true is valid false if not valid
      */
-    private boolean validateJobCodeValue(final int personNumber, final BudgetPerson person) {
+    private boolean validateJobCodeValue(BudgetPerson person, String errorKey) {
         assert person != null : "the person is null";
-        assert personNumber >= 0 : "the personNumber: " + personNumber + " is invalid";
         
         boolean valid = true;
         if (person.getJobCode() == null) {
             final MessageMap messageMap = GlobalVariables.getMessageMap();
-            messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + personNumber + BUDGET_PERSONS_FIELD_NAME_JOBCODE,
-                KeyConstants.ERROR_PERSON_JOBCODE_VALUE, person.getPersonName());
+            messageMap.putError(errorKey, KeyConstants.ERROR_PERSON_JOBCODE_VALUE, person.getPersonName());
             valid = false;
         }
         return valid;
@@ -515,6 +527,72 @@ public class BudgetPersonnelRule {
         return errorFound;
     }    
 
+    @KcEventMethod
+    public KcEventResult validateProjectPersonnel(BudgetSaveProjectPersonnelEvent event) {
+    	KcEventResult result = new KcEventResult();
+    	result.getMessageMap().addToErrorPath(event.getErrorPath());
+    	verifyJobCode(event, result);
+    	result.getMessageMap().removeFromErrorPath(event.getErrorPath());
+    	return result;
+    }
+    
+    protected void verifyJobCode(BudgetSaveProjectPersonnelEvent event, KcEventResult result) {
+    	List<BudgetLineItem> budgetLineItems = getBudgetLineItems(event);
+    	BudgetPerson budgetPerson = event.getBudgetPerson();
+    	if(isJobCodeChanged(budgetPerson) && isNewJobCodeValid(budgetPerson, result)) {
+            if (isBudgetPersonExistsInPersonnelDetails(budgetLineItems, budgetPerson)) {
+            	if(isJobCodeValid(budgetPerson)) {
+                    updateJobCodeOnDetailsFromPerson(budgetLineItems, budgetPerson);
+            	}else {
+            		result.setSuccess(false);
+            	}
+            }
+    	}
+    }
+    
+    protected boolean isJobCodeValid(BudgetPerson budgetPerson) {
+        if(CollectionUtils.isNotEmpty(getMappedCostElements(budgetPerson))) {
+        	return validateJobCodeChange(budgetPerson, "jobCode");
+        } else {
+        	return validateJobCodeValue(budgetPerson, "jobCode");
+        }
+    }
+    
+    protected boolean isNewJobCodeValid(BudgetPerson budgetPerson, KcEventResult result) {
+    	JobCode jobCode = getJobCodeService().findJobCodeRef(budgetPerson.getJobCode());
+    	if(jobCode == null) {
+            result.getMessageMap().putError("jobCode", KeyConstants.ERROR_PERSON_INVALID_JOBCODE_VALUE);
+    		result.setSuccess(false);
+    		return false;
+    	}else {
+    		return true;
+    	}
+    }
+    
+    protected boolean isJobCodeChanged(BudgetPerson budgetPerson) {
+    	BudgetPerson originalBudgetPerson = getOriginalBudgetPerson(budgetPerson);
+    	return !originalBudgetPerson.getJobCode().equalsIgnoreCase(budgetPerson.getJobCode());
+    }
+    
+    protected boolean isBudgetPersonExistsInPersonnelDetails(List<BudgetLineItem> budgetLineItems, BudgetPerson budgetPerson) {
+        for (BudgetLineItem budgetLineItem : budgetLineItems) {
+            for (BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+                if(budgetPersonnelDetails.getPersonSequenceNumber().equals(budgetPerson.getPersonSequenceNumber())){
+                	return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    protected List<BudgetLineItem> getBudgetLineItems(BudgetSaveProjectPersonnelEvent event) {
+    	List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
+        for(BudgetPeriod budgetPeriod : event.getBudget().getBudgetPeriods()) {
+        	budgetLineItems.addAll(budgetPeriod.getBudgetLineItems());
+        }
+        return budgetLineItems;
+    }
+    
 	protected BudgetPersonService getBudgetPersonService() {
 		return budgetPersonService;
 	}
@@ -546,5 +624,21 @@ public class BudgetPersonnelRule {
 	public void setDictionaryValidationService(
 			DictionaryValidationService dictionaryValidationService) {
 		this.dictionaryValidationService = dictionaryValidationService;
+	}
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
+
+	public JobCodeService getJobCodeService() {
+		return jobCodeService;
+	}
+
+	public void setJobCodeService(JobCodeService jobCodeService) {
+		this.jobCodeService = jobCodeService;
 	}
 }

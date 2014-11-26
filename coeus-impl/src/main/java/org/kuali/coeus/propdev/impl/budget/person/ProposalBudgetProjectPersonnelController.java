@@ -16,6 +16,7 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelBudgetService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetSavePersonnelPeriodEvent;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetSaveProjectPersonnelEvent;
 import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
@@ -118,9 +119,14 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	@RequestMapping(params="methodToCall=updatePersonDetails")
 	public ModelAndView updatePersonDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    int selectedLine = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());
-	    getBudgetPersonService().refreshBudgetPerson(form.getAddProjectPersonnelHelper().getEditBudgetPerson());
-	    form.getBudget().getBudgetPersons().set(selectedLine, form.getAddProjectPersonnelHelper().getEditBudgetPerson());
-	    getCollectionControllerService().saveLine(form);
+	    BudgetPerson editedBudgetPerson = form.getAddProjectPersonnelHelper().getEditBudgetPerson();
+	    getBudgetPersonService().refreshBudgetPerson(editedBudgetPerson);
+	    boolean rulePassed = getKcBusinessRulesEngine().applyRules(new BudgetSaveProjectPersonnelEvent(form.getBudget(), editedBudgetPerson, 
+	    		"addProjectPersonnelHelper.editBudgetPerson."));
+	    if(rulePassed) {
+		    form.getBudget().getBudgetPersons().set(selectedLine, form.getAddProjectPersonnelHelper().getEditBudgetPerson());
+		    super.save(form);
+	    }
 	    return getModelAndViewService().getModelAndView(form);
 	}
 	

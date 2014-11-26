@@ -18,6 +18,7 @@ package org.kuali.coeus.common.budget.impl.personnel;
 import org.kuali.coeus.common.budget.framework.personnel.JobCode;
 import org.kuali.coeus.common.budget.framework.personnel.JobCodeService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +34,10 @@ public class JobCodeServiceImpl implements JobCodeService {
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;    
 
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
     /**
      * 
      * This method provides the appropriate JobCode object
@@ -42,10 +47,7 @@ public class JobCodeServiceImpl implements JobCodeService {
      * @return
      */
     public JobCode findJobCodeRef(String jobCode) {
-        Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(Constants.JOB_CODE, jobCode);
-        JobCode ret = (JobCode)businessObjectService.findByPrimaryKey(JobCode.class, queryMap);
-        return ret;
+        return getDataObjectService().find(JobCode.class, jobCode);
     }
 
     public String findJobCodeTitle(String jobCode) {
@@ -65,5 +67,13 @@ public class JobCodeServiceImpl implements JobCodeService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 
 }
