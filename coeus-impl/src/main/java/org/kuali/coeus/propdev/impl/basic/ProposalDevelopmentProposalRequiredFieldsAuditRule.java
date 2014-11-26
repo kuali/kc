@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.basic;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalTypeService;
@@ -44,9 +45,6 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
     
     private ParameterService parameterService;
     private SubmissionInfoService submissionInfoService;
-    
-    @Autowired
-    @Qualifier("proposalTypeService")
     private ProposalTypeService proposalTypeService;
 
     @Override
@@ -128,6 +126,9 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
     }
 
 	public ProposalTypeService getProposalTypeService() {
+        if (proposalTypeService == null) {
+            proposalTypeService = KcServiceLocator.getService(ProposalTypeService.class);
+        }
 		return proposalTypeService;
 	}
 
