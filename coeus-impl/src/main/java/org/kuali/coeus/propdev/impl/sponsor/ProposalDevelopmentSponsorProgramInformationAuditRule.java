@@ -49,9 +49,6 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
     private ParameterService parameterService;
     private DataObjectService dataObjectService;
     private SubmissionInfoService submissionInfoService;
-    
-    @Autowired
-    @Qualifier("proposalTypeService")
     private ProposalTypeService proposalTypeService;
     
     @Override
@@ -198,9 +195,12 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         this.dataObjectService = dataObjectService;
     }
 
-	public ProposalTypeService getProposalTypeService() {
-		return proposalTypeService;
-	}
+    public ProposalTypeService getProposalTypeService() {
+        if (proposalTypeService == null) {
+            proposalTypeService = KcServiceLocator.getService(ProposalTypeService.class);
+        }
+        return proposalTypeService;
+    }
 
 	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
 		this.proposalTypeService = proposalTypeService;
