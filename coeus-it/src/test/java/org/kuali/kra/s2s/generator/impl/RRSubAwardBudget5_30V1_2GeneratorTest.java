@@ -68,6 +68,7 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 		BudgetSubAwards budgetSubAwards = new BudgetSubAwards();
 		budgetSubAwards.setSubAwardNumber(0001);
 		budgetSubAwards.setBudgetId(1L);
+		budgetSubAwards.setBudget(proposalDevelopmentBudgetExt);
 		budgetSubAwards
 				.setNamespace("http://apply.grants.gov/forms/RR_Budget-V1.1");
 		Organization testOrg = new Organization();
@@ -92,9 +93,6 @@ public class RRSubAwardBudget5_30V1_2GeneratorTest extends
 		grantApplication.setForms(forms);
 
 		budgetSubAwards.setSubAwardXmlFileData(grantApplication.xmlText());
-		budgetSubAwards = getService(DataObjectService.class).save(
-				budgetSubAwards);
-
 		List<BudgetSubAwards> budgetSubAwardsList = new ArrayList<BudgetSubAwards>();
 		budgetSubAwardsList.add(budgetSubAwards);
 
