@@ -748,6 +748,21 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         return StringUtils.replace(string,"\n","[br]");
     }
 
+    /*
+    Personnel which appears in multiple proposals should not allow update of personnel attachments at the child (critical)
+    Personnel attachments for personnel who appears only once in proposal hierarchy should be view only at the parent (no update of details nor delete) (critical)
+     */
+    public boolean renderPersonnelAttachmentEditForHierarchyProposal(String personId, DevelopmentProposal proposal) {
+        return (proposal.isInHierarchy()) ? renderEditForPersonnelAttachment(personId, proposal) : true;
+    }
+
+    protected boolean renderEditForPersonnelAttachment(String personId, DevelopmentProposal proposal) {
+        if (personId != null) {
+            boolean inMultiple = getProposalHierarchyService().personInMultipleProposals(personId, proposal);
+            return (proposal.isParent()) ? inMultiple : !inMultiple;
+        }
+        return true;
+    }
 
     public void prepareSummaryPage(ProposalDevelopmentDocumentForm form) {
       populateCreditSplits(form);

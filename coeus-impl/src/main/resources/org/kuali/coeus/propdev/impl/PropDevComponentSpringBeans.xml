@@ -151,7 +151,9 @@
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
 
-    <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoOjb" />
+    <bean id="proposalHierarchyDao" class="org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyDaoJpa">
+        <property name="dataObjectService" ref="dataObjectService" />
+    </bean>
 
     <bean id="proposalRoleTypeServiceCallback" parent="kcCoreCallbackService"
           p:callbackService-ref="proposalRoleTypeService"

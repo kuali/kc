@@ -33,7 +33,7 @@
                 <bean parent="Uif-HorizontalBoxGroup" p:order="10">
                     <property name="items">
                         <list>
-                            <bean parent="PropDev-PersonnelPage-AddButton" p:order="10" p:render="@{!document.developmentProposal.isParent() and !#parent.readOnly}"/>
+				<bean parent="PropDev-PersonnelPage-AddButton" p:order="10" p:render="@{!document.developmentProposal.isParent() and !#parent.readOnly}"/>
                             <bean parent="Uif-PrimaryActionButton" p:order="20" p:actionLabel="Notify All" p:methodToCall="sendAllCertificationNotifications" p:cssClasses="pull-right"
                                   p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}]
                                   and document.developmentProposal.proposalPersons.size() > 0
@@ -572,7 +572,7 @@
         p:render="@{#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0}"
         p:refreshWhenChangedPropertyNames="document.developmentProposal.proposalPersons[@{#index}].proposalPersonRoleId"
         p:progressiveRenderAndRefresh="true"
-		p:headerText="@{(#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0 and #line.questionnaireHelper.answerHeaders[0].label != null) ? #line.questionnaireHelper.answerHeaders[0].label : 'None'}">
+		p:headerText="@{(!document.developmentProposal.isChild() and #line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0 and #line.questionnaireHelper.answerHeaders[0].label != null) ? #line.questionnaireHelper.answerHeaders[0].label : 'None'}">
 		<property name="items">
 			<list>
                 <bean parent="PropDev-PersonnelPage-KeyPersonCertificationToggle"
@@ -587,6 +587,7 @@
                         <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to clear all the answers?"/>
                     </property>
                 </bean>
+
 				<bean parent="Questionnaire-QuestionsGroup" p:propertyName="questionnaireHelper.answerHeaders[0].questions"
                       p:render="@{#ViewHelper.renderQuestionnaire(#line)}"
 					p:order="30" />
@@ -630,5 +631,5 @@
 
 
     <bean id="PropDev-PersonnelPage-EditableInputField" parent="Uif-InputField"
-          p:readOnly="@{!#ViewHelper.isPersonFieldEditable(#component.propertyName)}" />
+          p:readOnly="@{!#ViewHelper.isPersonFieldEditable(#component.propertyName)}"/>
 </beans>

@@ -240,7 +240,7 @@
                               p:iconClass="icon-eye" p:order="30" p:actionScript="showDialog('PropDev-CopyDialog-Section');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Medusa"
 							p:iconClass="icon-tasks" p:order="40" p:actionScript="showDialog('PropDev-MedusaSection');" />
-						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy" p:render="@{(#editModes[#proposalAuthConsts.VIEW_ONLY_PROPOSAL_EDIT_MODE] and document.developmentProposal.inHierarchy) or not #editModes[#proposalAuthConsts.VIEW_ONLY_PROPOSAL_EDIT_MODE]}"
+						<bean parent="Uif-ActionLink" p:actionLabel="Hierachy @{document.developmentProposal.isChild() ? '(C)' : document.developmentProposal.isParent() ? '(P)' : ''}" p:render="@{(#editModes[#proposalAuthConsts.VIEW_ONLY_PROPOSAL_EDIT_MODE] and document.developmentProposal.inHierarchy) or not #editModes[#proposalAuthConsts.VIEW_ONLY_PROPOSAL_EDIT_MODE]}"
 							p:iconClass="icon-list-ol" p:order="50"  p:actionScript="showDialog('PropDev-HierachySection');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropDev-BudgetVersions-Dialog');"
 							p:iconClass="icon-money" p:order="70" />

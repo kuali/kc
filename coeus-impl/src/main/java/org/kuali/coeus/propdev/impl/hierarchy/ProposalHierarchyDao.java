@@ -23,4 +23,5 @@ import java.util.List;
 public interface ProposalHierarchyDao {
     public List<String> getHierarchyChildProposalNumbers(String proposalNumber);
     public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String proposalNumber);
-}
+    public boolean personInMultipleChildProposals(String personId, String hierarchyProposalNumber);
+    }
