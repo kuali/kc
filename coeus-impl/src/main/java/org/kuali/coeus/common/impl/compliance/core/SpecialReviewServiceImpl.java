@@ -191,6 +191,12 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
                 isLinkedToSpecialReview = isLinkedToSpecialReviews(institutionalProposal.getSpecialReviews(), protocolNumber);
             }
         }
+        else if (StringUtils.equals(FundingSourceType.PROPOSAL_DEVELOPMENT, fundingSourceTypeCode)) {
+            DevelopmentProposal developmentProposal = getDevelopmentProposal(fundingSourceNumber);
+            if (developmentProposal != null) {
+                isLinkedToSpecialReview = isLinkedToSpecialReviews(developmentProposal.getPropSpecialReviews(), protocolNumber);
+            }
+        }
         
         return isLinkedToSpecialReview;
     }
