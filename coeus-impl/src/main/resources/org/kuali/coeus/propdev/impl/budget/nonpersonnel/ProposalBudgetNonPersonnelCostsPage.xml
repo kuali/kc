@@ -161,7 +161,7 @@
 			<list>
 				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="budgetLineItem.lineItemDescription"
 					p:style="font-weight: bold; font-size: larger;" p:order="10"/>
-				<bean parent="PropBudget-NonPersonnelCosts-Details-TabSection" p:order="20"/>
+				<bean parent="PropBudget-EditNonPersonnelCosts-Details-TabSection" p:order="20"/>
 			</list>
 		</property>
 		<property name="footer">
@@ -191,6 +191,53 @@
 					</list>
 				</property>
 			</bean>
+		</property>
+	</bean>
+	
+	<bean id="PropBudget-EditNonPersonnelCosts-Details-TabSection" parent="PropBudget-NonPersonnelCosts-Details-TabSection-parentBean">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-EditNonPersonnelCosts-Details-Tab"
+					p:headerText="Details" p:order="10" />
+				<bean parent="PropBudget-NonPersonnelCosts-CostSharing-Tab"
+					p:headerText="Cost Sharing" p:order="20" />
+				<bean parent="PropBudget-NonPersonnelCosts-Rates-Tab"
+					p:headerText="Rates" p:order="30" />
+			</list>
+		</property>
+	</bean>
+	<bean id="PropBudget-EditNonPersonnelCosts-Details-Tab" parent="PropBudget-NonPersonnelCosts-Details-Tab-parentBean">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection"/>
+				<ref bean="PropBudget-EditNonPersonnelCosts-LineItem-ObjectFieldSection"/>
+				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PropBudget-EditNonPersonnelCosts-LineItem-ObjectFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.budgetCategoryCode"
+					p:label="Budget Category" p:order="10" p:required="false"
+					p:optionsFinder="#{#getService('budgetNonPersonnelBudgetCategoryValuesFinder')}" 
+					p:optionsFinder.addBlankOption="false">
+			    	<property name="control">
+			      		<bean parent="Uif-DropdownControl"/>
+			    	</property>
+ 						</bean>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.costElement"
+					p:refreshWhenChangedPropertyNames="#fp.budgetCategoryTypeCode"
+					p:label="Object Code Name" p:optionsFinder="#{#getService('budgetNonPersonnelCostElementValuesFinder')}" 
+					p:optionsFinder.addBlankOption="false" p:order="20"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemCost"
+					p:label="Total Base Cost" p:order="30" p:required="false"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.quantity"
+					p:order="40" p:required="false"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemDescription"
+					p:order="50" p:required="false"/>
+			</list>
 		</property>
 	</bean>
 
