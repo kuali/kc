@@ -55,6 +55,7 @@ import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
 import org.kuali.rice.krad.uif.util.SessionTransient;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.web.bind.ChangeTracking;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
@@ -107,7 +108,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private String resubmissionOption;
     private String institutionalProposalToVersion;
 
-
+    private MessageMap deferredMessages;
 
     private Map<String, Boolean> personEditableFields;
 
@@ -487,6 +488,14 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setNarrativeUserRightsSelectedAttachment(String narrativeUserRightsSelectedAttachment) {
         this.narrativeUserRightsSelectedAttachment = narrativeUserRightsSelectedAttachment;
+    }
+
+    public MessageMap getDeferredMessages() {
+        return deferredMessages;
+    }
+
+    public void setDeferredMessages(MessageMap deferredMessages) {
+        this.deferredMessages = deferredMessages;
     }
 
     public Map<String, Boolean> getPersonEditableFields() {

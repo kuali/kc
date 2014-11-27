@@ -63,6 +63,7 @@ import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krad.web.service.*;
@@ -637,6 +638,15 @@ public abstract class ProposalDevelopmentControllerBase {
                 getGlobalVariableService().getMessageMap().putInfo(propertyName + "[" + i + "].proposalPersonRoleId", KeyConstants.INFO_PERSONNEL_INVALID_ROLE, person.getDevelopmentProposal().getSponsorCode(), person.getFullName());
             }
         }
+    }
+
+    public void populateDeferredMessages(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm){
+        if (proposalDevelopmentDocumentForm.getDeferredMessages() != null
+                && proposalDevelopmentDocumentForm.getDeferredMessages().hasMessages()){
+            MessageMap messageMap = proposalDevelopmentDocumentForm.getDeferredMessages();
+            getGlobalVariableService().setMessageMap(messageMap);
+        }
+        proposalDevelopmentDocumentForm.setDeferredMessages(null);
     }
 
     protected ScienceKeyword getScienceKeyword(Object element) {
