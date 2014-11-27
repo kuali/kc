@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
+import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.period.GenerateBudgetPeriodEvent;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
@@ -66,6 +67,17 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         return getModelAndViewService().getModelAndView(form);
     }    
 	
+    @RequestMapping(params="methodToCall=addBudgetPeriod")
+    public ModelAndView addBudgetPeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        BudgetPeriod newBudgetPeriod = ((BudgetPeriod)form.getNewCollectionLines().get("budget.budgetPeriods"));
+        Budget budget = form.getBudget();
+        newBudgetPeriod.setBudget(budget);
+        if (getKcBusinessRulesEngine().applyRules(new AddBudgetPeriodEvent(budget, newBudgetPeriod))) {
+            getBudgetSummaryService().addBudgetPeriod(budget, newBudgetPeriod);
+        }
+        return getModelAndViewService().getModelAndView(form);
+    }
+    
     @Transactional @RequestMapping(params="methodToCall=saveBudgetPeriod")
     public ModelAndView saveBudgetPeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
     	Budget budget = form.getBudget();
