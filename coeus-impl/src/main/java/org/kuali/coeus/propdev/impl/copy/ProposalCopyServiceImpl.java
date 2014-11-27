@@ -192,6 +192,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 // add the lead unit specified by user
                 setLeadUnit(newDoc, criteria.getLeadUnitNumber());
 
+                clearSubmitFlag(newDoc.getDevelopmentProposal());
+
                 clearNarrativeUserRights(newDoc);
 
                 copyNotes(doc, newDoc);
@@ -230,7 +232,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         return newDoc;
     }
 
-    private void copyNotes(ProposalDevelopmentDocument doc, ProposalDevelopmentDocument newDoc) {
+    protected void clearSubmitFlag(DevelopmentProposal developmentProposal) {
+        developmentProposal.setSubmitFlag(Boolean.FALSE);
+    }
+
+    protected void copyNotes(ProposalDevelopmentDocument doc, ProposalDevelopmentDocument newDoc) {
         List<Note> notes = doc.getNotes();
         List<Note> newNotes = new ArrayList<Note>();
         for (Note note : notes) {
@@ -249,7 +255,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
 
 
-    private void clearNarrativeUserRights(ProposalDevelopmentDocument newDoc) {
+    protected void clearNarrativeUserRights(ProposalDevelopmentDocument newDoc) {
         for (Narrative narrative : newDoc.getDevelopmentProposal().getNarratives()) {
             narrative.setNarrativeUserRights(new ArrayList<NarrativeUserRights>());
         }
