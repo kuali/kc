@@ -18,7 +18,6 @@
 <%@ attribute name="channelTitle" required="true" %>
 <%@ attribute name="channelUrl" required="true" %>
 <%@ attribute name="selectedTab" required="true" %>
-
 <portal:immutableBar />
 
 <c:choose>
@@ -36,17 +35,6 @@
       		<td width="15" class="leftback-focus">&nbsp;</td>
 	 		<c:choose>
 	 		  <%-- then default to tab based actions if they are not focusing in --%>
-	          <c:when test='${selectedTab == "portalResearcherBody"}'>
-	              <portal:portalResearcherBody />
-	          </c:when>
-	          
-	          <c:when test='${selectedTab == "portalUnitBody"}'>
-	              <portal:portalUnitBody />
-	          </c:when>
-
-	          <c:when test='${selectedTab == "portalCentralAdminBody"}'>
-	              <portal:portalCentralAdminBody />
-	          </c:when>
 	          <c:when test='${selectedTab == "portalMaintenanceBody"}'>
 	              <portal:portalMaintenanceBody />
 	          </c:when>
@@ -56,7 +44,7 @@
 	          
 	          <%-- as backup go to the main menu index --%>
 	          <c:otherwise>
-	            <portal:portalResearcherBody />
+	            <portal:portalMaintenanceBody />
 	          </c:otherwise>
 	        </c:choose>
        </tr>
