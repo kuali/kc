@@ -431,12 +431,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
 
     protected void copyOpportunity(DevelopmentProposal srcProposal, DevelopmentProposal hierarchyProposal) {
-        S2sOpportunity opportunity = (S2sOpportunity) deepCopy(srcProposal.getS2sOpportunity());
-        opportunity.setDevelopmentProposal(hierarchyProposal);
-        hierarchyProposal.setS2sOpportunity(opportunity);
+        if (srcProposal.getS2sOpportunity() != null) {
+            S2sOpportunity opportunity = (S2sOpportunity) deepCopy(srcProposal.getS2sOpportunity());
+            opportunity.setDevelopmentProposal(hierarchyProposal);
+            hierarchyProposal.setS2sOpportunity(opportunity);
 
-        for (S2sOppForms form : opportunity.getS2sOppForms()) {
-            form.getS2sOppFormsId().setProposalNumber(hierarchyProposal.getProposalNumber());
+            for (S2sOppForms form : opportunity.getS2sOppForms()) {
+                form.getS2sOppFormsId().setProposalNumber(hierarchyProposal.getProposalNumber());
+            }
         }
     }
 
