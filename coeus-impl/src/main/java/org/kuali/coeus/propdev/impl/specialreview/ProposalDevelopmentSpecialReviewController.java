@@ -171,7 +171,7 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
 
         ProposalPerson person = pdForm.getDevelopmentProposal().getPrincipalInvestigator();
         if (person == null || org.apache.commons.lang3.StringUtils.isEmpty(person.getPersonId())) {
-            getGlobalVariableService().getMessageMap().putError(request.getParameter(UifParameters.UPDATE_COMPONENT_ID), "error.special.review.protocol.noprincipal");
+            getGlobalVariableService().getMessageMap().putError(pdForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID), "error.special.review.protocol.noprincipal");
         }
         else {
         	if(!getProposalDevelopmentSpecialReviewService().createProtocol(proposalSpecialReview, document)){
