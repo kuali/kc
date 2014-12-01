@@ -49,7 +49,7 @@
       <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.bo.negotiationStartDate}"/></td>
     </tr>
     <tr>
-      <th style="text-align: right;">Aggreement Type:</th>
+      <th style="text-align: right;">Agreement Type:</th>
       <td><c:out value="${node.bo.negotiationAgreementType.description}"/></td>
       <th style="text-align: right;">Negotiation End Date:</th>
       <td><fmt:formatDate pattern="MM/dd/yyyy" value="${node.bo.negotiationEndDate}"/></td>      
