@@ -85,12 +85,6 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
                  
             }
             
-            if (person.getCitizenshipTypeCode() == null) {
-                LOG.debug("error.noCitizenshipType");
-                reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "].citizenshipTypeCode", ERROR_MISSING_CITIZENSHIP_TYPE);
-                retval = false;
-            }
-            
             if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
                 LOG.debug("error.missingPersonRole");
                 reportError("document.developmentProposalList[0].proposalPersons[" + personIndex + "]", ERROR_MISSING_PERSON_ROLE);
