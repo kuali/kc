@@ -24,6 +24,7 @@ import org.kuali.rice.krad.web.service.ModelAndViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +45,7 @@ public class LandingPageController {
     @Qualifier("kcCommonControllerService")
     private KcCommonControllerService kcCommonControllerService;
     
-    @RequestMapping(value = "/landingPage")
+    @Transactional @RequestMapping(value = "/landingPage")
     public ModelAndView defaultRequest(@ModelAttribute("KualiForm") LandingPageForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         return getModelAndViewService().getModelAndView(form);
@@ -55,24 +56,24 @@ public class LandingPageController {
         return (LandingPageForm) getKcCommonControllerService().initForm(new LandingPageForm(), request, response);
     }
 
-    @RequestMapping(value = "/landingPage", params = "methodToCall=defaultMapping")
+    @Transactional @RequestMapping(value = "/landingPage", params = "methodToCall=defaultMapping")
     public ModelAndView defaultMapping(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request,
             HttpServletResponse response) {
         return getControllerService().start(form);
     }
 
-    @RequestMapping(value = "/landingPage", params = "methodToCall=start")
+    @Transactional @RequestMapping(value = "/landingPage", params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute(value = "KualiForm") LandingPageForm form, HttpServletRequest request, HttpServletResponse response) {
         return getControllerService().start(form);
     }
 
-    @RequestMapping(value = "/landingPage", params = "methodToCall=sessionTimeout")
+    @Transactional @RequestMapping(value = "/landingPage", params = "methodToCall=sessionTimeout")
     public ModelAndView sessionTimeout(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request,
             HttpServletResponse response) {
         return getControllerService().sessionTimeout(form);
     }
 
-    @RequestMapping(value = "/landingPage", params = "methodToCall=checkForm")
+    @Transactional @RequestMapping(value = "/landingPage", params = "methodToCall=checkForm")
     public ModelAndView checkForm(@ModelAttribute(value = "KualiForm") LandingPageForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         return getModelAndViewService().checkForm(form);
     }

@@ -27,6 +27,7 @@ import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,6 +57,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	private static final String ADD_PROJECT_PERSONNEL_DIALOG_ID = "PropBudget-ProjectPersonnelPage-Wizard";
 	
 	
+	@Transactional
 	@RequestMapping(params="methodToCall=searchProjectPersonnel")
 	public ModelAndView searchProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		if(!StringUtils.isEmpty(form.getAddProjectPersonnelHelper().getLineType())) {
@@ -65,7 +67,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
        return getModelAndViewService().getModelAndView(form);
 	}
 
-	@RequestMapping(params="methodToCall=addProjectPersonnel")
+	@Transactional @RequestMapping(params="methodToCall=addProjectPersonnel")
 	public ModelAndView addProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	   if(StringUtils.equals(form.getAddProjectPersonnelHelper().getLineType(), PersonTypeConstants.TBN.getCode())) {
 	       for (TbnPerson person : form.getAddProjectPersonnelHelper().getTbnPersons()) {
@@ -97,7 +99,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
        return getModelAndViewService().getModelAndView(form);
 	}
 
-	@RequestMapping(params="methodToCall=editPersonDetails")
+	@Transactional @RequestMapping(params="methodToCall=editPersonDetails")
 	public ModelAndView editPersonDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         if (StringUtils.isNotEmpty(selectedLine)) {
@@ -109,13 +111,13 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     	return getModelAndViewService().showDialog(EDIT_PROJECT_PERSONNEL_DIALOG_ID, true, form);
 	}
 
-	@RequestMapping(params="methodToCall=prepareAddProjectPersonnel")
+	@Transactional @RequestMapping(params="methodToCall=prepareAddProjectPersonnel")
 	public ModelAndView prepareAddProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         form.getAddProjectPersonnelHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
         return getModelAndViewService().showDialog(ADD_PROJECT_PERSONNEL_DIALOG_ID,true,form);
 	}
 	
-	@RequestMapping(params="methodToCall=updatePersonDetails")
+	@Transactional @RequestMapping(params="methodToCall=updatePersonDetails")
 	public ModelAndView updatePersonDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    int selectedLine = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());
 	    getBudgetPersonService().refreshBudgetPerson(form.getAddProjectPersonnelHelper().getEditBudgetPerson());
@@ -124,19 +126,19 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	    return getModelAndViewService().getModelAndView(form);
 	}
 	
-	@RequestMapping(params="methodToCall=calculatePersonSalaryDetails")
+	@Transactional @RequestMapping(params="methodToCall=calculatePersonSalaryDetails")
 	public ModelAndView calculatePersonSalaryDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		calculatePersonSalary(form);
 	    return getModelAndViewService().getModelAndView(form);
 	}
 	
-	@RequestMapping(params="methodToCall=syncFromProposal")
+	@Transactional @RequestMapping(params="methodToCall=syncFromProposal")
 	public ModelAndView syncFromProposal(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    getBudgetPersonService().synchBudgetPersonsToProposal(form.getBudget());
 	    return getModelAndViewService().getModelAndView(form);
 	}
 
-	@RequestMapping(params="methodToCall=assignPersonnelToPeriod")
+	@Transactional @RequestMapping(params="methodToCall=assignPersonnelToPeriod")
 	public ModelAndView assignPersonnelToPeriod(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
 		Budget budget = form.getBudget();
@@ -188,7 +190,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
         return null;
 	}
 
-	@RequestMapping(params="methodToCall=addPersonnelToPeriod")
+	@Transactional @RequestMapping(params="methodToCall=addPersonnelToPeriod")
 	public ModelAndView addPersonnelToPeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
@@ -232,7 +234,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 				"addProjectPersonnelHelper.budgetPersonnelDetail."));
 	}
 
-	@RequestMapping(params="methodToCall=editPersonPeriodDetails")
+	@Transactional @RequestMapping(params="methodToCall=editPersonPeriodDetails")
 	public ModelAndView editPersonPeriodDetails(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    Budget budget = form.getBudget();
 	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
@@ -250,7 +252,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     	return getModelAndViewService().showDialog(EDIT_PERSONNEL_PERIOD_DIALOG_ID, true, form);
 	}
 
-	@RequestMapping(params="methodToCall=savePersonPeriodDetails")
+	@Transactional @RequestMapping(params="methodToCall=savePersonPeriodDetails")
 	public ModelAndView savePersonPeriodDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    Budget budget = form.getBudget();
 	    int editLineIndex = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());
@@ -274,7 +276,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		return getModelAndViewService().getModelAndView(form);
 	}
 	
-	@RequestMapping(params="methodToCall=calculatePersonnelPeriodLineItem")
+	@Transactional @RequestMapping(params="methodToCall=calculatePersonnelPeriodLineItem")
 	public ModelAndView calculatePersonnelPeriodLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		calculatePersonnelLineItem(form, false);
 		return getModelAndViewService().getModelAndView(form);
@@ -301,7 +303,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
         budgetPerson.setBudgetPersonSalaryDetails(budgetPersonSalaryDetails);
 	}
 	
-	@RequestMapping(params="methodToCall=calculateCurrentPeriod")
+	@Transactional @RequestMapping(params="methodToCall=calculateCurrentPeriod")
 	public ModelAndView calculateCurrentPeriod(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 	    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
@@ -311,7 +313,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		return getModelAndViewService().getModelAndView(form);
 	}
 
-	@RequestMapping(params="methodToCall=editBudgetDetailsAndRates")
+	@Transactional @RequestMapping(params="methodToCall=editBudgetDetailsAndRates")
 	public ModelAndView editBudgetDetailsAndRates(@RequestParam("budgetPeriodId") String budgetPeriodId, @RequestParam("lineItemGroupKey") String lineItemGroupKey, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 	    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
@@ -322,7 +324,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     	return getModelAndViewService().showDialog(EDIT_LINE_ITEM_DETAILS_DIALOG_ID, true, form);
 	}
 
-	@RequestMapping(params="methodToCall=applyToLaterPeriods")
+	@Transactional @RequestMapping(params="methodToCall=applyToLaterPeriods")
 	public ModelAndView applyToLaterPeriods(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
@@ -331,7 +333,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		return getModelAndViewService().getModelAndView(form);
 	}
 
-	@RequestMapping(params="methodToCall=deletePersonnelLineItem")
+	@Transactional @RequestMapping(params="methodToCall=deletePersonnelLineItem")
 	public ModelAndView deletePersonnelLineItem(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    Budget budget = form.getBudget();
 	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);

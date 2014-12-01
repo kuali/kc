@@ -22,6 +22,7 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProposalBudgetModularController extends ProposalBudgetControllerBase  {
 
-    @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-ModularPage"})
+    @Transactional @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-ModularPage"})
     public ModelAndView navigateToModular(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         Budget budget = form.getBudget();
         for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()){
@@ -40,7 +41,7 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
         return super.navigate(form);
     }
 
-    @RequestMapping(value = "/proposalBudget", params={"methodToCall=synchModular"})
+    @Transactional @RequestMapping(value = "/proposalBudget", params={"methodToCall=synchModular"})
     public ModelAndView synchModular (@ModelAttribute("KualiForm") ProposalBudgetForm form)
             throws Exception{
         Budget budget = form.getBudget();
@@ -50,7 +51,7 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalBudget", params={"methodToCall=recalculateModular"})
+    @Transactional @RequestMapping(value = "/proposalBudget", params={"methodToCall=recalculateModular"})
     public ModelAndView recalculateModular (@ModelAttribute("KualiForm") ProposalBudgetForm form)
             throws Exception{
         Budget budget = form.getBudget();
