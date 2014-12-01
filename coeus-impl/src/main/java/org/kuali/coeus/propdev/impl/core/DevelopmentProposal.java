@@ -1043,7 +1043,13 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @Override
     public List<ProposalSite> getOtherOrganizations() {
-        return getProposalSitesForType(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
+		List<ProposalSite> otherOrganizations = getProposalSitesForType(ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
+		for (ProposalSite proposalSite : otherOrganizations) {
+			if(proposalSite.getOrganization().getCongressionalDistrict() != null) {
+                proposalSite.initializeDefaultCongressionalDistrict();
+            }
+		}
+		return otherOrganizations;
     }
 
     public void addOtherOrganization(ProposalSite otherOrganization) {
