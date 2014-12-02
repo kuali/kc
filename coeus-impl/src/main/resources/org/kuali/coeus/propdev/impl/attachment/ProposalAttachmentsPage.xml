@@ -109,6 +109,18 @@
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
                       p:fieldLabel.labelText="Posted Timestamp"
                       p:readOnly="true" p:width="20%" p:order="50"/>
+                <bean parent="Uif-FieldGroupBase" p:order="60" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
+                    <property name="group">
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareNarrative"
+                                          p:order="10"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
             </list>
         </property>
 	</bean>
@@ -124,7 +136,7 @@
                 <bean parent="Uif-InputField" p:propertyName="narrative.moduleStatusCode"
                       p:readOnlyDisplayReplacementPropertyName="narrative.narrativeStatus.description"
                       p:enableAutoQuickfinder="false"
-                      p:required="true" p:readOnly="false" p:order="20" />
+                      p:required="true" p:order="20" />
                 <bean parent="Uif-InputField" p:propertyName="narrative.contactName"
                       p:order="30" />
                 <bean parent="Uif-InputField" p:propertyName="narrative.emailAddress"
@@ -140,7 +152,7 @@
                       p:render="@{#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PROPOSAL_ATTACHMENT_TYPE_NAME}')}"
                       p:order="80"/>
                 <bean parent="Uif-InputField" p:propertyName="narrative.multipartFile" p:fieldLabel.labelText="@{!#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PROPOSAL_ATTACHMENT_TYPE_NAME}')?'File':'New File'}"
-                      p:order="90">
+                      p:order="90" p:readOnly="@{!#editModes['replaceNarratives'] and #parent.readOnly}">
                     <property name="control">
                         <bean parent="Uif-FileControl"/>
                     </property>
@@ -193,7 +205,6 @@
             <list merge="true">
                 <bean parent="Uif-InputField" p:propertyName="proposalPersonNumberString"
                       p:fieldLabel.LabelText="Person" p:required="true" p:order="40"
-                      p:readOnlyDisplayReplacementPropertyName="personId"
                       p:enableAutoQuickfinder="false" p:readOnly="@{!#empty(#line.versionNumber) or #parent.readOnly}"
                       >
                     <property name="control">
@@ -213,6 +224,18 @@
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
                       p:fieldLabel.labelText="Posted Timestamp"
                       p:readOnly="true" p:width="20%" p:order="80"/>
+                <bean parent="Uif-FieldGroupBase" p:order="90" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and #ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal) and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
+                    <property name="group">
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareBiography"
+                                          p:order="10"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
@@ -240,7 +263,7 @@
                       p:render="@{#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PERSONNEL_ATTACHMENT_TYPE_NAME}')}"
                       p:order="40"/>
                 <bean parent="Uif-InputField" p:propertyName="biography.multipartFile" p:fieldLabel.labelText="@{!#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PERSONNEL_ATTACHMENT_TYPE_NAME}')?'File':'New File'}"
-                      p:order="50">
+                      p:order="50" p:readOnly="@{!#editModes['replaceNarratives'] and #parent.readOnly}">
                     <property name="control">
                         <bean parent="Uif-FileControl"/>
                     </property>
@@ -371,6 +394,18 @@
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
                       p:fieldLabel.labelText="Posted Timestamp"
                       p:readOnly="true" p:width="20%" p:order="60"/>
+                <bean parent="Uif-FieldGroupBase" p:order="70" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
+                    <property name="group">
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareInstituteAttachment"
+                                          p:order="10"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
@@ -394,7 +429,7 @@
                       p:render="@{#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).INSTITUTIONAL_ATTACHMENT_TYPE_NAME}')}"
                       p:order="30"/>
                 <bean parent="Uif-InputField" p:propertyName="instituteAttachment.multipartFile" p:fieldLabel.labelText="@{!#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).INSTITUTIONAL_ATTACHMENT_TYPE_NAME}')?'File':'New File'}"
-                     p:order="40">
+                     p:order="40" p:readOnly="@{!#editModes['replaceNarratives'] and #parent.readOnly}">
                     <property name="control">
                         <bean parent="Uif-FileControl"/>
                     </property>

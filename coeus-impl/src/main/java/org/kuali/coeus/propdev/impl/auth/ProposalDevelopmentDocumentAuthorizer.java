@@ -187,6 +187,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (isAuthorizedToAddNarrative(doc, user)) {
             editModes.add("addNarratives");
         }
+
+        if (isAuthorizedToReplaceNarrative(doc, user)) {
+            editModes.add("replaceNarratives");
+        }
                    
         if (isAuthorizedToCertify(doc, user)) {
             editModes.add("certify");
@@ -222,7 +226,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (isAuthorizedToAddAddressBook(doc,user)) {
             editModes.add("addAddressBook");
         }
-        
+
         setNarrativePermissions(user, doc, editModes);
     } 
     
@@ -521,6 +525,15 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument());
         boolean hasPermission = false;
         if ((!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && !pdDocument.isViewOnly() && !pdDocument.getDevelopmentProposal().getSubmitFlag()) {
+            hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
+        }
+        return hasPermission;
+    }
+
+    protected boolean isAuthorizedToReplaceNarrative(Document document, Person user) {
+        final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document); 
+        boolean hasPermission = false;
+        if (!pdDocument.getDevelopmentProposal().getSubmitFlag()) {
             hasPermission = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_NARRATIVE);
         }
         return hasPermission;
