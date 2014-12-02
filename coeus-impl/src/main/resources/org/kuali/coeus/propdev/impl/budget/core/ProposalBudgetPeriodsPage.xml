@@ -31,41 +31,58 @@
     <bean id="PropBudget-PeriodsPage-CollectionGroup" parent="PropBudget-PeriodsPage-CollectionGroup-parentBean"/>
     <bean id="PropBudget-PeriodsPage-CollectionGroup-parentBean" parent="Uif-TableCollectionSection" 
     	  p:headerText="Periods &amp; Totals"
-          p:propertyName="budgetPeriods" p:renderAddLine="false"
+          p:propertyName="budgetPeriods"
           p:collectionObjectClass="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"
-          p:addWithDialog="false" p:layoutManager.renderSequenceField="false">
+          p:addWithDialog="true" p:layoutManager.renderSequenceField="false">
+		<property name="addWithDialogAction">
+			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Budget Period" p:iconClass="icon-plus" p:render="@{!#parent.readOnly}"/>
+		</property>
+        <property name="addLineDialog">
+            <bean p:id="PropBudget-PeriodsPage-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Budget Period" p:retrieveViaAjax="true"
+                  p:destroyDialogOnHidden="true">
+                <property name="footer.items">
+                    <list>
+                        <bean parent="Uif-AddLineAction-Dialog" p:order="10" p:dialogDismissOption=""
+			       			  p:successCallback="Kc.Dialog.closeDialogWithoutError('PropBudget-PeriodsPage-AddDialog');"
+                        	  p:performClientSideValidation="true"
+                              p:methodToCall="addBudgetPeriod" p:actionLabel="Add Budget Period"/>
+                        <bean parent="Uif-DialogDismissButton" p:order="20" p:actionLabel="Cancel" />
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="startDate"
+                <bean parent="Uif-InputField" p:propertyName="startDate" p:required="true"
                       p:order="10"
-                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
-                <bean parent="Uif-InputField" p:propertyName="endDate"
+                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                <bean parent="Uif-InputField" p:propertyName="endDate" p:required="true"
                       p:order="20"
-                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="numberOfMonths" p:label="Months"
                       p:order="30"
                       p:readOnly="true"/>
                 <bean parent="Uif-InputField" p:propertyName="totalCost"
                       p:order="40"
-                      p:readOnly="@{#line.readOnly or !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{#line.readOnly or !#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="totalDirectCost"
                       p:order="50"
-                      p:readOnly="@{#line.readOnly or !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{#line.readOnly or !#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="totalIndirectCost"
                       p:order="60"
-                      p:readOnly="@{#line.readOnly or !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{#line.readOnly or !#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="underrecoveryAmount"
                       p:order="65"
-                      p:readOnly="@{#line.readOnly or !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{#line.readOnly or !#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="costSharingAmount"
                       p:order="70"
-                      p:readOnly="@{#line.readOnly or !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{#line.readOnly or !#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="totalCostLimit"
                       p:order="80"
-                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
                 <bean parent="Uif-InputField" p:propertyName="directCostLimit"
                       p:order="90"
-                      p:readOnly="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
             </list>
         </property>
         <property name="lineActions">
