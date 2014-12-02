@@ -51,7 +51,8 @@
 			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Subaward" p:cssClasses="pull-right" p:iconClass="icon-plus" p:disabled="@{#parent.readOnly}"/>
 		</property>
 	    <property name="addLineDialog">
-	    	<bean id="PropBudget-SubawardsPage-CollectionGroup-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Subaward" p:retrieveViaAjax="true">
+	    	<bean id="PropBudget-SubawardsPage-CollectionGroup-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Subaward"
+                  p:retrieveViaAjax="true" p:omitFromFormPost="false">
 			   <property name="footer.items">
 			     <list>
 			       <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"/>
@@ -111,7 +112,8 @@
 	<bean id="PropBudget-Subawards-Details-Section" parent="PropBudget-Subawards-Details-Section-parent" />
 	<bean id="PropBudget-Subawards-Details-Section-parent"
 		parent="Uif-EditLineDialog" p:headerText="Subaward Details" p:dialogCssClass="modal-lg"
-		p:onLoadScript="jQuery('.calculateTotal').on('change', Kc.PropDev.Budget.calculateTotal);">
+		p:onLoadScript="jQuery('.calculateTotal').on('change', Kc.PropDev.Budget.calculateTotal);"
+        p:omitFromFormPost="false">
 		<property name="items">
 			<list>
 				<bean parent="PropBudget-SubawardsAttachments-Buttons-Group" p:order="10"/>
