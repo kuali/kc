@@ -10,14 +10,7 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelBudgetService;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetSavePersonnelPeriodEvent;
-import org.kuali.coeus.common.budget.framework.personnel.BudgetSaveProjectPersonnelEvent;
-import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
+import org.kuali.coeus.common.budget.framework.personnel.*;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
@@ -205,7 +198,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		syncLineItemDates(newBudgetLineItem, newBudgetPersonnelDetail);
 		refreshBudgetLineItemReferences(newBudgetLineItem);
 		setBudgetLineItemGroupName(form, newBudgetLineItem);
-		boolean rulePassed = isRulePassed(budget, currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail);
+		boolean rulePassed = isAddRulePassed(budget, currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail);
 		if(rulePassed) {
 			getBudgetPersonnelBudgetService().addBudgetPersonnelToPeriod(currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail);
 			form.getAddProjectPersonnelHelper().reset();
@@ -235,12 +228,17 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		budgetLineItem.setEndDate(budgetPersonnelDetails.getEndDate());
 	}
 	
-	private boolean isRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
+	private boolean isSaveRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
 		return getKcBusinessRulesEngine().applyRules(new BudgetSavePersonnelPeriodEvent(budget, budgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail, 
 				"addProjectPersonnelHelper.budgetPersonnelDetail."));
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=editPersonPeriodDetails")
+    private boolean isAddRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
+        return getKcBusinessRulesEngine().applyRules(new BudgetAddPersonnelPeriodEvent(budget, budgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail,
+                "addProjectPersonnelHelper.budgetPersonnelDetail."));
+    }
+
+    @Transactional @RequestMapping(params="methodToCall=editPersonPeriodDetails")
 	public ModelAndView editPersonPeriodDetails(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    Budget budget = form.getBudget();
 	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
@@ -272,7 +270,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		}else {
 			getDataObjectService().wrap(editBudgetPersonnel).fetchRelationship("budgetPeriodType");
 		}
-		boolean rulePassed = isRulePassed(budget, budgetPeriod, budgetLineItem, editBudgetPersonnel);
+		boolean rulePassed = isSaveRulePassed(budget, budgetPeriod, budgetLineItem, editBudgetPersonnel);
 		if(rulePassed) {
 			calculatePersonnelLineItem(form, true);
 			budgetLineItem.getBudgetPersonnelDetailsList().set(editLineIndex, editBudgetPersonnel);
@@ -294,7 +292,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	    String selectedLine = form.getAddProjectPersonnelHelper().getEditLineIndex();
 	    BudgetPersonnelDetails budgetPersonnelDetails = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
 	    BudgetLineItem budgetLineItem = budgetPersonnelDetails.getBudgetLineItem();
-		boolean rulePassed = ruleChecked ? ruleChecked : isRulePassed(budget, budgetPeriod, budgetLineItem, budgetPersonnelDetails);
+		boolean rulePassed = ruleChecked ? ruleChecked : isSaveRulePassed(budget, budgetPeriod, budgetLineItem, budgetPersonnelDetails);
 		if(rulePassed) {
 		    getBudgetPersonnelBudgetService().calculateBudgetPersonnelLineItem(budget, budgetLineItem, budgetPersonnelDetails, Integer.parseInt(selectedLine));
 		}

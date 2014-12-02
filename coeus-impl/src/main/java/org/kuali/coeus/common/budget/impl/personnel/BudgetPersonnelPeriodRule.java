@@ -16,8 +16,10 @@
 package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetAddPersonnelPeriodEvent;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetSavePersonnelPeriodEvent;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
@@ -27,24 +29,35 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 
+import java.util.List;
+
 @KcBusinessRule("budgetPersonnelPeriodRule")
 public class BudgetPersonnelPeriodRule {
     
     @KcEventMethod
-    public KcEventResult validateBudgetPersonnelPeriod(BudgetSavePersonnelPeriodEvent event) {
+    public KcEventResult validateAddBudgetPersonnelPeriod(BudgetAddPersonnelPeriodEvent event) {
     	KcEventResult result = new KcEventResult();
     	result.getMessageMap().addToErrorPath(event.getErrorPath());
-    	verifySummaryPersonnel(event, result);
-    	verifyPersonnelEffortAndCharged(event, result);
-    	verifyPersonnelDates(event, result);
+        verifySummaryPersonnel(event.getBudgetLineItem(), event.getBudgetPeriod().getBudgetLineItems(), result);
+    	verifyPersonnelEffortAndCharged(event.getBudgetPersonnelDetails(), result);
+    	verifyPersonnelDates(event.getBudgetPersonnelDetails(),event.getBudgetPeriod(), result);
     	result.getMessageMap().removeFromErrorPath(event.getErrorPath());
     	return result;
     }
 
-    protected void verifySummaryPersonnel(BudgetSavePersonnelPeriodEvent event, KcEventResult result) {
-    	BudgetLineItem newBudgetLineItem = event.getBudgetLineItem();
+    @KcEventMethod
+    public KcEventResult validateSaveBudgetPersonnelPeriod(BudgetSavePersonnelPeriodEvent event) {
+        KcEventResult result = new KcEventResult();
+        result.getMessageMap().addToErrorPath(event.getErrorPath());
+        verifyPersonnelEffortAndCharged(event.getBudgetPersonnelDetails(), result);
+        verifyPersonnelDates(event.getBudgetPersonnelDetails(),event.getBudgetPeriod(), result);
+        result.getMessageMap().removeFromErrorPath(event.getErrorPath());
+        return result;
+    }
+
+    protected void verifySummaryPersonnel(BudgetLineItem newBudgetLineItem,List<BudgetLineItem> budgetLineItemList , KcEventResult result) {
     	String newBudgetCategoryTypeCode = newBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode();
-        for(BudgetLineItem budgetLineItem : event.getBudgetPeriod().getBudgetLineItems()) {
+        for(BudgetLineItem budgetLineItem : budgetLineItemList) {
         	String existingBudgetCategoryTypeCode = budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode();
         	if(existingBudgetCategoryTypeCode.equalsIgnoreCase(newBudgetCategoryTypeCode)) {
                 if(newBudgetLineItem.getCostElement().equalsIgnoreCase(budgetLineItem.getCostElement()) && 
@@ -68,8 +81,7 @@ public class BudgetPersonnelPeriodRule {
         }
      }
     
-    protected void verifyPersonnelEffortAndCharged(BudgetSavePersonnelPeriodEvent event, KcEventResult result) {
-    	BudgetPersonnelDetails budgetPersonnelDetails = event.getBudgetPersonnelDetails();
+    protected void verifyPersonnelEffortAndCharged(BudgetPersonnelDetails budgetPersonnelDetails, KcEventResult result) {
         if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new ScaleTwoDecimal(100))){
             result.getMessageMap().putError("percentEffort", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
             result.setSuccess(false);
@@ -84,9 +96,7 @@ public class BudgetPersonnelPeriodRule {
         }
     }
 
-    protected void verifyPersonnelDates(BudgetSavePersonnelPeriodEvent event, KcEventResult result) {
-    	BudgetPersonnelDetails budgetPersonnelDetails = event.getBudgetPersonnelDetails();
-    	BudgetPeriod budgetPeriod = event.getBudgetPeriod();
+    protected void verifyPersonnelDates(BudgetPersonnelDetails budgetPersonnelDetails, BudgetPeriod budgetPeriod, KcEventResult result) {
         if(budgetPersonnelDetails.getEndDate().compareTo(budgetPersonnelDetails.getStartDate()) < 0) {
             result.getMessageMap().putError("endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_DATES);
             result.setSuccess(false);
