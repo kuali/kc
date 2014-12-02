@@ -17,7 +17,6 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,7 +43,6 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
 
-    @Transactional
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareDataOverride")
     public ModelAndView prepareDataOverride(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)
             throws Exception {
@@ -76,7 +74,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
         return getRefreshControllerService().refresh(form);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createOverride")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createOverride")
     public ModelAndView createOverride(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)
             throws Exception {
         ProposalDevelopmentDocument pdDocument = form.getProposalDevelopmentDocument();
@@ -162,7 +160,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
     }
 
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendOverrideNotification")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendOverrideNotification")
     public ModelAndView sendOverrideNotification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         if (form.isSendOverrideNotification()) {
             return getModelAndViewService().showDialog("Kc-SendNotification-Wizard",true,form);

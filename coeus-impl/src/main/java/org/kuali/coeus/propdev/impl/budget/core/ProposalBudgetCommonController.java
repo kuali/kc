@@ -22,7 +22,6 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,14 +45,14 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	private ParameterService parameterService;
 	
 	@MethodAccessible
-	@Transactional @RequestMapping(params="methodToCall=defaultMapping")
+	@RequestMapping(params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
         return getTransactionalDocumentControllerService().start(form);
 	}
 
 	@MethodAccessible
-	@Transactional @RequestMapping(params="methodToCall=start")
+	@RequestMapping(params="methodToCall=start")
 	public ModelAndView start(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		form.setBudget(loadBudget(budgetId));
 		form.initialize();
@@ -61,7 +60,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	}
 	
 	@MethodAccessible
-	@Transactional @RequestMapping(params="methodToCall=initiate")
+	@RequestMapping(params="methodToCall=initiate")
 	public ModelAndView initiate(@RequestParam("budgetId") Long budgetId, @RequestParam(value = "summaryBudget", required = false) Boolean summaryBudget, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		form.setBudget(loadBudget(budgetId));
 		form.initialize();
@@ -73,7 +72,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		}
 	}
 	
-	@Transactional @RequestMapping(params="methodToCall=openProposal")
+	@RequestMapping(params="methodToCall=openProposal")
 	public ModelAndView openProposal(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		save(form);
 		if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
@@ -90,25 +89,25 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     	}	        
 	}
 	
-	@Transactional @RequestMapping(params="methodToCall=openBudget")
+	@RequestMapping(params="methodToCall=openBudget")
 	public ModelAndView openBudget(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		save(form);
 		return getProposalBudgetSharedController().openBudget(budgetId, form);
 	}	
 	
-	@Transactional @RequestMapping(params="methodToCall=save")
+	@RequestMapping(params="methodToCall=save")
 	public ModelAndView save(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		return super.save(form);
 	}
 
 	@MethodAccessible
-	@Transactional @RequestMapping(params = "methodToCall=navigate")
+	@RequestMapping(params = "methodToCall=navigate")
 	public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		return super.navigate(form);
 	}
 	
 	@MethodAccessible
-    @Transactional @RequestMapping(params="methodToCall=addBudget")
+    @RequestMapping(params="methodToCall=addBudget")
     public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
     		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget, 
     		@RequestParam(value="addBudgetDto.modularBudget",defaultValue="false") Boolean modularBudget,
@@ -117,14 +116,14 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     }
 
 	@MethodAccessible
-    @Transactional @RequestMapping(params="methodToCall=copyBudget")
+    @RequestMapping(params="methodToCall=copyBudget")
 	public ModelAndView copyBudget(@RequestParam("copyBudgetDto.budgetName") String budgetName, 
 			@RequestParam("copyBudgetDto.originalBudgetId") Long originalBudgetId, 
 			@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, form.getDevelopmentProposal(), form);
 	}
 	
-	@Transactional @RequestMapping(params="methodToCall=completeBudget")
+	@RequestMapping(params="methodToCall=completeBudget")
 	public ModelAndView completeBudget(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
                 Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
@@ -133,7 +132,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		return super.save(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=saveBudgetSettings")
+	@RequestMapping(params="methodToCall=saveBudgetSettings")
 	public ModelAndView saveBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
         Budget originalBudget = getOriginalBudget(form);
@@ -145,7 +144,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		return getKcCommonControllerService().closeDialog(BUDGET_SETTINGS_DIALOG_ID, form);
 	}
 	
-	@Transactional @RequestMapping(params="methodToCall=confirmBudgetSettings")
+	@RequestMapping(params="methodToCall=confirmBudgetSettings")
 	public ModelAndView confirmBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
     	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
@@ -153,7 +152,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         return super.save(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=resetBudgetSettings")
+	@RequestMapping(params="methodToCall=resetBudgetSettings")
 	public ModelAndView resetBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
         Budget originalBudget = getOriginalBudget(form);
@@ -167,119 +166,119 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	}
 
 	@MethodAccessible
-	@Transactional @RequestMapping(params="methodToCall=sessionTimeout")
+	@RequestMapping(params="methodToCall=sessionTimeout")
 	public ModelAndView sessionTimeout(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
         return getTransactionalDocumentControllerService().sessionTimeout(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=addLine")
+	@RequestMapping(params="methodToCall=addLine")
 	public ModelAndView addLine(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         return getCollectionControllerService().addLine(form);
 	}
 
-	@Transactional @RequestMapping(params = "methodToCall=addBlankLine")
+	@RequestMapping(params = "methodToCall=addBlankLine")
 	public ModelAndView addBlankLine(@ModelAttribute("KualiForm") ProposalBudgetForm uifForm, HttpServletRequest request,
 			HttpServletResponse response) {
         return getCollectionControllerService().addBlankLine(uifForm);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=saveLine")
+	@RequestMapping(params="methodToCall=saveLine")
 	public ModelAndView saveLine(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 		return super.saveLine(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=deleteLine")
+	@RequestMapping(params="methodToCall=deleteLine")
 	public ModelAndView deleteLine(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
         return getCollectionControllerService().deleteLine(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=back")
+	@RequestMapping(params="methodToCall=back")
 	public ModelAndView back(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 		return getNavigationControllerService().back(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=returnToPrevious")
+	@RequestMapping(params="methodToCall=returnToPrevious")
 	public ModelAndView returnToPrevious(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		return getNavigationControllerService().returnToPrevious(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=returnToHub")
+	@RequestMapping(params="methodToCall=returnToHub")
 	public ModelAndView returnToHub(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		return getNavigationControllerService().returnToHub(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=returnToHistory")
+	@RequestMapping(params="methodToCall=returnToHistory")
 	public ModelAndView returnToHistory(@ModelAttribute("KualiForm") ProposalBudgetForm form, boolean homeFlag) {
 		return getNavigationControllerService().returnToHistory(form, false, homeFlag, false);
 	}
 
 	@MethodAccessible
-	@Transactional @RequestMapping(params="methodToCall=refresh")
+	@RequestMapping(params="methodToCall=refresh")
 	public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		return getRefreshControllerService().refresh(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=performLookup")
+	@RequestMapping(params="methodToCall=performLookup")
 	public ModelAndView performLookup(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
 		return getQueryControllerService().performLookup(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=checkForm")
+	@RequestMapping(params="methodToCall=checkForm")
 	public ModelAndView checkForm(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 		return getModelAndViewService().checkForm(form);
 	}
 
 	@MethodAccessible
-	@Transactional @RequestMapping(params="methodToCall=performFieldSuggest")
+	@RequestMapping(params="methodToCall=performFieldSuggest")
 	public @ResponseBody AttributeQueryResult performFieldSuggest(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
 		return getQueryControllerService().performFieldSuggest(form);
 	}
 
 	@MethodAccessible
-	@Transactional @RequestMapping(params="methodToCall=performFieldQuery")
+	@RequestMapping(params="methodToCall=performFieldQuery")
 	public @ResponseBody AttributeQueryResult performFieldQuery(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
 		return getQueryControllerService().performFieldQuery(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=tableCsvRetrieval", produces = {"text/csv"})
+	@RequestMapping(params="methodToCall=tableCsvRetrieval", produces = {"text/csv"})
 	@ResponseBody
 	public String tableCsvRetrieval(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 		return  getUifExportControllerService().tableCsvRetrieval(form, request, response);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=tableXlsRetrieval", produces = {"text/csv"})
+	@RequestMapping(params="methodToCall=tableXlsRetrieval", produces = {"text/csv"})
 	@ResponseBody
 	public String tableXlsRetrieval(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 		return getUifExportControllerService().tableXlsRetrieval(form, request, response);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=tableXmlRetrieval", produces = {"text/csv"})
+	@RequestMapping(params="methodToCall=tableXmlRetrieval", produces = {"text/csv"})
 	@ResponseBody
 	public String tableXmlRetrieval(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 		return getUifExportControllerService().tableXmlRetrieval(form, request, response);
 	}
 
 	@MethodAccessible
-	@Transactional @RequestMapping(params="methodToCall=tableJsonRetrieval")
+	@RequestMapping(params="methodToCall=tableJsonRetrieval")
 	public ModelAndView tableJsonRetrieval(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
 		return getCollectionControllerService().tableJsonRetrieval(form);
 	}
 	
     @MethodAccessible
-    @Transactional @RequestMapping(params = "methodToCall=retrieveCollectionPage")
+    @RequestMapping(params = "methodToCall=retrieveCollectionPage")
 	public ModelAndView retrieveCollectionPage(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		return getCollectionControllerService().retrieveCollectionPage(form);
 	}
 
-    @Transactional @RequestMapping(params="methodToCall=editLineItem")
+    @RequestMapping(params="methodToCall=editLineItem")
     public ModelAndView editLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
@@ -294,7 +293,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         return getRefreshControllerService().refresh(form);
     }
 
-    @Transactional @RequestMapping(params="methodToCall=cancelEditLineItem")
+    @RequestMapping(params="methodToCall=cancelEditLineItem")
     public ModelAndView cancelEditLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
@@ -306,17 +305,17 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         return getRefreshControllerService().refresh(form);
     }
     
-    @Transactional @RequestMapping(params="methodToCall=retrieveEditLineDialog")
+    @RequestMapping(params="methodToCall=retrieveEditLineDialog")
 	public ModelAndView retrieveEditLineDialog(UifFormBase form) {
 		return getCollectionControllerService().retrieveEditLineDialog(form);
 	}
 
-    @Transactional @RequestMapping(params="methodToCall=closeEditLineDialog")
+    @RequestMapping(params="methodToCall=closeEditLineDialog")
 	public ModelAndView closeEditLineDialog(UifFormBase form) {
 		return getCollectionControllerService().closeEditLineDialog(form);
 	}
     
-    @Transactional @RequestMapping(params="methodToCall=editLine")
+    @RequestMapping(params="methodToCall=editLine")
 	public ModelAndView editLine(UifFormBase form) {
 		return getCollectionControllerService().editLine(form);
 	}    
@@ -330,7 +329,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		this.proposalBudgetSharedController = proposalBudgetSharedController;
 	}
 
-    @Transactional @RequestMapping(params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-SummaryPage"})
+    @RequestMapping(params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-SummaryPage"})
     public ModelAndView navigateToBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
     	ModelAndView modelAndView = super.navigate(form);
     	if(form.getBudget().getBudgetSummaryDetails().isEmpty()) {
@@ -339,7 +338,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         return modelAndView;
     }
 
-    @Transactional @RequestMapping(params="methodToCall=populateBudgetSummary")
+    @RequestMapping(params="methodToCall=populateBudgetSummary")
 	public ModelAndView populateBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
     	super.save(form);
     	return getModelAndViewService().showDialog(BUDGET_SUMMARY_DIALOG_ID, true, form);

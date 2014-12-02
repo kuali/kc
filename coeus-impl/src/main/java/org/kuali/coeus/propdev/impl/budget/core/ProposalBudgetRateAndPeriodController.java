@@ -20,7 +20,6 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +34,6 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
 	
 	
 	@MethodAccessible
-    @Transactional
     @RequestMapping(params="methodToCall=resetToBudgetPeriodDefault")
     public ModelAndView resetToBudgetPeriodDefault(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentBudgetExt budget = form.getBudget();
@@ -59,7 +57,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     }    
 	
 	@MethodAccessible
-    @Transactional @RequestMapping(params="methodToCall=recalculateBudgetWithChanges")
+    @RequestMapping(params="methodToCall=recalculateBudgetWithChanges")
     public ModelAndView recalculateBudgetWithChanges(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentBudgetExt budget = form.getBudget();
     	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
@@ -78,7 +76,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         return getModelAndViewService().getModelAndView(form);
     }
     
-    @Transactional @RequestMapping(params="methodToCall=saveBudgetPeriod")
+    @RequestMapping(params="methodToCall=saveBudgetPeriod")
     public ModelAndView saveBudgetPeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
     	Budget budget = form.getBudget();
     	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
@@ -108,7 +106,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     }
 		
 	@MethodAccessible
-    @Transactional @RequestMapping(params="methodToCall=generateAllPeriods")
+    @RequestMapping(params="methodToCall=generateAllPeriods")
     public ModelAndView generateAllPeriods(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Budget budget = form.getBudget();
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(
@@ -129,7 +127,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         return getModelAndViewService().getModelAndView(form);
 	}
 
-    @Transactional @RequestMapping(params={"methodToCall=save", "pageId=PropBudget-PeriodsPage"})
+    @RequestMapping(params={"methodToCall=save", "pageId=PropBudget-PeriodsPage"})
     public ModelAndView save(ProposalBudgetForm form) {
     	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
         Budget budget = form.getBudget();
