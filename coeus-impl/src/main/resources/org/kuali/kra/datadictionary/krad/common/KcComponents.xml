@@ -12,6 +12,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+    <bean id="Uif-View" parent="Kc-View-parentBean"/>
+    <bean id="Kc-View-parentBean" parent="Uif-View-parentBean">
+        <property name="sessionPolicy.renderTimeoutView" value="true"/>
+        <property name="sessionPolicy.enableTimeoutWarning" value="true"/>
+        <property name="sessionPolicy.timeoutWarningSeconds" value="@{#getParamAsInteger('KR-NS','Document','SESSION_TIMEOUT_WARNING_MESSAGE_TIME') * 60}"/>
+    </bean>
+
 	<bean id="AttributeReferenceDummy-genericBoolean" parent="AttributeReference-genericBoolean-parentBean">
 		<property name="controlField">
 			<bean parent="Uif-CheckboxControl" />
