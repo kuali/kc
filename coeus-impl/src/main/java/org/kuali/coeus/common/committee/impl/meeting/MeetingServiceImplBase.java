@@ -625,6 +625,38 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
 
 
     /**
+     *
+     * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#moveupCommitteeScheduleMinute(org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase, int)
+     */
+    public void moveupCommitteeScheduleMinute(CS committeeSchedule, int itemNumber) {
+        CSM minuteBeingMoved = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber);
+        CSM minuteAbove = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber-1);
+        if (minuteBeingMoved != null && minuteAbove != null) {
+            // swap entry numbers so they will sort correctly
+            Integer temp = minuteAbove.getEntryNumber();
+            minuteAbove.setEntryNumber(minuteBeingMoved.getEntryNumber());
+            minuteBeingMoved.setEntryNumber(temp);
+        }
+    }
+
+
+    /**
+     *
+     * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#movedownCommitteeScheduleMinute(org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase, int)
+     */
+    public void movedownCommitteeScheduleMinute(CS committeeSchedule, int itemNumber) {
+        CSM minuteBeingMoved = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber);
+        CSM minuteBelow = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber+1);
+        if (minuteBeingMoved != null && minuteBelow != null) {
+            // swap entry numbers so they will sort correctly
+            Integer temp = minuteBelow.getEntryNumber();
+            minuteBelow.setEntryNumber(minuteBeingMoved.getEntryNumber());
+            minuteBeingMoved.setEntryNumber(temp);
+        }
+    }
+
+
+    /**
      * 
      * @see org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService#populateFormHelper(org.kuali.coeus.common.committee.impl.meeting.MeetingHelperBase,
      *      org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase, int)
@@ -813,41 +845,47 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     // this method will refresh the set of protocol submissions and review comments before saving because 
     // they could have been changed asynchronously in a different concurrent user session.
     private void refreshAndSaveSchedule(CS committeeSchedule) {
-        // have to do it this way because other users might be adding minutes. So first
-        // make a copy of minutes being edited, refresh original list (to catch any updates
-        // from other users), then merge lists
+        // Since a refresh will wipe out all the newly added (unsaved) minutes from the schedule, we will
+        // collect all newly added minutes in a separate collection and add them back after the refresh
         List<CSM> preRefreshMinutes = new ArrayList<CSM>();
-        for (CSM preRefreshMinute:committeeSchedule.getCommitteeScheduleMinutes()) {
-            preRefreshMinutes.add(preRefreshMinute);
+        // reset entryNumber in each entry because user may have changed ordering
+        int nextEntry = 0;
+        for (CSM minute:committeeSchedule.getCommitteeScheduleMinutes()) {
+            minute.setEntryNumber(nextEntry++);
+            preRefreshMinutes.add(minute);
         }
+
         committeeSchedule.refreshReferenceObject(COMMITTEE_SCHEDULE_MINUTES_REF_ID);
-        List<CSM> postRefreshMinutes = committeeSchedule.getCommitteeScheduleMinutes();
-        for(CSM newMinute:preRefreshMinutes) {
-            if(null == newMinute.getCommScheduleMinutesId()) {
-                postRefreshMinutes.add(newMinute);
+        List<CSM> newlyAddedMinutes = new ArrayList<CSM>();
+        for(CSM formMinute:preRefreshMinutes) {
+            if(null == formMinute.getCommScheduleMinutesId()) {
+                newlyAddedMinutes.add(formMinute);
             } else {
-                for (CSM oldMinute:postRefreshMinutes) {
-                    if (newMinute.getCommScheduleMinutesId().equals(oldMinute.getCommScheduleMinutesId())) {
-                        if (importantChanges(oldMinute, newMinute)) {
-                        	// only replacing those three fields that are editable
-                            oldMinute.setMinuteEntry(newMinute.getMinuteEntry());
-                            oldMinute.setFinalFlag(newMinute.isFinal());
-                            oldMinute.setPrivateCommentFlag(newMinute.getPrivateCommentFlag());
-                            oldMinute.setEntryNumber(newMinute.getEntryNumber());
+                // look up minute in refreshed list and update it
+                for (CSM oldMinute:committeeSchedule.getCommitteeScheduleMinutes()) {
+                    if (formMinute.getCommScheduleMinutesId().equals(oldMinute.getCommScheduleMinutesId())) {
+                        if (importantChanges(oldMinute, formMinute)) {
+                           	// only replacing those three fields that are editable
+                            oldMinute.setMinuteEntry(formMinute.getMinuteEntry());
+                            oldMinute.setFinalFlag(formMinute.isFinal());
+                            oldMinute.setPrivateCommentFlag(formMinute.getPrivateCommentFlag());
+                            oldMinute.setEntryNumber(formMinute.getEntryNumber());
                             break;
                         }
                     }
                 }
             }
         }
+        committeeSchedule.getCommitteeScheduleMinutes().addAll(newlyAddedMinutes);
         committeeSchedule.refreshReferenceObject(PROTOCOL_SUBMISSIONS_REF_ID);
-        
+
         businessObjectService.save(committeeSchedule);
     }
 
     private boolean importantChanges(CSM oldMinute, CSM newMinute) {
         return oldMinute.getPrivateCommentFlag() != newMinute.getPrivateCommentFlag() ||
-               oldMinute.isFinal() != newMinute.isFinal() ||
-               !StringUtils.equals(oldMinute.getMinuteEntry(), newMinute.getMinuteEntry());
+            oldMinute.isFinal() != newMinute.isFinal() ||
+            !StringUtils.equals(oldMinute.getMinuteEntry(), newMinute.getMinuteEntry()) ||
+            !oldMinute.getEntryNumber().equals(newMinute.getEntryNumber());
     }
 }

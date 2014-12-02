@@ -109,12 +109,12 @@
 					    <c:out value="Add:" />
 				    </th>
 	
-	                <td align="left" valign="middle" class="infoline" width="20%">
+	                <td align="left" valign="middle" class="infoline">
 	               	    <div align="center">
 	               		    <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.minuteEntryTypeCode" onchange="showHideDiv(this);"  attributeEntry="${committeeScheduleMinuteAttributes.minuteEntryTypeCode}" readOnly="false" />
 	            	    </div>
 				    </td>
-	                <td align="left" valign="middle" class="infoline" width="20%">
+	                <td align="left" valign="middle" class="infoline">
 	               	    <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.genAttDiv" style="${genAttDivStyle}">
                             <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.generateAttendance" attributeEntry="${attributeReferenceDummyAttributes.genericBoolean}" 
                                onclick="generateAttendance(this, ${fn:length(KualiForm.meetingHelper.memberPresentBeans)}, ${fn:length(KualiForm.meetingHelper.otherPresentBeans)});" />
@@ -183,14 +183,14 @@
                              <input type="hidden" name="meetingHelper.jsDisabled" value="true"/>
                         </noscript>
 				    </td>
-	                <td align="left" valign="middle" class="infoline" width="65%">
+	                <td align="left" valign="middle" class="infoline" width="55%">
 	                    <div id="meetingHelper.newCommitteeScheduleMinute.minuteEntry.div" align="left">
 	               	        <div align="left">
 	               	            <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.minuteEntry" attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" readOnly="false" />
 	               	        </div>
 	                    </div>	
 	                </td>
-	                <td align="left" valign="middle" class="infoline" width="20%">
+	                <td align="left" valign="middle" class="infoline">
 	               	    <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.pcCommentDiv"  style="${pcDivStyle}">
 	               		    <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode" attributeEntry="${committeeScheduleMinuteAttributes.protocolContingencyCode}" onblur="loadStandardReviewComment('meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode', 'meetingHelper.newCommitteeScheduleMinute.minuteEntry');"  />
                             <kul:lookup boClassName="${protocolContingencyBOClassName}" 
@@ -200,12 +200,12 @@
                              <input type="hidden" name="meetingHelper.jsDisabled" value="true"/>
                         </noscript>
 				    </td>
-	                <td align="left" valign="middle" class="infoline" width="20%">
+	                <td align="left" valign="middle" class="infoline">
 	               	    <div align="center">
 	               		    <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.privateCommentFlag" attributeEntry="${committeeScheduleMinuteAttributes.privateCommentFlag}" readOnly="false" />
 	            	    </div>
 				    </td>
-	                <td align="left" valign="middle" class="infoline" width="20%">
+	                <td align="left" valign="middle" class="infoline">
 	               	    <div align="center">
 	               		    <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.finalFlag" attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" />
 	            	    </div>
@@ -214,7 +214,7 @@
                     <td>&nbsp;</td>
 					<td>&nbsp;</td>
 	            </c:if>
-				    <td align="left" valign="middle" class="infoline" width="10%">
+				    <td align="left" valign="middle" class="infoline">
 					    <div align=center>
 					        <html:image property="methodToCall.addCommitteeScheduleMinute.anchor${tabKey}"
 						    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
@@ -225,6 +225,7 @@
 			<%-- New data --%>
 			
 			<%-- Existing data --%>
+            <c:set var="maxLen" value="${fn:length(KualiForm.meetingHelper.committeeSchedule.committeeScheduleMinutes) - 1}"/>
         	<c:forEach var="committeeScheduleMinute" items="${KualiForm.meetingHelper.committeeSchedule.committeeScheduleMinutes}" varStatus="status">
 	            <tr>
 					<th class="infoline">
@@ -246,12 +247,12 @@
 	                <td align="left" valign="middle" colspan="2">
 	               		  <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].minuteEntry" attributeEntry="${committeeScheduleMinuteAttributes.minuteEntry}" />
 					</td>
-	                <td align="left" valign="middle" class="infoline" width="20%">
+	                <td align="left" valign="middle" class="infoline">
 	               	    <div align="center">
 	               		    <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].privateCommentFlag" attributeEntry="${committeeScheduleMinuteAttributes.privateCommentFlag}" />
 	            	    </div>
 				    </td>
-	                <td align="left" valign="middle" class="infoline" width="20%">
+	                <td align="left" valign="middle" class="infoline">
 	               	    <div align="center">
 	               		    <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committeeScheduleMinutes[${status.index}].finalFlag" attributeEntry="${committeeScheduleMinuteAttributes.finalFlag}" />
 	            	    </div>
@@ -277,17 +278,25 @@
 	                        </td>
                        </c:when>
                        <c:otherwise>
-                     <td>&nbsp;</td>
-					<td>&nbsp;</td>
+                           <td>&nbsp;</td>
+					       <td>&nbsp;</td>
                        </c:otherwise>
                    </c:choose>
-				    </c:if>
-                    <c:if test="${!readOnly}">
-						<td>
-							<div align=center>&nbsp;					
-								<html:image property="methodToCall.deleteCommitteeScheduleMinute.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-							</div>
+				   </c:if>
+                   <c:if test="${!readOnly}">
+						<td nowrap>
+                            <div>
+                                <c:if test="${status.index > 0}">
+                                    <html:image property="methodToCall.moveupCommitteeScheduleMinute.line${status.index}.anchor${currentTabIndex}"
+                                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-moveup.gif' styleClass="tinybutton" title="Move Up"/>
+                                </c:if>
+                                <c:if test="${status.index < maxLen}">
+                                    <html:image property="methodToCall.movedownCommitteeScheduleMinute.line${status.index}.anchor${currentTabIndex}"
+                                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-movedown.gif' styleClass="tinybutton" title="Move Down"/>
+                                </c:if>
+	    						<html:image property="methodToCall.deleteCommitteeScheduleMinute.line${status.index}.anchor${currentTabIndex}"
+    									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+                            </div>
 		                </td>
 		            </c:if>
 	            </tr>
