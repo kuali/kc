@@ -16,6 +16,7 @@
 package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.Interval;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -61,12 +62,20 @@ public class BudgetPersonnelPeriodRule {
         	String existingBudgetCategoryTypeCode = budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode();
         	if(existingBudgetCategoryTypeCode.equalsIgnoreCase(newBudgetCategoryTypeCode)) {
                 if(newBudgetLineItem.getCostElement().equalsIgnoreCase(budgetLineItem.getCostElement()) && 
-                        StringUtils.equals(newBudgetLineItem.getGroupName(), budgetLineItem.getGroupName())) {
+                        StringUtils.equals(newBudgetLineItem.getGroupName(), budgetLineItem.getGroupName()) &&
+                        doDatesOverlap(newBudgetLineItem,budgetLineItem)) {
                 	addSummaryPersonnelLineItemErrorMessage(budgetLineItem, result);
                 	break;
                 }
         	}
         }
+    }
+
+    protected boolean doDatesOverlap(BudgetLineItem newBudgetLineItem, BudgetLineItem existingBudgetLineItem){
+        Interval newInterval = new Interval(newBudgetLineItem.getStartDate().getTime(),newBudgetLineItem.getEndDate().getTime());
+        Interval existingInterval = new Interval(existingBudgetLineItem.getStartDate().getTime(),existingBudgetLineItem.getEndDate().getTime());
+        return newInterval.overlaps(existingInterval);
+
     }
     
     protected void addSummaryPersonnelLineItemErrorMessage(BudgetLineItem budgetLineItem, KcEventResult result) {

@@ -116,7 +116,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	    int selectedLine = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());
 	    BudgetPerson editedBudgetPerson = form.getAddProjectPersonnelHelper().getEditBudgetPerson();
 	    getBudgetPersonService().refreshBudgetPerson(editedBudgetPerson);
-	    boolean rulePassed = getKcBusinessRulesEngine().applyRules(new BudgetSaveProjectPersonnelEvent(form.getBudget(), editedBudgetPerson, 
+	    boolean rulePassed = getKcBusinessRulesEngine().applyRules(new BudgetSaveProjectPersonnelEvent(form.getBudget(), editedBudgetPerson,
 	    		"addProjectPersonnelHelper.editBudgetPerson."));
 	    if(rulePassed) {
 		    form.getBudget().getBudgetPersons().set(selectedLine, form.getAddProjectPersonnelHelper().getEditBudgetPerson());
@@ -292,6 +292,8 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	    String selectedLine = form.getAddProjectPersonnelHelper().getEditLineIndex();
 	    BudgetPersonnelDetails budgetPersonnelDetails = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
 	    BudgetLineItem budgetLineItem = budgetPersonnelDetails.getBudgetLineItem();
+        BudgetPersonnelDetails editBudgetPersonnel = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
+        syncLineItemDates(budgetLineItem, editBudgetPersonnel);
 		boolean rulePassed = ruleChecked ? ruleChecked : isSaveRulePassed(budget, budgetPeriod, budgetLineItem, budgetPersonnelDetails);
 		if(rulePassed) {
 		    getBudgetPersonnelBudgetService().calculateBudgetPersonnelLineItem(budget, budgetLineItem, budgetPersonnelDetails, Integer.parseInt(selectedLine));
