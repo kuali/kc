@@ -59,12 +59,12 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
    	 List<Action> actions = propBudgetForm.getOrderedNavigationActions();
    	 int indexOfCurrentAction = propBudgetForm.findIndexOfPageId(actions);
    	 if (StringUtils.equals(direction, ProposalDevelopmentConstants.KradConstants.PREVIOUS_PAGE_ARG)) {
-   		 action.setRender(indexOfCurrentAction > 0);
+   		 action.setRender(action.isRender() && indexOfCurrentAction > 0);
    		 if (indexOfCurrentAction > 0) {
    			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, propBudgetForm.getOrderedNavigationActions().get(indexOfCurrentAction-1).getNavigateToPageId());
    		 }
    	 } else if (StringUtils.equals(direction, ProposalDevelopmentConstants.KradConstants.NEXT_PAGE_ARG)) {
-   		 action.setRender(indexOfCurrentAction < actions.size()-1);
+   		 action.setRender(action.isRender() && indexOfCurrentAction < actions.size()-1);
    		 if (indexOfCurrentAction < actions.size()-1) {
    			 action.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, propBudgetForm.getOrderedNavigationActions().get(indexOfCurrentAction+1).getNavigateToPageId());
    		 }

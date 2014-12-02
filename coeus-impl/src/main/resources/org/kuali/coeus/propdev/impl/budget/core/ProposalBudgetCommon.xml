@@ -26,21 +26,19 @@
 			<list>
                 <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
                       p:performClientSideValidation="true" p:methodToCall="navigate"
-                      p:iconClass="icon-chevron-left"
                       p:actionLabel="Back" p:finalizeMethodToCall="finalizeNavigationLinks"
                       p:finalizeMethodAdditionalArguments="previous" p:order="10" />
+                <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
+                      p:performClientSideValidation="true" p:methodToCall="save" p:render="@{!#parent.readOnly}"
+                      p:actionLabel="Save" p:order="20" />
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
                       p:performClientSideValidation="true" p:methodToCall="navigate"
-                      p:actionLabel="Continue" p:finalizeMethodToCall="finalizeNavigationLinks"
-                      p:iconClass="icon-chevron-right" p:actionIconPlacement="RIGHT"
-                      p:finalizeMethodAdditionalArguments="next" p:order="20" p:render="@{!#parent.readOnly}"/>
-				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
-					p:performClientSideValidation="true" p:methodToCall="save" p:disabled="@{#parent.readOnly}"
-					p:actionLabel="Save" p:order="30" />
+                      p:actionLabel="Save and Continue" p:finalizeMethodToCall="finalizeNavigationLinks"
+                      p:finalizeMethodAdditionalArguments="next" p:order="30" p:render="@{!#parent.readOnly}"/>
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
 					p:performClientSideValidation="true" p:methodToCall="completeBudget"
 					p:actionLabel="Complete Budget" p:render="@{#view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS) and !budget.isBudgetComplete()}"
-					p:order="50" />
+					p:order="40" />
 			</list>
 		</property>
 	</bean>	      
