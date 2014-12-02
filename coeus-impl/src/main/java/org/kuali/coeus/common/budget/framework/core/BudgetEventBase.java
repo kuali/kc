@@ -11,6 +11,7 @@ public class BudgetEventBase {
 	}
 	public BudgetEventBase(Budget budget, String errorPath) {
 		this.errorPath = errorPath;
+		this.budget = budget;
 	}
 
 	public Budget getBudget() {
