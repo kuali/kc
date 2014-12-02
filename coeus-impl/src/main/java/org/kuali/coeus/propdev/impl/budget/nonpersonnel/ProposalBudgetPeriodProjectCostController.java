@@ -10,6 +10,7 @@ import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	protected static final String ADD_NONPERSONNEL_PERIOD_DIALOG_ID = "PropBudget-NonPersonnelCostsPage-AddNonPersonnel-Dialog";
 	
 
+	@Transactional
 	@RequestMapping(params="methodToCall=assignLineItemToPeriod")
 	public ModelAndView assignLineItemToPeriod(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
@@ -45,7 +47,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
  		return modelAndView;
 	}
 	
-	@RequestMapping(params="methodToCall=addLineItemToPeriod")
+	@Transactional @RequestMapping(params="methodToCall=addLineItemToPeriod")
 	public ModelAndView addLineItemToPeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
@@ -58,7 +60,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		return getModelAndViewService().getModelAndView(form);
 	}
 
-	@RequestMapping(params="methodToCall=editNonPersonnelPeriodDetails")
+	@Transactional @RequestMapping(params="methodToCall=editNonPersonnelPeriodDetails")
 	public ModelAndView editNonPersonnelPeriodDetails(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    Budget budget = form.getBudget();
 	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
@@ -76,7 +78,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
     	return getModelAndViewService().showDialog(EDIT_NONPERSONNEL_PERIOD_DIALOG_ID, true, form);
 	}
 
-	@RequestMapping(params="methodToCall=deleteBudgetLineItem")
+	@Transactional @RequestMapping(params="methodToCall=deleteBudgetLineItem")
 	public ModelAndView deleteBudgetLineItem(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    Budget budget = form.getBudget();
 	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
@@ -89,13 +91,13 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		return getModelAndViewService().getModelAndView(form);
 	}
 	
-	@RequestMapping(params="methodToCall=saveBudgetLineItem")
+	@Transactional @RequestMapping(params="methodToCall=saveBudgetLineItem")
 	public ModelAndView saveBudgetLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    setEditedBudgetLineItem(form);
 		return getModelAndViewService().getModelAndView(form);
 	}
 	
-	@RequestMapping(params="methodToCall=saveAndApplyToLaterPeriods")
+	@Transactional @RequestMapping(params="methodToCall=saveAndApplyToLaterPeriods")
 	public ModelAndView saveAndApplyToLaterPeriods(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
@@ -114,7 +116,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		budgetPeriod.getBudgetLineItems().set(editLineIndex, newBudgetLineItem);
 	}
 	
-	@RequestMapping(params="methodToCall=syncToPeriodCostDirectLimit")
+	@Transactional @RequestMapping(params="methodToCall=syncToPeriodCostDirectLimit")
 	public ModelAndView syncToPeriodCostDirectLimit(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
@@ -123,7 +125,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		return getModelAndViewService().getModelAndView(form);
 	}
 	
-	@RequestMapping(params="methodToCall=syncToPeriodCostLimit")
+	@Transactional @RequestMapping(params="methodToCall=syncToPeriodCostLimit")
 	public ModelAndView syncToPeriodCostLimit(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
@@ -132,7 +134,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
  		return getModelAndViewService().getModelAndView(form);
 	}
 	
-	@RequestMapping(params="methodToCall=editParticipantDetails")
+	@Transactional @RequestMapping(params="methodToCall=editParticipantDetails")
 	public ModelAndView editParticipantDetails(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 	    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
@@ -143,7 +145,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
     	return getModelAndViewService().showDialog(EDIT_NONPERSONNEL_PARTICIPANT_DIALOG_ID, true, form);
 	}
 	
-	@RequestMapping(params="methodToCall=saveParticipantDetails")
+	@Transactional @RequestMapping(params="methodToCall=saveParticipantDetails")
 	public ModelAndView saveParticipantDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
 		getDataObjectService().save(currentTabBudgetPeriod);

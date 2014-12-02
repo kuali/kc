@@ -22,6 +22,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,6 +48,7 @@ public class ProposalDevelopmentPermissionsController extends ProposalDevelopmen
     @Qualifier("proposalRoleService")
     private ProposalRoleService proposalRoleService;
 
+    @Transactional
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=savePermission")
     public ModelAndView savePermission(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 

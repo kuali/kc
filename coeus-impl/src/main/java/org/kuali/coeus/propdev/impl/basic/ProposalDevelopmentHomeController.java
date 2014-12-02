@@ -29,7 +29,6 @@ import org.kuali.coeus.propdev.impl.copy.ProposalCopyService;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
-import org.kuali.coeus.propdev.impl.state.ProposalStateConstants;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -50,6 +49,7 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -93,6 +93,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     private DocumentDictionaryService documentDictionaryService;
 
    @MethodAccessible
+   @Transactional
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -109,7 +110,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
 
-   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=copy")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=copy")
    public ModelAndView copy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -128,7 +129,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
      * TransactionalDocumentControllerService.
      */
     @MethodAccessible
-    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=viewUtility")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=viewUtility")
     public ModelAndView viewUtility(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                     @RequestParam(value="userName",required = false) String userName) throws Exception {
         ProposalDevelopmentDocument document = null;
@@ -170,7 +171,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     }
 
     @MethodAccessible
-    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certifyAnswers")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certifyAnswers")
     public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         String selectedPersonId = form.getProposalPersonQuestionnaireHelper().getProposalPerson().getPersonId();
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
@@ -198,20 +199,20 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         return docType.getResolvedDocumentHandlerUrl();
     }
 
-   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
    public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
        return super.save(form);
    }
    
 
-   @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
+   @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
    public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
 		   HttpServletRequest request, HttpServletResponse response) throws Exception {
 	   return super.navigate(form, result, request, response);
    }
 
    @MethodAccessible
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getSponsor")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getSponsor")
    public @ResponseBody Sponsor sponsorByCode(@RequestParam("sponsorCode") String sponsorCode) {
        Sponsor sponsor = getLegacyDataAdapter().findBySinglePrimaryKey(Sponsor.class, sponsorCode);
        //clear references that are likely circular
@@ -222,53 +223,53 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return sponsor;
    }
    
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveDetails")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveDetails")
    public ModelAndView saveDetails(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        return super.save(form, result, request, response);
    }
    
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveOpportunity")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveOpportunity")
    public ModelAndView saveOpportunity(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        return super.save(form, result, request, response);
    }      
    
    
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveCompliance")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveCompliance")
    public ModelAndView saveComplaince(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
         return super.save(pdForm, result, request, response, SaveDocumentSpecialReviewEvent.class);
    }   
    
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveProposalAttachments")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveProposalAttachments")
    public ModelAndView saveProposalAttachments(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
        return super.save(pdForm, result, request, response);
    }
    
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveInternalAttachments")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveInternalAttachments")
    public ModelAndView saveInternalAttachments(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
        return super.save(pdForm, result, request, response);
    }   
    
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=savePersonnelAttachments")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=savePersonnelAttachments")
    public ModelAndView savePersonnelAttachments(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
        return super.save(pdForm, result, request, response);
    }
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAbstracts")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAbstracts")
    public ModelAndView saveAbstracts(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
        return super.save(pdForm, result, request, response);
    }
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNotes")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNotes")
    public ModelAndView saveNotes(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
@@ -276,7 +277,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    }
 
    @MethodAccessible
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=docHandler")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=docHandler")
    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
            HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocument document;
@@ -331,7 +332,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        }
    }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=editCollectionLine")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=editCollectionLine")
     public ModelAndView editCollectionLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);

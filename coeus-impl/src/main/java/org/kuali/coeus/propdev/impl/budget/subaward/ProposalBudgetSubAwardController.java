@@ -31,6 +31,7 @@ import org.kuali.rice.krad.web.service.impl.CollectionControllerServiceImpl.Coll
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,6 +57,7 @@ public class ProposalBudgetSubAwardController extends
 	private KcAttachmentService kcAttachmentService;
 	
 
+	@Transactional
 	@RequestMapping(params={"methodToCall=retrieveEditLineDialog","actionParameters["+UifParameters.SELECTED_COLLECTION_PATH+"]=budget.budgetSubAwards"})
 	public ModelAndView showSubawardEditLineDialog(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		//pre-fetch the period details as this item will be serialized as part of
@@ -65,7 +67,7 @@ public class ProposalBudgetSubAwardController extends
 		return getCollectionControllerService().retrieveEditLineDialog(form);
 	}
 	
-	@RequestMapping(params="methodToCall=viewSubAwardPdf")
+	@Transactional @RequestMapping(params="methodToCall=viewSubAwardPdf")
 	public void viewPdf(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form, HttpServletResponse response) {
 		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
 		BudgetSubAwardAttachment attachment = getDataObjectService().findUnique(BudgetSubAwardAttachment.class, QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("budgetSubAward.budgetId", subAward.getBudgetId()), PredicateFactory.equal("budgetSubAward.subAwardNumber", subAwardNumber)));
@@ -79,7 +81,7 @@ public class ProposalBudgetSubAwardController extends
         }
 	}
 	
-	@RequestMapping(params="methodToCall=viewSubAwardXml")
+	@Transactional @RequestMapping(params="methodToCall=viewSubAwardXml")
 	public void viewXml(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form, HttpServletResponse response) {
 		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
 		BudgetSubAwardFiles file = getDataObjectService().findUnique(BudgetSubAwardFiles.class, QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("budgetSubAward.budgetId", subAward.getBudgetId()), PredicateFactory.equal("budgetSubAward.subAwardNumber", subAwardNumber)));
@@ -93,21 +95,21 @@ public class ProposalBudgetSubAwardController extends
         }
 	}
 	
-	@RequestMapping(params="methodToCall=syncFromPdf")
+	@Transactional @RequestMapping(params="methodToCall=syncFromPdf")
 	public ModelAndView syncFromPdf(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
 		updateSubAwardBudgetDetails(form.getBudget(), subAward, ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION);
 		return getRefreshControllerService().refresh(form);
 	}
 	
-	@RequestMapping(params="methodToCall=removeAttachment")
+	@Transactional @RequestMapping(params="methodToCall=removeAttachment")
 	public ModelAndView removeAttachment(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
 		getPropDevBudgetSubAwardService().removeSubAwardAttachment(subAward);
 		return getRefreshControllerService().refresh(form);
 	}
 	
-	@RequestMapping(params="methodToCall=replaceAttachment")
+	@Transactional @RequestMapping(params="methodToCall=replaceAttachment")
 	public ModelAndView replaceAttachment(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
 		BudgetSubAwards dialogSubAward = (BudgetSubAwards) form.getDialogDataObject();
@@ -143,13 +145,13 @@ public class ProposalBudgetSubAwardController extends
     	return null;
     }
     
-    @RequestMapping(params={"methodToCall=editLine","actionParameters["+UifParameters.SELECTED_COLLECTION_PATH+"]=budget.budgetSubAwards"})
+    @Transactional @RequestMapping(params={"methodToCall=editLine","actionParameters["+UifParameters.SELECTED_COLLECTION_PATH+"]=budget.budgetSubAwards"})
 	public ModelAndView editLine(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		getCollectionControllerService().editLine(form);
 		return super.save(form);
 	}    
 	
-	@RequestMapping(params={"methodToCall=addLine","actionParameters["+UifParameters.SELECTED_COLLECTION_PATH+"]=budget.budgetSubAwards"})
+	@Transactional @RequestMapping(params={"methodToCall=addLine","actionParameters["+UifParameters.SELECTED_COLLECTION_PATH+"]=budget.budgetSubAwards"})
 	public ModelAndView addSubAward(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		
 		final CollectionActionParameters parameters = new CollectionActionParameters(form, false);
@@ -196,7 +198,7 @@ public class ProposalBudgetSubAwardController extends
         }
 	}
 	
-	@RequestMapping(params={"methodToCall=deleteLine", "actionParameters[selectedCollectionPath]=budget.budgetSubAwards"})
+	@Transactional @RequestMapping(params={"methodToCall=deleteLine", "actionParameters[selectedCollectionPath]=budget.budgetSubAwards"})
 	public ModelAndView deleteLine(@RequestParam("actionParameters[lineIndex]") Integer subAwardIndex, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		BudgetSubAwards subAwardToDelete = form.getBudget().getBudgetSubAwards().get(subAwardIndex);
 		form.getBudget().getBudgetLineItems().removeAll(subAwardToDelete.getBudgetLineItems());

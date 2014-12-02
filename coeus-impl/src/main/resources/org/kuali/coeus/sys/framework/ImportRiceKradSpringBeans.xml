@@ -20,18 +20,10 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context.xsd
-
-
-                           http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx.xsd
-                           http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+                           http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:annotation-config />
 
@@ -40,20 +32,8 @@
     <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
 
     <bean id="kualiModuleService" parent="grlImporter" p:serviceName="kualiModuleService" />
-    <bean id="transactionManager" parent="grlImporter" p:serviceName="transactionManager" />
+    <bean id="parameterService" parent="grlImporter" p:serviceName="parameterService" />
     <bean id="modelAndViewService" parent="grlImporter" p:serviceName="modelAndViewService" />
-
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="*"/>
-        </tx:attributes>
-    </tx:advice>
-
-    <aop:config>
-        <aop:pointcut id="controllerTransaction"
-                      expression="execution(* org.kuali.rice.krad.web.controller.UifControllerBase+.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="controllerTransaction"/>
-    </aop:config>
 
     <bean class="org.kuali.rice.krad.uif.freemarker.FreeMarkerInlineRenderBootstrap" />
 

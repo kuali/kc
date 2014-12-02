@@ -23,6 +23,7 @@ import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +38,7 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	private ProposalBudgetSharedControllerService proposalBudgetSharedController;
     
 	@MethodAccessible
-    @RequestMapping(params="methodToCall=addBudget")
+    @Transactional @RequestMapping(params="methodToCall=addBudget")
     public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
     		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget,
             @RequestParam(value="addBudgetDto.modularBudget",defaultValue="false") Boolean modularBudget,
@@ -46,14 +47,14 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
     }
 
 	@MethodAccessible
-    @RequestMapping(params="methodToCall=copyBudget")
+    @Transactional @RequestMapping(params="methodToCall=copyBudget")
 	public ModelAndView copyBudget(@RequestParam("copyBudgetDto.budgetName") String budgetName, 
 			@RequestParam("copyBudgetDto.originalBudgetId") Long originalBudgetId, 
 			@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, form.getDevelopmentProposal(), form);
 	}
 	
-	@RequestMapping(params="methodToCall=markForSubmission")
+	@Transactional @RequestMapping(params="methodToCall=markForSubmission")
 	public ModelAndView markForSubmission(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 		ProposalDevelopmentBudgetExt finalBudget = null;
 		if (form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets() != null) {
@@ -67,7 +68,7 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 		return super.save(form);
 	}
 	
-	@RequestMapping(params="methodToCall=openBudget")
+	@Transactional @RequestMapping(params="methodToCall=openBudget")
 	public ModelAndView openBudget(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 		super.save(form);
 		return getProposalBudgetSharedController().openBudget(budgetId, form);
