@@ -448,7 +448,7 @@
                       p:order="10"/>
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="race"
                       p:order="20"/>
-                <bean parent="Uif-InputField" p:propertyName="personId"
+                <bean parent="Uif-DataField" p:propertyName="personId"
                       p:order="30"/>
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="handicappedFlag"
                       p:order="40"/>
