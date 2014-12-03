@@ -843,26 +843,35 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
     <bean id="Kc-Header-Unit-Group2-parentBean" abstract="true" parent="Uif-MenuList" p:headerText="Post-Award">
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="Awards" p:renderColon="false" p:cssClasses="icon-chevron-sign-right" p:order="10" />
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:iconClass="icon-plus" p:order="20">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/awardHome.do?methodToCall=docHandler&amp;command=initiate&amp;docTypeName=AwardDocument"/>
-                        </map>
-                    </property>
-                </bean>
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:iconClass="icon-search" p:order="30">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.kra.award.home.Award&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
-                        </map>
+
+                <bean parent="Uif-HorizontalBoxSection" p:order="10">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Award" p:renderColon="false" p:cssClasses="icon-chevron-sign-right" p:order="10"/>
+                            <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:iconClass="icon-plus" p:order="20">
+                                <property name="actionUrl.requestParameters">
+                                    <map>
+                                        <entry key="href"
+                                               value="@{#ConfigProperties['application.url']}/awardHome.do?methodToCall=docHandler&amp;command=initiate&amp;docTypeName=AwardDocument"/>
+                                    </map>
+                                </property>
+                            </bean>
+
+                            <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:iconClass="icon-search" p:order="30">
+                                <property name="actionUrl.requestParameters">
+                                    <map>
+                                        <entry key="href"
+                                               value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.kra.award.home.Award&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                    </map>
+                                </property>
+                            </bean>
+
+                        </list>
                     </property>
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="  Award Report Tracking" p:order="40"  p:cssClasses="icon-chevron-sign-right">
+                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Award Report Tracking" p:cssClasses="icon-chevron-sign-right" p:order="20">
                     <property name="actionUrl.requestParameters">
                         <map>
                             <entry key="href"
@@ -870,15 +879,33 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                         </map>
                     </property>
                 </bean>
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="  Subawards" p:order="50" p:cssClasses="icon-chevron-sign-right">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.kra.subaward.bo.SubAward&amp;docFormKey=88888888&amp;includeCustomActionUrls=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
-                        </map>
+
+                <bean parent="Uif-HorizontalBoxSection" p:order="30">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Subaward" p:renderColon="false" p:cssClasses="icon-chevron-sign-right"  p:order="10"/>
+                            <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:iconClass="icon-plus" p:order="20">
+                                <property name="actionUrl.requestParameters">
+                                    <map>
+                                        <entry key="href"
+                                               value="@{#ConfigProperties['application.url']}/subAwardHome.do?methodToCall=docHandler&amp;command=initiate&amp;docTypeName=SubAwardDocument"/>
+                                    </map>
+                                </property>
+                            </bean>
+
+                            <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView" p:iconClass="icon-search" p:order="30">
+                                <property name="actionUrl.requestParameters">
+                                    <map>
+                                        <entry key="href"
+                                               value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.kra.subaward.bo.SubAward&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                                    </map>
+                                </property>
+                            </bean>
+
+                        </list>
                     </property>
                 </bean>
+
 
             </list>
         </property>
