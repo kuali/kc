@@ -98,22 +98,6 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/modular/ProposalBudgetModularPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetSummaryPage.xml</value>
 
-                <!-- Budget Mock View -->
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetView.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetIncomePage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetPeriodsPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetRatesPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetFandAPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetCostSharingPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetBudgetNotesPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetNonPersonnelCostsPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetAssignPersonneltoPeriodsPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetProjectPersonnelPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetSubawardsPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetSummaryPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetModularPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/budget/mock/ProposalBudgetDataValidationSection.xml</value>
-
                 <!--Common-->
                 <value>classpath:org/kuali/coeus/common/wizard/impl/WizardCommon.xml</value>
                 <value>classpath:org/kuali/coeus/common/notification/impl/SendNotificationDialog.xml</value>

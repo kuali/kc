@@ -632,4 +632,9 @@
 
     <bean id="PropDev-PersonnelPage-EditableInputField" parent="Uif-InputField"
           p:readOnly="@{!#ViewHelper.isPersonFieldEditable(#component.propertyName)}"/>
+
+    <bean id="PropDev-PersonnelPage-InputField" parent="PropDev-PersonnelPage-InputField-parentBean" />
+    <bean id="PropDev-PersonnelPage-InputField-parentBean" abstract="true"
+          parent="Uif-InputField" p:fieldLabel.renderColon="false"
+          p:dictionaryObjectEntry="org.kuali.coeus.common.framework.person.KcPerson" />
 </beans>
