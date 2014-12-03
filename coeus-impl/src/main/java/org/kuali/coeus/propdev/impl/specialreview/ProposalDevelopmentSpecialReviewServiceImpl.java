@@ -158,7 +158,7 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
      * @param protocolLinkParam
      * @return
      */
-    private boolean isCreateProtocolFromProposalEnabled(String protocolLinkParam) {
+    public boolean isCreateProtocolFromProposalEnabled(String protocolLinkParam) {
     	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, protocolLinkParam);
     }
     

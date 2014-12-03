@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.compliance.core.SpecialReviewHelperBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,15 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
         return getProposalDevelopmentSpecialReviewService().isIacucLinkingEnabled();
     }
 
-    @Override
+    public boolean isCreateIrbProtocolEnabled() {
+        return getProposalDevelopmentSpecialReviewService().isCreateProtocolFromProposalEnabled(Constants.PROPOSAL_DEVELOPMENT_CREATE_IRB_PROTOCOL_ENABLED_PARAMETER);
+    }
+
+    public boolean isCreateIacucProtocolEnabled() {
+        return getProposalDevelopmentSpecialReviewService().isCreateProtocolFromProposalEnabled(Constants.PROPOSAL_DEVELOPMENT_CREATE_IACUC_PROTOCOL_ENABLED_PARAMETER);
+    }
+
+        @Override
     protected List<ProposalSpecialReview> getSpecialReviews() {
         return getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews();
     }
