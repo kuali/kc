@@ -19,7 +19,8 @@
 	<bean id="PropBudget-SummaryPage-parentBean" parent="PropBudget-Page">
 		<property name="items">
 			<list>
-            	<bean parent="Kc-LineItemTable" p:propertyName="budget.budgetSummaryDetails" p:headerText="Budget Summary"/>
+            	<bean parent="Kc-LineItemTable" p:propertyName="selectedBudget.budgetSummaryDetails"
+                      p:headerText="Budget Summary" p:order="10" />
 			</list>
 		</property>
 		<property name="header">
@@ -34,7 +35,7 @@
 			<list>
 				<bean parent="Uif-Message" p:messageText="Here's a summary of your current budget."
 					p:order="10" />
-            	<bean parent="Kc-LineItemTable" p:propertyName="budget.budgetSummaryDetails" p:order="20"/>
+            	<bean parent="Kc-LineItemTable" p:propertyName="selectedBudget.budgetSummaryDetails" p:order="20"/>
 			</list>
 		</property>
 		<property name="footer">

@@ -101,7 +101,7 @@
 	<bean id="PropDev-BudgetVersions-GenericActions-parentBean" abstract="true" parent="Kc-Dropdown-Button">
 		<property name="listPrototype.items">
 			<list>
-				<bean parent="Uif-ActionLink" p:actionLabel="View Summary" p:iconClass="icon-eye-open" p:order="10"/>
+				<bean parent="Uif-ActionLink" p:actionLabel="View Summary" p:methodToCall="populateBudgetSummary" p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-eye-open" p:order="10"/>
 				<bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy" p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE)}"
 					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})"
 					p:order="20"/>

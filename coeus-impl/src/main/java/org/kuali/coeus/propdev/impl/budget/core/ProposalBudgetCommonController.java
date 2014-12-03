@@ -330,17 +330,24 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	}
 
     @RequestMapping(params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-SummaryPage"})
-    public ModelAndView navigateToBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+   public ModelAndView navigateToBudgetSummary(@RequestParam("budgetId") Long budgetId,
+                                                @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
     	ModelAndView modelAndView = super.navigate(form);
-    	if(form.getBudget().getBudgetSummaryDetails().isEmpty()) {
-           	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
+        form.setSelectedBudget(loadBudget(budgetId));
+    	if(form.getSelectedBudget().getBudgetSummaryDetails().isEmpty()) {
+           	getBudgetCalculationService().populateBudgetSummaryTotals(form.getSelectedBudget());
     	}
         return modelAndView;
     }
 
     @RequestMapping(params="methodToCall=populateBudgetSummary")
-	public ModelAndView populateBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
+	public ModelAndView populateBudgetSummary(@RequestParam("budgetId") Long budgetId,
+                                              @ModelAttribute("KualiForm") ProposalBudgetForm form) {
     	super.save(form);
+        form.setSelectedBudget(loadBudget(budgetId));
+        if(form.getSelectedBudget().getBudgetSummaryDetails().isEmpty()) {
+            getBudgetCalculationService().populateBudgetSummaryTotals(form.getSelectedBudget());
+        }
     	return getModelAndViewService().showDialog(BUDGET_SUMMARY_DIALOG_ID, true, form);
     }
     

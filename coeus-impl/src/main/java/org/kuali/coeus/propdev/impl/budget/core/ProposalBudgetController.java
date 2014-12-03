@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.budget.core;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
@@ -32,9 +33,15 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value="/proposalDevelopment")
 public class ProposalBudgetController extends ProposalDevelopmentControllerBase {
 
+    private static final String BUDGET_SUMMARY_DIALOG_ID = "PropBudget-SummaryPage-Dialog";
+
 	@Autowired
 	@Qualifier("proposalBudgetSharedControllerService")
 	private ProposalBudgetSharedControllerService proposalBudgetSharedController;
+
+    @Autowired
+    @Qualifier("budgetCalculationService")
+    private BudgetCalculationService budgetCalculationService;
     
 	@MethodAccessible
     @RequestMapping(params="methodToCall=addBudget")
@@ -52,8 +59,27 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 			@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, form.getDevelopmentProposal(), form);
 	}
-	
-	@RequestMapping(params="methodToCall=markForSubmission")
+
+	@RequestMapping(params="methodToCall=populateBudgetSummary")
+    public ModelAndView populateBudgetSummary(@RequestParam("budgetId") Long budgetId,
+                                              @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        super.save(form);
+        ProposalDevelopmentBudgetExt selectedBudget = null;
+        if (form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets() != null) {
+            for (ProposalDevelopmentBudgetExt curBudget : form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets()) {
+                if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
+                    selectedBudget = curBudget;
+                }
+            }
+        }
+        form.setSelectedBudget(selectedBudget);
+        if(form.getSelectedBudget().getBudgetSummaryDetails().isEmpty()) {
+            getBudgetCalculationService().populateBudgetSummaryTotals(form.getSelectedBudget());
+        }
+        return getModelAndViewService().showDialog(BUDGET_SUMMARY_DIALOG_ID, true, form);
+    }
+
+    @RequestMapping(params="methodToCall=markForSubmission")
 	public ModelAndView markForSubmission(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 		ProposalDevelopmentBudgetExt finalBudget = null;
 		if (form.getProposalDevelopmentDocument().getDevelopmentProposal().getBudgets() != null) {
@@ -81,4 +107,12 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 			ProposalBudgetSharedControllerService proposalBudgetSharedController) {
 		this.proposalBudgetSharedController = proposalBudgetSharedController;
 	}
+
+    public BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
 }

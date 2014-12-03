@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.framework.medusa.MedusaNode;
 import org.kuali.coeus.common.framework.medusa.MedusaService;
 import org.kuali.coeus.common.framework.module.CoeusModule;
@@ -59,6 +60,7 @@ import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.web.bind.ChangeTracking;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
+import javax.persistence.Transient;
 import java.util.*;
 
 @ChangeTracking
@@ -122,6 +124,9 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     private List<String> unitRulesMessages = new ArrayList<String>();
 
+    private Budget selectedBudget;
+
+
     public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
         return proposalPersonQuestionnaireHelper;
     }
@@ -184,6 +189,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         reportHelper = new ReportHelper();
 
         hierarchyDevelopmentProposals = new ArrayList<DevelopmentProposal>();
+
     }
 
     public int findIndexOfPageId(List<Action> actions) {
@@ -626,4 +632,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.viewOnly = viewOnly;
     }
 
+
+    public Budget getSelectedBudget() {
+        return selectedBudget;
+    }
+
+    public void setSelectedBudget(Budget selectedBudget) {
+        this.selectedBudget = selectedBudget;
+    }
 }
