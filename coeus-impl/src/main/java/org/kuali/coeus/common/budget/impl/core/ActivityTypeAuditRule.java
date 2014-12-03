@@ -17,6 +17,9 @@ package org.kuali.coeus.common.budget.impl.core;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetAuditEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleBase;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -39,7 +42,7 @@ import java.util.List;
  * This class to check whether activity type has been changed for PD or Award, and budget is not sync'ed.  
  */
 @KcBusinessRule("activityTypeAuditRule")
-public class ActivityTypeAuditRule {
+public class ActivityTypeAuditRule extends BudgetAuditRuleBase {
 
 	@KcEventMethod
     public boolean processRunAuditBusinessRules(BudgetAuditEvent event) {
@@ -56,13 +59,26 @@ public class ActivityTypeAuditRule {
                 auditErrors.add(new AuditError(Constants.ACTIVITY_TYPE_KEY, KeyConstants.WARNING_ACTIVITY_TYPE_CHANGED,
                     Constants.PROPOSAL_PAGE + "." + Constants.REQUIRED_FIELDS_PANEL_ANCHOR));
             }
-            GlobalVariables.getAuditErrorMap().put("activityTypeAuditWarnings",
+            getGlobalVariableService().getAuditErrorMap().put("activityTypeAuditWarnings",
                     new AuditCluster("Activity type changed", auditErrors, Constants.AUDIT_WARNINGS));
             valid = false;
         }
         return valid;
     }
 
+	@KcEventMethod
+    public boolean processRunAuditBusinessRules(BudgetAuditRuleEvent event) {
+        Budget budget = event.getBudget();
+        if (isActivityTypeChanged(budget)) {
+            BudgetConstants.BudgetAuditRules budgetActivityRule = BudgetConstants.BudgetAuditRules.ACTIVITY_TYPE;
+			List<AuditError> auditErrors = getAuditErrors(budgetActivityRule, false);
+            auditErrors.add(new AuditError(Constants.ACTIVITY_TYPE_KEY, KeyConstants.WARNING_ACTIVITY_TYPE_CHANGED,
+            		budgetActivityRule.getPageId()));
+            return false;
+        }
+        return true;
+    }
+    
     private boolean isActivityTypeChanged(Budget budget) {
         BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument();
         boolean syncRate = false;

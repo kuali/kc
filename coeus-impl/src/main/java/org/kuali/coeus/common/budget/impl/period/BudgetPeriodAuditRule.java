@@ -17,21 +17,26 @@ package org.kuali.coeus.common.budget.impl.period;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetAuditEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleBase;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.krad.util.AuditError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.sql.Date;
+import java.util.List;
 
 @KcBusinessRule("budgetPeriodAuditRule")
-public class BudgetPeriodAuditRule {
+public class BudgetPeriodAuditRule extends BudgetAuditRuleBase {
 
     private static final String BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY = "budgetPeriodProjectDateAuditErrors";
     private static final String BUDGET_PERIOD_DATE_AUDIT_WARNING_KEY = "budgetPeriodProjectDateAuditWarnings";
@@ -99,6 +104,55 @@ public class BudgetPeriodAuditRule {
         }
         return retval;
     }
+
+    @KcEventMethod
+    public boolean processRunAuditBusinessRules(BudgetAuditRuleEvent event) {
+    	return verifyBudgetPeriods(event.getBudget());
+    }
+    
+	protected boolean verifyBudgetPeriods(Budget budget) {
+        boolean retval = true;
+        BudgetParent budgetParent = budget.getBudgetParent().getDocument().getBudgetParent();
+        Date projectStartDate = budgetParent.getRequestedStartDateInitial();
+        Date projectEndDate = budgetParent.getRequestedEndDateInitial();
+        int periodIndex = 0;
+        BudgetConstants.BudgetAuditRules budgetPeriodAndTotalRule = BudgetConstants.BudgetAuditRules.PERIODS_AND_TOTALS;
+		List<AuditError> auditWarnings = getAuditErrors(budgetPeriodAndTotalRule, false);
+		List<AuditError> auditErrors = getAuditErrors(budgetPeriodAndTotalRule, true);
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+            Date budgetPeriodStartDate = budgetPeriod.getStartDate();
+            Date budgetPeriodEndDate = budgetPeriod.getEndDate();
+            
+            if (budgetPeriodStartDate != null && budgetPeriodStartDate.before(projectStartDate)) {
+            	auditErrors.add(new AuditError(budgetPeriodAndTotalRule.getPageId(),
+                    KeyConstants.AUDIT_ERROR_BUDGETPERIOD_START_BEFORE_PROJECT_START_DATE,
+                    budgetPeriodAndTotalRule.getPageId(), new String[] {budgetPeriod.getBudgetPeriod().toString()}));
+                retval = false;
+            }
+            if (budgetPeriodEndDate != null && budgetPeriodEndDate.after(projectEndDate)) {
+            	auditErrors.add(new AuditError(budgetPeriodAndTotalRule.getPageId(),
+                    KeyConstants.AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE,
+                    budgetPeriodAndTotalRule.getPageId(), new String[] {budgetPeriod.getBudgetPeriod().toString()}));              
+                retval = false;
+            }
+
+            if (periodIndex == 0 && (budgetPeriodStartDate != null && budgetPeriodStartDate.after(projectStartDate))) {
+            	auditWarnings.add(new AuditError(budgetPeriodAndTotalRule.getPageId(),
+                    KeyConstants.AUDIT_WARNING_BUDGETPERIOD_START_AFTER_PROJECT_START_DATE,
+                    budgetPeriodAndTotalRule.getPageId(), new String[] {budgetPeriod.getBudgetPeriod().toString()}));
+                retval = false;
+            }
+            
+            if (periodIndex == budget.getBudgetPeriods().size() - 1 && (budgetPeriodEndDate != null && budgetPeriodEndDate.before(projectEndDate))) {
+            	auditWarnings.add(new AuditError(budgetPeriodAndTotalRule.getPageId(),
+                    KeyConstants.AUDIT_WARNING_BUDGETPERIOD_END_BEFORE_PROJECT_END_DATE,
+                    budgetPeriodAndTotalRule.getPageId(), new String[] {budgetPeriod.getBudgetPeriod().toString()}));
+                retval = false;
+            }
+            periodIndex++;
+        }
+        return retval;
+	}
     
     /**
      * Adds an budget period date warning.

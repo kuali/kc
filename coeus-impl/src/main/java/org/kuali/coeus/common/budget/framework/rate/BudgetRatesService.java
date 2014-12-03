@@ -50,7 +50,7 @@ public interface BudgetRatesService <T extends BudgetParent>{
     public void resetAllBudgetRates(Budget budget);
     public void viewLocation(String viewLocation, Integer budgetPeriod, Budget budget);
 
-    public boolean isOutOfSyncForRateAudit(Budget budget);
+    public void populateInstituteRates(Budget budget);
 
     public boolean performSyncFlag(Budget budget);
     public void syncParentDocumentRates(Budget budget);

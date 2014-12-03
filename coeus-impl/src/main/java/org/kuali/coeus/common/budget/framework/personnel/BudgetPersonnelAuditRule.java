@@ -21,6 +21,9 @@ import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetAuditEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleBase;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -34,13 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @KcBusinessRule("budgetPersonnelAuditRule")
-public class BudgetPersonnelAuditRule {
+public class BudgetPersonnelAuditRule extends BudgetAuditRuleBase {
 
-	@Autowired
-	@Qualifier("globalVariableService")
-	private GlobalVariableService globalVariableService;
-	
     @KcEventMethod
+    @Deprecated
     public boolean processRunPersonnelAuditBusinessRules(BudgetAuditEvent event) {
         boolean valid = true;
         
@@ -71,18 +71,27 @@ public class BudgetPersonnelAuditRule {
         }
         
         if (auditErrors.size() > 0) {
-        	globalVariableService.getAuditErrorMap().put("budgetPersonnelAuditWarnings", new AuditCluster(Constants.BUDGET_PERSONNEL_PAGE, auditErrors, Constants.AUDIT_WARNINGS));
+        	getGlobalVariableService().getAuditErrorMap().put("budgetPersonnelAuditWarnings", new AuditCluster(Constants.BUDGET_PERSONNEL_PAGE, auditErrors, Constants.AUDIT_WARNINGS));
         }
         
         return valid;
     }
 
-	protected GlobalVariableService getGlobalVariableService() {
-		return globalVariableService;
-	}
-
-
-	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-		this.globalVariableService = globalVariableService;
-	}
+    @KcEventMethod
+    public boolean processRunPersonnelAuditBusinessRules(BudgetAuditRuleEvent event) {
+        Budget budget = event.getBudget();
+        for (BudgetPerson budgetPerson: budget.getBudgetPersons()) {
+            PersonRolodex proposalPerson = budgetPerson.getPersonRolodex();
+            if (proposalPerson != null && proposalPerson.isOtherSignificantContributorFlag()) {
+                BudgetConstants.BudgetAuditRules budgetProjectPersonnelRule = BudgetConstants.BudgetAuditRules.PROJECT_PERSONNEL;
+    			List<AuditError> auditErrors = getAuditErrors(budgetProjectPersonnelRule, false);
+                auditErrors.add(new AuditError(
+                		budgetProjectPersonnelRule.getPageId(), KeyConstants.WARNING_PERSONNEL_OTHER_SIGNIFICANT_CONTRIBUTOR, 
+                		budgetProjectPersonnelRule.getPageId(), new String[] { budgetPerson.getPersonName() } ));
+                return false;
+            }
+        }
+        return true;
+    }
+    
 }

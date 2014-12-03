@@ -19,6 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetAuditEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleBase;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
@@ -27,6 +30,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -35,7 +39,7 @@ import java.util.List;
 import static org.kuali.rice.krad.util.GlobalVariables.getAuditErrorMap;
 
 @KcBusinessRule("budgetUnrecoveredFandAAuditRule")
-public class BudgetUnrecoveredFandAAuditRule {
+public class BudgetUnrecoveredFandAAuditRule extends BudgetAuditRuleBase {
     public static final String BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY = "budgetUnrecoveredFandAAuditErrors";
     public static final String BUDGET_UNRECOVERED_F_AND_A_WARNING_KEY = "budgetUnrecoveredFandAAuditWarnings";
     
@@ -44,6 +48,7 @@ public class BudgetUnrecoveredFandAAuditRule {
 
     // Proposal Budget only event possibly
     @KcEventMethod
+    @Deprecated
     public boolean processRunAuditBusinessRules(BudgetAuditEvent event) {
     	Budget budget = event.getBudget();
         if (getAuditErrorMap().containsKey(BUDGET_UNRECOVERED_F_AND_A_ERROR_KEY)) {
@@ -139,6 +144,108 @@ public class BudgetUnrecoveredFandAAuditRule {
         return retval;
     }
 
+    @KcEventMethod
+    public boolean processRunAuditBusinessRules(BudgetAuditRuleEvent event) {
+    	Budget budget = event.getBudget();
+        boolean retval = true;
+        List<BudgetUnrecoveredFandA> unrecoveredFandAs = budget.getBudgetUnrecoveredFandAs();
+        if (budget.isUnrecoveredFandAApplicable()) {
+        	retval &= verifyUnrecoveredFA(budget, unrecoveredFandAs);
+        	retval &= verifySourceAccount(budget, unrecoveredFandAs);
+        }
+    	return retval;
+    }
+    
+    protected boolean verifyUnrecoveredFA(Budget budget, List<BudgetUnrecoveredFandA> unrecoveredFandAs) {
+        boolean retval = true;
+        BudgetConstants.BudgetAuditRules budgetUnrecoveredFARule = BudgetConstants.BudgetAuditRules.UNRECOVERED_FA;
+        
+        // Forces full allocation of unrecovered f and a
+        if (budget.getUnallocatedUnrecoveredFandA().isGreaterThan(ScaleTwoDecimal.ZERO) && budget.isUnrecoveredFandAEnforced()) {
+            retval = false;
+			List<AuditError> auditErrors = getAuditErrors(budgetUnrecoveredFARule, false);
+            if (unrecoveredFandAs.isEmpty()) {
+    			auditErrors.add(new AuditError("budget.budgetUnrecoveredFandA",
+                        KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
+                        budgetUnrecoveredFARule.getPageId(), params));
+    			retval = false;
+                
+            }else {
+                for (BudgetUnrecoveredFandA unrecoveredFandA : unrecoveredFandAs) {
+                	auditErrors.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
+                            KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
+                            budgetUnrecoveredFARule.getPageId(), params));
+                	retval = false;
+                }
+            }
+        }
+        return retval;
+    }
+
+    protected boolean verifySourceAccount(Budget budget, List<BudgetUnrecoveredFandA> unrecoveredFandAs) {
+        boolean retval = true;
+        String source = null;
+        Integer fiscalYear = null;
+        
+        int i=0;
+        int j=0;
+        BudgetParent budgetParent = budget.getBudgetParent();
+        Date projectStartDate = budgetParent.getRequestedStartDateInitial();
+        Date projectEndDate = budgetParent.getRequestedEndDateInitial();
+        BudgetConstants.BudgetAuditRules budgetUnrecoveredFARule = BudgetConstants.BudgetAuditRules.UNRECOVERED_FA;
+		List<AuditError> auditErrors = getAuditErrors(budgetUnrecoveredFARule, true);
+		List<AuditError> auditWarnings = getAuditErrors(budgetUnrecoveredFARule, false);
+
+        // Forces inclusion of source account
+        boolean duplicateEntryFound = false;
+        for (BudgetUnrecoveredFandA unrecoveredFandA : unrecoveredFandAs) {
+            source = unrecoveredFandA.getSourceAccount();
+            fiscalYear = unrecoveredFandA.getFiscalYear();
+            
+            if (StringUtils.isEmpty(source) || source.length() == 0) {
+                auditErrors.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
+                                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
+                                                    budgetUnrecoveredFARule.getPageId(), params));
+                retval = false;
+            }
+            if (fiscalYear == null || fiscalYear.intValue() <= 0) {
+                auditErrors.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
+                                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_FISCALYEAR_MISSING,
+                                                    budgetUnrecoveredFARule.getPageId(), params));
+                retval = false;
+           }
+            
+            if (fiscalYear != null && (fiscalYear < projectStartDate.getYear() + YEAR_CONSTANT || fiscalYear > projectEndDate.getYear() + YEAR_CONSTANT)) {
+            	auditWarnings.add(new AuditError(budgetUnrecoveredFARule.getPageId(), 
+                                                      KeyConstants.AUDIT_WARNING_BUDGET_DISTRIBUTION_FISCALYEAR_INCONSISTENT, 
+                                                      budgetUnrecoveredFARule.getPageId(), params));
+                retval = false;
+            }
+            
+            if(!duplicateEntryFound) {
+                j=0;
+                for (BudgetUnrecoveredFandA unrecoveredFandAForComparison : unrecoveredFandAs) {
+                    if(i != j && unrecoveredFandA.getFiscalYear() != null && unrecoveredFandAForComparison.getFiscalYear() != null && 
+                            unrecoveredFandA.getFiscalYear().intValue() == unrecoveredFandAForComparison.getFiscalYear().intValue() &&
+                            unrecoveredFandA.getApplicableRate().equals( unrecoveredFandAForComparison.getApplicableRate()) && 
+                            unrecoveredFandA.getOnCampusFlag().equalsIgnoreCase(unrecoveredFandAForComparison.getOnCampusFlag()) && 
+                            StringUtils.equalsIgnoreCase(unrecoveredFandA.getSourceAccount(), unrecoveredFandAForComparison.getSourceAccount()) &&
+                            unrecoveredFandA.getAmount().equals( unrecoveredFandAForComparison.getAmount())) {
+                        auditErrors.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
+                                KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_DUPLICATE_UNRECOVERED_FA, 
+                                budgetUnrecoveredFARule.getPageId(), params));
+                        duplicateEntryFound = true;
+                        retval = false;
+                        break;
+                    }
+                    j++;
+                }
+            }
+            i++;
+        }
+        return retval;
+    }
+    
     /**
      * This method is a convenience method for obtaining audit errors.
      * @return List of AuditError instances

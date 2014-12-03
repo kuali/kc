@@ -16,6 +16,9 @@ import org.kuali.coeus.propdev.impl.budget.nonpersonnel.AddProjectBudgetLineItem
 import org.kuali.coeus.propdev.impl.budget.person.AddProjectPersonnelHelper;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.validation.Auditable;
+import org.kuali.coeus.sys.impl.validation.DataValidationItem;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
@@ -33,12 +36,15 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     private BudgetJustificationWrapper budgetJustificationWrapper;
     private BudgetModularSummary budgetModularSummary;
     private Budget selectedBudget;
+    private boolean auditActivated;
+    private List<DataValidationItem> dataValidationItems;
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
     	addProjectPersonnelHelper = new AddProjectPersonnelHelper();
     	addProjectBudgetLineItemHelper = new AddProjectBudgetLineItemHelper();
         budgetJustificationWrapper = new BudgetJustificationWrapper (budget.getBudgetJustification());
+        dataValidationItems = new ArrayList<DataValidationItem>();
     }
 
     public ProposalDevelopmentBudgetExt getBudget() {
@@ -172,5 +178,20 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     public void setSelectedBudget(Budget selectedBudget) {
         this.selectedBudget = selectedBudget;
     }
+	public boolean isAuditActivated() {
+		return auditActivated;
+	}
+
+	public void setAuditActivated(boolean auditActivated) {
+		this.auditActivated = auditActivated;
+	}
+
+	public List<DataValidationItem> getDataValidationItems() {
+		return dataValidationItems;
+	}
+
+	public void setDataValidationItems(List<DataValidationItem> dataValidationItems) {
+		this.dataValidationItems = dataValidationItems;
+	}
 
 }

@@ -42,6 +42,7 @@ import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -590,10 +591,10 @@ public abstract class ProposalDevelopmentControllerBase {
     public AuditHelper.ValidationState getValidationState(ProposalDevelopmentDocumentForm form) {
         AuditHelper.ValidationState severityLevel = AuditHelper.ValidationState.OK;
         form.setAuditActivated(true);
-        List<ProposalDevelopmentDataValidationItem> dataValidationItems = ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService())
-                .populateDataValidation(form,form.getView().getViewIndex());
+        List<DataValidationItem> dataValidationItems = ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService())
+                .populateDataValidation(form);
         if(dataValidationItems != null && dataValidationItems.size() > 0 ) {
-            for(ProposalDevelopmentDataValidationItem validationItem : dataValidationItems) {
+            for(DataValidationItem validationItem : dataValidationItems) {
                 if (StringUtils.endsWith(validationItem.getSeverity(),Constants.AUDIT_ERRORS)) {
                     severityLevel = AuditHelper.ValidationState.ERROR;
                     break;

@@ -26,7 +26,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         if (form.isAuditActivated()) {
-            form.setDataValidationItems(((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateDataValidation(form,form.getView().getViewIndex()));
+            form.setDataValidationItems(((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateDataValidation(form));
         }
 
         return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
@@ -37,7 +37,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         form.setAuditActivated(!form.isAuditActivated());
         if(form.isAuditActivated()) {
-            form.setDataValidationItems(((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateDataValidation(form,form.getView().getViewIndex()));
+            form.setDataValidationItems(((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateDataValidation(form));
         }
         return getRefreshControllerService().refresh(form);
 

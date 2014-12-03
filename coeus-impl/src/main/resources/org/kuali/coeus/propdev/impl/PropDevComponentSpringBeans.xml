@@ -99,6 +99,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetSummaryPage.xml</value>
 
                 <!--Common-->
+                <value>classpath:org/kuali/coeus/common/impl/DataValidationSection.xml</value>
                 <value>classpath:org/kuali/coeus/common/wizard/impl/WizardCommon.xml</value>
                 <value>classpath:org/kuali/coeus/common/notification/impl/SendNotificationDialog.xml</value>
             </list>
