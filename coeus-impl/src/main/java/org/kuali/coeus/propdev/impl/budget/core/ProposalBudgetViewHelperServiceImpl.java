@@ -15,6 +15,8 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,14 +31,13 @@ import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -53,6 +54,10 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
     @Autowired
     @Qualifier("sponsorHierarchyService")
     private SponsorHierarchyService sponsorHierarchyService;
+
+    @Autowired
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
 
     public void finalizeNavigationLinks(Action action, Object model, String direction) {
     	ProposalBudgetForm propBudgetForm = (ProposalBudgetForm) model;
@@ -155,4 +160,15 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
         return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, BudgetConstants.ENABLE_BUDGET_CALCULATED_SALARY);
     }
 
+    public String getDateFromTimeStamp(Timestamp timestamp) {
+        return getDateTimeService().toDateString(new Date(timestamp.getTime()));
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 }
