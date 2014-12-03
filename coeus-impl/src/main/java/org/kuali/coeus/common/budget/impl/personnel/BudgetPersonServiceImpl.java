@@ -59,6 +59,9 @@ import java.util.Map;
 @Component("budgetPersonService")
 public class BudgetPersonServiceImpl implements BudgetPersonService {
     
+	public static final String APOINTMENT_TYPE_FIELD_NAME = "appointmentType";
+	public static final String BUDGET_ID = "budgetId";
+	public static final String PERSON_SEQUENCE_NUMBER = "personSequenceNumber";
 
     @Autowired
     @Qualifier("parameterService")
@@ -239,9 +242,9 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
   	    refreshPersonAppointmentType(budgetPerson);
     }
 
-    private void refreshPersonAppointmentType(BudgetPerson budgetPerson) {
+    protected void refreshPersonAppointmentType(BudgetPerson budgetPerson) {
 		if(StringUtils.isNotEmpty(budgetPerson.getAppointmentTypeCode())) {
-			getDataObjectService().wrap(budgetPerson).fetchRelationship("appointmentType");
+			getDataObjectService().wrap(budgetPerson).fetchRelationship(APOINTMENT_TYPE_FIELD_NAME);
 		}
 	}
 
@@ -259,10 +262,15 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     @SuppressWarnings("unchecked")
     @Override
     public BudgetPerson findBudgetPerson(BudgetPersonnelDetails budgetPersonnelDetails) {
-        final Map queryMap = new HashMap();
-        queryMap.put("budgetId", budgetPersonnelDetails.getBudgetId());
-        queryMap.put("personSequenceNumber", budgetPersonnelDetails.getPersonSequenceNumber());
-        return dataObjectService.find(BudgetPerson.class, new CompoundKey(queryMap));
+    	final Map queryMap = new HashMap();
+    	queryMap.put(BUDGET_ID, budgetPersonnelDetails.getBudgetId());
+    	queryMap.put(PERSON_SEQUENCE_NUMBER, budgetPersonnelDetails.getPersonSequenceNumber());
+    	BudgetPerson budgetPerson = dataObjectService.find(BudgetPerson.class, new CompoundKey(queryMap));
+        if (budgetPerson == null) {
+        	//if the budgetPerson hasn't been persisted yet, just get it from the details object
+        	budgetPerson = budgetPersonnelDetails.getBudgetPerson();
+        }
+        return budgetPerson;
     }
 
     /**
@@ -347,12 +355,10 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 
         String jobCodeValidationEnabledInd = this.parameterService.getParameterValueAsString(
                 Budget.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
-        
-        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) {
-
+        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
             final Map fieldValues = new HashMap();
-            fieldValues.put("budgetId", budgetId);
-            fieldValues.put("personSequenceNumber", personSequenceNumber);
+            fieldValues.put(BUDGET_ID, budgetId);
+            fieldValues.put(PERSON_SEQUENCE_NUMBER, personSequenceNumber);
             BudgetPerson budgetPerson = dataObjectService.find(BudgetPerson.class, new CompoundKey(fieldValues));
             
             fieldValues.clear();
