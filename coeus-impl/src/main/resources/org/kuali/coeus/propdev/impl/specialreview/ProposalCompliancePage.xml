@@ -124,8 +124,8 @@
 		parent="Uif-PrimaryActionButton-Small" p:actionLabel="Create Protocol"
 		p:methodToCall="createProtocol"	p:iconClass="icon-ok" p:dialogDismissOption="REQUEST"
 		p:render="@{(#empty(newCollectionLines['document.developmentProposal.propSpecialReviews'].protocolStatus) and
-				(((newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or
-				(newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))))}"/>
+				(((newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.CreateIrbProtocolEnabled) or
+				(newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.CreateIacucProtocolEnabled))))}"/>
 
 	<bean id="PropDev-CompliancePage-ExemptionTypeCodes" parent="PropDev-CompliancePage-ExemptionTypeCodes-parentBean"/>
 	<bean id="PropDev-CompliancePage-ExemptionTypeCodes-parentBean" abstract="true" parent="Uif-InputField"

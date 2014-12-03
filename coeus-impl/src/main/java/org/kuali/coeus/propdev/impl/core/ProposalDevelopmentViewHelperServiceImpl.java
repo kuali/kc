@@ -986,6 +986,5 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
 		this.proposalTypeService = proposalTypeService;
 	}
-    
-    
+
 }

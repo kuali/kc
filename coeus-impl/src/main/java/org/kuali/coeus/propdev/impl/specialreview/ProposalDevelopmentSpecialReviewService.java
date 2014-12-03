@@ -32,4 +32,7 @@ public interface ProposalDevelopmentSpecialReviewService {
     public boolean isCreateIrbProtocolEnabled();
     
     public boolean isCreateIacucProtocolEnabled();
-}
+
+    public boolean isCreateProtocolFromProposalEnabled(String protocolLinkParam);
+
+    }
