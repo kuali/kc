@@ -177,8 +177,8 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
         budgetPersonnelDetails.setApplyInRateFlag(budgetLineItem.getApplyInRateFlag());
         budgetPersonnelDetails.setOnOffCampusFlag(budgetLineItem.getOnOffCampusFlag());
-        budgetPersonnelDetails.setStartDate(budgetLineItem.getStartDate());
-        budgetPersonnelDetails.setEndDate(budgetLineItem.getEndDate());
+        budgetPersonnelDetails.setStartDate(budgetPersonnelDetails.getStartDate());
+        budgetPersonnelDetails.setEndDate(budgetPersonnelDetails.getEndDate());
         budgetPersonnelDetails.setBudgetLineItem(budgetLineItem);
     }
 
