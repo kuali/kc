@@ -74,6 +74,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -111,6 +112,12 @@ public class Budget extends AbstractBudget implements BudgetContract {
 	@Column(name = "BUDGET_JUSTIFICATION")
     @Lob
     private String budgetJustification;
+
+    @Column(name = "CREATE_TIMESTAMP")
+    private Timestamp createTimestamp;
+
+    @Column(name = "CREATE_USER")
+    private String createUser;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "OH_RATE_CLASS_CODE", referencedColumnName = "RATE_CLASS_CODE", insertable = false, updatable = false)
@@ -1805,4 +1812,21 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return this.budgetCalculationService;
     }
 
+    @Override
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    @Override
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
 }

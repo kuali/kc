@@ -152,8 +152,8 @@
 					<list>
 						<bean parent="Uif-MessageField" p:label="Final Version"
 							p:messageText="No" p:order="10" />
-						<bean parent="Uif-MessageField" p:label="Created"
-							p:messageText="1/25/14" p:order="20" />
+                        <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getDateFromTimeStamp(budget.createTimestamp)}"
+                            p:label="Created" p:order="20" />
 						<bean parent="Uif-MessageField" p:label="Parent proposal"
 							p:messageText="#@{budget.developmentProposal.proposalNumber}"
 							p:order="30" />
@@ -190,28 +190,25 @@
 		<property name="menuGroup">
 			<bean parent="Uif-DropdownTable"
 				p:layoutManager.libraryCssClasses="table,table-condensed"
-				p:headerText="Document Info">
+				p:headerText="Budget Info">
 				<property name="items">
 					<list>
-						<bean parent="Uif-MessageField" p:messageText="2743"
-							p:fieldLabel.renderColon="false" p:label="Doc Nbr" p:order="10" />
-						<bean parent="Uif-LinkField" p:linkText="quickstart"
-							p:fieldLabel.renderColon="false" p:label="Initiator" p:order="20" />
 						<bean parent="Uif-MessageField"
-							p:messageText="In Progress"
-							p:fieldLabel.renderColon="false" p:label="Status" p:order="30" />
+							p:messageText="@{budget.developmentProposal.principalInvestigatorName}"
+							p:fieldLabel.renderColon="false" p:label="PI" p:order="10" />
+						<bean parent="Uif-MessageField" p:messageText="@{budget.createTimestamp}"
+							p:fieldLabel.renderColon="false" p:label="Created" p:order="20" />
+                        <bean parent="Uif-MessageField" p:messageText="@{budget.createUser}"
+                              p:fieldLabel.renderColon="false" p:label="Created By" p:order="30" />
+						<bean parent="Uif-MessageField" p:messageText="@{budget.updateTimestamp}"
+							p:fieldLabel.renderColon="false" p:label="Updated" p:order="40" />
+                        <bean parent="Uif-MessageField" p:messageText="@{budget.updateUser}"
+                              p:fieldLabel.renderColon="false" p:label="Updated By" p:order="50" />
+						<bean parent="Uif-MessageField" p:messageText="@{budget.developmentProposal.proposalNumber}"
+							p:fieldLabel.renderColon="false" p:label="Proposal Nbr" p:order="60" />
 						<bean parent="Uif-MessageField"
-							p:messageText="Quickstart"
-							p:fieldLabel.renderColon="false" p:label="PI" p:order="40" />
-						<bean parent="Uif-MessageField" p:messageText="04:27pm 07/09/2013"
-							p:fieldLabel.renderColon="false" p:label="Created" p:order="50" />
-						<bean parent="Uif-MessageField" p:messageText="12:22pm 07/12/2013"
-							p:fieldLabel.renderColon="false" p:label="Updated" p:order="60" />
-						<bean parent="Uif-MessageField" p:messageText="#23533"
-							p:fieldLabel.renderColon="false" p:label="Proposal Nbr" p:order="70" />
-						<bean parent="Uif-MessageField"
-							p:messageText="NIH"
-							p:fieldLabel.renderColon="false" p:label="Sponsor Name" p:order="80" />
+							p:messageText="@{budget.developmentProposal.sponsorName}"
+							p:fieldLabel.renderColon="false" p:label="Sponsor Name" p:order="70" />
 					</list>
 				</property>
 			</bean>
