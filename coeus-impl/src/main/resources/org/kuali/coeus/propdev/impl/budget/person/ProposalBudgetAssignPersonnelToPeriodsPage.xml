@@ -311,10 +311,14 @@
 			<bean parent="Uif-FooterBase">
 				<property name="items">
 					<list>
-						<bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
-							p:order="10" />
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Changes" p:methodToCall="save"
+                              p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}" p:order="10" />
+
 						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Apply To Later Periods" p:methodToCall="applyToLaterPeriods"
 							p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}" p:order="20" />
+                        <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
+                              p:order="30" />
+
 					</list>
 				</property>
 			</bean>
