@@ -15,7 +15,6 @@ import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,8 +41,7 @@ public class ProposalDevelopmentPrintController extends ProposalDevelopmentContr
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
-
-    @Transactional
+    
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=preparePrintDialog")
     public ModelAndView preparePrintDialog(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         getProposalDevelopmentPrintingService().populateSponsorForms(form.getSponsorFormTemplates(),form.getDevelopmentProposal().getSponsorCode());
@@ -51,7 +49,7 @@ public class ProposalDevelopmentPrintController extends ProposalDevelopmentContr
         return getModelAndViewService().showDialog("PropDev-Print-Dialog",true,form);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=printSponsorForms")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=printSponsorForms")
     public ModelAndView printSponsorForms(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response) throws Exception {
 
         proposalDevelopmentDocumentViewAuthorizer.initializeDocumentAuthorizerIfNecessary(form.getProposalDevelopmentDocument());
@@ -73,7 +71,7 @@ public class ProposalDevelopmentPrintController extends ProposalDevelopmentContr
     }
 
     @MethodAccessible
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=generateReport")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=generateReport")
     public ModelAndView generateReport(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         proposalDevelopmentDocumentViewAuthorizer.initializeDocumentAuthorizerIfNecessary(form.getProposalDevelopmentDocument());
 
@@ -94,7 +92,7 @@ public class ProposalDevelopmentPrintController extends ProposalDevelopmentContr
     }
 
     @MethodAccessible
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=printReport")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=printReport")
     public ModelAndView printReport(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response) throws Exception {
         proposalDevelopmentDocumentViewAuthorizer.initializeDocumentAuthorizerIfNecessary(form.getProposalDevelopmentDocument());
 

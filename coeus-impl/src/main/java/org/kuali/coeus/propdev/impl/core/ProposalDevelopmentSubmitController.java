@@ -61,7 +61,6 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -153,19 +152,19 @@ public class ProposalDevelopmentSubmitController extends
 
     private final Logger LOGGER = Logger.getLogger(ProposalDevelopmentSubmitController.class);
 
-    @Transactional
+    
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=populateAdHocs")
     public ModelAndView populateAdHocs(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         populateAdHocRecipients(form.getProposalDevelopmentDocument());
         return getModelAndViewService().showDialog("PropDev-DocumentAdHocRecipientsSection", true, form);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=saveAdHocChanges")
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=saveAdHocChanges")
     public ModelAndView saveAdHocChanges(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         return super.save(form);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=deleteProposal")
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=deleteProposal")
     public ModelAndView deleteProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 
         if (form.getProposalDevelopmentDocument().getDevelopmentProposal().isInHierarchy()) {
@@ -177,7 +176,7 @@ public class ProposalDevelopmentSubmitController extends
             return getNavigationControllerService().returnToHub(form);
         }
     }
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitForReview")
     public  ModelAndView submitForReview(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
        populateAdHocRecipients(form.getProposalDevelopmentDocument());
        AuditHelper.ValidationState severityLevel = getValidationState(form);
@@ -190,7 +189,7 @@ public class ProposalDevelopmentSubmitController extends
        }
    }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=internalSubmit")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=internalSubmit")
     public  ModelAndView internalSubmit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
             WorkflowDocument workflowDoc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
             if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
@@ -213,25 +212,25 @@ public class ProposalDevelopmentSubmitController extends
     }
 
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=cancelProposal")
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=cancelProposal")
     public ModelAndView cancelProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
        form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.CANCELED);
        return getTransactionalDocumentControllerService().cancel(form);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-SubmitPage"})
+    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-SubmitPage"})
     public ModelAndView navigateToSubmit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
         ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(form);
         return super.navigate(form,result,request,response);
     }
 
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=blanketApprove")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=blanketApprove")
     public  ModelAndView blanketApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
        return !getValidationState(form).equals(AuditHelper.ValidationState.ERROR) ? getTransactionalDocumentControllerService().blanketApprove(form) : getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
     }
    
-   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=recall")
+   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=recall")
    public  ModelAndView recall(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
 	   String successMessageKey = null;
 	   Document document = form.getDocument();
@@ -247,34 +246,34 @@ public class ProposalDevelopmentSubmitController extends
 	   return getModelAndViewService().getModelAndView(form);
   } 
   
-   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=disapprove")
+   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=disapprove")
    public  ModelAndView disapprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
 	   String applicationUrl = getConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
 	   form.setReturnLocation(applicationUrl);
 	   return   getTransactionalDocumentControllerService().disapprove(form);
    }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNotificationWizard")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNotificationWizard")
     public ModelAndView prepareNotificationWizard(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         final String step = form.getNotificationHelper().getNotificationRecipients().isEmpty() ? "0" : "2";
         form.getActionParameters().put("Kc-SendNotification-Wizard.step", step);
         return getRefreshControllerService().refresh(form);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addRecipients")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addRecipients")
     public ModelAndView addRecipients(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         form.getNotificationHelper().getNotificationRecipients().addAll(getKcNotificationService().addRecipient(form.getAddRecipientHelper().getResults()));
         return getRefreshControllerService().refresh(form);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performRecipientSearch")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performRecipientSearch")
     public ModelAndView performRecipientSearch(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         form.getAddRecipientHelper().getResults().clear();
         form.getAddRecipientHelper().setResults(getWizardControllerService().performWizardSearch(form.getAddRecipientHelper().getLookupFieldValues(), form.getAddRecipientHelper().getLineType()));
         return getRefreshControllerService().refresh(form);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendNotifications")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendNotifications")
     public ModelAndView sendNotifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         KcNotification notification = form.getNotificationHelper().getNotification();
@@ -293,7 +292,7 @@ public class ProposalDevelopmentSubmitController extends
         return getRefreshControllerService().refresh(form);
     }
     
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitToS2s")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitToS2s")
     public  ModelAndView submitToS2s(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
         form.setGrantsGovSubmitFlag(true);
 	    form.setShowSubmissionDetails(true);
@@ -329,7 +328,7 @@ public class ProposalDevelopmentSubmitController extends
         return getProposalDevelopmentService().getInstitutionalProposal(proposalNumber) != null;
     }
     
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitToSponsor")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitToSponsor")
     public  ModelAndView submitToSponsor(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 
     	if (!requiresResubmissionPrompt(form)) {
@@ -361,7 +360,7 @@ public class ProposalDevelopmentSubmitController extends
         form.getActionParameters().put("Kc-SendNotification-Wizard.step", step);
     }
     
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=proceed")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=proceed")
     public  ModelAndView proceed(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
        return form.isGrantsGovSubmitFlag() ? submitToS2s(form) : submitToSponsor(form);
     }
@@ -535,7 +534,7 @@ public class ProposalDevelopmentSubmitController extends
     }
     
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=approve")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=approve")
     public ModelAndView approve(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         form.setAuditActivated(true);
 
@@ -647,7 +646,7 @@ public class ProposalDevelopmentSubmitController extends
     return getModelAndViewService().getModelAndView(form);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=reject")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=reject")
     public ModelAndView reject(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         DialogResponse dialogResponse = form.getDialogResponse(ProposalDevelopmentConstants.KradConstants.REJECT_DIALOG);
         if(dialogResponse == null) {
@@ -664,7 +663,7 @@ public class ProposalDevelopmentSubmitController extends
         return getModelAndViewService().getModelAndView(form);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendAdHocRequests")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendAdHocRequests")
     public ModelAndView sendAdHocRequests(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         return getTransactionalDocumentControllerService().sendAdHocRequests(form);
     }

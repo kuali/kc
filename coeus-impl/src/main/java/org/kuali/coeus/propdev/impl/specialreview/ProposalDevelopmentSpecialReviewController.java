@@ -32,7 +32,6 @@ import org.kuali.rice.krad.web.bind.UifBeanPropertyBindingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,7 +59,6 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
 
-    @Transactional
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=refreshAddCompliance")
     public ModelAndView refreshAddCompliance(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -75,7 +73,7 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         return getRefreshControllerService().refresh(pdForm);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=refreshComplianceEntry")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=refreshComplianceEntry")
     public ModelAndView refreshComplianceEntry(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         String updateComponentId = request.getParameter("updateComponentId");
@@ -143,7 +141,7 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         }
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addComplianceEntry")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addComplianceEntry")
     public ModelAndView addComplianceEntry(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm) throws Exception {
         ProposalSpecialReview proposalSpecialReview = ((ProposalSpecialReview)pdForm.getNewCollectionLines().get("document.developmentProposal.propSpecialReviews"));
 
@@ -164,7 +162,7 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         return getModelAndViewService().getModelAndView(pdForm);
     }
     
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProtocol")
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProtocol")
     public ModelAndView createProtocol(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentDocument document = pdForm.getProposalDevelopmentDocument();
