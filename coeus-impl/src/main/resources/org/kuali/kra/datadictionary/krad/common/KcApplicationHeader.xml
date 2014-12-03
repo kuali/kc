@@ -227,9 +227,10 @@
                 <bean parent="Uif-MenuAction" p:actionLabel="  All My Proposals"
                       p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
                       p:actionUrl.viewId="AllDevelopmentProposals-LookupViewId"
-                      p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName"
-                      p:actionUrl.controllerMapping="/lookup" p:order="30"  p:iconClass="icon-chevron-sign-right" />
-                <bean parent="Uif-MenuAction" p:actionLabel="  Create Proposal For S2S Opportunity"
+                      p:actionUrl.methodToCall="search"
+                      p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName,investigator=@{#userSession == null ? '' : #userSession.getPerson().getFirstName()+'*'+#userSession.getPerson().getLastName()}"
+                      p:actionUrl.controllerMapping="/lookup" p:order="30"  p:iconClass="icon-chevron-sign-right" /> 	
+		        <bean parent="Uif-MenuAction" p:actionLabel="  Create Proposal For S2S Opportunity"
                       p:order="40" p:iconClass="icon-chevron-sign-right"/>
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Lists"
                       p:order="50"/>
