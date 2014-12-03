@@ -35,7 +35,7 @@ public class IacucProtocolAssignToAgendaUnavailableAuthorizer extends IacucProto
         return !( kraWorkflowService.isInWorkflow(protocol.getProtocolDocument())
                 && kraWorkflowService.isCurrentNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME)
                 && canExecuteAction(protocol, IacucProtocolActionType.ASSIGNED_TO_AGENDA) 
-                && !isAssignedToCommittee(protocol)
+                && isAssignedToCommittee(protocol)
                 )
                 && hasPermission(username, protocol, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
