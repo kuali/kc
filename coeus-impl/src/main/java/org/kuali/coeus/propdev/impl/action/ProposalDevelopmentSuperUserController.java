@@ -16,6 +16,7 @@ public class ProposalDevelopmentSuperUserController extends ProposalDevelopmentC
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=superUserTakeActions")
     public ModelAndView superUserTakeActions(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         if(!getValidationState(form).equals(AuditHelper.ValidationState.ERROR)) {
+            form.setEvaluateFlagsAndModes(true);
             return getTransactionalDocumentControllerService().superUserTakeActions(form);
         }
         else{
@@ -26,6 +27,7 @@ public class ProposalDevelopmentSuperUserController extends ProposalDevelopmentC
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=superUserApprove")
     public ModelAndView superUserApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         if(!getValidationState(form).equals(AuditHelper.ValidationState.ERROR)) {
+            form.setEvaluateFlagsAndModes(true);
             return getTransactionalDocumentControllerService().superUserApprove(form);
         }
         else{
@@ -35,6 +37,7 @@ public class ProposalDevelopmentSuperUserController extends ProposalDevelopmentC
 
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=superUserDisapprove")
     public ModelAndView superUserDisapprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        form.setEvaluateFlagsAndModes(true);
         return getTransactionalDocumentControllerService().superUserDisapprove(form);
     }
 }

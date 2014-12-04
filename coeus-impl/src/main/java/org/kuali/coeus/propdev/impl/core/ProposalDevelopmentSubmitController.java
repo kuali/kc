@@ -191,22 +191,23 @@ public class ProposalDevelopmentSubmitController extends
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=internalSubmit")
     public  ModelAndView internalSubmit(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
-            WorkflowDocument workflowDoc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
-            if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
-                DialogResponse dialogResponse = form.getDialogResponse("PropDev-SubmitPage-ReceiveFutureRequests");
-                if(dialogResponse == null) {
-                    return getModelAndViewService().showDialog("PropDev-SubmitPage-ReceiveFutureRequests", false, form);
-                }else if (dialogResponse.getResponseAsBoolean()){
-                    form.getWorkflowDocument().setReceiveFutureRequests();
-                } else {
-                    form.getWorkflowDocument().setDoNotReceiveFutureRequests();
-                }
+        WorkflowDocument workflowDoc = form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument();
+        if (canGenerateRequestsInFuture(workflowDoc, getGlobalVariableService().getUserSession().getPrincipalId())) {
+            DialogResponse dialogResponse = form.getDialogResponse("PropDev-SubmitPage-ReceiveFutureRequests");
+            if(dialogResponse == null) {
+                return getModelAndViewService().showDialog("PropDev-SubmitPage-ReceiveFutureRequests", false, form);
+            }else if (dialogResponse.getResponseAsBoolean()){
+                form.getWorkflowDocument().setReceiveFutureRequests();
+            } else {
+                form.getWorkflowDocument().setDoNotReceiveFutureRequests();
             }
-            getTransactionalDocumentControllerService().route(form);
-            for (PessimisticLock lock : form.getProposalDevelopmentDocument().getPessimisticLocks()){
-                getDataObjectService().delete(lock);
-            }
-            form.getProposalDevelopmentDocument().refreshPessimisticLocks();
+        }
+        form.setEvaluateFlagsAndModes(true);
+        getTransactionalDocumentControllerService().route(form);
+        for (PessimisticLock lock : form.getProposalDevelopmentDocument().getPessimisticLocks()){
+            getDataObjectService().delete(lock);
+        }
+        form.getProposalDevelopmentDocument().refreshPessimisticLocks();
 
         return updateProposalState(form);
     }
@@ -214,7 +215,8 @@ public class ProposalDevelopmentSubmitController extends
 
     @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=cancelProposal")
     public ModelAndView cancelProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-       form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.CANCELED);
+        form.setEvaluateFlagsAndModes(true);
+        form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.CANCELED);
        return getTransactionalDocumentControllerService().cancel(form);
     }
 
@@ -227,7 +229,11 @@ public class ProposalDevelopmentSubmitController extends
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=blanketApprove")
     public  ModelAndView blanketApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
-       return !getValidationState(form).equals(AuditHelper.ValidationState.ERROR) ? getTransactionalDocumentControllerService().blanketApprove(form) : getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+        if (!getValidationState(form).equals(AuditHelper.ValidationState.ERROR)){
+            form.setEvaluateFlagsAndModes(true);
+            return getTransactionalDocumentControllerService().blanketApprove(form);
+        }
+        return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
     }
    
    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=recall")
@@ -250,7 +256,8 @@ public class ProposalDevelopmentSubmitController extends
    public  ModelAndView disapprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
 	   String applicationUrl = getConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
 	   form.setReturnLocation(applicationUrl);
-	   return   getTransactionalDocumentControllerService().disapprove(form);
+       form.setEvaluateFlagsAndModes(true);
+       return getTransactionalDocumentControllerService().disapprove(form);
    }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNotificationWizard")
@@ -393,6 +400,7 @@ public class ProposalDevelopmentSubmitController extends
             setProposalStateType(generateIp, proposalDevelopmentDocument);
 
             String pCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
+            proposalDevelopmentForm.setEvaluateFlagsAndModes(true);
             getTransactionalDocumentControllerService().save(proposalDevelopmentForm);
             if( !StringUtils.equals(pCode, proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode() )) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(pCode);
@@ -563,6 +571,7 @@ public class ProposalDevelopmentSubmitController extends
             return submitToSponsor(form);
         }
 
+        form.setEvaluateFlagsAndModes(true);
         return updateProposalState(form);
     }
 
@@ -665,6 +674,7 @@ public class ProposalDevelopmentSubmitController extends
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendAdHocRequests")
     public ModelAndView sendAdHocRequests(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        form.setEvaluateFlagsAndModes(true);
         return getTransactionalDocumentControllerService().sendAdHocRequests(form);
     }
 

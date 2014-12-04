@@ -462,7 +462,7 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
      * Can the user receive an adhoc route for the given document?
      * @param document the document
      * @param user the user
-     * @return true if the user can recieve an adhoc route; otherwise false
+     * @return true if the user can receive an adhoc route; otherwise false
      */
     public final boolean canReceiveAdHoc(Document document, Person user, String actionRequestCode) {
         Map<String,String> additionalPermissionDetails = new HashMap<String, String>();
