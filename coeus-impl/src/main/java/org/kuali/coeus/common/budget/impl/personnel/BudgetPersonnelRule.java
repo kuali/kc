@@ -159,7 +159,7 @@ public class BudgetPersonnelRule {
     }
 
     private Collection<ValidCeJobCode> getMappedCostElements(BudgetPerson person) {
-        return budgetPersonService.getApplicableCostElements(person.getBudgetId(), 
+        return budgetPersonService.getApplicableCostElements(person.getBudget(), 
                 person.getPersonSequenceNumber().toString());
     }
     
@@ -385,7 +385,7 @@ public class BudgetPersonnelRule {
             }
             
         } else {
-            validCostElements = budgetPersonService.getApplicableCostElements(budget.getBudgetId(), 
+            validCostElements = budgetPersonService.getApplicableCostElements(budget, 
                         newBudgetPersonnelDetails.getPersonSequenceNumber().toString());
         }
          

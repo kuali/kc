@@ -43,8 +43,6 @@ public interface BudgetPersonService {
      */
     public void synchBudgetPersonsToProposal(Budget budget);
 
-    public BudgetPerson findBudgetPerson(BudgetPersonnelDetails budgetPersonnelDetails);
-    
     /**
      * Adds a new budget person and adds default info. If the budget person is an employee/person
      * then will also create a budget person for each applicable appointment that person has
@@ -83,11 +81,11 @@ public interface BudgetPersonService {
     /**
      * This method returns the applicable Object Codes (Cost Elements) for a given Budget Person 
      * based on his Job Code
-     * @param budgetId
+     * @param budget
      * @param personSequenceNumber
      * @return List of Cost Elements
      */
-    public List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber);
+    public List<ValidCeJobCode> getApplicableCostElements(Budget budget, String personSequenceNumber);
     
     /**
      * 

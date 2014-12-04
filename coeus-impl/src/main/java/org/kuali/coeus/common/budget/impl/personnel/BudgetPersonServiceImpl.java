@@ -40,6 +40,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.data.CompoundKey;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -255,16 +256,6 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         this.parameterService = parameterService;
     }
 
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public BudgetPerson findBudgetPerson(BudgetPersonnelDetails budgetPersonnelDetails) {
-        final Map queryMap = new HashMap();
-        queryMap.put("budgetId", budgetPersonnelDetails.getBudgetId());
-        queryMap.put("personSequenceNumber", budgetPersonnelDetails.getPersonSequenceNumber());
-        return dataObjectService.find(BudgetPerson.class, new CompoundKey(queryMap));
-    }
-
     /**
      * This method compares a proposal person with budget person. It checks whether the proposal person is from PERSON or ROLODEX
      * and matches the respective person ID with the person in {@link BudgetPersonnelDetails}. It returns true only if IDs are not
@@ -342,28 +333,43 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     
     @SuppressWarnings("unchecked")
     @Override
-    public List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber) {
-        List<ValidCeJobCode> validCostElements = null;
-
-        String jobCodeValidationEnabledInd = this.parameterService.getParameterValueAsString(
-                Budget.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
-        
+    public List<ValidCeJobCode> getApplicableCostElements(Budget budget, String personSequenceNumber) {
+        return getValidCeJobCodes(budget, personSequenceNumber);
+    }
+    
+    protected List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber) {
+    	BudgetForm form = (BudgetForm) KNSGlobalVariables.getKualiForm();
+        return getValidCeJobCodes(form.getBudget(), personSequenceNumber);
+    }
+    
+    /**
+     * If budget job code validation is enabled the function returns the list of valid job codes for the particular person in
+     * the list people on a budget.
+     * @param budget
+     * @param personSequenceNumber
+     * @return
+     */
+    protected List<ValidCeJobCode> getValidCeJobCodes(Budget budget, String personSequenceNumber) {
+    	List<ValidCeJobCode> validCostElements = null;
+    	String jobCodeValidationEnabledInd = this.parameterService.getParameterValueAsString(Budget.class, 
+    			Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
         if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) {
-
-            final Map fieldValues = new HashMap();
-            fieldValues.put("budgetId", budgetId);
-            fieldValues.put("personSequenceNumber", personSequenceNumber);
-            BudgetPerson budgetPerson = dataObjectService.find(BudgetPerson.class, new CompoundKey(fieldValues));
-            
-            fieldValues.clear();
-            if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
-                fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
-                validCostElements = (List<ValidCeJobCode>) businessObjectService.findMatching(ValidCeJobCode.class, fieldValues);
-            }
+	    	BudgetPerson budgetPerson = null;
+	    	for (BudgetPersonnelDetails detail : budget.getBudgetPersonnelDetailsList())  {
+	    		if (detail.getBudgetPerson().getBudgetId().equals(budget.getBudgetId()) && 
+	    				detail.getBudgetPerson().getPersonSequenceNumber().equals(personSequenceNumber)) {
+	    			budgetPerson = detail.getBudgetPerson();
+	    			break;
+	    		}
+	    	}
+	        if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
+	        	final Map fieldValues = new HashMap();
+	            fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
+	            validCostElements = (List<ValidCeJobCode>) businessObjectService.findMatching(ValidCeJobCode.class, fieldValues);
+	        }
         }
-        
         return validCostElements;
-    } 
+    }
     
     @SuppressWarnings("unchecked")
     @Override
