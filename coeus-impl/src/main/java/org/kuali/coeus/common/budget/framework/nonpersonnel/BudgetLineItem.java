@@ -42,8 +42,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 @Entity
 @Table(name = "BUDGET_DETAILS")
 public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaintainable, Comparable<BudgetLineItem>, BudgetLineItemContract {
-	
-    @Transient
+
+    @Column(name = "COST_SHARING_AMOUNT")
     private ScaleTwoDecimal costSharingAmount = ScaleTwoDecimal.ZERO;
 
     @DeepCopyIgnore
@@ -83,9 +83,9 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     private String costElement; 
 
     @Column(name = "GROUP_NAME")
-    private String groupName; 
+    private String groupName;
 
-    @Column(name = "COST_SHARING_AMOUNT")
+    @Transient
     private ScaleTwoDecimal totalCostSharingAmount; 
 
     @Column(name = "END_DATE")
