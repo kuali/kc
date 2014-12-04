@@ -291,7 +291,13 @@ public class ProposalDevelopmentSubmitController extends
         populateDeferredMessages(form);
         return getRefreshControllerService().refresh(form);
     }
-    
+
+    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=cancelNotifications")
+    public ModelAndView cancelNotifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        populateDeferredMessages(form);
+        return getRefreshControllerService().refresh(form);
+    }
+
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=submitToS2s")
     public  ModelAndView submitToS2s(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
         form.setGrantsGovSubmitFlag(true);

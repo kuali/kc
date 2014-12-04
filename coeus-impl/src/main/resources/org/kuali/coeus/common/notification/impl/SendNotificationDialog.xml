@@ -207,8 +207,8 @@
                               p:order="10" p:dialogDismissOption="REQUEST"/>
                         <bean parent="Kc-SendNotification-WizardButton-Back" p:actionLabel="Add More Recipients"
                               p:actionParameters="Kc-SendNotification-Wizard.step:0" p:order="20" />
-                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link"
-                            p:dialogDismissOption="IMMEDIATE" p:dialogResponse="false" p:order="30"/>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link" p:methodToCall="cancelNotifications"
+                            p:dialogDismissOption="REQUEST" p:dialogResponse="false" p:order="30"/>
                     </list>
                 </property>
             </bean>
