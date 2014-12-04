@@ -122,6 +122,8 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
             if(confirmRecalculate) {
             	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
                 getBudgetSummaryService().generateAllPeriods(budget);
+                form.setSelectedBudget(budget);
+                getBudgetCalculationService().populateBudgetSummaryTotals(form.getSelectedBudget());
             }
         }
         return getModelAndViewService().getModelAndView(form);
