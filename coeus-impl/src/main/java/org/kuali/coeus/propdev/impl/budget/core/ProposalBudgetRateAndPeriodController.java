@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
+import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodAndTotalEvent;
 import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.period.GenerateBudgetPeriodEvent;
+import org.kuali.coeus.common.budget.framework.period.SaveBudgetPeriodAndTotalEvent;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -31,7 +32,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
 
 	private static final String CONFIRM_PERIOD_CHANGES_DIALOG_ID = "PropBudget-PeriodsPage-ConfirmPeriodChangesDialog";
 	private static final String PERIOD_CHANGES_DIALOG_ID = "PropBudget-PeriodsPage-ChangePeriodDialog";
-	
+	private static final String BUDGET_PERIOD_ERROR_PATH_PREFIX = "budget.budgetPeriods";
 	
 	@MethodAccessible
     @RequestMapping(params="methodToCall=resetToBudgetPeriodDefault")
@@ -70,7 +71,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         BudgetPeriod newBudgetPeriod = ((BudgetPeriod)form.getNewCollectionLines().get("budget.budgetPeriods"));
         Budget budget = form.getBudget();
         newBudgetPeriod.setBudget(budget);
-        if (getKcBusinessRulesEngine().applyRules(new AddBudgetPeriodEvent(budget, newBudgetPeriod))) {
+        if (getKcBusinessRulesEngine().applyRules(new AddBudgetPeriodAndTotalEvent(budget, newBudgetPeriod, "newCollectionLines['budget.budgetPeriods']"))) {
             getBudgetSummaryService().addBudgetPeriod(budget, newBudgetPeriod);
         }
         return getModelAndViewService().getModelAndView(form);
@@ -82,7 +83,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
         int selectedLine = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
         BudgetPeriod budgetPeriod = budget.getBudgetPeriods().get(selectedLine);
-        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetPeriodAndTotalEvent(budget, BUDGET_PERIOD_ERROR_PATH_PREFIX));
         if (isBudgetPeriodDateChanged(budgetPeriod) && isOnlyLineItemDateError()) {
         	getGlobalVariableService().getMessageMap().clearErrorMessages();
             DialogResponse dialogResponse = form.getDialogResponse(PERIOD_CHANGES_DIALOG_ID);
@@ -94,7 +95,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
                 if(confirmResetDefault) {
                     getBudgetSummaryService().adjustStartEndDatesForLineItems(budgetPeriod);
                     //check rules again after adjusting date
-                    rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+                    rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetPeriodAndTotalEvent(budget, BUDGET_PERIOD_ERROR_PATH_PREFIX));
                 }
             }
         }
@@ -133,7 +134,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     public ModelAndView save(ProposalBudgetForm form) {
     	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
         Budget budget = form.getBudget();
-        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetPeriodAndTotalEvent(budget, BUDGET_PERIOD_ERROR_PATH_PREFIX));
         if (isBudgetPeriodDateChanged(budget) && isOnlyLineItemDateError()) {
         	getGlobalVariableService().getMessageMap().clearErrorMessages();
             DialogResponse dialogResponse = form.getDialogResponse(PERIOD_CHANGES_DIALOG_ID);
@@ -145,7 +146,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
                 if(confirmResetDefault) {
                     getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
                     //check rules again after adjusting date
-                    rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+                    rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetPeriodAndTotalEvent(budget, BUDGET_PERIOD_ERROR_PATH_PREFIX));
                 }
             }
         }
