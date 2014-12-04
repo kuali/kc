@@ -24,7 +24,6 @@
     <bean id="dataObjectService" parent="grlImporter" p:serviceName="dataObjectService" />
     <bean id="documentDictionaryService" parent="grlImporter" p:serviceName="documentDictionaryService" />
     <bean id="maintenanceDocumentDictionaryService" parent="grlImporter" p:serviceName="maintenanceDocumentDictionaryService" />
-    <bean id="dataSource" parent="grlImporter" p:serviceName="dataSource" />
     <bean id="kualiRuleService" parent="grlImporter" p:serviceName="kualiRuleService"/>
     <bean id="lookupService" parent="grlImporter" p:serviceName="lookupService" />
     <bean id="sequenceAccessorService" parent="grlImporter" p:serviceName="sequenceAccessorService" />
@@ -44,4 +43,8 @@
     <bean id="refreshControllerService" parent="grlImporter" p:serviceName="refreshControllerService" />
     <bean id="saveControllerService" parent="grlImporter" p:serviceName="saveControllerService" />
 
+    <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
+
+    <bean id="dataSource" parent="ccImporter" p:objectName="datasource" />
+    <bean id="transactionManager" parent="ccImporter" p:objectName="SPRING_TRANSACTION_MANAGER" />
 </beans>

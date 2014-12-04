@@ -49,7 +49,6 @@
     <bean id="rice.ksb.serviceBus" parent="grlImporter" p:serviceName="rice.ksb.serviceBus" />
     <bean id="documentService" parent="grlImporter" p:serviceName="documentService" />
     <bean id="functionRepositoryService" parent="grlImporter" p:serviceName="functionRepositoryService" />
-    <bean id="dataSource" parent="grlImporter" p:serviceName="dataSource" />
     <bean id="maintenanceDocumentDictionaryService" parent="grlImporter" p:serviceName="maintenanceDocumentDictionaryService" />
     <bean id="pessimisticLockService" parent="grlImporter" p:serviceName="pessimisticLockService" />
     <bean id="lookupDao" parent="grlImporter" p:serviceName="lookupDao" />
@@ -68,4 +67,8 @@
     <bean id="kradApplicationDataSource" parent="grlImporter" p:serviceName="kradApplicationDataSource"/>
     <bean id="documentTypeService" parent="grlImporter" p:serviceName="rice.kew.documentTypeService" />
 
+    <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
+
+    <bean id="dataSource" parent="ccImporter" p:objectName="datasource" />
+    <bean id="transactionManager" parent="ccImporter" p:objectName="SPRING_TRANSACTION_MANAGER" />
 </beans>

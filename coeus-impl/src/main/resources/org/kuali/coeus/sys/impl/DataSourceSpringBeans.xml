@@ -19,6 +19,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
@@ -26,15 +27,24 @@
 
     <context:annotation-config />
 
-    <!-- this spring file is meant to be imported into other modules as needed -->
-
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
     </bean>
 
-    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
+    <bean id="transactionManagerXAPool" class="org.kuali.rice.core.impl.util.spring.RiceJotmFactoryBean">
+        <property name="defaultTimeout" value="${transaction.timeout}"/>
+    </bean>
 
-	<bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+    <bean id="btmConfig" factory-method="getConfiguration" class="bitronix.tm.TransactionManagerServices" lazy-init="true">
+    </bean>
+
+    <bean id="transactionManagerBitronix" class="bitronix.tm.TransactionManagerServices"
+          factory-method="getTransactionManager" depends-on="btmConfig" destroy-method="shutdown" lazy-init="true"/>
+
+    <alias name="transactionManager${connection.pool.impl}" alias="jtaTransactionManager"/>
+    <alias name="transactionManager${connection.pool.impl}" alias="jtaUserTransaction"/>
+
+	<bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource" lazy-init="true">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
 		<property name="driverClassName" value="${server.datasource.driver.name}" />
 		<property name="url" value="${server.datasource.url}" />
@@ -45,8 +55,8 @@
 		<property name="username" value="${server.datasource.username}" />
 		<property name="password" value="${server.datasource.password}" />
 	</bean>
-	
-	<bean id="dataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+
+	<bean id="dataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource" lazy-init="true">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
 		<property name="driverClassName" value="${datasource.driver.name}" />
 		<property name="url" value="${datasource.url}" />
@@ -60,7 +70,7 @@
 
   <bean id="riceDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
         destroy-method="close" lazy-init="true">
-    <property name="className" value="${datasource.pool.class.non.xa}" />
+    <property name="className" value="${server.datasource.pool.class.non.xa}" />
     <property name="uniqueName" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}" />
     <property name="minPoolSize" value="${server.datasource.pool.minSize}" />
     <property name="maxPoolSize" value="${server.datasource.pool.maxSize}" />
@@ -95,10 +105,10 @@
       </props>
     </property>
   </bean>
-  
+
   <bean id="riceDataSourceBitronixXa" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
  	      destroy-method="close" lazy-init="true">
-    <property name="className" value="${datasource.pool.class}" />
+    <property name="className" value="${server.datasource.pool.class}" />
     <property name="uniqueName" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}" />
     <property name="minPoolSize" value="${server.datasource.pool.minSize}" />
     <property name="maxPoolSize" value="${server.datasource.pool.maxSize}" />
@@ -131,11 +141,11 @@
       </props>
     </property>
   </bean>
-  
+
   <alias name="riceDataSource${connection.pool.impl}" alias="riceDataSource"/>
   <alias name="dataSource${connection.pool.impl}" alias="dataSource"/>
 
-   <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+   <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="true">
        <property name="driverClassName" value="${datasource.driver.name}"/>
        <property name="url" value="${datasource.url}"/>
        <property name="maxActive" value="${datasource.pool.maxActive}"/>
@@ -147,32 +157,10 @@
        <property name="accessToUnderlyingConnectionAllowed" value="${datasource.accessToUnderlyingConnectionAllowed}"/>
    </bean>
 
-   <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
-        <property name="userTransaction" ref="jtaUserTransaction"/>
-        <property name="transactionManager" ref="jtaTransactionManager"/>
-   </bean>
-
-    <bean id="transactionAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
-        <property name="classFilter" ref="transactionAdvisorClassFilter" />
-        <property name="transactionInterceptor" ref="transactionInterceptor" />
+    <bean id="transactionManager"
+          class="org.springframework.transaction.jta.JtaTransactionManager"
+          p:userTransaction-ref="jtaUserTransaction"
+          p:transactionManager-ref="jtaTransactionManager">
     </bean>
-
-    <bean id="transactionAdvisorClassFilter" class="org.kuali.rice.core.framework.util.spring.ClassOrMethodAnnotationFilter">
-        <constructor-arg value="org.springframework.transaction.annotation.Transactional" />
-    </bean>
-
-    <bean id="transactionInterceptor" class="org.kuali.rice.core.framework.persistence.jta.KualiTransactionInterceptor">
-        <property name="transactionManager" ref="transactionManager" />
-        <property name="transactionAttributeSource" ref="transactionAttributeSource" />
-    </bean>
-
-    <bean id="transactionAttributeSource" class="org.kuali.rice.core.impl.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
-        <property name="annotationTransactionAttributeSource" ref="annotationTransactionAttributeSource" />
-        <property name="transactionTimeout" value="${transaction.timeout}" />
-    </bean>
-
-    <bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
-
-    <bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
 
 </beans>
