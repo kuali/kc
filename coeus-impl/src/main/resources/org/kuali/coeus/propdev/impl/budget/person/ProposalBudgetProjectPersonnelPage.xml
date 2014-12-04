@@ -16,10 +16,11 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<bean id="PropBudget-ProjectPersonnelPage" parent="PropBudget-ProjectPersonnelPage-parentBean" />
-	<bean id="PropBudget-ProjectPersonnelPage-parentBean" parent="PropBudget-Page" p:fieldBindingObjectPath="budget">
+	<bean id="PropBudget-ProjectPersonnelPage-parentBean" parent="PropBudget-Page">
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-ProjectPersonnelPage-CollectionGroup" />
+				<ref bean="PropBudget-EditPersonnel-Section"/>
 			</list>
 		</property>
 		<property name="header">
@@ -30,7 +31,7 @@
 	<bean id="PropBudget-ProjectPersonnelPage-CollectionGroup" parent="PropBudget-ProjectPersonnelPage-CollectionGroup-parentBean" />
 	<bean id="PropBudget-ProjectPersonnelPage-CollectionGroup-parentBean" parent="Uif-TableCollectionSection" abstract="true" 
 		p:headerText="Project Personnel"
-		p:propertyName="budgetPersons"
+		p:propertyName="budget.budgetPersons"
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson"
 		p:addWithDialog="false" p:renderAddLine="false"
 		p:layoutManager.renderSequenceField="false">

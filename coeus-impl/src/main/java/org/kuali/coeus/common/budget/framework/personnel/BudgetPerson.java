@@ -213,7 +213,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
 
     public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
       List<BudgetPersonSalaryDetails> salaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
-      if (this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {
+      if ((this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) && getBudget() != null) {
           for (BudgetPeriod budgetPeriod : getBudget().getBudgetPeriods()) {
         	  BudgetPersonSalaryDetails budgetPersonSalaryDetails = new BudgetPersonSalaryDetails();
         	  budgetPersonSalaryDetails.setBudgetId(getBudgetId());
