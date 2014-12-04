@@ -264,7 +264,7 @@ public abstract class KcTransactionalDocumentBase extends TransactionalDocumentB
     public String getCustomLockDescriptor(Person user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getDocumentBoNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName();
+            return this.getDocumentBoNumber() + "-" + activeLockRegion;
         }
         return null;
     }

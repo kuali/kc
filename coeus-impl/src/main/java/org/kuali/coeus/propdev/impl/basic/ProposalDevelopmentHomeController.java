@@ -106,6 +106,8 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        form.setPageId(null);
        form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.IN_PROGRESS);
        getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalState");
+       getPessimisticLockService().releaseAllLocksForUser(form.getDocument().getPessimisticLocks(),getGlobalVariableService().getUserSession().getPerson());
+       form.getDocument().refreshPessimisticLocks();
        return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
 
