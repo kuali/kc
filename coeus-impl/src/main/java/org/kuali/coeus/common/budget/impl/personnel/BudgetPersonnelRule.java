@@ -284,7 +284,7 @@ public class BudgetPersonnelRule {
     private boolean validateJobCodeChange(final BudgetPerson person, String errorKey) {
         boolean valid = true;
         BudgetPerson personCopy = getOriginalBudgetPerson(person);
-        if (!person.isDuplicatePerson(personCopy)) {
+        if (personCopy != null && !person.isDuplicatePerson(personCopy)) {
             if (!StringUtils.equals(person.getJobCode(), personCopy.getJobCode())) {
                 final MessageMap messageMap = GlobalVariables.getMessageMap();
                 messageMap.putError(errorKey, KeyConstants.ERROR_PERSON_JOBCODE_CHANGE, person.getPersonName());
@@ -571,7 +571,7 @@ public class BudgetPersonnelRule {
     
     protected boolean isJobCodeChanged(BudgetPerson budgetPerson) {
     	BudgetPerson originalBudgetPerson = getOriginalBudgetPerson(budgetPerson);
-    	return !originalBudgetPerson.getJobCode().equalsIgnoreCase(budgetPerson.getJobCode());
+    	return originalBudgetPerson != null && !originalBudgetPerson.getJobCode().equalsIgnoreCase(budgetPerson.getJobCode());
     }
     
     protected boolean isBudgetPersonExistsInPersonnelDetails(List<BudgetLineItem> budgetLineItems, BudgetPerson budgetPerson) {
