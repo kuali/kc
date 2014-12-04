@@ -9,26 +9,27 @@
 
     <context:annotation-config />
 
-    <import resource="classpath:org/kuali/coeus/sys/framework/ImportDataSourceSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/coeus/sys/impl/DataSourceSpringBeans.xml"/>
 
     <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
-        <property name="dataSource" ref="dataSource${connection.pool.impl}" />
-        <property name="serverDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="serverDataSource" ref="riceDataSource" />
         <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
-        <property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
+        <property name="transactionManager" ref="jtaTransactionManager" />
         <property name="userTransaction" ref="jtaUserTransaction" />
     </bean>
 
     <bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-        <property name="registryDataSource" ref="riceDataSource${connection.pool.impl}" />
-        <property name="messageDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="registryDataSource" ref="riceDataSource" />
+        <property name="messageDataSource" ref="riceDataSource" />
         <property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
-        <property name="bamDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="bamDataSource" ref="riceDataSource" />
+        <property name="platformTransactionManager" ref="transactionManager" />
     </bean>
 
     <bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer">
         <property name="includeKnsSpringBeans" value="true" />
-        <property name="applicationDataSource" ref="dataSource${connection.pool.impl}" />
+        <property name="applicationDataSource" ref="dataSource" />
     </bean>
 
     <bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer" />
@@ -36,13 +37,15 @@
     <bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer" />
 
     <bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer">
-        <property name="dataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="dataSource" ref="riceDataSource" />
     </bean>
 
     <bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer" />
 
-    <bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer"/>
+    <bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer" />
 
     <bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer" />
 
+    <!-- making sure OJB has the transaction manager set properly -->
+    <import resource="classpath:org/kuali/rice/core/CommonOJBSpringBeans.xml" />
 </beans>

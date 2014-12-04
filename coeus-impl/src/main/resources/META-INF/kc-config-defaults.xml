@@ -100,10 +100,10 @@
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
 	<param name="datasource.password">ask your team</param>
-	
+
 	<!-- overriding from rice's default - remove override once rice's changes their default -->
 	<param name="datasource.pool.maxSize">20</param>
-	
+
 	<!-- Rice Server DB -->
 	<!-- Should be the same as KC Client DB when running bundled mode -->
 	<param name="server.datasource.url">${datasource.url}</param>
@@ -118,7 +118,12 @@
 	<param name="server.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
 	<param name="server.datasource.pool.size">${datasource.pool.size}</param>
 	<param name="server.datasource.connectionTimeout">${datasource.connectionTimeout}</param>
-    <param name="server.datasource.pool.class">${datasource.pool.class}</param>
+	<param name="server.datasource.pool.class">${datasource.pool.class}</param>
+	<param name="server.datasource.pool.class.non.xa">${datasource.pool.class.non.xa}</param>
+	<param name="server.datasource.pool.maxActive">${datasource.pool.maxActive}</param>
+	<param name="server.datasource.minIdle">${datasource.minIdle}</param>
+	<param name="server.datasource.initialSize">${datasource.initialSize}</param>
+	<param name="server.datasource.accessToUnderlyingConnectionAllowed">${datasource.accessToUnderlyingConnectionAllowed}</param>
 
 	<param name="keystore.alias">onestartsharedservices-devandtst</param>
 	<param name="keystore.file">kul</param>

@@ -77,4 +77,8 @@
     <bean id="refreshControllerService" parent="grlImporter" p:serviceName="refreshControllerService" />
     <bean id="documentAdHocService" parent="grlImporter" p:serviceName="documentAdHocService" />
 
+    <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
+
+    <bean id="dataSource" parent="ccImporter" p:objectName="datasource" />
+    <bean id="transactionManager" parent="ccImporter" p:objectName="SPRING_TRANSACTION_MANAGER" />
 </beans>
