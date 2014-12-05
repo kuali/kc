@@ -82,12 +82,6 @@
        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
     </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.coeus.propdev.impl.copy.CopyBudgetVersionsValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.propdev.impl.copy.CopyBudgetVersionsValuesFinder"/>
-    </property>
     <property name="controlField">
       <bean parent="Uif-DropdownControl"/>
     </property>

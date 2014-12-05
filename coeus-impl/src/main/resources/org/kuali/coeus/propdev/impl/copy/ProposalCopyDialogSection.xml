@@ -111,7 +111,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                 <property name="options">
                     <list>
                         <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria).BUDGET_ALL_VERSIONS}" p:value="All Versions" />
-                        <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria).BUDGET_FINAL_VERSION}" p:value="Final Version" />
+                        <bean parent="Uif-KeyLabelPair" p:key="#{T(org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria).BUDGET_FINAL_VERSION}" p:value="For Submission Version" />
                     </list>
                 </property>
             </bean>
