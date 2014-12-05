@@ -1905,6 +1905,19 @@ public abstract class ActionHelperBase implements Serializable {
         return reviewComments;
     }
 
+    // create getter for sorted comments to preserve old functionality
+    public List<CommitteeScheduleMinuteBase> getSortedReviewComments() {
+        List<CommitteeScheduleMinuteBase>results = new ArrayList<CommitteeScheduleMinuteBase>();
+        results.addAll(reviewComments);
+        Collections.sort(results, new Comparator<CommitteeScheduleMinuteBase>() {
+            @Override
+            public int compare(CommitteeScheduleMinuteBase o1, CommitteeScheduleMinuteBase o2) {
+                return o1.getEntryNumber().compareTo(o2.getEntryNumber());
+            }
+        });
+        return results;
+    }
+
     protected void setReviewComments(List<CommitteeScheduleMinuteBase> reviewComments) {
         this.reviewComments = reviewComments;
     }
