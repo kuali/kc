@@ -44,8 +44,7 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
     
-	@MethodAccessible
-    @Transactional @RequestMapping(params="methodToCall=addBudget")
+    @RequestMapping(params="methodToCall=addBudget")
     public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
     		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget,
             @RequestParam(value="addBudgetDto.modularBudget",defaultValue="false") Boolean modularBudget,

@@ -36,8 +36,7 @@ public class ProposalBudgetDistributionController extends ProposalBudgetControll
     @Qualifier("budgetDistributionService")
     private BudgetDistributionService budgetDistributionService;
 
-    @MethodAccessible
-    @Transactional @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-UnrecoveredFandAPage"})
+    @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-UnrecoveredFandAPage"})
     public ModelAndView navigateToFandA(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         getBudgetDistributionService().initializeUnrecoveredFandACollectionDefaults(form.getBudget());
         return super.navigate(form);
@@ -53,8 +52,7 @@ public class ProposalBudgetDistributionController extends ProposalBudgetControll
         return getRefreshControllerService().refresh(form);
     }
 
-    @MethodAccessible
-    @Transactional @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-CostSharingPage"})
+    @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-CostSharingPage"})
     public ModelAndView navigateToCostShare(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         getBudgetDistributionService().initializeCostSharingCollectionDefaults(form.getBudget());
         return super.navigate(form);
