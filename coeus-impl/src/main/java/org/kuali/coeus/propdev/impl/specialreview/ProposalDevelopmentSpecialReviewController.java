@@ -134,11 +134,15 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         if (protocol != null && protocol.getProtocolStatus() != null) {
             String status = protocol.getProtocolStatus().getDescription();
             proposalSpecialReview.setProtocolStatus(status);
-
+            proposalSpecialReview.setExpirationDate(protocol.getExpirationDate());
+            proposalSpecialReview.setApprovalDate(protocol.getApprovalDate());
+            proposalSpecialReview.setApplicationDate(protocol.getApplicationDate());
         }
         else {
             proposalSpecialReview.setProtocolStatus(null);
         }
+
+
     }
 
     @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addComplianceEntry")
