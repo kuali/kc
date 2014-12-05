@@ -111,7 +111,8 @@
 	</bean>
 	
 	<bean id="PropDev-BudgetPage-AddBudgetDialog" parent="PropDev-BudgetPage-AddBudgetDialog-parentBean"/>
-	<bean id="PropDev-BudgetPage-AddBudgetDialog-parentBean" abstract="true" parent="Uif-DialogGroup" p:dialogCssClass="">
+	<bean id="PropDev-BudgetPage-AddBudgetDialog-parentBean" abstract="true" parent="Uif-DialogGroup" p:dialogCssClass=""
+		p:style="z-index:9999;">
 		<property name="items">
 			<list>
 				<bean parent="Uif-MessageField" p:label="Parent Proposal" p:messageText="@{#form.developmentProposal.proposalNumber}" p:order="10"/>
