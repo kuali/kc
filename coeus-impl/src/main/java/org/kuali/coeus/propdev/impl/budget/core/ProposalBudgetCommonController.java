@@ -112,6 +112,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget, 
     		@RequestParam(value="addBudgetDto.modularBudget",defaultValue="false") Boolean modularBudget,
     		@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		save(form);
 		return getProposalBudgetSharedController().addBudget(budgetName, summaryBudget, modularBudget, form.getDevelopmentProposal(), form);
     }
 
@@ -120,6 +121,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	public ModelAndView copyBudget(@RequestParam("copyBudgetDto.budgetName") String budgetName, 
 			@RequestParam("copyBudgetDto.originalBudgetId") Long originalBudgetId, 
 			@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		save(form);
 		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, form.getDevelopmentProposal(), form);
 	}
 	
