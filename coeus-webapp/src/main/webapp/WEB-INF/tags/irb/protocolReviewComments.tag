@@ -40,8 +40,7 @@
                                             <kul:htmlAttributeHeaderCell literalLabel="Created By" scope = "col"/>
                                         </c:if>
                                     </tr>
-                                    <c:forEach items="${KualiForm.actionHelper.reviewComments}" var="comment" varStatus="status">
-                                      <%-- <c:if test="${comment.displayReviewerName}"> --%>
+                                    <c:forEach items="${KualiForm.actionHelper.sortedReviewComments}" var="comment" varStatus="status">
                                             <c:set var="displayCount" value="${displayCount + 1}"/>
 	                                        <tr>
 	                                            <th class="infoline" align="right" >
@@ -62,53 +61,50 @@
 	                                            </c:choose>
 	                                     
 	                                            <td style="border-left: 1 none; border-right: 0 none; padding: 5px ">
-	                                                <kra:truncateComment textAreaFieldName="actionHelper.reviewComments[${status.index}].minuteEntry" action="protocolProtocolActions" textAreaLabel="Review Comment" textValue="${comment.minuteEntry}" displaySize="200"/>
-	        <%-- TODO : this hidden field should be created by expandedtextarea.tag
-	         if this hidden is not created then the value can not be retrieved for popup display --%>
-	                                                <input type="hidden" name="actionHelper.reviewComments[${status.index}].minuteEntry" value="${comment.minuteEntry}" id="actionHelper.reviewComments[${status.index}].minuteEntry">
+	                                                <kra:truncateComment textAreaFieldName="actionHelper.sortedReviewComments[${status.index}].minuteEntry" action="protocolProtocolActions" textAreaLabel="Review Comment" textValue="${comment.minuteEntry}" displaySize="200"/>
+	                                                <input type="hidden" name="actionHelper.sortedReviewComments[${status.index}].minuteEntry" value="${comment.minuteEntry}" id="actionHelper.sortedReviewComments[${status.index}].minuteEntry">
 	                                            </td>                
 	                                            
-	                                            <c:if test="${not KualiForm.actionHelper.hidePrivateFinalFlagsForPublicCommentsAttachments}">    
+	                                            <c:if test="${not KualiForm.actionHelper.hidePrivateFinalFlagsForPublicCommentsAttachments}">
 		                                            <td style="text-align:center; vertical-align:middle">
-		                                                <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].privateCommentFlag" 
+		                                                <kul:htmlControlAttribute property="actionHelper.sortedReviewComments[${status.index}].privateCommentFlag"
 		                                                      attributeEntry="${minutesAttributes.privateCommentFlag}"
 		                                                      readOnly="true" />
 		                                            </td>
 		                                            
 		                                            <td style="text-align:center; vertical-align:middle">
-		                                                <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].finalFlag" 
+		                                                <kul:htmlControlAttribute property="actionHelper.sortedReviewComments[${status.index}].finalFlag"
 		                                                      attributeEntry="${minutesAttributes.finalFlag}"
 		                                                      readOnly="true" />
 		                                            </td>
                                                 </c:if>
-                    <c:if test="${not KualiForm.actionHelper.hideReviewerName}">
-                        <c:choose>
-                            <c:when test="${KualiForm.actionHelper.reviewComments[status.index].displayReviewerName}">
-	                                            <td style="text-align:center; vertical-align:middle">
-	                        	                     <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].updateUserFullName" 
-	                                                      attributeEntry="${minutesAttributes.updateUser}"
-	                                                      readOnly="true" />  <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].updateTimestamp" 
-	                                                      attributeEntry="${minutesAttributes.updateTimestamp}"
-	                                                      readOnly="true" />
-	                                            </td>
+                                                <c:if test="${not KualiForm.actionHelper.hideReviewerName}">
+                                                    <c:choose>
+                                                        <c:when test="${KualiForm.actionHelper.sortedReviewComments[status.index].displayReviewerName}">
+	                                                        <td style="text-align:center; vertical-align:middle">
+	                                    	                     <kul:htmlControlAttribute property="actionHelper.sortedReviewComments[${status.index}].updateUserFullName"
+	                                                                  attributeEntry="${minutesAttributes.updateUser}"
+	                                                                  readOnly="true" />  <kul:htmlControlAttribute property="actionHelper.sortedReviewComments[${status.index}].updateTimestamp"
+	                                                                  attributeEntry="${minutesAttributes.updateTimestamp}"
+	                                                                  readOnly="true" />
+	                                                        </td>
 	                        
-	                                            <td style="text-align:center; vertical-align:middle">
-	                        	                     <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].createUserFullName" 
-	                                                      attributeEntry="${minutesAttributes.createUser}"
-	                                                      readOnly="true" /> <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].createTimestamp" 
-	                                                      attributeEntry="${minutesAttributes.createTimestamp}"
-	                                                      readOnly="true" />
-	                                            </td>
-                            </c:when>
-                            <c:otherwise>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                            </c:otherwise>
-                        </c:choose>
-	                    </c:if>                        
+	                                                        <td style="text-align:center; vertical-align:middle">
+             	                        	                     <kul:htmlControlAttribute property="actionHelper.reviewComments[${status.index}].createUserFullName"
+	                                                                  attributeEntry="${minutesAttributes.createUser}"
+	                                                                  readOnly="true" /> <kul:htmlControlAttribute property="actionHelper.sortedReviewComments[${status.index}].createTimestamp"
+	                                                                  attributeEntry="${minutesAttributes.createTimestamp}"
+	                                                                  readOnly="true" />
+	                                                        </td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </c:otherwise>
+                                                    </c:choose>
+	                                            </c:if>
 	                                        </tr>
-	                                  <%-- </c:if> --%>
-                                    </c:forEach>    
+	                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>         
