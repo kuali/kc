@@ -25,8 +25,8 @@ public class ProposalDocumentView extends KcTransactionalDocumentView {
         Person user = GlobalVariables.getUserSession().getPerson();
 
         for (PessimisticLock lock : document.getPessimisticLocks()) {
-            String lockRegion = StringUtils.split(lock.getLockDescriptor(),"-")[1];
-            if (!lock.isOwnedByUser(user) && lockRegion.equals(pageRegion)) {
+            String lockRegion = lock.getLockDescriptor() != null ? StringUtils.split(lock.getLockDescriptor(),"-")[1] : null;
+            if (!lock.isOwnedByUser(user) && (lockRegion == null || lockRegion.equals(pageRegion))) {
                 String lockDescriptor = StringUtils.defaultIfBlank(lock.getLockDescriptor(), "full");
                 String lockOwner = lock.getOwnedByUser().getName();
                 String lockTime = RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp());

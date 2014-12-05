@@ -8,6 +8,7 @@ import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +22,7 @@ public class ProposalBudgetRatesController extends ProposalBudgetControllerBase 
 	@Qualifier("budgetRatesService")
 	private BudgetRatesService budgetRatesService;
 
-    @RequestMapping(params="methodToCall=syncAllRates")
+    @Transactional @RequestMapping(params="methodToCall=syncAllRates")
 	public ModelAndView syncAllRates(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         Budget budget = form.getBudget();
         budget.setRateClassTypesReloaded(true);
@@ -35,14 +36,14 @@ public class ProposalBudgetRatesController extends ProposalBudgetControllerBase 
        return getModelAndViewService().getModelAndView(form);
 	}
 	
-	@RequestMapping(params="methodToCall=refreshAllRates")
+	@Transactional @RequestMapping(params="methodToCall=refreshAllRates")
 	public ModelAndView refreshAllRates(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         Budget budget = form.getBudget();
         getBudgetRatesService().resetAllBudgetRates(budget);
         return getModelAndViewService().getModelAndView(form);
 	}
 	
-	@RequestMapping(params="methodToCall=syncRates")
+	@Transactional @RequestMapping(params="methodToCall=syncRates")
 	public ModelAndView syncRates(@RequestParam("rateClassTypeCode") String rateClassTypeCode, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         Budget budget = form.getBudget();
         getBudgetRatesService().syncBudgetRatesForRateClassType(rateClassTypeCode, budget);
@@ -53,7 +54,7 @@ public class ProposalBudgetRatesController extends ProposalBudgetControllerBase 
         return getModelAndViewService().getModelAndView(form);
 	}
 	
-	@RequestMapping(params="methodToCall=resetRates")
+	@Transactional @RequestMapping(params="methodToCall=resetRates")
 	public ModelAndView resetRates(@RequestParam("rateClassTypeCode") String rateClassTypeCode, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         Budget budget = form.getBudget();
         getBudgetRatesService().resetBudgetRatesForRateClassType(rateClassTypeCode, budget);

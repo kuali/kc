@@ -107,10 +107,16 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
     public boolean userHasLock(Person user, ProposalDevelopmentDocumentForm form) {
         String pageRegion = ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).getLockRegionFromPage(form.getPageId());
         for (PessimisticLock lock : form.getDocument().getPessimisticLocks()) {
-           String lockRegion = StringUtils.split(lock.getLockDescriptor(), "-")[1];
-           if (lock.isOwnedByUser(user) && lockRegion.equals(pageRegion)) {
-               return true;
-           }
+            if (lock.getLockDescriptor() == null) {
+                if (lock.isOwnedByUser(user)) {
+                    return true;
+                }
+            } else {
+                final String lockRegion = StringUtils.split(lock.getLockDescriptor(), "-")[1];
+                if (lock.isOwnedByUser(user) && lockRegion.equals(pageRegion)) {
+                    return true;
+                }
+            }
         }
         return false;
     }

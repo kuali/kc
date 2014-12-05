@@ -7,6 +7,7 @@ import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,13 +17,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetDataValidationController extends ProposalBudgetControllerBase {
 
-    @RequestMapping(params="methodToCall=validateData")
+    @Transactional @RequestMapping(params="methodToCall=validateData")
     public ModelAndView validateData(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         setDataValidation(form);
         return getModelAndViewService().showDialog("DataValidationSection", true, form);
     }
 
-    @RequestMapping(params="methodToCall=toggleValidation")
+    @Transactional @RequestMapping(params="methodToCall=toggleValidation")
     public ModelAndView toggleValidation(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         form.setAuditActivated(!form.isAuditActivated());
         setDataValidation(form);
@@ -35,7 +36,7 @@ public class ProposalBudgetDataValidationController extends ProposalBudgetContro
         }
     }
 
-    @RequestMapping(params="methodToCall=navigateToError")
+    @Transactional @RequestMapping(params="methodToCall=navigateToError")
     public ModelAndView navigateToError(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
     	((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).applyBudgetAuditRules(form);
         form.setAjaxReturnType("update-page");

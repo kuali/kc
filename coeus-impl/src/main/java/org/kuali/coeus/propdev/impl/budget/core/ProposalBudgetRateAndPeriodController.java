@@ -21,6 +21,7 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
 	private static final String BUDGET_PERIOD_ERROR_PATH_PREFIX = "budget.budgetPeriods";
 	
 	@MethodAccessible
-    @RequestMapping(params="methodToCall=resetToBudgetPeriodDefault")
+    @Transactional @RequestMapping(params="methodToCall=resetToBudgetPeriodDefault")
     public ModelAndView resetToBudgetPeriodDefault(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentBudgetExt budget = form.getBudget();
         String warningMessage = getBudgetSummaryService().defaultWarningMessage(budget);
@@ -58,7 +59,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     }    
 	
 	@MethodAccessible
-    @RequestMapping(params="methodToCall=recalculateBudgetWithChanges")
+    @Transactional @RequestMapping(params="methodToCall=recalculateBudgetWithChanges")
     public ModelAndView recalculateBudgetWithChanges(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentBudgetExt budget = form.getBudget();
     	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
@@ -66,7 +67,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         return getModelAndViewService().getModelAndView(form);
     }    
 	
-    @RequestMapping(params="methodToCall=addBudgetPeriod")
+    @Transactional @RequestMapping(params="methodToCall=addBudgetPeriod")
     public ModelAndView addBudgetPeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         BudgetPeriod newBudgetPeriod = ((BudgetPeriod)form.getNewCollectionLines().get("budget.budgetPeriods"));
         Budget budget = form.getBudget();
@@ -77,7 +78,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         return getModelAndViewService().getModelAndView(form);
     }
     
-    @RequestMapping(params="methodToCall=saveBudgetPeriod")
+    @Transactional @RequestMapping(params="methodToCall=saveBudgetPeriod")
     public ModelAndView saveBudgetPeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
     	Budget budget = form.getBudget();
     	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
@@ -107,7 +108,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     }
 		
 	@MethodAccessible
-    @RequestMapping(params="methodToCall=generateAllPeriods")
+    @Transactional @RequestMapping(params="methodToCall=generateAllPeriods")
     public ModelAndView generateAllPeriods(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Budget budget = form.getBudget();
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(
@@ -130,7 +131,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         return getModelAndViewService().getModelAndView(form);
 	}
 
-    @RequestMapping(params={"methodToCall=save", "pageId=PropBudget-PeriodsPage"})
+    @Transactional @RequestMapping(params={"methodToCall=save", "pageId=PropBudget-PeriodsPage"})
     public ModelAndView save(ProposalBudgetForm form) {
     	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
         Budget budget = form.getBudget();
