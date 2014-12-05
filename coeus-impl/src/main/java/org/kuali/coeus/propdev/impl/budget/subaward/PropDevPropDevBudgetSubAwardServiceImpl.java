@@ -209,7 +209,6 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
                 if (ScaleTwoDecimal.returnZeroIfNull(lineItem.getLineItemCost()).isZero()) {
                     budgetPeriod.getBudgetLineItems().remove(lineItem);
                     iter.remove();
-                    dataObjectService.delete(lineItem);
                 } else {
                     if (!budgetPeriod.getBudgetLineItems().contains(lineItem)) {
                         budgetPeriod.getBudgetLineItems().add(lineItem);
