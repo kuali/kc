@@ -31,6 +31,11 @@ public abstract class BudgetPeriodEventBase extends BudgetEventBase {
         this.budgetPeriod = budgetPeriod;
     }
 
+    protected BudgetPeriodEventBase(Budget budget, BudgetPeriod budgetPeriod, String errorPath) {
+    	super(budget, errorPath);
+        this.budgetPeriod = budgetPeriod;
+    }
+    
     /**
      * @return <code>{@link BudgetPeriod}</code> that triggered this event.
      */
