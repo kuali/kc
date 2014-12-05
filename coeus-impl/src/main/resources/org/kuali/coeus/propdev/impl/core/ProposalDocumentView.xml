@@ -16,6 +16,7 @@
 	<bean id="PropDev-DefaultView" parent="PropDev-DefaultView-parentBean" />
 	<bean id="PropDev-DefaultView-parentBean" abstract="true"
 		parent="Uif-TransactionalDocumentView" p:headerText="Proposal Development Document"
+        class="org.kuali.coeus.propdev.impl.core.ProposalDocumentView"
 		p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm"
 		p:documentClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument"
 		p:authorizer="#{#getService('proposalDevelopmentDocumentViewAuthorizer')}"

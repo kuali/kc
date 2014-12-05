@@ -2,18 +2,18 @@ package org.kuali.coeus.propdev.impl.auth;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentViewAuthorizerBase;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperService;
+import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -60,6 +60,10 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
             actions.remove(ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_SPONSOR);
         }
 
+        if (actions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT) && !canEditView(view, model, user)) {
+            actions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT);
+        }
+
         if (canNotifyProposalPerson(document,user)) {
             actions.add(ProposalDevelopmentConstants.PropDevDocumentActions.NOTIFY_PROPOSAL_PERSONS);
         }
@@ -97,7 +101,17 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
        ProposalDevelopmentDocumentForm pdForm = ((ProposalDevelopmentDocumentForm)model);
        ProposalDevelopmentViewHelperService pdViewService = (ProposalDevelopmentViewHelperService) pdForm.getViewHelperService();
        pdViewService.setupLockRegions((ProposalDevelopmentDocumentForm) model);
-       return super.canEditView(view, model, user);
+       return super.canEditView(view, model, user) && userHasLock(user, pdForm);
     }
-    
+
+    public boolean userHasLock(Person user, ProposalDevelopmentDocumentForm form) {
+        String pageRegion = ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).getLockRegionFromPage(form.getPageId());
+        for (PessimisticLock lock : form.getDocument().getPessimisticLocks()) {
+           String lockRegion = StringUtils.split(lock.getLockDescriptor(), "-")[1];
+           if (lock.isOwnedByUser(user) && lockRegion.equals(pageRegion)) {
+               return true;
+           }
+        }
+        return false;
+    }
 }

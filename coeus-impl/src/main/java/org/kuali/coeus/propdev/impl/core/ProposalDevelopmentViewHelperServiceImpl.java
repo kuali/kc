@@ -979,6 +979,16 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);
     }
 
+    public String getLockRegionFromPage(String pageId) {
+        String pageRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
+        if (StringUtils.equals(pageId, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID)) {
+            pageRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
+        } else if (StringUtils.equals(pageId, ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
+            pageRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES;
+        }
+        return pageRegion;
+    }
+
 	public ProposalTypeService getProposalTypeService() {
 		return proposalTypeService;
 	}

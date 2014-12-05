@@ -345,9 +345,30 @@ public abstract class ProposalDevelopmentControllerBase {
      
      protected ModelAndView navigate(ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
          populateAdHocRecipients(form.getProposalDevelopmentDocument());
-         releasePessimisticLocks(form);
-
+         String navigateToPageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
+         if (isNavigateToAttachmentsOrBudget(navigateToPageId) ||
+                 isNavigateAwayFromAttachment(navigateToPageId,form.getPageId()) ||
+                 isNavigateAwayFromBudget(navigateToPageId,form.getPageId())) {
+             releasePessimisticLocks(form);
+             form.setEvaluateFlagsAndModes(true);
+             form.setCanEditView(null);
+         }
          return save(form);
+     }
+
+    protected boolean isNavigateToAttachmentsOrBudget(String navigateToPageId) {
+        return StringUtils.equals(navigateToPageId,ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID) ||
+                StringUtils.equals(navigateToPageId,ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID);
+    }
+
+    protected boolean isNavigateAwayFromBudget(String navigateToPageId, String pageId) {
+       return StringUtils.equals(pageId,ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID) &&
+               !StringUtils.equals(navigateToPageId,ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID);
+    }
+
+    protected boolean isNavigateAwayFromAttachment(String navigateToPageId, String pageId) {
+        return StringUtils.equals(pageId,ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID) &&
+                !StringUtils.equals(navigateToPageId,ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID);
      }
 
     protected void releasePessimisticLocks(DocumentFormBase form) {
