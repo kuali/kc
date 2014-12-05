@@ -35,6 +35,7 @@ import org.kuali.rice.krad.web.service.FileControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,7 +76,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Qualifier("personService")
     private PersonService personService;
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addFileUploadLine")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addFileUploadLine")
     public ModelAndView addFileUploadLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                           MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
         final String selectedCollectionPath = request.getParameter("bindingPath");
@@ -87,19 +88,19 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         }
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=deleteFileUploadLine")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=deleteFileUploadLine")
     public ModelAndView deleteFileUploadLine(@ModelAttribute("KualiForm") final UifFormBase uifForm,
                                              BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return getFileControllerService().deleteFileUploadLine(uifForm);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getFileFromLine")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getFileFromLine")
     public void getFileFromLine(@ModelAttribute("KualiForm") final UifFormBase uifForm, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
         getKcFileControllerService().getFileFromLine(uifForm,response);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllComplete")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllComplete")
     public ModelAndView markAllComplete(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                         BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
         final String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
@@ -114,7 +115,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNarrative")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNarrative")
     public ModelAndView prepareNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
        form.getProposalDevelopmentAttachmentHelper().reset();
@@ -130,7 +131,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     }
 
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareBiography")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareBiography")
     public ModelAndView prepareBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         form.getProposalDevelopmentAttachmentHelper().reset();
@@ -145,7 +146,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getModelAndViewService().showDialog("PropDev-AttachmentsPage-PersonnelDetails", true, form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareAbstract")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareAbstract")
     public ModelAndView prepareAbstract(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         form.getProposalDevelopmentAttachmentHelper().reset();
@@ -160,7 +161,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getModelAndViewService().showDialog("PropDev-AttachmentsPage-AbstractDetails", true, form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareInstituteAttachment")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareInstituteAttachment")
     public ModelAndView prepareInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         form.getProposalDevelopmentAttachmentHelper().reset();
@@ -175,7 +176,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getModelAndViewService().showDialog("PropDev-AttachmentsPage-InternalDetails",true,form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNote")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNote")
     public ModelAndView prepareNote(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         form.getProposalDevelopmentAttachmentHelper().reset();
@@ -190,7 +191,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getModelAndViewService().showDialog("PropDev-AttachmentsPage-NoteDetails", true, form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addNarrative")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addNarrative")
     public ModelAndView addNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
         initializeNarrative(narrative, form);
@@ -205,7 +206,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addInstituteAttachment")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addInstituteAttachment")
     public ModelAndView addInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
         initializeNarrative(narrative,form);
@@ -226,7 +227,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         }
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addBiography")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addBiography")
     public ModelAndView addBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         ProposalPersonBiography biography = form.getProposalDevelopmentAttachmentHelper().getBiography();
@@ -253,7 +254,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNarrative")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNarrative")
     public ModelAndView saveNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
@@ -276,7 +277,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveBiography")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveBiography")
     public ModelAndView saveBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         ProposalPersonBiography biography = form.getProposalDevelopmentAttachmentHelper().getBiography();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
@@ -299,7 +300,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveInstituteAttachment")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveInstituteAttachment")
     public ModelAndView saveInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
@@ -316,7 +317,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAbstract")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAbstract")
     public ModelAndView saveAbstract(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         ProposalAbstract proposalAbstract = form.getProposalDevelopmentAttachmentHelper().getProposalAbstract();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
@@ -327,7 +328,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNote")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveNote")
     public ModelAndView saveNote(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Note note = form.getProposalDevelopmentAttachmentHelper().getNote();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
@@ -339,7 +340,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     }
 
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=updateEditableFileAttachment")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=updateEditableFileAttachment")
     public ModelAndView updateEditableFileAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
 
         String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
@@ -352,7 +353,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=updateEditableProposalFileAttachment")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=updateEditableProposalFileAttachment")
     public ModelAndView updateEditableProposalFileAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         String collectionPath = ProposalDevelopmentConstants.PropertyConstants.NARRATIVES;
         String selectedLine = form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex();
@@ -364,7 +365,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addProposalAttachmentRights"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addProposalAttachmentRights"})
     public ModelAndView addProposalAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         int selectedLine = Integer.parseInt(form.getNarrativeUserRightsSelectedAttachment());
 
@@ -377,7 +378,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return  super.save(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=getProposalAttachmentRights"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=getProposalAttachmentRights"})
     public ModelAndView getProposalAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                      @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
         form.getDevelopmentProposal().populateNarrativeRightsForLoggedinUser();
@@ -397,7 +398,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return getModelAndViewService().showDialog("PropDev-AttachmentPage-ViewEditRightDialog", true, form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addInstituteAttachmentRights"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addInstituteAttachmentRights"})
     public ModelAndView addInstituteAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         int selectedLine = Integer.parseInt(form.getNarrativeUserRightsSelectedAttachment());
 
@@ -410,7 +411,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         return super.save(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=getInstituteAttachmentRights"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=getInstituteAttachmentRights"})
     public ModelAndView getInstituteAttachmentRights(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                                     @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
         form.getDevelopmentProposal().populateNarrativeRightsForLoggedinUser();

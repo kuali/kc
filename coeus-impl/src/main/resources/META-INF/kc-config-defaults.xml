@@ -75,6 +75,9 @@
 
     <param name="portal.title">Kuali Coeus</param>
 
+	<!-- Rice override spring beans-->
+	<param name="rice.kr.additionalSpringFiles">classpath:org/kuali/coeus/sys/impl/KcRiceKrOverrideSpringBeans.xml</param>
+
     <param name="kr.url">${rice.server.url}/kr</param>
 	<param name="ken.url">${rice.server.url}/ken</param>
 	<param name="kew.url">${rice.server.url}/kew</param>

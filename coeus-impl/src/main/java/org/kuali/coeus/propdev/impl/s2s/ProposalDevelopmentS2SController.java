@@ -39,6 +39,7 @@ import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,7 +92,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
     private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=S2sOpportunity-LookupView"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refresh", "refreshCaller=S2sOpportunity-LookupView"})
    public ModelAndView refresh(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
            throws Exception {
        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
@@ -156,7 +157,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        return getRefreshControllerService().refresh(form);
    }
    
-   @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=clearOpportunity"})
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=clearOpportunity"})
    public ModelAndView clearOpportunity(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
            throws Exception {
        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
@@ -170,7 +171,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        return getRefreshControllerService().refresh(form);
    }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=printForms"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=printForms"})
         public ModelAndView printForms(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = getUpdatedDocument(form);
@@ -267,7 +268,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         return auditClusterFound;
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addUserAttachedForm"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addUserAttachedForm"})
     public ModelAndView addUserAttachedForm(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)
             throws Exception {
         S2sUserAttachedForm s2sUserAttachedForm = form.getS2sUserAttachedForm();
@@ -296,7 +297,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        return super.save(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=viewUserAttachedFormXML"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=viewUserAttachedFormXML"})
     public ModelAndView viewUserAttachedFormXML( ProposalDevelopmentDocumentForm form, HttpServletResponse response,
         @RequestParam("selectedLine") String selectedLine) throws Exception {
 
@@ -313,7 +314,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         return null;
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=viewUserAttachedFormPDF"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=viewUserAttachedFormPDF"})
     public ModelAndView viewUserAttachedFormPDF( ProposalDevelopmentDocumentForm form, HttpServletResponse response,
                                                  @RequestParam("selectedLine") String selectedLine) throws Exception {
         DevelopmentProposal developmentProposal = form.getDevelopmentProposal();
@@ -328,7 +329,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         return null;
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=deleteUserAttachedForm"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=deleteUserAttachedForm"})
     public ModelAndView deleteUserAttachedForm( ProposalDevelopmentDocumentForm form, HttpServletResponse response,
                                                  @RequestParam("selectedLine") String selectedLine) throws Exception {
         S2sUserAttachedForm deleteForm = form.getDevelopmentProposal().getS2sUserAttachedForms().remove(Integer.parseInt(selectedLine));
@@ -338,7 +339,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
     }
 
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refreshSubmissionDetails"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=refreshSubmissionDetails"})
     public ModelAndView refreshSubmissionDetails( ProposalDevelopmentDocumentForm form) throws Exception {
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         try{
@@ -350,7 +351,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveUserAttachedForm")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveUserAttachedForm")
     public ModelAndView saveUserAttachedForm(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);

@@ -34,6 +34,7 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,7 +57,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Qualifier("keyPersonnelService")
 	private KeyPersonnelService keyPersonnelService;
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         for (ProposalPerson person : form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
             //workaround for the document associated with the OJB retrived dev prop not having a workflow doc.
@@ -66,19 +67,19 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return super.navigate(form, result, request, response);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=prepareAddPersonDialog"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=prepareAddPersonDialog"})
     public ModelAndView prepareAddPersonDialog(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         form.getAddKeyPersonHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
         return getModelAndViewService().showDialog("PropDev-PersonnelPage-Wizard",true,form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigateToPersonError"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigateToPersonError"})
     public ModelAndView navigateToPersonError(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         form.setAjaxReturnType("update-page");
     	return navigateToPersonnel(form, result, request, response);
     } 
     
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-PersonnelPage"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-PersonnelPage"})
     public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, 
     		HttpServletRequest request, HttpServletResponse response) throws Exception {
     	ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
@@ -86,7 +87,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     	return mv;
     }
 
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performPersonnelSearch")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=performPersonnelSearch")
    public ModelAndView performPersonnelSearch(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        form.getAddKeyPersonHelper().getResults().clear();
@@ -104,7 +105,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        return getRefreshControllerService().refresh(form);
    }
 
-   @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addPerson")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addPerson")
    public ModelAndView addPerson(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalPerson newProposalPerson = new ProposalPerson();
@@ -133,7 +134,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        return getRefreshControllerService().refresh(form);
    }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-CreditAllocationPage"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-CreditAllocationPage"})
     public ModelAndView navigateToCreditAllocation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -142,7 +143,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return mv;
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=deleteLine", "pageId=PropDev-PersonnelPage"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=deleteLine", "pageId=PropDev-PersonnelPage"})
     public ModelAndView deletePerson(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
         @RequestParam("actionParameters[" + UifParameters.SELECTED_COLLECTION_PATH + "]") String selectedCollectionPath,
         @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
@@ -162,7 +163,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return getCollectionControllerService().deleteLine(form);
     }
 
-   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
    public ModelAndView clearAnswers(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
 	   ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
@@ -180,7 +181,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 	   ModelAndView mv = this.save(pdForm, result, request, response);
 	   return mv;
    }
-    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certificationToggle")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certificationToggle")
     public ModelAndView certificationToggle(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
@@ -198,7 +199,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     }
 
 
-    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=viewCertification")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=viewCertification")
     public ModelAndView viewCertification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                        @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
     ProposalPerson person = form.getDevelopmentProposal().getProposalPerson(Integer.parseInt(selectedLine));
@@ -207,7 +208,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     return getModelAndViewService().showDialog("PropDev-SubmitPage-CertificationDetail",true,form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=sendCertificationNotification")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=sendCertificationNotification")
     public void sendPersonNotification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                           @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
         ProposalPerson person = form.getDevelopmentProposal().getProposalPerson(Integer.parseInt(selectedLine));
@@ -223,7 +224,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=sendAllCertificationNotifications")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=sendAllCertificationNotifications")
     public void sendAllCertificationNotifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         int index = 0;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
@@ -238,7 +239,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
 
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=movePersonUp"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=movePersonUp"})
     public ModelAndView movePersonUp(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                      @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
 
@@ -247,7 +248,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         return getRefreshControllerService().refresh(form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=movePersonDown"})
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=movePersonDown"})
     public ModelAndView movePersonDown(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                      @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
 

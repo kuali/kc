@@ -25,6 +25,7 @@ import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,8 +47,7 @@ public class ProposalBudgetNoteController extends ProposalBudgetControllerBase {
     }
 
     @MethodAccessible
-    
-    @RequestMapping(value = "/proposalBudget", params={"methodToCall=consolidateExpenseJustifications"})
+    @Transactional @RequestMapping(value = "/proposalBudget", params={"methodToCall=consolidateExpenseJustifications"})
     public ModelAndView consolidateExpenseJustifications(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         try {
             getBudgetJustificationService().consolidateExpenseJustifications(form.getBudget(), form.getBudgetJustificationWrapper());

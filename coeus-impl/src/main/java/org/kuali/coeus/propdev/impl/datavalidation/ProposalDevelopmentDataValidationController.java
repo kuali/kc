@@ -7,6 +7,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImp
 import org.kuali.rice.krad.uif.UifParameters;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDataValidationController.class);
 
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=validateData")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=validateData")
     public ModelAndView validateData(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -32,7 +33,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
         return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
     }
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=toggleValidation")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=toggleValidation")
     public ModelAndView toggleValidation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         form.setAuditActivated(!form.isAuditActivated());
@@ -44,7 +45,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
     }
 
 
-    @RequestMapping(value = "/proposalDevelopment", params="methodToCall=navigateToError")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=navigateToError")
     public ModelAndView navigateToError(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
         if (StringUtils.equals(pageId,ProposalDevelopmentDataValidationConstants.CREDIT_ALLOCATION_PAGE_ID)) {
