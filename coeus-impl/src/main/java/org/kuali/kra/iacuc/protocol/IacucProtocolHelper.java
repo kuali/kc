@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
@@ -28,8 +29,12 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolUnit;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
+import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -39,11 +44,17 @@ import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewService;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IacucProtocolHelper extends ProtocolHelperBase {
       
     private static final long serialVersionUID = -71094343536405026L;
- 
+
+    private IacucProtocolSpecialReviewService iacucProtocolSpecialReviewService;
     
     public IacucProtocolHelper(IacucProtocolForm form) {
         super(form);
@@ -201,7 +212,37 @@ public class IacucProtocolHelper extends ProtocolHelperBase {
 
     @Override
     public void syncSpecialReviewsWithFundingSources() throws WorkflowException {
-        getDeletedProtocolFundingSources().clear();        
+        for (ProtocolFundingSourceBase protocolFundingSource : getProtocol().getProtocolFundingSources()) {
+            String fundingSourceNumber = ((IacucProtocolFundingSource) protocolFundingSource).getFundingSourceNumber();
+            String fundingSourceTypeCode = ((IacucProtocolFundingSource) protocolFundingSource).getFundingSourceTypeCode();
+            String protocolNumber = getProtocol().getProtocolNumber();
+
+            if (!getSpecialReviewService().isLinkedToSpecialReview(fundingSourceNumber, fundingSourceTypeCode, protocolNumber)) {
+                Date applicationDate = getProtocol().getProtocolSubmission().getSubmissionDate();
+                Date approvalDate = getProtocol().getLastApprovalDate() == null ? getProtocol().getApprovalDate() : getProtocol().getLastApprovalDate();
+                Date expirationDate = getProtocol().getExpirationDate();
+                List<String> exemptionTypeCodes = new ArrayList<String>();
+                getSpecialReviewService().addSpecialReviewForProtocolFundingSource(
+                        fundingSourceNumber, fundingSourceTypeCode, protocolNumber, applicationDate, approvalDate, expirationDate, SpecialReviewType.ANIMAL_USAGE, exemptionTypeCodes);
+            }
+        }
+
+        for (ProtocolFundingSourceBase protocolFundingSource : getDeletedProtocolFundingSources()) {
+            String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
+            String fundingSourceTypeCode = String.valueOf(protocolFundingSource.getFundingSourceTypeCode());
+            String protocolNumber = getProtocol().getProtocolNumber();
+
+            getSpecialReviewService().deleteSpecialReviewForProtocolFundingSource(fundingSourceNumber, fundingSourceTypeCode, protocolNumber);
+        }
+
+        getDeletedProtocolFundingSources().clear();
     }
 
+    public IacucProtocolSpecialReviewService getIacucProtocolSpecialReviewService() {
+        return iacucProtocolSpecialReviewService;
+    }
+
+    public void setIacucProtocolSpecialReviewService(IacucProtocolSpecialReviewService iacucProtocolSpecialReviewService) {
+        this.iacucProtocolSpecialReviewService = iacucProtocolSpecialReviewService;
+    }
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.irb.protocol;
 
+import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -107,7 +108,7 @@ public class ProtocolHelper extends ProtocolHelperBase {
                     exemptionTypeCodes.add(checkListItem.getExemptStudiesCheckListCode());
                 }
                 getSpecialReviewService().addSpecialReviewForProtocolFundingSource(
-                    fundingSourceNumber, fundingSourceTypeCode, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
+                    fundingSourceNumber, fundingSourceTypeCode, protocolNumber, applicationDate, approvalDate, expirationDate, SpecialReviewType.HUMAN_SUBJECTS, exemptionTypeCodes);
             }
         }
         
