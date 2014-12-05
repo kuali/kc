@@ -166,6 +166,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
             List<BudgetLineItem> currentLineItems = findSubAwardLineItems(budgetPeriod, subAward.getSubAwardNumber());
             //zero out existing line items before recalculating
             for (BudgetLineItem item : currentLineItems) {
+            	item.setLineItemCost(ScaleTwoDecimal.ZERO);
                 item.setDirectCost(ScaleTwoDecimal.ZERO);
                 item.setCostSharingAmount(ScaleTwoDecimal.ZERO);
                 item.setBudgetSubAward(subAward);
@@ -208,6 +209,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
                 if (ScaleTwoDecimal.returnZeroIfNull(lineItem.getLineItemCost()).isZero()) {
                     budgetPeriod.getBudgetLineItems().remove(lineItem);
                     iter.remove();
+                    dataObjectService.delete(lineItem);
                 } else {
                     if (!budgetPeriod.getBudgetLineItems().contains(lineItem)) {
                         budgetPeriod.getBudgetLineItems().add(lineItem);
