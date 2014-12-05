@@ -63,6 +63,7 @@ public class ProposalDevelopmentPermissionsController extends ProposalDevelopmen
             if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)){
                 form.getEditableCollectionLines().get(selectedCollectionPath).remove(selectedLine);
             }
+            form.setEvaluateFlagsAndModes(true);
         }
 
         return getRefreshControllerService().refresh(form);

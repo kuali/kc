@@ -131,7 +131,7 @@
           p:promptText="Are you sure you want to delete this proposal?"/>
 
     <bean id="PropDev-SubmitPage-ReceiveFutureRequests" parent="Uif-DialogGroup-YesNo"
-          p:promptText="Do you want to recieve future approval requests?"/>
+          p:promptText="Do you want to receive future approval requests?"/>
 
     <bean id="PropDev-SubmitPage-RejectDialog" parent="Uif-DialogGroup-YesNo"
           p:fieldBindingObjectPath="proposalDevelopmentRejectionBean"

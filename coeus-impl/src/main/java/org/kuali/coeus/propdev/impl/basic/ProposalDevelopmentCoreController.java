@@ -215,7 +215,8 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
     @RequestMapping(params = "methodToCall=supervisorFunctions")
     public ModelAndView supervisorFunctions(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-    	return getTransactionalDocumentControllerService().supervisorFunctions(form);
+        form.setEvaluateFlagsAndModes(true);
+        return getTransactionalDocumentControllerService().supervisorFunctions(form);
     }
 
     @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=createHierarchy"})
