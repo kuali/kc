@@ -350,6 +350,8 @@ public abstract class ProposalDevelopmentControllerBase {
                  isNavigateAwayFromAttachment(navigateToPageId,form.getPageId()) ||
                  isNavigateAwayFromBudget(navigateToPageId,form.getPageId())) {
              releasePessimisticLocks(form);
+             form.setEvaluateFlagsAndModes(true);
+             form.setCanEditView(null);
          }
          return save(form);
      }
