@@ -47,15 +47,16 @@ public class BudgetCostLimitRule {
     }
     
     protected void checkPeriodSyncToLimitErrors(BudgetPeriodCostLimitEvent event, KcEventResult result) {
-    	checkSyncToLimitErrors(event.getBudget(), event.getBudgetPeriod(), event.getBudgetLineItem(), result);
+        ScaleTwoDecimal costLimit = event.getBudgetPeriod().getTotalCostLimit();
+    	checkSyncToLimitErrors(event.getBudget(), event.getBudgetPeriod(), event.getBudgetLineItem(), result, costLimit);
     }
     
     protected void checkDirectSyncToLimitErrors(BudgetDirectCostLimitEvent event, KcEventResult result) {
-    	checkSyncToLimitErrors(event.getBudget(), event.getBudgetPeriod(), event.getBudgetLineItem(), result);
+        ScaleTwoDecimal directCostLimit = event.getBudgetPeriod().getDirectCostLimit();
+    	checkSyncToLimitErrors(event.getBudget(), event.getBudgetPeriod(), event.getBudgetLineItem(), result, directCostLimit);
     }
     
-    protected void checkSyncToLimitErrors(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, KcEventResult result) {
-        ScaleTwoDecimal costLimit = budgetPeriod.getTotalCostLimit();
+    protected void checkSyncToLimitErrors(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, KcEventResult result, ScaleTwoDecimal costLimit) {
         String personnelCategoryTypeCode = getBudgetCalculationService().getPersonnelBudgetCategoryTypeCode();
         if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(personnelCategoryTypeCode) && 
               !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {

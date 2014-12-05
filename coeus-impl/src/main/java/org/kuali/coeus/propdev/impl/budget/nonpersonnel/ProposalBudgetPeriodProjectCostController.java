@@ -4,6 +4,7 @@ package org.kuali.coeus.propdev.impl.budget.nonpersonnel;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.ApplyToPeriodsBudgetEvent;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetDirectCostLimitEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetPeriodCostLimitEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -136,7 +137,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
         	    editedBudgetLineItem.setLineItemCost(budgetLineItem.getLineItemCost());
             	boolean rulePassed = getKcBusinessRulesEngine().applyRules(new ApplyToPeriodsBudgetEvent(budget, "addProjectBudgetLineItemHelper.budgetLineItem.", editedBudgetLineItem, 
             			currentTabBudgetPeriod)); 
-            	rulePassed &= getKcBusinessRulesEngine().applyRules(new BudgetPeriodCostLimitEvent(budget, currentTabBudgetPeriod, editedBudgetLineItem, 
+            	rulePassed &= getKcBusinessRulesEngine().applyRules(new BudgetDirectCostLimitEvent(budget, currentTabBudgetPeriod, editedBudgetLineItem, 
             			"addProjectBudgetLineItemHelper.budgetLineItem."));
             	if(rulePassed) {
                     boolean syncComplete = getBudgetCalculationService().syncToPeriodDirectCostLimit(budget, currentTabBudgetPeriod, editedBudgetLineItem);
