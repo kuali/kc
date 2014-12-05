@@ -166,9 +166,20 @@
 			<bean parent="Uif-ActionBar">
 				<property name="items">
 					<list>
-						<bean parent="Uif-ActionLink" 
-                            p:actionLabel="Data Validation"
-                            p:iconClass="icon-ok" p:order="10" />
+                        <bean parent="Uif-Message" p:renderWrapperTag="false" p:refreshWhenChangedPropertyNames="auditActivated" p:order="10">
+                            <property name="messageText" value="[0] @{auditActivated?'[color=#090](on)[/color]':'[color=red](off)[/color]'}"/>
+                            <property name="inlineComponents">
+                                <list>
+                                    <bean parent="Uif-ActionLink" p:methodToCall="validateData"
+                                          p:actionLabel="Data Validation"
+                                          p:iconClass="icon-ok"
+                                          p:style="padding-left:0px;margin-right:0px"
+                                          p:order="10"
+                                          p:performClientSideValidation="true"
+										  p:refreshId="DataValidationSection"/>
+                                </list>
+                            </property>
+                        </bean>
 						<bean parent="Uif-ActionLink" p:actionScript="showDialog('PropBudget-BudgetSettings-Dialog');"
 							p:actionLabel="Budget Settings" p:iconClass="icon-cog" p:order="20" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Summary" p:methodToCall="populateBudgetSummary" p:additionalSubmitData="budgetId:@{budget.budgetId}"

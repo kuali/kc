@@ -376,10 +376,18 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     }
 
     public String getEffdtAfterStartdtMsg() {
-        if (getStartDate() != null && budgetPerson.getEffectiveDate() != null && budgetPerson.getEffectiveDate().after(getStartDate())) {
+        if (isPersonSalaryEffectiveDateAfterStartDate()) {
             return "Earning Period Start Date is before " + budgetPerson.getPersonName() + "'s Salary Effective Date. Salary is calculated based on Effective Date.";
         }
         return "";
+    }
+    
+    public boolean isPersonSalaryEffectiveDateAfterStartDate() {
+    	return getStartDate() != null && budgetPerson.getEffectiveDate() != null && budgetPerson.getEffectiveDate().after(getStartDate());
+    }
+    
+    public boolean isPersonBaseSalaryZero() {
+    	return getBudgetPerson().getCalculationBase().equals(ScaleTwoDecimal.ZERO);
     }
 
     public ScaleTwoDecimal getPersonMonths() {

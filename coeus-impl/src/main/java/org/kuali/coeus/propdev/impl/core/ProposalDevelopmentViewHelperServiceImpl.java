@@ -57,8 +57,10 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
+import org.kuali.coeus.common.impl.KcViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent;
@@ -97,7 +99,7 @@ import org.springframework.stereotype.Service;
 
 @Service("proposalDevelopmentViewHelperService")
 @Scope("prototype")
-public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceImpl implements ProposalDevelopmentViewHelperService {
+public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServiceImpl implements ProposalDevelopmentViewHelperService {
 
     private static final long serialVersionUID = -5122498699317873886L;
     private static final Logger LOG = Logger.getLogger(ProposalDevelopmentViewHelperServiceImpl.class);
@@ -121,10 +123,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     @Autowired
 	@Qualifier("parameterService")
 	private ParameterService parameterService;
-
-    @Autowired
-    @Qualifier("globalVariableService")
-    private GlobalVariableService globalVariableService;
 
     @Autowired
     @Qualifier("personService")
@@ -224,7 +222,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         } else if (addLine instanceof Note) {
             Note note = (Note) addLine;
             note.setRemoteObjectIdentifier(document.getNoteTarget().getObjectId());
-            note.setAuthorUniversalIdentifier(globalVariableService.getUserSession().getPrincipalId());
+            note.setAuthorUniversalIdentifier(getGlobalVariableService().getUserSession().getPrincipalId());
             note.setNotePostedTimestampToCurrent();
             note.setNoteTypeCode("BO");
         }
@@ -571,14 +569,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
 		this.kcWorkflowService = kcWorkflowService;
 	}
 
-	public GlobalVariableService getGlobalVariableService() {
-        return globalVariableService;
-    }
-
-    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-        this.globalVariableService = globalVariableService;
-    }
-
     public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {
         getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
         form.setCreditSplitListItems(getKeyPersonnelService().createCreditSplitListItems(form.getDevelopmentProposal().getInvestigators()));
@@ -595,37 +585,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
         form.getS2sQuestionnaireHelper().updateChildIndicators();
     }
 
-    public List<ProposalDevelopmentDataValidationItem> populateDataValidation(ProposalDevelopmentDocumentForm form, ViewIndex viewIndex) {
+    public List<DataValidationItem> populateDataValidation(ProposalDevelopmentDocumentForm form) {
         if (StringUtils.equalsIgnoreCase(form.getPageId(), ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
             populateAttachmentReferences(form.getDevelopmentProposal());
         }
-        List<ProposalDevelopmentDataValidationItem> dataValidationItems = new ArrayList<ProposalDevelopmentDataValidationItem>();
-        GlobalVariables.getAuditErrorMap().clear();
+        getGlobalVariableService().getAuditErrorMap().clear();
         getAuditHelper().auditConditionally(form);
-        for (Map.Entry<String,AuditCluster> entry : GlobalVariables.getAuditErrorMap().entrySet()) {
-            AuditCluster auditCluster = entry.getValue();
-            List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-            String areaName = StringUtils.substringBefore(auditCluster.getLabel(),".");
-            String sectionName = StringUtils.substringAfter(auditCluster.getLabel(),".");
-            for (AuditError auditError : auditErrors) {
-            	ProposalDevelopmentDataValidationItem dataValidationItem = new ProposalDevelopmentDataValidationItem();
-                String pageId = StringUtils.substringBefore(auditError.getLink(),".");
-                String sectionId = StringUtils.substringAfter(auditError.getLink(),".");
-                ErrorMessage errorMessage = new ErrorMessage();
-                errorMessage.setErrorKey(auditError.getMessageKey());
-                errorMessage.setMessageParameters(auditError.getParams());
-
-                dataValidationItem.setArea(areaName);
-                dataValidationItem.setSection(sectionName);
-                dataValidationItem.setDescription(KRADUtils.getMessageText(errorMessage, false));
-                dataValidationItem.setSeverity(auditCluster.getCategory());
-                dataValidationItem.setNavigateToPageId(pageId);
-                dataValidationItem.setNavigateToSectionId(sectionId);
-
-                dataValidationItems.add(dataValidationItem);
-            }
-        }
-        return dataValidationItems;
+        return populateDataValidation();
     }
 
     public void populateAttachmentReferences(DevelopmentProposal developmentProposal) {
@@ -681,16 +647,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends ViewHelperServiceI
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
-
-    public String setErrorCssClass(String severity) {
-        if (severity.endsWith(Constants.AUDIT_ERRORS)) {
-            return "label-danger";
-        } else if (severity.equals(Constants.AUDIT_WARNINGS)) {
-            return "label-warning";
-        }
-        return "label-info";
-    }
-
 
     public boolean isAttachmentFileEditable(ProposalDevelopmentAttachmentHelper helper, String collectionPath, String index){
         if (helper.getEditableFileLineAttachments().get(collectionPath) != null

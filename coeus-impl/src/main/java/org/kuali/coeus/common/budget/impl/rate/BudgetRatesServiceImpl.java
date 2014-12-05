@@ -54,7 +54,6 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
     private static final String PERIOD_SEARCH_SEPARATOR = "|";
     private static final String PERIOD_DISPLAY_SEPARATOR = ",";
     private static final Log LOG = LogFactory.getLog(BudgetRatesServiceImpl.class);
-    private static final String BUDGET_RATE_AUDIT_WARNING_KEY = "budgetRateAuditWarnings";
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -842,90 +841,11 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
     }
     
     @SuppressWarnings("unchecked")
-    protected void populateInstituteRates(Budget budget) {
+    public void populateInstituteRates(Budget budget) {
         List instituteRates = (List) getInstituteRates(budget);
         filterRates(budget, instituteRates, budget.getInstituteRates()); 
         List instituteLaRates = (List) getInstituteLaRates(budget);
         filterRates(budget, instituteLaRates, budget.getInstituteLaRates()); 
-    }
-
-    @Override
-    public boolean isOutOfSyncForRateAudit(Budget budget) {
-        populateInstituteRates(budget);
-        return isOutOfSyncForRateAudit(budget.getInstituteRates(), budget.getBudgetRates()) || 
-                isOutOfSyncForRateAudit(budget.getInstituteLaRates(), budget.getBudgetLaRates());
-    }
-    
-    /**
-     * 
-     * This method is to check to the class type level
-     * @param instituteRates
-     * @param budgetRates
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    protected boolean isOutOfSyncForRateAudit(List instituteRates, List budgetRates) {
-        boolean outOfSync = false;
-        outOfSync = !isRatesMatched(instituteRates,budgetRates) || outOfSync;
-        outOfSync = !isRatesMatched(budgetRates, instituteRates) || outOfSync;
-        
-        return outOfSync;
-    }
-    
-    protected boolean isRatesMatched(List<AbstractInstituteRate> fromRates, List<AbstractInstituteRate> toRates) {
-        boolean matched = true;
-        for (Object rate : fromRates) {
-            AbstractInstituteRate budgetRate = (AbstractInstituteRate)rate;
-            boolean isRateMatched = false;
-            for (Object rate1 : toRates) {
-                AbstractInstituteRate instituteRate = (AbstractInstituteRate)rate1;
-                if ((instituteRate.getRateKeyAsString()+instituteRate.getInstituteRate()).equals(budgetRate.getRateKeyAsString()+budgetRate.getInstituteRate())) {
-                    if (instituteRate instanceof InstituteRate) {
-                        if (((InstituteRate)instituteRate).getActivityTypeCode().equals(((BudgetRate)budgetRate).getActivityTypeCode())) {
-                            isRateMatched = true;
-                            break;                            
-                        }
-                    } else {
-                        isRateMatched = true;
-                        break;
-                    }
-                }
-            }
-        
-            if (!isRateMatched) {
-                matched = false;
-                String rateClassType = budgetRate.getRateClass().getRateClassType().getDescription();
-                String errorPath = "document.budgetProposalRate[" + rateClassType + "]";
-                boolean isNewError = true;
-                for (AuditError auditError : getAuditErrors()) {
-                    if (auditError.getErrorKey().equals(errorPath) && auditError.getMessageKey().equals(KeyConstants.AUDIT_WARNING_RATE_OUT_OF_SYNC) && auditError.getLink().equals(Constants.BUDGET_RATE_PAGE + "." + rateClassType)) {
-                        isNewError = false;
-                        break;
-                    }
-                }
-                if (isNewError) {
-                    getAuditErrors().add(new AuditError(errorPath, KeyConstants.AUDIT_WARNING_RATE_OUT_OF_SYNC, Constants.BUDGET_RATE_PAGE + "." + rateClassType));
-                }
-
-            }
-            
-        }
-        return matched;
-
-    }
-    
-    @SuppressWarnings("unchecked")
-    protected List<AuditError> getAuditErrors() {
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        
-        if (!GlobalVariables.getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
-           GlobalVariables.getAuditErrorMap().put(BUDGET_RATE_AUDIT_WARNING_KEY, new AuditCluster(Constants.BUDGET_RATE_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
-        }
-        else {
-            auditErrors = ((AuditCluster)GlobalVariables.getAuditErrorMap().get(BUDGET_RATE_AUDIT_WARNING_KEY)).getAuditErrorList();
-        }
-        
-        return auditErrors;
     }
 
     /**

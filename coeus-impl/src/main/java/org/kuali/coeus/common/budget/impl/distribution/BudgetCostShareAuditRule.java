@@ -15,9 +15,12 @@
  */
 package org.kuali.coeus.common.budget.impl.distribution;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetAuditEvent;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.Budget.FiscalYearSummary;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleEvent;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
@@ -41,6 +44,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
     public static final String BUDGET_COST_SHARE_ERROR_KEY = "budgetCostShareAuditErrors";
     
     @KcEventMethod
+    @Deprecated
     public boolean processCostShareAuditRules(BudgetAuditEvent event) {
         Budget budget = event.getBudget();
 
@@ -57,7 +61,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
         if (budget.getUnallocatedCostSharing().isNonZero() && budget.isCostSharingEnforced()) {
             retval = false;
             if (costShares.size() == 0) {
-                getAuditErrors()
+                getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME)
                         .add(
                                 new AuditError("document.budget.budgetCostShare",
                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
@@ -66,7 +70,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
 
             }
             for (int i = 0; i < costShares.size(); i++) {
-                getAuditErrors()
+                getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME)
                         .add(
                                 new AuditError("document.budget.budgetCostShare[" + i + "].shareAmount",
                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
@@ -89,7 +93,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
             fiscalYear = costShare.getProjectPeriod();
             if (null == source || source.length() == 0) {
                 retval = false;
-                getAuditErrors()
+                getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME)
                         .add(
                                 new AuditError("document.budget.budgetCostShare[" + i + "].sourceAccount",
                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
@@ -105,7 +109,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
                 List<AuditError> errors = new ArrayList<AuditError>();
                 validatePeriodNumber(costShare, "document.budget.budgetCostShare[" + i + "].projectPeriod", numberOfProjectPeriods, errors);
                 if (!errors.isEmpty()) {
-                    getAuditErrors().addAll(errors);
+                    getAuditErrors(BUDGET_COST_SHARE_ERROR_KEY, Constants.BUDGET_COST_SHARE_PANEL_NAME).addAll(errors);
                 }
             }
             i++;
@@ -113,13 +117,83 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
         return retval;
     }
 
+    @KcEventMethod
+    public boolean processCostShareAuditRules(BudgetAuditRuleEvent event) {
+        Budget budget = event.getBudget();
+        boolean retval = true;
+        if (budget.isCostSharingApplicable()) {
+            List<BudgetCostShare> costShares = budget.getBudgetCostShares();
+            String[] params = { "Cost Sharing" };
+            retval &= verifyCostSharingAllocation(budget, costShares, params);
+            retval &= verifySourceAccount(budget, costShares, params);
+        }
+        return retval;
+    }
+    
+    protected boolean verifySourceAccount(Budget budget, List<BudgetCostShare> costShares, String[] params) {
+        String source = null;
+        Integer fiscalYear = null;
+        BudgetConstants.BudgetAuditRules budgetCostSharingRule = BudgetConstants.BudgetAuditRules.COST_SHARING;
+
+        boolean isValid = true;
+        // Forces inclusion of source account
+        for (BudgetCostShare costShare : costShares) {
+            source = costShare.getSourceAccount();
+            fiscalYear = costShare.getProjectPeriod();
+            if (StringUtils.isEmpty(source) || source.length() == 0) {
+                getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(new AuditError(budgetCostSharingRule.getPageId(),
+                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
+                                    budgetCostSharingRule.getPageId(), params));
+                isValid = false;
+            }
+            int numberOfProjectPeriods = budget.getBudgetPeriods() != null ? budget.getBudgetPeriods().size() : -1;
+            validateProjectPeriod(fiscalYear, budgetCostSharingRule.getPageId(), numberOfProjectPeriods);
+            if (getCostShareService().validateProjectPeriodAsProjectPeriod()) {
+                isValid &= verifyPeriodNumber(costShare, budgetCostSharingRule.getPageId(), numberOfProjectPeriods);
+            }
+        }
+        return isValid;
+    }
+    
+    public boolean verifyPeriodNumber(BudgetCostShare costShare, String projectPeriodField, int numberOfProjectPeriods) {
+        int projectPeriodInt = Integer.parseInt(costShare.getProjectPeriod().toString().trim());
+        BudgetConstants.BudgetAuditRules budgetCostSharingRule = BudgetConstants.BudgetAuditRules.COST_SHARING;
+       if (projectPeriodInt <= 0 || projectPeriodInt > numberOfProjectPeriods) {
+            AuditError auditError = new AuditError(projectPeriodField, KeyConstants.ERROR_PROJECT_PERIOD_RANGE,
+                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                    new String[] {Integer.toString(projectPeriodInt), Integer.toString(numberOfProjectPeriods), Integer.toString(numberOfProjectPeriods)});
+            getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(auditError);
+            return false;
+        }
+        return true;
+    }
+    
+    protected boolean verifyCostSharingAllocation(Budget budget, List<BudgetCostShare> costShares, String[] params) {
+        BudgetConstants.BudgetAuditRules budgetCostSharingRule = BudgetConstants.BudgetAuditRules.COST_SHARING;
+        // Forces full allocation of cost sharing
+        if (budget.getUnallocatedCostSharing().isNonZero() && budget.isCostSharingEnforced()) {
+            if (costShares.isEmpty()) {
+                getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(new AuditError("budget.budgetCostShare", 
+                		KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO, budgetCostSharingRule.getPageId(), params));
+            }else {
+                for (int i = 0; i < costShares.size(); i++) {
+                    getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(new AuditError("budget.budgetCostShare[" + i + "].shareAmount",
+                                        KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
+                                        budgetCostSharingRule.getPageId(), params));
+                }
+            }
+            return false;
+        }
+        return true;
+    }
+
     /**
      * This method is a convenience method for obtaining audit errors.
      * 
      * @return List of AuditError instances
      */
-    private List<AuditError> getAuditErrors() {
-        return getAuditProblems(Constants.AUDIT_ERRORS);
+    private List<AuditError> getAuditErrors(String costShareKey, String costShareLabel) {
+        return getAuditProblems(Constants.AUDIT_ERRORS, costShareKey, costShareLabel);
     }
 
     /**
@@ -127,8 +201,8 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
      * 
      * @return List of AuditError instances
      */
-    private List<AuditError> getAuditWarnings() {
-        return getAuditProblems(Constants.AUDIT_WARNINGS);
+    private List<AuditError> getAuditWarnings(String costShareKey, String costShareLabel) {
+        return getAuditProblems(Constants.AUDIT_WARNINGS, costShareKey, costShareLabel);
     }
 
     /**
@@ -137,15 +211,13 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
      * 
      * @return List of AuditError instances
      */
-    private List<AuditError> getAuditProblems(String problemType) {
+    private List<AuditError> getAuditProblems(String problemType, String costShareKey, String costShareLabel) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-
-        if (!getAuditErrorMap().containsKey(BUDGET_COST_SHARE_ERROR_KEY)) {
-            getAuditErrorMap().put(BUDGET_COST_SHARE_ERROR_KEY,
-                    new AuditCluster(Constants.BUDGET_COST_SHARE_PANEL_NAME, auditErrors, problemType));
-        }
-        else {
-            auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_COST_SHARE_ERROR_KEY)).getAuditErrorList();
+        if (!getAuditErrorMap().containsKey(costShareKey)) {
+            getAuditErrorMap().put(costShareKey,
+                    new AuditCluster(costShareLabel, auditErrors, problemType));
+        }else {
+            auditErrors = ((AuditCluster) getAuditErrorMap().get(costShareKey)).getAuditErrorList();
         }
 
         return auditErrors;

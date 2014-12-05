@@ -24,8 +24,8 @@
                     http://www.springframework.org/schema/util
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <bean id="PropDev-DataValidationSection" parent="PropDev-DataValidationSection-parentBean"/>
-    <bean id="PropDev-DataValidationSection-parentBean" parent="Uif-DialogGroup" p:resetDataOnRefresh="true"
+    <bean id="DataValidationSection" parent="DataValidationSection-parentBean"/>
+    <bean id="DataValidationSection-parentBean" parent="Uif-DialogGroup" p:resetDataOnRefresh="true"
             p:dialogCssClass="modal-lg">
         <property name="header">
             <bean parent="Uif-DialogHeader" p:headerText="Data Validation">
@@ -34,7 +34,7 @@
                         <property name="items">
                             <list>
                                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{auditActivated?'Turn Off':'Turn On'}" p:methodToCall="toggleValidation"
-                                      p:refreshId="PropDev-DataValidationSection"
+                                      p:refreshId="DataValidationSection"
                                       p:order="10" p:cssClasses="@{auditActivated?'btn-success':'btn-danger'}"/>
                             </list>
                         </property>
@@ -44,7 +44,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="PropDev-DataValidationSection-Collection" p:render="@{auditActivated}" p:order="10"/>
+                <bean parent="DataValidationSection-Collection" p:render="@{auditActivated}" p:order="10"/>
                 <bean parent="Uif-Message" p:messageText="Data Validation is currently off."  p:render="@{!auditActivated}"
                       p:order="20"/>
             </list>
@@ -60,8 +60,8 @@
        	</property>        
     </bean>
 
-    <bean id="PropDev-DataValidationSection-Collection" parent="PropDev-DataValidationSection-Collection-parentBean"/>
-    <bean id="PropDev-DataValidationSection-Collection-parentBean" parent="Uif-TableCollectionSection"
+    <bean id="DataValidationSection-Collection" parent="DataValidationSection-Collection-parentBean"/>
+    <bean id="DataValidationSection-Collection-parentBean" parent="Uif-TableCollectionSection"
           p:collectionObjectClass="org.kuali.coeus.sys.impl.validation.DataValidationItem"
           p:propertyName="dataValidationItems" p:layoutManager.richTable.render="false"
           p:renderAddLine="false" p:layoutManager.renderSequenceField="false">
@@ -78,14 +78,14 @@
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Fix It" p:methodToCall="navigateToError"
                       p:navigateToPageId="@{#line.navigateToPageId}"
-                      p:successCallback="dismissDialog('PropDev-DataValidationSection');jQuery(&quot;a[id$='@{#line.navigateToSectionId}_tab']&quot;).click()"
+                      p:successCallback="dismissDialog('DataValidationSection');jQuery(&quot;a[id$='@{#line.navigateToSectionId}_tab']&quot;).click()"
                       p:refreshId="@{#line.navigateToPageId}"/>
             </list>
         </property>
     </bean>
 
-    <bean id="PropDev-DataValidationSection-WithSubmit" parent="PropDev-DataValidationSection-WithSubmit-parentBean"/>
-    <bean id="PropDev-DataValidationSection-WithSubmit-parentBean" parent="PropDev-DataValidationSection">
+    <bean id="DataValidationSection-WithSubmit" parent="DataValidationSection-WithSubmit-parentBean"/>
+    <bean id="DataValidationSection-WithSubmit-parentBean" parent="DataValidationSection">
         <property name="footer.items">
             <list>
                 <bean  p:actionLabel="Submit With Warnings" parent="Uif-PrimaryActionButton" p:methodToCall="internalSubmit"  p:order="10"

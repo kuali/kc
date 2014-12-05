@@ -23,19 +23,24 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.budget.framework.core.BudgetAuditRuleEvent;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
+import org.kuali.coeus.common.impl.KcViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +50,7 @@ import org.springframework.stereotype.Service;
 
 @Service("proposalBudgetViewHelperService")
 @Scope("prototype")
-public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
+public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl {
 
     @Autowired
     @Qualifier("parameterService")
@@ -58,6 +63,16 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
+    @Qualifier("auditHelper")
+    private AuditHelper auditHelper;
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("kcBusinessRulesEngine")
+    private KcBusinessRulesEngine kcBusinessRulesEngine;
 
     public void finalizeNavigationLinks(Action action, Object model, String direction) {
     	ProposalBudgetForm propBudgetForm = (ProposalBudgetForm) model;
@@ -171,4 +186,23 @@ public class ProposalBudgetViewHelperServiceImpl extends ViewHelperServiceImpl {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+
+    public List<DataValidationItem> populateDataValidation(ProposalBudgetForm form) {
+        getGlobalVariableService().getAuditErrorMap().clear();
+        applyBudgetAuditRules(form);
+        return populateDataValidation();
+    }
+
+    public void applyBudgetAuditRules(ProposalBudgetForm form) {
+        getKcBusinessRulesEngine().applyRules(new BudgetAuditRuleEvent(form.getBudget()));
+    }
+    
+	public KcBusinessRulesEngine getKcBusinessRulesEngine() {
+		return kcBusinessRulesEngine;
+	}
+
+	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
+		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}
+    
 }

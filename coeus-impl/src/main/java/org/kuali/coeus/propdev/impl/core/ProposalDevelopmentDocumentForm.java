@@ -32,7 +32,6 @@ import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelp
 import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
-import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.editable.ProposalChangedData;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
@@ -48,6 +47,7 @@ import org.kuali.coeus.propdev.impl.location.OrganizationAddWizardHelper;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.data.util.Link;
@@ -81,7 +81,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private Map<String,List<String>> editableCollectionLines;
     private ProposalDevelopmentCustomDataHelper customDataHelper;
     private List<ProposalDevelopmentCustomDataGroupDto> customDataGroups;
-    private List<ProposalDevelopmentDataValidationItem> dataValidationItems;
+    private List<DataValidationItem> dataValidationItems;
     private boolean auditActivated;
     private List<ProposalCreditSplitListDto> creditSplitListItems;
     private AddBudgetDto addBudgetDto;
@@ -159,7 +159,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
         customDataHelper = new ProposalDevelopmentCustomDataHelper(this.getProposalDevelopmentDocument());
 
-        dataValidationItems = new ArrayList<ProposalDevelopmentDataValidationItem>();
+        dataValidationItems = new ArrayList<DataValidationItem>();
 
         creditSplitListItems = new ArrayList<ProposalCreditSplitListDto>();
 
@@ -309,11 +309,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
         this.customDataGroups = customDataGroups;
     }
 
-    public List<ProposalDevelopmentDataValidationItem> getDataValidationItems() {
+    public List<DataValidationItem> getDataValidationItems() {
         return dataValidationItems;
     }
 
-    public void setDataValidationItems(List<ProposalDevelopmentDataValidationItem> dataValidationItems) {
+    public void setDataValidationItems(List<DataValidationItem> dataValidationItems) {
         this.dataValidationItems = dataValidationItems;
     }
 
