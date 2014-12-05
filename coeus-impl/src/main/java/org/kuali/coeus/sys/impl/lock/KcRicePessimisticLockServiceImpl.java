@@ -9,6 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ *  Rice's PessimisticLockServiceImpl captures OLE exceptions for OJB.  OJB has been replaced with JPA but the OLE
+ *  exception handling logic doesn't work for JPA.  This service override fixes it for JPA.
+ *
+ *  The bigger question is why are OLE exceptions happening in the first place and why is rice expecting these OLEs.
+ */
 @Transactional
 public class KcRicePessimisticLockServiceImpl extends PessimisticLockServiceImpl {
 
