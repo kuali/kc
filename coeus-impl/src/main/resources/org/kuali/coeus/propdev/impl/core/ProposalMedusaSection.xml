@@ -123,7 +123,7 @@
                           p:fieldLabel.renderColon="false" />
                     <bean parent="Uif-FieldGroupBase" p:order="190">
                         <property name="group">
-                            <bean parent="Proposal-MedusaSection-Investigators"/>
+                            <bean parent="Proposal-MedusaSection-PropDev-Investigators"/>
                         </property>
                     </bean>
                 </list>
@@ -132,7 +132,7 @@
       </property>
 	</bean>
 
-    <bean id="Proposal-MedusaSection-Investigators" parent="Uif-ListCollectionSection"
+    <bean id="Proposal-MedusaSection-PropDev-Investigators" parent="Uif-ListCollectionSection"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
           p:propertyName="investigators" p:renderAddLine="false"
           p:renderInactiveToggleButton="false">
@@ -147,7 +147,7 @@
                                               p:fieldLabel.labelText="Investigator" p:order="10" />
                                         <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Units" p:order="20">
                                             <property name="group">
-                                                <bean parent="Proposal-MedusaSection-Investigators-Units" />
+                                                <bean parent="Proposal-MedusaSection-PropDev-Investigators-Units" />
                                             </property>
                                         </bean>
                                     </list>
@@ -159,18 +159,11 @@
             </property>
     </bean>
 
-    <bean id="Proposal-MedusaSection-Investigators-Units" parent="Proposal-MedusaSection-Investigators-Units-parentBean"/>
-    <bean id="Proposal-MedusaSection-Investigators-Units-parentBean" abstract="true" parent="Uif-VerticalBoxGroup">
+    <bean id="Proposal-MedusaSection-PropDev-Investigators-Units" parent="Proposal-MedusaSection-PropDev-Investigators-Units-parentBean"/>
+    <bean id="Proposal-MedusaSection-PropDev-Investigators-Units-parentBean" abstract="true" parent="Uif-VerticalBoxGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-ListCollectionGroup" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit"
-                      p:propertyName="units">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-MessageField" p:messageText="@{#line.unitNumber} : @{#line.unit.unitName}" />
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="Proposal-Person-UnitSummary" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonUnit" />
             </list>
         </property>
     </bean>
@@ -182,30 +175,82 @@
       <property name="dataGroupPrototype">              
         <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
            <property name="items">
-                <list>
-                	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
-                	    p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="10" />
-                	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="20" />
-                	<bean parent="Uif-DataField" p:propertyName="requestedStartDateInitial" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="30" />
-                	<bean parent="Uif-DataField" p:propertyName="requestedEndDateInitial" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="40" />
-                	<bean parent="Uif-DataField" p:propertyName="requestedStartDateTotal" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="50" />
-                	<bean parent="Uif-DataField" p:propertyName="requestedEndDateTotal" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="60" />
-                	<bean parent="Uif-DataField" p:propertyName="title" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="70" />
-                	<bean parent="Uif-DataField" p:propertyName="sponsor.sponsorName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="80" />
-                	<bean parent="Uif-DataField" p:propertyName="sponsorName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" p:order="90" />
-                </list>
+               <list>
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="proposalNumber" p:order="10" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="title" p:order="20" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="unitNumber" p:label="Unit" p:order="30" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="proposalStatus.description" p:order="40" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="sponsorProposalNumber" p:order="50" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="currentAccountNumber" p:order="60" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="activityType.description" p:order="70" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="nsfCodeBo.description" p:order="80" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="noticeOfOpportunity.description" p:order="90" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="sponsor.sponsorName" p:order="100" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="primeSponsor.sponsorName" p:order="110" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedStartDateInitial" p:order="120" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedEndDateInitial" p:order="130" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedStartDateTotal" p:order="140" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedEndDateTotal" p:order="150" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalDirectCostInitial" p:order="160" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalDirectCostTotal" p:order="170" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalIndirectCostInitial" p:order="180" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalIndirectCostTotal" p:order="190" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalInitialCost" p:order="200" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalCost" p:order="210" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="costSharingIndicator"
+                         p:propertyEditorClass="org.kuali.coeus.sys.framework.model.KcYNBooleanEditor" p:order="220" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="specialReviewIndicator"
+                         p:propertyEditorClass="org.kuali.coeus.sys.framework.model.KcYNBooleanEditor" p:order="230" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="idcRateIndicator"
+                         p:propertyEditorClass="org.kuali.coeus.sys.framework.model.KcYNBooleanEditor" p:order="240" />
+                   <bean parent="Uif-MessageField" p:fieldLabel.labelText="Investigators" p:order="250"
+                         p:fieldLabel.renderColon="false" />
+                   <bean parent="Uif-FieldGroupBase" p:order="260">
+                       <property name="group">
+                           <bean parent="Proposal-MedusaSection-InstProp-Investigators"/>
+                       </property>
+                   </bean>
+               </list>
            </property>
         </bean>
       </property>
 	</bean>
+
+    <bean id="Proposal-MedusaSection-InstProp-Investigators" parent="Uif-ListCollectionSection"
+          p:collectionObjectClass="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson"
+          p:propertyName="projectPersons" p:renderAddLine="false"
+          p:renderInactiveToggleButton="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-FieldGroupBase">
+                    <property name="group">
+                        <bean parent="Uif-CssGridSection-1FieldLabelColumn">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-MessageField" p:messageText="@{#line.fullName + (#line.principalInvestigator?' (Principal Investigator)':'')}"
+                                          p:fieldLabel.labelText="Investigator" p:order="10" />
+                                    <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Units" p:order="20">
+                                        <property name="group">
+                                            <bean parent="Proposal-MedusaSection-InstProp-Investigators-Units" />
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Proposal-MedusaSection-InstProp-Investigators-Units" parent="Proposal-MedusaSection-InstProp-Investigators-Units-parentBean"/>
+    <bean id="Proposal-MedusaSection-InstProp-Investigators-Units-parentBean" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Proposal-Person-UnitSummary" p:collectionObjectClass=" org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit" />
+            </list>
+        </property>
+    </bean>
 	
 	<bean id="Proposal-MedusaSection-ProposalLogSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
        <property name="labelPrototype">             
@@ -325,4 +370,16 @@
         </bean>
       </property>
 	</bean>
+
+    <bean id="Proposal-InstitutionalProposal-Property" parent="Uif-DataField"
+          p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
+
+    <bean id="Proposal-Person-UnitSummary" parent="Uif-ListCollectionGroup"
+          p:propertyName="units">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.unitNumber} : @{#line.unit.unitName}" />
+            </list>
+        </property>
+    </bean>
 </beans>
