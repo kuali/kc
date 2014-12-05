@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.framework.auth.KcAuthConstants;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
@@ -34,9 +35,9 @@ import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachment;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
-import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
@@ -44,7 +45,6 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
@@ -85,10 +85,8 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.view.ViewIndex;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -168,6 +166,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("proposalTypeService")
     private ProposalTypeService proposalTypeService;
+
+    @Autowired
+    @Qualifier("budgetCalculationService")
+    private BudgetCalculationService budgetCalculationService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -732,6 +734,21 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         if (form.getDevelopmentProposal().isInHierarchy()) {
             form.setHierarchyDevelopmentProposals(getProposalHierarchyService().getHierarchyProposals(form.getDevelopmentProposal()));
         }
+
+        if (form.getDevelopmentProposal().getFinalBudget() != null) {
+            form.setSelectedBudget(form.getDevelopmentProposal().getFinalBudget());
+            if(form.getSelectedBudget().getBudgetSummaryDetails().isEmpty()) {
+               getBudgetCalculationService().populateBudgetSummaryTotals(form.getSelectedBudget());
+            }
+        }
+
+        for (DevelopmentProposal developmentProposal : form.getHierarchyDevelopmentProposals()) {
+            for (ProposalDevelopmentBudgetExt budget : developmentProposal.getBudgets()){
+                if (budget.getBudgetSummaryDetails().isEmpty()){
+                    getBudgetCalculationService().populateBudgetSummaryTotals(budget);
+                }
+            }
+        }
     }
 
     public boolean isChildSynchronized(DevelopmentProposal proposal) {
@@ -953,4 +970,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 		this.proposalTypeService = proposalTypeService;
 	}
 
+    public BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
 }
