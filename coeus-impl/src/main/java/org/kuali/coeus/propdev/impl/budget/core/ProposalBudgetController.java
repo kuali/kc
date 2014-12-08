@@ -58,9 +58,10 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
     @Transactional @RequestMapping(params="methodToCall=copyBudget")
 	public ModelAndView copyBudget(@RequestParam("copyBudgetDto.budgetName") String budgetName, 
 			@RequestParam("copyBudgetDto.originalBudgetId") Long originalBudgetId, 
+			@RequestParam("copyBudgetDto.allPeriods") Boolean allPeriods,
 			@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 		super.save(form);
-		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, form.getDevelopmentProposal(), form);
+		return getProposalBudgetSharedController().copyBudget(budgetName, originalBudgetId, allPeriods, form.getDevelopmentProposal(), form);
 	}
 
 	@Transactional @RequestMapping(params="methodToCall=populateBudgetSummary")

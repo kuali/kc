@@ -68,11 +68,11 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
         
     }
 
-	public ModelAndView copyBudget(String budgetName, Long originalBudgetId, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception {
+	public ModelAndView copyBudget(String budgetName, Long originalBudgetId, Boolean allPeriods, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception {
 		ProposalDevelopmentBudgetExt budget = null;
 		if (kcBusinessRulesEngine.applyRules(new ProposalAddBudgetVersionEvent("copyBudgetDto", developmentProposal, budgetName))) {
 			ProposalDevelopmentBudgetExt originalBudget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.forAttribute("budgetId", originalBudgetId).build());
-			budget = (ProposalDevelopmentBudgetExt) getBudgetService().copyBudgetVersion(originalBudget, false);
+			budget = (ProposalDevelopmentBudgetExt) getBudgetService().copyBudgetVersion(originalBudget, !allPeriods.booleanValue());
 		}
         if (budget != null) {
         	budget.setName(budgetName);
