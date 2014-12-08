@@ -666,6 +666,10 @@ public abstract class ProposalDevelopmentControllerBase {
         if (proposalDevelopmentDocumentForm.getDeferredMessages() != null
                 && proposalDevelopmentDocumentForm.getDeferredMessages().hasMessages()){
             MessageMap messageMap = proposalDevelopmentDocumentForm.getDeferredMessages();
+            MessageMap currentMessageMap = getGlobalVariableService().getMessageMap();
+            messageMap.getErrorMessages().putAll(currentMessageMap.getErrorMessages());
+            messageMap.getInfoMessages().putAll(currentMessageMap.getInfoMessages());
+            messageMap.getWarningMessages().putAll(currentMessageMap.getWarningMessages());
             getGlobalVariableService().setMessageMap(messageMap);
         }
         proposalDevelopmentDocumentForm.setDeferredMessages(null);
