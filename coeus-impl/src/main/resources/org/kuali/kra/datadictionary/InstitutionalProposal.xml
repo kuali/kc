@@ -89,6 +89,13 @@
 				<ref bean="InstitutionalProposal-proposalType.description" />
 				<ref bean="InstitutionalProposal-activityType.description" />
 				<ref bean="InstitutionalProposal-proposalStatus.description" />
+                <ref bean="InstitutionalProposal-nsfCodeBo.description" />
+                <ref bean="InstitutionalProposal-noticeOfOpportunity.description" />
+                <ref bean="InstitutionalProposal-costSharingIndicator" />
+                <ref bean="InstitutionalProposal-specialReviewIndicator" />
+                <ref bean="InstitutionalProposal-idcRateIndicator" />
+                <ref bean="InstitutionalProposal-totalInitialCost" />
+                <ref bean="InstitutionalProposal-totalCost" />
             </list>
         </property>
         <property name="relationships">
@@ -1205,7 +1212,42 @@
         <property name="label" value="Prime Sponsor" />
         <property name="shortLabel" value="Prime Sponsor" />
     </bean>
-    
+
+    <bean id="InstitutionalProposal-nsfCodeBo.description" parent="NsfCode-description"
+          p:name="nsfCodeBo.description"
+          p:label="NSF Code"
+          p:shortLabel="NSF Code" />
+
+    <bean id="InstitutionalProposal-noticeOfOpportunity.description" parent="NoticeOfOpportunity-description"
+          p:name="noticeOfOpportunity.description"
+          p:label="Notice of Opportunity"
+          p:shortLabel="Notice of Opp"/>
+
+    <bean id="InstitutionalProposal-costSharingIndicator" parent="AttributeReference-genericBoolean"
+          p:name="costSharingIndicator"
+          p:label="Cost Sharing"
+          p:shortLabel="Cost Sharing" />
+
+    <bean id="InstitutionalProposal-specialReviewIndicator" parent="AttributeReference-genericBoolean"
+          p:name="specialReviewIndicator"
+          p:label="Special Review"
+          p:shortLabel="Special Review" />
+
+    <bean id="InstitutionalProposal-idcRateIndicator" parent="AttributeReference-genericBoolean"
+          p:name="idcRateIndicator"
+          p:label="Unrecovered F&amp;A"
+          p:shortLabel="Unrecovered F&amp;A" />
+
+    <bean id="InstitutionalProposal-totalInitialCost" parent="InstitutionalProposal-totalIndirectCostTotal-parentBean"
+          p:name="totalInitialCost"
+          p:label="Initial Total All Cost"
+          p:shortLabel="Initial Total All Cost" />
+
+    <bean id="InstitutionalProposal-totalCost" parent="InstitutionalProposal-totalIndirectCostTotal-parentBean"
+          p:name="totalCost"
+          p:label="Total All Cost"
+          p:shortLabel="Total All Cost" />
+
     <!-- Business Object Lookup Definition -->
     <bean id="InstitutionalProposal-lookupDefinition" parent="InstitutionalProposal-lookupDefinition-parentBean" />
   <bean id="InstitutionalProposal-LookupView" parent="InstitutionalProposal-LookupView-parentBean"/>
