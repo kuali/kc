@@ -6,6 +6,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 public interface ProposalBudgetSharedControllerService {
 	public ModelAndView addBudget(String budgetName, Boolean summaryBudget, Boolean modularBudget, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception;
-	public ModelAndView copyBudget(String budgetName, Long originalBudgetId, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception;
+	public ModelAndView copyBudget(String budgetName, Long originalBudgetId, Boolean allPeriods, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception;
 	public ModelAndView openBudget(String budgetId, UifFormBase form) throws Exception;
 }

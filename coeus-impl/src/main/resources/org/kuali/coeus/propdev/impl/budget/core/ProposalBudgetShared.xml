@@ -174,7 +174,20 @@
 		p:headerText="Copy this Budget Version" p:fieldBindingObjectPath="copyBudgetDto">
 		<property name="items">
 			<list merge="true">
-				<bean parent="Uif-InputField" p:propertyName="originalBudgetId" p:order="50">
+				<bean parent="Uif-InputField" p:propertyName="allPeriods" p:order="50" p:required="true"
+					p:label="Copy">
+					<property name="control">
+						<bean parent="Uif-VerticalRadioControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="All Periods" />
+									<bean parent="Uif-KeyLabelPair" p:key="N" p:value="First Period Only" />
+								</list>
+							</property>
+						</bean>
+					</property>	
+				</bean>			
+				<bean parent="Uif-InputField" p:propertyName="originalBudgetId" p:order="60">
 					<property name="control"><bean parent="Uif-HiddenControl"/></property>
 				</bean>
 			</list>

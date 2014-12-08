@@ -6,6 +6,7 @@ public class AddBudgetDto {
 	private Boolean summaryBudget;
 	private Boolean modularBudget;
 	private Long originalBudgetId;
+	private Boolean allPeriods;
 
 	public String getBudgetName() {
 		return budgetName;
@@ -37,6 +38,14 @@ public class AddBudgetDto {
 
 	public void setOriginalBudgetId(Long originalBudgetId) {
 		this.originalBudgetId = originalBudgetId;
+	}
+
+	public Boolean getAllPeriods() {
+		return allPeriods;
+	}
+
+	public void setAllPeriods(Boolean allPeriods) {
+		this.allPeriods = allPeriods;
 	}
 	
 }
