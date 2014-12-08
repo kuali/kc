@@ -80,6 +80,8 @@
         <form-bean name="IacucProtocolCorrespondenceTemplateForm" type="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateForm" />
 		<form-bean name="IacucResearchAreasForm" type="org.kuali.kra.iacuc.IacucResearchAreasForm" />
 		<form-bean name="IsrSsrReportGenerationForm" type="org.kuali.kra.subaward.reporting.web.struts.form.IsrSsrReportGenerationForm" />
+      <!-- AAP: report form -->
+      <form-bean name="ReportForm" type="com.rsmart.kuali.kra.reporting.web.struts.form.ReportFormwardForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -125,8 +127,8 @@
 
         <action path="/backdoorlogin" name="BackdoorForm" scope="request" parameter="methodToCall"
         input="/WEB-INF/jsp/backdoor/index.jsp" type="org.kuali.rice.kns.web.struts.action.BackdoorAction">
-            <forward name="basic" path="/portal.jsp" />
-            <forward name="viewPortal" path="/portal.jsp" />
+            <forward name="basic" path="/portal.do" />
+            <forward name="viewPortal" path="/portal.do" />
             <forward name="logout" path="/logout.do" />
         </action>
         
@@ -713,7 +715,7 @@
           <forward name="basic" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
      	  <forward name="customData" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
      	  <forward name="notificationEditor" path="/WEB-INF/jsp/negotiation/NegotiationNotificationEditor.jsp" />
-     	  <forward name="portal" path="/portal.jsp" redirect="true" />
+     	  <forward name="portal" path="/portal.jsp" />
           <forward name="lostPlaceMessagePage" path="/WEB-INF/jsp/negotiation/NegotiationLostPlaceMessage.jsp" />
        </action>
 
@@ -728,6 +730,10 @@
             <forward name="view" path="/WEB-INF/jsp/personmasschange/PersonMassChangeView.jsp" />
         </action>
      
+      <!-- AAP: adding report controller -->
+      <action path="/displayExternalReport" name="ReportForm" type="com.rsmart.kuali.kra.reporting.web.struts.action.ReportForwardAction">
+        <forward name="basic" path="/reportRedirect.jsp"/>
+      </action>
     </action-mappings>
 
 
