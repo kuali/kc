@@ -87,12 +87,12 @@ public class BudgetPersonnelRuleTest {
      */
     @Test
     public void testJobCodeNullDetails() {
-        Budget budget = getBudget();
+        final Budget budget = getBudget();
         budget.getBudgetPerson(0).setJobCode(null);
         
         context.checking(new Expectations() {
             {   
-                oneOf(rule.getBudgetPersonService()).getApplicableCostElements(1L, "1");
+                oneOf(rule.getBudgetPersonService()).getApplicableCostElements(budget, "1");
                 will(returnValue(Collections.emptyList()));
             }});
         
@@ -109,12 +109,12 @@ public class BudgetPersonnelRuleTest {
      */
     @Test
     public void testJobCodeNullNoDetails() {
-        Budget budget = getBudget();
+        final Budget budget = getBudget();
         budget.getBudgetPerson(0).setJobCode("Foo");
         
         context.checking(new Expectations() {
             {   
-                oneOf(rule.getBudgetPersonService()).getApplicableCostElements(1L, "1");
+                oneOf(rule.getBudgetPersonService()).getApplicableCostElements(budget, "1");
                 will(returnValue(Collections.emptyList()));
             }});
         
@@ -166,6 +166,7 @@ public class BudgetPersonnelRuleTest {
         
         person.setPersonSequenceNumber(1);
         person.setBudgetId(1L);
+        person.setBudget(budget);
         
         persons.add(person);
         
