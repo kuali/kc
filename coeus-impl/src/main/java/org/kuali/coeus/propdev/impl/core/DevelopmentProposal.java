@@ -331,7 +331,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @OneToMany(mappedBy="developmentProposal",orphanRemoval = true, cascade = { CascadeType.ALL })
     private List<ProposalPersonBiography> propPersonBios;
 
-    @OneToMany(mappedBy="developmentProposal", orphanRemoval = true, cascade = { CascadeType.REFRESH, CascadeType.REMOVE })
+    @OneToMany(mappedBy="developmentProposal", orphanRemoval = false, cascade = { CascadeType.REFRESH })
     @OrderBy("budgetVersionNumber")
     private List<ProposalDevelopmentBudgetExt> budgets;
     

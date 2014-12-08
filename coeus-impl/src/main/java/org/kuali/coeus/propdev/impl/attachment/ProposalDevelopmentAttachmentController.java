@@ -76,6 +76,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Qualifier("personService")
     private PersonService personService;
 
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-AttachmentsPage"})
+    public ModelAndView saveAttachments(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+       return super.narrativePageSave(form,form.isCanEditView());
+    }
+
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addFileUploadLine")
     public ModelAndView addFileUploadLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                           MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {

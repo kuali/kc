@@ -18,7 +18,7 @@
 	<!-- Proposal Compliance Page -->
 	<bean id="PropDev-BudgetPage" parent="PropDev-BudgetPage-parentBean" />
 	<bean id="PropDev-BudgetPage-parentBean" parent="PropDev-DocumentPage" 
-			p:readOnly="@{!#view.editModes.containsKey(#budgetAuthConsts.MODIFY_BUDGET_EDIT_MODE) or #parent.readOnly}">
+			p:readOnly="@{!#view.editModes.containsKey(#budgetAuthConsts.MODIFY_BUDGET_EDIT_MODE)}">
 		<property name="items">
 			<list>
 				<ref bean="PropDev-BudgetPage-Collection"/>
@@ -45,7 +45,7 @@
 							<bean parent="Uif-MenuDivider" p:order="40"/>
 			        		<bean parent="Uif-ActionLink" p:actionLabel="Submit with Proposal" 
 								p:methodToCall="markForSubmission" p:additionalSubmitData="budgetId:@{#line.budgetId}"
-								p:iconClass="icon-ok" p:order="50"/>
+								p:iconClass="icon-ok" p:render="@{!#view.readOnly}" p:order="50"/>
 						</list>
 					</property>
 				</bean>

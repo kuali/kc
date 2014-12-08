@@ -922,8 +922,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         String lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
         if (isNarrativeAction(form)) {
             lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES;
-        } else if (isBudgetVersionsAction(form)) {
-            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
         }
 
         return lockRegion;
@@ -944,22 +942,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 
     }
 
-    // Checks whether the action associated with this form instance maps to the BudgetVersions page
-    private boolean isBudgetVersionsAction(ProposalDevelopmentDocumentForm form) {
-        boolean isBudgetVersionsAction = false;
-        String navigateTo = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
-        if (StringUtils.equals(form.getPageId(),ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID)
-                && StringUtils.isEmpty(navigateTo)) {
-            isBudgetVersionsAction = true;
-        }
-        else if (StringUtils.isNotEmpty(navigateTo)
-                && (navigateTo.equalsIgnoreCase(ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID))) {
-            isBudgetVersionsAction = true;
-        }
-
-        return isBudgetVersionsAction;
-    }
-
     public void setupLockRegions(ProposalDevelopmentDocumentForm form) {
         String lockRegion = getLockRegion(form);
         GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);
@@ -967,9 +949,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 
     public String getLockRegionFromPage(String pageId) {
         String pageRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
-        if (StringUtils.equals(pageId, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID)) {
-            pageRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
-        } else if (StringUtils.equals(pageId, ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
+        if (StringUtils.equals(pageId, ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
             pageRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES;
         }
         return pageRegion;
