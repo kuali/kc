@@ -770,9 +770,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public boolean requiresResubmissionPrompt(DevelopmentProposal developmentProposal, String resubmissionOption) {
-       return ( getProposalTypeService().equals(developmentProposal.getProposalTypeCode())
-            || getProposalTypeService().equals(developmentProposal.getProposalTypeCode())
-            || getProposalTypeService().equals(developmentProposal.getProposalTypeCode())
+       return ( getProposalTypeService().getContinuationProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+            || getProposalTypeService().getRenewProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+            || getProposalTypeService().getResubmissionProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+            || getProposalTypeService().getRevisionProposalTypeCode().equals(developmentProposal.getProposalTypeCode())
+            || getProposalTypeService().getS2SSubmissionChangeCorrectedCode().equals(developmentProposal.getProposalTypeCode())
             || isSubmissionChangeCorrected(developmentProposal))
             && resubmissionOption == null;
     }
