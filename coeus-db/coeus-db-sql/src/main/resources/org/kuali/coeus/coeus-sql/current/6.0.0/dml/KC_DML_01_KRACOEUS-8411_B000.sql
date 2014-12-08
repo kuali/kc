@@ -1,2 +1,2 @@
-update proposal_state set description='Cancelled' where state_type_code=10;
+UPDATE PROPOSAL_STATE SET DESCRIPTION='Cancelled' where STATE_TYPE_CODE='10'
 /
