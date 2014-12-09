@@ -130,7 +130,8 @@
 	<bean id="PropDev-CompliancePage-ExemptionTypeCodes" parent="PropDev-CompliancePage-ExemptionTypeCodes-parentBean"/>
 	<bean id="PropDev-CompliancePage-ExemptionTypeCodes-parentBean" abstract="true" parent="Uif-InputField"
 		p:readOnly="@{((#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or
-		    (#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))}"
+		    (#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))
+		    || #parent.readOnly}"
 		p:propertyName="specialReviewExemptions" p:label="Exemption #">
 		<property name="control">
 			<bean parent="Uif-AdvancedMultiSelectControl"/>
@@ -141,7 +142,7 @@
 	<bean id="PropDev-CompliancePage-SpecialReviewTypeCode" parent="PropDev-CompliancePage-SpecialReviewTypeCode-parentBean" />
 	<bean id="PropDev-CompliancePage-SpecialReviewTypeCode-parentBean"
 		abstract="true" parent="Uif-InputField" p:propertyName="specialReviewTypeCode"
-        p:readOnly="@{#lp.linkedToProtocol}">
+        p:readOnly="@{#lp.linkedToProtocol || #parent.readOnly}">
 		<property name="control">
 			<bean parent="Uif-DropdownControl"/>
 		</property>
@@ -175,7 +176,7 @@
 	<bean id="PropDev-CompliancePage-ProtocolNumber-parentBean"
 		abstract="true" parent="Uif-InputField" p:propertyName="protocolNumber"
 		p:additionalCssClasses="protocolQuickFinderWrapper"
-        p:readOnly="@{#lp.linkedToProtocol}">
+        p:readOnly="@{#lp.linkedToProtocol || #parent.readOnly}">
 		<property name="control">
 			<bean parent="Uif-TextControl"
 				p:disabled="@{(#lp.approvalTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType).NOT_YET_APPLIED}' and
@@ -210,7 +211,8 @@
 	<bean id="PropDev-CompliancePage-Dates-parentBean" abstract="true"
 		parent="Uif-InputField"
 		p:readOnly="@{((#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or
-		    (#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))}">
+		    (#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))
+		    || #parent.readOnly}">
 	</bean>
 
 </beans>
