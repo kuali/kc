@@ -282,13 +282,12 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		}
 		return getModelAndViewService().getModelAndView(form);
 	}
-	
-	@Transactional @RequestMapping(params="methodToCall=calculatePersonnelPeriodLineItem")
+
 	protected boolean isSummaryPersonnel(BudgetPersonnelDetails budgetPersonnelDetails) {
 		return budgetPersonnelDetails.getPersonSequenceNumber().equals(BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonSequenceNumber());
 	}
 	
-	@RequestMapping(params="methodToCall=calculatePersonnelPeriodLineItem")
+	@Transactional @RequestMapping(params="methodToCall=calculatePersonnelPeriodLineItem")
 	public ModelAndView calculatePersonnelPeriodLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		calculatePersonnelLineItem(form, false);
 		return getModelAndViewService().getModelAndView(form);
