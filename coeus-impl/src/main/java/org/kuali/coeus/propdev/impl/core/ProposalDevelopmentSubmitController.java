@@ -253,8 +253,8 @@ public class ProposalDevelopmentSubmitController extends
 	   return getModelAndViewService().getModelAndView(form);
   } 
   
-   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=disapprove")
-   public  ModelAndView disapprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
+   @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=disapproveProposal")
+   public  ModelAndView disapproveProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
 	   String applicationUrl = getConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
 	   form.setReturnLocation(applicationUrl);
        form.setEvaluateFlagsAndModes(true);
