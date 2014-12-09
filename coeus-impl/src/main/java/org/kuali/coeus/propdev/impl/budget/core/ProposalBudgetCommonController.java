@@ -101,14 +101,12 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		return super.save(form);
 	}
 
-	@MethodAccessible
-	@Transactional @RequestMapping(params = "methodToCall=navigate")
+	@RequestMapping(params = "methodToCall=navigate")
 	public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		return super.navigate(form);
 	}
 	
-	@MethodAccessible
-    @Transactional @RequestMapping(params="methodToCall=addBudget")
+	@RequestMapping(params="methodToCall=addBudget")
     public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
     		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget, 
     		@RequestParam(value="addBudgetDto.modularBudget",defaultValue="false") Boolean modularBudget,
