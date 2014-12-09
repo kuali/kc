@@ -18,6 +18,9 @@ package org.kuali.coeus.common.impl.compliance.core;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.coeus.common.framework.compliance.core.*;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
@@ -32,6 +35,7 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -72,6 +76,9 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     
     @Override
     public String getProtocolSaveLocationPrefix(Map<String, String[]> parameters) {
@@ -192,8 +199,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         boolean isLinkedToSpecialReviews = false;
         
         for (SpecialReview<?> specialReview : specialReviews) {
-            if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) 
-                && StringUtils.equals(specialReview.getProtocolNumber(), protocolNumber)) {
+            if (StringUtils.equals(specialReview.getProtocolNumber(), protocolNumber)) {
                 isLinkedToSpecialReviews = true;
                 break;
             }
@@ -241,18 +247,22 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
 
     @Override
     public void addSpecialReviewForProtocolFundingSource(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber, Date applicationDate, 
-        Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes) {
+        Date approvalDate, Date expirationDate, String specialReviewType, List<String> exemptionTypeCodes) {
         
         if (StringUtils.equals(FundingSourceType.AWARD, fundingSourceTypeCode)) {
             Award award = getAward(fundingSourceNumber);
-            addAwardSpecialReview(award, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
+            addAwardSpecialReview(award, protocolNumber, specialReviewType, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
         } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, fundingSourceTypeCode)) {
             InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceNumber);
-            addInstitutionalProposalSpecialReview(institutionalProposal, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
+            addInstitutionalProposalSpecialReview(institutionalProposal, protocolNumber, specialReviewType, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
+        }
+        else if (StringUtils.equals(FundingSourceType.PROPOSAL_DEVELOPMENT, fundingSourceTypeCode)){
+            DevelopmentProposal developmentProposal = getDevelopmentProposal(fundingSourceNumber);
+            addDevelopmentProposalSpecialReview(developmentProposal, protocolNumber, specialReviewType, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
         }
     }
     
-    private void addAwardSpecialReview(Award award, String protocolNumber, Date applicationDate, Date approvalDate, Date expirationDate, 
+    private void addAwardSpecialReview(Award award, String protocolNumber, String specialReviewType, Date applicationDate, Date approvalDate, Date expirationDate,
         List<String> exemptionTypeCodes) {
         
         if (award != null) {
@@ -260,8 +270,8 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             
             AwardSpecialReview specialReview = new AwardSpecialReview();
             specialReview.setSpecialReviewNumber(specialReviewNumber);
-            specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
-            specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
+            specialReview.setSpecialReviewTypeCode(specialReviewType);
+            specialReview.setApprovalTypeCode(getSpecialReviewProtocolLinkType(specialReviewType));
             specialReview.setProtocolNumber(protocolNumber);
             specialReview.setApplicationDate(applicationDate);
             specialReview.setApprovalDate(approvalDate);
@@ -279,7 +289,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         }
     }
     
-    private void addInstitutionalProposalSpecialReview(InstitutionalProposal institutionalProposal, String protocolNumber, Date applicationDate, 
+    private void addInstitutionalProposalSpecialReview(InstitutionalProposal institutionalProposal, String protocolNumber, String specialReviewType, Date applicationDate,
         Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes) {
         
         if (institutionalProposal != null) {
@@ -287,8 +297,8 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             
             InstitutionalProposalSpecialReview specialReview = new InstitutionalProposalSpecialReview();
             specialReview.setSpecialReviewNumber(specialReviewNumber);
-            specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
-            specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
+            specialReview.setSpecialReviewTypeCode(specialReviewType);
+            specialReview.setApprovalTypeCode(getSpecialReviewProtocolLinkType(specialReviewType));
             specialReview.setProtocolNumber(protocolNumber);
             specialReview.setApplicationDate(applicationDate);
             specialReview.setApprovalDate(approvalDate);
@@ -306,6 +316,34 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         }
     }
 
+    protected void addDevelopmentProposalSpecialReview(DevelopmentProposal developmentProposal, String protocolNumber, String specialReviewType, Date applicationDate,
+                                                     Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes) {
+
+        if (developmentProposal != null) {
+            Integer specialReviewNumber = developmentProposal.getProposalDocument().getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
+
+            ProposalSpecialReview specialReview = new ProposalSpecialReview();
+            specialReview.setDevelopmentProposal(developmentProposal);
+            specialReview.setSpecialReviewNumber(specialReviewNumber);
+            specialReview.setSpecialReviewTypeCode(specialReviewType);
+            specialReview.setApprovalTypeCode(getSpecialReviewProtocolLinkType(specialReviewType));
+            specialReview.setProtocolNumber(protocolNumber);
+            specialReview.setApplicationDate(applicationDate);
+            specialReview.setApprovalDate(approvalDate);
+            specialReview.setExpirationDate(expirationDate);
+            for (String exemptionTypeCode : exemptionTypeCodes) {
+                ProposalSpecialReviewExemption specialReviewExemption = new ProposalSpecialReviewExemption();
+                specialReviewExemption.setProposalSpecialReview(specialReview);
+                specialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
+                specialReview.getSpecialReviewExemptions().add(specialReviewExemption);
+            }
+            specialReview.setComments(ComplianceConstants.NEW_SPECIAL_REVIEW_COMMENT);
+            developmentProposal.getPropSpecialReviews().add(specialReview);
+
+            getDataObjectService().save(developmentProposal);
+        }
+    }
+
     @Override
     public void deleteSpecialReviewForProtocolFundingSource(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber) {
         if (StringUtils.equals(FundingSourceType.AWARD, fundingSourceTypeCode)) {
@@ -314,6 +352,10 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         } else if (StringUtils.equals(FundingSourceType.INSTITUTIONAL_PROPOSAL, fundingSourceTypeCode)) {
             InstitutionalProposal institutionalProposal = getInstitutionalProposal(fundingSourceNumber);
             deleteInstitutionalProposalSpecialReview(institutionalProposal, protocolNumber);
+        }
+        else if (StringUtils.equals(FundingSourceType.PROPOSAL_DEVELOPMENT, fundingSourceTypeCode)) {
+            DevelopmentProposal developmentProposal = getDevelopmentProposal(fundingSourceNumber);
+            deleteDevelopmentProposalSpecialReview(developmentProposal, protocolNumber);
         }
     }
     
@@ -345,6 +387,17 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             getBusinessObjectService().delete(deletedSpecialReviews);
         }
     }
+
+    protected void deleteDevelopmentProposalSpecialReview(DevelopmentProposal developmentProposal, String protocolNumber) {
+        if (developmentProposal != null) {
+            for (ProposalSpecialReview specialReview : developmentProposal.getPropSpecialReviews()) {
+                if (StringUtils.equals(specialReview.getProtocolNumber(), protocolNumber)) {
+                    getDataObjectService().delete(specialReview);
+                    break;
+                }
+            }
+        }
+    }
     
     private Award getAward(String fundingSourceNumber) {
         Award award = null;
@@ -366,6 +419,19 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         }
 
         return institutionalProposal;
+    }
+
+    protected DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
+        return getDataObjectService().find(DevelopmentProposal.class, proposalNumber);
+    }
+
+    protected String getSpecialReviewProtocolLinkType(String specialReviewType){
+        if (specialReviewType.equals(SpecialReviewType.HUMAN_SUBJECTS)){
+            return SpecialReviewApprovalType.LINK_TO_IRB;
+        }
+        else{
+            return SpecialReviewApprovalType.LINK_TO_IACUC;
+        }
     }
     
     public AwardService getAwardService() {
@@ -416,4 +482,11 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         this.businessObjectService = businessObjectService;
     }
 
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

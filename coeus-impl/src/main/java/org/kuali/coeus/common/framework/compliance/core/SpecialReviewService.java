@@ -117,11 +117,12 @@ public interface SpecialReviewService {
      * @param applicationDate The application date (submission date) of the given Protocol
      * @param approvalDate The approval date of the given Protocol
      * @param expirationDate The expiration date of the given Protocol
+     * @param specialReviewType The type code of the Protocol (Animal/Human)
      * @param exemptionTypeCodes The exemption type codes of the given Protocol
      * @throws WorkflowException
      */
     void addSpecialReviewForProtocolFundingSource(String fundingSourceNumber, String fundingSourceTypeCode, String protocolNumber, Date applicationDate, 
-        Date approvalDate, Date expirationDate, List<String> exemptionTypeCodes);
+        Date approvalDate, Date expirationDate, String specialReviewType, List<String> exemptionTypeCodes);
     
     /**
      * Deletes the Institutional Proposal Special Review associated with the Protocol Funding Source being deleted.
