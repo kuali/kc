@@ -91,7 +91,7 @@ public class Sponsor extends KcPersistableBusinessObjectBase implements SponsorC
     @JoinColumn(name = "OWNED_BY_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
-    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @OneToOne(mappedBy = "sponsor", orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "ROLODEX_ID", referencedColumnName = "ROLODEX_ID", insertable = false, updatable = false)
     private Rolodex rolodex;
 

@@ -119,7 +119,7 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
     @JoinColumn(name = "OWNED_BY_UNIT", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
     private Unit unit;
 
-    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @OneToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "SPONSOR_CODE", referencedColumnName = "SPONSOR_CODE", insertable = false, updatable = false)
     private Sponsor sponsor;
 
