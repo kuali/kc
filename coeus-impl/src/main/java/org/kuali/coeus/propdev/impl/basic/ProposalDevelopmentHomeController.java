@@ -111,7 +111,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
 
-   @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=copy")
+   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=copy")
    public ModelAndView copy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
