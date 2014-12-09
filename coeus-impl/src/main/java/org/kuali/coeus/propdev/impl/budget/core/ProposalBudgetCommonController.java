@@ -54,17 +54,23 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 
 	@MethodAccessible
 	@Transactional @RequestMapping(params="methodToCall=start")
-	public ModelAndView start(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+	public ModelAndView start(@RequestParam("budgetId") Long budgetId, @RequestParam("auditActivated") String auditActivated, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		form.setBudget(loadBudget(budgetId));
 		form.initialize();
+        if (auditActivated != null){
+            form.setAuditActivated(Boolean.parseBoolean(auditActivated));
+        }
         return getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW);
 	}
 	
 	@MethodAccessible
 	@Transactional @RequestMapping(params="methodToCall=initiate")
-	public ModelAndView initiate(@RequestParam("budgetId") Long budgetId, @RequestParam(value = "summaryBudget", required = false) Boolean summaryBudget, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+	public ModelAndView initiate(@RequestParam("budgetId") Long budgetId, @RequestParam("auditActivated") String auditActivated, @RequestParam(value = "summaryBudget", required = false) Boolean summaryBudget, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		form.setBudget(loadBudget(budgetId));
 		form.initialize();
+        if (auditActivated != null){
+            form.setAuditActivated(Boolean.parseBoolean(auditActivated));
+        }
 		if ((summaryBudget != null && !summaryBudget)
 				|| (summaryBudget == null && !form.getBudget().isSummaryBudget())) {
 			return getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW, ProposalBudgetConstants.KradConstants.PERSONNEL_PAGE_ID);
@@ -83,6 +89,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	        props.put("command", KewApiConstants.DOCSEARCH_COMMAND);
 	        props.put("pageId", ProposalDevelopmentConstants.KradConstants.BUDGET_PAGE);
 	        props.put("docId", form.getBudget().getDevelopmentProposal().getProposalDocument().getDocumentNumber());
+            props.put("auditActivated", String.valueOf(form.isAuditActivated()));
 	        return getModelAndViewService().performRedirect(form, "proposalDevelopment", props);
 		} else {
         	form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());			

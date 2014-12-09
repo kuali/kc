@@ -279,13 +279,15 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
    @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=docHandler")
-   public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
-           HttpServletResponse response) throws Exception {
+   public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, @RequestParam(required = false) String auditActivated) throws Exception {
        ProposalDevelopmentDocument document;
        boolean isDeleted = false;
        if(!ObjectUtils.isNull(form.getDocId())) {
            document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(form.getDocId());
            isDeleted = document.isProposalDeleted();
+       }
+       if (auditActivated != null){
+           ((ProposalDevelopmentDocumentForm)form).setAuditActivated(Boolean.parseBoolean(auditActivated));
        }
        if (isDeleted) {
             Properties props = new Properties();
