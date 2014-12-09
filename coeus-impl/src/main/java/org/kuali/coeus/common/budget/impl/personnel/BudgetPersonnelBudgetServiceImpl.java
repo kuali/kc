@@ -351,23 +351,22 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     	Budget budget = budgetPeriod.getBudget();
         copyLineItemToPersonnelDetails(budgetLineItem, newBudgetPersonnelDetail);
         newBudgetPersonnelDetail.setPersonNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
-        refreshBudgetPersonnelLineItemReferences(newBudgetPersonnelDetail);
-        BudgetPerson budgetPerson = newBudgetPersonnelDetail.getBudgetPerson();
-        if(budgetPerson != null) {
-        	newBudgetPersonnelDetail.setPersonId(budgetPerson.getPersonRolodexTbnId());
-        	newBudgetPersonnelDetail.setJobCode(budgetPerson.getJobCode());
-        }
         newBudgetPersonnelDetail.setSequenceNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetail);
     }
 
-    private void refreshBudgetPersonnelLineItemReferences(BudgetPersonnelDetails newBudgetPersonnelDetail) {
+    public void refreshBudgetPersonnelLineItemReferences(BudgetPersonnelDetails newBudgetPersonnelDetail) {
 		if(newBudgetPersonnelDetail.getBudgetId() != null && newBudgetPersonnelDetail.getPersonSequenceNumber() != null) {
 			getDataObjectService().wrap(newBudgetPersonnelDetail).fetchRelationship("budgetPerson");
 		}
 		if(newBudgetPersonnelDetail.getPeriodTypeCode() != null) {
 			getDataObjectService().wrap(newBudgetPersonnelDetail).fetchRelationship("budgetPeriodType");
 		}
+        BudgetPerson budgetPerson = newBudgetPersonnelDetail.getBudgetPerson();
+        if(budgetPerson != null) {
+        	newBudgetPersonnelDetail.setPersonId(budgetPerson.getPersonRolodexTbnId());
+        	newBudgetPersonnelDetail.setJobCode(budgetPerson.getJobCode());
+        }
     }
     
     public void calculateCurrentBudgetPeriod(BudgetPeriod budgetPeriod) {

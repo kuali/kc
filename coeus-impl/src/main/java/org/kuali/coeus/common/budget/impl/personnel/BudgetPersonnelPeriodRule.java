@@ -16,8 +16,8 @@
 package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.Interval;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetAddPersonnelPeriodEvent;
@@ -39,7 +39,7 @@ public class BudgetPersonnelPeriodRule {
     public KcEventResult validateAddBudgetPersonnelPeriod(BudgetAddPersonnelPeriodEvent event) {
     	KcEventResult result = new KcEventResult();
     	result.getMessageMap().addToErrorPath(event.getErrorPath());
-        verifySummaryPersonnel(event.getBudgetLineItem(), event.getBudgetPeriod().getBudgetLineItems(), result);
+        verifyProjectPersonnel(event.getBudgetLineItem(), event.getBudgetPersonnelDetails(), event.getBudgetPeriod().getBudgetLineItems(), result);
     	verifyPersonnelEffortAndCharged(event.getBudgetPersonnelDetails(), result);
     	verifyPersonnelDates(event.getBudgetPersonnelDetails(),event.getBudgetPeriod(), result);
     	result.getMessageMap().removeFromErrorPath(event.getErrorPath());
@@ -52,32 +52,44 @@ public class BudgetPersonnelPeriodRule {
         result.getMessageMap().addToErrorPath(event.getErrorPath());
         verifyPersonnelEffortAndCharged(event.getBudgetPersonnelDetails(), result);
         verifyPersonnelDates(event.getBudgetPersonnelDetails(),event.getBudgetPeriod(), result);
+        verifyDuplicatePerson(event.getBudgetLineItem(), event.getBudgetPersonnelDetails(), result);
         result.getMessageMap().removeFromErrorPath(event.getErrorPath());
         return result;
     }
 
-    protected void verifySummaryPersonnel(BudgetLineItem newBudgetLineItem,List<BudgetLineItem> budgetLineItemList , KcEventResult result) {
+    protected void verifyProjectPersonnel(BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, List<BudgetLineItem> budgetLineItemList , 
+    		KcEventResult result) {
     	String newBudgetCategoryTypeCode = newBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode();
         for(BudgetLineItem budgetLineItem : budgetLineItemList) {
         	String existingBudgetCategoryTypeCode = budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode();
         	if(existingBudgetCategoryTypeCode.equalsIgnoreCase(newBudgetCategoryTypeCode)) {
                 if(newBudgetLineItem.getCostElement().equalsIgnoreCase(budgetLineItem.getCostElement()) && 
-                        StringUtils.equals(newBudgetLineItem.getGroupName(), budgetLineItem.getGroupName()) &&
-                        doDatesOverlap(newBudgetLineItem,budgetLineItem)) {
-                	addSummaryPersonnelLineItemErrorMessage(budgetLineItem, result);
-                	break;
+                        StringUtils.equals(newBudgetLineItem.getGroupName(), budgetLineItem.getGroupName())) {
+                	if(isSummaryPerson(newBudgetPersonnelDetails)) {
+                		addSummaryPersonnelLineItemErrorMessage(budgetLineItem, result);
+                    	break;
+                	}else {
+                		verifyPersonnel(budgetLineItem, newBudgetLineItem, newBudgetPersonnelDetails, result);
+                		if(!result.getSuccess()) {
+                        	break;
+                		}
+                	}
                 }
         	}
         }
     }
 
-    protected boolean doDatesOverlap(BudgetLineItem newBudgetLineItem, BudgetLineItem existingBudgetLineItem){
-        Interval newInterval = new Interval(newBudgetLineItem.getStartDate().getTime(),newBudgetLineItem.getEndDate().getTime());
-        Interval existingInterval = new Interval(existingBudgetLineItem.getStartDate().getTime(),existingBudgetLineItem.getEndDate().getTime());
-        return newInterval.overlaps(existingInterval);
-
+    protected boolean isSummaryPerson(BudgetPersonnelDetails budgetPersonnelDetails) {
+    	return budgetPersonnelDetails.getPersonSequenceNumber().equals(BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonSequenceNumber());
     }
     
+    /**
+     * User adding a new summary line
+     * Condition matched (object code and group)
+     * Error either summary line already exists or personnel line item exists
+     * @param budgetLineItem
+     * @param result
+     */
     protected void addSummaryPersonnelLineItemErrorMessage(BudgetLineItem budgetLineItem, KcEventResult result) {
         //Summary is already added and user is attempting to add a second summary
         if(budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
@@ -88,7 +100,41 @@ public class BudgetPersonnelPeriodRule {
             result.getMessageMap().putError("personSequenceNumber", KeyConstants.ERROR_PERSONNEL_EXISTS);
             result.setSuccess(false);
         }
-     }
+    }
+    
+    /**
+     * User adding a new personnel line
+     * Condition matched (object code and group)
+     * Error check whether summary line already exists or personnel line is duplicate
+     * @param budgetLineItem
+     * @param newBudgetLineItem
+     * @param newBudgetPersonnelDetails
+     * @param result
+     */
+    protected void verifyPersonnel(BudgetLineItem budgetLineItem, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, KcEventResult result) {
+        if(budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
+            result.getMessageMap().putError("personSequenceNumber", KeyConstants.ERROR_SUMMARY_LINEITEM_EXISTS);
+            result.setSuccess(false);
+        }else {
+        	verifyDuplicatePerson(budgetLineItem, newBudgetPersonnelDetails, result);
+        }
+    }
+    
+    protected void verifyDuplicatePerson(BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, KcEventResult result) {
+        for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+        	if(isDuplicatePerson(budgetPersonnelDetails, newBudgetPersonnelDetails)) {
+                result.getMessageMap().putError("startDate", KeyConstants.ERROR_DUPLICATE_PERSON, newBudgetPersonnelDetails.getBudgetPerson().getPersonName());
+                result.setSuccess(false);
+                break;
+        	}
+        }
+    }
+    
+    protected boolean isDuplicatePerson(BudgetPersonnelDetails budgetPersonnelDetails, BudgetPersonnelDetails newBudgetPersonnelDetails) {
+    	return budgetPersonnelDetails.getPersonSequenceNumber().equals(newBudgetPersonnelDetails.getPersonSequenceNumber())&& 
+    	        StringUtils.equals(budgetPersonnelDetails.getJobCode(), newBudgetPersonnelDetails.getJobCode()) && 
+    	        budgetPersonnelDetails.getStartDate().equals(newBudgetPersonnelDetails.getStartDate());
+    }
     
     protected void verifyPersonnelEffortAndCharged(BudgetPersonnelDetails budgetPersonnelDetails, KcEventResult result) {
         if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new ScaleTwoDecimal(100))){

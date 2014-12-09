@@ -51,4 +51,6 @@ public interface BudgetPersonnelBudgetService {
     
     public void calculateBudgetPersonnelLineItem(Budget budget, BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails, int lineItemNumber);
     
+    public void refreshBudgetPersonnelLineItemReferences(BudgetPersonnelDetails newBudgetPersonnelDetail);
+    
 }
