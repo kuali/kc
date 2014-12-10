@@ -289,7 +289,6 @@ public class ProposalDevelopmentSubmitController extends
 
         if (getKualiRuleService().applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
             form.getNotificationHelper().sendNotification();
-            getGlobalVariableService().getMessageMap().putInfo(Constants.NO_FIELD + "1",KeyConstants.INFO_NOTIFICATIONS_SENT);
         }
 
         ProposalDevelopmentNotificationRenderer renderer = new ProposalDevelopmentNotificationRenderer(form.getDevelopmentProposal());

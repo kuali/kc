@@ -28,6 +28,8 @@ import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotification
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -209,8 +211,14 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=sendCertificationNotification")
-    public void sendPersonNotification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
-                                          @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
+    public ModelAndView sendCertificationNotification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                       @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
+        sendPersonNotification(form, String.valueOf(selectedLine));
+        return getRefreshControllerService().refresh(form);
+    }
+
+
+    public void sendPersonNotification(ProposalDevelopmentDocumentForm form, String selectedLine) throws Exception {
         ProposalPerson person = form.getDevelopmentProposal().getProposalPerson(Integer.parseInt(selectedLine));
 
         ProposalDevelopmentNotificationContext context =
@@ -221,20 +229,24 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         NotificationTypeRecipient recipient = new NotificationTypeRecipient();
         recipient.setPersonId(person.getPersonId());
         getKcNotificationService().sendNotification(context,notification,Collections.singletonList(recipient));
-
+        getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-PersonnelPage-Collection", KeyConstants.INFO_NOTIFICATIONS_SENT, person.getFullName());
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=sendAllCertificationNotifications")
-    public void sendAllCertificationNotifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+    public ModelAndView sendAllCertificationNotifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         int index = 0;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
             boolean certificationComplete = true;
             for (AnswerHeader answerHeader : proposalPerson.getQuestionnaireHelper().getAnswerHeaders()) {
                 certificationComplete &= answerHeader.isCompleted();
             }
-            if (!certificationComplete)  sendPersonNotification(form,String.valueOf(index));
+            if (!certificationComplete) {
+                sendPersonNotification(form, String.valueOf(index));
+            }
+
             index++;
         }
+        return getRefreshControllerService().refresh(form);
     }
 
 
