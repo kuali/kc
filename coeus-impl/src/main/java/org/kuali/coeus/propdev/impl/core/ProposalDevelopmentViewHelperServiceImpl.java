@@ -755,10 +755,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         }
     }
 
-    public boolean isChildSynchronized(DevelopmentProposal proposal) {
-       return getProposalHierarchyService().isSynchronized(proposal);
-    }
-
     public void populateCustomData(ProposalDevelopmentDocumentForm form) {
         for (CustomAttributeDocValue customAttributeDocValue : form.getProposalDevelopmentDocument().getCustomDataList()) {
             boolean groupNamePresent = false;

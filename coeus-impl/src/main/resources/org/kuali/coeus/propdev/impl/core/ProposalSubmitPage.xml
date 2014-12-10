@@ -502,18 +502,6 @@
                     <bean parent="Uif-HeaderFour">
                         <property name="rightGroup">
                             <bean parent="Uif-HorizontalBoxGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall=""
-                                              p:render="@{#line.isChild() and #ViewHelper.isChildSynchronized(#line)}"
-                                              p:actionLabel="Synced to Parent"  p:order="10"/>
-                                        <bean parent="Uif-SecondaryActionButton-Mini" p:iconClass="icon-warning" p:methodToCall=""
-                                              p:render="@{#line.isChild() and !#ViewHelper.isChildSynchronized(#line)}"
-                                              p:actionLabel="Sync to Parent"  p:order="20"/>
-                                        <bean parent="Uif-SecondaryActionButton-Mini"
-                                              p:actionLabel="Unlink Hierarchy" p:methodToCall="" p:order="30"/>
-                                    </list>
-                                </property>
                             </bean>
                         </property>
                         <property name="headerTagCssClasses">
