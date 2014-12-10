@@ -52,6 +52,7 @@ import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.security.*;
@@ -107,14 +108,14 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
             return port.getOpportunities(getOpportunityListRequest);
         }catch(SOAPFaultException soapFault){
             LOG.error("Error while getting list of opportunities", soapFault);
-            if(soapFault.getMessage().indexOf("Connection refused")!=-1){
+            if(soapFault.getMessage().contains("Connection refused")){
                 throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_OPP_SER_UNAVAILABLE,soapFault.getMessage());
             }else{
                 throw new S2sCommunicationException(KeyConstants.ERROR_S2S_UNKNOWN,soapFault.getMessage());
             }
-        }catch (ErrorMessage e) {
+        }catch (ErrorMessage|WebServiceException e) {
             LOG.error("Error while getting list of opportunities", e);
-            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_UNKNOWN,e.getMessage());
+            throw new S2sCommunicationException(KeyConstants.ERROR_S2S_UNKNOWN, e.getMessage());
         }
     }
 
@@ -135,7 +136,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         try {
             return port.getApplicationStatusDetail(applicationStatusDetailRequest);
         }
-        catch (ErrorMessage e) {
+        catch (ErrorMessage|WebServiceException e) {
             LOG.error("Error while getting proposal submission status details", e);
             throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_SERVER_STATUS_REFRESH,e.getMessage());
         }
@@ -174,7 +175,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         try {
             return port.getApplicationList(applicationListRequest);
         }
-        catch (ErrorMessage e) {
+        catch (ErrorMessage|WebServiceException e) {
             LOG.error("Error occured while fetching application list", e);
             throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_SERVER_APPLICATION_LIST_REFRESH,e.getMessage());
         }
@@ -194,15 +195,12 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
                     Map<String, DataHandler> attachments, String proposalNumber)
             throws S2sCommunicationException {
         ApplicantWebServicesPortType port = getApplicantIntegrationSoapPort(proposalNumber);
-        Iterator<String> it = attachments.keySet().iterator();
         SubmitApplicationRequest request = new SubmitApplicationRequest();
 
-        while (it.hasNext()) {
-            String key = it.next();
-            String cid = key;
-            DataHandler dataHandler = attachments.get(key);
+        for (Map.Entry<String, DataHandler> entry : attachments.entrySet()) {
+            DataHandler dataHandler = entry.getValue();
             Attachment attachment = new Attachment();
-            attachment.setFileContentId(cid);
+            attachment.setFileContentId(entry.getKey());
             attachment.setFileDataHandler(dataHandler);
             request.getAttachment().add(attachment);
         }
@@ -213,7 +211,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         }catch (ErrorMessage e) {
             LOG.error("Error occured while submitting proposal to Grants Gov", e);
             throw new S2sCommunicationException(KeyConstants.ERROR_GRANTSGOV_SERVER_SUBMIT_APPLICATION,e.getMessage());
-        }catch(SOAPFaultException e){
+        }catch(WebServiceException e){
             LOG.error("Error occured while submitting proposal to Grants Gov", e);
             throw new S2sCommunicationException(KeyConstants.ERROR_S2S_UNKNOWN,e.getMessage());
         }
@@ -254,7 +252,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         //disable for research.gov. This is not a big deal because submissions with attachments
         // go to grants.gov anyways and not to research.gov
         if (!StringUtils.equalsIgnoreCase(serviceHost, Constants.RESEARCH_GOV_SERVICE_HOST)) {
-            Map<String,Object> properties = new HashMap<String, Object>();
+            Map<String,Object> properties = new HashMap<>();
             properties.put("mtom-enabled", Boolean.TRUE);
             factory.setProperties(properties);
         }
@@ -325,19 +323,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
             trustManagerFactory.init(trustStore);
             TrustManager[] tm = trustManagerFactory.getTrustManagers();
             tlsConfig.setTrustManagers(tm);
-        }catch (NoSuchAlgorithmException e){
-            LOG.error(e.getMessage(), e);
-            throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
-        }catch (KeyStoreException e) {
-            LOG.error(e.getMessage(), e);
-            throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
-        }catch (UnrecoverableKeyException e) {
-            LOG.error(e.getMessage(), e);
-            throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
-        }catch (CertificateException e) {
-            LOG.error(e.getMessage(), e);
-            throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
-        }catch (IOException e) {
+        }catch (NoSuchAlgorithmException|KeyStoreException|UnrecoverableKeyException|CertificateException|IOException e){
             LOG.error(e.getMessage(), e);
             throw new S2sCommunicationException(KeyConstants.ERROR_KEYSTORE_CONFIG,e.getMessage());
         }
