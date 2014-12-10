@@ -39,6 +39,7 @@ import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
@@ -194,6 +195,31 @@ public class Protocol extends ProtocolBase {
             mergeProtocolQuestionnaire(amendment);
         }
     }
+
+    protected void removeMergeableLists(List<ProtocolAmendRenewModuleBase> modules) {
+        for (ProtocolAmendRenewModuleBase module: modules) {
+            String protocolModuleTypeCode = module.getProtocolModuleTypeCode();
+            if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.AREAS_OF_RESEARCH)) {
+                this.getProtocolResearchAreas().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.FUNDING_SOURCE)) {
+                this.getProtocolFundingSources().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_ORGANIZATIONS)) {
+                this.getProtocolLocations().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERSONNEL)) {
+                this.getProtocolPersons().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_REFERENCES)) {
+                this.getProtocolReferences().clear();
+            }
+            else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SUBJECTS)) {
+                this.getProtocolParticipants().clear();
+            }
+        }
+    }
+
 
     /*
      * get submit for review questionnaire answerheaders
