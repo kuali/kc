@@ -383,7 +383,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     }
     
     public boolean isPersonSalaryEffectiveDateAfterStartDate() {
-    	return getStartDate() != null && budgetPerson.getEffectiveDate() != null && budgetPerson.getEffectiveDate().after(getStartDate());
+    	return getStartDate() != null && budgetPerson != null && budgetPerson.getEffectiveDate() != null && budgetPerson.getEffectiveDate().after(getStartDate());
     }
     
     public boolean isPersonBaseSalaryZero() {
