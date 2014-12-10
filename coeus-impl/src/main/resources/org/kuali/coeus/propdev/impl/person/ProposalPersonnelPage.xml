@@ -265,6 +265,7 @@
 	<bean id="PropDev-PersonnelPage-Collection-parentBean" abstract="true"
 		parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
 		p:propertyName="document.developmentProposal.proposalPersons"
+        p:id="PropDev-PersonnelPage-Collection"
 		p:layoutManager.summaryTitle="@{#lp.fullName}
 		                                (@{#lp.role.description}
                                             @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
