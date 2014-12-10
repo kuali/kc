@@ -735,8 +735,12 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
             form.setHierarchyDevelopmentProposals(getProposalHierarchyService().getHierarchyProposals(form.getDevelopmentProposal()));
         }
 
-        if (form.getDevelopmentProposal().getFinalBudget() != null) {
-            form.setSelectedBudget(form.getDevelopmentProposal().getFinalBudget());
+        if (form.getDevelopmentProposal().getFinalBudget() != null || form.getDevelopmentProposal().getLatestBudget() != null) {
+            if (form.getDevelopmentProposal().getFinalBudget() != null) {
+                form.setSelectedBudget(form.getDevelopmentProposal().getFinalBudget());
+            } else {
+                form.setSelectedBudget(form.getDevelopmentProposal().getLatestBudget());
+            }
             if(form.getSelectedBudget().getBudgetSummaryDetails().isEmpty()) {
                getBudgetCalculationService().populateBudgetSummaryTotals(form.getSelectedBudget());
             }
