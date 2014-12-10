@@ -54,7 +54,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         ProposalPersonBiography proposalPersonBiography = addPersonnelAttachmentEvent.getProposalPersonBiography();
         boolean rulePassed = true;
 
-        if(StringUtils.isBlank(proposalPersonBiography.getDocumentTypeCode())){
+        if(StringUtils.isBlank(proposalPersonBiography.getDocumentTypeCode())) {
             rulePassed = false;
             reportError(DOCUMENT_TYPE_CODE, ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
         }
@@ -67,19 +67,25 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         }
 
         String attachmentFileName = proposalPersonBiography.getName();
-        String invalidCharacters = getKcAttachmentService().getInvalidCharacters(attachmentFileName);
-        if (!checkForInvalidCharacters(invalidCharacters)){
-            String parameter = getParameterService().
-                    getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
-            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
-                rulePassed = false;
-                reportError(PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, invalidCharacters);
-            } else {
-                rulePassed &= true;
-                reportWarning(PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_NAME,
-                        attachmentFileName, invalidCharacters);
-            }
+        
+        if(StringUtils.isBlank(attachmentFileName )) {
+        	rulePassed = false;
+            reportError(PERSONNEL_ATTACHMENT_FILE, KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME);     
+        } else {
+            String invalidCharacters = getKcAttachmentService().getInvalidCharacters(attachmentFileName);
+        	if (!checkForInvalidCharacters(invalidCharacters)){
+	            String parameter = getParameterService().
+	                    getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INVALID_FILE_NAME_CHECK_PARAMETER);
+	            if (Constants.INVALID_FILE_NAME_ERROR_CODE.equals(parameter)) {
+	                rulePassed = false;
+	                reportError(PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_NAME,
+	                        attachmentFileName, invalidCharacters);
+	            } else {
+	                rulePassed &= true;
+	                reportWarning(PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_NAME,
+	                        attachmentFileName, invalidCharacters);
+	            }
+        	}
         }
 
         rulePassed &= checkForValidFileType(proposalPersonBiography);
