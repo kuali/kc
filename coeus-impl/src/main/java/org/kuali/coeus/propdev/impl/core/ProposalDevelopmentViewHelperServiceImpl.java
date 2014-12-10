@@ -28,6 +28,8 @@ import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
+import org.kuali.coeus.common.framework.sponsor.SponsorSearchResult;
+import org.kuali.coeus.common.framework.sponsor.SponsorSearchService;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
@@ -56,7 +58,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.impl.KcViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -71,8 +72,6 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.util.*;
@@ -166,6 +165,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("proposalTypeService")
     private ProposalTypeService proposalTypeService;
+
+    @Autowired
+    @Qualifier("sponsorSearchService")
+    private SponsorSearchService sponsorSearchService;
 
     @Autowired
     @Qualifier("budgetCalculationService")
@@ -322,7 +325,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 
     @Override
     public void processAfterSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
-           ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) model;
            getDataObjectService().save(lineObject);
            if (lineObject instanceof ProposalPersonBiography) {
                try {
@@ -383,8 +385,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public static class SponsorSuggestResult {
-        private Sponsor sponsor;
-        public SponsorSuggestResult(Sponsor sponsor) {
+        private SponsorSearchResult sponsor;
+        public SponsorSuggestResult(SponsorSearchResult sponsor) {
             this.sponsor = sponsor;
         }
         public String getValue() {
@@ -398,14 +400,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         }
     }
 
-    public List<SponsorSuggestResult> performSponsorFieldSuggest(String sponsorCode) {
-        List<SponsorSuggestResult> result = new ArrayList<SponsorSuggestResult>();
-        List<Sponsor> allSponsors = new ArrayList<Sponsor>();
-        String searchString = "%" + sponsorCode + "%";
-        allSponsors = getDataObjectService().findMatching(Sponsor.class, QueryByCriteria.Builder.fromPredicates(PredicateFactory.or(PredicateFactory.likeIgnoreCase("sponsorCode", searchString),
-                PredicateFactory.likeIgnoreCase("acronym", searchString),
-                PredicateFactory.likeIgnoreCase("sponsorName", searchString)))).getResults();
-        for (Sponsor sponsor : allSponsors) {
+    public List<SponsorSuggestResult> performSponsorFieldSuggest(String sponsorSearchStr) {
+       if (StringUtils.isBlank(sponsorSearchStr)) {
+            return Collections.emptyList();
+        }
+
+        final List<SponsorSearchResult> allSponsors = getSponsorSearchService().findSponsors(sponsorSearchStr);
+        List<SponsorSuggestResult> result = new ArrayList<>();
+        for (SponsorSearchResult sponsor : allSponsors) {
             result.add(new SponsorSuggestResult(sponsor));
         }
         return result;
@@ -972,6 +974,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 		this.proposalTypeService = proposalTypeService;
 	}
 
+
+    public SponsorSearchService getSponsorSearchService() {
+        return sponsorSearchService;
+    }
+
+    public void setSponsorSearchService(SponsorSearchService sponsorSearchService) {
+        this.sponsorSearchService = sponsorSearchService;
+    }
     public BudgetCalculationService getBudgetCalculationService() {
         return budgetCalculationService;
     }

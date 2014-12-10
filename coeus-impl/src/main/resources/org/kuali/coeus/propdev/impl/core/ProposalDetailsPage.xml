@@ -174,7 +174,7 @@
 					</map>
 				</property>
 				<property name="suggestQuery">
-					<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="performSponsorFieldSuggest" />
+					<bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.targetObject="#{#getService('proposalDevelopmentViewHelperService')}" p:queryMethodToCall="performSponsorFieldSuggest" />
 				</property>
 			</bean>
 		</property>

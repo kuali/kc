@@ -85,7 +85,8 @@
     <bean id="kcNotificationService" parent="grlImporter" p:serviceName="kcNotificationService"/>
     <bean id="wizardControllerService" parent="grlImporter" p:serviceName="wizardControllerService"/>
     <bean id="kcBusinessRulesEngine" parent="grlImporter" p:serviceName="kcBusinessRulesEngine"/>
-    
+    <bean id="sponsorSearchService" parent="grlImporter" p:serviceName="sponsorSearchService" />
+
     <!-- IRB -->
 
     <bean id="proposalDevelopmentProtocolDocumentService" parent="grlImporter" p:serviceName="proposalDevelopmentProtocolDocumentService" />

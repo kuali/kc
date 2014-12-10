@@ -72,6 +72,8 @@
 
     <import resource="classpath:org/kuali/rice/krad/config/KRADSpringBeans-jpa-common.xml" />
 
+    <alias name="sharedEntityManager" alias="kcEntityManager" />
+
     <bean id="kcPessimisticLockingJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="kcPessimisticLockService" />
         <property name="targetMethod" value="clearExpiredLocks" />

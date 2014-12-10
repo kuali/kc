@@ -42,4 +42,6 @@
     <bean id="protocolFinderDao" parent="grlImporter" p:serviceName="protocolFinderDao" p:singleton="false" />
     <bean id="iacucProtocolFinderDao" parent="grlImporter" p:serviceName="iacucProtocolFinderDao" p:singleton="false"/>
     <bean id="awardBudgetService" parent="grlImporter" p:serviceName="awardBudgetService" p:singleton="false" />
+    <bean id="kcEntityManager" parent="grlImporter" p:serviceName="kcEntityManager" />
+
 </beans>
