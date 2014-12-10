@@ -95,7 +95,7 @@
       <bean parent="CurrencyControlDefinition" p:formattedMaxLength="19" p:size="19"/>
     </property>
     <property name="controlField">
-      <bean p:size="19" p:maxLength="27" parent="Uif-CurrencyTextControl"/>
+      <bean p:size="19" p:maxLength="19" parent="Uif-CurrencyTextControl"/>
     </property>
     <property name="summary" value="Project Income" />
     <property name="description" value="Project Income" />
