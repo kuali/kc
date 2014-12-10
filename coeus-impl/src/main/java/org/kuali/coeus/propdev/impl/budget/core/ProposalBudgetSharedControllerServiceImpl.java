@@ -9,6 +9,7 @@ import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -59,6 +60,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 	        props.put("methodToCall", "initiate");
 	        props.put("budgetId", budget.getBudgetId().toString());
 	        props.put("summaryBudget", summaryBudget.toString());
+            props.put("auditActivated", String.valueOf(((Auditable)form).isAuditActivated()));
 	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
         } else {
         	form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
@@ -80,6 +82,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 	        Properties props = new Properties();
 	        props.put("methodToCall", "initiate");
 	        props.put("budgetId", budget.getBudgetId().toString());
+            props.put("auditActivated", String.valueOf(((Auditable)form).isAuditActivated()));
 	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
         } else {
         	form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
@@ -94,6 +97,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 	        Properties props = new Properties();
 	        props.put("methodToCall", "start");
 	        props.put("budgetId", budgetId);
+            props.put("auditActivated", String.valueOf(((Auditable)form).isAuditActivated()));
 	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
 		} else {
         	form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());			
