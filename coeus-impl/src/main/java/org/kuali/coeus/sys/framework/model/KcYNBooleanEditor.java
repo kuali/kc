@@ -9,7 +9,7 @@ public class KcYNBooleanEditor extends UifBooleanEditor {
             return "";
         }
         if (this.getValue() instanceof String){
-            setAsText(this.getValue().toString());
+            setAsText(this.getValue().toString().trim());
         }
         if(((Boolean)this.getValue()).booleanValue()) {
             return "Yes";
