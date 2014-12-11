@@ -58,7 +58,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
             String docNumber = createQuestionnaireMaintDocument();
             Map<String, Object> reportParameters = new HashMap<String, Object>();
             reportParameters.put("documentNumber", docNumber);
-            reportParameters.put("questionnaireId", 1);
+            reportParameters.put("questionnaireSeqId", 1);
             AttachmentDataSource pdfBytes = getPrintingService().printQuestionnaire(null, reportParameters);
 
             // FIXME Writing PDF to disk for testing purpose only.
@@ -108,7 +108,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         try {
             Map<String, Object> reportParameters = new HashMap<String, Object>();
             reportParameters.put("documentNumber", createQuestionnaireMaintDocument());
-            reportParameters.put("questionnaireId", 1);
+            reportParameters.put("questionnaireSeqId", 1);
             ProtocolDocument document = new ProtocolDocument();
             document.getProtocol().setProtocolNumber("1234");
             AttachmentDataSource pdfBytes = getPrintingService().printQuestionnaireAnswer(document.getProtocol(), reportParameters);
