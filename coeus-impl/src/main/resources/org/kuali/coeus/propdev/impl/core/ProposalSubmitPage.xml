@@ -671,9 +671,37 @@
             p:headerText="Budget Summary">
         <property name="items">
             <list>
+                <bean parent="PropDev-SubmitPage-BudgetTotals" p:order="10" />
                 <bean parent="Kc-LineItemTable" p:propertyName="selectedBudget.budgetSummaryDetails"
-                      p:order="10"/>
-                <bean parent="PropDev-SubmitPage-BudgetRates" p:order="20"/>
+                      p:order="20"/>
+                <bean parent="PropDev-SubmitPage-BudgetRates" p:order="30"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-SubmitPage-BudgetTotals" parent="PropDev-SubmitPage-BudgetTotals-parentBean"/>
+    <bean id="PropDev-SubmitPage-BudgetTotals-parentBean" abstract="true" parent="Uif-GridSection"
+          p:layoutManager.numberOfColumns="4">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="selectedBudget.costSharingAmount" p:order="10">
+                    <property name="propertyEditor">
+                        <ref bean="Kc-ScaleTwoPercentageEditor"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="selectedBudget.underrecoveryAmount" p:order="20">
+                    <property name="propertyEditor">
+                        <ref bean="Kc-ScaleTwoPercentageEditor"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:fieldLabel.labelText="Program Income"
+                      p:propertyName="selectedBudget.projectIncomeTotal" p:order="30">
+                    <property name="propertyEditor">
+                        <ref bean="Kc-ScaleTwoPercentageEditor"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:fieldLabel.labelText="F&amp;A Rate Type"
+                      p:propertyName="selectedBudget.rateClass.description" p:order="40"/>
             </list>
         </property>
     </bean>
