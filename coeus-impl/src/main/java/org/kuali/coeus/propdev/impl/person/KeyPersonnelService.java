@@ -21,6 +21,7 @@ import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 
 import java.util.Collection;
 import java.util.List;
@@ -106,4 +107,6 @@ public interface KeyPersonnelService {
     public boolean isValidHomeUnit(ProposalPerson person, String unitId);
 
     public List<ProposalCreditSplitListDto> createCreditSplitListItems(List<ProposalPerson> investigators);
+
+    public List<ProposalUnitCreditSplit> createCreditSplits(ProposalPersonUnit unit);
 }

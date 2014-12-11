@@ -201,7 +201,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
             }
         } else if (addLine instanceof ProposalPersonUnit) {
             try {
-                ((ProposalPersonUnit)addLine).setProposalPerson((ProposalPerson)PropertyUtils.getNestedProperty(form.getDevelopmentProposal(),StringUtils.replace(collectionPath,".units","")));
+                ProposalPersonUnit unit = (ProposalPersonUnit)addLine;
+                ProposalPerson proposalPerson = (ProposalPerson) PropertyUtils.getNestedProperty(form.getDevelopmentProposal(),StringUtils.replace(collectionPath,".units",""));
+                unit.setProposalPerson(proposalPerson);
+                unit.getCreditSplits().addAll(getKeyPersonnelService().createCreditSplits(unit));
             } catch (Exception e) {
                 throw new RuntimeException("proposal person cannot be retrieved from development proposal",e);
             }
@@ -351,7 +354,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         if (deleteLine instanceof ProposalUserRoles){
             isValid = getProposalDevelopmentPermissionsService().validateDeletePermissions(document, form.getWorkingUserRoles(),index);
             if (isValid){
-                getProposalDevelopmentPermissionsService().processDeletePermission(document,((ProposalUserRoles)deleteLine));
+                getProposalDevelopmentPermissionsService().processDeletePermission(document, ((ProposalUserRoles) deleteLine));
             }
         }
 
@@ -877,7 +880,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public String getDisclaimerText() {
-       return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,"propSummaryDisclaimerText");
+       return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, "propSummaryDisclaimerText");
     }
 
     public boolean areAllCertificationsComplete(List<ProposalPerson> proposalPersons) {
