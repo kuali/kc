@@ -3,11 +3,13 @@ package org.kuali.coeus.propdev.impl.budget.nonpersonnel;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.ApplyToPeriodsBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetDirectCostLimitEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetPeriodCostLimitEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpensesRuleEvent;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -32,7 +34,6 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	protected static final String CONFIRM_SYNC_TO_DIRECT_COST_LIMIT_DIALOG_ID = "PropBudget-NonPersonnelCosts-SyncToDirectCostLimit";
 	
 
-	
 	@Transactional @RequestMapping(params="methodToCall=assignLineItemToPeriod")
 	public ModelAndView assignLineItemToPeriod(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);
@@ -63,6 +64,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
         getBudgetCalculationService().populateCalculatedAmount(budget, newBudgetLineItem);
         getBudgetService().recalculateBudgetPeriod(budget, currentTabBudgetPeriod);
 		form.getAddProjectBudgetLineItemHelper().reset();
+	    validateBudgetExpenses(budget, currentTabBudgetPeriod);
 		return getModelAndViewService().getModelAndView(form);
 	}
 
@@ -93,6 +95,8 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
 		    BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
 		    budgetPeriod.getBudgetLineItems().remove(deletedBudgetLineItem);
+		    validateBudgetExpenses(budget, budgetPeriod);
+		    form.setAjaxReturnType("update-page");
 	    }
 		return getModelAndViewService().getModelAndView(form);
 	}
@@ -100,7 +104,16 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	@Transactional @RequestMapping(params="methodToCall=saveBudgetLineItem")
 	public ModelAndView saveBudgetLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    setEditedBudgetLineItem(form);
-		return getModelAndViewService().getModelAndView(form);
+	    Budget budget = form.getBudget();
+	    BudgetPeriod budgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
+	    validateBudgetExpenses(budget, budgetPeriod);
+        return getModelAndViewService().getModelAndView(form);
+	}
+	
+	protected void validateBudgetExpenses(Budget budget, BudgetPeriod budgetPeriod) {
+	    getBudgetCalculationService().calculateBudgetPeriod(budget, budgetPeriod);
+	    String errorPath = BudgetConstants.BudgetAuditRules.NON_PERSONNEL_COSTS.getPageId();
+		getKcBusinessRulesEngine().applyRules(new BudgetExpensesRuleEvent(budget, errorPath));
 	}
 	
 	@Transactional @RequestMapping(params="methodToCall=saveAndApplyToLaterPeriods")
@@ -110,6 +123,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	    BudgetLineItem budgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();
 	    setEditedBudgetLineItem(form);
 	    getBudgetCalculationService().applyToLaterPeriods(budget,currentTabBudgetPeriod,budgetLineItem);
+	    validateBudgetExpenses(budget, currentTabBudgetPeriod);
 		return getModelAndViewService().getModelAndView(form);
 	}
 	
