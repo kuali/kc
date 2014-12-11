@@ -58,6 +58,7 @@ public class ProposalDevelopmentConstants {
     public static class AuthConstants {
 		public static final String MODIFY_PROPOSAL_EDIT_MODE = "modifyProposal";
 		public static final String VIEW_ONLY_PROPOSAL_EDIT_MODE = "viewProposal";
+        public static final String MAINTAIN_HIERARCHY_EDIT_MODE = "maintainProposalHierarchy";
     }
     
     
