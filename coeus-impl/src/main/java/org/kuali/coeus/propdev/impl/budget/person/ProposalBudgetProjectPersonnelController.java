@@ -355,7 +355,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
 		    BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
 		    BudgetLineItem budgetLineItem = deletedPersonnelLineItem.getBudgetLineItem();
-		    if(isSummaryPersonnel(deletedPersonnelLineItem)) {
+		    if(!isSummaryPersonnel(deletedPersonnelLineItem)) {
 			    budgetLineItem.getBudgetPersonnelDetailsList().remove(deletedPersonnelLineItem);
 		    }
 		    if(budgetLineItem.getBudgetPersonnelDetailsList().size() == 0) {
