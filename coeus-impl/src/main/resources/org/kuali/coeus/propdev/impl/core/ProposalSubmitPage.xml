@@ -547,7 +547,8 @@
                 <bean parent="Uif-DataField" p:propertyName="ownedByUnit.unitName" p:order="70"/>
                 <bean parent="Uif-DataField" p:propertyName="budgetStatusDescription" p:order="80"
                         p:fieldLabel.labelText="Budget:"/>
-                <bean parent="Uif-DataField" p:propertyName="activityType.description" p:order="90"/>
+                <bean parent="Uif-DataField" p:fieldLabel.labelText="Activity Type"
+                      p:propertyName="activityType.description" p:order="90"/>
                 <bean parent="Uif-DataField" p:propertyName="title" p:order="100"/>
             </list>
         </property>
