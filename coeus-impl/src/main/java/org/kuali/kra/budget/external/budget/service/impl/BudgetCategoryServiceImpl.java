@@ -46,7 +46,7 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
     public List<BudgetCategoryDTO> lookupBudgetCategories(List<HashMapElement> criteria) {
 
         HashMap<String, String> searchCriteria =  new HashMap<String, String>();
-        List<BudgetCategoryDTO> budgetCategoryDTO = new ArrayList<BudgetCategoryDTO>();
+        List<BudgetCategoryDTO> budgetCategoryDTOs = new ArrayList<BudgetCategoryDTO>();
         List<BudgetCategory> budgetCategories = new ArrayList<BudgetCategory>();
        
         
@@ -60,8 +60,19 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
             }
             budgetCategories =  new ArrayList<BudgetCategory>(businessObjectService.findMatching(BudgetCategory.class, searchCriteria));      
         }
+        if(budgetCategories!= null && budgetCategories.size() > 0) {
+        	for(BudgetCategory budgetCategory : budgetCategories) {
+        		BudgetCategoryDTO budgetCategoryDTO = new BudgetCategoryDTO();
+        		budgetCategoryDTO.setBudgetCategoryCode(budgetCategory.getCode());
+        		budgetCategoryDTO.setAuthorPersonName(budgetCategory.getUpdateUser());
+        		budgetCategoryDTO.setBudgetCategoryTypeCode(budgetCategory.getBudgetCategoryTypeCode());
+        		budgetCategoryDTO.setBudgetCategoryTypeDescription(budgetCategory.getBudgetCategoryType().getDescription());
+        		budgetCategoryDTO.setDescription(budgetCategory.getDescription());
+        		budgetCategoryDTOs.add(budgetCategoryDTO);
+        	}
+        }
        
-        return budgetCategoryDTO;
+        return budgetCategoryDTOs;
     }
 
     /**
