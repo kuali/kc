@@ -52,7 +52,7 @@
 		</property>
 	    <property name="addLineDialog">
 	    	<bean id="PropBudget-SubawardsPage-CollectionGroup-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Subaward"
-                  p:retrieveViaAjax="true" p:omitFromFormPost="false">
+                  p:retrieveViaAjax="true">
 			   <property name="footer.items">
 			     <list>
 			       <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"/>
@@ -112,8 +112,7 @@
 	<bean id="PropBudget-Subawards-Details-Section" parent="PropBudget-Subawards-Details-Section-parent" />
 	<bean id="PropBudget-Subawards-Details-Section-parent"
 		parent="Uif-EditLineDialog" p:headerText="Subaward Details" p:dialogCssClass="modal-lg"
-		p:onLoadScript="jQuery('.calculateTotal').on('change', Kc.PropDev.Budget.calculateTotal);"
-        p:omitFromFormPost="false">
+		p:onLoadScript="jQuery('.calculateTotal').on('change', Kc.PropDev.Budget.calculateTotal);">
 		<property name="items">
 			<list>
 				<bean parent="PropBudget-SubawardsAttachments-Buttons-Group" p:order="10"/>
@@ -194,10 +193,10 @@
 						</map>
 					</property>				
 				</bean>
-				<bean p:actionLabel="Replace" parent="Uif-SecondaryActionButton-Mini" 
+				<bean p:actionLabel="Replace PDF" parent="Uif-SecondaryActionButton-Mini"
 					p:actionScript="jQuery('.subAwardDetailButtons').toggle(); jQuery('.subAwardDetailsFileUpload').toggle(); jQuery('.subAwardDetailsFileUpload').addClass('replaceAttachment');"
 					p:order="40" />
-				<bean p:actionLabel="Delete" parent="Uif-SecondaryActionButton-Mini" p:order="50" 
+				<bean p:actionLabel="Delete PDF" parent="Uif-SecondaryActionButton-Mini" p:order="50"
 					p:methodToCall="removeAttachment">
 					<property name="confirmationDialog">
 						<bean parent="Uif-DialogGroup-OkCancel"

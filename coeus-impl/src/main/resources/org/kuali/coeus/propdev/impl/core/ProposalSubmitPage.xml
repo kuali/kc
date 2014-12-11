@@ -135,8 +135,7 @@
 
     <bean id="PropDev-SubmitPage-RejectDialog" parent="Uif-DialogGroup-YesNo"
           p:fieldBindingObjectPath="proposalDevelopmentRejectionBean"
-          p:readOnly="false"
-          p:omitFromFormPost="false">
+          p:readOnly="false">
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Are you sure you want to reject this document?" p:order="10"/>
