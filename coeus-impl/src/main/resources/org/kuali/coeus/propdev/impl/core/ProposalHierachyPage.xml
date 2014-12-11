@@ -30,8 +30,11 @@
              (Document # @{document.documentNumber}), which is a Parent document."
                       p:render="@{document.developmentProposal.isParent()}" p:order="30"/>
 
+             <bean parent="Uif-MessageField" p:messageText="You do not have permission to perform Proposal Hierarchy actions."
+                      p:render="@{document.developmentProposal.isInHierarchy() and !#editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:order="10"/>
+
 			 <bean parent="Uif-InputField" p:label="Link Proposal" p:propertyName="newHierarchyChildProposalNumber"
-                      p:render="@{document.developmentProposal.isParent()}" p:order="40">
+                      p:render="@{document.developmentProposal.isParent() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:order="40">
                 <property name="quickfinder">
                     <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
                           p:fieldConversions="proposalNumber:newHierarchyChildProposalNumber" p:renderReturnLink="true"/>
@@ -39,7 +42,7 @@
              </bean>
 
              <bean parent="Uif-InputField" p:label="Link Proposal" p:propertyName="newHierarchyProposalNumber"
-                      p:render="@{!document.developmentProposal.isInHierarchy()}" p:order="50">
+                      p:render="@{!document.developmentProposal.isInHierarchy() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:order="50">
                  <property name="quickfinder">
                      <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
                            p:fieldConversions="proposalNumber:newHierarchyProposalNumber" p:renderReturnLink="true"/>
@@ -54,17 +57,17 @@
 				<property name="items">
 					<list>
 						<bean p:actionLabel="Link a Child to this Parent" parent="Uif-PrimaryActionButton" p:methodToCall="linkChildToHierarchy"
-                              p:render="@{document.developmentProposal.isParent()}" p:dialogDismissOption="REQUEST" p:order="10"/>
+                              p:render="@{document.developmentProposal.isParent() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:dialogDismissOption="REQUEST" p:order="10"/>
                         <bean p:actionLabel="Link this Child to a Parent" parent="Uif-PrimaryActionButton" p:methodToCall="linkToHierarchy"
-                              p:render="@{!document.developmentProposal.isInHierarchy()}" p:dialogDismissOption="REQUEST" p:order="20"/>
+                              p:render="@{!document.developmentProposal.isInHierarchy() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:dialogDismissOption="REQUEST" p:order="20"/>
 						<bean p:actionLabel="Create Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="createHierarchy"
-                              p:render="@{!document.developmentProposal.isInHierarchy()}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="30"/>
+                              p:render="@{!document.developmentProposal.isInHierarchy() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="30"/>
                         <bean p:actionLabel="Sync Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="syncToHierarchyParent"
-                              p:render="@{document.developmentProposal.isChild()}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="40"/>
+                              p:render="@{document.developmentProposal.isChild() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="40"/>
                         <bean p:actionLabel="Unlink Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="removeFromHierarchy"
-                              p:render="@{document.developmentProposal.isChild()}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="50"/>
+                              p:render="@{document.developmentProposal.isChild() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="50"/>
                         <bean p:actionLabel="Sync All" parent="Uif-SecondaryActionButton" p:methodToCall="syncAllHierarchy"
-                              p:render="@{document.developmentProposal.isParent()}"  p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="60"/>
+                              p:render="@{document.developmentProposal.isParent() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}"  p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="60"/>
 
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:methodToCall="hierarchyActionCanceled"/>
 					</list>
