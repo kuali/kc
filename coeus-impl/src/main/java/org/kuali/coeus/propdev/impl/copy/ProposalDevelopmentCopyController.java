@@ -12,6 +12,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +33,7 @@ public class ProposalDevelopmentCopyController extends ProposalDevelopmentContro
     @Qualifier("proposalCopyService")
     private ProposalCopyService proposalCopyService;
 
-    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=copy")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=copy")
     public ModelAndView copy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
