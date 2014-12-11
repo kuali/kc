@@ -389,8 +389,7 @@
     <bean id="PropDev-OpportunityPage-AddUserAttachedForm" parent="PropDev-OpportunityPage-AddUserAttachedForm-parentBean"/>
     <bean id="PropDev-OpportunityPage-AddUserAttachedForm-parentBean" abstract="true" parent="Uif-DialogGroup"
           p:fieldBindingObjectPath="s2sUserAttachedForm"
-            p:headerText="Add User Attached Form"
-            p:omitFromFormPost="false">
+            p:headerText="Add User Attached Form">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="description" p:order="10"

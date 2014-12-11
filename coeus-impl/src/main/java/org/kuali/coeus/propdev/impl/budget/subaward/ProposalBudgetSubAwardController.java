@@ -69,10 +69,9 @@ public class ProposalBudgetSubAwardController extends
 	@Transactional @RequestMapping(params="methodToCall=viewSubAwardPdf")
 	public void viewPdf(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form, HttpServletResponse response) {
 		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
-		BudgetSubAwardAttachment attachment = getDataObjectService().findUnique(BudgetSubAwardAttachment.class, QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("budgetSubAward.budgetId", subAward.getBudgetId()), PredicateFactory.equal("budgetSubAward.subAwardNumber", subAwardNumber)));
         try {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(attachment.getData());
-            KRADUtils.addAttachmentToResponse(response,inputStream,attachment.getType(), attachment.getName(), attachment.getData().length);
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(subAward.getSubAwardXfdFileData());
+            KRADUtils.addAttachmentToResponse(response,inputStream,"application/pdf", subAward.getSubAwardXfdFileName(), subAward.getSubAwardXfdFileData().length);
             response.flushBuffer();
         } catch (Exception e) {
             LOG.error("Error while downloading attachment");

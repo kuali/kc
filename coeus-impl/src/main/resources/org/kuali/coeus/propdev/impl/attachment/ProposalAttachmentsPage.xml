@@ -604,8 +604,7 @@
     <bean id="PropDev-AttachmentPage-DetailsDialog" parent="PropDev-AttachmentPage-DetailsDialog-parentBean"/>
     <bean id="PropDev-AttachmentPage-DetailsDialog-parentBean" abstract="true" parent="Uif-DialogGroup"
           p:fieldBindingObjectPath="proposalDevelopmentAttachmentHelper"
-          p:header.headerText="Details"
-          p:omitFromFormPost="false">
+          p:header.headerText="Details">
         <property name="footer.items">
                     <list>
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20"/>
