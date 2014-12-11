@@ -101,6 +101,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        initialSave(proposalDevelopmentDocument);
        save(form, result, request, response);
        initializeProposalUsers(form.getProposalDevelopmentDocument());
+       form.setWorkingUserRoles(getProposalDevelopmentPermissionsService().getPermissions(form.getProposalDevelopmentDocument()));
        getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalType");
        //setting to null so the previous page id(PropDev-InitiatePage) doesn't override the default
        form.setPageId(null);
@@ -209,7 +210,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
    public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
 		   HttpServletRequest request, HttpServletResponse response) throws Exception {
-	   return super.navigate(form, result, request, response);
+       return super.navigate(form, result, request, response);
    }
 
    @MethodAccessible
@@ -309,7 +310,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
             ModelAndView modelAndView = getTransactionalDocumentControllerService().docHandler(form);
             propDevForm.initialize();
             propDevForm.getCustomDataHelper().prepareCustomData();
-            initializeProposalUsers(propDevForm.getProposalDevelopmentDocument());
+
             propDevForm.setWorkingUserRoles(getProposalDevelopmentPermissionsService().getPermissions(propDevForm.getProposalDevelopmentDocument()));
 
            if (summaryView) {
