@@ -183,7 +183,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		List<DevelopmentProposal> developmentProposals = null;
 		developmentProposals = hierarchyService.getHierarchyProposals(childProposal);
 		assertNotNull(developmentProposals);
-		assertTrue(developmentProposals.size() == 1);
+		assertTrue(developmentProposals.size() == 2);
 		assertEquals(childProposal.getHierarchyParentProposalNumber(),
 				developmentProposals.get(0).getProposalNumber());
 	}
