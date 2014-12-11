@@ -538,7 +538,6 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                     int matchingLineItemIndex = 0;
                     for(BudgetLineItem matchingLineItem : filteredLineItems) {
                         for(BudgetPersonnelDetails budgetPersonnelDetails : matchingLineItem.getBudgetPersonnelDetailsList()) {
-                            budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
                             Equals personIdEquals = new Equals("personId", budgetPersonnelDetails.getPersonId());
                             QueryList personOccurrencesForSameObjectCode = personnelQueryList.filter(personIdEquals);
                             
