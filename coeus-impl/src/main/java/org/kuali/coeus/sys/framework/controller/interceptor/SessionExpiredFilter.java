@@ -31,11 +31,14 @@ public class SessionExpiredFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest hrequest = (HttpServletRequest) request;
-        
         if (hrequest.getRequestedSessionId() != null
                 && hrequest.isRequestedSessionIdValid() == false) {
             hrequest.getSession().setAttribute(KeyConstants.SESSION_EXPIRED_IND, new Boolean(true)); 
-        } 
+        } else {
+        	if (hrequest.getSession() != null) {
+        		hrequest.getSession().removeAttribute(KeyConstants.SESSION_EXPIRED_IND);
+        	}
+        }
           
         chain.doFilter(request, response);
     }
