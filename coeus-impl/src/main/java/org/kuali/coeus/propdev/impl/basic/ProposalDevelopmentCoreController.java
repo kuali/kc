@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorWarningDto;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
@@ -16,7 +18,6 @@ import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -259,10 +260,14 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
             String hierarchyBudgetTypeCode = form.getNewHierarchyBudgetTypeCode();
             List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateLinkToHierarchy(hierarchyProposal, newChildProposal);
             if (!displayErrors(errors)) {
-                getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
-                displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()});
+            	ProposalDevelopmentBudgetExt childBudget = getProposalHierarchyService().getSyncableBudget(newChildProposal);
+            	if(childBudget==null){
+            		getGlobalVariableService().getMessageMap().putError(ProposalHierarchyKeyConstants.FIELD_CHILD_NUMBER,ProposalHierarchyKeyConstants.ERROR_LINK_NO_BUDGET_VERSION);
+            	}else{
+            		getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
+            		displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()});
+            	}
             }
-
             return getModelAndViewService().getModelAndView(form);
     }
 
@@ -324,7 +329,7 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
     }
 
         protected void displayMessage(String messageKey, String... errorParameters) {
-            GlobalVariables.getMessageMap().putInfo(ProposalHierarchyKeyConstants.FIELD_GENERIC, messageKey, errorParameters);
+        	getGlobalVariableService().getMessageMap().putInfo(ProposalHierarchyKeyConstants.FIELD_GENERIC, messageKey, errorParameters);
         }
 
         protected boolean displayErrors(List<ProposalHierarchyErrorWarningDto> errors) {
@@ -332,9 +337,9 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
         for (ProposalHierarchyErrorWarningDto error : errors) {
             severeErrors += error.isSevere() ? 1 : 0;
             if (error.isSevere()) {
-                GlobalVariables.getMessageMap().putError(ProposalHierarchyKeyConstants.FIELD_GENERIC, error.getErrorKey(), error.getErrorParameters());
+            	getGlobalVariableService().getMessageMap().putError(ProposalHierarchyKeyConstants.FIELD_GENERIC, error.getErrorKey(), error.getErrorParameters());
             } else {
-                GlobalVariables.getMessageMap().putWarning(ProposalHierarchyKeyConstants.FIELD_GENERIC, error.getErrorKey(), error.getErrorParameters());
+            	getGlobalVariableService().getMessageMap().putWarning(ProposalHierarchyKeyConstants.FIELD_GENERIC, error.getErrorKey(), error.getErrorParameters());
             }
         }
         return severeErrors > 0 ? true : false;
