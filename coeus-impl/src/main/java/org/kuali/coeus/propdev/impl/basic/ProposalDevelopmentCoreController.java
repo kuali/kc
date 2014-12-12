@@ -2,26 +2,17 @@ package org.kuali.coeus.propdev.impl.basic;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.*;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorWarningDto;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
-import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -30,49 +21,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @Controller
 public class ProposalDevelopmentCoreController extends ProposalDevelopmentControllerBase {
 
     private static final Logger LOG = Logger.getLogger(ProposalDevelopmentCoreController.class);
-	@Autowired
-	@Qualifier("proposalHierarchyService")
-	ProposalHierarchyService proposalHierarchyService;
-    @Autowired
-    @Qualifier("globalVariableService")
-    private GlobalVariableService globalVariableService;
-
-    @Autowired
-    @Qualifier("pessimisticLockService")
-    private PessimisticLockService pessimisticLockService;
-
-    public ProposalHierarchyService getProposalHierarchyService() {
-		if (proposalHierarchyService == null) {
-			proposalHierarchyService = KcServiceLocator.getService(ProposalHierarchyService.class);
-		}
-		return proposalHierarchyService;
-	}
-
-	public void setProposalHierarchyService(
-			ProposalHierarchyService proposalHierarchyService) {
-		this.proposalHierarchyService = proposalHierarchyService;
-	}
-
-    public GlobalVariableService getGlobalVariableService() {
-        if (globalVariableService == null) {
-            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
-        }
-        return globalVariableService;
-    }
-
-    public PessimisticLockService getPessimisticLockService() {
-        return pessimisticLockService;
-    }
-
-    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
-        this.pessimisticLockService = pessimisticLockService;
-    }
     
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
@@ -219,130 +172,6 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 			HttpServletResponse response) throws Exception {
         form.setEvaluateFlagsAndModes(true);
         return getTransactionalDocumentControllerService().supervisorFunctions(form);
-    }
-
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=createHierarchy"})
-    public ModelAndView createHierarchy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-         DevelopmentProposal initialChildProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
-         List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateChildCandidate(initialChildProposal);
-
-         if (!displayErrors(errors)) {
-             String userId = globalVariableService.getUserSession().getPrincipalId();
-             String hierarchyProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal, userId);
-            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_CREATE_SUCCESS, new String[]{hierarchyProposalNumber});
-         }
-        return getModelAndViewService().getModelAndView(form);
-    }
-
-
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=syncAllHierarchy")
-    public ModelAndView syncAllHierarchy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentDocument hierarchyProposalDoc = form.getProposalDevelopmentDocument();
-        List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateParent(hierarchyProposalDoc.getDevelopmentProposal());
-        if (!displayErrors(errors)) {
-            getProposalHierarchyService().synchronizeAllChildren(hierarchyProposalDoc.getDevelopmentProposal());
-            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
-        }
-        return getModelAndViewService().getModelAndView(form);
-    }
-
-    /*
-    Link this unlinked child to parent proposal via search
-     */
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=linkToHierarchy")
-    public ModelAndView linkToHierarchy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-            DevelopmentProposal hierarchyProposal = getProposalHierarchyService().getDevelopmentProposal(form.getNewHierarchyProposalNumber());
-            DevelopmentProposal newChildProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
-            String hierarchyBudgetTypeCode = form.getNewHierarchyBudgetTypeCode();
-            List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateLinkToHierarchy(hierarchyProposal, newChildProposal);
-            if (!displayErrors(errors)) {
-            	ProposalDevelopmentBudgetExt childBudget = getProposalHierarchyService().getSyncableBudget(newChildProposal);
-            	if(childBudget==null){
-            		getGlobalVariableService().getMessageMap().putError(ProposalHierarchyKeyConstants.FIELD_CHILD_NUMBER,ProposalHierarchyKeyConstants.ERROR_LINK_NO_BUDGET_VERSION);
-            	}else{
-            		getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
-            		displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()});
-            	}
-            }
-            return getModelAndViewService().getModelAndView(form);
-    }
-
-        /*
-        Link a child proposal to this parent
-         */
-        @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=linkChildToHierarchy")
-        public ModelAndView linkChildToHierarchy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
-            ProposalDevelopmentDocumentForm pdForm = form;
-            DevelopmentProposal hierarchyProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
-            DevelopmentProposal newChildProposal = getProposalHierarchyService().getDevelopmentProposal(pdForm.getNewHierarchyChildProposalNumber());
-            String hierarchyBudgetTypeCode = pdForm.getNewHierarchyBudgetTypeCode();
-
-            List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateParent(hierarchyProposal);
-            errors.addAll(getProposalHierarchyService().validateChildCandidate(newChildProposal));
-            errors.addAll(getProposalHierarchyService().validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal, true));
-            errors.addAll(getProposalHierarchyService().validateSponsor(newChildProposal, hierarchyProposal));
-
-            if (!displayErrors(errors)) {
-                getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
-                displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{hierarchyProposal.getProposalNumber(), newChildProposal.getProposalNumber()});
-            }
-
-            return getModelAndViewService().getModelAndView(form);
-        }
-
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=hierarchyActionCanceled")
-    public ModelAndView hierarchyActionCanceled(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	return getNavigationControllerService().back(form);
-    }
-
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=syncToHierarchyParent")
-    public ModelAndView syncToHierarchyParent(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DevelopmentProposal childProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
-        DevelopmentProposal hierarchy = getProposalHierarchyService().getDevelopmentProposal(childProposal.getHierarchyParentProposalNumber());
-        List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateChildForSync(childProposal, hierarchy, false);
-        if (!displayErrors(errors)) {
-            getProposalHierarchyService().synchronizeChild(childProposal);
-            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
-        }
-
-        return getModelAndViewService().getModelAndView(form);
-    }
-
-    @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=removeFromHierarchy")
-    public ModelAndView removeFromHierarchy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-        DevelopmentProposal childProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
-        List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateChildForRemoval(childProposal);
-
-        if (!displayErrors(errors)) {
-            getProposalHierarchyService().removeFromHierarchy(childProposal);
-            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_REMOVE_SUCCESS);
-        }
-
-        return getModelAndViewService().getModelAndView(form);
-    }
-
-        protected void displayMessage(String messageKey, String... errorParameters) {
-        	getGlobalVariableService().getMessageMap().putInfo(ProposalHierarchyKeyConstants.FIELD_GENERIC, messageKey, errorParameters);
-        }
-
-        protected boolean displayErrors(List<ProposalHierarchyErrorWarningDto> errors) {
-        int severeErrors = 0;
-        for (ProposalHierarchyErrorWarningDto error : errors) {
-            severeErrors += error.isSevere() ? 1 : 0;
-            if (error.isSevere()) {
-            	getGlobalVariableService().getMessageMap().putError(ProposalHierarchyKeyConstants.FIELD_GENERIC, error.getErrorKey(), error.getErrorParameters());
-            } else {
-            	getGlobalVariableService().getMessageMap().putWarning(ProposalHierarchyKeyConstants.FIELD_GENERIC, error.getErrorKey(), error.getErrorParameters());
-            }
-        }
-        return severeErrors > 0 ? true : false;
     }
 
     @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=closeProposal")

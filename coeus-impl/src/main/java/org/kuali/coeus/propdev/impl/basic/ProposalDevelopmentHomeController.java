@@ -25,21 +25,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
-import org.kuali.coeus.propdev.impl.copy.ProposalCopyService;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.doctype.DocumentType;
-import org.kuali.rice.kew.api.doctype.DocumentTypeService;
-import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -60,33 +52,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
 
-   @Autowired
-   @Qualifier("pessimisticLockService")
-   private PessimisticLockService pessimisticLockService;
-
-   @Autowired
-   @Qualifier("dataObjectService")
-   private DataObjectService dataObjectService;
-
-   @Autowired
-   @Qualifier("dataDictionaryService")
-   private DataDictionaryService dataDictionaryService;
-
-   @Autowired
-   @Qualifier("documentService")
-   private DocumentService documentService;
-
-   @Autowired
-   @Qualifier("proposalCopyService")
-   private ProposalCopyService proposalCopyService;
-
     @Autowired
-    @Qualifier("documentTypeService")
-    private DocumentTypeService documentTypeService;
-
-    @Autowired
-    @Qualifier("globalVariableService")
-    private GlobalVariableService globalVariableService;
+    @Qualifier("dataDictionaryService")
+    private DataDictionaryService dataDictionaryService;
 
     @Autowired
     @Qualifier("documentDictionaryService")
@@ -109,19 +77,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        getPessimisticLockService().releaseAllLocksForUser(form.getDocument().getPessimisticLocks(),getGlobalVariableService().getUserSession().getPerson());
        form.getDocument().refreshPessimisticLocks();
        return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
-   }
-
-   @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=copy")
-   public ModelAndView copy(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-       ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
-       ProposalCopyService proposalCopyService = getProposalCopyService();
-       getPessimisticLockService().releaseAllLocksForUser(proposalDevelopmentDocument.getPessimisticLocks(), getGlobalVariableService().getUserSession().getPerson());
-       ProposalCopyCriteria proposalCopyCriteria = form.getProposalCopyCriteria();
-       ProposalDevelopmentDocument newDoc = proposalCopyService.copyProposal(proposalDevelopmentDocument, proposalCopyCriteria);
-
-       return returnToDocument(form, newDoc.getDocumentNumber());
    }
 
     /**
@@ -169,35 +124,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
             return getModelAndViewService().getModelAndView(form);
         }
-    }
-
-    @MethodAccessible
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certifyAnswers")
-    public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
-        String selectedPersonId = form.getProposalPersonQuestionnaireHelper().getProposalPerson().getPersonId();
-        for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
-            if (StringUtils.equals(proposalPerson.getPersonId(),selectedPersonId)) {
-                proposalPerson.setQuestionnaireHelper(form.getProposalPersonQuestionnaireHelper());
-            }
-        }
-        return super.save(form);
-    }
-
-    protected  ModelAndView returnToDocument(ProposalDevelopmentDocumentForm form, String newDocNum) {
-        String docHandlerUrl = getDocHandlerUrl(form);
-        Properties props = new Properties();
-        props.put(KewApiConstants.COMMAND_PARAMETER, KewApiConstants.DOCSEARCH_COMMAND);
-        props.put(KewApiConstants.DOCUMENT_ID_PARAMETER, newDocNum);
-        if (StringUtils.isNotBlank(form.getReturnFormKey())) {
-            props.put(UifParameters.FORM_KEY, form.getReturnFormKey());
-        }
-
-        return getModelAndViewService().performRedirect(form, docHandlerUrl, props);
-    }
-
-    protected String getDocHandlerUrl(ProposalDevelopmentDocumentForm form) {
-        DocumentType docType = getDocumentTypeService().getDocumentTypeByName(form.getDocTypeName());
-        return docType.getResolvedDocumentHandlerUrl();
     }
 
    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=save")
@@ -350,22 +276,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
         return getRefreshControllerService().refresh(form);
     }
-   
-    public PessimisticLockService getPessimisticLockService() {
-        return pessimisticLockService;
-    }
-
-    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
-        this.pessimisticLockService = pessimisticLockService;
-    }
-
-    public DataObjectService getDataObjectService() {
-        return dataObjectService;
-    }
-
-    public void setDataObjectService(DataObjectService dataObjectService) {
-        this.dataObjectService = dataObjectService;
-    }
 
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
@@ -373,38 +283,6 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
-    }
-
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    public void setProposalCopyService(ProposalCopyService proposalCopyService) {
-        this.proposalCopyService = proposalCopyService;
-    }
-
-    public ProposalCopyService getProposalCopyService() {
-        return proposalCopyService;
-    }
-
-    public DocumentTypeService getDocumentTypeService() {
-        return documentTypeService;
-    }
-
-    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
-        this.documentTypeService = documentTypeService;
-    }
-
-    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-        this.globalVariableService = globalVariableService;
-    }
-
-    public GlobalVariableService getGlobalVariableService() {
-        return globalVariableService;
     }
 
     public DocumentDictionaryService getDocumentDictionaryService() {
