@@ -43,7 +43,7 @@ public class BudgetOnOffCampusValuesFinder extends UifKeyValuesFinderBase {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 
         for (OnOffCampusFlagConstants onOffCampusFlagConstants : OnOffCampusFlagConstants.values()) {
-            KeyValues.add(new ConcreteKeyValue(onOffCampusFlagConstants.code(), onOffCampusFlagConstants.description()));
+            KeyValues.add(new ConcreteKeyValue(onOffCampusFlagConstants.getCode(), onOffCampusFlagConstants.getDescription()));
         }
         
         return KeyValues; 
