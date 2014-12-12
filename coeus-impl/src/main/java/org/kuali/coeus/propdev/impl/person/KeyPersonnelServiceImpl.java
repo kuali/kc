@@ -196,7 +196,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             proposalPerson.getProposalPersonRoleId().equals(MULTI_PI_ROLE) ||
             proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
             if (isNotBlank(proposalPerson.getHomeUnit()) && isValidHomeUnit(proposalPerson, proposalPerson.getHomeUnit())){
-                addUnitToPerson(proposalPerson,createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));
+                addUnitToPerson(proposalPerson, createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));
             }
         }
         
@@ -463,19 +463,23 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         for (Unit found : units) {
             retval.setUnitNumber(found.getUnitNumber());
             retval.setUnit(found);
-        }
-
-        for (InvestigatorCreditType creditType : getInvestigatorCreditTypes()) {
-            ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
-            creditSplit.setProposalPersonUnit(retval);
-            creditSplit.setInvCreditTypeCode(creditType.getCode());
-            creditSplit.setCredit(new ScaleTwoDecimal(0));
-            retval.getCreditSplits().add(creditSplit);
-        }
+        } 
+        retval.getCreditSplits().addAll(createCreditSplits(retval));
 
         return retval;        
     }
 
+    public List<ProposalUnitCreditSplit> createCreditSplits(ProposalPersonUnit unit) {
+        List<ProposalUnitCreditSplit> retVal = new ArrayList<ProposalUnitCreditSplit>();
+        for (InvestigatorCreditType creditType : getInvestigatorCreditTypes()) {
+            ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
+            creditSplit.setProposalPersonUnit(unit);
+            creditSplit.setInvCreditTypeCode(creditType.getCode());
+            creditSplit.setCredit(new ScaleTwoDecimal(0));
+            retVal.add(creditSplit);
+        }
+        return retVal;
+    }
     /**
      * Accessor method for dependency injection
      * 

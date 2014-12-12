@@ -6,6 +6,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalCreditSplitListDto;
+import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 
 import java.util.Collection;
 import java.util.List;
@@ -58,6 +59,10 @@ public class KeyPersonnelServiceAdapter implements KeyPersonnelService {
     }
     @Override
     public List<ProposalCreditSplitListDto> createCreditSplitListItems(List<ProposalPerson> investigators) {
+        return null;
+    }
+    @Override
+    public List<ProposalUnitCreditSplit> createCreditSplits(ProposalPersonUnit unit){
         return null;
     }
 }
