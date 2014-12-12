@@ -678,8 +678,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     public String getOnOffCampusFlagDescription(String onOffCampusFlag) {
         String retValue = null;
         for (OnOffCampusFlagConstants onOffCampusFlagConstants : OnOffCampusFlagConstants.values()) {
-            if(onOffCampusFlagConstants.code().equalsIgnoreCase(onOffCampusFlag)) {
-                retValue =  onOffCampusFlagConstants.description();
+            if(onOffCampusFlagConstants.getCode().equalsIgnoreCase(onOffCampusFlag)) {
+                retValue =  onOffCampusFlagConstants.getDescription();
                 break;
             }
         }

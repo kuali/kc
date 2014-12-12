@@ -28,12 +28,12 @@ public enum OnOffCampusFlagConstants {
         this.description = description;
     }
 
-    public String code()   
+    public String getCode()   
     { 
         return code; 
     }
 
-    public String description() 
+    public String getDescription() 
     { 
         return description; 
     }
