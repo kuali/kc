@@ -24,7 +24,7 @@ import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
-public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
+public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, Auditable {
 
 	private ProposalDevelopmentBudgetExt budget;
 	private String defaultBudgetPeriodWarningMessage;
@@ -58,7 +58,12 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
 		return getBudget().getDevelopmentProposal();
 	}
 
-	public List<Action> getOrderedNavigationActions() {
+    @Override
+    public Document getDocument() {
+        return getDevelopmentProposal().getProposalDocument();
+    }
+
+    public List<Action> getOrderedNavigationActions() {
         List<Action> actions = new ArrayList<Action>();
         addAllActions(actions, view.getNavigation().getItems());
         return actions;
@@ -178,10 +183,13 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer {
     public void setSelectedBudget(Budget selectedBudget) {
         this.selectedBudget = selectedBudget;
     }
-	public boolean isAuditActivated() {
+
+    @Override
+    public boolean isAuditActivated() {
 		return auditActivated;
 	}
 
+    @Override
 	public void setAuditActivated(boolean auditActivated) {
 		this.auditActivated = auditActivated;
 	}
