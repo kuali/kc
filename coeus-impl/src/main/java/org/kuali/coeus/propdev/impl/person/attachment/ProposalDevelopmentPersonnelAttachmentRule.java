@@ -34,8 +34,6 @@ import java.util.List;
 import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
 import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.ATTACHMENT_PERSONNEL_SECTION_ID;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
-
-
 public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule, ReplacePersonnelAttachmentRule {
     public static final String OTHER_DOCUMENT_TYPE_DESCRIPTION = "Other";
     
@@ -67,6 +65,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         }
 
         String attachmentFileName = proposalPersonBiography.getName();
+        attachmentFileName=attachmentFileName.replaceAll("[^a-zA-Z0-9.-]", "-");
         
         if(StringUtils.isBlank(attachmentFileName )) {
         	rulePassed = false;

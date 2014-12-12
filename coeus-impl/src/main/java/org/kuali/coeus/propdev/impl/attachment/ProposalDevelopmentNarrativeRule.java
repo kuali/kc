@@ -89,6 +89,7 @@ public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRul
     }
     private boolean validFileNameCharacters(Narrative narrative) {
         String attachmentFileName = narrative.getName();
+        attachmentFileName=attachmentFileName.replaceAll("[^a-zA-Z0-9.-]", "-");
         KcAttachmentService attachmentService = getKcFileService();
         boolean rulePassed = true;
         // Checking attachment file name for invalid characters.

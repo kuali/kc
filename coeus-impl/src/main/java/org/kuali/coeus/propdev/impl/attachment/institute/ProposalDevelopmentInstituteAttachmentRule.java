@@ -128,6 +128,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
         KcAttachmentService attachmentService = getKcFileService();
         // Checking attachment file name for invalid characters.
         String attachmentFileName = narrative.getName();
+        attachmentFileName=attachmentFileName.replaceAll("[^a-zA-Z0-9.-]", "-");
         String invalidCharacters = attachmentService.getInvalidCharacters(attachmentFileName);
         if (ObjectUtils.isNotNull(invalidCharacters)) {
             String parameter = getParameterService().
