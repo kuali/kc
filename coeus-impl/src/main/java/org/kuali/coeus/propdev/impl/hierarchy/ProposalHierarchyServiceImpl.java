@@ -289,7 +289,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             errors.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_NOT_HIERARCHY_CHILD, Boolean.TRUE, childProposal.getProposalNumber()));
         }
 
-        validateSponsor(childProposal, hierarchyProposal);
+        errors.addAll(validateSponsor(childProposal, hierarchyProposal));
+
+        errors.addAll(validateIsAggregatorOnParent(childProposal,hierarchyProposal));
 
         List<ProposalHierarchyErrorWarningDto> sponsorErrors = validateSponsor(childProposal, hierarchyProposal);
 
@@ -1936,6 +1938,15 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
         if(!StringUtils.equals(childProposal.getSponsorCode(),parentProposal.getSponsorCode())) {
             errors.add(new ProposalHierarchyErrorWarningDto(ERROR_DIFFERENT_SPONSORS, Boolean.FALSE, new String[0]));
+        }
+        return errors;
+    }
+
+    protected List<ProposalHierarchyErrorWarningDto> validateIsAggregatorOnParent(DevelopmentProposal childProposal, DevelopmentProposal parentProposal) {
+        List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+
+        if(!getKcAuthorizationService().hasDocumentLevelRole(getGlobalVariableService().getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR_DOCUMENT_LEVEL, parentProposal.getDocument())) {
+            errors.add(new ProposalHierarchyErrorWarningDto(ERROR_NOT_PARENT_AGGREGATOR, Boolean.TRUE, new String[]{parentProposal.getProposalNumber()}));
         }
         return errors;
     }
