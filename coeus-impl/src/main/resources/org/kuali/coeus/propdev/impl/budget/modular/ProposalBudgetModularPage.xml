@@ -97,7 +97,9 @@
                       p:enableAutoQuickfinder="false" >
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="idcRate" p:label="F&amp;A Rate"
-                      p:order="20" p:required="false" p:fieldLabel.renderColon="false" />
+                      p:order="20" p:required="false" p:fieldLabel.renderColon="false" >
+                <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+                </bean>
                 <bean parent="Uif-InputField" p:propertyName="idcBase" p:label="F&amp;A Base"
                       p:order="30" p:required="false" p:fieldLabel.renderColon="false" >
                     <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
@@ -111,7 +113,9 @@
                       p:enableAutoQuickfinder="false" >
                 </bean>
 				<bean parent="Kc-InlineEdit-InputField" p:propertyName="idcRate" p:label="F&amp;A Rate"
-					p:order="20" p:required="false" p:fieldLabel.renderColon="false" />
+					p:order="20" p:required="false" p:fieldLabel.renderColon="false" >
+                <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+                </bean>
 				<bean parent="Kc-InlineEdit-InputField" p:propertyName="idcBase" p:label="F&amp;A Base"
 					p:order="30" p:required="false" p:fieldLabel.renderColon="false" >
                 <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
@@ -283,7 +287,9 @@
                               p:enableAutoQuickfinder="false" >
                         </bean>
                         <bean parent="Uif-DataField" p:propertyName="idcRate" p:label="F&amp;A Rate"
-                              p:order="20" p:fieldLabel.renderColon="false" />
+                              p:order="20" p:fieldLabel.renderColon="false" >
+                            <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+                        </bean>
                         <bean parent="Uif-DataField" p:propertyName="idcBase" p:label="F&amp;A Base"
                               p:order="30" p:fieldLabel.renderColon="false" >
                             <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>

@@ -117,10 +117,10 @@
     </property>
     <property name="required" value="false" />
     <property name="control" >
-      <bean parent="TextControlDefinition" p:size="5"/>
+      <bean parent="CurrencyControlDefinition" p:size="5"/>
     </property>
     <property name="controlField">
-      <bean p:size="5" parent="Uif-TextControl"/>
+      <bean p:size="5" parent="Uif-CurrencyTextControl"/>
     </property>
     <property name="summary" value="IDC Rate" />
     <property name="description" value="IDC Rate" />
