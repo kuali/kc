@@ -186,7 +186,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument)budget.getBudgetParent().getDocument();
         boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument());
 
-        return (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) &&
+        return (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && !pdDocument.getDevelopmentProposal().isParent() &&
                 getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_BUDGET) 
                 && !pdDocument.getDevelopmentProposal().getSubmitFlag();
     }
