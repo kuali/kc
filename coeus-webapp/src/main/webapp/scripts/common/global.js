@@ -45,6 +45,17 @@ Kc.Global = Kc.Global || {};
             }
         });
     });
+
+    namespace.attachRedirectHandler = function() {
+        $(window).unbind("message.redirect");
+        $(window).on("message.redirect", function (event) {
+            if (event.originalEvent.data && event.originalEvent.data.indexOf("redirect:") === 0) {
+                var location = event.originalEvent.data.substr(9);
+                window.location.replace(location);
+                return false;
+            }
+        });
+    }
 })(Kc.Global, jQuery);
 
 // Kc krad overrides (request changes from latest rice, response kc fixes):
