@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.award.external.award;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
