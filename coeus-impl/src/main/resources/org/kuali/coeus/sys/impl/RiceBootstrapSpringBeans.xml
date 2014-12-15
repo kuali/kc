@@ -24,7 +24,6 @@
         <property name="messageDataSource" ref="riceDataSource" />
         <property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
         <property name="bamDataSource" ref="riceDataSource" />
-        <property name="platformTransactionManager" ref="transactionManager" />
     </bean>
 
     <bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer">

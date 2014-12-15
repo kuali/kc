@@ -163,4 +163,16 @@
           p:transactionManager-ref="jtaTransactionManager">
     </bean>
 
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject"
+                  value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig()}"/>
+        <property name="targetMethod" value="putObject"/>
+        <property name="arguments">
+            <list>
+                <value>KC_TRANSACTION_MANAGER</value>
+                <ref bean="transactionManager"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>
