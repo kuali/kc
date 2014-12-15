@@ -45,6 +45,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetLimit;
 import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.cgb.AwardCgb;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -273,6 +274,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     
     private VersionHistorySearchBo versionHistory;
     private transient KcPersonService kcPersonService;
+
+    private List<AwardCgb> awardCgbList;
+
     /**
      * 
      * Constructs an Award BO.
@@ -3445,7 +3449,36 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 	public void setBudgets(List<AwardBudgetExt> budgets) {
 		this.budgets = budgets;
 	}
-	
 
-	
+    public AwardComment getAdditionalFormsDescriptionComment() {
+        return getAwardCommentByType("CG2", false, true);
+    }
+
+    public AwardComment getStopWorkReasonComment() {
+        return getAwardCommentByType("CG1", false, true);
+    }
+
+    public AwardComment getSuspendInvoicingComment() {
+        return getAwardCommentByType("CG3", false, true);
+    }
+
+    public AwardCgb getAwardCgb() {
+        if (awardCgbList.isEmpty()) {
+            awardCgbList.add(new AwardCgb(this));
+        }
+        return awardCgbList.get(0);
+    }
+
+    public void setAwardCgb(AwardCgb awardCgb) {
+        awardCgbList.set(0, awardCgb);
+    }
+
+    public List<AwardCgb> getAwardCgbList() {
+        return awardCgbList;
+    }
+
+    public void setAwardCgbList(List<AwardCgb> awardCgbList) {
+        this.awardCgbList = awardCgbList;
+    }
+
 }
