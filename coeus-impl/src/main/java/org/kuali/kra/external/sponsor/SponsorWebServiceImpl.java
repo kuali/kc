@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Sponsor;
+import org.kuali.coeus.common.api.sponsor.SponsorContract;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.service.KcDtoService;
-import org.kuali.kra.service.SponsorService;
+import org.kuali.coeus.common.api.sponsor.SponsorService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class SponsorWebServiceImpl implements SponsorWebService {
 	private KcDtoService<SponsorDTO, Sponsor> sponsorDtoService;
 	
 	public SponsorDTO getSponsor(String sponsorCode) {
-		Sponsor sponsor = getSponsorService().getSponsor(sponsorCode);
+		Sponsor sponsor = (Sponsor)getSponsorService().getSponsor(sponsorCode);
 		if (sponsor != null) {
 			SponsorDTO result = sponsorDtoService.buildDto(sponsor);
 			return result;
