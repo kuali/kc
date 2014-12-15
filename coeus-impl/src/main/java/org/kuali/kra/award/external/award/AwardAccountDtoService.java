@@ -21,7 +21,7 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
 	private BusinessObjectService businessObjectService;
 	private ParameterService parameterService;
     private InstitutionalProposalService institutionalProposalService;
-	
+
 	@Override
 	public AwardAccountDTO buildDto(Award award) {
         AwardAccountDTO awardAccountDTO = new AwardAccountDTO();
