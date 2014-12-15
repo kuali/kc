@@ -177,11 +177,7 @@ public class AwardWebServiceImpl implements AwardWebService {
 			awardCgb.setLastBilledDate(updateDto.getLastBillDate());
 		}
 		if (updateDto.isDoAmountToDrawUpdate()) {
-<<<<<<< HEAD
 			awardCgb.setAmountToDraw(new ScaleTwoDecimal(updateDto.getAmountToDraw()));
-=======
-			awardCgb.setAmountToDraw(updateDto.getAmountToDraw());
->>>>>>> KFSTI-670 add new java/resource/web files
 		}
 		if (updateDto.isDoInvoiceDocStatusUpdate()) {
 			awardCgb.setInvoiceDocumentStatus(updateDto.getInvoiceDocumentStatus());
