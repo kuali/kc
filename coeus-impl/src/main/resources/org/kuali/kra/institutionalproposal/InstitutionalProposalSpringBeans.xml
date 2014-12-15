@@ -145,6 +145,15 @@
     <bean id="documentDictionaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="documentDictionaryService" />
     </bean>
+
+    <bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dbPlatform" />
+    </bean>
+
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
     
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
@@ -219,7 +228,10 @@
         <property name="institutionalProposalVersioningService" ref="institutionalProposalVersioningService" />
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
         <property name="parameterService" ref="parameterService" />
+        <property name="institutionalProposalDao" ref="institutionalProposalDao"/>
     </bean>
+
+    <bean id="institutionalProposalDao" parent="platformAwareDao" class="org.kuali.kra.institutionalproposal.dao.ojb.InstitutionalProposalDaoOjb"/>
     
     <bean id="institutionalProposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="institutionalProposalLookupableHelperService" />

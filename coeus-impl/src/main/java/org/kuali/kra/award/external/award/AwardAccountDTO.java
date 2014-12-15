@@ -16,6 +16,8 @@
 package org.kuali.kra.award.external.award;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * This class is the DTO to be sent over to the financial system 
@@ -41,6 +43,15 @@ public class AwardAccountDTO implements Serializable {
     private String primeSponsorName;
     private String primeSponsorTypeCode;
     private String sponsorTypeCode;
+
+    private String chartOfAcccountsCode;
+    private String accountNumber;
+    private boolean finalBill;
+    private Date lastBilledDate;
+    private Date previousLastBilledDate;
+    private BigDecimal amountToDraw;
+    private boolean letterOfCreditReviewIndicator;
+    private String invoiceDocumentStatus;
     
    
     
@@ -167,5 +178,69 @@ public class AwardAccountDTO implements Serializable {
         return serialVersionUID;
     }
 
-    
+    public String getChartOfAcccountsCode() {
+        return chartOfAcccountsCode;
+    }
+
+    public void setChartOfAcccountsCode(String chartOfAcccountsCode) {
+        this.chartOfAcccountsCode = chartOfAcccountsCode;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public boolean isFinalBill() {
+        return finalBill;
+    }
+
+    public void setFinalBill(boolean finalBill) {
+        this.finalBill = finalBill;
+    }
+
+    public Date getLastBilledDate() {
+        return lastBilledDate;
+    }
+
+    public void setLastBilledDate(Date lastBilledDate) {
+        this.lastBilledDate = lastBilledDate;
+    }
+
+    public Date getPreviousLastBilledDate() {
+        return previousLastBilledDate;
+    }
+
+    public void setPreviousLastBilledDate(Date previousLastBilledDate) {
+        this.previousLastBilledDate = previousLastBilledDate;
+    }
+
+    public BigDecimal getAmountToDraw() {
+        return amountToDraw;
+    }
+
+    public void setAmountToDraw(BigDecimal amountToDraw) {
+        this.amountToDraw = amountToDraw;
+    }
+
+    public boolean isLetterOfCreditReviewIndicator() {
+        return letterOfCreditReviewIndicator;
+    }
+
+    public void setLetterOfCreditReviewIndicator(
+            boolean letterOfCreditReviewIndicator) {
+        this.letterOfCreditReviewIndicator = letterOfCreditReviewIndicator;
+    }
+
+    public String getInvoiceDocumentStatus() {
+        return invoiceDocumentStatus;
+    }
+
+    public void setInvoiceDocumentStatus(String invoiceDocumentStatus) {
+        this.invoiceDocumentStatus = invoiceDocumentStatus;
+    }
+
 }

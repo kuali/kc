@@ -951,6 +951,7 @@
         <property name="databaseRepositoryFilePaths">
             <list>
                 <value>repository.xml</value>
+                <value>org/kuali/kra/external/repository-external.xml</value>
             </list>
         </property>
         <property name="providers">
@@ -960,6 +961,8 @@
             </list>
         </property>
     </bean>
+
+    <import resource="classpath:org/kuali/kra/external/ExternalSpringBeans.xml"/>
 
     <bean id="jpaPersistenceProvider" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="jpaPersistenceProvider" />

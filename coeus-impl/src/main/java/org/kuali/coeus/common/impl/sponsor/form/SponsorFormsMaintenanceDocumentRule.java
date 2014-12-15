@@ -16,17 +16,19 @@
 package org.kuali.coeus.common.impl.sponsor.form;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 
 /**
  * This class overrides the custom route and custom approve methods of the MaintenanceDocument processing to check the length of the
  * sponsor code and return a more informative error message than the Rice message if the length constraint is violated.
  */
 public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
-    
+    private GlobalVariableService globalVariableService;
 
     public SponsorFormsMaintenanceDocumentRule() {
         super();
@@ -58,10 +60,21 @@ public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRu
         SponsorForms sponsorForm = (SponsorForms) document.getNewMaintainableObject().getDataObject();
         if (StringUtils.isBlank(sponsorForm.getSponsorCode()) && StringUtils.isBlank(sponsorForm.getSponsorHierarchyName())
                 || (StringUtils.isNotBlank(sponsorForm.getSponsorCode()) && StringUtils.isNotBlank(sponsorForm.getSponsorHierarchyName()))) {
-            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.sponsorCode", "error.sponsorForms.selector");
+            getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.sponsorCode", "error.sponsorForms.selector");
             valid = false;
         }
         return valid;
     }
-    
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        if (this.globalVariableService == null) {
+            this.globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return this.globalVariableService;
+    }
+
 }
