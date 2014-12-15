@@ -1291,7 +1291,7 @@
                   <property name="finalizeMethodToCall" value="canModifyProposal"/>
                   <property name="finalizeMethodAdditionalArguments">
                       <list>
-                          <value>@{#line.document.documentNumber}</value>
+                          <value>@{#line.document}</value>
                       </list>
                   </property>
               </bean>

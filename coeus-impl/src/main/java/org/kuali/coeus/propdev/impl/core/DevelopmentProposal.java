@@ -945,7 +945,9 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @Override
     public ProposalSite getPerformingOrganization() {
         ProposalSite performingOrganization = getProposalSiteForType(ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION);
-        performingOrganization.refreshReferenceObject("rolodex");
+        if (outOfSync(performingOrganization.getRolodexId(), performingOrganization.getRolodex())) {
+            performingOrganization.refreshReferenceObject("rolodex");
+        }
         if (performingOrganization.getRolodex() == null && performingOrganization.getOrganization() != null) {
             performingOrganization.setRolodex(performingOrganization.getOrganization().getRolodex());
         }
@@ -1215,7 +1217,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * @return Returns the sponsor.
      */
     public Sponsor getSponsor() {
-        if (!StringUtils.isEmpty(sponsorCode)) {
+        if (outOfSync(sponsorCode, sponsor)) {
             this.refreshReferenceObject("sponsor");
         }
         return sponsor;
@@ -2000,7 +2002,17 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
      * @return true if needs refreshing
      */
     private static boolean outOfSync(String code, Sponsor spon) {
-        return spon == null && !StringUtils.isEmpty(code) || (spon != null && !StringUtils.equals(spon.getSponsorCode(), code)) && !StringUtils.isEmpty(code);
+        return spon == null && StringUtils.isNotEmpty(code) || (spon != null && StringUtils.isNotEmpty(code) && !StringUtils.equals(spon.getSponsorCode(), code));
+    }
+
+    /**
+     * checks if a rolodex id needs refreshing.
+     * @param id the id
+     * @param rolodex the rolodex to refresh
+     * @return true if needs refreshing
+     */
+    private static boolean outOfSync(Integer id, Rolodex rolodex) {
+        return rolodex == null && id != null || (rolodex != null && id != null && !id.equals(rolodex.getRolodexId()));
     }
 
     public void setPrimeSponsor(Sponsor primeSponsor) {

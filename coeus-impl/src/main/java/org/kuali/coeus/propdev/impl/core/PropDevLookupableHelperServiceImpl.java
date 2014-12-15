@@ -3,12 +3,17 @@ package org.kuali.coeus.propdev.impl.core;
 import java.util.*;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.unit.Unit;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -18,8 +23,9 @@ import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.service.impl.LookupCriteriaGenerator;
 import org.kuali.rice.krad.uif.element.Link;
@@ -35,9 +41,10 @@ import org.springframework.stereotype.Component;
 @Component("propDevLookupableHelperService")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PropDevLookupableHelperServiceImpl extends LookupableImpl implements PropDevLookupableHelperService {
-	
-	private static final long serialVersionUID = 1L;
-	
+
+    private static final long serialVersionUID = 1L;
+    private static final int SMALL_NUMBER_OF_RESULTS = 4;
+
     @Autowired
     @Qualifier("kcAuthorizationService") 
     private KcAuthorizationService kcAuthorizationService;
@@ -45,10 +52,6 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
-    
-    @Autowired
-    @Qualifier("documentService")
-    private DocumentService documentService;
 
     @Autowired
     @Qualifier("documentTypeService")
@@ -57,6 +60,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Autowired
     @Qualifier("kewWorkflowDocumentService")
     private WorkflowDocumentService workflowDocumentService;
+
     @Autowired
     @Qualifier("lookupCriteriaGenerator")
     private LookupCriteriaGenerator lookupCriteriaGenerator;
@@ -64,6 +68,15 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Autowired
     @Qualifier("lookupService")
     private LookupService lookupService;
+
+    @Autowired
+    @Qualifier("permissionService")
+    private PermissionService permissionService;
+
+    @Autowired
+    @Qualifier("unitService")
+    private UnitService unitService;
+
 
     @Override
     protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria,
@@ -103,8 +116,16 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
                 query.setPredicates(PredicateFactory.in("proposalNumber", proposalNumbers));
             }
         }
+        final List<DevelopmentProposal> proposals = getDataObjectService().findMatching(DevelopmentProposal.class, query.build()).getResults();
 
-        return filterPermissions(getDataObjectService().findMatching(DevelopmentProposal.class, query.build()).getResults());
+        boolean doNotFilter = false;
+        if (CollectionUtils.isNotEmpty(proposals) && proposals.size() > SMALL_NUMBER_OF_RESULTS) {
+            //if the proposal result list is more than a few proposals then attempt to figure out if a principal
+            //has access to all proposals
+            doNotFilter = canAccessAllProposals();
+        }
+
+        return doNotFilter ? proposals : filterPermissions(proposals);
 
     }
 
@@ -117,6 +138,45 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             }
         }
         return  filteredResults;
+    }
+
+    protected boolean canAccessAllProposals() {
+        return hasPermissionWithNoUnit() || hasPermissionTopUnitWithDescends() || hasPermissionWithWildcardUnit();
+    }
+
+    protected boolean hasPermissionWithNoUnit() {
+        return permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.MODIFY_PROPOSAL, Collections.<String, String>emptyMap())
+                || permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.VIEW_PROPOSAL, Collections.<String, String>emptyMap());
+    }
+
+    protected boolean hasPermissionWithWildcardUnit() {
+        final Map<String, String> qualifiers = new HashedMap<>();
+        qualifiers.put(KcKimAttributes.UNIT_NUMBER, "*");
+        return containsWildcardAttribute(permissionService.getAuthorizedPermissions(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.MODIFY_PROPOSAL, qualifiers), KcKimAttributes.UNIT_NUMBER)
+                || containsWildcardAttribute(permissionService.getAuthorizedPermissions(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.VIEW_PROPOSAL, qualifiers), KcKimAttributes.UNIT_NUMBER);
+    }
+
+    private boolean containsWildcardAttribute(Collection<Permission> perms, String attrName) {
+        if (CollectionUtils.isNotEmpty(perms)) {
+            for (Permission perm : perms) {
+                if (MapUtils.isNotEmpty(perm.getAttributes())) {
+                    final String attrVal = perm.getAttributes().get(attrName);
+                    if ("*".equals(attrVal)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    protected boolean hasPermissionTopUnitWithDescends() {
+        final Unit top = unitService.getTopUnit();
+        final Map<String, String> qualifiers = new HashedMap<>();
+        qualifiers.put(KcKimAttributes.UNIT_NUMBER, top.getUnitNumber());
+        qualifiers.put(KcKimAttributes.SUBUNITS, "Y");
+        return permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.MODIFY_PROPOSAL, qualifiers)
+                || permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.VIEW_PROPOSAL, qualifiers);
     }
 
     private List<String> getPiProposalNumbers(String principalInvestigatorName) {
@@ -249,13 +309,11 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
      *
      * @param fieldGroup link that will be used to return the copy action
      * @param model lookup form containing the data
-     * @param docId the id of document to check
+     * @param document the document to check
      * @throws WorkflowException
      */
-    public void canModifyProposal(FieldGroup fieldGroup, Object model, String docId) throws WorkflowException {
-        boolean canModifyProposal = getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),
-        				(ProposalDevelopmentDocument)(getDocumentService().getByDocumentHeaderId(docId)),
-        				PermissionConstants.MODIFY_PROPOSAL);
+    public void canModifyProposal(FieldGroup fieldGroup, Object model, ProposalDevelopmentDocument document) throws WorkflowException {
+        final boolean canModifyProposal = getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(), document, PermissionConstants.MODIFY_PROPOSAL);
         if (!canModifyProposal) {
             fieldGroup.setRender(false);
         }
@@ -276,15 +334,6 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
 	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
 		this.globalVariableService = globalVariableService;
-	}
-
-
-	public DocumentService getDocumentService() {
-		return documentService;
-	}
-
-	public void setDocumentService(DocumentService documentService) {
-		this.documentService = documentService;
 	}
 
     public DocumentTypeService getDocumentTypeService() {
@@ -317,5 +366,21 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
     public void setLookupService(LookupService lookupService) {
         this.lookupService = lookupService;
+    }
+
+    public PermissionService getPermissionService() {
+        return permissionService;
+    }
+
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
+
+    public UnitService getUnitService() {
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
     }
 }
