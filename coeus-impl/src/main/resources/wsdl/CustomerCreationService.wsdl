@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://kfs.kuali.org/kc-kfs/v2_0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="customerCreationServiceSOAP" targetNamespace="http://kfs.kuali.org/kc-kfs/v2_0">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://kfs.kuali.org/kc-kfs/v2_0" elementFormDefault="unqualified" targetNamespace="http://kfs.kuali.org/kc-kfs/v2_0" version="1.0">
+<xs:element name="createCustomer" type="tns:createCustomer"/>
+<xs:element name="createCustomerResponse" type="tns:createCustomerResponse"/>
+<xs:element name="getCustomerTypes" type="tns:getCustomerTypes"/>
+<xs:element name="getCustomerTypesResponse" type="tns:getCustomerTypesResponse"/>
+<xs:element name="isValidCustomer" type="tns:isValidCustomer"/>
+<xs:element name="isValidCustomerResponse" type="tns:isValidCustomerResponse"/>
+<xs:complexType name="getCustomerTypes">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType name="getCustomerTypesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:customerTypeDto"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="customerTypeDto">
+<xs:sequence>
+<xs:element minOccurs="0" name="customerTypeCode" type="xs:string"/>
+<xs:element minOccurs="0" name="customerTypeDescription" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createCustomer">
+<xs:sequence>
+<xs:element minOccurs="0" name="sponsor" type="tns:sponsorDTO"/>
+<xs:element minOccurs="0" name="initiatedByPrincipalName" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="sponsorDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="sponsorCode" type="xs:string"/>
+<xs:element minOccurs="0" name="acronym" type="xs:string"/>
+<xs:element minOccurs="0" name="sponsorName" type="xs:string"/>
+<xs:element minOccurs="0" name="sponsorTypeCode" type="xs:string"/>
+<xs:element minOccurs="0" name="customerTypeCode" type="xs:string"/>
+<xs:element minOccurs="0" name="customerNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="sponsorTypeDescription" type="xs:string"/>
+<xs:element minOccurs="0" name="cageNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="dodacNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="dunAndBradstreetNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="dunsPlusFourNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="state" type="xs:string"/>
+<xs:element name="stateAgency" type="xs:boolean"/>
+<xs:element name="active" type="xs:boolean"/>
+<xs:element minOccurs="0" name="contactInformation" type="tns:rolodexDTO"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="rolodexDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="active" type="xs:boolean"/>
+<xs:element minOccurs="0" name="addressLine1" type="xs:string"/>
+<xs:element minOccurs="0" name="addressLine2" type="xs:string"/>
+<xs:element minOccurs="0" name="addressLine3" type="xs:string"/>
+<xs:element minOccurs="0" name="city" type="xs:string"/>
+<xs:element minOccurs="0" name="countryCode" type="xs:string"/>
+<xs:element minOccurs="0" name="emailAddress" type="xs:string"/>
+<xs:element minOccurs="0" name="faxNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="firstName" type="xs:string"/>
+<xs:element minOccurs="0" name="fullName" type="xs:string"/>
+<xs:element minOccurs="0" name="lastName" type="xs:string"/>
+<xs:element minOccurs="0" name="middleName" type="xs:string"/>
+<xs:element minOccurs="0" name="organizationName" type="xs:string"/>
+<xs:element minOccurs="0" name="phoneNumber" type="xs:string"/>
+<xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+<xs:element minOccurs="0" name="rolodexId" type="xs:int"/>
+<xs:element minOccurs="0" name="state" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createCustomerResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:customerCreationStatusDto"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="customerCreationStatusDto">
+<xs:sequence>
+<xs:element minOccurs="0" name="customerNumber" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="errors" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidCustomer">
+<xs:sequence>
+<xs:element minOccurs="0" name="customerNumber" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isValidCustomerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createCustomerResponse">
+    <wsdl:part element="tns:createCustomerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCustomerTypesResponse">
+    <wsdl:part element="tns:getCustomerTypesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCustomer">
+    <wsdl:part element="tns:createCustomer" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCustomerTypes">
+    <wsdl:part element="tns:getCustomerTypes" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidCustomerResponse">
+    <wsdl:part element="tns:isValidCustomerResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isValidCustomer">
+    <wsdl:part element="tns:isValidCustomer" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="customerCreationService">
+    <wsdl:operation name="getCustomerTypes">
+      <wsdl:input message="tns:getCustomerTypes" name="getCustomerTypes">
+    </wsdl:input>
+      <wsdl:output message="tns:getCustomerTypesResponse" name="getCustomerTypesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createCustomer">
+      <wsdl:input message="tns:createCustomer" name="createCustomer">
+    </wsdl:input>
+      <wsdl:output message="tns:createCustomerResponse" name="createCustomerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidCustomer">
+      <wsdl:input message="tns:isValidCustomer" name="isValidCustomer">
+    </wsdl:input>
+      <wsdl:output message="tns:isValidCustomerResponse" name="isValidCustomerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="customerCreationServiceSOAPSoapBinding" type="tns:customerCreationService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createCustomer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createCustomer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createCustomerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCustomerTypes">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCustomerTypes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCustomerTypesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isValidCustomer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isValidCustomer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isValidCustomerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="customerCreationServiceSOAP">
+    <wsdl:port binding="tns:customerCreationServiceSOAPSoapBinding" name="customerCreationServicePort">
+      <soap:address location="http://localhost:8080/kfs-dev/remoting/customerCreationServiceSOAP"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
