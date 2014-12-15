@@ -160,11 +160,12 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
                                 (StringUtils.equals(newBudgetLineItem.getGroupName(), budgetLineItem.getGroupName()) ||
                                         (StringUtils.isEmpty(newBudgetLineItem.getGroupName()) && StringUtils.isEmpty(budgetLineItem.getGroupName())))) { 
                             //Existing ObjCode / Group Name combo - add the new Person to the Line Item's Person List
-                        	if (getKcBusinessRulesEngine().applyRules(new AddPersonnelLineItemBudgetEvent(budget, "newBudgetPersonnelDetails", budgetLineItem))) {
-                        		if(budgetPersonDetails.getPersonSequenceNumber().intValue() != -1) {
+                            if (budgetPersonDetails.getPersonSequenceNumber().intValue() != -1) {
+                                //This is NOT a Summary entry
+                                if(getKcBusinessRulesEngine().applyRules(new AddPersonnelLineItemBudgetEvent(budget, "newBudgetPersonnelDetails", budgetLineItem))) {
                         			addBudgetPersonnelDetails(budgetForm, budgetPeriod, budgetLineItem, budgetPersonDetails);
                         		}
-                            } else {
+                            } else if (!getKcBusinessRulesEngine().applyRules(new AddSummaryPersonnelLineItemBudgetEvent(budget, "newBudgetPersonnelDetails", budgetLineItem))){
                                 existingCeGroupCombo = true;
                                 break;
                             }

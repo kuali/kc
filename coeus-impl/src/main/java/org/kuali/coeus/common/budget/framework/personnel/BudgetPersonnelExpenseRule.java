@@ -31,11 +31,11 @@ import java.util.Map;
 public class BudgetPersonnelExpenseRule {
 
 	@KcEventMethod
-    public boolean processCheckSummaryAddBusinessRules(AddPersonnelLineItemBudgetEvent event) {
+    public boolean processCheckSummaryAddBusinessRules(AddSummaryPersonnelLineItemBudgetEvent event) {
         boolean valid = true;
         MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.addToErrorPath(event.getErrorPath());
-        
+
         //Check for Req.8: Condition where Personnel are already added for the line item
         if(event.getBudgetLineItem().getBudgetPersonnelDetailsList().size() > 0 ) {
             errorMap.putError("personSequenceNumber", KeyConstants.ERROR_PERSONNEL_EXISTS);
