@@ -261,7 +261,7 @@
         <property name="awardPersonDao" ref="awardPersonDao" />
     </bean>
     
-    <bean id="awardTemplateLookupable " class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    <bean id="awardTemplateLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="awardTemplateLookupableHelperServiceImpl" />     
     </bean>
       
