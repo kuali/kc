@@ -78,10 +78,10 @@
     <global-forwards >
 <!-- Rice content Start -->        
        	<!-- Begin required KNS forwards -->
-        <forward name="save" path="/portal.jsp" redirect="true" />
-        <forward name="cancel" path="/portal.jsp" redirect="true" />
-        <forward name="close" path="/portal.jsp" redirect="true" />
-        <forward name="portal" path="/portal.jsp" redirect="true" />
+        <forward name="save" path="/kc-krad/landingPage" redirect="true" />
+        <forward name="cancel" path="/kc-krad/landingPage" redirect="true" />
+        <forward name="close" path="/kc-krad/landingPage" redirect="true" />
+        <forward name="portal" path="/kc-krad/landingPage" redirect="true" />
         <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
         <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" />
@@ -102,20 +102,20 @@
 <!-- Rice content Start -->    
        	<!-- Begin required KNS mappings -->
         <action path="/portal" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiPortalAction">
-            <forward name="basic" path="/portal.jsp" />
+            <forward name="basic" path="/kc-krad/landingPage" />
         </action>
 
         <action path="/backdoorlogin" name="BackdoorForm" scope="request" parameter="methodToCall"
         input="/WEB-INF/jsp/backdoor/index.jsp" type="org.kuali.rice.kns.web.struts.action.BackdoorAction">
-            <forward name="basic" path="/portal.jsp" />
-            <forward name="viewPortal" path="/portal.jsp" />
+            <forward name="basic" path="/kc-krad/landingPage" />
+            <forward name="viewPortal" path="/kc-krad/landingPage" />
             <forward name="logout" path="/logout.do" />
         </action>
         
         <action path="/logout" name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.action.KualiLogoutAction" />
 
         <action path="/index" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
-            <forward name="basic" path="/portal.jsp" />
+            <forward name="basic" path="/kc-krad/landingPage" />
         </action>
         <!-- KULRICE-2903: An action mapping to "/updateTextArea" is needed here when Javascript is enabled. -->
         <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
@@ -358,7 +358,7 @@
         <forward name="temporaryList" path="/WEB-INF/jsp/institutionalproposal/ProposalLogTemporaryList.jsp" />
       </action>
       <action path="/printProposalLog" name="ProposalLogPrintForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintAction">
-        <forward name="basic" path="/portal.jsp" redirect="true" />
+        <forward name="basic" path="/kc-krad/landingPage" redirect="true" />
       </action>
       
       
@@ -695,7 +695,7 @@
           <forward name="basic" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
      	  <forward name="customData" path="/WEB-INF/jsp/negotiation/NegotiationNegotiation.jsp" />
      	  <forward name="notificationEditor" path="/WEB-INF/jsp/negotiation/NegotiationNotificationEditor.jsp" />
-     	  <forward name="portal" path="/portal.jsp" redirect="true" />
+     	  <forward name="portal" path="/kc-krad/landingPage" redirect="true" />
           <forward name="lostPlaceMessagePage" path="/WEB-INF/jsp/negotiation/NegotiationLostPlaceMessage.jsp" />
        </action>
 
