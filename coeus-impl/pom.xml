@@ -25,6 +25,8 @@
         <gg.wsdl.location>${basedir}/src/main/resources/wsdl</gg.wsdl.location>
         <account.wsdl.packaged.location>wsdl/AccountCreationService.wsdl</account.wsdl.packaged.location>
         <budget.wsdl.packaged.location>wsdl/BudgetAdjustmentService.wsdl</budget.wsdl.packaged.location>
+        <dunningCampaign.wsdl.packaged.location>wsdl/DunningCampaignService.wsdl</dunningCampaign.wsdl.packaged.location>
+        <customerCreation.wsdl.packaged.location>wsdl/CustomerCreationService.wsdl</customerCreation.wsdl.packaged.location>
 
         <printing.schema.dir>src/main/resources/org/kuali/kra/printing/schema</printing.schema.dir>
         <printing.config.dir>src/main/config/org/kuali/kra/printing/schema</printing.config.dir>
@@ -116,6 +118,58 @@
                                         <extraarg>-validate</extraarg>
                                         <extraarg>-wsdlLocation</extraarg>
                                         <extraarg>${budget.wsdl.packaged.location}</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>customer-creation-service</id>
+                        <phase>generate-sources</phase>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <disableDirectoryScan>true</disableDirectoryScan>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <noAddressBinding>true</noAddressBinding>
+                                    <wsdl>${gg.wsdl.location}/CustomerCreationService.wsdl</wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>${gg.wsdl.location}/customerCreation_jaxb.xml</bindingFile>
+                                    </bindingFiles>
+                                    <extraargs>
+                                        <extraarg>-verbose</extraarg>
+                                        <extraarg>-validate</extraarg>
+                                        <extraarg>-wsdlLocation</extraarg>
+                                        <extraarg>${customerCreation.wsdl.packaged.location}</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>dunning-campaign-service</id>
+                        <phase>generate-sources</phase>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <disableDirectoryScan>true</disableDirectoryScan>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <noAddressBinding>true</noAddressBinding>
+                                    <wsdl>${gg.wsdl.location}/DunningCampaignService.wsdl</wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>${gg.wsdl.location}/dunningCampaign_jaxb.xml</bindingFile>
+                                    </bindingFiles>
+                                    <extraargs>
+                                        <extraarg>-verbose</extraarg>
+                                        <extraarg>-validate</extraarg>
+                                        <extraarg>-wsdlLocation</extraarg>
+                                        <extraarg>${dunningCampaign.wsdl.packaged.location}</extraarg>
                                     </extraargs>
                                 </wsdlOption>
                             </wsdlOptions>

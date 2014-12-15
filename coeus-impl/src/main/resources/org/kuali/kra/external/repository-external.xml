@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <descriptor-repository version="1.0">
 
-	<class-descriptor class="org.kuali.kra.bo.Sponsor" table="SPONSOR">
+	<class-descriptor class="org.kuali.coeus.common.framework.sponsor.Sponsor" table="SPONSOR">
 		<field-descriptor id="1" name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true" sequence-name="SEQ_SPONSOR_CODE" autoincrement="true" />
 		<field-descriptor name="acronym" column="ACRONYM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="auditReportSentForFy" column="AUDIT_REPORT_SENT_FOR_FY" jdbc-type="CHAR"/>
@@ -24,7 +24,7 @@
     	<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="dunningCampaignId" column="DUNNING_CAMPAIGN_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="customerNumber" column="CUSTOMER_NUMBER" jdbc-type="VARCHAR"/>
-		<reference-descriptor name="sponsorType" class-ref="org.kuali.kra.bo.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="sponsorType" class-ref="org.kuali.coeus.common.framework.sponsor.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorTypeCode" />
     	</reference-descriptor>
 
@@ -36,7 +36,7 @@
     	</reference-descriptor>
 	</class-descriptor>
   
-  <class-descriptor class="org.kuali.kra.bo.SponsorSpecial" table="SPONSOR">
+  <class-descriptor class="org.kuali.coeus.common.framework.sponsor.SponsorSpecial" table="SPONSOR">
     <field-descriptor id="1" name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true" sequence-name="SEQ_SPONSOR_CODE" autoincrement="true" />
     <field-descriptor name="acronym" column="ACRONYM" jdbc-type="VARCHAR"/>
     <field-descriptor name="auditReportSentForFy" column="AUDIT_REPORT_SENT_FOR_FY" jdbc-type="CHAR"/>
@@ -60,13 +60,13 @@
       <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="customerNumber" column="CUSTOMER_NUMBER" jdbc-type="VARCHAR"/>
       
-    <reference-descriptor name="sponsorType" class-ref="org.kuali.kra.bo.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="sponsorType" class-ref="org.kuali.coeus.common.framework.sponsor.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
           <foreignkey field-ref="sponsorTypeCode" />
       </reference-descriptor>
-    <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
           <foreignkey field-ref="ownedByUnit" />
       </reference-descriptor>
-      <reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+      <reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
           <foreignkey field-ref="rolodexId" />
       </reference-descriptor>
   </class-descriptor>
