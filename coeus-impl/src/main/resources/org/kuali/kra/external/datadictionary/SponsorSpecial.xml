@@ -6,7 +6,7 @@
         
     <bean id="SponsorSpecial" parent="SponsorSpecial-parentBean" />
     <bean id="SponsorSpecial-parentBean" abstract="true" parent="Sponsor-parentBean">
-    	<property name="businessObjectClass" value="org.kuali.kra.bo.SponsorSpecial" />
+    	<property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.SponsorSpecial" />
     	<property name="objectLabel" value="Sponsor Maintenance" />
     	<property name="inquiryDefinition" >
 	      <ref bean="SponsorSpecial-inquiryDefinition" />
