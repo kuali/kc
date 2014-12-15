@@ -20,7 +20,10 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+<<<<<<< HEAD
 import org.kuali.kra.external.customercreation.CustomerConstants;
+=======
+>>>>>>> KFSTI-672 apply Java/resource/web changes
 import org.kuali.kra.external.customercreation.CustomerCreationClient;
 import org.kuali.kra.external.dunningcampaign.DunningCampaignClient;
 import org.kuali.kra.infrastructure.KeyConstants;

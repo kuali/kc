@@ -60,6 +60,7 @@
         <property name="databaseRepositoryFilePaths">
             <list>
                 <value>org/kuali/kra/award/repository-award.xml</value>
+                <value>org/kuali/kra/award/repository-award-cgb.xml</value>
             </list>
         </property>
     </bean>
