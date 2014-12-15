@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.award.external.award;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -50,9 +49,11 @@ public class AwardAccountDTO implements Serializable {
     private boolean finalBill;
     private Date lastBilledDate;
     private Date previousLastBilledDate;
-    private KualiDecimal amountToDraw;
+    private BigDecimal amountToDraw;
     private boolean letterOfCreditReviewIndicator;
     private String invoiceDocumentStatus;
+    
+   
     
     public String getPrimeSponsorTypeCode() {
         return primeSponsorTypeCode;
@@ -217,11 +218,11 @@ public class AwardAccountDTO implements Serializable {
         this.previousLastBilledDate = previousLastBilledDate;
     }
 
-    public KualiDecimal getAmountToDraw() {
+    public BigDecimal getAmountToDraw() {
         return amountToDraw;
     }
 
-    public void setAmountToDraw(KualiDecimal amountToDraw) {
+    public void setAmountToDraw(BigDecimal amountToDraw) {
         this.amountToDraw = amountToDraw;
     }
 

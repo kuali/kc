@@ -8,7 +8,7 @@
 
     http://www.opensource.org/licenses/ecl1.php
 
-    Unless required by applicable law or agreed to in writing, software
+    Unless required by applicable law or agreed to in writing, softwar
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
@@ -60,7 +60,6 @@
         <property name="databaseRepositoryFilePaths">
             <list>
                 <value>org/kuali/kra/award/repository-award.xml</value>
-                <value>org/kuali/kra/award/repository-award-cgb.xml</value>
             </list>
         </property>
     </bean>
@@ -228,6 +227,7 @@
         <property name="documentService" ref="documentService" />
         <property name="versioningService" ref="versioningService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
+        <property name="awardDao" ref="awardDao" />
     </bean>
     
     <bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -242,6 +242,8 @@
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
+
+    <bean id="awardDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardDaoOjb" />
 
     <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardLookupDaoOjb">
     	<property name="versionHistoryLookupDao" ref="versionHistoryLookupDao" /> 
@@ -1117,7 +1119,9 @@
     <bean id ="subcontractingExpenditureCategoryDetailsDao" parent="platformAwareDao" class="org.kuali.kra.award.subcontracting.reporting.dao.SubcontractingExpenditureCategoryDetailsDaoOjb">
     </bean>
 
-    <bean id="awardDtoService" class="org.kuali.kra.external.award.AwardDtoService">
+    <bean id="awardJavaFunctionKrmsTermService" class="org.kuali.kra.award.service.impl.AwardJavaFunctionKrmsTermServiceImpl"/>
+
+    <bean id="awardDtoService" class="org.kuali.kra.award.external.award.AwardDtoService">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService"/>
         <property name="proposalDtoService" ref="proposalDtoService"/>
@@ -1125,12 +1129,17 @@
         <property name="awardMethodOfPaymentDtoService" ref="awardMethodOfPaymentDtoService"/>
     </bean>
 
-    <bean id="awardAccountDtoService" class="org.kuali.kra.external.award.AwardAccountDtoService">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="parameterService" ref="parameterService"/>
+    <bean id="institutionalProposalService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="institutionalProposalService" />
     </bean>
 
-    <bean id="proposalDtoService" class="org.kuali.kra.external.award.ProposalDtoService"/>
+    <bean id="awardAccountDtoService" class="org.kuali.kra.award.external.award.AwardAccountDtoService">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="parameterService" ref="parameterService"/>
+        <property name="institutionalProposalService" ref="institutionalProposalService"/>
+    </bean>
+
+    <bean id="proposalDtoService" class="org.kuali.kra.award.external.award.ProposalDtoService"/>
 
     <bean id="awardBasisOfPaymentDtoService" class="org.kuali.kra.external.awardpayment.AwardBasisOfPaymentDtoService"/>
     <bean id="awardMethodOfPaymentDtoService" class="org.kuali.kra.external.awardpayment.AwardMethodOfPaymentDtoService"/>
@@ -1146,7 +1155,6 @@
 
     <bean id="sponsorWebService" class="org.kuali.kra.external.sponsor.SponsorWebServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="sponsorService" ref="sponsorService" />
         <property name="sponsorDtoService" ref="sponsorDtoService" />
     </bean>
     <bean id="sponsorWebServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1171,7 +1179,7 @@
         </property>
     </bean>
 
-    <bean id="awardWebService" class="org.kuali.kra.external.award.AwardWebServiceImpl">
+    <bean id="awardWebService" class="org.kuali.kra.award.external.award.AwardWebServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="awardService" ref="awardService" />
         <property name="awardLookupDao" ref="awardLookupDao" />
@@ -1184,7 +1192,7 @@
                   p:service-ref="awardWebService"
                   p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
                   p:localServiceName="awardWebService"
-                  p:serviceInterface="org.kuali.kra.external.award.AwardWebService"
+                  p:serviceInterface="org.kuali.kra.award.external.award.AwardWebService"
                   p:busSecurity="${fin.system.integration.bus.security.on}"
                   p:retryAttempts="1" />
         </property>

@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "proposalDTO", propOrder = {
@@ -32,9 +32,9 @@ public class ProposalDTO implements Serializable {
     private String proposalNumber;
     private Date requestedStartDateTotal;
     private Date requestedEndDateTotal;
-    private KualiDecimal proposalTotalAmount;
-    private KualiDecimal totalDirectCostTotal;
-    private KualiDecimal totalIndirectCostTotal;
+    private ScaleTwoDecimal proposalTotalAmount;
+    private ScaleTwoDecimal totalDirectCostTotal;
+    private ScaleTwoDecimal totalIndirectCostTotal;
     private Date proposalLastUpdateDate;
     private Integer awardTypeCode;
     private String sponsorCode;
@@ -61,22 +61,22 @@ public class ProposalDTO implements Serializable {
 	public void setRequestedEndDateTotal(Date requestedEndDateTotal) {
 		this.requestedEndDateTotal = requestedEndDateTotal;
 	}
-	public KualiDecimal getProposalTotalAmount() {
+	public ScaleTwoDecimal getProposalTotalAmount() {
 		return proposalTotalAmount;
 	}
-	public void setProposalTotalAmount(KualiDecimal proposalTotalAmount) {
+	public void setProposalTotalAmount(ScaleTwoDecimal proposalTotalAmount) {
 		this.proposalTotalAmount = proposalTotalAmount;
 	}
-	public KualiDecimal getTotalDirectCostTotal() {
+	public ScaleTwoDecimal getTotalDirectCostTotal() {
 		return totalDirectCostTotal;
 	}
-	public void setTotalDirectCostTotal(KualiDecimal totalDirectCostTotal) {
+	public void setTotalDirectCostTotal(ScaleTwoDecimal totalDirectCostTotal) {
 		this.totalDirectCostTotal = totalDirectCostTotal;
 	}
-	public KualiDecimal getTotalIndirectCostTotal() {
+	public ScaleTwoDecimal getTotalIndirectCostTotal() {
 		return totalIndirectCostTotal;
 	}
-	public void setTotalIndirectCostTotal(KualiDecimal totalIndirectCostTotal) {
+	public void setTotalIndirectCostTotal(ScaleTwoDecimal totalIndirectCostTotal) {
 		this.totalIndirectCostTotal = totalIndirectCostTotal;
 	}
 	public Date getProposalLastUpdateDate() {

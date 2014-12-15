@@ -13,7 +13,7 @@ import org.kuali.kfs.module.external.kc.dto.CustomerTypeDto;
 import org.kuali.kfs.module.external.kc.dto.RolodexDTO;
 import org.kuali.kfs.module.external.kc.dto.SponsorDTO;
 import org.kuali.kfs.module.external.kc.service.CustomerCreationService;
-import org.kuali.kra.bo.Sponsor;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.external.service.KcDtoService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -78,7 +78,7 @@ public abstract class CustomerCreationClientBase implements CustomerCreationClie
 			dto.setContactInformation(new RolodexDTO());
 			BeanUtils.copyProperties(dto.getContactInformation(), rolodex);
 		} catch (Exception e) {
-			LOG.error("Unable to copy properties from similar DTOs", e);
+			throw new RuntimeException(e);
 		}
 		return dto;
 	}

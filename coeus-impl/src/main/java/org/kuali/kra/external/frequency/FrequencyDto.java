@@ -1,8 +1,12 @@
 package org.kuali.kra.external.frequency;
 
-public class FrequencyDto {
+import java.io.Serializable;
 
-	private String frequencyCode;
+public class FrequencyDto implements Serializable {
+
+    private static final long serialVersionUID = -115792438972874644L;
+
+    private String frequencyCode;
 	private String description;
 	
 	public String getFrequencyCode() {

@@ -9,14 +9,15 @@ import java.util.Map;
 
 import javax.jws.WebParam;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.cgb.AwardCgb;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.bo.versioning.VersionStatus;
-import org.kuali.kra.dao.AwardLookupDao;
+import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.kra.award.dao.AwardLookupDao;
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.service.KcDtoService;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -34,9 +35,9 @@ public class AwardWebServiceImpl implements AwardWebService {
 	private ParameterService parameterService;
 	
 	public AwardDTO getAward(Long awardId) {
-		Award award = getAwardService().getAward(awardId);
-		if (award != null) {
-			Award newestAward = getAwardService().getActiveOrNewestAward(award.getAwardNumber());
+		String awardNumber = getAwardService().getAwardNumber(awardId);
+		if (StringUtils.isNotBlank(awardNumber)) {
+			Award newestAward = getAwardService().getActiveOrNewestAward(awardNumber);
 			AwardDTO result = getAwardDtoService().buildDto(newestAward);
 			return result;
 		} else {
@@ -93,7 +94,7 @@ public class AwardWebServiceImpl implements AwardWebService {
 		}
         // use the awardSequenceStatus to return the latest active award
 		fieldValues.put("awardSequenceStatus", VersionStatus.ACTIVE.name());
-		List<Award> awards = new ArrayList<Award>(businessObjectService.findMatching(Award.class, fieldValues));
+		Collection<Award> awards = getAwardService().retrieveAwardsByCriteria(fieldValues);
 
 		if (awards != null && !awards.isEmpty()) {
 			for (Award award : awards) {
@@ -143,23 +144,17 @@ public class AwardWebServiceImpl implements AwardWebService {
 	public AwardBillingUpdateStatusDto updateAwardBillingStatus(AwardFieldValuesDto searchDto,
 			AwardBillingUpdateDto updateDto) {
 		AwardBillingUpdateStatusDto result = new AwardBillingUpdateStatusDto();
-		Award award = null;
+		AwardCgb award = null;
 		if (StringUtils.isNotEmpty(searchDto.getChartOfAccounts()) && StringUtils.isNotEmpty(searchDto.getAccountNumber())) {
 			Map<String, Object> values = new HashMap<String, Object>();
-			values.put("financialChartOfAccountsCode", searchDto.getChartOfAccounts());
-			values.put("accountNumber", searchDto.getAccountNumber());
+			values.put("award.financialChartOfAccountsCode", searchDto.getChartOfAccounts());
+			values.put("award.accountNumber", searchDto.getAccountNumber());
             // use the awardSequenceStatus to return the latest active award
             values.put("awardSequenceStatus", VersionStatus.ACTIVE.name());
-            List<Award> awards = new ArrayList<Award>(businessObjectService.findMatching(Award.class, values));
-            if (!awards.isEmpty()) {
-            	award = awards.get(0);
+            List<AwardCgb> cgbAwards = new ArrayList<AwardCgb>(businessObjectService.findMatching(AwardCgb.class, values));
+            if (!cgbAwards.isEmpty()) {
+            	award = cgbAwards.get(0);
             }
-		}
-		if (award == null && searchDto.getAwardId() != null) {
-			award = getAwardService().getAward(searchDto.getAwardId());
-			if (award != null) {
-				award = getAwardService().getActiveOrNewestAward(award.getAwardNumber());
-			}
 		}
 		if (award == null) {
 			result.setSuccess(false);
@@ -167,32 +162,31 @@ public class AwardWebServiceImpl implements AwardWebService {
 			return result;
 		}
 		
-		AwardCgb awardCgb = award.getAwardCgb();
 		if (updateDto.isDoFinalBilledUpdate()) {
-			awardCgb.setFinalBill(updateDto.isFinalBilledIndicator());
+			award.setFinalBill(updateDto.isFinalBilledIndicator());
 		}
 		if (updateDto.isDoLastBillDateUpdate()) {
-			awardCgb.setPreviousLastBilledDate(awardCgb.getLastBilledDate());
-			awardCgb.setLastBilledDate(updateDto.getLastBillDate());
+			award.setPreviousLastBilledDate(award.getLastBilledDate());
+			award.setLastBilledDate(updateDto.getLastBillDate());
 		}
 		if (updateDto.isDoAmountToDrawUpdate()) {
-			awardCgb.setAmountToDraw(updateDto.getAmountToDraw());
+			award.setAmountToDraw(new ScaleTwoDecimal(updateDto.getAmountToDraw()));
 		}
 		if (updateDto.isDoInvoiceDocStatusUpdate()) {
-			awardCgb.setInvoiceDocumentStatus(updateDto.getInvoiceDocumentStatus());
+			award.setInvoiceDocumentStatus(updateDto.getInvoiceDocumentStatus());
 		}
 		if (updateDto.isDoLocCreationTypeUpdate()) {
 			
 		}
 		if (updateDto.isDoLocReviewUpdate()) {
-			awardCgb.setLetterOfCreditReviewIndicator(updateDto.isLocReviewIndicator());
+			award.setLetterOfCreditReviewIndicator(updateDto.isLocReviewIndicator());
 		}
 		if (updateDto.isRestorePreviousBillDate()) {
-			awardCgb.setLastBilledDate(awardCgb.getPreviousLastBilledDate());
-			awardCgb.setPreviousLastBilledDate(null);
+			award.setLastBilledDate(award.getPreviousLastBilledDate());
+			award.setPreviousLastBilledDate(null);
 		}
 		
-		getBusinessObjectService().save(awardCgb);
+		getBusinessObjectService().save(award);
 		result.setAwardNumber(award.getAwardNumber());
 		result.setSuccess(true);
 		return result;

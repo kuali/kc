@@ -1,10 +1,10 @@
 insert into REPORT (REPORT_CODE, DESCRIPTION, FINAL_REPORT_FLAG, ACTIVE_FLAG, VER_NBR, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID)
-	values ((select max(cast(REPORT_CODE as int))+1 from REPORT), 'KFS Invoicing', 'N', 'Y', 1, SYSDATE, 'admin', SYS_GUID())
+	values ((select max(cast(REPORT_CODE as int))+1 from REPORT), 'KFS Invoicing', 'N', 'N', 1, SYSDATE, 'admin', SYS_GUID())
 /
 
 insert into FREQUENCY (FREQUENCY_CODE, DESCRIPTION, NUMBER_OF_DAYS, NUMBER_OF_MONTHS, REPEAT_FLAG, ADVANCE_NUMBER_OF_DAYS, 
 		ADVANCE_NUMBER_OF_MONTHS, ACTIVE_FLAG, VER_NBR, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID) 
-	values ((select max(cast(FREQUENCY_CODE as int))+1 from FREQUENCY), 'Letter of Credit', null, null, 'N', null, null, 'Y', 1, SYSDATE, 'admin', SYS_GUID())
+	values ((select max(cast(FREQUENCY_CODE as int))+1 from FREQUENCY), 'Letter of Credit', null, null, 'N', null, null, 'N', 1, SYSDATE, 'admin', SYS_GUID())
 /
 
 insert into VALID_CLASS_REPORT_FREQ (VALID_CLASS_REPORT_FREQ_ID, REPORT_CLASS_CODE, REPORT_CODE, FREQUENCY_CODE, VER_NBR, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID)

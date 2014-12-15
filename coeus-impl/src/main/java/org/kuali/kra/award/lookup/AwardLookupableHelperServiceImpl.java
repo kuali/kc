@@ -44,7 +44,7 @@ import java.util.*;
 /**
  * This class provides Award lookup support
  */
-class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
+public class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     static final String PERSON_ID = "personId";
     static final String ROLODEX_ID = "rolodexId";

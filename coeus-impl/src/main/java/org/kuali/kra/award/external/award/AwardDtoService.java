@@ -1,6 +1,6 @@
 package org.kuali.kra.award.external.award;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.cgb.AwardCgbConstants;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.home.Award;
@@ -8,7 +8,7 @@ import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.kra.award.home.AwardMethodOfPayment;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.bo.Sponsor;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.external.awardpayment.AwardMethodOfPaymentDTO;
 import org.kuali.kra.external.frequency.FrequencyDto;
 import org.kuali.kra.external.frequency.FrequencyDtoService;
@@ -38,11 +38,11 @@ public class AwardDtoService extends KcDtoServiceBase<AwardDTO, Award> {
 			dto.setAwardNumber(award.getAwardNumber());
 			dto.setAwardStartDate(award.getBeginDate());
 			dto.setAwardEndDate(award.getLastAwardAmountInfo().getFinalExpirationDate());
-			dto.setAwardTotalAmount(award.getLastAwardAmountInfo().getObliDistributableAmount());
+			dto.setAwardTotalAmount(award.getLastAwardAmountInfo().getObliDistributableAmount().bigDecimalValue());
 			dto.setAwardDocumentNumber(award.getDocumentKey());
 			dto.setAwardLastUpdateDate(award.getUpdateTimestamp());
-			dto.setAwardDirectCostAmount(award.getLastAwardAmountInfo().getObligatedTotalDirect());
-			dto.setAwardIndirectCostAmount(award.getLastAwardAmountInfo().getObligatedTotalIndirect());
+			dto.setAwardDirectCostAmount(award.getLastAwardAmountInfo().getObligatedTotalDirect().bigDecimalValue());
+			dto.setAwardIndirectCostAmount(award.getLastAwardAmountInfo().getObligatedTotalIndirect().bigDecimalValue());
 			dto.setProposalAwardTypeCode(award.getAwardTypeCode().toString());
 			dto.setAwardStatusCode(award.getStatusCode().toString());
 			dto.setSponsorCode(award.getSponsorCode());

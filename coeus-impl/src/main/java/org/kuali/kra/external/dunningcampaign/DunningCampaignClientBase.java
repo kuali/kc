@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.external.kc.dto.DunningCampaignDTO;
 import org.kuali.kfs.module.external.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.DunningCampaignService;
-import org.kuali.kra.external.award.impl.AccountCreationClientBase;
+import org.kuali.kra.award.external.award.impl.AccountCreationClientBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
@@ -20,8 +20,7 @@ public abstract class DunningCampaignClientBase implements DunningCampaignClient
 	protected static final String SOAP_SERVICE_NAME = "dunningCampaignServiceSOAP";
 	protected static final QName SERVICE_NAME = new QName(Constants.FINANCIAL_SYSTEM_SERVICE_NAMESPACE, SOAP_SERVICE_NAME);
     private static final String ERROR_MESSAGE = "Cannot connect to the service. The service may be down, please try again later.";
-    private static final Log LOG = LogFactory.getLog(AccountCreationClientBase.class);
-    
+    private static final Log LOG = LogFactory.getLog(DunningCampaignClientBase.class);
     private ParameterService parameterService;
     
     protected abstract DunningCampaignService getServiceHandle();
