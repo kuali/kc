@@ -30,7 +30,10 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @KcBusinessRule("budgetPersonnelPeriodRule")
 public class BudgetPersonnelPeriodRule {
@@ -52,7 +55,8 @@ public class BudgetPersonnelPeriodRule {
         result.getMessageMap().addToErrorPath(event.getErrorPath());
         verifyPersonnelEffortAndCharged(event.getBudgetPersonnelDetails(), result);
         verifyPersonnelDates(event.getBudgetPersonnelDetails(),event.getBudgetPeriod(), result);
-        verifyDuplicatePerson(event.getBudgetLineItem(), event.getBudgetPersonnelDetails(), result);
+        List<BudgetPersonnelDetails> budgetPersonnelDetails = getBudgetPersonnelDetails(event.getBudgetLineItem(), event.getBudgetPersonnelDetails(), event.getEditLineIndex());
+        verifyDuplicatePerson(event.getBudgetLineItem(), event.getBudgetPersonnelDetails(), budgetPersonnelDetails, result);
         result.getMessageMap().removeFromErrorPath(event.getErrorPath());
         return result;
     }
@@ -116,24 +120,51 @@ public class BudgetPersonnelPeriodRule {
             result.getMessageMap().putError("personSequenceNumber", KeyConstants.ERROR_SUMMARY_LINEITEM_EXISTS);
             result.setSuccess(false);
         }else {
-        	verifyDuplicatePerson(budgetLineItem, newBudgetPersonnelDetails, result);
+            List<BudgetPersonnelDetails> budgetPersonnelDetails = getBudgetPersonnelDetails(budgetLineItem, newBudgetPersonnelDetails);
+        	verifyDuplicatePerson(budgetLineItem, newBudgetPersonnelDetails, budgetPersonnelDetails, result);
         }
     }
     
-    protected void verifyDuplicatePerson(BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, KcEventResult result) {
-        for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-        	if(isDuplicatePerson(budgetPersonnelDetails, newBudgetPersonnelDetails)) {
+    /**
+     * Check for duplicate person while adding new personnel and in edit mode.
+     * In new mode, person should not exist in the list with applicable unique key
+     * In edit mode, allow update on same person and make sure the duplicate key is validated (change in start date).
+     * @param budgetLineItem
+     * @param newBudgetPersonnelDetails
+     * @param maxPersonnel
+     * @param result
+     */
+    protected void verifyDuplicatePerson(BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, List<BudgetPersonnelDetails> budgetPersonnelDetailsList, KcEventResult result) {
+    	Set<String> uniquePersonDetails = new HashSet<String>();
+    	for(BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetailsList) {
+        	if(!uniquePersonDetails.add(getBudgetPersonnelPeriodUniqueKey(budgetPersonnelDetails))) {
                 result.getMessageMap().putError("startDate", KeyConstants.ERROR_DUPLICATE_PERSON, newBudgetPersonnelDetails.getBudgetPerson().getPersonName());
                 result.setSuccess(false);
                 break;
         	}
-        }
+    	}
     }
-    
-    protected boolean isDuplicatePerson(BudgetPersonnelDetails budgetPersonnelDetails, BudgetPersonnelDetails newBudgetPersonnelDetails) {
-    	return budgetPersonnelDetails.getPersonSequenceNumber().equals(newBudgetPersonnelDetails.getPersonSequenceNumber())&& 
-    	        StringUtils.equals(budgetPersonnelDetails.getJobCode(), newBudgetPersonnelDetails.getJobCode()) && 
-    	        budgetPersonnelDetails.getStartDate().equals(newBudgetPersonnelDetails.getStartDate());
+
+    protected List<BudgetPersonnelDetails> getBudgetPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails) {
+    	List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+    	budgetPersonnelDetailsList.addAll(budgetLineItem.getBudgetPersonnelDetailsList());
+    	budgetPersonnelDetailsList.add(newBudgetPersonnelDetails);
+    	return budgetPersonnelDetailsList;
+    }
+   
+    protected List<BudgetPersonnelDetails> getBudgetPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, int editLineIndex) {
+    	List<BudgetPersonnelDetails> budgetPersonnelDetailsList = getBudgetPersonnelDetails(budgetLineItem, newBudgetPersonnelDetails);
+    	BudgetPersonnelDetails existingBudgetPersonnelDetails = budgetPersonnelDetailsList.get(editLineIndex);
+    	budgetPersonnelDetailsList.remove(existingBudgetPersonnelDetails);
+    	return budgetPersonnelDetailsList;
+    }
+   
+    protected String getBudgetPersonnelPeriodUniqueKey(BudgetPersonnelDetails budgetPersonnelDetails) {
+    	StringBuffer uniqueKey = new StringBuffer();
+    	uniqueKey.append(budgetPersonnelDetails.getPersonSequenceNumber());
+    	uniqueKey.append(budgetPersonnelDetails.getJobCode());
+    	uniqueKey.append(budgetPersonnelDetails.getStartDate());
+    	return uniqueKey.toString();
     }
     
     protected void verifyPersonnelEffortAndCharged(BudgetPersonnelDetails budgetPersonnelDetails, KcEventResult result) {
