@@ -1,6 +1,6 @@
 package org.kuali.kra.external.sponsor;
 
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.external.service.KcDtoServiceBase;
 
 public class RolodexDtoService extends KcDtoServiceBase<RolodexDTO, Rolodex> {
