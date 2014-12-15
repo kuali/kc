@@ -7,7 +7,7 @@
   <bean id="Sponsor" parent="Sponsor-parentBean" />
 
   <bean id="Sponsor-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.bo.Sponsor" />
+    <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.Sponsor" />
 		<property name="objectLabel" value="Sponsor" />
     <property name="inquiryDefinition" >
       <ref bean="Sponsor-inquiryDefinition" />
@@ -351,7 +351,7 @@
     </property>
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.bo.SponsorType"
+            p:businessObjectClass="org.kuali.coeus.common.framework.sponsor.SponsorType"
             p:valuesFinderClass="org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"

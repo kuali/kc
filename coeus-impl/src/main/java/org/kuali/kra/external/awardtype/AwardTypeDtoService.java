@@ -9,7 +9,7 @@ public class AwardTypeDtoService extends KcDtoServiceBase<AwardTypeDTO, AwardTyp
 	public AwardTypeDTO buildDto(AwardType awardType) {
 		if (awardType != null) {
 			AwardTypeDTO dto = new AwardTypeDTO();
-			dto.setAwardTypeCode(awardType.getAwardTypeCode());
+			dto.setAwardTypeCode(awardType.getCode());
 			dto.setDescription(awardType.getDescription());
 			return dto;
 		} else {
