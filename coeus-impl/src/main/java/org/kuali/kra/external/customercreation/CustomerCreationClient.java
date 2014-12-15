@@ -2,7 +2,7 @@ package org.kuali.kra.external.customercreation;
 
 import java.util.List;
 
-import org.kuali.kra.bo.Sponsor;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.external.service.KcDtoService;
 import org.kuali.kra.external.sponsor.SponsorDTO;
 import org.kuali.rice.core.api.util.KeyValue;
