@@ -6,11 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-<<<<<<< HEAD
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-=======
-import org.kuali.kra.bo.Rolodex;
->>>>>>> KFSTI-670 add new java/resource/web files
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "rolodexDTO", propOrder = {

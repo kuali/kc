@@ -3,11 +3,7 @@
   <bean id="SponsorMaintenanceDocument" parent="SponsorMaintenanceDocument-parentBean"/>
 
   <bean id="SponsorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-<<<<<<< HEAD
     <property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.Sponsor"/>
-=======
-    <property name="businessObjectClass" value="org.kuali.kra.bo.Sponsor"/>
->>>>>>> KFSTI-670 add new java/resource/web files
     <property name="maintainableClass" value="org.kuali.kra.external.sponsor.SponsorMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
