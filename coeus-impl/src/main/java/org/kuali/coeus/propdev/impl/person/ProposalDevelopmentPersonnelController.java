@@ -28,10 +28,10 @@ import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotification
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -267,6 +267,17 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         swapAdjacentPersonnel(form.getDevelopmentProposal().getProposalPersons(), Integer.parseInt(selectedLine), MoveOperationEnum.MOVING_PERSON_DOWN);
 
         return getRefreshControllerService().refresh(form);
+    }
+
+    @MethodAccessible @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=certifyAnswers")
+    public ModelAndView certifyAnswers(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        String selectedPersonId = form.getProposalPersonQuestionnaireHelper().getProposalPerson().getPersonId();
+        for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
+            if (StringUtils.equals(proposalPerson.getPersonId(),selectedPersonId)) {
+                proposalPerson.setQuestionnaireHelper(form.getProposalPersonQuestionnaireHelper());
+            }
+        }
+        return super.save(form);
     }
 
     private enum MoveOperationEnum {
