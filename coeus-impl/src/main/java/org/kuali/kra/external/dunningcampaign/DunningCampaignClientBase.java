@@ -21,7 +21,7 @@ public abstract class DunningCampaignClientBase implements DunningCampaignClient
 	protected static final QName SERVICE_NAME = new QName(Constants.FINANCIAL_SYSTEM_SERVICE_NAMESPACE, SOAP_SERVICE_NAME);
     private static final String ERROR_MESSAGE = "Cannot connect to the service. The service may be down, please try again later.";
     private static final Log LOG = LogFactory.getLog(DunningCampaignClientBase.class);
-    
+
     private ParameterService parameterService;
     
     protected abstract DunningCampaignService getServiceHandle();

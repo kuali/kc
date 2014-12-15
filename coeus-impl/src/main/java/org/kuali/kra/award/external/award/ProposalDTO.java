@@ -61,6 +61,7 @@ public class ProposalDTO implements Serializable {
 	public void setRequestedEndDateTotal(Date requestedEndDateTotal) {
 		this.requestedEndDateTotal = requestedEndDateTotal;
 	}
+
 	public ScaleTwoDecimal getProposalTotalAmount() {
 		return proposalTotalAmount;
 	}

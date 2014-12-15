@@ -20,7 +20,7 @@ public class AwardBillingUpdateDto implements Serializable {
 	
 	private boolean doAmountToDrawUpdate;
 	private BigDecimal amountToDraw;
-	
+
 	private boolean doLocReviewUpdate;
 	private boolean locReviewIndicator;
 	
