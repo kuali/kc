@@ -16,7 +16,7 @@
 
 	<bean id="SponsorSpecialMaintenanceDocument" parent="SponsorSpecialMaintenanceDocument-parentBean"/>
 	<bean id="SponsorSpecialMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.bo.SponsorSpecial"/>
+		<property name="businessObjectClass" value="org.kuali.coeus.common.framework.sponsor.SponsorSpecial"/>
     	    <property name="maintainableClass" value="org.kuali.kra.external.sponsor.SponsorMaintainableImpl"/>
 		<property name="maintainableSections">
 			<list>
