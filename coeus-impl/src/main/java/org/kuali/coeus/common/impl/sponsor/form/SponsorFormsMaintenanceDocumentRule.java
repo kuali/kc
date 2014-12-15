@@ -16,9 +16,15 @@
 package org.kuali.coeus.common.impl.sponsor.form;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.external.customercreation.CustomerCreationClient;
+import org.kuali.kra.external.dunningcampaign.DunningCampaignClient;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -34,17 +40,17 @@ public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRu
     
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        return checkSponsorCodeOrHierarchyName(document);
+        return checkSponsorCodeOrHierarchyName(document) && checkDunningCampaign(document) && checkCustomer(document);
     }
 
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return checkSponsorCodeOrHierarchyName(document);
+        return checkSponsorCodeOrHierarchyName(document) && checkDunningCampaign(document) && checkCustomer(document);
     }
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return checkSponsorCodeOrHierarchyName(document);
+        return checkSponsorCodeOrHierarchyName(document) && checkDunningCampaign(document) && checkCustomer(document);
     }
 
     /**
@@ -63,5 +69,41 @@ public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRu
         }
         return valid;
     }
-    
+
+    protected boolean checkDunningCampaign(MaintenanceDocument document) {
+        boolean valid = true;
+        Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
+        if (StringUtils.isNotBlank(sponsor.getDunningCampaignId())
+                && KcServiceLocator.getService(DunningCampaignClient.class).getDunningCampaign(sponsor.getDunningCampaignId()) == null) {
+            String errorLabel = KcServiceLocator.getService(DataDictionaryService.class).getAttributeErrorLabel(Sponsor.class, "dunningCampaignId");
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dunningCampaignId", KeyConstants.ERROR_MISSING, errorLabel);
+            valid = false;
+        }
+        return valid;
+    }
+
+    protected boolean checkCustomer(MaintenanceDocument document) {
+        boolean valid = true;
+        Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
+        if (StringUtils.equals(sponsor.getCustomerExists(), "Y")) {
+            if (!KcServiceLocator.getService(CustomerCreationClient.class).isValidCustomer(sponsor.getCustomerNumber())) {
+                String errorLabel = KcServiceLocator.getService(DataDictionaryService.class).getAttributeErrorLabel(Sponsor.class, "customerNumber");
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.customerNumber", KeyConstants.ERROR_MISSING, errorLabel);
+                valid = false;
+            }
+        } else if (StringUtils.equals(sponsor.getCustomerExists(), "N") &&
+                StringUtils.isBlank(sponsor.getCustomerTypeCode())) {
+            String errorLabel = KcServiceLocator.getService(DataDictionaryService.class).getAttributeErrorLabel(Sponsor.class, "customerTypeCode");
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.customerTypeCode", KeyConstants.ERROR_MISSING, errorLabel);
+            valid = false;
+        } else if (StringUtils.equals(sponsor.getCustomerExists(), "NA")
+                && !StringUtils.isBlank(sponsor.getCustomerNumber())
+                && !StringUtils.isBlank(sponsor.getCustomerTypeCode())) {
+            String errorLabel = KcServiceLocator.getService(DataDictionaryService.class).getAttributeErrorLabel(Sponsor.class, "customerExists");
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.customerExists", KeyConstants.ERROR_MISSING, errorLabel);
+            valid = false;
+        }
+        return valid;
+    }
+
 }
