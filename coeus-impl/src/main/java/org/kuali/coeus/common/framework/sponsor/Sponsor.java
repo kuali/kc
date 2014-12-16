@@ -83,15 +83,16 @@ public class Sponsor extends KcPersistableBusinessObjectBase implements SponsorC
     @Column(name = "DUNNING_CAMPAIGN_ID")
     private String dunningCampaignId;
 
-    @OneToOne(mappedBy = "dunningCampaign", orphanRemoval = true, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "DUNNING_CAMPAIGN_ID", referencedColumnName = "DUNNING_CAMPAIGN_ID", insertable = false, updatable = false)
+    @Transient
     private DunningCampaign dunningCampaign;
 
     @Column(name = "CUSTOMER_NUMBER")
     private String customerNumber;
 
+    @Transient
     private String customerExists;
 
+    @Transient
     private String customerTypeCode;
 
     @Column(name = "ACTV_IND")
