@@ -10,10 +10,7 @@ import java.util.Map;
 import javax.jws.WebParam;
 
 import org.apache.commons.lang3.StringUtils;
-<<<<<<< HEAD
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-=======
->>>>>>> KFSTI-686 Fixing version of StringUtils
 import org.kuali.kra.award.cgb.AwardCgb;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardConstants;
