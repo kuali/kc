@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -60,7 +61,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
                 // In order for the questionId to be displayed after a submission of a new question we need to manually create it. 
                 if (question.getQuestionSeqId() == null) {
                     Long newQuestionId = KcServiceLocator.getService(SequenceAccessorService.class)
-                            .getNextAvailableSequenceNumber("SEQ_QUESTION_ID", question.getClass());
+                            .getNextAvailableSequenceNumber(QuestionnaireConstants.DB_SEQUENCE_NAME_QUESTION_SEQ_ID, question.getClass());
                     question.setQuestionSeqId(newQuestionId.intValue());
                 }
             }
@@ -147,7 +148,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     public void saveBusinessObject() {
         Question newQuestion = (Question) businessObject;
         QuestionService questionService = KcServiceLocator.getService(QuestionService.class);
-        Question oldQuestion = questionService.getQuestionById(newQuestion.getQuestionSeqId());
+        Question oldQuestion = questionService.getQuestionByQuestionSequenceId(newQuestion.getQuestionSeqId());
         if (oldQuestion != null && !oldQuestion.getId().equals(newQuestion.getId())) {
             oldQuestion.setSequenceStatus(SEQUENCE_STATUS_ARCHIVED);
             KNSServiceLocator.getBusinessObjectService().save(oldQuestion);

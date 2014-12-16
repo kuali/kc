@@ -68,7 +68,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private static final String PFP = "#f#";
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     public static final String ID = "id";
-    public static final String QUESTION_SEQ_ID = "questionSeqId";
+    
     public static final String DOCUMENT_NUMBER = "documentNumber";
     public static final String QUESTIONNAIRE = "questionnaire";
     public static final String TEMPLATE = "template";
@@ -350,7 +350,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         
         String results = N;
         Map<String, Integer> fieldValues = new HashMap<>();
-        fieldValues.put(QUESTION_SEQ_ID, qnQuestion.getQuestion().getQuestionSeqId());
+        fieldValues.put(QuestionnaireConstants.QUESTION_SEQEQUENCE_ID, qnQuestion.getQuestion().getQuestionSeqId());
         Question question = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, fieldValues, "sequenceNumber", false)).get(0);
         if (!question.getSequenceNumber().equals(qnQuestion.getQuestion().getSequenceNumber())) {
             results = question.getId().toString();
@@ -656,7 +656,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             
             //lets check for a more current version
             pkMap.clear();
-            pkMap.put(QUESTION_SEQ_ID, qnForm.getQuestion().getQuestionSeqId());
+            pkMap.put(QuestionnaireConstants.QUESTION_SEQEQUENCE_ID, qnForm.getQuestion().getQuestionSeqId());
             List<Question> questions = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, pkMap, "sequenceNumber", false));
             if (CollectionUtils.isNotEmpty(questions)) {
                 if (!StringUtils.equals(questions.get(0).getId().toString(), qnForm.getQuestionId())) {
@@ -676,7 +676,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             Question oldQ = (Question)getBusinessObjectService().findByPrimaryKey(Question.class, pkMap);
             if (oldQ != null) {
                 pkMap.clear();
-                pkMap.put(QUESTION_SEQ_ID, oldQ.getQuestionSeqId());
+                pkMap.put(QuestionnaireConstants.QUESTION_SEQEQUENCE_ID, oldQ.getQuestionSeqId());
                 List<Question> questions = ((List<Question>)getBusinessObjectService().findMatchingOrderBy(Question.class, pkMap, "sequenceNumber", false));
                 if (CollectionUtils.isNotEmpty(questions)) {
                     qnForm.setQuestion(questions.get(0));
