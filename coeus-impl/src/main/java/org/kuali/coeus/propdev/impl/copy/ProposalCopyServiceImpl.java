@@ -514,7 +514,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         } else {
             modifyNarrativesStatus(srcDoc.getDevelopmentProposal(), newDoc.getDevelopmentProposal());
             modifyAttachmentPermissions(srcDoc.getDevelopmentProposal(), newDoc.getDevelopmentProposal());
-            copyAttachmentFiles(srcDoc.getDevelopmentProposal(),newDoc.getDevelopmentProposal());
+            copyAttachmentFiles(srcDoc.getDevelopmentProposal(), newDoc.getDevelopmentProposal());
         }
 
         if (criteria.getIncludeQuestionnaire()) {
@@ -719,31 +719,32 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             if (StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                 
                 List<ProposalPersonUnit> proposalPersonUnits = person.getUnits();
-                List<ProposalPersonUnit> newProposalPersonUnits = new ArrayList<ProposalPersonUnit>();
-                // add credit splits for new units
-                ProposalPersonUnit unit = createProposalPersonUnit(person, newLeadUnitNumber, true, false, proposalPersonUnits);
-                newProposalPersonUnits.add(unit);
-                
                 String homeUnitNumber = person.getHomeUnit();
-                if (!StringUtils.equals(newLeadUnitNumber, homeUnitNumber)) {
-                    unit = createProposalPersonUnit(person, homeUnitNumber, false, true, proposalPersonUnits);
-                    if (unit != null) {
-                        newProposalPersonUnits.add(unit);
-                    }
-                }
-                
+
+                boolean doesNewLeadUnitExist = false;
                 for (ProposalPersonUnit oldUnit : proposalPersonUnits) {
+
                     String oldUnitNumber = oldUnit.getUnitNumber();
-                    if (!StringUtils.equals(newLeadUnitNumber, oldUnitNumber) &&
-                        !StringUtils.equals(homeUnitNumber, oldUnitNumber) && 
-                        !StringUtils.equals(oldLeadUnitNumber, oldUnitNumber)) {
-                        
-                        unit = createProposalPersonUnit(person, oldUnitNumber, false, true, proposalPersonUnits);
-                        newProposalPersonUnits.add(unit);
+                    if (StringUtils.equals(oldUnitNumber,newLeadUnitNumber) ) {
+                        doesNewLeadUnitExist = true;
+                        oldUnit.setLeadUnit(true);
+                    } else if (!StringUtils.equals(newLeadUnitNumber, oldUnitNumber) &&
+                            !StringUtils.equals(homeUnitNumber, oldUnitNumber) &&
+                            !StringUtils.equals(oldLeadUnitNumber, oldUnitNumber)) {
+                        oldUnit.setLeadUnit(false);
+                    } else {
+                        proposalPersonUnits.remove(oldUnit);
+                    }
+
+                }
+
+                if (!doesNewLeadUnitExist) {
+                    // add credit splits for new units
+                    ProposalPersonUnit unit = createProposalPersonUnit(person, newLeadUnitNumber, true, false, proposalPersonUnits);
+                    if (unit != null) {
+                        person.getUnits().add(unit);
                     }
                 }
-                
-                person.setUnits(newProposalPersonUnits);  
             }
             
             for (ProposalPersonYnq ynq : person.getProposalPersonYnqs()) {
