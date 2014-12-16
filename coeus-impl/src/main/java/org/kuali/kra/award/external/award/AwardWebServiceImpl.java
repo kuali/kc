@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.jws.WebParam;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.cgb.AwardCgb;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardConstants;
@@ -176,7 +177,7 @@ public class AwardWebServiceImpl implements AwardWebService {
 			awardCgb.setLastBilledDate(updateDto.getLastBillDate());
 		}
 		if (updateDto.isDoAmountToDrawUpdate()) {
-			awardCgb.setAmountToDraw(updateDto.getAmountToDraw());
+			awardCgb.setAmountToDraw(new ScaleTwoDecimal(updateDto.getAmountToDraw()));
 		}
 		if (updateDto.isDoInvoiceDocStatusUpdate()) {
 			awardCgb.setInvoiceDocumentStatus(updateDto.getInvoiceDocumentStatus());
