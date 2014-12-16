@@ -39,7 +39,8 @@
 		</property>
         <property name="addLineDialog">
             <bean p:id="PropBudget-PeriodsPage-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Budget Period" p:retrieveViaAjax="true"
-                  p:destroyDialogOnHidden="true">
+                  p:destroyDialogOnHidden="true"
+                  p:onHideDialogScript="retrieveComponent('PropBudget-PeriodsPage-CollectionGroup');">
                 <property name="footer.items">
                     <list>
                         <bean parent="Uif-AddLineAction-Dialog" p:order="10" p:dialogDismissOption=""

@@ -11,15 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodAndTotalEvent;
-import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.period.GenerateBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.period.SaveBudgetPeriodAndTotalEvent;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.component.BindingInfo;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DialogResponse;
+import org.kuali.rice.krad.web.service.impl.CollectionControllerServiceImpl.CollectionActionParameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -34,6 +37,8 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
 	private static final String CONFIRM_PERIOD_CHANGES_DIALOG_ID = "PropBudget-PeriodsPage-ConfirmPeriodChangesDialog";
 	private static final String PERIOD_CHANGES_DIALOG_ID = "PropBudget-PeriodsPage-ChangePeriodDialog";
 	private static final String BUDGET_PERIOD_ERROR_PATH_PREFIX = "budget.budgetPeriods";
+	private static final String NEW_PERIOD_DIALOG_ID = "PropBudget-PeriodsPage-AddDialog";
+	
 	
 	@MethodAccessible
     @Transactional @RequestMapping(params="methodToCall=resetToBudgetPeriodDefault")
@@ -72,10 +77,21 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         BudgetPeriod newBudgetPeriod = ((BudgetPeriod)form.getNewCollectionLines().get("budget.budgetPeriods"));
         Budget budget = form.getBudget();
         newBudgetPeriod.setBudget(budget);
-        if (getKcBusinessRulesEngine().applyRules(new AddBudgetPeriodAndTotalEvent(budget, newBudgetPeriod, "newCollectionLines['budget.budgetPeriods']"))) {
+        String addLineBindingPath = getAddLineBindingPath(form);
+        String errorPath = addLineBindingPath + ".";
+        if (getKcBusinessRulesEngine().applyRules(new AddBudgetPeriodAndTotalEvent(budget, newBudgetPeriod, errorPath))) {
             getBudgetSummaryService().addBudgetPeriod(budget, newBudgetPeriod);
+            ObjectPropertyUtils.setPropertyValue(form, addLineBindingPath, new BudgetPeriod());
         }
+    	form.setUpdateComponentId(NEW_PERIOD_DIALOG_ID);
         return getModelAndViewService().getModelAndView(form);
+    }
+    
+    protected String getAddLineBindingPath(ProposalBudgetForm form) {
+		final CollectionActionParameters parameters = new CollectionActionParameters(form, false);
+        BindingInfo addLineBindingInfo = (BindingInfo) form.getViewPostMetadata().getComponentPostData(
+                parameters.getSelectedCollectionId(), UifConstants.PostMetadata.ADD_LINE_BINDING_INFO);
+        return addLineBindingInfo.getBindingPath();
     }
     
     @Transactional @RequestMapping(params="methodToCall=saveBudgetPeriod")

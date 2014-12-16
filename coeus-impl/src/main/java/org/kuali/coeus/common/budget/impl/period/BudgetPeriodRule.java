@@ -62,10 +62,14 @@ public class BudgetPeriodRule {
         
         boolean rulePassed = true;
 
-        if (!isValidBudgetPeriod(budget, newBudgetPeriod, DEFAULT_ERROR_PATH_PREFIX)) {
+        if (!isValidBudgetPeriod(budget, DEFAULT_ERROR_PATH_PREFIX)) {
             rulePassed = false;
         }
 
+        if(rulePassed && (newBudgetPeriod != null)) {
+        	rulePassed = isValidNewBudgetPeriod(budget, newBudgetPeriod, NEW_BUDGET_PERIOD);
+        }
+        
         if (rulePassed) {
             rulePassed = isValidToInsert(budget, newBudgetPeriod, DEFAULT_NEW_BUDGET_PERIOD_ERROR_PATH_PREFIX);
         }
@@ -77,17 +81,11 @@ public class BudgetPeriodRule {
     public boolean processAddBudgetPeriodBusinessRules(AddBudgetPeriodAndTotalEvent event) {
         Budget budget = event.getBudget();
         BudgetPeriod newBudgetPeriod = event.getBudgetPeriod();
+        boolean rulePassed = isValidNewBudgetPeriod(budget, newBudgetPeriod, event.getErrorPath());
         
-        boolean rulePassed = true;
-
-        if (!isValidBudgetPeriod(budget, newBudgetPeriod, event.getErrorPath())) {
-            rulePassed = false;
-        }
-
-        if (rulePassed) {
-            rulePassed = isValidToInsert(budget, newBudgetPeriod, event.getErrorPath());
-        }
-        
+    	if(rulePassed) {
+            rulePassed = isValidToInsert(budget, newBudgetPeriod, event.getErrorPath().concat("startDate"));
+    	}
         return rulePassed;
     }
     
@@ -96,7 +94,7 @@ public class BudgetPeriodRule {
         Budget budget = event.getBudget();
         boolean rulePassed = true;
 
-        if (!isValidBudgetPeriod(budget, null, DEFAULT_ERROR_PATH_PREFIX)) {
+        if (!isValidBudgetPeriod(budget, DEFAULT_ERROR_PATH_PREFIX)) {
             rulePassed = false;
         }else if(!isValidBudgetPeriodBoundaries(budget, DEFAULT_ERROR_PATH_PREFIX)){
             rulePassed = false;
@@ -113,7 +111,7 @@ public class BudgetPeriodRule {
         Budget budget = event.getBudget();
         boolean rulePassed = true;
 
-        if (!isValidBudgetPeriod(budget, null, event.getErrorPath())) {
+        if (!isValidBudgetPeriod(budget, event.getErrorPath())) {
             rulePassed = false;
         }else if(!isValidBudgetPeriodBoundaries(budget, event.getErrorPath())){
             rulePassed = false;
@@ -138,7 +136,9 @@ public class BudgetPeriodRule {
         //3. Look for line item in period 1 (needed to generate budget periods)
         //4. Check for other periods to populate
         //5. Make sure other periods have no pre-existing line items
-        if (!isValidBudgetPeriod(document, newBudgetPeriod, DEFAULT_ERROR_PATH_PREFIX)) {
+        if (!isValidBudgetPeriod(document, DEFAULT_ERROR_PATH_PREFIX)) {
+            rulePassed = false;
+        } else if(newBudgetPeriod != null && !isValidNewBudgetPeriod(document, newBudgetPeriod, NEW_BUDGET_PERIOD)) {
             rulePassed = false;
         }else if(!isValidBudgetPeriodBoundaries(document, DEFAULT_ERROR_PATH_PREFIX)){
             rulePassed = false;
@@ -250,7 +250,7 @@ public class BudgetPeriodRule {
     }
 
     /* check new budget period */
-    private boolean isValidNewBudgetPeriod(Budget budget, BudgetPeriod newBudgetPeriod) {
+    private boolean isValidNewBudgetPeriod(Budget budget, BudgetPeriod newBudgetPeriod, String errorPathPrefix) {
         MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean validNewBudgetPeriod = true;
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
@@ -265,7 +265,7 @@ public class BudgetPeriodRule {
         /* check new budget period */
         newPeriodStartDate = newBudgetPeriod.getStartDate();
         newPeriodEndDate = newBudgetPeriod.getEndDate();
-        errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
+        errorMap.addToErrorPath(errorPathPrefix);
         if(newPeriodStartDate == null) {
             saveErrors("ERROR_PERIOD_START_REQUIRED", errorMap);
             validNewBudgetPeriod = false;
@@ -274,12 +274,12 @@ public class BudgetPeriodRule {
             saveErrors("ERROR_PERIOD_END_REQUIRED", errorMap);
             validNewBudgetPeriod = false;
         }
-        errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
+        errorMap.removeFromErrorPath(errorPathPrefix);
 
         /* if dates are valid, check further where we can insert this new date */
         if(validNewBudgetPeriod) {
             int totalBudgetPeriods = budgetPeriods.size() - 1;
-            errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
+            errorMap.addToErrorPath(errorPathPrefix);
             for(BudgetPeriod budgetPeriod: budgetPeriods) {
                 Date validDateBefore;
                 periodStartDate = budgetPeriod.getStartDate();
@@ -341,13 +341,13 @@ public class BudgetPeriodRule {
                 previousPeriodEndDate = budgetPeriod.getEndDate();
                 index++;
             }
-            errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
+            errorMap.removeFromErrorPath(errorPathPrefix);
         }
         return validNewBudgetPeriod;
     }
 
     /* check existing budget periods */
-    private boolean isValidBudgetPeriod(Budget budget, BudgetPeriod newBudgetPeriod, String errorPathPrefix) {
+    private boolean isValidBudgetPeriod(Budget budget, String errorPathPrefix) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         boolean validBudgetPeriod = true;
         Date previousPeriodStartDate = null;
@@ -396,11 +396,7 @@ public class BudgetPeriodRule {
             previousPeriodEndDate = budgetPeriod.getEndDate();
             index++;
         }
-        /* if validation passed, then validate new budget period if it exists */
-        if(validBudgetPeriod && (newBudgetPeriod != null)) {
-            validBudgetPeriod = isValidNewBudgetPeriod(budget, newBudgetPeriod);
-        }
-
+        
         return validBudgetPeriod;
     }
     
