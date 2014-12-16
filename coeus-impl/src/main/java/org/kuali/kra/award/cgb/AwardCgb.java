@@ -1,10 +1,11 @@
 package org.kuali.kra.award.cgb;
 
-import java.util.Date;
-
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 public class AwardCgb extends AwardAssociate {
 
@@ -13,13 +14,13 @@ public class AwardCgb extends AwardAssociate {
     private boolean additionalFormsRequired;
     private boolean autoApproveInvoice;
     private boolean stopWork;
-    private KualiDecimal minInvoiceAmount;
+    private BigDecimal minInvoiceAmount;
     private String invoicingOption;
     private String dunningCampaignId;
     private Date lastBilledDate;
     private Date previousLastBilledDate;
     private boolean finalBill;
-    private KualiDecimal amountToDraw;
+    private ScaleTwoDecimal amountToDraw;
     private boolean letterOfCreditReviewIndicator;
     private String locCreationType;
     private String invoiceDocumentStatus;
@@ -75,11 +76,11 @@ public class AwardCgb extends AwardAssociate {
 		this.stopWork = stopWork;
 	}
 
-	public KualiDecimal getMinInvoiceAmount() {
+	public BigDecimal getMinInvoiceAmount() {
 		return minInvoiceAmount;
 	}
 
-	public void setMinInvoiceAmount(KualiDecimal minInvoiceAmount) {
+	public void setMinInvoiceAmount(BigDecimal minInvoiceAmount) {
 		this.minInvoiceAmount = minInvoiceAmount;
 	}
 
@@ -123,11 +124,11 @@ public class AwardCgb extends AwardAssociate {
 		this.previousLastBilledDate = previousLastBilledDate;
 	}
 
-	public KualiDecimal getAmountToDraw() {
+	public ScaleTwoDecimal getAmountToDraw() {
 		return amountToDraw;
 	}
 
-	public void setAmountToDraw(KualiDecimal amountToDraw) {
+	public void setAmountToDraw(ScaleTwoDecimal amountToDraw) {
 		this.amountToDraw = amountToDraw;
 	}
 

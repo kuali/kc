@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "proposalDTO", propOrder = {
