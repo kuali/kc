@@ -26,7 +26,8 @@ public class ProposalDocumentView extends KcTransactionalDocumentView {
 
         for (PessimisticLock lock : document.getPessimisticLocks()) {
             String lockRegion = lock.getLockDescriptor() != null ? StringUtils.split(lock.getLockDescriptor(),"-")[1] : null;
-            if (!lock.isOwnedByUser(user) && (lockRegion == null || lockRegion.equals(pageRegion))) {
+            if (!lock.isOwnedByUser(user) && (lockRegion == null || lockRegion.equals(pageRegion)) &&
+                    !StringUtils.equals(form.getPageId(),ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID)) {
                 String lockDescriptor = StringUtils.defaultIfBlank(lock.getLockDescriptor(), "full");
                 String lockOwner = lock.getOwnedByUser().getName();
                 String lockTime = RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp());

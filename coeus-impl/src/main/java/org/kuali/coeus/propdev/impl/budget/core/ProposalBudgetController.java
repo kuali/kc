@@ -43,7 +43,7 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
     @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
-    
+
     @RequestMapping(params="methodToCall=addBudget")
     public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
     		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget,

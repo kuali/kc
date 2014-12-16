@@ -71,7 +71,7 @@
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Add Budget"
 							p:actionScript="showDialog('PropDev-BudgetPage-NewBudgetDialog')" p:iconClass="icon-plus"
-                            p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE) and !#parent.readOnly}" p:order="10" />
+                            p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE)}" p:order="10" />
 					</list>
 				</property>
 			</bean>
@@ -129,7 +129,7 @@
 
 	<bean id="PropDev-BudgetPage-NewBudgetDialog" parent="PropDev-BudgetPage-NewBudgetDialog-parentBean"/>
 	<bean id="PropDev-BudgetPage-NewBudgetDialog-parentBean" abstract="true" parent="PropDev-BudgetPage-AddBudgetDialog"
-		p:headerText="Create a Budget Version"  p:retrieveViaAjax="true" p:destroyDialogOnHidden="true" p:fieldBindingObjectPath="addBudgetDto">
+		p:headerText="Create a Budget Version"  p:retrieveViaAjax="true" p:destroyDialogOnHidden="true" p:fieldBindingObjectPath="addBudgetDto" p:readOnly="false">
 		<property name="items">
 			<list merge="true">
 				<bean parent="Uif-InputField" p:propertyName="summaryBudget" p:required="true"
