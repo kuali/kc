@@ -733,7 +733,8 @@
         </property>
         <property name="filters">
             <bean parent="Uif-ConditionalCollectionFilter"
-                  p:expression="#line.rateClass.rateClassTypeCode == '#{T(org.kuali.coeus.common.budget.api.rate.RateClassType).OVERHEAD.getRateClassType()}'"/>
+                  p:expression="#line.rateClass.rateClassTypeCode == '#{T(org.kuali.coeus.common.budget.api.rate.RateClassType).OVERHEAD.getRateClassType()}' and
+                  #line.rateClass.code == selectedBudget.rateClass.code"/>
         </property>
     </bean>
 
