@@ -20,7 +20,11 @@ public class AwardBillingUpdateDto implements Serializable {
 	
 	private boolean doAmountToDrawUpdate;
 	private BigDecimal amountToDraw;
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> KFSTI-668 Replace usage of KualiDecimal
 	private boolean doLocReviewUpdate;
 	private boolean locReviewIndicator;
 	
