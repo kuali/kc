@@ -78,7 +78,7 @@ public abstract class CustomerCreationClientBase implements CustomerCreationClie
 			dto.setContactInformation(new RolodexDTO());
 			BeanUtils.copyProperties(dto.getContactInformation(), rolodex);
 		} catch (Exception e) {
-			LOG.error("Unable to copy properties from similar DTOs", e);
+			throw new RuntimeException(e);
 		}
 		return dto;
 	}
