@@ -40,7 +40,7 @@
     <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
 
     <bean id="dataSource" parent="ccImporter" p:objectName="datasource" />
-    <bean id="transactionManager" parent="ccImporter" p:objectName="SPRING_TRANSACTION_MANAGER" />
+    <bean id="transactionManager" parent="ccImporter" p:objectName="KC_TRANSACTION_MANAGER" />
 
     <util:constant id="kc.integrationServiceNamespace" static-field="org.kuali.kra.infrastructure.Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE"/>
     

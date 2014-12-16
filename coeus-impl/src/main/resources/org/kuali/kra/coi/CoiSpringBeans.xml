@@ -39,7 +39,7 @@
     <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
 
     <bean id="dataSource" parent="ccImporter" p:objectName="datasource" />
-    <bean id="transactionManager" parent="ccImporter" p:objectName="SPRING_TRANSACTION_MANAGER" />
+    <bean id="transactionManager" parent="ccImporter" p:objectName="KC_TRANSACTION_MANAGER" />
 
     <bean id="coiModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
         <property name="moduleConfiguration" ref="coiModuleConfiguration"/>

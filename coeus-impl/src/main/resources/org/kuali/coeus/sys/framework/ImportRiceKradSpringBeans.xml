@@ -57,6 +57,7 @@
     <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="interceptors">
             <list>
+                <ref bean="transactionHandlerInterceptor"/>
                 <ref bean="uifControllerHandlerInterceptor"/>
                 <ref bean="moduleLockingHandlerInterceptor"/>
             </list>
@@ -72,6 +73,8 @@
         <property name="moduleLockedMapping" value="module-locked"/>
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>
+
+    <bean id="transactionHandlerInterceptor" class="org.kuali.rice.krad.web.controller.TransactionHandlerInterceptor"/>
 
     <bean class="org.kuali.coeus.sys.framework.controller.interceptor.KcUifHandlerExceptionResolver">
         <property name="innerHandler">
