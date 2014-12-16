@@ -460,6 +460,7 @@ KradResponse.prototype.updateComponentHandler = function (content, dataAttr) {
 
         // runs scripts on the span or div with id
         runHiddenScripts(id);
+        runHiddenScripts("Uif-Dialogs");
 
         if (displayedModal) {
             writeMessagesForChildGroups(id);
@@ -539,6 +540,7 @@ KradResponse.prototype.updatePageHandler = function (content, dataAttr) {
 
     pageValidatorReady = false;
     runHiddenScripts(kradVariables.VIEW_CONTENT_WRAPPER, false, true);
+    runHiddenScripts("Uif-Dialogs");
 
     markActiveMenuLink();
 
