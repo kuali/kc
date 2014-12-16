@@ -33,19 +33,19 @@
              <bean parent="Uif-MessageField" p:messageText="You do not have permission to perform Proposal Hierarchy actions."
                       p:render="@{document.developmentProposal.isInHierarchy() and !#editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:order="10"/>
 
-			 <bean parent="Uif-InputField" p:label="Link Proposal" p:propertyName="newHierarchyChildProposalNumber"
+			 <bean parent="Uif-InputField" p:label="Link Proposal" p:propertyName="hierarchyProposalNumber"
                       p:render="@{document.developmentProposal.isParent() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:order="40">
                 <property name="quickfinder">
                     <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
-                          p:fieldConversions="proposalNumber:newHierarchyChildProposalNumber" p:renderReturnLink="true"/>
+                          p:fieldConversions="proposalNumber:hierarchyProposalNumber" p:renderReturnLink="true"/>
                 </property>
              </bean>
 
-             <bean parent="Uif-InputField" p:label="Link Proposal" p:propertyName="newHierarchyProposalNumber"
+             <bean parent="Uif-InputField" p:label="Link Proposal" p:propertyName="hierarchyProposalNumber"
                       p:render="@{!document.developmentProposal.isInHierarchy() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:order="50">
                  <property name="quickfinder">
                      <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.propdev.impl.core.DevelopmentProposal"
-                           p:fieldConversions="proposalNumber:newHierarchyProposalNumber" p:renderReturnLink="true"/>
+                           p:fieldConversions="proposalNumber:hierarchyProposalNumber" p:renderReturnLink="true"/>
                  </property>
              </bean>
 
@@ -79,7 +79,10 @@
           p:promptText="Are you sure you want to link  this Hierarchy?"/>
 
 	<bean id="PropDev-HierarchyPage-HierarchyBudgetTypeField" parent="PropDev-HierarchyPage-HierarchyBudgetTypeField-parentBean" />
-     <bean id="PropDev-HierarchyPage-HierarchyBudgetTypeField-parentBean" parent="Uif-InputField" p:propertyName="document.developmentProposal.hierarchyBudgetType"  p:required="true" p:optionsFinderClass="org.kuali.coeus.propdev.impl.hierarchy.HierarchyBudgetTypeValuesFinder"  p:enableAutoQuickfinder="false">
+     <bean id="PropDev-HierarchyPage-HierarchyBudgetTypeField-parentBean" parent="Uif-InputField" p:propertyName="hierarchyBudgetTypeCode"  p:required="true" 
+     	p:optionsFinderClass="org.kuali.coeus.propdev.impl.hierarchy.HierarchyBudgetTypeValuesFinder" 
+     	p:enableAutoQuickfinder="false"
+     	p:label="Hierarchy Budget Type">
 	  <property name="control" >
 		<bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid"/>
 	  </property>

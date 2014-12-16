@@ -288,7 +288,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (childProposal.isInHierarchy()) {
             errors.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_NOT_HIERARCHY_CHILD, Boolean.TRUE, childProposal.getProposalNumber()));
         }
-        errors.add(validateChildBudgetPeriods(hierarchyProposal,childProposal,true));
+        errors.addAll(validateChildBudgetPeriods(hierarchyProposal,childProposal,true));
         errors.addAll(validateSponsor(childProposal, hierarchyProposal));
 
         errors.addAll(validateIsAggregatorOnParent(childProposal,hierarchyProposal));
@@ -1171,16 +1171,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         dataObjectService.save(parentBudget);
     }
     
-    public ProposalHierarchyErrorWarningDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
+    public List<ProposalHierarchyErrorWarningDto> validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal,
             DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException {
     	ProposalDevelopmentBudgetExt parentBudget = getHierarchyBudget(hierarchyProposal);
     	Budget childBudget = getSyncableBudget(childProposal);
 
-        ProposalHierarchyErrorWarningDto retval = null;
+        List<ProposalHierarchyErrorWarningDto> retval = new ArrayList<>();
         // check that child budget starts on one of the budget period starts
         int correspondingStart = getCorrespondingParentPeriod(parentBudget.getBudgetPeriods(), childBudget);
         if (correspondingStart == -1) {
-            retval = new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_START_DATE_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber());
+            retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_START_DATE_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
         }
         // check that child budget periods map to parent periods
         else {
@@ -1194,7 +1194,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 childPeriod = childPeriods.get(j);
                 if (!parentPeriod.getStartDate().equals(childPeriod.getStartDate())
                         || !parentPeriod.getEndDate().equals(childPeriod.getEndDate())) {
-                    retval = new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber());
+                    retval.add(new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber()));
                     break;
                 }
             }
@@ -1202,7 +1202,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                     && !allowEndDateChange 
                     && (j < childPeriods.size() 
                             || childProposal.getRequestedEndDateInitial().after(hierarchyProposal.getRequestedEndDateInitial()))) {
-                retval = new ProposalHierarchyErrorWarningDto(QUESTION_EXTEND_PROJECT_DATE_CONFIRM, Boolean.TRUE, childProposal.getProposalNumber());
+                retval.add(new ProposalHierarchyErrorWarningDto(QUESTION_EXTEND_PROJECT_DATE_CONFIRM, Boolean.TRUE, childProposal.getProposalNumber()));
             }
         }
         

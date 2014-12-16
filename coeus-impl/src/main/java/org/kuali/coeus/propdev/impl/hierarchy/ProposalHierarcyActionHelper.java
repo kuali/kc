@@ -247,10 +247,10 @@ public class ProposalHierarcyActionHelper {
             GlobalVariables.getMessageMap().putWarning(FIELD_CHILD_NUMBER, WARNING_LINK_DIFFERENT_SPONSOR, new String[0]);
         }
         try {
-            ProposalHierarchyErrorWarningDto budgetError = getProposalHierarchyService().validateChildBudgetPeriods(hierarchy, child, allowEndDateChange);
-            if (budgetError != null) {
+            List<ProposalHierarchyErrorWarningDto> budgetErrors = getProposalHierarchyService().validateChildBudgetPeriods(hierarchy, child, allowEndDateChange);
+            for (ProposalHierarchyErrorWarningDto dto : budgetErrors) {
                 valid = false;
-                GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, budgetError.getErrorKey(), budgetError.getErrorParameters());
+                GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, dto.getErrorKey(), dto.getErrorParameters());
             }
         }
         catch (ProposalHierarchyException e) {
@@ -336,11 +336,12 @@ public class ProposalHierarcyActionHelper {
             valid = false;
         }
         try {
-            ProposalHierarchyErrorWarningDto budgetError = getProposalHierarchyService().validateChildBudgetPeriods(hierarchy, child, allowEndDateChange);
-            if (budgetError != null) {
+            List<ProposalHierarchyErrorWarningDto> budgetErrors = getProposalHierarchyService().validateChildBudgetPeriods(hierarchy, child, allowEndDateChange);
+            for (ProposalHierarchyErrorWarningDto dto : budgetErrors) {
                 valid = false;
-                GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, budgetError.getErrorKey(), budgetError.getErrorParameters());
+                GlobalVariables.getMessageMap().putError(FIELD_CHILD_NUMBER, dto.getErrorKey(), dto.getErrorParameters());
             }
+
         }
         catch (ProposalHierarchyException e) {
             GlobalVariables.getMessageMap().putError(FIELD_GENERIC, ERROR_UNEXPECTED, e.getMessage());

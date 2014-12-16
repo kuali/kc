@@ -111,7 +111,7 @@ public interface ProposalHierarchyService {
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     public List<HierarchyPersonnelSummary> getHierarchyPersonnelSummaries(String parentProposalNumber) throws ProposalHierarchyException;
     public List<HierarchyProposalSummary> getHierarchyProposalSummaries(String proposalNumber) throws ProposalHierarchyException;
-    public ProposalHierarchyErrorWarningDto validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException;
+    public List<ProposalHierarchyErrorWarningDto> validateChildBudgetPeriods(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, boolean allowEndDateChange) throws ProposalHierarchyException;
     public List<DevelopmentProposal> getHierarchyProposals(DevelopmentProposal developmentProposal);
 
     
