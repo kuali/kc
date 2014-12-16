@@ -25,17 +25,17 @@ public interface QuestionService {
 
     /**
      * Retrieve a question from the database based upon its questionRefId.
-     * @param questionRefId of the question
+     * @param questionId of the question
      * @return the question or null if not found
      */
-    Question getQuestionByRefId(String questionRefId);
+    Question getQuestionByQuestionId(Long questionId);
 
     /**
      * Retrieve a question from the database based upon its questionId.
-     * @param questionId of the question
+     * @param questionSeqId of the question
      * @return the most recent active question or null if not found
      */
-    Question getQuestionById(Integer questionId);
+    Question getQuestionByQuestionSequenceId(Integer questionSeqId);
     
     /**
      * Check if the question is used in a questionnaire.

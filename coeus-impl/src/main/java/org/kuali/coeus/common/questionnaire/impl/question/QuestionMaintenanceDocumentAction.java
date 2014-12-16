@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.impl.version.VersioningServiceImpl;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -50,7 +51,6 @@ import java.util.Map;
  */
 public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
     
-    private static final String QUESTION_REF_ID = "id";
     private static final String EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION = "EditQuestionOfActiveQuestionnaire";
 
     /**
@@ -110,7 +110,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
             if (readOnly) {
                 questionMaintenanceForm.setReadOnly(true);
             } else {
-                createNewQuestionVersion(maintenanceDocumentBase, request.getParameter(QUESTION_REF_ID));
+                createNewQuestionVersion(maintenanceDocumentBase, Long.parseLong(request.getParameter(QuestionnaireConstants.QUESTION_ID)));
             }
         } else if (StringUtils.equals(questionMaintenanceForm.getMethodToCall(), "copy")) {
             initCopiedQuestion(maintenanceDocumentBase);
@@ -123,9 +123,9 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
      * @param maintenanceDocumentBase
      * @throws VersionException
      */
-    private void createNewQuestionVersion(MaintenanceDocumentBase maintenanceDocumentBase, String oldQuestionRefId) throws VersionException {
+    private void createNewQuestionVersion(MaintenanceDocumentBase maintenanceDocumentBase, Long oldQuestionId) throws VersionException {
         // Get most recent approved Question from DB
-        Question approvedQuestion = getQuestionService().getQuestionByRefId(oldQuestionRefId);
+        Question approvedQuestion = getQuestionService().getQuestionByQuestionId(oldQuestionId);
 
         // Create new version of Question
         VersioningService versioningService = new VersioningServiceImpl();
@@ -181,9 +181,9 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         QuestionMaintenanceForm questionMaintenanceForm = (QuestionMaintenanceForm) form;
         
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        String questionRefId = request.getParameter(QUESTION_REF_ID);
+        Long questionRefId = Long.parseLong(request.getParameter(QuestionnaireConstants.QUESTION_ID));
 
-        if (!questionMaintenanceForm.isReadOnly() && (question != null || questionService.isQuestionUsed(questionService.getQuestionByRefId(questionRefId).getQuestionSeqId()))) {
+        if (!questionMaintenanceForm.isReadOnly() && (question != null || questionService.isQuestionUsed(questionService.getQuestionByQuestionId(questionRefId).getQuestionSeqId()))) {
 
             // logic for question
             if (question == null) {

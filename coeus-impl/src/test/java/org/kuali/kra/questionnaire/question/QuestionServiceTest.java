@@ -22,6 +22,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.impl.question.QuestionServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -36,7 +37,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JMock.class)
 public class QuestionServiceTest {
 
-    public static final String QUESTION_SEQ_ID = "questionSeqId";
     private Mockery context = new JUnit4Mockery() {{ setThreadingPolicy(new Synchroniser()); }};
 
         /**
@@ -55,7 +55,7 @@ public class QuestionServiceTest {
              * found.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("id", "999");
+            fieldValues.put(QuestionnaireConstants.QUESTION_ID, new Long(999));
             
             final Question question = new Question();
             
@@ -65,7 +65,7 @@ public class QuestionServiceTest {
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
-            assertEquals(question, questionService.getQuestionByRefId("999"));
+            assertEquals(question, questionService.getQuestionByQuestionId(new Long(999)));
         }
         
         /**
@@ -84,7 +84,7 @@ public class QuestionServiceTest {
              * is returned if the question is not in the database.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("id", "999");
+            fieldValues.put(QuestionnaireConstants.QUESTION_ID, new Long(999));
             
             final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
             context.checking(new Expectations() {{
@@ -92,7 +92,7 @@ public class QuestionServiceTest {
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
-            assertEquals(null, questionService.getQuestionByRefId("999"));
+            assertEquals(null, questionService.getQuestionByQuestionId(new Long(999)));
         }
 
         /**
@@ -111,7 +111,7 @@ public class QuestionServiceTest {
              * found.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(QUESTION_SEQ_ID, 999);
+            fieldValues.put(QuestionnaireConstants.QUESTION_SEQEQUENCE_ID, 999);
             
             final Collection<Question> questions = new ArrayList<Question>();
             Question question = new Question();
@@ -123,7 +123,7 @@ public class QuestionServiceTest {
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
-            assertEquals(question, questionService.getQuestionById(999));
+            assertEquals(question, questionService.getQuestionByQuestionSequenceId(999));
         }
         
         /**
@@ -142,7 +142,7 @@ public class QuestionServiceTest {
              * is returned if the question is not in the database.
              */
             final Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(QUESTION_SEQ_ID, 999);
+            fieldValues.put(QuestionnaireConstants.QUESTION_SEQEQUENCE_ID, 999);
             
             final Collection<Question> questions = new ArrayList<Question>();
             
@@ -152,7 +152,7 @@ public class QuestionServiceTest {
             }});
             questionService.setBusinessObjectService(businessObjectService);
             
-            assertEquals(null, questionService.getQuestionById(999));
+            assertEquals(null, questionService.getQuestionByQuestionSequenceId(999));
         }
 
     }

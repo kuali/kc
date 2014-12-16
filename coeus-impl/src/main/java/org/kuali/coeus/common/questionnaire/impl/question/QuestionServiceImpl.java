@@ -34,8 +34,6 @@ import java.util.*;
 @Component("questionService")
 public class QuestionServiceImpl implements QuestionService {
 
-    private static final String QUESTION_REF_ID = "id";
-    private static final String QUESTION_ID = "questionSeqId";
     private static final String QUESTION_QUESTION_ID = "questionnaireQuestions.question.questionSeqId";
 
     @Autowired
@@ -55,11 +53,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question getQuestionByRefId(String questionRefId) {
+    public Question getQuestionByQuestionId(Long questionId) {
         Question question = null;
-        if (!StringUtils.isBlank(questionRefId)) {
+        if (questionId != null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(QUESTION_REF_ID, questionRefId);
+            fieldValues.put(QuestionnaireConstants.QUESTION_ID, questionId);
             question = (Question) businessObjectService.findByPrimaryKey(Question.class, fieldValues);
         }
         return question;
@@ -67,11 +65,11 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Question getQuestionById(Integer questionSeqId) {
+    public Question getQuestionByQuestionSequenceId(Integer questionSeqId) {
         Question question = null;
         if (questionSeqId != null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(QUESTION_ID, questionSeqId);
+            fieldValues.put(QuestionnaireConstants.QUESTION_SEQEQUENCE_ID, questionSeqId);
             Collection<Question> questions = businessObjectService.findMatching(Question.class, fieldValues);
             if (questions.size() > 0) {
                 /*
