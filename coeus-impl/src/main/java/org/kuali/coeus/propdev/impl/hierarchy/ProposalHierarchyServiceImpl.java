@@ -659,6 +659,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         newNarrative.setModuleNumber(legacyNarrativeService.getNextModuleNumber(hierarchyProposal.getProposalDocument()));
         newNarrative.setDevelopmentProposal(hierarchyProposal);
         newNarrative.setNarrativeUserRights(null);
+        newNarrative.getNarrativeAttachment().setData(narrative.getData());
         hierarchyAttachments.add(newNarrative);
     }
 
