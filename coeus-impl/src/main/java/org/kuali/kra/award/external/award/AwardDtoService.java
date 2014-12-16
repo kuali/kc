@@ -16,7 +16,6 @@ import org.kuali.kra.external.service.KcDtoService;
 import org.kuali.kra.external.service.KcDtoServiceBase;
 import org.kuali.kra.external.sponsor.SponsorDTO;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -39,11 +38,11 @@ public class AwardDtoService extends KcDtoServiceBase<AwardDTO, Award> {
 			dto.setAwardNumber(award.getAwardNumber());
 			dto.setAwardStartDate(award.getBeginDate());
 			dto.setAwardEndDate(award.getLastAwardAmountInfo().getFinalExpirationDate());
-			dto.setAwardTotalAmount(new KualiDecimal(award.getLastAwardAmountInfo().getObliDistributableAmount().bigDecimalValue()));
+			dto.setAwardTotalAmount(award.getLastAwardAmountInfo().getObliDistributableAmount().bigDecimalValue());
 			dto.setAwardDocumentNumber(award.getDocumentKey());
 			dto.setAwardLastUpdateDate(award.getUpdateTimestamp());
-			dto.setAwardDirectCostAmount(new KualiDecimal(award.getLastAwardAmountInfo().getObligatedTotalDirect().bigDecimalValue()));
-			dto.setAwardIndirectCostAmount(new KualiDecimal(award.getLastAwardAmountInfo().getObligatedTotalIndirect().bigDecimalValue()));
+			dto.setAwardDirectCostAmount(award.getLastAwardAmountInfo().getObligatedTotalDirect().bigDecimalValue());
+			dto.setAwardIndirectCostAmount(award.getLastAwardAmountInfo().getObligatedTotalIndirect().bigDecimalValue());
 			dto.setProposalAwardTypeCode(award.getAwardTypeCode().toString());
 			dto.setAwardStatusCode(award.getStatusCode().toString());
 			dto.setSponsorCode(award.getSponsorCode());
