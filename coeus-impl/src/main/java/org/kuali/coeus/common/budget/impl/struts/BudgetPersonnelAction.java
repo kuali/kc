@@ -64,6 +64,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     private static final String CONFIRM_DELETE_BUDGET_PERSON = "confirmDeleteBudgetPerson";
     private static final String EMPTY_GROUP_NAME = "";
     private static final String DEFAULT_GROUP_NAME = "(new group)";
+    private static final String BUDGET_PERSONS_FIELD_NAME_START = "budgetPersons[";
+    private static final String BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER = "].personNumber";
     
     private BudgetPersonnelBudgetService budgetPersonnelBudgetService;
     private BudgetPersonService budgetPersonService;
@@ -500,7 +502,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             HttpServletResponse response) throws Exception {
         AwardBudgetDocument awardBudgetDocument = ((BudgetForm) form).getBudgetDocument();
         Budget budget = awardBudgetDocument.getBudget();
-        if (!getKcBusinessRulesEngine().applyRules(new DeleteBudgetPersonEvent(budget, budget.getBudgetPerson(getLineToDelete(request))))) {
+        String errorPath = BUDGET_PERSONS_FIELD_NAME_START + "0" + BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER;
+        if (!getKcBusinessRulesEngine().applyRules(new DeleteBudgetPersonEvent(budget, budget.getBudgetPerson(getLineToDelete(request)), errorPath))) {
             return mapping.findForward(MAPPING_BASIC);
         } else {
             return confirm(buildDeleteBudgetPersonConfirmationQuestion(mapping, form, request, response), CONFIRM_DELETE_BUDGET_PERSON, "");

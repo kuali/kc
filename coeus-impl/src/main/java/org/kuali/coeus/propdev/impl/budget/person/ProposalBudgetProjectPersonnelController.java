@@ -103,6 +103,19 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     	return getModelAndViewService().showDialog(EDIT_PROJECT_PERSONNEL_DIALOG_ID, true, form);
 	}
 
+	@Transactional @RequestMapping(params="methodToCall=deleteProjectPersonnel")
+	public ModelAndView deleteProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+	    String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotEmpty(selectedLine)) {
+        	Budget budget = form.getBudget();
+		    BudgetPerson deleteBudgetPerson = budget.getBudgetPersons().get(Integer.parseInt(selectedLine));
+		    if(isProjectPersonnelDeleteRulePassed(budget, deleteBudgetPerson)) {
+		    	budget.getBudgetPersons().remove(deleteBudgetPerson);
+		    }
+	    }
+	    return getModelAndViewService().getModelAndView(form);
+	}
+	
 	@Transactional @RequestMapping(params="methodToCall=prepareAddProjectPersonnel")
 	public ModelAndView prepareAddProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         form.getAddProjectPersonnelHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
@@ -241,6 +254,11 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
                 "addProjectPersonnelHelper.budgetPersonnelDetail."));
     }
 
+    private boolean isProjectPersonnelDeleteRulePassed(Budget budget, BudgetPerson budgetPerson) {
+        return getKcBusinessRulesEngine().applyRules(new DeleteBudgetPersonEvent(budget, budgetPerson, 
+                "PropBudget-ProjectPersonnelPage-CollectionGroup"));
+    }
+    
     @Transactional @RequestMapping(params="methodToCall=editPersonPeriodDetails")
 	public ModelAndView editPersonPeriodDetails(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    Budget budget = form.getBudget();
