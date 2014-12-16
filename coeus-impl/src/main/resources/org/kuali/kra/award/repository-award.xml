@@ -25,7 +25,31 @@
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
 	</class-descriptor>
-	
+
+	<class-descriptor class="org.kuali.kra.award.cgb.AwardCgb" table="AWARD_CGB">
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT"  primarykey="true"/>
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+		<field-descriptor name="additionalFormsRequired" column="ADDITIONAL_FORMS_REQ" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="autoApproveInvoice" column="AUTO_APPROVE_INVOICE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="stopWork" column="STOP_WORK" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="minInvoiceAmount" column="MIN_INVOICE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="invoicingOption" column="INVOICING_OPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="dunningCampaignId" column="DUNNING_CAMPAIGN_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lastBilledDate" column="LAST_BILLED_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="previousLastBilledDate" column="PREV_LAST_BILLED_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="finalBill" column="FINAL_BILL" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="amountToDraw" column="AMT_TO_DRAW" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="letterOfCreditReviewIndicator" column="LETTER_OF_CREDIT_REVIEW" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="invoiceDocumentStatus" column="INVOICE_DOCUMENT_STATUS" jdbc-type="VARCHAR"/>
+		<field-descriptor name="locCreationType" column="LOC_CREATION_TYPE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="suspendInvoicing" column="SUSPEND_INVOICING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+	</class-descriptor>
+
 	<class-descriptor class="org.kuali.kra.award.home.Award" table="AWARD">
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />		
 		<field-descriptor id="1" name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
@@ -222,6 +246,9 @@
         <collection-descriptor name="budgets" proxy="true" element-class-ref="org.kuali.kra.award.budget.AwardBudgetExt" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
+		<collection-descriptor name="awardCgbList" element-class-ref="org.kuali.kra.award.cgb.AwardCgb" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="awardId"/>
+		</collection-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.contacts.AwardPerson" table="AWARD_PERSONS">
