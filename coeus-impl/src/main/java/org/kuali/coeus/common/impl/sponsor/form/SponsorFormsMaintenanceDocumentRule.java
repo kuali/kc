@@ -20,6 +20,7 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.external.customercreation.CustomerConstants;
 import org.kuali.kra.external.customercreation.CustomerCreationClient;
 import org.kuali.kra.external.dunningcampaign.DunningCampaignClient;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -87,18 +88,18 @@ public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRu
     protected boolean checkCustomer(MaintenanceDocument document) {
         boolean valid = true;
         Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
-        if (StringUtils.equals(sponsor.getCustomerExists(), "Y")) {
+        if (StringUtils.equals(sponsor.getCustomerExists(), CustomerConstants.CustomerOptions.Types.EXISTING.getCode())) {
             if (!KcServiceLocator.getService(CustomerCreationClient.class).isValidCustomer(sponsor.getCustomerNumber())) {
                 String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "customerNumber");
                 globalVariableService.getMessageMap().putError("document.newMaintainableObject.customerNumber", KeyConstants.ERROR_MISSING, errorLabel);
                 valid = false;
             }
-        } else if (StringUtils.equals(sponsor.getCustomerExists(), "N") &&
+        } else if (StringUtils.equals(sponsor.getCustomerExists(), CustomerConstants.CustomerOptions.Types.NEW.getCode()) &&
                 StringUtils.isBlank(sponsor.getCustomerTypeCode())) {
             String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "customerTypeCode");
             globalVariableService.getMessageMap().putError("document.newMaintainableObject.customerTypeCode", KeyConstants.ERROR_MISSING, errorLabel);
             valid = false;
-        } else if (StringUtils.equals(sponsor.getCustomerExists(), "NA")
+        } else if (StringUtils.equals(sponsor.getCustomerExists(), CustomerConstants.CustomerOptions.Types.NO.getCode())
                 && !StringUtils.isBlank(sponsor.getCustomerNumber())
                 && !StringUtils.isBlank(sponsor.getCustomerTypeCode())) {
             String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "customerExists");
