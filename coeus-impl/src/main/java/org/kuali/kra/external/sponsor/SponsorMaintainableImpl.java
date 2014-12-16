@@ -12,6 +12,7 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 
 public class SponsorMaintainableImpl extends org.kuali.coeus.common.impl.sponsor.SponsorMaintainableImpl {
 
+    private CustomerCreationClient customerCreationClient;
 	private static final long serialVersionUID = -1043877629735250382L;
 
 	@Override
@@ -22,12 +23,23 @@ public class SponsorMaintainableImpl extends org.kuali.coeus.common.impl.sponsor
         if (workflowDocument.isProcessed()
         		&& StringUtils.equals(sponsor.getCustomerExists(), "N")) {
         	Person initiator = this.getPersonService().getPerson(workflowDocument.getInitiatorPrincipalId());
-        	List<String> errors = KcServiceLocator.getService(CustomerCreationClient.class).createCustomer((Sponsor) getDataObject(), initiator.getPrincipalName());
+        	List<String> errors = getCustomerCreationClient().createCustomer((Sponsor) getDataObject(), initiator.getPrincipalName());
         	if (errors != null && !errors.isEmpty()) {
         		throw new RuntimeException("Error creating the remote customer from the sponsor: " + errors.get(0));
         	}
         }
         super.doRouteStatusChange(documentHeader);
 	}
+
+    public void setCustomerCreationClient(CustomerCreationClient customerCreationClient) {
+        this.customerCreationClient = customerCreationClient;
+    }
+
+    public CustomerCreationClient getCustomerCreationClient() {
+        if (this.customerCreationClient == null) {
+            this.customerCreationClient = KcServiceLocator.getService(CustomerCreationClient.class);
+        }
+        return this.customerCreationClient;
+    }
 }
 
