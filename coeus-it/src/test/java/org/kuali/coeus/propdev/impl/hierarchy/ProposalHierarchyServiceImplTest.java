@@ -153,15 +153,15 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 
 	@Test
 	public void test_validateChildBudgetPeriods() {
-		ProposalHierarchyErrorWarningDto hierarchyErrorWarningDto = null;
+		List<ProposalHierarchyErrorWarningDto> hierarchyErrorWarningDto = null;
 		hierarchyErrorWarningDto = hierarchyService.validateChildBudgetPeriods(
 				hierarchyProposal, childProposal, true);
-		assertTrue(hierarchyErrorWarningDto == null);
+		assertTrue(hierarchyErrorWarningDto.isEmpty());
 	}
 
 	@Test
 	public void test_validateChildBudgetPeriods_startDateInconsistent() {
-		ProposalHierarchyErrorWarningDto hierarchyErrorWarningDto = null;
+		List<ProposalHierarchyErrorWarningDto> hierarchyErrorWarningDto = null;
 		List<ProposalDevelopmentBudgetExt> budgets = hierarchyProposal.getBudgets();
 		List<BudgetPeriod> budgetPeriods = budgets.get(0).getBudgetPeriods();
 		budgetPeriods.get(0).setStartDate(
@@ -175,7 +175,8 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 				hierarchyProposal, childProposal, true);
 		String errorKey = "error.hierarchy.budget.startDateInconsistent";
 		assertNotNull(hierarchyErrorWarningDto);
-		assertEquals(errorKey, hierarchyErrorWarningDto.getErrorKey());
+		assertTrue(!hierarchyErrorWarningDto.isEmpty());
+		assertEquals(errorKey, hierarchyErrorWarningDto.get(0).getErrorKey());
 	}
 
 	@Test

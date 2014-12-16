@@ -90,9 +90,8 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private ProposalDevelopmentAttachmentHelper proposalDevelopmentAttachmentHelper;
     private OrganizationAddWizardHelper addOrganizationHelper;
     private ProposalPersonQuestionnaireHelper proposalPersonQuestionnaireHelper;
-    private String newHierarchyBudgetTypeCode;
- 	private String newHierarchyChildProposalNumber;
-    private String newHierarchyProposalNumber;
+    private String hierarchyBudgetTypeCode;
+    private String hierarchyProposalNumber;
     private S2sUserAttachedForm s2sUserAttachedForm;
     private List<NarrativeUserRights> narrativeUserRights;
     private String narrativeUserRightsSelectedAttachment;
@@ -447,30 +446,6 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setNotificationHelper(NotificationHelper<ProposalDevelopmentNotificationContext> notificationHelper) {
         this.notificationHelper = notificationHelper;
     }
-	public String getNewHierarchyBudgetTypeCode() {
-		return newHierarchyBudgetTypeCode;
-	}
-
-	public void setNewHierarchyBudgetTypeCode(String newHierarchyBudgetTypeCode) {
-		this.newHierarchyBudgetTypeCode = newHierarchyBudgetTypeCode;
-	}
-
-	public String getNewHierarchyChildProposalNumber() {
-		return newHierarchyChildProposalNumber;
-	}
-
-	public void setNewHierarchyChildProposalNumber(
-			String newHierarchyChildProposalNumber) {
-		this.newHierarchyChildProposalNumber = newHierarchyChildProposalNumber;
-	}
-
-	public String getNewHierarchyProposalNumber() {
-		return newHierarchyProposalNumber;
-	}
-
-	public void setNewHierarchyProposalNumber(String newHierarchyProposalNumber) {
-		this.newHierarchyProposalNumber = newHierarchyProposalNumber;
-	}
 
     public S2sUserAttachedForm getS2sUserAttachedForm() {
         return s2sUserAttachedForm;
@@ -640,4 +615,20 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setSelectedBudget(Budget selectedBudget) {
         this.selectedBudget = selectedBudget;
     }
+
+	public String getHierarchyBudgetTypeCode() {
+		return hierarchyBudgetTypeCode;
+	}
+
+	public void setHierarchyBudgetTypeCode(String hierarchyBudgetTypeCode) {
+		this.hierarchyBudgetTypeCode = hierarchyBudgetTypeCode;
+	}
+
+	public String getHierarchyProposalNumber() {
+		return hierarchyProposalNumber;
+	}
+
+	public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
+		this.hierarchyProposalNumber = hierarchyProposalNumber;
+	}
 }
