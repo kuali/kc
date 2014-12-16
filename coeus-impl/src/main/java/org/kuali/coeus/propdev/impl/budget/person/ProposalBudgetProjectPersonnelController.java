@@ -231,9 +231,9 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		budgetLineItem.setEndDate(budgetPersonnelDetails.getEndDate());
 	}
 	
-	private boolean isSaveRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
+	private boolean isSaveRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail, int editLineIndex) {
 		return getKcBusinessRulesEngine().applyRules(new BudgetSavePersonnelPeriodEvent(budget, budgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail, 
-				"addProjectPersonnelHelper.budgetPersonnelDetail."));
+				editLineIndex, "addProjectPersonnelHelper.budgetPersonnelDetail."));
 	}
 
     private boolean isAddRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
@@ -273,7 +273,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		}else {
 			getDataObjectService().wrap(editBudgetPersonnel).fetchRelationship("budgetPeriodType");
 		}
-		boolean rulePassed = isSaveRulePassed(budget, budgetPeriod, budgetLineItem, editBudgetPersonnel);
+		boolean rulePassed = isSaveRulePassed(budget, budgetPeriod, budgetLineItem, editBudgetPersonnel, editLineIndex);
 		if(rulePassed) {
 			calculatePersonnelLineItem(form, true);
 			budgetLineItem.getBudgetPersonnelDetailsList().set(editLineIndex, editBudgetPersonnel);
@@ -295,13 +295,14 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	
 	protected void calculatePersonnelLineItem(ProposalBudgetForm form, boolean ruleChecked) {
 	    Budget budget = form.getBudget();
+	    int editLineIndex = Integer.parseInt(form.getAddProjectPersonnelHelper().getEditLineIndex());
 		BudgetPeriod budgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
 	    String selectedLine = form.getAddProjectPersonnelHelper().getEditLineIndex();
 	    BudgetPersonnelDetails budgetPersonnelDetails = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
 	    BudgetLineItem budgetLineItem = budgetPersonnelDetails.getBudgetLineItem();
         BudgetPersonnelDetails editBudgetPersonnel = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
         syncLineItemDates(budgetLineItem, editBudgetPersonnel);
-		boolean rulePassed = ruleChecked ? ruleChecked : isSaveRulePassed(budget, budgetPeriod, budgetLineItem, budgetPersonnelDetails);
+		boolean rulePassed = ruleChecked ? ruleChecked : isSaveRulePassed(budget, budgetPeriod, budgetLineItem, budgetPersonnelDetails, editLineIndex);
 		if(rulePassed) {
 		    getBudgetPersonnelBudgetService().calculateBudgetPersonnelLineItem(budget, budgetLineItem, budgetPersonnelDetails, Integer.parseInt(selectedLine));
 		}

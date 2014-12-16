@@ -8,11 +8,13 @@ import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 public class BudgetSavePersonnelPeriodEvent extends BudgetSaveLineItemPeriodEvent {
 
 	private BudgetPersonnelDetails budgetPersonnelDetails;
+	private int editLineIndex;
 	
 	public BudgetSavePersonnelPeriodEvent(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem, 
-			BudgetPersonnelDetails budgetPersonnelDetails, String errorPath) {
+			BudgetPersonnelDetails budgetPersonnelDetails, int editLineIndex, String errorPath) {
 		super(budget, budgetPeriod, budgetLineItem, errorPath); 
 		this.budgetPersonnelDetails = budgetPersonnelDetails;
+		this.editLineIndex = editLineIndex;
 	}
 
 	public BudgetPersonnelDetails getBudgetPersonnelDetails() {
@@ -21,5 +23,13 @@ public class BudgetSavePersonnelPeriodEvent extends BudgetSaveLineItemPeriodEven
 
 	public void setBudgetPersonnelDetails(BudgetPersonnelDetails budgetPersonnelDetails) {
 		this.budgetPersonnelDetails = budgetPersonnelDetails;
+	}
+
+	public int getEditLineIndex() {
+		return editLineIndex;
+	}
+
+	public void setEditLineIndex(int editLineIndex) {
+		this.editLineIndex = editLineIndex;
 	}
 }
