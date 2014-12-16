@@ -1,6 +1,6 @@
 package org.kuali.kra.external.sponsor;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.SponsorContract;
 import org.kuali.kra.award.home.AwardConstants;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
