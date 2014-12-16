@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javax.jws.WebParam;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.cgb.AwardCgb;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardConstants;

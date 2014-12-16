@@ -1,6 +1,6 @@
 package org.kuali.kra.award.external.award;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.cgb.AwardCgbConstants;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.home.Award;
