@@ -16,7 +16,6 @@ import org.kuali.kra.external.service.KcDtoService;
 import org.kuali.kra.external.service.KcDtoServiceBase;
 import org.kuali.kra.external.sponsor.SponsorDTO;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
