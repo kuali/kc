@@ -122,7 +122,7 @@
 
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-CalculateCurrentPeriod" parent="PropBudget-AssignPersonnelToPeriodsPage-CalculateCurrentPeriod-parentBean"/>
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-CalculateCurrentPeriod-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini" 
-		p:refreshId="PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails_@{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}"
+		p:refreshId="PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails_@{#budgetPeriod}"
 		p:actionLabel="Calculate Current Period" p:methodToCall="calculateCurrentPeriod">
 		<property name="additionalSubmitData">
 			<map>
