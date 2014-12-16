@@ -43,4 +43,20 @@
             </list>
         </property>
     </bean>
+
+    <bean id="Kc-LandingPage-RedirectView" parent="Kc-LandingPage-RedirectView-parentBean"/>
+    <bean id="Kc-LandingPage-RedirectView-parentBean" abstract="true" parent="Uif-FormView"
+          p:formClass="org.kuali.kra.web.krad.LandingPageForm">
+        <property name="unifiedHeader" value="false"/>
+        <property name="singlePageView" value="true"/>
+        <property name="applicationHeader">
+            <null/>
+        </property>
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="onDocumentReadyScript" value="if(window.self !== window.top) {
+            window.parent.postMessage('redirect:@{#ConfigProperties['application.url']}', '*');
+         } else {
+            window.location.replace('@{#ConfigProperties['application.url']}');
+         }"/>
+    </bean>
 </beans>

@@ -78,10 +78,10 @@
     <global-forwards >
 <!-- Rice content Start -->        
        	<!-- Begin required KNS forwards -->
-        <forward name="save" path="/portal.jsp" redirect="true" />
-        <forward name="cancel" path="/portal.jsp" redirect="true" />
-        <forward name="close" path="/portal.jsp" redirect="true" />
-        <forward name="portal" path="/portal.jsp" redirect="true" />
+        <forward name="save" path="/portal.do" redirect="true" />
+        <forward name="cancel" path="/portal.do" redirect="true" />
+        <forward name="close" path="/portal.do" redirect="true" />
+        <forward name="portal" path="/portal.do" redirect="true" />
         <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
         <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" />
@@ -101,7 +101,7 @@
     <action-mappings>
 <!-- Rice content Start -->    
        	<!-- Begin required KNS mappings -->
-        <action path="/portal" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiPortalAction">
+        <action path="/portal" name="KualiForm" type="org.kuali.coeus.org.kuali.rice.kns.web.struts.action.KcPortalAction">
             <forward name="basic" path="/portal.jsp" />
         </action>
 
