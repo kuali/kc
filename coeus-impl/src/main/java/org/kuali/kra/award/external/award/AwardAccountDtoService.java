@@ -1,5 +1,6 @@
 package org.kuali.kra.award.external.award;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +60,7 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
         awardAccountDTO.setFinalBill(award.getAwardCgb().isFinalBill());
         awardAccountDTO.setLastBilledDate(award.getAwardCgb().getLastBilledDate());
         awardAccountDTO.setPreviousLastBilledDate(award.getAwardCgb().getPreviousLastBilledDate());
-        awardAccountDTO.setAmountToDraw(award.getAwardCgb().getAmountToDraw());
+        awardAccountDTO.setAmountToDraw(award.getAwardCgb().getAmountToDraw().bigDecimalValue());
         awardAccountDTO.setLetterOfCreditReviewIndicator(award.getAwardCgb().isLetterOfCreditReviewIndicator());
         awardAccountDTO.setInvoiceDocumentStatus(award.getAwardCgb().getInvoiceDocumentStatus());
         
