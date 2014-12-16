@@ -2,7 +2,7 @@ package org.kuali.kra.external.sponsor;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.external.customercreation.CustomerCreationClient;
