@@ -16,19 +16,10 @@
 package org.kuali.coeus.common.impl.sponsor.form;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-<<<<<<< HEAD
-import org.kuali.kra.external.customercreation.CustomerConstants;
-=======
->>>>>>> KFSTI-672 apply Java/resource/web changes
-import org.kuali.kra.external.customercreation.CustomerCreationClient;
-import org.kuali.kra.external.dunningcampaign.DunningCampaignClient;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 
 /**
@@ -37,8 +28,6 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
  */
 public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
 
-    private CustomerCreationClient customerCreationClient;
-    private DataDictionaryService dataDictionaryService;
     private GlobalVariableService globalVariableService;
 
     public SponsorFormsMaintenanceDocumentRule() {
