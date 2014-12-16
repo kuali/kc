@@ -288,7 +288,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (childProposal.isInHierarchy()) {
             errors.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_NOT_HIERARCHY_CHILD, Boolean.TRUE, childProposal.getProposalNumber()));
         }
-
+        errors.add(validateChildBudgetPeriods(hierarchyProposal,childProposal,true));
         errors.addAll(validateSponsor(childProposal, hierarchyProposal));
 
         errors.addAll(validateIsAggregatorOnParent(childProposal,hierarchyProposal));
@@ -463,6 +463,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         finalizeHierarchySync(hierarchyProposal.getProposalDocument());
 
         for (DevelopmentProposal childProposal : getHierarchyChildren(hierarchyProposal.getProposalNumber())) {
+            List<BudgetPeriod> oldBudgetPeriods = getOldBudgetPeriods(getHierarchyBudget(hierarchyProposal));
             ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
             childProposal.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childProposal));
             
@@ -475,7 +476,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             // we deleted all internal at the beginning so just add now.
             addInternalAttachments(hierarchyProposal, childProposal);
             syncAllPersonnelAttachments(hierarchyProposal, childProposal);
-            synchronizeChildBudget(hierarchyProposal, childProposal);
+            synchronizeChildBudget(hierarchyProposal, childProposal, oldBudgetPeriods);
             dataObjectService.save(childProposal);
             dataObjectService.save(hierarchyProposal);
             changed = true;
@@ -514,6 +515,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @throws ProposalHierarchyException
      */
     protected boolean synchronizeChildProposal(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, boolean syncPersonnelAttachments) throws ProposalHierarchyException {
+        List<BudgetPeriod> oldBudgetPeriods = getOldBudgetPeriods(getHierarchyBudget(hierarchyProposal));
         ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
         childProposal.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childProposal));
         
@@ -529,10 +531,22 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             syncAllPersonnelAttachments(hierarchyProposal, childProposal);
         }
 
-        synchronizeChildBudget(hierarchyProposal, childProposal);
+        synchronizeChildBudget(hierarchyProposal, childProposal, oldBudgetPeriods);
         dataObjectService.save(childProposal);
         
         return true;
+    }
+
+
+    /**
+     * Gets the old budget periods before removing them from the parent.
+     * @param oldBudget
+     * @return
+     */
+    protected List<BudgetPeriod> getOldBudgetPeriods(Budget oldBudget) {
+        List<BudgetPeriod> oldBudgetPeriods = new ArrayList<BudgetPeriod>();
+        oldBudgetPeriods.addAll(oldBudget.getBudgetPeriods());
+        return oldBudgetPeriods;
     }
 
     /**
@@ -803,7 +817,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
     }
     
-    protected void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal)
+    protected void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, List<BudgetPeriod> oldBudgetPeriods)
             throws ProposalHierarchyException {
     	String hierarchyBudgetTypeCode = childProposal.getHierarchyBudgetType();
     	String childProposalNumber = childProposal.getProposalNumber();
@@ -855,7 +869,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 subAwardMap.put(childSubAwards.getSubAwardNumber(), newSubAwards);
             }
             
-            int parentStartPeriod = getCorrespondingParentPeriod(parentBudget, childBudget);
+            int parentStartPeriod = getCorrespondingParentPeriod(oldBudgetPeriods, childBudget);
             if (parentStartPeriod == -1) {
                 throw new ProposalHierarchyException("Cannot find a parent budget period that corresponds to the child period.");
             }
@@ -894,7 +908,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                 }
             }
 
-            for (int i = 0, j = parentStartPeriod; i < childPeriods.size(); i++, j++) {
+            for (int i = 0; i < childPeriods.size(); i++) {
                 childPeriod = childPeriods.get(i);
                 parentPeriod = findOrCreateMatchingPeriod(childPeriod, parentBudget);                
                 budgetPeriodId = parentPeriod.getBudgetPeriodId();
@@ -1164,7 +1178,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         ProposalHierarchyErrorWarningDto retval = null;
         // check that child budget starts on one of the budget period starts
-        int correspondingStart = getCorrespondingParentPeriod(parentBudget, childBudget);
+        int correspondingStart = getCorrespondingParentPeriod(parentBudget.getBudgetPeriods(), childBudget);
         if (correspondingStart == -1) {
             retval = new ProposalHierarchyErrorWarningDto(ERROR_BUDGET_START_DATE_INCONSISTENT, Boolean.TRUE, childProposal.getProposalNumber());
         }
@@ -1195,19 +1209,19 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return retval;
     }
     
-    protected int getCorrespondingParentPeriod(Budget parentBudget, Budget childBudget) {
+    protected int getCorrespondingParentPeriod(List<BudgetPeriod> oldBudgetPeriods, Budget childBudget) {
         int correspondingStart = -1;
  
         // using start date of first period as start date and end date of last period
         // as end because budget start and end are not particularly reliable
         Date childStart = childBudget.getBudgetPeriod(0).getStartDate();
-        Date parentStart = parentBudget.getBudgetPeriod(0).getStartDate();
-        Date parentEnd = parentBudget.getBudgetPeriod(parentBudget.getBudgetPeriods().size()-1).getEndDate();
+        Date parentStart = oldBudgetPeriods.get(0).getStartDate();
+        Date parentEnd = oldBudgetPeriods.get(oldBudgetPeriods.size()-1).getEndDate();
         // check that child budget starts somewhere during parent budget
         if (childStart.compareTo(parentStart) >= 0
                 && childStart.compareTo(parentEnd) < 0) {
             // check that child budget starts on one of the budget period starts
-            List<BudgetPeriod> parentPeriods = parentBudget.getBudgetPeriods();
+            List<BudgetPeriod> parentPeriods = oldBudgetPeriods;
             for (int i=0; i<parentPeriods.size(); i++) {
                 if (childStart.equals(parentPeriods.get(i).getStartDate())) {
                     correspondingStart = i;
