@@ -84,5 +84,4 @@ public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRu
         }
         return this.globalVariableService;
     }
-=======
 }
