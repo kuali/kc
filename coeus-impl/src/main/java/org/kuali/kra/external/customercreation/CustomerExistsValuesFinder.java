@@ -5,18 +5,32 @@ import java.util.List;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.keyvalues.EnumValuesFinder;
 
-public class CustomerExistsValuesFinder extends UifKeyValuesFinderBase {
+public class CustomerExistsValuesFinder extends EnumValuesFinder {
 
-	private static final long serialVersionUID = -4517043740405273073L;
+	public CustomerExistsValuesFinder() {
+		super(CustomerConstants.CustomerOptions.Types.class);
+	}
 
 	@Override
 	public List<KeyValue> getKeyValues() {
-		List<KeyValue> results = new ArrayList<KeyValue>();
-		results.add(new ConcreteKeyValue("Y", "Use Existing Customer"));
-		results.add(new ConcreteKeyValue("N", "Create New Customer"));
-		results.add(new ConcreteKeyValue("NA", "No Customer"));
-		return results;
+		List<KeyValue> labels = super.getKeyValues();
+		labels.add(0, new ConcreteKeyValue("", "Select"));
+		return labels;
 	}
+
+	@Override
+	protected String getEnumKey(Enum enm) {
+		return ((CustomerConstants.CustomerOptions.Types)enm).getCode();
+	}
+
+	@Override
+	protected String getEnumLabel(Enum enm) {
+		return ((CustomerConstants.CustomerOptions.Types)enm).getName();
+	}
+
+
+
+
 }
