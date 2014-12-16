@@ -96,17 +96,13 @@ public class BudgetPersonnelRule {
     @KcEventMethod
     public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(DeleteBudgetPersonEvent event) {
         boolean valid = true;
-        
+        String errorPath = event.getErrorPath();
         // User  may delete person before the deleted detail is persisted
         if (isPersonDetailsFound (event.getBudget(), event.getBudgetPerson())) {
-        //if (CollectionUtils.isNotEmpty(this.boService.findMatching(BudgetPersonnelDetails.class, qMap))) {
-                // just try to make sure key is on budget personnel tab
                 final MessageMap messageMap = GlobalVariables.getMessageMap();
-                messageMap.putError(BUDGET_PERSONS_FIELD_NAME_START + "0" + BUDGET_PERSONS_FIELD_NAME_PERSON_NUMBER,
-                    KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, event.getBudgetPerson().getPersonName());
+                messageMap.putError(errorPath, KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, event.getBudgetPerson().getPersonName());
                 valid = false;
         }
-                    
         return valid;
     }
     
@@ -116,23 +112,16 @@ public class BudgetPersonnelRule {
      * the deleted detail may have not been persisted before delete person is called.
      */
     private boolean isPersonDetailsFound (Budget budget, BudgetPerson budgetPerson) {
-        
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                 for (BudgetPersonnelDetails budgetPersonnelDetail : lineItem.getBudgetPersonnelDetailsList()) {
-                    String personId = budgetPerson.getPersonId();
-                    if(budgetPerson.getNonEmployeeFlag() && budgetPerson.getRolodexId() != null){
-                        personId = budgetPerson.getRolodexId().toString();
-                    }
-                    if (budgetPersonnelDetail.getPersonId().equals(personId) && 
-                            budgetPersonnelDetail.getPersonSequenceNumber().equals(budgetPerson.getPersonSequenceNumber())) {
+                    if (budgetPersonnelDetail.getPersonSequenceNumber().equals(budgetPerson.getPersonSequenceNumber())) {
                         return true;
                     }
                 }
             }
         }
         return false;
-        
     }
 
     @KcEventMethod
