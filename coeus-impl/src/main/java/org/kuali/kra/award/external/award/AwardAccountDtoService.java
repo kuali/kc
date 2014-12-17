@@ -11,6 +11,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.external.service.KcDtoServiceBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -19,6 +20,7 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
 
 	private BusinessObjectService businessObjectService;
 	private ParameterService parameterService;
+    private InstitutionalProposalService institutionalProposalService;
 	
 	@Override
 	public AwardAccountDTO buildDto(Award award) {
@@ -72,25 +74,16 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
      * This method returns the proposal ID related to an award
      * Can award have multiple P IDs?
      * @param award
-     * @return
+     * @return the id of the found proposal
      */
     protected Long getProposalId(Award award) {
-        String proposalNumber = award.getProposalNumber();
-        List<InstitutionalProposal> proposals;
-        HashMap<String, String> searchCriteria =  new HashMap<String, String>();
-        searchCriteria.put("proposalNumber", proposalNumber);  
-        proposals = new ArrayList<InstitutionalProposal>(businessObjectService.findMatching(InstitutionalProposal.class, searchCriteria));
-        if (ObjectUtils.isNotNull(proposals)) {
-            return proposals.isEmpty() ? null : proposals.get(0).getProposalId();
-        }
-        return null;
+        return getInstitutionalProposalService().getProposalId(award);
     }
     
     /**
      * * Method checks if the award has a federal sponsor.
      * If the award sponsor type code or the prime sponsor type is federal, then
      * the document should be routed.
-     * @see org.kuali.kra.external.award.AwardAccountService#isFederalSponsor(String)
      */
     protected boolean isFederalSponsor(Award award) {
        
@@ -101,7 +94,7 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
 
     /**
      * This method checks if sponsor is federal.
-     * @param award
+     * @param sponsor
      * @param federalSponsorTypeCode
      * @return
      */
@@ -128,6 +121,13 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
 
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
-	}	
+	}
 
+    public InstitutionalProposalService getInstitutionalProposalService() {
+        return institutionalProposalService;
+    }
+
+    public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
+        this.institutionalProposalService = institutionalProposalService;
+    }
 }
