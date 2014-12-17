@@ -76,7 +76,13 @@
 		<property name="addLineItems">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="organizationId"
-					p:order="10" p:propertyNamesForAdditionalDisplay="organization.organizationName"/>
+					p:order="10" p:propertyNamesForAdditionalDisplay="organization.organizationName">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript"
+							p:dataObjectClassName="org.kuali.coeus.common.framework.org.Organization"
+							p:fieldConversions="organizationId:organizationId" />
+					</property>	
+				</bean>				
 				<bean parent="Uif-InputField" p:propertyName="newSubAwardFile" p:label="File Name" 
 					p:order="30">
 					<property name="control">
