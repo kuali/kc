@@ -207,7 +207,7 @@ input[type="checkbox"] {
 
 @media (min-width: 768px) {
     .kc-navMenuDropdown .dropdown-menu {
-        min-width: 40em !important;
+        min-width: 65em !important;
     }
 
     .kc-researcherDropdown .dropdown-menu, .kc-unitDropdown .dropdown-menu, .kc-centralAdminDropdown .dropdown-menu {
@@ -218,7 +218,7 @@ input[type="checkbox"] {
 
 @media (min-width: 992px) {
     .kc-navMenuDropdown .dropdown-menu {
-        min-width: 45em !important;
+        min-width: 70em !important;
     }
 
     .kc-centralAdminDropdown .dropdown-menu {
@@ -259,4 +259,29 @@ div.blockElement {
 /** center modal footer buttons in all cases... **/
 .modal-footer {
     text-align: center;
+}
+
+li.kc-listIconDropdown li:before {
+    content: '\e949';
+    font-family: krad-icons;
+    display: inline-block;
+    width: 1em;
+    margin-left: 0em;
+}
+
+li.kc-listIconDropdown li p.uif-boxLayoutHorizontalItem  {
+    float: none;
+    display: inline;
+    margin-right: .2em;
+}
+
+li.kc-listIconDropdown li a.uif-boxLayoutHorizontalItem  {
+    float: none;
+    display: inline;
+    margin-right: .2em;
+    margin-left: .2em;
+}
+
+li.kc-listIconDropdown li div.uif-boxSection  {
+    display: inline-block;
 }
