@@ -1116,7 +1116,7 @@
     <bean id ="subcontractingExpenditureCategoryDetailsDao" parent="platformAwareDao" class="org.kuali.kra.award.subcontracting.reporting.dao.SubcontractingExpenditureCategoryDetailsDaoOjb">
     </bean>
 
-    <bean id="awardJavaFunctionKrmsTermService" class="org.kuali.kra.award.service.impl.AwardJavaFunctionKrmsTermServiceImpl">
+    <bean id="awardJavaFunctionKrmsTermService" class="org.kuali.kra.award.service.impl.AwardJavaFunctionKrmsTermServiceImpl"/>
 
     <bean id="awardDtoService" class="org.kuali.kra.external.award.AwardDtoService">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -1126,7 +1126,7 @@
         <property name="awardMethodOfPaymentDtoService" ref="awardMethodOfPaymentDtoService"/>
     </bean>
 
-    <bean id="awardAccountDtoService" class="org.kuali.kra.external.award.AwardAccountDtoService">
+    <bean id="awardAccountDtoService" class="org.kuali.kra.award.external.award.AwardAccountDtoService">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService"/>
     </bean>
