@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.lookup.PublicAwardLookupableHelperServiceImpl;
+import org.kuali.kra.award.lookup.AwardLookupableHelperServiceImpl;
 import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -12,8 +12,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class AwardCgbLookupableHelperServiceImpl extends
-		PublicAwardLookupableHelperServiceImpl {
+public class AwardCgbLookupableHelperServiceImpl extends AwardLookupableHelperServiceImpl {
 
 	public static final String INVOICE_DOCUMENT_TYPE = "CINV";
 	public static final String AWARD_INVOICE_PROPOSAL_NUMBER = "documentAttribute.proposalNumber";
