@@ -16,7 +16,7 @@
                     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                     
 	<bean id="PropDev-MedusaSection" parent="PropDev-MedusaSection-parentBean"/>
-	<bean id="PropDev-MedusaSection-parentBean" abstract="true" parent="Uif-DialogBase" p:resetDataOnRefresh="true">
+	<bean id="PropDev-MedusaSection-parentBean" abstract="true" parent="Uif-DialogBase" p:resetDataOnRefresh="true" p:dialogCssClass="modal-lg">
         <property name="header">
           <bean parent="Uif-DialogHeader" p:headerText="Medusa"/>
        </property>
@@ -60,18 +60,21 @@
 			<entry key="#{ T(org.kuali.kra.institutionalproposal.home.InstitutionalProposal)}">
 				<bean parent="Proposal-MedusaSection-InstPropSummary"/>
 			</entry>
-			<entry key="#{ T(org.kuali.kra.institutionalproposal.proposallog.ProposalLog)}">
-				<bean parent="Proposal-MedusaSection-ProposalLogSummary"/>
-			</entry>
 			<entry key="#{ T(org.kuali.kra.award.home.Award)}">
 				<bean parent="Proposal-MedusaSection-AwardSummary"/>
 			</entry>
+            <entry key="#{ T(org.kuali.kra.subaward.bo.SubAward)}">
+                <bean parent="Proposal-MedusaSection-SubAwardSummary"/>
+            </entry>
 			<entry key="#{ T(org.kuali.kra.irb.Protocol)}">
 				<bean parent="Proposal-MedusaSection-IRBSummary"/>
 			</entry>
 			<entry key="#{ T(org.kuali.kra.iacuc.IacucProtocol)}">
 				<bean parent="Proposal-MedusaSection-IacucSummary"/>
 			</entry>
+            <entry key="#{ T(org.kuali.kra.negotiations.bo.Negotiation)}">
+                <bean parent="Proposal-MedusaSection-NegotiationSummary"/>
+            </entry>
 		</map>
 	</property>
 	</bean>        
@@ -85,6 +88,12 @@
         <bean parent="Uif-CssGridSection-1FieldLabelColumn">
            <property name="items">
                 <list>
+                    <bean parent="Uif-FieldGroupBase" p:order="5"
+                          p:render="@{#lp.document.documentNumber ne #np.proposalDocument.documentNumber}">
+                        <property name="group">
+                            <bean parent="Proposal-MedusaSection-PropDevSummary-Actions"/>
+                        </property>
+                    </bean>
                 	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
                 	    p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" p:order="10" />
                 	<bean parent="Uif-DataField" p:propertyName="proposalState.description" 
@@ -132,6 +141,17 @@
       </property>
 	</bean>
 
+    <bean id="Proposal-MedusaSection-PropDevSummary-Actions" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Proposal"
+                      p:href="@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.proposalDocument.documentNumber}"/>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Proposal Notes"
+                      p:href="@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.proposalDocument.documentNumber}&amp;navigateToPageId=PropDev-AttachmentsPage&amp;defaultOpenTab=PropDev-AttachmentsPage-NotesSection"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="Proposal-MedusaSection-PropDev-Investigators" parent="Uif-ListCollectionSection"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
           p:propertyName="investigators" p:renderAddLine="false"
@@ -176,6 +196,12 @@
         <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
            <property name="items">
                <list>
+                   <bean parent="Uif-FieldGroupBase" p:order="5"
+                         p:render="@{#lp.document.documentNumber ne #np.institutionalProposalDocument.documentNumber}">
+                       <property name="group">
+                           <bean parent="Proposal-MedusaSection-InstPropSummary-Actions"/>
+                       </property>
+                   </bean>
                    <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="proposalNumber" p:order="10" />
                    <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="title" p:order="20" />
                    <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="unitNumber" p:label="Unit" p:order="30" />
@@ -251,38 +277,18 @@
             </list>
         </property>
     </bean>
-	
-	<bean id="Proposal-MedusaSection-ProposalLogSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
-       <property name="labelPrototype">             
-         <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
-      </property>
-      <property name="dataGroupPrototype">              
-        <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
-           <property name="items">
-                <list>
-                	<bean parent="Uif-DataField" p:propertyName="proposalNumber" 
-                	    p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="10" />
-                	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="20" />
-                	<bean parent="Uif-DataField" p:propertyName="title" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="30" />
-                	<bean parent="Uif-DataField" p:propertyName="piName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="40" />
-                	<bean parent="Uif-DataField" p:propertyName="sponsorName" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="50" />
-                	<bean parent="Uif-DataField" p:propertyName="logStatus" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="60" />
-                	<bean parent="Uif-DataField" p:propertyName="fiscalMonth" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="70" />
-                	<bean parent="Uif-DataField" p:propertyName="fiscalYear" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="80" />
-                	<bean parent="Uif-DataField" p:propertyName="instProposalNumber" 
-                		p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" p:order="90" />
-                </list>
-           </property>
-        </bean>
-      </property>
-	</bean>
+
+    <bean id="Proposal-MedusaSection-InstPropSummary-Actions" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Proposal"
+                      p:href="@{#ConfigProperties['application.url']}/institutionalProposalHome.do?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.institutionalProposalDocument.documentNumber}&amp;medusaOpenedDoc=true"/>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Proposal Notes"
+                      p:href="@{#ConfigProperties['application.url']}/institutionalProposalHome.do?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.institutionalProposalDocument.documentNumber}&amp;medusaOpenedDoc=true&amp;tabStates(NotesandAttachments)=OPEN#Notes"/>
+            </list>
+        </property>
+    </bean>
+
 	<bean id="Proposal-MedusaSection-AwardSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
        <property name="labelPrototype">             
          <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
@@ -291,6 +297,12 @@
         <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
            <property name="items">
                 <list>
+                    <bean parent="Uif-FieldGroupBase" p:order="5"
+                          p:render="@{#lp.document.documentNumber ne #np.awardDocument.documentNumber}">
+                        <property name="group">
+                            <bean parent="Proposal-MedusaSection-AwardSummary-Actions"/>
+                        </property>
+                    </bean>
                 	<bean parent="Uif-DataField" p:propertyName="awardNumber" 
                 	    p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" p:order="10" />
                 	<bean parent="Uif-DataField" p:propertyName="unitNumber" 
@@ -308,7 +320,88 @@
         </bean>
       </property>
 	</bean>
-	<bean id="Proposal-MedusaSection-IRBSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
+
+    <bean id="Proposal-MedusaSection-AwardSummary-Actions" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Award"
+                      p:href="@{#ConfigProperties['application.url']}/awardHome.do?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.awardDocument.documentNumber}&amp;medusaOpenedDoc=true"/>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Award Notes"
+                      p:href="@{#ConfigProperties['application.url']}/awardNotesAndAttachments.do?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.awardDocument.documentNumber}&amp;medusaOpenedDoc=true&amp;tabStates(Notes)=OPEN#Notes"/>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Award Hierarchy Actions"
+                      p:href="@{#ConfigProperties['application.url']}/awardActions.do?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.awardDocument.documentNumber}&amp;medusaOpenedDoc=true&amp;tabStates(HierarchyActions)=OPEN#Hierarchy Actions"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Proposal-MedusaSection-SubAwardSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">
+        <property name="labelPrototype">
+            <bean parent="Uif-Message" p:renderWrapperTag="false"/>
+        </property>
+        <property name="dataGroupPrototype">
+            <bean parent="Uif-CssGridSection-1FieldLabelColumn">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-FieldGroupBase" p:order="5"
+                              p:render="@{#lp.document.documentNumber ne #np.subAwardDocument.documentNumber}">
+                            <property name="group">
+                                <bean parent="Proposal-MedusaSection-SubAwardSummary-Actions"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-DataField" p:propertyName="subAwardCode"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="10" />
+                        <bean parent="Uif-DataField" p:propertyName="statusDescription" p:label="Status"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="20" />
+                        <bean parent="Uif-DataField" p:propertyName="accountNumber"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="30" />
+                        <bean parent="Uif-DataField" p:propertyName="organizationName"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="40" />
+                        <bean parent="Uif-DataField" p:propertyName="startDate"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="50" />
+                        <bean parent="Uif-DataField" p:propertyName="endDate"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="60" />
+                        <bean parent="Uif-DataField" p:propertyName="subAwardType.description"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="70" />
+                        <bean parent="Uif-DataField" p:propertyName="purchaseOrderNum"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="80" />
+                        <bean parent="Uif-DataField" p:propertyName="title"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="90" />
+                        <bean parent="Uif-DataField" p:propertyName="requisitioner.fullName" p:label="Requisitioner"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="100" />
+                        <bean parent="Uif-DataField" p:propertyName="unit.unitName"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="110" />
+                        <bean parent="Uif-DataField" p:propertyName="vendorNumber"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="120" />
+                        <bean parent="Uif-DataField" p:propertyName="closeoutDate"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="130" />
+                        <bean parent="Uif-DataField" p:propertyName="archiveLocation"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="140" />
+                        <bean parent="Uif-DataField" p:propertyName="comments"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="150" />
+                        <bean parent="Uif-DataField" p:propertyName="totalAnticipatedAmount"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="160" />
+                        <bean parent="Uif-DataField" p:propertyName="totalObligatedAmount"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="170" />
+                        <bean parent="Uif-DataField" p:propertyName="totalAmountReleased"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="180" />
+                        <bean parent="Uif-DataField" p:propertyName="totalAvailableAmount"
+                              p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" p:order="190" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Proposal-MedusaSection-SubAwardSummary-Actions" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Sub Award"
+                      p:href="@{#ConfigProperties['application.url']}/subAwardHome.do?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.subAwardDocument.documentNumber}&amp;medusaOpenedDoc=true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Proposal-MedusaSection-IRBSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">
        <property name="labelPrototype">             
          <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
       </property>
@@ -316,6 +409,12 @@
         <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
            <property name="items">
                 <list>
+                    <bean parent="Uif-FieldGroupBase" p:order="5"
+                          p:render="@{#lp.document.documentNumber ne #np.protocolDocument.documentNumber}">
+                        <property name="group">
+                            <bean parent="Proposal-MedusaSection-IRBSummary-Actions"/>
+                        </property>
+                    </bean>
                 	<bean parent="Uif-DataField" p:propertyName="protocolNumber" 
                 	    p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" p:order="10" />
                 	<bean parent="Uif-DataField" p:propertyName="leadUnitNumber" 
@@ -339,6 +438,16 @@
         </bean>
       </property>
 	</bean>
+
+    <bean id="Proposal-MedusaSection-IRBSummary-Actions" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Protocol"
+                      p:href="@{#ConfigProperties['application.url']}/protocolProtocol.do?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.protocolDocument.documentNumber}&amp;medusaOpenedDoc=true"/>
+                 </list>
+        </property>
+    </bean>
+
 	<bean id="Proposal-MedusaSection-IacucSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">           
        <property name="labelPrototype">             
          <bean parent="Uif-Message" p:renderWrapperTag="false"/>           
@@ -347,6 +456,12 @@
         <bean parent="Uif-CssGridSection-1FieldLabelColumn">                
            <property name="items">
                 <list>
+                    <bean parent="Uif-FieldGroupBase" p:order="5"
+                          p:render="@{#lp.document.documentNumber ne #np.protocolDocument.documentNumber}">
+                        <property name="group">
+                            <bean parent="Proposal-MedusaSection-IacucSummary-Actions"/>
+                        </property>
+                    </bean>
                 	<bean parent="Uif-DataField" p:propertyName="protocolNumber" 
                 	    p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" p:order="10" />
                 	<bean parent="Uif-DataField" p:propertyName="leadUnitNumber" 
@@ -371,6 +486,58 @@
       </property>
 	</bean>
 
+    <bean id="Proposal-MedusaSection-IacucSummary-Actions" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Protocol"
+                      p:href="@{#ConfigProperties['application.url']}/iacucProtocolProtocol.do?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.protocolDocument.documentNumber}&amp;medusaOpenedDoc=true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Proposal-MedusaSection-NegotiationSummary" class="org.kuali.rice.krad.uif.container.NodePrototype">
+        <property name="labelPrototype">
+            <bean parent="Uif-Message" p:renderWrapperTag="false"/>
+        </property>
+        <property name="dataGroupPrototype">
+            <bean parent="Uif-CssGridSection-1FieldLabelColumn">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-FieldGroupBase" p:order="5"
+                              p:render="@{#lp.document.documentNumber ne #np.documentNumber}">
+                            <property name="group">
+                                <bean parent="Proposal-MedusaSection-NegotiationSummary-Actions"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-DataField" p:propertyName="negotiationId"
+                              p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" p:order="10" />
+                        <bean parent="Uif-DataField" p:propertyName="negotiationStatus.description"
+                              p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" p:order="20" />
+                        <bean parent="Uif-DataField" p:propertyName="negotiator.userName" p:label="Negotiatior"
+                              p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" p:order="30" />
+                        <bean parent="Uif-DataField" p:propertyName="negotiationStartDate"
+                              p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" p:order="40" />
+                        <bean parent="Uif-DataField" p:propertyName="negotiationAgreementType.description" p:label="Agreement Type"
+                              p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" p:order="50" />
+                        <bean parent="Uif-DataField" p:propertyName="negotiationEndDate"
+                              p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" p:order="60" />
+                        <bean parent="Uif-DataField" p:propertyName="negotiationAge"
+                              p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" p:order="70" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Proposal-MedusaSection-NegotiationSummary-Actions" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Proposal-Medusa-Link" p:linkText="Open Negotiation"
+                      p:href="@{#ConfigProperties['application.url']}/negotiationNegotiation.do?methodToCall=docHandler&amp;command=displayDocSearchView&amp;docId=@{#np.documentNumber}&amp;medusaOpenedDoc=true"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="Proposal-InstitutionalProposal-Property" parent="Uif-DataField"
           p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
 
@@ -379,6 +546,16 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.unitNumber} : @{#line.unit.unitName}" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Proposal-Medusa-Link" parent="Uif-LinkField" p:target="_blank">
+        <property name="cssClasses">
+            <list>
+                <value>btn</value>
+                <value>btn-default</value>
+                <value>btn-xs</value>
             </list>
         </property>
     </bean>

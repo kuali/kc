@@ -978,4 +978,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
     }
+    
+    public String getDefaultOpenTab() {
+        ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm)ViewLifecycle.getModel();
+        String openTab = form.getDefaultOpenTab();
+        form.setDefaultOpenTab("");
+        return openTab;
+    }
 }

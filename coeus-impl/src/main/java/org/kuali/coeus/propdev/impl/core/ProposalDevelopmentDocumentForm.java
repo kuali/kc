@@ -110,6 +110,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private String institutionalProposalToVersion;
 
     private MessageMap deferredMessages;
+    private String defaultOpenTab;
 
     private Map<String, Boolean> personEditableFields;
 
@@ -477,6 +478,14 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     public void setDeferredMessages(MessageMap deferredMessages) {
         this.deferredMessages = deferredMessages;
+    }
+
+    public String getDefaultOpenTab() {
+        return defaultOpenTab;
+    }
+
+    public void setDefaultOpenTab(String defaultOpenTab) {
+        this.defaultOpenTab = defaultOpenTab;
     }
 
     public Map<String, Boolean> getPersonEditableFields() {

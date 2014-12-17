@@ -212,7 +212,8 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
    @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=docHandler")
-   public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, @RequestParam(required = false) String auditActivated) throws Exception {
+   public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, @RequestParam(required = false) String auditActivated,
+                                  @RequestParam(required = false) String navigateToPageId, @RequestParam(required = false) String defaultOpenTab) throws Exception {
        ProposalDevelopmentDocument document;
        boolean isDeleted = false;
        if(!ObjectUtils.isNull(form.getDocId())) {
@@ -255,10 +256,18 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-DetailsPage", "info.dataoverride.occured");
             }
 
-            if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
+           if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
                ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm);
                propDevForm.getView().setEntryPageId(ProposalDevelopmentConstants.KradConstants.SUBMIT_PAGE);
-            }
+           }
+
+           if (StringUtils.isNotBlank(navigateToPageId)) {
+               propDevForm.getView().setEntryPageId(navigateToPageId);
+           }
+
+           if (StringUtils.isNotBlank(defaultOpenTab)) {
+               propDevForm.setDefaultOpenTab(defaultOpenTab);
+           }
 
             if (StringUtils.equals(form.getRequest().getParameter("viewDocument"),"true")) {
                 propDevForm.setViewOnly(true);

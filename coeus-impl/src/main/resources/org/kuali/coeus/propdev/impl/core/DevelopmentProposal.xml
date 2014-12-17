@@ -897,19 +897,17 @@
 
   <bean id="DevelopmentProposal-proposalState.description" parent="DevelopmentProposal-proposalState.description-parentBean"/>
   <bean id="DevelopmentProposal-proposalState.description-parentBean" abstract="true" parent="AttributeDefinition">
-      <property name="name" value="proposalState.description"/>
-      <property name="forceUppercase" value="false"/>
-      <property name="label" value="Proposal State"/>
-      <property name="shortLabel" value="Proposal State"/>
-      <property name="maxLength" value="200"/>
-      <property name="validationPattern">
-          <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
-      </property>
-      <property name="validCharactersConstraint">
-          <bean parent="AnyCharacterPatternConstraint">
-              <property name="allowWhitespace" value="true"/>
-          </bean>
-      </property>
+		<property name="name" value="proposalState.description" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Proposal State" />
+		<property name="shortLabel" value="Proposal State" />
+		<property name="maxLength" value="200" />
+        <property name="validationPattern">
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
