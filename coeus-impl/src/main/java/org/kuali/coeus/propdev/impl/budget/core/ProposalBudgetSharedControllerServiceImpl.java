@@ -53,7 +53,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put("modularBudgetFlag", modularBudget != null ? modularBudget : Boolean.FALSE);
 		if (kcBusinessRulesEngine.applyRules(new ProposalAddBudgetVersionEvent("addBudgetDto", developmentProposal, budgetName))) {
-			budget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(developmentProposal.getDocument(), budgetName, options);	
+			budget = (ProposalDevelopmentBudgetExt) getBudgetService().addBudgetVersion(developmentProposal.getDocument(), budgetName, options);
 		}
         if (budget != null) {
 	        Properties props = new Properties();
