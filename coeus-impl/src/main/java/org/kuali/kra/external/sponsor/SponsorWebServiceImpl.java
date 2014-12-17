@@ -20,18 +20,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 public class SponsorWebServiceImpl implements SponsorWebService {
 
-	private SponsorService sponsorService;
 	private BusinessObjectService businessObjectService;
 	private KcDtoService<SponsorDTO, Sponsor> sponsorDtoService;
 	
 	public SponsorDTO getSponsor(String sponsorCode) {
-		Sponsor sponsor = (Sponsor)getSponsorService().getSponsor(sponsorCode);
-		if (sponsor != null) {
-			SponsorDTO result = sponsorDtoService.buildDto(sponsor);
-			return result;
-		} else {
-			return null;
+		if (StringUtils.isNotBlank(sponsorCode)) {
+			Sponsor sponsor = getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, sponsorCode);
+			if (sponsor != null) {
+				SponsorDTO result = sponsorDtoService.buildDto(sponsor);
+				return result;
+			}
 		}
+		return null;
 	}
 
 	public List<SponsorDTO> getMatchingSponsors(SponsorCriteriaDto searchCriteria) {
@@ -55,16 +55,6 @@ public class SponsorWebServiceImpl implements SponsorWebService {
 			}
 		}
 		return results;
-	}
-
-	protected SponsorService getSponsorService() {
-		return sponsorService;
-	}
-
-	@Autowired
-	@Qualifier("sponsorService")
-	public void setSponsorService(SponsorService sponsorService) {
-		this.sponsorService = sponsorService;
 	}
 
 	protected BusinessObjectService getBusinessObjectService() {
