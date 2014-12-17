@@ -1351,6 +1351,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             destPropPersonBio.setProposalPersonNumber(destPerson.getProposalPersonNumber());
             destPropPersonBio.setPersonId(destPerson.getPersonId());
             destPropPersonBio.setRolodexId(destPerson.getRolodexId());
+            destPropPersonBio.getPersonnelAttachment().setData(srcPropPersonBio.getData());
             destProposal.getPropPersonBios().add(destPropPersonBio);
         }
 
