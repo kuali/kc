@@ -28,14 +28,14 @@
         	<foreignkey field-ref="sponsorTypeCode" />
     	</reference-descriptor>
 
-		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="unit" class-ref="org.kuali.coeus.common.framework.unit.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
-    	<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+    	<reference-descriptor name="rolodex" class-ref="org.kuali.coeus.common.framework.rolodex.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="rolodexId" />
     	</reference-descriptor>
 	</class-descriptor>
-  
+
   <class-descriptor class="org.kuali.coeus.common.framework.sponsor.SponsorSpecial" table="SPONSOR">
     <field-descriptor id="1" name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true" sequence-name="SEQ_SPONSOR_CODE" autoincrement="true" />
     <field-descriptor name="acronym" column="ACRONYM" jdbc-type="VARCHAR"/>
@@ -70,6 +70,5 @@
           <foreignkey field-ref="rolodexId" />
       </reference-descriptor>
   </class-descriptor>
-  
 	
 </descriptor-repository>
