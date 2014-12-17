@@ -95,10 +95,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
     private InstitutionalProposalDao institutionalProposalDao;
-    
+
     private static final String TRUE_INDICATOR_VALUE = "1";
 	private static final String FALSE_INDICATOR_VALUE = "0";
-    
+
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
@@ -686,7 +686,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         getBusinessObjectService().save(oldIP.getAwardFundingProposals());
         return newFundingProposals;
     }
-    
+
     /**
      * This function verifies that the indicator fields are set, and if they aren't sets them.
      * If an IP is being versioned and the home unit or cost shares allocations are changed, there may be problems with these fields.
