@@ -261,6 +261,7 @@ public abstract class ProposalDevelopmentControllerBase {
          }
 
          getTransactionalDocumentControllerService().save(form);
+         populateAdHocRecipients(form.getProposalDevelopmentDocument());
 
          if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.CREDIT_ALLOCATION_PAGE)) {
              ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateCreditSplits(form);
@@ -307,6 +308,9 @@ public abstract class ProposalDevelopmentControllerBase {
          } else {
              performCustomSave(proposalDevelopmentDocument, SaveDocumentSpecialReviewEvent.class);
          }
+
+         populateAdHocRecipients(pdForm.getProposalDevelopmentDocument());
+
          String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
          if (StringUtils.isNotBlank(pageId) && getGlobalVariableService().getMessageMap().hasNoErrors()) {
         	 form.setDirtyForm(false);

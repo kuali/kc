@@ -29,4 +29,7 @@
           p:dataObjectService-ref="dataObjectService"
           p:dataDictionaryService-ref="dataDictionaryService" />
 
+    <bean id="documentAdHocService" class="org.kuali.coeus.sys.framework.service.KcDocumentAdHocServiceImpl"
+    		p:dataObjectService-ref="dataObjectService" />
+
 </beans>
