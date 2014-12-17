@@ -34,5 +34,7 @@ public interface ProposalDevelopmentSpecialReviewService {
     public boolean isCreateIacucProtocolEnabled();
 
     public boolean isCreateProtocolFromProposalEnabled(String protocolLinkParam);
+    
+    public Integer generateSpecialReviewNumber(ProposalDevelopmentDocument document);
 
     }
