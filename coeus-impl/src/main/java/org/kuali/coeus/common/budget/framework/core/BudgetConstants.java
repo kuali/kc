@@ -36,6 +36,7 @@ public class BudgetConstants {
         PERIODS_AND_TOTALS ("periodAndTotalErrors", "periodAndTotalWarnings", "Periods & Totals", "PropBudget-PeriodsPage"),
         PROJECT_PERSONNEL ("projectPersonnelErrors", "projectPersonnelWarnings", "Project Personnel", "PropBudget-ProjectPersonnelPage"),
         NON_PERSONNEL_COSTS ("nonPersonnelCostErrors", "nonPersonnelCostWarnings", "Non-Personnel Costs", "PropBudget-NonPersonnelCostsPage"),
+        PERSONNEL_COSTS ("personnelCostErrors", "personnelCostWarnings", "Assign Personnel to Periods", "PropBudget-AssignPersonnelToPeriodsPage"),
         COST_SHARING ("costSharingErrors", "costSharingWarnings", "Cost Sharing", "PropBudget-CostSharingPage"),
         UNRECOVERED_FA ("unrecoveredFAErrors", "unrecoveredFAWarnings", "Unrecovered F&A", "PropBudget-UnrecoveredFandAPage");
         

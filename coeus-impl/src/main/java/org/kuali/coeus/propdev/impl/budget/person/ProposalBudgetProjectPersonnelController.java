@@ -11,6 +11,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.*;
+import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpensesRuleEvent;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
@@ -218,10 +219,19 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		if(rulePassed) {
 			getBudgetPersonnelBudgetService().addBudgetPersonnelToPeriod(currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail);
 			form.getAddProjectPersonnelHelper().reset();
+		    getBudgetCalculationService().calculateBudgetPeriod(budget, currentTabBudgetPeriod);
 		}
 		return getModelAndViewService().getModelAndView(form);
 	}
 
+	@Transactional @RequestMapping(params="methodToCall=refreshPageWithBudgetExpenseRules")
+	public ModelAndView refreshPageWithBudgetExpenseRules(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+	    String errorPath = BudgetConstants.BudgetAuditRules.PERSONNEL_COSTS.getPageId();
+		getKcBusinessRulesEngine().applyRules(new BudgetExpensesRuleEvent(form.getBudget(), errorPath));
+        form.setAjaxReturnType("update-page");
+		return getModelAndViewService().getModelAndView(form);
+	}
+	
 	private void setBudgetLineItemGroupName(ProposalBudgetForm form, BudgetLineItem newBudgetLineItem) {
 		String groupName = form.getAddProjectPersonnelHelper().getBudgetPersonGroupName();
 		if(!StringUtils.equals(groupName, BudgetConstants.BUDGET_PERSONNEL_NEW_GROUP_NAME)) {
@@ -297,6 +307,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 			budgetLineItem.getBudgetPersonnelDetailsList().set(editLineIndex, editBudgetPersonnel);
 			BudgetLineItem newBudgetLineItem = getDataObjectService().save(budgetLineItem);
 			budgetPeriod.getBudgetLineItems().set(budgetLineItemIndex, newBudgetLineItem);
+		    getBudgetCalculationService().calculateBudgetPeriod(budget, budgetPeriod);
 		}
 		return getModelAndViewService().getModelAndView(form);
 	}
@@ -380,6 +391,8 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		    if(budgetLineItem.getBudgetPersonnelDetailsList().size() == 0) {
 		    	budgetPeriod.getBudgetLineItems().remove(budgetLineItem);
 		    }
+		    getBudgetCalculationService().calculateBudgetPeriod(budget, budgetPeriod);
+		    refreshPageWithBudgetExpenseRules(form);
 	    }
 		return getModelAndViewService().getModelAndView(form);
 	}
@@ -392,7 +405,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
         }
         return null;
 	}
-	
+
     public WizardControllerService getWizardControllerService() {
         return wizardControllerService;
     }

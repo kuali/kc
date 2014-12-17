@@ -143,10 +143,11 @@
 		</property>		
 	</bean>	
 
+
     <bean id="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel" parent="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel-parentBean"/>
     <bean id="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel-parentBean" abstract="true" parent="Uif-DialogGroup"
           p:fieldBindingObjectPath="addProjectPersonnelHelper" p:retrieveViaAjax="true"
-          p:onHideDialogScript="retrieveComponent('PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails_@{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}');"
+          p:onHideDialogScript="retrieveComponent('PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails_@{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}', 'refreshPageWithBudgetExpenseRules');"
           p:destroyDialogOnHidden="true" p:enterKeyAction="@DEFAULT"
 		  p:refreshWhenChangedPropertyNames="addProjectPersonnelHelper.budgetPersonnelDetail.personSequenceNumber"
           p:header.headerText="Add Personnel to Period">
@@ -218,7 +219,7 @@
 
 	<bean id="PropBudget-EditPersonnelPeriod-Section" parent="PropBudget-EditPersonnelPeriod-Section-parent" />
 	<bean id="PropBudget-EditPersonnelPeriod-Section-parent" p:fieldBindingObjectPath="addProjectPersonnelHelper.budgetPersonnelDetail" abstract="true" parent="Uif-DialogGroup" 
-        p:onHideDialogScript="retrieveComponent('PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails_@{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}');"
+        p:onHideDialogScript="retrieveComponent('PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails_@{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}', 'refreshPageWithBudgetExpenseRules');"
 		p:retrieveViaAjax="true"
 		p:headerText="Edit Assigned Personnel" p:destroyDialogOnHidden="true" p:enterKeyAction="@DEFAULT">
 		<property name="items">
