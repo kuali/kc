@@ -77,11 +77,15 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         	editModes.add(AuthConstants.VIEW_BUDGET_EDIT_MODE);
         	editModes.add(AuthConstants.CHANGE_COMPLETE_STATUS);
         	if (!isBudgetComplete(budget)) {
-	            editModes.add(AuthConstants.MODIFY_BUDGET_EDIT_MODE);
-	            if (isAuthorizedToModifyRates(budget, user)) {
-	                editModes.add(AuthConstants.MODIFY_RATES_EDIT_MODE);
-	            }
-	            setPermissions(user, parentDocument, editModes);
+        		if (!budget.getDevelopmentProposal().isParent()) {
+		            editModes.add(AuthConstants.MODIFY_BUDGET_EDIT_MODE);
+		            if (isAuthorizedToModifyRates(budget, user)) {
+		                editModes.add(AuthConstants.MODIFY_RATES_EDIT_MODE);
+		            }
+		            setPermissions(user, parentDocument, editModes);
+        		} else {
+        			editModes.add(AuthConstants.MODIFY_HIERARCHY_PARENT_BUDGET);
+        		}
         	}
         } else if (isAuthorizedToViewBudget(budget, user)) {
             editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
@@ -186,7 +190,7 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument)budget.getBudgetParent().getDocument();
         boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument());
 
-        return (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && !pdDocument.getDevelopmentProposal().isParent() &&
+        return (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) &&
                 getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_BUDGET) 
                 && !pdDocument.getDevelopmentProposal().getSubmitFlag();
     }
