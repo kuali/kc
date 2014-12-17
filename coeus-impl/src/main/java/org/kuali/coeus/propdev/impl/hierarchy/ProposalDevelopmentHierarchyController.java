@@ -59,18 +59,20 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
 
         DevelopmentProposal hierarchyProposal = getProposalHierarchyService().getDevelopmentProposal(hierarchyProposalNumber);
         DevelopmentProposal newChildProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
-        List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateLinkToHierarchy(hierarchyProposal, newChildProposal);
-        if (!displayErrors(errors)) {
-            ProposalDevelopmentBudgetExt childBudget = getProposalHierarchyService().getSyncableBudget(newChildProposal);
-            if(childBudget==null){
-                getGlobalVariableService().getMessageMap().putError(ProposalHierarchyKeyConstants.FIELD_CHILD_NUMBER,ProposalHierarchyKeyConstants.ERROR_LINK_NO_BUDGET_VERSION);
-            }else{
-                getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
+        ProposalDevelopmentBudgetExt childBudget = getProposalHierarchyService().getSyncableBudget(newChildProposal);
+        if(childBudget == null){
+            getGlobalVariableService().getMessageMap().putError(ProposalHierarchyKeyConstants.FIELD_CHILD_NUMBER,ProposalHierarchyKeyConstants.ERROR_LINK_NO_BUDGET_VERSION);
+        }else{
+	        List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateLinkToHierarchy(hierarchyProposal, newChildProposal);
+	        if (!displayErrors(errors)) {
+	            getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
                 displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()});
             }
         }
         return getModelAndViewService().getModelAndView(form);
     }
+
+
 
     /*
     Link a child proposal to this parent
