@@ -15,7 +15,8 @@
 	<!-- Proposal Document View -->
 	<bean id="PropBudget-DefaultView" parent="PropBudget-DefaultView-parentBean" />
 	<bean id="PropBudget-DefaultView-parentBean" abstract="true"
-		parent="Uif-FormView" p:headerText="Budget #@{budget.budgetVersionNumber}: @{budget.name}"
+		parent="Uif-FormView" class="org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetView"
+        p:headerText="Budget #@{budget.budgetVersionNumber}: @{budget.name}"
 		p:viewHelperService="#{#getService('proposalBudgetViewHelperService')}"
 		p:authorizer="#{#getService('proposalBudgetAuthorizer')}"
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
