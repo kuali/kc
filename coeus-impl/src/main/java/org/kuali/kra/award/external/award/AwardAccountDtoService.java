@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.external.service.KcDtoServiceBase;
@@ -95,41 +96,25 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
        
         String federalSponsorTypeCode = parameterService.getParameterValueAsString(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
         //If the sponsor type or prime sponsor type is federal, then document should be routed, return true.
-        return isSponsorTypeFederal(award, federalSponsorTypeCode) || isPrimeSponsorFederal(award, federalSponsorTypeCode);
+        return isFederal(award.getSponsor(), federalSponsorTypeCode) || isFederal(award.getPrimeSponsor(), federalSponsorTypeCode);
     }
 
-    /**
-     * This method checks if prime sponsor is federal
-     * @param award
-     * @param federalSponsorTypeCode
-     * @return
-     */
-    protected boolean isPrimeSponsorFederal(Award award, String federalSponsorTypeCode) {
-        if (ObjectUtils.isNotNull(award.getPrimeSponsor()) && ObjectUtils.isNotNull(award.getPrimeSponsor().getSponsorType()))  {
-            if (award.getPrimeSponsor().getSponsorType().getCode().equals(federalSponsorTypeCode)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    
     /**
      * This method checks if sponsor is federal.
      * @param award
      * @param federalSponsorTypeCode
      * @return
      */
-    protected boolean isSponsorTypeFederal(Award award, String federalSponsorTypeCode) {
-        if (ObjectUtils.isNotNull(award.getSponsor()) && ObjectUtils.isNotNull(award.getSponsor().getSponsorTypeCode())) {
-            if (award.getSponsor().getSponsorTypeCode().equals(federalSponsorTypeCode)) {
+    protected boolean isFederal(Sponsor sponsor, String federalSponsorTypeCode) {
+        if (ObjectUtils.isNotNull(sponsor) && ObjectUtils.isNotNull(sponsor.getSponsorTypeCode())) {
+            if (sponsor.getSponsorTypeCode().equals(federalSponsorTypeCode)) {
                 return true;
             }
         }
         return false;
     }
 
-	protected BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
 		return businessObjectService;
 	}
 
