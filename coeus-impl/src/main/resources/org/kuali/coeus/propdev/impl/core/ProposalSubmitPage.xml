@@ -739,7 +739,7 @@
     </bean>
 
     <bean id="PropDev-DocumentAdHocRecipientsSection" parent="PropDev-DocumentAdHocRecipientsSection-parentBean"/>
-    <bean id="PropDev-DocumentAdHocRecipientsSection-parentBean" abstract="true" parent="Uif-DialogGroup">
+    <bean id="PropDev-DocumentAdHocRecipientsSection-parentBean" p:retrieveViaAjax="true" abstract="true" parent="Uif-DialogGroup">
         <property name="items">
             <list>
                 <bean parent="PropDev-DocumentAdHocRecipients" p:order="10"/>
@@ -767,7 +767,7 @@
                 <bean parent="Uif-AdHocPersonCollection" p:readOnly="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="actionRequested" p:readOnly="false">
+                            <bean parent="Uif-InputField" p:propertyName="actionRequested" p:readOnly="@{!#isAddLine}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -775,7 +775,8 @@
                                     <bean class="org.kuali.rice.krad.keyvalues.AdHocActionRequestCodesValuesFinder"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="id" p:label="Person" p:required="true" p:readOnly="false">
+                            <bean parent="Uif-InputField" p:propertyName="id" p:label="Person" p:required="true" p:readOnly="@{!#isAddLine}">
+                                <property name="readOnlyDisplayReplacement" value="@{#line.id} - @{#line.person.name}"/>
                                 <property name="control">
                                     <bean parent="Uif-KimPersonControl" p:personObjectPropertyName="person"
                                           p:principalIdPropertyName="person.principalId" p:personNamePropertyName="person.name"/>
@@ -790,7 +791,7 @@
                 <bean parent="CollectionGroup_AdHocWorkgroup" p:readOnly="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="actionRequested">
+                            <bean parent="Uif-InputField" p:propertyName="actionRequested" p:readOnly="@{!#isAddLine}">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -798,9 +799,9 @@
                                     <bean class="org.kuali.rice.krad.keyvalues.AdHocActionRequestCodesValuesFinder"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="recipientNamespaceCode"
+                            <bean parent="Uif-InputField" p:propertyName="recipientNamespaceCode" p:readOnly="@{!#isAddLine}"
                                   p:label="Namespace Code"/>
-                            <bean parent="Uif-InputField" p:propertyName="recipientName" p:label="Name">
+                            <bean parent="Uif-InputField" p:propertyName="recipientName" p:label="Name" p:readOnly="@{!#isAddLine}">
                                 <property name="control">
                                     <bean parent="Uif-KimGroupControl" p:groupIdPropertyName="id"
                                           p:namespaceCodePropertyName="recipientNamespaceCode"/>

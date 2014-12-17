@@ -82,6 +82,7 @@
 				<ref bean="PropDev-BudgetPage-NewBudgetDialog"/>
 				<ref bean="PropDev-BudgetPage-CopyBudgetDialog"/>
                 <ref bean="PropDev-DataOverride-Dialog"/>
+                <ref bean="PropDev-DocumentAdHocRecipientsSection"/>
 			</list>
 		</property>
 	</bean>
