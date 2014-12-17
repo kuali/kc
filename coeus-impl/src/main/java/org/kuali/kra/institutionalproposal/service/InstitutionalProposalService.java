@@ -17,6 +17,7 @@ package org.kuali.kra.institutionalproposal.service;
 
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -143,4 +144,10 @@ public interface InstitutionalProposalService {
     InstitutionalProposalDocument createAndSaveNewVersion(InstitutionalProposal currentInstitutionalProposal, InstitutionalProposalDocument currentInstitutionalProposalDocument) throws VersionException, 
     WorkflowException, IOException;
 
+    /**
+     * Retrieves the proposal id for the given award
+     * @param award the award to find the proposal id for
+     * @return the proposal id, or null if nothing can be found
+     */
+    public Long getProposalId(Award award);
 }
