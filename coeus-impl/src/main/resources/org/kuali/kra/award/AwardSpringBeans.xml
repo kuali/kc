@@ -1118,7 +1118,7 @@
 
     <bean id="awardJavaFunctionKrmsTermService" class="org.kuali.kra.award.service.impl.AwardJavaFunctionKrmsTermServiceImpl"/>
 
-    <bean id="awardDtoService" class="org.kuali.kra.external.award.AwardDtoService">
+    <bean id="awardDtoService" class="org.kuali.kra.award.external.award.AwardDtoService">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService"/>
         <property name="proposalDtoService" ref="proposalDtoService"/>
@@ -1131,7 +1131,7 @@
         <property name="parameterService" ref="parameterService"/>
     </bean>
 
-    <bean id="proposalDtoService" class="org.kuali.kra.external.award.ProposalDtoService"/>
+    <bean id="proposalDtoService" class="org.kuali.kra.award.external.award.ProposalDtoService"/>
 
     <bean id="awardBasisOfPaymentDtoService" class="org.kuali.kra.external.awardpayment.AwardBasisOfPaymentDtoService"/>
     <bean id="awardMethodOfPaymentDtoService" class="org.kuali.kra.external.awardpayment.AwardMethodOfPaymentDtoService"/>
@@ -1172,7 +1172,7 @@
         </property>
     </bean>
 
-    <bean id="awardWebService" class="org.kuali.kra.external.award.AwardWebServiceImpl">
+    <bean id="awardWebService" class="org.kuali.kra.award.external.award.AwardWebServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="awardService" ref="awardService" />
         <property name="awardLookupDao" ref="awardLookupDao" />
@@ -1185,7 +1185,7 @@
                   p:service-ref="awardWebService"
                   p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
                   p:localServiceName="awardWebService"
-                  p:serviceInterface="org.kuali.kra.external.award.AwardWebService"
+                  p:serviceInterface="org.kuali.kra.award.external.award.AwardWebService"
                   p:busSecurity="${fin.system.integration.bus.security.on}"
                   p:retryAttempts="1" />
         </property>
