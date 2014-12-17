@@ -7,8 +7,8 @@ public class DeleteBudgetPersonEvent extends BudgetEventBase {
 
 	private BudgetPerson budgetPerson;
 	
-	public DeleteBudgetPersonEvent(Budget budget, BudgetPerson budgetPerson) {
-		super(budget);
+	public DeleteBudgetPersonEvent(Budget budget, BudgetPerson budgetPerson, String errorPath) {
+		super(budget, errorPath);
 		this.budgetPerson = budgetPerson;
 	}
 

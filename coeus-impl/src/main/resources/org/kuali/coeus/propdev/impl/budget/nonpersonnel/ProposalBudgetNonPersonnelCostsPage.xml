@@ -139,7 +139,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add Non-Personnel Item to @{#fp.addProjectBudgetLineItemHelper.currentTabBudgetPeriod.budgetPeriod}" p:methodToCall="addLineItemToPeriod"
-                              p:refreshId="PropBudget-NonPersonnelCosts-LineItemDetails_@{#fp.addProjectBudgetLineItemHelper.currentTabBudgetPeriod.budgetPeriod}"
+                              p:ajaxReturnType="update-page"
                               p:dialogDismissOption="REQUEST" p:defaultEnterKeyAction="true"
                               p:order="10" p:performClientSideValidation="true"/>
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="20"/>
@@ -169,13 +169,14 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Changes" p:methodToCall="saveBudgetLineItem"
-							p:refreshId="PropBudget-NonPersonnelCosts-LineItemDetails_@{#fp.addProjectBudgetLineItemHelper.currentTabBudgetPeriod.budgetPeriod}"
+							p:ajaxReturnType="update-page" 
                       		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetLineItems,
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_ID}:PropBudget-NonPersonnelCosts-LineItemDetails,
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectBudgetLineItemHelper.editLineIndex}"
 							p:dialogDismissOption="REQUEST" p:performClientSideValidation="true" p:defaultEnterKeyAction="true"
 							p:order="10" p:render="@{!#parent.readOnly}"/>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Save And Apply To Other Periods"
+							p:ajaxReturnType="update-page"
                       		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetLineItems,
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_ID}:PropBudget-NonPersonnelCosts-LineItemDetails,
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectBudgetLineItemHelper.editLineIndex}"

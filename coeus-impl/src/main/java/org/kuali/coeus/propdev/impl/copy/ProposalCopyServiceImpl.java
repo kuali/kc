@@ -722,20 +722,18 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 String homeUnitNumber = person.getHomeUnit();
 
                 boolean doesNewLeadUnitExist = false;
-                for (ProposalPersonUnit oldUnit : proposalPersonUnits) {
-
+                for (Iterator iterator = proposalPersonUnits.iterator(); iterator.hasNext();) {
+                    ProposalPersonUnit oldUnit = (ProposalPersonUnit) iterator.next();
                     String oldUnitNumber = oldUnit.getUnitNumber();
                     if (StringUtils.equals(oldUnitNumber,newLeadUnitNumber) ) {
                         doesNewLeadUnitExist = true;
                         oldUnit.setLeadUnit(true);
                     } else if (!StringUtils.equals(newLeadUnitNumber, oldUnitNumber) &&
-                            !StringUtils.equals(homeUnitNumber, oldUnitNumber) &&
                             !StringUtils.equals(oldLeadUnitNumber, oldUnitNumber)) {
                         oldUnit.setLeadUnit(false);
                     } else {
-                        proposalPersonUnits.remove(oldUnit);
+                        iterator.remove();
                     }
-
                 }
 
                 if (!doesNewLeadUnitExist) {

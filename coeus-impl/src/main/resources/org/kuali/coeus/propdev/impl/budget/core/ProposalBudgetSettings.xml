@@ -50,7 +50,7 @@
 					p:order="30" p:fieldLabel.renderColon="false"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetStatus"
 					p:order="40" p:fieldLabel.renderColon="false" p:enableAutoQuickfinder="false"
-					p:readOnly="@{!#view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS)}"/>
+					p:readOnly="@{!#view.editModes.containsKey(#budgetAuthConsts.CHANGE_COMPLETE_STATUS)}"/>
 				<bean parent="Uif-InputField" p:propertyName="onOffCampusFlag"
 					p:order="50" p:fieldLabel.renderColon="false"/>
 				<bean parent="Uif-InputField" p:propertyName="residualFunds"
@@ -58,9 +58,11 @@
 				<bean parent="Uif-InputField" p:propertyName="totalCostLimit"
 					p:order="70" p:fieldLabel.renderColon="false"/>
 				<bean parent="Uif-InputField" p:propertyName="urRateClassCode" p:enableAutoQuickfinder="false"
-					p:order="80" p:fieldLabel.renderColon="false"/>
+					p:order="80" p:fieldLabel.renderColon="false"
+					p:readOnly="@{#parent.readOnly and !#view.editModes.containsKey(#budgetAuthConsts.MODIFY_HIERARCHY_PARENT_BUDGET)}"/>
 				<bean parent="Uif-InputField" p:propertyName="ohRateClassCode" p:enableAutoQuickfinder="false"
-					p:order="90" p:fieldLabel.renderColon="false"/>
+					p:order="90" p:fieldLabel.renderColon="false"
+					p:readOnly="@{#parent.readOnly and !#view.editModes.containsKey(#budgetAuthConsts.MODIFY_HIERARCHY_PARENT_BUDGET)}"/>
 				<bean parent="Uif-InputField" p:propertyName="comments"
 					p:order="100" p:fieldLabel.renderColon="false">
 					<property name="control">
@@ -68,13 +70,15 @@
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="modularBudgetFlag" p:fieldLabel.render="false"
-					p:order="110">
+					p:order="110"
+					p:readOnly="@{#parent.readOnly and !#view.editModes.containsKey(#budgetAuthConsts.MODIFY_HIERARCHY_PARENT_BUDGET)}">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Modular Budget" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="submitCostSharingFlag" p:fieldLabel.render="false"
-					p:order="120">
+					p:order="120"
+					p:readOnly="@{#parent.readOnly and !#view.editModes.containsKey(#budgetAuthConsts.MODIFY_HIERARCHY_PARENT_BUDGET)}">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Submit Cost Sharing" />
 					</property>

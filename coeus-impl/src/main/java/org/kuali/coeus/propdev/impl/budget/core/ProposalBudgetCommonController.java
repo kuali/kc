@@ -150,6 +150,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     	}
     	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
         super.save(form);
+        form.setEvaluateFlagsAndModes(true);
 		return getKcCommonControllerService().closeDialog(BUDGET_SETTINGS_DIALOG_ID, form);
 	}
 	
@@ -158,6 +159,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		Budget budget = form.getBudget();
     	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
     	getBudgetCalculationService().resetBudgetLineItemCalculatedAmounts(budget);
+    	form.setEvaluateFlagsAndModes(true);
         return super.save(form);
 	}
 

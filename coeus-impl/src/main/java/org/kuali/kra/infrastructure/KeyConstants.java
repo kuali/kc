@@ -248,6 +248,8 @@ public final class KeyConstants {
     public static final String WARNING_TOTAL_COST_LIMIT_EXCEEDED= "warning.budgetCostLimit.exceeded";
     public static final String WARNING_PERIOD_COST_LIMIT_EXCEEDED= "warning.periodCostLimit.exceeded";
     public static final String WARNING_UNRECOVERED_FA_NEGATIVE= "warning.unrecoveredFA.negative";
+    public static final String WARNING_TOTAL_DIRECT_COST_LIMIT_EXCEEDED= "warning.budgetDirectCostLimit.exceeded";
+    public static final String WARNING_PERIOD_DIRECT_COST_LIMIT_EXCEEDED= "warning.periodDirectCostLimit.exceeded";
 
     public static final String AUDIT_ERROR_BUDGETPERIOD_START_BEFORE_PROJECT_START_DATE = "error.periodStartDate.before.projectStartDate";
     public static final String AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE = "error.periodEndDate.after.projectEndDate";

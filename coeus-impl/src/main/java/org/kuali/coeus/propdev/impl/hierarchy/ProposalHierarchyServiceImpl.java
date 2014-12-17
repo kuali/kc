@@ -659,6 +659,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         newNarrative.setModuleNumber(legacyNarrativeService.getNextModuleNumber(hierarchyProposal.getProposalDocument()));
         newNarrative.setDevelopmentProposal(hierarchyProposal);
         newNarrative.setNarrativeUserRights(null);
+        newNarrative.getNarrativeAttachment().setData(narrative.getData());
         hierarchyAttachments.add(newNarrative);
     }
 
@@ -1275,12 +1276,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         	}
         }
         List<BudgetPeriod> periodsToDelete = new ArrayList<>();
-        boolean deletePeriods = true;
         for (int i = parentBudget.getBudgetPeriods().size()-1; i >= 0; i--) {
+            boolean deletePeriods = false;
         	BudgetPeriod period = parentBudget.getBudgetPeriod(i);
 	        for (Iterator<BudgetLineItem> lineItemIter = period.getBudgetLineItems().iterator(); lineItemIter.hasNext();) {
 	        	BudgetLineItem lineItem = lineItemIter.next();
 	        	if (StringUtils.equals(childProposalNumber, lineItem.getHierarchyProposalNumber())) {
+                    deletePeriods = true;
 	        		dataObjectService.delete(lineItem);
 	        		lineItemIter.remove();
 	        		parentBudget.getBudgetLineItems().remove(lineItem);
@@ -1289,8 +1291,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 	        if (deletePeriods) {
 	        	if (parentBudget.getBudgetPeriods().get(i).getBudgetLineItems().size() == 0 && i > 0) {
 	        		periodsToDelete.add(parentBudget.getBudgetPeriods().get(i));
-	        	} else {
-	        		deletePeriods = true;
 	        	}
 	        }
         }

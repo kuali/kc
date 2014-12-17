@@ -219,13 +219,14 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
             for ( int i = 1 ; i < oldBudgetPeriods.size(); i++ ) {
                 BudgetPeriod period = oldBudgetPeriods.get(i);
                 period.getBudgetLineItems().clear();
-                period.setCostSharingAmount(new ScaleTwoDecimal(0.0));
-                period.setExpenseTotal(new ScaleTwoDecimal(0.0));
-                period.setTotalCost(new ScaleTwoDecimal(0.0));
-                period.setTotalCostLimit(new ScaleTwoDecimal(0.0));
-                period.setTotalDirectCost(new ScaleTwoDecimal(0.0));
-                period.setTotalIndirectCost(new ScaleTwoDecimal(0.0));
-                period.setUnderrecoveryAmount(new ScaleTwoDecimal(0.0));
+                period.setCostSharingAmount(ScaleTwoDecimal.ZERO);
+                period.setExpenseTotal(ScaleTwoDecimal.ZERO);
+                period.setTotalCost(ScaleTwoDecimal.ZERO);
+                period.setTotalCostLimit(ScaleTwoDecimal.ZERO);
+                period.setTotalDirectCost(ScaleTwoDecimal.ZERO);
+                period.setDirectCostLimit(ScaleTwoDecimal.ZERO);
+                period.setTotalIndirectCost(ScaleTwoDecimal.ZERO);
+                period.setUnderrecoveryAmount(ScaleTwoDecimal.ZERO);
             }            
 
             if (newBudget.getBudgetSubAwards() != null && newBudget.getBudgetSubAwards().size() > 0) {
@@ -233,10 +234,10 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
                 for ( int i = 1 ; i < budetSubawardPeriodDetail.size(); i++ ) {
                     BudgetSubAwardPeriodDetail period = budetSubawardPeriodDetail.get(i);
                     period.setAmountsModified(true);
-                    period.setCostShare(new ScaleTwoDecimal(0.0));
-                    period.setDirectCost(new ScaleTwoDecimal(0.0));
-                    period.setIndirectCost(new ScaleTwoDecimal(0.0));
-                    period.setTotalCost(new ScaleTwoDecimal(0.0));
+                    period.setCostShare(ScaleTwoDecimal.ZERO);
+                    period.setDirectCost(ScaleTwoDecimal.ZERO);
+                    period.setIndirectCost(ScaleTwoDecimal.ZERO);
+                    period.setTotalCost(ScaleTwoDecimal.ZERO);
                 }
             }
         }

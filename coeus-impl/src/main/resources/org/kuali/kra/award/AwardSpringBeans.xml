@@ -1152,7 +1152,6 @@
 
     <bean id="sponsorWebService" class="org.kuali.kra.external.sponsor.SponsorWebServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="sponsorService" ref="sponsorService" />
         <property name="sponsorDtoService" ref="sponsorDtoService" />
     </bean>
     <bean id="sponsorWebServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

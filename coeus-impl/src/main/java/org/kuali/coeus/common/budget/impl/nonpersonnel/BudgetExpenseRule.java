@@ -18,8 +18,10 @@ package org.kuali.coeus.common.budget.impl.nonpersonnel;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
 import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.ApplyToPeriodsBudgetEvent;
@@ -28,9 +30,11 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
+import org.kuali.coeus.common.framework.ruleengine.KcEventResult;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -39,6 +43,13 @@ import java.util.List;
 public class BudgetExpenseRule {
     private static final double MAX_BUDGET_DECIMAL_VALUE = 9999999999.00;
     private static final String PERSONNEL_CATEGORY = "P";
+    protected static final String BUDGET_NON_PERSONNEL_COST_DETAILS_ID = "PropBudget-NonPersonnelCosts-LineItemDetails";
+    protected static final String BUDGET_PERSONNEL_COST_DETAILS_ID = "PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails";
+
+    
+    @Autowired
+	@Qualifier("globalVariableService")
+	private GlobalVariableService globalVariableService;
 
     public BudgetExpenseRule() {
     }
@@ -47,7 +58,7 @@ public class BudgetExpenseRule {
     public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(DeleteBudgetLineItemEvent event) {
         boolean valid = true;
 
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
         if (CollectionUtils.isNotEmpty(event.getBudgetLineItem().getBudgetPersonnelDetailsList())) {
             // just try to make sure key is on budget personnel tab
             errorMap.putError(event.getErrorPath() + ".costElement", KeyConstants.ERROR_DELETE_LINE_ITEM);
@@ -59,7 +70,7 @@ public class BudgetExpenseRule {
 
     @KcEventMethod
     public boolean processApplyToLaterPeriodsWithPersonnelDetails(ApplyToPeriodsBudgetEvent event) {
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
         Budget budget = event.getBudget();
         BudgetLineItem budgetLineItem = event.getBudgetLineItem();
        
@@ -135,7 +146,7 @@ public class BudgetExpenseRule {
      */
     protected boolean processCheckLineItemDates(BudgetPeriod currentBudgetPeriod, BudgetLineItem budgetLineItem, String errorPath) {
         boolean valid = true;
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
 
         if (budgetLineItem.getEndDate() == null) {
             errorMap.putError(errorPath + ".endDate", KeyConstants.ERROR_REQUIRED, "End Date");
@@ -206,7 +217,7 @@ public class BudgetExpenseRule {
     
     protected boolean processBudgetFormulatedCostValidations(BudgetFormulatedCostDetail budgetFormulatedCost, String errorKey) {
         boolean valid = true;
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+        MessageMap errorMap = getGlobalVariableService().getMessageMap();
 
         BigDecimal unitCost = budgetFormulatedCost.getUnitCost().bigDecimalValue();
         BigDecimal count = new ScaleTwoDecimal(budgetFormulatedCost.getCount()).bigDecimalValue();
@@ -224,4 +235,44 @@ public class BudgetExpenseRule {
         }
         return valid;
     }
+    
+    @KcEventMethod
+    public KcEventResult processBudgetLineItemExpenseRules(BudgetExpensesRuleEvent event) {
+    	KcEventResult result = new KcEventResult();
+    	Budget budget = event.getBudget();
+    	
+        if ( budget.getTotalCostLimit().isGreaterThan(new ScaleTwoDecimal(0)) &&
+        		budget.getTotalCost().isGreaterThan(budget.getTotalCostLimit()) ) {
+            result.getMessageMap().putWarning(event.getErrorPath(), KeyConstants.WARNING_TOTAL_COST_LIMIT_EXCEEDED); 
+        }
+        
+        if ( budget.getTotalDirectCostLimit().isGreaterThan(new ScaleTwoDecimal(0)) &&
+        		budget.getTotalDirectCost().isGreaterThan(budget.getTotalDirectCostLimit()) ) {
+            result.getMessageMap().putWarning(event.getErrorPath(), KeyConstants.WARNING_TOTAL_DIRECT_COST_LIMIT_EXCEEDED); 
+        }
+        
+        String errorPath = BUDGET_PERSONNEL_COST_DETAILS_ID;
+        if(event.getErrorPath().equalsIgnoreCase(BudgetConstants.BudgetAuditRules.NON_PERSONNEL_COSTS.getPageId())) {
+        	errorPath = BUDGET_NON_PERSONNEL_COST_DETAILS_ID;
+        }
+        
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+            if(budgetPeriod.getTotalCostLimit().isGreaterThan(new ScaleTwoDecimal(0)) && budgetPeriod.getTotalCost().isGreaterThan(budgetPeriod.getTotalCostLimit())){
+                result.getMessageMap().putWarning(errorPath + "_" + budgetPeriod.getBudgetPeriod(), KeyConstants.WARNING_PERIOD_COST_LIMIT_EXCEEDED, new String[]{budgetPeriod.getBudgetPeriod().toString()}); 
+            }
+            if(budgetPeriod.getDirectCostLimit().isGreaterThan(new ScaleTwoDecimal(0)) && budgetPeriod.getTotalDirectCost().isGreaterThan(budgetPeriod.getDirectCostLimit())){
+                result.getMessageMap().putWarning(errorPath + "_" + budgetPeriod.getBudgetPeriod(), KeyConstants.WARNING_PERIOD_DIRECT_COST_LIMIT_EXCEEDED, new String[]{budgetPeriod.getBudgetPeriod().toString()}); 
+            }
+        }
+        return result;
+    }
+
+	public GlobalVariableService getGlobalVariableService() {
+		return globalVariableService;
+	}
+
+	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+		this.globalVariableService = globalVariableService;
+	}
+    
 }
