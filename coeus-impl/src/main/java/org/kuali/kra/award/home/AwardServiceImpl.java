@@ -242,6 +242,16 @@ public class AwardServiceImpl implements AwardService {
         return awardDao.getAwardNumber(awardId);
     }
 
+    /**
+     * Defer to the DAO
+     * @param fieldValues a Map of criteria to find matching awards for
+     * @return a limited result Collection of matching Awards
+     */
+    @Override
+    public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues) {
+        return getAwardDao().retrieveAwardsByCriteria(fieldValues);
+    }
+
     public AwardDao getAwardDao() {
         return awardDao;
     }
