@@ -15,7 +15,10 @@
  */
 package org.kuali.coeus.common.budget.framework.print;
 
+import java.util.List;
+
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.impl.print.BudgetPrintForm;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 
 public interface BudgetPrintService {
@@ -34,4 +37,14 @@ public interface BudgetPrintService {
      * @return {@link AttachmentDataSource} bytes of the generated form
      */
     public AttachmentDataSource readBudgetPrintStream(Budget budget, String selectedBudgetPrintFormId);
+    
+    /**
+     * Generates the selected reports and returns the bytes
+     * 
+     * @param budget {@link Budget}
+     * @param budgetPrintForms {@link BudgetPrintForm} selected forms to print
+     * @param reportName report to be generated
+     * @return {@link AttachmentDataSource} bytes of the generated form
+     */
+    public AttachmentDataSource readBudgetSelectedPrintStreams(Budget budget, List<BudgetPrintForm> budgetPrintForms, String reportName);
 }

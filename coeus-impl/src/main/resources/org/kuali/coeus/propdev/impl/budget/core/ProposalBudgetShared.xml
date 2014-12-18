@@ -105,7 +105,7 @@
 				<bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy" p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE)}"
 					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})"
 					p:order="20"/>
-				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:iconClass="icon-print" p:order="30"/>
+				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:methodToCall="populatePrintForms" p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-print" p:order="30" />
 			</list>
 		</property>
 	</bean>
