@@ -29,6 +29,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -43,6 +44,7 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonC
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
+import org.kuali.kra.institutionalproposal.dao.InstitutionalProposalDao;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.exception.InstitutionalProposalCreationException;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -92,6 +94,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private InstitutionalProposalVersioningService institutionalProposalVersioningService;
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
+    private InstitutionalProposalDao institutionalProposalDao;
     
     @Autowired
     @Qualifier("dataObjectService")
@@ -683,7 +686,16 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         getBusinessObjectService().save(oldIP.getAwardFundingProposals());
         return newFundingProposals;
     }
-    
+
+    /**
+     * Goes to the DAO to look up only the proposal id
+     * @param award the award to find the proposal id for
+     * @return the id of the proposal
+     */
+    @Override
+    public Long getProposalId(Award award) {
+        return getInstitutionalProposalDao().getProposalId(award);
+    }
     /* Service injection getters and setters */
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -743,5 +755,12 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
 	}
-    
+
+    public InstitutionalProposalDao getInstitutionalProposalDao() {
+        return institutionalProposalDao;
+    }
+
+    public void setInstitutionalProposalDao(InstitutionalProposalDao institutionalProposalDao) {
+        this.institutionalProposalDao = institutionalProposalDao;
+    }
 }

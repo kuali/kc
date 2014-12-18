@@ -1129,9 +1129,14 @@
         <property name="awardMethodOfPaymentDtoService" ref="awardMethodOfPaymentDtoService"/>
     </bean>
 
+    <bean id="institutionalProposalService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="institutionalProposalService" />
+    </bean>
+
     <bean id="awardAccountDtoService" class="org.kuali.kra.award.external.award.AwardAccountDtoService">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService"/>
+        <property name="institutionalProposalService" ref="institutionalProposalService"/>
     </bean>
 
     <bean id="proposalDtoService" class="org.kuali.kra.award.external.award.ProposalDtoService"/>
