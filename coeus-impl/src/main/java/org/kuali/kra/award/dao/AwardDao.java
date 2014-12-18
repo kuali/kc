@@ -15,11 +15,21 @@
  */
 package org.kuali.kra.award.dao;
 
+import org.kuali.kra.award.home.Award;
 import org.kuali.rice.krad.bo.BusinessObject;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 public interface AwardDao {
     public String getAwardNumber(Long awardId);
+
+    /**
+     * Does a non-wildcarded yet still limited search of awards, retrieved by the given criteria
+     * @param fieldValues the field values to set
+     * @return a Collection of found awards
+     */
+    public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues);
+
 }

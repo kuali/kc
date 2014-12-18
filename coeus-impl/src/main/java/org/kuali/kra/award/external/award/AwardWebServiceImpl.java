@@ -94,7 +94,7 @@ public class AwardWebServiceImpl implements AwardWebService {
 		}
         // use the awardSequenceStatus to return the latest active award
 		fieldValues.put("awardSequenceStatus", VersionStatus.ACTIVE.name());
-		List<Award> awards = new ArrayList<Award>(businessObjectService.findMatching(Award.class, fieldValues));
+		Collection<Award> awards = getAwardService().retrieveAwardsByCriteria(fieldValues);
 
 		if (awards != null && !awards.isEmpty()) {
 			for (Award award : awards) {
