@@ -89,6 +89,13 @@ public interface AwardService {
     public void synchNewCustomAttributes(Award newAward, Award oldAward);
     
     public Award getAwardAssociatedWithDocument(String docNumber);
-    
-    
+
+    /**
+     * Get the Award Number for an Awrad based upon its unique id number.
+     *
+     * @param awardId
+     * @return
+     */
+    public String getAwardNumber(Long awardId);
+
 }
