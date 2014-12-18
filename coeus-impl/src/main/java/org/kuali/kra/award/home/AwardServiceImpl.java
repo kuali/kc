@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.kra.award.customdata.AwardCustomData;
+import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -40,6 +41,7 @@ public class AwardServiceImpl implements AwardService {
     private VersioningService versioningService;
     private DocumentService documentService;
     private VersionHistoryService versionHistoryService;
+    private AwardDao awardDao;
 
     /**
      * Note Awards are ordered by sequenceNumber
@@ -234,4 +236,18 @@ public class AwardServiceImpl implements AwardService {
         List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, values);
         return awards.get(0);
     }
+
+    @Override
+    public String getAwardNumber(Long awardId) {
+        return awardDao.getAwardNumber(awardId);
+    }
+
+    public AwardDao getAwardDao() {
+        return awardDao;
+    }
+
+    public void setAwardDao(AwardDao awardDao) {
+        this.awardDao = awardDao;
+    }
+
 }

@@ -35,9 +35,9 @@ public class AwardWebServiceImpl implements AwardWebService {
 	private ParameterService parameterService;
 	
 	public AwardDTO getAward(Long awardId) {
-		Award award = getAwardService().getAward(awardId);
-		if (award != null) {
-			Award newestAward = getAwardService().getActiveOrNewestAward(award.getAwardNumber());
+		String awardNumber = getAwardService().getAwardNumber(awardId);
+		if (StringUtils.isNotBlank(awardNumber)) {
+			Award newestAward = getAwardService().getActiveOrNewestAward(awardNumber);
 			AwardDTO result = getAwardDtoService().buildDto(newestAward);
 			return result;
 		} else {
