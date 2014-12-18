@@ -51,6 +51,8 @@
             index.jsp,
             WEB-INF/tags/rice-portal/portalBody.tag,
             WEB-INF/tags/rice-portal/portalTabs.tag,
+            kr/WEB-INF/jsp/KualiLookup.jsp,
+            kr/WEB-INF/jsp/KualiMultipleValueLookup.jsp
         </rice.web.excludes>
 
         <rice.output.dir>${project.build.directory}/rice-server</rice.output.dir>
