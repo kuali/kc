@@ -428,8 +428,8 @@ public abstract class ProposalDevelopmentControllerBase {
 
         if (!document.getPessimisticLocks().isEmpty()) {
             Person user = getGlobalVariableService().getUserSession().getPerson();
-            getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(), user);
             document.refreshPessimisticLocks();
+            getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(), user);
         }
     }
     
