@@ -458,8 +458,9 @@
     <bean id="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField"
           parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField-parentBean" />
     <bean id="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField-parentBean"
-            abstract="true" parent="Uif-DataField" p:propertyName="narrativeTypeCode"
+            abstract="true" parent="Uif-InputField" p:propertyName="narrativeTypeCode"
             p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
+            p:enableAutoQuickfinder="false"
             p:fieldLabel.labelText="Type"/>
 
     <bean id="PropDev-AttachmentsPage-NotesSection" parent="PropDev-AttachmentsPage-NotesSection-parentBean" />
