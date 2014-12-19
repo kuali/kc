@@ -998,9 +998,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public String getPropPersonName(String personId) {
-        Person person= getPersonService().getPerson(personId);
-        final String middleName = person.getMiddleName() != null ? person.getMiddleName() + " " : "";
+        if (StringUtils.isNotEmpty(personId)) {
+            Person person= getPersonService().getPerson(personId);
 
-        return (person.getFirstName() + " " + middleName + person.getLastName()).trim();
+            final String middleName = person.getMiddleName() != null ? person.getMiddleName() + " " : "";
+
+            return (person.getFirstName() + " " + middleName + person.getLastName()).trim();
+        }
+        return StringUtils.EMPTY;
     }
 }
