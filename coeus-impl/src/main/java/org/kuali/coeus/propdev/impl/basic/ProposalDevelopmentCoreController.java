@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.core.*;
-import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.web.form.DialogResponse;
@@ -191,12 +190,8 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
     @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=closeWithoutSave")
     public ModelAndView closeWithoutSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
-            for (PessimisticLock lock : form.getProposalDevelopmentDocument().getPessimisticLocks()){
-                try {
-                    getPessimisticLockService().delete(String.valueOf(lock.getId()));
-                } catch (AuthorizationException e) {
-                    LOG.error("user does not have permission to delete this lock",e);
-                }
+            if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
+                getPessimisticLockService().releaseAllLocksForUser(form.getProposalDevelopmentDocument().getPessimisticLocks(), getGlobalVariableService().getUserSession().getPerson());
             }
         }
         return getNavigationControllerService().returnToHub(form);
