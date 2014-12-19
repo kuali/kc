@@ -203,35 +203,36 @@
                        </property>
                    </bean>
                    <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="proposalNumber" p:order="10" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="title" p:order="20" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="unitNumber" p:label="Unit" p:order="30" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="proposalStatus.description" p:order="40" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="sponsorProposalNumber" p:order="50" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="currentAccountNumber" p:order="60" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="activityType.description" p:order="70" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="nsfCodeBo.description" p:order="80" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="noticeOfOpportunity.description" p:order="90" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="sponsor.sponsorName" p:order="100" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="primeSponsor.sponsorName" p:order="110" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedStartDateInitial" p:order="120" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedEndDateInitial" p:order="130" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedStartDateTotal" p:order="140" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedEndDateTotal" p:order="150" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalDirectCostInitial" p:order="160" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalDirectCostTotal" p:order="170" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalIndirectCostInitial" p:order="180" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalIndirectCostTotal" p:order="190" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalInitialCost" p:order="200" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalCost" p:order="210" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="proposalType.description" p:order="20" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="title" p:order="30" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="unitNumber" p:label="Unit" p:order="40" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="proposalStatus.description" p:order="50" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="sponsorProposalNumber" p:order="60" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="currentAccountNumber" p:order="70" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="activityType.description" p:order="80" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="nsfCodeBo.description" p:order="90" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="noticeOfOpportunity.description" p:order="100" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="sponsor.sponsorName" p:forcedValue="@{#ViewHelper.getSponsorString(#np.institutionalProposalDocument.institutionalProposal.sponsor)}" p:order="110" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="primeSponsor.sponsorName" p:forcedValue="@{#ViewHelper.getSponsorString(#np.institutionalProposalDocument.institutionalProposal.primeSponsor)}" p:order="120" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedStartDateInitial" p:order="130" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedEndDateInitial" p:order="140" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedStartDateTotal" p:order="150" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="requestedEndDateTotal" p:order="160" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalDirectCostInitial" p:order="170" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalDirectCostTotal" p:order="180" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalIndirectCostInitial" p:order="190" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalIndirectCostTotal" p:order="200" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalInitialCost" p:order="210" />
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="totalCost" p:order="220" />
                    <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="costSharingIndicator"
-                         p:propertyEditorClass="org.kuali.coeus.sys.framework.model.KcYNBooleanEditor" p:order="220" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="specialReviewIndicator"
                          p:propertyEditorClass="org.kuali.coeus.sys.framework.model.KcYNBooleanEditor" p:order="230" />
-                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="idcRateIndicator"
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="specialReviewIndicator"
                          p:propertyEditorClass="org.kuali.coeus.sys.framework.model.KcYNBooleanEditor" p:order="240" />
-                   <bean parent="Uif-MessageField" p:fieldLabel.labelText="Investigators" p:order="250"
+                   <bean parent="Proposal-InstitutionalProposal-Property" p:propertyName="idcRateIndicator"
+                         p:propertyEditorClass="org.kuali.coeus.sys.framework.model.KcYNBooleanEditor" p:order="250" />
+                   <bean parent="Uif-MessageField" p:fieldLabel.labelText="Investigators" p:order="260"
                          p:fieldLabel.renderColon="false" />
-                   <bean parent="Uif-FieldGroupBase" p:order="260">
+                   <bean parent="Uif-FieldGroupBase" p:order="270">
                        <property name="group">
                            <bean parent="Proposal-MedusaSection-InstProp-Investigators"/>
                        </property>

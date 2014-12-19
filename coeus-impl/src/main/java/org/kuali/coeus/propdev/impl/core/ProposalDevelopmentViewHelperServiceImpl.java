@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchResult;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchService;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
@@ -414,6 +415,15 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
             result.add(new SponsorSuggestResult(sponsor));
         }
         return result;
+    }
+
+    public String getSponsorString(Sponsor sponsor){
+        if (sponsor != null){
+            return sponsor.getSponsorCode() + " - " + sponsor.getSponsorName();
+        }
+        else{
+            return "";
+        }
     }
 
     public boolean isCollectionLineEditable(String selectedCollectionPath, String index, Map<String,List<String>> editableCollectionLines) {
