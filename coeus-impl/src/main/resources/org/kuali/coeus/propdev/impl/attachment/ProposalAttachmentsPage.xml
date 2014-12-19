@@ -206,7 +206,7 @@
             <list merge="true">
                 <bean parent="Uif-InputField" p:propertyName="proposalPersonNumberString"
                       p:fieldLabel.LabelText="Person" p:required="true" p:order="40"
-                      p:enableAutoQuickfinder="false" p:readOnly="@{!#empty(#line.versionNumber) or #parent.readOnly}"
+                      p:enableAutoQuickfinder="false" p:render="@{#empty(#line.versionNumber) and !#parent.readOnly}"
                       >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -215,17 +215,19 @@
                         <bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonValueFinder"/>
                     </property>
                 </bean>
+                <bean parent="Uif-MessageField" p:fieldLabel.LabelText="Person" p:messageText="@{#ViewHelper.getPropPersonName(#line.personId)}" p:order="50"
+                      p:render="@{!#empty(#line.versionNumber) or #parent.readOnly}"/>
                 <bean parent="Uif-InputField" p:propertyName="documentTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="propPerDocType.description"
-                      p:fieldLabel.labelText="Type" p:order="50"
+                      p:fieldLabel.labelText="Type" p:order="60"
                       p:enableAutoQuickfinder="false" p:readOnly="@{#parent.readOnly or !#ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal)}"
                       />
-                <bean parent="Uif-DataField" p:propertyName="description" p:order="60"/>
-                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="70" />
+                <bean parent="Uif-DataField" p:propertyName="description" p:order="70"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="80" />
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
                       p:fieldLabel.labelText="Posted Timestamp"
-                      p:readOnly="true" p:width="20%" p:order="80"/>
-                <bean parent="Uif-FieldGroupBase" p:order="90" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and #ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal) and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
+                      p:readOnly="true" p:width="20%" p:order="90"/>
+                <bean parent="Uif-FieldGroupBase" p:order="100" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and #ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal) and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
                     <property name="group">
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
@@ -247,7 +249,7 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="biography.proposalPersonNumberString"
                       p:fieldLabel.LabelText="Person" p:required="true" p:order="10"
-                      p:readOnly="@{!#empty(#fp.biography.versionNumber) or #parent.readOnly}">
+                      p:render="@{#empty(proposalDevelopmentAttachmentHelper.biography.versionNumber) and !#parent.readOnly}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -255,16 +257,18 @@
                         <bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonValueFinder"/>
                     </property>
                 </bean>
+                <bean parent="Uif-MessageField" p:fieldLabel.LabelText="Person" p:messageText="@{#ViewHelper.getPropPersonName(proposalDevelopmentAttachmentHelper.biography.personId)}" p:order="20"
+                      p:render="@{!#empty(proposalDevelopmentAttachmentHelper.biography.versionNumber) or #parent.readOnly}"/>
                 <bean parent="Uif-InputField" p:propertyName="biography.documentTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="biography.propPerDocType.description"
-                      p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:order="20"/>
-                <bean parent="Uif-InputField" p:propertyName="biography.description" p:order="30"/>
+                      p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:order="30"/>
+                <bean parent="Uif-InputField" p:propertyName="biography.description" p:order="40"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.showFileAttachmentName(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PERSONNEL_ATTACHMENT_TYPE_NAME}')}"
                       p:fieldLabel.labelText="Current File"
                       p:render="@{#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PERSONNEL_ATTACHMENT_TYPE_NAME}')}"
-                      p:order="40"/>
+                      p:order="50"/>
                 <bean parent="Uif-InputField" p:propertyName="biography.multipartFile" p:fieldLabel.labelText="@{!#ViewHelper.hasAttachment(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).PERSONNEL_ATTACHMENT_TYPE_NAME}')?'File':'New File'}"
-                      p:order="50" p:readOnly="@{!#editModes['replaceNarratives'] and #parent.readOnly}">
+                      p:order="60" p:readOnly="@{!#editModes['replaceNarratives'] and #parent.readOnly}">
                     <property name="control">
                         <bean parent="Uif-FileControl"/>
                     </property>

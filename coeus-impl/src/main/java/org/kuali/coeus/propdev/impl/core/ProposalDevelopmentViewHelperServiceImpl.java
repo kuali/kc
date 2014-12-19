@@ -74,6 +74,7 @@ import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.util.*;
 import org.kuali.rice.krad.bo.Note;
@@ -994,5 +995,12 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         String openTab = form.getDefaultOpenTab();
         form.setDefaultOpenTab("");
         return openTab;
+    }
+
+    public String getPropPersonName(String personId) {
+        Person person= getPersonService().getPerson(personId);
+        final String middleName = person.getMiddleName() != null ? person.getMiddleName() + " " : "";
+
+        return (person.getFirstName() + " " + middleName + person.getLastName()).trim();
     }
 }
