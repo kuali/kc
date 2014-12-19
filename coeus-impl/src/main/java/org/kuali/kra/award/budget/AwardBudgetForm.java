@@ -100,7 +100,7 @@ public class AwardBudgetForm extends BudgetForm implements BudgetContainer {
             addExtraButton("methodToCall.postAwardBudget", postAwardBudgetImage, "Post Budget");
         }
         
-        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "rejectBudget", doc.getAwardBudget()))) {
+        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask("rejectBudget", doc))) {
             addExtraButton("methodToCall.reject", configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_reject.gif", "Reject");
         }
         if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "cancelBudget", doc.getAwardBudget()))) {

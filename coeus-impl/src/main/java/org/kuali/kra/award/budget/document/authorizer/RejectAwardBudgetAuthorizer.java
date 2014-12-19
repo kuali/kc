@@ -17,6 +17,7 @@ package org.kuali.kra.award.budget.document.authorizer;
 
 
 
+import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
@@ -35,13 +36,18 @@ public class RejectAwardBudgetAuthorizer extends BudgetAuthorizer {
     
     private KcDocumentRejectionService kraDocumentRejectionService;
 
-    public boolean isAuthorized(String username, AwardBudgetTask task) {
-        AwardBudgetDocument doc = task.getAwardBudgetDocument();
-        WorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
-        return !workDoc.isCompletionRequested() 
-            && !getKraDocumentRejectionService().isDocumentOnInitialNode(doc.getDocumentHeader().getWorkflowDocument())
-            && workDoc.isApprovalRequested() 
-            && workDoc.isEnroute();
+    public boolean isAuthorized(String username, Task task) {
+    	if(task instanceof AwardBudgetTask) {
+	        AwardBudgetDocument doc = ((AwardBudgetTask) task).getAwardBudgetDocument();
+	        WorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
+	        return !workDoc.isCompletionRequested() 
+	            && !getKraDocumentRejectionService().isDocumentOnInitialNode(doc.getDocumentHeader().getWorkflowDocument())
+	            && workDoc.isApprovalRequested() 
+	            && workDoc.isEnroute();
+    	}
+    	else { 
+    		return super.isAuthorized(username, task);
+    	}
     }
     
     protected KcDocumentRejectionService getKraDocumentRejectionService() {
