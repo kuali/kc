@@ -243,6 +243,7 @@
 							p:performClientSideValidation="true" p:defaultEnterKeyAction="true"
 							p:render="@{!#parent.readOnly}" p:order="10" />
 						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Calculate" p:methodToCall="calculatePersonnelPeriodLineItem"
+							p:performClientSideValidation="true"
 							p:render="@{!#parent.readOnly}" p:refreshId="PropBudget-EditPersonnelPeriod-Section" p:order="20" />
 						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
 							p:order="30" />

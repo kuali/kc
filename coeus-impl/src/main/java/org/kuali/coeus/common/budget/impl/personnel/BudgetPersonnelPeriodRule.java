@@ -16,7 +16,6 @@
 package org.kuali.coeus.common.budget.impl.personnel;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -55,8 +54,10 @@ public class BudgetPersonnelPeriodRule {
         result.getMessageMap().addToErrorPath(event.getErrorPath());
         verifyPersonnelEffortAndCharged(event.getBudgetPersonnelDetails(), result);
         verifyPersonnelDates(event.getBudgetPersonnelDetails(),event.getBudgetPeriod(), result);
-        List<BudgetPersonnelDetails> budgetPersonnelDetails = getBudgetPersonnelDetails(event.getBudgetLineItem(), event.getBudgetPersonnelDetails(), event.getEditLineIndex());
-        verifyDuplicatePerson(event.getBudgetLineItem(), event.getBudgetPersonnelDetails(), budgetPersonnelDetails, result);
+    	if(!isSummaryPerson(event.getBudgetPersonnelDetails())) {
+            List<BudgetPersonnelDetails> budgetPersonnelDetails = getBudgetPersonnelDetails(event.getBudgetLineItem(), event.getBudgetPersonnelDetails(), event.getEditLineIndex());
+            verifyDuplicatePerson(event.getBudgetLineItem(), event.getBudgetPersonnelDetails(), budgetPersonnelDetails, result);
+    	}
         result.getMessageMap().removeFromErrorPath(event.getErrorPath());
         return result;
     }
