@@ -76,10 +76,9 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
     Link a child proposal to this parent
      */
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=linkChildToHierarchy")
-    public ModelAndView linkChildToHierarchy(@RequestParam("hierarchyProposalNumber") String hierarchyProposalNumber, 
+    public ModelAndView linkChildToHierarchy(@RequestParam("hierarchyProposalNumber") String hierarchyProposalNumber,
     		@RequestParam("hierarchyBudgetTypeCode") String hierarchyBudgetTypeCode,
     		@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-        ProposalDevelopmentDocumentForm pdForm = form;
         DevelopmentProposal hierarchyProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
         DevelopmentProposal newChildProposal = getProposalHierarchyService().getDevelopmentProposal(hierarchyProposalNumber);
 
@@ -87,6 +86,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
         errors.addAll(getProposalHierarchyService().validateChildCandidate(newChildProposal));
         errors.addAll(getProposalHierarchyService().validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal, true));
         errors.addAll(getProposalHierarchyService().validateSponsor(newChildProposal, hierarchyProposal));
+        errors.addAll(getProposalHierarchyService().validateIsAggregatorOnChild(newChildProposal));
 
         if (!displayErrors(errors)) {
             getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);

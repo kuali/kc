@@ -199,4 +199,5 @@ public interface ProposalHierarchyService {
 
     public boolean personInMultipleProposals(String personId, DevelopmentProposal childProposal);
 
+    public List<ProposalHierarchyErrorWarningDto> validateIsAggregatorOnChild(DevelopmentProposal childProposal);
     }
