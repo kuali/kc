@@ -707,6 +707,7 @@ public class MedusaServiceImpl implements MedusaService {
         MedusaNode node = new MedusaNode();
         node.setBo(proposal);
         node.setType(Constants.INSTITUTIONAL_PROPOSAL_MODULE);
+        proposal.setNsfCodeBo(getNsfCode(proposal.getNsfCode()));
         return node;
     }
     

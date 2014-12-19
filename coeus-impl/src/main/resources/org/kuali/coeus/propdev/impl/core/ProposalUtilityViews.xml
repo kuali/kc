@@ -40,7 +40,8 @@
     <bean id="PropDev-MedusaView" parent="PropDev-MedusaView-parentBean"/>
     <bean id="PropDev-MedusaView-parentBean" abstract="true"
           parent="Uif-FormView" p:header.render="false" p:breadcrumbs.render="false"
-          p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm">
+          p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm"
+          p:viewHelperService="#{#getService('proposalDevelopmentViewHelperService')}">
         <property name="stickyFooter" value="@{renderedInDialog}"/>
         <property name="applicationHeader.render" value="@{!renderedInDialog}"/>
         <property name="singlePageView" value="true"/>
