@@ -34,6 +34,7 @@ import org.kuali.rice.krad.file.FileMeta;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -83,7 +84,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     @JoinColumn(name = "DOCUMENT_TYPE_CODE", referencedColumnName = "DOCUMENT_TYPE_CODE", insertable = false, updatable = false)
     private PropPerDocType propPerDocType;
 
-    @OneToOne(mappedBy = "proposalPersonBiography", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "proposalPersonBiography", orphanRemoval = true, cascade = { CascadeType.ALL })
     private ProposalPersonBiographyAttachment personnelAttachment;
 
     @Transient
