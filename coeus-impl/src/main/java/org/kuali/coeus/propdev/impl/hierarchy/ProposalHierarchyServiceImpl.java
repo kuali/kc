@@ -80,6 +80,7 @@ import org.kuali.rice.krad.data.CopyOption;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -161,6 +162,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("pessimisticLockService")
+    private PessimisticLockService pessimisticLockService;
 
     //Setters for dependency injection
     public void setIdentityService(IdentityService identityService) {
@@ -290,7 +295,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         errors.addAll(validateChildBudgetPeriods(hierarchyProposal,childProposal,true));
         errors.addAll(validateSponsor(childProposal, hierarchyProposal));
-
+        errors.addAll(validateIsParentLocked(hierarchyProposal));
         errors.addAll(validateIsAggregatorOnParent(childProposal,hierarchyProposal));
 
         List<ProposalHierarchyErrorWarningDto> sponsorErrors = validateSponsor(childProposal, hierarchyProposal);
@@ -1894,7 +1899,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (child.getPrincipalInvestigator() == null) {
             errors.add(new ProposalHierarchyErrorWarningDto(ERROR_SYNC_NO_PRINCIPLE_INVESTIGATOR, Boolean.TRUE, child.getProposalNumber()));
         }
-        validateSponsor(child, hierarchy);
+        errors.addAll(validateSponsor(child, hierarchy));
+        errors.addAll(validateIsParentLocked(hierarchy));
         try {
             // add budget validation here.
 
@@ -1950,7 +1956,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     public List<ProposalHierarchyErrorWarningDto> validateSponsor(DevelopmentProposal childProposal, DevelopmentProposal parentProposal) {
         List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
-        if(!StringUtils.equals(childProposal.getSponsorCode(),parentProposal.getSponsorCode())) {
+        if(!StringUtils.equals(childProposal.getSponsorCode(), parentProposal.getSponsorCode())) {
             errors.add(new ProposalHierarchyErrorWarningDto(ERROR_DIFFERENT_SPONSORS, Boolean.FALSE, new String[0]));
         }
         return errors;
@@ -1962,6 +1968,14 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if(!getKcAuthorizationService().hasDocumentLevelRole(getGlobalVariableService().getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR_DOCUMENT_LEVEL, parentProposal.getDocument())) {
             errors.add(new ProposalHierarchyErrorWarningDto(ERROR_NOT_PARENT_AGGREGATOR, Boolean.TRUE, new String[]{parentProposal.getProposalNumber()}));
         }
+        return errors;
+    }
+
+    protected List<ProposalHierarchyErrorWarningDto> validateIsParentLocked(DevelopmentProposal parentProposal){
+        List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+            if (!getPessimisticLockService().getPessimisticLocksForDocument(parentProposal.getDocument().getDocumentNumber()).isEmpty()) {
+                errors.add(new ProposalHierarchyErrorWarningDto(ERROR_PARENT_LOCK, Boolean.TRUE, new String[]{parentProposal.getProposalNumber()}));
+            }
         return errors;
     }
 
@@ -2001,4 +2015,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 		this.kcDocumentRejectionService = kcDocumentRejectionService;
 	}
 
+    public PessimisticLockService getPessimisticLockService() {
+        return pessimisticLockService;
+    }
+
+    public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
+        this.pessimisticLockService = pessimisticLockService;
+    }
 }
