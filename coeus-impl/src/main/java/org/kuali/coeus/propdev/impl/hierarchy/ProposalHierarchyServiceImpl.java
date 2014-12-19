@@ -296,7 +296,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         errors.addAll(validateChildBudgetPeriods(hierarchyProposal,childProposal,true));
         errors.addAll(validateSponsor(childProposal, hierarchyProposal));
         errors.addAll(validateIsParentLocked(hierarchyProposal));
-        errors.addAll(validateIsAggregatorOnParent(childProposal,hierarchyProposal));
+        errors.addAll(validateIsAggregatorOnParent(hierarchyProposal));
 
         List<ProposalHierarchyErrorWarningDto> sponsorErrors = validateSponsor(childProposal, hierarchyProposal);
 
@@ -1962,11 +1962,17 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return errors;
     }
 
-    protected List<ProposalHierarchyErrorWarningDto> validateIsAggregatorOnParent(DevelopmentProposal childProposal, DevelopmentProposal parentProposal) {
+    protected List<ProposalHierarchyErrorWarningDto> validateIsAggregatorOnParent(DevelopmentProposal parentProposal) {
         List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
-
-        if(!getKcAuthorizationService().hasDocumentLevelRole(getGlobalVariableService().getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR_DOCUMENT_LEVEL, parentProposal.getDocument())) {
+        if(!getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),parentProposal.getDocument(),PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY)) {
             errors.add(new ProposalHierarchyErrorWarningDto(ERROR_NOT_PARENT_AGGREGATOR, Boolean.TRUE, new String[]{parentProposal.getProposalNumber()}));
+        }
+        return errors;
+    }
+    public List<ProposalHierarchyErrorWarningDto> validateIsAggregatorOnChild(DevelopmentProposal childProposal) {
+        List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+        if(!getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(),childProposal.getDocument(),PermissionConstants.MAINTAIN_PROPOSAL_HIERARCHY)) {
+            errors.add(new ProposalHierarchyErrorWarningDto(ERROR_NOT_CHILD_AGGREGATOR, Boolean.TRUE, new String[]{childProposal.getProposalNumber()}));
         }
         return errors;
     }

@@ -49,7 +49,7 @@
                  </property>
              </bean>
 
-             <bean parent="PropDev-HierarchyPage-HierarchyBudgetTypeField" p:render="@{!document.developmentProposal.isInHierarchy()}" p:order="50"/>
+             <bean parent="PropDev-HierarchyPage-HierarchyBudgetTypeField" p:render="@{!document.developmentProposal.isChild() and  #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:order="50"/>
 		</list>
 		</property>
 		<property name="footer">
