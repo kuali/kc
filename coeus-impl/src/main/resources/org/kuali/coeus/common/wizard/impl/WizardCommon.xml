@@ -133,14 +133,10 @@
 
     <bean id="Kc-Wizard-Results" parent="Kc-Wizard-Results-parentBean" />
     <bean id="Kc-Wizard-Results-parentBean"
-          abstract="true" parent="Uif-TableCollectionSection" p:headerText="Search Results"
-          p:collectionObjectClass="org.kuali.coeus.common.view.wizard.framework.WizardResultsDto"
+          abstract="true" parent="Uif-LightTableGroup" p:headerText="Search Results"
           p:propertyName="results" p:additionalCssClasses="kc-personnel-table"
-          p:renderAddLine="false" p:renderLineActions="false"
-          p:layoutManager.renderSequenceField="false"
-          p:renderInactiveToggleButton="false"
           p:instructionalText="Only the top @{#ViewHelper.getWizardMaxResults()} results were returned. If you cannot find what you are looking for, please refine the search criteria">
-        <property name="layoutManager.richTable.templateOptions">
+        <property name="richTable.templateOptions">
             <map>
                 <entry key="bAutoWidth" value="false" />
                 <entry key="sDom" value="tip" />
@@ -181,13 +177,13 @@
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="rolodex.fullName"
-                      p:label="Full Name" p:order="20" />
+                      p:label="Full Name" p:order="20" p:enableAutoInquiry="false"/>
                 <bean parent="Uif-DataField" p:propertyName="rolodex.emailAddress"
-                      p:label="Email Address" p:order="30" />
+                      p:label="Email Address" p:order="30" p:enableAutoInquiry="false"/>
                 <bean parent="Uif-DataField" p:propertyName="rolodex.organization"
-                      p:label="Organization" p:order="40" />
+                      p:label="Organization" p:order="40" p:enableAutoInquiry="false"/>
                 <bean parent="Uif-DataField" p:propertyName="rolodex.city"
-                      p:label="City" p:order="50" />
+                      p:label="City" p:order="50" p:enableAutoInquiry="false"/>
             </list>
         </property>
     </bean>
