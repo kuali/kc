@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/util
+                    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean id="PropBudget-PrintForms-Dialog" parent="PropBudget-PrintForms-Dialog-parent" />
+	<bean id="PropBudget-PrintForms-Dialog-parent" abstract="true"
+		parent="Uif-DialogGroup" p:headerText="Print budget documents" p:dialogCssClass="modal-lg">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-PrintForms-PrintBudget" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-DialogFooter">
+				<property name="items">
+					<list>
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-PrintForms-PrintBudget" parent="PropBudget-PrintForms-PrintBudget-parentBean" />
+	<bean id="PropBudget-PrintForms-PrintBudget-parentBean" abstract="true"
+		parent="Uif-TableCollectionSection" p:headerText="" p:propertyName="selectedBudget.budgetPrintForms"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.impl.print.BudgetPrintForm"
+		p:renderAddLine="false" p:layoutManager.renderSequenceField="true"
+		p:renderLineActions="false" p:layoutManager.richTable.render="false">
+		<property name="header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message" p:messageText="Select the documents below you wish to print:"
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="budgetReportName" p:label="Print Forms" p:order="10" />
+				<bean parent="Uif-InputField" p:propertyName="selectToComment" p:fieldLabel.labelText="[0]" p:order="20">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" />
+					</property>
+					<property name="fieldLabel.inlineComponents">
+                        <list>
+                            <bean parent="Uif-DropdownToggleMenu"
+                                  p:toggleText="Print Budget Comments">
+                                <property name="menuItems">
+                                    <list>
+                                        <bean parent="PropDev-OpportunityPage-SelectMenuAction" p:actionLabel="Select All" p:order="10"
+                                              p:actionScript="jQuery(this).closest('.uif-tableCollectionSection').find(&quot;input[name$='selectToComment']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', true);"/>
+                                        <bean parent="PropDev-OpportunityPage-SelectMenuAction" p:actionLabel="Select None" p:order="20"
+                                              p:actionScript="jQuery(this).closest('.uif-tableCollectionSection').find(&quot;input[name$='selectToComment']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', false);"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="selectToPrint" p:fieldLabel.labelText="[0]" p:order="30">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" />
+					</property>
+					<property name="fieldLabel.inlineComponents">
+						<list>
+							<bean parent="Uif-DropdownToggleMenu" p:toggleText="Select">
+								<property name="menuItems">
+									<list>
+										<bean parent="PropDev-OpportunityPage-SelectMenuAction" p:actionLabel="Select All" p:order="10"
+											p:actionScript="jQuery(this).closest('.uif-tableCollectionSection').find(&quot;input[name$='selectToPrint']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', true);" />
+										<bean parent="PropDev-OpportunityPage-SelectMenuAction"
+											p:actionLabel="Select None" p:order="20"
+											p:actionScript="jQuery(this).closest('.uif-tableCollectionSection').find(&quot;input[name$='selectToPrint']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', false);" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="layoutManager.libraryCssClasses">
+			<list>
+				<value>table</value>
+				<value>table-condensed</value>
+			</list>
+		</property>
+		<property name="layoutManager.cssClasses">
+			<null />
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-SecondaryActionButton" p:methodToCall="refresh"
+							p:cssClasses="pull-right"
+							p:successCallback="window.location.href='@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=printBudgetForms&amp;formKey=@{formKey}';dismissDialog('PropBudget-PrintForms-Dialog');"
+							p:refreshId="PropBudget-PrintForms-Dialog" p:actionLabel="Print"
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

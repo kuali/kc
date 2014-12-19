@@ -19,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintType;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
+import org.kuali.coeus.common.framework.print.Printable;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.common.framework.print.PrintingService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -235,6 +236,93 @@ public class BudgetPrintingServiceImpl implements BudgetPrintService {
 			LOG.error(e.getMessage(), e);
 			return null;
 		}
+	}
+
+	/**
+     * Generates the selected reports and returns the bytes
+     * 
+     * @param budget {@link Budget}
+     * @param budgetPrintForms {@link BudgetPrintForm} selected forms to print
+     * @param reportName to setting the file name
+     * @return {@link AttachmentDataSource} bytes of the generated form
+     */
+	public AttachmentDataSource readBudgetSelectedPrintStreams(Budget budget,
+			List<BudgetPrintForm> budgetPrintForms, String reportName) {
+		try {
+			return printBudgetSelectedReports(budget, budgetPrintForms, reportName);
+		} catch (PrintingException e) {
+			LOG.error(e.getMessage(), e);
+			return null;
+		}
+	}
+
+	/**
+	 * This method generates the selected reports and returns the PDF stream as
+	 * {@link AttachmentDataSource}. It first identifies the reports type to be
+	 * printed, then fetches the required reports generator. The report generator
+	 * generates XML which is then passed to {@link PrintingService} for
+	 * transforming into PDF.
+	 * 
+	 * @param budget data using which report is generated
+	 * @param formName report to be generated
+	 * @return {@link AttachmentDataSource} which contains the byte array of the generated PDF
+	 * @throws PrintingException if any errors occur during report generation
+	 * 
+	 */
+	public AttachmentDataSource printBudgetSelectedReports(
+			KcPersistableBusinessObjectBase budget,
+			List<BudgetPrintForm> budgetPrintForms, String formName) throws PrintingException {
+		AttachmentDataSource attachmentDataSource = null;
+		List<Printable> printableArtifactList = new ArrayList<Printable>();
+		String fileName = formName + "-" + ((Budget) budget).getParentDocumentKey()
+				+ Constants.PDF_FILE_EXTENSION;
+		for (BudgetPrintForm budgetPrintForm : budgetPrintForms) {
+			Printable printable = null;
+			String reportName = budgetPrintForm.getBudgetReportId();
+			if (reportName.equals(BudgetPrintType.BUDGET_SUMMARY_REPORT
+					.getBudgetPrintType())) {
+				printable = getBudgetSummaryPrint();
+			} else if (reportName.equals(BudgetPrintType.BUDGET_COST_SHARE_SUMMARY_REPORT
+							.getBudgetPrintType())) {
+				printable = getBudgetCostShareSummaryPrint();
+			} else if (reportName.equals(BudgetPrintType.INDUSTRIAL_CUMULATIVE_BUDGET_REPORT
+							.getBudgetPrintType())) {
+				printable = getIndustrialCumulativeBudgetPrint();
+			} else if (reportName.equals(BudgetPrintType.BUDGET_SALARY_REPORT
+					.getBudgetPrintType())) {
+				printable = getBudgetSalaryPrint();
+			} else if (reportName.equals(BudgetPrintType.BUDGET_TOTAL_REPORT
+					.getBudgetPrintType())) {
+				printable = getBudgetTotalPrint();
+			} else if (reportName.equals(BudgetPrintType.BUDGET_SUMMARY_TOTAL_REPORT
+							.getBudgetPrintType())) {
+				printable = getBudgetSummaryTotalPrint();
+			} else if (reportName.equals(BudgetPrintType.BUDGET_CUMULATIVE_REPORT
+							.getBudgetPrintType())) {
+				printable = getBudgetCumulativePrint();
+			} else if (reportName.equals(BudgetPrintType.INDUSTRIAL_BUDGET_REPORT
+							.getBudgetPrintType())) {
+				printable = getIndustrialBudgetPrint();
+			}
+			Budget copiedBudget = null;
+			if (Boolean.TRUE.equals(budgetPrintForm.getSelectToComment())) {
+				copiedBudget = (Budget) budget;
+				copiedBudget.setPrintBudgetCommentFlag("true");
+			} else {
+				copiedBudget = (Budget) budget;
+				copiedBudget.setPrintBudgetCommentFlag("false");
+			}
+			((AbstractPrint) printable).setPrintableBusinessObject(copiedBudget);
+			printableArtifactList.add(printable);
+		}
+		attachmentDataSource = getPrintingService().print(printableArtifactList);
+		try {
+			attachmentDataSource.setName(URLEncoder.encode(fileName, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			attachmentDataSource.setName(fileName);
+		}
+		attachmentDataSource.setType(Constants.PDF_REPORT_CONTENT_TYPE);
+		return attachmentDataSource;
 	}
 
 	/**

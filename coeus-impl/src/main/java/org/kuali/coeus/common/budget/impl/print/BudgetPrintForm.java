@@ -24,6 +24,8 @@ public class BudgetPrintForm extends KcPersistableBusinessObjectBase {
     private String budgetReportName;
 
     private Boolean selectToPrint;
+    
+    private Boolean selectToComment;
 
     /**
      * Gets the budgetReportId attribute. 
@@ -64,4 +66,12 @@ public class BudgetPrintForm extends KcPersistableBusinessObjectBase {
     public void setSelectToPrint(Boolean selectToPrint) {
         this.selectToPrint = selectToPrint;
     }
+
+	public Boolean getSelectToComment() {
+		return selectToComment;
+	}
+
+	public void setSelectToComment(Boolean selectToComment) {
+		this.selectToComment = selectToComment;
+	}
 }
