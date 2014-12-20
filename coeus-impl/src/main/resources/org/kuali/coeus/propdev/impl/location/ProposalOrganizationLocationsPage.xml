@@ -43,8 +43,10 @@
 		parent="Uif-VerticalBoxSubSection" p:fieldBindingObjectPath="document.developmentProposal.applicantOrganization">
 		<property name="items">
 			<list>
-				<bean parent="PropDev-ApplicantOrganizationPage-Details" p:order="10" />
-				<bean parent="PropDev-CongressionalDistricts-Section" p:order="20" />
+                <bean parent="PropDev-PerformingOrganization-OrganizationSearch" p:order="10" p:quickfinder.render="false" />
+                <bean parent="PropDev-PerformingOrganization-OrganizationId" p:order="20" />
+                <bean parent="PropDev-ApplicantOrganizationPage-Details" p:order="30" />
+				<bean parent="PropDev-CongressionalDistricts-Section" p:order="40" />
 			</list>
 		</property>
 	</bean>
@@ -78,8 +80,9 @@
 		<property name="items">
 			<list>
 			    <bean parent="PropDev-PerformingOrganization-OrganizationSearch" p:order="10" />
-				<bean parent="PropDev-PerformingOrganizationPage-Details" p:order="20"/>
-				<bean parent="PropDev-CongressionalDistricts-Section" p:order="30" />
+                <bean parent="PropDev-PerformingOrganization-OrganizationId" p:order="20" />
+				<bean parent="PropDev-PerformingOrganizationPage-Details" p:order="30"/>
+				<bean parent="PropDev-CongressionalDistricts-Section" p:order="40" />
 			</list>
 		</property>
 	</bean>
@@ -91,6 +94,11 @@
 		<property name="control">
 			<bean parent="Uif-HiddenControl" />
 		</property>
+        <property name="inquiry">
+          <bean parent="Uif-Inquiry" p:directInquiryAction.actionLabel="Details"
+                p:dataObjectClassName="org.kuali.coeus.common.framework.org.Organization"
+                p:inquiryParameters="organizationId:organizationId"/>
+        </property>
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.framework.org.Organization"
 				p:hideCriteriaOnSearch="true"
@@ -103,6 +111,15 @@
 			</bean>
 		</property>
 	 </bean>
+
+    <bean id="PropDev-PerformingOrganization-OrganizationId" parent="PropDev-PerformingOrganization-OrganizationId-parentBean" />
+   	<bean id="PropDev-PerformingOrganization-OrganizationId-parentBean" p:enableAutoQuickfinder="false"
+   		abstract="true" parent="Uif-InputField" p:fieldLabel.render="false"
+   		p:propertyName="organizationId" >
+   		<property name="control">
+   			<bean parent="Uif-HiddenControl" />
+   		</property>
+   	 </bean>
 
 	<bean id="PropDev-PerformingOrganizationPage-Details" parent="PropDev-PerformingOrganizationPage-Details-parentBean" />
 	<bean id="PropDev-PerformingOrganizationPage-Details-parentBean"
@@ -156,11 +173,10 @@
 		</property>		
 		<property name="items">
 			<list>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="Organization">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="organization.organizationName"	p:order="10" p:label=" " />
-                        </list>
+                <bean parent="Uif-DataField" p:propertyName="organization.organizationName"	p:order="10">
+                    <property name="inquiry">
+                      <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.org.Organization"
+                            p:inquiryParameters="organizationId:organizationId"/>
                     </property>
                 </bean>
                 <bean parent="Uif-DataField"  p:order="30" p:propertyName="organization.address" />
@@ -212,7 +228,12 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="rolodex.organization"	p:order="10" />
+                <bean parent="Uif-DataField" p:propertyName="rolodex.organization"	p:order="10">
+                    <property name="inquiry">
+                      <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
+                            p:inquiryParameters="rolodex.rolodexId:rolodexId"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField" p:propertyName="rolodex.city"	p:order="20" />
                 <bean parent="Uif-DataField" p:propertyName="rolodex.state"	p:order="30" />
                 <bean parent="Uif-DataField" p:propertyName="rolodex.addressLine1"	p:order="40" />
