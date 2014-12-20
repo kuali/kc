@@ -387,6 +387,18 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         synchronizeAll(hierarchyProposal);
         finalizeHierarchySync(hierarchyProposal);
     }
+    
+    public void synchronizeAllChildrenBudgets(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
+    	prepareHierarchySync(hierarchyProposal);
+        finalizeHierarchySync(hierarchyProposal.getProposalDocument());
+
+        for (DevelopmentProposal childProposal : getHierarchyChildren(hierarchyProposal.getProposalNumber())) {
+            List<BudgetPeriod> oldBudgetPeriods = getOldBudgetPeriods(getHierarchyBudget(hierarchyProposal));
+            synchronizeChildBudget(hierarchyProposal, childProposal, oldBudgetPeriods);
+            dataObjectService.save(childProposal);
+            dataObjectService.save(hierarchyProposal);
+        }
+    }
 
     protected void synchronizeAll(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         synchronizeAllChildProposals(hierarchyProposal);
