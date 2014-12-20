@@ -23,6 +23,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
+import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -36,6 +37,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.data.CopyOption;
+import org.kuali.rice.krad.data.PersistenceOption;
 import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -71,6 +73,10 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     @Autowired
     @Qualifier("budgetPersonService")
     private BudgetPersonService budgetPersonService;
+
+    @Autowired
+    @Qualifier("budgetModularService")
+    private BudgetModularService budgetModularService;
     
     @Override
     public ProposalDevelopmentBudgetExt getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName, Map<String, Object> options){
@@ -107,7 +113,15 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         if (budget.getStartDate() != null) {
             budget.setBudgetPeriods(getBudgetSummaryService().generateBudgetPeriods(budget));
         }
+
         budget = saveBudget(budget);
+
+        if (budget.getModularBudgetFlag()) {
+            for (BudgetPeriod period : budget.getBudgetPeriods())  {
+                getBudgetModularService().generateModularPeriod(period);
+            }
+            budget = saveBudget(budget);
+        }
 
         List<ProposalDevelopmentBudgetExt> budgets = budgetParent.getBudgets();
         if (budgets == null) {
@@ -143,7 +157,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     }
 
     protected ProposalDevelopmentBudgetExt saveBudget(ProposalDevelopmentBudgetExt budget) {
-    	return getDataObjectService().save(budget);
+    	return getDataObjectService().save(budget, PersistenceOption.FLUSH);
     }
 
     /**
@@ -302,4 +316,12 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 	public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
 		this.budgetPersonService = budgetPersonService;
 	}
+
+    public BudgetModularService getBudgetModularService() {
+        return budgetModularService;
+    }
+
+    public void setBudgetModularService(BudgetModularService budgetModularService) {
+        this.budgetModularService = budgetModularService;
+    }
 }
