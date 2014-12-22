@@ -27,6 +27,7 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.core.*;
+import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -136,13 +137,31 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    public ModelAndView save(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
        return super.save(form);
    }
-   
 
-   @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
-   public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
-		   HttpServletRequest request, HttpServletResponse response) throws Exception {
-       return super.navigate(form, result, request, response);
-   }
+
+    @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=navigate")
+    public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
+                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        refreshDocumentLevelPermissions(form);
+
+        return super.navigate(form, result, request, response);
+    }
+
+    protected void refreshDocumentLevelPermissions(ProposalDevelopmentDocumentForm form) {
+        final List<ProposalUserRoles> currentRoles = form.getWorkingUserRoles();
+        final List<ProposalUserRoles> newRoles = getProposalDevelopmentPermissionsService().getPermissions(form.getProposalDevelopmentDocument());
+
+        form.setWorkingUserRoles(newRoles);
+
+        if (isDocumentLevelRolesDirty(currentRoles, newRoles)) {
+            form.setEvaluateFlagsAndModes(true);
+        }
+    }
+
+    protected boolean isDocumentLevelRolesDirty(List<ProposalUserRoles> currentRoles, List<ProposalUserRoles> newRoles) {
+        return currentRoles.equals(newRoles);
+    }
 
    @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getSponsor")
