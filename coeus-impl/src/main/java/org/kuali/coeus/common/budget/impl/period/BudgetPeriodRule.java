@@ -276,6 +276,10 @@ public class BudgetPeriodRule {
         }
         errorMap.removeFromErrorPath(errorPathPrefix);
 
+        if (CollectionUtils.isEmpty(budgetPeriods)){
+            newBudgetPeriod.setBudgetPeriod(1);
+        }
+
         /* if dates are valid, check further where we can insert this new date */
         if(validNewBudgetPeriod) {
             int totalBudgetPeriods = budgetPeriods.size() - 1;
@@ -446,15 +450,17 @@ public class BudgetPeriodRule {
         
         int expenseExistStatus = checkExpenseInBudget(budget);
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        if (newBudgetPeriod.getEndDate().before(budget.getBudgetPeriod(0).getStartDate())) {
-            // insert before 1st period
-            if (expenseExistStatus >= 1) {
+        if (CollectionUtils.isNotEmpty(budget.getBudgetPeriods())) {
+            if (newBudgetPeriod.getEndDate().before(budget.getBudgetPeriod(0).getStartDate())) {
+                // insert before 1st period
+                if (expenseExistStatus >= 1) {
+                    errorMap.putError(errorPathPrefix, KeyConstants.ERROR_INSERT_BUDGET_PERIOD);
+                    return false;
+                }
+            } else if (newBudgetPeriod.getEndDate().before(budget.getBudgetPeriod(budget.getBudgetPeriods().size() - 1).getStartDate()) && expenseExistStatus > 1) {
                 errorMap.putError(errorPathPrefix, KeyConstants.ERROR_INSERT_BUDGET_PERIOD);
                 return false;
             }
-        } else if (newBudgetPeriod.getEndDate().before(budget.getBudgetPeriod(budget.getBudgetPeriods().size()-1).getStartDate()) && expenseExistStatus > 1) {
-            errorMap.putError(errorPathPrefix, KeyConstants.ERROR_INSERT_BUDGET_PERIOD);
-            return false;
         }
         return true;
     }
