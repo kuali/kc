@@ -17,6 +17,7 @@ package org.kuali.coeus.propdev.impl.basic;
 
 import java.util.*;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -59,6 +60,10 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     @Autowired
     @Qualifier("documentDictionaryService")
     private DocumentDictionaryService documentDictionaryService;
+
+    @Autowired
+    @Qualifier("kcEntityManager")
+    private EntityManager entityManager;
 
    @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
@@ -142,9 +147,10 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=getSponsor")
    public @ResponseBody Sponsor sponsorByCode(@RequestParam("sponsorCode") String sponsorCode) {
-       Sponsor sponsor = getLegacyDataAdapter().findBySinglePrimaryKey(Sponsor.class, sponsorCode);
+       final Sponsor sponsor =  getDataObjectService().find(Sponsor.class, sponsorCode);
        //clear references that are likely circular
        if (sponsor != null) {
+           entityManager.detach(sponsor);
            sponsor.setUnit(null);
            sponsor.setRolodex(null);
        }
@@ -206,7 +212,8 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
    @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=docHandler")
-   public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, @RequestParam(required = false) String auditActivated) throws Exception {
+   public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, @RequestParam(required = false) String auditActivated,
+                                  @RequestParam(required = false) String navigateToPageId, @RequestParam(required = false) String defaultOpenTab) throws Exception {
        ProposalDevelopmentDocument document;
        boolean isDeleted = false;
        if(!ObjectUtils.isNull(form.getDocId())) {
@@ -249,10 +256,18 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-DetailsPage", "info.dataoverride.occured");
             }
 
-            if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
+           if (propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
                ((ProposalDevelopmentViewHelperServiceImpl) form.getViewHelperService()).prepareSummaryPage(propDevForm);
                propDevForm.getView().setEntryPageId(ProposalDevelopmentConstants.KradConstants.SUBMIT_PAGE);
-            }
+           }
+
+           if (StringUtils.isNotBlank(navigateToPageId)) {
+               propDevForm.getView().setEntryPageId(navigateToPageId);
+           }
+
+           if (StringUtils.isNotBlank(defaultOpenTab)) {
+               propDevForm.setDefaultOpenTab(defaultOpenTab);
+           }
 
             if (StringUtils.equals(form.getRequest().getParameter("viewDocument"),"true")) {
                 propDevForm.setViewOnly(true);
@@ -292,5 +307,13 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
     public void setDocumentDictionaryService(DocumentDictionaryService documentDictionaryService) {
         this.documentDictionaryService = documentDictionaryService;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 }

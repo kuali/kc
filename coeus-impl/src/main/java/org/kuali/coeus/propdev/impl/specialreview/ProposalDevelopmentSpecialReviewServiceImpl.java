@@ -65,8 +65,9 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                 if (protocolDocument != null )
                 {
                     specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
-                    Integer specialReviewNumber = document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER);
-                    specialReview.setSpecialReviewNumber(specialReviewNumber);
+                    if(specialReview.getSpecialReviewNumber() == null) {
+                    	specialReview.setSpecialReviewNumber(generateSpecialReviewNumber(document));
+                    }
                     specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
                     specialReview.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
                     specialReview.setDevelopmentProposal(document.getDevelopmentProposal());
@@ -87,8 +88,9 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
                 ProtocolDocumentBase protocolDocument = service.createProtocolDocument(document);
                 if (protocolDocument != null) {
                     specialReview.setSpecialReviewTypeCode(SpecialReviewType.ANIMAL_USAGE);
-                    Integer specialReviewNumber = document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER);
-                    specialReview.setSpecialReviewNumber(specialReviewNumber);
+                    if(specialReview.getSpecialReviewNumber() == null) {
+                    	specialReview.setSpecialReviewNumber(generateSpecialReviewNumber(document));
+                    }
                     specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
                     specialReview.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
                     specialReview.setDevelopmentProposal(document.getDevelopmentProposal());
@@ -106,6 +108,11 @@ public class ProposalDevelopmentSpecialReviewServiceImpl implements ProposalDeve
         }
         return false;
     }
+	
+	@Override
+	public Integer generateSpecialReviewNumber(ProposalDevelopmentDocument document) {
+		return document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER);
+	}
     
     /**
      * Prepares the linked fields on the Special Review that are pulled directly from the Protocol and not from the local object.

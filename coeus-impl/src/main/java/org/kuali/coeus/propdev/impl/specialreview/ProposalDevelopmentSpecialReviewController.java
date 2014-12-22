@@ -155,6 +155,10 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
             ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
             proposalSpecialReview.setDevelopmentProposal(proposalDevelopmentDocument.getDevelopmentProposal());
             pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(proposalSpecialReview);
+            
+            if(proposalSpecialReview.getSpecialReviewNumber() == null) {
+            	proposalSpecialReview.setSpecialReviewNumber(getProposalDevelopmentSpecialReviewService().generateSpecialReviewNumber(proposalDevelopmentDocument));
+            }
 
             // Invalid protrocol trying to be linked so blank out protocol info
             if (protocolNeedsToBeLinked(proposalSpecialReview.getSpecialReviewTypeCode()) && !proposalSpecialReview.isLinkedToProtocol()) {

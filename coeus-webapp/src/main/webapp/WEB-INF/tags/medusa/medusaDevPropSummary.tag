@@ -7,13 +7,13 @@
     </tr>
     <tr>
       <td style="text-align: center;" colspan="4">
-	  <a href="${ConfigProperties.application.url}/proposalDevelopmentProposal.do?methodToCall=docHandler&command=displayDocSearchView&docId=${node.bo.proposalDocument.documentNumber}&medusaOpenedDoc=true"
+	  <a href="${ConfigProperties.application.url}/kc-pd-krad/proposalDevelopment?methodToCall=docHandler&command=displayDocSearchView&docId=${node.bo.proposalDocument.documentNumber}"
 	     target="_blank" class="medusaOpenLink">
 	    <img title="Open Proposal" 
 	          alt="Open Proposal" style="border: medium none ;" 
 	          src="static/images/tinybutton-openproposal.gif"/>
 	  </a>    
-	  <a href="${ConfigProperties.application.url}/proposalDevelopmentAbstractsAttachments.do?methodToCall=docHandler&command=displayDocSearchView&docId=${node.bo.proposalDocument.documentNumber}&medusaOpenedDoc=true&tabStates(Notes)=OPEN#Notes"
+	  <a href="${ConfigProperties.application.url}/kc-pd-krad/proposalDevelopment?methodToCall=docHandler&command=displayDocSearchView&docId=${node.bo.proposalDocument.documentNumber}&navigateToPageId=PropDev-AttachmentsPage&defaultOpenTab=PropDev-AttachmentsPage-NotesSection"
 	     target="_blank" class="medusaOpenLink">
 	    <img title="Open Proposal Notes" 
 	          alt="Open Proposal Notes" style="border: medium none ;" 

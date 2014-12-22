@@ -19,13 +19,6 @@
         <property name="sessionPolicy.timeoutWarningSeconds" value="@{#getParamAsInteger('KR-NS','Document','SESSION_TIMEOUT_WARNING_MESSAGE_TIME') * 60}"/>
     </bean>
 
-    <bean id="Uif-CollectionGroupBase" abstract="true" parent="Kc-CollectionGroupBase-parentBean"/>
-    <bean id="Kc-CollectionGroupBase-parentBean" parent="Uif-CollectionGroupBase-parentBean">
-        <property name="collectionGroupBuilder">
-            <bean class="org.kuali.coeus.org.kuali.rice.krad.uif.container.CollectionGroupBuilderOverride"/>
-        </property>
-    </bean>
-
     <bean id="Uif-AddLineDialog" parent="Kc-AddLineDialog-parentBean"/>
     <bean id="Kc-AddLineDialog-parentBean" abstract="true" parent="Uif-AddLineDialog-parentBean">
         <property name="destroyDialogOnHidden" value="true"/>
