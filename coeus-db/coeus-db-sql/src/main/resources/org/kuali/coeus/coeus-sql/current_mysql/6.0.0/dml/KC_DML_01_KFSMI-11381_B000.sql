@@ -11,12 +11,12 @@ BEGIN
 
 	select max(cast(REPORT_CODE as signed))+1 into newReportCode from REPORT;
 	insert into REPORT (REPORT_CODE, DESCRIPTION, FINAL_REPORT_FLAG, ACTIVE_FLAG, VER_NBR, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID)
-		values (newReportCode, 'KFS Invoicing', 'N', 'Y', 1, NOW(), 'admin', UUID());
+		values (newReportCode, 'KFS Invoicing', 'N', 'N', 1, NOW(), 'admin', UUID());
 		
 	select max(cast(FREQUENCY_CODE as signed))+1 into newFrequencyCode from FREQUENCY;
 	insert into FREQUENCY (FREQUENCY_CODE, DESCRIPTION, NUMBER_OF_DAYS, NUMBER_OF_MONTHS, REPEAT_FLAG, ADVANCE_NUMBER_OF_DAYS, 
 			ADVANCE_NUMBER_OF_MONTHS, ACTIVE_FLAG, VER_NBR, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID) 
-		values (newFrequencyCode, 'Letter of Credit', null, null, 'N', null, null, 'Y', 1, NOW(), 'admin', UUID());
+		values (newFrequencyCode, 'Letter of Credit', null, null, 'N', null, null, 'N', 1, NOW(), 'admin', UUID());
 		
 	select max(VALID_CLASS_REPORT_FREQ_ID)+1 into newValidId from VALID_CLASS_REPORT_FREQ;
 	insert into VALID_CLASS_REPORT_FREQ (VALID_CLASS_REPORT_FREQ_ID, REPORT_CLASS_CODE, REPORT_CODE, FREQUENCY_CODE, VER_NBR, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID)
