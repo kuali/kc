@@ -49,6 +49,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
+import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalDocumentRule;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
@@ -61,6 +62,8 @@ import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -135,20 +138,33 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#createInstitutionalProposalVersion(String, DevelopmentProposal, Budget)
      */
     public String createInstitutionalProposalVersion(String proposalNumber, DevelopmentProposal developmentProposal, Budget budget) {
-        
-        try {
-            InstitutionalProposalDocument newInstitutionalProposalDocument = versionProposal(proposalNumber, developmentProposal, budget);
-            documentService.routeDocument(newInstitutionalProposalDocument, 
-                    ROUTE_MESSAGE + developmentProposal.getProposalNumber(), 
-                    new ArrayList<AdHocRouteRecipient>());
-            institutionalProposalVersioningService.updateInstitutionalProposalVersionStatus(
-                    newInstitutionalProposalDocument.getInstitutionalProposal(), VersionStatus.ACTIVE);
-            return newInstitutionalProposalDocument.getInstitutionalProposal().getSequenceNumber().toString();
-        } catch (WorkflowException we) {
+    	InstitutionalProposalDocument newInstitutionalProposalDocument = null;
+    	
+    	try {
+			newInstitutionalProposalDocument = versionProposal(proposalNumber, developmentProposal, budget);
+		} catch (WorkflowException we) {
             throw new InstitutionalProposalCreationException(WORKFLOW_EXCEPTION_MESSAGE, we);
         } catch (VersionException ve) {
             throw new InstitutionalProposalCreationException(VERSION_EXCEPTION_MESSAGE, ve);
         } 
+    	
+    	InstitutionalProposalDocumentRule rule = new InstitutionalProposalDocumentRule();
+    	if (!rule.processRouteDocument(newInstitutionalProposalDocument)) {
+    		LOG.error("Unable to route Institutional Proposal " + newInstitutionalProposalDocument.getInstitutionalProposal().getSequenceNumber().toString());
+    		Map<String, List<ErrorMessage>> errors = GlobalVariables.getMessageMap().getErrorMessages();
+    		for (String key : errors.keySet()) {
+    			LOG.error("error key: " + key + "  message: " + errors.get(key)); 
+    		}
+    	}
+    	
+    	try {
+			documentService.routeDocument(newInstitutionalProposalDocument,ROUTE_MESSAGE + developmentProposal.getProposalNumber(), new ArrayList<AdHocRouteRecipient>());
+		} catch (WorkflowException we) {
+			throw new InstitutionalProposalCreationException(WORKFLOW_EXCEPTION_MESSAGE, we);
+		}
+        
+    	institutionalProposalVersioningService.updateInstitutionalProposalVersionStatus(newInstitutionalProposalDocument.getInstitutionalProposal(), VersionStatus.ACTIVE);
+        return newInstitutionalProposalDocument.getInstitutionalProposal().getSequenceNumber().toString();
     }
     
     /**
