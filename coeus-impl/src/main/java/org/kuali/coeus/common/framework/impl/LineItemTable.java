@@ -86,89 +86,88 @@ public class LineItemTable extends GroupBase implements DataBinding {
         lineIndex = 0;
 
         try {
-            List<Period> periods
-                    = (List<Period>) (PropertyUtils.getProperty(model, this.getBindingInfo().getBindingPath()));
-
-            headerRow = new LineItemRow();
-            headerRow.getCellContent().add("");
-            int columnNum = 0;
-
-            // Don't show the prev/next buttons if everything is being shown already
-            if (this.getHeader() != null && this.getHeader().getRightGroup() != null &&
-                    numPeriodColumns >= periods.size()) {
-                this.getHeader().getRightGroup().setRender(false);
+            List<Period> periods = (List<Period>) (PropertyUtils.getProperty(model, this.getBindingInfo().getBindingPath()));
+            if (periods != null) {
+	            headerRow = new LineItemRow();
+	            headerRow.getCellContent().add("");
+	            int columnNum = 0;
+	
+	            // Don't show the prev/next buttons if everything is being shown already
+	            if (this.getHeader() != null && this.getHeader().getRightGroup() != null &&
+	                    numPeriodColumns >= periods.size()) {
+	                this.getHeader().getRightGroup().setRender(false);
+	            }
+	            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateRangeFormat);
+	            // Iterate over periods and create the header row and the other LineItemRows
+	            for (Period period : periods) {
+	                String startDate = "?";
+	                String endDate = "?";
+	                if (period.getStartDate() != null) {
+	                    startDate = simpleDateFormat.format(period.getStartDate());
+	                }
+	
+	                if (period.getEndDate() != null) {
+	                    endDate = simpleDateFormat.format(period.getEndDate());
+	                }
+	
+	                headerRow.getCellContent().add(period.getName() + "<span class='uif-period-dateRange'>(" +
+	                         startDate + " - " + endDate + ")</span>");
+	
+	                List<LineItemGroup> lineItemGroups = period.getLineItemGroups();
+	                columnNum++;
+	
+	                // Iterate over each group of the period
+	                for (LineItemGroup lineItemGroup : lineItemGroups) {
+	                    // If the group row already exists because a previous Period created it, use it, keyed by Group Name
+	                    LineItemRow lineItemGroupRow = findRow(rows, lineItemGroup.getGroupName());
+	
+	                    // Create a new row if one does not exist
+	                    if (lineItemGroupRow == null) {
+	                        lineItemGroupRow = new LineItemRow(this.getId() + "_" + lineItemGroup.getGroupName() + lineIndex);
+	                        lineItemGroupRow.setLineItemId(lineItemGroup.getGroupName());
+	                        lineItemGroupRow.getCellContent().add(lineItemGroup.getGroupName());
+	                        lineItemGroupRow.setCssClass("uif-lineItemGroup");
+	                        lineItemGroupRow.setGroupRow(true);
+	
+	                        rows.add(lineItemGroupRow);
+	                        lineIndex++;
+	                    }
+	
+	                    // Process the sub items of the group
+	                    processSubLineItems(lineItemGroup, lineItemGroupRow, columnNum, "uif-lineItem", 0);
+	
+	                    // Calculate the group sub total
+	                    processGroupSubTotal(lineItemGroup, lineItemGroupRow, "uif-groupSubTotal");
+	                }
+	            }
+	
+	            // Take all the rows (these represent the top level group rows) and iterate over them
+	            // to flatten them into an in-order list that can be iterated over in the ftl
+	            for (LineItemRow groupRow : rows) {
+	                flattenedRows.add(groupRow);
+	                flattenSubLineItemRows(groupRow.getChildRows(), true);
+	            }
+	
+	            // If each row is showing a total column, total the values of that row and add a totals value
+	            if (renderRowTotalColumn) {
+	                // Add a Totals column
+	                //TODO internationalize
+	                headerRow.getCellContent().add("Totals");
+	                for (LineItemRow row : flattenedRows) {
+	                    if (row.getValues() == null || row.getValues().isEmpty()) {
+	                        continue;
+	                    }
+	
+	                    ScaleTwoDecimal rowTotal = new ScaleTwoDecimal(0);
+	                    for (ScaleTwoDecimal value : row.getValues()) {
+	                        rowTotal = rowTotal.add(value);
+	                    }
+	
+	                    currencyEditor.setValue(rowTotal);
+	                    row.getCellContent().add(currencyEditor.getAsText());
+	                }
+	            }
             }
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateRangeFormat);
-            // Iterate over periods and create the header row and the other LineItemRows
-            for (Period period : periods) {
-                String startDate = "?";
-                String endDate = "?";
-                if (period.getStartDate() != null) {
-                    startDate = simpleDateFormat.format(period.getStartDate());
-                }
-
-                if (period.getEndDate() != null) {
-                    endDate = simpleDateFormat.format(period.getEndDate());
-                }
-
-                headerRow.getCellContent().add(period.getName() + "<span class='uif-period-dateRange'>(" +
-                         startDate + " - " + endDate + ")</span>");
-
-                List<LineItemGroup> lineItemGroups = period.getLineItemGroups();
-                columnNum++;
-
-                // Iterate over each group of the period
-                for (LineItemGroup lineItemGroup : lineItemGroups) {
-                    // If the group row already exists because a previous Period created it, use it, keyed by Group Name
-                    LineItemRow lineItemGroupRow = findRow(rows, lineItemGroup.getGroupName());
-
-                    // Create a new row if one does not exist
-                    if (lineItemGroupRow == null) {
-                        lineItemGroupRow = new LineItemRow(this.getId() + "_" + lineItemGroup.getGroupName() + lineIndex);
-                        lineItemGroupRow.setLineItemId(lineItemGroup.getGroupName());
-                        lineItemGroupRow.getCellContent().add(lineItemGroup.getGroupName());
-                        lineItemGroupRow.setCssClass("uif-lineItemGroup");
-                        lineItemGroupRow.setGroupRow(true);
-
-                        rows.add(lineItemGroupRow);
-                        lineIndex++;
-                    }
-
-                    // Process the sub items of the group
-                    processSubLineItems(lineItemGroup, lineItemGroupRow, columnNum, "uif-lineItem", 0);
-
-                    // Calculate the group sub total
-                    processGroupSubTotal(lineItemGroup, lineItemGroupRow, "uif-groupSubTotal");
-                }
-            }
-
-            // Take all the rows (these represent the top level group rows) and iterate over them
-            // to flatten them into an in-order list that can be iterated over in the ftl
-            for (LineItemRow groupRow : rows) {
-                flattenedRows.add(groupRow);
-                flattenSubLineItemRows(groupRow.getChildRows(), true);
-            }
-
-            // If each row is showing a total column, total the values of that row and add a totals value
-            if (renderRowTotalColumn) {
-                // Add a Totals column
-                //TODO internationalize
-                headerRow.getCellContent().add("Totals");
-                for (LineItemRow row : flattenedRows) {
-                    if (row.getValues() == null || row.getValues().isEmpty()) {
-                        continue;
-                    }
-
-                    ScaleTwoDecimal rowTotal = new ScaleTwoDecimal(0);
-                    for (ScaleTwoDecimal value : row.getValues()) {
-                        rowTotal = rowTotal.add(value);
-                    }
-
-                    currencyEditor.setValue(rowTotal);
-                    row.getCellContent().add(currencyEditor.getAsText());
-                }
-            }
-
         } catch (Exception e) {
             LOG.error("Exception occurred while trying to get value for LineItemTable: " + this, e);
         }
