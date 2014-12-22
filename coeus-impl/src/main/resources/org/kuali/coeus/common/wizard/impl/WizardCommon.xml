@@ -190,8 +190,7 @@
 
     <bean id="Kc-Wizard-RoleResults" parent="Kc-Wizard-RoleResults-parentBean" />
     <bean id="Kc-Wizard-RoleResults-parentBean" abstract="true" parent="Kc-Wizard-Results"
-          p:headerText="Role Search Results"
-          p:showInactiveLines="true">
+          p:headerText="Role Search Results">
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="role.kimRoleType.name"
