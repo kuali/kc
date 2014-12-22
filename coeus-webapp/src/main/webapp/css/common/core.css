@@ -64,6 +64,20 @@
     padding: 8px 7px 7px 7px;
 }
 
+/** Readonly alignment fix for css grid layout **/
+
+div[class^="col-"] .uif-inputField span[id$="_control"] {
+    display: inline-block;
+    padding-top: 0.5em;
+}
+
+.uif-inputField pre, .uif-field pre {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
 .uif-viewHeader-contentWrapper .uif-viewHeader {
     margin-top: 0;
     padding-top: 10px;
