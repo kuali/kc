@@ -16,7 +16,11 @@
 package org.kuali.coeus.common.framework.medusa;
 
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.core.api.util.tree.Node;
 
 import java.io.Serializable;
@@ -58,9 +62,23 @@ public class MedusaNode extends Node<Object, String> implements Serializable {
     public String getNodeLabel() {
     	if (getData() instanceof DevelopmentProposal) {
     		return "Development Proposal " + ((DevelopmentProposal) getData()).getProposalNumber();
-    	} else if (getData() instanceof InstitutionalProposal) {
+    	}
+        else if (getData() instanceof InstitutionalProposal) {
     		return "Institutional Proposal " + ((InstitutionalProposal) getData()).getProposalNumber();
-    	} else {
+    	}
+        else if (getData() instanceof ProtocolBase) {
+            return "Protocol " + ((ProtocolBase) getData()).getProtocolNumber();
+        }
+        else if (getData() instanceof Award) {
+            return "Award " + ((Award) getData()).getAwardNumber();
+        }
+        else if (getData() instanceof SubAward) {
+            return "Subaward " + ((SubAward) getData()).getSubAwardId();
+        }
+        else if (getData() instanceof Negotiation) {
+            return "Negotiation " + ((Negotiation) getData()).getNegotiationId();
+        }
+        else {
     		return "---";
     	}
     }

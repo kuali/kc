@@ -45,6 +45,16 @@
         <property name="stickyFooter" value="@{renderedInDialog}"/>
         <property name="applicationHeader.render" value="@{!renderedInDialog}"/>
         <property name="singlePageView" value="true"/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>scripts/common/medusa.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>css/common/core.css</value>
+            </list>
+        </property>
         <property name="page">
             <bean parent="Uif-Page" p:header.render="false">
                 <property name="items">
@@ -65,6 +75,7 @@
                 </property>
             </bean>
         </property>
+        <property name="onLoadScript" value="Kc.Medusa.externalMedusaLoader();"/>
     </bean>
 
     <!--Special proposal summary view for the Action List -->

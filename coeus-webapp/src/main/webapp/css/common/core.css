@@ -299,7 +299,25 @@ li.kc-listIconDropdown li a.uif-boxLayoutHorizontalItem  {
 li.kc-listIconDropdown li div.uif-boxSection  {
     display: inline-block;
 }
-
+section.medusa div.jstree a ins {
+    display:none;
+}
+div.medusa-node-value a {
+    display:inline-block;
+    line-height:16px;
+    height:16px;
+    color: #07c;
+    white-space:nowrap;
+    text-decoration:none;
+    padding:1px 2px;
+    margin:0;
+}
+section.medusa a:hover{
+    text-decoration:underline;
+}
+section.medusa div.btn a:hover{
+    text-decoration:none;
+}
 .app-header-version {
     padding-right: 5px;
     padding-top: 3px;
