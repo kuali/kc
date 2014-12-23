@@ -53,7 +53,7 @@
         	<bean parent="Uif-DialogFooter">
         		<property name="items">
                     <list>
-                        <bean parent="Uif-DialogDismissButton" p:actionLabel="Close" p:order="20"/> 
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:order="20" p:methodToCall="closeBudgetSettings"/> 
                     </list>
                 </property>
         	</bean>

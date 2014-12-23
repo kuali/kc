@@ -145,6 +145,9 @@ public abstract class ProposalBudgetControllerBase {
         getBudgetSummaryService().setupOldStartEndDate(form.getBudget(), false);
         form.setBudgetModularSummary(budgetModularService.generateModularSummary(form.getBudget()));
         validateBudgetExpenses(form);
+        if (form.isAuditActivated()){
+        	((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).applyBudgetAuditRules(form);
+        }
         return getModelAndViewService().getModelAndView(form);
     }
     
@@ -175,9 +178,9 @@ public abstract class ProposalBudgetControllerBase {
 		form.setPageId(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID));
 		form.setDirtyForm(false);
 		if (form.isCanEditView()) {
-			return getModelAndViewService().getModelAndView(form);
-		} else {
 			return save(form);
+		} else {
+			return getModelAndViewService().getModelAndView(form);
 		}
     }
     

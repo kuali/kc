@@ -193,8 +193,8 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
         return populateDataValidation();
     }
 
-    public void applyBudgetAuditRules(ProposalBudgetForm form) {
-        getKcBusinessRulesEngine().applyRules(new BudgetAuditRuleEvent(form.getBudget()));
+    public boolean applyBudgetAuditRules(ProposalBudgetForm form) {
+        return getKcBusinessRulesEngine().applyRules(new BudgetAuditRuleEvent(form.getBudget()));
     }
     
 	public KcBusinessRulesEngine getKcBusinessRulesEngine() {
