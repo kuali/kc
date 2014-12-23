@@ -45,8 +45,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     
     private static final String USERNAME_FIELD = "person.userName";
     private static final String STATUS_PENDING = "1";
-    private static final String DOC_ROUTE_STATUS = "docRouteStatus";
-    
+
     private boolean isLookupForProposalCreation;
     private KcPersonService kcPersonService;
     private DocumentDictionaryService documentDictionaryService;
@@ -106,9 +105,9 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     	return proposalLogs;
     }
         
-    private List<ProposalLog> cleanSearchResultsForNegotiationLookup(Collection searchResults) {
+    private List<ProposalLog> cleanSearchResultsForNegotiationLookup(Collection<ProposalLog> searchResults) {
         List<ProposalLog> newResults = new ArrayList<ProposalLog>();
-        for (ProposalLog pl : (List<ProposalLog>) searchResults) {
+        for (ProposalLog pl : searchResults) {
             if (StringUtils.isBlank(pl.getInstProposalNumber())) {
                 newResults.add(pl);
             }
@@ -120,7 +119,6 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
      * create 'merge' link
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
@@ -145,7 +143,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     @Override
     public List<Row> getRows() {
         if (this.getParameters().containsKey("returnLocation")
-                && ((String[]) this.getParameters().get("returnLocation"))[0].indexOf("institutionalProposalCreate") > 0) {
+                && (this.getParameters().get("returnLocation"))[0].indexOf("institutionalProposalCreate") > 0) {
             isLookupForProposalCreation = true;
         }
 
@@ -203,7 +201,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     }    
     
     protected void checkIsLookupForProposalCreation(String backLocation) {
-        if (backLocation.contains("institutionalProposalCreate.do")) {
+        if (backLocation.contains("forInstitutionalProposal")) {
             isLookupForProposalCreation = true;
             Person user = GlobalVariables.getUserSession().getPerson();
             String instPropDocName = "InstitutionalProposalDocument";
