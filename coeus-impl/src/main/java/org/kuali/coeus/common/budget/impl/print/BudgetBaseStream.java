@@ -38,16 +38,15 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelRateAndBase;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -101,7 +100,10 @@ public abstract class BudgetBaseStream implements XmlStream {
     @Autowired
     @Qualifier("dateTimeService")
 	protected DateTimeService dateTimeService;
-	
+
+	@Autowired
+	@Qualifier("dataObjectService")
+	protected DataObjectService dataObjectService;
 
 	/**
 	 * This method gets ReportHeaderType from first budgetPeriod.It set all the
@@ -2384,5 +2386,13 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 */
 	public void setDateTimeService(DateTimeService dateTimeService) {
 		this.dateTimeService = dateTimeService;
+	}
+
+	public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
 	}
 }
