@@ -35,14 +35,12 @@ import java.util.*;
  * XML generator streams . All those report XML stream implementations need to
  * extend and use the functions defined in this class.
  * 
- * @author
  */
 public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	protected static final String SEPARATER_STRING = " - ";
 	protected static final String OVERHEAD_RATE_PREFIX = "OH - ";
 	protected static final String PERIOD_COST_TOTAL = "Total";
 	protected static final String CALCULATED_AMOUNT_COST_ELEMENT_DESC = "Calculated Amount";
-	private static final String RATE_CLASS_CODE_PARAMETER = "rateClassCode";
 
 	/**
 	 * <p>
@@ -376,15 +374,7 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 	 * 
 	 */
 	private RateClass getRateClassBo(String rateClassCode) {
-		RateClass rateClass = null;
-		Map<String, String> personMap = new HashMap<String, String>();
-		personMap.put(RATE_CLASS_CODE_PARAMETER, rateClassCode);
-		List<RateClass> rateClassList = (List<RateClass>) businessObjectService
-				.findMatching(RateClass.class, personMap);
-		if (rateClassList != null && !rateClassList.isEmpty()) {
-			rateClass = rateClassList.get(0);
-		}
-		return rateClass;
+		return dataObjectService.find(RateClass.class, rateClassCode);
 	}
 
 	/**

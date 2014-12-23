@@ -34,10 +34,8 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.krad.util.AuditCluster;
-import org.kuali.rice.krad.util.AuditError;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +56,11 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
     @Autowired
     @Qualifier("unitService")
     private UnitService unitService;
@@ -816,10 +819,7 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
     @SuppressWarnings("unchecked")
     @Override
     public Collection<RateClass> getBudgetRateClasses(String rateClassType) {
-        Map<String,String> queryMap = new HashMap<String,String>();
-        queryMap.put("rateClassType", rateClassType);
-        
-        return getBusinessObjectService().findMatching(RateClass.class, queryMap);
+        return getDataObjectService().findMatching(RateClass.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("rateClassTypeCode", rateClassType)).build()).getResults();
     }
 
     /**
@@ -921,5 +921,13 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
 
     public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
         this.fiscalYearMonthService = fiscalYearMonthService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 }
