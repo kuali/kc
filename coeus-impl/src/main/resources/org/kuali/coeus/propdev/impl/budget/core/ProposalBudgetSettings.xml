@@ -17,6 +17,9 @@
 	<bean id="PropBudget-BudgetSettings-Dialog-parent"
 		abstract="true" parent="Uif-DialogGroup" p:headerText="Budget Settings"
 		p:destroyDialogOnHidden="true">
+		<property name="header.upperGroup">
+            <null/>
+  		</property>
 		<property name="items">
 			<list>
 				<ref bean="PropBudget-BudgetSettings-Section" />
@@ -27,10 +30,10 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Apply Changes" p:methodToCall="saveBudgetSettings"
-							p:order="10"
+							p:order="10" p:refreshId = "PropBudget-BudgetSettings-Dialog" p:dialogDismissOption=""
 							p:render="@{!#parent.readOnly or #view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS)}"/>
-						<bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
-							p:order="20" />
+						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+							p:methodToCall="closeBudgetValidation" p:order="20" />
 					</list>
 				</property>
 			</bean>
