@@ -18,6 +18,7 @@ package org.kuali.coeus.common.questionnaire.impl.core;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.questionnaire.impl.QuestionnaireDao;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
@@ -56,6 +57,10 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("questionnaireDao")
+    private QuestionnaireDao questionnaireDao;
 
     private Map<String, String> permissionModuleMap;
 
@@ -165,10 +170,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
     
     public boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, questionnaire.getQuestionnaireSeqId());
-        List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class, fieldValues, "sequenceNumber", false);
-        return questionnaire.getId().equals(questionnaires.get(0).getId());
+        return questionnaire.getSequenceNumber().equals(getQuestionnaireDao().getCurrentQuestionnaireSequenceNumber(questionnaire.getQuestionnaireSeqId()));
     }
 
     public BusinessObjectService getBusinessObjectService() {
@@ -190,4 +192,13 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
     }
+
+    public void setQuestionnaireDao(QuestionnaireDao questionnaireDao) {
+        this.questionnaireDao = questionnaireDao;
+    }
+
+    public QuestionnaireDao getQuestionnaireDao() {
+        return questionnaireDao;
+    }
+
 }
