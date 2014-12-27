@@ -112,6 +112,11 @@
 		p:propertyName="budget.allBudgetRates" p:renderAddLine="false"
 		p:layoutManager.renderSequenceField="false" p:renderLineActions="false"
 		p:renderInactiveToggleButton="false">
+        <property name="layoutManager.groupingPropertyNames">
+            <list>
+                <value>rateClass.description</value>
+            </list>
+        </property>
 		<property name="filters">
 			<list>
 				<bean parent="Uif-ConditionalCollectionFilter" p:expression="@{#line.rateClassType == #rateClassType and #line.displayLocation}"/>
