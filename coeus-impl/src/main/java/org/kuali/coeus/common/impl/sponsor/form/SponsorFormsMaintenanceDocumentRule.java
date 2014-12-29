@@ -28,7 +28,6 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
  * sponsor code and return a more informative error message than the Rice message if the length constraint is violated.
  */
 public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
-
     private GlobalVariableService globalVariableService;
 
     public SponsorFormsMaintenanceDocumentRule() {
@@ -61,7 +60,7 @@ public class SponsorFormsMaintenanceDocumentRule extends KcMaintenanceDocumentRu
         SponsorForms sponsorForm = (SponsorForms) document.getNewMaintainableObject().getDataObject();
         if (StringUtils.isBlank(sponsorForm.getSponsorCode()) && StringUtils.isBlank(sponsorForm.getSponsorHierarchyName())
                 || (StringUtils.isNotBlank(sponsorForm.getSponsorCode()) && StringUtils.isNotBlank(sponsorForm.getSponsorHierarchyName()))) {
-            globalVariableService.getMessageMap().putError("document.newMaintainableObject.sponsorCode", "error.sponsorForms.selector");
+            getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.sponsorCode", "error.sponsorForms.selector");
             valid = false;
         }
         return valid;
