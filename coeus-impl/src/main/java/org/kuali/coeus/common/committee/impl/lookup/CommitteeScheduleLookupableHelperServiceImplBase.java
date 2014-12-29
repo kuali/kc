@@ -196,17 +196,20 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if (canModifySchedule((CS) businessObject)) {
+        boolean canModify = canModifySchedule((CS) businessObject);
+        boolean canView = canViewSchedule((CS) businessObject);
+
+        if (canModify) {
             htmlDataList.add(getLink((CS) businessObject, true));
             htmlDataList.add(getLink((CS) businessObject, false));
         }
-        else if (canViewSchedule((CS) businessObject)) {
+        else if (canView) {
             htmlDataList.add(getLink((CS) businessObject, false));
         }
         
         // append past message to action URL list if the schedule date has passed
         
-        if( ((CS) businessObject).isScheduleDateInPast()) {
+        if( ((CS) businessObject).isScheduleDateInPast() && (canModify || canView)) {
             AnchorHtmlData htmlData = new AnchorHtmlData();
             htmlData.setDisplayText("(past)");
             htmlDataList.add(htmlData);
