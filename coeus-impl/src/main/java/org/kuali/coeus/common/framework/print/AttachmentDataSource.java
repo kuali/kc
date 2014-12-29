@@ -34,6 +34,7 @@ public abstract class AttachmentDataSource extends KcPersistableBusinessObjectBa
     private String type;
 
     @Column(name = "DATA")
+    @Basic(fetch = FetchType.LAZY)
     @Lob
     private byte[] data;
 
