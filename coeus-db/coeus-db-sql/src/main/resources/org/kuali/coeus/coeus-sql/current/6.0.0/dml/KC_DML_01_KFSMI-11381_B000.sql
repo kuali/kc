@@ -1,5 +1,5 @@
 insert into REPORT (REPORT_CODE, DESCRIPTION, FINAL_REPORT_FLAG, ACTIVE_FLAG, VER_NBR, UPDATE_TIMESTAMP, UPDATE_USER, OBJ_ID)
-	values ((select max(cast(REPORT_CODE as int))+1 from REPORT), 'KFS Invoicing', 'N', 'Y', 1, SYSDATE, 'admin', SYS_GUID())
+	values ((select max(cast(REPORT_CODE as int))+1 from REPORT), 'KFS Invoicing', 'N', 'N', 1, SYSDATE, 'admin', SYS_GUID())
 /
 
 insert into FREQUENCY (FREQUENCY_CODE, DESCRIPTION, NUMBER_OF_DAYS, NUMBER_OF_MONTHS, REPEAT_FLAG, ADVANCE_NUMBER_OF_DAYS, 
