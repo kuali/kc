@@ -118,7 +118,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             institutionalProposal.setProposalNumber(getNextInstitutionalProposalNumber());
             
             InstitutionalProposalDocument institutionalProposalDocument = mergeProposals(institutionalProposal, developmentProposal, budget);
-            verifyAndSetInstitutionalProposalIndicators(institutionalProposalDocument.getInstitutionalProposal());
+            setInstitutionalProposalIndicators(institutionalProposalDocument.getInstitutionalProposal());
             documentService.routeDocument(institutionalProposalDocument, ROUTE_MESSAGE + developmentProposal.getProposalNumber(), new ArrayList<AdHocRouteRecipient>());
             return institutionalProposalDocument.getInstitutionalProposal().getProposalNumber();
         } catch (WorkflowException ex) {
@@ -140,7 +140,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         
         try {
             InstitutionalProposalDocument newInstitutionalProposalDocument = versionProposal(proposalNumber, developmentProposal, budget);
-            verifyAndSetInstitutionalProposalIndicators(newInstitutionalProposalDocument.getInstitutionalProposal());
+            setInstitutionalProposalIndicators(newInstitutionalProposalDocument.getInstitutionalProposal());
             documentService.routeDocument(newInstitutionalProposalDocument, ROUTE_MESSAGE + developmentProposal.getProposalNumber(), 
             		new ArrayList<AdHocRouteRecipient>());
             institutionalProposalVersioningService.updateInstitutionalProposalVersionStatus(newInstitutionalProposalDocument.getInstitutionalProposal(), 
@@ -225,7 +225,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                             activeVersion.getInstitutionalProposalDocument().getDocumentHeader().getDocumentDescription());
                     
                     institutionalProposalDocument.setInstitutionalProposal(newVersion);
-                    verifyAndSetInstitutionalProposalIndicators(institutionalProposalDocument.getInstitutionalProposal());
+                    setInstitutionalProposalIndicators(institutionalProposalDocument.getInstitutionalProposal());
                     documentService.routeDocument(institutionalProposalDocument, 
                             "Update Proposal Status to Funded", new ArrayList<AdHocRouteRecipient>());
                     
@@ -284,7 +284,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                             activeVersion.getInstitutionalProposalDocument().getDocumentHeader().getDocumentDescription());
                     
                     institutionalProposalDocument.setInstitutionalProposal(newVersion);
-                    verifyAndSetInstitutionalProposalIndicators(institutionalProposalDocument.getInstitutionalProposal());
+                    setInstitutionalProposalIndicators(institutionalProposalDocument.getInstitutionalProposal());
                     documentService.routeDocument(institutionalProposalDocument, 
                             "Update Proposal Status to Pending", new ArrayList<AdHocRouteRecipient>());
                     
@@ -689,35 +689,27 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * If an IP is being versioned and the home unit or cost shares allocations are changed, there may be problems with these fields.
      * @param institutionalProposal
      */
-    protected void verifyAndSetInstitutionalProposalIndicators(InstitutionalProposal institutionalProposal) {
-    	if (StringUtils.isEmpty(institutionalProposal.getCostSharingIndicator())) {
-    		if (!institutionalProposal.getInstitutionalProposalCostShares().isEmpty()) {
-                institutionalProposal.setCostSharingIndicator(TRUE_INDICATOR_VALUE);
-            } else {
-                institutionalProposal.setCostSharingIndicator(FALSE_INDICATOR_VALUE);
-            }
-    	}
-    	if (StringUtils.isEmpty(institutionalProposal.getSpecialReviewIndicator())) {
-    		if (!institutionalProposal.getSpecialReviews().isEmpty()) {
-    			institutionalProposal.setSpecialReviewIndicator(TRUE_INDICATOR_VALUE);
-            } else {
-            	institutionalProposal.setSpecialReviewIndicator(FALSE_INDICATOR_VALUE);
-            }
-    	}
-    	if (StringUtils.isEmpty(institutionalProposal.getIdcRateIndicator())) {
-    		if (!institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().isEmpty()) {
-	           institutionalProposal.setIdcRateIndicator(TRUE_INDICATOR_VALUE); 
-	        } else {
-	            institutionalProposal.setIdcRateIndicator(FALSE_INDICATOR_VALUE);
-	        }
-    	}
-    	if (StringUtils.isEmpty(institutionalProposal.getScienceCodeIndicator())) {
-    		if (!institutionalProposal.getInstitutionalProposalScienceKeywords().isEmpty()) {
-    			institutionalProposal.setScienceCodeIndicator(TRUE_INDICATOR_VALUE);
-            } else {
-            	institutionalProposal.setScienceCodeIndicator(FALSE_INDICATOR_VALUE);
-            }
-    	}
+    protected void setInstitutionalProposalIndicators(InstitutionalProposal institutionalProposal) {
+    	if (!institutionalProposal.getInstitutionalProposalCostShares().isEmpty()) {
+            institutionalProposal.setCostSharingIndicator(TRUE_INDICATOR_VALUE);
+        } else {
+            institutionalProposal.setCostSharingIndicator(FALSE_INDICATOR_VALUE);
+        }
+		if (!institutionalProposal.getSpecialReviews().isEmpty()) {
+			institutionalProposal.setSpecialReviewIndicator(TRUE_INDICATOR_VALUE);
+        } else {
+        	institutionalProposal.setSpecialReviewIndicator(FALSE_INDICATOR_VALUE);
+        }
+		if (!institutionalProposal.getInstitutionalProposalUnrecoveredFandAs().isEmpty()) {
+           institutionalProposal.setIdcRateIndicator(TRUE_INDICATOR_VALUE); 
+        } else {
+            institutionalProposal.setIdcRateIndicator(FALSE_INDICATOR_VALUE);
+        }
+		if (!institutionalProposal.getInstitutionalProposalScienceKeywords().isEmpty()) {
+			institutionalProposal.setScienceCodeIndicator(TRUE_INDICATOR_VALUE);
+        } else {
+        	institutionalProposal.setScienceCodeIndicator(FALSE_INDICATOR_VALUE);
+        }
     }
     
     /* Service injection getters and setters */
