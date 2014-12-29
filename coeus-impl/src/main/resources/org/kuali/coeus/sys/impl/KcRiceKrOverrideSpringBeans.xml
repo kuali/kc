@@ -32,4 +32,6 @@
     <bean id="documentAdHocService" class="org.kuali.coeus.sys.framework.service.KcDocumentAdHocServiceImpl"
     		p:dataObjectService-ref="dataObjectService" />
 
+    <bean id="viewLifecyclePhaseBuilder" class="org.kuali.coeus.org.kuali.rice.krad.uif.lifecycle.KcViewLifecyclePhaseBuilderBase"/>
+
 </beans>
