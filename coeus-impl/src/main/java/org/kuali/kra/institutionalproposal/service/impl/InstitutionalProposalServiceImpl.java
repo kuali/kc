@@ -747,6 +747,11 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         return Arrays.asList(value.split(","));
     }
 
+    @Override
+    public Long getProposalId(Award award) {
+        return getInstitutionalProposalDao().getProposalId(award);
+    }
+
     protected ParameterService getParameterService() {
         return parameterService;
     }

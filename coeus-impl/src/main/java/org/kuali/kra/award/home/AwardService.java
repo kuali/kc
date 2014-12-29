@@ -61,7 +61,7 @@ public interface AwardService {
      * Create new version of the award document
      * @param awardDocument
      * @return
-     * @throws VersionException
+     * @throws VersionExceptionInstitutionalProposalServ
      */
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException;
     
