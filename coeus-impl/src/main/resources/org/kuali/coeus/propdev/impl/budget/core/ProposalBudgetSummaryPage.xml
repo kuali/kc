@@ -19,7 +19,7 @@
 	<bean id="PropBudget-SummaryPage-parentBean" parent="PropBudget-Page">
 		<property name="items">
 			<list>
-            	<bean parent="Kc-LineItemTable" p:propertyName="selectedBudget.budgetSummaryDetails"
+            	<bean parent="Kc-LineItemTable" p:propertyName="budget.budgetSummaryDetails"
                       p:headerText="Budget Summary" p:order="10" />
 			</list>
 		</property>

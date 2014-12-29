@@ -64,9 +64,9 @@
                                   p:toggleText="Print Budget Comments">
                                 <property name="menuItems">
                                     <list>
-                                        <bean parent="PropDev-OpportunityPage-SelectMenuAction" p:actionLabel="Select All" p:order="10"
+                                        <bean parent="Uif-MenuAction" p:actionLabel="Select All" p:order="10" p:cssClasses="pull-left"
                                               p:actionScript="jQuery(this).closest('.uif-tableCollectionSection').find(&quot;input[name$='selectToComment']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', true);"/>
-                                        <bean parent="PropDev-OpportunityPage-SelectMenuAction" p:actionLabel="Select None" p:order="20"
+                                        <bean parent="Uif-MenuAction" p:actionLabel="Select None" p:order="20" p:cssClasses="pull-left"
                                               p:actionScript="jQuery(this).closest('.uif-tableCollectionSection').find(&quot;input[name$='selectToComment']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', false);"/>
                                     </list>
                                 </property>
@@ -83,10 +83,10 @@
 							<bean parent="Uif-DropdownToggleMenu" p:toggleText="Select">
 								<property name="menuItems">
 									<list>
-										<bean parent="PropDev-OpportunityPage-SelectMenuAction" p:actionLabel="Select All" p:order="10"
+										<bean parent="Uif-MenuAction" p:actionLabel="Select All" p:order="10" p:cssClasses="pull-left"
 											p:actionScript="jQuery(this).closest('.uif-tableCollectionSection').find(&quot;input[name$='selectToPrint']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', true);" />
-										<bean parent="PropDev-OpportunityPage-SelectMenuAction"
-											p:actionLabel="Select None" p:order="20"
+										<bean parent="Uif-MenuAction"
+											p:actionLabel="Select None" p:order="20" p:cssClasses="pull-left"
 											p:actionScript="jQuery(this).closest('.uif-tableCollectionSection').find(&quot;input[name$='selectToPrint']&quot;).not(&quot;input[disabled='disabled']&quot;).prop('checked', false);" />
 									</list>
 								</property>
@@ -109,10 +109,8 @@
 			<bean parent="Uif-FooterBase">
 				<property name="items">
 					<list>
-						<bean parent="Uif-SecondaryActionButton" p:methodToCall="refresh"
-							p:cssClasses="pull-right"
-							p:successCallback="window.location.href='@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=printBudgetForms&amp;formKey=@{formKey}';dismissDialog('PropBudget-PrintForms-Dialog');"
-							p:refreshId="PropBudget-PrintForms-Dialog" p:actionLabel="Print"
+						<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:disableBlocking="true" p:onClickScript="dismissDialog('PropBudget-PrintForms-Dialog');"
+							p:cssClasses="pull-right" p:methodToCall="printBudgetForms" p:actionLabel="Print"
 							p:order="10" />
 					</list>
 				</property>
