@@ -53,8 +53,6 @@ public class AwardAccountDTO implements Serializable {
     private boolean letterOfCreditReviewIndicator;
     private String invoiceDocumentStatus;
     
-   
-    
     public String getPrimeSponsorTypeCode() {
         return primeSponsorTypeCode;
     }
