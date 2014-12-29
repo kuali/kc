@@ -81,7 +81,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Kc-Wizard-PersonnelResults"
-                      p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
+                      p:render="@{#fp.addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
 					  p:order="10" >
                     <property name="items">
                         <list>
@@ -109,7 +109,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Wizard-RolodexResults"
-                      p:progressiveRender="@{#fp.addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
+                      p:render="@{#fp.addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
                       p:order="20" >
                     <property name="items">
                         <list merge="true">

@@ -12,6 +12,36 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+  <bean id="Uif-LightTableGroup" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.KcLightTable" parent="Uif-GroupBase">
+    <property name="template" value="/krad/WEB-INF/ftl/components/group/lightTable.ftl"/>
+    <property name="templateName" value="uif_lightTable"/>
+    <property name="bindingInfo">
+      <ref bean="Uif-BindingInfo"/>
+    </property>
+    <property name="cssClasses">
+      <list>
+        <value>uif-tableCollectionLayout</value>
+        <value>uif-dataTable</value>
+        <value>uif-lightTable</value>
+      </list>
+    </property>
+    <property name="richTable">
+      <bean parent="Uif-PagedRichTable">
+        <property name="templateOptions">
+          <map merge="true">
+            <entry key="bRetrieve" value="true"/>
+            <entry key="bDeferRender" value="true"/>
+            <entry key="bAutoWidth" value="false"/>
+            <entry key="bProcessing" value="true"/>
+            <entry key="bScrollCollapse" value="true"/>
+            <entry key="bStateSave" value="true"/>
+          </map>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+
     <bean id="Uif-View" parent="Kc-View-parentBean"/>
     <bean id="Kc-View-parentBean" parent="Uif-View-parentBean">
         <property name="sessionPolicy.renderTimeoutView" value="true"/>
