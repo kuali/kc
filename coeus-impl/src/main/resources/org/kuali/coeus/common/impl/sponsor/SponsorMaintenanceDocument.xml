@@ -16,6 +16,7 @@
         <value>sponsorCode</value>
       </list>
     </property>
+    <property name="businessRulesClass" value="org.kuali.coeus.common.impl.sponsor.SponsorMaintenanceDocumentRule"/>
     <property name="documentTypeName" value="SponsorMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.coeus.common.impl.sponsor.SponsorDocumentAuthorizer"/>
     <property name="webScriptFiles">
