@@ -1,6 +1,5 @@
 package org.kuali.kra.award.external.award;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +20,7 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
 	private BusinessObjectService businessObjectService;
 	private ParameterService parameterService;
     private InstitutionalProposalService institutionalProposalService;
+
 	@Override
 	public AwardAccountDTO buildDto(Award award) {
         AwardAccountDTO awardAccountDTO = new AwardAccountDTO();
@@ -83,7 +83,6 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
      * * Method checks if the award has a federal sponsor.
      * If the award sponsor type code or the prime sponsor type is federal, then
      * the document should be routed.
-     * @see org.kuali.kra.external.award.AwardAccountService#isFederalSponsor(String)
      */
     protected boolean isFederalSponsor(Award award) {
        
