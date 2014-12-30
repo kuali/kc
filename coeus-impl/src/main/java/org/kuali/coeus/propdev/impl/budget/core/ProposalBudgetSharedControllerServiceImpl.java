@@ -128,7 +128,8 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 		}
 	}
 	
-    public ModelAndView populateBudgetSummary(Long budgetId, List<ProposalDevelopmentBudgetExt> budgets, UifFormBase form) throws Exception {
+    public <T extends UifFormBase & SelectableBudget> ModelAndView populateBudgetSummary(Long budgetId, 
+    		List<ProposalDevelopmentBudgetExt> budgets, T form) throws Exception {
         ProposalDevelopmentBudgetExt selectedBudget = null;
         if (budgets != null) {
             for (ProposalDevelopmentBudgetExt curBudget : budgets) {
@@ -144,8 +145,8 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
         return getModelAndViewService().showDialog(BUDGET_SUMMARY_DIALOG_ID, true, form);
     }	
 	
-    public ModelAndView populatePrintForms(Long budgetId, List<ProposalDevelopmentBudgetExt> budgets, UifFormBase form)
-			throws Exception {
+    public <T extends UifFormBase & SelectableBudget> ModelAndView populatePrintForms(Long budgetId, 
+    		List<ProposalDevelopmentBudgetExt> budgets, T form) throws Exception {
 
 		ProposalDevelopmentBudgetExt selectedBudget = null;
 		if (budgets != null) {
@@ -162,8 +163,8 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 		return getModelAndViewService().showDialog(BUDGET_PRINT_FORMS_DIALOG_ID, true, form);
 	}
 	
-	public ModelAndView printBudgetForms(ProposalDevelopmentBudgetExt selectedBudget, UifFormBase form,
-			HttpServletResponse response) throws Exception {
+	public <T extends UifFormBase & SelectableBudget> ModelAndView printBudgetForms(ProposalDevelopmentBudgetExt selectedBudget, 
+			T form, HttpServletResponse response) throws Exception {
 		List<BudgetPrintForm> selectedBudgetPrintForms = new ArrayList<BudgetPrintForm>();
 		for (BudgetPrintForm selectedForm : selectedBudget.getBudgetPrintForms()) {
 			if (Boolean.TRUE.equals(selectedForm.getSelectToPrint())) {
