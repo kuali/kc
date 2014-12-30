@@ -164,6 +164,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
         		form.getAddProjectPersonnelHelper().reset();
         		form.getAddProjectPersonnelHelper().setCurrentTabBudgetPeriod(budgetPeriod);
         		setBudgetPeriodStartDateAndEndDateOnLineItems(form, budgetPeriod);
+        		form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail().setBudget(budget);
         		modelAndView = getModelAndViewService().showDialog(ADD_PERSONNEL_PERIOD_DIALOG_ID, true, form);
             }
         }
@@ -211,8 +212,6 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		refreshBudgetLineItemReferences(newBudgetLineItem);
 		setBudgetLineItemGroupName(form, newBudgetLineItem);
 		if(!isSummaryPersonnel(newBudgetPersonnelDetail)) {
-			newBudgetPersonnelDetail.setBudget(budget);
-			newBudgetPersonnelDetail.setBudgetId(budget.getBudgetId());
 			getBudgetPersonnelBudgetService().refreshBudgetPersonnelLineItemReferences(newBudgetPersonnelDetail);
 		}
 		boolean rulePassed = isAddRulePassed(budget, currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail);

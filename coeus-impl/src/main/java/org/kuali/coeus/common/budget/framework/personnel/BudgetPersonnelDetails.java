@@ -698,6 +698,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 
 	public void setBudget(Budget budget) {
 		this.budget = budget;
+		this.budgetId = budget != null ? budget.getBudgetId() : null;
 	}
 
 	public BudgetLineItem getBudgetLineItem() {

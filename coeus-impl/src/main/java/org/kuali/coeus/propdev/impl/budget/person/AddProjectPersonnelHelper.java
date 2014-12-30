@@ -18,6 +18,7 @@ package org.kuali.coeus.propdev.impl.budget.person;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
@@ -103,6 +104,12 @@ public class AddProjectPersonnelHelper extends AddProjectBudgetLineItemHelper {
 			getDataObjectService().wrap(getEditBudgetPerson()).fetchRelationship("jobCodeRef");
 		}
 		return getEditBudgetPerson().getJobCodeRef() != null ? getEditBudgetPerson().getJobCodeRef().getJobTitle() : "";
+	}
+
+	public String getAppointmentType() {
+		getDataObjectService().wrap(getBudgetPersonnelDetail()).fetchRelationship("budgetPerson");
+		BudgetPerson budgetPerson = getBudgetPersonnelDetail().getBudgetPerson();
+		return budgetPerson != null ? budgetPerson.getAppointmentType().getDescription() : "";
 	}
 
 }

@@ -80,7 +80,7 @@ public class BudgetPersonValuesFinder extends UifKeyValuesFinderBase {
             	duplicatePerson = !distinctKeys.add(getPersonUniqueKey(budgetPerson));
             }
             if (!duplicatePerson) {
-            	keyValues.add(new ConcreteKeyValue(budgetPerson.getPersonSequenceNumber().toString(), budgetPerson.getPersonName()));
+            	keyValues.add(new ConcreteKeyValue(budgetPerson.getPersonSequenceNumber().toString(), getBudgetPersonLabel(budgetPerson)));
             }
     	}
     	keyValues.add(new ConcreteKeyValue(BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonId(), BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonName()));
@@ -93,6 +93,18 @@ public class BudgetPersonValuesFinder extends UifKeyValuesFinderBase {
     	uniqueKey.append(budgetPerson.getJobCode());
     	uniqueKey.append(budgetPerson.getEffectiveDate());
     	return uniqueKey.toString();
+    }
+    
+    protected String getBudgetPersonLabel(BudgetPerson budgetPerson) {
+    	StringBuffer personLabel = new StringBuffer();
+    	String personName = budgetPerson.getPersonName() != null ? budgetPerson.getPersonName() : "";
+    	personLabel.append(personName);
+    	if(budgetPerson.getJobCode() != null) {
+        	personLabel.append(" (");
+        	personLabel.append(budgetPerson.getJobCode());
+        	personLabel.append(") ");
+    	}
+    	return personLabel.toString();
     }
 
 	public DataObjectService getDataObjectService() {
