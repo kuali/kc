@@ -299,4 +299,44 @@ public class Sponsor extends KcPersistableBusinessObjectBase implements SponsorC
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    public String getDunningCampaignId() {
+        return dunningCampaignId;
+    }
+
+    public void setDunningCampaignId(String dunningCampaignId) {
+        this.dunningCampaignId = dunningCampaignId;
+    }
+
+    public DunningCampaign getDunningCampaign() {
+        return dunningCampaign;
+    }
+
+    public void setDunningCampaign(DunningCampaign dunningCampaign) {
+        this.dunningCampaign = dunningCampaign;
+    }
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
+    public String getCustomerExists() {
+        return customerExists;
+    }
+
+    public void setCustomerExists(String customerExists) {
+        this.customerExists = customerExists;
+    }
+
+    public String getCustomerTypeCode() {
+        return customerTypeCode;
+    }
+
+    public void setCustomerTypeCode(String customerTypeCode) {
+        this.customerTypeCode = customerTypeCode;
+    }
 }
