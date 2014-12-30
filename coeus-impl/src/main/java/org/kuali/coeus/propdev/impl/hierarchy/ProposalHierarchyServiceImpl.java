@@ -1276,7 +1276,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for (Iterator<BudgetPerson> iter = parentBudget.getBudgetPersons().iterator(); iter.hasNext(); ) {
         	BudgetPerson person = iter.next();
         	if (StringUtils.equals(childProposalNumber, person.getHierarchyProposalNumber())) {
-        		dataObjectService.delete(person);
         		iter.remove();
         	}
         }
