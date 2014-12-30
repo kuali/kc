@@ -20,7 +20,9 @@ import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -50,7 +52,7 @@ public interface AwardService {
     
     /**
      * This method finds all Awards for the specified awardNumber
-     * @param awardId
+     * @param awardNumber
      * @return The list of Awards
      */
     public List<Award> findAwardsForAwardNumber(String awardNumber);
@@ -59,7 +61,7 @@ public interface AwardService {
      * Create new version of the award document
      * @param awardDocument
      * @return
-     * @throws VersionException
+     * @throws VersionExceptionInstitutionalProposalServ
      */
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException;
     
@@ -89,6 +91,19 @@ public interface AwardService {
     public void synchNewCustomAttributes(Award newAward, Award oldAward);
     
     public Award getAwardAssociatedWithDocument(String docNumber);
-    
-    
+
+    /**
+     * Get the Award Number for an Awrad based upon its unique id number.
+     *
+     * @param awardId
+     * @return
+     */
+    public String getAwardNumber(Long awardId);
+
+    /**
+     * Retrieves awards by a given Map of criteria
+     * @param fieldValues a Map of criteria to find matching awards for
+     * @return a result-limited Collection of matching awards
+     */
+    public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues);
 }

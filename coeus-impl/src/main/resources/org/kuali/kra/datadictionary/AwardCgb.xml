@@ -1,0 +1,190 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AwardCgb" parent="AwardCgb-parentBean" />
+
+  <bean id="AwardCgb-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kra.award.cgb.AwardCgb" />
+		<property name="objectLabel" value="Award CGB" />    
+    <property name="titleAttribute" value="awardId" />
+    <property name="attributes" >
+      <list>
+        <ref bean="AwardCgb-additionalFormsRequired" />
+        <ref bean="AwardCgb-minInvoiceAmount"/>
+        <ref bean="AwardCgb-autoApproveInvoice" />
+        <ref bean="AwardCgb-invoicingOption"/>
+        <ref bean="AwardCgb-stopWork" />
+        <ref bean="AwardCgb-dunningCampaignId"/>
+        <ref bean="AwardCgb-lastBilledDate" />
+        <ref bean="AwardCgb-previousLastBilledDate" />
+        <ref bean="AwardCgb-finalBill" />
+        <ref bean="AwardCgb-amountToDraw"/>
+        <ref bean="AwardCgb-letterOfCreditReviewIndicator"/>
+        <ref bean="AwardCgb-locCreationType"/>
+        <ref bean="AwardCgb-invoiceDocumentStatus" />
+        <ref bean="AwardCgb-suspendInvoicing" />
+      </list>
+    </property>
+  </bean>
+    
+    <bean id="AwardCgb-additionalFormsRequired" parent="AwardCgb-additionalFormsRequired-parentBean" />
+    <bean id="AwardCgb-additionalFormsRequired-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+      <property name="name" value="additionalFormsRequired"/>
+      <property name="label" value="Additional Forms Required" />
+      <property name="shortLabel" value="Additional Forms Required" />
+      <property name="required" value="false"/>
+    </bean>
+
+    <bean id="AwardCgb-minInvoiceAmount" parent="AwardCgb-minInvoiceAmount-parentBean" />
+    <bean id="AwardCgb-minInvoiceAmount-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="minInvoiceAmount"/>
+      <property name="label" value="Minimum Invoice Amount" />
+      <property name="shortLabel" value="Minimum Invoice Amount" />
+      <property name="required" value="false"/>
+      <property name="maxLength" value="22" />
+      <property name="validationPattern" >
+        <bean parent="FixedPointValidationPattern"
+              p:precision="19"
+              p:scale="2"
+              p:allowNegative="true" />
+      </property>
+      <property name="control" >
+        <bean parent="CurrencyControlDefinition"
+              p:formattedMaxLength="22"
+              p:size="16" />
+      </property>
+    </bean>
+
+    <bean id="AwardCgb-autoApproveInvoice" parent="AwardCgb-autoApproveInvoice-parentBean" />
+    <bean id="AwardCgb-autoApproveInvoice-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+      <property name="name" value="autoApproveInvoice"/>
+      <property name="label" value="Auto Approve" />
+      <property name="shortLabel" value="Auto Approve" />
+      <property name="required" value="false"/>
+    </bean>
+
+    <bean id="AwardCgb-invoicingOption" parent="AwardCgb-invoicingOption-parentBean" />
+    <bean id="AwardCgb-invoicingOption-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="invoicingOption" />
+      <property name="label" value="Invoicing Option" />
+      <property name="shortLabel" value="Invoicing Option" />
+      <property name="maxLength" value="120" />
+      <property name="required" value="false"/>
+		<property name="control" >
+		  <bean parent="SelectControlDefinition"
+		        p:valuesFinderClass="org.kuali.kra.award.cgb.InvoicingOptionsValuesFinder" />
+		</property>
+    </bean>
+
+    <bean id="AwardCgb-stopWork" parent="AwardCgb-stopWork-parentBean" />
+    <bean id="AwardCgb-stopWork-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+      <property name="name" value="stopWork"/>
+	  <property name="label" value="Stop Work" />
+      <property name="shortLabel" value="Stop Work" />
+      <property name="required" value="false"/>
+    </bean>
+
+    <bean id="AwardCgb-dunningCampaignId" parent="AwardCgb-dunningCampaignId-parentBean" />
+    <bean id="AwardCgb-dunningCampaignId-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="dunningCampaignId" />
+      <property name="label" value="Dunning Campaign" />
+      <property name="shortLabel" value="Dunning Campaign" />
+      <property name="maxLength" value="4" />
+      <property name="required" value="false"/>
+      <property name="control" >
+        <bean parent="TextControlDefinition"
+              p:size="10" />
+      </property>      
+    </bean>    
+    
+    <bean id="AwardCgb-finalBill" parent="AwardCgb-finalBill-parentBean" />
+    <bean id="AwardCgb-finalBill-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+      <property name="name" value="finalBill"/>
+	  <property name="label" value="Final Billed Indicator" />
+      <property name="shortLabel" value="Final Billed Indicator" />
+      <property name="required" value="false"/>
+    </bean>
+    
+    <bean id="AwardCgb-lastBilledDate" parent="AwardCgb-lastBilledDate-parentBean" />
+    <bean id="AwardCgb-lastBilledDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+      <property name="name" value="lastBilledDate"/>
+	  <property name="label" value="Last Billed Date" />
+      <property name="shortLabel" value="Last Billed Date" />
+      <property name="required" value="false"/>
+    </bean>
+    
+    <bean id="AwardCgb-previousLastBilledDate" parent="AwardCgb-previousLastBilledDate-parentBean" />
+    <bean id="AwardCgb-previousLastBilledDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+      <property name="name" value="previousLastBilledDate"/>
+	  <property name="label" value="Previous Last Billed Date" />
+      <property name="shortLabel" value="Previous Last Billed Date" />
+      <property name="required" value="false"/>
+    </bean>
+    
+    <bean id="AwardCgb-amountToDraw" parent="AwardCgb-amountToDraw-parentBean" />
+    <bean id="AwardCgb-amountToDraw-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="amountToDraw"/>
+      <property name="label" value="Amount To Draw" />
+      <property name="shortLabel" value="Amount To Draw" />
+      <property name="required" value="false"/>
+      <property name="maxLength" value="22" />
+      <property name="validationPattern" >
+        <bean parent="FixedPointValidationPattern"
+              p:precision="19"
+              p:scale="2"
+              p:allowNegative="true" />
+      </property>
+      <property name="control" >
+        <bean parent="CurrencyControlDefinition"
+              p:formattedMaxLength="22"
+              p:size="16" />
+      </property>
+    </bean>       
+
+    <bean id="AwardCgb-letterOfCreditReviewIndicator" parent="AwardCgb-letterOfCreditReviewIndicator-parentBean" />
+    <bean id="AwardCgb-letterOfCreditReviewIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+      <property name="name" value="letterOfCreditReviewIndicator"/>
+	  <property name="label" value="Letter Of Credit Review" />
+      <property name="shortLabel" value="Letter Of Credit Review" />
+      <property name="required" value="false"/>
+    </bean>
+    
+    <bean id="AwardCgb-invoiceDocumentStatus" parent="AwardCgb-invoiceDocumentStatus-parentBean" />
+    <bean id="AwardCgb-invoiceDocumentStatus-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="invoiceDocumentStatus" />
+      <property name="label" value="Invoice Document Status" />
+      <property name="shortLabel" value="Invoice Document Status" />
+      <property name="maxLength" value="45" />
+      <property name="required" value="false"/>
+      <property name="control" >
+        <bean parent="TextControlDefinition"
+              p:size="40" />
+      </property>      
+    </bean>
+    
+    <bean id="AwardCgb-locCreationType" parent="AwardCgb-locCreationType-parentBean" />
+    <bean id="AwardCgb-locCreationType-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="name" value="locCreationType" />
+      <property name="label" value="Letter Of Credit Creation Type" />
+      <property name="shortLabel" value="Letter Of Credit Creation Type" />
+      <property name="maxLength" value="45" />
+      <property name="required" value="false"/>
+      <property name="control" >
+        <bean parent="TextControlDefinition"
+              p:size="40" />
+      </property>      
+    </bean>
+    
+	<bean id="AwardCgb-suspendInvoicing" parent="AwardCgb-suspendInvoicing-parentBean" />
+
+	<bean id="AwardCgb-suspendInvoicing-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+		<property name="name" value="suspendInvoicing" />
+		<property name="label" value="Exclude from Invoicing" />
+		<property name="shortLabel" value="Exclude from Invoicing" />
+		<property name="required" value="false" />
+	</bean>       
+</beans>
+

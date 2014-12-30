@@ -1,0 +1,105 @@
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://kfs.kuali.org/kc-kfs/v2_0"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http"
+  name="dunningCampaignServiceSOAP" targetNamespace="http://kfs.kuali.org/kc-kfs/v2_0">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:tns="http://kfs.kuali.org/kc-kfs/v2_0" elementFormDefault="unqualified"
+      targetNamespace="http://kfs.kuali.org/kc-kfs/v2_0" version="1.0">
+      <xs:element name="getDunningCampaign" type="tns:getDunningCampaign" />
+      <xs:element name="getDunningCampaignResponse" type="tns:getDunningCampaignResponse" />
+      <xs:element name="getMatching" type="tns:getMatching" />
+      <xs:element name="getMatchingResponse" type="tns:getMatchingResponse" />
+      <xs:complexType name="getMatching">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0"
+            name="searchCriteria" type="tns:hashMapElement" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="hashMapElement">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="key" type="xs:string" />
+          <xs:element minOccurs="0" name="value" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getMatchingResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0"
+            name="return" type="tns:dunningCampaignDTO" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="dunningCampaignDTO">
+        <xs:sequence>
+          <xs:element name="active" type="xs:boolean" />
+          <xs:element minOccurs="0" name="campaignDescription"
+            type="xs:string" />
+          <xs:element minOccurs="0" name="campaignID" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getDunningCampaign">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="campaignID" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getDunningCampaignResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return"
+            type="tns:dunningCampaignDTO" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getDunningCampaignResponse">
+    <wsdl:part element="tns:getDunningCampaignResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDunningCampaign">
+    <wsdl:part element="tns:getDunningCampaign" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMatchingResponse">
+    <wsdl:part element="tns:getMatchingResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMatching">
+    <wsdl:part element="tns:getMatching" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="dunningCampaignService">
+    <wsdl:operation name="getMatching">
+      <wsdl:input message="tns:getMatching" name="getMatching"></wsdl:input>
+      <wsdl:output message="tns:getMatchingResponse" name="getMatchingResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDunningCampaign">
+      <wsdl:input message="tns:getDunningCampaign" name="getDunningCampaign"></wsdl:input>
+      <wsdl:output message="tns:getDunningCampaignResponse"
+        name="getDunningCampaignResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="dunningCampaignServiceSOAPSoapBinding"
+    type="tns:dunningCampaignService">
+    <soap:binding style="document"
+      transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getDunningCampaign">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDunningCampaign">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDunningCampaignResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMatching">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getMatching">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getMatchingResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="dunningCampaignServiceSOAP">
+    <wsdl:port binding="tns:dunningCampaignServiceSOAPSoapBinding"
+      name="dunningCampaignServicePort">
+      <soap:address
+        location="http://stg.kfs.kuali.org/kfs-stg/remoting/dunningCampaignServiceSOAP" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

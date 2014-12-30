@@ -45,6 +45,7 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetLimit;
 import org.kuali.kra.award.budget.AwardBudgetService;
+import org.kuali.kra.award.cgb.AwardCgb;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -83,7 +84,6 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
@@ -273,6 +273,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     
     private VersionHistorySearchBo versionHistory;
     private transient KcPersonService kcPersonService;
+
+    private List<AwardCgb> awardCgbList;
+
     /**
      * 
      * Constructs an Award BO.
@@ -3395,11 +3398,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * This method is used by the tag file to display the F&A rate totals.
      * Needed to convert to KualiDecimal to avoid rounding issues.
      */
-    public KualiDecimal getFandATotals() {
-       KualiDecimal total = new KualiDecimal(0);
+    public ScaleTwoDecimal getFandATotals() {
+        ScaleTwoDecimal total = new ScaleTwoDecimal(0);
         for (AwardFandaRate currentRate : getAwardFandaRate()) {
             if (currentRate.getUnderrecoveryOfIndirectCost() != null) {
-                total = total.add(new KualiDecimal(currentRate.getUnderrecoveryOfIndirectCost().bigDecimalValue()));
+                total = total.add(new ScaleTwoDecimal(currentRate.getUnderrecoveryOfIndirectCost().bigDecimalValue()));
             }
         }
         return total;
@@ -3445,7 +3448,36 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 	public void setBudgets(List<AwardBudgetExt> budgets) {
 		this.budgets = budgets;
 	}
-	
 
-	
+    public AwardComment getAdditionalFormsDescriptionComment() {
+        return getAwardCommentByType("CG2", false, true);
+    }
+
+    public AwardComment getStopWorkReasonComment() {
+        return getAwardCommentByType("CG1", false, true);
+    }
+
+    public AwardComment getSuspendInvoicingComment() {
+        return getAwardCommentByType("CG3", false, true);
+    }
+
+    public AwardCgb getAwardCgb() {
+        if (awardCgbList.isEmpty()) {
+            awardCgbList.add(new AwardCgb(this));
+        }
+        return awardCgbList.get(0);
+    }
+
+    public void setAwardCgb(AwardCgb awardCgb) {
+        awardCgbList.set(0, awardCgb);
+    }
+
+    public List<AwardCgb> getAwardCgbList() {
+        return awardCgbList;
+    }
+
+    public void setAwardCgbList(List<AwardCgb> awardCgbList) {
+        this.awardCgbList = awardCgbList;
+    }
+
 }
