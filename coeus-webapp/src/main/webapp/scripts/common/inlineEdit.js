@@ -6,7 +6,7 @@ Kc.Inline = Kc.Inline || {};
 		if ($(element).is("input, textarea")) {
 			charWidth = ($(element).val().length + 2) * 8;
 		} else if ($(element).is("select")) {
-			charWidth = ($(element).find("option:selected").text().length + 2) * 8;
+			charWidth = ($(element).find("option:selected").text().length + 2) * 8 + 30;
 		}
 		if (charWidth < 40) {
 			charWidth = 40;
