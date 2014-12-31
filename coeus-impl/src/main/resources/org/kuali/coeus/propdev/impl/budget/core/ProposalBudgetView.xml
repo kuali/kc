@@ -140,9 +140,7 @@
 		p:actionLabel="Budget Notes" p:iconClass="icon-th-list" />
 	<bean id="PropBudget-NavigationMenu-Summary" parent="PropBudget-NavigationMenu-Summary-parentBean" />
 	<bean id="PropBudget-NavigationMenu-Summary-parentBean" parent="Uif-NavigationActionLink"
-		p:navigateToPageId="PropBudget-SummaryPage" p:actionLabel="Budget Summary" p:iconClass="icon-file" >
-        <property name="additionalSubmitData"><map><entry key="budgetId" value="@{budget.budgetId}"/></map></property>
-    </bean>
+		p:navigateToPageId="PropBudget-SummaryPage" p:actionLabel="Budget Summary" p:iconClass="icon-file"/>
 	<bean id="PropBudget-DocumentHeader" parent="PropBudget-DocumentHeader-parentBean" />
 	<bean id="PropBudget-DocumentHeader-parentBean" abstract="true"
 		parent="Uif-ViewHeader" p:headerText="Budget: Version 1"

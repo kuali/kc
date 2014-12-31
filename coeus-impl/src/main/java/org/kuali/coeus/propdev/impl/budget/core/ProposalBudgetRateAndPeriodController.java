@@ -126,7 +126,7 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
 	@MethodAccessible
     @Transactional @RequestMapping(params="methodToCall=generateAllPeriods")
     public ModelAndView generateAllPeriods(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Budget budget = form.getBudget();
+        ProposalDevelopmentBudgetExt budget = form.getBudget();
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(
                 new GenerateBudgetPeriodEvent(form.getBudget(), null));
         if(rulePassed) {

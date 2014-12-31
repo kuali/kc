@@ -29,7 +29,9 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.action.ProposalDevelopmentRejectionBean;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeUserRights;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.AddBudgetDto;
+import org.kuali.coeus.propdev.impl.budget.core.SelectableBudget;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataHelper;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
@@ -65,7 +67,7 @@ import java.util.*;
 
 @ChangeTracking
 @Link(path = "document.developmentProposal")
-public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase implements Auditable {
+public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBase implements Auditable, SelectableBudget {
 
     private static final long serialVersionUID = 1381360399393420225L;
     
@@ -124,7 +126,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 
     private List<String> unitRulesMessages = new ArrayList<String>();
 
-    private Budget selectedBudget;
+    private ProposalDevelopmentBudgetExt selectedBudget;
 
 
     public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
@@ -617,11 +619,11 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     }
 
 
-    public Budget getSelectedBudget() {
+    public ProposalDevelopmentBudgetExt getSelectedBudget() {
         return selectedBudget;
     }
 
-    public void setSelectedBudget(Budget selectedBudget) {
+    public void setSelectedBudget(ProposalDevelopmentBudgetExt selectedBudget) {
         this.selectedBudget = selectedBudget;
     }
 

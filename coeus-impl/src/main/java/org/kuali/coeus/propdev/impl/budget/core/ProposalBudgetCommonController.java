@@ -36,7 +36,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("proposalBudgetCommonController")
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
-	private static final String BUDGET_SUMMARY_DIALOG_ID = "PropBudget-SummaryPage-Dialog";
 	private static final String CONFIRM_RATE_CHANGES_DIALOG_ID = "PropBudget-BudgetSettings-ChangeRateDialog";
 	private static final String BUDGET_SETTINGS_DIALOG_ID = "PropBudget-BudgetSettings-Dialog";
 	private static final String BUDGET_DATA_VALIDATION_DIALOG_ID = "DataValidationSection";
@@ -391,26 +390,35 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	}
 
     @Transactional @RequestMapping(params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-SummaryPage"})
-   public ModelAndView navigateToBudgetSummary(@RequestParam("budgetId") Long budgetId,
-                                                @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+   public ModelAndView navigateToBudgetSummary(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
     	ModelAndView modelAndView = super.navigate(form);
-        form.setSelectedBudget(loadBudget(budgetId));
-    	if(form.getSelectedBudget().getBudgetSummaryDetails().isEmpty()) {
-           	getBudgetCalculationService().populateBudgetSummaryTotals(form.getSelectedBudget());
+    	if(form.getBudget().getBudgetSummaryDetails().isEmpty()) {
+           	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
     	}
         return modelAndView;
     }
 
     @Transactional @RequestMapping(params="methodToCall=populateBudgetSummary")
 	public ModelAndView populateBudgetSummary(@RequestParam("budgetId") Long budgetId,
-                                              @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+                                              @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
     	super.save(form);
-        form.setSelectedBudget(loadBudget(budgetId));
-        if(form.getSelectedBudget().getBudgetSummaryDetails().isEmpty()) {
-            getBudgetCalculationService().populateBudgetSummaryTotals(form.getSelectedBudget());
-        }
-    	return getModelAndViewService().showDialog(BUDGET_SUMMARY_DIALOG_ID, true, form);
+    	return getProposalBudgetSharedController().populateBudgetSummary(budgetId, form.getDevelopmentProposal().getBudgets(), form);
     }
+    
+	@Transactional @RequestMapping(params="methodToCall=populatePrintForms")
+    public ModelAndView populatePrintForms(@RequestParam("budgetId") Long budgetId,
+			@ModelAttribute("KualiForm") ProposalBudgetForm form)
+			throws Exception {
+		super.save(form);
+		return getProposalBudgetSharedController().populatePrintForms(budgetId, form.getDevelopmentProposal().getBudgets(), form);
+	}
+	
+	@Transactional @RequestMapping(params="methodToCall=printBudgetForms")
+	public ModelAndView printBudgetForms(
+			@ModelAttribute("KualiForm") ProposalBudgetForm form,
+			HttpServletResponse response) throws Exception {
+		return getProposalBudgetSharedController().printBudgetForms(form.getSelectedBudget(), form, response);
+	}
     
 	public ParameterService getParameterService() {
 		return parameterService;

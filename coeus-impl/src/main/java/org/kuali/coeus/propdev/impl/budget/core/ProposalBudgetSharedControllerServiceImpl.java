@@ -1,13 +1,25 @@
 package org.kuali.coeus.propdev.impl.budget.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.ObjectUtils;
+import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
+import org.kuali.coeus.common.budget.framework.print.BudgetPrintService;
+import org.kuali.coeus.common.budget.framework.print.BudgetPrintType;
+import org.kuali.coeus.common.budget.impl.print.BudgetPrintForm;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.coeus.sys.framework.controller.ControllerFileUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -23,6 +35,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Component("proposalBudgetSharedControllerService")
 public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudgetSharedControllerService {
+	
+    private static final String BUDGET_SUMMARY_DIALOG_ID = "PropBudget-SummaryPage-Dialog";
+    private static final String BUDGET_PRINT_FORMS_DIALOG_ID = "PropBudget-PrintForms-Dialog";
 	
 	@Autowired
 	@Qualifier("proposalBudgetService")
@@ -47,6 +62,14 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
     @Autowired
     @Qualifier("globalVariableService")
     private GlobalVariableService globalVariableService;
+    
+    @Autowired
+	@Qualifier("budgetPrintService")
+	private BudgetPrintService budgetPrintService;
+    
+    @Autowired
+    @Qualifier("budgetCalculationService")
+    private BudgetCalculationService budgetCalculationService;    
 
     public ModelAndView addBudget(String budgetName, Boolean summaryBudget, Boolean modularBudget, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception {
 		ProposalDevelopmentBudgetExt budget = null;
@@ -104,6 +127,64 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 			return getRefreshControllerService().refresh(form);
 		}
 	}
+	
+    public <T extends UifFormBase & SelectableBudget> ModelAndView populateBudgetSummary(Long budgetId, 
+    		List<ProposalDevelopmentBudgetExt> budgets, T form) throws Exception {
+        ProposalDevelopmentBudgetExt selectedBudget = null;
+        if (budgets != null) {
+            for (ProposalDevelopmentBudgetExt curBudget : budgets) {
+                if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
+                    selectedBudget = curBudget;
+                }
+            }
+        }
+        ((SelectableBudget) form).setSelectedBudget(selectedBudget);
+        if(selectedBudget.getBudgetSummaryDetails().isEmpty()) {
+            getBudgetCalculationService().populateBudgetSummaryTotals(selectedBudget);
+        }
+        return getModelAndViewService().showDialog(BUDGET_SUMMARY_DIALOG_ID, true, form);
+    }	
+	
+    public <T extends UifFormBase & SelectableBudget> ModelAndView populatePrintForms(Long budgetId, 
+    		List<ProposalDevelopmentBudgetExt> budgets, T form) throws Exception {
+
+		ProposalDevelopmentBudgetExt selectedBudget = null;
+		if (budgets != null) {
+			for (ProposalDevelopmentBudgetExt curBudget : budgets) {
+				if (Objects.equals(budgetId, curBudget.getBudgetId())) {
+					selectedBudget = curBudget;
+				}
+			}
+		}
+		((SelectableBudget) form).setSelectedBudget(selectedBudget);
+		if (selectedBudget.getBudgetPrintForms().isEmpty()) {
+			getBudgetPrintService().populateBudgetPrintForms(selectedBudget);
+		}
+		return getModelAndViewService().showDialog(BUDGET_PRINT_FORMS_DIALOG_ID, true, form);
+	}
+	
+	public <T extends UifFormBase & SelectableBudget> ModelAndView printBudgetForms(ProposalDevelopmentBudgetExt selectedBudget, 
+			T form, HttpServletResponse response) throws Exception {
+		List<BudgetPrintForm> selectedBudgetPrintForms = new ArrayList<BudgetPrintForm>();
+		for (BudgetPrintForm selectedForm : selectedBudget.getBudgetPrintForms()) {
+			if (Boolean.TRUE.equals(selectedForm.getSelectToPrint())) {
+				selectedBudgetPrintForms.add(selectedForm);
+			}
+		}
+		if (selectedBudgetPrintForms != null
+				&& selectedBudgetPrintForms.size() > 0) {
+			String reportName = BudgetPrintType.BUDGET_SUMMARY_REPORT
+					.getBudgetPrintType();
+			AttachmentDataSource dataStream = 
+					getBudgetPrintService().readBudgetSelectedPrintStreams(selectedBudget,
+							selectedBudgetPrintForms, reportName);
+			if (dataStream.getData() != null) {
+				ControllerFileUtils.streamToResponse(dataStream, response);
+				return null;
+			}
+		}
+		return getModelAndViewService().getModelAndView(form);
+	}	
 
 	public BudgetService getBudgetService() {
 		return budgetService;
@@ -152,5 +233,22 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 
 	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
 		this.globalVariableService = globalVariableService;
+	}
+
+	public BudgetPrintService getBudgetPrintService() {
+		return budgetPrintService;
+	}
+
+	public void setBudgetPrintService(BudgetPrintService budgetPrintService) {
+		this.budgetPrintService = budgetPrintService;
+	}
+
+	public BudgetCalculationService getBudgetCalculationService() {
+		return budgetCalculationService;
+	}
+
+	public void setBudgetCalculationService(
+			BudgetCalculationService budgetCalculationService) {
+		this.budgetCalculationService = budgetCalculationService;
 	}
 }
