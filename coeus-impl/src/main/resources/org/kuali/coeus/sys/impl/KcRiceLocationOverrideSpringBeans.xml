@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="locationModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+        <property name="namespaceCode" value="KR-LOC"/>
+        <property name="dataSourceName" value="locationDataSource"/>
+        <property name="initializeDataDictionary" value="true"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+        <property name="persistenceService" ref="persistenceServiceOjb"/>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>classpath:org/kuali/rice/location/web/campus/Campus.xml</value>
+                <value>classpath:org/kuali/rice/location/web/campus/CampusType.xml</value>
+                <value>classpath:org/kuali/rice/location/web/country/Country.xml</value>
+                <value>classpath:org/kuali/rice/location/web/county/County.xml</value>
+                <value>classpath:org/kuali/rice/location/web/postalcode/PostalCode.xml</value>
+                <value>classpath:org/kuali/rice/location/web/state/State.xml</value>
+                <value>classpath:org/kuali/rice/location/web/campus/CampusMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/location/web/campus/CampusTypeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/location/web/country/CountryMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/location/web/county/CountyMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/location/web/postalcode/PostalCodeMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/location/web/state/StateMaintenanceDocument.xml</value>
+
+                <!-- missing rice views -->
+                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/country/CountryLookupView.xml</value>
+                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/county/CountyInquiryView.xml</value>
+                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/county/CountyLookupView.xml</value>
+                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/postalcode/PostalCodeInquiryView.xml</value>
+                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/postalcode/PostalCodeLookupView.xml</value>
+                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/state/StateLookupView.xml</value>
+            </list>
+        </property>
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.rice.location.</value>
+            </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.rice.location.framework.country.CountryEbo"
+                       value="org.kuali.rice.location.impl.country.CountryBo"/>
+                <entry key="org.kuali.rice.location.framework.state.StateEbo"
+                       value="org.kuali.rice.location.impl.state.StateBo"/>
+                <entry key="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
+                       value="org.kuali.rice.location.impl.postalcode.PostalCodeBo"/>
+                <entry key="org.kuali.rice.location.framework.county.CountyEbo"
+                       value="org.kuali.rice.location.impl.county.CountyBo"/>
+                <entry key="org.kuali.rice.location.framework.campus.CampusEbo"
+                       value="org.kuali.rice.location.impl.campus.CampusBo"/>
+                <entry key="org.kuali.rice.location.framework.campus.CampusTypeEbo"
+                       value="org.kuali.rice.location.impl.campus.CampusTypeBo"/>
+            </map>
+        </property>
+        <property name="providers">
+            <list>
+                <ref bean="jpaPersistenceProvider"/>
+                <ref bean="metadataProvider"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>
