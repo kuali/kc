@@ -26,6 +26,7 @@ import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.DocumentRequestAuthorizationCache;
 import org.kuali.rice.krad.document.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -160,7 +161,10 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
     
     /*Only enable the complete button if document is in EXCEPTION status.*/
     protected boolean canComplete(Document document) {
-        return document.getDocumentHeader().getWorkflowDocument().isException();
+        DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
+                getDocumentRequestAuthorizationCache(document).getWorkflowDocumentInfo();
+
+        return workflowDocumentInfo.isException();
     }
 
     /**
@@ -170,8 +174,10 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
      */
     protected final boolean canEdit(Document document) {
         boolean canEdit = false;
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isEnroute() || workflowDocument.isException()) {
+        DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
+                getDocumentRequestAuthorizationCache(document).getWorkflowDocumentInfo();
+
+        if (workflowDocumentInfo.isInitiated() || workflowDocumentInfo.isSaved() || workflowDocumentInfo.isEnroute() || workflowDocumentInfo.isException()) {
             canEdit = true; 
         }
         
@@ -193,8 +199,10 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
      * @return true if reloadable; otherwise false
      */
     protected final boolean canReload(Document document) {
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        return (canEdit(document) && !workflowDocument.isInitiated()) ;
+        DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
+                getDocumentRequestAuthorizationCache(document).getWorkflowDocumentInfo();
+
+        return (canEdit(document) && !workflowDocumentInfo.isInitiated()) ;
              
     }
     
@@ -214,8 +222,10 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
      */
     protected final boolean canRoute(Document document) {
         boolean canRoute = false;
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated() || workflowDocument.isSaved()){
+        DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
+                getDocumentRequestAuthorizationCache(document).getWorkflowDocumentInfo();
+
+        if (workflowDocumentInfo.isInitiated() || workflowDocumentInfo.isSaved()){
              canRoute = true;
         }
         return canRoute;
@@ -258,8 +268,10 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
      * @return true if an AdHoc route can be added; otherwise false
      */
     protected final boolean canAdHocRoute(Document document) {
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        return (canEdit(document)&& !workflowDocument.isException());
+        DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
+                getDocumentRequestAuthorizationCache(document).getWorkflowDocumentInfo();
+
+        return (canEdit(document)&& !workflowDocumentInfo.isException());
     }
     
     /**
@@ -277,7 +289,10 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
      * @return true if AdHoc requests can be sent; otherwise false
      */
     protected final boolean canSendAdhocRequests(Document document) {
-        return canAdHocRoute(document) && document.getDocumentHeader().getWorkflowDocument().isEnroute();
+        DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
+                getDocumentRequestAuthorizationCache(document).getWorkflowDocumentInfo();
+
+        return canAdHocRoute(document) && workflowDocumentInfo.isEnroute();
     }
        
     /**
@@ -367,10 +382,12 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
      * @return true if the user can approve the document; otherwise false
      */
     public boolean canApprove(Document document, Person user) {
-        WorkflowDocument workDoc = getWorkflowDocument( document, user );
-        return workDoc.isApprovalRequested() 
-            && workDoc.getValidActions().getValidActions().contains(ActionType.fromCode(KewApiConstants.ACTION_TAKEN_APPROVED_CD))
-            && workDoc.isEnroute(); 
+        DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
+                getDocumentRequestAuthorizationCache(document).getWorkflowDocumentInfo();
+
+        return workflowDocumentInfo.isApprovalRequested()
+            && workflowDocumentInfo.isValidAction(ActionType.fromCode(KewApiConstants.ACTION_TAKEN_APPROVED_CD))
+            && workflowDocumentInfo.isEnroute();
     }
     
     /**
@@ -381,11 +398,13 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
      */
     public boolean canDisapprove(Document document, Person user) {
         //KRACOEUS-3548:  This used to just return true.  Altered so that it returns true only if there
-        //is an approval requested and workflow believes that a disapprove is allowed. 
-        WorkflowDocument workflowDocument = getWorkflowDocument( document, user );
-        return workflowDocument.isApprovalRequested() 
-                && workflowDocument.getValidActions().getValidActions().contains(ActionType.fromCode(KewApiConstants.ACTION_TAKEN_DENIED_CD))
-                && workflowDocument.isEnroute();
+        //is an approval requested and workflow believes that a disapprove is allowed.
+        DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
+                getDocumentRequestAuthorizationCache(document).getWorkflowDocumentInfo();
+
+        return workflowDocumentInfo.isApprovalRequested()
+                && workflowDocumentInfo.isValidAction(ActionType.fromCode(KewApiConstants.ACTION_TAKEN_DENIED_CD))
+                && workflowDocumentInfo.isEnroute();
     }
     
     /**
@@ -625,24 +644,6 @@ public abstract class KcKradTransactionalDocumentAuthorizerBase extends Transact
                 document.getDocumentHeader().getWorkflowDocument().getStatus().getCode());
     }
     
-    /**
-     * Get the workflow document.  This should be as simple as document.getDocumentHeader().getWorkflowDocument(), 
-     * but that does not currently produce a worklflow document with the isXXXXResqueted populated correctly for
-     * ad hoc users.
-     * 
-     * KRACOEUS-3678,3677:  WorkflowDocument is not returning true for ad-hoc users when the instance 
-     * is from the document.getDocumentHeader().getWorkflowDocument() method 
-     * hack is to get WorkflowDocument from the WorkflowDocument constructor directly.
-     * 
-     * @param document
-     * @param user
-     * @return
-     */
-    private WorkflowDocument getWorkflowDocument( Document document, Person user ) {
-        WorkflowDocument workDoc = WorkflowDocumentFactory.loadDocument(user.getPrincipalId(), document.getDocumentHeader().getWorkflowDocument().getDocumentId() );
-        return workDoc;
-    }
-
     @Override
     public boolean canEditDocumentOverview(Document document, Person user) {
         return canEdit(document, user);
