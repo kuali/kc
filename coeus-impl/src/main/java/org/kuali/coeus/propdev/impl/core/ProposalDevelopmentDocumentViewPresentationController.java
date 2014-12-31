@@ -7,6 +7,7 @@ import org.kuali.coeus.common.framework.auth.KcAuthConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.DocumentRequestAuthorizationCache;
 import org.kuali.rice.krad.document.TransactionalDocumentViewPresentationControllerBase;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -58,8 +59,11 @@ public class ProposalDevelopmentDocumentViewPresentationController extends Trans
 	}
 	
 	public boolean canSubmitToS2S(Document doc) {
-		 boolean canSubmitToS2s =  doc.getDocumentHeader().getWorkflowDocument().isProcessed() || doc.getDocumentHeader().getWorkflowDocument().isFinal() || 
-				 					doc.getDocumentHeader().getWorkflowDocument().isEnroute(); 
+        DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
+                getDocumentRequestAuthorizationCache(doc).getWorkflowDocumentInfo();
+
+		 boolean canSubmitToS2s =  workflowDocumentInfo.isProcessed() || workflowDocumentInfo.isFinal() ||
+                 workflowDocumentInfo.isEnroute();
 		 DevelopmentProposal developmentProposal =  ((ProposalDevelopmentDocument)doc).getDevelopmentProposal();
 		 canSubmitToS2s &= developmentProposal.getS2sOpportunity() != null && 
 				 		(developmentProposal.getS2sAppSubmission() == null || developmentProposal.getS2sAppSubmission().size() == 0);
@@ -67,8 +71,11 @@ public class ProposalDevelopmentDocumentViewPresentationController extends Trans
 	}
 	
 	public boolean canSubmitToSponsor(Document doc) {
-		 boolean canSubmitToSponsor =  doc.getDocumentHeader().getWorkflowDocument().isProcessed() || doc.getDocumentHeader().getWorkflowDocument().isFinal() || 
-										doc.getDocumentHeader().getWorkflowDocument().isEnroute(); 
+        DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
+                getDocumentRequestAuthorizationCache(doc).getWorkflowDocumentInfo();
+
+		 boolean canSubmitToSponsor =  workflowDocumentInfo.isProcessed() || workflowDocumentInfo.isFinal() ||
+                 workflowDocumentInfo.isEnroute();
 		 canSubmitToSponsor &= getProposalDevelopmentService().autogenerateInstitutionalProposal();
 		 canSubmitToSponsor &= ! ((ProposalDevelopmentDocument)doc).getDevelopmentProposal().getSubmitFlag();
 		 return canSubmitToSponsor;
