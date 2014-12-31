@@ -16,7 +16,6 @@
 package org.kuali.coeus.propdev.impl.questionnaire;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -60,7 +59,7 @@ public class ProposalDevelopmentQuestionnaireAuditRule extends KcTransactionalDo
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal());
         List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
         for (AnswerHeader answerHeader : headers) {
-            QuestionnaireUsage usage = getQuestionnaireUsage(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, moduleQuestionnaireBean.getModuleSubItemCode(), answerHeader.getQuestionnaire().getQuestionnaireUsages());
+            QuestionnaireUsage usage = getQuestionnaireUsage(moduleQuestionnaireBean.getModuleItemCode(), moduleQuestionnaireBean.getModuleSubItemCode(), answerHeader.getQuestionnaire().getQuestionnaireUsages());
 
             if (!answerHeader.isCompleted() && usage.isMandatory()) {
                 valid = false;
