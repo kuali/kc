@@ -227,6 +227,7 @@
         <property name="documentService" ref="documentService" />
         <property name="versioningService" ref="versioningService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
+        <property name="awardDao" ref="awardDao" />
     </bean>
     
     <bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -241,6 +242,8 @@
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
+
+    <bean id="awardDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardDaoOjb" />
 
     <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardLookupDaoOjb">
     	<property name="versionHistoryLookupDao" ref="versionHistoryLookupDao" /> 
@@ -271,7 +274,7 @@
    <!-- Exposing the award account service as a SOAP service and as a java service -->
     <bean id="awardAccountService" class="org.kuali.kra.award.external.award.impl.AwardAccountServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="parameterService" ref="parameterService" />
+        <property name="awardAccountDtoService" ref="awardAccountDtoService" />
     </bean>
    <bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
@@ -1115,8 +1118,185 @@
     
     <bean id ="subcontractingExpenditureCategoryDetailsDao" parent="platformAwareDao" class="org.kuali.kra.award.subcontracting.reporting.dao.SubcontractingExpenditureCategoryDetailsDaoOjb">
     </bean>
-    
-    <bean id="awardJavaFunctionKrmsTermService" class="org.kuali.kra.award.service.impl.AwardJavaFunctionKrmsTermServiceImpl">
+
+    <bean id="awardJavaFunctionKrmsTermService" class="org.kuali.kra.award.service.impl.AwardJavaFunctionKrmsTermServiceImpl"/>
+
+    <bean id="awardDtoService" class="org.kuali.kra.award.external.award.AwardDtoService">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="parameterService" ref="parameterService"/>
+        <property name="proposalDtoService" ref="proposalDtoService"/>
+        <property name="sponsorDtoService" ref="sponsorDtoService"/>
+        <property name="awardMethodOfPaymentDtoService" ref="awardMethodOfPaymentDtoService"/>
     </bean>
-    
+
+    <bean id="institutionalProposalService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="institutionalProposalService" />
+    </bean>
+
+    <bean id="awardAccountDtoService" class="org.kuali.kra.award.external.award.AwardAccountDtoService">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="parameterService" ref="parameterService"/>
+        <property name="institutionalProposalService" ref="institutionalProposalService"/>
+    </bean>
+
+    <bean id="proposalDtoService" class="org.kuali.kra.award.external.award.ProposalDtoService"/>
+
+    <bean id="awardBasisOfPaymentDtoService" class="org.kuali.kra.external.awardpayment.AwardBasisOfPaymentDtoService"/>
+    <bean id="awardMethodOfPaymentDtoService" class="org.kuali.kra.external.awardpayment.AwardMethodOfPaymentDtoService"/>
+    <bean id="rolodexDtoService" class="org.kuali.kra.external.sponsor.RolodexDtoService"/>
+    <bean id="sponsorDtoService" class="org.kuali.kra.external.sponsor.SponsorDtoService">
+        <property name="parameterService" ref="parameterService"/>
+        <property name="rolodexDtoService" ref="rolodexDtoService" />
+    </bean>
+
+    <bean id="sponsorService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="sponsorService" />
+    </bean>
+
+    <bean id="sponsorWebService" class="org.kuali.kra.external.sponsor.SponsorWebServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="sponsorDtoService" ref="sponsorDtoService" />
+    </bean>
+    <bean id="sponsorWebServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
+                  p:service-ref="sponsorWebService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="sponsorWebService"
+                  p:serviceInterface="org.kuali.kra.external.sponsor.SponsorWebService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:retryAttempts="1" />
+        </property>
+    </bean>
+    <bean id="sponsorWebServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="sponsorWebService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="sponsorWebSoapService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:jaxWsService="true" />
+        </property>
+    </bean>
+
+    <bean id="awardWebService" class="org.kuali.kra.award.external.award.AwardWebServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="awardService" ref="awardService" />
+        <property name="awardLookupDao" ref="awardLookupDao" />
+        <property name="awardDtoService" ref="awardDtoService"/>
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+    <bean id="awardWebServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
+                  p:service-ref="awardWebService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="awardWebService"
+                  p:serviceInterface="org.kuali.kra.award.external.award.AwardWebService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:retryAttempts="1" />
+        </property>
+    </bean>
+    <bean id="awardWebServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="awardWebService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="awardWebSoapService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:jaxWsService="true" />
+        </property>
+    </bean>
+
+    <bean id="awardTypeDtoService" class="org.kuali.kra.external.awardtype.AwardTypeDtoService"/>
+    <bean id="awardTypeWebService" class="org.kuali.kra.external.awardtype.AwardTypeWebServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="awardTypeDtoService" ref="awardTypeDtoService"/>
+    </bean>
+    <bean id="awardTypeWebServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
+                  p:service-ref="awardTypeWebService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="awardTypeWebService"
+                  p:serviceInterface="org.kuali.kra.external.awardtype.AwardTypeWebService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:retryAttempts="1" />
+        </property>
+    </bean>
+    <bean id="awardTypeWebServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="awardTypeWebService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="awardTypeWebSoapService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:jaxWsService="true" />
+        </property>
+    </bean>
+
+    <bean id="awardPaymentWebService" class="org.kuali.kra.external.awardpayment.AwardPaymentWebServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="awardPaymentAndInvoicesService" ref="awardPaymentAndInvoicesService" />
+        <property name="awardBasisOfPaymentDtoService" ref="awardBasisOfPaymentDtoService" />
+        <property name="awardMethodOfPaymentDtoService" ref="awardMethodOfPaymentDtoService"/>
+    </bean>
+    <bean id="awardPaymentWebServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
+                  p:service-ref="awardPaymentWebService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="awardPaymentWebService"
+                  p:serviceInterface="org.kuali.kra.external.awardpayment.AwardPaymentWebService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:retryAttempts="1" />
+        </property>
+    </bean>
+    <bean id="awardPaymentWebServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="awardPaymentWebService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="awardPaymentWebSoapService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:jaxWsService="true" />
+        </property>
+    </bean>
+
+    <bean id="frequencyDtoService" class="org.kuali.kra.external.frequency.FrequencyDtoService"/>
+
+    <bean id="frequencyWebService" class="org.kuali.kra.external.frequency.FrequencyWebServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="frequencyDtoService" ref="frequencyDtoService" />
+    </bean>
+    <bean id="frequencyWebServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
+                  p:service-ref="frequencyWebService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="frequencyWebService"
+                  p:serviceInterface="org.kuali.kra.external.frequency.FrequencyWebService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:retryAttempts="1" />
+        </property>
+    </bean>
+    <bean id="frequencyWebServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="frequencyWebService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="frequencyWebSoapService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:jaxWsService="true" />
+        </property>
+    </bean>
+
+    <bean id="customerCreationClient" class="org.kuali.kra.external.customercreation.CustomerCreationClientFactoryBean">
+        <property name="sharedRice" value="${shared.rice}" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="sponsorDtoService" ref="sponsorDtoService" />
+    </bean>
+
+    <import resource="classpath:org/kuali/kra/external/AwardOverrideSpringBeans.xml" />
+
 </beans>

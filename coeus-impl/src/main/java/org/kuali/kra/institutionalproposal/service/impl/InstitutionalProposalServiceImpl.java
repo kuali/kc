@@ -29,6 +29,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -43,6 +44,7 @@ import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonC
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnitCreditSplit;
 import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
+import org.kuali.kra.institutionalproposal.dao.InstitutionalProposalDao;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.exception.InstitutionalProposalCreationException;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -92,10 +94,11 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private InstitutionalProposalVersioningService institutionalProposalVersioningService;
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
-    
+    private InstitutionalProposalDao institutionalProposalDao;
+
     private static final String TRUE_INDICATOR_VALUE = "1";
 	private static final String FALSE_INDICATOR_VALUE = "0";
-    
+
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
@@ -683,7 +686,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         getBusinessObjectService().save(oldIP.getAwardFundingProposals());
         return newFundingProposals;
     }
-    
+
     /**
      * This function verifies that the indicator fields are set, and if they aren't sets them.
      * If an IP is being versioned and the home unit or cost shares allocations are changed, there may be problems with these fields.
@@ -711,7 +714,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         	institutionalProposal.setScienceCodeIndicator(FALSE_INDICATOR_VALUE);
         }
     }
-    
+
     /* Service injection getters and setters */
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -744,6 +747,11 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         return Arrays.asList(value.split(","));
     }
 
+    @Override
+    public Long getProposalId(Award award) {
+        return getInstitutionalProposalDao().getProposalId(award);
+    }
+
     protected ParameterService getParameterService() {
         return parameterService;
     }
@@ -771,5 +779,12 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
 	}
-    
+
+    public InstitutionalProposalDao getInstitutionalProposalDao() {
+        return institutionalProposalDao;
+    }
+
+    public void setInstitutionalProposalDao(InstitutionalProposalDao institutionalProposalDao) {
+        this.institutionalProposalDao = institutionalProposalDao;
+    }
 }
