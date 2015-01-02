@@ -47,12 +47,7 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
     	for (String businessObject: businessObjectEntries.keySet()) {
     	    org.kuali.rice.kns.datadictionary.BusinessObjectEntry businessObjectEntry = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntries.get(businessObject);
     	    if ((businessObjectEntry.hasLookupDefinition()) 
-    	            && (kcBo(businessObject)
-                            || businessObject.equals(CampusBo.class.getName())
-                            || businessObject.equals(CountryBo.class.getName())
-                            || businessObject.equals(CountyBo.class.getName())
-                            || businessObject.equals(PostalCodeBo.class.getName())
-                            || businessObject.equals(StateBo.class.getName()))) {
+    	            && (kcBo(businessObject) || supportedRiceBo(businessObject))) {
     	        String key = businessObject;
     	        
     	        String label = StringUtils.removeEnd(businessObjectEntry.getLookupDefinition().getTitle().trim()," Lookup");
@@ -81,12 +76,7 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
         for (String businessObject: businessObjectEntries.keySet()) {
             org.kuali.rice.kns.datadictionary.BusinessObjectEntry businessObjectEntry = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntries.get(businessObject);
             if ((businessObjectEntry.hasLookupDefinition()) 
-                    && (kcBo(businessObject)
-                            || businessObject.equals(CampusBo.class.getName())
-                            || businessObject.equals(CountryBo.class.getName())
-                            || businessObject.equals(CountyBo.class.getName())
-                            || businessObject.equals(PostalCodeBo.class.getName())
-                            || businessObject.equals(StateBo.class.getName()))) {
+                    && (kcBo(businessObject) || supportedRiceBo(businessObject))) {
                 String label = StringUtils.removeEnd(businessObjectEntry.getLookupDefinition().getTitle().trim()," Lookup");
                 if(labels.containsKey(label)){
                     Integer count = labels.get(label) + 1;
@@ -102,5 +92,13 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
 
     protected boolean kcBo(String businessObject) {
         return businessObject.startsWith("org.kuali.kra") || businessObject.startsWith("org.kuali.coeus");
+    }
+
+    protected boolean supportedRiceBo(String businessObject) {
+        return businessObject.equals(CampusBo.class.getName())
+                || businessObject.equals(CountryBo.class.getName())
+                || businessObject.equals(CountyBo.class.getName())
+                || businessObject.equals(PostalCodeBo.class.getName())
+                || businessObject.equals(StateBo.class.getName());
     }
 }
