@@ -560,7 +560,7 @@ public class BudgetPersonnelRule {
     
     protected boolean isJobCodeChanged(BudgetPerson budgetPerson) {
     	BudgetPerson originalBudgetPerson = getOriginalBudgetPerson(budgetPerson);
-    	return originalBudgetPerson != null && !originalBudgetPerson.getJobCode().equalsIgnoreCase(budgetPerson.getJobCode());
+    	return originalBudgetPerson != null && !StringUtils.equalsIgnoreCase(originalBudgetPerson.getJobCode(), budgetPerson.getJobCode());
     }
     
     protected boolean isBudgetPersonExistsInPersonnelDetails(List<BudgetLineItem> budgetLineItems, BudgetPerson budgetPerson) {
