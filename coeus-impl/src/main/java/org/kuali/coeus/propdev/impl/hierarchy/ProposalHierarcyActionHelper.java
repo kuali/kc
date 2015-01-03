@@ -102,7 +102,7 @@ public class ProposalHierarcyActionHelper {
         DevelopmentProposal hierarchy = getProposalHierarchyService().getDevelopmentProposal(childProposal.getHierarchyParentProposalNumber());
         if (validateChildForSync(childProposal, hierarchy, allowEndDateChange)) {
             try {
-                getProposalHierarchyService().synchronizeChildProposalBudget(budget, childProposal);
+                getProposalHierarchyService().synchronizeChildBudget(hierarchy, budget);
                 KNSGlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
     
             }

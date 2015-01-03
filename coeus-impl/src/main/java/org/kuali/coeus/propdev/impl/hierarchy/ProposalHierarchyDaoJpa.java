@@ -8,14 +8,20 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.criteria.QueryResults;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
+@Component("proposalHierarchyDao")
 public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
 
+	@Autowired
+	@Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
 
     /*

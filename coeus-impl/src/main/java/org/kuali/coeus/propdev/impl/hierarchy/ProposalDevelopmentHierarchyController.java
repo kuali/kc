@@ -127,7 +127,8 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
         List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateChildForRemoval(childProposal);
 
         if (!displayErrors(errors)) {
-            getProposalHierarchyService().removeFromHierarchy(childProposal);
+            childProposal = getProposalHierarchyService().removeFromHierarchy(childProposal);
+            form.getProposalDevelopmentDocument().setDevelopmentProposal(childProposal);
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_REMOVE_SUCCESS);
         }
 

@@ -83,7 +83,7 @@ public interface ProposalHierarchyService {
      * @param childProposal the proposal to remove
      * @throws ProposalHierarchyException if childProposal is not a member of a hierarchy
      */
-    public void removeFromHierarchy(DevelopmentProposal childProposal) throws ProposalHierarchyException;
+    public DevelopmentProposal removeFromHierarchy(DevelopmentProposal childProposal) throws ProposalHierarchyException;
 
     /**
      * This method synchronizes the contents of one child into its hierarchy.  If the child has changed since its last synchronization, the parent is reaggregated.
@@ -91,22 +91,13 @@ public interface ProposalHierarchyService {
      * @throws ProposalHierarchyException if childProposal is not a member of a hierarchy
      */
     public void synchronizeChild(DevelopmentProposal childProposal) throws ProposalHierarchyException;
-    
-    /**
-     * This method syncs only the budget from the child proposal specificed to the hierarchy budget.
-     * @param childProposal
-     * @throws ProposalHierarchyException
-     */
-    public void synchronizeChildProposalBudget(ProposalDevelopmentBudgetExt budget, DevelopmentProposal childProposal) throws ProposalHierarchyException;  
-    
+      
     /**
      * This method synchronizes the contents of all children into the hierarchy.  If any child has changed since its last synchronization, the parent is reaggregated.
      * @param developmentProposal the hierarchy in question
      * @throws ProposalHierarchyException if hierarchyProposalDocument is not a valid Hierarchy
      */
     public void synchronizeAllChildren(DevelopmentProposal developmentProposal) throws ProposalHierarchyException;
-    
-    public void synchronizeAllChildrenBudgets(DevelopmentProposal developmentProposal) throws ProposalHierarchyException;
 
     public DevelopmentProposal getDevelopmentProposal(String proposalNumber);
     public DevelopmentProposal lookupParent(DevelopmentProposal childProposal) throws ProposalHierarchyException;
@@ -201,4 +192,6 @@ public interface ProposalHierarchyService {
     public boolean personInMultipleProposals(String personId, DevelopmentProposal childProposal);
 
     public List<ProposalHierarchyErrorWarningDto> validateIsAggregatorOnChild(DevelopmentProposal childProposal);
-    }
+    
+    public void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, ProposalDevelopmentBudgetExt budget);
+}

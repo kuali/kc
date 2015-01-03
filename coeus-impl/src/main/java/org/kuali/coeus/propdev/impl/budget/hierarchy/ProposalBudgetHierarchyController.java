@@ -1,5 +1,7 @@
-package org.kuali.coeus.propdev.impl.budget.core;
+package org.kuali.coeus.propdev.impl.budget.hierarchy;
 
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorWarningDto;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
@@ -19,17 +21,21 @@ public class ProposalBudgetHierarchyController extends ProposalBudgetControllerB
 
     @Autowired
     @Qualifier("proposalHierarchyService")
-    ProposalHierarchyService proposalHierarchyService;
+    private ProposalHierarchyService proposalHierarchyService;
+    
+    @Autowired
+    @Qualifier("proposalBudgetHierarchyService")
+    private ProposalBudgetHierarchyService proposalBudgetHierarchyService;
 
     @Transactional @RequestMapping(value = "/proposalBudget", params = "methodToCall=syncAllBudgets")
     public ModelAndView syncAllBudgets(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         DevelopmentProposal hierarchyProposal = form.getDevelopmentProposal();
         List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateParent(hierarchyProposal);
         if (!displayErrors(errors)) {
-            getProposalHierarchyService().synchronizeAllChildrenBudgets(hierarchyProposal);
-            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
+            getProposalBudgetHierarchyService().synchronizeAllChildBudgets(hierarchyProposal);
+            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS);
         }
-        return getModelAndViewService().getModelAndView(form);
+        return save(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalBudget", params = "methodToCall=syncBudget")
@@ -38,11 +44,11 @@ public class ProposalBudgetHierarchyController extends ProposalBudgetControllerB
         DevelopmentProposal hierarchy = getProposalHierarchyService().getDevelopmentProposal(childProposal.getHierarchyParentProposalNumber());
         List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateChildForSync(childProposal, hierarchy, false);
         if (!displayErrors(errors)) {
-            getProposalHierarchyService().synchronizeChildProposalBudget(form.getBudget(), childProposal);
-            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
+            getProposalBudgetHierarchyService().synchronizeChildBudget(hierarchy, form.getBudget());
+            getProposalBudgetHierarchyService().persistProposalHierarchyBudget(hierarchy);
+            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS);
         }
-
-        return getModelAndViewService().getModelAndView(form);
+        return save(form);
     }
 
     protected void displayMessage(String messageKey, String... errorParameters) {
@@ -69,4 +75,13 @@ public class ProposalBudgetHierarchyController extends ProposalBudgetControllerB
     public void setProposalHierarchyService(ProposalHierarchyService proposalHierarchyService) {
         this.proposalHierarchyService = proposalHierarchyService;
     }
+
+	public ProposalBudgetHierarchyService getProposalBudgetHierarchyService() {
+		return proposalBudgetHierarchyService;
+	}
+
+	public void setProposalBudgetHierarchyService(
+			ProposalBudgetHierarchyService proposalBudgetHierarchyService) {
+		this.proposalBudgetHierarchyService = proposalBudgetHierarchyService;
+	}
 }

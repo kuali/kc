@@ -28,6 +28,7 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.budget.BudgetStatus;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.coeus.propdev.impl.budget.hierarchy.ProposalBudgetHierarchyService;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
@@ -111,7 +112,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 	@Test
 	public void test_synchronizeChildProposalBudget() {
 		ProposalDevelopmentBudgetExt budget = childProposal.getLatestBudget();
-		hierarchyService.synchronizeChildProposalBudget(budget, childProposal);
+		hierarchyService.synchronizeChildBudget(hierarchyProposal, budget);
 	}
 
 	@Test
@@ -402,8 +403,6 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 				.getService(GlobalVariableService.class);
 		DocumentService documentService = KcServiceLocator
 				.getService(DocumentService.class);
-		ProposalBudgetService budgetService = KcServiceLocator
-				.getService(ProposalBudgetService.class);
 		KcAuthorizationService kcAuthorizationService = KcServiceLocator
 				.getService(KcAuthorizationService.class);
 		ParameterService parameterService = KcServiceLocator
@@ -412,8 +411,6 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 				.getService(LegacyNarrativeService.class);
 		ProposalHierarchyDao proposalHierarchyDao = KcServiceLocator
 				.getService(ProposalHierarchyDao.class);
-		BudgetSummaryService budgetSummaryService = KcServiceLocator
-				.getService(BudgetSummaryService.class);
 		ConfigurationService configurationService = KcServiceLocator
 				.getService(ConfigurationService.class);
 		KcDocumentRejectionService kcDocumentRejectionService = KcServiceLocator
@@ -422,21 +419,22 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 				.getService(PessimisticLockService.class);
         ProposalPersonBiographyService proposalPersonBiographyService = KcServiceLocator.
                 getService(ProposalPersonBiographyService.class);
+		ProposalBudgetHierarchyService proposalBudgetHierarchyService = KcServiceLocator
+				.getService(ProposalBudgetHierarchyService.class);
 
 		hierarchyService.setKradWorkflowDocumentService(kradWorkflowDocumentService);
 		hierarchyService.setGlobalVariableService(globalVariableService);
 		hierarchyService.setDocumentService(documentService);
-		hierarchyService.setBudgetService(budgetService);
 		hierarchyService.setKcAuthorizationService(kcAuthorizationService);
 		hierarchyService.setDataObjectService(dataObjectService);
 		hierarchyService.setParameterService(parameterService);
 		hierarchyService.setLegacyNarrativeService(legacyNarrativeService);
 		hierarchyService.setProposalHierarchyDao(proposalHierarchyDao);
-		hierarchyService.setBudgetSummaryService(budgetSummaryService);
 		hierarchyService.setKualiConfigurationService(configurationService);
 		hierarchyService.setKcDocumentRejectionService(kcDocumentRejectionService);
 		hierarchyService.setPessimisticLockService(pessimisticLockService);
         hierarchyService.setProposalPersonBiographyService(proposalPersonBiographyService);
+		hierarchyService.setProposalBudgetHierarchyService(proposalBudgetHierarchyService);
 	}
 
 	private ProposalDevelopmentDocument initializeProposalDevelopmentDocument()
