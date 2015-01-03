@@ -348,6 +348,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     public void synchronizeAllChildren(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         prepareHierarchySync(hierarchyProposal);
         synchronizeAll(hierarchyProposal);
+        finalizeHierarchySync(hierarchyProposal);
     }
 
     protected void synchronizeAll(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
@@ -483,10 +484,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             syncAllPersonnelAttachments(hierarchyProposal, childProposal);
             synchronizeChildBudget(hierarchyProposal, childProposal, oldBudgetPeriods);
             dataObjectService.save(childProposal);
-            dataObjectService.save(hierarchyProposal);
             changed = true;
         }
-        
         return changed;
     }
 
@@ -840,6 +839,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             Map<Integer, BudgetPerson> personMap = new HashMap<Integer, BudgetPerson>();
             for (BudgetPerson person : childBudget.getBudgetPersons()) {
                 newPerson = (BudgetPerson) deepCopy(person);
+                newPerson.setBudget(parentBudget);
                 newPerson.setPersonSequenceNumber(parentBudget.getNextValue(
                         Constants.PERSON_SEQUENCE_NUMBER));
                 newPerson.setBudgetId(parentBudget.getBudgetId());
@@ -857,6 +857,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             		origAttachment.getData();
             	}
                 newSubAwards = (BudgetSubAwards) deepCopy(childSubAwards);
+                newSubAwards.setBudget(parentBudget);
                 newSubAwards.setBudgetId(parentBudget.getBudgetId());
                 newSubAwards.setBudgetVersionNumber(parentBudget.getBudgetVersionNumber());
                 newSubAwards.setSubAwardNumber(parentBudget.getNextValue("subAwardNumber") != null ? parentBudget.getNextValue("subAwardNumber") : 1);
@@ -890,6 +891,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             for (BudgetCostShare costShare : childBudget.getBudgetCostShares()) {
                 if (StringUtils.isNotEmpty(costShare.getSourceAccount())) {
                     newCostShare = (BudgetCostShare) deepCopy(costShare);
+                    newCostShare.setBudget(parentBudget);
                     newCostShare.setBudgetId(budgetId);
                     newCostShare.setDocumentComponentId(parentBudget.getNextValue(newCostShare.getDocumentComponentIdKey()));
                     newCostShare.setObjectId(null);
@@ -904,6 +906,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             for (BudgetUnrecoveredFandA unrecoveredFandA : childBudget.getBudgetUnrecoveredFandAs()) {
                 if (StringUtils.isNotEmpty(unrecoveredFandA.getSourceAccount())) {
                     newUnrecoveredFandA = (BudgetUnrecoveredFandA) deepCopy(unrecoveredFandA);
+                    newUnrecoveredFandA.setBudget(parentBudget);
                     newUnrecoveredFandA.setBudgetId(budgetId);
                     newUnrecoveredFandA.setDocumentComponentId(parentBudget.getNextValue(newUnrecoveredFandA.getDocumentComponentIdKey()));
                     newUnrecoveredFandA.setObjectId(null);
@@ -1061,7 +1064,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
 
         budgetService.recalculateBudget(parentBudget);
-        dataObjectService.save(parentBudget);
         childProposal.setLastSyncedBudget(childBudget);
     }
     
@@ -1267,7 +1269,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         for (Iterator<BudgetSubAwards> iter = parentBudget.getBudgetSubAwards().iterator(); iter.hasNext();) {
         	BudgetSubAwards subAward = iter.next();
         	if (StringUtils.equals(childProposalNumber, subAward.getHierarchyProposalNumber())) {
-        		dataObjectService.delete(subAward);
         		parentBudget.removeBudgetLineItems(subAward.getBudgetLineItems());
         		iter.remove();
         	}
@@ -1287,9 +1288,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 	        	BudgetLineItem lineItem = lineItemIter.next();
 	        	if (StringUtils.equals(childProposalNumber, lineItem.getHierarchyProposalNumber())) {
                     deletePeriods = true;
-	        		dataObjectService.delete(lineItem);
 	        		lineItemIter.remove();
-	        		parentBudget.getBudgetLineItems().remove(lineItem);
 	        	}
 	        }
 	        if (deletePeriods) {
@@ -1299,7 +1298,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 	        }
         }
         for (BudgetPeriod period : periodsToDelete) {
-        	dataObjectService.delete(period);
         	parentBudget.getBudgetPeriods().remove(period);
         }
 
@@ -1325,6 +1323,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     
     protected DevelopmentProposal finalizeHierarchySync(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
         DevelopmentProposal savedParentProposal = dataObjectService.save(hierarchyProposal);
+        dataObjectService.save(getHierarchyBudget(hierarchyProposal));
         return savedParentProposal;
     }
 
