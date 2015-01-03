@@ -38,6 +38,13 @@
         </property>
     </bean>
 
+    <bean id="questionnaireDao" class="org.kuali.coeus.common.questionnaire.impl.QuestionnaireDaoOjb" parent="platformAwareDao"/>
+
+    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
+        <property name="jcdAlias" value="kradApplicationDataSource" />
+        <property name="dbPlatform" ref="dbPlatform" />
+    </bean>
+
     <bean id="questionResolverTypeServiceCallback" parent="kcCoreCallbackService"
           p:callbackService-ref="questionResolverTypeService"
           p:localServiceName="questionResolverTypeService"

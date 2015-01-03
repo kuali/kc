@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
+import org.kuali.coeus.common.questionnaire.impl.QuestionnaireDao;
 import org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.irb.Protocol;
@@ -66,14 +67,10 @@ public class QuestionnaireAnswerServiceTest {
         final Map <String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
         fieldValues.put(MODULE_SUB_ITEM_CODE, "0");
-        final Map <String, String> fieldValues1 = new HashMap<String, String>();
-        fieldValues1.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, "1");
 
         final Questionnaire questionnairenew = getQuestionnaire(1, 1, 2L); 
         questionnairenew.getQuestionnaireQuestions().add(createChildQuestionnaireQuestion(4,1,"1","N"));
         final Collection<QuestionnaireUsage> usages = new ArrayList<QuestionnaireUsage>();
-        final Collection<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
-        questionnaires.add(questionnairenew);
         QuestionnaireUsage questionnaireUsage = createQuestionnaireUsage(1L, "Test Questionnaire New");
         questionnaireUsage.setQuestionnaire(questionnairenew);
         usages.add(questionnaireUsage);
@@ -89,15 +86,18 @@ public class QuestionnaireAnswerServiceTest {
         protocol.setProtocolNumber("0912000001");
         protocol.setSequenceNumber(1);
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
-        context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues); will(returnValue(usages));
-            one(businessObjectService).findMatchingOrderBy(Questionnaire.class,
-                    fieldValues1, SEQUENCE_NUMBER, false); will(returnValue(questionnaires));
-       }});
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
         questionnaireAnswerServiceImpl.setQuestionnaireService(questionnaireServiceImpl);
         questionnaireServiceImpl.setBusinessObjectService(businessObjectService);
-        
+        final QuestionnaireDao questionnaireDao = context.mock(QuestionnaireDao.class);
+        questionnaireServiceImpl.setQuestionnaireDao(questionnaireDao);
+        context.checking(new Expectations() {{
+            one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues);
+            will(returnValue(usages));
+            one(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnairenew.getQuestionnaireSeqId());
+            will(returnValue(questionnairenew.getSequenceNumber()));
+        }});
+
         
         AnswerHeader answerHeader = questionnaireAnswerServiceImpl.getNewVersionAnswerHeader(new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), false), questionnaire);
         Assert.assertEquals(4, answerHeader.getAnswers().size());
@@ -201,19 +201,15 @@ public class QuestionnaireAnswerServiceTest {
         fieldValues.put(MODULE_ITEM_KEY, "0912000001");
         fieldValues.put(MODULE_SUB_ITEM_KEY, "0");
         fieldValues.put(MODULE_SUB_ITEM_CODE, "0");
-        final Map <String, String> fieldValues1 = new HashMap<String, String>();
-        fieldValues1.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, "1");
         final Map <String, String> fieldValues2 = new HashMap<String, String>();
         fieldValues2.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
         fieldValues2.put(MODULE_SUB_ITEM_CODE, "0");
 
         final Questionnaire questionnaire = getQuestionnaire(1, 0, 1L); 
-       final Collection<AnswerHeader> headers = new ArrayList<AnswerHeader>();
+        final Collection<AnswerHeader> headers = new ArrayList<AnswerHeader>();
         AnswerHeader answerHeaderOld = createAnswerHeaderForVersioning(1L, "0912000001", "0");
         answerHeaderOld.setQuestionnaire(questionnaire);
         headers.add(answerHeaderOld);
-        final Collection<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
-        questionnaires.add(questionnaire);
         final Collection<QuestionnaireUsage> usages = new ArrayList<QuestionnaireUsage>();
         QuestionnaireUsage questionnaireUsage = createQuestionnaireUsage(1L, "Test Questionnaire New");
         questionnaireUsage.setQuestionnaire(questionnaire);
@@ -229,16 +225,20 @@ public class QuestionnaireAnswerServiceTest {
         protocol.setProtocolNumber("0912000001");
         protocol.setSequenceNumber(0);
         final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
-        context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(AnswerHeader.class, fieldValues); will(returnValue(headers));
-            one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues2); will(returnValue(usages));
-           one(businessObjectService).findMatchingOrderBy(Questionnaire.class,
-                    fieldValues1, SEQUENCE_NUMBER, false); will(returnValue(questionnaires));
-        }});
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
         questionnaireAnswerServiceImpl.setQuestionnaireService(questionnaireServiceImpl);
         questionnaireServiceImpl.setBusinessObjectService(businessObjectService);
-        
+        final QuestionnaireDao questionnaireDao = context.mock(QuestionnaireDao.class);
+        questionnaireServiceImpl.setQuestionnaireDao(questionnaireDao);
+        context.checking(new Expectations() {{
+            one(businessObjectService).findMatching(AnswerHeader.class, fieldValues);
+            will(returnValue(headers));
+            one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues2);
+            will(returnValue(usages));
+            one(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnaire.getQuestionnaireSeqId());
+            will(returnValue(questionnaire.getSequenceNumber()));
+        }});
+
         AnswerHeader answerHeader = questionnaireAnswerServiceImpl.versioningQuestionnaireAnswer(new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(),"0", protocol.getSequenceNumber().toString(), false), 1).get(0);
         Assert.assertEquals(3, answerHeader.getAnswers().size());
         Assert.assertEquals("1", answerHeader.getModuleSubItemKey());
@@ -351,7 +351,7 @@ public class QuestionnaireAnswerServiceTest {
     @Test
     public void testGetQuestionnaireAnswer() {
         //GlobalVariables.setUserSession(new UserSession("quickstart"));
-       // answerheader(0) is set up as existing one
+        // answerheader(0) is set up as existing one
         // answerheader(1) is a newly created one
         QuestionnaireAnswerServiceImpl questionnaireAnswerServiceImpl = new QuestionnaireAnswerServiceImpl();
         QuestionnaireServiceImpl questionnaireServiceImpl = new QuestionnaireServiceImpl();
@@ -362,18 +362,12 @@ public class QuestionnaireAnswerServiceTest {
         fieldValues.put(MODULE_ITEM_KEY, "0912000001");
         fieldValues.put(MODULE_SUB_ITEM_CODE, "0");
         fieldValues.put(MODULE_SUB_ITEM_KEY, "0");
-        final Map <String, String> fieldValues2 = new HashMap<String, String>();
-        fieldValues2.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, "1");
-        final Map <String, String> fieldValues3 = new HashMap<String, String>();
-        fieldValues3.put(QuestionnaireConstants.QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME, "2");
 
         final Collection<AnswerHeader> headers = new ArrayList<AnswerHeader>();
         AnswerHeader answerHeader = createAnswerHeaderForVersioning(1L, "0912000001", "0");
         headers.add(answerHeader);
         final Questionnaire questionnaire = getQuestionnaire(1, 0, 1L); 
         answerHeader.setQuestionnaire(questionnaire);
-        final Collection<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
-        questionnaires.add(questionnaire);
         final Protocol protocol = new Protocol(){
             @Override
             public void refreshReferenceObject(String referenceObjectName) {
@@ -391,14 +385,12 @@ public class QuestionnaireAnswerServiceTest {
         //fieldValues = new HashMap<String, String>();
         final Map <String, String> fieldValues1 = new HashMap<String, String>();
         fieldValues1.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
-        Questionnaire questionnairenew = getQuestionnaire(2, 0, 2L); 
+        final Questionnaire questionnairenew = getQuestionnaire(2, 0, 2L);
         fieldValues1.put(MODULE_SUB_ITEM_CODE, "0");
         questionnairenew.getQuestionnaireQuestions().add(createChildQuestionnaireQuestion(4,1,"1","N"));
         final Collection<QuestionnaireUsage> usages = new ArrayList<QuestionnaireUsage>();
         QuestionnaireUsage questionnaireUsage = createQuestionnaireUsage(1L, "Test Questionnaire 1");
         questionnaireUsage.setQuestionnaire(questionnairenew);
-        final Collection<Questionnaire> questionnaires1 = new ArrayList<Questionnaire>();
-        questionnaires1.add(questionnairenew);
         List<QuestionnaireUsage> workUsages = new ArrayList<QuestionnaireUsage>();
         workUsages.add(questionnaireUsage);
         questionnairenew.setQuestionnaireUsages(workUsages);
@@ -411,23 +403,23 @@ public class QuestionnaireAnswerServiceTest {
         questionnaire.setQuestionnaireUsages(workUsages);
         final GlobalVariableService globalVariableService = context.mock(GlobalVariableService.class);
 
-        //context.mock(BusinessObjectService.class);
-        context.checking(new Expectations() {{
-            one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues1); will(returnValue(usages));
-            one(businessObjectService).findMatchingOrderBy(Questionnaire.class,
-                    fieldValues2, SEQUENCE_NUMBER, false); will(returnValue(questionnaires));
-            exactly(2).of(businessObjectService).findMatchingOrderBy(Questionnaire.class,
-                            fieldValues3, SEQUENCE_NUMBER, false); will(returnValue(questionnaires1));
-            one(globalVariableService).getUserSession(); will(returnValue(null));
-       }});
-
-        
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
         questionnaireAnswerServiceImpl.setQuestionnaireService(questionnaireServiceImpl);
         questionnaireAnswerServiceImpl.setGlobalVariableService(globalVariableService);
         questionnaireServiceImpl.setBusinessObjectService(businessObjectService);
-        
-        
+        final QuestionnaireDao questionnaireDao = context.mock(QuestionnaireDao.class);
+        questionnaireServiceImpl.setQuestionnaireDao(questionnaireDao);
+        context.checking(new Expectations() {{
+            one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues1);
+            will(returnValue(usages));
+            one(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnaire.getQuestionnaireSeqId());
+            will(returnValue(questionnaire.getSequenceNumber()));
+            exactly(2).of(questionnaireDao).getCurrentQuestionnaireSequenceNumber(questionnairenew.getQuestionnaireSeqId());
+            will(returnValue(questionnairenew.getSequenceNumber()));
+            one(globalVariableService).getUserSession();
+            will(returnValue(null));
+        }});
+
         List<AnswerHeader> answerHeaders = questionnaireAnswerServiceImpl.getQuestionnaireAnswer(new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(),"0", protocol.getSequenceNumber().toString(), false));
         Assert.assertEquals(2, answerHeaders.size());
         Assert.assertEquals(3, answerHeaders.get(0).getAnswers().size());

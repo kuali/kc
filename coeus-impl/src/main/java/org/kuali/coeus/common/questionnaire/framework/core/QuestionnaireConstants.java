@@ -7,7 +7,8 @@ public final class QuestionnaireConstants {
 	 */
 	public static final String QUESTIONNAIRE_ID_PARAMETER_NAME = "id";
 	public static final String QUESTIONNAIRE_SEQUENCE_ID_PARAMETER_NAME = "questionnaireSeqId";
-	
+	public static final String QUESTIONNAIRE_SEQUENCE_NUMBER_PARAMETER_NAME = "sequenceNumber";
+
 	public static final String QUESTION_SEQEQUENCE_ID = "questionSeqId";
 	public static final String QUESTION_ID = "id";
 	
