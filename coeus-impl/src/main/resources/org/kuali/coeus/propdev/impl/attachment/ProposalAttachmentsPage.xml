@@ -461,7 +461,9 @@
             abstract="true" parent="Uif-InputField" p:propertyName="narrativeTypeCode"
             p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
             p:enableAutoQuickfinder="false"
-            p:fieldLabel.labelText="Type"/>
+            p:fieldLabel.labelText="Type"
+            p:optionsFinder="#{#getService('instituteAttachmentTypeValuesFinder')}"/>
+
 
     <bean id="PropDev-AttachmentsPage-NotesSection" parent="PropDev-AttachmentsPage-NotesSection-parentBean" />
     <bean id="PropDev-AttachmentsPage-NotesSection-parentBean" abstract="true"
