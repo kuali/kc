@@ -177,6 +177,13 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Transient
     private Integer lineItemSequence;
 
+    /*
+     * Cost element BO is always referred from budget line item.
+     * We don't need a setter and getter in personnel details.
+     * Currently costElementBO is referenced in various places. We need to remove
+     * this later and update the code.
+     */
+    @Deprecated
     @Transient
     private CostElement costElementBO;
 
@@ -634,11 +641,13 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
         this.lineItemSequence = lineItemSequence;
     }
 
+    @Deprecated
     @Override
     public CostElement getCostElementBO() {
-        return costElementBO;
+        return getBudgetLineItem().getCostElementBO();
     }
 
+    @Deprecated
     @Override
     public void setCostElementBO(CostElement costElementBO) {
         this.costElementBO = costElementBO;

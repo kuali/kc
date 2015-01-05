@@ -59,6 +59,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectBudgetLineItemHelper().getCurrentTabBudgetPeriod();
 		BudgetLineItem newBudgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();
+		newBudgetLineItem.setBudget(budget);
         getBudgetService().populateNewBudgetLineItem(newBudgetLineItem, currentTabBudgetPeriod);
         currentTabBudgetPeriod.getBudgetLineItems().add(newBudgetLineItem);            
         getBudgetCalculationService().populateCalculatedAmount(budget, newBudgetLineItem);
