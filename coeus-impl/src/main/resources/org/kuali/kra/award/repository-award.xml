@@ -33,13 +33,13 @@
 		<field-descriptor name="additionalFormsRequired" column="ADDITIONAL_FORMS_REQ" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="autoApproveInvoice" column="AUTO_APPROVE_INVOICE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="stopWork" column="STOP_WORK" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="minInvoiceAmount" column="MIN_INVOICE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="minInvoiceAmount" column="MIN_INVOICE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
 		<field-descriptor name="invoicingOption" column="INVOICING_OPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="dunningCampaignId" column="DUNNING_CAMPAIGN_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="lastBilledDate" column="LAST_BILLED_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="previousLastBilledDate" column="PREV_LAST_BILLED_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="finalBill" column="FINAL_BILL" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="amountToDraw" column="AMT_TO_DRAW" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="amountToDraw" column="AMT_TO_DRAW" jdbc-type="DECIMAL" conversion="org.kuali.coeus.sys.framework.persistence.OjbScaleTwoDecimalFieldConversion"/>
 		<field-descriptor name="letterOfCreditReviewIndicator" column="LETTER_OF_CREDIT_REVIEW" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="invoiceDocumentStatus" column="INVOICE_DOCUMENT_STATUS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="locCreationType" column="LOC_CREATION_TYPE" jdbc-type="VARCHAR"/>
