@@ -390,15 +390,20 @@ public abstract class ProposalDevelopmentControllerBase {
     protected ModelAndView narrativePageSave(ProposalDevelopmentDocumentForm form, boolean canEdit) throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(form.getDocument().getDocumentNumber());
         if (canEdit) {
-            //when saving on a page in the narrative locking region we don't want to over write proposal locking region data,
-            //so we retrieve the latest proposal from the db, and replace the current propopsal with that, and then copy the attachments
-            document.getDevelopmentProposal().setNarratives(form.getDevelopmentProposal().getNarratives());
-            document.getDevelopmentProposal().setInstituteAttachments(form.getDevelopmentProposal().getInstituteAttachments());
-            document.getDevelopmentProposal().setPropPersonBios(form.getDevelopmentProposal().getPropPersonBios());
-            document.getDevelopmentProposal().setProposalAbstracts(form.getDevelopmentProposal().getProposalAbstracts());
-            document.setNotes(form.getDocument().getNotes()); 
-            form.setDocument(document);
-            return save(form);
+            if (new ProposalDevelopmentDocumentRule().processAttachmentRules(form.getProposalDevelopmentDocument())) {
+                //when saving on a page in the narrative locking region we don't want to over write proposal locking region data,
+                //so we retrieve the latest proposal from the db, and replace the current propopsal with that, and then copy the attachments
+                document.getDevelopmentProposal().setNarratives(form.getDevelopmentProposal().getNarratives());
+                document.getDevelopmentProposal().setInstituteAttachments(form.getDevelopmentProposal().getInstituteAttachments());
+                document.getDevelopmentProposal().setPropPersonBios(form.getDevelopmentProposal().getPropPersonBios());
+                document.getDevelopmentProposal().setProposalAbstracts(form.getDevelopmentProposal().getProposalAbstracts());
+                document.setNotes(form.getDocument().getNotes());
+                form.setDocument(document);
+                return save(form);
+            } else {
+                return getModelAndViewService().getModelAndView(form);
+            }
+
         } else {
             form.setDocument(document);
             return getNavigationControllerService().navigate(form);
