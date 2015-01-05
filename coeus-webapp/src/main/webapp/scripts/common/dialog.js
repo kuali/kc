@@ -11,4 +11,9 @@ Kc.Dialog = Kc.Dialog || {};
             $(".modal-backdrop").remove();
         }
     };
+    namespace.dismissParentDialog = function(dialogId) {
+        if ($("#" + dialogId, window.parent.document)) {
+            parent.dismissDialog(dialogId);
+        }
+    };
 })(Kc.Dialog, jQuery);

@@ -66,12 +66,17 @@
     </property>
   </bean>
 
-    <bean id="Rolodex-MaintenaceView" parent="Rolodex-MaintenaceView-parentBean"/>
-    <bean id="Rolodex-MaintenaceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+    <bean id="Rolodex-MaintenanceView" parent="Rolodex-MaintenanceView-parentBean"/>
+    <bean id="Rolodex-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
         <property name="authorizer.documentAuthorizerClass" value="org.kuali.coeus.common.impl.rolodex.RolodexDocumentAuthorizer"/>
         <property name="dataObjectClassName" value="org.kuali.coeus.common.framework.rolodex.Rolodex"/>
         <property name="viewHelperService" value="#{#getService('rolodexMaintainableImpl')}"/>
         <property name="headerText" value="Edit Address Book"/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>scripts/common/dialog.js</value>
+            </list>
+        </property>
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-DocumentOverviewSection" p:order="10"/>
@@ -104,6 +109,34 @@
                             <bean parent="Uif-InputField" p:propertyName="title" p:order="230"/>
                             <bean parent="Uif-InputField" p:propertyName="active" p:order="240"/>
                         </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="page">
+            <bean parent="Uif-MaintenancePage">
+                <property name="footer">
+                    <bean parent="Rolodex-MaintenanceView-Footer"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Rolodex-MaintenanceView-Footer" parent="Uif-DocumentPageFooter">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Add Address"
+                      p:performClientSideValidation="false"
+                      p:successCallback="Kc.Dialog.dismissParentDialog('Rolodex-AddNewAddress-Dialog');"
+                      p:preSubmitCall="return isRouteToComplete(kradRequest);"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:defaultEnterKeyAction="true">
+                </bean>
+                <bean parent="Uif-CancelAction"
+                      p:successCallback="Kc.Dialog.dismissParentDialog('Rolodex-AddNewAddress-Dialog');"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}">
+                    <property name="confirmationDialog">
+                        <bean id="ConfirmCancelDialog" parent="Uif-DialogGroup-OkCancel"
+                              p:promptText="Are you sure you want to cancel?"/>
                     </property>
                 </bean>
             </list>

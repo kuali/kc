@@ -804,5 +804,17 @@
     <bean id="Rolodex-AddNewAddressButton-parentBean" abstract="true" parent="Uif-Link" p:linkText="Add New Address Book"
           p:href="@{#ConfigProperties['application.url']}/kr-krad/maintenance?viewTypeName=MAINTENANCE&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.coeus.common.framework.rolodex.Rolodex"
           p:openInDialog="true"
+          p:linkDialogId="Rolodex-AddNewAddress-Dialog"
           p:cssClasses="btn,btn-xs"/>
+
+    <bean id="Rolodex-AddNewAddress-Dialog" parent="Uif-DialogGroup-Iframe">
+        <property name="headerText" value="Add New Address"/>
+        <property name="footer.render" value="true"/>
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close"
+                      p:actionScript="dismissDialog('Rolodex-AddNewAddress-Dialog');"/>
+            </list>
+        </property>
+    </bean>
 </beans>
