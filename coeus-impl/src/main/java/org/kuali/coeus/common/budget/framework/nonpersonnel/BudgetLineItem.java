@@ -672,8 +672,10 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 	}
 	public void setBudgetSubAward(BudgetSubAwards budgetSubAward) {
 		this.budgetSubAward = budgetSubAward;
-		subAwardNumber = budgetSubAward.getSubAwardNumber();
-		setBudget(budgetSubAward.getBudget());
+		if (budgetSubAward != null) {
+			subAwardNumber = budgetSubAward.getSubAwardNumber();
+			setBudget(budgetSubAward.getBudget());
+		}
 	}
 	public DevelopmentProposal getHierarchyProposal() {
 		return hierarchyProposal;
