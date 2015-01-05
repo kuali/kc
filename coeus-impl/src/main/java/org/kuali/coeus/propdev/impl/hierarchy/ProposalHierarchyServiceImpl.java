@@ -295,6 +295,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         errors.addAll(validateChildBudgetPeriods(hierarchyProposal,childProposal,true));
         errors.addAll(validateSponsor(childProposal, hierarchyProposal));
+        errors.addAll(validateParent(hierarchyProposal));
         errors.addAll(validateIsParentLocked(hierarchyProposal));
         errors.addAll(validateIsAggregatorOnParent(hierarchyProposal));
 
@@ -1827,6 +1828,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
         try {
             DevelopmentProposal hierarchy = lookupParent(child);
+            if (hasCompleteBudget(hierarchy)) {
+                errors.add( new ProposalHierarchyErrorWarningDto(ERROR_REMOVE_PARENT_BUDGET_COMPLETE, Boolean.TRUE, new String[0]));
+            }
         }
         catch (ProposalHierarchyException e) {
             errors.add(new ProposalHierarchyErrorWarningDto(ERROR_UNEXPECTED, Boolean.TRUE, e.getMessage()));
@@ -1900,6 +1904,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         }
         errors.addAll(validateSponsor(child, hierarchy));
         errors.addAll(validateIsParentLocked(hierarchy));
+        errors.addAll(validateParent(hierarchy));
         try {
             // add budget validation here.
 
@@ -1950,6 +1955,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (!proposal.isParent()) {
             errors.add(new ProposalHierarchyErrorWarningDto(ERROR_LINK_NOT_PARENT, Boolean.TRUE, new String[0]));
         }
+        if (hasCompleteBudget(proposal)) {
+            errors.add(new ProposalHierarchyErrorWarningDto(ERROR_LINK_PARENT_BUDGET_COMPLETE, Boolean.TRUE, new String[0]));
+        }
         return errors;
     }
 
@@ -1987,6 +1995,20 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     private boolean hasFinalBudget(DevelopmentProposal proposal) {
     	return proposal.getFinalBudget() != null;
     }
+
+    private boolean hasCompleteBudget(DevelopmentProposal developmentProposal) {
+        boolean retval = false;
+        String completeCode = getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+
+        for (ProposalDevelopmentBudgetExt version : developmentProposal.getBudgets()) {
+            if (!(version.getBudgetStatus() == null ) && version.getBudgetStatus().equalsIgnoreCase(completeCode)) {
+                retval = true;
+                break;
+            }
+        }
+        return retval;
+    }
+
 	protected DataObjectService getDataObjectService() {
 		return dataObjectService;
 	}
