@@ -164,6 +164,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
         		form.getAddProjectPersonnelHelper().reset();
         		form.getAddProjectPersonnelHelper().setCurrentTabBudgetPeriod(budgetPeriod);
         		setBudgetPeriodStartDateAndEndDateOnLineItems(form, budgetPeriod);
+        		form.getAddProjectPersonnelHelper().getBudgetLineItem().setBudget(budget);
         		form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail().setBudget(budget);
         		modelAndView = getModelAndViewService().showDialog(ADD_PERSONNEL_PERIOD_DIALOG_ID, true, form);
             }
