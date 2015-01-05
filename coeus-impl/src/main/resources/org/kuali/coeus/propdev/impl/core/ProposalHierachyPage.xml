@@ -67,7 +67,7 @@
                         <bean p:actionLabel="Unlink Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="removeFromHierarchy"
                               p:render="@{document.developmentProposal.isChild() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="50"/>
                         <bean p:actionLabel="Sync All" parent="Uif-SecondaryActionButton" p:methodToCall="syncAllHierarchy"
-                              p:render="@{document.developmentProposal.isParent() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}"  p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="60"/>
+                              p:render="@{document.developmentProposal.isParent() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}"  p:performClientSideValidation="false" p:dialogDismissOption="REQUEST" p:order="60"/>
 
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:methodToCall="hierarchyActionCanceled"/>
 					</list>
