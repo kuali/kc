@@ -24,7 +24,7 @@
 		p:viewHelperService="#{#getService('proposalDevelopmentViewHelperService')}"
 		p:stickyApplicationHeader="true" p:stickyFooter="true"
 		p:breadcrumbs.render="false" p:cssClasses="uif-formView"
-		p:unifiedHeader="false" p:defaultBindingObjectPath="">
+		p:unifiedHeader="false" p:defaultBindingObjectPath="" p:preloadPoolSize="10">
 		<property name="context">
 			<map>
 				<entry key="budgetAuthConsts" value="@{T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants)}"/>

@@ -299,3 +299,8 @@ li.kc-listIconDropdown li a.uif-boxLayoutHorizontalItem  {
 li.kc-listIconDropdown li div.uif-boxSection  {
     display: inline-block;
 }
+
+.app-header-version {
+    padding-right: 5px;
+    padding-top: 3px;
+}

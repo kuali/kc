@@ -123,7 +123,7 @@
                 </bean>
                 <bean parent="Uif-Message"
                       p:messageText="@{#ConfigProperties['version']} @{#ConfigProperties['datasource.ojb.platform']}"
-                      p:wrapperCssClasses="pull-right"/>
+                      p:wrapperCssClasses="pull-right,app-header-version"/>
             </list>
         </property>
     </bean>
