@@ -30,6 +30,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.bo.authorization.BusinessObjectAuthorizerBase;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.DocumentRequestAuthorizationCache;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -715,6 +716,12 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         String documentStatus =  document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
         return KewApiServiceLocator.getDocumentTypeService().canSuperUserDisapproveDocument(
                 principalId, documentTypeName, routeNodeInstances, documentStatus);
+    }
+
+    @Override
+    public void setDocumentRequestAuthorizationCache(
+            DocumentRequestAuthorizationCache documentRequestAuthorizationCache) {
+        // noop
     }
 
 }
