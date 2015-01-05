@@ -1850,7 +1850,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	        BudgetLineItem budgetLineItem,
 			BudgetLineItemBase budgetDetails,
 			AbstractBudgetRateAndBase budgetRateAndBase) {
-	    budgetDetails.refreshReferenceObject("costElementBO");
+		budgetLineItem.refreshReferenceObject("costElementBO");
 	    budgetLineItem.refreshReferenceObject("budgetCategory");
 		String category = null;
 		if (budgetRateAndBase != null && isRateAndBaseLASalary(budgetRateAndBase)) {
@@ -2062,7 +2062,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 * @return boolean
 	 */
 	protected boolean isBudgetCategoryPersonnel(BudgetLineItemBase budgetDetails) {
-		budgetDetails.refreshNonUpdateableReferences();
 		if (budgetDetails.getBudgetCategory() != null
 				&& BUDGET_CATEGORY_PERSONNEL.equals(budgetDetails
 						.getBudgetCategory().getBudgetCategoryTypeCode())) {
