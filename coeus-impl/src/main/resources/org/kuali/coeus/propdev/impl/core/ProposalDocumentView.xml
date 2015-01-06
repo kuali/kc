@@ -240,7 +240,7 @@
 						<bean parent="Uif-ActionLink" p:methodToCall="preparePrintDialog"
             			    p:actionLabel="Print" p:iconClass="icon-print" p:order="20" />
                         <bean parent="Uif-ActionLink" p:actionLabel="Copy" p:render="@{#editModes['canCopyProposal']}"
-                              p:iconClass="icon-eye" p:order="30" p:actionScript="showDialog('PropDev-CopyDialog-Section');" />
+                              p:iconClass="icon-eye" p:order="30" p:methodToCall="displayCopyDialog" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Medusa"
 							p:iconClass="icon-tasks" p:order="40" p:actionScript="showDialog('PropDev-MedusaSection');" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Hierarchy @{document.developmentProposal.isChild() ? '(C)' : document.developmentProposal.isParent() ? '(P)' : ''}" p:render="@{(#editModes[#proposalAuthConsts.VIEW_ONLY_PROPOSAL_EDIT_MODE] and document.developmentProposal.inHierarchy) or not #editModes[#proposalAuthConsts.VIEW_ONLY_PROPOSAL_EDIT_MODE]}"

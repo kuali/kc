@@ -2,9 +2,7 @@ package org.kuali.coeus.propdev.impl.copy;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
+import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
@@ -25,6 +23,8 @@ import java.util.Properties;
 @Controller
 public class ProposalDevelopmentCopyController extends ProposalDevelopmentControllerBase {
 
+    public static final String COPY_DIALOG = "PropDev-CopyDialog-Section";
+
     @Autowired
     @Qualifier("documentTypeService")
     private DocumentTypeService documentTypeService;
@@ -44,6 +44,13 @@ public class ProposalDevelopmentCopyController extends ProposalDevelopmentContro
         ProposalDevelopmentDocument newDoc = proposalCopyService.copyProposal(proposalDevelopmentDocument, proposalCopyCriteria);
 
         return returnToDocument(form, newDoc.getDocumentNumber());
+    }
+
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=displayCopyDialog")
+    public ModelAndView displayCopyDialog(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        ((ProposalDevelopmentViewHelperServiceImpl)form.getView().getViewHelperService()).populateQuestionnaires(form);
+        return getModelAndViewService().showDialog(COPY_DIALOG,true,form);
     }
 
     protected  ModelAndView returnToDocument(ProposalDevelopmentDocumentForm form, String newDocNum) {
