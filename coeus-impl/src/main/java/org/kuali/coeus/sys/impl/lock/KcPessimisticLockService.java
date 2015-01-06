@@ -15,6 +15,9 @@
  */
 package org.kuali.coeus.sys.impl.lock;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.rice.kim.api.identity.Person;
+
 /**
  * KC Pessimistic Lock Service.
  */
@@ -25,4 +28,5 @@ public interface KcPessimisticLockService {
      * that older than a given amount of time, e.g. 24 hours.
      */
     void clearExpiredLocks();
+    public boolean isPessimisticLockNeeded(ProposalDevelopmentDocument document, Person user, boolean canEdit, String customLockDescriptor);
 }

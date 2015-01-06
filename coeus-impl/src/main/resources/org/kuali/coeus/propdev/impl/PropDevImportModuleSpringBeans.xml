@@ -48,6 +48,7 @@
     <bean id="errorReporter" parent="grlImporter" p:serviceName="errorReporter"/>
     <bean id="auditHelper" parent="grlImporter" p:serviceName="auditHelper"/>
     <bean id="kcEntityManager" parent="grlImporter" p:serviceName="kcEntityManager" />
+    <bean id="kcPessimisticLockService" parent="grlImporter" p:serviceName="kcPessimisticLockService" />
 
     <!-- AWARD -->
     <bean id="awardService" parent="grlImporter" p:serviceName="awardService" />

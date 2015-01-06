@@ -5,6 +5,7 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.impl.lock.KcPessimisticLockService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -38,10 +39,16 @@ public class ProposalBudgetLockServiceImpl implements ProposalBudgetLockService 
     @Qualifier("pessimisticLockService")
     protected PessimisticLockService pessimisticLockService;
 
+    @Autowired
+    @Qualifier("kcPessimisticLockService")
+    protected KcPessimisticLockService KcPessimisticLockService;
+
     @Override
     public void establishBudgetLock(ProposalDevelopmentBudgetExt budget){
         ProposalDevelopmentDocument document = budget.getDevelopmentProposal().getProposalDocument();
-        if (isPessimisticLockNeeded(document, budget, getGlobalVariableService().getUserSession().getPerson(),true)) {
+        getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(),getGlobalVariableService().getUserSession().getPerson());
+        if (getKcPessimisticLockService().isPessimisticLockNeeded(document, getGlobalVariableService().getUserSession().getPerson(),true,
+                getBudgetLockDescriptor(document.getDevelopmentProposal().getProposalNumber(),budget.getBudgetVersionNumber()))) {
             PessimisticLock pessimisticLock = getPessimisticLockService().generateNewLock(document.getDocumentNumber(),
                     getBudgetLockDescriptor(document.getDevelopmentProposal().getProposalNumber(),
                             budget.getBudgetVersionNumber()),
@@ -69,40 +76,6 @@ public class ProposalBudgetLockServiceImpl implements ProposalBudgetLockService 
                 StringUtils.equals(lockDescriptorValues[1], KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) &&
                 StringUtils.isNotEmpty(lockDescriptorValues[2]) &&
                 Integer.parseInt(lockDescriptorValues[2]) == budgetVersionNumber;
-    }
-
-    protected boolean isPessimisticLockNeeded(ProposalDevelopmentDocument document, Budget budget, Person user, boolean canEdit) {
-        List<String> userOwnedLockDescriptors = new ArrayList<String>();
-        Map<String, Set<String>> otherOwnedLockDescriptors = new HashMap<String,Set<String>>();
-
-        // create the two lock containers that help determine whether to add a pessimistic lock
-        for (PessimisticLock pessimisticLock : document.getPessimisticLocks()) {
-            if (pessimisticLock.isOwnedByUser(user)) {
-                userOwnedLockDescriptors.add(pessimisticLock.getLockDescriptor());
-            } else {
-                if (!otherOwnedLockDescriptors.containsKey(pessimisticLock.getLockDescriptor())) {
-                    otherOwnedLockDescriptors.put(pessimisticLock.getLockDescriptor(), new HashSet<String>());
-                }
-
-                String otherOwnerPrincipalId = pessimisticLock.getOwnedByUser().getPrincipalId();
-                otherOwnedLockDescriptors.get(pessimisticLock.getLockDescriptor()).add(otherOwnerPrincipalId);
-            }
-        }
-
-        // if no one has a lock on this document, then the document can be locked if the user can edit it
-        if (userOwnedLockDescriptors.isEmpty() && otherOwnedLockDescriptors.isEmpty()) {
-            return canEdit;
-        }
-
-        String customLockDescriptor = getBudgetLockDescriptor(document.getDevelopmentProposal().getProposalNumber(),budget.getBudgetVersionNumber());
-        boolean userOwnsCustomLockDescriptor = userOwnedLockDescriptors.contains(customLockDescriptor);
-        boolean otherOwnsCustomLockDescriptor = otherOwnedLockDescriptors.containsKey(customLockDescriptor);
-
-        if (!userOwnsCustomLockDescriptor && !otherOwnsCustomLockDescriptor) {
-            return canEdit;
-        }
-
-        return false;
     }
 
     protected String getBudgetLockDescriptor(String proposalNumber, int budgetVersion) {
@@ -139,5 +112,13 @@ public class ProposalBudgetLockServiceImpl implements ProposalBudgetLockService 
 
     public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
         this.pessimisticLockService = pessimisticLockService;
+    }
+
+    public KcPessimisticLockService getKcPessimisticLockService() {
+        return KcPessimisticLockService;
+    }
+
+    public void setKcPessimisticLockService(KcPessimisticLockService kcPessimisticLockService) {
+        KcPessimisticLockService = kcPessimisticLockService;
     }
 }
