@@ -550,12 +550,14 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
     }
 
     public List<CSM> getCommitteeScheduleMinutes() {
-        Collections.sort(committeeScheduleMinutes, new Comparator<CSM>() {
-            @Override
-            public int compare(CSM o1, CSM o2) {
-                return o1.getEntryNumber().compareTo(o2.getEntryNumber());
-            }
-        });
+        if (committeeScheduleMinutes != null) {
+            Collections.sort(committeeScheduleMinutes, new Comparator<CSM>() {
+                @Override
+                public int compare(CSM o1, CSM o2) {
+                    return o1.getEntryNumber().compareTo(o2.getEntryNumber());
+                }
+            });
+        }
         return committeeScheduleMinutes;
     }
 
