@@ -14,7 +14,7 @@ public class AwardCgb extends AwardAssociate {
     private boolean additionalFormsRequired;
     private boolean autoApproveInvoice;
     private boolean stopWork;
-    private BigDecimal minInvoiceAmount;
+    private ScaleTwoDecimal minInvoiceAmount;
     private String invoicingOption;
     private String dunningCampaignId;
     private Date lastBilledDate;
@@ -76,11 +76,11 @@ public class AwardCgb extends AwardAssociate {
 		this.stopWork = stopWork;
 	}
 
-	public BigDecimal getMinInvoiceAmount() {
+	public ScaleTwoDecimal getMinInvoiceAmount() {
 		return minInvoiceAmount;
 	}
 
-	public void setMinInvoiceAmount(BigDecimal minInvoiceAmount) {
+	public void setMinInvoiceAmount(ScaleTwoDecimal minInvoiceAmount) {
 		this.minInvoiceAmount = minInvoiceAmount;
 	}
 
