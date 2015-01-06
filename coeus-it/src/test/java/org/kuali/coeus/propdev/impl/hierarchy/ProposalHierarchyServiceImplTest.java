@@ -49,6 +49,7 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
@@ -363,7 +364,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
 		childProposal.setHierarchyStatus(HierarchyStatusConstants.None.code());
 		errors = hierarchyService.validateLinkToHierarchy(hierarchyProposal, childProposal);
-		assertTrue(errors.isEmpty());
+		assertTrue(errors.toString(), errors.isEmpty());
 	}
 
 	@Test
@@ -372,7 +373,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		String errorKey = "error.hierarchy.proposal.not.hierarchy.child";
 		errors = hierarchyService.validateLinkToHierarchy(hierarchyProposal, childProposal);
 		assertNotNull(errors);
-		assertTrue(errors.size() == 1);
+		assertTrue(errors.toString(), errors.size() == 1);
 		assertEquals(errorKey, errors.get(0).getErrorKey());
 	}
 
@@ -412,6 +413,8 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 				.getService(ConfigurationService.class);
 		KcDocumentRejectionService kcDocumentRejectionService = KcServiceLocator
 				.getService(KcDocumentRejectionService.class);
+		PessimisticLockService pessimisticLockService = KcServiceLocator
+				.getService(PessimisticLockService.class);
 
 		hierarchyService.setKradWorkflowDocumentService(kradWorkflowDocumentService);
 		hierarchyService.setGlobalVariableService(globalVariableService);
@@ -425,6 +428,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		hierarchyService.setBudgetSummaryService(budgetSummaryService);
 		hierarchyService.setKualiConfigurationService(configurationService);
 		hierarchyService.setKcDocumentRejectionService(kcDocumentRejectionService);
+		hierarchyService.setPessimisticLockService(pessimisticLockService);
 	}
 
 	private ProposalDevelopmentDocument initializeProposalDevelopmentDocument()
