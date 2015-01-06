@@ -38,6 +38,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -59,10 +60,12 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 	private DevelopmentProposal childProposal;
 	private ProposalHierarchyServiceImpl hierarchyService;
 	private DataObjectService dataObjectService;
+    private KcAuthorizationService kcAuthorizationService;
 
 	@Before
 	public void setup() throws Exception {
 		dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
 		pdDocument = initializeProposalDevelopmentDocument();
 		childProposal = getChildProposal(this.pdDocument.getDevelopmentProposal());
 		hierarchyProposal = setDevelopmentProposalAdditionalData(
@@ -226,6 +229,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 
 	@Test
 	public void test_validateRemovePermissions() {
+        hierarchyService.removeFromHierarchy(childProposal);
 		boolean valid = true;
 		valid = hierarchyService.validateRemovePermissions(childProposal, "10000000001");
 		assertFalse(valid);
@@ -452,6 +456,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		ProposalDevelopmentService pdService = getService(ProposalDevelopmentService.class);
 		pdService.initializeUnitOrganizationLocation(pd);
 		pdService.initializeProposalSiteNumbers(pd);
+        kcAuthorizationService.addDocumentLevelRole("10000000001", RoleConstants.AGGREGATOR_DOCUMENT_LEVEL,pd);
 		return pd;
 	}
 
