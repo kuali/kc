@@ -265,11 +265,13 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     
     protected ProposalDevelopmentBudgetExt copyBudgetVersionInternal(ProposalDevelopmentBudgetExt budget, DevelopmentProposal developmentProposal) {
         for (BudgetSubAwards subAwards : budget.getBudgetSubAwards()) {
+        	subAwards.getSubAwardXmlFileData();
         	for (BudgetSubAwardAttachment origAttachment : subAwards.getBudgetSubAwardAttachments()) {
         		origAttachment.getData();
         	}
         	for (BudgetSubAwardFiles files : subAwards.getBudgetSubAwardFiles()) {
         		files.getSubAwardXfdFileData();
+        		files.getSubAwardXmlFileData();
         	}
         }
         DevelopmentProposal parent = budget.getDevelopmentProposal();

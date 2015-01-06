@@ -35,9 +35,12 @@
 		p:propertyName="budget.budgetSubAwards"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"
 		p:addWithDialog="true" p:layoutManager.renderSequenceField="false"
-		p:editWithDialog="true" p:customEditLineDialog="true" p:readOnly="@{#parent.readOnly}">
+		p:editWithDialog="true" p:customEditLineDialog="true" p:readOnly="false">
 		<property name="editLineDialogPrototype">
-			<bean parent="PropBudget-Subawards-Details-Section"/>
+			<bean parent="PropBudget-Subawards-Details-Section" p:readOnly="@{#view.readOnly}"/>
+		</property>
+		<property name="editInDialogSaveActionPrototype">
+			<bean parent="Uif-EditLineInDialogSaveAction" p:disabled="@{#parent.readOnly}"/>
 		</property>
 		<property name="layoutManager.richTable.templateOptions">
 			<map>
@@ -48,7 +51,7 @@
 			</map>
 		</property>
 		<property name="addWithDialogAction">
-			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Subaward" p:cssClasses="pull-right" p:iconClass="icon-plus" p:disabled="@{#parent.readOnly}"/>
+			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Subaward" p:cssClasses="pull-right" p:iconClass="icon-plus" p:disabled="@{#view.readOnly}"/>
 		</property>
 	    <property name="addLineDialog">
 	    	<bean id="PropBudget-SubawardsPage-CollectionGroup-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Subaward"
@@ -104,7 +107,7 @@
 		<property name="lineActions">
 			<list>
 				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
-					p:iconClass="icon-trash">
+					p:iconClass="icon-trash" p:disabled="@{#view.readOnly}">
 					<property name="confirmationDialog">
 						<bean parent="Uif-DialogGroup-OkCancel"
 							p:promptText="Are you sure you want to delete this subaward?"
@@ -138,7 +141,7 @@
 					p:order="10" />
 				<bean parent="PropBudget-SubawardsAttachments-FileUpload-Section" 
 					p:hidden="@{dialogDataObject?.budgetSubAwardFiles == null ? false : !dialogDataObject.budgetSubAwardFiles.isEmpty()}" 
-					p:order="20" />
+					p:order="20" p:render="@{!#parent.readOnly}"/>
 			</list>
 		</property>
 	
@@ -192,7 +195,7 @@
 					</property>
 				</bean>
 				<bean p:actionLabel="Sync from PDF" parent="Uif-SecondaryActionButton-Mini" p:order="30" 
-					p:disabled="@{dialogDataObject == null}" p:methodToCall="syncFromPdf">
+					p:disabled="@{dialogDataObject == null}" p:render="@{!#parent.readOnly}" p:methodToCall="syncFromPdf">
 					<property name="additionalSubmitData">
 						<map>
 							<entry key="subAwardNumber" value="@{dialogDataObject?.subAwardNumber}"/>
@@ -201,9 +204,9 @@
 				</bean>
 				<bean p:actionLabel="Replace PDF" parent="Uif-SecondaryActionButton-Mini"
 					p:actionScript="jQuery('.subAwardDetailButtons').toggle(); jQuery('.subAwardDetailsFileUpload').toggle(); jQuery('.subAwardDetailsFileUpload').addClass('replaceAttachment');"
-					p:order="40" />
+					p:order="40" p:render="@{!#parent.readOnly}"/>
 				<bean p:actionLabel="Delete PDF" parent="Uif-SecondaryActionButton-Mini" p:order="50"
-					p:methodToCall="removeAttachment">
+					p:methodToCall="removeAttachment" p:render="@{!#parent.readOnly}">
 					<property name="confirmationDialog">
 						<bean parent="Uif-DialogGroup-OkCancel"
 							p:promptText="Are you sure you want to remove the attachment from this subaward?"

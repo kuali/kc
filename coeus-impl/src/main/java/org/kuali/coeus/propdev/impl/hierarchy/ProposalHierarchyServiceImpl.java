@@ -854,8 +854,13 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             BudgetSubAwards newSubAwards;
             Map<Integer, BudgetSubAwards> subAwardMap = new HashMap<>();
             for (BudgetSubAwards childSubAwards : childBudget.getBudgetSubAwards()) {
+            	//pre-fetch all clobs
+            	childSubAwards.getSubAwardXmlFileData();
             	for (BudgetSubAwardAttachment origAttachment : childSubAwards.getBudgetSubAwardAttachments()) {
             		origAttachment.getData();
+            	}
+            	for (BudgetSubAwardFiles budgetSubAwardFiles : childSubAwards.getBudgetSubAwardFiles()) {
+            		budgetSubAwardFiles.getSubAwardXmlFileData();
             	}
                 newSubAwards = (BudgetSubAwards) deepCopy(childSubAwards);
                 newSubAwards.setBudget(parentBudget);
