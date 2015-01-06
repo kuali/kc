@@ -58,7 +58,7 @@ public class AwardDtoService extends KcDtoServiceBase<AwardDTO, Award> {
 			dto.setDunningCampaignId(award.getAwardCgb().getDunningCampaignId());
 			dto.setAdditionalFormsDescription(award.getAdditionalFormsDescriptionComment().getComments());
 			dto.setStopWorkReason(award.getStopWorkReasonComment().getComments());
-			dto.setMinInvoiceAmount(award.getAwardCgb().getMinInvoiceAmount());
+			dto.setMinInvoiceAmount(award.getAwardCgb().getMinInvoiceAmount() != null ? award.getAwardCgb().getMinInvoiceAmount().bigDecimalValue() : null);
 			dto.setExcludedFromInvoicing(award.getAwardCgb().isSuspendInvoicing());
 			dto.setExcludedFromInvoicingReason(award.getSuspendInvoicingComment().getComments());
 			dto.setMethodOfPayment(awardMethodOfPaymentDtoService.buildDto(award.getAwardMethodOfPayment()));
