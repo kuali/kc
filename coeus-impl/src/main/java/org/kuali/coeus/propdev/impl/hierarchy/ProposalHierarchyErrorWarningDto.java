@@ -16,6 +16,8 @@
 package org.kuali.coeus.propdev.impl.hierarchy;
 
 
+import java.util.Arrays;
+
 public class ProposalHierarchyErrorWarningDto {
     private boolean severe;
     private String errorKey;
@@ -79,5 +81,13 @@ public class ProposalHierarchyErrorWarningDto {
     public void setErrorParameters(String... errorParameters) {
         this.errorParameters = errorParameters;
     }
-    
+
+    @Override
+    public String toString() {
+        return "ProposalHierarchyErrorWarningDto{" +
+                "severe=" + severe +
+                ", errorKey='" + errorKey + '\'' +
+                ", errorParameters=" + Arrays.toString(errorParameters) +
+                '}';
+    }
 }
