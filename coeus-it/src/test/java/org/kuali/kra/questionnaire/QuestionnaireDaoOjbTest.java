@@ -15,34 +15,31 @@
  */
 package org.kuali.kra.questionnaire;
 
-import java.util.List;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.questionnaire.impl.QuestionnaireDao;
-import org.kuali.coeus.common.questionnaire.impl.QuestionnaireDaoOjb;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolFinderDao;
-import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public class QuestionnaireDaoOjbTest {
-    private QuestionnaireDao questionnaireDao = new QuestionnaireDaoOjb();
+public class QuestionnaireDaoOjbTest extends KcIntegrationTestBase {
+    private QuestionnaireDao questionnaireDao;
 
     private static final String QUESTIONNAIRE_SEQUENCE_ID = "1000";
-    private static final Integer CURRENT_QUESTIONNAIRE_SEQUENCE_NUMBER = 1;
+    private static final Integer CURRENT_QUESTIONNAIRE_SEQUENCE_NUMBER = 2;
 
-  @Test
+    @Before
+    public void setUp() throws Exception {
+        questionnaireDao = KcServiceLocator.getService("questionnaireDao");
+    }
+
+
+    @Test
     public void testFindProtocol() throws WorkflowException {
       assertEquals(CURRENT_QUESTIONNAIRE_SEQUENCE_NUMBER, questionnaireDao.getCurrentQuestionnaireSequenceNumber(QUESTIONNAIRE_SEQUENCE_ID));
 
