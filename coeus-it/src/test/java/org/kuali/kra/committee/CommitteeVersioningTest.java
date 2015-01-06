@@ -47,7 +47,7 @@ public class CommitteeVersioningTest extends KcIntegrationTestBase {
     @Before
     public void setUp() {
         versioningService  = new VersioningServiceImpl();
-        originalCommittee = createCommittee("Test", "The Verion Test Committee");
+        originalCommittee = createCommittee("Test", "The Version Test Committee");
     }
     
     @After
@@ -104,9 +104,7 @@ public class CommitteeVersioningTest extends KcIntegrationTestBase {
     public void testCommitteeScheduleVersioning() throws Exception {
         originalCommittee.getCommitteeSchedules().add(createCommitteeSchedule("2009-12-25"));
         originalCommittee.getCommitteeSchedules().get(0).setCommittee(originalCommittee);
-//        originalCommittee.getCommitteeSchedules().add(createCommitteeSchedule("2009-07-13"));
-//        originalCommittee.getCommitteeSchedules().add(createCommitteeSchedule("2009-11-11"));
-        
+
         Committee versionedCommittee = (Committee) versioningService.createNewVersion(originalCommittee);
 
         verifyVersioning(originalCommittee, versionedCommittee);
