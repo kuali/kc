@@ -153,7 +153,7 @@
 							p:messageText="No" p:order="10" />
                         <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getDateFromTimeStamp(budget.createTimestamp)}"
                             p:label="Created" p:order="20" />
-						<bean parent="Uif-MessageField" p:label="Parent proposal"
+						<bean parent="Uif-MessageField" p:label="Proposal"
 							p:messageText="#@{budget.developmentProposal.proposalNumber}"
 							p:order="30" />
 						<bean parent="PropBudget-DocumentHeader-MoreInfo" p:order="40" />

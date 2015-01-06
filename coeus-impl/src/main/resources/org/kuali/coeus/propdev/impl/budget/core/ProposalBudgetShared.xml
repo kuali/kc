@@ -115,7 +115,7 @@
 		p:style="z-index:9999;">
 		<property name="items">
 			<list>
-				<bean parent="Uif-MessageField" p:label="Parent Proposal" p:messageText="@{#form.developmentProposal.proposalNumber}" p:order="10"/>
+				<bean parent="Uif-MessageField" p:label="Proposal" p:messageText="@{#form.developmentProposal.proposalNumber}" p:order="10"/>
 				<bean parent="Uif-InputField"  p:label="Budget Name" p:propertyName="budgetName" p:order="20" 
 					p:required="true" p:maxLength="40"/>
 			</list>
