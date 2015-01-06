@@ -265,6 +265,8 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     
     protected ProposalDevelopmentBudgetExt copyBudgetVersionInternal(ProposalDevelopmentBudgetExt budget, DevelopmentProposal developmentProposal) {
         for (BudgetSubAwards subAwards : budget.getBudgetSubAwards()) {
+        	//pre-fetch all lob objects from the subawards as JPA/Eclipselink doesn't do this for lazy loaded lobs
+        	//during the deep-copy operation below
         	subAwards.getSubAwardXmlFileData();
         	for (BudgetSubAwardAttachment origAttachment : subAwards.getBudgetSubAwardAttachments()) {
         		origAttachment.getData();

@@ -854,7 +854,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             BudgetSubAwards newSubAwards;
             Map<Integer, BudgetSubAwards> subAwardMap = new HashMap<>();
             for (BudgetSubAwards childSubAwards : childBudget.getBudgetSubAwards()) {
-            	//pre-fetch all clobs
+            	//pre-fetch all lob objects from the subawards as JPA/Eclipselink doesn't do this for lazy loaded lobs
+            	//during the deep-copy operation below
             	childSubAwards.getSubAwardXmlFileData();
             	for (BudgetSubAwardAttachment origAttachment : childSubAwards.getBudgetSubAwardAttachments()) {
             		origAttachment.getData();
