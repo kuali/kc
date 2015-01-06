@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.amendrenew;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
@@ -29,9 +30,11 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -320,10 +323,15 @@ public class ProtocolMergeTest extends KcIntegrationTestBase {
      * @return
      */
     private Protocol createProtocol() {
-        Protocol protocol = new Protocol();
-        protocol.setProtocolId(1L);
-        protocol.setProtocolNumber("0906000001");
-        return protocol;
+
+        try {
+            ProtocolDocument document = ProtocolFactory.createProtocolDocument("0906000001");
+            Protocol protocol = document.getProtocol();
+            protocol.setProtocolId(1L);
+            return protocol;
+        } catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
