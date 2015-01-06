@@ -175,4 +175,16 @@
         </property>
     </bean>
 
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject"
+                  value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig()}"/>
+        <property name="targetMethod" value="putObject"/>
+        <property name="arguments">
+            <list>
+                <value>dataSource</value>
+                <ref bean="dataSource"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

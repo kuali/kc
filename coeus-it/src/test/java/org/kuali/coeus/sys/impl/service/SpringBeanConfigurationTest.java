@@ -18,6 +18,7 @@ import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.BeanIsAbstractException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 import javax.xml.namespace.QName;
 import java.lang.reflect.Proxy;
@@ -103,10 +104,11 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
                             //if there is no way to ignore creation errors all tests will fail even if one bean is bad regardless of the type
                             //we do want this type of failure to be tested by at least one test method but not all tests
                             if (!ignoreCreationException) {
+                                LOG.error("unable to create bean " + name + (context instanceof ConfigurableWebApplicationContext ? " for locations " + Arrays.asList(((ConfigurableWebApplicationContext) context).getConfigLocations()) : ""), e);
                                 throw e;
                             }
                         } catch (RuntimeException e) {
-                            LOG.error("bean failed to execute function", e);
+                            LOG.error("failed to execute function for bean " + name + (context instanceof ConfigurableWebApplicationContext ? " for locations " + Arrays.asList(((ConfigurableWebApplicationContext) context).getConfigLocations()) : ""), e);
                             List<KeyValue<String, Exception>> rlFailures = failedBeans.get(r.getName());
                             if (rlFailures == null) {
                                 rlFailures = new ArrayList<>();
