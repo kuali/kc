@@ -149,8 +149,8 @@
 			<bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="uif-documentInfo">
 				<property name="items">
 					<list>
-						<bean parent="Uif-MessageField" p:label="Final Version"
-							p:messageText="No" p:order="10" />
+						<bean parent="Uif-MessageField" p:label="Marked For Submission"
+							p:messageText="@{#ViewHelper.isBudgetMarkedForSubmission(developmentProposal.finalBudget, budget) ? 'Yes' : 'No'}" p:order="10" />
                         <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getDateFromTimeStamp(budget.createTimestamp)}"
                             p:label="Created" p:order="20" />
 						<bean parent="Uif-MessageField" p:label="Proposal"
