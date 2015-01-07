@@ -4,7 +4,7 @@ INSERT INTO SEQ_NOTIFICATION_TYPE_ID VALUES(NULL)
 INSERT INTO NOTIFICATION_TYPE (NOTIFICATION_TYPE_ID, MODULE_CODE, ACTION_CODE, DESCRIPTION, SUBJECT, MESSAGE, PROMPT_USER, SEND_NOTIFICATION, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID)
     VALUES ((SELECT (MAX(ID)) FROM SEQ_NOTIFICATION_TYPE_ID), (SELECT MODULE_CODE FROM COEUS_MODULE WHERE DESCRIPTION='Development Proposal'), '104','Proposal Person Certification Request Notification',
     'Regarding your involvement in Development Proposal {PROPOSAL_TITLE}',
-    'Please review the proposal by clicking on the following link <a title="" target="_self" href="{APP_LINK_PREFIX}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-CertificationView&amp;docId={DOCUMENT_NUMBER}&amp;userName={USER_NAME}">Click Here</a>. Please answer the certification questions if you agree to participate in this project. Proposal Details as follows:<br/>Document Number: {DOCUMENT_NUMBER}<br/>Proposal Number: {PROPOSAL_NUMBER}<br/>Proposal Title: {PROPOSAL_TITLE}<br/>Principal Investigator: {PRINCIPAL INVESTIGATOR}<br/>Lead Unit: {LEAD_UNIT} - {LEAD_UNIT_NAME}<br/>Sponsor: {SPONSOR_CODE} - {SPONSOR_NAME}<br/>Dealine Date: {DEADLINE_DATE}',
+    'Please review the proposal by clicking on the following link <a title="" target="_self" href="{APP_LINK_PREFIX}/kc-pd-krad/proposalDevelopment?methodToCall=viewUtility&amp;viewId=PropDev-CertificationView&amp;docId={DOCUMENT_NUMBER}&amp;userName={USER_NAME}">Click Here</a>. Please answer the certification questions if you agree to participate in this project. Proposal Details as follows:<br/>Document Number: {DOCUMENT_NUMBER}<br/>Proposal Number: {PROPOSAL_NUMBER}<br/>Proposal Title: {PROPOSAL_TITLE}<br/>Principal Investigator: {PRINCIPAL INVESTIGATOR}<br/>Lead Unit: {LEAD_UNIT} - {LEAD_UNIT_NAME}<br/>Sponsor: {SPONSOR_CODE} - {SPONSOR_NAME}<br/>Deadline Date: {DEADLINE_DATE}',
     'N', 'Y', 'admin', SYSDATE(), 1, UUID())
 /
 INSERT INTO SEQ_NOTIFICATION_TYPE_ID VALUES(NULL)
@@ -12,7 +12,7 @@ INSERT INTO SEQ_NOTIFICATION_TYPE_ID VALUES(NULL)
 INSERT INTO NOTIFICATION_TYPE (NOTIFICATION_TYPE_ID, MODULE_CODE, ACTION_CODE, DESCRIPTION, SUBJECT, MESSAGE, PROMPT_USER, SEND_NOTIFICATION, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID)
     VALUES ((SELECT (MAX(ID)) FROM SEQ_NOTIFICATION_TYPE_ID), (SELECT MODULE_CODE FROM COEUS_MODULE WHERE DESCRIPTION='Development Proposal'), '105','All Proposal Person Certifications Completed',
     'All Proposal Persons Certification Completed for {PROPOSAL_NUMBER}',
-    'All of the Proposal Person Certifications are completed.  Proposal Details as follows:<br/>Document Number: {DOCUMENT_NUMBER}<br/>Proposal Number: {PROPOSAL_NUMBER}<br/>Proposal Title: {PROPOSAL_TITLE}<br/>Principal Investigator: {PRINCIPAL INVESTIGATOR}<br/>Lead Unit: {LEAD_UNIT} - {LEAD_UNIT_NAME}<br/>Sponsor: {SPONSOR_CODE} - {SPONSOR_NAME}<br/>Dealine Date: {DEADLINE_DATE}',
+    'All of the Proposal Person Certifications are completed.  Proposal Details as follows:<br/>Document Number: {DOCUMENT_NUMBER}<br/>Proposal Number: {PROPOSAL_NUMBER}<br/>Proposal Title: {PROPOSAL_TITLE}<br/>Principal Investigator: {PRINCIPAL INVESTIGATOR}<br/>Lead Unit: {LEAD_UNIT} - {LEAD_UNIT_NAME}<br/>Sponsor: {SPONSOR_CODE} - {SPONSOR_NAME}<br/>Deadline Date: {DEADLINE_DATE}',
     'N', 'Y', 'admin', SYSDATE(), 1, UUID())
 /
 INSERT INTO SEQ_NOTIFICATION_TYPE_ID VALUES(NULL)
@@ -20,7 +20,7 @@ INSERT INTO SEQ_NOTIFICATION_TYPE_ID VALUES(NULL)
 INSERT INTO NOTIFICATION_TYPE (NOTIFICATION_TYPE_ID, MODULE_CODE, ACTION_CODE, DESCRIPTION, SUBJECT, MESSAGE, PROMPT_USER, SEND_NOTIFICATION, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID)
     VALUES ((SELECT (MAX(ID)) FROM SEQ_NOTIFICATION_TYPE_ID), (SELECT MODULE_CODE FROM COEUS_MODULE WHERE DESCRIPTION='Development Proposal'), '106','Proposal Person Certification Completed',
     'Proposal Person Certification Completed',
-    'Proposal Person Certification completed by Proxy.  Proposal Details as follows:<br/>Document Number: {DOCUMENT_NUMBER}<br/>Proposal Number: {PROPOSAL_NUMBER}<br/>Proposal Title: {PROPOSAL_TITLE}<br/>Principal Investigator: {PRINCIPAL INVESTIGATOR}<br/>Lead Unit: {LEAD_UNIT} - {LEAD_UNIT_NAME}<br/>Sponsor: {SPONSOR_CODE} - {SPONSOR_NAME}<br/>Dealine Date: {DEADLINE_DATE}',
+    'Proposal Person Certification completed by Proxy.  Proposal Details as follows:<br/>Document Number: {DOCUMENT_NUMBER}<br/>Proposal Number: {PROPOSAL_NUMBER}<br/>Proposal Title: {PROPOSAL_TITLE}<br/>Principal Investigator: {PRINCIPAL INVESTIGATOR}<br/>Lead Unit: {LEAD_UNIT} - {LEAD_UNIT_NAME}<br/>Sponsor: {SPONSOR_CODE} - {SPONSOR_NAME}<br/>Deadline Date: {DEADLINE_DATE}',
     'N', 'Y', 'admin', SYSDATE(), 1, UUID())
 /
 INSERT INTO SEQ_NOTIFICATION_TYPE_ID VALUES(NULL)
