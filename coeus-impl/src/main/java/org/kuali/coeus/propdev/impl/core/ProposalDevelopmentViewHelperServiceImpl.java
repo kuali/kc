@@ -23,7 +23,6 @@ import java.util.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
-import org.kuali.coeus.common.framework.auth.KcAuthConstants;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
@@ -52,7 +51,6 @@ import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
-import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -87,10 +85,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -142,10 +137,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("proposalDevelopmentPermissionsService")
     private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
-
-    @Autowired
-    @Qualifier("kcWorkflowService")
-    private KcWorkflowService kcWorkflowService;
 
     @Autowired
     @Qualifier("proposalDevelopmentService")
@@ -568,24 +559,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 
         return moreInfo.toString();
     }
-
-    @Override
-    public void retrieveEditModesAndActionFlags() {
-    	super.retrieveEditModesAndActionFlags();
-    	View view = ViewLifecycle.getView();
-        UifFormBase model = (UifFormBase) ViewLifecycle.getModel();
-    	if(! getKcWorkflowService().isInWorkflow(((DocumentFormBase) model).getDocument())) {
-    		view.getActionFlags().put(KcAuthConstants.DocumentActions.DELETE_DOCUMENT, Boolean.TRUE);
-    	}
-    }
-
-    public KcWorkflowService getKcWorkflowService() {
-		return kcWorkflowService;
-	}
-
-	public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
-		this.kcWorkflowService = kcWorkflowService;
-	}
 
     public void populateCreditSplits(ProposalDevelopmentDocumentForm form) {
         getKeyPersonnelService().populateDocument(form.getProposalDevelopmentDocument());
