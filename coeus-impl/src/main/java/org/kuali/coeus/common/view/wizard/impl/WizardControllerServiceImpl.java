@@ -63,6 +63,7 @@ public class WizardControllerServiceImpl implements WizardControllerService {
         searchCriteria.remove("officePhone");
         List<Person> persons = getPersonService().findPeople(filterCriteria(searchCriteria),false);
         searchCriteria.put("officePhone",searchCriteria.get("phoneNumber"));
+        searchCriteria.remove("phoneNumber");
         List<KcPerson> kcPersons = getKcPersonService().createKcPersonsFromPeople(persons);
         for (KcPerson person: kcPersons) {
             WizardResultsDto result = new WizardResultsDto();
