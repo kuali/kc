@@ -82,7 +82,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="includeQuestionnaire" p:order="70" p:fieldLabel.renderColon="false" p:render="@{#ViewHelper.areActiveQuestionnaires(questionnaireHelper.answerHeaders) or #ViewHelper.areActiveQuestionnaires(s2sQuestionnaireHelper.answerHeaders)}">
+                <bean parent="Uif-InputField" p:propertyName="includeQuestionnaire" p:order="70" p:fieldLabel.renderColon="false" p:render="@{#ViewHelper.areAnsweredQuestionnaires(questionnaireHelper.answerHeaders) or #ViewHelper.areAnsweredQuestionnaires(s2sQuestionnaireHelper.answerHeaders)}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes. Include questionnaire" p:disabled="false"/>
                     </property>
