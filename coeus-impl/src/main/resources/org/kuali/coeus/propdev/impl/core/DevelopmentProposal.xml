@@ -1316,7 +1316,8 @@
     </bean>
 
     <bean id="Development-Proposal-Lookup-result-EditLink" parent="Uif-Link"
-          p:render="@{!#view.renderReturnLink}">
+          p:render="@{!#view.renderReturnLink and
+          (#line.document.documentHeader.workflowDocument.saved or #line.document.documentHeader.workflowDocument.initiated)}">
         <property name="finalizeMethodToCall" value="buildPropDevEditActionLink"/>
         <property name="href" value="@{#line.document.documentNumber}"/>
         <property name="finalizeMethodAdditionalArguments">
