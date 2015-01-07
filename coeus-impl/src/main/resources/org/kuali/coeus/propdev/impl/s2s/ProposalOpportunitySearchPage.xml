@@ -42,7 +42,7 @@
 
 	<bean id="PropDev-OpportunityPage-ButtonSection" parent="PropDev-OpportunityPage-ButtonSection-parentBean" />
  	<bean id="PropDev-OpportunityPage-ButtonSection-parentBean" abstract="true" parent="Uif-HorizontalBoxSubSection"
- 			p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null and !document.developmentProposal.isChild()}">
+ 			p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId != null and !document.developmentProposal.isChild() and !#parent.readOnly}">
  		<property name="items">
  		<list>
  			<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Remove opportunity"
@@ -177,7 +177,7 @@
 					p:readOnly="@{#lp.mandatory}" p:readOnlyDisplayReplacement="Yes"
                     p:fieldLabel.labelText="[0]">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:disabled="@{!#line.available or !#editModes['printProposal']}" />
+                        <bean parent="Uif-CheckboxControl" p:disabled="@{!#line.available or !#editModes['printProposal'] or !canEditView}" />
                     </property>
                     <property name="fieldLabel.inlineComponents">
                         <list>
@@ -319,7 +319,8 @@
         <property name="items">
             <list>
                 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Add User Attached Form" p:order="10"
-                      p:actionScript="showDialog('PropDev-OpportunityPage-AddUserAttachedForm');" p:iconClass="icon-plus"/>
+                      p:actionScript="showDialog('PropDev-OpportunityPage-AddUserAttachedForm');" p:iconClass="icon-plus"
+                        p:render="@{!#parent.readOnly}"/>
                 <bean parent="PropDev-OpportunityPage-UserAttachedForms-Collection" p:order="20"/>
             </list>
         </property>
