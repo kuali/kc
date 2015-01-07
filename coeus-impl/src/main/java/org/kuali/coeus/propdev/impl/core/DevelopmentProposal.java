@@ -343,7 +343,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     @JoinColumn(name = "HIERARCHY_LAST_BUDGET_ID", referencedColumnName = "BUDGET_ID")
     private ProposalDevelopmentBudgetExt lastSyncedBudget;
 
-    @OneToOne(mappedBy = "developmentProposal", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "developmentProposal",orphanRemoval = true, cascade = CascadeType.ALL)
     private S2sOpportunity s2sOpportunity;
 
     @OneToOne(cascade = { CascadeType.REFRESH })
