@@ -15,6 +15,7 @@
     <bean id="Kc-Wizard" parent="Kc-Wizard-parentBean" />
     <bean id="Kc-Wizard-parentBean" abstract="true"
           parent="Uif-DialogGroup" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.WizardGroup"
+          p:destroyDialogOnHidden="true"
           p:resetDataOnRefresh="true"
           p:retrieveViaAjax="true">
         <property name="dialogCssClass" value="modal-lg"/>
