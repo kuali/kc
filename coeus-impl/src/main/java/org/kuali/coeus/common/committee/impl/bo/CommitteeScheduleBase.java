@@ -81,6 +81,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
     // So, keep the "transient". Also, they are not versioned with version service.   
     // Merging these data from old version committee to the new version committee at the time of "approval" of new version committee.
     private transient List<CommitteeScheduleAttendanceBase> committeeScheduleAttendances;        
+    @SkipVersioning
     private transient List<CSM> committeeScheduleMinutes;  
     private transient List<CommitteeScheduleAttachmentsBase> committeeScheduleAttachments;
     @SkipVersioning
