@@ -107,6 +107,7 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         opportunity.setCompetetionId(COMP_ID);
         opportunity.setInstructionUrl(INS_URL);
         opportunity.setOpportunityId(OPP_ID);
+        opportunity.setOpportunity("bogus opportunity character data");
         opportunity.setCfdaNumber(CFDA);
         opportunity.setS2sSubmissionTypeCode(SUB_TYPE_CODE);
         opportunity.setProviderCode(PROVIDER_CODE);
