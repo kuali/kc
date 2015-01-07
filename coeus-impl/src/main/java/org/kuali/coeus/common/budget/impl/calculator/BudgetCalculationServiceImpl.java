@@ -1256,11 +1256,13 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
     
     public void resetBudgetLineItemCalculatedAmounts(Budget budget) {
-    	for(BudgetLineItem budgetLineItem : budget.getBudgetLineItems()) {
-    		budgetLineItem.getBudgetLineItemCalculatedAmounts().clear();
-    		for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-    			budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts().clear();
-    		}
+    	for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+        	for(BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+        		budgetLineItem.getBudgetLineItemCalculatedAmounts().clear();
+        		for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+        			budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts().clear();
+        		}
+        	}
     	}
     }
     
