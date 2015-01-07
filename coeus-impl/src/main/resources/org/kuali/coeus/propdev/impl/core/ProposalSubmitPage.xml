@@ -518,7 +518,7 @@
     <bean id="PropDev-SubmitPage-HierarchyDetails-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:linkText="View Document" p:order="10" p:openInDialog="true"
+                <bean parent="Uif-Link" p:linkText="View Document" p:order="10" p:target="_new"
                      p:href="@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=docHandler&amp;docId=@{#line.proposalDocument.documentNumber}&amp;command=displayDocSearchView&amp;pageId=PropDev-DetailsPage" />
                 <bean parent="PropDev-SubmitPage-HierarchyOverview" p:order="20"/>
                 <bean parent="PropDev-SubmitPage-HierarchySponsorProgramInfo" p:order="30"/>
