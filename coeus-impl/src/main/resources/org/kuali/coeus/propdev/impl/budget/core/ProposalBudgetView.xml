@@ -65,6 +65,11 @@
 				<ref bean="PropBudget-SummaryPage" />
 			</list>
 		</property>
+        <property name="dialogs">
+            <list>
+                <ref bean="PropBudget-ProjectPersonnelPage-Wizard" />
+            </list>
+        </property>
 	</bean>
 
 	<bean id="PropBudget-Menu" parent="PropBudget-Menu-parentBean" />

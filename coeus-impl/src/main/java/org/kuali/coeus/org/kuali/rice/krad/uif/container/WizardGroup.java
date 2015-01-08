@@ -17,46 +17,43 @@ package org.kuali.coeus.org.kuali.rice.krad.uif.container;
 
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.DialogGroup;
-import org.kuali.rice.krad.uif.container.Group;
-import org.kuali.rice.krad.uif.util.ComponentUtils;
-import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class WizardGroup extends DialogGroup {
 
     @Override
-    public void performApplyModel(Object model, LifecycleElement parent) {
+    public void performInitialization(Object model) {
         UifFormBase form = (UifFormBase) model;
 
         String stepStr = form.getActionParameters().get(this.getId()+".step");
         Integer step = 0;
 
+        if(stepStr == null) {
+          HashMap wizardGroupState =   (HashMap)form.getClientStateForSyncing().get(this.getId());
+            if(wizardGroupState != null) {
+                stepStr =(String) wizardGroupState.get("step");
+            }
+        }
+
         if (stepStr != null && stepStr.matches("\\d")) {
             step = Integer.valueOf(stepStr);
         }
+
+        this.setOnDocumentReadyScript("setComponentState('" + this.getId() + "', 'step','" + step + "')");
 
         List<Component> currentItems = new ArrayList<Component>();
         for (int i = 0, len = getItems().size(); i < len; i++) {
             Component component = getItems().get(i);
 
-            if (i == step) {
-            	Component componentCopy = ComponentUtils.copy(component);
-                if (componentCopy instanceof Group) {
-                	Group group = (Group) componentCopy;
-	                if (group.getFooter() != null) {
-	                	setFooter(group.getFooter());
-	                	group.setFooter(null);
-	                }
-                }
-                currentItems.add(componentCopy);
+            if (i != step) {
+            	component.setRender(false);
             }
         }
 
-        setItems(currentItems);
-
-        super.performApplyModel(model, parent);
+        super.performInitialization(model);
     }
 }

@@ -84,6 +84,7 @@
                 <ref bean="PropDev-DataOverride-Dialog"/>
                 <ref bean="PropDev-DocumentAdHocRecipientsSection"/>
                 <ref bean="PropDev-MedusaSection"/>
+                <ref bean="Kc-SendNotification-Wizard"/>
 			</list>
 		</property>
 	</bean>
