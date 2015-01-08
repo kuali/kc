@@ -264,6 +264,7 @@
     <bean id="PropDev-PersonnelPage-Collection" parent="PropDev-PersonnelPage-Collection-parentBean" />
     <bean id="PropDev-PersonnelPage-Collection-parentBean" abstract="true"
           parent="Uif-StackedCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
+          p:useServerPaging="true"
           p:propertyName="document.developmentProposal.proposalPersons"
           p:id="PropDev-PersonnelPage-Collection"
           p:layoutManager.summaryTitle="@{#lp.fullName}
@@ -326,11 +327,11 @@
         <property name="items">
             <list>
                 <bean parent="PropDev-PersonnelPage-Details" p:order="10" />
-                <bean parent="PropDev-PersonnelPage-Organization" p:order="20" />
-                <bean parent="PropDev-PersonnelPage-ExtendedDetails" p:order="40" />
-                <bean parent="PropDev-PersonnelPage-Degrees" p:order="50" />
-                <bean parent="PropDev-PersonnelPage-UnitDetails" p:order="60" />
-                <bean parent="PropDev-PersonnelPage-TrainingDetails" p:order="70"/>
+                <bean parent="PropDev-PersonnelPage-Organization" p:order="20" p:retrieveViaAjax="true" />
+                <bean parent="PropDev-PersonnelPage-ExtendedDetails" p:order="40" p:retrieveViaAjax="true" />
+                <bean parent="PropDev-PersonnelPage-Degrees" p:order="50" p:retrieveViaAjax="true" />
+                <bean parent="PropDev-PersonnelPage-UnitDetails" p:order="60" p:retrieveViaAjax="true" />
+                <bean parent="PropDev-PersonnelPage-TrainingDetails" p:order="70" p:retrieveViaAjax="true" />
                 <bean parent="PropDev-PersonnelPage-Questionnaire" p:order="80" />
             </list>
         </property>
