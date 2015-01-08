@@ -71,7 +71,7 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
         for(InstitutionalProposalPerson p: institutionalProposal.getProjectPersons()) {
             if (p.getClass().equals(newProjectPerson.getClass()) 
                     && p.getContact().getIdentifier().equals(newProjectPerson.getContact().getIdentifier())
-                    && isProjectPersonInvestigator(p) && isProjectPersonInvestigator(newProjectPerson)) {
+                    && isImportantPerson(p) && isImportantPerson(newProjectPerson)) {
                 valid = false;
                 break;
             }
@@ -81,11 +81,15 @@ public class InstitutionalProposalProjectPersonAddRuleImpl extends BaseInstituti
             GlobalVariables.getMessageMap().putError(PROPOSAL_PROJECT_PERSON_LIST_ERROR_KEY, ERROR_PROPOSAL_PROJECT_PERSON_EXISTS, 
                                                                                 newProjectPerson.getContact().getFullName());
         }
-        
+
         return valid;
     }
     
     private boolean isProjectPersonInvestigator(InstitutionalProposalPerson projectPerson) {
         return projectPerson.isCoInvestigator() || projectPerson.isPrincipalInvestigator();
+    }
+
+    private boolean isImportantPerson(InstitutionalProposalPerson person) {
+        return isProjectPersonInvestigator(person) || person.isKeyPerson() || person.isMultiplePi();
     }
 }
