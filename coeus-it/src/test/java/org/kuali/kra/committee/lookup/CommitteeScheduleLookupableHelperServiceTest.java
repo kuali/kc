@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.service;
+package org.kuali.kra.committee.lookup;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -28,7 +32,7 @@ import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.UserSession;
@@ -85,8 +89,13 @@ public class CommitteeScheduleLookupableHelperServiceTest extends KcIntegrationT
      */
     @Test
     public void testGetCustomActionUrl() {
-        service.setTaskAuthorizationService(getMockTaskAuthorizationService());
-        List<HtmlData> actionUrls = service.getCustomActionUrls(initCommitteeSchedule(), Collections.singletonList("committeeId"));
+
+        CommitteeSchedule schedule = initCommitteeSchedule();
+        final Task modify = service.getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, schedule.getCommittee());
+        final Task view = service.getNewCommitteeTaskInstanceHook(TaskName.VIEW_SCHEDULE, schedule.getCommittee());
+
+        service.setTaskAuthorizationService(getMockTaskAuthorizationService(modify, view));
+        List<HtmlData> actionUrls = service.getCustomActionUrls(schedule, Collections.singletonList("committeeId"));
         assertEquals(2, actionUrls.size());
         assertTrue(actionUrls.get(0).getDisplayText().equals("edit"));
         assertEquals(((HtmlData.AnchorHtmlData) actionUrls.get(0)).getHref(), EDIT_URL);                
@@ -97,18 +106,39 @@ public class CommitteeScheduleLookupableHelperServiceTest extends KcIntegrationT
         context.assertIsSatisfied();
     }
     
-    private TaskAuthorizationService getMockTaskAuthorizationService() {
+    private TaskAuthorizationService getMockTaskAuthorizationService(final Task modify, final Task view) {
         final TaskAuthorizationService service = context.mock(TaskAuthorizationService.class);
-        
+        final String user = GlobalVariables.getUserSession().getPrincipalId();
         context.checking(new Expectations() {{
-            one(service).isAuthorized(with(any(String.class)), with(any(Task.class)));
+            one(service).isAuthorized(with(user), with(taskMatcher(modify)));
+            will(returnValue(true));
+            one(service).isAuthorized(with(user), with(taskMatcher(view)));
             will(returnValue(true));
         }});
         
         return service;
     }
 
-   
+    protected Matcher<Task> taskMatcher(final Task task) {
+        return new BaseMatcher<Task>() {
+
+            @Override
+            public void describeTo(Description description) {
+
+            }
+
+            @Override
+            public boolean matches(Object item) {
+                return taskEquals(task, (Task) item);
+            }
+        };
+    }
+
+    protected boolean taskEquals(Task o, Task p) {
+        return p == o || (StringUtils.equals(p.getGenericTaskName(), o.getGenericTaskName())
+                && StringUtils.equals(p.getGroupName(), o.getGroupName())
+                && StringUtils.equals(p.getTaskName(), o.getTaskName()));
+    }
     
     /**
      * This method unit tests a private method using reflection, usually we would unit test only 
