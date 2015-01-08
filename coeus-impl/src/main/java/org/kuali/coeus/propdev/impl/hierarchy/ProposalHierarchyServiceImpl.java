@@ -318,7 +318,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (StringUtils.equalsIgnoreCase(hierarchyProposal.getHierarchyOriginatingChildProposalNumber(), childProposal.getProposalNumber())) {
             hierarchyProposal.getPrincipalInvestigator().setHierarchyProposalNumber(null);
         }
+
         removeChildElements(hierarchyProposal, childProposal.getProposalNumber());
+        removeAllChildPersonnelFromParent(hierarchyProposal, childProposal);
 
         if (isLast) {
             try {
@@ -342,7 +344,41 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
             hierarchyProposal.setHierarchyOriginatingChildProposalNumber(lowestProposalNumber);
             dataObjectService.save(childProposal);
+            dataObjectService.save(hierarchyProposal);
             synchronizeAllChildren(hierarchyProposal);
+        }
+    }
+
+    protected void removeDeletedPersonnelFromParent(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+        for (Iterator<ProposalPerson> iterator = hierarchyProposal.getProposalPersons().iterator(); iterator.hasNext();) {
+            ProposalPerson person = iterator.next();
+
+            if (StringUtils.equals(person.getHierarchyProposalNumber(), childProposal.getProposalNumber()) &&
+                childProposal.getProposalPersons().indexOf(person) == -1 &&
+                !personInMultipleProposals(person.getPersonId(), hierarchyProposal)) {
+                    //remove person from parent
+                    iterator.remove();
+                    // remove attachments also
+                    getProposalPersonBiographyService().removePersonnelAttachmentForDeletedPerson(hierarchyProposal.getProposalDocument(), person);
+            }
+        }
+    }
+
+    protected void removeAllChildPersonnelFromParent(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+        for (Iterator<ProposalPerson> iterator = childProposal.getProposalPersons().iterator(); iterator.hasNext();) {
+            ProposalPerson childPerson = iterator.next();
+
+            if (!personInMultipleProposals(childPerson.getPersonId(), hierarchyProposal)) {
+                for (Iterator<ProposalPerson> parentIterator = hierarchyProposal.getProposalPersons().iterator(); parentIterator.hasNext();) {
+                    ProposalPerson parentPerson = parentIterator.next();
+                    if (StringUtils.equals(childPerson.getPersonId(), parentPerson.getPersonId())) {
+                        //remove person from parent
+                        parentIterator.remove();
+                        // remove attachments also
+                        getProposalPersonBiographyService().removePersonnelAttachmentForDeletedPerson(hierarchyProposal.getProposalDocument(), parentPerson);
+                    }
+                }
+            }
         }
     }
 
@@ -821,6 +857,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
 
         }
+
+        removeDeletedPersonnelFromParent(hierarchyProposal, childProposal);
+
     }
     
     protected void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal, List<BudgetPeriod> oldBudgetPeriods)
@@ -1265,6 +1304,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         if (parentBudget != null) {
         	removeChildBudgetElements(parentProposal, parentBudget, childProposalNumber);
         }
+
     }
     
     protected void removeChildBudgetElements(DevelopmentProposal parentProposal, ProposalDevelopmentBudgetExt parentBudget, String childProposalNumber) {
