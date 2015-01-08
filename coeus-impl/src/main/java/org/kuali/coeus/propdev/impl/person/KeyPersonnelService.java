@@ -109,4 +109,7 @@ public interface KeyPersonnelService {
     public List<ProposalCreditSplitListDto> createCreditSplitListItems(List<ProposalPerson> investigators);
 
     public List<ProposalUnitCreditSplit> createCreditSplits(ProposalPersonUnit unit);
-}
+
+    public void populateCreditSplit(ProposalDevelopmentDocument document);
+
+    }
