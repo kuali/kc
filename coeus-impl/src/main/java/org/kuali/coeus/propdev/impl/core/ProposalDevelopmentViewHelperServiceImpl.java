@@ -30,6 +30,7 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchResult;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchService;
+import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
@@ -539,6 +540,19 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         for (AnswerHeader answerHeader : answerHeaders) {
             if (answerHeader.isActive()) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean areAnsweredQuestionnaires(List<AnswerHeader> answerHeaders) {
+        for (AnswerHeader answerHeader : answerHeaders) {
+            if (answerHeader.isActive()) {
+                for (Answer answer : answerHeader.getAnswers()) {
+                    if (StringUtils.isNotEmpty(answer.getAnswer())) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
