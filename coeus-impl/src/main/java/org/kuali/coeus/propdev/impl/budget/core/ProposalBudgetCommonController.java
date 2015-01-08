@@ -181,7 +181,12 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
         super.save(form);
         form.setEvaluateFlagsAndModes(true);
-		return getKcCommonControllerService().closeDialog(BUDGET_SETTINGS_DIALOG_ID, form);
+		//setting to null to force reevaluation
+		form.setCanEditView(null);
+
+		//the budgetStatusDo is not being synced with the budgetStatus from the settings screen
+		getDataObjectService().wrap(form.getBudget()).fetchRelationship("budgetStatusDo");
+		return getRefreshControllerService().refresh(form);
 	}
 
 	@Transactional @RequestMapping(params="methodToCall=closeBudgetSettings")

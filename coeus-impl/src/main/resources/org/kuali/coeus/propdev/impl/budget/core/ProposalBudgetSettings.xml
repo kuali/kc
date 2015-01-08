@@ -30,10 +30,10 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Apply Changes" p:methodToCall="saveBudgetSettings"
-							p:order="10" p:refreshId = "PropBudget-BudgetSettings-Dialog" p:dialogDismissOption=""
+							p:order="10" p:dialogDismissOption="REQUEST" p:performClientSideValidation="true"
 							p:render="@{!#parent.readOnly or #view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS)}"/>
 						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
-							p:methodToCall="closeBudgetValidation" p:order="20" />
+							p:methodToCall="closeBudgetValidation" p:order="20" p:performClientSideValidation="true" />
 					</list>
 				</property>
 			</bean>
