@@ -16,6 +16,10 @@
 package org.kuali.coeus.common.impl.attachment;
 
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
+import org.kuali.coeus.sys.api.model.KcFile;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Component;
 
@@ -86,23 +90,6 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
         return null;    
     }
 
-    /**
-     * This method checks string for invalid characters and replaces with underscores.
-     */
-    @Override
-    public String checkAndReplaceInvalidCharacters(String text) {     
-        String cleanText = text;
-        if (ObjectUtils.isNotNull(text)) {
-            Pattern pattern = Pattern.compile(REGEX_TITLE_FILENAME_PATTERN);
-            Matcher matcher = pattern.matcher(text);
-            cleanText = matcher.replaceAll(REPLACEMENT_CHARACTER);
-            if(cleanText.length() > 50){
-               cleanText = cleanText.substring(0, 50);
-            }
-        }
-        return cleanText;
-    }
-
     @Override
     public boolean getSpecialCharacter(String text) {
         if (ObjectUtils.isNotNull(text)) {
@@ -136,6 +123,15 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
         } else {
             return format.format((((double)size) / 1000)) + " KB";
         }
+    }
+
+    @Override
+    public boolean validPDFFile(KcFile fileInQuestion, ErrorReporter errorReporter, String errorPrefix) {
+        if (!Constants.PDF_REPORT_CONTENT_TYPE.equals(fileInQuestion.getType())) {
+           errorReporter.reportWarning(errorPrefix, KeyConstants.INVALID_FILE_TYPE,
+                    fileInQuestion.getName(), Constants.PDF_REPORT_CONTENT_TYPE);
+        }
+        return true;
     }
 
 }

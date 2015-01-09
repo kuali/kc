@@ -15,6 +15,9 @@
  */
 package org.kuali.coeus.common.framework.attachment;
 
+import org.kuali.coeus.sys.api.model.KcFile;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+
 /**
  * KC Attachment Service.
  */
@@ -42,14 +45,6 @@ public interface KcAttachmentService {
    
         
     /**
-     * This method checks for invalid characters in strings and replaces
-     * them with underscores.
-     * @param text
-     * @return
-     */
-    String checkAndReplaceInvalidCharacters(String text);
-    
-    /**
      * This method checks for special characters in strings and replaces
      * them with underscores.
      * @param text
@@ -63,4 +58,14 @@ public interface KcAttachmentService {
      * @return
      */
     public String formatFileSizeString(Long size);
+
+    /**
+     * This method checks to see if the attachment is of type PDF
+     * @param fileInQuestion
+     * @param errorReporterService
+     * @param errorPrefix
+     * @return boolean
+     */
+    public boolean validPDFFile(KcFile fileInQuestion, ErrorReporter errorReporterService, String errorPrefix);
+
 }

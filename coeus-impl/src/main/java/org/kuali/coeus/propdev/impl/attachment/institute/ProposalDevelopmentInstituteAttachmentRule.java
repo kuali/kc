@@ -113,13 +113,15 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
         }
     
         rulePassed &= validFileNameCharacters(narrative, errorPath);
+        rulePassed &= getKcFileService().validPDFFile(narrative, getErrorReporter(), errorPath);
         
         return rulePassed;
-    }
+  }
     
     @Override
     public boolean processReplaceInstituteAttachmentBusinessRules(ReplaceInstituteAttachmentEvent event) {
-        return validFileNameCharacters(event.getNarrative(), event.getErrorPathPrefix());
+        return validFileNameCharacters(event.getNarrative(), event.getErrorPathPrefix()) &&
+               getKcFileService().validPDFFile(event.getNarrative(), getErrorReporter(), event.getErrorPathPrefix());
     }
     
     private boolean validFileNameCharacters(Narrative narrative, String errorPath) {
@@ -145,7 +147,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
         
         return rulePassed;
     }
-    
+
     /**
      * 
      * This method is get narrative type reference which will be used to retrieve allow multiple indicator for rule checking.
