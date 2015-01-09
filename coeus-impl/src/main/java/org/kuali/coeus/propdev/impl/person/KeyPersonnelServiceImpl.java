@@ -94,6 +94,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @param document
      */
     public void populateDocument(ProposalDevelopmentDocument document) {
+        populateCreditSplit(document);
+
+        /* check for new certification questions */
+        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
+            getYnqService().getPersonYNQ(person, document);
+        }
+    }
+
+    public void populateCreditSplit(ProposalDevelopmentDocument document) {
         if(hasBeenRoutedOrCanceled(document)){
             Collection<InvestigatorCreditType> availableCreditTypes=getAllInvestigatorCreditTypes();
             Set<InvestigatorCreditType> usedCreditTypes = new HashSet<InvestigatorCreditType>();
@@ -116,11 +125,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 populateActiveCredittypesPerson(document);
             }
         }
-        /* check for new certification questions */
-        for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            getYnqService().getPersonYNQ(person, document);
-        }
     }
+
     /**
      * It populates the Active credit type in the proposalpersoncreditsplit and unitcreditsplit
      *

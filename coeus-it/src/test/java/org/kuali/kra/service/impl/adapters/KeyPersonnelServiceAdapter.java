@@ -65,4 +65,7 @@ public class KeyPersonnelServiceAdapter implements KeyPersonnelService {
     public List<ProposalUnitCreditSplit> createCreditSplits(ProposalPersonUnit unit){
         return null;
     }
+
+    @Override
+    public void populateCreditSplit(ProposalDevelopmentDocument document) {}
 }
