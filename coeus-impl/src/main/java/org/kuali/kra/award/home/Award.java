@@ -2354,7 +2354,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public AwardAmountInfo getAwardAmountInfo() {
         return awardAmountInfos.get(0);
     }
-    
+
+    public AwardAmountInfo getLatestAwardAmountInfo() {
+        return getAwardAmountInfoService().fetchAwardAmountInfoWithHighestTransactionId(awardAmountInfos);
+    }
+
     /**
      * Find the lead unit for the award
      * @return
