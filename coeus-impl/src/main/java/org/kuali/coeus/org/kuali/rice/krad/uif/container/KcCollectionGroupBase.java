@@ -161,6 +161,8 @@ public class KcCollectionGroupBase extends GroupBase implements CollectionGroup 
     private Action addWithDialogAction;
     private DialogGroup addLineDialog;
 
+    private boolean generatedAddDialog;
+
     private boolean useServerPaging = false;
     private int pageSize;
     private int displayStart = -1;
@@ -225,6 +227,7 @@ public class KcCollectionGroupBase extends GroupBase implements CollectionGroup 
             if (addLineDialog == null) {
                 addLineDialog = (DialogGroup) ComponentFactory.getNewComponentInstance(
                         ComponentFactory.ADD_LINE_DIALOG);
+                generatedAddDialog = true;
             }
             // assign this group to the layout manager
             ((CollectionLayoutManager) getLayoutManager()).setAddLineGroup(addLineDialog);
@@ -415,6 +418,22 @@ public class KcCollectionGroupBase extends GroupBase implements CollectionGroup 
                     ComponentFactory.ADD_WITH_DIALOG_ACTION);
         }
 
+        if (generatedAddDialog &&
+                this.getAddLineDialog().getFooter() != null &&
+                this.getAddLineDialog().getFooter().getItems() != null) {
+            // Correct pontentially incorrect action settings
+            for(Component item: this.getAddLineDialog().getFooter().getItems()) {
+                if (item instanceof Action) {
+                    ((Action) item).setRefreshId(this.getId());
+                    ((Action)item).addActionParameter(UifParameters.SELECTED_COLLECTION_PATH,
+                            this.getBindingInfo().getBindingPath());
+                    ((Action)item).addActionParameter(UifParameters.SELECTED_COLLECTION_ID, this.getId());
+                    ((Action) item).getActionParameters().remove(UifParameters.SELECTED_LINE_INDEX);
+                    ((Action) item).getActionParameters().remove(UifParameters.LINE_INDEX);
+                }
+            }
+        }
+
         String sessionPage = "first";
         if (addLinePlacement.equals(UifConstants.Position.BOTTOM.name())) {
             sessionPage = "last";
@@ -457,6 +476,16 @@ public class KcCollectionGroupBase extends GroupBase implements CollectionGroup 
             for (Component cmpnt : addLineDialog.getFooter().getItems()) {
                 if (cmpnt instanceof  Action) {
                     ((Action)cmpnt).setFieldsToSend(fieldsToSend);
+                    // Correct the validation call for generated add dialogs
+                    if (generatedAddDialog && ((Action)cmpnt).getMethodToCall() != null
+                            && ((Action)cmpnt).getMethodToCall().equals("addLine")) {
+                        String preSubmitScript = "var valid=" + "validate" + "(jQuery('#" +
+                                addLineDialog.getId() + "'));";
+
+                        preSubmitScript += "return valid;";
+
+                        ((Action)cmpnt).setPreSubmitCall(preSubmitScript);
+                    }
                 }
             }
         }
