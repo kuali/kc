@@ -11,3 +11,7 @@
 .uif-hidden:hover {
 	cursor: pointer;
 }
+
+select.uif-hidden {
+    line-height: normal;
+}
