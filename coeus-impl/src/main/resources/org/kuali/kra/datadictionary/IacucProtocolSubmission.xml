@@ -49,9 +49,9 @@
                 <ref bean="IacucProtocolSubmission-abstainerCount" />
                 <ref bean="IacucProtocolSubmission-votingComments" />
                 <ref bean="IacucProtocolSubmission-versionNumber" />
-                <ref bean="IacucProtocolSubmission-committeeSchedule.scheduledDate" />
+                <ref bean="IacucProtocolSubmission-committeeScheduleDate" />
                 <ref bean="IacucProtocolSubmission-committee.committeeName" />
-                <ref bean="IacucProtocolSubmission-protocol.title" />
+                <ref bean="IacucProtocolSubmission-protocolTitle" />
                 <ref bean="IacucProtocolSubmission-piName" />
                 <ref bean="IacucProtocolSubmission-submissionStatus.description" />
                 <ref bean="IacucProtocolSubmission-protocolSubmissionType.description" />
@@ -413,15 +413,15 @@
 		<property name="shortLabel" value="PI" />
     </bean>
 
-    <bean id="IacucProtocolSubmission-protocol.title" parent="IacucProtocolSubmission-protocol.title-parentBean" />
-    <bean id="IacucProtocolSubmission-protocol.title-parentBean" abstract="true" parent="IacucProtocol-title" >
-    		<property name="name" value="protocol.title" />
+    <bean id="IacucProtocolSubmission-protocolTitle" parent="IacucProtocolSubmission-protocolTitle-parentBean" />
+    <bean id="IacucProtocolSubmission-protocolTitle-parentBean" abstract="true" parent="IacucProtocol-title" >
+    		<property name="name" value="protocolTitle" />
     		<property name="required" value="false" />
     </bean>
     
-    <bean id="IacucProtocolSubmission-committeeSchedule.scheduledDate" parent="IacucProtocolSubmission-committeeSchedule.scheduledDate-parentBean" />
-    <bean id="IacucProtocolSubmission-committeeSchedule.scheduledDate-parentBean" abstract="true" parent="IacucCommSchedule-scheduledDate" >
-		<property name="name" value="committeeSchedule.scheduledDate" />
+    <bean id="IacucProtocolSubmission-committeeScheduleDate" parent="IacucProtocolSubmission-committeeScheduleDate-parentBean" />
+    <bean id="IacucProtocolSubmission-committeeScheduleDate-parentBean" abstract="true" parent="IacucCommSchedule-scheduledDate" >
+		<property name="name" value="committeeScheduleDate" />
 		<property name="required" value="false" />
     </bean>
     
@@ -687,8 +687,8 @@
         <bean parent="FieldDefinition" p:attributeName="submissionTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="submissionStatusCode"/>
         <bean parent="FieldDefinition" p:attributeName="submissionDate"/>
-        <bean parent="FieldDefinition" p:attributeName="protocol.title"/>
-        <bean parent="FieldDefinition" p:attributeName="iacucCommitteeSchedule.scheduledDate"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolTitle"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeScheduleDate"/>
         <bean parent="FieldDefinition" p:attributeName="protocolReviewTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="committeeId"/>
             </list>
@@ -703,8 +703,8 @@
         <bean parent="FieldDefinition" p:attributeName="protocolSubmissionQualifierType.description"/>
         <bean parent="FieldDefinition" p:attributeName="protocolReviewType.description"/>
         <bean parent="FieldDefinition" p:attributeName="committeeId"/>
-        <bean parent="FieldDefinition" p:attributeName="iacucCommitteeSchedule.scheduledDate"/>
-        <bean parent="FieldDefinition" p:attributeName="protocol.title"/>
+        <bean parent="FieldDefinition" p:attributeName="protocolTitle"/>
+        <bean parent="FieldDefinition" p:attributeName="committeeScheduleDate"/>
         <bean parent="FieldDefinition" p:attributeName="piName"/>
       </list>
     </property>
@@ -720,8 +720,8 @@
         <bean p:propertyName="submissionTypeCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="submissionStatusCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="submissionDate" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="protocol.title" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="iacucCommitteeSchedule.scheduledDate" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="protocolTitle" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="committeeScheduleDate" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="protocolReviewTypeCode" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="committeeId" parent="Uif-LookupCriteriaInputField"/>
       </list>
@@ -736,8 +736,8 @@
         <bean p:propertyName="protocolSubmissionQualifierType.description" parent="Uif-DataField"/>
         <bean p:propertyName="protocolReviewType.description" parent="Uif-DataField"/>
         <bean p:propertyName="committeeId" parent="Uif-DataField"/>
-        <bean p:propertyName="iacucCommitteeSchedule.scheduledDate" parent="Uif-DataField"/>
-        <bean p:propertyName="protocol.title" parent="Uif-DataField"/>
+        <bean p:propertyName="protocolTitle" parent="Uif-DataField"/>
+        <bean p:propertyName="committeeScheduleDate" parent="Uif-DataField"/>
         <bean p:propertyName="piName" parent="Uif-DataField"/>
       </list>
     </property>
