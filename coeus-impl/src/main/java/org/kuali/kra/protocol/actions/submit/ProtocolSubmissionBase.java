@@ -494,4 +494,20 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     public void setReviewAttachments(List<ProtocolReviewAttachmentBase> reviewAttachments) {
         this.reviewAttachments = reviewAttachments;
     }
+    
+    /**
+     * This help protocol submission search, just returns the protocol title
+     * @return
+     */
+    public String getProtocolTitle() {
+    	return this.getProtocol() != null ? this.getProtocol().getTitle() : "";
+    }
+    
+    /**
+     * This help protocol submission search, just returns the committee schedule date
+     * @return
+     */
+    public Date getCommitteeScheduleDate() {
+    	return this.getCommitteeSchedule() != null ? this.getCommitteeSchedule().getScheduledDate() : null;
+    }
 }
