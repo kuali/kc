@@ -82,6 +82,7 @@
     <bean id="PropDev-SummaryView" parent="PropDev-SummaryView-parentBean"/>
     <bean id="PropDev-SummaryView-parentBean" abstract="true"
           parent="Uif-FormView" p:header.render="false" p:breadcrumbs.render="false"
+          class="org.kuali.coeus.propdev.impl.core.ProposalDocumentSummaryView"
           p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm"
           p:authorizer="#{#getService('proposalDevelopmentDocumentViewAuthorizer')}"
           p:viewHelperService="#{#getService('proposalDevelopmentViewHelperService')}"
@@ -99,7 +100,18 @@
                             <property name="items">
                                 <list>
                                     <bean parent="PropDev-SubmitPage-ProposalSummary"/>
-                                    <bean p:headerText="Budget (placeholder)" parent="Uif-VerticalBoxSection"/>
+                                    <bean parent="PropDev-BudgetPage-Collection" p:headerText="Budget Summary"
+                                            p:renderLineActions="false">
+                                        <property name="header.rightGroup">
+                                            <null/>
+                                        </property>
+                                        <property name="items">
+                                            <list merge="true">
+                                                <bean parent="Uif-DataField" p:label="Name" p:propertyName="name" p:order="10" />
+
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </list>
                             </property>
                         </bean>
