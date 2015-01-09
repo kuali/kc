@@ -25,7 +25,6 @@ import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
-import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationItem;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
@@ -355,7 +354,9 @@ public abstract class ProposalDevelopmentControllerBase {
          if (isNavigateAwayFromAttachment(navigateToPageId, form.getPageId())) {
              prepareLocks(form);
              return narrativePageSave(form, canEdit);
-         } else if (isNavigateToBudget(navigateToPageId) || isNavigateToAttachments(navigateToPageId)) {
+         } else if (isNavigateToAttachments(navigateToPageId) ||
+                  isNavigateAwayFromAccess(navigateToPageId,form.getPageId()) ||
+                  isNavigateToAccess(navigateToPageId)) {
              prepareLocks(form);
          }
          return proposalDevelopmentPageSave(form, canEdit);
@@ -373,13 +374,15 @@ public abstract class ProposalDevelopmentControllerBase {
             //when saving on page in the proposal development locking region we don't want to over write attachments that
             //may have been alter concurrently.  So we retrieve the latest proposal data from the db, and replace the attachment
             //collections with the values from the db.
-            form.getDevelopmentProposal().setNarratives(document.getDevelopmentProposal().getNarratives());
-            form.getDevelopmentProposal().setInstituteAttachments(document.getDevelopmentProposal().getInstituteAttachments());
-            form.getDevelopmentProposal().setPropPersonBios(document.getDevelopmentProposal().getPropPersonBios());
-            form.getDevelopmentProposal().setProposalAbstracts(document.getDevelopmentProposal().getProposalAbstracts());
-            form.getDocument().setNotes(document.getNotes());
+            if (!StringUtils.equals(form.getPageId(),Constants.PROP_DEV_PERMISSIONS_PAGE)) {
+                form.getDevelopmentProposal().setNarratives(document.getDevelopmentProposal().getNarratives());
+                form.getDevelopmentProposal().setInstituteAttachments(document.getDevelopmentProposal().getInstituteAttachments());
+                form.getDevelopmentProposal().setPropPersonBios(document.getDevelopmentProposal().getPropPersonBios());
+                form.getDevelopmentProposal().setProposalAbstracts(document.getDevelopmentProposal().getProposalAbstracts());
+                form.getDocument().setNotes(document.getNotes());
 
-            form.getDocument().setDocumentHeader(document.getDocumentHeader());
+                form.getDocument().setDocumentHeader(document.getDocumentHeader());
+            }
             return save(form);
         } else {
             form.setDocument(document);
@@ -414,13 +417,13 @@ public abstract class ProposalDevelopmentControllerBase {
         return StringUtils.equals(navigateToPageId,ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID);
     }
 
-    protected boolean isNavigateToBudget(String navigateToPageId) {
-        return StringUtils.equals(navigateToPageId,ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID);
+    protected boolean isNavigateToAccess(String navigateToPageId) {
+        return StringUtils.equals(navigateToPageId,Constants.PROP_DEV_PERMISSIONS_PAGE);
     }
 
-    protected boolean isNavigateAwayFromBudget(String navigateToPageId, String pageId) {
-       return StringUtils.equals(pageId,ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID) &&
-               !StringUtils.equals(navigateToPageId,ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID);
+    protected boolean isNavigateAwayFromAccess(String navigateToPageId, String pageId) {
+        return StringUtils.equals(pageId,Constants.PROP_DEV_PERMISSIONS_PAGE) &&
+                !StringUtils.equals(navigateToPageId,Constants.PROP_DEV_PERMISSIONS_PAGE);
     }
 
     protected boolean isNavigateAwayFromAttachment(String navigateToPageId, String pageId) {

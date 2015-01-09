@@ -1,11 +1,15 @@
 package org.kuali.coeus.propdev.impl.auth;
 
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.KcKradTransactionalDocumentViewAuthorizerBase;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.impl.lock.KcPessimisticLockService;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
@@ -15,6 +19,8 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -22,6 +28,10 @@ import org.springframework.stereotype.Service;
 @Service("proposalDevelopmentDocumentViewAuthorizer")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransactionalDocumentViewAuthorizerBase {
+
+    @Autowired
+    @Qualifier("kcPessimisticLockService")
+    private KcPessimisticLockService kcPessimisticLockService;
 
     @Override
     public boolean canViewGroup(View view, ViewModel model, Group group, String groupId, Person user) {
@@ -50,10 +60,10 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
         String indexStr = groupId.substring(prefix.length() + UifConstants.IdSuffixes.LINE.length());
         return Integer.parseInt(indexStr);
     }
-    
+
     @Override
-	public Set<String> getActionFlags(View view, ViewModel model, Person user, Set<String> actions) { 
-        
+	public Set<String> getActionFlags(View view, ViewModel model, Person user, Set<String> actions) {
+
 		Document document = ((DocumentFormBase) model).getDocument();
 
 		if (actions.contains(ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_SPONSOR) && ! canCreateInstitutionalProposal(document, user)) {
@@ -69,7 +79,7 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
         }
 		return super.getActionFlags(view, model, user, actions);
 	}
-    
+
     private boolean canCreateInstitutionalProposal(Document document, Person user) {
     	boolean hasPermission = false;
     	initializeDocumentAuthorizerIfNecessary(document);
@@ -101,23 +111,49 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
        ProposalDevelopmentDocumentForm pdForm = ((ProposalDevelopmentDocumentForm)model);
        ProposalDevelopmentViewHelperService pdViewService = (ProposalDevelopmentViewHelperService) pdForm.getViewHelperService();
        pdViewService.setupLockRegions((ProposalDevelopmentDocumentForm) model);
-       return super.canEditView(view, model, user) && userHasLock(user, pdForm);
+       boolean canEdit = super.canEditView(view, model, user) && userHasLock(user, pdForm);
+       establishNarrativeLockForAccessPage(pdForm, user, canEdit);
+       return canEdit;
+    }
+
+    protected void establishNarrativeLockForAccessPage(ProposalDevelopmentDocumentForm form, Person user, boolean canEdit) {
+        if (StringUtils.equals(form.getPageId(), Constants.PROP_DEV_PERMISSIONS_PAGE) &&
+                getKcPessimisticLockService().isPessimisticLockNeeded(form.getProposalDevelopmentDocument(), user, canEdit, form.getDevelopmentProposal().getProposalNumber() + "-" + KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES)) {
+            PessimisticLock pessimisticLock = getPessimisticLockService().generateNewLock(form.getDocument().getDocumentNumber(),form.getDevelopmentProposal().getProposalNumber() + "-" + KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES, user);
+            form.getDocument().addPessimisticLock(pessimisticLock);
+        }
     }
 
     public boolean userHasLock(Person user, ProposalDevelopmentDocumentForm form) {
+        boolean retVal = false;
         String pageRegion = ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).getLockRegionFromPage(form.getPageId());
+        boolean isNarrativeLocked = false;
         for (PessimisticLock lock : form.getDocument().getPessimisticLocks()) {
             if (lock.getLockDescriptor() == null) {
                 if (lock.isOwnedByUser(user)) {
-                    return true;
+                    retVal = true;
                 }
             } else {
                 final String lockRegion = StringUtils.split(lock.getLockDescriptor(), "-")[1];
+                if (StringUtils.equals(lockRegion,KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES) && !lock.isOwnedByUser(user)) {
+                    isNarrativeLocked = true;
+                }
                 if (lock.isOwnedByUser(user) && lockRegion.equals(pageRegion)) {
-                    return true;
+                    retVal = true;
                 }
             }
         }
-        return false;
+        if (StringUtils.equals(form.getPageId(),Constants.PROP_DEV_PERMISSIONS_PAGE) && isNarrativeLocked) {
+            retVal = false;
+        }
+        return retVal;
+    }
+
+    public KcPessimisticLockService getKcPessimisticLockService() {
+        return kcPessimisticLockService;
+    }
+
+    public void setKcPessimisticLockService(KcPessimisticLockService kcPessimisticLockService) {
+        this.kcPessimisticLockService = kcPessimisticLockService;
     }
 }

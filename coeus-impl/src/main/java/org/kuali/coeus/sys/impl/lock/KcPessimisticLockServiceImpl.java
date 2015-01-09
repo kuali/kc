@@ -17,10 +17,12 @@ package org.kuali.coeus.sys.impl.lock;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  * KC Pessimistic Lock Service Implementation.
@@ -77,6 +79,41 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
                 dataObjectService.delete(lock);
             }
         }
+    }
+
+
+    @Override
+    public boolean isPessimisticLockNeeded(ProposalDevelopmentDocument document, Person user, boolean canEdit, String customLockDescriptor) {
+        List<String> userOwnedLockDescriptors = new ArrayList<String>();
+        Map<String, Set<String>> otherOwnedLockDescriptors = new HashMap<String,Set<String>>();
+
+        // create the two lock containers that help determine whether to add a pessimistic lock
+        for (PessimisticLock pessimisticLock : document.getPessimisticLocks()) {
+            if (pessimisticLock.isOwnedByUser(user)) {
+                userOwnedLockDescriptors.add(pessimisticLock.getLockDescriptor());
+            } else {
+                if (!otherOwnedLockDescriptors.containsKey(pessimisticLock.getLockDescriptor())) {
+                    otherOwnedLockDescriptors.put(pessimisticLock.getLockDescriptor(), new HashSet<String>());
+                }
+
+                String otherOwnerPrincipalId = pessimisticLock.getOwnedByUser().getPrincipalId();
+                otherOwnedLockDescriptors.get(pessimisticLock.getLockDescriptor()).add(otherOwnerPrincipalId);
+            }
+        }
+
+        // if no one has a lock on this document, then the document can be locked if the user can edit it
+        if (userOwnedLockDescriptors.isEmpty() && otherOwnedLockDescriptors.isEmpty()) {
+            return canEdit;
+        }
+
+        boolean userOwnsCustomLockDescriptor = userOwnedLockDescriptors.contains(customLockDescriptor);
+        boolean otherOwnsCustomLockDescriptor = otherOwnedLockDescriptors.containsKey(customLockDescriptor);
+
+        if (!userOwnsCustomLockDescriptor && !otherOwnsCustomLockDescriptor) {
+            return canEdit;
+        }
+
+        return false;
     }
     
     /**
