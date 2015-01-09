@@ -16,11 +16,13 @@
 package org.kuali.coeus.propdev.impl.hierarchy;
 
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 
 import java.util.List;
 
 
 public interface ProposalHierarchyDao {
+	public List<DevelopmentProposal> getHierarchyChildProposals(String parentProposalNumber);
     public List<String> getHierarchyChildProposalNumbers(String proposalNumber);
     public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String proposalNumber);
     public boolean personInMultipleChildProposals(String personId, String hierarchyProposalNumber);

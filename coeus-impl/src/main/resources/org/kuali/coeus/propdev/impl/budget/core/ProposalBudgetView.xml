@@ -181,12 +181,16 @@
                         </bean>
 						<bean parent="Uif-ActionLink" p:actionScript="showDialog('PropBudget-BudgetSettings-Dialog');"
 							p:actionLabel="Budget Settings" p:iconClass="icon-cog" p:order="20" />
+						<bean parent="Uif-ActionLink" p:actionLabel="Hierarchy @{budget.developmentProposal.isChild() ? '(C)' : budget.developmentProposal.isParent() ? '(P)' : ''}" 
+							p:render="@{(#parent.readOnly and budget.developmentProposal.inHierarchy) or not #parent.readOnly}"
+							p:iconClass="icon-list-ol" p:order="30"  p:actionScript="showDialog('PropBudget-HierachySection');" />							
 						<bean parent="Uif-ActionLink" p:actionLabel="Summary" p:methodToCall="populateBudgetSummary" p:additionalSubmitData="budgetId:@{budget.budgetId}"
-							p:iconClass="ucon-eye" p:order="30" />
+							p:iconClass="icon-eye" p:order="40" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropBudget-BudgetVersions-Dialog');"
-							p:iconClass="icon-money" p:order="40" />
+							p:iconClass="icon-money" p:order="50" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Autocalculate Periods" p:methodToCall="generateAllPeriods"
-							p:iconClass="icon-stack" p:order="50" />
+							p:iconClass="icon-stack" p:order="60" />
+
 					</list>
 				</property>
 			</bean>
@@ -264,6 +268,6 @@
                <entry key="@{#line.budgetId == developmentProposal.finalBudget?.budgetId}" value="finalBudget"/>
            </map>
 		</property>
-	</bean>
+	</bean>	
 		
 </beans>
