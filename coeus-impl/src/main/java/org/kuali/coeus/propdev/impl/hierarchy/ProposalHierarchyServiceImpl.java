@@ -284,6 +284,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
         if (hierarchyProposal == null) {
             errors.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_PROPOSAL_DOES_NOT_EXIST, Boolean.TRUE, new String[0]));
+            return errors;
         } else {
                 if (!hierarchyProposal.isParent()) {
                     errors.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_PROPOSAL_NOT_HIERARCHY_PARENT,
