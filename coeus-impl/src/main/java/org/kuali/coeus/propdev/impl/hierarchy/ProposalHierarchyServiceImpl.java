@@ -1913,6 +1913,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     protected ProposalPersonBiographyService getProposalPersonBiographyService() {
         return proposalPersonBiographyService;
     }
+
+    public void setProposalPersonBiographyService(ProposalPersonBiographyService proposalPersonBiographyService) {
+        this.proposalPersonBiographyService = proposalPersonBiographyService;
+    }
+
     protected ParameterService getParameterService() {
         return parameterService;
     }

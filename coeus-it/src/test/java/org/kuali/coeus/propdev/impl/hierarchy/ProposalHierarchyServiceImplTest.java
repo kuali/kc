@@ -33,6 +33,7 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -419,6 +420,8 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 				.getService(KcDocumentRejectionService.class);
 		PessimisticLockService pessimisticLockService = KcServiceLocator
 				.getService(PessimisticLockService.class);
+        ProposalPersonBiographyService proposalPersonBiographyService = KcServiceLocator.
+                getService(ProposalPersonBiographyService.class);
 
 		hierarchyService.setKradWorkflowDocumentService(kradWorkflowDocumentService);
 		hierarchyService.setGlobalVariableService(globalVariableService);
@@ -433,6 +436,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		hierarchyService.setKualiConfigurationService(configurationService);
 		hierarchyService.setKcDocumentRejectionService(kcDocumentRejectionService);
 		hierarchyService.setPessimisticLockService(pessimisticLockService);
+        hierarchyService.setProposalPersonBiographyService(proposalPersonBiographyService);
 	}
 
 	private ProposalDevelopmentDocument initializeProposalDevelopmentDocument()
