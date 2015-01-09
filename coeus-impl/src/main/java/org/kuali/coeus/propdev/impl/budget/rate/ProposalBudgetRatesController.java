@@ -3,6 +3,7 @@ package org.kuali.coeus.propdev.impl.budget.rate;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,15 @@ public class ProposalBudgetRatesController extends ProposalBudgetControllerBase 
 
     @Transactional @RequestMapping(params="methodToCall=syncAllRates")
 	public ModelAndView syncAllRates(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-        Budget budget = form.getBudget();
+        ProposalDevelopmentBudgetExt budget = form.getBudget();
         budget.setRateClassTypesReloaded(true);
         getBudgetRatesService().syncAllBudgetRates(budget);
         
         budget.setRateSynced(true);
-        BudgetParentDocument parentDocument = budget.getBudgetParent().getDocument();
-        if (!budget.getActivityTypeCode().equals(parentDocument.getBudgetParent().getActivityTypeCode())) {
-            budget.setActivityTypeCode(parentDocument.getBudgetParent().getActivityTypeCode());
+        if (!budget.getActivityTypeCode().equals(budget.getDevelopmentProposal().getActivityTypeCode())) {
+            budget.setActivityTypeCode(budget.getDevelopmentProposal().getActivityTypeCode());
         }
-       return getModelAndViewService().getModelAndView(form);
+       return super.save(form);
 	}
 	
 	@Transactional @RequestMapping(params="methodToCall=refreshAllRates")

@@ -268,6 +268,24 @@
                <entry key="@{#line.budgetId == developmentProposal.finalBudget?.budgetId}" value="finalBudget"/>
            </map>
 		</property>
-	</bean>	
-		
+	</bean>
+	
+	<bean id="PropBudget-ActivityTypeChanged-Dialog" parent="PropBudget-ActivityTypeChanged-Dialog-parentBean"/>
+	<bean id="PropBudget-ActivityTypeChanged-Dialog-parentBean" abstract="true" parent="PropBudget-PromptToSyncRates-Dialog"
+		p:promptText="The Activity Type has been changed. Do you want to sync budget rates?"/>
+	<bean id="PropBudget-NoRates-Dialog" parent="PropBudget-NoRates-Dialog-parentBean"/>
+	<bean id="PropBudget-NoRates-Dialog-parentBean" abstract="true" parent="PropBudget-PromptToSyncRates-Dialog"
+		p:promptText="There are no rates associated with this budget.  Do you want to attempt syncing the rates?"/>
+	<bean id="PropBudget-PromptToSyncRates-Dialog" abstract="true" parent="PropBudget-PromptToSyncRates-Dialog-parentBean"/>
+	<bean id="PropBudget-PromptToSyncRates-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+		p:headerText="Sync Budget Rates?"
+		p:dialogCssClass="modal-sm">	
+		<property name="footer.items">
+      		<list>
+				<bean parent="Uif-DialogDismissButton" p:actionLabel="No" p:order="10"/>
+				<bean parent="Uif-PrimaryActionButton" p:actionLabel="Yes" p:order="20" p:dialogDismissOption="REQUEST"
+					p:methodToCall="syncAllRates" p:ajaxSubmit="false"/>
+			</list>
+		</property>
+	</bean>
 </beans>

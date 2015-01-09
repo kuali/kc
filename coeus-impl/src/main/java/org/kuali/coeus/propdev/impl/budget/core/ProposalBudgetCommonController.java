@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.lock.ProposalBudgetLockService;
@@ -39,6 +40,8 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	private static final String CONFIRM_RATE_CHANGES_DIALOG_ID = "PropBudget-BudgetSettings-ChangeRateDialog";
 	private static final String BUDGET_SETTINGS_DIALOG_ID = "PropBudget-BudgetSettings-Dialog";
 	private static final String BUDGET_DATA_VALIDATION_DIALOG_ID = "DataValidationSection";
+	private static final String ACTIVITY_RATE_CHANGE_DIALOG_ID = "PropBudget-ActivityTypeChanged-Dialog";
+	private static final String NO_RATES_DIALOG_ID = "PropBudget-NoRates-Dialog";
 
 	@Autowired
 	@Qualifier("proposalBudgetSharedControllerService")
@@ -51,6 +54,10 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     @Autowired
     @Qualifier("proposalBudgetLockService")
     private ProposalBudgetLockService proposalBudgetLockService;
+    
+    @Autowired
+    @Qualifier("budgetRatesService")
+    private BudgetRatesService budgetRatesService;
 	
 	@MethodAccessible
 	@Transactional @RequestMapping(params="methodToCall=defaultMapping")
@@ -68,7 +75,14 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         if (auditActivated != null){
             form.setAuditActivated(Boolean.parseBoolean(auditActivated));
         }
-        return getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW);
+        ModelAndView result = getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW);
+        if (budgetRatesService.checkActivityTypeChange(form.getBudget().getBudgetRates(), form.getDevelopmentProposal().getActivityTypeCode())) {
+        	return getModelAndViewService().showDialog(ACTIVITY_RATE_CHANGE_DIALOG_ID, true, form);
+        } else if (form.getBudget().getBudgetRates().isEmpty()) {
+        	return getModelAndViewService().showDialog(NO_RATES_DIALOG_ID, true, form);
+        } else {
+        	return result;
+        }
 	}
 	
 	@MethodAccessible
