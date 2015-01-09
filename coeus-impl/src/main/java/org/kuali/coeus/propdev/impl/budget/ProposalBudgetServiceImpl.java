@@ -328,4 +328,15 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public void setBudgetModularService(BudgetModularService budgetModularService) {
         this.budgetModularService = budgetModularService;
     }
+
+    public boolean isBudgetMarkedForSubmission(Budget finalBudget, Budget currentBudget) {
+		boolean budgetMarkedForSubmission = false;
+        if (finalBudget != null) {
+        	if(finalBudget.getBudgetId().equals(currentBudget.getBudgetId())) {
+        		budgetMarkedForSubmission = true;
+        	}
+        }
+		return budgetMarkedForSubmission;
+    }
+    
 }

@@ -42,4 +42,6 @@ public interface ProposalBudgetService extends BudgetCommonService<DevelopmentPr
      */
     public ProposalDevelopmentBudgetExt copyBudgetVersion(ProposalDevelopmentBudgetExt budget, boolean onlyOnePeriod, DevelopmentProposal developmentProposal);
 
+    public boolean isBudgetMarkedForSubmission(Budget finalBudget, Budget currentBudget);
+    
 }
