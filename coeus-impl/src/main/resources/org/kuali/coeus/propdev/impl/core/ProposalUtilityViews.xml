@@ -6,6 +6,7 @@
     <bean id="PropDev-CopyView" parent="PropDev-CopyView-parentBean"/>
     <bean id="PropDev-CopyView-parentBean" abstract="true"
           parent="Uif-FormView" p:header.render="false" p:breadcrumbs.render="false"
+          p:viewHelperService="#{#getService('proposalDevelopmentViewHelperService')}"
           p:formClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm">
         <property name="stickyFooter" value="@{renderedInDialog}"/>
         <property name="applicationHeader.render" value="@{!renderedInDialog}"/>
