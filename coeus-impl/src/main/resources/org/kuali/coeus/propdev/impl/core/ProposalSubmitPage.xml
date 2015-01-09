@@ -23,7 +23,7 @@
 		parent="Uif-DocumentPage" p:headerText="Submit">
 		<property name="items">
 			<list>
-		      <bean parent="Uif-StepProgressBar" p:order="10" >
+		      <bean parent="Uif-StepProgressBar" p:order="10" p:render="@{!document.developmentProposal.child}">
 		     <property name="currentStep" value="@{#ViewHelper.displayProposalProgressCode(document.documentHeader.workflowDocument)}"/>
               <property name="steps">
                      <map>
@@ -69,6 +69,7 @@
                           p:render="@{#editModes['rejectProposal']}"/>
 
                     <bean parent="Uif-LinkField" p:linkText="View Route Log"
+                          p:render="@{!document.developmentProposal.child}"
                           p:href="@{#ConfigProperties['rice.server.url']}/kew/RouteLog.do?documentId=@{document.developmentProposal.proposalDocument.documentNumber}"  p:order="60"
                     p:link.openInDialog="true" />
                     
