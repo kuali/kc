@@ -910,6 +910,28 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     	return proposalBudgetHierarchyService.getSyncableBudget(proposal);
     }
     
+	public boolean needToExtendProjectDate(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal) {
+		if (hierarchyProposal != null && !hierarchyProposal.getBudgets().isEmpty()) {
+	    	ProposalDevelopmentBudgetExt parentBudget = proposalBudgetHierarchyService.getHierarchyBudget(hierarchyProposal);
+	    	Budget childBudget = getSyncableBudget(childProposal);
+	    	BudgetPeriod lastParentPeriod = parentBudget.getBudgetPeriods().get(parentBudget.getBudgetPeriods().size()-1);
+	    	BudgetPeriod lastChildPeriod = childBudget.getBudgetPeriods().get(childBudget.getBudgetPeriods().size()-1);
+	    	return lastChildPeriod.getStartDate().after(lastParentPeriod.getEndDate());
+		} else {
+			return false;
+		}
+    }
+    
+    public boolean needToExtendProjectDate(DevelopmentProposal hierarchyProposal) {
+    	List<DevelopmentProposal> proposals = this.getHierarchyProposals(hierarchyProposal);
+    	for (DevelopmentProposal proposal : proposals) {
+    		if (needToExtendProjectDate(hierarchyProposal, proposal)) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+
     protected void removeChildElements(DevelopmentProposal parentProposal, String childProposalNumber) {
         List<ProposalSpecialReview> reviews = parentProposal.getPropSpecialReviews();
         for (int i=reviews.size()-1; i>=0; i--) {

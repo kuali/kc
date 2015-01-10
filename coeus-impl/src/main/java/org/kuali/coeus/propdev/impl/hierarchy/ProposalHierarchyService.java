@@ -190,6 +190,10 @@ public interface ProposalHierarchyService {
     public List<ProposalHierarchyErrorWarningDto> validateSponsor(DevelopmentProposal childProposal, DevelopmentProposal parentProposal);
 
     public boolean personInMultipleProposals(String personId, DevelopmentProposal childProposal);
+    
+    public boolean needToExtendProjectDate(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal);
+    
+    public boolean needToExtendProjectDate(DevelopmentProposal hierarchyProposal);
 
     public List<ProposalHierarchyErrorWarningDto> validateIsAggregatorOnChild(DevelopmentProposal childProposal);
     

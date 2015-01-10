@@ -952,6 +952,15 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         }
         return pageRegion;
     }
+    
+    public boolean syncRequiresEndDateExtension(DevelopmentProposal proposal) {
+    	DevelopmentProposal hierarchyProposal = getProposalHierarchyService().getDevelopmentProposal(proposal.getHierarchyParentProposalNumber());
+    	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal, proposal);
+    }
+    
+    public boolean syncAllRequiresEndDateExtension(DevelopmentProposal hierarchyProposal) {
+    	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal);
+    }   
 
 	public ProposalTypeService getProposalTypeService() {
 		return proposalTypeService;
