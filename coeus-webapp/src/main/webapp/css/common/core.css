@@ -322,3 +322,9 @@ section.medusa div.btn a:hover{
     padding-right: 5px;
     padding-top: 3px;
 }
+
+/** fix for chrome not working with auto resize for rich table **/
+
+.uif-tableCollectionLayout {
+    width: 100% !important;
+}
