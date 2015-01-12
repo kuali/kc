@@ -112,6 +112,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
            //Set Opportunity Title and Opportunity ID in the Sponsor & Program Information section
            proposal.setProgramAnnouncementTitle(form.getNewS2sOpportunity().getOpportunityTitle());
+           proposal.setCfdaNumber(form.getNewS2sOpportunity().getCfdaNumber());
            proposal.setProgramAnnouncementNumber(form.getNewS2sOpportunity().getOpportunityId());
            form.setNewS2sOpportunity(new S2sOpportunity());
        }
@@ -167,6 +168,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        //Reset Opportunity Title and Opportunity ID in the Sponsor & Program Information section
        proposal.setProgramAnnouncementTitle("");
        proposal.setProgramAnnouncementNumber("");
+       proposal.setCfdaNumber("");
        proposal.setOpportunityIdForGG("");
        return getRefreshControllerService().refresh(form);
    }
