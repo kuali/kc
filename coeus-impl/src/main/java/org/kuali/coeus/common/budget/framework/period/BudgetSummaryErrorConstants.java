@@ -19,6 +19,7 @@ package org.kuali.coeus.common.budget.framework.period;
 public enum BudgetSummaryErrorConstants {
         ERROR_PERIOD_START_BEFORE_PROJECT_START("error.periodStartDate.before.projectStartDate", "startDate"),
         ERROR_PERIOD_START_BEFORE_PREVIOUS_END("error.periodStartDate.before.previousEndDate", "startDate"),
+        ERROR_NEW_PERIOD_START_BEFORE_PREVIOUS_END("error.newPeriod.projectEnd", "startDate"),
         ERROR_NEW_PERIOD_VALID("error.newPeriod.validDate", "startDate"),
         ERROR_NEW_PERIOD_START_AFTER_PROJECT_END("error.new.PeriodStartDate.after.projectEndDate", "startDate"),
         ERROR_PERIOD_START_REQUIRED("error.periodStartDate.required", "startDate"),

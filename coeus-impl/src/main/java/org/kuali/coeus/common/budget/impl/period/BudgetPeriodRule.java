@@ -340,6 +340,11 @@ public class BudgetPeriodRule {
                         newBudgetPeriod.setBudgetPeriod(periodNum+1);
                     }
                     break;
+                }else if(newPeriodStartDate.compareTo(periodEndDate) <= 0) {
+                    dateCompareValue = "ERROR_NEW_PERIOD_START_BEFORE_PREVIOUS_END";
+                    saveErrors(dateCompareValue, errorMap, newPeriodDateParams);
+                    validNewBudgetPeriod = false;
+                    break;
                 }
                 previousPeriodStartDate = budgetPeriod.getStartDate();
                 previousPeriodEndDate = budgetPeriod.getEndDate();
