@@ -74,7 +74,14 @@
         <ref bean="Award-awardAmountInfo.obligationExpirationDate" />
         <ref bean="Award-awardAmountInfo.amountObligatedToDate" />
         <ref bean="Award-sponsor.sponsorName" />
-        
+        <ref bean="Award-awardType.description" />
+        <ref bean="Award-activityType.description" />
+        <ref bean="Award-accountTypeDescription" />
+        <ref bean="Award-latestAwardAmountInfo.currentFundEffectiveDate" />
+        <ref bean="Award-latestAwardAmountInfo.finalExpirationDate" />
+        <ref bean="Award-latestAwardAmountInfo.obligationExpirationDate" />
+        <ref bean="Award-latestAwardAmountInfo.anticipatedTotalAmount" />
+        <ref bean="Award-latestAwardAmountInfo.amountObligatedToDate" />
       </list>
     </property>
         <property name="collections">
@@ -1234,6 +1241,32 @@
         <property name="shortLabel" value="Sponsor Name" />
         <property name="required" value="false" />    
     </bean>
+
+    <bean id="Award-awardType.description" parent="AwardType-description-parentBean"
+          p:name="awardType.description" />
+
+    <bean id="Award-activityType.description" parent="ActivityType-description-parentBean"
+          p:name="activityType.description" />
+
+    <bean id="Award-accountTypeDescription" parent="Award-accountTypeCode"
+          p:name="accountTypeDescription" />
+
+    <bean id="Award-latestAwardAmountInfo.amountObligatedToDate" parent="AwardAmountInfo-amountObligatedToDate-parentBean"
+          p:name="latestAwardAmountInfo.amountObligatedToDate" />
+
+    <bean id="Award-latestAwardAmountInfo.currentFundEffectiveDate" parent="AwardAmountInfo-currentFundEffectiveDate"
+          p:name="latestAwardAmountInfo.currentFundEffectiveDate" />
+
+    <bean id="Award-latestAwardAmountInfo.finalExpirationDate" parent="AwardAmountInfo-finalExpirationDate"
+          p:name="latestAwardAmountInfo.finalExpirationDate" />
+
+    <bean id="Award-latestAwardAmountInfo.obligationExpirationDate" parent="AwardAmountInfo-obligationExpirationDate"
+          p:name="latestAwardAmountInfo.obligationExpirationDate" />
+
+    <bean id="Award-latestAwardAmountInfo.anticipatedTotalAmount" parent="AwardAmountInfo-anticipatedTotalAmount"
+          p:name="latestAwardAmountInfo.anticipatedTotalAmount" />
+
+
 	<!-- Business Object Inquiry Definition -->
   <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean" />
   <bean id="Award-InquiryView" parent="Award-InquiryView-parentBean"/>
