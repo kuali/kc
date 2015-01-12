@@ -56,5 +56,7 @@ public interface ProposalHierarchyKeyConstants {
     public static final String PARAMETER_NAME_DIRECT_COST_ELEMENT = "proposalHierarchySubProjectDirectCostElement";
     public static final String PARAMETER_NAME_INDIRECT_COST_ELEMENT = "proposalHierarchySubProjectIndirectCostElement";
     public static final String PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP = "instituteNarrativeTypeGroup";
+    
+    public static final String HIERARCHY_CONFIRMATION_DIALOG = "PropDev-SyncConfirmationDialog";
 
 }

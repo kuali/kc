@@ -74,7 +74,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDataValidationSection.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/creditsplit/ProposalCreditAllocationPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/copy/ProposalCopyDialogSection.xml</value>
-				<value>classpath:org/kuali/coeus/propdev/impl/core/ProposalHierachyPage.xml</value>
+				<value>classpath:org/kuali/coeus/propdev/impl/core/ProposalHierarchyPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDataOverrideDialog.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalPermissionsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/action/SuperUserActionsPage.xml</value>

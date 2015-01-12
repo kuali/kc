@@ -34,8 +34,10 @@ import org.kuali.coeus.common.impl.KcViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
@@ -81,6 +83,9 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     @Qualifier("proposalBudgetService")
     private ProposalBudgetService proposalBudgetService;
     
+    @Autowired
+    @Qualifier("proposalHierarchyService")
+    private ProposalHierarchyService proposalHierarchyService;
 
     public void finalizeNavigationLinks(Action action, Object model, String direction) {
     	ProposalBudgetForm propBudgetForm = (ProposalBudgetForm) model;
@@ -158,6 +163,15 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
                 KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE,
                 KRADConstants.SystemGroupParameterNames.LOOKUP_RESULTS_LIMIT);
     }
+    
+    public boolean syncRequiresEndDateExtension(DevelopmentProposal proposal) {
+    	DevelopmentProposal hierarchyProposal = getProposalHierarchyService().getDevelopmentProposal(proposal.getHierarchyParentProposalNumber());
+    	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal, proposal);
+    }
+    
+    public boolean syncAllRequiresEndDateExtension(DevelopmentProposal hierarchyProposal) {
+    	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal);
+    }    
 
     public ParameterService getParameterService() {
         return parameterService;
@@ -211,6 +225,15 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
 
 	public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
 		this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+	}
+
+	public ProposalHierarchyService getProposalHierarchyService() {
+		return proposalHierarchyService;
+	}
+
+	public void setProposalHierarchyService(
+			ProposalHierarchyService proposalHierarchyService) {
+		this.proposalHierarchyService = proposalHierarchyService;
 	}
     
 	public boolean isBudgetMarkedForSubmission(Budget finalBudget, Budget currentBudget) {

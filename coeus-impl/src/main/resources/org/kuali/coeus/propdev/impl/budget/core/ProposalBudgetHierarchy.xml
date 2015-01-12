@@ -40,10 +40,22 @@
 					<list>
                         <bean p:actionLabel="Sync Budget" parent="Uif-SecondaryActionButton" p:methodToCall="syncBudget"
                               p:render="@{budget.developmentProposal.isChild() and #editModes[#budgetAuthConsts.MAINTAIN_PROPOSAL_HIERARCHY]}" 
-                              p:dialogDismissOption="REQUEST" p:order="10"/>
+                              p:dialogDismissOption="REQUEST" p:order="10">
+							<property name="propertyReplacers">
+								<list>
+									<bean parent="PropDev-SyncConfirmationDialog-Replacement" p:condition="@{budget.developmentProposal.isInHierarchy() and viewHelperService.syncRequiresEndDateExtension(budget.developmentProposal)}"/>
+								</list>
+							</property>
+						</bean>                              
                         <bean p:actionLabel="Sync All" parent="Uif-SecondaryActionButton" p:methodToCall="syncAllBudgets"
                               p:render="@{budget.developmentProposal.isParent() and #editModes[#budgetAuthConsts.MAINTAIN_PROPOSAL_HIERARCHY]}"  
-                              p:dialogDismissOption="REQUEST" p:order="20"/>            
+                              p:dialogDismissOption="REQUEST" p:order="20">
+							<property name="propertyReplacers">
+								<list>
+									<bean parent="PropDev-SyncConfirmationDialog-Replacement" p:condition="@{budget.developmentProposal.isInHierarchy() and viewHelperService.syncAllRequiresEndDateExtension(budget.developmentProposal)}"/>
+								</list>
+							</property>                              
+                         </bean>
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" p:order="30"/>
 					</list>
 				</property>

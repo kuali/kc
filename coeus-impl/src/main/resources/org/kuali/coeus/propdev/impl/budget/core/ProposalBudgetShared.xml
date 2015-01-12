@@ -200,5 +200,17 @@
 			</list>
 		</property>		
 	</bean>
-
+	
+	
+	<bean id="PropDev-SyncConfirmationDialog-Replacement" parent="PropDev-SyncConfirmationDialog-Replacement-parentBean"/>
+	<bean id="PropDev-SyncConfirmationDialog-Replacement-parentBean" abstract="true" parent="Uif-ConditionalBeanPropertyReplacer" 
+		p:propertyName="confirmationDialog">
+		<property name="replacement">
+			<bean parent="PropDev-SyncConfirmationDialog"/>
+		</property>
+	</bean>
+	
+	<bean id="PropDev-SyncConfirmationDialog" parent="PropDev-SyncConfirmationDialog-parentBean"/>
+	<bean id="PropDev-SyncConfirmationDialog-parentBean" abstract="true" parent="Uif-DialogGroup-OkCancel" p:headerText="Extend Hierarchy End Date"
+		p:promptText="Syncronizing will extend the project end date in the parent proposal. Would you like to proceed?"/>
 </beans>
