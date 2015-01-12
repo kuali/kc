@@ -3,6 +3,7 @@ package org.kuali.coeus.propdev.impl.hierarchy;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -12,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
@@ -23,6 +27,12 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
 	@Autowired
 	@Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("kcEntityManager")
+    private EntityManager entityManager;
+
+    private String PROPOSAL_STATE_QUERY = "SELECT a.proposalState from DevelopmentProposal a where a.proposalNumber = :proposalNumber";
 
     /*
         select * from EPS_PROP_PERSON_BIO where PROPOSAL_NUMBER IN (
@@ -61,6 +71,17 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
                 builder.build());
         return results.getResults();
     }
+
+    public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
+        Map<String, String> pk = new HashMap<String, String>();
+        pk.put("proposalNumber", proposalNumber);
+        return (DevelopmentProposal) (dataObjectService.findUnique(DevelopmentProposal.class, QueryByCriteria.Builder.forAttribute("proposalNumber", proposalNumber).build()));
+    }
+
+    public String getProposalState(String proposalNumber) {
+        ProposalState state = (ProposalState) entityManager.createQuery(PROPOSAL_STATE_QUERY).setParameter("proposalNumber", proposalNumber).getSingleResult();
+        return state == null ? "" : state.getDescription();
+     }
 
     @Override
     public List<String> getHierarchyChildProposalNumbers(String parentProposalNumber) {

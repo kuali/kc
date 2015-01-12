@@ -212,7 +212,7 @@
 						<bean parent="Uif-MessageField" p:label="Initiator" p:labelLeft="true"
 							p:messageText="@{documentInitiatorNetworkId}" p:order="40" />
 						<bean parent="Uif-MessageField" p:label="Status" p:labelLeft="true"
-							p:messageText="@{document.developmentProposal.proposalState?.description}"
+							p:messageText="@{#ViewHelper.getProposalStatusForDisplay(document.developmentProposal)}"
 							p:order="50" />
 						<bean parent="PropDev-DocumentHeader-MoreInfo" p:order="60" />
 					</list>
@@ -272,7 +272,7 @@
 						<bean parent="Uif-LinkField" p:linkText="@{documentInitiatorNetworkId}"
 							p:fieldLabel.renderColon="false" p:label="Initiator" p:order="20" />
 						<bean parent="Uif-MessageField"
-							p:messageText="@{document.developmentProposal.proposalState?.description}"
+							p:messageText="@{#ViewHelper.getProposalStatusForDisplay(document.developmentProposal)}"
 							p:fieldLabel.renderColon="false" p:label="Status" p:order="30" />
 						<bean parent="Uif-MessageField"
 							p:messageText="@{document.developmentProposal.principalInvestigatorName}"

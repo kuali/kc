@@ -374,7 +374,16 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         synchronizeAll(hierarchyProposal);
         finalizeHierarchySync(hierarchyProposal);
     }
-    
+
+    @Override
+    public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
+        return getProposalHierarchyDao().getDevelopmentProposal(proposalNumber);
+    }
+
+    public String getProposalState(String proposalNumber) {
+        return getProposalHierarchyDao().getProposalState(proposalNumber);
+    }
+
     public void synchronizeAllChildrenBudgets(DevelopmentProposal hierarchyProposal) throws ProposalHierarchyException {
     	prepareHierarchySync(hierarchyProposal);
         finalizeHierarchySync(hierarchyProposal.getProposalDocument());
@@ -855,17 +864,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     }
 
-    protected DevelopmentProposal getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException {
+    public DevelopmentProposal getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException {
         DevelopmentProposal hierarchy = getDevelopmentProposal(hierarchyProposalNumber);
         if (hierarchy == null || !hierarchy.isParent())
             throw new ProposalHierarchyException("Proposal " + hierarchyProposalNumber + " is not a hierarchy");
         return hierarchy;
-    }
-
-    public DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
-        Map<String, String> pk = new HashMap<String, String>();
-        pk.put("proposalNumber", proposalNumber);
-        return (DevelopmentProposal) (dataObjectService.findUnique(DevelopmentProposal.class, QueryByCriteria.Builder.forAttribute("proposalNumber", proposalNumber).build()));
     }
     
     public boolean isSynchronized(DevelopmentProposal childProposal) {
