@@ -1,6 +1,7 @@
 package org.kuali.coeus.propdev.impl.lock;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -71,10 +72,10 @@ public class ProposalBudgetLockServiceImpl implements ProposalBudgetLockService 
 
     @Override
     public boolean doesBudgetVersionMatchDescriptor(String lockDescriptor, int budgetVersionNumber) {
-        String[] lockDescriptorValues = StringUtils.split(lockDescriptor,"-");
-        return lockDescriptorValues.length == 3 &&
+        String[] lockDescriptorValues = StringUtils.split(lockDescriptor, "-");
+        return lockDescriptorValues != null && lockDescriptorValues.length == 3 &&
                 StringUtils.equals(lockDescriptorValues[1], KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) &&
-                StringUtils.isNotEmpty(lockDescriptorValues[2]) &&
+                NumberUtils.isNumber(lockDescriptorValues[2]) &&
                 Integer.parseInt(lockDescriptorValues[2]) == budgetVersionNumber;
     }
 
