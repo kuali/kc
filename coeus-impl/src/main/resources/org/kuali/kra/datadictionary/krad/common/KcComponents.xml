@@ -41,6 +41,15 @@
     </property>
   </bean>
 
+    <bean id="Uif-CollectionGroupBase" abstract="true" parent="Kc-CollectionGroupBase-parentBean"/>
+    <bean id="Kc-CollectionGroupBase-parentBean" abstract="true"
+          class="org.kuali.coeus.org.kuali.rice.krad.uif.container.KcCollectionGroupBase" parent="Uif-CollectionGroupBase-parentBean">
+    </bean>
+
+    <bean id="Uif-ListCollectionGroup" abstract="true" parent="Kc-ListCollectionGroup-parentBean"/>
+    <bean id="Kc-ListCollectionGroup-parentBean" abstract="true"
+          class="org.kuali.coeus.org.kuali.rice.krad.uif.container.KcCollectionGroupBase" parent="Uif-ListCollectionGroup-parentBean">
+    </bean>
 
     <bean id="Uif-View" parent="Kc-View-parentBean"/>
     <bean id="Kc-View-parentBean" parent="Uif-View-parentBean">
