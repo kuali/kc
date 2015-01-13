@@ -38,6 +38,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 	
     private static final String BUDGET_SUMMARY_DIALOG_ID = "PropBudget-SummaryPage-Dialog";
     private static final String BUDGET_PRINT_FORMS_DIALOG_ID = "PropBudget-PrintForms-Dialog";
+    private static final String BUDGET_PRINT_FORMS_REPORT_NAME = "Proposal Budget Reports";
 	
 	@Autowired
 	@Qualifier("proposalBudgetService")
@@ -173,8 +174,7 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
 		}
 		if (selectedBudgetPrintForms != null
 				&& selectedBudgetPrintForms.size() > 0) {
-			String reportName = BudgetPrintType.BUDGET_SUMMARY_REPORT
-					.getBudgetPrintType();
+			String reportName = selectedBudgetPrintForms.size() > 1 ? BUDGET_PRINT_FORMS_REPORT_NAME : selectedBudgetPrintForms.get(0).getBudgetReportName();
 			AttachmentDataSource dataStream = 
 					getBudgetPrintService().readBudgetSelectedPrintStreams(selectedBudget,
 							selectedBudgetPrintForms, reportName);
