@@ -45,7 +45,7 @@
 							p:methodToCall="closeWithoutSave" p:actionLabel="Cancel" p:order="10" />
 						<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false"
 							p:performClientSideValidation="true" p:methodToCall="createProposal"
-							p:actionLabel="Save and continue" p:order="20" />
+							p:actionLabel="Save and Continue" p:order="20" />
 					</list>
 				</property>
 			</bean>
