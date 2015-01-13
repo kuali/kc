@@ -74,7 +74,7 @@
                         <bean p:actionLabel="Unlink Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="removeFromHierarchy"
                               p:render="@{document.developmentProposal.isChild() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="50"/>
                         <bean p:actionLabel="Sync All" parent="Uif-SecondaryActionButton" p:methodToCall="syncAllHierarchy"
-                              p:render="@{document.developmentProposal.isParent() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}"  p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="60">
+                              p:render="@{document.developmentProposal.isParent() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}"  p:performClientSideValidation="false" p:dialogDismissOption="REQUEST" p:order="60">
 							<property name="propertyReplacers">
 								<list>
 									<bean parent="PropDev-SyncConfirmationDialog-Replacement" p:condition="@{document.developmentProposal.isInHierarchy() and viewHelperService.syncAllRequiresEndDateExtension(document.developmentProposal)}"/>
