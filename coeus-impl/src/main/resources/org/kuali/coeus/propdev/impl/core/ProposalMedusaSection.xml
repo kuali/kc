@@ -308,6 +308,30 @@
         <property name="dataGroupPrototype" ref="Proposal-MedusaSection-IRBSummary-Section"/>
     </bean>
 
+
+    <bean id="Proposal-MedusaSection-IRB-Investigators" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:colSpan="4">
+        <property name="group">
+            <bean parent="Uif-StackedCollectionSection" p:renderAddLine="false" p:renderLineActions="false"
+                  p:collectionObjectClass="org.kuali.kra.protocol.personnel.ProtocolPersonBase"
+                  p:propertyName="protocolPersons">
+                <property name="header">
+                    <null />
+                </property>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-MessageField" p:fieldLabel.labelText="Investigator" p:messageText="@{#line.fullName} (@{#line.protocolPersonRole.description})" p:order="10"/>
+                    </list>
+                </property>
+                <property name="subCollections">
+                    <list>
+                        <bean parent="Proposal-Person-UnitSummary" p:propertyName="protocolUnits"
+                              p:collectionObjectClass="org.kuali.kra.protocol.personnel.ProtocolUnitBase"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
     <bean id="Proposal-MedusaSection-IRBSummary-Section" parent="Proposal-MedusaSection-SummarySection">
         <property name="items">
             <list>
@@ -321,9 +345,11 @@
                 <bean parent="Proposal-IRBProtocol-Property" p:propertyName="title" p:order="40"/>
                 <bean parent="Proposal-IRBProtocol-Property" p:propertyName="description" p:order="50"/>
                 <bean parent="Proposal-IRBProtocol-Property" p:propertyName="approvalDate" p:order="60"/>
-                <bean parent="Proposal-IRBProtocol-Property" p:propertyName="expirationDate" p:order="60"/>
+                <bean parent="Proposal-IRBProtocol-Property" p:propertyName="expirationDate" p:order="70"/>
                 <bean parent="Proposal-IRBProtocol-Property" p:propertyName="protocolStatus.description" p:order="80"/>
-                <bean parent="Proposal-IRBProtocol-Property" p:propertyName="protocolType.description" p:order="90"/>
+                <bean parent="Proposal-IRBProtocol-Property" p:propertyName="protocolType.description" p:order="90"
+                      p:colSpan="3" p:fieldLabel.colSpan="1"/>
+                <bean parent="Proposal-MedusaSection-IRB-Investigators" p:order="100"/>
             </list>
         </property>
     </bean>
@@ -355,7 +381,9 @@
                 <bean parent="Proposal-IacucProtocol-Property" p:propertyName="approvalDate" p:order="60"/>
                 <bean parent="Proposal-IacucProtocol-Property" p:propertyName="expirationDate" p:order="70"/>
                 <bean parent="Proposal-IacucProtocol-Property" p:propertyName="protocolStatus.description" p:order="80"/>
-                <bean parent="Proposal-IacucProtocol-Property" p:propertyName="protocolType.description" p:order="90"/>
+                <bean parent="Proposal-IacucProtocol-Property" p:propertyName="protocolType.description" p:order="90"
+                      p:colSpan="3" p:fieldLabel.colSpan="1"/>
+                <bean parent="Proposal-MedusaSection-IRB-Investigators" p:order="100"/>
             </list>
         </property>
     </bean>
