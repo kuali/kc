@@ -171,8 +171,10 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync" p:methodToCall="synchModular"
+							p:performClientSideValidation="true"
 							p:style="float: right;" p:order="10" />
                         <bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Recalculate" p:methodToCall="recalculateModular"
+                              p:performClientSideValidation="true"
                               p:style="float: right;" p:order="20" />
 					</list>
 				</property>
@@ -188,12 +190,28 @@
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="directCostLessConsortiumFna"
 					p:order="10" p:label="Direct Cost Less Consortium F&amp;A"
+					p:required="true"
 					p:fieldLabel.renderColon="false" >
                 <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+				    <property name="validCharactersConstraint">
+				      <bean parent="FixedPointPatternConstraint">
+				        <property name="precision" value="12"/>
+				        <property name="scale" value="2"/>
+				        <property name="allowNegative" value="false"/>
+				      </bean>
+				    </property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="consortiumFna"
+					p:required="true"
 					p:order="20" p:label="Consortium F&amp;A" p:fieldLabel.renderColon="false" >
                 <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+				    <property name="validCharactersConstraint">
+				      <bean parent="FixedPointPatternConstraint">
+				        <property name="precision" value="12"/>
+				        <property name="scale" value="2"/>
+				        <property name="allowNegative" value="false"/>
+				      </bean>
+				    </property>
                 </bean>
 				<bean parent="Uif-DataField" p:propertyName="totalDirectCost"
 					p:order="30" p:label="Total" p:fieldLabel.renderColon="false" >
