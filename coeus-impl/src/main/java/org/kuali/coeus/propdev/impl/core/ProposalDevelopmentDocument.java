@@ -611,8 +611,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     @Override
     public List getNotes() {
-        if (CollectionUtils.isEmpty(notes)) {
-            notes = new ArrayList<>(super.getNotes());
+        if (StringUtils.isNotBlank(getNoteTarget().getObjectId())) {
+            notes = new ArrayList<>(getNoteService().getByRemoteObjectId(getNoteTarget().getObjectId()));
         }
         return notes;
     }
