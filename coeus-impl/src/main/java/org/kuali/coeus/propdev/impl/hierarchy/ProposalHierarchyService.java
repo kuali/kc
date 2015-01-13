@@ -198,4 +198,9 @@ public interface ProposalHierarchyService {
     public List<ProposalHierarchyErrorWarningDto> validateIsAggregatorOnChild(DevelopmentProposal childProposal);
     
     public void synchronizeChildBudget(DevelopmentProposal hierarchyProposal, ProposalDevelopmentBudgetExt budget);
-}
+
+    public DevelopmentProposal getHierarchy(String hierarchyProposalNumber);
+
+    public String getProposalState(String proposalNumber);
+
+    }

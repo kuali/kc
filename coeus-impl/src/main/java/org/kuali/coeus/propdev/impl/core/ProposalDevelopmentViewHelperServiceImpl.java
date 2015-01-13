@@ -725,6 +725,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return true;
     }
 
+    public String getProposalStatusForDisplay(DevelopmentProposal proposal) {
+        if (proposal.isChild()) {
+            return getProposalHierarchyService().getProposalState(proposal.getHierarchyParentProposalNumber());
+        } else {
+            return proposal.getProposalState().getDescription();
+        }
+    }
+
     public void prepareSummaryPage(ProposalDevelopmentDocumentForm form) {
       populateCreditSplits(form);
         populateQuestionnaires(form);
