@@ -201,7 +201,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
                 copyNotes(doc, newDoc);
 
-                List<ProposalAbstract>abstracts = getAbstracts(newDoc);
+                List<ProposalAbstract>abstracts = copyAbstracts(doc, newDoc);
 
                 if (criteria.getIncludeBudget()) {
                     copyBudgets(doc, newDoc, criteria.getBudgetVersions());
@@ -215,7 +215,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
                 newDoc = (ProposalDevelopmentDocument) getDocumentService().saveDocument(newDoc);
 
-                newDoc.getDevelopmentProposal().setProposalAbstracts(abstracts);
+                // add abstracts now since proposal number has been generated now.
+                addAbstracts(abstracts, newDoc);
 
                 modifyNewProposal(doc, newDoc, criteria);
 
@@ -235,6 +236,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         return newDoc;
     }
 
+    protected void addAbstracts(List<ProposalAbstract> abstracts, ProposalDevelopmentDocument newDoc) {
+        for(ProposalAbstract abs : abstracts) {
+            abs.setProposalNumber(newDoc.getDevelopmentProposal().getProposalNumber());
+        }
+
+        newDoc.getDevelopmentProposal().setProposalAbstracts(abstracts);
+    }
+
     protected void clearSubmitFlag(DevelopmentProposal developmentProposal) {
         developmentProposal.setSubmitFlag(Boolean.FALSE);
     }
@@ -251,9 +260,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         newDoc.setNotes(newNotes);
     }
 
-    protected List<ProposalAbstract> getAbstracts(ProposalDevelopmentDocument newDoc) {
-        List<ProposalAbstract> abstracts = newDoc.getDevelopmentProposal().getProposalAbstracts();
+    protected List<ProposalAbstract> copyAbstracts(ProposalDevelopmentDocument oldDoc, ProposalDevelopmentDocument newDoc) throws Exception {
         newDoc.getDevelopmentProposal().setProposalAbstracts(null);
+        List<ProposalAbstract> abstracts = new ArrayList<ProposalAbstract>();
+        for (ProposalAbstract abs : oldDoc.getDevelopmentProposal().getProposalAbstracts()) {
+            ProposalAbstract absCopy = (ProposalAbstract) deepCopy(abs);
+            absCopy.setAbstractType(abs.getAbstractType());
+            abstracts.add(absCopy);
+        }
         return abstracts;
     }
 
