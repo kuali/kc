@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.container.CollectionGroupBase;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.container.TabGroup;
@@ -22,7 +22,7 @@ import java.util.*;
 
 public class QuestionnaireTabGroup extends TabGroup {
 
-    private CollectionGroupBase collectionGroupPrototype;
+    private CollectionGroup collectionGroupPrototype;
 
     @Override
     public void performInitialization(Object model) {
@@ -53,7 +53,7 @@ public class QuestionnaireTabGroup extends TabGroup {
                 String cssClass = "questionaire-" + (answerHeader.isCompleted()?"":"in") + "complete";
                 group.setHeaderText(answerHeader.getLabel() + "&nbsp;<span class='" + cssClass + " icon-ok' />");
                 group.getHeader().setRender(false);
-                CollectionGroupBase questionCollection = ComponentUtils.copy(collectionGroupPrototype);
+                CollectionGroup questionCollection = ComponentUtils.copy(collectionGroupPrototype);
                 initiateActionMenuItems(questionCollection.getHeader().getRightGroup(),index,helper,formKey,answerHeader.isNewerVersionPublished());
                 questionCollection.setHeaderText(answerHeader.getLabel() + (answerHeader.isCompleted() ? "[color=green] (Complete)" : " [color=gray](Incomplete)") + "[/color]");
                 questionCollection.setPropertyName(helper + ".answerHeaders[" + index + "].questions");
@@ -91,11 +91,11 @@ public class QuestionnaireTabGroup extends TabGroup {
 
 
     @ViewLifecycleRestriction
-    public CollectionGroupBase getCollectionGroupPrototype() {
+    public CollectionGroup getCollectionGroupPrototype() {
         return collectionGroupPrototype;
     }
 
-    public void setCollectionGroupPrototype(CollectionGroupBase collectionGroupPrototype) {
+    public void setCollectionGroupPrototype(CollectionGroup collectionGroupPrototype) {
         this.collectionGroupPrototype = collectionGroupPrototype;
     }
 }

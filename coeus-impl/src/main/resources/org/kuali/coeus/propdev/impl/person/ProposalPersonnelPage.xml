@@ -288,7 +288,7 @@
         </property>
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="Uif-CollectionHorizontalBoxItem"
-                  p:disclosure.render="true">
+                  p:disclosure.render="true" p:disclosure.defaultOpen="false" p:disclosure.ajaxRetrievalWhenOpened="true">
                 <property name="dataAttributes">
                     <map>
                         <entry key="full_name" value="@{#line.fullName}"/>
