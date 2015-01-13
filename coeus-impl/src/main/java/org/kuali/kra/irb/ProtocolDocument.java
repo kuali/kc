@@ -56,7 +56,10 @@ import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kew.actionrequest.ActionRequestValue;
+import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
@@ -94,6 +97,8 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     private static final String DISAPPROVED_CONTEXT_NAME = "Disapproved";
     
     private List<CustomAttributeDocValue> customDataList;
+    
+    private transient ActionRequestService actionRequestService;
     
     public ProtocolDocument() {
         super();
@@ -163,6 +168,13 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         }
         try {
             getDocumentService().saveDocument(newProtocolDocument);
+            //manually set the principleID of the last actionrequest to BLANK, so this routes
+            List requests = getActionRequestService().findAllActionRequestsByDocumentId(newProtocolDocument.getDocumentHeader().getDocumentNumber());
+            if (requests != null && requests.size() > 0) {
+            	ActionRequestValue lastRequest = (ActionRequestValue)requests.get(requests.size() -1);
+            	lastRequest.setPrincipalId("");
+            	getActionRequestService().saveActionRequest(lastRequest);
+            }
             // blanket approve to make the new protocol document 'final'
             newProtocolDocument.getDocumentHeader().getWorkflowDocument().route(type + "-" + getProtocolNumberIndex() + ": merged");
         } catch (WorkflowException e) {
@@ -478,4 +490,15 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     protected String getCommitteeDisapprovedStatusCodeHook() {
         return ProtocolStatus.DISAPPROVED;
     }
+
+	public ActionRequestService getActionRequestService() {
+		if (actionRequestService == null) {
+			actionRequestService = KEWServiceLocator.getActionRequestService();
+		}
+		return actionRequestService;
+	}
+
+	public void setActionRequestService(ActionRequestService actionRequestService) {
+		this.actionRequestService = actionRequestService;
+	}
 }
