@@ -75,6 +75,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         if (auditActivated != null){
             form.setAuditActivated(Boolean.parseBoolean(auditActivated));
         }
+        //call getModelAndViewWithInit to make sure view is initialized regardless of whether this modelAndView is returned
         ModelAndView result = getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW);
         if (budgetRatesService.checkActivityTypeChange(form.getBudget().getBudgetRates(), form.getDevelopmentProposal().getActivityTypeCode())) {
         	return getModelAndViewService().showDialog(ACTIVITY_RATE_CHANGE_DIALOG_ID, true, form);
