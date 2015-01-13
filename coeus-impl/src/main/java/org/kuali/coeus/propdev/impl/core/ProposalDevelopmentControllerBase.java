@@ -255,11 +255,12 @@ public abstract class ProposalDevelopmentControllerBase {
          ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).setOrdinalPosition(form.getDevelopmentProposal().getProposalPersons());
          saveAnswerHeaders(form, form.getPageId());
 
+         getTransactionalDocumentControllerService().save(form);
          if (form.isAuditActivated()){
              getAuditHelper().auditConditionally(form);
          }
 
-         getTransactionalDocumentControllerService().save(form);
+         
          populateAdHocRecipients(form.getProposalDevelopmentDocument());
 
          if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.CREDIT_ALLOCATION_PAGE)) {
