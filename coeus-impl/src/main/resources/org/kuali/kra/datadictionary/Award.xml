@@ -1248,8 +1248,17 @@
     <bean id="Award-activityType.description" parent="ActivityType-description-parentBean"
           p:name="activityType.description" />
 
-    <bean id="Award-accountTypeDescription" parent="Award-accountTypeCode"
-          p:name="accountTypeDescription" />
+    <bean id="Award-accountTypeDescription" parent="Award-accountTypeCode" p:name="accountTypeDescription">
+    	<property name="maxLength" value="200" />
+	    <property name="validationPattern" >
+	      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+	    </property>
+	    <property name="validCharactersConstraint">
+	      <bean parent="AnyCharacterPatternConstraint">
+	        <property name="allowWhitespace" value="true"/>
+	      </bean>
+	    </property>
+    </bean>
 
     <bean id="Award-latestAwardAmountInfo.amountObligatedToDate" parent="AwardAmountInfo-amountObligatedToDate-parentBean"
           p:name="latestAwardAmountInfo.amountObligatedToDate" />

@@ -206,6 +206,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             }
             if (awardForm.isAuditActivated()) {
                 forward = StringUtils.replace(forward, "awardBudgetParameters.do?", "awardBudgetParameters.do?auditActivated=true&");
+            } else {
+            	forward = StringUtils.replace(forward, "awardBudgetParameters.do?", "awardBudgetParameters.do?auditActivated=false&");
             }
             //add in the showAllBudgetVersions flag so it will be persisted until they leave the documents.
             forward = StringUtils.replace(forward, "Parameters.do?", "Parameters.do?showAllBudgetVersions=" + awardForm.isShowAllBudgetVersions() + "&");
