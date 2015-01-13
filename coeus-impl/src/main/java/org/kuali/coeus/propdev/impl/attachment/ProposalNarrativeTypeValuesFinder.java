@@ -85,15 +85,24 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model, InputField field){
+        DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal();
+        Collection<NarrativeType> allNarrativeTypes = loadAllNarrativeTypes(developmentProposal);
         String narrativeTypeCode = "";
+
         try {
-            narrativeTypeCode = (String) PropertyUtils.getProperty(model, field.getBindingInfo().getBindingPath());
+            NarrativeType currentNarrativeType = (NarrativeType) PropertyUtils.getProperty(model, field.getBindingInfo().getBindByNamePrefix() + ".narrativeType");
+            if (currentNarrativeType != null) {
+                if (!allNarrativeTypes.contains(currentNarrativeType)) {
+                    allNarrativeTypes.add(currentNarrativeType);
+                }
+                narrativeTypeCode = currentNarrativeType.getCode();
+            }
         } catch (Exception e) {
             throw new RiceRuntimeException("could not retrieve narrative type from the input field", e);
         }
-        DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocumentForm) model).getDevelopmentProposal();
-        Collection<NarrativeType> allNarrativeTypes = loadAllNarrativeTypes(developmentProposal);
+
         return getFilteredKeyValues(allNarrativeTypes,developmentProposal,narrativeTypeCode);
+
     }
 
     @Override
