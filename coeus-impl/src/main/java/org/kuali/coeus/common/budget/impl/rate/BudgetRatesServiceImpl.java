@@ -44,6 +44,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.sql.Date;
 import java.util.*;
 
+import javax.persistence.EntityManager;
+
 public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRatesService<T> {
     private static final String SPACE = " ";
     public static final String UNIT_NUMBER_KEY = "unitNumber";
@@ -68,6 +70,10 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
     @Autowired
     @Qualifier("fiscalYearMonthService")
     private FiscalYearMonthService fiscalYearMonthService;
+    
+    @Autowired
+    @Qualifier("kcEntityManager")
+    private EntityManager entityManager;    
 
     @Override
     public void resetAllBudgetRates(Budget budget) {
@@ -173,6 +179,8 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
         List<BudgetLaRate> budgetLaRates = budget.getBudgetLaRates();
         for(RateClassType rateClassType : rateClassTypes) {
             if(rateClassType.getPrefixActivityType()) {
+            	//making changes to the DO here, need to detach to make sure these changes aren't persisted.
+            	entityManager.detach(rateClassType);
                 String newRateClassTypeDescription = activityTypeDescription.concat(rateClassType.getDescription()); 
                 rateClassType.setDescription(newRateClassTypeDescription);
                 rateClassType.setPrefixActivityType(false);
@@ -930,4 +938,12 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
     }
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 }
