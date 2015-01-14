@@ -163,27 +163,13 @@
       <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="&amp;nbsp;" />
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
+    <property name="formatterClass" value="org.kuali.coeus.sys.framework.controller.CalendarTimestampAMPMFormatter" />
     <property name="name" value="closingDate" />
     <property name="label" value="Closing Date" />
     <property name="description" value="Closing Date" />
   </bean>
 
-  <!--<bean id="S2sOpportunity-closingDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="closingDate" />
-    <property name="label" value="Closing Date" />
-    <property name="shortLabel" value="Closing Date" />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="HiddenControlDefinition"
-            p:size="20" />
-    </property>
-    <property name="summary" value="Closing Date" />
-    <property name="description" value="Closing Date" />
-  </bean>-->
+
   <bean id="S2sOpportunity-openingDate" parent="S2sOpportunity-openingDate-parentBean" />
 
   <bean id="S2sOpportunity-openingDate-parentBean" abstract="true" parent="AttributeDefinition">
@@ -197,7 +183,7 @@
       <bean p:size="10" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Opening Date" />
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
+    <property name="formatterClass" value="org.kuali.coeus.sys.framework.controller.CalendarTimestampAMPMFormatter" />
     <property name="name" value="openingDate" />
     <property name="label" value="Opening Date" />
     <property name="description" value="Opening Date" />
