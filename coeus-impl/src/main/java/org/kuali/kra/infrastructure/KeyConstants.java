@@ -488,6 +488,7 @@ public final class KeyConstants {
     public static final String ERROR_AWARD_REPORT_TERM_RECIPIENT_ITEM_NOT_UNIQUE = "error.awardReportTermRecipientItem.notunique";
     public static final String ERROR_BOTH_SPONSOR_AND_ROLODEX_ARE_SELECTED = "error.both.sponsor.and.rolodex.are.selected";
     public static final String ERROR_REQUIRED_ORGANIZATION_FIELD = "error.organizasion.required";
+    public static final String ERROR_AWARD_NOT_FOUND = "error.award.notFound";
     //Award System Parameters    
     public static final String ENABLE_AWARD_FNA_VALIDATION = "enable.award.FnA.validation";
     public static final String OPTION_WARNING_ERROR_AWARD_FANDA_VALIDATION = "option.warning.error.award.FnA.validation";

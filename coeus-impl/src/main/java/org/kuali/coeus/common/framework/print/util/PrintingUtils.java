@@ -42,7 +42,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -296,42 +295,17 @@ public class PrintingUtils {
      */
     public static void streamToResponse(AttachmentDataSource attachmentDataSource,
             HttpServletResponse response) throws Exception {
-        byte[] xbts = attachmentDataSource.getData();
-        ByteArrayOutputStream baos = null;
-        try {
-            baos = new ByteArrayOutputStream(xbts.length);
-            baos.write(xbts);
-
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream(attachmentDataSource.getData().length)) {
+            baos.write(attachmentDataSource.getData());
             WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getType(), baos, attachmentDataSource.getName());
 
-        } finally {
-            try {
-                if (baos != null) {
-                    baos.close();
-                    baos = null;
-                }
-            } catch (IOException ioEx) {
-                // LOG.warn(ioEx.getMessage(), ioEx);
-            }
         }
     }
 
     public static void streamToResponse(byte[] fileContents, String fileName, String fileContentType, HttpServletResponse response) throws Exception {
-        ByteArrayOutputStream baos = null;
-        try {
-            baos = new ByteArrayOutputStream(fileContents.length);
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream(fileContents.length)) {
             baos.write(fileContents);
             WebUtils.saveMimeOutputStreamAsFile(response, fileContentType, baos, fileName);
-        } finally {
-            try {
-                if (baos != null) {
-                    baos.close();
-                    baos = null;
-                }
-            } catch (IOException ioEx) {
-                throw new RuntimeException("IOException occurred while downloading attachment", ioEx);
-            }
         }
     }
-
 }
