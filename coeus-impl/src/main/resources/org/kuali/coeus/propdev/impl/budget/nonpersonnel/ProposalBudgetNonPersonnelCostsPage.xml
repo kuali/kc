@@ -182,7 +182,7 @@
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectBudgetLineItemHelper.editLineIndex}"
 							p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}"
 							p:methodToCall="saveAndApplyToLaterPeriods" p:order="20" p:performClientSideValidation="true"/>
-						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync To Period Cost Direct Limit"
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync To Period Direct Cost Limit"
 							p:refreshId="PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog" p:render="@{!#parent.readOnly}"
 							p:methodToCall="syncToPeriodCostDirectLimit" p:order="30" />
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync To Period Cost Limit"
