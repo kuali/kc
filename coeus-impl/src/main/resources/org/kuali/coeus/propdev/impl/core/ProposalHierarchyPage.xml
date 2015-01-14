@@ -59,9 +59,9 @@
 						<bean p:actionLabel="Link a Child to this Parent" parent="Uif-PrimaryActionButton" p:methodToCall="linkChildToHierarchy"
                               p:render="@{document.developmentProposal.isParent() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:dialogDismissOption="REQUEST" 
                               p:order="10"/>
-                        <bean p:actionLabel="Link this Child to a Parent" parent="Uif-PrimaryActionButton" p:methodToCall="linkToHierarchy"
+                        <bean p:actionLabel="Link this Child to a Parent" parent="Uif-PrimaryActionButton" p:methodToCall="linkToHierarchy" p:ajaxSubmit="false"
                               p:render="@{!document.developmentProposal.isInHierarchy() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:dialogDismissOption="REQUEST" p:order="20"/>
-						<bean p:actionLabel="Create Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="createHierarchy"
+						<bean p:actionLabel="Create Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="createHierarchy" p:ajaxSubmit="false"
                               p:render="@{!document.developmentProposal.isInHierarchy() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="30"/>
                         <bean p:actionLabel="Sync Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="syncToHierarchyParent"
                               p:render="@{document.developmentProposal.isChild() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="40">
@@ -71,7 +71,7 @@
 								</list>
 							</property>
 						</bean>
-                        <bean p:actionLabel="Unlink Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="removeFromHierarchy"
+                        <bean p:actionLabel="Unlink Hierarchy" parent="Uif-SecondaryActionButton" p:methodToCall="removeFromHierarchy" p:ajaxSubmit="false"
                               p:render="@{document.developmentProposal.isChild() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}" p:performClientSideValidation="true" p:dialogDismissOption="REQUEST" p:order="50"/>
                         <bean p:actionLabel="Sync All" parent="Uif-SecondaryActionButton" p:methodToCall="syncAllHierarchy"
                               p:render="@{document.developmentProposal.isParent() and #editModes[#proposalAuthConsts.MAINTAIN_HIERARCHY_EDIT_MODE]}"  p:performClientSideValidation="false" p:dialogDismissOption="REQUEST" p:order="60">

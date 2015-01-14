@@ -141,6 +141,8 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
             childProposal = getProposalHierarchyService().removeFromHierarchy(childProposal);
             form.getProposalDevelopmentDocument().setDevelopmentProposal(childProposal);
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_REMOVE_SUCCESS);
+            form.setEvaluateFlagsAndModes(true);
+            form.setCanEditView(null);
         }
 
         return getModelAndViewService().getModelAndView(form);

@@ -65,6 +65,7 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
 	public Set<String> getActionFlags(View view, ViewModel model, Person user, Set<String> actions) {
 
 		Document document = ((DocumentFormBase) model).getDocument();
+        DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocument)document).getDevelopmentProposal();
 
 		if (actions.contains(ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_SPONSOR) && ! canCreateInstitutionalProposal(document, user)) {
             actions.remove(ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_SPONSOR);
@@ -77,6 +78,19 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
         if (canNotifyProposalPerson(document,user)) {
             actions.add(ProposalDevelopmentConstants.PropDevDocumentActions.NOTIFY_PROPOSAL_PERSONS);
         }
+
+        if (actions.contains(KRADConstants.KUALI_ACTION_CAN_SUPER_USER_APPROVE) && developmentProposal.isChild()) {
+            actions.remove(KRADConstants.KUALI_ACTION_CAN_SUPER_USER_APPROVE);
+        }
+
+        if (actions.contains(KRADConstants.KUALI_ACTION_CAN_SUPER_USER_DISAPPROVE) && developmentProposal.isChild()) {
+            actions.remove(KRADConstants.KUALI_ACTION_CAN_SUPER_USER_DISAPPROVE);
+        }
+
+        if (actions.contains(KRADConstants.KUALI_ACTION_CAN_SUPER_USER_TAKE_ACTION) && developmentProposal.isChild()) {
+            actions.remove(KRADConstants.KUALI_ACTION_CAN_SUPER_USER_TAKE_ACTION);
+        }
+
 		return super.getActionFlags(view, model, user, actions);
 	}
 
