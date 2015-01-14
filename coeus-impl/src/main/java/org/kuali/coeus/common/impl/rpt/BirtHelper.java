@@ -51,9 +51,9 @@ public class BirtHelper {
      * @throws Exception
      */ 
     public ArrayList<BirtParameterBean> getParameters(InputStream reportStream) throws Exception {
-        IReportRunnable design = null;
-        ArrayList<BirtParameterBean> listParameters = new ArrayList<BirtParameterBean>();        
-        design = engine.openReportDesign(reportStream);        
+
+        ArrayList<BirtParameterBean> listParameters = new ArrayList<BirtParameterBean>();
+        IReportRunnable design = engine.openReportDesign(reportStream);
         IGetParameterDefinitionTask task = engine.createGetParameterDefinitionTask(design);
         Collection params = task.getParameterDefns(true);        
         Iterator parameterIterator = params.iterator();
