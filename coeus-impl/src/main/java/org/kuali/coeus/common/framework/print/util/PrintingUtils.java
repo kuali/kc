@@ -303,7 +303,7 @@ public class PrintingUtils {
     }
 
     public static void streamToResponse(byte[] fileContents, String fileName, String fileContentType, HttpServletResponse response) throws Exception {
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(fileContents.length)) {
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream(fileContents.length)) {
             baos.write(fileContents);
             WebUtils.saveMimeOutputStreamAsFile(response, fileContentType, baos, fileName);
         }
