@@ -16,13 +16,8 @@
 package org.kuali.coeus.propdev.impl.s2s;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.core.web.format.TimestampAMPMFormatter;
@@ -58,71 +53,26 @@ import java.util.*;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class S2sOpportunityLookupableHelperServiceImpl extends KcKualiLookupableHelperServiceImpl {
 
-    private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupableHelperServiceImpl.class);
-
     @Autowired
-    @Qualifier("s2sSubmissionService")
-    private S2sSubmissionService s2sSubmissionService;
+    @Qualifier("s2sOpportunityLookupKradKnsHelperService")
+    private S2sOpportunityLookupKradKnsHelperService s2sOpportunityLookupKradKnsHelperService;
 
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
 
-    @Autowired
-    @Qualifier("globalVariableService")
-    private GlobalVariableService globalVariableService;
-
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        LookupUtils.removeHiddenCriteriaFields(getBusinessObjectClass(), fieldValues);
-        setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
-        setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> searchCriteria) {
+        LookupUtils.removeHiddenCriteriaFields(getBusinessObjectClass(), searchCriteria);
+        setBackLocation(searchCriteria.get(KRADConstants.BACK_LOCATION));
+        setDocFormKey(searchCriteria.get(KRADConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(searchCriteria.get(KRADConstants.REFERENCES_TO_REFRESH));
         KNSGlobalVariables.getMessageList().add(Constants.GRANTS_GOV_LINK);
-        List<S2sOpportunity> s2sOpportunity = new ArrayList<S2sOpportunity>();
-        String providerCode = fieldValues.get(Constants.PROVIDER_CODE);
-        String cfdaNumber = fieldValues.get(Constants.CFDA_NUMBER);
-        String opportunityId = fieldValues.get(Constants.OPPORTUNITY_ID);
-        if (StringUtils.isBlank(providerCode)) {
-            globalVariableService.getMessageMap().putError(Constants.PROVIDER_CODE, KeyConstants.ERROR_S2S_PROVIDER_INVALID);
-            return new ArrayList<S2sOpportunity>();
-        }
-        if (StringUtils.isNotBlank(cfdaNumber) || StringUtils.isNotBlank(opportunityId)) {
-            try {
-                s2sOpportunity = s2sSubmissionService.searchOpportunity(providerCode, cfdaNumber, opportunityId, "");
-            }catch (S2sCommunicationException e) {
-                LOG.error(e.getMessage(), e);
-                globalVariableService.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
-                return new ArrayList<S2sOpportunity>();
-            }
-            if (s2sOpportunity != null && s2sOpportunity.size()!=0) {
-                return s2sOpportunity;
-            } else if (StringUtils.isNotBlank(cfdaNumber) && StringUtils.isNotBlank(opportunityId)) {
-                try{
-                    s2sOpportunity = s2sSubmissionService.searchOpportunity(providerCode, cfdaNumber, "", "");
-                }catch (S2sCommunicationException e) {
-                    LOG.error(e.getMessage(), e);
-                    globalVariableService.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
-                    return new ArrayList<S2sOpportunity>();
-                }
-                if (s2sOpportunity != null) {
-                    return s2sOpportunity;
-                } else{
-                    if (StringUtils.isNotBlank(cfdaNumber)) {
-                        globalVariableService.getMessageMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
-                    }
-                    if (StringUtils.isNotBlank(opportunityId)) {
-                        globalVariableService.getMessageMap().putError(Constants.OPPORTUNITY_ID,
-                                KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);
-                    }
-                }
-                return new ArrayList<S2sOpportunity>();
-                }
-             return new ArrayList<S2sOpportunity>();
-        }
-        else {
-            globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);
-            return s2sOpportunity;
-        }
+
+        final String providerCode = searchCriteria.get(Constants.PROVIDER_CODE);
+        final String cfdaNumber = searchCriteria.get(Constants.CFDA_NUMBER);
+        final String opportunityId = searchCriteria.get(Constants.OPPORTUNITY_ID);
+
+        return s2sOpportunityLookupKradKnsHelperService.performSearch(providerCode, cfdaNumber, opportunityId);
     }
 
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
@@ -204,19 +154,11 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KcKualiLookupable
         this.dateTimeService = dateTimeService;
     }
 
-    public S2sSubmissionService getS2sSubmissionService() {
-        return s2sSubmissionService;
+    public S2sOpportunityLookupKradKnsHelperService getS2sOpportunityLookupKradKnsHelperService() {
+        return s2sOpportunityLookupKradKnsHelperService;
     }
 
-    public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
-        this.s2sSubmissionService = s2sSubmissionService;
-    }
-
-    public GlobalVariableService getGlobalVariableService() {
-        return globalVariableService;
-    }
-
-    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-        this.globalVariableService = globalVariableService;
+    public void setS2sOpportunityLookupKradKnsHelperService(S2sOpportunityLookupKradKnsHelperService s2sOpportunityLookupKradKnsHelperService) {
+        this.s2sOpportunityLookupKradKnsHelperService = s2sOpportunityLookupKradKnsHelperService;
     }
 }

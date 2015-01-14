@@ -1,12 +1,23 @@
+/*
+ * Copyright 2005-2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.coeus.propdev.impl.s2s;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +38,8 @@ public class S2sOpportunityLookupable extends LookupableImpl {
     private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupable.class);
 
     @Autowired
-    @Qualifier("s2sSubmissionService")
-    private S2sSubmissionService s2sSubmissionService;
-
-    @Autowired
-    @Qualifier("globalVariableService")
-    private GlobalVariableService globalVariableService;
+    @Qualifier("s2sOpportunityLookupKradKnsHelperService")
+    private S2sOpportunityLookupKradKnsHelperService s2sOpportunityLookupKradKnsHelperService;
 
     @Override
     public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
@@ -40,64 +47,8 @@ public class S2sOpportunityLookupable extends LookupableImpl {
         final String providerCode = searchCriteria.get(Constants.PROVIDER_CODE);
         final String cfdaNumber = searchCriteria.get(Constants.CFDA_NUMBER);
         final String opportunityId = searchCriteria.get(Constants.OPPORTUNITY_ID);
-        if (StringUtils.isBlank(providerCode)) {
-            getGlobalVariableService().getMessageMap().putError(Constants.PROVIDER_CODE, KeyConstants.ERROR_S2S_PROVIDER_INVALID);
-            return Collections.emptyList();
-        }
 
-        List<S2sOpportunity> s2sOpportunity = new ArrayList<S2sOpportunity>();
-        if (StringUtils.isNotBlank(cfdaNumber) || StringUtils.isNotBlank(opportunityId)) {
-            try {
-                s2sOpportunity = getS2sSubmissionService().searchOpportunity(providerCode, cfdaNumber, opportunityId, "");
-            }catch (S2sCommunicationException e) {
-                LOG.error(e.getMessage(), e);
-                getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
-                return Collections.emptyList();
-            }
-            if (s2sOpportunity != null && !s2sOpportunity.isEmpty()) {
-                return s2sOpportunity;
-            } else if (StringUtils.isNotBlank(cfdaNumber) && StringUtils.isNotBlank(opportunityId)) {
-                try{
-                    s2sOpportunity = getS2sSubmissionService().searchOpportunity(providerCode, cfdaNumber, "", "");
-                }catch (S2sCommunicationException e) {
-                    LOG.error(e.getMessage(), e);
-                    getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
-                    return Collections.emptyList();
-                }
-                if (s2sOpportunity != null) {
-                    return s2sOpportunity;
-                } else {
-                    if (StringUtils.isNotBlank(cfdaNumber)) {
-                        getGlobalVariableService().getMessageMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
-                    }
-                    if (StringUtils.isNotBlank(opportunityId)) {
-                        getGlobalVariableService().getMessageMap().putError(Constants.OPPORTUNITY_ID,
-                                KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);
-                    }
-                }
-                return Collections.emptyList();
-            }
-            return Collections.emptyList();
-        }
-        else {
-            getGlobalVariableService().getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);
-            return s2sOpportunity;
-        }
+        return s2sOpportunityLookupKradKnsHelperService.performSearch(providerCode, cfdaNumber, opportunityId);
     }
 
-    protected S2sSubmissionService getS2sSubmissionService() {
-        return s2sSubmissionService;
-    }
-
-	public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
-		this.s2sSubmissionService = s2sSubmissionService;
-	}
-
-    public GlobalVariableService getGlobalVariableService() {
-        return globalVariableService;
-    }
-
-    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
-        this.globalVariableService = globalVariableService;
-    }
 }
