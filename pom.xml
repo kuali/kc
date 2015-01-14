@@ -226,7 +226,7 @@
         <coeus-api-all.version>6.0-SNAPSHOT</coeus-api-all.version>
         <rsmart.cx.token.auth.version>1.0.7</rsmart.cx.token.auth.version>
         <rsmart.hr.rest.version>1.0-SNAPSHOT</rsmart.hr.rest.version>
-        <rsmart.cx.data.migration.version>6.0.0.0-SNAPSHOT</rsmart.cx.data.migration.version>
+        <rsmart.cx.data.migration.version>6.0.1-SNAPSHOT</rsmart.cx.data.migration.version>
         <wagon.s3.version>1.2.1</wagon.s3.version>
     </properties>
 
