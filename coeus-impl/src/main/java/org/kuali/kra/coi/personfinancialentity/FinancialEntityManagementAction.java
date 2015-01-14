@@ -114,7 +114,7 @@ public class FinancialEntityManagementAction extends FinancialEntityAction {
      * @throws Exception
      */
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {      
-        return mapping.findForward("close");
+        return mapping.findForward(Constants.MAPPING_CLOSE);
     }
 
 }

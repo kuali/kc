@@ -178,7 +178,7 @@ public class BudgetAction extends BudgetActionBase {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final BudgetForm budgetForm = (BudgetForm) form;
-        if(budgetForm.getMethodToCall().equals("close")){
+        if(budgetForm.getMethodToCall().equals(Constants.MAPPING_CLOSE)){
             setupDocumentExit();
         }
         ActionForward actionForward = null;

@@ -18,6 +18,7 @@ package org.kuali.coeus.common.impl.rpt;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class ReportGenerationBaseAction extends KualiAction {
 
   
         public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-            return mapping.findForward("close");
+            return mapping.findForward(Constants.MAPPING_CLOSE);
         }
 
     }
