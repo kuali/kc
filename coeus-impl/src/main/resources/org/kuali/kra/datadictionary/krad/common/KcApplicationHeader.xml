@@ -644,7 +644,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                         <map>
                             <entry key="href"
 
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.coeus.propdev.impl.s2s.S2sOpportunity&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.coeus.propdev.impl.s2s.S2sOpportunity&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
 
                         </map>
                     </property>
@@ -1172,7 +1172,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                         <map>
                             <entry key="href"
 
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&amp;businessObjectClassName=org.kuali.coeus.propdev.impl.s2s.S2sOpportunity&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
+                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.coeus.propdev.impl.s2s.S2sOpportunity&amp;docFormKey=88888888&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
 
                         </map>
                     </property>
