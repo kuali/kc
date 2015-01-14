@@ -26,7 +26,7 @@ public class ProposalDevelopmentKRMSAuditRule  extends KcTransactionalDocumentRu
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
         ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) document;
-        List<Map<String,String>> krmsErrors = getKrmsRulesExecutionService().processUnitKcValidations(pdDocument.getLeadUnitNumber(),pdDocument);
+        List<Map<String,String>> krmsErrors = getKrmsRulesExecutionService().processUnitKcValidations(pdDocument.getDevelopmentProposal().getAllUnitNumbers(),pdDocument);
         for (Map<String,String> error: krmsErrors) {
             valid = false;
             String areaName = error.get(KcKrmsConstants.ValidationAction.VALIDATIONS_ACTION_AREA_ATTRIBUTE);
