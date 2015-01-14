@@ -61,7 +61,7 @@
                                         <property name="items">
                                             <list>
                                                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Update Available" p:render="@{#component.render and !#parent.readOnly}" p:order="10" p:methodToCall="prepareUpdateDialog"/>
-                                                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Clear" p:methodToCall="clearQuestionnaire" p:order="20"/>
+                                                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Clear" p:render="@{!#parent.readOnly}" p:methodToCall="clearQuestionnaire" p:order="20"/>
                                                 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Print" p:order="30">
                                                     <property name="actionUrl">
                                                         <bean parent="Uif-Url"/>
