@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.attachment;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
@@ -90,13 +91,15 @@ public class ProposalNarrativeTypeValuesFinder  extends FormViewAwareUifKeyValue
         String narrativeTypeCode = "";
 
         try {
-            NarrativeType currentNarrativeType = (NarrativeType) PropertyUtils.getProperty(model, field.getBindingInfo().getBindByNamePrefix() + ".narrativeType");
-            if (currentNarrativeType != null) {
-                if (!allNarrativeTypes.contains(currentNarrativeType)) {
-                    allNarrativeTypes.add(currentNarrativeType);
+           narrativeTypeCode = (String) PropertyUtils.getProperty(model, field.getBindingInfo().getBindingPath());
+           if (StringUtils.isNotEmpty(narrativeTypeCode)) {
+           NarrativeType currentNarrativeType = getDataObjectService().find(NarrativeType.class,narrativeTypeCode);
+                if (currentNarrativeType != null) {
+                    if (!allNarrativeTypes.contains(currentNarrativeType)) {
+                        allNarrativeTypes.add(currentNarrativeType);
+                    }
                 }
-                narrativeTypeCode = currentNarrativeType.getCode();
-            }
+           }
         } catch (Exception e) {
             throw new RiceRuntimeException("could not retrieve narrative type from the input field", e);
         }
