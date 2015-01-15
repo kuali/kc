@@ -484,7 +484,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
                     budgetPeriod = budgetPeriodNode.getTextContent();
                 }
                 LOG.debug("Unable to find matching period for uploaded period '" + budgetPeriod + "' -- " + startDateNode.getTextContent() + " - " + endDateNode.getTextContent());
-                errors.add(new String[]{Constants.SUBAWARD_FILE_PERIOD_NOT_FOUND, budgetPeriod, startDateNode.getTextContent(), endDateNode.getTextContent()});
+                errors.add(new String[]{Constants.SUBAWARD_FILE_PERIOD_NOT_FOUND, (budgetPeriod == null ? "" : budgetPeriod), startDateNode.getTextContent(), endDateNode.getTextContent()});
             }
         }
         return result;
