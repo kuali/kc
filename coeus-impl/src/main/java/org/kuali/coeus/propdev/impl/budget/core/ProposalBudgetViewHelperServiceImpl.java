@@ -29,6 +29,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetCostShare;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetUnrecoveredFandA;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.common.impl.KcViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
@@ -52,6 +53,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 @Service("proposalBudgetViewHelperService")
 @Scope("prototype")
@@ -247,4 +249,21 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
 	public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
 		this.proposalBudgetService = proposalBudgetService;
 	}
+
+    public boolean displaySubawardPeriodWarning(Budget budget) {
+        return hasMultiplePeriods(budget) && isEmptyBudgetLineItemExists(budget);
+    }
+
+    private boolean hasMultiplePeriods(Budget budget) {
+        return budget.getBudgetPeriods().size() > 1;
+    }
+
+    private boolean isEmptyBudgetLineItemExists(Budget budget) {
+        for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+            if (CollectionUtils.isEmpty(budgetPeriod.getBudgetLineItems())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
