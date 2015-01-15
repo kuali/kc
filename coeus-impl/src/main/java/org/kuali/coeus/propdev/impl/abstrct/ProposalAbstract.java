@@ -82,6 +82,17 @@ public class ProposalAbstract extends KcPersistableBusinessObjectBase implements
 
     @Transient
     private String uploadUserFullName;
+    
+    @Transient
+    private transient boolean isUpdated = false;
+    
+    public boolean isUpdated() {
+		return isUpdated;
+	}
+
+	public void setUpdated(boolean isUpdated) {
+		this.isUpdated = isUpdated;
+	}
 
     /**
 	 * Constructs a ProposalAbstract.
