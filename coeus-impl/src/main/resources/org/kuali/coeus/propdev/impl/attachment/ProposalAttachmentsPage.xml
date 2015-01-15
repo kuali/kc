@@ -106,11 +106,13 @@
                <bean parent="Uif-InputField" p:propertyName="moduleStatusCode"
                      p:readOnlyDisplayReplacementPropertyName="narrativeStatus.description"
                      p:required="true" p:enableAutoQuickfinder="false" p:width="25%" p:order="30"/>
-                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="40" />
+                <bean parent="Uif-DataField" p:propertyName="moduleTitle"
+                      p:order="40" />
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
                       p:fieldLabel.labelText="Posted Timestamp"
-                      p:readOnly="true" p:width="20%" p:order="50"/>
-                <bean parent="Uif-FieldGroupBase" p:order="60" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
+                      p:readOnly="true" p:width="20%" p:order="60"/>
+                <bean parent="Uif-FieldGroupBase" p:order="70" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
                     <property name="group">
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
