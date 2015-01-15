@@ -751,10 +751,12 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
         }
 
-        // go over the child bios list and if person is not in multiple proposals, add that bio
+        // go over the child bios list and if person is not in multiple proposals and the
+        // bio does not exist for the person in the parent, add that bio
         for (ProposalPersonBiography srcPropPersonBio : childProposal.getPropPersonBios()) {
             if (personInMultipleProp.get(srcPropPersonBio.getPersonId()) != null &&
-                    !personInMultipleProp.get(srcPropPersonBio.getPersonId())) {
+                    !personInMultipleProp.get(srcPropPersonBio.getPersonId()) &&
+                    !isDuplicateBio(srcPropPersonBio, hierarchyProposal)) {
                 ProposalPersonBiography destPropPersonBio;
                 destPropPersonBio = (ProposalPersonBiography) deepCopy(srcPropPersonBio);
                 destPropPersonBio.setDevelopmentProposal(hierarchyProposal);
@@ -766,6 +768,10 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             }
         }
         hierarchyProposal.getPropPersonBios().addAll(newList);
+    }
+
+    protected boolean isDuplicateBio(ProposalPersonBiography propPersonBio, DevelopmentProposal hierarchyProposal) {
+        return getProposalHierarchyDao().isDuplicateBio(propPersonBio, hierarchyProposal.getProposalNumber());
     }
 
     protected Integer getProposalPersonNumber(String personId, DevelopmentProposal hierarchyProposal) {

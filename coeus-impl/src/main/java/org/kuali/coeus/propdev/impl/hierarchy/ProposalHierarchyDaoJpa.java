@@ -3,6 +3,7 @@ package org.kuali.coeus.propdev.impl.hierarchy;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.Predicate;
@@ -82,6 +83,20 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         ProposalState state = (ProposalState) entityManager.createQuery(PROPOSAL_STATE_QUERY).setParameter("proposalNumber", proposalNumber).getSingleResult();
         return state == null ? "" : state.getDescription();
      }
+
+    public boolean isDuplicateBio(ProposalPersonBiography propPersonBio, String proposalNumber) {
+        QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        predicates.add(equal("personId", propPersonBio.getPersonId()));
+        predicates.add(equal("developmentProposal.proposalNumber", proposalNumber));
+        predicates.add(equal("documentTypeCode", propPersonBio.getDocumentTypeCode()));
+
+        Predicate[] preds = predicates.toArray(new Predicate[predicates.size()]);
+        builder.setCountFlag(CountFlag.ONLY);
+        builder.setPredicates(preds);
+
+        return getDataObjectService().findMatching(ProposalPersonBiography.class, builder.build()).getTotalRowCount() > 0;
+    }
 
     @Override
     public List<String> getHierarchyChildProposalNumbers(String parentProposalNumber) {
