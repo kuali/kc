@@ -109,10 +109,12 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
             props.put(UifConstants.UrlParams.VIEW_ID, "PropDev-DeletedView");
             return getModelAndViewService().performRedirect(form, "proposalDevelopment", props);
         } else {
+            form.initialize();
             form.setDocument(document);
             WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
             form.setDocTypeName(workflowDocument.getDocumentTypeName());
             form.setProposalCopyCriteria(new ProposalCopyCriteria(document));
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getView().getViewHelperService()).populateQuestionnaires(form);
 
             if (!this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,
                     getGlobalVariableService().getUserSession().getPerson())) {
