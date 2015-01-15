@@ -223,7 +223,8 @@
 			<bean parent="Uif-ActionBar">
 				<property name="items">
 					<list>
-                        <bean parent="Uif-Message" p:renderWrapperTag="false" p:refreshWhenChangedPropertyNames="auditActivated" p:order="10">
+                        <bean parent="Uif-Message" p:renderWrapperTag="false" p:refreshWhenChangedPropertyNames="auditActivated" p:order="10"
+                                p:render="@{!document.developmentProposal.child}">
                             <property name="messageText" value="[0] @{auditActivated?'[color=#090](on)[/color]':'[color=red](off)[/color]'}"/>
                             <property name="inlineComponents">
                                 <list>

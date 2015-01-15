@@ -34,6 +34,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
             String userId = getGlobalVariableService().getUserSession().getPrincipalId();
             String hierarchyProposalNumber = getProposalHierarchyService().createHierarchy(initialChildProposal, userId);
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_CREATE_SUCCESS, new String[]{hierarchyProposalNumber});
+            form.setAuditActivated(false);
             form.setEvaluateFlagsAndModes(true);
             form.setCanEditView(null);
         }
@@ -75,6 +76,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
 		        if (!displayErrors(errors)) {
 	                getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
 	                displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{newChildProposal.getProposalNumber(), hierarchyProposal.getProposalNumber()});
+                    form.setAuditActivated(false);
 	                form.setEvaluateFlagsAndModes(true);
 	                form.setCanEditView(null);
 		        }
