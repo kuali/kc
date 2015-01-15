@@ -16,6 +16,9 @@
 package org.kuali.coeus.propdev.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.api.core.SubmissionInfoService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -64,7 +67,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         if (proposal.getDeadlineDate() == null) {
             valid = false;
             getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_WARNINGS).add(new AuditError(DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, SPONSOR_PROGRAM_INFO_PAGE_ID));
-        } else if (proposal.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
+        } else if (isDeadlineDateBeforeCurrentDate(proposal)) {
             valid = false;
             getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_WARNINGS).add(new AuditError(DEADLINE_DATE_KEY, KeyConstants.WARNING_PAST_DEADLINE_DATE, SPONSOR_PROGRAM_INFO_PAGE_ID));
         }
@@ -136,6 +139,11 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         return valid;
     }
     
+    protected boolean isDeadlineDateBeforeCurrentDate(DevelopmentProposal proposal) {
+    	DateTime deadlineDate = new DateTime(proposal.getDeadlineDate());
+    	DateTime currentDate = new DateTime();
+    	return DateTimeComparator.getDateOnlyInstance().compare(currentDate, deadlineDate) > 0;
+    }
     
     /**
      * Is the Proposal Type set to Resubmission?
