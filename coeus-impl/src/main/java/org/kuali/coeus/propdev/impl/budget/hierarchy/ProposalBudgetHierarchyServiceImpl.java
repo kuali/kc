@@ -389,7 +389,12 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
         for (Iterator<BudgetSubAwards> iter = parentBudget.getBudgetSubAwards().iterator(); iter.hasNext();) {
         	BudgetSubAwards subAward = iter.next();
         	if (StringUtils.equals(childProposalNumber, subAward.getHierarchyProposalNumber())) {
-        		parentBudget.removeBudgetLineItems(subAward.getBudgetLineItems());
+        		List<BudgetLineItem> lineItems = getDataObjectService().findMatching(BudgetLineItem.class, QueryByCriteria.Builder.fromPredicates(
+    				PredicateFactory.equal("budgetId", subAward.getBudgetId()), 
+    				PredicateFactory.equal("subAwardNumber", subAward.getSubAwardNumber()))).getResults();
+	    		for (BudgetPeriod period : parentBudget.getBudgetPeriods()) {
+	    			period.getBudgetLineItems().removeAll(lineItems);
+	    		}
         		iter.remove();
         	}
         }
