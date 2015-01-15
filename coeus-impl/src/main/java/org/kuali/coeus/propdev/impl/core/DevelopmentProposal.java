@@ -2280,6 +2280,17 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
         return null;
     }
 
+    public ProposalDevelopmentBudgetExt getHierarchySummaryBudget() {
+        if (getLastSyncedBudget() != null) {
+            return getLastSyncedBudget();
+        } else if (getFinalBudget() != null) {
+            return getFinalBudget();
+        } else if (getLatestBudget() != null) {
+            return getLatestBudget();
+        }
+        return null;
+    }
+
     public DeadlineType getDeadlineTypeRef() {
         return deadlineTypeRef;
     }
