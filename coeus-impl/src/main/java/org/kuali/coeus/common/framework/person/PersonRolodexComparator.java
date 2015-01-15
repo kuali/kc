@@ -73,7 +73,7 @@ public class PersonRolodexComparator implements Comparator<PersonRolodex> {
         }
         
         if (retval == 0) {
-            if (isNotBlank(person1.getFullName())) {
+            if (isNotBlank(person1.getFullName()) && isNotBlank(person1.getLastName()) && isNotBlank(person2.getLastName())) {
                 retval = person1.getLastName().compareTo(person2.getLastName());
             }
             else if (isNotBlank(person2.getLastName())) {
