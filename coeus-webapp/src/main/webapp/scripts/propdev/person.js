@@ -12,7 +12,8 @@ Kc.PropDev.Personnel = Kc.PropDev.Personnel || {};
 				retrieveComponent(id);
 			}
 		});
-	})
+	});
+
 	namespace.unselectCollectionRadioButtons = function(selectedRadio, otherRadioSelector) {
 		$(selectedRadio).parents('table:first').find(otherRadioSelector).each(function() {
 			var inputField = $(this).parents('div:first');

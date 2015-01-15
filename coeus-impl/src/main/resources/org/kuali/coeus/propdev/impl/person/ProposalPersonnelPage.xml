@@ -332,11 +332,11 @@
         <property name="items">
             <list>
                 <bean parent="PropDev-PersonnelPage-Details" p:order="10" />
-                <bean parent="PropDev-PersonnelPage-Organization" p:order="20" p:retrieveViaAjax="true" />
-                <bean parent="PropDev-PersonnelPage-ExtendedDetails" p:order="40" p:retrieveViaAjax="true" />
-                <bean parent="PropDev-PersonnelPage-Degrees" p:order="50" p:retrieveViaAjax="true" />
-                <bean parent="PropDev-PersonnelPage-UnitDetails" p:order="60" p:retrieveViaAjax="true" />
-                <bean parent="PropDev-PersonnelPage-TrainingDetails" p:order="70" p:retrieveViaAjax="true" />
+                <bean parent="PropDev-PersonnelPage-Organization" p:order="20" p:retrieveViaAjax="@{#parent.defaultActiveTabId != #component.id}" />
+                <bean parent="PropDev-PersonnelPage-ExtendedDetails" p:order="40" p:retrieveViaAjax="@{#parent.defaultActiveTabId != #component.id}" />
+                <bean parent="PropDev-PersonnelPage-Degrees" p:order="50" p:retrieveViaAjax="@{#parent.defaultActiveTabId != #component.id}" />
+                <bean parent="PropDev-PersonnelPage-UnitDetails" p:order="60" p:retrieveViaAjax="@{#parent.defaultActiveTabId != #component.id}" />
+                <bean parent="PropDev-PersonnelPage-TrainingDetails" p:order="70" p:retrieveViaAjax="@{#parent.defaultActiveTabId != #component.id}" />
                 <bean parent="PropDev-PersonnelPage-Questionnaire" p:order="80" />
             </list>
         </property>
