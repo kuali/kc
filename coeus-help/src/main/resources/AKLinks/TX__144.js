@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__144", [["Documents/gloss_rulequicklinks1.htm", "d2hWnd_SecondaryPopup", "Rule QuickLinks"],["Documents/rulequicklinks.htm", "right", "Rule Quicklinks"]]);
