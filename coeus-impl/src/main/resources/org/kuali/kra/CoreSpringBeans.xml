@@ -946,6 +946,7 @@
                 <value>classpath:org/kuali/coeus/common/impl/auth/docperm/DocumentAccess.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/auth/docperm/DocumentAccessMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/LineItemTableCommon.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/AwardCgb.xml</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
