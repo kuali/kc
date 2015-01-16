@@ -429,7 +429,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
         //We need to copy DocumentNextValues to properly handle copied collections
         fixNextValues(oldDoc, newDoc);
-        
+
         DevelopmentProposal copy = (DevelopmentProposal) deepCopy(oldDoc.getDevelopmentProposal());
         
         copy.getBudgets().clear();
@@ -764,7 +764,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             }
         }
 
-        getKeyPersonnelService().populateDocument(doc);
+        getKeyPersonnelService().populateCreditSplit(doc);
     }
     
     protected ProposalPersonUnit createProposalPersonUnit(ProposalPerson person, String unitNumber, boolean isLeadUnit, boolean isDeletable, List<ProposalPersonUnit> oldProposalPersonUnits) {
