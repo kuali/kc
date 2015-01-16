@@ -525,7 +525,7 @@
                 <bean parent="PropDev-SubmitPage-HierarchyOverview" p:order="20"/>
                 <bean parent="PropDev-SubmitPage-HierarchySponsorProgramInfo" p:order="30"/>
                 <bean parent="PropDev-SubmitPage-HierarchyInvestigatorInfo" p:order="40"/>
-                <bean parent="PropDev-SubmitPage-HierarchyBudgetSummary" p:order="50" p:render="@{!#emptyList(#line.budgets)}"/>
+                <bean parent="PropDev-SubmitPage-HierarchyBudgetSummary" p:order="50" p:render="@{!#empty(#line.hierarchySummaryBudget)}"/>
             </list>
         </property>
     </bean>
@@ -598,69 +598,40 @@
 
     <bean id="PropDev-SubmitPage-HierarchyBudgetSummary" parent="PropDev-SubmitPage-HierarchyBudgetSummary-parentBean"/>
     <bean id="PropDev-SubmitPage-HierarchyBudgetSummary-parentBean" abstract="true"
-          parent="Uif-Disclosure-StackedCollectionSection"
-          p:propertyName="budgets"
-          p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt"
-          p:renderAddLine="false" p:renderLineActions="false"
+          parent="Uif-Disclosure-VerticalBoxSection"
           p:header.headerText="Budget Summary"
-          p:layoutManager.summaryTitle="@{#line.name} @{#lp.budgetId == #lp.developmentProposal.finalBudget?.budgetId?'(for submission)':''}"
           p:disclosure.defaultOpen="false">
         <property name="items">
             <list>
-                <bean parent="Uif-FieldGroupBase" p:order="10">
-                    <property name="group">
-                        <bean parent="Uif-Disclosure-VerticalBoxSection">
-                            <property name="items">
-                                <list>
-                                    <bean parent="PropDev-SubmitPage-HierarchyBudgetDetails" p:order="10"/>
-                                    <bean parent="Kc-LineItemTable" p:propertyName="budgetSummaryDetails"
-                                          p:order="20"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
+                <bean parent="PropDev-SubmitPage-HierarchyBudgetDetails" p:order="10"/>
+                <bean parent="Kc-LineItemTable" p:propertyName="hierarchySummaryBudget.budgetSummaryDetails"
+                      p:order="20"/>
             </list>
-        </property>
-        <property name="layoutManager.lineGroupPrototype">
-            <bean parent="Uif-CollectionHorizontalBoxItem"
-                  p:disclosure.render="true">
-                <property name="layoutManager">
-                    <bean parent="Uif-SimpleLayout" />
-                </property>
-                <property name="header">
-                    <bean parent="Uif-HeaderFour">
-                        <property name="rightGroup">
-                            <bean parent="Uif-HorizontalBoxGroup">
-                            </bean>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
         </property>
     </bean>
 
     <bean id="PropDev-SubmitPage-HierarchyBudgetDetails" parent="PropDev-SubmitPage-HierarchyBudgetDetails-parentBean"/>
     <bean id="PropDev-SubmitPage-HierarchyBudgetDetails-parentBean" abstract="true" parent="Uif-GridSection"
-          p:layoutManager.numberOfColumns="4">
+          p:layoutManager.numberOfColumns="4"
+          p:header.headerText="@{#line.hierarchySummaryBudget.name}">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="developmentProposal.proposalNumber" p:order="10"/>
-                <bean parent="Uif-DataField" p:propertyName="budgetStatus" p:order="20"/>
-                <bean parent="Uif-DataField" p:propertyName="budgetVersionNumber" p:order="30"/>
+                <bean parent="Uif-DataField" p:propertyName="proposalNumber" p:order="10"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.budgetStatus" p:order="20"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.budgetVersionNumber" p:order="30"/>
                 <bean parent="Uif-MessageField" p:fieldLabel.labelText="Final"
-                      p:messageText="@{#lp.budgetId == #lp.developmentProposal.finalBudget?.budgetId?'True':'False'}" p:order="40"/>
-                <bean parent="Uif-DataField" p:propertyName="startDate" p:order="50"/>
-                <bean parent="Uif-DataField" p:propertyName="endDate" p:order="60"/>
-                <bean parent="Uif-DataField" p:propertyName="totalCost" p:order="70"/>
-                <bean parent="Uif-DataField" p:propertyName="totalCostLimit" p:order="80"/>
-                <bean parent="Uif-DataField" p:propertyName="totalDirectCost" p:order="90"/>
-                <bean parent="Uif-DataField" p:propertyName="totalIndirectCost" p:order="100"/>
-                <bean parent="Uif-DataField" p:propertyName="underrecoveryAmount" p:order="110"/>
-                <bean parent="Uif-DataField" p:propertyName="costSharingAmount" p:order="120"/>
-                <bean parent="Uif-DataField" p:propertyName="ohRateClassCode" p:order="130"/>
-                <bean parent="Uif-DataField" p:propertyName="urRateClassCode" p:order="140"/>
-                <bean parent="Uif-DataField" p:propertyName="comments" p:order="150"/>
+                      p:messageText="@{#line.hierarchySummaryBudget?.budgetId == #line.finalBudget?.budgetId?'True':'False'}" p:order="40"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.startDate" p:order="50"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.endDate" p:order="60"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.totalCost" p:order="70"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.totalCostLimit" p:order="80"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.totalDirectCost" p:order="90"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.totalIndirectCost" p:order="100"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.underrecoveryAmount" p:order="110"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.costSharingAmount" p:order="120"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.ohRateClassCode" p:order="130"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.urRateClassCode" p:order="140"/>
+                <bean parent="Uif-DataField" p:propertyName="hierarchySummaryBudget.comments" p:order="150"/>
             </list>
         </property>
     </bean>
