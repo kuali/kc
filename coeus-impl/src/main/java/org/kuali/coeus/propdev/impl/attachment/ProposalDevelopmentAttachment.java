@@ -10,4 +10,7 @@ public interface ProposalDevelopmentAttachment {
 
     public String getUploadUserDisplay();
 
+    public void setUpdated(boolean isUpdated);
+
+    
 }

@@ -132,6 +132,17 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     @Transient
     private transient KcAttachmentService kcAttachmentService;
+    
+    @Transient
+    private transient boolean isUpdated = false;
+    
+    public boolean isUpdated() {
+		return isUpdated;
+	}
+
+	public void setUpdated(boolean isUpdated) {
+		this.isUpdated = isUpdated;
+	}
 
     @Override
     public void init(MultipartFile multipartFile) throws Exception {

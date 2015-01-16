@@ -395,11 +395,9 @@ public abstract class ProposalDevelopmentControllerBase {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(form.getDocument().getDocumentNumber());
         if (canEdit) {
             if (new ProposalDevelopmentDocumentRule().processAttachmentRules(form.getProposalDevelopmentDocument())) {
-                //when saving on a page in the narrative locking region we don't want to over write proposal locking region data,
-                //so we retrieve the latest proposal from the db, and replace the current propopsal with that, and then copy the attachments
-                document.getDevelopmentProposal().setNarratives(form.getDevelopmentProposal().getNarratives());
-                document.getDevelopmentProposal().setInstituteAttachments(form.getDevelopmentProposal().getInstituteAttachments());
-                document.getDevelopmentProposal().setPropPersonBios(form.getDevelopmentProposal().getPropPersonBios());
+            	form.getProposalDevelopmentAttachmentHelper().handleNarrativeUpdates(form, document);
+            	form.getProposalDevelopmentAttachmentHelper().handleInstAttachmentUpdates(form, document);
+            	form.getProposalDevelopmentAttachmentHelper().handlePersonBioUpdates(form, document);
                 document.getDevelopmentProposal().setProposalAbstracts(form.getDevelopmentProposal().getProposalAbstracts());
                 document.setNotes(form.getDocument().getNotes());
                 form.setDocument(document);
