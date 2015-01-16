@@ -27,7 +27,6 @@ import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -152,10 +151,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends KcTransactionalD
      * @param narrative
      */
     private void populateNarrativeType(Narrative narrative) {
-        Map<String,String> narrativeTypeMap = new HashMap<String,String>();
-        narrativeTypeMap.put(NARRATIVE_TYPE_CODE, narrative.getNarrativeTypeCode());
-        BusinessObjectService service = getBusinessObjectService();
-        NarrativeType narrType = (NarrativeType) service.findByPrimaryKey(NarrativeType.class, narrativeTypeMap);
+        NarrativeType narrType = getDataObjectService().find(NarrativeType.class, narrative.getNarrativeTypeCode());
         if (narrType != null)
             narrative.setNarrativeType(narrType);
         

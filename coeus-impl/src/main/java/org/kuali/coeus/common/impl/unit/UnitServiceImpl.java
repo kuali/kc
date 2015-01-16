@@ -22,6 +22,9 @@ import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.common.framework.unit.crrspndnt.UnitCorrespondent;
 import org.kuali.kra.iacuc.bo.IacucUnitCorrespondent;
+import org.kuali.rice.core.api.criteria.CountFlag;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +49,14 @@ public class UnitServiceImpl implements UnitService {
     @Autowired
     @Qualifier("unitLookupDao")
     private UnitLookupDao unitLookupDao;
-	
+
     @Autowired
     @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;   
+    private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     
     @Override
     public Unit getUnitCaseInsensitive(String unitNumber){
@@ -63,10 +70,8 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public String getUnitName(String unitNumber) {
         String unitName = null;
-        Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(unitNumber)) {
-            primaryKeys.put("unitNumber", unitNumber);
-            Unit unit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, primaryKeys);
+            Unit unit = getUnit(unitNumber);
             if (unit != null) {
                 unitName = unit.getUnitName();
             }
@@ -77,17 +82,14 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public Collection<Unit> getUnits() {
-        return getBusinessObjectService().findAll(Unit.class);
+        return getDataObjectService().findAll(Unit.class).getResults();
     }
 
     @Override
     public Unit getUnit(String unitNumber) {
         Unit unit = null;
-
-        Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(unitNumber)) {
-            primaryKeys.put("unitNumber", unitNumber);
-            unit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, primaryKeys);
+            unit = getDataObjectService().find(Unit.class, unitNumber);
         }
 
         return unit;
@@ -96,9 +98,7 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public List<Unit> getSubUnits(String unitNumber) {
         List<Unit> units = new ArrayList<Unit>();
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("parentUnitNumber", unitNumber);
-        units.addAll(getBusinessObjectService().findMatching(Unit.class, fieldValues));
+        units.addAll(getDataObjectService().findMatching(Unit.class, QueryByCriteria.Builder.forAttribute("parentUnitNumber", unitNumber).build()).getResults());
         return units;
     }
     
@@ -120,7 +120,6 @@ public class UnitServiceImpl implements UnitService {
         Unit thisUnit = this.getUnit(unitNumber);
         if (thisUnit != null) {
             units.addAll(getUnitParentsAndSelf(thisUnit));
-            //units.addAll(getAllSubUnits(unitNumber));
         }
         return units;
     }
@@ -235,11 +234,7 @@ public class UnitServiceImpl implements UnitService {
     
     @SuppressWarnings("unchecked")
     public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber) {
-        Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(UNIT_NUMBER, unitNumber);
-        List<UnitAdministrator> unitAdministrators = 
-            (List<UnitAdministrator>) getBusinessObjectService().findMatching(UnitAdministrator.class, queryMap);
-        return unitAdministrators;
+        return getDataObjectService().findMatching(UnitAdministrator.class, QueryByCriteria.Builder.forAttribute(UNIT_NUMBER, unitNumber).build()).getResults();
     }
     
     @Override
@@ -251,7 +246,7 @@ public class UnitServiceImpl implements UnitService {
          * although this to will result in a higher number than the true depth.
          * @TODO fix this as time allows. 
          */
-        return getBusinessObjectService().findAll(Unit.class).size();
+        return getDataObjectService().findMatching(Unit.class, QueryByCriteria.Builder.create().setCountFlag(CountFlag.ONLY).build()).getTotalRowCount();
     }
 
     @Override
@@ -284,13 +279,13 @@ public class UnitServiceImpl implements UnitService {
 
     /**
      * Sets the businessObjectService attribute value. Injected by Spring.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * Accessor for <code>{@link BusinessObjectService}</code>
      *
@@ -299,5 +294,12 @@ public class UnitServiceImpl implements UnitService {
     public BusinessObjectService getBusinessObjectService() {
         return this.businessObjectService;
     }
-    
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

@@ -42,7 +42,7 @@ import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfoContract;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
 
@@ -50,7 +50,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -65,7 +64,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     private transient IdentityService identityService;
     private EntityContract entity;
     
-    private transient BusinessObjectService boService;
+    private transient DataObjectService dataObjectService;
     private KcPersonExtendedAttributes extendedAttributes;
     
     private transient CountryService countryService;
@@ -220,8 +219,8 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     
     /** refreshes just the extended attributes object. */
     private void refreshExtendedAttributes() {
-        this.extendedAttributes = (KcPersonExtendedAttributes)
-            this.getBusinessObjectService().findByPrimaryKey(KcPersonExtendedAttributes.class, Collections.singletonMap("personId", this.personId));
+        this.extendedAttributes =
+            this.getDataObjectService().find(KcPersonExtendedAttributes.class, this.personId);
     
         if (this.extendedAttributes == null) {
             this.extendedAttributes = new KcPersonExtendedAttributes();
@@ -926,7 +925,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     public Unit getUnit() {
         final String org = this.getOrganizationIdentifier();
         
-        return org != null ? (Unit) this.getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", org)) : null; 
+        return org != null ? this.getDataObjectService().find(Unit.class, org) : null;
     }
 
     @Override
@@ -959,14 +958,14 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     }
     
     /**
-     * Gets the {@link BusinessObjectService BusinessObjectService}.
-     * @return Gets the BusinessObjectService
+     * Gets the {@link DataObjectService DataObjectService}.
+     * @return Gets the DataObjectService
      */
-    BusinessObjectService getBusinessObjectService() {
-        if (this.boService == null) {
-            this.boService = KcServiceLocator.getService(BusinessObjectService.class);
+    DataObjectService getDataObjectService() {
+        if (this.dataObjectService == null) {
+            this.dataObjectService = KcServiceLocator.getService(DataObjectService.class);
         }
-        return this.boService;
+        return this.dataObjectService;
     }
     
     /**
@@ -1162,8 +1161,8 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
         this.identityService = identityService;
     }
 
-    public void setBusinessObjectService(BusinessObjectService boService) {
-        this.boService = boService;
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
     
     /**

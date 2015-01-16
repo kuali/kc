@@ -130,7 +130,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonCh
         if (personMassChange.getProposalDevelopmentPersonMassChange().isMailingInformation()) {
             developmentProposal.setMailingAddressId(personMassChange.getReplacerRolodexId());
             
-            getBusinessObjectService().save(developmentProposal);
+            getDataObjectService().save(developmentProposal);
         }
     }
     
@@ -155,7 +155,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonCh
                                 biography.setPersonId(personMassChange.getReplacerPersonId());
                                 biography.setRolodexId(null);
                                 
-                                getBusinessObjectService().save(biography);
+                                getDataObjectService().save(biography);
                             }
                         }
                     } else if (personMassChange.getReplacerRolodexId() != null) {
@@ -168,12 +168,12 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonCh
                                 biography.setPersonId(null);
                                 biography.setRolodexId(personMassChange.getReplacerRolodexId());
                             
-                                getBusinessObjectService().save(biography);
+                                getDataObjectService().save(biography);
                             }
                         }
                     }
     
-                    getBusinessObjectService().save(person);
+                    getDataObjectService().save(person);
                 }
             }
         }

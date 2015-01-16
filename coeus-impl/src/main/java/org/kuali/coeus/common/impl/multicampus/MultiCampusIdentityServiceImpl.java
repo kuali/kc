@@ -18,10 +18,11 @@ package org.kuali.coeus.common.impl.multicampus;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
 import org.kuali.coeus.common.framework.multicampus.MultiCampusIdentityService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliationContract;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -34,8 +35,8 @@ import java.util.Map;
 public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityService {
 
     @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Autowired
     @Qualifier("identityService")
@@ -44,10 +45,7 @@ public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityServic
     @Override
     public String getMultiCampusPrincipalName(String principalName, String campusCode) {
         String result = principalName;
-        
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("multiCampusPrincipalName", principalName);
-        Collection<KcPersonExtendedAttributes> multiCampusPersons = getBusinessObjectService().findMatching(KcPersonExtendedAttributes.class, fieldValues);
+        Collection<KcPersonExtendedAttributes> multiCampusPersons = getDataObjectService().findMatching(KcPersonExtendedAttributes.class, QueryByCriteria.Builder.forAttribute("multiCampusPrincipalName", principalName).build()).getResults();
         for (KcPersonExtendedAttributes multiCampusPerson : multiCampusPersons) {
             String principalId = multiCampusPerson.getPersonId();
             if (hasCampusAffiliation(principalId, campusCode)) {
@@ -73,12 +71,12 @@ public class MultiCampusIdentityServiceImpl implements MultiCampusIdentityServic
         return hasCampusAffiliation;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 
     public IdentityService getIdentityService() {

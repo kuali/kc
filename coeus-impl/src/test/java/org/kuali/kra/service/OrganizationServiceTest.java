@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.impl.org.OrganizationServiceImpl;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,17 +64,15 @@ public class OrganizationServiceTest {
      * @param organizationIdValue
      * @param validOrganization
      */
-    private void mockOrganization(String organizationIdValue, boolean validOrganization) {
+    private void mockOrganization(final String organizationIdValue, boolean validOrganization) {
         OrganizationServiceImpl organizationServiceImpl = new OrganizationServiceImpl();
-        
-        final Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(ORGANIZATION_ID, organizationIdValue);
+
         final Organization organization = getOrganization(validOrganization);
-        final BusinessObjectService businessObjectService = context.mock(BusinessObjectService.class);
+        final DataObjectService businessObjectService = context.mock(DataObjectService.class);
         context.checking(new Expectations() {{
-            one(businessObjectService).findByPrimaryKey(Organization.class, fieldValues); will(returnValue(organization));
+            one(businessObjectService).find(Organization.class, organizationIdValue); will(returnValue(organization));
         }});
-        organizationServiceImpl.setBusinessObjectService(businessObjectService);
+        organizationServiceImpl.setDataObjectService(businessObjectService);
         
         assertEquals(organization, organizationServiceImpl.getOrganization(organizationIdValue));
     }

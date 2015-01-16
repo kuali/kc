@@ -25,8 +25,9 @@ import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.api.ynq.YnqConstant;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -37,14 +38,14 @@ import java.util.*;
 public class YnqServiceImpl implements YnqService {
 
 	@Autowired
-	@Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
+	@Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     
     @Override
     @SuppressWarnings("unchecked")
     public List<YnqExplanationType> getYnqExplanationTypes() {
         Collection<YnqExplanationType> allTypes = new ArrayList();
-        allTypes = businessObjectService.findAll(YnqExplanationType.class);
+        allTypes = dataObjectService.findAll(YnqExplanationType.class).getResults();
         List<YnqExplanationType> ynqExplanationTypes = new ArrayList();
         for(YnqExplanationType type: allTypes) {
             ynqExplanationTypes.add(type);
@@ -62,7 +63,7 @@ public class YnqServiceImpl implements YnqService {
         questionTypeMap.put("status", Constants.STATUS_ACTIVE); 
 
         // get YNQs sorted by group and question id
-        Collection<Ynq> allTypes = getBusinessObjectService().findMatchingOrderBy(Ynq.class, questionTypeMap, "sortId", true);
+        Collection<Ynq> allTypes = new ArrayList<>(dataObjectService.findMatching(Ynq.class, QueryByCriteria.Builder.andAttributes(questionTypeMap).setOrderByAscending("sortId").build()).getResults());
         List<Ynq> ynqs = new ArrayList<Ynq>();
         ynqs.addAll(allTypes);
         // Preserves the sort ID ordering because Collections.sort is "guaranteed to be stable: equal elements will not be reordered as a result of the sort."
@@ -277,22 +278,12 @@ public class YnqServiceImpl implements YnqService {
         }
         return retValue;
     }
-    
-    /**
-     * Gets the businessObjectService attribute.
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
-
-
 }

@@ -381,11 +381,9 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 	 * database
 	 */
 	private String getSponsorTypeCodeFromSponsor(String sponsorCode) {
-		Map<String, String> sponsorCodeMap = new HashMap<String, String>();
-		sponsorCodeMap.put(Constants.SPONSOR_CODE, sponsorCode);
 		String sponsorTypeCode = EMPTY_STRING;
-		org.kuali.coeus.common.framework.sponsor.Sponsor sponsor = (org.kuali.coeus.common.framework.sponsor.Sponsor) getBusinessObjectService()
-		            .findByPrimaryKey(org.kuali.coeus.common.framework.sponsor.Sponsor.class,sponsorCodeMap);
+		org.kuali.coeus.common.framework.sponsor.Sponsor sponsor = getDataObjectService()
+		            .find(org.kuali.coeus.common.framework.sponsor.Sponsor.class, sponsorCode);
 		if (sponsor != null) {
 			sponsorTypeCode = sponsor.getSponsorTypeCode();
 		}
@@ -440,11 +438,8 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
 		if (proposalPerson.getPerson() != null) {
 			personName = proposalPerson.getPerson().getFullName();
 		} else {
-			Map<String, String> conditionMap = new HashMap<String, String>();
-			conditionMap.put(KEY_ROLODEX_ID, proposalPerson.getRolodexId()
-					.toString());
-			Rolodex rolodex = (Rolodex) getBusinessObjectService().findByPrimaryKey(
-					Rolodex.class, conditionMap);
+			Rolodex rolodex = getDataObjectService().find(
+					Rolodex.class, proposalPerson.getRolodexId());
 			if (rolodex != null) {
 				personName = rolodex.getFullName();
 			}

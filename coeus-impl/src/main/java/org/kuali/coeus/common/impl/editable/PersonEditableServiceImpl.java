@@ -15,7 +15,6 @@
  */
 package org.kuali.coeus.common.impl.editable;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.editable.PersonEditable;
 import org.kuali.coeus.common.framework.person.editable.PersonEditableService;
@@ -23,7 +22,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -40,8 +39,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public class PersonEditableServiceImpl implements PersonEditableService {
     
 	@Autowired
-	@Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
+	@Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 	
 	@Autowired
 	@Qualifier("kcPersonService")
@@ -135,44 +134,48 @@ public class PersonEditableServiceImpl implements PersonEditableService {
     }
 
     public void populateContactFieldsFromRolodexId(PersonEditable protocolPerson) {
-        Map valueMap = new HashMap();
-        valueMap.put("rolodexId", protocolPerson.getRolodexId());
-        Collection<Rolodex> rolodexes = businessObjectService.findMatching(Rolodex.class, valueMap);
+        final Rolodex rolodex = dataObjectService.find(Rolodex.class, protocolPerson.getRolodexId());
 
-        if (CollectionUtils.isNotEmpty(rolodexes)) {
-            for (Rolodex rolodex : rolodexes) {
-                protocolPerson.setRolodexId(rolodex.getRolodexId());
-                protocolPerson.setAddressLine1(rolodex.getAddressLine1());
-                protocolPerson.setAddressLine2(rolodex.getAddressLine2());
-                protocolPerson.setAddressLine3(rolodex.getAddressLine3());
-                protocolPerson.setCity(rolodex.getCity());
-                protocolPerson.setCountryCode(rolodex.getCountryCode());
-                protocolPerson.setCounty(rolodex.getCounty());
-                protocolPerson.setEmailAddress(rolodex.getEmailAddress());
-                protocolPerson.setFaxNumber(rolodex.getFaxNumber());
-                protocolPerson.setFirstName(rolodex.getFirstName());
-                protocolPerson.setLastName(rolodex.getLastName());
-                protocolPerson.setMiddleName(rolodex.getMiddleName());
-                protocolPerson.setOfficePhone(rolodex.getPhoneNumber());
-                protocolPerson.setPostalCode(rolodex.getPostalCode());
-                protocolPerson.setState(rolodex.getState());
-                protocolPerson.setPrimaryTitle(rolodex.getTitle());
-                protocolPerson.setFullName("");
-                if (isNotBlank(rolodex.getFirstName())) {
-                    protocolPerson.setFullName(rolodex.getFirstName());
-                }
-                if (isNotBlank(rolodex.getMiddleName())) {
-                    protocolPerson.setFullName(protocolPerson.getFullName() + " " + rolodex.getMiddleName());
-                }
-                if (isNotBlank(rolodex.getLastName())) {
-                    protocolPerson.setFullName(protocolPerson.getFullName() + " " + rolodex.getLastName());
-                }
+        if (rolodex != null) {
+            protocolPerson.setRolodexId(rolodex.getRolodexId());
+            protocolPerson.setAddressLine1(rolodex.getAddressLine1());
+            protocolPerson.setAddressLine2(rolodex.getAddressLine2());
+            protocolPerson.setAddressLine3(rolodex.getAddressLine3());
+            protocolPerson.setCity(rolodex.getCity());
+            protocolPerson.setCountryCode(rolodex.getCountryCode());
+            protocolPerson.setCounty(rolodex.getCounty());
+            protocolPerson.setEmailAddress(rolodex.getEmailAddress());
+            protocolPerson.setFaxNumber(rolodex.getFaxNumber());
+            protocolPerson.setFirstName(rolodex.getFirstName());
+            protocolPerson.setLastName(rolodex.getLastName());
+            protocolPerson.setMiddleName(rolodex.getMiddleName());
+            protocolPerson.setOfficePhone(rolodex.getPhoneNumber());
+            protocolPerson.setPostalCode(rolodex.getPostalCode());
+            protocolPerson.setState(rolodex.getState());
+            protocolPerson.setPrimaryTitle(rolodex.getTitle());
+            protocolPerson.setFullName("");
+            if (isNotBlank(rolodex.getFirstName())) {
+                protocolPerson.setFullName(rolodex.getFirstName());
+            }
+            if (isNotBlank(rolodex.getMiddleName())) {
+                protocolPerson.setFullName(protocolPerson.getFullName() + " " + rolodex.getMiddleName());
+            }
+            if (isNotBlank(rolodex.getLastName())) {
+                protocolPerson.setFullName(protocolPerson.getFullName() + " " + rolodex.getLastName());
             }
         }
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
     }
 
     public void setKcPersonService(KcPersonService kcPersonService) {

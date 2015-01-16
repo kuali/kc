@@ -2,9 +2,11 @@ package org.kuali.kra.bo;
 
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.service.impl.adapters.BusinessObjectServiceAdapter;
+import org.kuali.kra.service.impl.adapters.DataObjectServiceAdapter;
 import org.kuali.kra.service.impl.adapters.IdentityServiceAdapter;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class KcPersonFixtureFactory {
@@ -15,7 +17,7 @@ public class KcPersonFixtureFactory {
      * @return
      */
     public static KcPerson createKcPerson(String personId) {
-        return createKcPerson(personId, getMockBusinessObjectService(), getMockIdentityService());
+        return createKcPerson(personId, getMockDataObjectService(), getMockIdentityService());
     }
 
     /**
@@ -25,7 +27,7 @@ public class KcPersonFixtureFactory {
      * @param identityService
      * @return
      */
-    public static KcPerson createKcPerson(String personId, BusinessObjectService boService, IdentityService identityService) {
+    public static KcPerson createKcPerson(String personId, DataObjectService boService, IdentityService identityService) {
         KcPerson person = new KcPerson() {
             public String getFirstName() {
                 return "Joe";
@@ -37,15 +39,15 @@ public class KcPersonFixtureFactory {
                 return "";
             }
         };
-        person.setBusinessObjectService(boService);
+        person.setDataObjectService(boService);
         person.setIdentityService(identityService);
         person.setPersonId(personId);
 
         return person;
     }
 
-    private static BusinessObjectService getMockBusinessObjectService() {
-        return new BusinessObjectServiceAdapter();
+    private static DataObjectService getMockDataObjectService() {
+        return new DataObjectServiceAdapter();
     }
 
     private static IdentityService getMockIdentityService() {

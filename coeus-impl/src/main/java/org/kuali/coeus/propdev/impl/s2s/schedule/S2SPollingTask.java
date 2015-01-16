@@ -25,9 +25,10 @@ import org.kuali.coeus.propdev.impl.s2s.S2sAppSubmissionConstants;
 import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2sCommunicationException;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.mail.MailMessage;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.exception.InvalidAddressException;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,8 +53,8 @@ public class S2SPollingTask {
     private final Map<String, String> sortMsgKeyMap = new Hashtable<String, String>();
 
     @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService = null;
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService = null;
 
     @Autowired
     @Qualifier("s2sSubmissionService")
@@ -134,12 +135,7 @@ public class S2SPollingTask {
         for (String status : statusMap.values()) {
             submissionMap.clear();
             submissionMap.put(KEY_STATUS, status);
-            if (submissionList == null) {
-                submissionList = businessObjectService.findMatching(S2sAppSubmission.class, submissionMap);
-            }
-            else {
-                submissionList.addAll(businessObjectService.findMatching(S2sAppSubmission.class, submissionMap));
-            }
+            submissionList.addAll(dataObjectService.findMatching(S2sAppSubmission.class, QueryByCriteria.Builder.andAttributes(submissionMap).build()).getResults());
         }
 
         Map<String, SubmissionData> pollingList = new HashMap<String, SubmissionData>();
@@ -279,10 +275,8 @@ public class S2SPollingTask {
                 }
             }
             if (sendEmailFlag) {
-                Map<String, String> proposalMap = new HashMap<String, String>();
-                proposalMap.put(KEY_PROPOSAL_NUMBER, appSubmission.getProposalNumber());
-                DevelopmentProposal developmentProposal = (DevelopmentProposal) businessObjectService.findByPrimaryKey(
-                        DevelopmentProposal.class, proposalMap);
+                DevelopmentProposal developmentProposal = dataObjectService.find(
+                        DevelopmentProposal.class, appSubmission.getProposalNumber());
 
                 String dunsNum;
                 if (developmentProposal.getApplicantOrganization().getOrganization().getDunsNumber() != null) {
@@ -330,10 +324,8 @@ public class S2SPollingTask {
 
     private ProposalDevelopmentDocument getProposalDevelopmentDocument(String proposalNumber) {
         ProposalDevelopmentDocument pdDoc = null;
-        Map<String, String> proposalMap = new HashMap<String, String>();
-        proposalMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
-        DevelopmentProposal developmentProposal = (DevelopmentProposal) businessObjectService.findByPrimaryKey(
-                DevelopmentProposal.class, proposalMap);
+        DevelopmentProposal developmentProposal = dataObjectService.find(
+                DevelopmentProposal.class, proposalNumber);
         if (developmentProposal != null) {
             pdDoc = developmentProposal.getProposalDocument();
         }
@@ -352,7 +344,7 @@ public class S2SPollingTask {
                 S2sAppSubmission s2sAppSubmission = submissionData.getS2sAppSubmission();
                 s2sAppSubmission.setUpdateUserSet(true);
                 if(!s2sAppSubmission.getStatus().equalsIgnoreCase(S2sAppSubmissionConstants.STATUS_PUREGED))
-                    businessObjectService.save(s2sAppSubmission);
+                    dataObjectService.save(s2sAppSubmission);
             }
         }
     }
@@ -559,17 +551,12 @@ public class S2SPollingTask {
     }
 
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 
     public S2sSubmissionService getS2sSubmissionService() {

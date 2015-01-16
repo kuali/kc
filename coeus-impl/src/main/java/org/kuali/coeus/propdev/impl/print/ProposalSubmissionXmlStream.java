@@ -599,11 +599,9 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * using noticeOfOpportunityCode
 	 */
 	private String getNoticeOfOpportunityDesc(String noticeOfOpportunityCode) {
-		Map<String, String> noticeCodeMap = new HashMap<String, String>();
-		noticeCodeMap.put(NOTICE_OF_OPPORTUNITY_CODE, noticeOfOpportunityCode);
 		String description = Constants.EMPTY_STRING;
-		NoticeOfOpportunity noticeOfOpportunity = (NoticeOfOpportunity) getBusinessObjectService()
-				.findByPrimaryKey(NoticeOfOpportunity.class, noticeCodeMap);
+		NoticeOfOpportunity noticeOfOpportunity = getDataObjectService()
+				.find(NoticeOfOpportunity.class, noticeOfOpportunityCode);
 		if (noticeOfOpportunity != null) {
 			description = noticeOfOpportunity.getDescription();
 		}
@@ -690,10 +688,8 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	 * This method get sponsor by calling the database with sponsorCode
 	 */
 	private Sponsor getSponsorBySponsorCode(String sponsorCode) {
-		Map<String, String> sponsorCodeMap = new HashMap<String, String>();
-		sponsorCodeMap.put(Constants.SPONSOR_CODE, sponsorCode);
-		Sponsor sponsor = (Sponsor) getBusinessObjectService().findByPrimaryKey(
-				Sponsor.class, sponsorCodeMap);
+		Sponsor sponsor = getDataObjectService().find(
+				Sponsor.class, sponsorCode);
 		return sponsor;
 	}
 

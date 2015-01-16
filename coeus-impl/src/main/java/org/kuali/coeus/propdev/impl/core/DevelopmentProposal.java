@@ -85,7 +85,6 @@ import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.jpa.FilterGenerator;
 import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import javax.persistence.*;
@@ -385,9 +384,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     @Transient
     private String hierarchyStatusName;
-
-    @Transient
-    private transient BusinessObjectService businessObjectService;
 
     @Transient
     private transient DataObjectService dataObjectService;
@@ -2040,15 +2036,7 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     }
 
     public String getIsOwnedByUnit() {
-        Map<String, String> proposalNumberMap = new HashMap<String, String>();
-        String proposalNumber = this.getProposalNumber();
-        proposalNumberMap.put("proposalNumber", proposalNumber);
-        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        LookupableDevelopmentProposal lookupDevProposal = (LookupableDevelopmentProposal) businessObjectService.findByPrimaryKey(LookupableDevelopmentProposal.class, proposalNumberMap);
-        if (lookupDevProposal != null) {
-            return lookupDevProposal.getSponsor().getOwnedByUnit();
-        }
-        return "";
+        return getSponsor().getOwnedByUnit();
     }
 
     public Integer getParentInvestigatorFlag(String personId, Integer flag) {
@@ -2297,14 +2285,6 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
 
     public void setDeadlineTypeRef(DeadlineType deadlineTypeRef) {
         this.deadlineTypeRef = deadlineTypeRef;
-    }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null) {
-            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        }
-
-        return businessObjectService;
     }
 
     public DataObjectService getDataObjectService() {
