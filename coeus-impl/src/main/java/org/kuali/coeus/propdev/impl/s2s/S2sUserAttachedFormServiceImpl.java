@@ -352,7 +352,7 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
 
         S2sUserAttachedFormFile newUserAttachedFormFile = new S2sUserAttachedFormFile();
         newUserAttachedFormFile.setXmlFile(formXML);
-        if(!validateUserAttachedFormFile(newUserAttachedFormFile))
+        if(!validateUserAttachedFormFile(newUserAttachedFormFile, formname))
             return null;
 
         validateForm(developmentProposal,newUserAttachedForm);
@@ -395,8 +395,8 @@ public class S2sUserAttachedFormServiceImpl implements S2sUserAttachedFormServic
         }
     }   
 
-    private boolean validateUserAttachedFormFile(S2sUserAttachedFormFile userAttachedFormFile) throws Exception{
-        FormValidationResult result = formGeneratorService.validateUserAttachedFormFile(userAttachedFormFile);
+    private boolean validateUserAttachedFormFile(S2sUserAttachedFormFile userAttachedFormFile, String formName) throws Exception{
+        FormValidationResult result = formGeneratorService.validateUserAttachedFormFile(userAttachedFormFile, formName);
         if(!result.isValid()) {
             setValidationErrorMessage(result);
             return false;

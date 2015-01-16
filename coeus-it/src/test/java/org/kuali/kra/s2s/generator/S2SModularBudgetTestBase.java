@@ -46,7 +46,7 @@ public abstract class S2SModularBudgetTestBase<T> extends S2STestBase<T> {
 		generatorObject.setAuditErrors(errors);
 		generatorObject.setAttachments(new ArrayList<AttachmentData>());
 		XmlObject object = generatorObject.getFormObject(document);
-		getService(S2SValidatorService.class).validate(object, errors);
+		getService(S2SValidatorService.class).validate(object, errors, generatorObject.getFormName());
 		for (AuditError auditError : errors) {
 			assertNull(
 					auditError.getMessageKey() + ":" + auditError.getErrorKey(),
