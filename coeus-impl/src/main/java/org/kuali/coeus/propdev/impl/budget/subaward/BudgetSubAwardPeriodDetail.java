@@ -15,7 +15,10 @@
  */
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
+import java.util.Objects;
+
 import javax.persistence.*;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyIgnore;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -182,5 +185,14 @@ public class BudgetSubAwardPeriodDetail extends KcPersistableBusinessObjectBase 
 		} else {
 			return null;
 		}		
-	}  
+	}
+	
+	public BudgetPeriod getBudgetPeriodBO() {
+		for (BudgetPeriod period : getBudgetSubAward().getBudget().getBudgetPeriods()) {
+			if (Objects.equals(budgetPeriod, period.getBudgetPeriod())) {
+				return period;
+			}
+		}
+		return null;
+	}
 }

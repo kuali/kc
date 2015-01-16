@@ -309,6 +309,10 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
         Date startDateYearFiscalYearBeginning = new Date(calendar.getTimeInMillis());
         return startDate.compareTo(startDateYearFiscalYearBeginning) < 0 ? startDateYear : ++startDateYear;
     }
+    
+    public int getPeriodFiscalYear() {
+    	return calculateFiscalYear(budget.loadFiscalYearStart());
+    }
 
     public String getDateRange() {
         StringBuffer dateRange = new StringBuffer();
