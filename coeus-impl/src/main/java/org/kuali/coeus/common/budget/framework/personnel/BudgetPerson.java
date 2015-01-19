@@ -216,6 +216,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
       if ((this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) && getBudget() != null) {
           for (BudgetPeriod budgetPeriod : getBudget().getBudgetPeriods()) {
         	  BudgetPersonSalaryDetails budgetPersonSalaryDetails = new BudgetPersonSalaryDetails();
+        	  budgetPersonSalaryDetails.setBudgetPerson(this);
         	  budgetPersonSalaryDetails.setBudgetId(getBudgetId());
         	  budgetPersonSalaryDetails.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
         	  budgetPersonSalaryDetails.setPersonId(getPersonId());

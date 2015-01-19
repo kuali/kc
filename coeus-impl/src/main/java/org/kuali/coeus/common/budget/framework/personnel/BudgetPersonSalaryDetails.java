@@ -39,10 +39,10 @@ public class BudgetPersonSalaryDetails extends KcPersistableBusinessObjectBase {
     @Column(name = "BUDGET_PERSON_SALARY_DETAIL_ID")
     private Long budgetPersonSalaryDetailId;  
     
-    @Column(name = "PERSON_SEQUENCE_NUMBER")
+    @Column(name = "PERSON_SEQUENCE_NUMBER", insertable = false, updatable = false)
     private Integer personSequenceNumber;
     
-    @Column(name = "BUDGET_ID")
+    @Column(name = "BUDGET_ID", insertable = false, updatable = false)
     private Long budgetId;
     
     @Column(name = "BUDGET_PERIOD")
@@ -55,8 +55,8 @@ public class BudgetPersonSalaryDetails extends KcPersistableBusinessObjectBase {
     private ScaleTwoDecimal baseSalary = ScaleTwoDecimal.ZERO;
 
     @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID", insertable = false, updatable = false), 
-    	@JoinColumn(name = "PERSON_SEQUENCE_NUMBER", referencedColumnName = "PERSON_SEQUENCE_NUMBER", insertable = false, updatable = false) })
+    @JoinColumns({ @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID"), 
+    	@JoinColumn(name = "PERSON_SEQUENCE_NUMBER", referencedColumnName = "PERSON_SEQUENCE_NUMBER") })
     private BudgetPerson budgetPerson;
 
     public Long getBudgetPersonSalaryDetailId() {

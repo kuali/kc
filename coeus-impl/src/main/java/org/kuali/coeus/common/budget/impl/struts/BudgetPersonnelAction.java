@@ -833,6 +833,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             budgetPerSalaryDetails.setBudgetId(budget.getBudgetId());
             budgetPerSalaryDetails.setPersonSequenceNumber(budget.getBudgetPerson(getSelectedLine(request))
                     .getPersonSequenceNumber());
+            budgetPerSalaryDetails.setBudgetPerson(budget.getBudgetPerson(getSelectedLine(request)));
             if (budget.getBudgetPerson(getSelectedLine(request)).getPersonId() != null) {
                 budgetPerSalaryDetails.setPersonId(budget.getBudgetPerson(getSelectedLine(request)).getPersonId());
             } else if (budget.getBudgetPerson(getSelectedLine(request)).getRolodexId() != null) {

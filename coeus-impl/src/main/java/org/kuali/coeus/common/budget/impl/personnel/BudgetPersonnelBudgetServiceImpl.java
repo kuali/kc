@@ -118,6 +118,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
             for (BudgetPeriod budgetPeriodData : budgetPeriodList) {
                 BudgetPersonSalaryDetails personSalaryDetails = new BudgetPersonSalaryDetails();
               
+                personSalaryDetails.setBudgetPerson(budgetPerson);;
                 personSalaryDetails.setBudgetId(budget.getBudgetId());
                 personSalaryDetails.setPersonSequenceNumber(budgetPerson.getPersonSequenceNumber());
                 personSalaryDetails.setBudgetPeriod(budgetPeriodData.getBudgetPeriod());
