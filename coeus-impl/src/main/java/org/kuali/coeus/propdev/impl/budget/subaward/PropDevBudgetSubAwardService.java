@@ -16,6 +16,7 @@
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public interface PropDevBudgetSubAwardService {
 
     public void removeSubAwardAttachment(BudgetSubAwards subAward);
     
-    public void generateSubAwardLineItems(BudgetSubAwards subAward, Budget budget);
+    public void generateSubAwardLineItems(BudgetSubAwards subAward, ProposalDevelopmentBudgetExt budget);
     
     public void prepareBudgetSubAwards(Budget budget);
     
