@@ -7,6 +7,8 @@ import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
+import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.bo.Note;
 
 import java.util.ArrayList;
@@ -69,7 +71,33 @@ public class ProposalDevelopmentAttachmentHelper {
     	removeDeletedPersonBiosFromDocument(form.getDevelopmentProposal().getPropPersonBios(),document.getDevelopmentProposal().getPropPersonBios());
     	// Handle newly added and updated person bios
     	addNewUpdatePersonBiosOnDocument(form.getDevelopmentProposal().getPropPersonBios(),document.getDevelopmentProposal().getPropPersonBios());
-    	
+
+        //Extract the new document next values so they can be saved and not overwritten.
+        DocumentNextvalue formNextValue = null;
+        for (DocumentNextvalue documentNextValue : form.getProposalDevelopmentDocument().getDocumentNextvalues()) {
+            if (documentNextValue.getPropertyName().equalsIgnoreCase(Constants.PROP_PERSON_BIO_NUMBER)) {
+                formNextValue = documentNextValue;
+                break;
+            }
+        }
+        DocumentNextvalue docNextValue = null;
+        for (DocumentNextvalue documentNextValue : document.getDocumentNextvalues()) {
+            if (documentNextValue.getPropertyName().equalsIgnoreCase(Constants.PROP_PERSON_BIO_NUMBER)) {
+                docNextValue = documentNextValue;
+                break;
+            }
+        }
+        if (formNextValue != null
+                && docNextValue == null){
+            document.getDocumentNextvalues().add(formNextValue);
+        }
+        else if (formNextValue != null
+                && docNextValue != null){
+            if (formNextValue.getNextValue() > docNextValue.getNextValue()){
+                docNextValue.setNextValue(formNextValue.getNextValue());
+            }
+
+        }
     }
     
     private void removeDeletedPersonBiosFromDocument( List<ProposalPersonBiography> formBios, List<ProposalPersonBiography> documentBios) {
