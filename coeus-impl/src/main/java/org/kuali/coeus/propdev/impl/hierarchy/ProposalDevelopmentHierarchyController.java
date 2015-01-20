@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -95,17 +96,20 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
     		@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         DevelopmentProposal hierarchyProposal = form.getProposalDevelopmentDocument().getDevelopmentProposal();
         DevelopmentProposal newChildProposal = getProposalHierarchyService().getDevelopmentProposal(hierarchyProposalNumber);
-
         DialogResponse response = form.getDialogResponse(ProposalHierarchyKeyConstants.HIERARCHY_CONFIRMATION_DIALOG);
-        if (response == null && getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal, newChildProposal)) {
+        List<ProposalHierarchyErrorWarningDto> errors = new ArrayList<ProposalHierarchyErrorWarningDto>();
+        if (newChildProposal == null) {
+            errors.add(new ProposalHierarchyErrorWarningDto(ProposalHierarchyKeyConstants.ERROR_PROPOSAL_DOES_NOT_EXIST, Boolean.TRUE, new String[0]));
+            displayErrors(errors);
+        } else if (response == null && getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal, newChildProposal)) {
         	return getModelAndViewService().showDialog(ProposalHierarchyKeyConstants.HIERARCHY_CONFIRMATION_DIALOG, true, form);
         } else if (response == null || response.getResponseAsBoolean()) {
-            List<ProposalHierarchyErrorWarningDto> errors = getProposalHierarchyService().validateParent(hierarchyProposal);
+            errors.addAll(getProposalHierarchyService().validateParent(hierarchyProposal));
             errors.addAll(getProposalHierarchyService().validateChildCandidate(newChildProposal));
             errors.addAll(getProposalHierarchyService().validateChildCandidateForHierarchy(hierarchyProposal, newChildProposal, true));
             errors.addAll(getProposalHierarchyService().validateSponsor(newChildProposal, hierarchyProposal));
             errors.addAll(getProposalHierarchyService().validateIsAggregatorOnChild(newChildProposal));
-	
+
 	        if (!displayErrors(errors)) {
 	            getProposalHierarchyService().linkToHierarchy(hierarchyProposal, newChildProposal, hierarchyBudgetTypeCode);
 	            displayMessage(ProposalHierarchyKeyConstants.MESSAGE_LINK_SUCCESS, new String[]{hierarchyProposal.getProposalNumber(), newChildProposal.getProposalNumber()});
