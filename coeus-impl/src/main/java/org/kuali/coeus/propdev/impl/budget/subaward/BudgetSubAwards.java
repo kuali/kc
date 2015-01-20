@@ -26,7 +26,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
@@ -114,9 +113,6 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
     @OneToMany(mappedBy = "budgetSubAward", orphanRemoval = true, cascade = { CascadeType.ALL })
     @OrderBy("budgetPeriod")
     private List<BudgetSubAwardPeriodDetail> budgetSubAwardPeriodDetails;
-
-    @OneToMany(mappedBy = "budgetSubAward", cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
-    private List<BudgetLineItem> budgetLineItems;
     
     @Column(name = "HIERARCHY_PROPOSAL_NUMBER")
     private String hierarchyProposalNumber;
@@ -517,14 +513,6 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
             return new CompareToBuilder().append(this.budget, other.budget).append(this.subAwardNumber, other.subAwardNumber).toComparison();
         }
     }
-
-	public List<BudgetLineItem> getBudgetLineItems() {
-		return budgetLineItems;
-	}
-
-	public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
-		this.budgetLineItems = budgetLineItems;
-	}
 
 	public ProposalDevelopmentBudgetExt getBudget() {
 		return budget;

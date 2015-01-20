@@ -55,7 +55,6 @@ public class ProposalBudgetSubAwardController extends
 	@Autowired
 	@Qualifier("kcAttachmentService")
 	private KcAttachmentService kcAttachmentService;
-	
 
 	@Transactional @RequestMapping(params={"methodToCall=retrieveEditLineDialog","actionParameters["+UifParameters.SELECTED_COLLECTION_PATH+"]=budget.budgetSubAwards"})
 	public ModelAndView showSubawardEditLineDialog(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
@@ -199,8 +198,11 @@ public class ProposalBudgetSubAwardController extends
 	@Transactional @RequestMapping(params={"methodToCall=deleteLine", "actionParameters[selectedCollectionPath]=budget.budgetSubAwards"})
 	public ModelAndView deleteLine(@RequestParam("actionParameters[lineIndex]") Integer subAwardIndex, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		BudgetSubAwards subAwardToDelete = form.getBudget().getBudgetSubAwards().get(subAwardIndex);
+		List<BudgetLineItem> lineItems = getDataObjectService().findMatching(BudgetLineItem.class, QueryByCriteria.Builder.fromPredicates(
+				PredicateFactory.equal("budgetId", subAwardToDelete.getBudgetId()), 
+				PredicateFactory.equal("subAwardNumber", subAwardToDelete.getSubAwardNumber()))).getResults();
 		for (BudgetPeriod period : form.getBudget().getBudgetPeriods()) {
-			period.getBudgetLineItems().removeAll(subAwardToDelete.getBudgetLineItems());
+			period.getBudgetLineItems().removeAll(lineItems);
 		}
         getCollectionControllerService().deleteLine(form);
         return super.save(form);
