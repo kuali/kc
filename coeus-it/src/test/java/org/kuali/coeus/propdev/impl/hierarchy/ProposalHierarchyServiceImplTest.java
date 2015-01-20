@@ -221,15 +221,6 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 	}
 
 	@Test
-	public void test_routeHierarchyChildren() {
-		DocumentRouteStatusChange change = new DocumentRouteStatusChange(
-				this.pdDocument.getDocumentNumber(), null,
-				KewApiConstants.ROUTE_HEADER_INITIATED_CD,
-				KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
-		hierarchyService.routeHierarchyChildren(this.pdDocument, change);
-	}
-
-	@Test
 	public void test_validateRemovePermissions() {
         hierarchyService.removeFromHierarchy(childProposal);
 		boolean valid = true;

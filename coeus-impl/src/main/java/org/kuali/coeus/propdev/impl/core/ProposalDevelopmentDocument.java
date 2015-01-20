@@ -249,13 +249,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         if (!isProposalDeleted()) {
             DevelopmentProposal bp = this.getDevelopmentProposal();
             LOG.info(String.format("Route status change for document %s - proposal number %s is moving from %s to %s", bp.getProposalDocument().getDocumentHeader().getDocumentNumber(), bp.getProposalNumber(), oldStatus, newStatus));
-            if (bp.isParent()) {
-                try {
-                	getProposalHierarchyService().routeHierarchyChildren(this, dto);
-                } catch (ProposalHierarchyException e) {
-                    throw new RuntimeException("ProposalHierarchyException thrown while routing children.", e);
-                }
-            } else if (!bp.isInHierarchy()) {
+           if (!bp.isInHierarchy()) {
                 try {
                 	getProposalHierarchyService().calculateAndSetProposalAppDocStatus(this, dto);
                 } catch (ProposalHierarchyException pe) {
@@ -279,14 +273,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 try {
                     if (getKcDocumentRejectionService().isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument())) {
                         DocumentRouteStatusChange dto = new DocumentRouteStatusChange(getDocumentHeader().getWorkflowDocument().getDocumentId(), getDocumentNumber(), KewApiConstants.ROUTE_HEADER_ENROUTE_CD, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
-                        //DocumentRouteStatusChange.documentEventCode is always returned as rt_status_change 
-                        //dto.setDocumentEventCode("REJECTED_APPROVED"); 
-                        if (getDevelopmentProposal().isParent()) {
-                            getProposalHierarchyService().routeHierarchyChildren(this, dto);
+                        if (!getDevelopmentProposal().isChild() ) {
                             getProposalHierarchyService().calculateAndSetProposalAppDocStatus(this, dto);
                         }
-                        if (!getDevelopmentProposal().isInHierarchy())
-                        	getProposalHierarchyService().calculateAndSetProposalAppDocStatus(this, dto);
                     }
                 } catch (ProposalHierarchyException pe) {
                     throw new RuntimeException(String.format("ProposalHeierachyException encountered trying to re-submit rejected parent document:%s", getDocumentNumber()), pe);
