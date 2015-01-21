@@ -45,7 +45,7 @@ public class ProposalBudgetNumberOfMonthsServiceImpl implements ProposalBudgetNu
     	PeriodType periodType = PeriodType.standard().withWeeksRemoved();
     	Period period = new Period(start, end, periodType);
     	double monthsBetween = Months.monthsBetween(start, end).getMonths();
-    	double daysLeft = period.getDays();
+    	double daysLeft = period.getDays() + 1;
     	
     	double numberOfMonths = monthsBetween + (daysLeft / daysInMonthForEndDate);
     	
