@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3551", [["Documents/organization.htm", "right", "Organization"],["Documents/gloss_organization1.htm", "d2hWnd_SecondaryPopup", "Organization"]]);

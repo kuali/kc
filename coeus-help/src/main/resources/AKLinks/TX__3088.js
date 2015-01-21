@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3088", [["Documents/annualdisclosure.htm", "right", "Annual Disclosure"],["Documents/gloss_annualdisclosure1.htm", "d2hWnd_SecondaryPopup", "Annual Disclosure"]]);

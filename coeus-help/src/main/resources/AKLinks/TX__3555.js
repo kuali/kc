@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3555", [["Documents/rateclass.htm", "right", "Rate Class"],["Documents/rateclass1.htm", "right", "Rate Class"]]);

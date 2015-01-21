@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2952", [["Documents/parameters.htm", "right", "Parameters"],["Documents/parameters1.htm", "right", "Parameters"]]);

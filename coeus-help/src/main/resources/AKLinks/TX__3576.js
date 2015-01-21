@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3576", [["Documents/closeouttype.htm", "right", "Closeout Type"],["Documents/closeouttype1.htm", "right", "Closeout Type"]]);

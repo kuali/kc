@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3754", [["Documents/campus.htm", "right", "Campus"],["Documents/gloss_campus1.htm", "d2hWnd_SecondaryPopup", "Campus"]]);

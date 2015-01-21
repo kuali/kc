@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3640", [["Documents/negotiationagreementtype.htm", "right", "Negotiation Agreement Type"],["Documents/gloss_negotiationagreementtype1.htm", "d2hWnd_SecondaryPopup", "Negotiation Agreement Type"]]);

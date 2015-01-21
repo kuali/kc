@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3000", [["Documents/unrecoveredfa.htm", "right", "Unrecovered F&A"],["Documents/unrecoveredfa1.htm", "right", "Unrecovered F&A"],["Documents/unrecoveredfa2.htm", "right", "Unrecovered F&A"],["Documents/gloss_unrecoveredfa3.htm", "d2hWnd_SecondaryPopup", "Unrecovered F&A"]]);

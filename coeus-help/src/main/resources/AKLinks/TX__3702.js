@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3702", [["Documents/protocolsubmissionqualifiertype.htm", "right", "Protocol Submission Qualifier Type"],["Documents/protocolsubmissiontypequalifier.htm", "right", "Protocol Submission Type Qualifier"]]);

@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2769", [["Documents/authorization.htm", "right", "Authorization"],["Documents/gloss_authorization1.htm", "d2hWnd_SecondaryPopup", "Authorization"]]);

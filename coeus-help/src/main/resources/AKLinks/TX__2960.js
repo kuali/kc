@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2960", [["Documents/vacation.htm", "right", "Vacation"],["Documents/vacation1.htm", "right", "Vacation"]]);

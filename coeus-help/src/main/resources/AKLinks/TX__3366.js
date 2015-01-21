@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3366", [["Documents/notifyiacuc.htm", "right", "Notify IACUC"],["Documents/notifyirb.htm", "right", "Notify IRB"],["Documents/gloss_notifyirb1.htm", "d2hWnd_SecondaryPopup", "Notify IRB"]]);

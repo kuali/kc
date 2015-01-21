@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3680", [["Documents/iacucprotocolattachmentgroup.htm", "right", "IACUC Protocol Attachment Group"],["Documents/protocolattachmentgroup.htm", "right", "Protocol Attachment Group"]]);

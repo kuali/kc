@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3434", [["Documents/approvedprotocolstatusactive.htm", "right", "Approved Protocol – Status:  Active"],["Documents/approvedprotocolstatusactive1.htm", "right", "Approved Protocol – Status:  Active"]]);
