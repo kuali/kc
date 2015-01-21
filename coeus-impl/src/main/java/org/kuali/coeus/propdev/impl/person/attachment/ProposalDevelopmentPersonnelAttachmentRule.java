@@ -88,7 +88,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
         	}
         }
 
-        rulePassed &= checkForValidFileType(proposalPersonBiography);
+        rulePassed &= getKcAttachmentService().validPDFFile(proposalPersonBiography, getErrorReporter(), PERSONNEL_ATTACHMENT_FILE);
 
         if (!checkForProposalPerson(proposalPersonBiography)) {
             rulePassed = false;
@@ -106,7 +106,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
     @Override
     public boolean processReplacePersonnelAttachmentBusinessRules(ReplacePersonnelAttachmentEvent event) {
         boolean retVal = checkForInvalidCharacters(getKcAttachmentService().getInvalidCharacters(event.getProposalPersonBiography().getName()));
-        retVal &= checkForValidFileType(event.getProposalPersonBiography());
+        retVal &= getKcAttachmentService().validPDFFile(event.getProposalPersonBiography(), getErrorReporter(), PERSONNEL_ATTACHMENT_FILE);
         return retVal;
     }
 
@@ -132,7 +132,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
             }
         }
 
-        retVal &= checkForValidFileType(biography);
+        retVal &= getKcAttachmentService().validPDFFile(biography, getErrorReporter(), PERSONNEL_ATTACHMENT_FILE);
 
         if (!checkForDuplicates(biography,biographies)){
             retVal = false;
@@ -171,15 +171,6 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends KcTransactionalD
             }
         }
         return rulePassed;
-    }
-
-    protected boolean checkForValidFileType(ProposalPersonBiography proposalPersonBiography) {
-        if (!Constants.PDF_REPORT_CONTENT_TYPE.equals(proposalPersonBiography.getContentType())) {
-            reportWarning(PERSONNEL_ATTACHMENT_FILE, KeyConstants.INVALID_FILE_TYPE,
-                    proposalPersonBiography.getName(), Constants.PDF_REPORT_CONTENT_TYPE);
-        }
-
-        return true;
     }
 
     protected boolean checkForInvalidCharacters(String invalidCharacters) {
