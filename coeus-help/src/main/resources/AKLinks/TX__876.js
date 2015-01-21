@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__876", [["Documents/attachmentsentrytype.htm", "right", "Attachments Entry Type"],["Documents/committeedecisionmotiontype.htm", "right", "Committee Decision Motion Type"]]);

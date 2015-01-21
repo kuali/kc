@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__546", [["Documents/howcorrespondencesaremaintainedwithinkualicoeus.htm", "right", "How Correspondences are maintained within Kuali Coeus"],["Documents/howcorrespondencesaremaintainedwithinkualicoeus1.htm", "right", "How Correspondences are maintained within Kuali Coeus"]]);
