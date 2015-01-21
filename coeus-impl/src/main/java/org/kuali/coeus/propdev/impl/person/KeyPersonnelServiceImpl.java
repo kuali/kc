@@ -36,9 +36,10 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -64,8 +65,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private static final String NIH_PARM_KEY = "nih.";
 
     @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
     @Autowired
     @Qualifier("ynqService")
     private YnqService ynqService;
@@ -217,11 +218,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      */
     @SuppressWarnings("unchecked")
     public boolean isValidHomeUnit(ProposalPerson person, String unitId){
-        Map valueMap = new HashMap();
-        valueMap.put("unitNumber", unitId);
-        Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
-        
-        return CollectionUtils.isNotEmpty(units);
+        return getDataObjectService().find(Unit.class, unitId) != null;
     }
 
     @Override
@@ -311,10 +308,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @return Collection<InvestigatorCreditType> of active credit types
      */
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
-        Map<String,String> valueMap = new HashMap<String, String>();
-        BusinessObjectService bos =getBusinessObjectService();
-        valueMap.put("active", "true");
-        return bos.findMatching(InvestigatorCreditType.class, valueMap);
+        return getDataObjectService().findMatching(InvestigatorCreditType.class, QueryByCriteria.Builder.forAttribute("active", true).build()).getResults();
     }
 
     /**
@@ -324,7 +318,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @return Collection<InvestigatorCreditType> of all credit types
      */
     public Collection<InvestigatorCreditType> getAllInvestigatorCreditTypes() {
-        return getBusinessObjectService().findAll(InvestigatorCreditType.class);
+        return getDataObjectService().findAll(InvestigatorCreditType.class).getResults();
     }
 
 
@@ -336,7 +330,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * @return Collection<Ynq>
      */
     public Collection<Ynq> getYesNoQuestions() {
-        return getBusinessObjectService().findAll(Ynq.class);
+        return getDataObjectService().findAll(Ynq.class).getResults();
     }
 
     /**
@@ -407,22 +401,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return retval;
     }
 
-    /**
-     * Retrieve the injected <code>{@link BusinessObjectService}</code>
-     * 
-     * @return businessObjectService
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
     }
 
-    /**
-     * assign the <code>{@link BusinessObjectService}</code> to use.
-     * 
-     * @param boservice <code>{@link BusinessObjectService}</code> instance to assign
-     */
-    public void setBusinessObjectService(BusinessObjectService boservice) {
-        businessObjectService = boservice;
+    public void setDataObjectService(DataObjectService boservice) {
+        dataObjectService = boservice;
     }
 
     @Override
@@ -462,14 +446,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      */
     public ProposalPersonUnit createProposalPersonUnit(String unitId, ProposalPerson person) {
         ProposalPersonUnit retval = new ProposalPersonUnit();
-        Map valueMap = new HashMap();
-        valueMap.put("unitNumber", unitId);
-        Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
-
-        for (Unit found : units) {
-            retval.setUnitNumber(found.getUnitNumber());
-            retval.setUnit(found);
-        } 
+        Unit unit = getDataObjectService().find(Unit.class, unitId);
+        retval.setUnitNumber(unit.getUnitNumber());
+        retval.setUnit(unit);
         retval.getCreditSplits().addAll(createCreditSplits(retval));
 
         return retval;        

@@ -22,6 +22,7 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -49,6 +50,10 @@ public abstract class ProposalBaseStream implements XmlStream {
     @Autowired
     @Qualifier("businessObjectService")
 	private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
 	/**
 	 * This method fetches the final/latest Budget associated with the given
@@ -147,4 +152,12 @@ public abstract class ProposalBaseStream implements XmlStream {
 			BusinessObjectService businessObjectService) {
 		this.businessObjectService = businessObjectService;
 	}
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

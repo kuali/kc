@@ -20,7 +20,10 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.personnel.AppointmentType;
 import org.kuali.coeus.common.budget.framework.personnel.JobCode;
+import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
+import javax.persistence.*;
 import java.sql.Date;
 
 /**
@@ -29,35 +32,57 @@ import java.sql.Date;
  * 
  * @see org.kuali.kra.bo.Person
  */
+@Entity
+@Table(name= "PERSON_APPOINTMENT")
 public class PersonAppointment extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -672222601606024412L;
 
+    @PortableSequenceGenerator(name = "SEQ_PERSON_APPOINTMENT")
+    @GeneratedValue(generator = "SEQ_PERSON_APPOINTMENT")
+    @Id
+    @Column(name = "APPOINTMENT_ID")
     private Integer appointmentId;
 
+    @Column(name= "PERSON_ID")
     private String personId;
 
+    @Column(name= "UNIT_NUMBER")
     private String unitNumber;
 
-    private Unit unit;
-
+    @Column(name= "APPOINTMENT_START_DATE")
     private Date startDate;
 
+    @Column(name= "APPOINTMENT_END_DATE")
     private Date endDate;
 
+    @Column(name= "APPOINTMENT_TYPE_CODE")
     private String typeCode;
 
-    private AppointmentType appointmentType;
-
+    @Column(name= "JOB_TITLE")
     private String jobTitle;
 
+    @Column(name= "PREFERED_JOB_TITLE")
     private String preferedJobTitle;
 
+    @Column(name= "JOB_CODE")
     private String jobCode;
 
-    private JobCode jobCodeRef;
-
+    @Column(name= "SALARY")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal salary;
+
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "APPOINTMENT_TYPE_CODE", referencedColumnName = "APPOINTMENT_TYPE_CODE", insertable = false, updatable = false)
+    private AppointmentType appointmentType;
+
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "UNIT_NUMBER", referencedColumnName = "UNIT_NUMBER", insertable = false, updatable = false)
+    private Unit unit;
+
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "JOB_CODE", referencedColumnName = "JOB_CODE", insertable = false, updatable = false)
+    private JobCode jobCodeRef;
 
     public String getPersonId() {
         return personId;

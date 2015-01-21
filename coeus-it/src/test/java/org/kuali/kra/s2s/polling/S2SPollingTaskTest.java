@@ -24,6 +24,7 @@ import org.kuali.coeus.propdev.impl.s2s.schedule.MailInfo;
 import org.kuali.coeus.propdev.impl.s2s.schedule.S2SPollingTask;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.ArrayList;
@@ -37,26 +38,26 @@ import java.util.Map;
  * 
  */
 public class S2SPollingTaskTest extends KcIntegrationTestBase {
-	private BusinessObjectService businessObjectService = null;
+	private DataObjectService dataObjectService = null;
 	private S2sSubmissionService s2sSubmissionService = null;
 
 	@Before
 	public void setUp() throws Exception {
-		businessObjectService = KcServiceLocator
-				.getService(BusinessObjectService.class);
+		dataObjectService = KcServiceLocator
+				.getService(DataObjectService.class);
         s2sSubmissionService = KcServiceLocator.getService(S2sSubmissionService.class);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		businessObjectService = null;
+		dataObjectService = null;
         s2sSubmissionService = null;
 	}
 
 	@Test
 	public void tests2sPolling() {
 		S2SPollingTask s2sPollingTask = new S2SPollingTask();
-		s2sPollingTask.setBusinessObjectService(businessObjectService);
+		s2sPollingTask.setDataObjectService(dataObjectService);
 		s2sPollingTask.setS2sSubmissionService(s2sSubmissionService);
 		s2sPollingTask.setStopPollInterval("4320");
 		s2sPollingTask.setMailInterval("20");

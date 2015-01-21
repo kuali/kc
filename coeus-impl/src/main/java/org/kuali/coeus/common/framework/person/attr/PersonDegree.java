@@ -17,6 +17,9 @@ package org.kuali.coeus.common.framework.person.attr;
 
 
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
+
+import javax.persistence.*;
 
 /**
  * Business Object representation of a PersonDegree. A <code>{@link Person}</code> may have many degrees. This represents the relationship
@@ -24,31 +27,48 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
  * 
  * @see org.kuali.kra.bo.Person
  */
+@Entity
+@Table(name = "PERSON_DEGREE")
 public class PersonDegree extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 586782856382134862L;
 
+    @PortableSequenceGenerator(name = "SEQ_PERSON_DEGREE")
+    @GeneratedValue(generator = "SEQ_PERSON_DEGREE")
+    @Id
+    @Column(name = "DEGREE_ID")
     private Integer degreeId;
 
+    @Column(name = "PERSON_ID")
     private String personId;
 
+    @Column(name = "DEGREE_CODE")
     private String degreeCode;
 
+    @Column(name = "DEGREE")
     private String degree;
 
-    private DegreeType degreeType;
-
+    @Column(name = "FIELD_OF_STUDY")
     private String fieldOfStudy;
 
+    @Column(name = "SPECIALIZATION")
     private String specialization;
 
+    @Column(name = "SCHOOL")
     private String school;
 
+    @Column(name = "SCHOOL_ID_CODE")
     private String schoolIdCode;
 
+    @Column(name = "SCHOOL_ID")
     private String schoolId;
 
+    @Column(name = "GRADUATION_YEAR")
     private String graduationYear;
+
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "DEGREE_CODE", referencedColumnName = "DEGREE_CODE", insertable = false, updatable = false)
+    private DegreeType degreeType;
 
     public Integer getDegreeId() {
         return degreeId;

@@ -26,7 +26,6 @@ import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -59,10 +58,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     @Autowired
     @Qualifier("s2sOpportunityService")
     private S2sOpportunityService s2sOpportunityService;
-
-    @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
 
     @Autowired
     @Qualifier("formGeneratorService")
@@ -341,7 +336,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
         if (StringUtils.isNotBlank(appSubmission.getAgencyTrackingId())) {
             if (StringUtils.isBlank(pdDoc.getDevelopmentProposal().getSponsorProposalNumber())) {
                 pdDoc.getDevelopmentProposal().setSponsorProposalNumber(appSubmission.getAgencyTrackingId());
-                getBusinessObjectService().save(pdDoc.getDevelopmentProposal());
+                getDataObjectService().save(pdDoc.getDevelopmentProposal());
             }
 
             //find and populate the inst proposal sponsor proposal id as well
@@ -647,14 +642,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
 
     public void setInstPropSponsorService(InstPropSponsorService instPropSponsorService) {
         this.instPropSponsorService = instPropSponsorService;
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     public FormGeneratorService getS2SService() {

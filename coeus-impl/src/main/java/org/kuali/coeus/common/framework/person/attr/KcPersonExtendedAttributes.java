@@ -29,11 +29,13 @@ import java.util.List;
 /**
  * Class contains attributes related to a KIM entity that do not currently have a home inside of KIM.
  */
-@MappedSuperclass
+@Entity
+@Table(name = "PERSON_EXT_T")
 public class KcPersonExtendedAttributes extends KcPersistableBusinessObjectBase implements PersistableAttachmentList<PersonBiosketch> {
 
     private static final long serialVersionUID = 4705483839362366571L;
 
+    @Id
     @Column(name = "PERSON_ID")
     private String personId;
 
@@ -120,28 +122,32 @@ public class KcPersonExtendedAttributes extends KcPersistableBusinessObjectBase 
     @Column(name = "CITIZENSHIP_TYPE_CODE")
     private Integer citizenshipTypeCode;
 
-    @Transient
+    @Column(name= "MULTI_CAMPUS_PRINCIPAL_ID")
     private String multiCampusPrincipalId;
 
-    @Transient
+    @Column(name = "MULTI_CAMPUS_PRINCIPAL_NAME")
     private String multiCampusPrincipalName;
 
-    @Transient
+    @Column(name = "ERA_COMMON_USER_NAME")
     private String eraCommonUserName;
 
-    @Transient
+    @Column(name = "SALARY_ANNIVERSARY_DATE")
     private Date salaryAnniversaryDate;
 
-    @Transient
+    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @JoinColumn(name = "PERSON_ID", referencedColumnName = "PERSON_ID")
     private List<PersonBiosketch> attachments = new ArrayList<PersonBiosketch>();
 
-    @Transient
+    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @JoinColumn(name = "PERSON_ID", referencedColumnName = "PERSON_ID")
     private List<PersonDegree> personDegrees = new ArrayList<PersonDegree>();
 
-    @Transient
+    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @JoinColumn(name = "PERSON_ID", referencedColumnName = "PERSON_ID")
     private List<PersonAppointment> personAppointments = new ArrayList<PersonAppointment>();
 
-    @Transient
+    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @JoinColumn(name = "PERSON_ID", referencedColumnName = "PERSON_ID")
     private List<PersonCustomData> personCustomDataList = new ArrayList<PersonCustomData>();
 
     @ManyToOne(cascade = { CascadeType.REFRESH })

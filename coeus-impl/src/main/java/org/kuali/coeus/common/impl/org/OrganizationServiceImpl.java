@@ -20,6 +20,7 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationService;
 import org.kuali.coeus.common.framework.org.crrspndnt.OrganizationCorrespondent;
 import org.kuali.kra.iacuc.bo.IacucOrganizationCorrespondent;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,9 +39,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     private static final String ORGANIZATION_ID = "organizationId";
 
-	@Autowired
-	@Qualifier("businessObjectService")
+    @Autowired
+    @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+	@Autowired
+	@Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
 
     @Override
     public String getOrganizationName(String organizationId) {
@@ -56,9 +61,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public Organization getOrganization(String organizationId) {
         Organization organization = null;
         if (StringUtils.isNotEmpty(organizationId)) {
-            Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(ORGANIZATION_ID, organizationId);
-            organization = (Organization) getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys);
+            organization =  getDataObjectService().find(Organization.class, organizationId);
         }
 
         return organization;
@@ -83,10 +86,10 @@ public class OrganizationServiceImpl implements OrganizationService {
             (List<IacucOrganizationCorrespondent>) getBusinessObjectService().findMatching(IacucOrganizationCorrespondent.class, queryMap);
         return organizationCorrespondents;
     }
-    
+
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -101,5 +104,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     public BusinessObjectService getBusinessObjectService() {
         return this.businessObjectService;
     }
-    
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
 }

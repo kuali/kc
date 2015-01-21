@@ -18,11 +18,10 @@ package org.kuali.coeus.propdev.impl.person.creditsplit;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.util.Collection;
 
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY;
@@ -53,7 +52,7 @@ public class InvestigatorCreditTypeRule extends MaintenanceDocumentRuleBase {
         if (document.isNew()) {
             InvestigatorCreditType newField = (InvestigatorCreditType) getNewBo();
             
-            for (InvestigatorCreditType existingField : (Collection<InvestigatorCreditType>) getBusinessObjectService().findAll(InvestigatorCreditType.class)) {
+            for (InvestigatorCreditType existingField : getDataObjectService().findAll(InvestigatorCreditType.class).getResults()) {
                 retval &= !ObjectUtils.equalByKeys(existingField, newField);
                 
                 if(!retval) {
@@ -64,13 +63,8 @@ public class InvestigatorCreditTypeRule extends MaintenanceDocumentRuleBase {
         
         return retval;
     }
-    
-    /**
-     * Read Only Access to <code>{@link BusinessObjectService}</code>
-     * 
-     * @return BusinessObjectService instance
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return getService(BusinessObjectService.class);
+
+    public DataObjectService getDataObjectService() {
+        return getService(DataObjectService.class);
     }    
 }

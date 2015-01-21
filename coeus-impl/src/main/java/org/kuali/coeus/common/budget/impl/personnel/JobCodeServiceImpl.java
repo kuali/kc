@@ -24,15 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Component("jobCodeService")
 public class JobCodeServiceImpl implements JobCodeService {
-
-    @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;    
 
     @Autowired
     @Qualifier("dataObjectService")
@@ -57,15 +51,6 @@ public class JobCodeServiceImpl implements JobCodeService {
             jobTitle = jcRef.getJobTitle();
         }
         return jobTitle;
-    }
-    
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
 	public DataObjectService getDataObjectService() {

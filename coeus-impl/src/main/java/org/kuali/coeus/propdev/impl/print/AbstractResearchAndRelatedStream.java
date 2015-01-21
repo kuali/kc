@@ -34,7 +34,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -92,10 +92,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";
     private static final String APPOINTMENT_TYPE_TMP_EMPLOYEE = "TMP EMPLOYEE";
     public static final String VALUE_UNKNOWN = "Unknown";
-
-    @Autowired
-    @Qualifier("businessObjectService")
-    private BusinessObjectService businessObjectService;
 
     @Autowired
     @Qualifier("kcPersonService")
@@ -562,7 +558,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         Map<String, String> proposalYnqMap = new HashMap<String, String>();
         proposalYnqMap.put(QUESTION_ID_PARAMETER, questionId);
         proposalYnqMap.put(ANSWER_PARAMETER, ANSWER_INDICATOR_VALUE);
-        List<ProposalYnq> proposalYnqs = (List<ProposalYnq>) businessObjectService.findMatching(ProposalYnq.class, proposalYnqMap);
+        List<ProposalYnq> proposalYnqs = getDataObjectService().findMatching(ProposalYnq.class, QueryByCriteria.Builder.andAttributes(proposalYnqMap).build()).getResults();
         if (proposalYnqs != null && !proposalYnqs.isEmpty()) {
             proposalYnq = proposalYnqs.get(0);
         }
@@ -807,11 +803,8 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method will get the list of Organization YNQ for given question id.
      */
     protected List<OrganizationYnq> getOrganizationYNQ(String questionId) {
-        OrganizationYnq organizationYnq = null;
-        Map<String, String> organizationYnqMap = new HashMap<String, String>();
-        organizationYnqMap.put(ORGANIZATION_ID_PARAMETER, questionId);
-        List<OrganizationYnq> organizationYnqs = (List<OrganizationYnq>) businessObjectService.findMatching(OrganizationYnq.class,
-                organizationYnqMap);
+        List<OrganizationYnq> organizationYnqs = getDataObjectService().findMatching(OrganizationYnq.class,
+                QueryByCriteria.Builder.forAttribute(ORGANIZATION_ID_PARAMETER, questionId).build()).getResults();
         return organizationYnqs;
     }
 
@@ -1193,7 +1186,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         KeyPersonInfo keyPerson = null;
         if (proposalPerson.getRolodexId() != null) {
             proposalPerson.refreshReferenceObject("rolodex");
-            Rolodex rolodexPerson = getBusinessObjectService().findBySinglePrimaryKey(Rolodex.class, proposalPerson.getRolodexId());
+            Rolodex rolodexPerson = getDataObjectService().find(Rolodex.class, proposalPerson.getRolodexId());
             keyPerson = getKeyPeronInfo(rolodexPerson);
         }
         else if (StringUtils.isNotBlank(proposalPerson.getPersonId())) {
@@ -1263,7 +1256,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     @SuppressWarnings("unchecked")
     protected List<BudgetCategoryMapping> getBudgetCategoryMappings(Map<String, String> conditionMap) {
-        Collection<BudgetCategoryMapping> budgetCategoryCollection = businessObjectService.findMatching(
+        Collection<BudgetCategoryMapping> budgetCategoryCollection = getBusinessObjectService().findMatching(
                 BudgetCategoryMapping.class, conditionMap);
         List<BudgetCategoryMapping> budgetCategoryMappings = new ArrayList<BudgetCategoryMapping>();
         if (budgetCategoryCollection != null) {
@@ -1368,24 +1361,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             }
         }
         return equal;
-    }
-
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     /**

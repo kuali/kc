@@ -20,16 +20,33 @@ import java.io.Serializable;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "PERSON_CUSTOM_DATA")
 public class PersonCustomData extends KcPersistableBusinessObjectBase implements DocumentCustomData, Serializable {
 
     private static final long serialVersionUID = 7498061394015743173L;
-    
+
+    @PortableSequenceGenerator(name = "SEQ_PERSON_CUSTOM_DATA_ID")
+    @GeneratedValue(generator = "SEQ_PERSON_CUSTOM_DATA_ID")
+    @Id
+    @Column(name = "PERSON_CUSTOM_DATA_ID")
     private Long personCustomDataId;
+
+    @Column(name = "PERSON_ID")
     private String personId;
+
+    @Column(name = "CUSTOM_ATTRIBUTE_ID")
     private Long customAttributeId;
+
+    @Column(name = "VALUE")
     private String value;
 
+    @ManyToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "CUSTOM_ATTRIBUTE_ID", referencedColumnName = "CUSTOM_ATTRIBUTE_ID", insertable = false, updatable = false)
     private CustomAttribute customAttribute;
 
     public Long getPersonCustomDataId() {

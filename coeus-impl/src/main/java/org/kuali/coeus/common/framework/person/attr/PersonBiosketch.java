@@ -16,21 +16,44 @@
 package org.kuali.coeus.common.framework.person.attr;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.rice.krad.bo.PersistableAttachment;
+import org.kuali.rice.krad.data.jpa.PortableSequenceGenerator;
 
-public class PersonBiosketch extends KcPersistableBusinessObjectBase implements PersistableAttachment {
+import javax.persistence.*;
+
+@Entity
+@Table(name = "PERSON_BIOSKETCH")
+public class PersonBiosketch extends KcPersistableBusinessObjectBase implements PersistableAttachment, KcFile {
 
     private static final long serialVersionUID = 6206100185207514370L;
-    
+
+    @PortableSequenceGenerator(name = "SEQ_PERSON_BIOSKETCH_ID")
+    @GeneratedValue(generator = "SEQ_PERSON_BIOSKETCH_ID")
+    @Id
+    @Column(name = "PERSON_BIOSKETCH_ID")
     private Long personBiosketchId;
+
+    @Column(name = "PERSON_ID")
     private String personId;
 
+    @Column(name = "DESCRIPTION")
     private String description;
+
+    @Column(name = "FILE_NAME")
     private String fileName;
+
+    @Column(name = "CONTENT_TYPE")
     private String contentType;
+
+    @Column(name = "ATTACHMENT_FILE")
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     private byte[] attachmentContent;
-    private FormFile attachmentFile;
+
+    @Transient
+    private transient FormFile attachmentFile;
     
     public Long getPersonBiosketchId() {
         return personBiosketchId;
@@ -88,4 +111,18 @@ public class PersonBiosketch extends KcPersistableBusinessObjectBase implements 
         this.attachmentFile = attachmentFile;
     }
 
+    @Override
+    public String getName() {
+        return getFileName();
+    }
+
+    @Override
+    public String getType() {
+        return getContentType();
+    }
+
+    @Override
+    public byte[] getData() {
+        return getAttachmentContent();
+    }
 }

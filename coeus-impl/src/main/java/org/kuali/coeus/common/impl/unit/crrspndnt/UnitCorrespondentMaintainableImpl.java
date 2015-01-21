@@ -27,6 +27,7 @@ import org.kuali.kra.maintenance.KraMaintainableImpl;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -112,10 +113,8 @@ public class UnitCorrespondentMaintainableImpl extends KraMaintainableImpl imple
 
     
     private boolean isUnitIdValid(String unitNumber) {
-        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        Map<String, String> validParams = new HashMap<String, String>();
-        validParams.put("unitNumber", unitNumber);
-        return !businessObjectService.findMatching(Unit.class, validParams).isEmpty();
+        DataObjectService dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        return dataObjectService.find(Unit.class, unitNumber) != null;
     }
 
     private boolean isCorrespondentTypeCodeValid(Integer correspondentTypeCode) {
