@@ -68,7 +68,8 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 
 	@MethodAccessible
 	@Transactional @RequestMapping(params="methodToCall=start")
-	public ModelAndView start(@RequestParam("budgetId") Long budgetId, @RequestParam("auditActivated") String auditActivated, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+	public ModelAndView start(@RequestParam("budgetId") Long budgetId, @RequestParam("viewOnly") String viewOnly, @RequestParam("auditActivated") String auditActivated, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
+		boolean inViewMode = Boolean.parseBoolean(viewOnly);
 		form.setBudget(loadBudget(budgetId));
         getProposalBudgetLockService().establishBudgetLock(form.getBudget());
 		form.initialize();
@@ -77,6 +78,8 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         }
         //call getModelAndViewWithInit to make sure view is initialized regardless of whether this modelAndView is returned
         ModelAndView result = getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW);
+        form.setViewOnly(inViewMode);
+        form.setCanEditView(!inViewMode);
         if (budgetRatesService.checkActivityTypeChange(form.getBudget().getBudgetRates(), form.getDevelopmentProposal().getActivityTypeCode())) {
         	return getModelAndViewService().showDialog(ACTIVITY_RATE_CHANGE_DIALOG_ID, true, form);
         } else if (form.getBudget().getBudgetRates().isEmpty()) {
@@ -117,6 +120,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	        props.put("pageId", ProposalDevelopmentConstants.KradConstants.BUDGET_PAGE);
 	        props.put("docId", form.getBudget().getDevelopmentProposal().getProposalDocument().getDocumentNumber());
             props.put("auditActivated", String.valueOf(form.isAuditActivated()));
+            props.put("viewOnly", String.valueOf(form.isViewOnly()));
 	        return getModelAndViewService().performRedirect(form, "proposalDevelopment", props);
 		} else {
         	form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());			
@@ -125,9 +129,11 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	}
 	
 	@Transactional @RequestMapping(params="methodToCall=openBudget")
-	public ModelAndView openBudget(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-		save(form);
-		return getProposalBudgetSharedController().openBudget(budgetId, form);
+	public ModelAndView openBudget(@RequestParam("budgetId") String budgetId, @RequestParam("viewOnly") boolean viewOnly, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		if(!viewOnly) {
+			save(form);
+		}
+		return getProposalBudgetSharedController().openBudget(budgetId, viewOnly, form);
 	}	
 	
 	@Transactional @RequestMapping(params="methodToCall=save")

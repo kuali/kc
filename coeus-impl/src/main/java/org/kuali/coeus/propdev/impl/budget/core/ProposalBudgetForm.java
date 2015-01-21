@@ -38,6 +38,7 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
     private ProposalDevelopmentBudgetExt selectedBudget;
     private boolean auditActivated;
     private List<DataValidationItem> dataValidationItems;
+    private boolean viewOnly = false;
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
@@ -200,6 +201,14 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
 
 	public void setDataValidationItems(List<DataValidationItem> dataValidationItems) {
 		this.dataValidationItems = dataValidationItems;
+	}
+
+	public boolean isViewOnly() {
+		return viewOnly;
+	}
+
+	public void setViewOnly(boolean viewOnly) {
+		this.viewOnly = viewOnly;
 	}
 
 }

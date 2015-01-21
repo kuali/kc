@@ -233,7 +233,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
    @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=docHandler")
-   public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, @RequestParam(required = false) String auditActivated,
+   public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, @RequestParam(required = false) String auditActivated, @RequestParam(required = false) String viewOnly,
                                   @RequestParam(required = false) String navigateToPageId, @RequestParam(required = false) String defaultOpenTab) throws Exception {
        ProposalDevelopmentDocument document;
        boolean isDeleted = false;
@@ -290,7 +290,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                propDevForm.setDefaultOpenTab(defaultOpenTab);
            }
 
-            if (StringUtils.equals(form.getRequest().getParameter("viewDocument"),"true")) {
+            if (StringUtils.equals(form.getRequest().getParameter("viewDocument"),"true") || StringUtils.equals(viewOnly, "true")) {
                 propDevForm.setViewOnly(true);
             }
 

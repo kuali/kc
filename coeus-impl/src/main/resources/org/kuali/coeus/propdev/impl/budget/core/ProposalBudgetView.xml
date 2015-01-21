@@ -262,7 +262,7 @@
 	
 	<bean id="PropBudget-BudgetVersions-Collection" parent="PropBudget-BudgetVersions-Collection-parentBean"/>
 	<bean id="PropBudget-BudgetVersions-Collection-parentBean" abstract="true" parent="PropDev-BudgetVersions-GenericCollection"
-		p:propertyName="budget.budgetParent.budgets" p:headerText="" p:readOnly="false">
+		p:propertyName="budget.budgetParent.budgets" p:headerText="" p:readOnly="@{#parent.readOnly}">
 		<property name="layoutManager.conditionalRowCssClasses">
            <map>
                <entry key="@{#line.budgetId == developmentProposal.finalBudget?.budgetId}" value="finalBudget"/>
