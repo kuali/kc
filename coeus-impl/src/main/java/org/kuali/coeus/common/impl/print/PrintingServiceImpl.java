@@ -155,6 +155,8 @@ public class PrintingServiceImpl implements PrintingService {
             TransformerException {
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer(xslt);
+        String externalizableImagesUrl= getKualiConfigurationService().getPropertyValueAsString(Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY);
+        transformer.setParameter("externalImagesUrl",externalizableImagesUrl);
         String applicationUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
         FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
         foUserAgent.setBaseURL(applicationUrl);      
