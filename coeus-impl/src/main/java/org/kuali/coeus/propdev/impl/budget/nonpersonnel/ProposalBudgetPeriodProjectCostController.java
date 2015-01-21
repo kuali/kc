@@ -225,9 +225,24 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	}
 	
 	private void setLineItemBudgetCategory(BudgetLineItem budgetLineItem) {
-		getDataObjectService().wrap(budgetLineItem).fetchRelationship("costElementBO");
-	    budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
-		getDataObjectService().wrap(budgetLineItem).fetchRelationship("budgetCategory");
+		if (budgetCategoryChanged(budgetLineItem)) {
+			getDataObjectService().wrap(budgetLineItem).fetchRelationship("budgetCategory");
+			budgetLineItem.getCostElementBO().setBudgetCategory(budgetLineItem.getBudgetCategory());
+			budgetLineItem.getCostElementBO().setBudgetCategoryCode(budgetLineItem.getBudgetCategoryCode());
+		} else if (costElementChanged(budgetLineItem)) {
+			getDataObjectService().wrap(budgetLineItem).fetchRelationship("costElementBO");
+			budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
+			budgetLineItem.setBudgetCategory(budgetLineItem.getCostElementBO().getBudgetCategory());
+		}
+		//if both changed then one has to win because the category code is in multiple places
+	}
+
+	protected boolean costElementChanged(BudgetLineItem budgetLineItem) {
+		return !budgetLineItem.getCostElement().equals(budgetLineItem.getCostElementBO().getCostElement());
+	}
+
+	protected boolean budgetCategoryChanged(BudgetLineItem budgetLineItem) {
+		return !budgetLineItem.getBudgetCategoryCode().equals(budgetLineItem.getBudgetCategory().getCode());
 	}
 
 	private boolean isBudgetLineItemExists(Budget budget) {
