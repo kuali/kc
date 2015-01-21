@@ -148,15 +148,7 @@ public interface ProposalHierarchyService {
      */
     public void rejectProposalDevelopmentDocument( String proposalNumber, String reason, String principalId, MultipartFile rejectFile)
     throws WorkflowException, ProposalHierarchyException, IOException;
-    
-    /**
-     * Given the proposalDevelopmentDocument, RouteStatusChangeDTO, and the current user principal name, route all of the child proposal appropriately. 
-     * @param proposalDevelopmentDocument The heirarchy being routed.
-     * @param dto the route status change dto object.
-     * @throws ProposalHierarchyException If there is a problem routing the children.
-     */
-    public void routeHierarchyChildren(ProposalDevelopmentDocument proposalDevelopmentDocument, DocumentRouteStatusChange dto ) throws ProposalHierarchyException;
-    
+
     public boolean allChildBudgetsAreComplete(String parentProposalNumber);
     
     public boolean validateRemovePermissions(DevelopmentProposal childProposal, String principalId);
