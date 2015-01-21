@@ -199,26 +199,14 @@
       
       <bean id="PropBudget-CostSharing-SubawardSummary" parent="PropBudget-CostSharing-SubawardSummary-parentBean" />
       <bean id="PropBudget-CostSharing-SubawardSummary-parentBean"
-              abstract="true" parent="Uif-TableCollectionSection" p:renderAddLine="false"
+              abstract="true" parent="Uif-StackedCollectionSection" p:renderAddLine="false"
               p:propertyName="budget.budgetSubAwards"
               p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"
-              p:renderLineActions="false" p:layoutManager.renderSequenceField="false">
-		<property name="layoutManager.richTable.templateOptions">
-			<map>
-				<entry key="sDom" value="tip" />
-				<entry key="bRetrieve" value="true" />
-				<entry key="bPaginate" value="false" />
-				<entry key="bInfo" value="false" />
-			</map>
-		</property>
-		<property name="items">
-		        <list>
-		            <bean parent="Uif-DataField" p:propertyName="organization.organizationName" p:order="10" />
-		        </list>
-		</property>
+              p:renderLineActions="false" p:layoutManager.summaryTitle="@{#lp.organization.organizationName}"
+              p:layoutManager.lineGroupPrototype.disclosure.render="true" p:layoutManager.lineGroupPrototype.disclosure.defaultOpen="false">
 		<property name="subCollections">
 			<list>
-				<bean parent="PropBudget-CostSharing-Subaward-SubCollection" p:order="10" />
+				<ref bean="PropBudget-CostSharing-Subaward-SubCollection" />
 			</list>
 		</property>
 	</bean>
@@ -226,7 +214,7 @@
 	<bean id="PropBudget-CostSharing-Subaward-SubCollection" parent="PropBudget-CostSharing-Subaward-SubCollection-parentBean" />
 	<bean id="PropBudget-CostSharing-Subaward-SubCollection-parentBean" abstract="true"
 		parent="Uif-TableCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail"
-		p:propertyName="budgetSubAwardPeriodDetails" p:renderAddLine="false" p:renderLineActions="false">		
+		p:propertyName="budgetSubAwardPeriodDetails" p:renderAddLine="false" p:renderLineActions="false" p:layoutManager.renderSequenceField="false">		
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="budgetPeriodBO.budgetPeriod" p:order="10"/>
