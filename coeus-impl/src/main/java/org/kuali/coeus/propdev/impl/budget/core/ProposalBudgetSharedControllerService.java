@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 public interface ProposalBudgetSharedControllerService {
 	public ModelAndView addBudget(String budgetName, Boolean summaryBudget, Boolean modularBudget, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception;
 	public ModelAndView copyBudget(String budgetName, Long originalBudgetId, Boolean allPeriods, DevelopmentProposal developmentProposal, UifFormBase form) throws Exception;
-	public ModelAndView openBudget(String budgetId, UifFormBase form) throws Exception;
+	public ModelAndView openBudget(String budgetId, boolean viewOnly, UifFormBase form) throws Exception;
 	public <T extends UifFormBase & SelectableBudget> ModelAndView populateBudgetSummary(Long budgetId, List<ProposalDevelopmentBudgetExt> budgets, T form) throws Exception;
 	public <T extends UifFormBase & SelectableBudget> ModelAndView populatePrintForms(Long budgetId, List<ProposalDevelopmentBudgetExt> budgets, T form) throws Exception;
 	public <T extends UifFormBase & SelectableBudget> ModelAndView printBudgetForms(ProposalDevelopmentBudgetExt selectedBudget, T form, HttpServletResponse response) throws Exception;

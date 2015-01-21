@@ -115,12 +115,13 @@ public class ProposalBudgetSharedControllerServiceImpl implements ProposalBudget
         }		
 	}
 
-	public ModelAndView openBudget(String budgetId, UifFormBase form) throws Exception {
+	public ModelAndView openBudget(String budgetId, boolean viewOnly, UifFormBase form) throws Exception {
 		if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
 			form.setDirtyForm(false);
 	        Properties props = new Properties();
 	        props.put("methodToCall", "start");
 	        props.put("budgetId", budgetId);
+	        props.put("viewOnly", String.valueOf(viewOnly));
             props.put("auditActivated", String.valueOf(((Auditable)form).isAuditActivated()));
 	        return getModelAndViewService().performRedirect(form, "proposalBudget", props);
 		} else {

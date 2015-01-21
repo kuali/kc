@@ -80,9 +80,11 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	}
 	
 	@Transactional @RequestMapping(params="methodToCall=openBudget")
-	public ModelAndView openBudget(@RequestParam("budgetId") String budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-		super.save(form);
-		return getProposalBudgetSharedController().openBudget(budgetId, form);
+	public ModelAndView openBudget(@RequestParam("budgetId") String budgetId, @RequestParam("viewOnly") boolean viewOnly, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		if(!viewOnly) {
+			super.save(form);
+		}
+		return getProposalBudgetSharedController().openBudget(budgetId, viewOnly, form);
 	}		
 
 	@Transactional @RequestMapping(params="methodToCall=populatePrintForms")
