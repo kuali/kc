@@ -17,6 +17,90 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* These override styles exist to get the new look. Eventually these rules will be
+   placed in a more appropriate place. */
+body#Uif-Application {
+	background-color: white;
+}
+
+#Uif-GlobalApplicationHeader, 
+#Uif-GlobalApplicationHeader nav.navbar,
+#Uif-GlobalApplicationHeader .navbar a:hover,
+#Uif-GlobalApplicationHeader .navbar a:focus {
+	background-color: #2587a9 !important;
+}
+
+#Uif-GlobalApplicationHeader .navbar .nav .open > a:focus,
+#Uif-GlobalApplicationHeader .navbar .nav .open > a:active,
+#Uif-GlobalApplicationHeader .navbar .nav .open > a:hover,
+#Uif-GlobalApplicationHeader .navbar .nav .open > a {
+	background-color: #1f708c !important;
+}
+
+#Uif-GlobalApplicationHeader .navbar .nav a.dropdown-toggle {
+	color: #eee;
+}
+
+#Uif-GlobalApplicationHeader .navbar .nav a:hover {
+	color: white;
+}
+
+#Uif-GlobalApplicationHeader .app-header-version {
+	display: none;
+}
+
+.toolbar .uif-listLayout .pull-right {
+	float: initial !important;
+	display: inline-block;
+}
+
+.toolbar .uif-listLayout .pull-right:first-child {
+	position: absolute;
+	right: 0;
+	top: -39px;
+	z-index: 999;
+	text-transform: uppercase;
+}
+
+.toolbar .uif-listLayout .pull-right:first-child a {
+	font-size: 13px;
+	border-right: 0;
+}
+
+.toolbar .uif-listLayout .pull-right:first-child a:hover {
+	background-color: transparent;
+}
+
+.toolbar .uif-listLayout .pull-right > a {
+	color: white;
+	font-size: 14px;
+	font-family: 'Open Sans', sans-serif;
+	border-left: 0;
+	border-right: 1px solid #8e9d31;
+	box-shadow: none;
+	padding-right: 9px;
+}
+
+.toolbar .uif-listLayout .pull-right > a:hover,
+.toolbar .uif-listLayout .pull-right > a:focus {
+	background-color: #8e9d31;
+}
+
+#Uif-GlobalApplicationHeader div:first-child .nav.navbar-nav {
+	float: left !important;
+	margin-left: 200px;
+}
+
+#Uif-GlobalApplicationHeader #upils8b {
+	background-color: #b1c04b;
+	background-image: linear-gradient(to bottom, #bccb59, #a0b037);
+	border: 1px solid #768128;
+}
+
+#Uif-GlobalApplicationHeader > .container-fluid:first-child {
+	border-bottom: 1px solid #154e62;
+}
+/* End new styles */
 
 .input-range-msg {
     width: 1%;
