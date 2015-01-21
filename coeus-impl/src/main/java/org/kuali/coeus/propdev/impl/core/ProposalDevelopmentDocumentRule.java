@@ -88,7 +88,7 @@ import org.kuali.rice.krad.util.MessageMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 
 /**
@@ -527,6 +527,31 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
             index++;
         }
         return retVal;
+    }
+
+    /**
+     * Use the existing attachment rules and convert any audit errors into messagemap errors
+     * @param document
+     * @return
+     */
+    public boolean processPersonnelAttachmentDuplicates(ProposalDevelopmentDocument document){
+        boolean valid = true;
+        int index = 0;
+        String property = ProposalDevelopmentDataValidationConstants.BIOGRAPHY_TYPE_KEY;
+        Map<String, ProposalPersonBiography> personBiographyMap = new HashMap<String,ProposalPersonBiography>();
+        for (ProposalPersonBiography biography : document.getDevelopmentProposal().getPropPersonBios()){
+            String key = biography.getProposalPersonNumberString() + "_" + biography.getDocumentTypeCode();
+            if (personBiographyMap.get(key) == null){
+                personBiographyMap.put(key, biography);
+            }
+            else{
+                valid = false;
+                GlobalVariables.getMessageMap().putError(String.format(property, index), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
+            }
+            index++;
+        }
+
+        return valid;
     }
 
     @Override
