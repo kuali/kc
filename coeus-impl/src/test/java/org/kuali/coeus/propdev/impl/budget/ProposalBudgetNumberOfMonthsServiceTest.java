@@ -22,7 +22,7 @@ public class ProposalBudgetNumberOfMonthsServiceTest {
 		Date endDate = java.sql.Date.valueOf("1990-12-30");
 		double resultValue = proposalBudgetNumberOfMonthsService
 				.getNumberOfMonth(startDate, endDate);
-		assertEquals(resultValue, 1, 0);
+		assertEquals(resultValue, 1.03, 0);
 	}
 
 	@Test
@@ -31,7 +31,7 @@ public class ProposalBudgetNumberOfMonthsServiceTest {
 		Date endDate = java.sql.Date.valueOf("2016-03-31");
 		double resultValue = proposalBudgetNumberOfMonthsService
 				.getNumberOfMonth(startDate, endDate);
-		assertEquals(resultValue, 14.97, 0);
+		assertEquals(resultValue, 15.0, 0);
 	}
 	
 	@Test
@@ -48,6 +48,6 @@ public class ProposalBudgetNumberOfMonthsServiceTest {
 		double resultValue = proposalBudgetNumberOfMonthsService
 				.getNumberOfMonth(startDate, endDate);
 		assertNotEquals(resultValue, 12.13, 0);
-		assertEquals(resultValue, 11.77, 0);
+		assertEquals(resultValue, 11.81, 0);
 	}
 }
