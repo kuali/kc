@@ -214,7 +214,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     }
     public void calculateBudgetOnSave(Budget budget) {
         for (BudgetSubAwards subAward : budget.getBudgetSubAwards()) {
-            getPropDevBudgetSubAwardService().generateSubAwardLineItems(subAward, budget);
+            getPropDevBudgetSubAwardService().generateSubAwardLineItems(subAward, (ProposalDevelopmentBudgetExt) budget);
         }
         budgetCalculationService.calculateBudget(budget);
     }

@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevPropDevBudgetSubAwardServiceImpl;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
@@ -37,6 +38,7 @@ import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.*;
@@ -47,10 +49,13 @@ public class PropDevBudgetSubAwardServiceTest {
     protected static String directGt = "3";
     protected static String indirectLt = "2";
     protected static String indirectGt = "1";
+    protected static String NIH_SPONSOR_CODE = "000340";
+    protected static String NON_NIH_SPONSOR_CODE = "000500";
     
     protected PropDevPropDevBudgetSubAwardServiceImpl service;
     protected BudgetSubAwards subAward;
-    protected Budget budget;
+    protected ProposalDevelopmentBudgetExt budget;
+    protected SponsorHierarchyService sponsorHierarchyService;
 
     protected Mockery context;
     
@@ -60,6 +65,8 @@ public class PropDevBudgetSubAwardServiceTest {
         service = new PropDevPropDevBudgetSubAwardServiceImpl();
         budget = new ProposalDevelopmentBudgetExt();
         budget.setBudgetId(1L+12);
+        budget.setDevelopmentProposal(new DevelopmentProposal());
+        budget.getDevelopmentProposal().setSponsorCode(NIH_SPONSOR_CODE);
         subAward = new BudgetSubAwards();
         subAward.setBudgetId(budget.getBudgetId());
         subAward.setSubAwardNumber(1+206);
@@ -80,6 +87,7 @@ public class PropDevBudgetSubAwardServiceTest {
             subAward.getBudgetSubAwardPeriodDetails().add(detail);
         }
         final ParameterService parmService = context.mock(ParameterService.class);
+        sponsorHierarchyService = context.mock(SponsorHierarchyService.class);
         context.checking(new Expectations(){{
             one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
             will(returnValue(directLt));
@@ -88,14 +96,20 @@ public class PropDevBudgetSubAwardServiceTest {
             one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
             will(returnValue(indirectLt));
             one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
-            will(returnValue(indirectGt));   
+            will(returnValue(indirectGt));
         }});
         service.setParameterService(parmService);
+        service.setSponsorHierarchyService(sponsorHierarchyService);
         service.setBudgetService(new BudgetServiceMock());
     }
     
     @Test
     public void testExample1WithNoLineItems() throws Exception {
+        context.checking(new Expectations(){{
+            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            will(returnValue(true));
+        }});
+        
         subAward.getBudgetSubAwardPeriodDetails().get(0).setDirectCost(new ScaleTwoDecimal(150000L));
         subAward.getBudgetSubAwardPeriodDetails().get(0).setIndirectCost(new ScaleTwoDecimal(75000L));
         subAward.getBudgetSubAwardPeriodDetails().get(1).setDirectCost(new ScaleTwoDecimal(150000L));
@@ -120,6 +134,11 @@ public class PropDevBudgetSubAwardServiceTest {
     
     @Test
     public void testExample2WithNoLineItems() throws Exception {
+        context.checking(new Expectations(){{
+            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            will(returnValue(true));
+        }});
+        
         subAward.getBudgetSubAwardPeriodDetails().get(0).setDirectCost(new ScaleTwoDecimal(15000L));
         subAward.getBudgetSubAwardPeriodDetails().get(0).setIndirectCost(new ScaleTwoDecimal(7500L));
         subAward.getBudgetSubAwardPeriodDetails().get(1).setDirectCost(new ScaleTwoDecimal(15000L));
@@ -144,6 +163,11 @@ public class PropDevBudgetSubAwardServiceTest {
     
     @Test
     public void testExample3WithNoLineItems() throws Exception {
+        context.checking(new Expectations(){{
+            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            will(returnValue(true));
+        }});
+        
         subAward.getBudgetSubAwardPeriodDetails().get(0).setDirectCost(new ScaleTwoDecimal(20000));
         subAward.getBudgetSubAwardPeriodDetails().get(0).setIndirectCost(new ScaleTwoDecimal(10000));
         subAward.getBudgetSubAwardPeriodDetails().get(1).setDirectCost(new ScaleTwoDecimal(20000));
@@ -168,6 +192,11 @@ public class PropDevBudgetSubAwardServiceTest {
     
     @Test
     public void testExample1WithCostShare() throws Exception {
+        context.checking(new Expectations(){{
+            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            will(returnValue(true));
+        }});
+        
         subAward.getBudgetSubAwardPeriodDetails().get(0).setDirectCost(new ScaleTwoDecimal(150000L));
         subAward.getBudgetSubAwardPeriodDetails().get(0).setIndirectCost(new ScaleTwoDecimal(75000L));
         subAward.getBudgetSubAwardPeriodDetails().get(0).setCostShare(new ScaleTwoDecimal(1000L));
@@ -194,6 +223,11 @@ public class PropDevBudgetSubAwardServiceTest {
     
     @Test
     public void testExample1WithLineItems() throws Exception {
+        context.checking(new Expectations(){{
+            one(sponsorHierarchyService).isSponsorNihMultiplePi(NIH_SPONSOR_CODE);
+            will(returnValue(true));
+        }});
+        
         subAward.getBudgetSubAwardPeriodDetails().get(0).setDirectCost(new ScaleTwoDecimal(150000L));
         subAward.getBudgetSubAwardPeriodDetails().get(0).setIndirectCost(new ScaleTwoDecimal(75000L));
         subAward.getBudgetSubAwardPeriodDetails().get(1).setDirectCost(new ScaleTwoDecimal(150000L));
@@ -265,7 +299,7 @@ public class PropDevBudgetSubAwardServiceTest {
                 }
             });
             Assert.assertEquals(new ScaleTwoDecimal(costShareAmount), period.getBudgetLineItems().get(0).getCostSharingAmount());
-            for (int i = 1; i < budget.getBudgetPeriods().size(); i++) {
+            for (int i = 1; i < period.getBudgetLineItems().size(); i++) {
                 Assert.assertEquals(ScaleTwoDecimal.ZERO, period.getBudgetLineItems().get(i).getCostSharingAmount());
             }
         }
@@ -279,6 +313,36 @@ public class PropDevBudgetSubAwardServiceTest {
         }
         return null;
     }
+    
+    @Test
+    public void testExample1WithNonNih() throws Exception {
+        context.checking(new Expectations(){{
+            one(sponsorHierarchyService).isSponsorNihMultiplePi(NON_NIH_SPONSOR_CODE);
+            will(returnValue(false));
+        }});
+        budget.getDevelopmentProposal().setSponsorCode(NON_NIH_SPONSOR_CODE);
+        
+        subAward.getBudgetSubAwardPeriodDetails().get(0).setDirectCost(new ScaleTwoDecimal(150000L));
+        subAward.getBudgetSubAwardPeriodDetails().get(0).setIndirectCost(new ScaleTwoDecimal(75000L));
+        subAward.getBudgetSubAwardPeriodDetails().get(1).setDirectCost(new ScaleTwoDecimal(150000L));
+        subAward.getBudgetSubAwardPeriodDetails().get(1).setIndirectCost(new ScaleTwoDecimal(75000L));
+        
+        List<Map<String, ScaleTwoDecimal>> expectedResults = new ArrayList<Map<String, ScaleTwoDecimal>>();
+        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
+        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
+        expectedResults.add(new HashMap<String, ScaleTwoDecimal>());
+        expectedResults.get(0).put(indirectGt, new ScaleTwoDecimal(0));
+        expectedResults.get(0).put(indirectLt, new ScaleTwoDecimal(0));
+        expectedResults.get(0).put(directGt, new ScaleTwoDecimal(200000L));
+        expectedResults.get(0).put(directLt, new ScaleTwoDecimal(25000L));
+        expectedResults.get(1).put(indirectGt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(indirectLt, new ScaleTwoDecimal(0));
+        expectedResults.get(1).put(directGt, new ScaleTwoDecimal(225000L));
+        expectedResults.get(1).put(directLt, new ScaleTwoDecimal(0));
+        service.generateSubAwardLineItems(subAward, budget);
+        assertExpectedResults(expectedResults);
+        assertCostShare(0);
+    }    
     
     protected class BudgetServiceMock extends AbstractBudgetService {
         int newLineItemNumber = 28;
