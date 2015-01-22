@@ -7,7 +7,7 @@ commit
 /
 INSERT INTO SEQ_PROTO_CORRESP_TEMPL VALUES(NULL)
 /
-INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) values ((SELECT (MAX(ID)) FROM SEQ_PROTO_CORRESP_TEMPL),(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Renewal Reminder Letter #1'),'DEFAULT','DEFAULT','DEFAULT-20-RenewalReminderLetter#1.xsl',
+INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) values ((SELECT (MAX(ID)) FROM SEQ_PROTO_CORRESP_TEMPL),(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Renewal Reminder Letter #1'),'DEFAULT','DEFAULT-20-RenewalReminderLetter#1.xsl',
 '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://irb.mit.edu/irbnamespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xsl:param name="externalImagesUrl" />    
@@ -36,7 +36,7 @@ INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,C
                                         <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" number-columns-spanned="4" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
                                             <fo:block>
                                                 <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
-                                                    <xsl:attribute name="src">url('<xsl:value-of select="concat($externalImagesUrl,'couhes_byline2.gif')" />')</xsl:attribute>
+                                                    <xsl:attribute name="src">url(''<xsl:value-of select="concat($externalImagesUrl,''couhes_byline2.gif'')" />'')</xsl:attribute>
                                                 </fo:external-graphic>
                                             </fo:block>
                                         </fo:table-cell>
@@ -73,11 +73,11 @@ INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,C
                                             <fo:block>
                                                 <xsl:for-each select="n1:CurrentDate">
                                                     <fo:inline font-size="10pt">
-                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')" />
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                         <xsl:text>/</xsl:text>
-                                                        <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), '00')" />
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                         <xsl:text>/</xsl:text>
-                                                        <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), '0000')" />
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
                                                     </fo:inline>
                                                 </xsl:for-each>
                                             </fo:block>
@@ -137,11 +137,11 @@ INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,C
                                                     <xsl:for-each select="n1:ProtocolMasterData">
                                                         <xsl:for-each select="n1:ExpirationDate">
                                                             <fo:inline font-size="10pt">
-                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
-                                                                <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), '00')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
-                                                                <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), '0000')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
                                                             </fo:inline>
                                                         </xsl:for-each>
                                                     </xsl:for-each>
@@ -255,7 +255,7 @@ commit
 /
 INSERT INTO SEQ_PROTO_CORRESP_TEMPL VALUES(NULL)
 /
-INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) values ((SELECT (MAX(ID)) FROM SEQ_PROTO_CORRESP_TEMPL),(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Reminder to IRB Notification #1'),'DEFAULT','DEFAULT','DEFAULT-23-ReminderToIrbNotification#1.xsl',
+INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,COMMITTEE_ID,FILE_NAME,CORRESPONDENCE_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) values ((SELECT (MAX(ID)) FROM SEQ_PROTO_CORRESP_TEMPL),(SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Reminder to IRB Notification #1'),'DEFAULT','DEFAULT-23-ReminderToIrbNotification#1.xsl',
 '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://irb.mit.edu/irbnamespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xsl:param name="externalImagesUrl" />    
@@ -285,7 +285,7 @@ INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,C
                                         <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" number-columns-spanned="4" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
                                             <fo:block>
                                                 <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
-                                                    <xsl:attribute name="src">url('<xsl:value-of select="concat($externalImagesUrl,'couhes_byline2.gif')" />')</xsl:attribute>
+                                                    <xsl:attribute name="src">url(''<xsl:value-of select="concat($externalImagesUrl,''couhes_byline2.gif'')" />'')</xsl:attribute>
                                                 </fo:external-graphic>
                                             </fo:block>
                                         </fo:table-cell>
@@ -322,11 +322,11 @@ INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,C
                                             <fo:block>
                                                 <xsl:for-each select="n1:CurrentDate">
                                                     <fo:inline font-size="10pt">
-                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')" />
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                         <xsl:text>/</xsl:text>
-                                                        <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), '00')" />
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                         <xsl:text>/</xsl:text>
-                                                        <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), '0000')" />
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
                                                     </fo:inline>
                                                 </xsl:for-each>
                                             </fo:block>
@@ -386,11 +386,11 @@ INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,C
                                                     <xsl:for-each select="n1:ProtocolMasterData">
                                                         <xsl:for-each select="n1:ExpirationDate">
                                                             <fo:inline font-size="10pt">
-                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
-                                                                <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), '00')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
-                                                                <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), '0000')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
                                                             </fo:inline>
                                                         </xsl:for-each>
                                                     </xsl:for-each>
