@@ -37,7 +37,7 @@
                       p:finalizeMethodAdditionalArguments="next" p:order="30" p:render="@{!#parent.readOnly}"/>
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
 					p:performClientSideValidation="true" p:methodToCall="completeBudget"
-					p:actionLabel="Complete Budget" p:render="@{#view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS) and !budget.isBudgetComplete()}"
+					p:actionLabel="Complete Budget" p:render="@{#view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS) and !budget.isBudgetComplete() and !#parent.readOnly}"
 					p:order="40" />
 			</list>
 		</property>
