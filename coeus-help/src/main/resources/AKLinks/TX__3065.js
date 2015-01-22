@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3065", [["Documents/financialentity.htm", "right", "Financial Entity"],["Documents/gloss_financialentity1.htm", "d2hWnd_SecondaryPopup", "Financial Entity"]]);

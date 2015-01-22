@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3782", [["Documents/messagequeue.htm", "right", "Message Queue"],["Documents/gloss_messagequeue1.htm", "d2hWnd_SecondaryPopup", "Message Queue"]]);

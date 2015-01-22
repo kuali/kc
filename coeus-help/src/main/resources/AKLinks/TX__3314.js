@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3314", [["Documents/otheridentifiers.htm", "right", "Other Identifiers"],["Documents/otheridentifiers1.htm", "right", "Other Identifiers"]]);

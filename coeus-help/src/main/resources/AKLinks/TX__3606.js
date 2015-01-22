@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3606", [["Documents/jobcode.htm", "right", "Job Code"],["Documents/gloss_jobcode1.htm", "d2hWnd_SecondaryPopup", "Job Code"]]);

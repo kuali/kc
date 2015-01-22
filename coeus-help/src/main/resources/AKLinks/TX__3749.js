@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3749", [["Documents/group.htm", "right", "Group"],["Documents/gloss_group1.htm", "d2hWnd_SecondaryPopup", "Group"]]);

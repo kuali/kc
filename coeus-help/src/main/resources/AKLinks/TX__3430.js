@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3430", [["Documents/location.htm", "right", "Location"],["Documents/gloss_location1.htm", "d2hWnd_SecondaryPopup", "Location"]]);

@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3346", [["Documents/close.htm", "right", "Close"],["Documents/gloss_close1.htm", "d2hWnd_SecondaryPopup", "Close"]]);

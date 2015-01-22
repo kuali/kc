@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__2870", [["Documents/adhocrouting.htm", "right", "Ad Hoc Routing"],["Documents/gloss_adhocrouting1.htm", "d2hWnd_SecondaryPopup", "Ad Hoc Routing"]]);

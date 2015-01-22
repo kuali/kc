@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3529", [["Documents/appointmenttype.htm", "right", "Appointment Type"],["Documents/gloss_appointmenttype1.htm", "d2hWnd_SecondaryPopup", "Appointment Type"]]);

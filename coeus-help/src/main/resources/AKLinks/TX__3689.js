@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3689", [["Documents/iacucprotocolprojecttype.htm", "right", "IACUC Protocol Project Type"],["Documents/iacucprotocolreviewtype.htm", "right", "IACUC Protocol Review Type"],["Documents/protocolreviewtype.htm", "right", "Protocol Review Type"]]);

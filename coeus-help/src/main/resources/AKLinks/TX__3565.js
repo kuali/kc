@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3565", [["Documents/trainingstipendrate.htm", "right", "Training Stipend Rate"],["Documents/trainingstipendrate1.htm", "right", "Training Stipend Rate"]]);

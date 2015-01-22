@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__3755", [["Documents/country.htm", "right", "Country"],["Documents/gloss_country1.htm", "d2hWnd_SecondaryPopup", "Country"]]);
