@@ -13,6 +13,9 @@ public class CalendarTimestampAMPMFormatter extends Formatter {
 
     @Override
     public Object convertToObject(String target) {
+        if (target == null) {
+            return null;
+        }
         final Calendar c = Calendar.getInstance();
         c.setTime((Timestamp) formatter.convertToObject(target));
         return c;
@@ -20,6 +23,9 @@ public class CalendarTimestampAMPMFormatter extends Formatter {
 
     @Override
     public Object format(Object value) {
+        if (value == null) {
+            return "";
+        }
         return formatter.format(new Timestamp(((Calendar) value).getTime().getTime()));
     }
 }
