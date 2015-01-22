@@ -20,4 +20,4 @@ DELIMITER /
 CREATE TABLE krns_att_cntnt_t (att_id VARCHAR(36), att_cntnt BLOB)
 /
 
-DELIMITER;
+DELIMITER ;

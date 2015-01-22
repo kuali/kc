@@ -19,4 +19,4 @@ UPDATE KRCR_PARM_T SET VAL = 'http://site.kuali.org/rice/${rice.version}/referen
 WHERE APPL_ID = 'KUALI' AND NMSPC_CD = 'KR-KRAD' AND CMPNT_CD = 'Lookup' AND PARM_NM = 'DEFAULT_HELP_URL'
 /
 
-DELIMITER;
+DELIMITER ;
