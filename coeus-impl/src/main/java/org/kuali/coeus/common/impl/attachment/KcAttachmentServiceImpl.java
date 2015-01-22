@@ -16,10 +16,10 @@
 package org.kuali.coeus.common.impl.attachment;
 
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
-import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.krad.file.FileMeta;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.stereotype.Component;
 
@@ -126,8 +126,8 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
     }
 
     @Override
-    public boolean validPDFFile(KcFile fileInQuestion, ErrorReporter errorReporter, String errorPrefix) {
-        if (!Constants.PDF_REPORT_CONTENT_TYPE.equals(fileInQuestion.getType())) {
+    public boolean validPDFFile(FileMeta fileInQuestion, ErrorReporter errorReporter, String errorPrefix) {
+        if (!Constants.PDF_REPORT_CONTENT_TYPE.equals(fileInQuestion.getContentType())) {
            errorReporter.reportWarning(errorPrefix, KeyConstants.INVALID_FILE_TYPE,
                     fileInQuestion.getName(), Constants.PDF_REPORT_CONTENT_TYPE);
         }

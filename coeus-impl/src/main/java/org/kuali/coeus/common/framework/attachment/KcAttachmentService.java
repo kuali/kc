@@ -15,8 +15,8 @@
  */
 package org.kuali.coeus.common.framework.attachment;
 
-import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
+import org.kuali.rice.krad.file.FileMeta;
 
 /**
  * KC Attachment Service.
@@ -66,6 +66,6 @@ public interface KcAttachmentService {
      * @param errorPrefix
      * @return boolean
      */
-    public boolean validPDFFile(KcFile fileInQuestion, ErrorReporter errorReporterService, String errorPrefix);
+    public boolean validPDFFile(FileMeta fileInQuestion, ErrorReporter errorReporterService, String errorPrefix);
 
 }
