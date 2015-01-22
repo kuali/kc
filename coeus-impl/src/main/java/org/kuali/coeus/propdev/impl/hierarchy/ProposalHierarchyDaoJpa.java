@@ -3,7 +3,6 @@ package org.kuali.coeus.propdev.impl.hierarchy;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.Predicate;
@@ -46,10 +45,11 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         if (childProposalNumbers.isEmpty()) {
             return false;
         }
+
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
         List<Predicate> predicates = new ArrayList<Predicate>();
         predicates.add(equal("personId", personId));
-        predicates.add(in("developmentProposal.proposalNumber", getHierarchyChildProposalNumbers(hierarchyProposalNumber)));
+        predicates.add(in("developmentProposal.proposalNumber", childProposalNumbers));
 
         Predicate[] preds = predicates.toArray(new Predicate[predicates.size()]);
         builder.setCountFlag(CountFlag.ONLY);
@@ -84,18 +84,17 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         return state == null ? "" : state.getDescription();
      }
 
-    public boolean isDuplicateBio(ProposalPersonBiography propPersonBio, String proposalNumber) {
+    public List<ProposalPerson> isPersonOnProposal(String proposalNumber, String personId) {
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
         List<Predicate> predicates = new ArrayList<Predicate>();
-        predicates.add(equal("personId", propPersonBio.getPersonId()));
         predicates.add(equal("developmentProposal.proposalNumber", proposalNumber));
-        predicates.add(equal("documentTypeCode", propPersonBio.getDocumentTypeCode()));
+        predicates.add(equal("personId", personId));
 
         Predicate[] preds = predicates.toArray(new Predicate[predicates.size()]);
-        builder.setCountFlag(CountFlag.ONLY);
         builder.setPredicates(preds);
 
-        return getDataObjectService().findMatching(ProposalPersonBiography.class, builder.build()).getTotalRowCount() > 0;
+        QueryResults<ProposalPerson> list= getDataObjectService().findMatching(ProposalPerson.class, builder.build());
+        return list.getResults();
     }
 
     @Override
