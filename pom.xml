@@ -1940,6 +1940,16 @@
                 <db.artifactId>${oracle.artifactId}</db.artifactId>
                 <db.version>${oracle.version}</db.version>
             </properties>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.persistence</groupId>
+                        <artifactId>org.eclipse.persistence.oracle</artifactId>
+                        <version>${org.eclipse.persistence.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
         </profile>
 
         <!-- enables the error prone compiler for strict compilation-->
