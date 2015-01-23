@@ -37,7 +37,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
-                      p:messageText="Kuali Coeus 6.0 is the first of several releases designed to to provide a new and more intuitive User Experience."/>
+                      p:messageText="Kuali Coeus 6.0 is the first of several releases designed to provide a new and more intuitive User Experience."/>
                 <bean parent="Uif-Message"
                       p:messageText="The process for developing a Proposal and accompanying Budget has been streamlined. The design emphasizes ease of 
                       	use for casual or infrequent users of the system while retaining the full set of powerful features from previous KC releases."/>
