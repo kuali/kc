@@ -18,7 +18,6 @@ package org.kuali.coeus.propdev.impl.person;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
 import org.kuali.kra.workflow.AbstractProjectPersonDerivedRoleTypeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
