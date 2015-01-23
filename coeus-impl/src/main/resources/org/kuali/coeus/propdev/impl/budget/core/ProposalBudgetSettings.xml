@@ -31,7 +31,7 @@
 					<list>
 						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Apply Changes" p:methodToCall="saveBudgetSettings"
 							p:order="10" p:dialogDismissOption="REQUEST" p:performClientSideValidation="true"
-							p:render="@{!#parent.readOnly or #view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS) and !#parent.readOnly}"/>
+							p:render="@{!#parent.readOnly or #view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS)}"/>
 						<bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
 							p:methodToCall="closeBudgetValidation" p:order="20" p:performClientSideValidation="true" />
 					</list>
@@ -53,7 +53,7 @@
 					p:order="30" p:fieldLabel.renderColon="false"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetStatus"
 					p:order="40" p:fieldLabel.renderColon="false" p:enableAutoQuickfinder="false"
-					p:readOnly="@{!#view.editModes.containsKey(#budgetAuthConsts.CHANGE_COMPLETE_STATUS) or #parent.readOnly}"/>
+					p:readOnly="@{!#view.editModes.containsKey(#budgetAuthConsts.CHANGE_COMPLETE_STATUS)}"/>
 				<bean parent="Uif-InputField" p:propertyName="onOffCampusFlag"
 					p:order="50" p:fieldLabel.renderColon="false"/>
 				<bean parent="Uif-InputField" p:propertyName="residualFunds"
