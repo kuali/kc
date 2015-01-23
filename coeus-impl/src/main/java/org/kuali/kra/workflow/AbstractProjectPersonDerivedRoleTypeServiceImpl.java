@@ -35,10 +35,8 @@ public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends De
      * Filter the list of negotiation persons by their role. Typically the role name
      * is used to indicate PI, COI or KP. If the role name does not match any known
      * role the list is not filtered.
-     * @param persons
-     * @param roleName
      */
-    protected List<AbstractProjectPerson> filterListByRole(List<? extends AbstractProjectPerson> persons, String roleName) {
+    protected List<? extends AbstractProjectPerson> filterListByRole(List<? extends AbstractProjectPerson> persons, String roleName) {
         List<AbstractProjectPerson> newPersons = new ArrayList<AbstractProjectPerson>();
         if (StringUtils.equals(roleName, Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                 || StringUtils.equals(roleName, Constants.CO_INVESTIGATOR_ROLE)
@@ -62,10 +60,14 @@ public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends De
         String subQualification = qualification.get(KcKimAttributes.SUB_QUALIFIER);
         
         if (projectPersons != null && !projectPersons.isEmpty()) {
-            projectPersons = filterListByRole(projectPersons, roleName);
+            if (!StringUtils.equals(roleName, Constants.ALL_INVESTIGATORS)) {
+                projectPersons = filterListByRole(projectPersons, roleName);
+            }
+
             if (StringUtils.isNotBlank(subQualification)) {
                 projectPersons = filterListByRole(projectPersons, subQualification);
             }
+
             for (AbstractProjectPerson proposalPerson : projectPersons) {
                 if (proposalPerson.getPerson() != null) {
                     members.add( RoleMembership.Builder.create(null, null, proposalPerson.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build() );
