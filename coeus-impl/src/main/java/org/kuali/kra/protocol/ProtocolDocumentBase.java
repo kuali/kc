@@ -168,8 +168,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
             // after merge is done, then reset to the original usersession person.  
             // this is workaround for async.  There will be rice enhancement to resolve this issue.
             try {
-                DocumentRouteHeaderValue document = KcServiceLocator.getService(RouteHeaderService.class).getRouteHeader(
-                        this.getDocumentHeader().getWorkflowDocument().getDocumentId());
+                DocumentRouteHeaderValue document = getDocumentRouteHeaderValue();
                 String principalId = document.getActionsTaken().get(document.getActionsTaken().size() - 1).getPrincipalId();
                 String asyncPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
                 String asyncPrincipalName = GlobalVariables.getUserSession().getPrincipalName();
@@ -206,7 +205,16 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
         }
     }
     
+    protected DocumentRouteHeaderValue getDocumentRouteHeaderValue() {
+        return KcServiceLocator.getService(RouteHeaderService.class).getRouteHeader(
+                this.getDocumentHeader().getWorkflowDocument().getDocumentId());
+    }
   
+    protected void setProtocolDocumentToApproveByDefault() {
+        DocumentRouteHeaderValue document = getDocumentRouteHeaderValue();
+        document.getDocumentType().getDefaultApprovePolicy().setPolicyValue(true);
+    }
+    
     // we will  record actions, update statuses, version protocol doc/bo and send out notifications only for 
     // non-committee disapprovals, i.e. those that happen in routing or via superuser actions
     protected void performVersioningOperationsOnProtocolAfterDisapproval() throws Exception {

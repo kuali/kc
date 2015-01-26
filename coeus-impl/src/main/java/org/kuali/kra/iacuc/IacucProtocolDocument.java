@@ -340,6 +340,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         try {
             getDocumentService().saveDocument(newProtocolDocument);
             // blanket approve to make the new protocol document 'final'
+            setProtocolDocumentToApproveByDefault();
             newProtocolDocument.getDocumentHeader().getWorkflowDocument().route(type + "-" + getProtocolNumberIndex() + ": merged");
         } catch (WorkflowException e) {
             throw new ProtocolMergeException(e);
