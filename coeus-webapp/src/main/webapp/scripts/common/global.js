@@ -306,3 +306,12 @@ function validateFieldValue(fieldControl) {
 
     return valid;
 }
+
+/**
+ * Close an open iframe dialog by using post message to pass a message event.
+ */
+function closeIframeDialog() {
+    window.parent.postMessage(kradVariables.MODAL.MODAL_CLOSE_DIALOG, "*");
+    // Fix for persistent loading message in IE
+    hideLoading();
+}
