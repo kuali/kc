@@ -71,7 +71,10 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	public ModelAndView start(@RequestParam("budgetId") Long budgetId, @RequestParam("viewOnly") String viewOnly, @RequestParam("auditActivated") String auditActivated, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		boolean inViewMode = Boolean.parseBoolean(viewOnly);
 		form.setBudget(loadBudget(budgetId));
-        getProposalBudgetLockService().establishBudgetLock(form.getBudget());
+		if(!inViewMode) {
+	        getProposalBudgetLockService().establishBudgetLock(form.getBudget());
+		}
+
 		form.initialize();
         if (auditActivated != null){
             form.setAuditActivated(Boolean.parseBoolean(auditActivated));
@@ -80,9 +83,14 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         ModelAndView result = getModelAndViewService().getModelAndViewWithInit(form, ProposalBudgetConstants.KradConstants.BUDGET_DEFAULT_VIEW);
         form.setViewOnly(inViewMode);
         form.setCanEditView(!inViewMode);
-        if (budgetRatesService.checkActivityTypeChange(form.getBudget().getBudgetRates(), form.getDevelopmentProposal().getActivityTypeCode())) {
+    	boolean canModify = false;
+    	if(!inViewMode) {
+    		canModify = getProposalBudgetAuthorizer().canModifyBudget(form.getBudget(), getGlobalVariableService().getUserSession().getPerson());
+    	}
+        
+        if (canModify && budgetRatesService.checkActivityTypeChange(form.getBudget().getBudgetRates(), form.getDevelopmentProposal().getActivityTypeCode())) {
         	return getModelAndViewService().showDialog(ACTIVITY_RATE_CHANGE_DIALOG_ID, true, form);
-        } else if (form.getBudget().getBudgetRates().isEmpty()) {
+        } else if (canModify && form.getBudget().getBudgetRates().isEmpty()) {
         	return getModelAndViewService().showDialog(NO_RATES_DIALOG_ID, true, form);
         } else {
         	return result;

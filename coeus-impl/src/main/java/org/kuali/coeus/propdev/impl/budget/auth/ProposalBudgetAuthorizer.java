@@ -82,7 +82,9 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
         
         if (isAuthorizedToModifyBudget(budget, user)) {
         	editModes.add(AuthConstants.VIEW_BUDGET_EDIT_MODE);
-        	editModes.add(AuthConstants.CHANGE_COMPLETE_STATUS);
+        	if(!form.isViewOnly()) {
+            	editModes.add(AuthConstants.CHANGE_COMPLETE_STATUS);
+        	}
         	if (!isBudgetComplete(budget)) {
         		if (!budget.getDevelopmentProposal().isParent()) {
 		            editModes.add(AuthConstants.MODIFY_BUDGET_EDIT_MODE);
@@ -163,6 +165,10 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     
     public boolean canReload(ProposalDevelopmentBudgetExt budget, Person user) {
         return canEdit(budget, user);
+    }
+
+    public boolean canModifyBudget(ProposalDevelopmentBudgetExt budget, Person user) {
+        return isAuthorizedToModifyBudget(budget, user) && !isBudgetComplete(budget);
     }
 
     /**
