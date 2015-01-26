@@ -22,6 +22,7 @@ import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.rate.AbstractInstituteRate;
+import org.kuali.coeus.common.budget.framework.rate.InstituteLaRate;
 import org.kuali.coeus.common.budget.framework.rate.InstituteRate;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -37,6 +38,8 @@ import java.util.Map;
 public class InstituteRateMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
     private final InstituteRateRateTypeRateClassRule rule;
+    
+    private transient BusinessObjectService businessObjectService;
     
     /**
      * Constructs an InstituteRateMaintenanceDocumentRule setting the used rule to the defaul implementation.
@@ -95,7 +98,7 @@ public class InstituteRateMaintenanceDocumentRule extends KcMaintenanceDocumentR
             Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("rateClassCode", newInstituteRate.getRateClassCode());
             pkMap.put("rateTypeCode", newInstituteRate.getRateTypeCode());
-            RateType rateType = (RateType) KcServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(RateType.class, pkMap);
+            RateType rateType = (RateType) getBusinessObjectService().findByPrimaryKey(RateType.class, pkMap);
             if (rateType == null ) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.rateTypeCode", KeyConstants.ERROR_RATE_TYPE_NOT_EXIST,
                         new String[] {newInstituteRate.getRateClassCode(), newInstituteRate.getRateTypeCode() });
@@ -114,8 +117,40 @@ public class InstituteRateMaintenanceDocumentRule extends KcMaintenanceDocumentR
             valid&=checkExistenceFromTable(ActivityType.class,pkMap1,"activityTypeCode", "Activity Type");
         }
         
+        valid &= verifyNoDupicale(newInstituteRate);
+        
         return valid;
 
+    }
+    
+    protected boolean verifyNoDupicale(AbstractInstituteRate abstractInstituteRate) {
+    	boolean noDuplicate = true;
+    	Map params = new HashMap();
+    	params.put("fiscalYear", abstractInstituteRate.getFiscalYear());
+    	params.put("onOffCampusFlag", abstractInstituteRate.getOnOffCampusFlag());
+    	params.put("rateClassCode", abstractInstituteRate.getRateClassCode());
+    	params.put("rateTypeCode", abstractInstituteRate.getRateTypeCode());
+    	params.put("startDate", abstractInstituteRate.getStartDate());
+    	params.put("unitNumber", abstractInstituteRate.getUnitNumber());
+    	
+    	AbstractInstituteRate foundAbstractInstituteRate = null;
+    	
+    	if (abstractInstituteRate instanceof InstituteRate) {
+    		foundAbstractInstituteRate = getBusinessObjectService().findByPrimaryKey(InstituteRate.class, params);
+    	} else if (abstractInstituteRate instanceof InstituteLaRate) {
+    		foundAbstractInstituteRate = getBusinessObjectService().findByPrimaryKey(InstituteLaRate.class, params);
+    	} else {
+    		throw new IllegalArgumentException("AbstractInstituteRate is extended by an unknown subclass: " + abstractInstituteRate.getClass());
+    	}
+    	
+    	
+    	if (foundAbstractInstituteRate != null && !StringUtils.equalsIgnoreCase(abstractInstituteRate.getObjectId(), foundAbstractInstituteRate.getObjectId())) {
+    		GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fiscalYear", KeyConstants.ERROR_INSTITUTE_RATE_DUPLICATION);
+    		noDuplicate = false;
+    		
+    	}
+    	
+    	return noDuplicate;
     }
 
     /**
@@ -127,4 +162,15 @@ public class InstituteRateMaintenanceDocumentRule extends KcMaintenanceDocumentR
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
     }
+
+	public BusinessObjectService getBusinessObjectService() {
+		if (this.businessObjectService == null) {
+			this.businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+		}
+		return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
 }
