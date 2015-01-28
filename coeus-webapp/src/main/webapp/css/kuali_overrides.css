@@ -22,6 +22,13 @@
 }
 
 /* These override styles exist to get the new look. Eventually this may need to be cleaned up. */
+
+.navbar .nav a.brand {
+	background-image: url('../static/images/KualiCo.png');
+	background-size: 155px;
+	background-repeat: no-repeat;
+}
+
 .navbar .brand {
 	height: 39px !important;
 	width: 164px !important;
