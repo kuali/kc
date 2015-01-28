@@ -23,6 +23,7 @@
         <ref bean="InstituteRate-unitNumber" />
         <ref bean="InstituteRate-instituteRate" />
         <ref bean="InstituteRate-versionNumber" />
+        <ref bean="InstituteRate-objectId" />
         <ref bean="InstituteRate-activityType.description" />
         <ref bean="InstituteRate-rateClass.description" />
         <ref bean="InstituteRate-rateType.description" />
@@ -236,6 +237,11 @@
   <bean id="InstituteRate-activityType.description-parentBean" abstract="true" parent="ActivityType-description">
     <property name="name" value="activityType.description" />
   </bean>
+  
+  <bean id="InstituteRate-objectId" parent="InstituteRate-objectId-parentBean"/>
+  <bean id="InstituteRate-objectId-parentBean" abstract="true" parent="AttributeDefinition">
+  	<property name="name" value="objectId" />
+  </bean>
 
   <bean id="InstituteRate-rateClass.description" parent="InstituteRate-rateClass.description-parentBean"/>
   <bean id="InstituteRate-rateClass.description-parentBean" abstract="true" parent="RateClass-description">
@@ -259,15 +265,16 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition" p:attributeName="activityTypeCode" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="fiscalYear" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="onOffCampusFlag" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="rateClassCode" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="rateTypeCode" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="startDate" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="unitNumber" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="activityTypeCode" p:forceInquiry="false"/>
+              <bean parent="FieldDefinition" p:attributeName="fiscalYear" p:forceInquiry="false"/>
+              <bean parent="FieldDefinition" p:attributeName="onOffCampusFlag" p:forceInquiry="false"/>
+              <bean parent="FieldDefinition" p:attributeName="rateClassCode" p:forceInquiry="false"/>
+              <bean parent="FieldDefinition" p:attributeName="rateTypeCode" p:forceInquiry="false"/>
+              <bean parent="FieldDefinition" p:attributeName="startDate" p:forceInquiry="false"/>
+              <bean parent="FieldDefinition" p:attributeName="unitNumber" p:forceInquiry="false"/>
               <bean parent="FieldDefinition" p:attributeName="instituteRate"/>
               <bean parent="FieldDefinition" p:attributeName="active"/>
+              <bean parent="FieldDefinition" p:attributeName="objectId" p:forceInquiry="true"/>
             </list>
           </property>
         </bean>
@@ -294,6 +301,7 @@
               <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
               <bean p:propertyName="instituteRate" parent="Uif-DataField"/>
               <bean p:propertyName="active" parent="Uif-DataField"/>
+              <bean p:propertyName="objectId" parent="Uif-DataField"/>
             </list>
           </property>
         </bean>

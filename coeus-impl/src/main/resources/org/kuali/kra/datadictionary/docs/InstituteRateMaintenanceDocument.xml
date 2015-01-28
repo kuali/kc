@@ -12,13 +12,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>activityTypeCode</value>
-        <value>fiscalYear</value>
-        <value>onOffCampusFlag</value>
-        <value>rateClassCode</value>
-        <value>rateTypeCode</value>
-        <value>startDate</value>
-        <value>unitNumber</value>
+      	<value>objectId</value>
       </list>
     </property>
     <property name="preserveLockingKeysOnCopy" value="true" />
