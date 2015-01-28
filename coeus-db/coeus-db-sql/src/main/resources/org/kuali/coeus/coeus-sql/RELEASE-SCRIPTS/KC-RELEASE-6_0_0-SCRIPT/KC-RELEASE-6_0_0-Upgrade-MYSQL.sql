@@ -31,7 +31,6 @@
 \. ./../../current_mysql/6.0.0/dml/KC_DML_01_KRACOEUS-7889_B000.sql
 \. ./../../current_mysql/6.0.0/dml/KC_DML_01_KRACOEUS-7922_B000.sql
 \. ./../../current_mysql/6.0.0/dml/KC_DML_01_KRACOEUS-8027_B000.sql
-\. ./../../current_mysql/6.0.0/dml/KC_DML_01_KRACOEUS-8159_B000.sql
 \. ./../../current_mysql/6.0.0/dml/KC_DML_01_KRACOEUS-8411_B000.sql
 \. ./../../current_mysql/6.0.0/dml/KC_DML_01_KRACOEUS-8417_B000.sql
 \. ./../../current_mysql/6.0.0/dml/KC_DML_01_KRACOEUS-8442_B000.sql
