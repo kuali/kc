@@ -50,7 +50,7 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
 
         String docContent = routeContext.getDocument().getDocContent();
         String proposalNumber = getElementValue(docContent, "//proposalNumber");
-        List<String> unitNumbers = getProposalPersonUnits(proposalNumber);
+        List<String> unitNumbers = getProposalUnits(proposalNumber, routeContext);
         String unitNumbersAsString = StringUtils.join(unitNumbers,',');
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap(KcKrmsConstants.UNIT_NUMBER, unitNumbersAsString));
@@ -64,14 +64,20 @@ public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineEx
 	private KcKrmsFactBuilderServiceHelper getProposalDevelopmentFactBuilderService() {
 		return KcServiceLocator.getService("proposalDevelopmentFactBuilderService");
 	}
-    private List<String> getProposalPersonUnits(String proposalNumber) {
+    private List<String> getProposalUnits(String proposalNumber, RouteContext routeContext) {
     	DataObjectService dataObjectService = getDataObjectService();
-    	
+
+        String docContent = routeContext.getDocument().getDocContent();
+        String unitNumber = getElementValue(docContent, "//ownedByUnitNumber");
+
         Map<String,String> params = new HashMap<String, String>();
         params.put("developmentProposal.proposalNumber", proposalNumber);
+
         List<ProposalPerson> proposalPersons = (List<ProposalPerson>) dataObjectService.findMatching(ProposalPerson.class,
         		QueryByCriteria.Builder.andAttributes(params).build()).getResults();
         List<String> units = new ArrayList<String>();
+        units.add(unitNumber);
+
         for (ProposalPerson proposalPerson : proposalPersons) {
             List<ProposalPersonUnit> proposalPersonUnits = proposalPerson.getUnits();
             for (ProposalPersonUnit proposalPersonUnit : proposalPersonUnits) {
