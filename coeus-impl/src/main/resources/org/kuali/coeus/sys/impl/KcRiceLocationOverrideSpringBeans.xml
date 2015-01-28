@@ -45,14 +45,6 @@
                 <value>classpath:org/kuali/rice/location/web/county/CountyMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/rice/location/web/postalcode/PostalCodeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/rice/location/web/state/StateMaintenanceDocument.xml</value>
-
-                <!-- missing rice views -->
-                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/country/CountryLookupView.xml</value>
-                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/county/CountyInquiryView.xml</value>
-                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/county/CountyLookupView.xml</value>
-                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/postalcode/PostalCodeInquiryView.xml</value>
-                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/postalcode/PostalCodeLookupView.xml</value>
-                <value>classpath:org/kuali/coeus/org/kuali/rice/location/impl/state/StateLookupView.xml</value>
             </list>
         </property>
         <property name="packagePrefixes">
