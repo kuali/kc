@@ -151,6 +151,12 @@ case "${dbtype}" in
         mv *.log ../LOGS/
         cd ..
         
+        cd KC-RELEASE-6_0_0-SCRIPT
+        sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-6_0_0-Demo-ORACLE.sql
+        
+        mv *.log ../LOGS/
+        cd ..
+        
         cd KC-RELEASE-99_9_9-SCRIPT
         sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-99_9_9-Demo-ORACLE.sql
 
@@ -218,7 +224,13 @@ case "${dbtype}" in
 
         mv *.log ../LOGS/
         cd ..
-               
+
+        cd KC-RELEASE-6_0_0-SCRIPT
+        mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-6_0_0-Demo-MYSQL.sql > KC-RELEASE-6_0_0-Demo-MYSQL-Install.log 2>&1
+
+        mv *.log ../LOGS/
+        cd ..
+                       
         cd KC-RELEASE-99_9_9-SCRIPT
         mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-99_9_9-Demo-MYSQL.sql > KR-RELEASE-99_9_9-Demo-MYSQL-Install.log 2>&1
 

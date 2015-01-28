@@ -131,6 +131,11 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_2_0-Demo-ORACLE.sql
 move *.log ../LOGS
 cd ..
 
+cd KC-RELEASE-6_0_0-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-6_0_0-Demo-ORACLE.sql
+move *.log ../LOGS
+cd ..
+
 cd KC-RELEASE-99_9_9-SCRIPT
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-99_9_9-Demo-ORACLE.sql
 move *.log ../LOGS
@@ -186,15 +191,22 @@ mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-5_1_1-Demo-MYSQL.sql > KC-RELEAS
 move *.log ../LOGS/
 cd ..
 
+cd KC-RELEASE-5_2_0-SCRIPT
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-5_2_0-Demo-MYSQL.sql > KR-RELEASE-5_2_0-Demo-MYSQL-Install.log 2>&1
+move *.log ../LOGS/
+cd ..
+
+cd KC-RELEASE-6_0_0-SCRIPT
+mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-6_0_0-Demo-MYSQL.sql > KC-RELEASE-6_0_0-Demo-MYSQL-Install.log 2>&1
+move *.log ../LOGS/
+cd ..
+
 cd KC-RELEASE-99_9_9-SCRIPT
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-99_9_9-Demo-MYSQL.sql > KR-RELEASE-99_9_9-Demo-MYSQL-Install.log 2>&1
 move *.log ../LOGS/
 cd ..
 
-cd KC-RELEASE-5_2_0-SCRIPT
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-5_2_0-Demo-MYSQL.sql > KR-RELEASE-5_2_0-Demo-MYSQL-Install.log 2>&1
-move *.log ../LOGS/
-cd ..
+
 
 goto FINISH
 
