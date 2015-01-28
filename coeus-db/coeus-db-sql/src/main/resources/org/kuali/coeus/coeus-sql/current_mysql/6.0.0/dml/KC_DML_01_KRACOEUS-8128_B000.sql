@@ -1,9 +1,8 @@
 DELIMITER /
+
 delete from PROTO_CORRESP_TEMPL WHERE PROTO_CORRESP_TYPE_CODE=
   (SELECT PROTO_CORRESP_TYPE_CODE FROM PROTO_CORRESP_TYPE WHERE DESCRIPTION = 'Withdrawal Notice')  
   AND  COMMITTEE_ID =  'DEFAULT'
-/
-commit
 /
 INSERT INTO SEQ_PROTO_CORRESP_TEMPL VALUES(NULL)
 /
@@ -36,7 +35,7 @@ INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,C
                                         <fo:table-cell line-height="10pt" border-style="solid" border-width="1pt" border-color="white" display-align="before" height="15pt" number-columns-spanned="4" text-align="right" width="43pt" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt">
                                             <fo:block>
                                                 <fo:external-graphic space-before.optimum="4pt" space-after.optimum="4pt">
-                                                    <xsl:attribute name="src">url('<xsl:value-of select="concat($externalImagesUrl,'couhes_byline2.gif')" />')</xsl:attribute>
+                                                    <xsl:attribute name="src">url(''<xsl:value-of select="concat($externalImagesUrl,''couhes_byline2.gif'')" />'')</xsl:attribute>
                                                 </fo:external-graphic>
                                             </fo:block>
                                         </fo:table-cell>
@@ -73,11 +72,11 @@ INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,C
                                             <fo:block>
                                                 <xsl:for-each select="n1:CurrentDate">
                                                     <fo:inline font-size="10pt">
-                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')" />
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                         <xsl:text>/</xsl:text>
-                                                        <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), '00')" />
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                         <xsl:text>/</xsl:text>
-                                                        <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), '0000')" />
+                                                        <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
                                                     </fo:inline>
                                                 </xsl:for-each>
                                             </fo:block>
@@ -137,11 +136,11 @@ INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,C
                                                     <xsl:for-each select="n1:ProtocolMasterData">
                                                         <xsl:for-each select="n1:ExpirationDate">
                                                             <fo:inline font-size="10pt">
-                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), '00')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 6, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
-                                                                <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), '00')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 9, 2)), ''00'')" />
                                                                 <xsl:text>/</xsl:text>
-                                                                <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), '0000')" />
+                                                                <xsl:value-of select="format-number(number(substring(string(.), 1, 4)), ''0000'')" />
                                                             </fo:inline>
                                                         </xsl:for-each>
                                                     </xsl:for-each>
@@ -245,6 +244,5 @@ INSERT INTO PROTO_CORRESP_TEMPL(PROTO_CORRESP_TEMPL_ID,PROTO_CORRESP_TYPE_CODE,C
     </xsl:template>
 </xsl:stylesheet>','admin',NOW(),UUID(),1)
 /
-commit
 /
 DELIMITER ;
