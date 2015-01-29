@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 insert into SEQ_QUESTIONNAIRE_REF_ID values (NULL);
 insert into QUESTIONNAIRE_QUESTIONS (QUESTIONNAIRE_QUESTIONS_ID,QUESTIONNAIRE_REF_ID_FK,QUESTION_REF_ID_FK,QUESTION_NUMBER,PARENT_QUESTION_NUMBER,CONDITION_FLAG,CONDITION_TYPE,CONDITION_VALUE,QUESTION_SEQ_NUMBER,VER_NBR,OBJ_ID,UPDATE_USER,UPDATE_TIMESTAMP) values ((select max(id) from SEQ_QUESTIONNAIRE_REF_ID),5268,4826,1,0,'N',null,null,1,1,UUID(),'admin',now());
 

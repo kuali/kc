@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 UPDATE NOTIFICATION_TYPE SET MESSAGE='Funding source {FUNDING_TYPE} {ACTION} protocol <a title="" target="_self" href="{DOCUMENT_PREFIX}/kew/DocHandler.do?command=displayDocSearchView&amp;docId={DOCUMENT_NUMBER}">{PROTOCOL_NUMBER}</a>' where notification_type_id=10007
 /
 UPDATE NOTIFICATION_TYPE SET MESSAGE='Review comments for protocol <a title="" target="_self" href="{DOCUMENT_PREFIX}/kew/DocHandler.do?command=displayDocSearchView&amp;docId={DOCUMENT_NUMBER}">{PROTOCOL_NUMBER}</a> deleted by {USER_FULLNAME}. <br/>The reason is: {REASON}' where notification_type_id=10062

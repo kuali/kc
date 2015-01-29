@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 -- SET ATTR_DATA_ID = 1400 WHERE ATTR_DATA_ID = 10000;
 UPDATE KRIM_ROLE_MBR_ATTR_DATA_T SET ATTR_DATA_ID = KRIM_ATTR_DATA_ID_BS_S.NEXTVAL WHERE ATTR_DATA_ID = (SELECT ATTR_DATA_ID FROM KRIM_ROLE_MBR_ATTR_DATA_T WHERE ROLE_MBR_ID = (SELECT ROLE_MBR_ID FROM KRIM_ROLE_MBR_T WHERE ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Protocol Creator' AND NMSPC_CD = 'KC-UNT') 
   AND MBR_ID = (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'kr')) AND KIM_TYP_ID = (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'UnitHierarchy' AND NMSPC_CD = 'KC-SYS') AND KIM_ATTR_DEFN_ID = (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'unitNumber' AND NMSPC_CD = 'KC-SYS'));

@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO AWARD (AWARD_ID,AWARD_NUMBER,DOCUMENT_NUMBER,TITLE,SEQUENCE_NUMBER,AWARD_TYPE_CODE,LEAD_UNIT_NUMBER,STATUS_CODE,BASIS_OF_PAYMENT_CODE,METHOD_OF_PAYMENT_CODE,TRANSACTION_TYPE_CODE,ACTIVITY_TYPE_CODE,TEMPLATE_CODE,CFDA_NUMBER,SPONSOR_CODE,SPONSOR_AWARD_NUMBER,ACCOUNT_NUMBER,ACCOUNT_TYPE_CODE,NSF_CODE,SUB_PLAN_FLAG,APPRVD_EQUIPMENT_INDICATOR,APPRVD_FOREIGN_TRIP_INDICATOR,APPRVD_SUBCONTRACT_INDICATOR,COST_SHARING_INDICATOR,IDC_INDICATOR,PAYMENT_SCHEDULE_INDICATOR,SCIENCE_CODE_INDICATOR,SPECIAL_REVIEW_INDICATOR,TRANSFER_SPONSOR_INDICATOR,HIERARCHY_SYNC_CHILD,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES (SEQUENCE_AWARD_ID.NEXTVAL,'001002-00001','4092','Root Award for testing Sync Descendants',1,(SELECT AWARD_TYPE_CODE FROM AWARD_TYPE WHERE DESCRIPTION = 'Indefinite Delivery Contract '),'IN-CARD',(SELECT STATUS_CODE FROM AWARD_STATUS WHERE DESCRIPTION = 'Active'),(SELECT BASIS_OF_PAYMENT_CODE FROM AWARD_BASIS_OF_PAYMENT WHERE DESCRIPTION = 'Cost reimbursement'),(SELECT METHOD_OF_PAYMENT_CODE FROM AWARD_METHOD_OF_PAYMENT WHERE DESCRIPTION = 'Established ACH mechanism for sponsor'),(SELECT AWARD_TRANSACTION_TYPE_CODE FROM AWARD_TRANSACTION_TYPE WHERE DESCRIPTION = 'New'),(SELECT ACTIVITY_TYPE_CODE FROM ACTIVITY_TYPE WHERE DESCRIPTION = 'Public Service'),(SELECT AWARD_TEMPLATE_CODE FROM AWARD_TEMPLATE WHERE DESCRIPTION = 'Test Sponsor Template'),'47.050','000500','SD300120','300121',null,'A.01','U','N','N','N','N','N','N','N','N','N','N','quickstart',SYSDATE,SYS_GUID(),0)
 /

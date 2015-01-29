@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO KRIM_ENTITY_AFLTN_T (ENTITY_AFLTN_ID,ENTITY_ID,AFLTN_TYP_CD,CAMPUS_CD,DFLT_IND,ACTV_IND,LAST_UPDT_DT,OBJ_ID,VER_NBR)
     VALUES (KRIM_ENTITY_AFLTN_ID_S.NEXTVAL,(SELECT ENTITY_ID FROM KRIM_ENTITY_NM_T WHERE FIRST_NM = 'Geoff' AND LAST_NM = 'McGregor'),'STAFF','UN','Y','Y',SYSDATE,SYS_GUID(),1)
 /

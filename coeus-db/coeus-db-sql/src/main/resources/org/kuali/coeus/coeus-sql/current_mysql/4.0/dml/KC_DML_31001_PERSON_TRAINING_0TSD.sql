@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 DELIMITER /
 INSERT INTO PERSON_TRAINING (PERSON_TRAINING_ID,PERSON_ID,TRAINING_NUMBER,TRAINING_CODE,SCORE,DATE_REQUESTED,DATE_SUBMITTED,DATE_ACKNOWLEDGED,FOLLOWUP_DATE,ACTIVE_FLAG,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES (1,'10000000001',1,(SELECT TRAINING_CODE FROM TRAINING WHERE DESCRIPTION = 'Johns Hopkins - Human Subjects'),'100',STR_TO_DATE('20080101','%Y%m%d'),STR_TO_DATE('20080102','%Y%m%d'),STR_TO_DATE('20080103','%Y%m%d'),STR_TO_DATE('20090104','%Y%m%d'),'Y','admin',NOW(),UUID(),1)

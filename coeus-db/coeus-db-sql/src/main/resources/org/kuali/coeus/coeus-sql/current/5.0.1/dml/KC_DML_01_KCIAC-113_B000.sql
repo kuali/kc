@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 delete from IACUC_PROTO_CORRESP_TEMPL
 /
 commit
@@ -2342,7 +2361,8 @@ buffer := '="n1:SubmissionDetails">
 																		</xsl:otherwise>
 																	</xsl:choose>
 																</xsl:for-each>
-															</xsl:for-each>';
+															</xsl:for-each>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -3097,7 +3117,8 @@ buffer := '>
 																	</xsl:for-each>
 																</xsl:for-each>
 															</xsl:for-each>
-														</fo:block>';
+														</fo:block>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -6619,7 +6640,8 @@ buffer := '				</fo:block>
 																		</xsl:for-each>
 																	</xsl:for-each>
 																</xsl:for-each>
-															</xsl:for-each>';
+															</xsl:for-each>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -7414,7 +7436,8 @@ buffer := '
 																		<xsl:value-of select="format-number(number(substring(string(string(.)), 9, 2)), ''00'')"/>
 																		<xsl:text> / </xsl:text>
 																		<xsl:value-of select="format-number(number(substring(string(string(string(.))), 1, 4)), ''0000'')"/>
-																	</fo:inline>';
+																	</fo:inline>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -18651,7 +18674,8 @@ buffer := '								<fo:inline>
 						<xsl:value-of select="$text"/>
 					</xsl:otherwise>
 				</xsl:choose>
-			</xsl:when>';
+			</xsl:when>
+';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /

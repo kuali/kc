@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 DELIMITER /
 UPDATE ORGANIZATION SET ADDRESS = '77 Massachusetts Ave, Cambridge, MA 02139', CABLE_ADDRESS = 'MITCAM', TELEX_NUMBER = '92-1473', COUNTY = 'Middlesex', CONGRESSIONAL_DISTRICT = 'MA-008', INCORPORATED_IN = 'Massachusetts', INCORPORATED_DATE = STR_TO_DATE('18610410','%Y%m%d'), NUMBER_OF_EMPLOYEES = 7500, IRS_TAX_EXCEMPTION = '09-123-9876', FEDRAL_EMPLOYER_ID = '042103594', MASS_TAX_EXCEMPT_NUM = 'E042-103-594', AGENCY_SYMBOL = '75-08-9701', VENDOR_CODE = '042-103-594-000-1', COM_GOV_ENTITY_CODE = '80230', MASS_EMPLOYEE_CLAIM = '72-002250', DUNS_NUMBER = '000000000', DUNS_PLUS_FOUR_NUMBER = '4328', CAGE_NUMBER = '80230', HUMAN_SUB_ASSURANCE = 'FWA00004881', ANIMAL_WELFARE_ASSURANCE = 'A-3125-01', SCIENCE_MISCONDUCT_COMPL_DATE = STR_TO_DATE('19980302','%Y%m%d'), PHS_ACOUNT = '1042103594A1', NSF_INSTITUTIONAL_CODE = '002 178 2000', INDIRECT_COST_RATE_AGREEMENT = '03/08/2002' WHERE ORGANIZATION_ID = '000001'
 /
