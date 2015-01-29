@@ -328,3 +328,22 @@ section.medusa div.btn a:hover{
 .uif-tableCollectionLayout {
     width: 100% !important;
 }
+
+.kc-applicationFooter {
+    background-color: #aa003e;
+    color: #FFF;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 12px;
+    background-repeat: no-repeat;
+    background-position: right 5px;
+    height: 60px;
+}
+
+.kc-applicationFooter a {
+    color:white;
+    text-decoration: underline;
+}
+
