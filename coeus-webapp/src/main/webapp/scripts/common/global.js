@@ -74,6 +74,15 @@ Kc.Global = Kc.Global || {};
             }
         });
     }
+    namespace.makeApplicationFooterSticky = function() {
+        var docHeight = $(window).height();
+        var footerHeight = $('#Uif-ApplicationFooter-Wrapper').height();
+        var footerTop = $('#Uif-ApplicationFooter-Wrapper').position().top + footerHeight;
+
+        if (footerTop < docHeight) {
+            $('#Uif-ApplicationFooter-Wrapper').css('margin-top', (docHeight - footerTop) + 'px');
+        }
+    }
 })(Kc.Global, jQuery);
 
 KradResponse.prototype.updateComponentHandler = function (content, dataAttr) {

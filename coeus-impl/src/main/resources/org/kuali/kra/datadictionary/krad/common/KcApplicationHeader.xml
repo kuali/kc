@@ -67,6 +67,22 @@
         </property>
     </bean>
 
+    <bean id="Uif-GlobalApplicationFooter" parent="Kc-ApplicationFooter"/>
+    <bean id="Kc-ApplicationFooter" parent="Kc-ApplicationFooter-parentBean"/>
+    <bean id="Kc-ApplicationFooter-parentBean" abstract="true" parent="Uif-FooterBase" p:cssClasses="kc-applicationFooter">
+        <property name="onDocumentReadyScript" value="Kc.Global.makeApplicationFooterSticky();"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}logo-kuali.png" p:altText="Kuali Logo" p:cssClasses="pull-right"/>
+                <bean parent="Uif-Message" p:messageText="Copyright 2005-2015 Kuali, Inc. All rights reserved.[br]
+Portions of Kuali are copyrighted by other parties as described in the [link='@{#ConfigProperties['application.url']}/acknowledgments.jsp']Acknowledgments[/link] screen." p:renderWrapperTag="false"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-BuildFooter" parent="Kc-BuildFooter"/>
+    <bean id="Kc-BuildFooter" parent="Kc-BuildFooter-parentBean"/>
+    <bean id="Kc-BuildFooter-parentBean" abstract="true" parent="Uif-GroupBase" p:render="false"/>
 
     <bean id="Kc-ApplicationHeader-NavigationBar" parent="Kc-ApplicationHeader-NavigationBar-parentBean"/>
     <bean id="Kc-ApplicationHeader-NavigationBar-parentBean" abstract="true"
