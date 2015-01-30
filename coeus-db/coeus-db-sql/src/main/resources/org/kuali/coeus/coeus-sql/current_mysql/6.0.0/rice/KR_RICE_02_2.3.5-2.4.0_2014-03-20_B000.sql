@@ -16,6 +16,7 @@
 -- You should have received a copy of the GNU Affero General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
+DELIMITER /
 
 INSERT INTO KRCR_NMSPC_T (APPL_ID, NMSPC_CD, NM, ACTV_IND, OBJ_ID, VER_NBR)
   VALUES('RICE', 'KR-LOC', 'Kuali Location', 'Y', UUID(), 1)
