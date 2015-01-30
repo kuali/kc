@@ -327,6 +327,24 @@ section.medusa div.btn a:hover{
     padding-top: 3px;
 }
 
+/** help menu dropdown **/
+.kc-help-menu .dropdown-menu {
+    left: inherit;
+    right: 0;
+    padding: .5em;
+    top: 22px;
+}
+
+.kc-help-menu .dropdown-menu .divider{
+    display: block;
+    margin: 2px 0;
+}
+
+.kc-help-menu .dropdown-menu .dropdown-header{
+    padding: 0;
+}
+
+
 /** fix for chrome not working with auto resize for rich table **/
 
 .uif-tableCollectionLayout {
