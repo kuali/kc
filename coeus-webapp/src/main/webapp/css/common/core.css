@@ -361,11 +361,15 @@ section.medusa div.btn a:hover{
     padding-bottom: 12px;
     background-repeat: no-repeat;
     background-position: right 5px;
-    height: 60px;
+    height: 80px;
 }
 
 .kc-applicationFooter a {
     color:white;
     text-decoration: underline;
+}
+
+.kc-applicationFooter-version {
+    font-size: 10px;
 }
 
