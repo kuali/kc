@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO AWARD_UNIT_CONTACTS (AWARD_UNIT_CONTACT_ID,AWARD_ID,AWARD_NUMBER,SEQUENCE_NUMBER,PERSON_ID,FULL_NAME,UNIT_ADMINISTRATOR_TYPE_CODE,UNIT_ADMINISTRATOR_UNIT_NUMBER,UNIT_CONTACT_TYPE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES (SEQUENCE_AWARD_ID.NEXTVAL,(SELECT AWARD_ID FROM AWARD WHERE AWARD_NUMBER = '001002-00001' AND SEQUENCE_NUMBER = '1'),'001002-00001',1,'10000000001','Geoff  McGregor',(SELECT UNIT_ADMINISTRATOR_TYPE_CODE FROM UNIT_ADMINISTRATOR_TYPE WHERE DESCRIPTION = 'UNIT_HEAD'),'IN-CARD','CONTACT','quickstart',SYSDATE,SYS_GUID(),0)
 /

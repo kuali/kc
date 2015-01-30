@@ -1,17 +1,20 @@
 /*
- * Treeview 1.4 - jQuery plugin to hide and show branches of a tree
+ * Kuali Coeus, a comprehensive research administration system for higher education.
  * 
- * http://bassistance.de/jquery-plugins/jquery-plugin-treeview/
- * http://docs.jquery.com/Plugins/Treeview
- *
- * Copyright (c) 2007 Jörn Zaefferer
- *
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
- *
- * Revision: $Id: jquery.treeview.js 4684 2008-02-07 19:08:06Z joern.zaefferer $
- *
+ * Copyright 2005-2015 The Kuali Foundation
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 ;(function($) {

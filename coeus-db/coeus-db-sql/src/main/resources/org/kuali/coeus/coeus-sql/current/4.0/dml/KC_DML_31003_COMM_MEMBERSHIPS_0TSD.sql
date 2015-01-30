@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO COMM_MEMBERSHIPS (COMM_MEMBERSHIP_ID,COMMITTEE_ID_FK,PERSON_ID,ROLODEX_ID,PERSON_NAME,MEMBERSHIP_ID,MEMBERSHIP_TYPE_CODE,PAID_MEMBER_FLAG,TERM_START_DATE,TERM_END_DATE,COMMENTS,CONTACT_NOTES,TRAINING_NOTES,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES (SEQ_COMMITTEE_ID.NEXTVAL,(SELECT ID FROM COMMITTEE WHERE COMMITTEE_NAME = 'KC IRB 1'),'10000000059',null,'Roger  Rabbit','0',(SELECT MEMBERSHIP_TYPE_CODE FROM COMM_MEMBERSHIP_TYPE WHERE DESCRIPTION = 'Voting member'),'N',TO_DATE('20010701','YYYYMMDD'),TO_DATE('20100701','YYYYMMDD'),'','','','quickstart',SYSDATE,SYS_GUID(),0)
 /

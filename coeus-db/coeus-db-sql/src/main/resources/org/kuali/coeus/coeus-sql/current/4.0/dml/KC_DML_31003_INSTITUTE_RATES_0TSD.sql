@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO INSTITUTE_RATES (RATE_CLASS_CODE,RATE_TYPE_CODE,ACTIVITY_TYPE_CODE,FISCAL_YEAR,START_DATE,ON_OFF_CAMPUS_FLAG,UNIT_NUMBER,RATE,ACTIVE_FLAG,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES ((SELECT RATE_CLASS_CODE FROM RATE_CLASS WHERE DESCRIPTION = 'MTDC'),(SELECT RATE_TYPE_CODE FROM RATE_TYPE WHERE RATE_CLASS_CODE = (SELECT RATE_CLASS_CODE FROM RATE_CLASS WHERE DESCRIPTION = 'MTDC') AND DESCRIPTION = 'MTDC'),(SELECT ACTIVITY_TYPE_CODE FROM ACTIVITY_TYPE WHERE DESCRIPTION = 'Research'),'1996',TO_DATE('19950701','YYYYMMDD'),'F','000001',9,'Y','admin',SYSDATE,SYS_GUID(),1)
 /

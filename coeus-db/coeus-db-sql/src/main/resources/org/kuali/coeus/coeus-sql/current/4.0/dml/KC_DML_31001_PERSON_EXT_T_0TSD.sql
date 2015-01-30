@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO PERSON_EXT_T (PERSON_ID,PRIMARY_TITLE,DIRECTORY_TITLE,OFFICE_LOCATION,CITIZENSHIP_TYPE_CODE,IS_HANDICAPPED,IS_VETERAN,HAS_VISA,IS_RESEARCH_STAFF,IS_ON_SABBATICAL,VACATION_ACCURAL,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES ('10000000001','Quickstart Primary Title','Quickstart Directory Title','Kuali Foundation',1,null,null,null,null,null,null,'admin',SYSDATE,SYS_GUID(),1)
 /

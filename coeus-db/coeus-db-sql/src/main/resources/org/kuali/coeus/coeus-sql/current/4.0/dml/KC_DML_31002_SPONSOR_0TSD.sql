@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO SPONSOR (SPONSOR_CODE,SPONSOR_NAME,ACRONYM,SPONSOR_TYPE_CODE,OWNED_BY_UNIT,ROLODEX_ID,POSTAL_CODE,STATE,COUNTRY_CODE,DUN_AND_BRADSTREET_NUMBER,DUNS_PLUS_FOUR_NUMBER,DODAC_NUMBER,CAGE_NUMBER,AUDIT_REPORT_SENT_FOR_FY,CREATE_USER,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES ('000100','Air Force                                                   ','Air',(SELECT SPONSOR_TYPE_CODE FROM SPONSOR_TYPE WHERE DESCRIPTION = 'Federal'),'000001',11870,null,'DC','USA',null,null,null,null,null,'admin','admin',SYSDATE,SYS_GUID(),1)
 /

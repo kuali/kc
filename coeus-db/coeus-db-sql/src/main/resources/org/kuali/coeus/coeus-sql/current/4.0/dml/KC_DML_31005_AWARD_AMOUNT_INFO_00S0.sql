@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO AWARD_AMOUNT_INFO (AWARD_AMOUNT_INFO_ID,AWARD_ID,AWARD_NUMBER,SEQUENCE_NUMBER,ANTICIPATED_TOTAL_DIRECT,ANTICIPATED_TOTAL_INDIRECT,OBLIGATED_TOTAL_DIRECT,OBLIGATED_TOTAL_INDIRECT,ANTICIPATED_TOTAL_AMOUNT,ANT_DISTRIBUTABLE_AMOUNT,AMOUNT_OBLIGATED_TO_DATE,OBLI_DISTRIBUTABLE_AMOUNT,ENTRY_TYPE,FINAL_EXPIRATION_DATE,EOM_PROCESS_FLAG,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES (SEQUENCE_AWARD_ID.NEXTVAL,(SELECT AWARD_ID FROM AWARD WHERE AWARD_NUMBER = '001002-00001' AND SEQUENCE_NUMBER = '1'),'001002-00001',1,0,0,0,0,0,0,0,0,'N',TO_DATE('20151231','YYYYMMDD'),'N','quickstart',SYSDATE,SYS_GUID(),0)
 /

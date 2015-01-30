@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO COMM_SCHEDULE (ID,SCHEDULE_ID,COMMITTEE_ID_FK,SCHEDULED_DATE,PLACE,TIME,PROTOCOL_SUB_DEADLINE,SCHEDULE_STATUS_CODE,START_TIME,END_TIME,MAX_PROTOCOLS,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES (SEQ_COMMITTEE_ID.NEXTVAL,SEQ_COMMITTEE_ID.NEXTVAL,(SELECT ID FROM COMMITTEE WHERE COMMITTEE_NAME = 'KC IRB 1'),TO_DATE('20100719','YYYYMMDD'),'EHOB 341',TO_DATE('197001011300','YYYYMMDDHH24MI'),TO_DATE('20100717','YYYYMMDD'),(SELECT SCHEDULE_STATUS_CODE FROM SCHEDULE_STATUS WHERE DESCRIPTION = 'Scheduled'),TO_DATE('19700101','YYYYMMDD'),TO_DATE('19700101','YYYYMMDD'),22,'quickstart',SYSDATE,SYS_GUID(),0)
 /

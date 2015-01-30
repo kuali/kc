@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO AWARD_TEMPL_REP_TERMS_RECNT (TEMPL_REP_TERMS_RECNT_ID,TEMPLATE_REPORT_TERMS_ID,CONTACT_TYPE_CODE,ROLODEX_ID,NUMBER_OF_COPIES,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES (SEQ_AWARD_TEMPLATE.NEXTVAL,(SELECT TEMPLATE_REPORT_TERMS_ID FROM AWARD_TEMPLATE_REPORT_TERMS WHERE AWARD_TEMPLATE_CODE = (SELECT AWARD_TEMPLATE_CODE FROM AWARD_TEMPLATE WHERE DESCRIPTION = 'Test Sponsor Template' AND STATUS_CODE = (SELECT STATUS_CODE FROM AWARD_STATUS WHERE DESCRIPTION = 'Active')) AND REPORT_CLASS_CODE = (SELECT REPORT_CLASS_CODE FROM REPORT_CLASS WHERE DESCRIPTION = 'Financial') AND REPORT_CODE = (SELECT REPORT_CODE FROM REPORT WHERE DESCRIPTION = 'SF 269 Expenditure Report') AND FREQUENCY_CODE = (SELECT FREQUENCY_CODE FROM FREQUENCY WHERE DESCRIPTION = 'Annual') AND FREQUENCY_BASE_CODE = (SELECT FREQUENCY_BASE_CODE FROM FREQUENCY_BASE WHERE DESCRIPTION = 'Obligation End Date')),(SELECT CONTACT_TYPE_CODE FROM CONTACT_TYPE WHERE DESCRIPTION = 'Awarding Office Contact--1'),1389,1,'admin',SYSDATE,SYS_GUID(),0)
 /

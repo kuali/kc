@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO AWARD_TEMPLATE (AWARD_TEMPLATE_CODE,DESCRIPTION,PRIME_SPONSOR_CODE,BASIS_OF_PAYMENT_CODE,METHOD_OF_PAYMENT_CODE,STATUS_CODE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
     VALUES (SEQ_AWARD_TEMPLATE.NEXTVAL,'Test Sponsor Template','000340',(SELECT BASIS_OF_PAYMENT_CODE FROM AWARD_BASIS_OF_PAYMENT WHERE DESCRIPTION = 'Cost reimbursement'),(SELECT METHOD_OF_PAYMENT_CODE FROM AWARD_METHOD_OF_PAYMENT WHERE DESCRIPTION = 'Established ACH mechanism for sponsor'),(SELECT STATUS_CODE FROM AWARD_STATUS WHERE DESCRIPTION = 'Active'),'admin',SYSDATE,SYS_GUID(),0)
 /

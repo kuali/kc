@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 delete from SUBAWARD_FORMS
 /
 commit
@@ -2889,7 +2908,7 @@ buffer := '									<fo:inline>
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -2906,7 +2925,7 @@ buffer := '									<fo:inline>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -2933,7 +2952,7 @@ buffer := '									<fo:inline>
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime Recipientï¿½s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -3445,7 +3464,7 @@ buffer := 'ns: </xsl:text>
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -3462,11 +3481,11 @@ buffer := 'ns: </xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consid';
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ï¿½s subject inventions as a part of consid';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -3475,7 +3494,7 @@ BEGIN
 SELECT FORM INTO data FROM SUBAWARD_FORMS
 WHERE
 TEMPLATE_TYPE_CODE=2 AND  FORM_ID = 'FDP_AMRMC' FOR UPDATE;
-buffer := 'eration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+buffer := 'eration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipientï¿½s right to practice a Subrecipientsï¿½s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -3502,7 +3521,7 @@ buffer := 'eration for the subaward.&#160; Should it be necessary, the Federal G
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime Recipientï¿½s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -4061,7 +4080,7 @@ buffer := 'ontractData/subcontract:SubcontractTemplateInfo/subcontract:CopyRight
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -4078,11 +4097,11 @@ buffer := 'ontractData/subcontract:SubcontractTemplateInfo/subcontract:CopyRight
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ï¿½s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipientï¿½s right to practice a Subrecipientsï¿½s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -4109,7 +4128,7 @@ buffer := 'ontractData/subcontract:SubcontractTemplateInfo/subcontract:CopyRight
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime Recipientï¿½s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -10286,7 +10305,7 @@ buffer := 's: </xsl:text>
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -10303,11 +10322,11 @@ buffer := 's: </xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of conside';
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ï¿½s subject inventions as a part of conside';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -10316,7 +10335,7 @@ BEGIN
 SELECT FORM INTO data FROM SUBAWARD_FORMS
 WHERE
 TEMPLATE_TYPE_CODE=2 AND  FORM_ID = 'FDP_DOE' FOR UPDATE;
-buffer := 'ration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+buffer := 'ration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipientï¿½s right to practice a Subrecipientsï¿½s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -10343,7 +10362,7 @@ buffer := 'ration for the subaward.&#160; Should it be necessary, the Federal Go
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime Recipientï¿½s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -10889,7 +10908,7 @@ BEGIN
 SELECT FORM INTO data FROM SUBAWARD_FORMS
 WHERE
 TEMPLATE_TYPE_CODE=2 AND  FORM_ID = 'FDP_EPA' FOR UPDATE;
-buffer := 'nt required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+buffer := 'nt required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -10906,11 +10925,11 @@ buffer := 'nt required to meet Prime Recipient’s obligations to the Federal Gove
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ï¿½s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipientï¿½s right to practice a Subrecipientsï¿½s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -10937,7 +10956,7 @@ buffer := 'nt required to meet Prime Recipient’s obligations to the Federal Gove
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime Recipientï¿½s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -11483,7 +11502,7 @@ BEGIN
 SELECT FORM INTO data FROM SUBAWARD_FORMS
 WHERE
 TEMPLATE_TYPE_CODE=2 AND  FORM_ID = 'FDP_NASA' FOR UPDATE;
-buffer := 'any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+buffer := 'any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -11500,11 +11519,11 @@ buffer := 'any computer software and its documentation and/or databases) first d
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ï¿½s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipientï¿½s right to practice a Subrecipientsï¿½s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -11531,7 +11550,7 @@ buffer := 'any computer software and its documentation and/or databases) first d
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime Recipientï¿½s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -11874,7 +11893,7 @@ buffer := 'r format="1" value="1"/>.</fo:block>
 														<fo:list-item-body start-indent="body-start()">
 															<fo:block font-family="time" font-size="10pt" font-weight="normal">
 																<fo:inline>
-																	<xsl:text>Subrecipient assures, by signing this Subaward Agreement, that all Subrecipient’s personnel who are responsible for the design and conduct of projects involving human research participants have successfully completed their institutional training in accordance with the NIH Guide, Notice OD-00-039.</xsl:text>
+																	<xsl:text>Subrecipient assures, by signing this Subaward Agreement, that all Subrecipientï¿½s personnel who are responsible for the design and conduct of projects involving human research participants have successfully completed their institutional training in accordance with the NIH Guide, Notice OD-00-039.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -12162,7 +12181,7 @@ buffer := '									<fo:inline>
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -12179,7 +12198,7 @@ buffer := '									<fo:inline>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -12206,7 +12225,7 @@ buffer := '									<fo:inline>
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime Recipientï¿½s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -12773,7 +12792,7 @@ buffer := 'e>
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text> to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -12790,11 +12809,11 @@ buffer := 'e>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ï¿½s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipientï¿½s right to practice a Subrecipientsï¿½s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -12821,7 +12840,7 @@ buffer := 'e>
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xs';
+																			<xsl:text>Carry Forward requests must be sent to Prime Recipientï¿½s - </xs';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
@@ -13393,7 +13412,7 @@ buffer := 'ber format="1" value="1"/>.</fo:block>
 																	</xsl:when>
 																</xsl:choose>
 																<fo:inline>
-																	<xsl:text>to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>to Prime Recipient an irrevocable, royalty-free, non-transferable, non-exclusive right and license to use, reproduce, make derivative works, display, and perform publicly any copyrights or copyrighted material (including any computer software and its documentation and/or databases) first developed and delivered under this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -13410,11 +13429,11 @@ buffer := 'ber format="1" value="1"/>.</fo:block>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ï¿½s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipientï¿½s right to practice a Subrecipientsï¿½s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -13450,7 +13469,7 @@ buffer := '																<xsl:when test="subcontract:SubContractData/subcontra
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime Recipientï¿½s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">
@@ -13987,7 +14006,7 @@ BEGIN
 SELECT FORM INTO data FROM SUBAWARD_FORMS
 WHERE
 TEMPLATE_TYPE_CODE=2 AND  FORM_ID = 'FDP_USDA' FOR UPDATE;
-buffer := 'red to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+buffer := 'red to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -14004,11 +14023,11 @@ buffer := 'red to meet Prime Recipient’s obligations to the Federal Government u
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipient’s obligations to the Federal Government under its Prime Award.</xsl:text>
+																	<xsl:text>Subrecipient grants to Prime Recipient the right to use data created in the performance of this Subaward Agreement solely for the purpose of and only to the extent required to meet Prime Recipientï¿½s obligations to the Federal Government under its Prime Award.</xsl:text>
 																</fo:inline>
 																<fo:block/>
 																<fo:inline>
-																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ’s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipient’s right to practice a Subrecipients’s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
+																	<xsl:text>[Do not add a Patent or Inventions Clause. The prime award governs rights to patents and inventions. Prime Recipient cannot obtain rights in the Subrecipient ï¿½s subject inventions as a part of consideration for the subaward.&#160; Should it be necessary, the Federal Government can authorize the Prime Recipientï¿½s right to practice a Subrecipientsï¿½s subject invention (as well as subject data or copyrights) on behalf of the Federal Government.]</xsl:text>
 																</fo:inline>
 															</fo:block>
 														</fo:list-item-body>
@@ -14035,7 +14054,7 @@ buffer := 'red to meet Prime Recipient’s obligations to the Federal Government u
 																		</fo:inline>
 																		<fo:block/>
 																		<fo:inline>
-																			<xsl:text>Carry Forward requests must be sent to Prime Recipient’s - </xsl:text>
+																			<xsl:text>Carry Forward requests must be sent to Prime Recipientï¿½s - </xsl:text>
 																		</fo:inline>
 																		<xsl:for-each select="subcontract:SubContractData">
 																			<xsl:for-each select="subcontract:SubcontractTemplateInfo">

@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 set @question_id = (select QUESTION_ID from QUESTION where QUESTION = 'Please select the type of degree sought during the proposed award, from the list of options provided. If the degree being sought does not appear on the list, please select the most appropriate "other" degree type from the list.' and GROUP_TYPE_CODE = 4 and SEQUENCE_NUMBER = 2);
 update QUESTION 
         set QUESTION_TYPE_ID = 6, 

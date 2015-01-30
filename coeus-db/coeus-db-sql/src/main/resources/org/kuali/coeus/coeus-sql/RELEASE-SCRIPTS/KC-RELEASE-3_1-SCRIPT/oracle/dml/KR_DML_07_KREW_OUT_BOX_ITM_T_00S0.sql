@@ -1,3 +1,22 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+-- 
+-- Copyright 2005-2015 The Kuali Foundation
+-- 
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+-- 
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+-- 
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
 INSERT INTO KREW_OUT_BOX_ITM_T (ACTN_ITM_ID,DOC_HDR_ID,DOC_HDR_TTL,DOC_TYP_LBL,DOC_HDLR_URL,DOC_TYP_NM,RSP_ID,ACTN_RQST_ID,RQST_CD,PRNCPL_ID,ROLE_NM,ASND_DT,VER_NBR) 
     VALUES (KREW_OUT_BOX_ITM_S.NEXTVAL,4101,'KC Award - Sync Descendants, 300120','KC Award','${kuali.docHandler.url.prefix}/awardHome.do?methodToCall=docHandler','AwardDocument',10006,10117,'A',(SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'quickstart'),'ROUTED_BY_USER',SYSDATE,1)
 /
