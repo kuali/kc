@@ -41,8 +41,8 @@
 
     <licenses>
         <license>
-            <name>Educational Community License, Version 2.0</name>
-            <url>${kuali.ecl.license.url}</url>
+            <name>GNU GENERAL PUBLIC LICENSE, Version 3.0</name>
+            <url>${kuali.gpl.license.url}</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -213,7 +213,7 @@
         <build.environment>dev</build.environment>
 
         <!-- This is used in the licenses section as well as the jar/war plugins -->
-        <kuali.ecl.license.url>http://maven.kuali.org/external/org/opensource/ecl/2.0/ecl-2.0.txt</kuali.ecl.license.url>
+        <kuali.gpl.license.url>http://www.gnu.org/licenses/gpl.txt</kuali.gpl.license.url>
 
         <maven.skip.packaging>false</maven.skip.packaging>
 
@@ -492,7 +492,7 @@
                             <manifestEntries>
                                 <Bundle-Version>${project.version}</Bundle-Version>
                                 <Bundle-Name>${project.name}</Bundle-Name>
-                                <Bundle-License>${kuali.ecl.license.url}</Bundle-License>
+                                <Bundle-License>${kuali.gpl.license.url}</Bundle-License>
                                 <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
                                 <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
                                 <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
@@ -597,7 +597,7 @@
                             <manifestEntries>
                                 <Bundle-Version>${project.version}</Bundle-Version>
                                 <Bundle-Name>${project.name}</Bundle-Name>
-                                <Bundle-License>${kuali.ecl.license.url}</Bundle-License>
+                                <Bundle-License>${kuali.gpl.license.url}</Bundle-License>
                                 <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
                                 <Bundle-DocURL>${project.organization.url}</Bundle-DocURL>
                                 <Bundle-Timestamp>${maven.build.timestamp}</Bundle-Timestamp>
