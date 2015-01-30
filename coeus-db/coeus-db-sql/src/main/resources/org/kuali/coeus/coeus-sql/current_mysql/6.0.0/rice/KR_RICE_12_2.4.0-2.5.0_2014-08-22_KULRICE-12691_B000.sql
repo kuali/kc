@@ -16,6 +16,7 @@
 -- You should have received a copy of the GNU Affero General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
+DELIMITER /
 
 alter table KREW_PPL_FLW_MBR_T add column FRC_ACTN DECIMAL(1) default 1 not null
 /
