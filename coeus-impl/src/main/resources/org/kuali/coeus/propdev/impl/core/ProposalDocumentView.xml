@@ -270,6 +270,7 @@
                               p:render="@{#editModes['showAlterProposalData'] and #editModes['alterProposalData']}"
                               p:iconClass="icon-pencil2 @{!#emptyList(document.developmentProposal.proposalChangedDataList)?'dataOverride':''}"
                               p:order="80" />
+                        <bean parent="PropDev-HelpMenu" p:order="90"/>
                     </list>
 				</property>
 			</bean>
@@ -314,5 +315,53 @@
     <bean id="PropDev-MenuAction" parent="PropDev-MenuAction-parentBean"/>
     <bean id="PropDev-MenuAction-parentBean" abstract="true" parent="Uif-MenuAction"
           p:performClientSideValidation="true"/>
+
+    <bean id="PropDev-HelpMenu" parent="PropDev-HelpMenu-parentBean"/>
+    <bean id="PropDev-HelpMenu-parentBean" abstract="true" p:toggleText="Help"
+          parent="Uif-DropdownToggleMenu" p:iconClass="icon-question">
+        <property name="wrapperCssClasses">
+            <list merge="true">
+                <value>kc-help-menu</value>
+            </list>
+        </property>
+        <property name="menuItems">
+            <list>
+                <bean parent="Uif-MenuHeader" p:messageText="Basics"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Proposal Details" p:style="padding-left:1em;"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenproposaldetails.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="S2S Opportunity Search" p:style="padding-left:1em;"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenpres2sopportunitysearch.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Delivery Information" p:style="padding-left:1em;"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreendeliveryinformation.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Sponsor &amp; Program Information" p:style="padding-left:1em;"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreensponsorprograminformation.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Organization &amp; Location" p:style="padding-left:1em;"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenorganizationslocations.htm"/>
+                <bean parent="Uif-MenuDivider"/>
+                <bean parent="Uif-MenuHeader" p:messageText="Key Personnel"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Personnel" p:style="padding-left:1em;"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenpersonnel.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Credit Allocation" p:style="padding-left:1em;"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/creditallocation.htm"/>
+                <bean parent="Uif-MenuDivider"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Compliance"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreencompliance.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Attachments"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/proposalattachmentstab.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Questionnaire"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenquestionnaire.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Budget"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/budgetversionsscreen.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Access"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenaccessakapermissions.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Supplemental Information"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreensupplementalinformation.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Summary/Submit"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreensubmit.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Glossary of Terms"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/glossaryofterms.htm"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>
