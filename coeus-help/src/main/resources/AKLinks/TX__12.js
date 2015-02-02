@@ -1,1 +1,0 @@
-﻿d2hStoreMenuItems("TX__12", [["Documents/budgettoolbar.htm", "right", "Budget Toolbar"],["Documents/budgettoolbar1.htm", "right", "Budget Toolbar"]]);
