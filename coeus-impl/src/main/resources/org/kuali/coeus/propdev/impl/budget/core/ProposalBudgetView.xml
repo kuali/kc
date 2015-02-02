@@ -208,8 +208,6 @@
 							p:iconClass="icon-money" p:order="50" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Autocalculate Periods" p:methodToCall="generateAllPeriods"
 							p:iconClass="icon-stack" p:order="60" />
-                        <bean parent="PropBudget-HelpMenu" p:order="70"/>
-
 					</list>
 				</property>
 			</bean>
