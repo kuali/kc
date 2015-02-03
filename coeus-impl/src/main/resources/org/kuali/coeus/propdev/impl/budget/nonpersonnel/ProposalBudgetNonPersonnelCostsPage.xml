@@ -104,7 +104,7 @@
 		<property name="lineActions">
 			<list>
 				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editNonPersonnelPeriodDetails"
-					p:actionLabel="Details" p:order="10">
+					p:actionLabel="Details" p:order="10" p:render="@{#empty(#line.subAwardNumber) and !#parent.readOnly}">
 					<property name="additionalSubmitData">
 						<map>
 							<entry key="budgetPeriodId" value="@{#budgetPeriodId}"/>
@@ -112,7 +112,7 @@
 					</property>		
 				</bean>
 				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="20" p:methodToCall="deleteBudgetLineItem"
-					p:iconClass="icon-trash" p:render="@{!#parent.readOnly}">
+					p:iconClass="icon-trash" p:render="@{#empty(#line.subAwardNumber) and !#parent.readOnly}">
 					<property name="additionalSubmitData">
 						<map>
 							<entry key="budgetPeriodId" value="@{#budgetPeriodId}"/>
