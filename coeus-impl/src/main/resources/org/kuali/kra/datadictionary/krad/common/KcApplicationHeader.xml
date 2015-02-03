@@ -67,7 +67,8 @@
             <list>
                 <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}logo-kuali.png" p:altText="Kuali Logo" p:cssClasses="pull-right"/>
                 <bean parent="Uif-Message" p:messageText="Copyright 2005-2015 Kuali, Inc. All rights reserved.[br]
-Portions of Kuali are copyrighted by other parties as described in the [link='@{#ConfigProperties['application.url']}/acknowledgments.jsp']Acknowledgments[/link] screen." p:renderWrapperTag="false"/>
+Portions of Kuali are copyrighted by other parties as described in the [link='@{#ConfigProperties['application.url']}/acknowledgments.jsp']Acknowledgments[/link] screen.
+[br][css='kc-applicationFooter-version']@{#ConfigProperties['version']} @{#ConfigProperties['datasource.ojb.platform']}[/css]" p:renderWrapperTag="false"/>
             </list>
         </property>
     </bean>
@@ -147,9 +148,6 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-Message"
-                      p:messageText="@{#ConfigProperties['version']} @{#ConfigProperties['datasource.ojb.platform']}"
-                      p:wrapperCssClasses="pull-right,app-header-version"/>
             </list>
         </property>
     </bean>
