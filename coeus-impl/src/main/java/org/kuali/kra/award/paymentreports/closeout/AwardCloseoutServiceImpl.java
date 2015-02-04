@@ -123,7 +123,7 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
         List<AwardReportTerm> filteredAwardReportTerms = new ArrayList<AwardReportTerm>();
         
         for(AwardReportTerm awardReportTerm : awardReportTermItems){
-            if(StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), reportClassCode) && awardReportTerm.getReport().getFinalReportFlag()){
+            if(StringUtils.equalsIgnoreCase(awardReportTerm.getReportClassCode(), reportClassCode) && awardReportTerm.getReport() != null && awardReportTerm.getReport().getFinalReportFlag()){
                 filteredAwardReportTerms.add(awardReportTerm);
             }
         }
