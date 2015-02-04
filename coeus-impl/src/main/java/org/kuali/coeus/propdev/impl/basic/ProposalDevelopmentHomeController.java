@@ -293,7 +293,8 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                propDevForm.setDefaultOpenTab(defaultOpenTab);
            }
 
-            if (StringUtils.equals(form.getRequest().getParameter("viewDocument"),"true") || StringUtils.equals(viewOnly, "true")) {
+            if (!propDevForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()
+                    && (StringUtils.equals(form.getRequest().getParameter("viewDocument"),"true") || StringUtils.equals(viewOnly, "true")) ) {
                 propDevForm.setViewOnly(true);
             }
 
