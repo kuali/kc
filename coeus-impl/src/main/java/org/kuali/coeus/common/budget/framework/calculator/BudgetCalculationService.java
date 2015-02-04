@@ -143,4 +143,6 @@ public interface BudgetCalculationService {
     
     public void resetBudgetLineItemCalculatedAmounts(Budget budget);
     
+    public void calculateAndUpdateFormulatedCost(BudgetLineItem budgetLineItem);
+    
 }

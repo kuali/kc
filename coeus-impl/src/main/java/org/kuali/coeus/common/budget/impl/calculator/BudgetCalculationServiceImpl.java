@@ -30,6 +30,7 @@ import org.kuali.coeus.common.budget.framework.query.operator.Equals;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
 import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.common.budget.framework.distribution.BudgetDistributionService;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
@@ -1267,6 +1268,37 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         		}
         	}
     	}
+    }
+    
+    public void calculateAndUpdateFormulatedCost(BudgetLineItem budgetLineItem) {
+        if(budgetLineItem.getFormulatedCostElementFlag()){
+            ScaleTwoDecimal formulatedCostTotal = getFormulatedCostsTotal(budgetLineItem);
+            if(formulatedCostTotal!=null){
+                budgetLineItem.setLineItemCost(formulatedCostTotal);
+            }
+        }
+    }
+
+    private ScaleTwoDecimal getFormulatedCostsTotal(BudgetLineItem budgetLineItem) {
+        List<BudgetFormulatedCostDetail> budgetFormulatedCosts = budgetLineItem.getBudgetFormulatedCosts();
+        ScaleTwoDecimal formulatedExpenses = ScaleTwoDecimal.ZERO;
+        Budget budget = budgetLineItem.getBudget();
+        for (BudgetFormulatedCostDetail budgetFormulatedCostDetail : budgetFormulatedCosts) {
+        	if(budgetFormulatedCostDetail.getFormulatedNumber() == null) {
+        		budgetFormulatedCostDetail.setFormulatedNumber(budget.getNextValue(Constants.BUDGET_FORMULATED_NUMBER));
+        	}
+            calculateBudgetFormulatedCost(budgetFormulatedCostDetail);
+            formulatedExpenses = formulatedExpenses.add(budgetFormulatedCostDetail.getCalculatedExpenses());
+        }
+        return formulatedExpenses;
+    }
+    
+    private void calculateBudgetFormulatedCost( BudgetFormulatedCostDetail budgetFormulatedCost) {
+    	ScaleTwoDecimal unitCost = budgetFormulatedCost.getUnitCost();
+    	ScaleTwoDecimal count = new ScaleTwoDecimal(budgetFormulatedCost.getCount());
+    	ScaleTwoDecimal frequency = new ScaleTwoDecimal(budgetFormulatedCost.getFrequency());
+    	ScaleTwoDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
+        budgetFormulatedCost.setCalculatedExpenses(calculatedExpense);
     }
     
 	public DataObjectService getDataObjectService() {

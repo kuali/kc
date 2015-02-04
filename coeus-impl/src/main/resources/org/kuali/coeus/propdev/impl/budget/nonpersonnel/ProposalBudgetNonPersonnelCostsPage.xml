@@ -165,14 +165,14 @@
 		p:promptText="You are about to enter costs in a later period. Doing so will prevent you from using the generate all periods function to auto-calculate later periods. Do you wish to continue?"/>
 
 	<bean id="PropBudget-EditNonPersonnelPeriod-Section" parent="PropBudget-EditNonPersonnelPeriod-Section-parent" />
-	<bean id="PropBudget-EditNonPersonnelPeriod-Section-parent" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper" abstract="true" parent="Uif-DialogGroup" 
+	<bean id="PropBudget-EditNonPersonnelPeriod-Section-parent" abstract="true" parent="Uif-DialogGroup" 
         p:onHideDialogScript="jQuery('#PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog'));});"
 		p:headerText="Edit Assigned Non-Personnel" p:enterKeyAction="@DEFAULT">
 		<property name="items">
 			<list>
-				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="budgetLineItem.lineItemDescription"
+				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="addProjectBudgetLineItemHelper.budgetLineItem.lineItemDescription"
 					p:style="font-weight: bold; font-size: larger;" p:order="10"/>
-				<bean parent="PropBudget-EditNonPersonnelCosts-Details-TabSection" p:order="20"/>
+				<bean parent="PropBudget-NonPersonnelCosts-Details-TabSection" p:order="20"/>
 			</list>
 		</property>
 		<property name="footer">
@@ -207,18 +207,6 @@
 		</property>
 	</bean>
 	
-	<bean id="PropBudget-EditNonPersonnelCosts-Details-TabSection" parent="PropBudget-NonPersonnelCosts-Details-TabSection-parentBean">
-		<property name="items">
-			<list>
-				<bean parent="PropBudget-EditNonPersonnelCosts-Details-Tab"
-					p:headerText="Details" p:order="10" />
-				<bean parent="PropBudget-NonPersonnelCosts-CostSharing-Tab"
-					p:headerText="Cost Sharing" p:order="20" />
-				<bean parent="PropBudget-NonPersonnelCosts-Rates-Tab"
-					p:headerText="Rates" p:order="30" />
-			</list>
-		</property>
-	</bean>
 	<bean id="PropBudget-EditNonPersonnelCosts-Details-Tab" parent="PropBudget-NonPersonnelCosts-Details-Tab-parentBean">
 		<property name="items">
 			<list>
@@ -258,12 +246,14 @@
 	<bean id="PropBudget-NonPersonnelCosts-Details-TabSection-parentBean" parent="Uif-TabSection">
 		<property name="items">
 			<list>
-				<bean parent="PropBudget-NonPersonnelCosts-Details-Tab"
-					p:headerText="Details" p:order="10" />
+				<bean parent="PropBudget-NonPersonnelCosts-Details-Tab" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"
+					p:headerText="Details" p:order="10"/>
+				<bean parent="PropBudget-NonPersonnelCosts-FormulatedCost-Tab"
+					p:headerText="Formulated Cost" p:order="20" p:render="@{addProjectBudgetLineItemHelper.budgetLineItem.formulatedCostElementFlag}"/>
 				<bean parent="PropBudget-NonPersonnelCosts-CostSharing-Tab"
-					p:headerText="Cost Sharing" p:order="20" />
+					p:headerText="Cost Sharing" p:order="30" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"/>
 				<bean parent="PropBudget-NonPersonnelCosts-Rates-Tab"
-					p:headerText="Rates" p:order="30" />
+					p:headerText="Rates" p:order="40" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"/>
 			</list>
 		</property>
 	</bean>
@@ -288,6 +278,83 @@
 		</property>
 	</bean>
 	
+	<bean id="PropBudget-NonPersonnelCosts-FormulatedCost-Tab" parent="PropBudget-NonPersonnelCosts-FormulatedCost-Tab-parentBean" />
+	<bean id="PropBudget-NonPersonnelCosts-FormulatedCost-Tab-parentBean" abstract="true" parent="Uif-VerticalBoxSubSection">
+		<property name="items">
+			<list>				
+				<ref bean="PropBudget-FormulatedCost-Details" />
+			</list>
+		</property>
+	</bean>
+	
+    <!-- Budget line item Formulated cost details-->
+	<bean id="PropBudget-FormulatedCost-Details" parent="PropBudget-FormulatedCost-Details-parentBean" />
+	<bean id="PropBudget-FormulatedCost-Details-parentBean" parent="Uif-TableCollectionSection" abstract="true"
+		p:propertyName="addProjectBudgetLineItemHelper.budgetLineItem.budgetFormulatedCosts"
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail"
+		p:addWithDialog="true" p:layoutManager.renderSequenceField="false"
+		p:editWithDialog="true">
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="editInDialogSaveActionPrototype">
+			<bean parent="Uif-EditLineInDialogSaveAction" p:disabled="@{#parent.readOnly}"
+			      p:methodToCall="updateFormulatedCost" p:performClientSideValidation="true" p:dialogDismissOption=""
+                  p:successCallback="Kc.Dialog.closeDialogWithoutError('Uif-EditLineDialog_PropBudget-FormulatedCost-Details_line@{#index}');retrieveComponent('PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog');"/>
+		</property>
+		<property name="addWithDialogAction">
+			<bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Formulated Cost" p:iconClass="icon-plus" p:render="@{!#parent.readOnly}"/>
+		</property>
+	    <property name="addLineDialog">
+	    	<bean id="PropBudget-FormulatedCost-Details-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Formulated Cost"
+                  p:retrieveViaAjax="true">
+			   <property name="footer.items">
+			     <list>
+			       <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"/>
+			       <bean parent="Uif-AddLineAction-Dialog" p:actionLabel="Add Formulated Cost" p:dialogDismissOption="" 
+			       		 p:methodToCall="addFormulatedCost" p:performClientSideValidation="true"
+                         p:successCallback="Kc.Dialog.closeDialogWithoutError('PropBudget-FormulatedCost-Details-AddDialog');retrieveComponent('PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog');"/>
+ 			     </list>
+			   </property>	    	    	
+	    	</bean>
+	    </property>
+		<property name="addLineItems">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="formulatedTypeCode" p:order="10"/>			
+				<bean parent="Uif-InputField" p:propertyName="unitCost" p:order="20"/>			
+				<bean parent="Uif-InputField" p:propertyName="count" p:order="30"/>			
+				<bean parent="Uif-InputField" p:propertyName="frequency" p:order="40"/>			
+			</list>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="formulatedTypeCode" p:order="10"/>			
+				<bean parent="Uif-InputField" p:propertyName="unitCost" p:order="20"/>			
+				<bean parent="Uif-InputField" p:propertyName="count" p:order="30"/>			
+				<bean parent="Uif-InputField" p:propertyName="frequency" p:order="40"/>			
+				<bean parent="Uif-DataField" p:propertyName="calculatedExpenses" p:order="50"/>			
+			</list>
+		</property>
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="40" p:methodToCall="deleteFormulatedCost"
+					p:refreshId="PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog"
+					p:iconClass="icon-trash" p:disabled="@{#parent.readOnly}">
+					<property name="confirmationDialog">
+						<bean parent="Uif-DialogGroup-OkCancel"
+							p:promptText="Are you sure you want to delete this cost?"
+							p:header.headerText="Delete Formulated Cost?"/>
+					</property>
+				</bean>					
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="PropBudget-NonPersonnelCosts-CostSharing-Section" parent="PropBudget-NonPersonnelCosts-CostSharing-Section-parentBean" />
 	<bean id="PropBudget-NonPersonnelCosts-CostSharing-Section-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
@@ -308,7 +375,7 @@
 	<bean id="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="budgetCategoryTypeCode"
+				<bean parent="Uif-InputField" p:propertyName="budgetCategoryTypeCode" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"
 					p:label="Category" p:order="10" p:required="false"
 					p:optionsFinder="#{#getService('budgetNonPersonnelBudgetCategoryTypeValuesFinder')}" 
 					p:optionsFinder.addBlankOption="false">
@@ -319,10 +386,10 @@
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.costElement"
 					p:refreshWhenChangedPropertyNames="#fp.budgetCategoryTypeCode"
 					p:label="Object Code Name" p:optionsFinder="#{#getService('budgetNonPersonnelCostElementValuesFinder')}" 
-					p:optionsFinder.addBlankOption="false" p:order="20"/>
+					p:optionsFinder.addBlankOption="false" p:order="20" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemCost"
-					p:label="Total Base Cost" p:order="30" p:required="false"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.quantity"
+					p:label="Total Base Cost" p:order="30" p:required="false" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.quantity" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"
 					p:order="40" p:required="false"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemDescription"
 					p:order="50" p:required="false"/>
@@ -347,11 +414,13 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.applyInRateFlag"
-					p:order="10" p:label="Apply Inflation"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.submitCostSharingFlag"
+					p:order="10" p:label="Apply Inflation" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"
+					p:readOnlyDisplayReplacement="@{#fp.budgetLineItem.applyInRateFlag ? 'Yes' : 'No'}"/> 
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.submitCostSharingFlag" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"
+					p:readOnlyDisplayReplacement="@{#fp.budgetLineItem.submitCostSharingFlag ? 'Yes' : 'No'}" 
 					p:order="20" p:label="Submit cost sharing"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.onOffCampusFlag"
-                    p:readOnly="@{budget.onOffCampusFlag != '#{T(org.kuali.kra.infrastructure.OnOffCampusFlagConstants).Default.code}'}"
+                    p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag or budget.onOffCampusFlag != '#{T(org.kuali.kra.infrastructure.OnOffCampusFlagConstants).Default.code}'}"
 					p:readOnlyDisplayReplacement="@{#fp.budgetLineItem.onOffCampusFlag ? 'Yes' : 'No'}" 
 					p:order="30" p:label="On Campus"/>
 			</list>
