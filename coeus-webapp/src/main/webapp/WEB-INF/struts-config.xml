@@ -81,7 +81,7 @@
 		<form-bean name="IacucResearchAreasForm" type="org.kuali.kra.iacuc.IacucResearchAreasForm" />
 		<form-bean name="IsrSsrReportGenerationForm" type="org.kuali.kra.subaward.reporting.web.struts.form.IsrSsrReportGenerationForm" />
       <!-- AAP: report form -->
-      <form-bean name="ReportForm" type="com.rsmart.kuali.kra.reporting.web.struts.form.ReportFormwardForm" />
+      <form-bean name="ReportForm" type="co.kuali.coeus.reporting.web.struts.form.ReportFormwardForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -731,7 +731,7 @@
         </action>
      
       <!-- AAP: adding report controller -->
-      <action path="/displayExternalReport" name="ReportForm" type="com.rsmart.kuali.kra.reporting.web.struts.action.ReportForwardAction">
+      <action path="/displayExternalReport" name="ReportForm" type="co.kuali.coeus.reporting.web.struts.action.ReportForwardAction">
         <forward name="basic" path="/reportRedirect.jsp"/>
       </action>
     </action-mappings>

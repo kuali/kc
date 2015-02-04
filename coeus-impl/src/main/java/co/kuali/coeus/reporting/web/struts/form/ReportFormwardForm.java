@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rsmart.kuali.kra.reporting.web.struts.form;
+package co.kuali.coeus.reporting.web.struts.form;
 
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 

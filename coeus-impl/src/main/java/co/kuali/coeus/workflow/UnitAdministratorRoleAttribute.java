@@ -1,4 +1,4 @@
-package com.rsmart.kuali.kra.workflow;
+package co.kuali.coeus.workflow;
 
 import java.util.ArrayList;
 import java.util.Collection;
