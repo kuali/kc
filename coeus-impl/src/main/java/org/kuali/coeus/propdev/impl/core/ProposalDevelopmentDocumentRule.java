@@ -656,8 +656,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         try {
         return new ProposalBudgetDataOverrideRule().processBudgetDataOverrideRules(budgetDataOverrideEvent);
         } catch (NullPointerException e) {
-          LOG.warn("NPE caught when calling: new ProposalBudgetDataOverrideRule().processBudgetDataOverrideRules(budgetDataOverrideEvent)");
-          LOG.warn("returning false");
+          LOG.warn("NPE caught when calling: new ProposalBudgetDataOverrideRule().processBudgetDataOverrideRules(budgetDataOverrideEvent)", e);
           return false;
         }
     }

@@ -222,11 +222,9 @@
 
         <!-- Cloud Express stuff -->
         <rice.version>2.5.2.0-kualico-SNAPSHOT</rice.version>
-        <!-- TODO bind to a release version -->
-        <coeus-api-all.version>6.0-SNAPSHOT</coeus-api-all.version>
         <rsmart.cx.token.auth.version>1.0.7</rsmart.cx.token.auth.version>
         <rsmart.hr.rest.version>1.0-SNAPSHOT</rsmart.hr.rest.version>
-        <rsmart.cx.data.migration.version>6.0.1-SNAPSHOT</rsmart.cx.data.migration.version>
+        <kc-sql.version>6.0.1-SNAPSHOT</kc-sql.version>
         <wagon.s3.version>1.2.1</wagon.s3.version>
     </properties>
 
@@ -1988,9 +1986,10 @@
             </dependency>
 
             <dependency>
-                <groupId>com.rsmart.kuali</groupId>
-                <artifactId>cx_data_migration</artifactId>
-                <version>${rsmart.cx.data.migration.version}</version>
+                <groupId>co.kuali</groupId>
+                <artifactId>kc-sql</artifactId>
+                <version>${kc-sql.version}</version>
+                <scope>runtime</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>log4j</groupId>
@@ -2003,6 +2002,7 @@
                 <groupId>com.rsmart.kuali</groupId>
                 <artifactId>kc_hr_rest</artifactId>
                 <version>${rsmart.hr.rest.version}</version>
+                <scope>runtime</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>log4j</groupId>
@@ -2163,13 +2163,12 @@
     </pluginRepositories>
 
     <scm>
-        <connection>scm:git:git://github.com/rSmart/kuali_kc.git</connection>
-        <developerConnection>scm:git:git@github.com:rSmart/kuali_kc.git</developerConnection>
-        <url>https://github.com/rSmart/kuali_kc</url>
+        <connection>scm:git:git://github.com/kualico/kc.git</connection>
+        <developerConnection>scm:git:git@github.com:kualico/kc.git</developerConnection>
+        <url>https://github.com/kualico/kc</url>
     </scm>
 
     <distributionManagement>
-        <downloadUrl>https://github.com/rSmart/kc_platform</downloadUrl>
         <snapshotRepository>
             <id>rsmart.snapshot.repo</id>
             <name>rsmart snapshot repository</name>
@@ -2184,7 +2183,7 @@
 
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/rSmart/kuali_kc/issues</url>
+        <url>https://github.com/kualico/kc/issues</url>
     </issueManagement>
 
     <ciManagement>

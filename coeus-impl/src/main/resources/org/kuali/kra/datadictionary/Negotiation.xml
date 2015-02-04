@@ -507,7 +507,6 @@
 		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
 		  </list>
 		</property>
-		<!-- <property name="resultSetLimit" value="500" /> -->
 	</bean>
     
   <bean id="Negotiation-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

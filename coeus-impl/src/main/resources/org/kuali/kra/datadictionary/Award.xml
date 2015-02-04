@@ -1403,7 +1403,6 @@
 		    <bean p:attributeName="closeoutDate" parent="FieldDefinition" />
 		  </list>
 		</property>
-		<!-- <property name="resultSetLimit" value="500" /> -->
 	</bean>
   
   <bean id="Award-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

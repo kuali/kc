@@ -201,8 +201,6 @@ public class BudgetAction extends BudgetActionBase {
             KcServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetForm.getBudgetDocument()));
         }
         } else {
-          // https://github.com/rSmart/issues/issues/417
-          // I am not positive this is the right thing to do in this case and is my best guess...
           setupDocumentExit();
         }
         

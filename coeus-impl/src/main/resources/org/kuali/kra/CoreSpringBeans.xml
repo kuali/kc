@@ -50,7 +50,6 @@
 
     <import resource="classpath:org/kuali/coeus/sys/framework/ImportRiceKradSpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/krad/config/KRADDependentModuleCommonImports.xml" />
-    <!-- <import resource="classpath:com/rsmart/kuali/coeus/hr/JerseyBeans.xml" /> -->
 
     <bean id="coreModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
         <property name="moduleConfiguration" ref="coreModuleConfiguration"/>

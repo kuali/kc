@@ -97,10 +97,6 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                 boolean sendError = false;
                 LOG.debug("renewalDue=" + renewalDue);
                 if (renewalDue != null) {
-                    // Calendar dueCalendarDate = Calendar.getInstance();
-                    // dueCalendarDate.setTimeInMillis(renewalDue.getTime());
-                    // dueCalendarDate.set(Calendar.YEAR, currentTime.get(Calendar.YEAR));
-                    // renewalDue = new Date(dueCalendarDate.getTimeInMillis());
                     final Calendar reminderDate = Calendar.getInstance();
                     reminderDate.setTimeInMillis(renewalDue.getTime());
                     reminderDate.add(Calendar.DATE, -advanceDays);

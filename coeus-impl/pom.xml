@@ -675,8 +675,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.rsmart.kuali</groupId>
-            <artifactId>cx_data_migration</artifactId>
+            <groupId>co.kuali</groupId>
+            <artifactId>kc-sql</artifactId>
         </dependency>
 
         <dependency>

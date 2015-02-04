@@ -452,17 +452,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
                 recipient.setRecipientType(MemberType.PRINCIPAL.getCode());
                 recipients.add(recipient);
                 } catch (IllegalArgumentException e) {
-                    // Quietly ignore recipients that no longer exist - dur!
-
-                    // java.lang.IllegalArgumentException: the entity is null
-                    // at org.kuali.kra.bo.KcPerson.fromEntityAndPersonId(KcPerson.java:133)
-                    // at org.kuali.kra.service.impl.KcPersonServiceImpl.getKcPersonByPersonId(KcPersonServiceImpl.java:130)
-                    // at org.kuali.kra.common.notification.service.impl.KcNotificationServiceImpl.createRoleRecipients(KcNotificationServiceImpl.java:451)
-                    // at org.kuali.kra.common.notification.service.impl.KcNotificationServiceImpl.getRoleRecipients(KcNotificationServiceImpl.java:422)
-                    // at org.kuali.kra.common.notification.service.impl.KcNotificationServiceImpl.getNotificationRecipients(KcNotificationServiceImpl.java:334)
-                    // at org.kuali.kra.common.notification.service.impl.KcNotificationServiceImpl.fillinNotificationObject(KcNotificationServiceImpl.java:581)
-                    // at org.kuali.kra.common.notification.service.impl.KcNotificationServiceImpl.sendNotificationAndPersist(KcNotificationServiceImpl.java:596)
-                    // at org.kuali.kra.protocol.ProtocolActionBase.save(ProtocolActionBase.java:275)
+                    // Quietly ignore recipients that no longer exist
+                	LOG.info("Invalid recipient", e);
                 }
             }
         } 

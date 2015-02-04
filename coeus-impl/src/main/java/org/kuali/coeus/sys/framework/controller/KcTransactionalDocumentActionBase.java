@@ -617,12 +617,8 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
     	try {
     		return doc.getDocumentHeader().getWorkflowDocument().getStatus().getLabel();
     	} catch (RiceRuntimeException e) {
-    		LOG.error("Could not find doc.getDocumentNumber(): " + doc.getDocumentNumber());
-    		LOG.error("Could not find doc.getDocumentHeader().getDocumentNumber(): "
-    				+ doc.getDocumentHeader().getDocumentNumber());
-    		LOG.error("Could not find doc.getDocumentHeader().getOrganizationDocumentNumber(): "
-    				+ doc.getDocumentHeader().getOrganizationDocumentNumber());
-    		LOG.error(e.getMessage(), e);
+    		LOG.error("Could not find doc.getDocumentNumber(): " + doc.getDocumentNumber() + ":" + 
+    				doc.getDocumentHeader().getDocumentNumber() + ":" + doc.getDocumentHeader().getOrganizationDocumentNumber(), e);
     		return "NOT FOUND";
     	}
 	}

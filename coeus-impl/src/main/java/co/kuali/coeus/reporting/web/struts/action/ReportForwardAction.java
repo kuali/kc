@@ -30,7 +30,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import com.rsmart.rfabric.auth.tokenauth.AuthTokenGenerator;
@@ -49,7 +51,9 @@ public class ReportForwardAction extends KualiDocumentActionBase {
     private static final String SHARED_SECRET = "rsmart.report.shared.secret";
     private static final String CLUSTER_ID_VAR = "RSMART_CLUSTER";
     
-    protected String getClientId(final HttpServletRequest request) {
+    private DataObjectService dataObjectService;
+
+	protected String getClientId(final HttpServletRequest request) {
       String clientId = System.getenv(CLUSTER_ID_VAR);
       
       if (clientId == null) {
@@ -102,22 +106,18 @@ public class ReportForwardAction extends KualiDocumentActionBase {
         Map<String, String> proposalKeys = new HashMap<String, String>();
         proposalKeys.put("personId", principalId);
         proposalKeys.put("proposalPersonRoleId", Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-          
-        // TODO verify this is the correct implementation for KC6.
-        List<ProposalPerson> proposalPersons = (List<ProposalPerson>) getBusinessObjectService().findMatching(ProposalPerson.class, proposalKeys);
+
+        List<ProposalPerson> proposalPersons = (List<ProposalPerson>) getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.andAttributes(proposalKeys).build());
         return (proposalPersons != null && proposalPersons.size() > 0);
-//        if (proposalPersons != null && proposalPersons.size() > 0) {
-//            return true;
-//        }
-//        
-//        Map<String, String> awardKeys = new HashMap<String, String>();
-//        awardKeys.put("personId", principalId);
-//        awardKeys.put("proposalPersonRoleId", Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-//
-//        List<AwardPerson> awardPersons = (List<AwardPerson>) getBusinessObjectService().findMatching(AwardPerson.class, awardKeys);
-//
-//        return (awardPersons != null && awardPersons.size() > 0);
     }
+    
+    public DataObjectService getDataObjectService() {
+		return dataObjectService;
+	}
+
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
 
     
 }

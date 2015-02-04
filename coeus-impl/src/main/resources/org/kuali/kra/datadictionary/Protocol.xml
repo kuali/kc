@@ -1046,7 +1046,6 @@
         <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
-        <!-- <property name="resultSetLimit" value="500" /> -->
  	</bean>
 
   <bean id="Protocol-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

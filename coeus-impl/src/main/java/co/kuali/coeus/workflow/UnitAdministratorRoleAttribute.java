@@ -47,13 +47,10 @@ public class UnitAdministratorRoleAttribute extends GenericRoleAttribute {
 	
 	public List<String> getQualifiedRoleNames(String roleName,
 			DocumentContent documentContent) {
-		
-		//LOG.info("getQualifiedRoleNames");
-		
+
 		// RoleName!Unit Administrator Code!TRUE OF PARENT
 		if (roleName != null) {
 			String[] info = roleName.split("!");
-			//LOG.info("roleName: " + roleName);
 			
 			if (info.length != 3) {
 				LOG.warn("Not enough parameters in the roleName.");
@@ -73,7 +70,7 @@ public class UnitAdministratorRoleAttribute extends GenericRoleAttribute {
 	}
 	
 	public List<RoleName> getRoleNames() {
-		RoleName role = RoleName.Builder.create("org.kuali.kra.workflow.UnitAdministratorRoleAttribute", roleName, roleName).build();
+		RoleName role = RoleName.Builder.create(UnitAdministratorRoleAttribute.class.getName(), roleName, roleName).build();
 		return Collections.singletonList(role);
 	}
 	
@@ -84,7 +81,7 @@ public class UnitAdministratorRoleAttribute extends GenericRoleAttribute {
 		return null;
 	}
 	
-    private UnitService getUnitService() {
+    protected UnitService getUnitService() {
     	if (this.unitService == null) {
     		this.unitService = KcServiceLocator.getService(UnitService.class);
     	}
@@ -96,10 +93,6 @@ public class UnitAdministratorRoleAttribute extends GenericRoleAttribute {
     protected List<Id> resolveRecipients(RouteContext routeContext, QualifiedRoleName qualifiedRoleName) {
         List<Id> members = new ArrayList<Id>();
         Collection<Element> personnels = retrieveKeyPersonnel(routeContext);
-        //Id personId; 
-        
-        //LOG.info("resolveRecipients");
-        //LOG.info("Qualified Role Name: " + qualifiedRoleName);
         
         for(Element keyPerson : personnels) {
             if (getUnits) {
@@ -140,10 +133,8 @@ public class UnitAdministratorRoleAttribute extends GenericRoleAttribute {
         
         return members;
     }
-    
-    //private List<Id> getMembers()
 	
-	private Collection<Element> retrieveKeyPersonnel(RouteContext context) {
+	protected Collection<Element> retrieveKeyPersonnel(RouteContext context) {
 	    Document document = XmlHelper.buildJDocument(context.getDocumentContent().getDocument());
 	   
 	    Collection<Element> personnels = XmlHelper.findElements(document.getRootElement(), ProposalPerson.class.getName());
