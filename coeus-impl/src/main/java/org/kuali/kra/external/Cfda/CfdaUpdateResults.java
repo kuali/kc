@@ -103,6 +103,19 @@ public class CfdaUpdateResults {
     public void setMessage(String message) {
         this.message = message;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "CfdaUpdateResults{" +
+                "numberOfRecordsRetrievedFromWebSite=" + numberOfRecordsRetrievedFromWebSite +
+                ", numberOfRecordsInKcDatabase=" + numberOfRecordsInKcDatabase +
+                ", numberOfRecordsNotUpdatedForHistoricalPurposes=" + numberOfRecordsNotUpdatedForHistoricalPurposes +
+                ", numberOfRecordsDeactivatedBecauseNoLongerOnWebSite=" + numberOfRecordsDeactivatedBecauseNoLongerOnWebSite +
+                ", numberOfRecordsReActivated=" + numberOfRecordsReActivated +
+                ", numberOfRecordsNotUpdatedBecauseManual=" + numberOfRecordsNotUpdatedBecauseManual +
+                ", numberOfRecordsUpdatedBecauseAutomatic=" + numberOfRecordsUpdatedBecauseAutomatic +
+                ", numberOfRecordsNewlyAddedFromWebSite=" + numberOfRecordsNewlyAddedFromWebSite +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }
