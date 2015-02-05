@@ -27,7 +27,7 @@
 
 
     <bean id="Kc-SendNotification-Wizard" parent="Kc-Wizard" p:destroyDialogOnHidden="true"
-          p:header.headerText="Send Notifications" p:readOnly="false" p:retrieveViaAjax="true">
+          p:header.headerText="Send Notifications" p:readOnly="false">
         <property name="items">
             <list>
                 <bean parent="Kc-SendNotification-WizardPage1" p:order="10" />
@@ -115,8 +115,8 @@
         <property name="items">
             <list>
                 <bean parent="Kc-Wizard-RoleResults"
-                      p:progressiveRender="@{#empty(#fp.addRecipientHelper.lineType)}"
-                      p:order="10" >
+                    p:render="@{#empty(#fp.addRecipientHelper.lineType)}"
+                    p:order="10" >
                     <property name="items">
                         <list merge="true">
                             <bean parent="Uif-InputField" p:propertyName="selected"
@@ -129,7 +129,7 @@
                     </property>
                 </bean>
                 <bean parent="Kc-Wizard-PersonnelResults"
-                      p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
+                      p:render="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).EMPLOYEE.code}'}"
                       p:order="20" >
                     <property name="items">
                         <list>
@@ -155,9 +155,9 @@
                                   p:label="City" p:order="80" />
                         </list>
                     </property>
-                    </bean>
+                </bean>
                 <bean parent="Kc-Wizard-RolodexResults"
-                      p:progressiveRender="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
+                      p:render="@{#fp.addRecipientHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).NONEMPLOYEE.code}'}"
                       p:order="30" >
                     <property name="items">
                         <list merge="true">

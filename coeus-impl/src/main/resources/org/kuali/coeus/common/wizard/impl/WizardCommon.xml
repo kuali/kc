@@ -27,7 +27,7 @@
           parent="Uif-DialogGroup" class="org.kuali.coeus.org.kuali.rice.krad.uif.container.WizardGroup"
           p:destroyDialogOnHidden="true"
           p:resetDataOnRefresh="true"
-          p:retrieveViaAjax="true">
+          p:retrieveViaAjax="true" p:onHideDialogScript="setComponentState('@{#component.id}', 'step', '0');">
         <property name="dialogCssClass" value="modal-lg"/>
         <property name="header">
             <bean parent="Uif-DialogHeader" p:headerText="Add Personnel" />
@@ -144,20 +144,15 @@
 
     <bean id="Kc-Wizard-Results" parent="Kc-Wizard-Results-parentBean" />
     <bean id="Kc-Wizard-Results-parentBean"
-          abstract="true" parent="Uif-LightTableGroup" p:headerText="Search Results"
+          abstract="true" parent="Uif-TableCollectionSection" p:headerText="Search Results"
+          p:collectionObjectClass="org.kuali.coeus.common.view.wizard.framework.WizardResultsDto"
           p:propertyName="results" p:additionalCssClasses="kc-personnel-table"
+          p:renderAddLine="false" p:renderLineActions="false"
+          p:layoutManager.renderSequenceField="false"
+          p:renderInactiveToggleButton="false"
+          p:useServerPaging="true"
+          p:layoutManager.richTable.render="false"
           p:instructionalText="Only the top @{#ViewHelper.getWizardMaxResults()} results were returned. If you cannot find what you are looking for, please refine the search criteria">
-        <property name="richTable.templateOptions">
-            <map>
-                <entry key="bAutoWidth" value="false" />
-                <entry key="sDom" value="tip" />
-                <entry key="bRetrieve" value="true" />
-                <entry key="sPaginationType" value="full_numbers" />
-                <entry key="aaSorting" value="[[1,'asc']]" />
-                <entry key="aoColumnDefs"
-                       value="[{'sWidth' : '20px', 'bSortable':false, 'aTargets' : [0]}]" />
-            </map>
-        </property>
     </bean>
 
 

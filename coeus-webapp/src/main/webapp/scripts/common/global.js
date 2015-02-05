@@ -290,7 +290,79 @@ KradResponse.prototype.updatePageHandler = function (content, dataAttr) {
     // Perform focus and jumpTo based on the data attributes
     performFocusAndJumpTo(true, page.data(kradVariables.FOCUS_ID), page.data(kradVariables.JUMP_TO_ID), page.data(kradVariables.JUMP_TO_NAME));
 }
+KradRequest.prototype._continueAfterPreSubmit = function() {
+    var dialogDismissed = this._dismissDialogIfNecessary(kradVariables.DIALOG_DISMISS_OPTIONS.PRESUBMIT);
 
+    // with presubmit dialog dismiss the request should not continue
+    if (dialogDismissed) {
+        return;
+    }
+
+    //reset dirty form state
+    if (this.clearDirtyOnAction) {
+        dirtyFormState.reset();
+    }
+
+    //increase dirty field count when this flag is true
+    if (this.dirtyOnAction) {
+        dirtyFormState.incrementDirtyFieldCount();
+    }
+
+    // check for non-ajax request
+    if (!this.ajaxSubmit) {
+        dirtyFormState.reset();
+
+        // submit non ajax call
+        this._submitNonAjax();
+        clearHiddens();
+
+        return;
+    }
+
+    var data = {};
+
+    data.methodToCall = this.methodToCall;
+    data.ajaxReturnType = this.ajaxReturnType;
+    data.ajaxRequest = this.ajaxSubmit;
+
+    if (this.$action && this.$action.is("[" + kradVariables.ATTRIBUTES.ID + "]")) {
+        data.triggerActionId = this.$action.attr(kradVariables.ATTRIBUTES.ID);
+    }
+
+    if (this.refreshId) {
+        data.updateComponentId = this.refreshId;
+    }
+
+    if (this.additionalData) {
+        jQuery.extend(data, this.additionalData);
+    }
+
+
+    // check if we still have a dialog to dismiss
+    if (this.dismissDialogId) {
+        var request = this;
+
+        // to make sure we do an ajax submit when the hide event is triggered, not before
+        jQuery("#" + this.dismissDialogId).one(kradVariables.EVENTS.HIDE_MODAL, function (event) {
+            var jsonViewState = getSerializedViewState();
+            if (jsonViewState) {
+                jQuery.extend(data, {clientViewState: jsonViewState});
+            }
+
+            request._submitAjax(data);
+        });
+
+        this._dismissDialogIfNecessary(kradVariables.DIALOG_DISMISS_OPTIONS.REQUEST);
+    } else {
+        var jsonViewState = getSerializedViewState();
+        if (jsonViewState) {
+            jQuery.extend(data, {clientViewState: jsonViewState});
+        }
+
+        this._submitAjax(data);
+    }
+
+}
 /**
  * Validate that a specific field's control defined by the selector/jQuery array passed in.  Also calls dependsOnCheck
  * to validate any dependant fields.
