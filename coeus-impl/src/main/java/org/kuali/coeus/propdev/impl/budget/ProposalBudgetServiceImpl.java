@@ -247,14 +247,16 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
             }            
 
             if (newBudget.getBudgetSubAwards() != null && newBudget.getBudgetSubAwards().size() > 0) {
-                List<BudgetSubAwardPeriodDetail> budetSubawardPeriodDetail = newBudget.getBudgetSubAwards().get(0).getBudgetSubAwardPeriodDetails();
-                for ( int i = 1 ; i < budetSubawardPeriodDetail.size(); i++ ) {
-                    BudgetSubAwardPeriodDetail period = budetSubawardPeriodDetail.get(i);
-                    period.setAmountsModified(true);
-                    period.setCostShare(ScaleTwoDecimal.ZERO);
-                    period.setDirectCost(ScaleTwoDecimal.ZERO);
-                    period.setIndirectCost(ScaleTwoDecimal.ZERO);
-                    period.setTotalCost(ScaleTwoDecimal.ZERO);
+                for (BudgetSubAwards budgetSubAwards : newBudget.getBudgetSubAwards()) {
+                    List<BudgetSubAwardPeriodDetail> budetSubawardPeriodDetail = budgetSubAwards.getBudgetSubAwardPeriodDetails();
+                    for ( int i = 1 ; i < budetSubawardPeriodDetail.size(); i++ ) {
+                        BudgetSubAwardPeriodDetail period = budetSubawardPeriodDetail.get(i);
+                        period.setAmountsModified(true);
+                        period.setCostShare(ScaleTwoDecimal.ZERO);
+                        period.setDirectCost(ScaleTwoDecimal.ZERO);
+                        period.setIndirectCost(ScaleTwoDecimal.ZERO);
+                        period.setTotalCost(ScaleTwoDecimal.ZERO);
+                    }
                 }
             }
         }
