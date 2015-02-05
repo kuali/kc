@@ -120,6 +120,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetSummaryPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetPrintForms.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetHierarchy.xml</value>
+                <value>classpath:org/kuali/coeus/propdev/impl/budget/core/ProposalBudgetHierarchySummary.xml</value>
 
                 <!--Common-->
                 <value>classpath:org/kuali/coeus/common/impl/DataValidationSection.xml</value>

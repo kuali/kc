@@ -18,8 +18,10 @@
  */
 package org.kuali.coeus.propdev.impl.budget.hierarchy;
 
+import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyErrorWarningDto;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyKeyConstants;
@@ -52,6 +54,7 @@ public class ProposalBudgetHierarchyController extends ProposalBudgetControllerB
         if (!displayErrors(errors)) {
             getProposalBudgetHierarchyService().synchronizeAllChildBudgets(hierarchyProposal);
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS);
+            ((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).prepareHierarchySummary(form);
         }
         return save(form);
     }
@@ -65,8 +68,15 @@ public class ProposalBudgetHierarchyController extends ProposalBudgetControllerB
             getProposalBudgetHierarchyService().synchronizeChildBudget(hierarchy, form.getBudget());
             getProposalBudgetHierarchyService().persistProposalHierarchyBudget(hierarchy);
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS);
+            ((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).prepareHierarchySummary(form);
         }
         return save(form);
+    }
+
+    @Transactional @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-HierarchySummaryPage"})
+    public ModelAndView navigateToSubmit(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception{
+        ((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).prepareHierarchySummary(form);
+        return super.navigate(form);
     }
 
     protected void displayMessage(String messageKey, String... errorParameters) {
