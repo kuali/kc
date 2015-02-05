@@ -30,6 +30,8 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.copy.DeepCopyPostProcessor;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonSalaryDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
@@ -45,6 +47,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -724,6 +727,25 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
         
     }
+    
+    public void syncBudgetPersonSalaryDetails(Budget budget) {
+        for(BudgetPerson budgetPerson: budget.getBudgetPersons()) {
+    		HashSet<Integer> existingBudgetPeriods = new HashSet<Integer>();
+        	for(BudgetPersonSalaryDetails budgetPersonSalaryDetails : budgetPerson.getBudgetPersonSalaryDetails()) {
+        		existingBudgetPeriods.add(budgetPersonSalaryDetails.getBudgetPeriod());
+        	}
+        	addSalaryDetailsForNewBudgetPeriod(budget, budgetPerson, existingBudgetPeriods);
+        }
+    }
+    
+    public void addSalaryDetailsForNewBudgetPeriod(Budget budget, BudgetPerson budgetPerson, HashSet<Integer> existingBudgetPeriods) {
+        for(BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
+        	if(!existingBudgetPeriods.contains(budgetPeriod.getBudgetPeriod())) {
+        		budgetPerson.getBudgetPersonSalaryDetails().add(budgetPerson.getNewBudgetPersonSalaryDetails(budgetPeriod));
+        	}
+        }    	
+    }
+    
 	public DataObjectService getDataObjectService() {
 		return dataObjectService;
 	}
