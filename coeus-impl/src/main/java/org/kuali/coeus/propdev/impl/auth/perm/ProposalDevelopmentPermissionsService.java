@@ -44,4 +44,6 @@ public interface ProposalDevelopmentPermissionsService {
     public void processDeletePermission(ProposalDevelopmentDocument document, ProposalUserRoles proposalUser);
 
     public void processUpdatePermission(ProposalDevelopmentDocument document, ProposalUserRoles proposalUser);
+
+    public String getFullName(String first, String middle, String last);
 }
