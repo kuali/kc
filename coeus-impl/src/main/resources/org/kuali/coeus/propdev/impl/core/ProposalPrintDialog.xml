@@ -248,9 +248,9 @@
                       p:fieldLabel.labelText="Total F&amp;A Cost"/>
                 <bean parent="Uif-DataField" p:propertyName="totalRequestedCost" p:order="70"
                       p:fieldLabel.labelText="Total Requested Cost"/>
-                <bean parent="Uif-DataField" p:propertyName="projectStartDate" p:order="80"
+                <bean parent="Uif-DataField" p:propertyName="requestedStartDateInitial" p:order="80"
                       p:fieldLabel.labelText="Effective Date"/>
-                <bean parent="Uif-DataField" p:propertyName="projectEndDate" p:order="90"
+                <bean parent="Uif-DataField" p:propertyName="requestedEndDateTotal" p:order="90"
                       p:fieldLabel.labelText="End Date"/>
                 <bean parent="Uif-DataField" p:propertyName="totalEffort" p:order="100"
                       p:fieldLabel.labelText="Effort %"/>

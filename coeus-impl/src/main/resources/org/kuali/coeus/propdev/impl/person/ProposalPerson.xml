@@ -99,6 +99,9 @@
         <ref bean="ProposalPerson-citizenshipTypeCode" />
         <ref bean="ProposalPerson-versionNumber" />
         <ref bean="ProposalPerson-delete" />
+        <ref bean="ProposalPerson-academicYearEffort" />
+        <ref bean="ProposalPerson-calendarYearEffort" />
+        <ref bean="ProposalPerson-summerEffort" />
       </list>
     </property>
   </bean>
@@ -312,10 +315,19 @@
   <bean id="ProposalPerson-percentageEffort" parent="ProposalPerson-percentageEffort-parentBean"/>
   <bean id="ProposalPerson-percentageEffort-parentBean" abstract="true" parent="AttributeReferenceDummy-percent">
     <property name="name" value="percentageEffort" />
-    <property name="label" value="Percentage Effort" />
-    <property name="shortLabel" value="Perc Eff" />
-    <property name="summary" value="Percentage Effort" />
-    <property name="description" value="Percentage Effort" />
+    <property name="label" value="Total Effort" />
+    <property name="shortLabel" value="Total Eff" />
+    <property name="summary" value="Total Effort" />
+    <property name="description" value="Total Effort" />
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="FixedPointPatternConstraint">
+          <property name="precision" value="5"/>
+          <property name="scale" value="2"/>
+      </bean>
+    </property>
   </bean>
 
   <bean id="ProposalPerson-fedrDebrFlag" parent="ProposalPerson-fedrDebrFlag-parentBean"/>
@@ -403,4 +415,58 @@
     <property name="summary" value="Division" />
     <property name="description" value="Division" />
   </bean>
+
+    <bean id="ProposalPerson-academicYearEffort" parent="ProposalPerson-academicYearEffort-parentBean" />
+    <bean id="ProposalPerson-academicYearEffort-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericRate">
+        <property name="name" value="academicYearEffort" />
+        <property name="label" value="Academic Year Effort" />
+        <property name="shortLabel" value="Academic Year Effort" />
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+        <bean parent="FixedPointPatternConstraint">
+            <property name="precision" value="5"/>
+            <property name="scale" value="2"/>
+        </bean>
+    </property>
+        <property name="summary" value="Academic Year Effort" />
+        <property name="description" value="Academic Year Effort" />
+    </bean>
+
+    <bean id="ProposalPerson-calendarYearEffort" parent="ProposalPerson-calendarYearEffort-parentBean" />
+    <bean id="ProposalPerson-calendarYearEffort-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericRate">
+        <property name="name" value="calendarYearEffort" />
+        <property name="label" value="Calendar Year Effort" />
+        <property name="shortLabel" value="Calendar Year Effort" />
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint">
+                <property name="precision" value="5"/>
+                <property name="scale" value="2"/>
+            </bean>
+        </property>
+        <property name="summary" value="Calendar Year Effort" />
+        <property name="description" value="Calendar Year Effort" />
+    </bean>
+
+    <bean id="ProposalPerson-summerEffort" parent="ProposalPerson-summerEffort-parentBean" />
+    <bean id="ProposalPerson-summerEffort-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericRate">
+        <property name="name" value="summerEffort" />
+        <property name="label" value="Summer Effort" />
+        <property name="shortLabel" value="Summer Effort" />
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint">
+                <property name="precision" value="5"/>
+                <property name="scale" value="2"/>
+            </bean>
+        </property>
+        <property name="summary" value="Summer Effort" />
+        <property name="description" value="Summer Effort" />
+    </bean>
 </beans>
