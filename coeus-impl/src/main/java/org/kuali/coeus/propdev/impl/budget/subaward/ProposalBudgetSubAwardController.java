@@ -114,6 +114,7 @@ public class ProposalBudgetSubAwardController extends
 	public ModelAndView syncFromPdf(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
 		updateSubAwardBudgetDetails(form.getBudget(), subAward, ProposalBudgetConstants.KradConstants.SUBAWARDS_COLLECTION);
+        form.setDialogDataObject(null);
 		return getRefreshControllerService().refresh(form);
 	}
 	

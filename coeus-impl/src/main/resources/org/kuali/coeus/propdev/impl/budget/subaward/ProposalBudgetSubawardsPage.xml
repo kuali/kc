@@ -219,7 +219,8 @@
 					</property>
 				</bean>
 				<bean p:actionLabel="Sync from PDF" parent="Uif-SecondaryActionButton-Mini" p:order="30" 
-					p:disabled="@{dialogDataObject == null}" p:render="@{!#parent.readOnly}" p:methodToCall="syncFromPdf">
+					p:disabled="@{dialogDataObject == null}" p:render="@{!#parent.readOnly}" p:methodToCall="syncFromPdf"
+                    p:successCallback="showEditLineDialog('Uif-EditLineDialog_PropBudget-SubawardsPage-CollectionGroup_line@{#index}', 'budget.budgetSubAwards', @{#index});">
 					<property name="additionalSubmitData">
 						<map>
 							<entry key="subAwardNumber" value="@{dialogDataObject?.subAwardNumber}"/>
