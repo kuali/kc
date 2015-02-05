@@ -21,10 +21,7 @@
 <channel:portalChannelTop channelTitle="Personnel" />
 <div class="body">
   <ul class="chan">
-    <li>Degree Information</li>
    <li><portal:portalLink displayTitle="false" title="Current & Pending Support" url="${ConfigProperties.application.url}/currentOrPendingReport.do">Current &amp; Pending Support</portal:portalLink></li>
-    <li>Bio-sketches</li>
-    <li>All my Training</li>
   </ul>
 </div>
 <channel:portalChannelBottom />

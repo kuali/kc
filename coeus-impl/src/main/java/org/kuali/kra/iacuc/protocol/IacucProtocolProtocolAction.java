@@ -78,6 +78,11 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         
+        if ("close".equals(protocolForm.getMethodToCall()) || protocolForm.getMethodToCall() == null) {
+            // If we're closing, we can just leave right here.
+            return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        }
+
         protocolForm.getProtocolHelper().prepareView();
 
         return actionForward;

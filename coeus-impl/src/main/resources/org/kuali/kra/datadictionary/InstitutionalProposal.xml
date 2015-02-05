@@ -1259,7 +1259,6 @@
         <property name="lookupableID" value="institutionalProposalLookupable" /><property name="defaultSort" >
       <bean parent="SortDefinition"/>
         </property>
-        <property name="resultSetLimit" value="50" />
         <property name="lookupFields" >
             <list>
         <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>

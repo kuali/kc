@@ -18,6 +18,8 @@
  */
 package org.kuali.kra.coi.disclosure;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -78,6 +80,7 @@ import java.util.*;
 
 
 public class CoiDisclosureServiceImpl implements CoiDisclosureService {
+    private static final Log LOG = LogFactory.getLog(CoiDisclosureServiceImpl.class);
 
     public static final String UNIT_AGENDA_TYPE_ID = "KC1000";
 
@@ -224,13 +227,18 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private DisclosurePersonUnit createLeadUnit(String personId) {
 
         DisclosurePersonUnit leadUnit = null;
-        KcPerson kcPerson = kcPersonService.getKcPersonByPersonId(personId);
+        try {
+            final KcPerson kcPerson = kcPersonService.getKcPersonByPersonId(personId);
         if (kcPerson != null && kcPerson.getUnit() != null) {
             leadUnit = new DisclosurePersonUnit();
             leadUnit.setLeadUnitFlag(true);
             leadUnit.setUnitNumber(kcPerson.getUnit().getUnitNumber());
             leadUnit.setUnitName(kcPerson.getUnit().getUnitName());
             leadUnit.setPersonId(personId);
+        }
+        }
+        catch (IllegalArgumentException e) {
+            LOG.info("createLeadUnit: ignoring missing person/entity: " + personId);
         }
         return leadUnit;
     }

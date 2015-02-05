@@ -130,7 +130,7 @@
 			<kra:section permission="addBudget">
 			<tr class="addline">
             	<th width="50" align="right" scope="row"><div align="right">Add:</div></th>
-            	<td class="infoline"><label><html:text name="KualiForm" property="newBudgetVersionName" size="16"/></label></td>
+            	<td class="infoline"><label><html:text name="KualiForm" property="newBudgetVersionName" size="16" maxlength="40"/></label></td>
 	            <td class="infoline">&nbsp;</td>
 	            <td class="infoline">&nbsp;</td>
 	            <td class="infoline">&nbsp;</td>

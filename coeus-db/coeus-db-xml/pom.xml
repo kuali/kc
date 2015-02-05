@@ -29,7 +29,7 @@
     </parent>
     <artifactId>coeus-db-xml</artifactId>
     <packaging>jar</packaging>
-    <name>Kuali Coeus Database XML</name>
+    <name>KualiCo Cloud Express Database XML</name>
     <description>
         The Kuali Coeus Database XML module contains ingest xml files for the Kuali Coeus application.  These files are
         meant to be ingested using the Kuali Rice ingester.

@@ -19,8 +19,6 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
-
 <c:set var="displayKeywordPanel" value="<%=session.getAttribute(Constants.KEYWORD_PANEL_DISPLAY)%>" />
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 
@@ -36,6 +34,8 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="proposal">
   	
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+
 <div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Proposal" /></div>
 <c:choose><c:when test="${!KualiForm.hidePropDevDocDescriptionPanel}">
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />

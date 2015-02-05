@@ -51,6 +51,8 @@ import java.util.*;
  * KraTransactionalDocumentActionBase.
  */
 public abstract class MeetingActionBase extends KualiAction {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MeetingActionBase.class);
+
     private static final String CLOSE_QUESTION = "Would you like to save meeting data before close it ?";
 
     private static final String CLOSE_QUESTION_ID = "meeting.close.question";
@@ -176,8 +178,14 @@ public abstract class MeetingActionBase extends KualiAction {
         getDictionaryValidationService().validateBusinessObject(meetingHelper.getCommitteeSchedule());
         GlobalVariables.getMessageMap().removeFromErrorPath(COMMITTEE_SCHEDULE_ERROR_PATH);
         boolean valid = GlobalVariables.getMessageMap().hasNoErrors();
+        try {
         valid &= applyRules(new MeetingSaveEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
                 .getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR));
+        } catch (NullPointerException e) {
+          // NPE When Accessing Meeting Actions Tab on IRB Schedule
+          // https://github.com/rSmart/issues/issues/449
+          LOG.warn("Possible behavior change; not changing value of `valid` variable. It remains: " + valid);
+        }
         return valid;
 
     }

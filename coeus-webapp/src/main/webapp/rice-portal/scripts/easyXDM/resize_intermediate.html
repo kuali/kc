@@ -24,7 +24,7 @@
                     iframe.onload = function() {
                     	top.jQuery.unblockUI();
                         var d = iframe.contentWindow.document;
-                        var originalHeight =  jQuery(d).find('#view_div').height();
+                        var originalHeight =  jQuery(d).find('#Uif-Application').height();
                         originalHeight += heightPadding;
                         var oldHeight = originalHeight;  // to avoid flashing vertical scroll bar in Google Chrome when table labels wrap/unwrap on screen resize
 
@@ -37,7 +37,7 @@
                             timer = setInterval(function() {
                                 try {
                                     var d = iframe.contentWindow.document;
-                                    var newHeight = jQuery(d).find('#view_div').height();
+                                    var newHeight = jQuery(d).find('#Uif-Application').height();
                                     if(newHeight != originalHeight && newHeight + heightPadding != oldHeight) {
                                         // The height has changed since last we checked
                                         oldHeight = originalHeight;

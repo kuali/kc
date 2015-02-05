@@ -29,7 +29,7 @@
     </parent>
     <artifactId>coeus-webapp</artifactId>
     <packaging>war</packaging>
-    <name>Kuali Coeus Webapp</name>
+    <name>KualiCo Cloud Express Webapp</name>
     <description>
         The Kuali Coeus Webapp module contains web artifacts for the Kuali Coeus application.
     </description>

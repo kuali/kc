@@ -164,6 +164,10 @@
               <bean parent="WorkflowProperty" p:path="developmentProposal.principalInvestigatorName"/>
               <bean parent="WorkflowProperty" p:path="developmentProposal.title"/>
               <bean parent="WorkflowProperty" p:path="developmentProposal.sponsor.sponsorCode"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposal.proposalPersons.personId"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposal.proposalPersons.proposalPersonRoleId"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposal.proposalPersons.homeUnit"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposal.proposalPersons.units"/>
 			 </list>
           </property>
         </bean>

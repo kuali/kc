@@ -663,7 +663,6 @@
         <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
-    <property name="resultSetLimit" value="8000" />
   </bean>
     
   <bean id="Sponsor-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

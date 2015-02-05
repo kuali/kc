@@ -1181,6 +1181,9 @@ public abstract class ActionHelperBase implements Serializable {
     
     
     protected boolean hasFollowupAction(String actionCode) {
+        if (followupActionActions == null) {
+            return false;
+        }
         for (ValidProtocolActionActionBase action : followupActionActions) {
             if (StringUtils.equals(action.getFollowupActionCode(),actionCode)) {
                 return true;

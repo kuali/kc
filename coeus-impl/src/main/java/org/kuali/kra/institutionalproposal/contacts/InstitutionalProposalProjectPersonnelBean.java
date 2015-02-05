@@ -32,6 +32,7 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
 
 
     private static final long serialVersionUID = 6251507517307475952L;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InstitutionalProposalProjectPersonnelBean.class);
 
     private InstitutionalProposalPersonUnit[] newInstitutionalProposalPersonUnits;
 
@@ -241,8 +242,13 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
     
     private void setLeadUnitSelectionStates(String unitName) {
         InstitutionalProposalPerson institutionalProposalPerson = findPrincipalInvestigator();
+        if (institutionalProposalPerson != null) {
         for(InstitutionalProposalPersonUnit associatedUnit: institutionalProposalPerson.getUnits()) {
             associatedUnit.setLeadUnit(associatedUnit.getUnit().getUnitName().equals(unitName));
+        }
+        } else {
+          final IllegalStateException e = new IllegalStateException("institutionalProposalPerson == null");
+          LOG.warn(e.getMessage(), e);
         }
     }    
 }

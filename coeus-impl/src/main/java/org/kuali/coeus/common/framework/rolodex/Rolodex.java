@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.framework.rolodex;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.rolodex.RolodexContract;
 import org.kuali.coeus.common.framework.contact.Contactable;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
@@ -446,4 +447,21 @@ public class Rolodex extends KcPersistableBusinessObjectBase implements Contacta
     public String getOrganizationIdentifier() {
         return this.getUnit().getOrganizationId();
     }
+
+    //deprecated property for maint docs that might still exist
+    @Deprecated
+    /**
+     * @deprecated
+     */
+    public String getIsSponsorAddress() {
+    	return sponsorAddressFlag ? "Y" : "N";
+    }
+
+    @Deprecated
+    /**
+     * @deprecated
+     */
+    public void setIsSponsorAddress(String isSponsorAddress) {
+    	sponsorAddressFlag = StringUtils.equalsIgnoreCase(isSponsorAddress, "Y");
+    }    
 }

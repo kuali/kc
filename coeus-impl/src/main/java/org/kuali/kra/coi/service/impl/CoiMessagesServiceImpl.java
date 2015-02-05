@@ -38,7 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class CoiMessagesServiceImpl implements CoiMessagesService {
-
     private static final Log LOG = LogFactory.getLog(CoiMessagesServiceImpl.class);
 
     private transient BusinessObjectService businessObjectService;
@@ -55,10 +54,11 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
         if (session != null && StringUtils.isNotEmpty(GlobalVariables.getUserSession().getPrincipalId())) {
             String personId = GlobalVariables.getUserSession().getPrincipalId();
             String renewalDateString = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_COIDISCLOSURE, ParameterConstants.DOCUMENT_COMPONENT, "ANNUAL_DISCLOSURE_RENEWAL_DATE");
+            LOG.debug("renewalDateString=" + renewalDateString);
             if (StringUtils.isNotEmpty(renewalDateString)) {
                 Date renewalDue = null;
                 try {
-                    renewalDue = new Date(new SimpleDateFormat("MM/dd").parse(renewalDateString).getTime());
+                    renewalDue = new Date(new SimpleDateFormat("MM/dd/yyyy").parse(renewalDateString).getTime());
                 }
                 catch (Exception e) {
                     LOG.error("***** no valid Annual Disclosure Certification renewal date found.  Defaulting to anniversary of last Annual");
@@ -72,6 +72,7 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                     LOG.error("***** no valid Annual Disclosure Certification advance notice parameter found.  Defaulting to 30 days.");
                     advanceDays = 30;
                 }
+                LOG.debug("advanceDays=" + advanceDays);
                 // find latest existing annual review
                 Map<String, Object> fieldValues = new HashMap<String, Object>();
                 fieldValues.put("personId", personId);
@@ -79,8 +80,11 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                 List<CoiDisclosure> annualDisclosures = (List<CoiDisclosure>) businessObjectService.findMatching(CoiDisclosure.class, fieldValues);
                 Timestamp lastAnnualDate = null;
                 for (CoiDisclosure disclosure: annualDisclosures) {
-                    if (lastAnnualDate == null || lastAnnualDate.before(disclosure.getCertificationTimestamp())) {
-                        lastAnnualDate = disclosure.getCertificationTimestamp();
+                    final Timestamp disclosureCertificationTimestamp = disclosure.getCertificationTimestamp();
+                    if (disclosureCertificationTimestamp != null) {
+                        if (lastAnnualDate == null || lastAnnualDate.before(disclosureCertificationTimestamp)) {
+                            lastAnnualDate = disclosureCertificationTimestamp;
+                        }
                     }
                 }
                 Calendar lastAnnualCalendar = null;
@@ -88,15 +92,12 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                     lastAnnualCalendar = Calendar.getInstance();
                     lastAnnualCalendar.setTimeInMillis(lastAnnualDate.getTime());
                 }
-                Calendar currentTime = Calendar.getInstance();
+                final Calendar currentTime = Calendar.getInstance();
                 boolean sendErrorWithDate = false;
                 boolean sendError = false;
+                LOG.debug("renewalDue=" + renewalDue);
                 if (renewalDue != null) {
-                    Calendar dueCalendarDate = Calendar.getInstance();
-                    dueCalendarDate.setTimeInMillis(renewalDue.getTime());
-                    dueCalendarDate.set(Calendar.YEAR, currentTime.get(Calendar.YEAR));
-                    renewalDue = new Date(dueCalendarDate.getTimeInMillis());
-                    Calendar reminderDate = Calendar.getInstance();
+                    final Calendar reminderDate = Calendar.getInstance();
                     reminderDate.setTimeInMillis(renewalDue.getTime());
                     reminderDate.add(Calendar.DATE, -advanceDays);
                     if (currentTime.after(reminderDate) &&
@@ -104,7 +105,7 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                         sendErrorWithDate = true;                        
                     }
                 } else {
-                    Calendar dueCalendarDate = Calendar.getInstance();
+                    final Calendar dueCalendarDate = Calendar.getInstance();
                     if (lastAnnualDate == null) {
                         sendError = true;
                     } else {
@@ -112,7 +113,7 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                         dueCalendarDate.add(Calendar.YEAR, 1);
                         dueCalendarDate.add(Calendar.DATE, -1);
                         renewalDue = new Date(dueCalendarDate.getTimeInMillis());
-                        Calendar reminderDate = Calendar.getInstance();
+                        final Calendar reminderDate = Calendar.getInstance();
                         reminderDate.setTimeInMillis(renewalDue.getTime());
                         reminderDate.add(Calendar.DATE, -advanceDays);
                         if (currentTime.after(reminderDate)) {

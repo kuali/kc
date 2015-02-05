@@ -71,6 +71,7 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         Map<String, String> result = super.getDefaultReplacementParameters();
         result.put("{DOCUMENT_NUMBER}",developmentProposal.getProposalDocument().getDocumentNumber());
         result.put("{PROPOSAL_NUMBER}", developmentProposal.getProposalNumber());
+        result.put("{DOCUMENT_NUMBER}", developmentProposal.getProposalDocument().getDocumentNumber());
         result.put("{PROPOSAL_TITLE}", developmentProposal.getTitle());
         result.put("{PRINCIPAL INVESTIGATOR}",developmentProposal.getPrincipalInvestigatorName());
         result.put("{SPONSOR_CODE}", developmentProposal.getSponsorCode());
@@ -92,6 +93,7 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         result.put("{PRIME_SPONSOR_NAME}", developmentProposal.getPrimeSponsor() != null ? developmentProposal.getPrimeSponsor().getSponsorName() : "");
         InstitutionalProposal instProp = getProposalDevelopmentService().getInstitutionalProposal(developmentProposal.getProposalNumber());
         result.put("{INSTITUTIONAL_PROPOSAL_NUMBER}", instProp != null ? instProp.getProposalNumber() : "");
+        result.put("{INSTITUTIONAL_PROPOSAL_DOC_NBR}", instProp != null ? instProp.getInstitutionalProposalDocument().getDocumentNumber() : "");
         if (proposalChangedData != null) {
             result.put("{OVERRIDE_FIELD_NAME}", proposalChangedData.getEditableColumn().getColumnLabel());
             result.put("{OVERRIDE_FIELD_VALUE}", proposalChangedData.getDisplayValue());

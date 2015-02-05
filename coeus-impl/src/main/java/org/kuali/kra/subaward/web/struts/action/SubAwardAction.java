@@ -454,15 +454,15 @@ public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRe
     String methodToCall = ((KualiForm) form).getMethodToCall();
     
     if (status == ValidationState.OK) {
-        super.route(mapping, form, request, response);
-        return sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
+        sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
+        return super.route(mapping, form, request, response);
     } else {
         if (status == ValidationState.WARNING) {
             if(question == null){
                 return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists. Are you sure want to submit to workflow routing.", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
             } else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                super.route(mapping, form, request, response);
-                return sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
+                sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
+                return super.route(mapping, form, request, response);
             } else {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }    
@@ -486,8 +486,8 @@ public ActionForward blanketApprove(ActionMapping mapping,
     ValidationState status = KcServiceLocator.getService(AuditHelper.class).
     isValidSubmission(subAwardForm, true);
     if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
-        super.blanketApprove(mapping, form, request, response);
-        return sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
+        sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
+        return super.blanketApprove(mapping, form, request, response);
     } else {
         GlobalVariables.getMessageMap().clearErrorMessages();
         GlobalVariables.getMessageMap().

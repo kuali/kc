@@ -352,6 +352,13 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
      *         & sequenceNumber pair that is greater than the argument CommitteeBase.
      */
     public int compareTo(CMT committee) {
+        // java.lang.NullPointerException
+        // at org.kuali.kra.common.committee.bo.CommitteeBase.compareTo(CommitteeBase.java:356)
+        // at org.kuali.kra.common.committee.bo.CommitteeBase.compareTo(CommitteeBase.java:38)
+        // Fixes https://github.com/rSmart/issues/issues/335
+        if (committee == null) {
+          return -1;
+        }
         if (StringUtils.equals(this.getCommitteeId(), committee.getCommitteeId())) {
             return this.getSequenceNumber().compareTo(committee.getSequenceNumber());
         } else {

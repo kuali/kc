@@ -55,6 +55,7 @@ import org.kuali.coeus.common.framework.custom.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.ken.util.NotificationConstants;
@@ -613,8 +614,14 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
      * @return the status (INITIATED, SAVED, etc.)
      */
     private String getDocumentStatus(Document doc) {
-        return doc.getDocumentHeader().getWorkflowDocument().getStatus().getLabel();
-    }
+    	try {
+    		return doc.getDocumentHeader().getWorkflowDocument().getStatus().getLabel();
+    	} catch (RiceRuntimeException e) {
+    		LOG.error("Could not find doc.getDocumentNumber(): " + doc.getDocumentNumber() + ":" + 
+    				doc.getDocumentHeader().getDocumentNumber() + ":" + doc.getDocumentHeader().getOrganizationDocumentNumber(), e);
+    		return "NOT FOUND";
+    	}
+	}
     
     /**
      * Is this the initial save of the document?  If there are errors

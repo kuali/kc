@@ -35,9 +35,9 @@
 			<label>KC Award</label>
 			<parent>KC</parent>
 			<postProcessorName>org.kuali.coeus.sys.framework.workflow.KcPostProcessor</postProcessorName>
-			<superUserWorkgroupName>KC-WKFLW:AwardAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>KC-WKFLW:AwardAdmin</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>KC-WKFLW:AwardAdmin</defaultExceptionWorkgroupName>
+			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/awardHome.do?methodToCall=docHandler</docHandler>
 			<helpDefinitionURL>default.htm?turl=Documents/award.htm</helpDefinitionURL>
 			<active>true</active>
