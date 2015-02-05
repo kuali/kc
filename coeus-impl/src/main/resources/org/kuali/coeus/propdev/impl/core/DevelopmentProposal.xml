@@ -1165,7 +1165,6 @@
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
 			</list>
 		</property>
-		<property name="resultSetLimit" value="50" />
 	</bean>
 
    <bean id="DevelopmentProposals-LookupViewId" parent="DevelopmentProposal-LookupView-parentBean"

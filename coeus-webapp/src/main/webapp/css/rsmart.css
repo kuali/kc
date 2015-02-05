@@ -1,0 +1,368 @@
+/* Resets */
+.portlet, .portlet .header, #search, div.header2, div.header2-left-focus, .leftback-focus, .footerbevel, #header {
+  background: none;
+  border: none;
+}
+
+ul.chan {
+  padding: 0;
+}
+
+/* New Styles */
+body {
+  background-color: #333;
+  font-size: 13px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#login .rightTd input {
+  height: auto;
+}
+
+#login .login-button {
+  margin-left: 100px;
+}
+
+#header h1.headerImage {
+  position: relative;
+}
+
+.navbar .navbar-inner {
+  background-color: #004250;
+  background-image: none;
+  border: none;
+  border-radius: 0;
+}
+
+.navbar .nav {
+  float: none;
+}
+
+.navbar .nav .right-nav {
+  float: right;
+}
+
+.main-navbar .nav > li > a, .main-navbar .brand {
+  color: #FCFCFC;
+  text-shadow: 0 1px 0 #333;
+}
+
+.main-navbar .nav > li > a:hover, .main-navbar .nav > li > a:focus {
+  background-color: #16ADCC;
+  color: #FCFCFC;
+}
+
+.main-navbar .nav > .active > a, .main-navbar .nav > .active > a:hover, .main-navbar .nav > .active > a:focus {
+  background-color: #16ADCC;
+  color: #FCFCFC;
+}
+
+.main-navbar .nav li.dropdown > .dropdown-toggle .caret {
+  border-bottom-color: #FCFCFC;
+  border-top-color: #FCFCFC;
+}
+
+.main-navbar .nav li.dropdown.open > .dropdown-toggle, .main-navbar .nav li.dropdown.active > .dropdown-toggle, .main-navbar .nav li.dropdown.open.active > .dropdown-toggle {
+  background-color: #16ADCC;
+  color: #FCFCFC;
+}
+
+.main-navbar .nav li.dropdown.open > .dropdown-toggle .caret, .main-navbar .nav li.dropdown.active > .dropdown-toggle .caret, .main-navbar .nav li.dropdown.open.active > .dropdown-toggle .caret {
+  border-bottom-color: #FCFCFC;
+  border-top-color: #FCFCFC;
+}
+
+.subnavbar .navbar-inner {
+  background-color: #EBE2D9;
+  background-image: none;/*linear-gradient(to bottom, #CCC, #BABABA);*/
+  border: none;
+  border-radius: 0px;
+  min-height: 10px;
+}
+
+.subnavbar .nav > li > a, .subnavbar .nav .user {
+  padding: 5px 10px;
+  color: #333;
+  text-shadow: 0 1px 0 #FFFFFF;
+  border-left: 1px solid #888;
+}
+
+.subnavbar .nav > li > a:hover, .subnavbar .nav > li > a:focus {
+  background-color: #CCC;
+}
+
+a, a:link, a:visited, a:hover, a:active {
+  color: #0088CC;
+  text-decoration: none;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+a:hover, a:focus {
+  color: #004250;
+  text-decoration: underline;
+}
+
+a.btn {
+  color: #333333;
+}
+
+div.portlet-title {
+  float: none;
+}
+
+.portlet .header {
+  height: 40px;
+}
+
+.portlet .header h2.portlet-title {
+  color: black;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 22px;
+  border-bottom: 1px solid black;
+  float: none;
+}
+
+#footer-copyright {
+  background-color: #333;
+  background-image: none;
+  font-size: 11px;
+}
+
+.login-form {
+  float: right;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.login-form input[type="text"] {
+  width: 100px;
+  padding: 2px 3px;
+  margin-bottom: 0px;
+}
+
+/* Form Tables */
+
+#iframe_portlet_container_div {
+  background: none;
+  padding: 20px;
+}
+
+#view_div {
+  background-color: white;
+}
+
+.headerarea, .headerarea-small {
+  background: none;
+}
+
+.headerarea-small {
+  height: 60px;
+}
+
+.headerarea, #headerarea table {
+  height: 75px;
+}
+
+#headerarea-small h1, #headerarea h1 {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.form-table,
+.form-table th.grid,
+.form-table td.grid,
+.form-table td.infoline {
+  border: none;
+}
+
+.label-col {
+  width: 25% !important;
+}
+
+label {
+  display: inline;
+}
+
+/* Forms with tabs */
+#kualiForm {
+  background-color: #FFF;
+}
+
+#workarea td.tabtable1-right,
+#workarea td.tabtable1-mid,
+#workarea td.tabtable1-left,
+#workarea td.tabtable2-right,
+#workarea td.tabtable2-mid,
+#workarea td.tabtable2-left,
+#workarea td.footer-right,
+#workarea td.footer,
+#workarea div.tab-container,
+#workarea th,
+#workarea td,
+#workarea table,
+#workarea td.infoline,
+#tabs dt,
+#tabs .tabright,
+.horz-links-bkgrnd,
+#tabs dt.licurrent,
+td.annotate-t,
+td.annotate-b,
+div.annotate-container,
+#workarea td.tabtable1-mid1,
+table.grid,
+div.innerTab-container,
+span.subhead-right,
+.t3,
+.tr3,
+.tl3 {
+  background: none;
+  border: none;
+  background-color: transparent;
+}
+
+#workarea th,
+#workarea td,
+#workarea table,
+#workarea td.infoline,
+#workarea div.tab-container h3,
+th.grid,
+td.grid,
+td.infoline  {
+  border: 1px solid #DDD;
+  padding: 5px;
+}
+
+form-table
+
+#row th.sortable,
+table #row th.sortable,
+#row th {
+  background: none;
+}
+
+#row tr.actionlist_anyRow:hover,
+#row tr.over,
+#row tr.odd:hover,
+#row tr.even:hover,
+tbody.over td {
+  background-color: #EBE2D9;
+}
+
+#workarea td.tabtable1-right img,
+#workarea td.tabtable1-left img,
+#workarea td.tabtable2-right img,
+#workarea td.footer-right img,
+#workarea td.footer img,
+td.annotate-t img,
+td.annotate-b img {
+  display: none;
+}
+
+#workarea div.tab-container h3 {
+  line-height: 18px;
+  font-size: 14px;
+  color: #333;
+  background-color: transparent;
+  border-bottom: none;
+}
+
+span.subhead-left {
+  color: #333;
+}
+
+#workarea .tab tr {
+  border-bottom: 1px solid #333;
+}
+
+#tabs .licurrent input, #tabs .licurrent input:hover, #tabs .licurrent input:focus {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background-color: #FFFFFF;
+  border-color: #DDDDDD #DDDDDD transparent;
+  border-image: none;
+  border-style: solid;
+  border-width: 1px;
+  color: #555555;
+  cursor: default;
+}
+
+#tabs dt input {
+  border: 1px solid transparent;
+  border-radius: 4px 4px 0 0;
+  line-height: 20px;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  margin-right: 2px;
+  padding-left: 12px;
+  padding-right: 12px;
+  color: #0088CC;
+}
+
+#tabs dt input:hover, #tabs dt input:focus {
+  border-color: #EEEEEE #EEEEEE #DDDDDD;
+  background: none;
+  background-color: #EEEEEE;
+  color: #0088CC;
+  font-weight: normal;
+}
+
+#tabs input {
+  height: 36px;
+  font-weight: normal;
+}
+
+#tabs {
+  border-bottom: 1px solid #DDDDDD;
+  height: 35px;
+}
+
+#workarea div.tab-container-error {
+  background: none;
+  border: none;
+}
+
+div.innerTab-head {
+  height: 24px;
+  border: none;
+  background-color: #EFEFEF;
+  color: #333;
+}
+
+input[type=text] {
+  height: 26px;
+}
+
+input[type=text],
+textarea,
+select,
+input[type="file"] {
+  margin-bottom: 0;
+}
+
+#tabs input {
+  font-size: 14px;
+}
+
+div.msg-excol {
+  float: left;
+}
+
+form {
+  margin: 0;
+}
+
+th.grid, td.grid, td.infoline {
+  background: none;
+  border: none;
+}
+
+td.infoline {
+  text-align: left;
+  padding-left: 25%;
+  padding-top: 20px;
+}

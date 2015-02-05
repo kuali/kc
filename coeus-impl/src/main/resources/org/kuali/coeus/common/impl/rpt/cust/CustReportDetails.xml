@@ -287,7 +287,6 @@
         <bean p:attributeName="permissionName" parent="FieldDefinition"/>
 			</list>
 		</property>
-		<property name="resultSetLimit" value="50" />
 	</bean>
 
   <bean id="CustReportDetails-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

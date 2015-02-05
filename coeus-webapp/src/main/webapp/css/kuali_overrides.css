@@ -20,3 +20,95 @@
 {
 	background-image:   url("../static/images/logo-kra.gif");
 }
+
+/* These override styles exist to get the new look. Eventually this may need to be cleaned up. */
+
+.navbar .nav a.brand {
+	background-image: url('../static/images/KualiCo.png');
+	background-size: 155px;
+	background-repeat: no-repeat;
+}
+
+.navbar .brand {
+	height: 39px !important;
+	width: 164px !important;
+	margin-top: 6px !important;
+}
+
+.navbar .navbar-inner {
+	min-height: 46px;
+	background: #2587a9;
+	border: 1px solid #154e62;
+}
+
+.navbar.subnavbar div.navbar-inner {
+	border: 1px solid #768128;
+	padding-left: 20px;
+	padding-right: 20px;
+	background-color: #b1c04b;
+	background-image: -moz-linear-gradient(top, #bccb59, #a0b037);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#bccb59), to(#a0b037));
+	background-image: -webkit-linear-gradient(top, #bccb59, #a0b037);
+	background-image: -o-linear-gradient(top, #bccb59, #a0b037);
+	background-image: linear-gradient(to bottom, #bccb59, #a0b037);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbccb59', endColorstr='#ffa0b037', GradientType=0);
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.07);
+	box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, 0.07);
+	min-height: 10px;
+}
+
+div.navbar.subnavbar .nav > li > a, .navbar.subnavbar .nav li.user {
+	padding-top: 3px;
+	padding-right: 6px;
+	padding-bottom: 3px;
+	padding-left: 6px;
+	color: #ffffff;
+	border-right: 1px solid #8e9d31;
+	text-shadow: none;
+	font-size: 14px;
+}
+
+div.navbar.subnavbar .nav > li > a:hover, div.navbar.subnavbar .nav > li > a:focus {
+	text-decoration: none;
+	background-color: #8e9d31;
+}
+
+div.navbar .nav > .active > a, div.navbar .nav > .active > a:hover, div.navbar .nav > .active > a:focus {
+	color: #ffffff;
+	text-decoration: none;
+	background-color: #1f708c;
+	-webkit-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+	-moz-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+	box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+}
+
+div#footer-copyright {
+	background-color: #2587a9;
+	background-image: url('../img/logo-watermark.png');
+	background-position: 20px center;
+	background-size: 40px 40px;
+	background-repeat: no-repeat;
+	font-size: 11px;
+	text-align: left;
+	line-height: 14px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	padding-right: 20px;
+	padding-left: 70px;
+	width: inherit;
+	position: relative;
+	height: inherit;
+}
+
+html > body {
+	margin: 0;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	color: #333333;
+	background-color: #2587a9;
+}

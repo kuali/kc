@@ -67,6 +67,11 @@
     </filter>
 
     <filter>
+        <filter-name>KCBasicAuthenticationFilter</filter-name>
+        <filter-class>com.rsmart.kuali.coeus.hr.rest.authn.KCBasicAuthFilter</filter-class>
+    </filter>
+
+    <filter>
         <filter-name>DummyLoginFilter</filter-name>
         <filter-class>org.kuali.rice.krad.web.filter.DummyLoginFilter</filter-class>
     </filter>
@@ -196,6 +201,11 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>KCBasicAuthenticationFilter</filter-name>
+        <url-pattern>/hr-import/*</url-pattern>
+    </filter-mapping>
+
     <!-- ******************* End Logging Filters ********************* -->
 
     <listener>
@@ -305,6 +315,15 @@
         <load-on-startup>3</load-on-startup>
     </servlet>
 
+  <servlet>
+    <servlet-name>HR Import REST Service</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>com.sun.jersey.config.property.packages</param-name>
+      <param-value>com.rsmart.kuali.coeus.hr.rest</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
 
     <!--
 
@@ -427,6 +446,11 @@
     <servlet-mapping>
         <servlet-name>krad</servlet-name>
         <url-pattern>/kr-krad/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>HR Import REST Service</servlet-name>
+        <url-pattern>/hr-import/*</url-pattern>
     </servlet-mapping>
 
     <session-config>

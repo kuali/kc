@@ -347,7 +347,7 @@
 												<fo:block/>
 												<xsl:for-each select="subcontract:SubContractData">
 													<xsl:for-each select="subcontract:SubcontractDetail">
-														<xsl:for-each select="subcontract:PONumber">
+														<xsl:for-each select="subcontract:SubContractCode">
 															<xsl:variable name="value-of-template">
 																<xsl:apply-templates/>
 															</xsl:variable>

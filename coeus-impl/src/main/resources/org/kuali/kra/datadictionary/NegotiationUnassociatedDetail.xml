@@ -357,7 +357,6 @@
 
 		  </list>
 		</property>
-		<property name="resultSetLimit" value="50" />
 	</bean>
     
   <bean id="NegotiationUnassociatedDetail-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

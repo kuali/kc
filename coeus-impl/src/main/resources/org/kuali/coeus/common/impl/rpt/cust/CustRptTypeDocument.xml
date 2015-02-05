@@ -163,7 +163,6 @@
         <bean p:attributeName="documentName" parent="FieldDefinition" p:forceInquiry="false"/>
 			</list>
 		</property>
-		<property name="resultSetLimit" value="50" />
 	</bean>
 
   <bean id="CustRptTypeDocument-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

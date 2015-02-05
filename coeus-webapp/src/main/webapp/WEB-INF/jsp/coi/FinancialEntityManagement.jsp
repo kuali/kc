@@ -19,8 +19,8 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html:html>
+<!DOCTYPE html>
+<html>
 
     <head>
         <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
@@ -186,4 +186,4 @@
 <script language="javascript" src="dwr/interface/RolodexService.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
 
-</html:html>
+</html>

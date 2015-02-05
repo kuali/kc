@@ -18,6 +18,7 @@
 --
 
 -- creates additional attribute for krms data validation rules
+
 DELIMITER /
 
 insert into KRMS_ATTR_DEFN_T (ATTR_DEFN_ID, NM, NMSPC_CD, LBL, ACTV, CMPNT_NM, VER_NBR, DESC_TXT) values('KC1001','actionArea','KC-KRMS','Area Name','Y',null,0,'The name of area where this error occurs')

@@ -950,6 +950,7 @@
                 <value>classpath:org/kuali/coeus/common/impl/auth/docperm/DocumentAccessMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/common/impl/LineItemTableCommon.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/AwardCgb.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/krad/common/DummyLoginOverrides.xml</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
@@ -1515,5 +1516,12 @@
       p:callbackService-ref="kcNotificationDocumentSecurityTypeService"
       p:localServiceName="kcNotificationDocumentSecurityTypeService"
       p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute"/>
+
+    <bean id="tokenGenerator" class="com.rsmart.rfabric.auth.tokenauth.AuthTokenGenerator">
+        <property name="secret" value="SECRETKEYVALUE"/>
+    </bean>
+    <bean id="urlGenerator" class="com.rsmart.rfabric.auth.tokenauth.AuthTokenURLGenerator">
+        <property name="tokenGenerator" ref="tokenGenerator"/>
+    </bean>
 
 </beans>

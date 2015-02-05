@@ -18,6 +18,8 @@
  */
 package org.kuali.kra.committee.lookup;
 
+import org.kuali.rice.krad.util.KRADConstants;
+
 import org.kuali.coeus.common.committee.impl.bo.CommitteeType;
 import org.kuali.coeus.common.committee.impl.lookup.CommitteeLookupableHelperServiceImplBase;
 import org.kuali.kra.committee.bo.Committee;
@@ -31,6 +33,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  */
 public class CommitteeLookupableHelperServiceImpl extends CommitteeLookupableHelperServiceImplBase<Committee, CommitteeDocument> {
 
+    private static final String DOCHANDLER_LINK = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
 
     private static final long serialVersionUID = -3249634640550089590L;
 
@@ -48,6 +51,13 @@ public class CommitteeLookupableHelperServiceImpl extends CommitteeLookupableHel
     protected String getHtmlAction() {
         return "committeeCommittee.do";
     }
+
+    @Override
+    protected String getCustomResumeEditUrl(final String editCommitteeDocId) {
+        final String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
+        return String.format(DOCHANDLER_LINK, workflowUrl, editCommitteeDocId);
+    }
+
 
     @Override
     protected String getDocumentTypeName() {

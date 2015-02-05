@@ -37,6 +37,7 @@ public class AwardSponsorContactAuditRule implements DocumentAuditRule {
 
     private static final String AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY = "document.awardList[0].sponsorContact.auditErrors";
     private static final String ERROR_AWARD_NO_SPONSOR_CONTACTS = "error.awardSponsorContact.none";
+    private static final String ERROR_INVALID_COUNTRY_CODE = "error.invalid.countryCode";
     private List<AuditError> auditErrors;
 
     
@@ -56,7 +57,9 @@ public class AwardSponsorContactAuditRule implements DocumentAuditRule {
         auditErrors = new ArrayList<AuditError>();
         
         valid &= checkForAtLeastOneSponsorContact(awardDocument.getAward().getSponsorContacts());
-         
+
+        valid &= checkForValidCountryCode(awardDocument.getAward().getSponsorContacts());
+
         reportAndCreateAuditCluster();
         
         return valid;
@@ -86,5 +89,28 @@ public class AwardSponsorContactAuditRule implements DocumentAuditRule {
         } else {
             return true;
         }
+    }
+
+
+    /**
+     * Verifies that the {@link AwardSponsorContact#getCountryCode} is not <code>null</code>. This results in a stacktrace
+     * when printing an award notice.
+     *
+     * @param sponsorContacts {@link List} of {@link AwardSponsorContact} instances to check countryCode on.
+     * @return true if all {@link AwardSponsorContact} instances have valid country codes, false otherwise.
+     */
+    protected boolean checkForValidCountryCode(final List<AwardSponsorContact> sponsorContacts) {
+        if (sponsorContacts.isEmpty()) {
+            return true;
+        }
+        
+        for (final AwardSponsorContact contact : sponsorContacts) {
+            if (contact.getRolodex() != null && contact.getRolodex().getCountryCode() == null) {
+                auditErrors.add(new AuditError(AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY, ERROR_INVALID_COUNTRY_CODE,                    
+                                               Constants.MAPPING_AWARD_CONTACTS_PAGE + "." + Constants.CONTACTS_PANEL_ANCHOR));
+                return false; // it only takes one
+            }
+        }
+        return true;
     }
 }

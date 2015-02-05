@@ -103,6 +103,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
             }
         }
 
+        if ("close".equals(protocolForm.getMethodToCall()) || protocolForm.getMethodToCall() == null) {
+            // If we're closing, we can just leave right here.
+            return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        }
+
         protocolForm.getProtocolHelper().prepareView();
 
         return actionForward;

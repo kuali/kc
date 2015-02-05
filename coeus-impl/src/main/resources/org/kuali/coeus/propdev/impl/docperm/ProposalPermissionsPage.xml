@@ -34,15 +34,19 @@
 			</list>
 		</property>
 		<property name="header">
-			<bean parent="Uif-PageHeader" p:headerText="Permissions" />
+			<bean parent="Uif-PageHeader"/>
 		</property>
 	</bean>
 
     <bean id="PropDev-PermissionsPage-UserTable"
           parent="Uif-TableCollectionSection" p:propertyName="workingUserRoles"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles"
-          p:renderAddLine="@{(#editModes['modifyPermissions'])}" p:layoutManager.richTable.render="true"
-          p:layoutManager.renderSequenceField="false">
+          p:renderAddLine="@{(#editModes['modifyPermissions'])}" p:layoutManager.richTable.render="false"
+          p:layoutManager.renderSequenceField="false"
+          p:addWithDialog="true" p:headerText="Permissions">
+        <property name="addWithDialogAction">
+            <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add User" p:cssClasses="pull-right" p:iconClass="icon-plus"/>
+        </property>
         <property name="layoutManager.addLineGroup.header">
             <bean parent="Uif-HeaderFour" p:headerText="Access: Add User"/>
         </property>
@@ -103,11 +107,7 @@
             <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
                   p:hideCriteriaOnSearch="true"
                   p:returnByScript="true"
-                  p:fieldConversions="principalName:username">
-                <property name="quickfinderAction">
-                    <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="performLookup"
-                          p:actionLabel="Find User" p:iconClass="icon-search" />
-                </property>
+                  p:fieldConversions="principalName:username,fullName:fullName">
             </bean>
         </property>
     </bean>

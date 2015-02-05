@@ -146,7 +146,6 @@
         <bean p:attributeName="reportTypeDesc" parent="FieldDefinition" p:forceInquiry="false"/>
 			</list>
 		</property>
-		<property name="resultSetLimit" value="50" />
 	</bean>
 
   <bean id="CustReportType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

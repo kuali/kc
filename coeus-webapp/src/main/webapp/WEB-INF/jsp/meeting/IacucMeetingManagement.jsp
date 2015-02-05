@@ -22,8 +22,8 @@
 <%-- Is the screen an inquiry? --%>
 <c:set var="_isInquiry"
     value="${requestScope[Constants.PARAM_MAINTENANCE_VIEW_MODE] eq Constants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY}" />
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html:html>
+<!DOCTYPE html>
+<html>
 
     <head>
 <c:if test="${not empty SESSION_TIMEOUT_WARNING_MILLISECONDS}">
@@ -268,4 +268,4 @@ jQuery(function(){
 
     </SCRIPT> 
 
-</html:html>
+</html>

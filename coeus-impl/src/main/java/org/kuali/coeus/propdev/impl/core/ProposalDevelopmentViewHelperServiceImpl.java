@@ -247,6 +247,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
             getNoteService().save((Note) lineObject);
         }
         else if (lineObject instanceof ProposalUserRoles){
+            Person person = getPersonService().getPersonByPrincipalName(((ProposalUserRoles)lineObject).getUsername());
+            String fullName = getProposalDevelopmentPermissionsService().getFullName(person.getFirstName(),person.getMiddleName(),person.getLastName());
+            ((ProposalUserRoles)lineObject).setFullname(fullName);
             getProposalDevelopmentPermissionsService().processAddPermission(document,(ProposalUserRoles)lineObject);
         }
         else if (lineObject instanceof ProposalSite) {

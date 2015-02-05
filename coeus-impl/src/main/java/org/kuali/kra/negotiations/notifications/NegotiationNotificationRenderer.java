@@ -21,8 +21,8 @@ package org.kuali.kra.negotiations.notifications;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.notification.impl.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 
 import java.text.SimpleDateFormat;
@@ -44,7 +44,7 @@ public class NegotiationNotificationRenderer extends NotificationRendererBase {
             noneGiven = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(KeyConstants.NO_REASON_GIVEN);
         }
         Map<String, String> result = super.getDefaultReplacementParameters();
-        NegotiationUnassociatedDetail details = negotiation.getUnAssociatedDetail();
+        Negotiable details = negotiation.getAssociatedNegotiable();
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
         result.put("{NEGOTIATION_ID}", negotiation.getNegotiationId().toString());
         result.put("{NEGOTIATOR}", negotiation.getNegotiator().getFullName());

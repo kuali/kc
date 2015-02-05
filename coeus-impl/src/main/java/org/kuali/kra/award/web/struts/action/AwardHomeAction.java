@@ -50,6 +50,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -237,14 +238,18 @@ public class AwardHomeAction extends AwardAction {
             }
             Award oldAward = getAwardVersionService().getActiveAwardVersion(awardDocument.getAward().getAwardNumber());
             AwardAmountInfo aaiNew = awardDocument.getAward().getLastAwardAmountInfo();
-            if (oldAward != null) {
+            if (oldAward != null && oldAward.getLastAwardAmountInfo() != null) {
                 AwardAmountInfo aaiOld = oldAward.getLastAwardAmountInfo();
+                try {
                 aaiNew.setObligatedChange(aaiNew.getAmountObligatedToDate().subtract(aaiOld.getAmountObligatedToDate()));
                 aaiNew.setObligatedChangeDirect(aaiNew.getObligatedTotalDirect().subtract(aaiOld.getObligatedTotalDirect()));
                 aaiNew.setObligatedChangeIndirect(aaiNew.getObligatedTotalIndirect().subtract(aaiOld.getObligatedTotalIndirect()));
                 aaiNew.setAnticipatedChange(aaiNew.getAnticipatedTotalAmount().subtract(aaiOld.getAnticipatedTotalAmount()));
                 aaiNew.setAnticipatedChangeDirect(aaiNew.getAnticipatedTotalDirect().subtract(aaiOld.getAnticipatedTotalDirect()));
                 aaiNew.setAnticipatedChangeIndirect(aaiNew.getAnticipatedTotalIndirect().subtract(aaiOld.getAnticipatedTotalIndirect()));
+                } catch (NullPointerException e) {
+                  aaiNew.resetChangeValues();
+                }
             } else {
                 aaiNew.resetChangeValues();
             }
@@ -282,10 +287,19 @@ public class AwardHomeAction extends AwardAction {
         return forward;
     }
 
-    private void setTotalsOnAward(Award award) {
-        AwardAmountInfo aai = award.getLastAwardAmountInfo();
-        aai.setAmountObligatedToDate(aai.getObligatedTotalDirect().add(aai.getObligatedTotalIndirect()));
-        aai.setAnticipatedTotalAmount(aai.getAnticipatedTotalDirect().add(aai.getAnticipatedTotalIndirect()));
+    protected void setTotalsOnAward(final Award award) {
+        final AwardAmountInfo aai = award.getLastAwardAmountInfo();
+        if (aai == null) {
+            return;
+        }
+
+        final ScaleTwoDecimal obligatedDirectTotal     = aai.getObligatedTotalDirect() != null ? aai.getObligatedTotalDirect() : new ScaleTwoDecimal(0);
+        final ScaleTwoDecimal obligatedIndirectTotal   = aai.getObligatedTotalIndirect() != null ? aai.getObligatedTotalIndirect() : new ScaleTwoDecimal(0);
+        final ScaleTwoDecimal anticipatedDirectTotal   = aai.getAnticipatedTotalDirect() != null ? aai.getAnticipatedTotalDirect() : new ScaleTwoDecimal(0);
+        final ScaleTwoDecimal anticipatedIndirectTotal = aai.getAnticipatedTotalIndirect() != null ? aai.getAnticipatedTotalIndirect() : new ScaleTwoDecimal(0);
+
+        aai.setAmountObligatedToDate(obligatedDirectTotal.add(obligatedIndirectTotal));
+        aai.setAnticipatedTotalAmount(anticipatedDirectTotal.add(anticipatedIndirectTotal));
     }
     
     private void persistSpecialReviewProtocolFundingSourceLink(Award award, boolean isAwardProtocolLinkingEnabled) {

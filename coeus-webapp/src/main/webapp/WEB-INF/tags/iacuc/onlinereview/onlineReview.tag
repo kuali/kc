@@ -57,7 +57,7 @@
   	
   	    <c:if test="${ !empty KualiForm.onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.committeeScheduleMinutes or !empty KualiForm.onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.reviewAttachments }">
 	  	    <c:if test="${!KualiForm.onlineReviewsActionHelper.protocolOnlineReviewDocuments[renderIndex].protocolOnlineReview.reviewerApproved}">
-	  	        <span style="color: red; font-weight: bold; text-align: left;">This online review has not yet been approved by the reviewer</span>
+	  	        <span style="color: red; font-weight: bold; text-align: left;">This online review has not yet been submitted by the reviewer</span>
 	  	    </c:if>
   	    </c:if>
   		<kul:innerTab tabTitle="Document Overview" parentTab="" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">	

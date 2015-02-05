@@ -50,6 +50,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.ken.api.notification.Notification;
@@ -446,9 +447,14 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             Collection<String> roleMembers = roleManagementService.getRoleMemberPrincipalIds(roleNamespace, roleName, roleRecipient.getRoleQualifiers());
             for (String roleMember : roleMembers) {
                 NotificationRecipient.Builder recipient = NotificationRecipient.Builder.create();
+                try {
                 recipient.setRecipientId(getKcPersonService().getKcPersonByPersonId(roleMember).getUserName());
                 recipient.setRecipientType(MemberType.PRINCIPAL.getCode());
                 recipients.add(recipient);
+                } catch (IllegalArgumentException e) {
+                    // Quietly ignore recipients that no longer exist
+                	LOG.info("Invalid recipient", e);
+                }
             }
         } 
         
@@ -505,8 +511,16 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         
         if (CollectionUtils.isNotEmpty(recipients)) {
             for (NotificationRecipient.Builder recipient : recipients) {
-                Entity entityInfo = 
-                    getIdentityService().getEntityByPrincipalName(recipient.getRecipientId());
+                Entity entityInfo = null;
+                try {
+                  final String principalName = recipient.getRecipientId();
+                  if (principalName != null && principalName.length() > 0) {
+                    entityInfo = getIdentityService().getEntityByPrincipalName(recipient.getRecipientId());
+                  }
+                } catch (RiceIllegalArgumentException e) {
+                  LOG.info("getRecipientEmailAddresses: Principal cannot be found: " + recipient.getRecipientId());
+                }
+                if (entityInfo != null) {
                 List<EntityTypeContactInfo> entityTypes = entityInfo.getEntityTypeContactInfos();
                 if (CollectionUtils.isNotEmpty(entityTypes)) {
                     for (EntityTypeContactInfo entityType : entityTypes) {
@@ -519,6 +533,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
                             }
                         }
                     }
+                }
             }
             }
         }

@@ -248,8 +248,14 @@ public class AwardLookupableHelperServiceImpl extends KraLookupableHelperService
         AwardPerson principalInvestigator = award.getPrincipalInvestigator();
         if (principalInvestigator != null) {
             if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
+                try {
                 final KcPerson inqBo = this.kcPersonService.getKcPersonByPersonId(principalInvestigator.getPersonId());
                 inquiryUrl = super.getInquiryUrl(inqBo, PERSON_ID);
+                }
+                catch (IllegalArgumentException e) {
+                    LOG.info("getPrincipalInvestigatorNameInquiryUrl(Award award): ignoring missing person/entity: "
+                            + principalInvestigator.getPersonId());
+                }
             } else {
                 if (principalInvestigator.getRolodexId() != null) {
                     Rolodex inqBo = new Rolodex();
