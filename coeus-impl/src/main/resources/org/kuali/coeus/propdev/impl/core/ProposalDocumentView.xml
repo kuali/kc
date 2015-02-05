@@ -294,9 +294,12 @@
 							p:fieldLabel.renderColon="false" p:label="Updated" p:order="60" />
 						<bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.proposalNumber}"
 							p:fieldLabel.renderColon="false" p:label="Proposal Nbr" p:order="70" />
+                        <bean parent="Uif-LinkField" p:label="Copied from Document Id"
+                              p:href="@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=docHandler&amp;docId=@{document.documentHeader.documentTemplateNumber}&amp;command=displayDocSearchView"
+                              p:linkText="@{document.documentHeader.documentTemplateNumber}" p:order="80" p:fieldLabel.renderColon="false" p:render="@{document.documentHeader.documentTemplateNumber != null}"/>
 						<bean parent="Uif-MessageField"
 							p:messageText="@{document.developmentProposal.sponsor?.sponsorName}"
-							p:fieldLabel.renderColon="false" p:label="Sponsor Name" p:order="80" />
+							p:fieldLabel.renderColon="false" p:label="Sponsor Name" p:order="90" />
 					</list>
 				</property>
 			</bean>
