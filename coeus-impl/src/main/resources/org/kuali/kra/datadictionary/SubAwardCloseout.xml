@@ -149,73 +149,31 @@
   </bean>           
             
  <bean id="SubAwardCloseout-dateRequested" parent="SubAwardCloseout-dateRequested-parentBean" />
-  <bean id="SubAwardCloseout-dateRequested-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAwardCloseout-dateRequested-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="dateRequested" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Date Requested" />
     <property name="shortLabel" value="Date Requested" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-    </property>
     <property name="summary" value="Date Requested" />
     <property name="description" value="Date Requested" />    
   </bean>     
     
    <bean id="SubAwardCloseout-dateFollowup" parent="SubAwardCloseout-dateFollowup-parentBean" />
-  <bean id="SubAwardCloseout-dateFollowup-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAwardCloseout-dateFollowup-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="dateFollowup" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Date Followup" />
     <property name="shortLabel" value="Date Followup" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-    </property>
     <property name="summary" value="Date Followup" />
     <property name="description" value="Date Followup" />    
   </bean>      
   
      <bean id="SubAwardCloseout-dateReceived" parent="SubAwardCloseout-dateReceived-parentBean" />
-  <bean id="SubAwardCloseout-dateReceived-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAwardCloseout-dateReceived-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="dateReceived" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Date Received" />
     <property name="shortLabel" value="Date Received" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-    </property>
     <property name="summary" value="Date Received" />
     <property name="description" value="Date Received" />    
   </bean>       
