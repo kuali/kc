@@ -39,8 +39,6 @@ public class BudgetFormulatedCostDetail extends KcPersistableBusinessObjectBase 
     @Column(name = "BUD_FORMULATED_COST_DETAIL_ID")
     private Long budgetFormulatedCostDetailId;
 
-    @Column(name = "BUDGET_DETAILS_ID", insertable = false, updatable = false)
-    private Long budgetLineItemId;
     
     @Column(name = "FORMULATED_NUMBER")
     private Integer formulatedNumber;

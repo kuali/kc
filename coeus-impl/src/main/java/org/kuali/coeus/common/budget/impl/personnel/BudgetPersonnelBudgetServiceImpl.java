@@ -377,36 +377,9 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
             getBudgetCalculationService().updatePersonnelBudgetRate(budgetLineItem);
             if(budgetLineItem.getFormulatedCostElementFlag()){
-                calculateAndUpdateFormulatedCost(budgetLineItem);
+                getBudgetCalculationService().calculateAndUpdateFormulatedCost(budgetLineItem);
             }
         }
-    }
-    
-    private void calculateAndUpdateFormulatedCost(BudgetLineItem budgetLineItem) {
-        if(budgetLineItem.getFormulatedCostElementFlag()){
-            ScaleTwoDecimal formulatedCostTotal = getFormulatedCostsTotal(budgetLineItem);
-            if(formulatedCostTotal!=null){
-                budgetLineItem.setLineItemCost(formulatedCostTotal);
-            }
-        }
-    }
-
-    private ScaleTwoDecimal getFormulatedCostsTotal(BudgetLineItem budgetLineItem) {
-        List<BudgetFormulatedCostDetail> budgetFormulatedCosts = budgetLineItem.getBudgetFormulatedCosts();
-        ScaleTwoDecimal formulatedExpenses = ScaleTwoDecimal.ZERO;
-        for (BudgetFormulatedCostDetail budgetFormulatedCostDetail : budgetFormulatedCosts) {
-            calculateBudgetFormulatedCost(budgetFormulatedCostDetail);
-            formulatedExpenses = formulatedExpenses.add(budgetFormulatedCostDetail.getCalculatedExpenses());
-        }
-        return formulatedExpenses;
-    }
-    
-    private void calculateBudgetFormulatedCost( BudgetFormulatedCostDetail budgetFormulatedCost) {
-    	ScaleTwoDecimal unitCost = budgetFormulatedCost.getUnitCost();
-    	ScaleTwoDecimal count = new ScaleTwoDecimal(budgetFormulatedCost.getCount());
-    	ScaleTwoDecimal frequency = new ScaleTwoDecimal(budgetFormulatedCost.getFrequency());
-    	ScaleTwoDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
-        budgetFormulatedCost.setCalculatedExpenses(calculatedExpense);
     }
     
 	public DataObjectService getDataObjectService() {
