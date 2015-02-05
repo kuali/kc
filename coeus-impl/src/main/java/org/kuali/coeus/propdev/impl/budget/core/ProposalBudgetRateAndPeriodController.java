@@ -73,10 +73,12 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
                 if(confirmResetDefault) {
                 	getBudgetSummaryService().defaultBudgetPeriods(budget);
                 	getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
+                	getBudgetSummaryService().syncBudgetPersonSalaryDetails(budget);
                 }
             }
         }else {
         	getBudgetSummaryService().defaultBudgetPeriods(budget);
+        	getBudgetSummaryService().syncBudgetPersonSalaryDetails(budget);
         }
         return getModelAndViewService().getModelAndView(form);
     }    

@@ -218,17 +218,21 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
       List<BudgetPersonSalaryDetails> salaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
       if ((this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) && getBudget() != null) {
           for (BudgetPeriod budgetPeriod : getBudget().getBudgetPeriods()) {
-        	  BudgetPersonSalaryDetails budgetPersonSalaryDetails = new BudgetPersonSalaryDetails();
-        	  budgetPersonSalaryDetails.setBudgetPerson(this);
-        	  budgetPersonSalaryDetails.setBudgetId(getBudgetId());
-        	  budgetPersonSalaryDetails.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
-        	  budgetPersonSalaryDetails.setPersonId(getPersonId());
-        	  budgetPersonSalaryDetails.setPersonSequenceNumber(getPersonSequenceNumber());
-              salaryDetails.add(budgetPersonSalaryDetails);
+              salaryDetails.add(getNewBudgetPersonSalaryDetails(budgetPeriod));
           }
           this.budgetPersonSalaryDetails = salaryDetails;
       }
     	return budgetPersonSalaryDetails;
+    }
+    
+    public BudgetPersonSalaryDetails getNewBudgetPersonSalaryDetails(BudgetPeriod budgetPeriod) {
+  	  BudgetPersonSalaryDetails budgetPersonSalaryDetails = new BudgetPersonSalaryDetails();
+  	  budgetPersonSalaryDetails.setBudgetPerson(this);
+  	  budgetPersonSalaryDetails.setBudgetId(getBudgetId());
+  	  budgetPersonSalaryDetails.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
+  	  budgetPersonSalaryDetails.setPersonId(getPersonId());
+  	  budgetPersonSalaryDetails.setPersonSequenceNumber(getPersonSequenceNumber());
+  	  return budgetPersonSalaryDetails;
     }
 
     public void setBudgetPersonSalaryDetails(List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails) {
