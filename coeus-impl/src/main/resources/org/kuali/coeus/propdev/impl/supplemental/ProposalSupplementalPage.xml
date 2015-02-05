@@ -64,8 +64,9 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" class="org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataField"
-                      p:fieldLabel.labelText="@{#line.customAttribute ne null ? #line.customAttribute.label : &quot;Custom Attribute&quot;}"
-                      p:propertyName="value" p:required = "@{#ViewHelper.isRequired(#line.customAttribute, document.customDataList)}">
+                      p:fieldLabel.labelText="@{#line.customAttribute ne null ? #line.customAttribute.label : &quot;Custom Attribute&quot;}@{#ViewHelper.isRequired(#line.customAttribute, document.customDataList) ? ': [color=red]*[/color]' : ':'}"
+                      p:fieldLabel.renderColon="false"
+                      p:propertyName="value">
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="false" />
                     </property>
