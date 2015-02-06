@@ -57,6 +57,7 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
     private boolean auditActivated;
     private List<DataValidationItem> dataValidationItems;
     private boolean viewOnly = false;
+    private List<DevelopmentProposal> hierarchyDevelopmentProposals;
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
@@ -229,4 +230,12 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
 		this.viewOnly = viewOnly;
 	}
 
+
+    public List<DevelopmentProposal> getHierarchyDevelopmentProposals() {
+        return hierarchyDevelopmentProposals;
+    }
+
+    public void setHierarchyDevelopmentProposals(List<DevelopmentProposal> hierarchyDevelopmentProposals) {
+        this.hierarchyDevelopmentProposals = hierarchyDevelopmentProposals;
+    }
 }

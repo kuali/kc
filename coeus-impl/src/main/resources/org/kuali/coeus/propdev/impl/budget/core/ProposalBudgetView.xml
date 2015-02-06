@@ -73,6 +73,7 @@
 				<ref bean="PropBudget-ModularPage" />
 				<ref bean="PropBudget-NotesPage" />
 				<ref bean="PropBudget-SummaryPage" />
+                <ref bean="PropBudget-HierarchySummaryPage"/>
 			</list>
 		</property>
 	</bean>
@@ -93,6 +94,7 @@
 				<bean parent="PropBudget-NavigationMenu-Modular" p:order="80" />
 				<bean parent="PropBudget-NavigationMenu-Notes" p:order="90" />
 				<bean parent="PropBudget-NavigationMenu-Summary" p:order="100" />
+                <bean parent="PropBudget-NavigationMenu-HierarchySummary" p:order="110" p:render="@{budget.developmentProposal.isInHierarchy()}" />
 			</list>
 		</property>
 	</bean>
@@ -151,7 +153,12 @@
 	<bean id="PropBudget-NavigationMenu-Summary" parent="PropBudget-NavigationMenu-Summary-parentBean" />
 	<bean id="PropBudget-NavigationMenu-Summary-parentBean" parent="Uif-NavigationActionLink"
 		p:navigateToPageId="PropBudget-SummaryPage" p:actionLabel="Budget Summary" p:iconClass="icon-file"/>
-	<bean id="PropBudget-DocumentHeader" parent="PropBudget-DocumentHeader-parentBean" />
+
+    <bean id="PropBudget-NavigationMenu-HierarchySummary" parent="PropBudget-NavigationMenu-HierarchySummary-parentBean" />
+    <bean id="PropBudget-NavigationMenu-HierarchySummary-parentBean" parent="Uif-NavigationActionLink"
+          p:navigateToPageId="PropBudget-HierarchySummaryPage" p:actionLabel="Hierarchy Summary" p:iconClass="icon-list-ol"/>
+
+    <bean id="PropBudget-DocumentHeader" parent="PropBudget-DocumentHeader-parentBean" />
 	<bean id="PropBudget-DocumentHeader-parentBean" abstract="true"
 		parent="Uif-ViewHeader" p:headerText="Budget: Version 1"
 		p:areaTitleText="[action=openProposal]Proposal #@{budget.developmentProposal.proposalNumber}[/action] &gt; Budget #@{budget.budgetVersionNumber}">
