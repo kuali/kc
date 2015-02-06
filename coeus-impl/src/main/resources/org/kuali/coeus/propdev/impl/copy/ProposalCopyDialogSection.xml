@@ -58,7 +58,6 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
           parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="You are copying a parent proposal, budgets should not be copied" p:order="10" p:render="@{document.developmentProposal.isParent()}"/>
                 <bean parent="Uif-MessageField" p:additionalCssClasses="alert-warning" p:messageText="This proposal copy will include a linked Grants.Gov opportunity. Use the 'Remove Opportunity' option in the S2S page of
                 the copied proposal to remove an invalid/expired opportunity" p:order="15" p:render="@{document.developmentProposal.s2sOpportunity == null ? false : true}"/>
                 <bean parent="Uif-MessageField" p:messageText="Yes" p:fieldLabel.labelText="Proposal" p:fieldLabel.renderColon="false" p:order="20"/>
