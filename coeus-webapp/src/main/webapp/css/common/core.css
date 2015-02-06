@@ -594,7 +594,7 @@ section.medusa div.btn a:hover{
 }
 
 .kc-applicationFooter {
-    background-color: #aa003e;
+    background-color: #2587a9;
     color: #FFF;
     bottom: 0px;
     width: 100%;
@@ -613,5 +613,10 @@ section.medusa div.btn a:hover{
 
 .kc-applicationFooter-version {
     font-size: 10px;
+}
+
+.kc-applicationFooter .kc-footer-img {
+	height : 50px;
+	width : 50px;
 }
 
