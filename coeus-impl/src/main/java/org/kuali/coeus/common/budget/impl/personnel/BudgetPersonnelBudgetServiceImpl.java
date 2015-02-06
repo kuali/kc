@@ -282,16 +282,21 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
     public void addBudgetPersonnelToPeriod(BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
     	Budget budget = budgetPeriod.getBudget();
     	BudgetLineItem groupedBudgetLineItem = getExistingBudgetLineItemBasedOnCostElementAndGroup(budgetPeriod, newBudgetLineItem);
+    	boolean newLineItem = false;
     	if(groupedBudgetLineItem == null) {
     		groupedBudgetLineItem = newBudgetLineItem;
     		setNewBudgetLineItemAttributes(budgetPeriod, groupedBudgetLineItem);
-            budgetPeriod.getBudgetLineItems().add(groupedBudgetLineItem);
+    		newLineItem = true;
     	}
     	groupedBudgetLineItem.setQuantity(getLineItemQuantity(newBudgetLineItem));
     	int newLineNumber = groupedBudgetLineItem.getBudgetPersonnelDetailsList().size() + 1;
     	if(newBudgetPersonnelDetail.getPersonSequenceNumber() != BudgetConstants.BudgetPerson.SUMMARYPERSON.getPersonSequenceNumber()) {
         	addPersonnelToPeriod(budgetPeriod, groupedBudgetLineItem, newBudgetPersonnelDetail);
         	calculateBudgetPersonnelLineItem(budget, groupedBudgetLineItem, newBudgetPersonnelDetail, newLineNumber);
+    	}
+    	groupedBudgetLineItem = getDataObjectService().save(groupedBudgetLineItem);
+    	if(newLineItem) {
+            budgetPeriod.getBudgetLineItems().add(groupedBudgetLineItem);
     	}
     }
     
