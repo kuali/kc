@@ -25,7 +25,7 @@
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentCopyCriteriaHelpUrl" p:parameterDetailType="Document"/>
     </property>
-    <property name="attributes" >
+    <property name="attributes">
       <list>
         <ref bean="ProposalCopyCriteria-includeAttachments" />
         <ref bean="ProposalCopyCriteria-includeBudget" />

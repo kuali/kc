@@ -558,12 +558,12 @@
     </bean>
 
     <bean id="PropDev-PersonnelPage-Degrees" parent="PropDev-PersonnelPage-Degrees-parentBean" />
-    <bean id="PropDev-PersonnelPage-Degrees-parentBean" abstract="true"
-          parent="Uif-TableCollectionSection" p:headerText="Degrees"
+        <bean id="PropDev-PersonnelPage-Degrees-parentBean" abstract="true"
+              parent="Uif-TableCollectionSection" p:headerText="Degrees"
           p:propertyName="proposalPersonDegrees"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree"
           p:layoutManager.renderSequenceField="false"
-          p:addWithDialog="true">
+          p:addWithDialog="true" p:readOnly="@{!#ViewHelper.renderPersonnelEditForHierarchyProposal(#lp.personId, document.developmentProposal)}">
         <property name="addWithDialogAction">
             <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Degree" p:cssClasses="pull-right" p:iconClass="icon-plus"
                   p:render="@{!#parent.readOnly}"/>

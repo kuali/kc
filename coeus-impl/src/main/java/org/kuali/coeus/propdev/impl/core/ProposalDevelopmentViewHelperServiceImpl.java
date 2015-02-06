@@ -720,7 +720,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     Personnel which appears in multiple proposals should not allow update of personnel attachments at the child (critical)
     Personnel attachments for personnel who appears only once in proposal hierarchy should be view only at the parent (no update of details nor delete) (critical)
      */
-    public boolean renderPersonnelAttachmentEditForHierarchyProposal(String personId, DevelopmentProposal proposal) {
+    public boolean renderPersonnelEditForHierarchyProposal(String personId, DevelopmentProposal proposal) {
         return (proposal.isInHierarchy()) ? renderEditForPersonnelAttachment(personId, proposal) : true;
     }
 
