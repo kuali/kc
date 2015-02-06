@@ -1,18 +1,18 @@
 /*
  * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
+ *
  * Copyright 2005-2015 Kuali, Inc.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -157,15 +157,13 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
         final List<ProposalUserRoles> currentRoles = form.getWorkingUserRoles();
         final List<ProposalUserRoles> newRoles = getProposalDevelopmentPermissionsService().getPermissions(form.getProposalDevelopmentDocument());
 
-        form.setWorkingUserRoles(newRoles);
-
         if (isDocumentLevelRolesDirty(currentRoles, newRoles)) {
             form.setEvaluateFlagsAndModes(true);
         }
     }
 
     protected boolean isDocumentLevelRolesDirty(List<ProposalUserRoles> currentRoles, List<ProposalUserRoles> newRoles) {
-        return currentRoles.equals(newRoles);
+        return !currentRoles.equals(newRoles);
     }
 
    @MethodAccessible
@@ -180,41 +178,41 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        }
        return sponsor;
    }
-   
+
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveDetails")
    public ModelAndView saveDetails(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        return super.save(form, result, request, response);
    }
-   
+
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveOpportunity")
    public ModelAndView saveOpportunity(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        return super.save(form, result, request, response);
-   }      
-   
-   
+   }
+
+
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveCompliance")
    public ModelAndView saveComplaince(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
         return super.save(pdForm, result, request, response, SaveDocumentSpecialReviewEvent.class);
-   }   
-   
+   }
+
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveProposalAttachments")
    public ModelAndView saveProposalAttachments(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
        return super.save(pdForm, result, request, response);
    }
-   
+
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveInternalAttachments")
    public ModelAndView saveInternalAttachments(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
        return super.save(pdForm, result, request, response);
-   }   
-   
+   }
+
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=savePersonnelAttachments")
    public ModelAndView savePersonnelAttachments(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {

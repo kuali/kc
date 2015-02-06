@@ -20,6 +20,8 @@ package org.kuali.coeus.propdev.impl.auth.perm;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.docperm.*;
@@ -48,6 +50,10 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
     private PersonService personService;
 
     @Autowired
+    @Qualifier("kcPersonService")
+    private KcPersonService kcPersonService;
+
+    @Autowired
     @Qualifier("kualiRuleService")
     private KualiRuleService kualiRuleService;
 
@@ -68,17 +74,17 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
         for (Role role : roles) {
             List<String> personIds = kraAuthorizationService.getPrincipalsInRole(role.getName(), document);
             for (String personId : personIds) {
-                Person person = personService.getPerson(personId);
+                KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);
                 if (person != null) {
-                    ProposalUserRoles proposalUserRole = pendingRoleMap.get(person.getPrincipalName());
+                    ProposalUserRoles proposalUserRole = pendingRoleMap.get(person.getUserName());
                     if (proposalUserRole != null) {
                         proposalUserRole.addRoleName(role.getName());
                     } else {
                         ProposalUserRoles newRole = new ProposalUserRoles();
-                        newRole.setUsername(person.getPrincipalName());
-                        newRole.setFullname(getFullName(person.getFirstName(), person.getMiddleName(), person.getLastName()));
+                        newRole.setUsername(person.getUserName());
+                        newRole.setFullname(person.getFullName());
                         newRole.addRoleName(role.getName());
-                        pendingRoleMap.put(person.getPrincipalName(), newRole);
+                        pendingRoleMap.put(person.getUserName(), newRole);
                     }
                 } else {
                     LOG.error("Attempting to get roles for null user role!");
@@ -86,12 +92,6 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
             }
         }
         return new ArrayList<>(pendingRoleMap.values());
-    }
-
-    public String getFullName(String first, String middle, String last) {
-        final String middleName = middle != null ? middle + " " : "";
-
-        return (first + " " + middleName + last).trim();
     }
 
     @Override
@@ -176,6 +176,14 @@ public class ProposalDevelopmentPermissionsServiceImpl implements ProposalDevelo
 
     public void setPersonService(PersonService personService) {
         this.personService = personService;
+    }
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 
     public KualiRuleService getKualiRuleService() {
