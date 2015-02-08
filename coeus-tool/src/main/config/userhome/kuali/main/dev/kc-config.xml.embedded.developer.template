@@ -53,4 +53,12 @@
 	<!-- Financial System WSDL Service URL -->
 	<param name="fin.system.integration.service.url">financial system service url</param>
 	
+	<!-- Flyway configuration -->
+	<param name="kc.flyway.applyDemoData">true</param>
+	<param name="kc.flyway.applyStagingData">true</param>
+	<param name="kc.flyway.manageRiceServer">true</param>
+	<param name="kc.flyway.embeddedMode">true</param>
+	<param name="kc.flyway.enabled">true</param>
+	
+	
 </config>
