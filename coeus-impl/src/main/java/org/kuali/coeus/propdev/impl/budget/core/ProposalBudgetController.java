@@ -81,6 +81,12 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 		form.getProposalDevelopmentDocument().getDevelopmentProposal().setFinalBudget(finalBudget);
 		return super.save(form);
 	}
+
+    @Transactional @RequestMapping(params="methodToCall=removeFromSubmission")
+    public ModelAndView removeFromSubmission(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        form.getProposalDevelopmentDocument().getDevelopmentProposal().setFinalBudget(null);
+        return super.save(form);
+    }
 	
 	@Transactional @RequestMapping(params="methodToCall=openBudget")
 	public ModelAndView openBudget(@RequestParam("budgetId") String budgetId, @RequestParam("viewOnly") boolean viewOnly, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
