@@ -47,7 +47,8 @@
 		<field-descriptor name="invoiceDocumentStatus" column="INVOICE_DOCUMENT_STATUS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="locCreationType" column="LOC_CREATION_TYPE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="suspendInvoicing" column="SUSPEND_INVOICING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="billingFrequencyCode" column="BILL_FREQ_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
