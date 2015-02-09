@@ -41,7 +41,8 @@
 	<param name="application.id">KC</param>	
 	<param name="application.host">127.0.0.1</param>
 	
-
+	<!-- Config param for setting the bus security on and off in the integration services -->
+	<param name="fin.system.integration.bus.security.on">false</param>
 	
 	<!-- for local (bundled mode) this defaults to the kc client url -->
 	<param name="rice.server.url">${application.url}</param>
@@ -184,12 +185,8 @@
 	
 	<param name="rice.logging.configure">true</param>
 	<param name="kim.show.blank.qualifiers">false</param>
-
-    <param name="shared.rice">false</param>
-    <!-- Config param for setting the bus security on and off in the integration services -->
-    <param name="fin.system.integration.bus.security.on">false</param>
-	<param name="fin.system.integration.service.url">http://localhost:8081/kfs-dev/remoting/</param>
-
+	<param name="shared.rice">false</param>
+	
 	<!-- temporary entries -->
 	<!-- Valid Date Formats -->
     <param name="STRING_TO_DATE_FORMATS" override="false">MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>

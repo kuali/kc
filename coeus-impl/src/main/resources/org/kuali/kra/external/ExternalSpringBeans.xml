@@ -57,10 +57,7 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/kra/external/datadictionary/docs/SponsorMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/kra/external/datadictionary/BillingFrequency.xml</value>
-                <value>classpath:org/kuali/kra/external/datadictionary/DunningCampaign.xml</value>
-                <value>classpath:org/kuali/kra/external/datadictionary/Sponsor.xml</value>
+                <value>org/kuali/kra/external/datadictionary</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
@@ -84,13 +81,5 @@
           parent="parentLookupableHelperService" scope="prototype">
       <property name="dunningCampaignClient" ref="dunningCampaignClient"/>
     </bean>
-
-    <bean id="billingfrequencyLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService" ref="billingfrequencyLookupableHelperService" />
-    </bean>
-
-    <bean id="billingfrequencyLookupableHelperService" class="org.kuali.kra.external.billingfrequency.BillingFrequencyLookupable"
-          parent="parentLookupableHelperService" scope="prototype">
-    </bean>
-
+    
   </beans>

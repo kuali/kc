@@ -22,6 +22,7 @@ import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class AwardCgb extends AwardAssociate {
@@ -42,8 +43,7 @@ public class AwardCgb extends AwardAssociate {
     private String locCreationType;
     private String invoiceDocumentStatus;
     private boolean suspendInvoicing;
-    private String billingFrequencyCode;
-
+    
     public AwardCgb() { }
     
     public AwardCgb(Award award) {
@@ -182,12 +182,4 @@ public class AwardCgb extends AwardAssociate {
 	public void setSuspendInvoicing(boolean suspendInvoicing) {
 		this.suspendInvoicing = suspendInvoicing;
 	}
-
-    public String getBillingFrequencyCode() {
-        return billingFrequencyCode;
-    }
-
-    public void setBillingFrequencyCode(String billingFrequencyCode) {
-        this.billingFrequencyCode = billingFrequencyCode;
-    }
 }

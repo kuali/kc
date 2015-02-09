@@ -44,7 +44,6 @@
         <ref bean="AwardCgb-locCreationType"/>
         <ref bean="AwardCgb-invoiceDocumentStatus" />
         <ref bean="AwardCgb-suspendInvoicing" />
-        <ref bean="AwardCgb-billingFrequencyCode" />
       </list>
     </property>
   </bean>
@@ -204,24 +203,6 @@
 		<property name="label" value="Exclude from Invoicing" />
 		<property name="shortLabel" value="Exclude from Invoicing" />
 		<property name="required" value="false" />
-	</bean>
-
-    <bean id="AwardCgb-billingFrequencyCode" parent="AwardCgb-billingFrequencyCode-parentBean" />
-
-    <bean id="AwardCgb-billingFrequencyCode-parentBean" abstract="true"
-          parent="AttributeDefinition">
-        <property name="name" value="billingFrequencyCode" />
-        <property name="forceUppercase" value="true" />
-        <property name="label" value="Billing Frequency Code" />
-        <property name="shortLabel" value="Code" />
-        <property name="maxLength" value="10" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
-        </property>
-        <property name="required" value="true" />
-        <property name="control" >
-            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.external.billingfrequency.BillingFrequencyFinder" />
-        </property>
-    </bean>
+	</bean>       
 </beans>
 
