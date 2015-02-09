@@ -64,7 +64,8 @@ import org.kuali.kra.external.sponsor.SponsorDTO;
     "methodOfPayment",
     "invoiceBillingFrequency",
     "excludedFromInvoicing",
-    "excludedFromInvoicingReason"
+    "excludedFromInvoicingReason",
+    "billingFrequencyCode"
 })
 public class AwardDTO implements Serializable {
 
@@ -103,6 +104,7 @@ public class AwardDTO implements Serializable {
     private BigDecimal minInvoiceAmount;
     private AwardMethodOfPaymentDTO methodOfPayment;
     private FrequencyDto invoiceBillingFrequency;
+    private String billingFrequencyCode;
 
 	public Long getAwardId() {
 		return awardId;
@@ -302,4 +304,12 @@ public class AwardDTO implements Serializable {
 	public void setExcludedFromInvoicingReason(String excludedFromInvoicingReason) {
 		this.excludedFromInvoicingReason = excludedFromInvoicingReason;
 	}
+
+    public String getBillingFrequencyCode() {
+        return billingFrequencyCode;
+    }
+
+    public void setBillingFrequencyCode(String billingFrequencyCode) {
+        this.billingFrequencyCode = billingFrequencyCode;
+    }
 }

@@ -93,6 +93,19 @@
 	<h3><span class="subhead-left">Contract and Grants Billing</span></h3>
 	<table border="0" cellpadding="0" cellspacing="0" summary="">	
 		<tr>
+            <th>
+                <div style="text-align:right;">
+                    <kul:htmlAttributeLabel attributeEntry="${cgbAttributes.billingFrequencyCode}"  />
+                </div>
+            </th>
+            <td>
+                <div style="text-align:left;">
+                    <kul:htmlControlAttribute property="${cgbPath}.awardCgb.billingFrequencyCode" attributeEntry="${cgbAttributes.billingFrequencyCode}" readOnly="${cgbReadOnly}"/>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
 			<th>
 				<div style="text-align:right;">
 					<kul:htmlAttributeLabel attributeEntry="${cgbAttributes.additionalFormsRequired}"  />

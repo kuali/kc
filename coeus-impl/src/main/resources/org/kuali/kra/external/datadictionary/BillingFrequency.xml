@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2015 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+ 
+	<bean id="BillingFrequency" parent="BillingFrequency-parentBean" />
+
+	<bean id="BillingFrequency-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kra.external.billingfrequency.BillingFrequency" />
+		<property name="inquiryDefinition">
+			<ref bean="BillingFrequency-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="BillingFrequency-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="frequency" />
+		<property name="objectLabel" value="Frequency" />
+		<property name="attributes">
+			<list>
+				<ref bean="BillingFrequency-frequency" />
+				<ref bean="BillingFrequency-frequencyDescription" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="BillingFrequency-frequency" parent="BillingFrequency-frequency-parentBean" />
+
+	<bean id="BillingFrequency-frequency-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="frequency" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Billing Frequency Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" />
+		</property>
+	</bean>
+	<bean id="BillingFrequency-frequencyDescription" parent="BillingFrequency-frequencyDescription-parentBean" />
+
+	<bean id="BillingFrequency-frequencyDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="frequencyDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Billing Frequency Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="45" />
+		<property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="BillingFrequency-inquiryDefinition" parent="BillingFrequency-inquiryDefinition-parentBean" />
+
+	<bean id="BillingFrequency-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Billing Frequency Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="BillingFrequency-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="BillingFrequency-inquirySectionDefinition" parent="BillingFrequency-inquirySectionDefinition-parentBean" />
+	<bean id="BillingFrequency-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="frequency" />
+				<bean parent="FieldDefinition" p:attributeName="frequencyDescription" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="BillingFrequency-lookupDefinition" parent="BillingFrequency-lookupDefinition-parentBean" />
+
+	<bean id="BillingFrequency-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Billing Frequency Lookup" />
+        <property name="lookupableID" value="billingfrequencyLookupable" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="frequency" />
+				<bean parent="FieldDefinition" p:attributeName="frequencyDescription" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="frequency" />
+				<bean parent="FieldDefinition" p:attributeName="frequencyDescription" />
+			</list>
+		</property>
+	</bean>
+</beans>
