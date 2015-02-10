@@ -1031,4 +1031,18 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
+
+    public boolean isFederalSponsor(DevelopmentProposal developmentProposal) {
+        return getProposalDevelopmentService().isGrantsGovEnabledForProposal(developmentProposal);
+    }
+
+    public void clearOpportunity(DevelopmentProposal proposal) {
+        getLegacyDataAdapter().delete(proposal.getS2sOpportunity());
+        proposal.setS2sOpportunity(null);
+        //Reset Opportunity Title and Opportunity ID in the Sponsor & Program Information section
+        proposal.setProgramAnnouncementTitle("");
+        proposal.setProgramAnnouncementNumber("");
+        proposal.setCfdaNumber("");
+        proposal.setOpportunityIdForGG("");
+    }
 }

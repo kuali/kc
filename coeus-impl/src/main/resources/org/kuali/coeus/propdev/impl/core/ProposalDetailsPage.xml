@@ -48,8 +48,25 @@
 	<bean id="PropDev-DetailsPage-Section-parentBean" abstract="true"
 		parent="PropDev-DefaultDetails-Section" p:fieldBindingObjectPath="document.developmentProposal">
 		<property name="items">
-			<list merge="true">
-			 <bean parent="PropDev-DetailsPage-OwnedByUnitNumberField" p:enableAutoQuickfinder="false" p:readOnly="true" p:order="20"/>
+			<list>
+                <bean parent="Uif-InputField" p:propertyName="proposalTypeCode"
+                      p:enableAutoQuickfinder="false"
+                      p:order="10" />
+                <bean parent="PropDev-DetailsPage-OwnedByUnitNumberField" p:enableAutoQuickfinder="false" p:readOnly="true" p:order="20"/>
+                <bean parent="Uif-InputField" p:propertyName="activityTypeCode"
+                      p:enableAutoQuickfinder="false"
+                      p:order="30" />
+                <bean parent="PropDev-DetailsPage-ProjectDatesField"
+                      p:order="40" />
+                <bean parent="Uif-InputField" p:propertyName="title"
+                      p:order="50" />
+                <bean parent="PropDev-DetailsPage-SponsorField" p:onChangeScript="submitForm('refresh');"
+                      p:order="60" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:hideCriteriaOnSearch="true" />
+                    </property>
+                </bean>
 				<bean parent="PropDev-DetailsPage-PrimeSponsorField" p:order="70"  />
 				<bean parent="PropDev-DetailsPage-CurrentAwardNumberField"
 					p:order="80" />
@@ -125,7 +142,7 @@
 					p:order="40" />
 				<bean parent="Uif-InputField" p:propertyName="title"
 					p:order="50" />
-				<bean parent="PropDev-DetailsPage-SponsorField" 
+				<bean parent="PropDev-DetailsPage-SponsorField"
 					p:order="60" />
 			</list>
 		</property>
