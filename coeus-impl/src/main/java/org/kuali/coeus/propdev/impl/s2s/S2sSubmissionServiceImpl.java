@@ -629,9 +629,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
             if(!directory.exists()){
                 directory.createNewFile();
             }
-            if(!loggingDirectory.endsWith("/")){
-                loggingDirectory+="/";
-            }
             return new File(loggingDirectory + opportunityId + "." + proposalnumber + "." + exportDate + ".zip");
         } else {
             return null;
