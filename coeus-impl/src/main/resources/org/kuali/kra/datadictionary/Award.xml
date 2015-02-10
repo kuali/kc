@@ -1405,7 +1405,7 @@
 		</property>
 	</bean>
   
-  <bean id="Award-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+  <bean id="Award-LookupView-parentBean" abstract="true" parent="Uif-LookupView" p:viewHelperServiceClass="org.kuali.kra.award.lookup.AwardLookupableKrad">
     <property name="dataObjectClassName" value="org.kuali.kra.award.home.Award"/>
     <property name="headerText" value="Award Lookup"/>
     <property name="criteriaFields">
