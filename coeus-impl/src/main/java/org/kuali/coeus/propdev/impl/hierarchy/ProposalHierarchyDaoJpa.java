@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.hierarchy;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetStatus;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.Predicate;
@@ -125,6 +126,20 @@ public class ProposalHierarchyDaoJpa implements ProposalHierarchyDao {
         }
 
         return proposalNumbers;
+    }
+
+    public void deleteDegreeInfo(String proposalNumber, Integer proposalPersonNumber, ProposalPerson person) {
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("proposalPerson.developmentProposal.proposalNumber", proposalNumber);
+        param.put("proposalPerson.proposalPersonNumber", proposalPersonNumber.toString());
+        getDataObjectService().deleteMatching(ProposalPersonDegree.class, QueryByCriteria.Builder.andAttributes(param).build());
+    }
+
+    public List<ProposalPersonDegree> getDegreeInformation(String proposalNumber, ProposalPerson person) {
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("proposalPerson.developmentProposal.proposalNumber", proposalNumber);
+        param.put("proposalPerson.proposalPersonNumber", person.getProposalPersonNumber().toString());
+        return getDataObjectService().findMatching(ProposalPersonDegree.class, QueryByCriteria.Builder.andAttributes(param).build()).getResults();
     }
 
     public List<ProposalBudgetStatus> getHierarchyChildProposalBudgetStatuses(String parentProposalNumber) {

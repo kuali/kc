@@ -198,4 +198,6 @@ public interface ProposalHierarchyService {
 
     public String getProposalState(String proposalNumber);
 
+    public void reinstateDegreeInfo(DevelopmentProposal proposal);
+
     }
