@@ -180,11 +180,14 @@ public class BudgetAction extends BudgetActionBase {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = null;
         final BudgetForm budgetForm = (BudgetForm) form;
+
+
+        if(budgetForm != null) {
         if(budgetForm.getMethodToCall().equals(Constants.MAPPING_CLOSE)){
             setupDocumentExit();
         }
-        ActionForward actionForward = null;
         
         actionForward = super.execute(mapping, budgetForm, request, response);    
         
@@ -196,6 +199,9 @@ public class BudgetAction extends BudgetActionBase {
         // check if audit rule check is done from PD
         if (budgetForm.isAuditActivated() && !"route".equals(((KualiForm)form).getMethodToCall())) {
             KcServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetForm.getBudgetDocument()));
+        }
+        } else {
+          setupDocumentExit();
         }
         
         return actionForward; 

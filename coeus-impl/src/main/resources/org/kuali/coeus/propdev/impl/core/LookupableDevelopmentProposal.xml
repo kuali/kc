@@ -297,7 +297,6 @@
         <bean parent="FieldDefinition" p:attributeName="deadlineDate"/>
         </list>
       </property>
-      <property name="resultSetLimit" value="50" />
     </bean>
 
   <bean id="LookupableDevelopmentProposal-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

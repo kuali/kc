@@ -58,32 +58,34 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
           parent="Uif-CssGridSection-1FieldLabelColumn">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="You are copying a parent proposal, budgets should not be copied" p:order="10" p:render="@{document.developmentProposal.isParent()}"/>
+                <bean parent="Uif-MessageField" p:additionalCssClasses="alert-warning" p:messageText="This proposal copy will include a linked Grants.Gov opportunity. Use the 'Remove Opportunity' option in the S2S page of
+                the copied proposal to remove an invalid/expired opportunity" p:order="15" p:render="@{document.developmentProposal.s2sOpportunity == null ? false : true}"/>
                 <bean parent="Uif-MessageField" p:messageText="Yes" p:fieldLabel.labelText="Proposal" p:fieldLabel.renderColon="false" p:order="20"/>
                 <bean parent="Uif-MessageField" p:messageText="@{document.developmentProposal.ownedByUnitNumber} - @{document.developmentProposal.ownedByUnit.unitName}"
                       p:fieldLabel.labelText="Original Lead Unit" p:fieldLabel.renderColon="false"
-                      p:order="20" />
+                      p:order="20"/>
 
                 <bean parent="PropDev-CopyDialog-OwnedByUnitNumberField" p:propertyName="leadUnitNumber"
                       p:enableAutoQuickfinder="false"
-                      p:order="30"/>
+                      p:order="30" p:readOnly="false"/>
 
-                <bean parent="Uif-InputField" p:propertyName="includeBudget" p:order="40" p:fieldLabel.renderColon="false" p:render="@{!document.developmentProposal.isParent() and !#emptyList(document.developmentProposal.budgets)}">
+                <bean parent="Uif-InputField" p:propertyName="includeBudget" p:order="40" p:fieldLabel.renderColon="false" p:readOnly="false"
+                      p:render="@{!document.developmentProposal.isParent() and !#emptyList(document.developmentProposal.budgets)}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes. Include Budget(s)." p:disabled="false"/>
                     </property>
                 </bean>
 
                 <bean id="PropDev-CopyDialog-BudgetSelection" parent="PropDev-CopyDialog-BudgetSelection-parentBean"
-                      p:order="50" p:render="@{!document.developmentProposal.isParent() and !#emptyList(document.developmentProposal.budgets)}"/>
+                      p:order="50" p:readOnly="false" p:render="@{!document.developmentProposal.isParent() and !#emptyList(document.developmentProposal.budgets)}"/>
 
-                <bean parent="Uif-InputField" p:propertyName="includeAttachments" p:order="60" p:fieldLabel.renderColon="false" p:render="@{!#emptyList(document.developmentProposal.narratives) or !#emptyList(document.developmentProposal.propPersonBios) or !#emptyList(document.developmentProposal.instituteAttachments) or !#emptyList(document.developmentProposal.proposalAbstracts) or !#emptyList(document.notes)}">
+                <bean parent="Uif-InputField" p:propertyName="includeAttachments" p:order="60" p:fieldLabel.renderColon="false" p:readOnly="false" p:render="@{!#emptyList(document.developmentProposal.narratives) or !#emptyList(document.developmentProposal.propPersonBios) or !#emptyList(document.developmentProposal.instituteAttachments) or !#emptyList(document.developmentProposal.proposalAbstracts) or !#emptyList(document.notes)}">
                      <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes. Include attachment." p:disabled="false"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="includeQuestionnaire" p:order="70" p:fieldLabel.renderColon="false" p:render="@{#ViewHelper.areAnsweredQuestionnaires(questionnaireHelper.answerHeaders) or #ViewHelper.areAnsweredQuestionnaires(s2sQuestionnaireHelper.answerHeaders)}">
+                <bean parent="Uif-InputField" p:propertyName="includeQuestionnaire" p:order="70" p:fieldLabel.renderColon="false" p:readOnly="false" p:render="@{#ViewHelper.areAnsweredQuestionnaires(questionnaireHelper.answerHeaders) or #ViewHelper.areAnsweredQuestionnaires(s2sQuestionnaireHelper.answerHeaders)}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes. Include questionnaire" p:disabled="false"/>
                     </property>

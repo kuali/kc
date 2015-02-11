@@ -38,6 +38,8 @@ import java.io.Serializable;
 @IdClass(UnitAdministrator.UnitAdministratorId.class)
 public class UnitAdministrator extends KcPersistableBusinessObjectBase implements AbstractUnitAdministrator, Comparable<UnitAdministrator>, UnitAdministratorContract {
 
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UnitAdministrator.class);
+
     @Id
     @Column(name = "PERSON_ID")
     private String personId;
@@ -88,10 +90,16 @@ public class UnitAdministrator extends KcPersistableBusinessObjectBase implement
     }
 
     public KcPerson getPerson() {
-        if (personId !=null) {
-            return getKcPersonService().getKcPersonByPersonId(personId);
+        KcPerson kcPerson = null;
+        try {
+            if (personId !=null) {
+                return getKcPersonService().getKcPersonByPersonId(personId);
+            }
         }
-            return null;
+        catch (IllegalArgumentException e) {
+            LOG.info("getPerson(): ignoring missing person/entity: " + personId);
+        }
+        return kcPerson;
     }
 
     /**

@@ -377,6 +377,10 @@
      <bean id="legacyDataAdapter" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="legacyDataAdapter" />
      </bean>
+
+    <bean id="knsLegacyDataAdapter" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="knsLegacyDataAdapter" />
+    </bean>
      
      <bean id="dataObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dataObjectService" />
@@ -1158,6 +1162,7 @@
 
     <bean id="sponsorWebService" class="org.kuali.kra.external.sponsor.SponsorWebServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="legacyDataAdapter" ref="knsLegacyDataAdapter"/>
         <property name="sponsorDtoService" ref="sponsorDtoService" />
     </bean>
     <bean id="sponsorWebServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

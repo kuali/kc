@@ -21,7 +21,6 @@
 <%@ attribute name="channelTitle" required="true" %>
 <%@ attribute name="channelUrl" required="true" %>
 <%@ attribute name="selectedTab" required="true" %>
-<portal:immutableBar />
 
 <c:choose>
   <c:when test='${!empty channelTitle && !empty channelUrl}'>
@@ -33,6 +32,7 @@
 	  </div>
   </c:when>
   <c:otherwise>
+  <div class="container-fluid body-container">
 	<table border="0" width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
 	   	<tr valign="top" bgcolor="#FFFFFF">
       		<td width="15" class="leftback-focus">&nbsp;</td>
@@ -52,8 +52,12 @@
 	        </c:choose>
        </tr>
     </table>
+    </div>
   </c:otherwise>
 </c:choose>
 
  <div class="footerbevel">&nbsp;</div>
- <div id="footer-copyright"> <bean:message key="app.copyright" /></div>
+ <div id="footer-copyright">
+   <bean:message key="app.copyright" />
+   <div class="footer-build">${ConfigProperties.version} (${ConfigProperties.datasource.ojb.platform})</div>
+ </div>

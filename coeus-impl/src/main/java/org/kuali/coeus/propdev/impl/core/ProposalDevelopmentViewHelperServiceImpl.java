@@ -30,6 +30,7 @@ import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
+import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchResult;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchService;
@@ -171,6 +172,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
 
+    @Autowired
+    @Qualifier("kcPersonService")
+    private KcPersonService kcPersonService;
+
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
         ProposalDevelopmentDocumentForm form = (ProposalDevelopmentDocumentForm) model;
@@ -247,6 +252,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
             getNoteService().save((Note) lineObject);
         }
         else if (lineObject instanceof ProposalUserRoles){
+            String fullName = getKcPersonService().getKcPersonByUserName(((ProposalUserRoles)lineObject).getUsername()).getFullName();
+            ((ProposalUserRoles)lineObject).setFullname(fullName);
             getProposalDevelopmentPermissionsService().processAddPermission(document,(ProposalUserRoles)lineObject);
         }
         else if (lineObject instanceof ProposalSite) {
@@ -720,7 +727,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     Personnel which appears in multiple proposals should not allow update of personnel attachments at the child (critical)
     Personnel attachments for personnel who appears only once in proposal hierarchy should be view only at the parent (no update of details nor delete) (critical)
      */
-    public boolean renderPersonnelAttachmentEditForHierarchyProposal(String personId, DevelopmentProposal proposal) {
+    public boolean renderPersonnelEditForHierarchyProposal(String personId, DevelopmentProposal proposal) {
         return (proposal.isInHierarchy()) ? renderEditForPersonnelAttachment(personId, proposal) : true;
     }
 
@@ -765,11 +772,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         }
 
         for (DevelopmentProposal developmentProposal : form.getHierarchyDevelopmentProposals()) {
-            for (ProposalDevelopmentBudgetExt budget : developmentProposal.getBudgets()){
-                if (budget.getBudgetSummaryDetails().isEmpty()){
-                    getBudgetCalculationService().populateBudgetSummaryTotals(budget);
+                if (developmentProposal.getHierarchySummaryBudget().getBudgetSummaryDetails().isEmpty()){
+                    getBudgetCalculationService().populateBudgetSummaryTotals(developmentProposal.getHierarchySummaryBudget());
                 }
-            }
         }
     }
 
@@ -1017,5 +1022,13 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
             return (person.getFirstName() + " " + middleName + person.getLastName()).trim();
         }
         return StringUtils.EMPTY;
+    }
+
+    public KcPersonService getKcPersonService() {
+        return kcPersonService;
+    }
+
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 }

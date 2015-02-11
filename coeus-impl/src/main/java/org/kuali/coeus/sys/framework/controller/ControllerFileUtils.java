@@ -22,7 +22,7 @@ import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.rice.krad.util.KRADUtils;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
+import java.io.*;
 
 public final class ControllerFileUtils {
 
@@ -39,6 +39,33 @@ public final class ControllerFileUtils {
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContents)) {
             KRADUtils.addAttachmentToResponse(response, inputStream, fileContentType, fileName, size);
             response.flushBuffer();
+        }
+    }
+
+    public static void streamOutputToResponse(HttpServletResponse response, ByteArrayOutputStream stream,
+                                               String contentType, String fileName, long fileSize) throws IOException {
+
+        // If there are quotes in the name, we should replace them to avoid issues.
+        // The filename will be wrapped with quotes below when it is set in the header
+        String updateFileName;
+        if (fileName.contains("\"")) {
+            updateFileName = fileName.replaceAll("\"", "");
+        } else {
+            updateFileName = fileName;
+        }
+
+        // set response
+        response.setContentType(contentType);
+        response.setContentLength(org.springframework.util.NumberUtils.convertNumberToTargetClass(fileSize,
+                Integer.class));
+        response.setHeader("Content-disposition", "attachment; filename=\"" + updateFileName + "\"");
+        response.setHeader("Expires", "0");
+        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        response.setHeader("Pragma", "public");
+
+        // Copy the input stream to the response
+        if (stream != null) {
+            stream.writeTo(response.getOutputStream());
         }
     }
 }

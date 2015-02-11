@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -63,6 +64,19 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
 
+    
+    @ResponseBody
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=clearAddCompliance")
+    public void clearAddCompliance(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalSpecialReview proposalSpecialReview = ((ProposalSpecialReview)pdForm.getNewCollectionLines().get("document.developmentProposal.propSpecialReviews"));
+        proposalSpecialReview.setSpecialReviewTypeCode(null);
+        proposalSpecialReview.setSpecialReviewType(null);
+        proposalSpecialReview.setApprovalTypeCode(null);
+        proposalSpecialReview.setApprovalType(null);
+        proposalSpecialReview.setProtocolNumber(null);
+    }
+    
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=refreshAddCompliance")
     public ModelAndView refreshAddCompliance(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -152,22 +166,23 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addComplianceEntry")
     public ModelAndView addComplianceEntry(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm) throws Exception {
         ProposalSpecialReview proposalSpecialReview = ((ProposalSpecialReview)pdForm.getNewCollectionLines().get("document.developmentProposal.propSpecialReviews"));
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
 
         if (proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS) ||
                 proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE)) {
-            ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
+
             proposalSpecialReview.setDevelopmentProposal(proposalDevelopmentDocument.getDevelopmentProposal());
             pdForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(proposalSpecialReview);
-            
-            if(proposalSpecialReview.getSpecialReviewNumber() == null) {
-            	proposalSpecialReview.setSpecialReviewNumber(getProposalDevelopmentSpecialReviewService().generateSpecialReviewNumber(proposalDevelopmentDocument));
-            }
 
             // Invalid protrocol trying to be linked so blank out protocol info
             if (protocolNeedsToBeLinked(proposalSpecialReview.getSpecialReviewTypeCode()) && !proposalSpecialReview.isLinkedToProtocol()) {
                 proposalSpecialReview.setProtocolStatus(null);
                 proposalSpecialReview.setProtocolNumber(null);
             }
+        }
+
+        if(proposalSpecialReview.getSpecialReviewNumber() == null) {
+            proposalSpecialReview.setSpecialReviewNumber(getProposalDevelopmentSpecialReviewService().generateSpecialReviewNumber(proposalDevelopmentDocument));
         }
         getCollectionControllerService().addLine(pdForm);
         super.save(pdForm);

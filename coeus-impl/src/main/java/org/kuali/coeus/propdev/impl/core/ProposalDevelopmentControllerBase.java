@@ -407,6 +407,7 @@ public abstract class ProposalDevelopmentControllerBase {
                 form.setDocument(document);
                 return save(form);
             } else {
+                form.setCanEditView(canEdit);
                 return getModelAndViewService().getModelAndView(form);
             }
 

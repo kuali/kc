@@ -381,7 +381,19 @@
 
     <bean id="PropDev-PersonnelPage-Organization" parent="PropDev-PersonnelPage-Organization-parentBean" />
     <bean id="PropDev-PersonnelPage-Organization-parentBean" abstract="true"
-          parent="Uif-CssGridSection-2FieldLabelColumn" p:headerText="Organization">
+          parent="Uif-VerticalBoxSection" p:headerText="Organization" p:header.render="false">
+          <property name="items">
+              <list>
+                  <bean parent="PropDev-PersonnelPage-Organization-Details" p:order="10"/>
+                  <bean parent="PropDev-PersonnelPage-Organization-Effort" p:order="20"/>
+              </list>
+          </property>
+     </bean>
+
+
+    <bean id="PropDev-PersonnelPage-Organization-Details" parent="PropDev-PersonnelPage-Organization-Details-parentBean"/>
+    <bean id="PropDev-PersonnelPage-Organization-Details-parentBean" abstract="true"
+        parent="Uif-CssGridSection-2FieldLabelColumn" p:headerText="Organization">
         <property name="items">
             <list>
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="emailAddress"
@@ -421,14 +433,29 @@
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="state"
                       p:order="180"
                       p:refreshWhenChangedPropertyNames="#lp.countryCode"/>
-                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="percentageEffort"
-                      p:order="190"/>
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="officeLocation"
-                      p:order="200"/>
+                      p:order="190"/>
                 <bean parent="Uif-DataField" p:propertyName="salaryAnniversaryDate"
-                      p:order="210"/>
+                      p:order="200"/>
                 <bean parent="PropDev-PersonnelPage-InputField" p:propertyName="facultyFlag"
-                      p:order="220"/>
+                      p:order="210"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-PersonnelPage-Organization-Effort" parent="PropDev-PersonnelPage-Organization-Effort-parentBean"/>
+    <bean id="PropDev-PersonnelPage-Organization-Effort-parentBean" abstract="true"
+          parent="Uif-CssGridSection-2FieldLabelColumn" p:headerText="Effort">
+        <property name="items">
+            <list>
+                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="percentageEffort"
+                      p:order="10"/>
+                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="academicYearEffort"
+                      p:order="20"/>
+                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="calendarYearEffort"
+                      p:order="30"/>
+                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="summerEffort"
+                      p:order="40"/>
             </list>
         </property>
     </bean>
@@ -558,12 +585,12 @@
     </bean>
 
     <bean id="PropDev-PersonnelPage-Degrees" parent="PropDev-PersonnelPage-Degrees-parentBean" />
-    <bean id="PropDev-PersonnelPage-Degrees-parentBean" abstract="true"
-          parent="Uif-TableCollectionSection" p:headerText="Degrees"
+        <bean id="PropDev-PersonnelPage-Degrees-parentBean" abstract="true"
+              parent="Uif-TableCollectionSection" p:headerText="Degrees"
           p:propertyName="proposalPersonDegrees"
           p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPersonDegree"
           p:layoutManager.renderSequenceField="false"
-          p:addWithDialog="true">
+          p:addWithDialog="true" p:readOnly="@{!#ViewHelper.renderPersonnelEditForHierarchyProposal(#lp.personId, document.developmentProposal)}">
         <property name="addWithDialogAction">
             <bean parent="Uif-AddWithDialogAction" p:actionLabel="Add Degree" p:cssClasses="pull-right" p:iconClass="icon-plus"
                   p:render="@{!#parent.readOnly}"/>

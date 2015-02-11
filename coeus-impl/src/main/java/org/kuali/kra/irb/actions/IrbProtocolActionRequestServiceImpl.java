@@ -80,6 +80,7 @@ import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.actions.notification.ProtocolSuspendedByDSMBNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolSuspendedNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolTerminatedNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.ProtocolWithdrawnNotificationRenderer;
 import org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeService;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
@@ -1431,7 +1432,13 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             renderer = new ProtocolSuspendedByDSMBNotificationRenderer((Protocol) notificationRequestBean.getProtocol());
         } else if (StringUtils.equals(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, notificationRequestBean.getActionType())) {
             renderer = new ProtocolClosedNotificationRenderer((Protocol) notificationRequestBean.getProtocol(), (ProtocolNotificationRequestBean)notificationRequestBean);
-        } else {
+        } 
+        else if (StringUtils.equals(ProtocolActionType.WITHDRAWN, notificationRequestBean.getActionType())) {
+            renderer = new ProtocolWithdrawnNotificationRenderer((Protocol) notificationRequestBean.getProtocol(), 
+                                                                 protocolForm.getActionHelper().getProtocolWithdrawBean().getReason(),
+                                                                 protocolForm.getActionHelper().getProtocolWithdrawBean().getActionDate());
+        } 
+	else {
             renderer = new IRBNotificationRenderer((Protocol) notificationRequestBean.getProtocol());
         }
         IRBNotificationContext context = new IRBNotificationContext((Protocol) notificationRequestBean.getProtocol(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);

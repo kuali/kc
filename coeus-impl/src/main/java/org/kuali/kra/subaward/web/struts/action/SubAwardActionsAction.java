@@ -66,21 +66,13 @@ SubAwardAction implements AuditModeAction {
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
-        if (forward == null) {
-            return routeSubAwardToHoldingPage(mapping, (SubAwardForm) form);
-        } else {
-            return forward;
-        }
+        return routeSubAwardToHoldingPage(mapping, forward, (SubAwardForm) form);
     }
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form,
     HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.route(mapping, form, request, response);
-        if (forward == null) {
-            return routeSubAwardToHoldingPage(mapping, (SubAwardForm) form);
-        } else {
-            return forward;
-        }
+        return routeSubAwardToHoldingPage(mapping, forward, (SubAwardForm) form);
     }
 
     @Override
@@ -91,17 +83,17 @@ SubAwardAction implements AuditModeAction {
         if(!GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
             return forward;
         }else {
-            return routeSubAwardToHoldingPage(mapping, (SubAwardForm) form);
+            return routeSubAwardToHoldingPage(mapping, forward, (SubAwardForm) form);
         }
     }
 
-    private ActionForward routeSubAwardToHoldingPage(ActionMapping mapping, SubAwardForm subAwardForm) {
+    private ActionForward routeSubAwardToHoldingPage(ActionMapping mapping, ActionForward returnForward,SubAwardForm subAwardForm) {
         String routeHeaderId = subAwardForm.getSubAwardDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_SUBAWARD_ACTION_PAGE, "SubAwardDocument");
         
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+        return routeToHoldingPage(basicForward, returnForward, holdingPageForward, returnLocation);
     }
     
 }

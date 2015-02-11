@@ -29,7 +29,7 @@
     </parent>
     <artifactId>coeus-db</artifactId>
     <packaging>pom</packaging>
-    <name>Kuali Coeus Database</name>
+    <name>KualiCo Cloud Express Database</name>
     <description>
         The Kuali Coeus Database module is the parent module for all database related artifacts for the Kuali Coeus application.
     </description>

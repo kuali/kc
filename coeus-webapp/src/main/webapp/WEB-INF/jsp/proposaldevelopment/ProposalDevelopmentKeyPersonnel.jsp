@@ -44,23 +44,6 @@
   	headerTabActive="keyPersonnel">
   	
   	<div id="workarea">
-  	<style>
-  		#addPersonDiv table {
-  			border-right: 0;
-  			display: table;
-  			width: auto;
-  		}
-  		#addPersonDiv td {
-  			padding: 0;
-  			border-left: 0;
-  			border-bottom: 0;
-  		}
-  		#addPersonDiv td.grid {
-  			border-bottom: 1px solid #999999;
-  			border-left: 1px solid #999999;
-  			padding: 2px;
-  		}
-  	</style>
   	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Key Personnel" /></div>
 
 <c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" />

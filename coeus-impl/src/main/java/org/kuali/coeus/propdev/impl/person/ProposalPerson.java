@@ -359,12 +359,23 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     @Column(name="CITIZENSHIP_TYPE_CODE")
     private Integer citizenshipTypeCode;
+
+    @Column(name="ACADEMIC_YEAR_EFFORT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal academicYearEffort;
+
+    @Column(name="CALENDAR_YEAR_EFFORT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal calendarYearEffort;
+
+    @Column(name="SUMMER_EFFORT")
+    @Convert(converter = ScaleTwoDecimalConverter.class)
+    private ScaleTwoDecimal summerEffort;
     
     @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "CITIZENSHIP_TYPE_CODE", insertable = false, updatable = false)
     private CitizenshipType citizenshipType;
-    
-    
+
     @Transient
     private Boolean active = true;
 
@@ -1731,5 +1742,29 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     public String getPersonName(){
         return getFullName();
+    }
+
+    public ScaleTwoDecimal getAcademicYearEffort() {
+        return academicYearEffort;
+    }
+
+    public void setAcademicYearEffort(ScaleTwoDecimal academicYearEffort) {
+        this.academicYearEffort = academicYearEffort;
+    }
+
+    public ScaleTwoDecimal getCalendarYearEffort() {
+        return calendarYearEffort;
+    }
+
+    public void setCalendarYearEffort(ScaleTwoDecimal calendarYearEffort) {
+        this.calendarYearEffort = calendarYearEffort;
+    }
+
+    public ScaleTwoDecimal getSummerEffort() {
+        return summerEffort;
+    }
+
+    public void setSummerEffort(ScaleTwoDecimal summerEffort) {
+        this.summerEffort = summerEffort;
     }
 }

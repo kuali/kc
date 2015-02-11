@@ -76,7 +76,9 @@ public class ProtocolReplacementParameters {
                                                                          COMMITTEE_NAME, 
                                                                          PROTOCOL_INITIAL_APPROVAL_DATE,
                                                                          PROTOCOL_LAST_APPROVAL_DATE,
-                                                                         PROTOCOL_EXPIRATION_DATE
+                                                                         PROTOCOL_EXPIRATION_DATE,
+                                                                         DATE,
+                                                                         REASON
                                                                        };
     
 }

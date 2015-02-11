@@ -414,7 +414,6 @@
 	        <bean p:attributeName="versionNumber" parent="FieldDefinition" />
 		  </list>
 		</property>
-		<property name="resultSetLimit" value="50" />
 	</bean>
 
   <bean id="Budget-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

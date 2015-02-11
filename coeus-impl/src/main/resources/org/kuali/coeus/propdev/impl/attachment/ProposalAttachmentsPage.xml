@@ -116,7 +116,7 @@
                <bean parent="Uif-InputField" p:propertyName="moduleStatusCode"
                      p:readOnlyDisplayReplacementPropertyName="narrativeStatus.description"
                      p:required="true" p:enableAutoQuickfinder="false" p:width="25%" p:order="30"/>
-                <bean parent="Uif-DataField" p:propertyName="moduleTitle"
+                <bean parent="Uif-InputField" p:propertyName="moduleTitle"
                       p:order="40" />
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
@@ -208,10 +208,10 @@
         <property name="collection.lineActions">
             <list merge="true">
                 <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareBiography" p:order="10"
-                      p:render="@{#ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal)}"/>
+                      p:render="@{#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, document.developmentProposal)}"/>
 
                 <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="20"
-                      p:render="@{#ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal)}"/>
+                      p:render="@{#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, document.developmentProposal)}"/>
             </list>
         </property>
         <property name="collection.items">
@@ -232,14 +232,14 @@
                 <bean parent="Uif-InputField" p:propertyName="documentTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="propPerDocType.description"
                       p:fieldLabel.labelText="Type" p:order="60"
-                      p:enableAutoQuickfinder="false" p:readOnly="@{#parent.readOnly or !#ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal)}"
+                      p:enableAutoQuickfinder="false" p:readOnly="@{#parent.readOnly or !#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, document.developmentProposal)}"
                       />
-                <bean parent="Uif-DataField" p:propertyName="description" p:order="70"/>
+                <bean parent="Uif-InputField" p:propertyName="description" p:order="70"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="80" />
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
                       p:fieldLabel.labelText="Posted Timestamp"
                       p:readOnly="true" p:width="20%" p:order="90"/>
-                <bean parent="Uif-FieldGroupBase" p:order="100" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and #ViewHelper.renderPersonnelAttachmentEditForHierarchyProposal(#line.personId, document.developmentProposal) and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
+                <bean parent="Uif-FieldGroupBase" p:order="100" p:render="@{#parent.readOnly and #editModes['replaceNarratives'] and #ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, document.developmentProposal) and pageId eq 'PropDev-AttachmentsPage'}" p:fieldLabel.labelText="Actions">
                     <property name="group">
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
@@ -405,7 +405,7 @@
         <property name="collection.items">
             <list merge="true">
                 <bean parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField" p:order="30" />
-                <bean parent="Uif-DataField" p:propertyName="moduleTitle"
+                <bean parent="Uif-InputField" p:propertyName="moduleTitle"
                       p:order="40" />
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"

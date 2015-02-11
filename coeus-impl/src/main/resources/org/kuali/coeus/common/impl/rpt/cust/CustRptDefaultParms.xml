@@ -236,7 +236,6 @@
         <bean p:attributeName="unitForAuthCheck" parent="FieldDefinition" p:forceInquiry="false"/>
 			</list>
 		</property>
-		<property name="resultSetLimit" value="50" />
 	</bean>
 
   <bean id="CustRptDefaultParms-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

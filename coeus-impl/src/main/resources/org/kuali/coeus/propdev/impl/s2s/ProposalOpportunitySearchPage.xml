@@ -243,11 +243,12 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Create PDF" p:methodToCall="refresh"
-                                p:refreshId="PropDev-OpportunityPage-Forms" p:order="10" p:cssClasses="pull-right"
-                                p:successCallback="window.location.href='@{#ConfigProperties['application.url']}/kc-pd-krad/proposalDevelopment?methodToCall=printForms&amp;formKey=@{formKey}';"
-                                p:preSubmitCall="dirtyFormState.skipDirtyChecks = true; return true;"
-                                p:disabled="@{!#editModes['printProposal']}" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Create PDF" p:methodToCall="printForms"
+                              p:ajaxSubmit="false" p:disableBlocking="true" p:order="10" p:cssClasses="pull-right"
+                              p:disabled="@{!#editModes['printProposal']}" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Create XML" p:methodToCall="printFormsXml"
+                              p:ajaxSubmit="false" p:disableBlocking="true" p:order="20" p:cssClasses="pull-right"
+                              p:disabled="@{!#editModes['printProposal']}" />
                     </list>
                 </property>
             </bean>

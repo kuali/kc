@@ -193,8 +193,8 @@
                       p:label="Email Address" p:order="30" p:enableAutoInquiry="false"/>
                 <bean parent="Uif-DataField" p:propertyName="rolodex.organization"
                       p:label="Organization" p:order="40" p:enableAutoInquiry="false"/>
-                <bean parent="Uif-DataField" p:propertyName="rolodex.city"
-                      p:label="City" p:order="50" p:enableAutoInquiry="false"/>
+                <bean parent="Uif-DataField" p:propertyName="rolodex.title"
+                      p:label="Title" p:order="50" p:enableAutoInquiry="false"/>
             </list>
         </property>
     </bean>

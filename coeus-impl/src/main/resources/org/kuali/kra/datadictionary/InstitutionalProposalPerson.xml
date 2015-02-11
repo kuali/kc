@@ -271,7 +271,6 @@
 		    <bean p:attributeName="fullName" parent="FieldDefinition" />
 		  </list>
 		</property>
-		<property name="resultSetLimit" value="50" />
 	</bean>
   
   <bean id="InstitutionalProposalPerson-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

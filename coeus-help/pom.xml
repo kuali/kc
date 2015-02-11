@@ -29,7 +29,7 @@
     </parent>
     <artifactId>coeus-help</artifactId>
     <packaging>jar</packaging>
-    <name>Kuali Coeus Help</name>
+    <name>KualiCo Cloud Express Help</name>
     <description>
         The Kuali Coeus Help module contains help content for the Kuali Coeus application.
         This help content is used directly by the Kuali Coeus webapp.

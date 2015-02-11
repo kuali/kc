@@ -245,6 +245,9 @@
     <property name="required" value="false" />
     <property name="summary" value="Negotiator Username" />
     <property name="description" value="Negotiator's Username" />
+    <property name="validationPattern" >
+        <bean parent="AnyCharacterValidationPattern" />
+    </property>
   </bean>
   
   <bean id="Negotiation-negotiatorName" parent="Negotiation-negotiatorName-parentBean" />
@@ -504,7 +507,6 @@
 		    <bean p:attributeName="associatedNegotiable.leadUnitName" parent="FieldDefinition" />
 		  </list>
 		</property>
-		<property name="resultSetLimit" value="500" />
 	</bean>
     
   <bean id="Negotiation-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

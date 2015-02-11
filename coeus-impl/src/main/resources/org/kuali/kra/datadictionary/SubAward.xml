@@ -225,12 +225,14 @@
     <property name="label" value="Subaward Type" />
     <property name="shortLabel" value="Subaward Type" />
     <property name="maxLength" value="60" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
+      <property name="validationPattern">
+          <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+      </property>
+      <property name="validCharactersConstraint">
+          <bean parent="AnyCharacterPatternConstraint">
+              <property name="allowWhitespace" value="true"/>
+          </bean>
+      </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="60"/>
@@ -358,7 +360,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Account ID" />
     <property name="shortLabel" value="Account ID" />
-    <property name="maxLength" value="7" />
+    <property name="maxLength" value="16" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
@@ -874,7 +876,6 @@
         <bean p:attributeName="closeoutDate" parent="FieldDefinition" p:forceInquiry="true" />
       </list>
     </property>
-    <property name="resultSetLimit" value="50" />
   </bean>
  
   <bean id="SubAward-LookupView-parentBean" abstract="true" parent="Uif-LookupView">

@@ -257,7 +257,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             Map<String, AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
             Map<String, AwardHierarchy> awardHierarchyItems = awardHierarchyService.getAwardHierarchy(awardDocument.getAward().getAwardNumber(), new ArrayList<String>());
             AwardHierarchy currentAwardNode = awardHierarchyItems.get(currentAward.getAwardNumber());
-            if(currentAwardNode.isRootNode() && isCurrentAwardTheFirstVersion(currentAward)) { 
+            if((currentAwardNode != null && currentAwardNode.isRootNode()) && isCurrentAwardTheFirstVersion(currentAward)) {
                 awardHierarchyService.populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
                 canCancel = !doesAwardHierarchyContainFinalChildren(currentAwardNode, awardHierarchyNodes);
             }

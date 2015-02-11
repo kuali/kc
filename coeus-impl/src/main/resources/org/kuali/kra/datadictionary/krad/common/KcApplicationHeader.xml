@@ -65,7 +65,7 @@
         <property name="onDocumentReadyScript" value="Kc.Global.makeApplicationFooterSticky();"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']}logo-kuali.png" p:altText="Kuali Logo" p:cssClasses="pull-right"/>
+                <bean parent="Uif-Image" p:source="@{#ConfigProperties['kra.externalizable.images.url']}../../css/images/KualiCo.png" p:altText="KualiCo Logo" p:cssClasses="pull-right kc-footer-img"/>
                 <bean parent="Uif-Message" p:messageText="Copyright 2005-2015 Kuali, Inc. All rights reserved.[br]
 Portions of Kuali are copyrighted by other parties as described in the [link='@{#ConfigProperties['application.url']}/acknowledgments.jsp']Acknowledgments[/link] screen.
 [br][css='kc-applicationFooter-version']@{#ConfigProperties['version']} @{#ConfigProperties['datasource.ojb.platform']}[/css]" p:renderWrapperTag="false"/>
@@ -170,7 +170,7 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
          parent="Kc-Header-IframeView" p:location.baseUrl="@{#ConfigProperties['rice.server.url']}" p:location.controllerMapping="/kew/DocumentSearch.do"/>
     <bean id="Kc-Header-ApplicationLogo" parent="Kc-Header-ApplicationLogo-parentBean"/>
     <bean id="Kc-Header-ApplicationLogo-parentBean" parent="Uif-Image"
-          abstract="true" p:source="../static/images/kuali-logo.png"/>
+          abstract="true" p:source="../static/images/KualiCo.png"/>
 
     <bean id="Kc-Header-ResearcherMenu" parent="Kc-Header-ResearcherMenu-parentBean"/>
     <bean id="Kc-Header-ResearcherMenu-parentBean" abstract="true"

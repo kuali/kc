@@ -99,7 +99,6 @@
    
       </list>
     </property>
-    <property name="resultSetLimit" value="50" />
   </bean>
 	
   

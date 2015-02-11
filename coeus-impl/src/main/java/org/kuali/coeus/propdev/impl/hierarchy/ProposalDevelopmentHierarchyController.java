@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.hierarchy;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.rice.krad.web.form.DialogResponse;
@@ -55,7 +56,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
             form.setCanEditView(null);
         }
 
-        return getModelAndViewService().getModelAndView(form);
+        return updateHierarchySummaryIfNeeded(form);
     }
 
 
@@ -68,8 +69,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
         }
 
-        ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).prepareSummaryPage(form);
-        return getRefreshControllerService().refresh(form);
+        return updateHierarchySummaryIfNeeded(form);
     }
 
     /*
@@ -100,7 +100,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
 		        }
 	        }
         }
-        return getModelAndViewService().getModelAndView(form);
+        return updateHierarchySummaryIfNeeded(form);
     }   
 
 
@@ -134,7 +134,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
 	        }
         }
 
-        return getModelAndViewService().getModelAndView(form);
+        return updateHierarchySummaryIfNeeded(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=hierarchyActionCanceled")
@@ -152,7 +152,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS, new String[]{});
         }
 
-        return getModelAndViewService().getModelAndView(form);
+        return updateHierarchySummaryIfNeeded(form);
     }
 
     @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=removeFromHierarchy")
@@ -168,7 +168,7 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
             form.setCanEditView(null);
         }
 
-        return getModelAndViewService().getModelAndView(form);
+        return updateHierarchySummaryIfNeeded(form);
     }
 
     protected void displayMessage(String messageKey, String... errorParameters) {
@@ -186,6 +186,13 @@ public class ProposalDevelopmentHierarchyController extends ProposalDevelopmentC
             }
         }
         return severeErrors > 0;
+    }
+
+    protected ModelAndView updateHierarchySummaryIfNeeded(ProposalDevelopmentDocumentForm form) {
+        if (StringUtils.equals(form.getPageId(),ProposalDevelopmentConstants.KradConstants.SUBMIT_PAGE)) {
+            ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).prepareSummaryPage(form);
+        }
+        return getModelAndViewService().getModelAndView(form);
     }
 
     public ProposalHierarchyService getProposalHierarchyService() {

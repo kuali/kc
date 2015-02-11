@@ -75,7 +75,7 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
      * @return
      */
     public boolean processAddPendingTransactionBusinessRules(AddTransactionRuleEvent event) {
-        boolean valid = areRequiredFieldsComplete(event.getPendingTransactionItemForValidation());
+        boolean valid = areRequiredFieldsComplete(event.getPendingTransactionItemForValidation()) && sourceAndDestinationAwardsAreDifferent(event.getPendingTransactionItemForValidation());
         if (valid) {
             event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
             List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
