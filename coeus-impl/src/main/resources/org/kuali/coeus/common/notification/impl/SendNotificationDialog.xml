@@ -233,7 +233,7 @@
           p:renderAddLine="false">
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction" p:actionLabel="" p:order="10" p:iconClass="icon-trash"/>
+                <bean parent="Uif-DeleteLineAction" p:actionLabel="" p:order="10" p:iconClass="icon-trash" p:methodToCall="deleteLineNotificationRecipient"/>
             </list>
         </property>
         <property name="items">
