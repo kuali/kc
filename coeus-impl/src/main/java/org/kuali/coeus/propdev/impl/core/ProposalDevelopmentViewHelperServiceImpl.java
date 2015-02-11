@@ -485,6 +485,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return success;
     }
 
+    public boolean displayKeywords() {
+        return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.KEYWORD_PANEL_DISPLAY);
+    }
+
     protected LegacyNarrativeService getNarrativeService() {
         return narrativeService;
     }
@@ -846,21 +850,22 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 		this.proposalDevelopmentService = proposalDevelopmentService;
 	}
 	public boolean isSummaryQuestionsPanelEnabled() {
-		return "Y".equalsIgnoreCase(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.SUMMARY_QUESTIONS_INDICATOR));
+		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.SUMMARY_QUESTIONS_INDICATOR);
 
 	}
 
     public boolean isSummaryAttachmentsPanelEnabled() {
-    	return "Y".equalsIgnoreCase(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.SUMMARY_ATTACHMENTS_INDICATOR));
+    	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.SUMMARY_ATTACHMENTS_INDICATOR);
     }
 
 	public boolean isSummaryKeywordsPanelEnabled() {
-		return "Y".equalsIgnoreCase(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.SUMMARY_KEYWORDS_INDICATOR));
 
+		return displayKeywords() &&
+                getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.SUMMARY_KEYWORDS_INDICATOR);
 	}
 
     public boolean isSummaryBudgetPanelEnabled(DevelopmentProposal developmentProposal) {
-        return "Y".equalsIgnoreCase(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.BUDGET_SUMMARY_INDICATOR)) &&
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.BUDGET_SUMMARY_INDICATOR) &&
                 (developmentProposal.getLatestBudget() != null || developmentProposal.getFinalBudget() != null);
 
     }
