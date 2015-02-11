@@ -511,6 +511,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         //ipPerson.setPhoneNumber(pdPerson.getPhoneNumber());
         ipPerson.setRoleCode(pdPerson.getRole().getRoleCode());
         ipPerson.setTotalEffort(pdPerson.getPercentageEffort());
+        ipPerson.setAcademicYearEffort(pdPerson.getAcademicYearEffort());
+        ipPerson.setCalendarYearEffort(pdPerson.getCalendarYearEffort());
+        ipPerson.setSummerEffort(pdPerson.getSummerEffort());
         for (ProposalPersonUnit pdPersonUnit : pdPerson.getUnits()) {
             InstitutionalProposalPersonUnit ipPersonUnit = new InstitutionalProposalPersonUnit();
             ipPersonUnit.setLeadUnit(pdPersonUnit.isLeadUnit());
