@@ -209,8 +209,8 @@
 	<param name="kc.config.verifier.hard.error">true</param>
 	
 	<!-- Flyway Properties -->
-	<param name="kc.flyway.applyDemoData">false</param>
-	<param name="kc.flyway.applyStagingData">false</param>
+    <param name="kc.flyway.applyDemoData">false</param>
+    <param name="kc.flyway.applyStagingData">false</param>
 	<param name="kc.flyway.manageRiceServer">true</param>
 	<param name="kc.flyway.embeddedMode">false</param>
 	<param name="kc.flyway.enabled">true</param>

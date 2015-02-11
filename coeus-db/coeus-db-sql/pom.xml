@@ -31,7 +31,7 @@
     <packaging>jar</packaging>
     <name>KualiCo Cloud Express Database SQL</name>
     <description>
-        The Kuali Coeus Database SQL module contains sql files for the Kuali Coeus application.  These scripts include
+        The Kuali Coeus Database SQL module contains Flyway-based sql files for the Kuali Coeus application.  These scripts include
         support for MySQL, and Oracle.  They include both bootstrap and demo data.
     </description>
 
