@@ -77,8 +77,8 @@
     <property name="controlField">
       <bean p:size="30" parent="Uif-TextControl"/>
     </property>
-		<property name="summary" value="Label for Disclosure header fields" />
-		<property name="description" value="Label for Disclosure header fields" />
+		<property name="summary" value="Disclosure Status:Review Status" />
+		<property name="description" value="Disclosure Status:Review Status" />
 	</bean>
     
 	<bean id="CoiDisclosure-reporterCreated" parent="CoiDisclosure-reporterCreated-parentBean" />
@@ -94,8 +94,8 @@
     <property name="controlField">
       <bean p:size="10" parent="Uif-TextControl"/>
     </property>
-		<property name="summary" value="Label for coi header fields" />
-		<property name="description" value="Label for coi header fields" />
+		<property name="summary" value="Reporter:Created" />
+		<property name="description" value="Reporter:Created" />
 	</bean>
     
     <bean id="CoiDisclosure-coiDisclosureId" parent="CoiDisclosure-coiDisclosureId-parentBean" />
