@@ -673,7 +673,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             Map<String, CustomAttributeDocument> customAttributeDocuments = oldInstitutionalProposal.getInstitutionalProposalDocument().getCustomAttributeDocuments();
             for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = entry.getValue();
-                if(!availableCustomAttributes.contains(customAttributeDocument.getId())) {
+                if(!availableCustomAttributes.contains(customAttributeDocument.getId().intValue())) {
                     InstitutionalProposalCustomData customData = new InstitutionalProposalCustomData();
                     customData.setCustomAttributeId((long) customAttributeDocument.getId());
                     customData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
