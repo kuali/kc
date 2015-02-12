@@ -66,27 +66,7 @@
   </bean>
 
   <bean id="ValidCeJobCode-jobCode" parent="ValidCeJobCode-jobCode-parentBean"/>
-  <bean id="ValidCeJobCode-jobCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="jobCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Job Code" />
-    <property name="shortLabel" value="Job Code" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="6" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Job Code" />
-    <property name="description" value="Job Code" />
-  </bean>
+  <bean id="ValidCeJobCode-jobCode-parentBean" abstract="true"  parent="JobCode-jobCode" />
 
   <bean id="ValidCeJobCode-versionNumber" parent="ValidCeJobCode-versionNumber-parentBean"/>
   <bean id="ValidCeJobCode-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
