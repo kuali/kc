@@ -651,8 +651,8 @@
     <property name="controlField">
       <bean p:size="10" parent="Uif-TextControl"/>
     </property>
-		<property name="summary" value="Label for Subaward header fields" />
-		<property name="description" value="Label for Subaward header fields" />
+		<property name="summary" value="Document ID:Status" />
+		<property name="description" value="Document ID:Status" />
 	</bean>
 	
 	<bean id="SubAward-lastUpdate" parent="SubAward-lastUpdate-parentBean" />
@@ -668,8 +668,8 @@
     <property name="controlField">
       <bean p:size="10" parent="Uif-TextControl"/>
     </property>
-		<property name="summary" value="Label for Subaward header fields" />
-		<property name="description" value="Label for Subaward header fields" />
+		<property name="summary" value="Document ID:Status" />
+		<property name="description" value="Document ID:Status" />
 	</bean>
 	
   <bean id="SubAward-awardNumber" parent="SubAward-awardNumber-parentBean"/>
