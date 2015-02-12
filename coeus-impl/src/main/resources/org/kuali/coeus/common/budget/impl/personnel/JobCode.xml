@@ -158,7 +158,7 @@
     <property name="headerText" value="Job Code Lookup"/>
     <property name="criteriaFields">
       <list>
-        <bean p:propertyName="jobCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="jobCode" parent="Uif-LookupCriteriaInputField" p:uppercaseValue="true"/>
         <bean p:propertyName="jobTitle" parent="Uif-LookupCriteriaInputField"/>
       </list>
     </property>

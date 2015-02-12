@@ -159,7 +159,7 @@
 							<bean parent="Uif-DataField" p:propertyName="role"
 								p:required="false" p:label="Role" p:order="10"/>
 							<bean parent="Uif-InputField" p:propertyName="jobCode"
-								p:required="true" p:label="Job Code" p:order="20">
+								p:required="true" p:label="Job Code" p:order="20" p:uppercaseValue="true">
 								<property name="quickfinder">
             						<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.common.budget.framework.personnel.JobCode"
                   						p:fieldConversions="jobCode:addProjectPersonnelHelper.editBudgetPerson.jobCode" p:returnByScript="true"/>
