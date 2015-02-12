@@ -61,7 +61,8 @@
 		</property>
         <property name="addLineDialog">
             <bean p:id="PropDev-CompliancePage_AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Compliance Entry" p:retrieveViaAjax="true"
-                  p:onHideDialogScript="jQuery('#PropDev-CompliancePage_AddDialog').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropDev-CompliancePage_AddDialog'));});"
+                  p:onHideDialogScript="var kradRequest = new KradRequest();kradRequest.methodToCall = 'clearAddCompliance';kradRequest.ajaxReturnType = 'update-none';kradRequest.send();"
+                  p:destroyDialogOnHidden="true"
                   p:methodToCallOnRefresh="refreshAddCompliance"
                   p:refreshWhenChangedPropertyNames="newCollectionLines['document.developmentProposal.propSpecialReviews'].specialReviewTypeCode,newCollectionLines['document.developmentProposal.propSpecialReviews'].approvalTypeCode,newCollectionLines['document.developmentProposal.propSpecialReviews'].protocolNumber">
                 <property name="footer.items">
