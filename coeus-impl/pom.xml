@@ -345,6 +345,11 @@
         </dependency>
 
         <dependency>
+            <groupId>co.kuali</groupId>
+            <artifactId>kc-sql</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
         </dependency>
@@ -541,6 +546,12 @@
 
         <dependency>
             <groupId>org.kuali.coeus</groupId>
+            <artifactId>coeus-db-sql</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.coeus</groupId>
             <artifactId>coeus-s2sgen-api</artifactId>
         </dependency>
 
@@ -677,11 +688,6 @@
         <dependency>
             <groupId>com.rsmart</groupId>
             <artifactId>tokenauth</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>co.kuali</groupId>
-            <artifactId>kc-sql</artifactId>
         </dependency>
 
         <dependency>
