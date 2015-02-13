@@ -625,6 +625,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardCloseout.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardContact.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardCopyRightsType.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/SubAwardCostType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardCustomData.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardDocument.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/SubAwardForms.xml</value>
