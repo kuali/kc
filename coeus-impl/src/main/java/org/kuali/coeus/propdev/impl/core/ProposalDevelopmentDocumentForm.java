@@ -220,12 +220,22 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     protected void addAllActions(List<Action> actionList, List<? extends Component> components) {
         if (components != null) {
             for (Component component : components) {
-                if (component instanceof ToggleMenu) {
-                    addAllActions(actionList, ((ToggleMenu) component).getMenuItems());
+                if (component instanceof ToggleMenu && component.isRender() && !component.isHidden()) {
+                    for (Component menuComponent: ((ToggleMenu) component).getMenuItems()) {
+                        if (menuComponent instanceof Action) {
+                            addActionIfAvailable((Action) menuComponent, actionList);
+                        }
+                    }
                 } else if (component instanceof Action) {
-                    actionList.add((Action) component);
+                    addActionIfAvailable((Action) component, actionList);
                 }
             }
+        }
+    }
+
+    protected void addActionIfAvailable(Action action, List<Action> actionList) {
+        if (!action.isDisabled() && action.isRender() && !action.isHidden()) {
+            actionList.add(action);
         }
     }
 

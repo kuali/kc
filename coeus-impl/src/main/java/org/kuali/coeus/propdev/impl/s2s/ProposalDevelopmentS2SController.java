@@ -163,15 +163,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=clearOpportunity"})
    public ModelAndView clearOpportunity(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
            throws Exception {
-       ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
-       DevelopmentProposal proposal = document.getDevelopmentProposal();
-       getLegacyDataAdapter().delete(proposal.getS2sOpportunity());
-       proposal.setS2sOpportunity(null);
-       //Reset Opportunity Title and Opportunity ID in the Sponsor & Program Information section
-       proposal.setProgramAnnouncementTitle("");
-       proposal.setProgramAnnouncementNumber("");
-       proposal.setCfdaNumber("");
-       proposal.setOpportunityIdForGG("");
+       ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).clearOpportunity(form.getDevelopmentProposal());
        return getRefreshControllerService().refresh(form);
    }
 
