@@ -817,7 +817,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
              * After the initial save, the proposal can only be modified if it is not in workflow
              * and the user has the require permission.
              */
-            final boolean hasBeenRejected = getKcDocumentRejectionService().isDocumentOnInitialNode(document.getDocumentHeader().getWorkflowDocument());
+
+           final boolean hasBeenRejected = proposal.getProposalState().getCode().equals(ProposalState.REVISIONS_REQUESTED);
+
             hasPermission = !pdDocument.isViewOnly() &&
                     getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_PROPOSAL) &&
                     (!getKcWorkflowService().isInWorkflow(document) || hasBeenRejected) &&
