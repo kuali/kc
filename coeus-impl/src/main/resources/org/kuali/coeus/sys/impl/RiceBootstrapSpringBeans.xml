@@ -37,6 +37,8 @@
         <property name="manageRice" value="${kc.flyway.manageRiceServer}"/>
         <property name="embeddedMode" value="${kc.flyway.embeddedMode}"/>
         <property name="enabled" value="${kc.flyway.enabled}"/>
+        <property name="sqlMigrationPath" value="${kc.flyway.sql.migration.path}" />
+        <property name="javaMigrationPath" value="${kc.flyway.java.migration.path}" />
     </bean>
 
     <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer" depends-on="flywayMigrator">
