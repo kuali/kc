@@ -684,7 +684,7 @@ public class ProposalDevelopmentSubmitController extends
         DialogResponse dialogResponse = form.getDialogResponse(ProposalDevelopmentConstants.KradConstants.REJECT_DIALOG);
         if(dialogResponse == null) {
             return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.REJECT_DIALOG, false, form);
-        }else if (dialogResponse.getResponseAsBoolean()){
+        } else if (dialogResponse.getResponseAsBoolean()){
             ProposalDevelopmentRejectionBean bean = form.getProposalDevelopmentRejectionBean();
             if (new ProposalDevelopmentRejectionRule().proccessProposalDevelopmentRejection(bean)){
                 getProposalHierarchyService().rejectProposalDevelopmentDocument(form.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(),
@@ -693,7 +693,8 @@ public class ProposalDevelopmentSubmitController extends
         } else {
             form.setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
         }
-        return getModelAndViewService().getModelAndView(form);
+        form.setEvaluateFlagsAndModes(true);
+        return getTransactionalDocumentControllerService().reload(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendAdHocRequests")
