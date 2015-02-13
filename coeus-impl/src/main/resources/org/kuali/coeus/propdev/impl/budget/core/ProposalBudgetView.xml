@@ -100,62 +100,62 @@
 	</bean>
 	<bean id="PropBudget-NavigationMenu-PeriodsAndTotals" parent="PropBudget-NavigationMenu-PeriodsAndTotals-parentBean" />
 	<bean id="PropBudget-NavigationMenu-PeriodsAndTotals-parentBean" abstract="true"
-		parent="Uif-MenuAction" p:navigateToPageId="PropBudget-PeriodsPage"
+		parent="Kc-MenuAction" p:navigateToPageId="PropBudget-PeriodsPage"
 		p:actionLabel="Periods &amp; Totals" p:iconClass="icon-sort-by-attributes-alt" />
 	<bean id="PropBudget-NavigationMenu-Rates" parent="PropBudget-NavigationMenu-Rates-parentBean" />
 	<bean id="PropBudget-NavigationMenu-Rates-parentBean" abstract="true"
-		parent="Uif-MenuAction" p:navigateToPageId="PropBudget-RatesPage"
+		parent="Kc-MenuAction" p:navigateToPageId="PropBudget-RatesPage"
 		p:actionLabel="Rates" p:iconClass="icon-tasks" />
 	<bean id="PropBudget-NavigationMenu-PersonnelCosts" parent="PropBudget-NavigationMenu-PersonnelCosts-parentBean" />
 	<bean id="PropBudget-NavigationMenu-PersonnelCosts-parentBean" abstract="true"
 		parent="Uif-SidebarToggleMenu" p:toggleText="Personnel Costs" p:iconClass="icon-user3">
 		<property name="menuItems">
 			<list>
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropBudget-ProjectPersonnelPage"
+				<bean parent="Kc-MenuAction" p:navigateToPageId="PropBudget-ProjectPersonnelPage"
 					p:actionLabel="Project Personnel" p:order="10" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropBudget-AssignPersonnelToPeriodsPage"
+				<bean parent="Kc-MenuAction" p:navigateToPageId="PropBudget-AssignPersonnelToPeriodsPage"
 					p:actionLabel="Assign Personnel to Periods" p:order="20" />
 			</list>
 		</property>
 	</bean>
 	<bean id="PropBudget-NavigationMenu-NonPersonnelCosts" parent="PropBudget-NavigationMenu-NonPersonnelCosts-parentBean" />
 	<bean id="PropBudget-NavigationMenu-NonPersonnelCosts-parentBean" abstract="true"
-		parent="Uif-MenuAction" p:navigateToPageId="PropBudget-NonPersonnelCostsPage"
+		parent="Kc-MenuAction" p:navigateToPageId="PropBudget-NonPersonnelCostsPage"
 		p:actionLabel="Non-Personnel Costs" p:iconClass="icon-file" />
 	<bean id="PropBudget-NavigationMenu-Subawards" parent="PropBudget-NavigationMenu-Subawards-parentBean" />
 	<bean id="PropBudget-NavigationMenu-Subawards-parentBean" abstract="true"
-		parent="Uif-MenuAction" p:navigateToPageId="PropBudget-SubawardsPage"
+		parent="Kc-MenuAction" p:navigateToPageId="PropBudget-SubawardsPage"
         p:actionLabel="Subawards" p:iconClass="icon-paper-clip"/>
 	<bean id="PropBudget-NavigationMenu-InstitutionalCommitments" parent="PropBudget-NavigationMenu-InstitutionalCommitments-parentBean" />
 	<bean id="PropBudget-NavigationMenu-InstitutionalCommitments-parentBean" abstract="true"
 		parent="Uif-SidebarToggleMenu" p:toggleText="Institutional Commitments" p:iconClass="icon-bell2">
 		<property name="menuItems">
 			<list>
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropBudget-CostSharingPage"
+				<bean parent="Kc-MenuAction" p:navigateToPageId="PropBudget-CostSharingPage"
 					p:actionLabel="Cost Sharing" p:order="10" />
-				<bean parent="Uif-MenuAction" p:navigateToPageId="PropBudget-UnrecoveredFandAPage"
+				<bean parent="Kc-MenuAction" p:navigateToPageId="PropBudget-UnrecoveredFandAPage"
 					p:actionLabel="Unrecovered F &amp; A" p:order="20" />
 			</list>
 		</property>
 	</bean>      
 	<bean id="PropBudget-NavigationMenu-ProjectIncome" parent="PropBudget-NavigationMenu-ProjectIncome-parentBean" />
 	<bean id="PropBudget-NavigationMenu-ProjectIncome-parentBean"
-		abstract="true" parent="Uif-NavigationActionLink" p:navigateToPageId="PropBudget-ProjectIncomePage"
+		abstract="true" parent="Kc-MenuAction" p:navigateToPageId="PropBudget-ProjectIncomePage"
 		p:actionLabel="Project Income" p:iconClass="icon-money" />
 	<bean id="PropBudget-NavigationMenu-Modular" parent="PropBudget-NavigationMenu-Modular-parentBean" />
-	<bean id="PropBudget-NavigationMenu-Modular-parentBean" parent="Uif-NavigationActionLink"
+	<bean id="PropBudget-NavigationMenu-Modular-parentBean" parent="Kc-MenuAction"
 		p:navigateToPageId="PropBudget-ModularPage" p:actionLabel="Modular"
 		p:iconClass="icon-ok" />
 	<bean id="PropBudget-NavigationMenu-Notes" parent="PropBudget-NavigationMenu-Notes-parentBean" />
 	<bean id="PropBudget-NavigationMenu-Notes-parentBean"
-		abstract="true" parent="Uif-NavigationActionLink" p:navigateToPageId="PropBudget-NotesPage"
+		abstract="true" parent="Kc-MenuAction" p:navigateToPageId="PropBudget-NotesPage"
 		p:actionLabel="Budget Notes" p:iconClass="icon-th-list" />
 	<bean id="PropBudget-NavigationMenu-Summary" parent="PropBudget-NavigationMenu-Summary-parentBean" />
-	<bean id="PropBudget-NavigationMenu-Summary-parentBean" parent="Uif-NavigationActionLink"
+	<bean id="PropBudget-NavigationMenu-Summary-parentBean" parent="Kc-MenuAction"
 		p:navigateToPageId="PropBudget-SummaryPage" p:actionLabel="Budget Summary" p:iconClass="icon-file"/>
 
     <bean id="PropBudget-NavigationMenu-HierarchySummary" parent="PropBudget-NavigationMenu-HierarchySummary-parentBean" />
-    <bean id="PropBudget-NavigationMenu-HierarchySummary-parentBean" parent="Uif-NavigationActionLink"
+    <bean id="PropBudget-NavigationMenu-HierarchySummary-parentBean" parent="Kc-MenuAction"
           p:navigateToPageId="PropBudget-HierarchySummaryPage" p:actionLabel="Hierarchy Summary" p:iconClass="icon-list-ol"/>
 
     <bean id="PropBudget-DocumentHeader" parent="PropBudget-DocumentHeader-parentBean" />
