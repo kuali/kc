@@ -22,6 +22,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -33,6 +34,7 @@ import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 import java.sql.Date;
@@ -96,6 +98,8 @@ public class CoiDisclProject extends KcPersistableBusinessObjectBase implements 
     @SkipVersioning
     private CoiDispositionStatus coiDispositionStatus;
 
+    private transient DataObjectService dataObjectService;
+    
     public CoiDisclProject(String coiDisclosureNumber, Integer sequenceNumber) { 
         this.coiDisclosureNumber = coiDisclosureNumber;
         this.sequenceNumber = sequenceNumber;
@@ -444,7 +448,7 @@ public class CoiDisclProject extends KcPersistableBusinessObjectBase implements 
     
     public DevelopmentProposal getProposal() {
         if (proposal == null) {
-            this.refreshReferenceObject("proposal");
+            proposal = getDataObjectService().find(DevelopmentProposal.class, getCoiProjectId());
         }
         return proposal;
     }
@@ -614,5 +618,14 @@ public class CoiDisclProject extends KcPersistableBusinessObjectBase implements 
     public void setOriginalCoiDisclosure(CoiDisclosure originalCoiDisclosure) {
         this.originalCoiDisclosure = originalCoiDisclosure;
     }
+	public DataObjectService getDataObjectService() {
+        if (dataObjectService == null) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+		return dataObjectService;
+	}
+	public void setDataObjectService(DataObjectService dataObjectService) {
+		this.dataObjectService = dataObjectService;
+	}
     
 }
