@@ -79,5 +79,11 @@ public interface BudgetSummaryService {
     public String defaultWarningMessage(Budget budget);
     
     public void adjustStartEndDatesForLineItems(BudgetPeriod budgetPeriod);
+    
+    /**
+     * This method is to sync personnel salary details to new budget period changes.
+     * @param budget
+     */
+    public void syncBudgetPersonSalaryDetails(Budget budget);
         
 }
