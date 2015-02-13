@@ -68,6 +68,7 @@
         <cglib-nodep.version>3.1</cglib-nodep.version>
         <coeus-api-all.version>6.0.0.1</coeus-api-all.version>
         <coeus-s2sgen.version>6.0.1-SNAPSHOT</coeus-s2sgen.version>
+        <coeus-db-xml.version>6.0.1-SNAPSHOT</coeus-db-xml.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-codec.version>1.9</commons-codec.version>
         <commons-collections.version>3.2.1</commons-collections.version>
@@ -1511,6 +1512,12 @@
                 <artifactId>coeus-s2sgen-impl</artifactId>
                 <version>${coeus-s2sgen.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+            
+            <dependency>
+            	<groupId>org.kuali.coeus</groupId>
+            	<artifactId>coeus-db-xml</artifactId>
+            	<version>${coeus-db-xml.version}</version>
             </dependency>
 
             <dependency>

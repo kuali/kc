@@ -51,6 +51,7 @@
     <bean id="businessObjectDictionaryService" parent="grlImporter" p:serviceName="businessObjectDictionaryService" />
     <bean id="encryptionService" parent="grlImporter" p:serviceName="encryptionService" />
     <bean id="businessObjectMetaDataService" parent="grlImporter" p:serviceName="businessObjectMetaDataService" />
+    <bean id="xmlIngesterService" parent="grlImporter" p:serviceName="xmlIngesterService"/>
 
     <bean id="collectionControllerService" parent="grlImporter" p:serviceName="collectionControllerService" />
     <bean id="controllerService" parent="grlImporter" p:serviceName="controllerService" />
@@ -64,5 +65,6 @@
     <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
 
     <bean id="dataSource" parent="ccImporter" p:objectName="datasource" />
+    <bean id="riceDataSource" parent="ccImporter" p:objectName="riceDataSource" />
     <bean id="transactionManager" parent="ccImporter" p:objectName="KC_TRANSACTION_MANAGER" />
 </beans>

@@ -19,6 +19,11 @@
 	<param name="kc.flyway.embeddedMode">false</param>
 	<param name="kc.flyway.enabled">true</param>
 	
+	<!-- Auto-ingester properties -->
+	<param name="kc.kew.auto.ingestion.paths">org/kuali/coeus/rice-xml,org/kuali/coeus/coeus-xml</param>
+   	<param name="kc.kew.auto.ingestion.principalId">admin</param>
+   	<param name="kc.kew.auto.ingestion.enabled">true</param>
+	
 	<!--
 	<param name="datasource.url">jdbc:mysql://localhost:3306/KCBND</param>
 	<param name="datasource.username">KCBND</param>
