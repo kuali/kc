@@ -31,6 +31,7 @@ import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.web.bind.UifBeanPropertyBindingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,6 +45,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -201,16 +204,28 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
             getGlobalVariableService().getMessageMap().putError(pdForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID), "error.special.review.protocol.noprincipal");
         }
         else {
-        	if(!getProposalDevelopmentSpecialReviewService().createProtocol(proposalSpecialReview, document)){
-        		getGlobalVariableService().getMessageMap().putError("document.developmentProposal.propSpecialReviews", KeyConstants.ERROR_PROTOCOL_UNIT_NOT_FOUND);
-        	}else{
-        		super.save((ProposalDevelopmentDocumentForm) pdForm); 
-        	}
+            boolean success = getProposalDevelopmentSpecialReviewService().createProtocol(proposalSpecialReview, document);
+            if (success) {
+                super.save((ProposalDevelopmentDocumentForm) pdForm);
+            } else {
+               displayErrors(pdForm);
+            }
+
         }
         pdForm.getNewCollectionLines().clear();
         return getModelAndViewService().getModelAndView(pdForm);
     }
-    
+
+    protected void displayErrors(ProposalDevelopmentDocumentForm pdForm) {
+        Map<String, List<ErrorMessage>> messages = getGlobalVariableService().getMessageMap().getErrorMessages();
+        for (String message :messages.keySet()) {
+            List<ErrorMessage> errors = messages.get(message);
+            for(ErrorMessage error : errors) {
+                getGlobalVariableService().getMessageMap().putError(pdForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID), error.getErrorKey());
+            }
+        }
+    }
+
     protected boolean protocolNeedsToBeLinked(String specialReviewTypeCode) {
     	if(specialReviewTypeCode.equals(SpecialReviewType.HUMAN_SUBJECTS)) {
     		return getProposalDevelopmentSpecialReviewService().isIrbLinkingEnabled();

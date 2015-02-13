@@ -33,7 +33,6 @@ import org.junit.Test;
 import org.kuali.coeus.common.framework.compliance.core.AddSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
@@ -80,7 +79,7 @@ public class ProposalDevelopmentSpecialReviewServiceTest {
 				.mock(IacucProtocolProposalDevelopmentProtocolDocumentService.class);
 		document = new ProposalDevelopmentDocument();
 		specialReview = new ProposalSpecialReview();
-		protocol = createProtocol();
+        protocol = createProtocol();
 		protocolDocument = createProtocolDocument();
 	}
 

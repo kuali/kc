@@ -115,7 +115,6 @@ public class ProposalDevelopmentProtocolDocumentServiceTest extends
 	@Test
 	public void test_createProtocolDocument_whenAuthorizedToCreateProtocol()
 			throws Exception {
-
 		ProtocolDocument protocolDocument = proposalDevelopmentProtocolDocumentService.createProtocolDocument(document1);
 		assertNotNull(protocolDocument);
 		assertEquals(protocolDocument.getProtocol().getProtocolPerson(0).getPersonName(), 
@@ -133,8 +132,7 @@ public class ProposalDevelopmentProtocolDocumentServiceTest extends
 	@Test
 	public void test_createProtocolDocument_whenNotAuthorizedToCreateProtocol()
 			throws Exception {
-		
-		assertNull(proposalDevelopmentProtocolDocumentService.createProtocolDocument(document2));
+        assertNull(proposalDevelopmentProtocolDocumentService.createProtocolDocument(document2));
 	}
 
 	@Test

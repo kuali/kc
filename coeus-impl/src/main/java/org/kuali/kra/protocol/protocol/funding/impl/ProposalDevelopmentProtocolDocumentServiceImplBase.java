@@ -41,12 +41,12 @@ import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 
@@ -61,6 +61,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
     private UnitAuthorizationService unitAuthorizationService;
     private DocumentService documentService;
 
+
     @SuppressWarnings("unchecked")
     public T createProtocolDocument(ProposalDevelopmentDocument document) throws Exception
     {
@@ -74,12 +75,20 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
             populateRequiredFields(developmentProposal, protocolDocument);
             populateProtocolPerson_Investigator(developmentProposal, protocolDocument);
             populateProtocolFundingSource(developmentProposal, protocolDocument);
-            documentService.saveDocument(protocolDocument);
-            initializeAuthorization(protocolDocument);        
+
+            try {
+                    documentService.saveDocument(protocolDocument);
+            } catch (ValidationException e) {
+                    // return null since doc was not created. Thsi will bubble up to the controller
+                    // where the actual error messages will be displayed.
+                    return null;
+            }
+
+            initializeAuthorization(protocolDocument);
         }
         return protocolDocument;
     }
-    
+
     /**
      * Set the System Authorization Service.
      * @param systemAuthorizationService
@@ -165,16 +174,15 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
 
     protected void populateProtocolPerson_Investigator(DevelopmentProposal developmentProposal, ProtocolDocumentBase protocolDocument)
     {
+
         ProtocolPersonBase protocolPerson = getProtocolPersonNewInstanceHook(); 
         ProtocolBase protocol = protocolDocument.getProtocol();
         
         protocolPerson.setPersonId(protocol.getPrincipalInvestigatorId());
         protocolPerson.setPersonName(developmentProposal.getPrincipalInvestigatorName());
         protocolPerson.setProtocolPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-
-        ProtocolPersonnelService protocolPersonnelService = getProtocolPersonnelService(); 
+        ProtocolPersonnelService protocolPersonnelService = getProtocolPersonnelService();
         protocolPersonnelService.addProtocolPerson(protocol, protocolPerson);
-    
     }
 
     public boolean isAuthorizedCreateProtocol(ProposalDevelopmentDocument document) {
@@ -273,4 +281,5 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImplBase<T exten
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
+
 }
