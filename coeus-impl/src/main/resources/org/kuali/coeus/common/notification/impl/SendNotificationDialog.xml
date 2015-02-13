@@ -218,7 +218,7 @@
                         <bean parent="Kc-SendNotification-WizardButton-Back" p:actionLabel="Add More Recipients"
                               p:actionParameters="Kc-SendNotification-Wizard.step:0" p:order="20" />
                         <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link" p:methodToCall="cancelNotifications"
-                            p:dialogDismissOption="REQUEST" p:dialogResponse="false" p:order="30"/>
+                            p:dialogDismissOption="REQUEST" p:dialogResponse="false" p:order="30" p:successCallback="dismissDialog('Kc-SendNotification-Wizard');"/>
                     </list>
                 </property>
             </bean>
@@ -233,7 +233,7 @@
           p:renderAddLine="false">
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction" p:actionLabel="" p:order="10" p:iconClass="icon-trash"/>
+                <bean parent="Uif-DeleteLineAction" p:actionLabel="" p:order="10" p:iconClass="icon-trash" p:methodToCall="deleteLineNotificationRecipient"/>
             </list>
         </property>
         <property name="items">

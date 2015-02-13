@@ -73,8 +73,11 @@ import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DialogResponse;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -83,6 +86,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -375,6 +379,15 @@ public class ProposalDevelopmentSubmitController extends
     	} else {
             return getModelAndViewService().showDialog("PropDev-Resumbit-OptionsSection", true, form);
     	}
+    }
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=deleteLineNotificationRecipient")
+    public ModelAndView deleteLine(@ModelAttribute("KualiForm") DocumentFormBase form, @RequestParam("actionParameters[" + UifParameters.SELECTED_COLLECTION_PATH + "]") String selectedCollectionPath) {
+        getCollectionControllerService().deleteLine(form);
+
+        final Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
+        form.getActionParameters().put("Kc-SendNotification-Wizard.step", collection.isEmpty() ? ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_0 : ProposalDevelopmentConstants.NotificationConstants.NOTIFICATION_STEP_2);
+        return getModelAndViewService().showDialog("Kc-SendNotification-Wizard", true, form);
     }
 
     protected void handleSubmissionNotification(ProposalDevelopmentDocumentForm form) {
