@@ -51,6 +51,11 @@
     </property>
   </bean>
 
+    <bean id="Uif-LookupCriteriaInputField" abstract="true" parent="Kc-LookupCriteriaInputField-parentBean"/>
+    <bean id="Kc-LookupCriteriaInputField-parentBean" abstract="true"
+          class="org.kuali.coeus.org.kuali.rice.krad.uif.element.KcLookupInputField" parent="Uif-LookupCriteriaInputField-parentBean">
+    </bean>
+
     <bean id="Uif-CollectionGroupBase" abstract="true" parent="Kc-CollectionGroupBase-parentBean"/>
     <bean id="Kc-CollectionGroupBase-parentBean" abstract="true"
           class="org.kuali.coeus.org.kuali.rice.krad.uif.container.KcCollectionGroupBase" parent="Uif-CollectionGroupBase-parentBean">
