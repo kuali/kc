@@ -57,6 +57,7 @@ import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnai
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -326,6 +327,17 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
                 isValid = validateProposalPersonBiographyRequiredFields(biography,collectionPathWithIndex,true);
             }
 
+        }
+        else if (newLine instanceof ProposalPersonUnit) {
+            Collection<ProposalPersonUnit> existingUnits = ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
+            ProposalPersonUnit personUnit= (ProposalPersonUnit) newLine;
+            for (ProposalPersonUnit existingUnit : existingUnits) {
+                if (existingUnit.getUnitNumber().equals(personUnit.getUnitNumber())) {
+                   getGlobalVariableService().getMessageMap().putError(collectionPath, KeyConstants.ERROR_ADD_EXISTING_UNIT, personUnit.getUnitNumber(), personUnit.getProposalPerson().getFullName());
+                    isValid = false;
+                    break;
+                }
+            }
         }
         return isValid;
     }
