@@ -1,0 +1,16 @@
+**/.project
+**/.classpath
+**/.settings
+**/target
+**/.idea
+**/coeus-db-data-conv.iml
+**/.DS_Store
+**/Thumbs.db
+bin
+.project
+.classpath
+.settings
+target
+.idea
+coeus-db-data-conv.iml
+**/bin
