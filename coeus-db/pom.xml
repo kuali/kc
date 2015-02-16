@@ -39,6 +39,7 @@
     </prerequisites>
 
     <modules>
+        <module>coeus-db-data-conv</module>
         <module>coeus-db-sql</module>
         <module>coeus-db-xml</module>
     </modules>

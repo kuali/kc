@@ -47,7 +47,8 @@
     <dependencies>
         <dependency>
             <groupId>org.kuali.coeus</groupId>
-            <artifactId>coeus-data-conv</artifactId>
+            <artifactId>coeus-db-data-conv</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
