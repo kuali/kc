@@ -51,6 +51,10 @@
     </property>
   </bean>
 
+    <bean id="Kc-MenuAction" parent="Kc-MenuAction-parentBean"/>
+    <bean id="Kc-MenuAction-parentBean" abstract="true" parent="Uif-MenuAction"
+          p:performClientSideValidation="true"/>
+
     <bean id="Uif-LookupCriteriaInputField" abstract="true" parent="Kc-LookupCriteriaInputField-parentBean"/>
     <bean id="Kc-LookupCriteriaInputField-parentBean" abstract="true"
           class="org.kuali.coeus.org.kuali.rice.krad.uif.element.KcLookupInputField" parent="Uif-LookupCriteriaInputField-parentBean">
