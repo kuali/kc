@@ -30,6 +30,11 @@
 	<bean id="PropBudget-PeriodsPage-parentBean" parent="PropBudget-Page" p:fieldBindingObjectPath="budget">
 		<property name="items">
 			<list>
+                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="budgetId">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
 				<ref bean="PropBudget-PeriodsPage-CollectionGroup" />
 			</list>
 		</property>
@@ -64,51 +69,43 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="startDate" p:required="true"
-                      p:order="10"
-                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
-                <bean parent="Uif-InputField" p:propertyName="endDate" p:required="true"
-                      p:order="20"
-                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
-                <bean parent="Uif-InputField" p:propertyName="numberOfMonths" p:label="Months"
-                      p:order="30"
-                      p:readOnly="true"/>
-                <bean parent="Uif-InputField" p:propertyName="totalCost"
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="startDate" p:required="true"
+                      p:order="10" p:fieldLabel.labelText="Period Start[br]Date ">
+                    <property name="control">
+                        <bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy" />
+                    </property>
+                </bean>
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="endDate" p:required="true"
+                      p:order="20">
+                    <property name="control">
+                        <bean parent="Uif-DateControlOnFocus" p:watermarkText="mm/dd/yyyy" />
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="numberOfMonths" p:label="Months"
+                      p:order="30"/>
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="totalCost"
                       p:order="40"
-                      p:readOnly="@{#line.readOnly or !#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
-                <bean parent="Uif-InputField" p:propertyName="totalDirectCost"
+                      p:readOnly="@{(!#emptyList(#lp.budgetLineItems) and !#isAddLine) or #parent.readOnly}"/>
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="totalDirectCost"
                       p:order="50"
-                      p:readOnly="@{#line.readOnly or !#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
-                <bean parent="Uif-InputField" p:propertyName="totalIndirectCost"
+                      p:readOnly="@{(!#emptyList(#lp.budgetLineItems) and !#isAddLine) or #parent.readOnly}"/>
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="totalIndirectCost"
                       p:order="60"
-                      p:readOnly="@{#line.readOnly or !#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
-                <bean parent="Uif-InputField" p:propertyName="underrecoveryAmount"
+                      p:readOnly="@{(!#emptyList(#lp.budgetLineItems) and !#isAddLine) or #parent.readOnly}"/>
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="underrecoveryAmount"
                       p:order="65"
-                      p:readOnly="@{#line.readOnly or !#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
-                <bean parent="Uif-InputField" p:propertyName="costSharingAmount"
+                      p:readOnly="@{(!#emptyList(#lp.budgetLineItems) and !#isAddLine) or #parent.readOnly}"/>
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="costSharingAmount"
                       p:order="70"
-                      p:readOnly="@{#line.readOnly or !#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
-                <bean parent="Uif-InputField" p:propertyName="totalCostLimit"
-                      p:order="80"
-                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
-                <bean parent="Uif-InputField" p:propertyName="directCostLimit"
-                      p:order="90"
-                      p:readOnly="@{!#isAddLine and !#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}"/>
+                      p:readOnly="@{(!#emptyList(#lp.budgetLineItems) and !#isAddLine) or #parent.readOnly}"/>
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="totalCostLimit"
+                      p:order="80"/>
+                <bean parent="Kc-InlineEdit-InputField" p:propertyName="directCostLimit"
+                      p:order="90"/>
             </list>
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="saveBudgetPeriod"
-                      p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
-                      p:refreshId="PropBudget-PeriodsPage-CollectionGroup"
-                      p:performClientSideValidation="true"
-                      p:actionLabel="Save" p:order="10"/>
-                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="cancelEditLineItem"
-                      p:render="@{#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
-                      p:actionLabel="Cancel" p:order="20"/>
-                <bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editLineItem"
-                      p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
-                      p:actionLabel="Edit" p:order="30"/>
                 <bean parent="Uif-DeleteLineAction-IconOnly" p:order="40"
                       p:render="@{!#ViewHelper.isBudgetLineItemEditable(#collectionGroup.bindingInfo.bindingPath,#index,editableBudgetLineItems)}" 
                       p:iconClass="icon-trash"/>
