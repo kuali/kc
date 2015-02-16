@@ -97,9 +97,11 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
                            newBudgetPerson.setPersonId(wizardResult.getKcPerson().getPersonId());
                            newBudgetPerson.setPersonName(wizardResult.getKcPerson().getFullName());
                            newBudgetPerson.setUserName(wizardResult.getKcPerson().getUserName());
+                           newBudgetPerson.setNonEmployeeFlag(false);
                        } else if (wizardResult.getRolodex() != null) {
                            newBudgetPerson.setRolodexId(wizardResult.getRolodex().getRolodexId());
                            newBudgetPerson.setPersonName(wizardResult.getRolodex().getFullName());
+                           newBudgetPerson.setNonEmployeeFlag(true);
                        }
                        getBudgetPersonService().addBudgetPerson(form.getBudget(), newBudgetPerson);
                    }

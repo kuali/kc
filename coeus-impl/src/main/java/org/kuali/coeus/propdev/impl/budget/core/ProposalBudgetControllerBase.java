@@ -28,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
+import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
@@ -156,18 +157,27 @@ public abstract class ProposalBudgetControllerBase {
     }
 
     public ModelAndView save(ProposalBudgetForm form) {
-    	budgetService.calculateBudgetOnSave(form.getBudget());
-    	form.setBudget(getDataObjectService().save(form.getBudget()));
-       	getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
-        getBudgetJustificationService().preSave(form.getBudget(), form.getBudgetJustificationWrapper());
-        getBudgetSummaryService().setupOldStartEndDate(form.getBudget(), false);
-        form.setBudgetModularSummary(budgetModularService.generateModularSummary(form.getBudget()));
-        validateBudgetExpenses(form);
+        if (form.isCanEditView() && getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(form.getBudget()))) {
+            budgetService.calculateBudgetOnSave(form.getBudget());
+            form.setBudget(getDataObjectService().save(form.getBudget()));
+            getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
+            getBudgetJustificationService().preSave(form.getBudget(), form.getBudgetJustificationWrapper());
+            getBudgetSummaryService().setupOldStartEndDate(form.getBudget(), false);
+            form.setBudgetModularSummary(budgetModularService.generateModularSummary(form.getBudget()));
+            validateBudgetExpenses(form);
+            String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
+            if (StringUtils.isNotEmpty(pageId)) {
+                form.setDirtyForm(false);
+                form.setPageId(pageId);
+            }
+        }
         if (form.isAuditActivated()){
-        	((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).applyBudgetAuditRules(form);
+            ((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).applyBudgetAuditRules(form);
         }
         return getModelAndViewService().getModelAndView(form);
     }
+
+
     
     protected void validateBudgetExpenses(ProposalBudgetForm form) {
     	String errorPath = null;
@@ -193,13 +203,7 @@ public abstract class ProposalBudgetControllerBase {
     }
     
     protected ModelAndView navigate(ProposalBudgetForm form) throws Exception {
-		form.setPageId(form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID));
-		form.setDirtyForm(false);
-		if (form.isCanEditView()) {
-			return save(form);
-		} else {
-			return getModelAndViewService().getModelAndView(form);
-		}
+		return save(form);
     }
     
     @InitBinder
