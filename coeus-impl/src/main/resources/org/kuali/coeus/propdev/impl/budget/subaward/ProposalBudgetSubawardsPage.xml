@@ -46,7 +46,8 @@
 		p:propertyName="budget.budgetSubAwards"
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards"
 		p:addWithDialog="true" p:layoutManager.renderSequenceField="false"
-		p:editWithDialog="true" p:customEditLineDialog="true" p:readOnly="false">
+		p:editWithDialog="true" p:customEditLineDialog="true" p:readOnly="false"
+        p:layoutManager.additionalCssClasses="clearfix">
 		<property name="editLineDialogPrototype">
 			<bean parent="PropBudget-Subawards-Details-Section" p:readOnly="@{#view.readOnly}"/>
 		</property>
