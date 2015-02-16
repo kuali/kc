@@ -51,6 +51,10 @@
     </property>
   </bean>
 
+    <bean id="Uif-FileControl" abstract="true" parent="Kc-FileControl"/>
+    <bean id="Kc-FileControl" abstract="true" parent="Uif-FileControl-parentBean"
+          class="org.kuali.coeus.org.kuali.rice.krad.uif.element.KcFileControl"/>
+
     <bean id="Kc-MenuAction" parent="Kc-MenuAction-parentBean"/>
     <bean id="Kc-MenuAction-parentBean" abstract="true" parent="Uif-MenuAction"
           p:performClientSideValidation="true"/>

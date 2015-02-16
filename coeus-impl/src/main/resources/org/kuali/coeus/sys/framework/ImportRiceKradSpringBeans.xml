@@ -35,6 +35,7 @@
     <bean id="kualiModuleService" parent="grlImporter" p:serviceName="kualiModuleService" />
     <bean id="parameterService" parent="grlImporter" p:serviceName="parameterService" />
     <bean id="modelAndViewService" parent="grlImporter" p:serviceName="modelAndViewService" />
+    <bean id="kcFileService" parent="grlImporter" p:serviceName="kcFileService" />
 
     <bean class="org.kuali.rice.krad.uif.freemarker.FreeMarkerInlineRenderBootstrap" />
 
@@ -101,7 +102,7 @@
           class="org.kuali.rice.krad.web.bind.UifConfigurableWebBindingInitializer"/>
 
     <bean id="multipartResolver" class="org.kuali.coeus.sys.framework.controller.ParameterAwareCommonsMultipartResolver">
-        <property name="parameterService" ref="parameterService"/>
+        <property name="kcFileService" ref="kcFileService"/>
     </bean>
 
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
