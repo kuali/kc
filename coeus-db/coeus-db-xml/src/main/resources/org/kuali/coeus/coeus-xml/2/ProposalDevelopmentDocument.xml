@@ -24,10 +24,10 @@
     <parent>KC</parent>
     <description>Create an Awesome Development Proposal</description>
     <label>Proposal Development Document</label>
-    <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+    <postProcessorName>org.kuali.coeus.sys.framework.workflow.KcPostProcessor</postProcessorName>
     <superUserGroupName namespace="KC-WKFLW">OSP Superuser</superUserGroupName>
     <defaultExceptionGroupName namespace="KC-WKFLW">ProposalAdmin</defaultExceptionGroupName>
-    <docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
+    <docHandler>${kuali.docHandler.url.prefix}/kc-pd-krad/proposalDevelopment?methodToCall=docHandler</docHandler>
     <helpDefinitionURL>default.htm?turl=Documents/proposaldevelopment.htm</helpDefinitionURL>
     <authorizer>org.kuali.coeus.propdev.impl.auth.ProposalDevelopmentWorkflowDocumentAuthorizer</authorizer>
     <active>true</active>
@@ -93,7 +93,7 @@
       <finalApproval>false</finalApproval>
     </start>
     <split name="isHierarchyChild">
-      <type>org.kuali.kra.kew.SimpleBooleanSplitNode</type>
+      <type>org.kuali.coeus.sys.framework.workflow.SimpleBooleanSplitNode</type>
     </split>
     <role name="OSPInitial">
       <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
@@ -107,7 +107,7 @@
     </role>
     <requests name="PeopleFlows">
       <activationType>R</activationType>
-      <rulesEngine executorClass="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentRulesEngineExecutorImpl" />
+      <rulesEngine executorClass="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentRulesEngineExecutorImpl" />
     </requests>
     <requests name="DepartmentRouting">
       <activationType>P</activationType>
@@ -140,12 +140,12 @@
   <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
     <ruleTemplate allowOverwrite="true">
       <name>DepartmentRouting</name>
-      <description>Department Routing rSmart</description>
+      <description>Department Routing</description>
     </ruleTemplate>
 
     <ruleTemplate allowOverwrite="true">
       <name>CollegeRouting</name>
-      <description>College Routing rSmart</description>
+      <description>College Routing</description>
     </ruleTemplate>
   </ruleTemplates>
   <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
@@ -154,10 +154,10 @@
       <name>DepartmentRoutingRule</name>
       <documentType>ProposalDevelopmentDocument</documentType>
       <ruleTemplate>DepartmentRouting</ruleTemplate>
-      <description>Department Routing UPRM</description>
+      <description>Department Routing</description>
       <responsibilities>
         <responsibility>
-          <roleName attributeClassName="com.rsmart.kuali.kra.workflow.UnitAdministratorRoleAttribute">Department Head!3!true</roleName>
+          <roleName attributeClassName="co.kuali.coeus.workflow.UnitAdministratorRoleAttribute">Department Head!3!true</roleName>
           <approvePolicy>A</approvePolicy><!-- A[ll] F[irst] -->
           <actionRequested>A</actionRequested><!-- F[YI] A[PPROVE] K[NOWLADGE] -->
         </responsibility>
@@ -168,10 +168,10 @@
       <name>CollegeRoutingRule</name>
       <documentType>ProposalDevelopmentDocument</documentType>
       <ruleTemplate>CollegeRouting</ruleTemplate>
-      <description>College Routing UPRM</description>
+      <description>College Routing</description>
       <responsibilities>
         <responsibility>
-          <roleName attributeClassName="com.rsmart.kuali.kra.workflow.UnitAdministratorRoleAttribute">Dean of College!3!false</roleName>
+          <roleName attributeClassName="co.kuali.coeus.workflow.UnitAdministratorRoleAttribute">Dean of College!3!false</roleName>
           <approvePolicy>A</approvePolicy><!-- A[ll] F[irst] -->
           <actionRequested>A</actionRequested><!-- F[YI] A[PPROVE] K[NOWLADGE] -->
         </responsibility>
