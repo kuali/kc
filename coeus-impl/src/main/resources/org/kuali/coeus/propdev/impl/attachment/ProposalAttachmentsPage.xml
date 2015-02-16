@@ -565,7 +565,8 @@
     <bean id="PropDev-AttachmentPage-MultiFileCollection" parent="PropDev-AttachmentPage-MultiFileCollection-parentBean"/>
     <bean id="PropDev-AttachmentPage-MultiFileCollection-parentBean" abstract="true" parent="Uif-MultiFileUploadCollection"
           p:collection.layoutManager.richTable.render="false" p:addFilesButtonText="Upload &amp; Add"
-            p:collection.layoutManager.renderSequenceField="true">
+            p:collection.layoutManager.renderSequenceField="true"
+            p:maxFileSize="@{#ViewHelper.getMaxUploadSizeParameter()}">
         <property name="collection.items">
             <list merge="true">
                 <bean parent="PropDev-AttachmentPage-LinkField"

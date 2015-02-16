@@ -42,7 +42,6 @@ import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachment;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachmentHelper;
 import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
-import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.custom.ProposalDevelopmentCustomDataGroupDto;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
@@ -55,6 +54,7 @@ import org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants;
 import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
+import org.kuali.coeus.sys.framework.controller.KcFileService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -176,6 +176,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
+
+    @Autowired
+    @Qualifier("kcFileService")
+    private KcFileService kcFileService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -862,12 +866,12 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 		this.proposalDevelopmentService = proposalDevelopmentService;
 	}
 	public boolean isSummaryQuestionsPanelEnabled() {
-		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.SUMMARY_QUESTIONS_INDICATOR);
+		return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentService.SUMMARY_QUESTIONS_INDICATOR);
 
 	}
 
     public boolean isSummaryAttachmentsPanelEnabled() {
-    	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.SUMMARY_ATTACHMENTS_INDICATOR);
+    	return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentService.SUMMARY_ATTACHMENTS_INDICATOR);
     }
 
 	public boolean isSummaryKeywordsPanelEnabled() {
@@ -877,7 +881,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
 	}
 
     public boolean isSummaryBudgetPanelEnabled(DevelopmentProposal developmentProposal) {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,ParameterConstants.DOCUMENT_COMPONENT,ProposalDevelopmentService.BUDGET_SUMMARY_INDICATOR) &&
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, ProposalDevelopmentService.BUDGET_SUMMARY_INDICATOR) &&
                 (developmentProposal.getLatestBudget() != null || developmentProposal.getFinalBudget() != null);
 
     }
@@ -1061,5 +1065,17 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         proposal.setProgramAnnouncementNumber("");
         proposal.setCfdaNumber("");
         proposal.setOpportunityIdForGG("");
+    }
+
+    public String getMaxUploadSizeParameter() {
+        return String.valueOf(getKcFileService().getMaxUploadSizeParameter());
+    }
+
+    public KcFileService getKcFileService() {
+        return kcFileService;
+    }
+
+    public void setKcFileService(KcFileService kcFileService) {
+        this.kcFileService = kcFileService;
     }
 }
