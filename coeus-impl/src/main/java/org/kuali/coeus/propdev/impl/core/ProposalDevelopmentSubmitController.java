@@ -372,13 +372,26 @@ public class ProposalDevelopmentSubmitController extends
     			submitApplication(form);
                 handleSubmissionNotification(form);
                 form.setDeferredMessages(getGlobalVariableService().getMessageMap());
-                return getModelAndViewService().showDialog("Kc-SendNotification-Wizard", true, form);
+                return sendSubmitToSponsorNotification(form);
     		} else {
                 return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
     		}
     	} else {
             return getModelAndViewService().showDialog("PropDev-Resumbit-OptionsSection", true, form);
     	}
+    }
+
+    protected ModelAndView sendSubmitToSponsorNotification(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm) {
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentDocumentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(proposalDevelopmentDocument.getDevelopmentProposal(), "101", "Proposal Submitted");
+        ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(proposalDevelopmentDocumentForm.getDevelopmentProposal());
+        if (proposalDevelopmentDocumentForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+            proposalDevelopmentDocumentForm.getNotificationHelper().initializeDefaultValues(context);
+            return getModelAndViewService().showDialog("Kc-SendNotification-Wizard", true, proposalDevelopmentDocumentForm);
+        } else {
+            getKcNotificationService().sendNotification(context);
+        }
+        return getModelAndViewService().getModelAndView(proposalDevelopmentDocumentForm);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=deleteLineNotificationRecipient")
@@ -697,7 +710,7 @@ public class ProposalDevelopmentSubmitController extends
         DialogResponse dialogResponse = form.getDialogResponse(ProposalDevelopmentConstants.KradConstants.REJECT_DIALOG);
         if(dialogResponse == null) {
             return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.REJECT_DIALOG, false, form);
-        } else if (dialogResponse.getResponseAsBoolean()){
+        }else if (dialogResponse.getResponseAsBoolean()){
             ProposalDevelopmentRejectionBean bean = form.getProposalDevelopmentRejectionBean();
             if (new ProposalDevelopmentRejectionRule().proccessProposalDevelopmentRejection(bean)){
                 getProposalHierarchyService().rejectProposalDevelopmentDocument(form.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(),
