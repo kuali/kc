@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class ProposalDevelopmentCustomDataController extends ProposalDevelopmentControllerBase {
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=customDataNavigate")
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-SupplementalPage"})
     public ModelAndView customDataNavigate(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateCustomData(form);

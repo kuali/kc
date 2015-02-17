@@ -186,7 +186,7 @@
 	<bean id="PropDev-NavigationMenu-CustomData" parent="PropDev-NavigationMenu-CustomData-parentBean" />
 	<bean id="PropDev-NavigationMenu-CustomData-parentBean" abstract="true"
 		parent="Kc-MenuAction" p:navigateToPageId="PropDev-SupplementalPage" p:actionLabel="Supplemental Information"
-        p:iconClass="icon-bell" p:methodToCall="customDataNavigate"/>
+        p:iconClass="icon-bell" p:methodToCall="navigate"/>
 
 	<bean id="PropDev-NavigationMenu-Submit" parent="PropDev-NavigationMenu-Submit-parentBean" />
 	<bean id="PropDev-NavigationMenu-Submit-parentBean" parent="Kc-MenuAction"
