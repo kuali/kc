@@ -130,10 +130,10 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
           parent="Uif-ListGroup" p:layoutManager.additionalCssClasses="nav,pull-right">
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:href="@{#ConfigProperties['app.feedback.link']}"
+                <bean parent="Uif-Link" p:href="@{#ConfigProperties['feedback.link.url']}"
                       p:wrapperCssClasses="pull-right" p:target="_new"
-                      p:render="@{#ConfigProperties['app.feedback.link'] != ''}"
-                      p:linkText="@{#ConfigProperties['app.feedback.linkText']}"/>
+                      p:render="@{#ConfigProperties['feedback.link.url'] != ''}"
+                      p:linkText="@{#ConfigProperties['feedback.link.text']}"/>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-ActionListView"
                       p:wrapperCssClasses="pull-right" p:actionLabel="Action List"/>
