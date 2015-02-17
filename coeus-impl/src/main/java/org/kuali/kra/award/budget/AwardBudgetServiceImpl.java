@@ -606,6 +606,10 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
 
     public void copyLineItemsFromProposalPeriods(Collection rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException {
+    	//calling awardBudgetPeriod.getBudget() will load Budget.class instead of AwardBudgetExt.class
+        //this will cause classcastexceptions later as the budget with that id is technically an AwardBudgetExt
+        //this is all due to an ojb bug. So here we make sure OJB caches the budget as an AwardBudgetExt correctly.
+        AwardBudgetExt budget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, awardBudgetPeriod.getBudgetId());
         awardBudgetPeriod.getBudgetLineItems().clear();
         Iterator iter = rawValues.iterator();
         while (iter.hasNext()) {
