@@ -931,7 +931,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public boolean areAllCertificationsComplete(List<ProposalPerson> proposalPersons) {
         for (ProposalPerson person : proposalPersons) {
             for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders())  {
-                if (!answerHeader.isCompleted() && person.getVersionNumber() != null) {
+                if (!answerHeader.isCompleted()) {
                     return false;
                 }
             }
