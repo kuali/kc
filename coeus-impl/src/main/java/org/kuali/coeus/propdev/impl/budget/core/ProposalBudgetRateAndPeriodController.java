@@ -167,6 +167,19 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
         return getModelAndViewService().getModelAndView(form);
 	}
 
+    @Transactional @RequestMapping(params="methodToCall=readyGeneratePeriod")
+    public ModelAndView readyGeneratePeriod(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DialogResponse dialogResponse = form.getDialogResponse("PropBudget-PeriodsPage-ReadyToGeneratePeriodsDialog");
+        if (dialogResponse == null) {
+            return getModelAndViewService().showDialog("PropBudget-PeriodsPage-ReadyToGeneratePeriodsDialog",true,form);
+        } else if (dialogResponse.getResponseAsBoolean()) {
+            form.setPageId(ProposalBudgetConstants.KradConstants.SUBAWARD_PAGE_ID);
+            return generateAllPeriods(form,result,request,response);
+        }
+
+        return getModelAndViewService().getModelAndView(form);
+    }
+
     @Transactional @RequestMapping(params={"methodToCall=save", "pageId=PropBudget-PeriodsPage"})
     public ModelAndView save(ProposalBudgetForm form) {
     	ModelAndView modelAndView = getModelAndViewService().getModelAndView(form);

@@ -27,6 +27,16 @@ public class ProposalBudgetConstants {
 		public static final String SUBAWARDS_COLLECTION = "PropBudget-SubawardsPage-CollectionGroup";
 		public static final String SUBAWARDS_ADD_DIALOG = "PropBudget-SubawardsPage-CollectionGroup-AddDialog";
         public static final String RETURN_TO_PROPOSAL_LINK = "PropBudget-Menu-ReturnToProposal";
+        public static final String COST_SHARING_PAGE_ID = "PropBudget-CostSharingPage";
+        public static final String UNRECOVERED_PAGE_ID = "PropBudget-UnrecoveredFandAPage";
+        public static final String SUMMARY_PAGE_ID = "PropBudget-SummaryPage";
+        public static final String RATES_PAGE_ID = "PropBudget-RatesPage";
+        public static final String ASSIGN_PERSONNEL_PAGE_ID = "PropBudget-AssignPersonnelToPeriodsPage";
+        public static final String NON_PERSONNEL_PAGE_ID = "PropBudget-NonPersonnelCostsPage";
+        public static final String SUBAWARD_PAGE_ID = "PropBudget-SubawardsPage";
+        public static final String PROJECT_INCOME_PAGE_ID = "PropBudget-ProjectIncomePage";
+        public static final String MODULAR_PAGE_ID = "PropBudget-ModularPage";
+        public static final String NOTES_PAGE_ID = "PropBudget-NotesPage";
 	}
 	
 	public static class AuthConstants {
