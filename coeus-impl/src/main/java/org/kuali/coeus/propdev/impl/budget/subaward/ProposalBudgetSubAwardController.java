@@ -122,6 +122,7 @@ public class ProposalBudgetSubAwardController extends
 	public ModelAndView removeAttachment(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form) {
 		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
 		getPropDevBudgetSubAwardService().removeSubAwardAttachment(subAward);
+	    form.setDialogDataObject(subAward);
 		return getRefreshControllerService().refresh(form);
 	}
 	
