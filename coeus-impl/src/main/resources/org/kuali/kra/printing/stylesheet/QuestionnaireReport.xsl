@@ -539,17 +539,12 @@
 																	<fo:table-row>
 																		<fo:table-cell padding="2pt" display-align="auto">
 																			<fo:block>
-																				My signature below certifies that I hereby authorize MIT to submit the above referenced proposal as an institutionally
-																				authorized proposal. 
-																			</fo:block>
-																			<fo:block>
-																				Further, as a Principal Investigator/Co-Principal Investigator/Co-Investigator I certify that:
-																			</fo:block>
+																				My signature below certifies that I hereby authorize the above referenced proposal to be submitted as an institutionally authorized proposal.
 																			<fo:block>
 																				<xsl:text>&#160;</xsl:text>
 																			</fo:block>
 																			<fo:block>
-																				Please contact your department head, center or laboratory director, or Vice-President for research if you cannot certify the following:
+																				Please contact your department Chairperson, Dean or OSPR if you cannot certify the following:
 																			</fo:block>
 																		</fo:table-cell>
 																		<fo:table-cell padding="2pt" display-align="auto">
