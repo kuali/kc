@@ -221,5 +221,8 @@
 	<param name="kc.kew.auto.ingestion.paths">org/kuali/coeus/rice-xml,org/kuali/coeus/coeus-xml</param>
    	<param name="kc.kew.auto.ingestion.principalId">admin</param>
    	<param name="kc.kew.auto.ingestion.enabled">true</param>
-	
+
+    <param name="feedback.link.url">https://jira.kuali.org/secure/CreateIssue.jspa?pid=10310&amp;issuetype=1</param>
+    <param name="feedback.link.text">GET HELP</param>
+
 </config>
