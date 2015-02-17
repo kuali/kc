@@ -216,8 +216,9 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=sendCertificationNotification")
     public ModelAndView sendCertificationNotification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                        @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
+
         sendPersonNotification(form, String.valueOf(selectedLine));
-        return getRefreshControllerService().refresh(form);
+        return super.save(form);
     }
 
 
@@ -249,7 +250,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 
             index++;
         }
-        return getRefreshControllerService().refresh(form);
+        return super.save(form);
     }
 
 

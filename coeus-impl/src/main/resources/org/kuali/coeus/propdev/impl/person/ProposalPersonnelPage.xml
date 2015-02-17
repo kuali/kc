@@ -314,7 +314,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton-Mini" p:actionLabel="Notify @{#lp.fullName}" p:methodToCall="sendCertificationNotification"
-                                              p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}] and !#empty(#lp.versionNumber) and #lp.questionnairesCompleted ne true and !#parent.readOnly}"
+                                              p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}] and #lp.questionnairesCompleted ne true and !#parent.readOnly}"
                                               p:order="10"/>
                                         <bean parent="Uif-ActionLink" p:iconClass="icon-arrow-up" p:render="@{#line.moveUpAllowed}"
                                               p:actionLabel="" p:methodToCall="movePersonUp" p:order="20"/>
