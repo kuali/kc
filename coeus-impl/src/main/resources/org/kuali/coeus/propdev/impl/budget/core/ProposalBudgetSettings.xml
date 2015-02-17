@@ -83,18 +83,20 @@
 						<bean parent="Uif-TextAreaControl" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="modularBudgetFlag" p:fieldLabel.render="false"
+				<bean parent="Uif-InputField" p:propertyName="modularBudgetFlag" p:label="Modular Budget" 
 					p:order="110"
+					p:readOnlyDisplayReplacement="@{#fp.modularBudgetFlag ? 'Yes' : 'No'}" 
 					p:readOnly="@{#parent.readOnly and !#view.editModes.containsKey(#budgetAuthConsts.MODIFY_HIERARCHY_PARENT_BUDGET)}">
 					<property name="control">
-						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Modular Budget" />
+						<bean parent="Uif-CheckboxControl" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="submitCostSharingFlag" p:fieldLabel.render="false"
+				<bean parent="Uif-InputField" p:propertyName="submitCostSharingFlag" p:label="Submit Cost Sharing"
 					p:order="120"
+					p:readOnlyDisplayReplacement="@{#fp.submitCostSharingFlag ? 'Yes' : 'No'}" 
 					p:readOnly="@{#parent.readOnly and !#view.editModes.containsKey(#budgetAuthConsts.MODIFY_HIERARCHY_PARENT_BUDGET)}">
 					<property name="control">
-						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Submit Cost Sharing" />
+						<bean parent="Uif-CheckboxControl" />
 					</property>
 				</bean>
 			</list>
