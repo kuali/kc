@@ -63,6 +63,7 @@
 						</list>
 					</property>
 				</bean>
+                <bean parent="Uif-DataField" p:label="Version" p:propertyName="budgetVersionNumber" p:order="20" />
 				<bean parent="Uif-DataField" p:label="Direct Cost" p:propertyName="totalDirectCost" p:order="30" />
 				<bean parent="Uif-DataField" p:label="F&amp;A" p:propertyName="totalIndirectCost" p:order="40" />
 				<bean parent="Uif-DataField" p:label="Total" p:propertyName="totalCost" p:order="50" />
