@@ -182,9 +182,11 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         
         QuestionService questionService = KcServiceLocator.getService(QuestionService.class);
         QuestionMaintenanceForm questionMaintenanceForm = (QuestionMaintenanceForm) form;
-        
+
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        Long questionRefId = Long.parseLong(request.getParameter(QuestionnaireConstants.QUESTION_ID));
+
+        String questionRefIdString = request.getParameter(QuestionnaireConstants.QUESTION_ID);
+        Long questionRefId =  questionRefIdString == null ? null:  Long.parseLong(request.getParameter(QuestionnaireConstants.QUESTION_ID));
 
         if (!questionMaintenanceForm.isReadOnly() && (question != null || questionService.isQuestionUsed(questionService.getQuestionByQuestionId(questionRefId).getQuestionSeqId()))) {
 
