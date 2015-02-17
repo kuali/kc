@@ -888,7 +888,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         generateActionCorrespondence(IacucProtocolActionType.RETURNED_TO_PI, protocolForm.getProtocolDocument().getProtocol());
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         refreshAfterProtocolAction(protocolForm, newDocument.getDocumentNumber(), ACTION_NAME_RETURN_TO_PI, false);
-        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.RETURNED_TO_PI, "Return To PI");
+        IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) newDocument.getProtocol(), IacucProtocolActionType.RETURNED_TO_PI, "Return To PI");
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }

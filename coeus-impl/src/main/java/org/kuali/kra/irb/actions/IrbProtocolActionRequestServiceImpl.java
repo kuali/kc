@@ -936,7 +936,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         generateActionCorrespondence(ProtocolActionType.RETURNED_TO_PI, newDocument.getProtocol());
         refreshAfterProtocolAction(protocolForm, newDocument.getDocumentNumber(), ACTION_NAME_RETURN_TO_PI, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IrbConstants.PROTOCOL_TAB, new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.RETURNED_TO_PI, "Return To PI"), false));
-        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.RETURNED_TO_PI, "Returned To PI");
+        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(newDocument.getProtocol(),ProtocolActionType.RETURNED_TO_PI, "Returned To PI");
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IrbConstants.PROTOCOL_TAB);
     }
     
