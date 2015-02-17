@@ -265,7 +265,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Group" />
     <property name="shortLabel" value="Group" />
-    <property name="maxLength" value="25" />
+    <property name="maxLength" value="80" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
     </property>
