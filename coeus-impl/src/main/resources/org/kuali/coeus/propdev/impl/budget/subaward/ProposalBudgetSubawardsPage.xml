@@ -51,6 +51,9 @@
 		<property name="editLineDialogPrototype">
 			<bean parent="PropBudget-Subawards-Details-Section" p:readOnly="@{#view.readOnly}"/>
 		</property>
+        <property name="editWithDialogActionPrototype">
+            <bean parent="Uif-EditLineInDialogAction" p:disabled="@{#parent.readOnly}" p:actionLabel="Details"/>
+        </property>
 		<property name="editInDialogSaveActionPrototype">
 			<bean parent="Uif-EditLineInDialogSaveAction" p:disabled="@{#parent.readOnly}"/>
 		</property>
