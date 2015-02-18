@@ -25,6 +25,16 @@ alter table AWARD_BUDGET_EXT add AWARD_ID decimal(22,0)
 update AWARD_BUDGET_EXT budget set AWARD_ID = (select award.AWARD_ID from AWARD award left join BUDGET_DOCUMENT budgetdoc on award.document_number = budgetdoc.parent_document_key where budget.DOCUMENT_NUMBER = budgetdoc.DOCUMENT_NUMBER)
 /
 
+-- in the case an award could not be found, which indicates the award was deleted, save invalid records into orphan table and then delete them
+create table AWARD_BUDGET_EXT_ORPHAN like AWARD_BUDGET_EXT
+/
+
+insert into AWARD_BUDGET_EXT_ORPHAN select * from AWARD_BUDGET_EXT where AWARD_ID is null
+/
+
+delete from AWARD_BUDGET_EXT where AWARD_ID is null
+/
+
 alter table AWARD_BUDGET_EXT modify AWARD_ID decimal(22,0) not null
 /
 
