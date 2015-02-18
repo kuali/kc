@@ -85,6 +85,9 @@ public final class KeyConstants {
     
     //Proposal Development Custome Attribute Date
     public static final String ERROR_DATE="error.date";
+
+    //Proposal Development Delivery Info
+    public static final String DELIVERY_INFO_NOT_NEEDED = "message.proposalDevelopment.delivery.info.not.needed";
     
     // Key Personnel Mojo
     public static final String ERROR_INVESTIGATOR_UNITS_UPBOUND = "error.investigatorUnits.upbound";
