@@ -29,7 +29,7 @@
 	<bean id="PropDev-DeliveryInfoPage-parentBean" parent="PropDev-DocumentPage">
 		<property name="items">
 			<list>
-				<bean parent="PropDev-DeliveryInfoPage-Section" p:order="10" />
+				<bean parent="PropDev-DeliveryInfoPage-Section" p:order="10"/>
 			</list>
 		</property>
         <property name="header">
@@ -40,7 +40,7 @@
 	<bean id="PropDev-DeliveryInfoPage-Section" parent="PropDev-DeliveryInfoPage-Section-parentBean" />
 	<bean id="PropDev-DeliveryInfoPage-Section-parentBean" abstract="true"
 		parent="Uif-CssGridSection-1FieldLabelColumn"
-		p:fieldBindingObjectPath="document.developmentProposal">
+		p:fieldBindingObjectPath="document.developmentProposal" p:render="@{document.developmentProposal.s2sOpportunity != null ? false : true}">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="mailBy" p:order="20"
