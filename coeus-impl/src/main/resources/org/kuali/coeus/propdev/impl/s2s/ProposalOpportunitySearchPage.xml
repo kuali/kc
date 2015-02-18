@@ -384,7 +384,8 @@
                       p:fieldLabel.labelText="Namespace"/>
                 <bean parent="Uif-DataField" p:propertyName="formName" p:order="30"
                       p:fieldLabel.labelText="Form Name" />
-                <bean parent="Uif-DataField" p:propertyName="formFileName" p:order="40"/>
+                <bean parent="Uif-DataField" p:propertyName="formFileName" p:order="40"
+                      p:fieldLabel.labelText="File Name" />
             </list>
         </property>
         <property name="layoutManager.libraryCssClasses">
