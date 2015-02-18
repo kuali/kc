@@ -337,7 +337,7 @@
             <list>
                 <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareAbstract"
                       p:order="10"/>
-                <bean parent="PropDev-AttachmentPage-DeleteButton" p:order="20"/>
+                <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="20"/>
             </list>
         </property>
         <property name="items">
@@ -399,7 +399,7 @@
                 <bean parent="PropDev-AttachmentPage-DetailsButton" p:methodToCall="prepareInstituteAttachment"
                       p:order="10"/>
                 <bean parent="PropDev-AttachmentPage-ProposalRightsButton" p:order="20" p:methodToCall="getInstituteAttachmentRights"/>
-                <bean parent="PropDev-AttachmentPage-DeleteButton" p:order="30"/>
+                <bean parent="PropDev-AttachmentPage-DeleteFileButton" p:order="30"/>
             </list>
         </property>
         <property name="collection.items">
@@ -547,10 +547,6 @@
           p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
           p:onClickScript="writeCurrentPageToSession(this);" p:dirtyOnAction="true"
           p:loadingMessageText="Deleting File..." p:iconClass="icon-trash"/>
-
-    <bean id="PropDev-AttachmentPage-DeleteButton" parent="PropDev-AttachmentPage-DeleteButton-parentBean"/>
-    <bean id="PropDev-AttachmentPage-DeleteButton-parentBean" abstract="true" parent="Uif-SecondaryActionButton-Mini"
-          p:methodToCall="deleteLine" p:title="Delete" p:iconClass="icon-trash"/>
 
     <bean id="PropDev-AttachmentPage-LinkField" parent="PropDev-AttachmentPage-LinkField-parentBean"/>
     <bean id="PropDev-AttachmentPage-LinkField-parentBean" abstract="true" parent="Uif-LinkField"
