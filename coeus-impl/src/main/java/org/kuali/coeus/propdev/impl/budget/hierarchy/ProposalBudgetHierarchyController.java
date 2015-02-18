@@ -56,7 +56,9 @@ public class ProposalBudgetHierarchyController extends ProposalBudgetControllerB
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS);
             ((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).prepareHierarchySummary(form);
         }
-        return save(form);
+        saveBudget(form);
+        checkAudit(form);
+        return getModelAndViewService().getModelAndView(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalBudget", params = "methodToCall=syncBudget")
@@ -70,7 +72,9 @@ public class ProposalBudgetHierarchyController extends ProposalBudgetControllerB
             displayMessage(ProposalHierarchyKeyConstants.MESSAGE_SYNC_SUCCESS);
             ((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).prepareHierarchySummary(form);
         }
-        return save(form);
+        saveBudget(form);
+        checkAudit(form);
+        return getModelAndViewService().getModelAndView(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalBudget", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropBudget-HierarchySummaryPage"})
