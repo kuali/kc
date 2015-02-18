@@ -146,6 +146,16 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         subAward.setXfdUpdateTimestamp(dateTimeService.getCurrentTimestamp());
         subAward.setXmlUpdateUser(getLoggedInUserNetworkId());
         subAward.setXmlUpdateTimestamp(dateTimeService.getCurrentTimestamp());
+        resetSubAwardPeriodDetails(subAward);
+    }
+    
+    protected void resetSubAwardPeriodDetails(BudgetSubAwards subAward) {
+        for (BudgetSubAwardPeriodDetail budgetSubAwardPeriodDetail : subAward.getBudgetSubAwardPeriodDetails()) {
+        	budgetSubAwardPeriodDetail.setDirectCost(ScaleTwoDecimal.ZERO);
+        	budgetSubAwardPeriodDetail.setCostShare(ScaleTwoDecimal.ZERO);
+        	budgetSubAwardPeriodDetail.setIndirectCost(ScaleTwoDecimal.ZERO);
+        	budgetSubAwardPeriodDetail.setTotalCost(ScaleTwoDecimal.ZERO);
+        }
     }
     
     public void prepareBudgetSubAwards(Budget budget) {
@@ -419,6 +429,7 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
     @Override
     public boolean updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards budgetSubAward, List<String[]> errors) throws Exception {
         boolean result = true;
+        
         //extarct xml from the pdf because the stored xml has been modified
         if (budgetSubAward.getSubAwardXfdFileData() == null || budgetSubAward.getSubAwardXfdFileData().length == 0) {
             errors.add(new String[]{Constants.SUBAWARD_FILE_NOT_EXTRACTED});
@@ -437,6 +448,10 @@ public class PropDevPropDevBudgetSubAwardServiceImpl implements PropDevBudgetSub
         NodeList budgetYearList =  XPathAPI.selectNodeList(document,"//*[local-name(.) = 'BudgetYear']");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         boolean fnfForm = StringUtils.contains(budgetSubAward.getFormName(), "RR_FedNonFedBudget");
+        
+        //reset current line items if replacing with a new one.
+        resetSubAwardPeriodDetails(budgetSubAward);
+        
         for (int i = 0; i < budgetYearList.getLength(); i++) {
             Node budgetYear = budgetYearList.item(i);
             Node startDateNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriodStartDate");
