@@ -151,6 +151,10 @@
       <name>CollegeRouting</name>
       <description>College Routing</description>
     </ruleTemplate>
+    <ruleTemplate allowOverwrite="true">
+		<name>HierarchyParentDispositionApproval</name>
+		<description>Approval rule from the hierarchy parent to hierarchy children.</description>
+	</ruleTemplate>
   </ruleTemplates>
   <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
 
@@ -183,4 +187,155 @@
     </rule>
 
   </rules>
+  
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>CopyCustomActionListAttribute</name>
+			<className>
+				org.kuali.coeus.sys.impl.workflow.CopyCustomActionListAttribute
+			</className>
+			<label>Copy Action List Attribute</label>
+			<description>Copy Action List Attribute</description>
+			<type>ActionListAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+		</ruleAttribute>
+
+		<ruleAttribute>
+			<name>AggregatorSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AggregatorSearchAttribute</label>
+			<description>AggregatorSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="aggregator" title="Aggregator">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.rice.kim.api.identity.Person">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="aggregator"/>
+				      </fieldConversions>
+				    </lookup>
+					
+					<fieldEvaluation>
+						<!-- not sure yet -->
+						<!--  example //organization/organizationId -->
+						<xpathexpression>
+							//aggregator/string
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<users>
+						<aggregator>
+							<value>%aggregator%</value>
+						</aggregator>
+					</users>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>BudgetCreatorSearchAttribute</name>
+			<className>
+				org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute
+			</className>
+			<label>BudgetCreatorSearchAttribute</label>
+			<description>BudgetCreatorSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="budgetCreator" title="Budget Creator">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.rice.kim.api.identity.Person">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="budgetCreator"/>
+				      </fieldConversions>
+				    </lookup>
+					
+					<fieldEvaluation>
+						<xpathexpression>
+							//budgetcreator/string
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<users>
+						<budgetCreator>
+							<value>%budgetCreator%</value>
+						</budgetCreator>
+					</users>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>NarrativeWriterSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>NarrativeWriterSearchAttribute</label>
+			<description>NarrativeWriterSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="narrativeWriter"
+					title="Narrative Writer">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.rice.kim.api.identity.Person">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="narrativeWriter"/>
+				      </fieldConversions>
+				    </lookup>
+					
+					<fieldEvaluation>
+						<xpathexpression>
+							//narrativewriter/string
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<users>
+						<narrativeWriter>
+							<value>%narrativeWriter%</value>
+						</narrativeWriter>
+					</users>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>ViewerSearchAttribute</name>
+			<className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>ViewerSearchAttribute</label>
+			<description>ViewerSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<serviceNamespace>KC</serviceNamespace>
+			<searchingConfig>
+				<fieldDef name="viewer" title="Viewer">
+					<display>
+						<type>text</type>
+					</display>
+					<lookup businessObjectClass="org.kuali.rice.kim.api.identity.Person">
+				      <fieldConversions>
+				        <fieldConversion lookupFieldName="principalName" localFieldName="viewer"/>
+				      </fieldConversions>
+				    </lookup>
+					
+					<fieldEvaluation>
+						<xpathexpression>
+							//viewer/string
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<users>
+						<viewer>
+							<value>%viewer%</value>
+						</viewer>
+					</users>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+	</ruleAttributes>  
 </data>
