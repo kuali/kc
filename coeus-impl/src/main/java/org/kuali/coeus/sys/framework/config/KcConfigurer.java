@@ -29,12 +29,14 @@ import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.core.framework.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,8 +46,9 @@ public class KcConfigurer extends ModuleConfigurer {
     
     private String bootstrapSpringFile;
     private String dispatchServletName;
-    private List<String> filtersToMap;
+    private List<String> filtersToMap = new ArrayList<String>();
     private String moduleTitle;
+    private boolean enableSpringSecurity;
     
     private ResourceLoader rootResourceLoader;
 
@@ -96,6 +99,11 @@ public class KcConfigurer extends ModuleConfigurer {
 	            FilterRegistration filter = getServletContext().getFilterRegistration(filterName);
 	            filter.addMappingForServletNames(null, true, dispatchServletName);
 	        }
+	        if (enableSpringSecurity) {
+	        	DelegatingFilterProxy filterProxy = new DelegatingFilterProxy("springSecurityFilterChain", (WebApplicationContext) ((SpringResourceLoader) rootResourceLoader.getResourceLoaders().get(0)).getContext());
+	        	FilterRegistration.Dynamic securityFilter = getServletContext().addFilter("kc." + getModuleName() + ".springSecurityFilterProxy", filterProxy);
+	        	securityFilter.addMappingForServletNames(null, true, dispatchServletName);
+	        }
     	}
     }
 
@@ -143,4 +151,12 @@ public class KcConfigurer extends ModuleConfigurer {
     public void setModuleTitle(String moduleTitle) {
         this.moduleTitle = moduleTitle;
     }
+
+	public boolean isEnableSpringSecurity() {
+		return enableSpringSecurity;
+	}
+
+	public void setEnableSpringSecurity(boolean enableSpringSecurity) {
+		this.enableSpringSecurity = enableSpringSecurity;
+	}
 }

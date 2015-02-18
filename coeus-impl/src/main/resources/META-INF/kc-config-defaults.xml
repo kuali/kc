@@ -230,4 +230,7 @@
     <param name="rsmart.report.shared.secret">SECRETKEYVALUE</param>
 
     <param name="kc.schemaspy.enabled">true</param>
+    
+    <param name="kc.rest.admin.username" override="false"></param>
+    <param name="kc.rest.admin.password" override="false"></param>
 </config>
