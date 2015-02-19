@@ -31,6 +31,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -208,7 +209,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getProposalDevelopmentAttachmentHelper().reset();
         } else {
             form.setUpdateComponentId("PropDev-AttachmentsPage-ProposalDetails");
-            form.setAjaxReturnType("update-component");
+            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
         return getRefreshControllerService().refresh(form);
 
@@ -257,7 +258,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getProposalDevelopmentAttachmentHelper().reset();
         } else {
             form.setUpdateComponentId("PropDev-AttachmentsPage-PersonnelDetails");
-            form.setAjaxReturnType("update-component");
+            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
         return getRefreshControllerService().refresh(form);
     }
@@ -283,7 +284,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getProposalDevelopmentAttachmentHelper().reset();
         } else {
             form.setUpdateComponentId("PropDev-AttachmentsPage-ProposalDetails");
-            form.setAjaxReturnType("update-component");
+            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
         return getRefreshControllerService().refresh(form);
     }
@@ -309,7 +310,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getProposalDevelopmentAttachmentHelper().reset();
         } else {
             form.setUpdateComponentId("PropDev-AttachmentsPage-PersonnelDetails");
-            form.setAjaxReturnType("update-component");
+            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
         return getRefreshControllerService().refresh(form);
     }
