@@ -426,7 +426,6 @@
 
   <!-- Business Object Lookup Definition -->
   <bean id="S2sOpportunity-lookupDefinition" parent="S2sOpportunity-lookupDefinition-parentBean" />
-  <bean id="S2sOpportunity-LookupView" parent="S2sOpportunity-LookupView-parentBean"/>
   <bean id="S2sOpportunity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Opportunity Lookup" />
     <property name="lookupableID" value="legacyS2sOpportunityLookupable" /><property name="defaultSort" >
@@ -449,30 +448,6 @@
         <bean parent="FieldDefinition" p:attributeName="opportunityId"/>
         <bean parent="FieldDefinition" p:attributeName="opportunityTitle"/>
         <bean parent="FieldDefinition" p:attributeName="schemaUrl"/>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="S2sOpportunity-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity"/>
-    <property name="headerText" value="Opportunity Lookup"/>
-    <property name="criteriaFields">
-      <list>
-        <bean p:propertyName="providerCode" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="opportunityId" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="cfdaNumber" parent="Uif-LookupCriteriaInputField"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean p:propertyName="cfdaNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="closingDate" parent="Uif-DataField"/>
-        <bean p:propertyName="competetionId" parent="Uif-DataField"/>
-        <bean p:propertyName="instructionUrl" parent="Uif-DataField"/>
-        <bean p:propertyName="openingDate" parent="Uif-DataField"/>
-        <bean p:propertyName="opportunityId" parent="Uif-DataField"/>
-        <bean p:propertyName="opportunityTitle" parent="Uif-DataField"/>
-        <bean p:propertyName="schemaUrl" parent="Uif-DataField"/>
       </list>
     </property>
   </bean>
