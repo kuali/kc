@@ -253,7 +253,7 @@
 				<bean parent="PropBudget-NonPersonnelCosts-CostSharing-Tab"
 					p:headerText="Cost Sharing" p:order="30" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"/>
 				<bean parent="PropBudget-NonPersonnelCosts-Rates-Tab"
-					p:headerText="Rates" p:order="40" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"/>
+					p:headerText="Rates" p:order="40"/>
 			</list>
 		</property>
 	</bean>
@@ -369,7 +369,8 @@
 		</property>
 	</bean>
 
-	<bean id="PropBudget-NonPersonnelCosts-Rates-Tab" parent="PropBudget-BudgetLineItem-Rates" />
+	<bean id="PropBudget-NonPersonnelCosts-Rates-Tab" parent="PropBudget-BudgetLineItem-Rates"
+          p:propertyName="addProjectBudgetLineItemHelper.budgetLineItem.budgetLineItemCalculatedAmounts"/>
 
 	<bean id="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean" />
 	<bean id="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
