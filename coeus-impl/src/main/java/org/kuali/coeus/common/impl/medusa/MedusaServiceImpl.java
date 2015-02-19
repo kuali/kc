@@ -345,13 +345,18 @@ public class MedusaServiceImpl implements MedusaService {
                     && specialReviewLinking.get(SpecialReviewType.HUMAN_SUBJECTS)
                     && !StringUtils.equals(specialReview.getApprovalTypeCode(), SpecialReviewApprovalType.NOT_YET_APPLIED)) {
                 Protocol protocol = getProtocol(specialReview.getProtocolNumber());
-                addToGraph(graph, protocol, existingBo);
+                if (protocol != null) {
+                    addToGraph(graph, protocol, existingBo);
+                }
             } else if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)
                     && specialReviewLinking.get(SpecialReviewType.ANIMAL_USAGE)
                     && !StringUtils.equals(specialReview.getApprovalTypeCode(), SpecialReviewApprovalType.NOT_YET_APPLIED)) {
                 IacucProtocol protocol = getIacuc(specialReview.getProtocolNumber());
-                addToGraph(graph, protocol, existingBo);
+                if (protocol != null) {
+                    addToGraph(graph, protocol, existingBo);
+                }
             }
+
         }
     }
     

@@ -32,6 +32,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.krad.data.metadata.DataObjectRelationship;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -89,7 +90,7 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
             form.setNewProposalChangedData(new ProposalChangedData());
         }
         form.setUpdateComponentId("PropDev-DataOverride-Dialog");
-        form.setAjaxReturnType("update-component");
+        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         return getRefreshControllerService().refresh(form);
     }
 

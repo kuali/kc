@@ -68,7 +68,8 @@
                 <property name="footer.items">
                     <list>
                         <ref bean="PropDev-CompliancePage-CreateProtocolButton"/>
-                        <bean parent="Uif-AddLineAction-Dialog" p:dialogDismissOption="REQUEST"
+                        <bean parent="Uif-AddLineAction-Dialog" p:dialogDismissOption=""
+                              p:successCallback="Kc.Dialog.closeDialogWithoutError('PropDev-CompliancePage_AddDialog')"
                               p:methodToCall="addComplianceEntry" p:actionLabel="Add Entry"/>
                         <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel" />
                     </list>
@@ -167,7 +168,7 @@
 		abstract="true" parent="Uif-InputField" p:propertyName="approvalTypeCode"
         p:render="@{#lp.protocolStatus == null}"
 		p:required="@{#empty(#lp.protocolNumber) or !((#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and 
-		specialReviewHelper.IsIrbProtocolLinkingEnabled) or (#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and 
+		specialReviewHelper.IsIrbProtocolLinkingEnabled) or (#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and
 		specialReviewHelper.IsIacucProtocolLinkingEnabled))}">
 		<property name="control">
 			<bean parent="Uif-DropdownControl"	p:disabled="@{(#lp.protocolNumber != null and #lp.protocolNumber != '' and
@@ -191,19 +192,19 @@
 		<property name="control">
 			<bean parent="Uif-TextControl"
 				p:disabled="@{(#lp.approvalTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType).NOT_YET_APPLIED}' and
-				((#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or 
+				((#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or
 				(#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled)))}"/>
 		</property>
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kra.irb.Protocol"
 				p:render="@{((#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and
-				specialReviewHelper.IsIrbProtocolLinkingEnabled) or (#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and 
+				specialReviewHelper.IsIrbProtocolLinkingEnabled) or (#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and
 				specialReviewHelper.IsIacucProtocolLinkingEnabled))}"
 				p:fieldConversions="protocolNumber:protocolNumber"
 				p:lookupParameters="protocolNumber:protocolNumber"
 				p:quickfinderAction.additionalCssClasses="protocolQuickFinder"
 				p:quickfinderAction.disabled="@{#lp.approvalTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewApprovalType).NOT_YET_APPLIED}' and 
-				((#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or 
+				((#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).HUMAN_SUBJECTS}' and specialReviewHelper.IsIrbProtocolLinkingEnabled) or
 				(#lp.specialReviewTypeCode == '#{T(org.kuali.coeus.common.framework.compliance.core.SpecialReviewType).ANIMAL_USAGE}' and specialReviewHelper.IsIacucProtocolLinkingEnabled))}">
 				<property name="propertyReplacers">
 					<list>

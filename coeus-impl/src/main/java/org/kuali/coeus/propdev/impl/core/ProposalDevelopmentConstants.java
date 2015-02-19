@@ -27,6 +27,7 @@ public class ProposalDevelopmentConstants {
 		public static final String PREVIOUS_PAGE_ARG = "previous";
 		public static final String NEXT_PAGE_ARG = "next";
         public static final String DELIVERY_INFO_PAGE = "PropDev-DeliveryInfoPage";
+        public static final String COMPLIANCE_ADD_DIALOG = "PropDev-CompliancePage_AddDialog";
 
         public static final String PERSONNEL_QUESTIONNAIRE = "personnelQuestionnaire";
 	}

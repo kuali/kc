@@ -54,6 +54,13 @@ public class AddSpecialReviewEvent<T extends SpecialReview<? extends SpecialRevi
         this.isIrbProtocolLinkingEnabled = isIrbProtocolLinkingEnabled;
     }
 
+    public AddSpecialReviewEvent(Document document, T specialReview, List<T> specialReviews, boolean isIrbProtocolLinkingEnabled, String errorPathPrefix) {
+        super("adding special review to document " + getDocumentId(document), errorPathPrefix, document);
+        this.specialReview = specialReview;
+        this.specialReviews = specialReviews;
+        this.isIrbProtocolLinkingEnabled = isIrbProtocolLinkingEnabled;
+    }
+
     public T getSpecialReview() {
         return specialReview;
     }

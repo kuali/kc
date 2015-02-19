@@ -20,6 +20,8 @@ package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
+import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewEvent;
+import org.kuali.coeus.common.framework.compliance.core.SaveSpecialReviewRule;
 import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.common.framework.ynq.YnqGroupName;
@@ -34,6 +36,7 @@ import org.kuali.coeus.propdev.impl.basic.ProposalDevelopmentProposalRequiredFie
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.krms.ProposalDevelopmentKRMSAuditRule;
+import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.sponsor.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.budget.editable.BudgetDataOverrideRule;
@@ -175,6 +178,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
             valid &= proccessValidateSponsor(proposalDevelopmentDocument);
             valid &= processCustomDataRule(proposalDevelopmentDocument);
             valid &= processAttachmentRules(proposalDevelopmentDocument);
+            valid &= processSaveSpecialReviewRule(proposalDevelopmentDocument);
             GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposal");
         }
 
@@ -441,7 +445,12 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         return true;
     }
    
-      
+    public boolean processSaveSpecialReviewRule(ProposalDevelopmentDocument document){
+        List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
+        boolean isIrbProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+        boolean isIacucProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER);
+        return new SaveSpecialReviewRule<ProposalSpecialReview>().processRules(new SaveSpecialReviewEvent<ProposalSpecialReview>("propSpecialReviews",document,specialReviews,isIrbProtocolLinkingEnabled,isIacucProtocolLinkingEnabled));
+    }
 
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent) {
         return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);

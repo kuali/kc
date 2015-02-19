@@ -19,16 +19,18 @@
 package org.kuali.coeus.propdev.impl.specialreview;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.coeus.common.framework.compliance.core.AddSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -51,6 +53,8 @@ import java.util.Set;
 
 @Controller
 public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopmentControllerBase {
+
+    private static String NEW_SPECIAL_REVIEW_PATH = "newCollectionLines['document.developmentProposal.propSpecialReviews']";
     @Autowired
     @Qualifier("proposalDevelopmentSpecialReviewService")
     private ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
@@ -67,6 +71,9 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
 
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
     
     @ResponseBody
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=clearAddCompliance")
@@ -144,16 +151,19 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
         ProtocolBase protocol = null;
 
         if (StringUtils.isNotBlank(protocolNumber) && proposalSpecialReview.getSpecialReviewTypeCode() != null &&
-                (proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS))) {
+                (proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS) &&
+                getProposalDevelopmentSpecialReviewService().isIrbLinkingEnabled())) {
             protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
         }
         else if (StringUtils.isNotBlank(protocolNumber) && proposalSpecialReview.getSpecialReviewTypeCode() != null &&
-                proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE)) {
+                proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE) &&
+                getProposalDevelopmentSpecialReviewService().isIacucLinkingEnabled()) {
             protocol = getIacucProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
         }
 
         if (protocol != null && protocol.getProtocolStatus() != null) {
             String status = protocol.getProtocolStatus().getDescription();
+            proposalSpecialReview.setApprovalTypeCode(protocol.getProtocolStatusCode());
             proposalSpecialReview.setProtocolStatus(status);
             proposalSpecialReview.setExpirationDate(protocol.getExpirationDate());
             proposalSpecialReview.setApprovalDate(protocol.getApprovalDate());
@@ -170,6 +180,15 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
     public ModelAndView addComplianceEntry(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm pdForm) throws Exception {
         ProposalSpecialReview proposalSpecialReview = ((ProposalSpecialReview)pdForm.getNewCollectionLines().get("document.developmentProposal.propSpecialReviews"));
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) pdForm.getDocument();
+
+        if (!getKualiRuleService().applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(pdForm.getProposalDevelopmentDocument(),
+                proposalSpecialReview,pdForm.getDevelopmentProposal().getPropSpecialReviews(),
+                protocolNeedsToBeLinked(proposalSpecialReview.getSpecialReviewTypeCode()),
+                NEW_SPECIAL_REVIEW_PATH))) {
+            pdForm.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+            pdForm.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.COMPLIANCE_ADD_DIALOG);
+            return getModelAndViewService().getModelAndView(pdForm);
+        }
 
         if (proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS) ||
                 proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE)) {
@@ -267,5 +286,13 @@ public class ProposalDevelopmentSpecialReviewController extends ProposalDevelopm
 
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
+    }
+
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
     }
 }
