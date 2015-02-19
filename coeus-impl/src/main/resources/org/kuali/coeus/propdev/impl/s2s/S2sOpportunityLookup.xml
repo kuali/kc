@@ -44,9 +44,19 @@
 					</property>
 				</bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="opportunityId"
-					p:fieldLabel.renderColon="false" p:order="20" />
+					p:fieldLabel.renderColon="false" p:order="20" >
+                    <property name="validCharactersConstraint">
+                        <bean class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+                              p:messageKey="validation.lookup.opportunityId" p:patternTypeKey="validationPatternRegex.opportunityId"/>
+                    </property>
+                </bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="cfdaNumber"
-					p:fieldLabel.renderColon="false" p:order="30" />
+					p:fieldLabel.renderColon="false" p:order="30" >
+                    <property name="validCharactersConstraint">
+                        <bean class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+                              p:messageKey="validation.lookup.cfdaNumber" p:patternTypeKey="validationPatternRegex.cfdaNumber"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
 		<property name="resultFields">
