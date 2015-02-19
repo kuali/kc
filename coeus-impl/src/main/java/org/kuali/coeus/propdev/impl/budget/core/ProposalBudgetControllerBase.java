@@ -157,7 +157,21 @@ public abstract class ProposalBudgetControllerBase {
     }
 
     public ModelAndView save(ProposalBudgetForm form) {
-        if (form.isCanEditView() && getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(form.getBudget()))) {
+        if (form.isCanEditView()) {
+        	saveBudget(form);
+        }
+        checkAudit(form);
+        return getModelAndViewService().getModelAndView(form);
+    }
+
+    protected void checkAudit(ProposalBudgetForm form) {
+        if (form.isAuditActivated()){
+            ((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).applyBudgetAuditRules(form);
+        }
+    }
+    
+    protected void saveBudget(ProposalBudgetForm form) {
+    	if(getKcBusinessRulesEngine().applyRules(new BudgetSaveEvent(form.getBudget()))) {
             budgetService.calculateBudgetOnSave(form.getBudget());
             form.setBudget(getDataObjectService().save(form.getBudget()));
             getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
@@ -165,18 +179,8 @@ public abstract class ProposalBudgetControllerBase {
             getBudgetSummaryService().setupOldStartEndDate(form.getBudget(), false);
             form.setBudgetModularSummary(budgetModularService.generateModularSummary(form.getBudget()));
             validateBudgetExpenses(form);
-            String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
-            if (StringUtils.isNotEmpty(pageId)) {
-                form.setDirtyForm(false);
-                form.setPageId(pageId);
-            }
-        }
-        if (form.isAuditActivated()){
-            ((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).applyBudgetAuditRules(form);
-        }
-        return getModelAndViewService().getModelAndView(form);
+    	}
     }
-
 
     
     protected void validateBudgetExpenses(ProposalBudgetForm form) {
@@ -203,7 +207,15 @@ public abstract class ProposalBudgetControllerBase {
     }
     
     protected ModelAndView navigate(ProposalBudgetForm form) throws Exception {
-		return save(form);
+    	ModelAndView modelAndView = save(form);
+		if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
+	        String pageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
+	        if (StringUtils.isNotEmpty(pageId)) {
+	            form.setDirtyForm(false);
+	            form.setPageId(pageId);
+	        }
+		}
+		return modelAndView;
     }
     
     @InitBinder
