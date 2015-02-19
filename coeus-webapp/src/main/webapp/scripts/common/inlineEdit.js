@@ -21,9 +21,11 @@ Kc.Inline = Kc.Inline || {};
 (function(namespace, $) {
 	namespace.determineElementWidth = function(element) {
 		var charWidth = 0;
-		if ($(element).is("input, textarea")) {
+		if ($(element).is("input")) {
 			charWidth = ($(element).val().length + 2) * 8;
-		} else if ($(element).is("select")) {
+		} else if ($(element).is("textarea")) {
+            charWidth = $(element).attr("cols") * 8;
+        } else if ($(element).is("select")) {
 			charWidth = ($(element).find("option:selected").text().length + 2) * 8 + 30;
 		}
 		if (charWidth < 40) {
