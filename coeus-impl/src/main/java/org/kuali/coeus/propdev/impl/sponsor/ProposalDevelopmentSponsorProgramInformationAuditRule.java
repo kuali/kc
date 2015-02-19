@@ -92,6 +92,15 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
                 getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(OPPORTUNITY_TITLE_KEY, KeyConstants.ERROR_OPPORTUNITY_TITLE_DELETED, SPONSOR_PROGRAM_INFO_PAGE_ID));
             }
 
+            if (proposal.isSponsorProgramAndDivCodeRequired()) {
+                if (StringUtils.isEmpty(proposal.getAgencyDivisionCode())) {
+                    valid &= false;
+                    getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(SPONSOR_DIV_CODE_KEY, KeyConstants.ERROR_REQUIRED_SPONSOR_DIV_CODE, SPONSOR_PROGRAM_INFO_PAGE_ID, new String[] {proposal.getSponsorName()}));
+                }
+                if (StringUtils.isEmpty(proposal.getAgencyProgramCode())) {
+                    getAuditErrors(SPONSOR_PROGRAM_INFO_PAGE_NAME,AUDIT_ERRORS).add(new AuditError(SPONSOR_PROGRAM_CODE_KEY, KeyConstants.ERROR_REQUIRED_SPONSOR_PROGRAM_CODE, SPONSOR_PROGRAM_INFO_PAGE_ID,new String[] {proposal.getSponsorName()}));
+                }
+            }
 
             if ( StringUtils.equals(proposal.getS2sOpportunity().getS2sSubmissionTypeCode(), S2sSubmissionType.CHANGE_CORRECTED_CODE) &&
                     StringUtils.equals(proposal.getProposalTypeCode(),getProposalTypeService().getNewProposalTypeCode()) &&
