@@ -68,6 +68,9 @@ public class QuestionField extends InputFieldBase {
             valuesFinder.setAddBlankOption(false);
             setOptionsFinder(valuesFinder);
         } else if (StringUtils.isNotBlank(answer.getQuestion().getLookupClass())) {
+            ((TextControlBase) getControl()).setMaxLength(null);
+            this.getControl().getAdditionalCssClasses().add("questionnaire-widgetInputOnly");
+            this.setOnDocumentReadyScript("Kc.Questionnaire.Answer.setWidgetInputOnly()");
             if (useSuggest) {
                 getSuggest().setRender(true);
                 getSuggest().setValuePropertyName(answer.getQuestion().getLookupReturn());

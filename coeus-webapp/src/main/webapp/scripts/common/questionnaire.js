@@ -176,4 +176,7 @@ Kc.Questionnaire.Answer = Kc.Questionnaire.Answer || {};
 		 return (condition == 11 && (date1 < date2)) ||
 		            (condition == 12 && (date1 > date2));
 	 };
+    namespace.setWidgetInputOnly = function() {
+        $('.questionnaire-widgetInputOnly').each(function() {$(this).attr('readOnly',true)});
+    }
 })(Kc.Questionnaire.Answer, jQuery);
