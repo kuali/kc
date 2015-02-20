@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__992", [["Documents/correspondencetemplate.htm", "right", "Correspondence Template"],["Documents/iacuccorrespondencetemplate.htm", "right", "IACUC Correspondence Template"],["Documents/reportview.htm", "right", "Report View"]]);

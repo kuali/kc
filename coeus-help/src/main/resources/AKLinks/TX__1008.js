@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__1008", [["Documents/customattribute.htm", "right", "Custom Attribute"],["Documents/gloss_customattribute1.htm", "d2hWnd_SecondaryPopup", "Custom Attribute"]]);

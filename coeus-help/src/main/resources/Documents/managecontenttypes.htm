@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>Manage Content Types</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><link rel="stylesheet" type="text/css" href="../Theme/nav.css" /><link rel="stylesheet" type="text/css" href="../Theme/popupmenu.css" /><link rel="stylesheet" type="text/css" href="../Theme/lf.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/C1H_HTML.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/KC 6.0 User Manual.css" />
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+var _needIndentation = false;
+
+
+
+
+//]]></script>
+
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2012.3.0.749" />
+<meta name="D2HTheme" content="Kuali Coeus v.155" />
+</head>
+<body onload="d2hOnLoadToolbar(event);" style="OVERFLOW: hidden; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 7px; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #950000" relpart="../">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+
+d2hTopicPreOpen();
+
+
+
+d2hTrySyncTOC();
+
+
+
+
+
+
+
+var prev = true;
+
+
+
+
+
+var next = true;
+
+
+
+if (typeof d2hInitMainThemeHandlers != "undefined")
+
+    d2hInitMainThemeHandlers(prev, next);
+
+d2hAdjustTopicBorders(document);    
+
+
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+if (typeof d2hLoadNavUrls != "undefined")
+
+    d2hLoadNavUrls();
+
+
+
+
+//]]></script>
+
+<div id="D2HTopicOuterBody" class="d2h_outer_topic" style="OVERFLOW: auto; HEIGHT: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px; WIDTH: 100%; BACKGROUND-COLOR: white">
+<div id="nsbanner" class="d2hNavigatorTopic">
+<div id="TitleRow" class="d2h_main_titlerow" style="PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px">
+<div style="DISPLAY: none"><a id="D2HPreviousAnchor" href="sendeventnotification.htm"></a><a id="D2HNextAnchor" href="servicebus.htm"></a></div></div>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+if (typeof d2hProcessTopicNavForCSH != "undefined")
+
+    d2hProcessTopicNavForCSH();
+
+
+//]]></script>
+</div>
+<div id="nstext" class="d2h_main_nstext" style="HEIGHT: 100%; PADDING-BOTTOM: 10px; PADDING-TOP: 5px; PADDING-LEFT: 22px; PADDING-RIGHT: 10px" valign="bottom">
+<div id="d2h_breadcrumbs" class="d2h_breadcrumbs"><span class="d2h_breadcrumbsLabel">You are here:</span><a class="d2h_breadcrumbsNormal" href="systemadministration.htm">System Administration</a><span class="d2h_breadcrumbsLinkSeparator"> &gt; </span><a class="d2h_breadcrumbsNormal" href="notification1.htm">Notification</a></div>
+<h4><a name="_D2HTopic_847" id="_D2HTopic_847">Manage Content Types</a></h4>
+<p class="MsoNormal"><span style="DISPLAY: none"></span></p>
+<p class="MsoNormal"><span style="DISPLAY: none"></span> </p>
+<p class="MsoBodyText">The Manage Content Types screen allows you to associate 
+metadata with notification content.  A Content Type is part of the message 
+content of a notification that may be sent using KEN.  It can be as simple 
+as a single message string, or something more complex, such as an event that 
+might have a date associated with it, start and stop times, and other metadata 
+you may want to associate with the notification.</p>
+<p class="MsoBodyText">KEN is distributed with two Content Types: Simple and 
+Event.  </p>
+<p class="MsoBodyText"> </p>
+<table class="MsoNormalTable" style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 24.3pt" valign="top" width="32">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="caution.png" border="0" alt="caution.png" src="../ImagesExt/image17_2.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 472.5pt" valign="top" width="630">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt"><b>Caution</b>:  It is 
+      strongly recommended that you leave these two Content Types intact, but 
+      you can use them as templates for creating new Content 
+  Types.</p></div></td></tr></tbody></table>
+<p class="MsoBodyText">Every notification sent through KEN must be associated with 
+a registered Content Type.  Registration of Content Types requires 
+administrative access to the system.  The rest of this section describes 
+the Content Type attributes that are required for registration.</p>
+<table class="MsoNormalTable" style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 24.3pt" valign="top" width="32">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 472.5pt" valign="top" width="630">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt">For more 
+      information, see <a href="http://kuali.org/rice/documentation/1.0.3/KEN_UG/WordDocuments/contentandcontenttypes.htm">KEN 
+      Content Types</a> in the KEN User Guide.</p></div></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 24.3pt" valign="top" width="32">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="caution.png" border="0" alt="caution.png" src="../ImagesExt/image17_2.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 472.5pt" valign="top" width="630">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt">In order to 
+      access this functionality, you must have permissions associated with the 
+      Notification System Administrator role.</p></div></td></tr></tbody></table>
+<h6>Content Type Attributes</h6>
+<p class="MsoNormal">A Content Type is represented as a <i>NotificationContent</i> 
+business object and consists of several attributes, described below:</p>
+<p class="MsoNormal"><a name="KENContentTypes-ClientDeveloperGuide-id" id="KENContentTypes-ClientDeveloperGuide-id"></a><b>id:  </b>Unique 
+identifier that KEN automatically creates when you add a Content Type</p>
+<p class="MsoNormal"><b>name:  </b>This is a unique string that identifies 
+the content.  For example, <i>ItemOverdue</i> might be the <i>name</i> used 
+for a notification Content Type about an item checked out from the campus 
+library.</p>
+<p class="MsoNormal"><a name="KENContentTypes-ClientDeveloperGuide-des" id="KENContentTypes-ClientDeveloperGuide-des"></a><b>description:  </b>This 
+is a more verbose description of the Content Type.  For example, "Library 
+item overdue notices" might be the <i>description</i> for 
+<i>ItemOverdue</i>.</p>
+<p class="MsoNormal"><a name="KENContentTypes-ClientDeveloperGuide-nam" id="KENContentTypes-ClientDeveloperGuide-nam"></a><b>namespace:  </b>This 
+is the string used in the XSD schema and XML to provide validation of the 
+content, for example, <i>notification/ContentTypeItemOverdue</i>.  The XSD 
+namespace is typically the <i>name</i> attribute concatenated to the 
+<i>notification/ContentType</i> string.  Note how it is used in the 
+<b>XSD</b> and <b>XSL</b> examples below.</p>
+<p class="MsoNormal"><a name="KENContentTypes-ClientDeveloperGuide-xsd" id="KENContentTypes-ClientDeveloperGuide-xsd"></a><b>xsd:  </b>The XSD 
+attribute contains the complete <a href="http://www.w3.org/XML/Schema" target="_blank"><span style="COLOR: #660033">W3C XML Schema</span></a> compliant 
+code.</p>
+<p class="CodeBase"> </p>
+<p class="CodeBase">&lt;?xml version=<span style="COLOR: #009100">"1.0"</span> 
+encoding=<span style="COLOR: #009100">"UTF-8"</span>?&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">&lt;!-- This schema defines a 
+generic event notification type in order for it</span></p>
+<p class="CodeBase"><span style="COLOR: black">to be accepted into the system. 
+--&gt;</span></p>
+<p class="CodeBase"><span style="COLOR: black">&lt;schema xmlns=</span><span style="COLOR: #009100">"http://www.w3.org/2001/XMLSchema"</span><span style="COLOR: black"> </span></p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span><b>xmlns:c</b><span style="COLOR: black">=</span><span style="COLOR: #009100">"ns:notification/common"</span><span style="COLOR: black"> </span></p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span><b>xmlns:ce</b><span style="COLOR: black">=</span><span style="COLOR: #009100">"ns:notification/ContentTypeItemOverdue"</span><span style="COLOR: black"> </span></p>
+<p class="CodeBase"><span style="COLOR: black">        
+targetNamespace=</span><span style="COLOR: #009100">"ns:notification/ContentTypeItemOverdue"</span><span style="COLOR: black"> </span></p>
+<p class="CodeBase"><span style="COLOR: black">        
+attributeFormDefault=</span><span style="COLOR: #009100">"unqualified"</span><span style="COLOR: black"> 
+</span></p>
+<p class="CodeBase"><span style="COLOR: black">        
+elementFormDefault=</span><span style="COLOR: #009100">"qualified"</span><span style="COLOR: black">&gt;</span></p>
+<p class="CodeBase"><span style="COLOR: black">  
+</span>&lt;annotation&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;documentation xml:lang=<span style="COLOR: #009100">"en"</span>&gt;<span style="COLOR: black">Item Overdue 
+Schema</span>&lt;/documentation&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">  
+</span>&lt;/annotation&gt;</p>
+<p class="CodeBase"> </p>
+<p class="CodeBase"><span style="COLOR: black">  </span>&lt;import 
+namespace=<span style="COLOR: #009100">"ns:notification/common"</span> 
+schemaLocation=<span style="COLOR: #009100">"resource:notification/notification-common"</span> 
+/&gt;</p>
+<p class="CodeBase"> </p>
+<p class="CodeBase"><span style="COLOR: black">  &lt;!-- The content element 
+describes the content of the notification.  It</span></p>
+<p class="CodeBase"><span style="COLOR: black">  contains a message (a simple 
+String) and a message element --&gt;</span></p>
+<p class="CodeBase"><span style="COLOR: black">  </span>&lt;element 
+name=<span style="COLOR: #009100">"content"</span>&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;complexType&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">      
+</span>&lt;sequence&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;element name=<span style="COLOR: #009100">"message"</span> type=<span style="COLOR: #009100">"c:LongStringType"</span>/&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;element ref=<span style="COLOR: #009100">"ce:event"</span>/&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">      
+</span>&lt;/sequence&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;/complexType&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">  </span>&lt;/element&gt;</p>
+<p class="CodeBase"> </p>
+<p class="CodeBase"><span style="COLOR: black">  &lt;!-- This is the 
+itemoverdue element.  It describes an item overdue notice containing 
+a</span></p>
+<p class="CodeBase"><span style="COLOR: black">  summary, description, 
+location, due date, and the amount of the fine levied --&gt;</span></p>
+<p class="CodeBase"><span style="COLOR: black">  </span>&lt;element 
+name=<span style="COLOR: #009100">"itemoverdue"</span>&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;complexType&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">      
+</span>&lt;sequence&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;element name=<span style="COLOR: #009100">"summary"</span> type=<span style="COLOR: #009100">"c:NonEmptyShortStringType"</span> /&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;element name=<span style="COLOR: #009100">"description"</span> 
+type=<span style="COLOR: #009100">"c:NonEmptyShortStringType"</span> /&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;element name=<span style="COLOR: #009100">"location"</span> 
+type=<span style="COLOR: #009100">"c:NonEmptyShortStringType"</span> /&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;element name=<span style="COLOR: #009100">"dueDate"</span> type=<span style="COLOR: #009100">"dateTime"</span> /&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;element name=<span style="COLOR: #009100">"fine"</span> type=<span style="COLOR: #009100">"decimal"</span> /&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">      
+</span>&lt;/sequence&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;/complexType&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">  </span>&lt;/element&gt;</p>
+<p class="CodeBase">&lt;/schema&gt;</p>
+<p class="CodeBase"> </p>
+<p class="MsoNormal"><a name="KENContentTypes-ClientDeveloperGuide-xsl" id="KENContentTypes-ClientDeveloperGuide-xsl"></a><b>xsl:  </b>The XSD 
+attribute contains the complete XSL code that will be used to transform a 
+notification in XML to html for rendering in an Action List. </p>
+<p class="CodeBase"> </p>
+<p class="CodeBase">&lt;?xml version=<span style="COLOR: #009100">"1.0"</span> 
+encoding=<span style="COLOR: #009100">"UTF-8"</span>?&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">&lt;!-- style sheet declaration: be 
+very careful editing the following, the</span></p>
+<p class="CodeBase"><span style="COLOR: black">     default 
+namespace must be used otherwise elements will not match --&gt;</span></p>
+<p class="CodeBase"><span style="COLOR: black">&lt;</span><b>xsl:stylesheet</b></p>
+<p class="CodeBase"><span style="COLOR: black">    
+version=</span><span style="COLOR: #009100">"1.0"</span></p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span><b>xmlns:xsl</b><span style="COLOR: black">=</span><span style="COLOR: #009100">"http://www.w3.org/1999/XSL/Transform"</span></p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span><b>xmlns:n</b><span style="COLOR: black">=</span><span style="COLOR: #009100">"ns:notification/ContentTypeEvent"</span></p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span><b>xmlns:xsi</b><span style="COLOR: black">=</span><span style="COLOR: #009100">"http://www.w3.org/2001/XMLSchema-instance"</span></p>
+<p class="CodeBase"><span style="COLOR: black">    
+xsi:schemaLocation=</span><span style="COLOR: #009100">"ns:notification/ContentTypeItemOverdue 
+resource:notification/ContentTypeItemOverdue"</span></p>
+<p class="CodeBase"><span style="COLOR: black">    
+exclude-result-prefixes=</span><span style="COLOR: #009100">"n xsi"</span><span style="COLOR: black">&gt;</span></p>
+<p class="CodeBase"> </p>
+<p class="CodeBase"><span style="COLOR: black">    </span><span style="COLOR: gray">&lt;!-- output an html fragment --&gt;</span></p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;<b>xsl:output</b> method=<span style="COLOR: #009100">"html"</span> 
+indent=<span style="COLOR: #009100">"yes"</span> /&gt;</p>
+<p class="CodeBase"> </p>
+<p class="CodeBase"><span style="COLOR: black">    </span><span style="COLOR: gray">&lt;!-- match everything --&gt;</span></p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;<b>xsl:template</b> match=<span style="COLOR: #009100">"/n:content"</span> &gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        </span>&lt;table 
+class=<span style="COLOR: #009100">"bord-all"</span>&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;<b>xsl:apply-templates</b> /&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;/table&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;/<b>xsl:template</b>&gt;</p>
+<p class="CodeBase"> </p>
+<p class="CodeBase"><span style="COLOR: black">    </span><span style="COLOR: gray">&lt;!--  match message element in the default namespace 
+and render as strong --&gt;</span></p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;<b>xsl:template</b> match=<span style="COLOR: #009100">"n:message"</span> &gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;caption&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;strong&gt;&lt;<b>xsl:value-of</b> select=<span style="COLOR: #009100">"."</span> disable-output-escaping=<span style="COLOR: #009100">"yes"</span>/&gt;&lt;/strong&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;/caption&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;/<b>xsl:template</b>&gt;</p>
+<p class="CodeBase"> </p>
+<p class="CodeBase"><span style="COLOR: black">    </span><span style="COLOR: gray">&lt;!-- match on itemoverdue in the default namespace and 
+display all children --&gt;</span></p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;<b>xsl:template</b> match=<span style="COLOR: #009100">"n:itemoverdue"</span>&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;tr&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;td class=<span style="COLOR: #009100">"thnormal"</span>&gt;&lt;strong&gt;<span style="COLOR: black">Summary: </span>&lt;/strong&gt;&lt;/td&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;td class=<span style="COLOR: #009100">"thnormal"</span>&gt;&lt;<b>xsl:value-of</b> select=<span style="COLOR: #009100">"n:summary"</span> /&gt;&lt;/td&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;/tr&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;tr&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;td class=<span style="COLOR: #009100">"thnormal"</span>&gt;&lt;strong&gt;<span style="COLOR: black">Item Description: </span>&lt;/strong&gt;&lt;/td&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;td class=<span style="COLOR: #009100">"thnormal"</span>&gt;&lt;<b>xsl:value-of</b> select=<span style="COLOR: #009100">"n:description"</span> /&gt;&lt;/td&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;/tr&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;tr&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;td class=<span style="COLOR: #009100">"thnormal"</span>&gt;&lt;strong&gt;<span style="COLOR: black">Library: </span>&lt;/strong&gt;&lt;/td&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;td class=<span style="COLOR: #009100">"thnormal"</span>&gt;&lt;<b>xsl:value-of</b> select=<span style="COLOR: #009100">"n:location"</span> /&gt;&lt;/td&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;/tr&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;tr&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;td class=<span style="COLOR: #009100">"thnormal"</span>&gt;&lt;strong&gt;<span style="COLOR: black">Due Date: </span>&lt;/strong&gt;&lt;/td&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;td class=<span style="COLOR: #009100">"thnormal"</span>&gt;&lt;<b>xsl:value-of</b> select=<span style="COLOR: #009100">"n:startDateTime"</span> /&gt;&lt;/td&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;/tr&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;tr&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">            
+</span>&lt;td class=<span style="COLOR: #009100">"thnormal"</span>&gt;&lt;strong&gt;<span style="COLOR: black">Fine: </span>&lt;/strong&gt;&lt;/td&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">   
+         </span>&lt;td class=<span style="COLOR: #009100">"thnormal"</span>&gt;<span style="COLOR: black">$</span>&lt;<b>xsl:value-of</b> select=<span style="COLOR: #009100">"n:fine"</span> /&gt;&lt;/td&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">        
+</span>&lt;/tr&gt;</p>
+<p class="CodeBase"><span style="COLOR: black">    
+</span>&lt;/<b>xsl:template</b>&gt;</p>
+<p class="CodeBase">&lt;/<b>xsl:stylesheet</b>&gt;</p>
+<p class="CodeBase"> </p>
+<p class="MsoNormal"><a name="_d2h_bmk__D2HTopic_898_9" id="_d2h_bmk__D2HTopic_898_9"></a><a name="_D2HTopic_898" id="_D2HTopic_898"><b><span style="FONT-SIZE: 18pt; FONT-FAMILY: 'Arial','sans-serif'"></span></b></a> </p><span id="related-topics"></span></div></div></body></html>

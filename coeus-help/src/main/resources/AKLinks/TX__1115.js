@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__1115", [["Documents/negotiationactivitytype.htm", "right", "Negotiation Activity Type"],["Documents/gloss_negotiationactivitytype1.htm", "d2hWnd_SecondaryPopup", "Negotiation Activity Type"]]);

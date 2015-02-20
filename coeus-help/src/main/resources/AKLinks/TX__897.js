@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__897", [["Documents/sponsor.htm", "right", "Sponsor"],["Documents/sponsor1.htm", "right", "Sponsor"],["Documents/gloss_sponsor2.htm", "d2hWnd_SecondaryPopup", "Sponsor"]]);

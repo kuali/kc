@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>Running the Unit Test Suite</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><link rel="stylesheet" type="text/css" href="../Theme/nav.css" /><link rel="stylesheet" type="text/css" href="../Theme/popupmenu.css" /><link rel="stylesheet" type="text/css" href="../Theme/lf.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/C1H_HTML.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/KC 6.0 User Manual.css" />
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+var _needIndentation = false;
+
+
+
+
+//]]></script>
+
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2012.3.0.749" />
+<meta name="D2HTheme" content="Kuali Coeus v.155" />
+</head>
+<body onload="d2hOnLoadToolbar(event);" style="OVERFLOW: hidden; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 7px; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #950000" relpart="../">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+
+d2hTopicPreOpen();
+
+
+
+d2hTrySyncTOC();
+
+
+
+
+
+
+
+var prev = true;
+
+
+
+
+
+var next = true;
+
+
+
+if (typeof d2hInitMainThemeHandlers != "undefined")
+
+    d2hInitMainThemeHandlers(prev, next);
+
+d2hAdjustTopicBorders(document);    
+
+
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+if (typeof d2hLoadNavUrls != "undefined")
+
+    d2hLoadNavUrls();
+
+
+
+
+//]]></script>
+
+<div id="D2HTopicOuterBody" class="d2h_outer_topic" style="OVERFLOW: auto; HEIGHT: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px; WIDTH: 100%; BACKGROUND-COLOR: white">
+<div id="nsbanner" class="d2hNavigatorTopic">
+<div id="TitleRow" class="d2h_main_titlerow" style="PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px">
+<div style="DISPLAY: none"><a id="D2HPreviousAnchor" href="embeddedmode.htm"></a><a id="D2HNextAnchor" href="wheretofindmorekctechnicaldocumentation.htm"></a></div></div>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+if (typeof d2hProcessTopicNavForCSH != "undefined")
+
+    d2hProcessTopicNavForCSH();
+
+
+//]]></script>
+</div>
+<div id="nstext" class="d2h_main_nstext" style="HEIGHT: 100%; PADDING-BOTTOM: 10px; PADDING-TOP: 5px; PADDING-LEFT: 22px; PADDING-RIGHT: 10px" valign="bottom">
+<div id="d2h_breadcrumbs" class="d2h_breadcrumbs"><span class="d2h_breadcrumbsLabel">You are here:</span><a class="d2h_breadcrumbsNormal" href="overview.htm">Overview</a><span class="d2h_breadcrumbsLinkSeparator"> &gt; 
+</span><a class="d2h_breadcrumbsNormal" href="downloadinginstallingandconfiguring.htm">Downloading, Installing, and 
+Configuring</a></div>
+<h3><a name="_Toc284496442" id="_Toc284496442"></a><a name="_D2HTopic_61" id="_D2HTopic_61">Running the Unit Test 
+Suite</a></h3>
+<p class="MsoNormal"><span style="DISPLAY: none"></span></p>
+<p class="MsoBodyText">Running the unit tests helps verify that your install is 
+working properly.  However, it needs special test data loaded in order to 
+run properly.  This data is for testing and demonstration purposes 
+only;  it is not meant for a production environment.</p>
+<table class="MsoTableGrid" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 26.1pt" valign="top" width="35">
+      <p class="MsoBodyText" style="TEXT-ALIGN: center" align="center"><span style="FONT-SIZE: 11pt"><img border="0" src="../ImagesExt/image17_4.jpg" alt="" /></span><span style="FONT-SIZE: 11pt"></span></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 470.7pt" valign="top" width="628">
+      <p class="MsoBodyText" style="MARGIN-TOP: 9pt"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">To load the demonstration 
+      data:</span></b></p></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 26.1pt" valign="top" width="35">
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt">1.</span></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 470.7pt" valign="top" width="628">
+      <p class="MsoBodyText"><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">Set up a 
+      fresh unit test database using the schema provided by KC.</span></p></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 26.1pt" valign="top" width="35">
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt">2.</span></p>
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt"></span> </p>
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt"></span> </p>
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt"></span> </p>
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt"></span> </p>
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt"></span> </p>
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt"></span> </p>
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt"></span> </p>
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt"></span> </p>
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt"></span> </p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 470.7pt" valign="top" width="628">
+      <p class="MsoBodyText"><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">Go to 
+      db_scripts/demo-data and run the following three scripts in order against 
+      your database:</span></p>
+      <p class="MsoBodyText"><b><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">For 
+      Oracle</span></b><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">:</span></p>
+      <p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>    </span><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">KR-RELEASE-3_1-Demo-ORACLE.sql</span></p>
+      <p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>    </span><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">KRC-RELEASE-3_1-Demo-ORACLE.sql</span></p>
+      <p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>    </span><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">KC-RELEASE-3_1-Demo-ORACLE.sql</span></p>
+      <p class="MsoBodyText"><b><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">For 
+      MySQL</span></b><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">:</span></p>
+      <p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>    </span><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">KR-RELEASE-3_1-Demo-MYSQL.sql</span></p>
+      <p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>    </span><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">KRC-RELEASE-3_1-Demo- 
+      MYSQL.sql</span></p>
+      <p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>    </span><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">KC-RELEASE-3_1-Demo- 
+      MYSQL.sql</span></p>
+      <p class="MsoBodyText"><b><span style="FONT-SIZE: 8pt; FONT-FAMILY: 'Arial','sans-serif'">End of 
+      activity.</span></b><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'"></span></p></td></tr></tbody></table>
+<p class="MsoNormal"><span style="DISPLAY: none"></span> </p>
+<table class="MsoTableGrid" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 26.1pt" valign="top" width="35">
+      <p class="MsoBodyText" style="TEXT-ALIGN: center" align="center"><span style="FONT-SIZE: 11pt"><img border="0" src="../ImagesExt/image17_4.jpg" alt="" /></span><span style="FONT-SIZE: 11pt"></span></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 470.7pt" valign="top" width="628">
+      <p class="MsoBodyText" style="MARGIN-TOP: 9pt"><b><span style="FONT-FAMILY: 'Arial','sans-serif'">To run the unit test 
+      suite:</span></b></p></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 26.1pt" valign="top" width="35">
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt">1.</span></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 470.7pt" valign="top" width="628">
+      <p class="MsoBodyText"><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">Set up a 
+      unit test database using the schema provided by KC.</span></p>
+      <p class="MsoBodyText"><b><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">Note</span></b><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">:  
+      The schema should not contain any data.</span></p></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 26.1pt" valign="top" width="35">
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt">2.</span></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 470.7pt" valign="top" width="628">
+      <p class="MsoBodyText"><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">Create a 
+      configuration file (see 
+      /kc_project/src/main/config/userhome/kuali/test/dev/kc-test-config.xml.template).</span></p></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 26.1pt" valign="top" width="35">
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt">3.</span></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 470.7pt" valign="top" width="628">
+      <p class="MsoBodyText"><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">Place a 
+      configuration file in 
+      &lt;userhome&gt;//kuali/test/dev/kc-test-config.xml.</span></p></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 26.1pt" valign="top" width="35">
+      <p class="MsoBodyText" style="TEXT-ALIGN: right" align="right"><span style="FONT-SIZE: 11pt">4.</span></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 470.7pt" valign="top" width="628">
+      <p class="MsoBodyText"><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">Run the 
+      junit suite org.kuali.kra.triage.suite.PassSuite.</span></p>
+      <p class="MsoBodyText"><b><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">Note</span></b><span style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman','serif'">:  
+      This can be done either through maven or with the eclipse launch file (KC 
+      - PassSuite.launch).</span></p></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="MsoBodyText"><b><span style="FONT-SIZE: 8pt; FONT-FAMILY: 'Arial','sans-serif'"> End of 
+      activity.</span></b></p></td></tr></tbody></table><span id="related-topics"></span></div></div></body></html>

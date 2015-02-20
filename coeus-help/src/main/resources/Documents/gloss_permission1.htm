@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>Permission</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><link rel="stylesheet" type="text/css" href="../Theme/popupmenu.css" /><link rel="stylesheet" type="text/css" href="../Theme/lf.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/C1H_HTML.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/KC 6.0 User Manual.css" />
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2012.3.0.749" />
+<meta name="D2HTheme" content="Kuali Coeus v.155" />
+</head>
+<body onmousedown="d2hpopup()" onload="d2hload();d2hProcessHighlight();" style="BACKGROUND-COLOR: lightyellow" relpart="../">
+<script language="JavaScript" type="text/JavaScript">
+//<![CDATA[
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+
+//]]></script>
+
+<h5 class="GlossaryHeading"><a name="_D2HTopic_1351" id="_D2HTopic_1351">Permission</a></h5>
+<p class="C1HPopupTopicText"><span class="C1HPopupTopicTextChar">Permissions 
+represent fine grained actions that can be mapped to functionality within a 
+given system. Permissions are scoped to Namespace|keyword=Namespace wh</span>ich 
+roughly correlate to modules or sections of functionality within a given 
+system.  A developer would code authorization checks in their application 
+against these permissions.  Some examples would be: 'canSave', 'canView', 
+'canEdit', etc.  Permissions are aggregated by Roles|keyword=Role.  
+Permissions can be maintained at runtime through a user interface that is 
+capable of workflow; however, developers still need to code authorization checks 
+against them in their code, once they are set up in the system.</p>
+<p class="C1HPopupTopicText">Attributes</p>
+<p class="C1HPopupTopicText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Id - 
+a system generated unique identifier that is the primary key for any Permission 
+record in the system</p>
+<p class="C1HPopupTopicText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Name 
+- the name of the permission; also a human understandable unique identifier</p>
+<p class="C1HPopupTopicText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Description - a full description of the purpose of the Permission 
+record</p>
+<p class="C1HPopupTopicText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Namespace - the reference to the associated 
+Namespace|keyword=Namespace</p>
+<p class="C1HPopupTopicText">Relationships</p>
+<p class="C1HPopupTopicText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Permission to Role|keyword=Role - many to many; this relationship ties a 
+Permission record to a Role that is authorized for the Permission</p>
+<p class="C1HPopupTopicText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Permission to Namespace|keyword=Namespace - many to one; this 
+relationship allows for scoping of a Permission to a Namespace that contains 
+functionality which keys its authorization checking off of said</p><span id="related-topics"></span></body></html>

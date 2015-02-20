@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__1097", [["Documents/accounttype.htm", "right", "Account Type"],["Documents/gloss_accounttype1.htm", "d2hWnd_SecondaryPopup", "Account Type"]]);

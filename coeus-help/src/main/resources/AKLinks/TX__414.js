@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__414", [["Documents/toresttodefault.htm", "right", "To Rest to Default:"],["Documents/toresttodefault1.htm", "right", "To Rest to Default:"]]);
