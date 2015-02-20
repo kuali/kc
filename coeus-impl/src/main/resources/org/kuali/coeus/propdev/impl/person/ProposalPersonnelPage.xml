@@ -586,8 +586,13 @@
             <list>
                 <bean parent="Uif-DataField" p:propertyName="unit.unitName"
                       p:readOnly="true" p:order="10" />
-                <bean parent="Uif-DataField" p:propertyName="unitNumber" p:enableAutoInquiry="false"
-                      p:readOnly="true" p:order="20" />
+                <bean parent="Uif-DataField" p:propertyName="unitNumber"
+                      p:readOnly="true" p:order="20">
+          			<property name="inquiry">
+              			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                    		p:inquiryParameters="unitNumber:unitNumber"/>
+          			</property>
+                </bean>      
                 <bean parent="Uif-MessageField" p:messageText="@{#lp.leadUnit ? 'Lead Unit - Cannot delete' : ' '}"
                       p:readOnly="true" p:order="30"
                       p:label="Lead Unit?" />
