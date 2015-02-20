@@ -337,5 +337,18 @@
 				</xmlSearchContent>
 			</searchingConfig>
 		</ruleAttribute>
-	</ruleAttributes>  
+        <ruleAttribute>
+            <name>ProposalPersons-XPathQualifierResolver</name>
+            <className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+            <label>ProposalPersons-XPathQualifierResolver</label>
+            <description>ProposalPersons-XPathQualifierResolver</description>
+            <type>QualifierResolver</type>
+            <serviceNamespace>KC</serviceNamespace>
+            <resolverConfig>
+                <attributes name="proposal">
+                    <xPathExpression>//document/developmentProposal/proposalNumber</xPathExpression>
+                </attributes>
+            </resolverConfig>
+        </ruleAttribute>
+	</ruleAttributes>
 </data>
