@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__1399", [["Documents/detailedprocedure.htm", "right", "Detailed Procedure"],["Documents/detailedprocedure1.htm", "right", "Detailed Procedure"]]);

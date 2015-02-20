@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__1184", [["Documents/iacucsubmissiontype.htm", "right", "IACUC Submission Type"],["Documents/submissiontype.htm", "right", "Submission Type"],["Documents/gloss_submissiontype1.htm", "d2hWnd_SecondaryPopup", "Submission Type"],["Documents/submissiontypequalifier.htm", "right", "Submission Type Qualifier"]]);

@@ -207,7 +207,9 @@
 							p:iconClass="icon-money" p:order="50" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Autocalculate Periods" p:methodToCall="generateAllPeriods"
 							p:iconClass="icon-stack" p:order="60" />
-					</list>
+                        <bean parent="PropBudget-HelpMenu" p:order="70"/>
+
+                    </list>
 				</property>
 			</bean>
 		</property>
@@ -316,35 +318,32 @@
         <property name="menuItems">
             <list>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Periods &amp; Totals"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenperiodstotals.htm"/>
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/periodstotals.htm"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Rates"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenrates.htm"/>
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/rates.htm"/>
                 <bean parent="Uif-MenuDivider"/>
                 <bean parent="Uif-MenuHeader" p:messageText="Personnel Costs"/>
-                <bean parent="Uif-Link" p:target="_blank" p:linkText="Project Personnel" p:style="padding-left:1em;"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenprojectpersonnel.htm"/>
-                <bean parent="Uif-Link" p:target="_blank" p:linkText="Assign Personnel to Periods" p:style="padding-left:1em;"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenprojectpersonnel1.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Project Personnel"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/projectpersonnel.htm"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Assign Personnel to Periods"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/assignpersonneltoperiods.htm"/>
                 <bean parent="Uif-MenuDivider"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Non-Personnel Costs"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreennonpersonnel.htm"/>
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/nonpersonnelcosts.htm"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Subawards"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreensubawards.htm"/>
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/subawards.htm"/>
                 <bean parent="Uif-MenuDivider"/>
                 <bean parent="Uif-MenuHeader" p:messageText="Institutional Commitments"/>
-                <bean parent="Uif-Link" p:target="_blank" p:linkText="Cost Sharing" p:style="padding-left:1em;"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreencostsharing.htm"/>
-                <bean parent="Uif-Link" p:target="_blank" p:linkText="Unrecovered F&amp;A" p:style="padding-left:1em;"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenunrecoveredfa.htm"/>
-                <bean parent="Uif-MenuDivider"/>
+                <bean parent="Uif-Link" p:target="_blank" p:linkText="Cost Sharing"
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/institutionalcommitments.htm"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Project Income"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenprojectincome.htm"/>
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/projectincome.htm"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Modular"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenmodularbudget.htm"/>
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/modularbudget.htm"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Budget Notes"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenbudgetnotes.htm"/>
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/budgetnotes.htm"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Budget Summary"
-                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/onthisscreenbudgetsummary.htm"/>
+                      p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/budgetsummary.htm"/>
                 <bean parent="Uif-Link" p:target="_blank" p:linkText="Glossary of Terms"
                       p:href="@{#ConfigProperties['application.url']}/static/help/default.htm?turl=Documents/glossaryofterms.htm"/>
             </list>

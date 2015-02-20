@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>Account Auto-Creation Defaults Maintenance Document</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><link rel="stylesheet" type="text/css" href="../Theme/nav.css" /><link rel="stylesheet" type="text/css" href="../Theme/popupmenu.css" /><link rel="stylesheet" type="text/css" href="../Theme/lf.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/C1H_HTML.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/KC 6.0 User Manual.css" />
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+var _needIndentation = false;
+
+
+
+
+//]]></script>
+
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2012.3.0.749" />
+<meta name="D2HTheme" content="Kuali Coeus v.155" />
+</head>
+<body onload="d2hOnLoadToolbar(event);" style="OVERFLOW: hidden; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 7px; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #950000" relpart="../">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+
+d2hTopicPreOpen();
+
+
+
+d2hTrySyncTOC();
+
+
+
+
+
+
+
+var prev = true;
+
+
+
+
+
+var next = true;
+
+
+
+if (typeof d2hInitMainThemeHandlers != "undefined")
+
+    d2hInitMainThemeHandlers(prev, next);
+
+d2hAdjustTopicBorders(document);    
+
+
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+if (typeof d2hLoadNavUrls != "undefined")
+
+    d2hLoadNavUrls();
+
+
+
+
+//]]></script>
+
+<div id="D2HTopicOuterBody" class="d2h_outer_topic" style="OVERFLOW: auto; HEIGHT: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px; WIDTH: 100%; BACKGROUND-COLOR: white">
+<div id="nsbanner" class="d2hNavigatorTopic">
+<div id="TitleRow" class="d2h_main_titlerow" style="PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px">
+<div style="DISPLAY: none"><a id="D2HPreviousAnchor" href="prerequisiteconditionchecklist.htm"></a><a id="D2HNextAnchor" href="finsystemintegrationonparameter.htm"></a></div></div>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+if (typeof d2hProcessTopicNavForCSH != "undefined")
+
+    d2hProcessTopicNavForCSH();
+
+
+//]]></script>
+</div>
+<div id="nstext" class="d2h_main_nstext" style="HEIGHT: 100%; PADDING-BOTTOM: 10px; PADDING-TOP: 5px; PADDING-LEFT: 22px; PADDING-RIGHT: 10px" valign="bottom">
+<div id="d2h_breadcrumbs" class="d2h_breadcrumbs"><span class="d2h_breadcrumbsLabel">You are here:</span><span class="d2h_breadcrumbsContentsOnly">Appendix C: Kuali Financial System 
+Integration</span><span class="d2h_breadcrumbsLinkSeparator"> &gt; </span><a class="d2h_breadcrumbsNormal" href="account.htm">Account</a><span class="d2h_breadcrumbsLinkSeparator"> &gt; </span><a class="d2h_breadcrumbsNormal" href="settingupaccountcreationintegration.htm">Setting up Account creation 
+integration</a></div>
+<h4><a name="_D2HTopic_1846" id="_D2HTopic_1846">Account Auto-Creation Defaults Maintenance 
+Document</a></h4>
+<p class="MsoNormal"><span style="DISPLAY: none"></span></p>
+<p class="MsoNormal"><span style="DISPLAY: none"></span></p>
+<p class="MsoBodyText">When integrating KFS with KC, it is possible to have the 
+system automatically initiate and partially complete a KFS Account document 
+based on information on the associated KC Award document. The KC Award e-doc 
+cannot provide all of the data required to create an account, so the system 
+refers to the Account Auto-Creation Defaults document in order to obtain the 
+appropriate default values for the remaining required fields on the new Account 
+document.  In short, data obtained from the Account Auto-Creation Defaults 
+maintenance document supplements data coming from KC to create a more complete 
+Account document. </p>
+<p class="MsoBodyText">Your system may contain any number of Account Auto-Creation 
+Defaults records, each of which allows you to establish defaults for accounts 
+created in KC for a particular KC unit in your institution’s KC unit hierarchy. 
+When an account is created based on a KC award, if no Account Auto-Creation 
+Defaults record exists for the unit specified, the system climbs the KC unit 
+hierarchy until it finds a KC unit for which defaults have been defined and uses 
+those values.</p>
+<p class="MsoBodyText"> </p>
+<table class="MsoNormalTable" style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 24.3pt" valign="top" width="32">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="note.png" border="0" alt="note.png" src="../ImagesExt/image17_3.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 454.5pt" valign="top" width="606">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt">Address field 
+      entries on the KFS Account e-doc may be derived from the KC Award or from 
+      the default document.  The source used depends on your institution’s 
+      setting of the KC_OVERRIDES_KFS_DEFAULT_IND parameter.  If this 
+      parameter is set to ‘<span style="FONT-FAMILY: 'Courier New'">Y</span>,’ 
+      the KC Award is used as the source of address information on the account 
+      record. If the parameter is set to ‘<span style="FONT-FAMILY: 'Courier New'">N</span>,’ the Account Auto-Creation 
+      Defaults record is used as the source.</p></div></td></tr></tbody></table>
+<h6>Navigation</h6>
+<div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 4pt; MARGIN: 5pt 0pt 0pt 13pt; BORDER-LEFT: windowtext 1pt solid; PADDING-RIGHT: 4pt">
+<p class="MsoBodyText" style="MARGIN-BOTTOM: 0pt; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 0pt; PADDING-RIGHT: 0pt"><b>Menu</b>:  
+Maintenance &gt; <b>Group</b>:  Contracts &amp; Grants &gt; <b>Menu Group 
+Link</b>:  CG Account Default &gt; <b>Lookup Screen</b>:  CG Account 
+Default Lookup &gt; <b>Maintenance Document</b>:  Account Auto-Creation 
+Defaults</p></div>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3333.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2169  Navigation to and access method for 
+Account Auto-Creation Defaults maintenance document lookup screen</p>
+<h6>Access</h6>
+<table class="MsoNormalTable" style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 24.3pt" valign="top" width="32">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="note.png" border="0" alt="note.png" src="../ImagesExt/image17_3.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 454.5pt" valign="top" width="606">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt"><b>Note</b>:  The KFS-SYS 
+      Manager role permits you to access, create, and modify Account 
+      Auto-Creation Defaults maintenance documents in 
+  KFS.</p></div></td></tr></tbody></table>
+<h6>Document Lookup</h6>
+<p class="MsoNormal">The Lookup screen utilizes standard Kuali lookup 
+functionality.</p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3334.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2170 CG Account Default Lookup Screen used to 
+retrieve Account Auto-Creation Defaults maintenance documents – create new 
+button, criteria fields, results table example</p>
+<h6>Document Layout</h6>
+<p class="MsoNormal">The Account Auto-Creation Defaults document is based on the 
+standard KFS Account document and therefore includes many of the fields found in 
+the Account document along with a few additional fields. In addition to the 
+standard tabbed sections you find in most mainteance documents, the Account 
+Auto-Creation Defaults maintenance e-doc also includes the following three 
+unique tabbed sections:  AccountAutoCreateDefault Maintenance, 
+AccountAutoCreateDefault Responsibility, and Contracts and Grants.</p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3335.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2171  Account Auto-Creation Defaults Maintenance 
+Document – Three Unique Tabbed Sections</p>
+<h6>AccountAutoCreateDefault Maintenance Section</h6>
+<p class="MsoBodyText">The fields in this section define account attributes for 
+accounts created based on this default record. These fields are used in the 
+application of business rules for transactions using the accounts, reporting 
+options, and approval routing.  </p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3336.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2172  AccountAutoCreateDefault Maintenance 
+Section  – Edit Mode Example</p>
+<p class="MsoNormal"> </p>
+<p class="MsoCaption">Table 1186 AccountAutoCreateDefault Maintenance Section - 
+Field Descriptions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">KC Unit</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Required in create mode, and display only in edit mode. 
+      The Kuali Coeus unit code associated with all new accounts based on this 
+      set of defaults. Search for the code from the <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">KC Unit </span></strong>lookup 
+      <img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" />.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">KC Unit Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Display only. The descriptive name of the KC unit 
+      associated with these new accounts.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Chart Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Required. Enter the code or search for it from the 
+      <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">Chart 
+      </span></strong>lookup <img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" />.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Organization Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Required. Enter the number for the owner organization 
+      of all new accounts based on this default, or search for it from the 
+      <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">Organization 
+      l</span></strong>ookup <img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" />.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Campus Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Required. Select the physical campus on which the new 
+      accounts are to be located from the <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">Campus </span></strong>list, 
+      or search for it from the lookup <img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" />.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Account Postal Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Required. Enter the postal code assigned by the US 
+      Postal Service for the city where the new accounts are to be managed, or 
+      search for it from the <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">Postal Code 
+      </span></strong>lookup <img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" />.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Account City Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Required. Enter the city where the new accounts are to 
+      be managed.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Account State Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Required. Enter the code for the state where the new 
+      accounts are to be managed, or search for it from the <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">State </span></strong>lookup 
+      <img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" />.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Account Street Address</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Required. Enter the street address where the new 
+      accounts are to be managed.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Account Type Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Required. Select from the <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">Account Type</span></strong> 
+      list or search for it from the lookup <img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /> Examples used to 
+      categorize accounts for reporting purposes might include 'Fee Remissions 
+      Accounts' or 'Equipment Accounts.'</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Sub-Fund Group Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Required. Enter the code which relates the new accounts 
+      to a fund, or search for it from the <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">Sub-Fund Group</span></strong> 
+      lookup <img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" />. Examples are continuing education 
+      accounts, scholarships and fellowships, and general funds.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Account Fringe Benefit</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Optional. Select the check box if these new accounts 
+      are to accept fringe benefits or clear the check box if they are not to 
+      accept them. If the check box is not selected, a fringe benefits chart and 
+      fringe benefits account must be supplied to indicate where these charges 
+      should be posted. If it is not selected, fringe benefit Chart of Accounts 
+      code and fringe benefit account number are required and the fringe benefit 
+      account number must have been set up with the account fringe benefit code 
+      selected.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Fringe Benefit Chart Of Accounts Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Optional. Select the chart code for the fringe benefits 
+      account from the <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">Chart </span></strong>list or 
+      search for it from the lookup <img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" />.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 104.4pt" valign="top" width="139">
+      <p class="TableText">Fringe Benefit Account Number</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 392.4pt" valign="top" width="523">
+      <p class="TableText">Optional. Enter the account that accepts fringe benefit 
+      charges from the <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">Account </span></strong>list, 
+      or search for it from the<strong><span style="FONT-FAMILY: 'Verdana','sans-serif'"> </span></strong>lookup <img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" />.</p></td></tr></tbody></table>
+<p class="MsoBodyText"> </p>
+<h6>AccountAutoCreateDefault Responsibility Section</h6>
+<p class="MsoBodyText">The fields in this section define the individuals 
+responsible for all new accounts based on this set of defaults and provide 
+continuation account information and Sufficient Funds parameters.</p>
+<p class="MsoBodyText">In edit mode, the system automatically enters data into 
+both the Old and New sections, and all data fields are available for 
+editing.</p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3337.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2173  AccountAutoCreateDefault Responsibility 
+Section  – Edit Mode Example</p>
+<p class="MsoNormal"> </p>
+<p class="MsoNormal"> </p>
+<p class="MsoNormal"> </p>
+<p class="MsoCaption">Table 1187 AccountAutoCreateDefault Responsibility 
+Section  – Field Descriptions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Fiscal Officer Principal Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="MsoNormal" style="MARGIN-LEFT: 3.6pt"><span style="FONT-SIZE: 9pt">Required.  Enter the name of the fiscal 
+      officer for all new accounts based on this set of defaults – this is the 
+      individual responsible for the fiscal management of the account.  
+      Click the </span><b>lookup</b><span style="FONT-SIZE: 9pt"><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /></span><b> </b><span style="FONT-SIZE: 9pt">icon to search for and return the value to populate 
+      the box automatically, or if known, type the value in the 
+    box.</span></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Account Supervisor Principal name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="MsoNormal" style="MARGIN-LEFT: 3.6pt"><span style="FONT-SIZE: 9pt">Required.  The supervisor oversees the 
+      management of the accounts at a higher-level than the fiscal officer but 
+      rarely receives any direct requests for action from the KFS. The account 
+      supervisor cannot be the same as the fiscal officer or the account 
+      manager.  Click the </span><b>lookup</b><span style="FONT-SIZE: 9pt"><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /></span><b> </b><span style="FONT-SIZE: 9pt">icon to search for and return the value to populate 
+      the box automatically, or if known, type the value in the 
+    box.</span></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Account Manager Principal Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="MsoNormal" style="MARGIN-LEFT: 3.6pt"><span style="FONT-SIZE: 9pt">Required.  The account manager has the 
+      responsibility for ensuring that funds are spent and managed according to 
+      the goals, objectives and mission of the organization, to ensure that the 
+      funds are being spent according to a budgeted plan and that the allocation 
+      of expenditures is appropriate to the function identified for the 
+      account.  Click the </span><b>lookup</b><span style="FONT-SIZE: 9pt"><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /></span><b> </b><span style="FONT-SIZE: 9pt">icon to search for and return the value to populate 
+      the box automatically, or if known, type the value in the 
+    box.</span></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Continuation Chart Of Accounts Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Enter the chart code for the continuation account for 
+      the new accounts.  The field is required if the account has an 
+      expiration date.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><b> <img border="0" src="../ImagesExt/image17_727.jpg" alt="" /></b><b><span style="FONT-SIZE: 10pt"> </span></b>menu by clicking the down arrow 
+      to display the list, and then click on an item in the list to highlight 
+      and select it to populate the box with your selection.  Click the 
+      <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> </span></b>icon to search for and return the 
+      value to populate the box automatically, or if known, type the value in 
+      the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Continuation Account Number</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Enter the account that is to accept transactions which 
+      are being processed on the new accounts after the account expiration date. 
+       Click the <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>icon to search for and return the value to populate the box 
+      automatically, or if known, type the value in the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Income Stream Chart Of Accounts Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Select the Chart of Accounts for the income stream 
+      account from the Chart list, or search for it from the Chart lookup.  
+      Parameters control when the income stream chart of accounts code and 
+      income stream account number are required.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><b> <img border="0" src="../ImagesExt/image17_641.jpg" alt="" /></b><b><span style="FONT-SIZE: 10pt"> </span></b>menu by clicking the down arrow 
+      to display the list, and then click on an item in the list to highlight 
+      and select it to populate the box with your selection.  Click the 
+      <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> </span></b>icon to search for and return the 
+      value to populate the box automatically, or if known, type the value in 
+      the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Income Stream Account Number</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Enter the account that is to receive any offset entries 
+      from the new accounts in order to balance responsibility center activity 
+      from the Account list.   Click the <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> </span></b>icon to search for and return the 
+      value to populate the box automatically, or if known, type the value in 
+      the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Budget Record Level Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Required.  From the <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">Budget Record 
+      Level</span></strong> list, select the code that specifies that all new 
+      accounts based on this set of defaults are to record budget by:<br />A = 
+      Account<br />C = Consolidation<br />O = Object Code<br />L = Level<br />S = 
+      Sub-Account<br />M = Mixed<br />N = No budget</p>
+      <p class="TableText"><img title="pencil-small" border="0" alt="pencil-small" src="../ImagesExt/image17_31.png" />       An 
+      account in the General Fund group cannot have a budget record level code 
+      of 'Mixed.'</p>
+      <p class="TableText">Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><b> <img border="0" src="../ImagesExt/image17_641.jpg" alt="" /></b><b><span style="FONT-SIZE: 10pt"> </span></b>menu by clicking the down arrow 
+      to display the list, and then click on an item in the list to highlight 
+      and select it to populate the box with your selection.  Click the 
+      <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> </span></b>icon to search for and return the 
+      value to populate the box automatically, or if known, type the value in 
+      the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Account Sufficient Funds Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="MsoNormal" style="MARGIN-LEFT: 3.6pt"><span style="FONT-SIZE: 9pt">Required.  </span>Select the code that 
+      indicates at what level the new account are to be checked for sufficient 
+      funds in the transaction processing environment from the <strong><span style="FONT-FAMILY: 'Verdana','sans-serif'">Account Sufficient 
+      Funds</span></strong> list. The choices are:<br />A = Account<br />C = 
+      Consolidation<br />L = Level<br />O = Object Code<br />H = Cash <br />N = No 
+      Checking</p>
+      <p class="MsoNormal" style="MARGIN-LEFT: 3.6pt"><span style="FONT-SIZE: 9pt">Use the </span><b>drop-down</b><b><span style="FONT-SIZE: 9pt"> <img border="0" src="../ImagesExt/image17_641.jpg" alt="" /></span></b><b> </b><span style="FONT-SIZE: 9pt">menu by clicking the down arrow to display the 
+      list, and then click on an item in the list to highlight and select it to 
+      populate the box with your selection.  Click the 
+      </span><b>lookup</b><span style="FONT-SIZE: 9pt"><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /></span><b> 
+      </b><span style="FONT-SIZE: 9pt">icon to search for and return the value 
+      to populate the box automatically, or if known, type the value in the 
+      box.</span></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">External Encumbrance Sufficient Funds Indicator</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Select the check box if external encumbrances are to be 
+      included in the new accounts’ calculation of sufficient funds. Clear the 
+      check box if they are not.</p>
+      <p class="TableText"><img title="exclaim" border="0" alt="exclaim" src="../ImagesExt/image17_47.png" />       
+      This functionality does not currently exist and selecting the check boxes 
+      does not control the inclusion or exclusion of the accounts from 
+      sufficient funds calculation.</p>
+      <p class="TableText">Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_373.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Internal Encumbrance Sufficient Funds Indicator</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Select the check box if internal encumbrances are to be 
+      included in the new accounts' calculation of sufficient funds. Clear the 
+      check box if they are not. </p>
+      <p class="TableText"><img title="exclaim" border="0" alt="exclaim" src="../ImagesExt/image17_47.png" />       
+      This functionality does not currently exist and selecting the check boxes 
+      does not control the inclusion or exclusion of the accounts from 
+      sufficient funds calculation.</p>
+      <p class="TableText">Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_373.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Pre-Encumbrance Sufficient Funds Indicator</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Select the check box if pre-encumbrances are to be 
+      included in the new accounts’ calculation of sufficient funds. Clear the 
+      check box if they are not. </p>
+      <p class="TableText"><img title="exclaim" border="0" alt="exclaim" src="../ImagesExt/image17_47.png" />       
+      This functionality does not currently exist and selecting the check boxes 
+      does not control the inclusion or exclusion of the accounts from 
+      sufficient funds calculation.  </p>
+      <p class="TableText">Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_373.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Object Presence Control Indicator</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Select the check box to indicate that the new accounts 
+      are to use object presence control. Clear the check box if they are not. 
+      Object presence control requires that an object code be budgeted for the 
+      account before it can be used on an actual or encumbrance transaction. 
+      Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_373.png" alt="" /><b><span style="FONT-SIZE: 10pt"> </span></b>to select the item.  A check mark 
+      appears within the checkbox to indicate the item is selected.  Click 
+      within the checkbox again to clear the mark and deselect the 
+  item.</p></td></tr></tbody></table>
+<p class="MsoBodyText"> </p>
+<h6>Contracts And Grants Section</h6>
+<p class="MsoBodyText">The fields on this tab define attributes that are pertinent 
+to Kuali Coeus contracts and grants accounts. These fields allow you to define 
+how the new accounts based on this set of defaults automatically distribute 
+indirect cost. It also identifies which members of the Contracts &amp; Grants 
+Processor role will be responsible for these accounts. </p>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3338.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2174  Contracts And Grants Section  – Edit 
+Mode Example</p>
+<p class="MsoBodyText"> </p>
+<p class="MsoNormal"> </p>
+<p class="MsoCaption">Table 1188 Contracts And Grants Section  –  Field 
+Descriptions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Indirect Cost Recovery Chart Of Accounts Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Enter the chart code for the indirect cost recovery 
+      account that is to receive the indirect cost charged.  Use the 
+      <b><span style="FONT-SIZE: 10pt">drop-down</span> <img border="0" src="../ImagesExt/image17_641.jpg" alt="" /></b><b><span style="FONT-SIZE: 10pt"> </span></b>menu by clicking the down arrow 
+      to display the list, and then click on an item in the list to highlight 
+      and select it to populate the box with your selection.  Click the 
+      <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> </span></b>icon to search for and return the 
+      value to populate the box automatically, or if known, type the value in 
+      the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Indirect Cost Recovery Account Number</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Enter the account number that is receiving the indirect 
+      cost recovery income generated by the new accounts.  Click the 
+      <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> </span></b>icon to search for and return the 
+      value to populate the box automatically, or if known, type the value in 
+      the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">CG Account Responsibility Id</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Select an ID from the list to identify which members of 
+      the Contracts &amp; Grants Processor role in KFS should receive workflow 
+      action requests for documents involving accounts created from this 
+      default.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span> 
+      <img border="0" src="../ImagesExt/image17_641.jpg" alt="" /></b><b><span style="FONT-SIZE: 10pt"> </span></b>menu by clicking the down arrow 
+      to display the list, and then click on an item in the list to highlight 
+      and select it to populate the box with your 
+selection.</p></td></tr></tbody></table>
+<p class="MsoBodyText"> </p>
+<h6>Examples</h6>
+<p class="MsoNormal"> </p>
+<p class="MsoNormal"><img border="0" src="../ImagesExt/image17_3339.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2175 CG Account Default Lookup Result Example 
+Values</p>
+<h6>Common Features</h6>
+<p class="MsoBodyText">This maintenance document includes the following features 
+that are common to most Kuali maintenance documents:</p>
+<p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Header Area</p>
+<p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Document Overview  Tabbed Section</p>
+<p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Notes 
+and Attachments Tabbed Section</p>
+<p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Ad 
+Hoc Recipients Tabbed Section</p>
+<p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Route 
+Log Tabbed Section</p>
+<p class="MsoBodyText" style="MARGIN-LEFT: 36pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+</span>Action Command Buttons</p>
+<table class="MsoNormalTable" style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr style="HEIGHT: 57.6pt">
+    <td style="HEIGHT: 57.6pt; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 18.9pt" valign="top" width="25">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></p></td>
+    <td style="HEIGHT: 57.6pt; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 477.9pt" valign="top" width="637">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt">For information 
+      about how to use these common maintenance document components, see Common 
+      E-Doc Tabbed Sections, and Selection, Entry &amp; Action Tools subtopics 
+      in the E-Doc Fundamentals topic within the KC User Manual or Online 
+      Help.</p></div></td></tr></tbody></table>
+<h6> </h6>
+<h6>Process</h6>
+<table class="MsoNormalTable" style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 24.3pt" valign="top" width="32">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 472.5pt" valign="top" width="630">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt">For general 
+      information about searching for, initiating, editing, copying, submitting, 
+      saving, closing, canceling, and/or routing a maintenance document, see 
+      “Common Maintenance E-Doc Procedures” in the Overview section of the KC 
+      User Manual or Online Help.</p></div></td></tr></tbody></table>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3340.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2176  KC to KFS Integration (Account Create) 
+Process Flow Swim lane Diagram</p>
+<p class="MsoBodyText"> </p>
+<p class="MsoNormal"><b><span style="FONT-SIZE: 14pt; FONT-FAMILY: 'Arial','sans-serif'"></span></b> </p><span id="related-topics"></span></div></div></body></html>

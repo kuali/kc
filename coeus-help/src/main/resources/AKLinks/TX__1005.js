@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__1005", [["Documents/contacttype.htm", "right", "Contact Type"],["Documents/gloss_contacttype1.htm", "d2hWnd_SecondaryPopup", "Contact Type"]]);

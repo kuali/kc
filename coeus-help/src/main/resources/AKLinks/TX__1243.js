@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__1243", [["Documents/parameter.htm", "right", "Parameter"],["Documents/gloss_parameter1.htm", "d2hWnd_SecondaryPopup", "Parameter"]]);

@@ -1,0 +1,1041 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>Person</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><link rel="stylesheet" type="text/css" href="../Theme/nav.css" /><link rel="stylesheet" type="text/css" href="../Theme/popupmenu.css" /><link rel="stylesheet" type="text/css" href="../Theme/lf.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/C1H_HTML.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/KC 6.0 User Manual.css" />
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+var _needIndentation = false;
+
+
+
+
+//]]></script>
+
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2012.3.0.749" />
+<meta name="D2HTheme" content="Kuali Coeus v.155" />
+</head>
+<body onload="d2hOnLoadToolbar(event);" style="OVERFLOW: hidden; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 7px; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #950000" relpart="../">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+
+d2hTopicPreOpen();
+
+
+
+d2hTrySyncTOC();
+
+
+
+
+
+
+
+var prev = true;
+
+
+
+
+
+var next = true;
+
+
+
+if (typeof d2hInitMainThemeHandlers != "undefined")
+
+    d2hInitMainThemeHandlers(prev, next);
+
+d2hAdjustTopicBorders(document);    
+
+
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+if (typeof d2hLoadNavUrls != "undefined")
+
+    d2hLoadNavUrls();
+
+
+
+
+//]]></script>
+
+<div id="D2HTopicOuterBody" class="d2h_outer_topic" style="OVERFLOW: auto; HEIGHT: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px; WIDTH: 100%; BACKGROUND-COLOR: white">
+<div id="nsbanner" class="d2hNavigatorTopic">
+<div id="TitleRow" class="d2h_main_titlerow" style="PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px">
+<div style="DISPLAY: none"><a id="D2HPreviousAnchor" href="identity1.htm"></a><a id="D2HNextAnchor" href="group.htm"></a></div></div>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+if (typeof d2hProcessTopicNavForCSH != "undefined")
+
+    d2hProcessTopicNavForCSH();
+
+
+//]]></script>
+</div>
+<div id="nstext" class="d2h_main_nstext" style="HEIGHT: 100%; PADDING-BOTTOM: 10px; PADDING-TOP: 5px; PADDING-LEFT: 22px; PADDING-RIGHT: 10px" valign="bottom">
+<div id="d2h_breadcrumbs" class="d2h_breadcrumbs"><span class="d2h_breadcrumbsLabel">You are here:</span><a class="d2h_breadcrumbsNormal" href="systemadministration.htm">System Administration</a><span class="d2h_breadcrumbsLinkSeparator"> &gt; </span><a class="d2h_breadcrumbsNormal" href="identity.htm">Identity</a><span class="d2h_breadcrumbsLinkSeparator"> &gt; 
+</span><a class="d2h_breadcrumbsNormal" href="identity1.htm">Identity</a></div>
+<h4><a name="_D2HTopic_812" id="_D2HTopic_812">Person</a></h4>
+<p class="MsoNormal"><span style="DISPLAY: none"></span></p>
+<p class="MsoNormal"><span style="DISPLAY: none"></span> </p>
+<p class="MsoBodyText">The Person administration maintenance document is used to 
+establish and maintain user identity information to KIM (and by extension, to 
+KC).  Each Person document includes data about a user’s relationship with 
+your institution as well as the roles and groups to which the person 
+belongs.  A person is a unique combination of an ‘entity ID’ and a 
+‘principal ID.’  The entity ID represents a person with a unique number, 
+and the document associates the entity ID with the user's principal ID number 
+and principal name (often referred to as a user name or user ID). When searching 
+for or working with users in KIM, you usually reference either the principal ID 
+or the principal name. A single entity ID can have multiple principals 
+associated with it, but the base KC implementation of KIM assumes that each 
+entity ID has only a single principal.</p>
+<table class="MsoNormalTable" style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 24.3pt" valign="top" width="32">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="note.png" border="0" alt="note.png" src="../ImagesExt/image17_3.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 454.5pt" valign="top" width="606">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt">Initiation of 
+      the Person document is typically restricted to Technical Administrator or 
+      System Manager roles.</p></div></td></tr>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 18.9pt" valign="top" width="25">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="tip.png" border="0" alt="tip.png" src="../ImagesExt/image17_0.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 477.9pt" valign="top" width="637">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt"><b>HRIS 
+      Integration</b>:  Your institution may choose to override parts of 
+      the Person document (especially affiliations and contact information) with 
+      data fed from an external human resources system.  Therefore, editing 
+      entity data (such as entity ID, principal name, principal ID, password and 
+      tax ID number), contact and affiliation data would not be available for 
+      any role in the default role configuration.  If you want to allow 
+      users to edit this data via the interface you will need to assign the 
+      ‘Modify Entity’ permission to the appropriate 
+role.</p></div></td></tr></tbody></table>
+<h6>Document Layout</h6>
+<p class="MsoNormal">The Person administration maintenance document includes four 
+unique sections:  Overview, Contact, Privacy Preferences, and 
+Membership.</p>
+<p class="MsoNormal"><img border="0" src="../ImagesExt/image17_3009.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2085 Person Administration Maintenance Document 
+Layout</p>
+<h6>Overview Section</h6>
+<p class="MsoNormal">The Overview section of the Person administration maintenance 
+document identifies the person as a unique combination of entity and principal 
+ID.  It also allows you to assign a principal name and password, and to 
+specify the type of affiliation with your institution, including a campus. </p>
+<p class="MsoNormal"><img border="0" src="../ImagesExt/image17_3010.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2086 Person Administration Maintenance Document – 
+Overview Section Example</p>
+<p class="MsoNormal"> </p>
+<p class="MsoCaption">Table 1130 Person Administration Maintenance Document – 
+Overview Section Field Descriptions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Entity Id</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Display-only. The unique ID number identifying this 
+      person in your database. An individual may have multiple principal IDs but 
+      only one entity ID. The base KC implementation assumes that each user will 
+      have only one entity ID and one principal ID.</p>
+      <p class="TableText">The system completes this entry automatically when you 
+      save or submit the document.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Principal Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Required. Enter the user name by which this principal 
+      is to be identified.  Must be lower case.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Principal Password</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Optional. Enter the password for this principal 
+      ID.  The display of your entry is masked for security.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Principal Id</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Display-only. The unique ID number identifying this 
+      principal. Whereas Entity ID represents a unique person, principal 
+      represents a set of login information for that person. When selecting a 
+      person, you ordinarily reference his or her principal ID.</p>
+      <p class="TableText">The system completes this entry automatically when you 
+      save or submit the document.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Active</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Check the box to indicate that this principal ID is 
+      active. Uncheck (clear) the box to indicate that this principal ID is 
+      inactive.  Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText"><b>Affiliations</b></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Add / #</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Displays sequential line item number for each table row 
+      in ascending, top-to-bottom order.  Also serves as a line 
+      selection/addition row label.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Affiliation Type</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Required.  Select one of the following options 
+      from the list:  <span style="FONT-FAMILY: 'Courier New'">Affiliate, 
+      Faculty, Graduate Student Staff, Medical Staff, Other Academic Group, 
+      Research Staff, Service Staff, Staff, Student, </span>or<span style="FONT-FAMILY: 'Courier New'"> Support Staff</span>.  Use the 
+      <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="note.png" border="0" alt="note.png" src="../ImagesExt/image17_3.png" /></span><span style="FONT-SIZE: 9pt">  When Support Staff is selected, the 
+      Employment Information subsection appears below the added line, which 
+      contains fields for specifying additional employee 
+      information.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Campus Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Required.  Select an option from the list.  
+      Typically, these appear with an abbreviation acronym followed by the full 
+      name of the campus (for example, KO-KOKOMO).  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Default</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Check the box to indicate that this affiliation is this 
+      principal's default association with your institution. Each principal must 
+      have at least one default affiliation.  Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Actions</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Click the <b>add</b> <img border="0" src="../ImagesExt/image17_615.png" alt="" /> button to add your selection to 
+      as a row in the table below, which will become a numbered line item.  
+      Click the <b>delete</b><img border="0" src="../ImagesExt/image17_616.png" alt="" /> 
+      button to remove a previously-added line item row from the table.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information about basic line item 
+      functionality, see “</span>Common Line Item Operations<span style="FONT-SIZE: 9pt">” in Common E-Doc 
+Operations.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText"><b>Employment Information</b></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Employee Id</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Required.  Type to enter an alphanumeric value to 
+      indicate the unique number assigned to the employee by your 
+      institution.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Primary</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Indicates whether or not the Employee Id is primary in 
+      the case of multiple positions.  Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Employee Status</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Required.  Select one of the following options 
+      from the list:  <span style="FONT-FAMILY: 'Courier New'">Active, 
+      Deceased, On Non-Pay Leave, Status Not Yet Processed, Processing, Retired, 
+      or Terminated</span>.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Employee Type</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Required.  Select one of the following options 
+      from the list:  <span style="FONT-FAMILY: 'Courier New'">Non-Professional, Other, or 
+      Professional</span>.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Base Salary Amount</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Required.  Type to enter a numeric value.  
+      The decimal point followed by two zeros will be automatically entered upon 
+      the add line item action.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Primary Department Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Type to enter an alphanumeric value to indicate the 
+      number associated with the primary department in which the employee 
+      works.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">Actions</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">Click the <b>add</b> <img border="0" src="../ImagesExt/image17_615.png" alt="" /> button to add your selection to 
+      as a row in the table below, which will become a numbered line item.  
+      Click the <b>delete</b><img border="0" src="../ImagesExt/image17_616.png" alt="" /> 
+      button to remove a previously-added line item row from the table.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information about basic line item 
+      functionality, see “</span>Common Line Item Operations<span style="FONT-SIZE: 9pt">” in Common E-Doc 
+  Operations.</span></p></div></td></tr></tbody></table>
+<h6>Contact Section</h6>
+<p class="MsoNormal">The Contact section of the Person administration maintenance 
+document records the names, addresses, phone numbers and email addresses 
+associated with this Person record. Any Person record can store multiple records 
+for contact information of each type (name, address, phone number, and email 
+address), with one value of each type identified as the default value for the 
+Person record.</p>
+<p class="MsoNormal"><img border="0" src="../ImagesExt/image17_3011.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2087 Person Administration Maintenance Document – 
+Contact Section Example</p>
+<p class="MsoNormal"> </p>
+<p class="MsoCaption">Table 1131 Person Administration Maintenance Document – 
+Contact Section Field Descriptions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText"><b>Names</b></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Name Type</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Select the type of name to be added in this row.  
+      Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Title</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Select the appropriate title for the name being added 
+      in this row.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">First Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Type to enter the first name of the person for this 
+      record.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Last name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Type to enter the surname of the person for this 
+      record.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Suffix</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Select an appropriate suffix option as necessary from 
+      the list.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Default</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Check this box to indicate that this Name record is to 
+      be used as the default for this person. Each Person record must have 
+      exactly one Name record identified as the default.  Click within the 
+      <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Active</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Check the box to indicate that this Name record is 
+      active. Uncheck the box to indicate that this record should be considered 
+      inactive.  Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Actions</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Click the <b>add</b> <img border="0" src="../ImagesExt/image17_615.png" alt="" /> button to add your selection to 
+      as a row in the table below, which will become a numbered line item.  
+      Click the <b>delete</b><img border="0" src="../ImagesExt/image17_616.png" alt="" /> 
+      button to remove a previously-added line item row from the table.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information about basic line item 
+      functionality, see “</span>Common Line Item Operations<span style="FONT-SIZE: 9pt">” in Common E-Doc 
+Operations.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText"><b>Addresses</b></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Address Type</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Select one of the following options from the 
+      list:  <span style="FONT-FAMILY: 'Courier New'">Home, Work, 
+      </span>or<span style="FONT-FAMILY: 'Courier New'"> Other</span>.  Use 
+      the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Line 1-3</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Use lines 1,2 and 3 to enter the street address and any 
+      additional information such as building number, suite number, or P.O. Box 
+      number.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">City</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Enter the city associated with this address.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">State</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Select the state associated with this address from the 
+      list.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Postal Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Type to enter the postal code (or ZIP code) associated 
+      with this address.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Country</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Select the country option associated with this address 
+      from the list.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Default</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Check this box to indicate that this Name record is to 
+      be used as the default for this person. Each Person record must have 
+      exactly one Name record identified as the default.  Click within the 
+      <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Active</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Check the box to indicate that this Name record is 
+      active. Uncheck the box to indicate that this record should be considered 
+      inactive.  Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Actions</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Click the <b>add</b> <img border="0" src="../ImagesExt/image17_615.png" alt="" /> button to add your selection to 
+      as a row in the table below, which will become a numbered line item.  
+      Click the <b>delete</b><img border="0" src="../ImagesExt/image17_616.png" alt="" /> 
+      button to remove a previously-added line item row from the table.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information about basic line item 
+      functionality, see “</span>Common Line Item Operations<span style="FONT-SIZE: 9pt">” in Common E-Doc 
+Operations.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText"><b>Phone Numbers</b></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Phone Type</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Select one of the following options from the 
+      list:  <span style="FONT-FAMILY: 'Courier New'">Fax, Home, Mobile, 
+      Other, Pager, </span>or<span style="FONT-FAMILY: 'Courier New'"> 
+      Work</span>.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Phone Number</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Type to enter the telephone number that corresponds to 
+      your selection in the Phone Type field.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Extension</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Type the extension number as necessary.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Country</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Select the country option associated with this phone 
+      from the list.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Default</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Check this box to indicate that this Name record is to 
+      be used as the default for this person. Each Person record must have 
+      exactly one Name record identified as the default.  Click within the 
+      <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Active</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Check the box to indicate that this Name record is 
+      active. Uncheck the box to indicate that this record should be considered 
+      inactive.  Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Actions</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Click the <b>add</b> <img border="0" src="../ImagesExt/image17_615.png" alt="" /> button to add your selection to 
+      as a row in the table below, which will become a numbered line item.  
+      Click the <b>delete</b><img border="0" src="../ImagesExt/image17_616.png" alt="" /> 
+      button to remove a previously-added line item row from the table.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information about basic line item 
+      functionality, see “</span>Common Line Item Operations<span style="FONT-SIZE: 9pt">” in Common E-Doc 
+Operations.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText"><b>Email Addresses</b></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Email</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Type to enter the e-mail address (for example, 
+      ‘name@domain.com’) for this person that corresponds to the Type field 
+      (Home, Work, Other).</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Type</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Select one of the following options from the list to 
+      specify the type of e-mail address:  <span style="FONT-FAMILY: 'Courier New'">Home, Work, </span>or<span style="FONT-FAMILY: 'Courier New'"> Other</span>.  Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Default</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Check this box to indicate that this Name record is to 
+      be used as the default for this person. Each Person record must have 
+      exactly one Name record identified as the default.  Click within the 
+      <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Active</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Check the box to indicate that this Name record is 
+      active. Uncheck the box to indicate that this record should be considered 
+      inactive.  Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 77.4pt" valign="top" width="103">
+      <p class="TableText">Actions</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 419.4pt" valign="top" width="559">
+      <p class="TableText">Click the <b>add</b> <img border="0" src="../ImagesExt/image17_615.png" alt="" /> button to add your selection to 
+      as a row in the table below, which will become a numbered line item.  
+      Click the <b>delete</b><img border="0" src="../ImagesExt/image17_616.png" alt="" /> 
+      button to remove a previously-added line item row from the table.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information about basic line item 
+      functionality, see “</span>Common Line Item Operations<span style="FONT-SIZE: 9pt">” in Common E-Doc 
+  Operations.</span></p></div></td></tr></tbody></table>
+<h6>Privacy Preferences Section</h6>
+<p class="MsoNormal">The Privacy Preferences section of the Person administration 
+maintenance document is used to suppress the display of fields on the Contact 
+section.</p>
+<table class="MsoNormalTable" style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 18.9pt" valign="top" width="25">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="caution.png" border="0" alt="caution.png" src="../ImagesExt/image17_2.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 477.9pt" valign="top" width="637">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt">No role in the 
+      base data configuration can modify this privacy preferences information. 
+      If you want this capability to be available via the user interface, you 
+      must assign the 'Override Entity Privacy Preferences' permission to a 
+      role.</p></div></td></tr></tbody></table>
+<p class="MsoNormal"> </p>
+<p class="MsoNormal"><img border="0" src="../ImagesExt/image17_3012.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2088 Person Administration Maintenance Document – 
+Privacy Preferences Section Example</p>
+<p class="MsoNormal">Check the box for each option to specify that the system is 
+not to display this person’s information for this category, or clear the box to 
+specify that this person’s information in this category will not be suppressed, 
+and thus will be displayed on screens within KC.</p>
+<p class="MsoCaption">Table 1132 Person Administration Maintenance Document – 
+Privacy Preferences Section Field Descriptions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 95.4pt" valign="top" width="127">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 401.4pt" valign="top" width="535">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 95.4pt" valign="top" width="127">
+      <p class="TableText">Suppress Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 401.4pt" valign="top" width="535">
+      <p class="TableText">Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 95.4pt" valign="top" width="127">
+      <p class="TableText">Suppress Personal</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 401.4pt" valign="top" width="535">
+      <p class="TableText">Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 95.4pt" valign="top" width="127">
+      <p class="TableText">Suppress Phone</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 401.4pt" valign="top" width="535">
+      <p class="TableText">Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 95.4pt" valign="top" width="127">
+      <p class="TableText">Suppress Address</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 401.4pt" valign="top" width="535">
+      <p class="TableText">Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 95.4pt" valign="top" width="127">
+      <p class="TableText">Suppress Email</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 401.4pt" valign="top" width="535">
+      <p class="TableText">Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr></tbody></table>
+<h6>Membership Section</h6>
+<p class="MsoBodyText">The Membership section of the Person administration 
+maintenance document is used to associate a person with groups and roles and, by 
+extension, with KIM permissions and responsibilities. <i>Assigning a person to a 
+role is the most direct way to give a user KIM permissions and 
+responsibilities.</i></p>
+<p class="MsoNormal"> </p>
+<p class="MsoNormal"><img border="0" src="../ImagesExt/image17_3013.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2089 Person Administration Maintenance Document – 
+Membership Section Example</p>
+<p class="MsoNormal">The Membership section of the Person document is divided into 
+four subsections:  Groups, Roles, Delegations, and Delegation Member 
+Qualifier.  Delegations allow you to set a user as a primary or secondary 
+delegate for a current member of a role. The delegate has the same permissions 
+as the role member and is able to act on action requests generated for the role 
+member by KIM.</p>
+<table class="MsoNormalTable" style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 24.3pt" valign="top" width="32">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="note.png" border="0" alt="note.png" src="../ImagesExt/image17_3.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 454.5pt" valign="top" width="606">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt">When assigning 
+      some roles, you may need to supply additional qualifying values that 
+      further define this person’s assignment.  For more information about 
+      role qualifiers, see “<a href="group.htm">Role</a>” on page <a>1904</a> in 
+      System Administration.</p></div></td></tr></tbody></table>
+<p class="MsoCaption">Table 1133 Person Administration Maintenance Document – 
+Membership Section Field Descriptions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText"><b>Groups</b></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Add / #</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Displays sequential line item number for each table row 
+      in ascending, top-to-bottom order.  Also serves as a line 
+      selection/addition row label.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Group</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Enter the name of the KIM group you want to assign this 
+      person to. Click the <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> </span></b>icon to search for and return the 
+      value to populate the box automatically, or if known, type the value in 
+      the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Namespace Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Display-only. After you select a group to add this 
+      person to, the namespace code associated with the selected group is 
+      displayed.  Click the <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> </span></b>icon to search for and return the 
+      value to populate the box automatically, or if known, type the value in 
+      the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">After you select a group to add this person to, the 
+      name associated with the selected group is displayed. Click the <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> </span></b>icon to search for and return the 
+      value to populate the box automatically, or if known, type the value in 
+      the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Type</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">After you select a group to add this person to, the 
+      type associated with the selected group is displayed.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Active From Date</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">If this user's assignment to this group is to be 
+      effective as of a certain date, enter that date here.  Click the 
+      <b><span style="FONT-SIZE: 10pt">calendar</span></b><img border="0" src="../ImagesExt/image17_343.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>icon to select, or type in <span style="FONT-FAMILY: 'Courier New'">mm/dd/yyyy</span> format to populate 
+      the box with the desired date.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Active To Date</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">If this user's assignment to this group is to terminate 
+      as of a certain date, enter that date here.  Click the 
+      <b>calendar</b><img border="0" src="../ImagesExt/image17_343.png" alt="" /><b> 
+      </b>icon to select, or type in mm/dd/yyyy format to populate the box with 
+      the desired date.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="note.png" border="0" alt="note.png" src="../ImagesExt/image17_3.png" /></span><span style="FONT-SIZE: 9pt">  There is no way to delete a person's 
+      assignment to a group. To remove a person from a group, use this field to 
+      specify a date in the past.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Actions</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Click the <b>add</b> <img border="0" src="../ImagesExt/image17_615.png" alt="" /> button to add your selection to 
+      as a row in the table below, which will become a numbered line item.  
+      Click the <b>delete</b><img border="0" src="../ImagesExt/image17_616.png" alt="" /> 
+      button to remove a previously-added line item row from the table.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information about basic line item 
+      functionality, see “</span>Common Line Item Operations<span style="FONT-SIZE: 9pt">” in Common E-Doc 
+Operations.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText"><b>Roles</b></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Role</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Select the role you want to assign this person 
+      to.  Click the <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>icon to search for and return the value to populate the box 
+      automatically, or if known, type the value in the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Namespace Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Automatically populated based on your selection in the 
+      Role field (for example, KC-PD for Proposal Development).</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Automatically populated with the role name based on 
+      your selection in the Role field.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Type</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Automatically populated based on your selection in the 
+      Role field.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Active From Date</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">If this user's assignment to this role is to be 
+      effective as of a certain date, enter that date here.  Click the 
+      <b><span style="FONT-SIZE: 10pt">calendar</span></b><img border="0" src="../ImagesExt/image17_343.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>icon to select, or type in <span style="FONT-FAMILY: 'Courier New'">mm/dd/yyyy</span> format to populate 
+      the box with the desired date.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Active To Date</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">If this user's assignment to this role is to terminate 
+      as of a certain date, enter that date here.  Click the <b><span style="FONT-SIZE: 10pt">calendar</span></b><img border="0" src="../ImagesExt/image17_343.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>icon to select, or type in <span style="FONT-FAMILY: 'Courier New'">mm/dd/yyyy</span> format to populate 
+      the box with the desired date.  </p>
+      <p class="TableText"><img title="note.png" border="0" alt="note.png" src="../ImagesExt/image17_3.png" />  There is no way to delete a 
+      person's role. To remove a person from a group, use this field to specify 
+      a date in the past.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Actions</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Click the <b>add</b> <img border="0" src="../ImagesExt/image17_615.png" alt="" /> button to add your selection to 
+      as a row in the table below, which will become a numbered line item.  
+      Click the <b>delete</b><img border="0" src="../ImagesExt/image17_616.png" alt="" /> 
+      button to remove a previously-added line item row from the table.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information about basic line item 
+      functionality, see “</span>Common Line Item Operations<span style="FONT-SIZE: 9pt">” in Common E-Doc 
+Operations.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText"><b>Delegations</b></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Role Member</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Select the role and role member you want to add a 
+      delegation for.  Click the <b><span style="FONT-SIZE: 10pt">lookup</span></b><img title="searchicon" border="0" alt="searchicon" src="../ImagesExt/image17_152.png" /><b><span style="FONT-SIZE: 10pt"> </span></b>icon to search for and return the 
+      value to populate the box automatically, or if known, type the value in 
+      the box.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Active From Date</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">If this delegation is to be effective as of a certain 
+      date, enter it here.  Click the <b><span style="FONT-SIZE: 10pt">calendar</span></b><img border="0" src="../ImagesExt/image17_343.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>icon to select, or type in <span style="FONT-FAMILY: 'Courier New'">mm/dd/yyyy</span> format to populate 
+      the box with the desired date.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Active To Date</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">If this delegation is to be terminated as of a certain 
+      date, enter it here.  Click the <b><span style="FONT-SIZE: 10pt">calendar</span></b><img border="0" src="../ImagesExt/image17_343.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>icon to select, or type in <span style="FONT-FAMILY: 'Courier New'">mm/dd/yyyy</span> format to populate 
+      the box with the desired date. </p>
+      <p class="TableText"><img title="note.png" border="0" alt="note.png" src="../ImagesExt/image17_3.png" />  There is no way to delete a 
+      person's delegation. To remove a person from a group, use this field to 
+      specify a date in the past.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Delegation Type Code</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Select either <span style="FONT-FAMILY: 'Courier New'">Primary </span>or<span style="FONT-FAMILY: 'Courier New'"> Secondary</span> from the list.  
+      Use the <b><span style="FONT-SIZE: 10pt">drop-down</span></b><img border="0" src="../ImagesExt/image17_351.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>menu by clicking the down arrow to display the list, and then 
+      click on an item in the list to highlight and select it to populate the 
+      box with your selection.  This defines how the delegate will be able 
+      to access workflow action requests generated to the delegating role 
+      member. Options are 'Secondary' (the user must use the secondary delegate 
+      action list filter to view action requests) and 'Primary' (action requests 
+      will route directly to the delegate's action list).</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Actions</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Click the <b>add</b> <img border="0" src="../ImagesExt/image17_615.png" alt="" /> button to add your selection to 
+      as a row in the table below, which will become a numbered line item.  
+      Click the <b>delete</b><img border="0" src="../ImagesExt/image17_616.png" alt="" /> 
+      button to remove a previously-added line item row from the table.</p>
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information about basic line item 
+      functionality, see “</span>Common Line Item Operations<span style="FONT-SIZE: 9pt">” in Common E-Doc 
+Operations.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText"><b>Delegation Member Qualifier</b></p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Unit Number</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Enter the numeric value that uniquely represents the 
+      unit for the delegate.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Descends Hierarchy</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText">Click within the <b><span style="FONT-SIZE: 10pt">checkbox</span></b><img border="0" src="../ImagesExt/image17_392.png" alt="" /><b><span style="FONT-SIZE: 10pt"> 
+      </span></b>to select the item.  A check mark appears within the 
+      checkbox to indicate the item is selected.  Click within the checkbox 
+      again to clear the mark and deselect the item.</p></td></tr></tbody></table>
+<h6>Examples</h6>
+<p class="MsoNormal"><img border="0" src="../ImagesExt/image17_3014.jpg" alt="" /></p>
+<p class="MsoCaption">Figure 2090 Person Administration Maintenance Document 
+Example Values</p>
+<h6>Common Features</h6>
+<p class="MsoBodyText">This administration maintenance document includes the 
+following features that are common to most KC maintenance documents:</p>
+<p class="MsoCaption">Table 1134 Links to Common Maintenance Document Component 
+Instructions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 131.4pt" valign="top" width="175">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Common 
+      Maintenance E-Doc Component</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 365.4pt" valign="top" width="487">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Cross-Reference 
+      Links To Usage Instructions</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 131.4pt" valign="top" width="175">
+      <p class="TableText">Document Header</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 365.4pt" valign="top" width="487">
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information, see “</span>Header 
+      Area<span style="FONT-SIZE: 9pt">” on page </span><a><b>Error! Bookmark 
+      not defined.</b></a><span style="FONT-SIZE: 9pt"> in E-Doc 
+      Fundamentals.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 131.4pt" valign="top" width="175">
+      <p class="TableText">Document Overview Section</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 365.4pt" valign="top" width="487">
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information, see “</span><a href="documentoverview.htm">Document Overview</a><span style="FONT-SIZE: 9pt">” on page </span><a><span style="FONT-SIZE: 9pt">94</span></a><span style="FONT-SIZE: 9pt"> in 
+      Common E-Doc Tabbed Sections.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 131.4pt" valign="top" width="175">
+      <p class="TableText">Notes and Attachments Section</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 365.4pt" valign="top" width="487">
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information, see “</span><a href="notesandattachments.htm">Notes and Attachments</a><span style="FONT-SIZE: 9pt">” on page </span><a><span style="FONT-SIZE: 9pt">95</span></a><span style="FONT-SIZE: 9pt"> in 
+      Common E-Doc Tabbed Sections.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 131.4pt" valign="top" width="175">
+      <p class="TableText">Ad Hoc Recipients Section</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 365.4pt" valign="top" width="487">
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information, see “</span><a href="adhocrecipients.htm">Ad Hoc Recipients</a><span style="FONT-SIZE: 9pt">” on page </span><a><span style="FONT-SIZE: 9pt">97</span></a><span style="FONT-SIZE: 9pt"> in 
+      Common E-Doc Tabbed Sections.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 131.4pt" valign="top" width="175">
+      <p class="TableText">Route Log Section</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 365.4pt" valign="top" width="487">
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information, see “</span><a href="adhocrecipients.htm">Route Log</a><span style="FONT-SIZE: 9pt">” on 
+      page </span><a><span style="FONT-SIZE: 9pt">98</span></a><span style="FONT-SIZE: 9pt"> in Common E-Doc Tabbed 
+    Sections.</span></p></div></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 131.4pt" valign="top" width="175">
+      <p class="TableText">Action Buttons</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 365.4pt" valign="top" width="487">
+      <div style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; MARGIN: 0pt 3.6pt; BORDER-LEFT: medium none; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN: 0pt"><span style="FONT-SIZE: 9pt"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></span><span style="FONT-SIZE: 9pt">  For more information, see  “</span><a href="lookup.htm">Action Buttons</a><span style="FONT-SIZE: 9pt">” on page 
+      </span><a><span style="FONT-SIZE: 9pt">71</span></a><span style="FONT-SIZE: 9pt"> in Selection, Entry and Action 
+      Tools.</span></p></div></td></tr></tbody></table>
+<h6>Business Rules</h6>
+<p class="C1HBullet" style="MARGIN-TOP: 9pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>A 
+person must have at least one affiliation.</p>
+<p class="C1HBullet" style="MARGIN-TOP: 9pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Each 
+faculty or staff affiliation must have at least one Employment Information 
+record associated with it.</p>
+<p class="C1HBullet" style="MARGIN-TOP: 9pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>If a 
+person has any faculty or staff affiliations then one Employment Information 
+record must be marked as 'primary.</p>
+<p class="C1HBullet" style="MARGIN-TOP: 9pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Each 
+person must have a default Name record in the Contacts section.</p>
+<p class="C1HBullet" style="MARGIN-TOP: 9pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Each 
+affiliation must be associated with a campus.</p>
+<p class="C1HBullet" style="MARGIN-TOP: 9pt; TEXT-INDENT: -18.75pt; tab-stops: 36.0pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      </span>Each 
+type of contact information can have only one record marked as the default.</p>
+<h6>Process</h6>
+<table class="MsoNormalTable" style="BORDER-COLLAPSE: collapse" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 24.3pt" valign="top" width="32">
+      <p class="Note" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none"><img title="link.png" border="0" alt="link.png" src="../ImagesExt/image17_1.png" /></p></td>
+    <td style="PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; PADDING-RIGHT: 5.4pt; WIDTH: 472.5pt" valign="top" width="630">
+      <div style="MARGIN-BOTTOM: 9pt; BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: medium none; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 1pt; PADDING-TOP: 1pt; PADDING-LEFT: 0pt; BORDER-LEFT: medium none; MARGIN-TOP: 9pt; PADDING-RIGHT: 0pt">
+      <p class="Note" style="MARGIN-BOTTOM: 0pt; MARGIN-TOP: 0pt">For information 
+      about searching for, initiating, editing, copying, submitting, saving, 
+      closing, canceling, and/or routing a maintenance document, see “<a href="commonmaintenanceedocprocedures.htm">Common Maintenance E-Doc 
+      Operations</a>” on page <a><b>Error! Bookmark not defined.</b></a> in the 
+      Overview section.</p></div></td></tr></tbody></table>
+<h6>Routing</h6>
+<p class="MsoBodyText">In the KC base data configuration, the KIM Person document 
+does not route for approval.  Typically, users with System Manager or 
+Technical Administrator roles are permitted to initiate Person documents, and 
+Workflow Administrators would approve the document prior to the KC process of 
+updating the Person table.</p>
+<p class="MsoNormal"><a name="_d2h_bmk__D2HTopic_863_9" id="_d2h_bmk__D2HTopic_863_9"></a><a name="_d2h_bmk__Ref275759039_9" id="_d2h_bmk__Ref275759039_9"></a><a name="_Ref275759039" id="_Ref275759039"><b><i><span style="FONT-SIZE: 12pt; FONT-FAMILY: 'Arial','sans-serif'"></span></i></b></a> </p><span id="related-topics"></span></div></div></body></html>

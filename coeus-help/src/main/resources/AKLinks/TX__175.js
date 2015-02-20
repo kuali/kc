@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__175", [["Documents/copy.htm", "right", "Copy"],["Documents/gloss_copy1.htm", "d2hWnd_SecondaryPopup", "Copy"]]);

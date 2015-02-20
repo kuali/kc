@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__1027", [["Documents/ratetype.htm", "right", "Rate Type"],["Documents/ratetype1.htm", "right", "Rate Type"],["Documents/gloss_ratetype2.htm", "d2hWnd_SecondaryPopup", "Rate Type"]]);

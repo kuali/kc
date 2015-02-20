@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__724", [["Documents/requiredfieldsforsavingdocument.htm", "right", "Required Fields for Saving Document"],["Documents/requiredfieldsforsavingdocument1.htm", "right", "Required Fields for Saving Document"]]);

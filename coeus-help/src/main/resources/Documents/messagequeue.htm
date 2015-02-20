@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html><head><title>Message Queue</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><link rel="stylesheet" type="text/css" href="../Theme/nav.css" /><link rel="stylesheet" type="text/css" href="../Theme/popupmenu.css" /><link rel="stylesheet" type="text/css" href="../Theme/lf.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/C1H_HTML.css" /><link rel="stylesheet" type="text/css" href="../LinksExt/KC 6.0 User Manual.css" />
+<script type="text/javascript">
+//<![CDATA[
+
+
+
+var _needIndentation = false;
+
+
+
+
+//]]></script>
+
+<script language="JavaScript" src="../linker.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../special.js" type="text/JavaScript"></script>
+
+<script language="JavaScript" src="../common.js" type="text/JavaScript"></script>
+
+<meta name="Generator" content="ComponentOne Doc-To-Help v.2012.3.0.749" />
+<meta name="D2HTheme" content="Kuali Coeus v.155" />
+</head>
+<body onload="d2hOnLoadToolbar(event);" style="OVERFLOW: hidden; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 7px; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #950000" relpart="../">
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+
+
+d2hTopicPreOpen();
+
+
+
+d2hTrySyncTOC();
+
+
+
+
+
+
+
+var prev = true;
+
+
+
+
+
+var next = true;
+
+
+
+if (typeof d2hInitMainThemeHandlers != "undefined")
+
+    d2hInitMainThemeHandlers(prev, next);
+
+d2hAdjustTopicBorders(document);    
+
+
+
+if (typeof d2hLoadWindows != "undefined")
+
+    d2hLoadWindows();
+
+if (typeof d2hLoadNavUrls != "undefined")
+
+    d2hLoadNavUrls();
+
+
+
+
+//]]></script>
+
+<div id="D2HTopicOuterBody" class="d2h_outer_topic" style="OVERFLOW: auto; HEIGHT: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px; WIDTH: 100%; BACKGROUND-COLOR: white">
+<div id="nsbanner" class="d2hNavigatorTopic">
+<div id="TitleRow" class="d2h_main_titlerow" style="PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px">
+<div style="DISPLAY: none"><a id="D2HPreviousAnchor" href="servicebus.htm"></a><a id="D2HNextAnchor" href="threadpool.htm"></a></div></div>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+
+if (typeof d2hProcessTopicNavForCSH != "undefined")
+
+    d2hProcessTopicNavForCSH();
+
+
+//]]></script>
+</div>
+<div id="nstext" class="d2h_main_nstext" style="HEIGHT: 100%; PADDING-BOTTOM: 10px; PADDING-TOP: 5px; PADDING-LEFT: 22px; PADDING-RIGHT: 10px" valign="bottom">
+<div id="d2h_breadcrumbs" class="d2h_breadcrumbs"><span class="d2h_breadcrumbsLabel">You are here:</span><a class="d2h_breadcrumbsNormal" href="systemadministration.htm">System Administration</a><span class="d2h_breadcrumbsLinkSeparator"> &gt; </span><a class="d2h_breadcrumbsNormal" href="servicebus.htm">Service Bus</a></div>
+<h4><a name="_D2HTopic_849" id="_D2HTopic_849">Message Queue</a></h4>
+<p class="MsoNormal"><span style="DISPLAY: none"></span></p>
+<p class="MsoNormal"><span style="DISPLAY: none"></span> </p>
+<p class="MsoBodyText">The Message Queue workflow screen allows administrators to 
+monitor messages that are flowing through the Service Bus.  Messages can be 
+edited, deleted or forwarded to other machines for processing from this 
+screen.</p>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"><span style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 0pt; BORDER-LEFT: windowtext 1pt solid; PADDING-RIGHT: 0pt"><img border="0" src="../ImagesExt/image17_3108.jpg" alt="" /></span></p>
+<p class="MsoCaption">Figure 2161 Message Queue Workflow Screen Example</p>
+<p class="MsoBodyText"> </p>
+<p class="MsoCaption">Table 1180 Message Queue Workflow Screen – Field 
+Descriptions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Current Node Info</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">Display-only.  A consolidated view of current 
+      identifying, status and statistical information is displayed about the 
+      current node.</p>
+      <p class="TableText"><b>IP Address</b>: This value equals the IP address of 
+      the machine Service Namespace: Rice</p>
+      <p class="TableText"><b>message.persistence</b>:  If true, then 
+      messages will be persisted to the datastore.  Otherwise, they will 
+      only be stored in memory.  If message persistence is not turned on 
+      and the server is shutdown while there are still messages in queue, those 
+      messages will be lost.  For a production environment, it is 
+      recommended that message persistence be set to true.</p>
+      <p class="TableText"><b>message.delivery</b>:  Can be set to either 
+      "synchronous" or "async".  If this is set to synchronous, then 
+      messages that are sent in an asynchronous fashion using the KSB 
+      application interface (API) will be sent synchronously.  This is 
+      useful in certain development and unit testing scenarios.  For a 
+      production environment, it is recommended that message delivery be set to 
+      async.</p>
+      <p class="TableText"><b>message.off</b>:  If set to "true" then 
+      asynchronous messages will not be sent.  In the case that message 
+      persistence is turned on, they will be persisted in the message store and 
+      can even be picked up later using the Message Fetcher.  However, if 
+      message persistence is turned off, these messages will be lost.  This 
+      can be useful in certain debugging or testing scenarios.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Filter</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">Click the filter button to execute the search filter 
+      for the route queue based on criteria entered (machine’s service namespace 
+      or IP address) in the filter section fields, and queues them up for 
+      subsequent processing.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Execute Message Fetcher</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">Click this to get queued messages based on the filter 
+      criteria for document services currently in the route queue.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Message Queue Id</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">Displays the unique 5-digit numeric value to identify 
+      each message in the route queue.  This is the same as the Message ID 
+      in the Message Filter section.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Service Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">The name of the service is displayed (for example, 
+      those pertaining to document routing or processing) preceded by the 
+      associated service namespace in brackets.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Service Namespace</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">The uppercased unique name of the service namespace 
+      (service container’s identifier) is displayed.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">IP Number</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">The Internet Protocol numeric value is displayed with 
+      decimal points to indicate the message initiator’s address.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Queue Status</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">The queue status of the message is displayed, which is 
+      one of the following: </p>
+      <p class="TableText" style="MARGIN-LEFT: 39.6pt; TEXT-INDENT: -18pt; tab-stops: 39.6pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+      </span>QUEUED:  The message is waiting for a worker thread to pick it 
+      up.</p>
+      <p class="TableText" style="MARGIN-LEFT: 39.6pt; TEXT-INDENT: -18pt; tab-stops: 39.6pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+      </span>ROUTING:  A worker is currently working on the message.</p>
+      <p class="TableText" style="MARGIN-LEFT: 39.6pt; TEXT-INDENT: -18pt; tab-stops: 39.6pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+      </span>EXCEPTION:  There is a problem with the message and the route 
+      manager will ignore it (typically set manually by the administrator to 
+      suspend a route queue entry until a problem can be diagnosed.</p>
+      <p class="TableText">Documents can be sorted by the queue status.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Queue Priority</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">The numeric priority value assigned to the message by 
+      the system is displayed.  Entries with the smallest number are 
+      processed first.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Queue Date</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">The time and date on which the queue entry should be 
+      processed.  If the queue checker runs and discovers entries that have 
+      a queue date that is equal to or earlier than the current time, it 
+      processes them.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Expiration Date</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">The time and date the message expires.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Retry Count</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">The number of times the sending of the current message 
+      entry has been attempted (retried).</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">App Specific Value 1</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">The specific value of a document.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">App Specific Value 2</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">The specific value of a document.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 113.4pt" valign="top" width="151">
+      <p class="TableText">Actions</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 383.4pt" valign="top" width="511">
+      <p class="TableText">Click the view, edit or requeue action links as desired 
+      for the action you want to take.</p>
+      <p class="TableText" style="MARGIN-LEFT: 39.6pt; TEXT-INDENT: -18pt; tab-stops: 39.6pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+      </span>View:  View the detail message report</p>
+      <p class="TableText" style="MARGIN-LEFT: 39.6pt; TEXT-INDENT: -18pt; tab-stops: 39.6pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+      </span>Edit:  Edit the settings of a Message Entry</p>
+      <p class="TableText" style="MARGIN-LEFT: 39.6pt; TEXT-INDENT: -18pt; tab-stops: 39.6pt"><span style="FONT-FAMILY: Symbol"><span style="FONT-FAMILY: Verdana">•</span>      
+      </span>ReQueue:  Enforce the routing process</p></td></tr></tbody></table>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"><b>Execute Message Fetcher</b></p>
+<p class="MsoBodyText">The Execute Message Fetcher button retrieves all the 
+messages in the route queue.  You can adjust the number of messages 
+requested by entering a number in the field to the left of the button. </p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3109.png" alt="" /></p>
+<p class="MsoBodyText">When the Execute Message Fetcher button is clicked, you are 
+prompted with a confirmation dialog box:</p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3110.png" alt="" /></p>
+<p class="MsoBodyText">KSB displays the results of a search and/or filter at the 
+bottom of the page in the Documents currently in route queue table.</p>
+<p class="MsoBodyText"><b>View</b></p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3111.png" alt="" /></p>
+<p class="MsoBodyText">When you click the View action link, the Message and 
+Payload details are displayed.  Most of the initial information is the same 
+as that displayed in the Documents currently in route queue table.</p>
+<p class="MsoBodyText"><span style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 0pt; BORDER-LEFT: windowtext 1pt solid; PADDING-RIGHT: 0pt"><img border="0" src="../ImagesExt/image17_3112.png" alt="" /></span></p>
+<p class="MsoCaption">Figure 2162  Message Queue Workflow Screen – Message 
+&amp; Payload Section Examples</p>
+<p class="MsoBodyText"> </p>
+<p class="MsoCaption">Table 1181  Message Queue Workflow Screen – Payload 
+Section – Field Descriptions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText">Payload Section</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> Payload Class</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> The class of the Payload</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> Method Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> The name of the method used in this 
+    document</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ignoreStoreAndForward</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> A true and false indicator that ignores the store 
+      functions and forwards the message</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.messageEntryId</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> A unique 4-digit message entry identification 
+      number</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">ServiceInfo.ServiceNamespace</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">The application</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.serverIp</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> The server's IP address</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.ServiceName</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> The name of the service</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.endpointUrl</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> The web address of the service</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">ServiceInfo.queue</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">A true and false indicator that activates the queue or 
+      topic function:</p>
+      <p class="TableText">"True" uses the Queue method, which sends the message 
+      to one contact at a time</p>
+      <p class="TableText">"False" uses the Topic method, which sends the message 
+      to all contacts at once</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.alive</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> A true and false indicator that shows the 
+      activity state of the document</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.priority</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> The priority of the entry for execution. Entries 
+      with the smallest number are processed first</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.retryAttempts</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> How many times KSB will try to resend the 
+      message</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.millisToLive</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText">An expiration indicator:</p>
+      <p class="TableText">1 means the message never expires</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText">ServiceInfo.messageExceptionHandler</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> This provides a reference the service can use to 
+      call back.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.serviceclass</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> The name of the service class</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.busSecurity</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> A true and false indicator that assigns the 
+      security function</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> ServiceInfo.credentialsType</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> The credential type of the document</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 135.9pt" valign="top" width="181">
+      <p class="TableText"> Arguments</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 360.9pt" valign="top" width="481">
+      <p class="TableText"> The argument of this 
+document</p></td></tr></tbody></table>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"><b>Edit</b></p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3113.png" alt="" /></p>
+<p class="MsoBodyText">When you click the Edit action link, the Message Queue 
+Entry workflow screen appears:</p>
+<p class="MsoBodyText"><span style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 0pt; BORDER-LEFT: windowtext 1pt solid; PADDING-RIGHT: 0pt"><img border="0" src="../ImagesExt/image17_3114.jpg" alt="" /></span></p>
+<p class="MsoCaption">Figure 2163  Message Queue Workflow Screen – Message 
+Queue Entry (Edit View) Example</p>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText">This allows you to edit the fields for the message.</p>
+<p class="MsoBodyText"> </p>
+<p class="MsoCaption">Table 1182  Message Queue Workflow Screen – Message 
+Queue Entry (Edit View) – Field &amp; Action Link Descriptions</p>
+<table class="MsoNormalTable" style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none" cellspacing="0" cellpadding="0" border="1">
+  <thead>
+  <tr>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Field/Link</span></p></td>
+    <td style="BORDER-TOP: windowtext 2.25pt double; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #e5e5e5; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableHeading"><span style="FONT-FAMILY: 'Arial Narrow','sans-serif'; COLOR: #990000">Description</span></p></td></tr></thead>
+  <tbody>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText">New Message Queue Values</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Queue Priority</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Change the queue priority by entering a positive 
+      number.  A smaller number has higher priority for 
+execution.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Queue Status</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Change the status to Queued, Routing, or 
+      Exception.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Retry Count</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Change the number of times KSB will 
+  retry.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">IP Number</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Change the initiator's IP address.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Service Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Change the name of the service.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Message Entity</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Change the message entity.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Method Name</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Change the method.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">App Specific Value 1</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Change the information for the specific value 
+      1.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">App Specific Value 2</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Change the information for the specific value 
+      2.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 496.8pt" valign="top" width="662" colspan="2">
+      <p class="TableText">Functional Links</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Save Changes</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Save the information you just changed.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Save Changes and Resubmit</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: white; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Save the information you changed and resubmit the 
+      message.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Save and Forward</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Save the message and send it to the next 
+      contact.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Delete</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Delete the message.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Reset</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BACKGROUND: #fbf8e0; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Reload the previous settings.  This undoes 
+      the changes that you made on this screen, as long as you haven’t yet saved 
+      them.</p></td></tr>
+  <tr>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: windowtext 2.25pt double; PADDING-RIGHT: 5.4pt; WIDTH: 99.9pt" valign="top" width="133">
+      <p class="TableText">Clear Message</p></td>
+    <td style="BORDER-TOP: medium none; BORDER-RIGHT: windowtext 2.25pt double; BORDER-BOTTOM: windowtext 2.25pt double; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; PADDING-RIGHT: 5.4pt; WIDTH: 396.9pt" valign="top" width="529">
+      <p class="TableText"> Clear all information fields on this 
+  page.</p></td></tr></tbody></table>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"> </p>
+<p class="MsoBodyText"><b>ReQueue</b></p>
+<p class="MsoBodyText"><span style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 0pt; BORDER-LEFT: windowtext 1pt solid; PADDING-RIGHT: 0pt"><img border="0" src="../ImagesExt/image17_3115.png" alt="" /></span></p>
+<p class="MsoBodyText">When you click the Requeue action link, you are presented 
+with a confirmation dialog box.</p>
+<p class="MsoBodyText"><img border="0" src="../ImagesExt/image17_3116.png" alt="" /></p>
+<p class="MsoBodyText">After clicking OK, you are notified with an on-screen 
+system message that the request has been fulfilled:</p>
+<p class="MsoBodyText"><span style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; BORDER-BOTTOM: windowtext 1pt solid; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt; PADDING-LEFT: 0pt; BORDER-LEFT: windowtext 1pt solid; PADDING-RIGHT: 0pt"><img border="0" src="../ImagesExt/image17_3117.png" alt="" /></span></p>
+<p class="MsoNormal"><a name="_d2h_bmk__D2HTopic_900_9" id="_d2h_bmk__D2HTopic_900_9"></a><a name="_d2h_bmk__Ref274927247_9" id="_d2h_bmk__Ref274927247_9"></a><a name="_D2HTopic_900" id="_D2HTopic_900"></a><a name="_Ref274927247" id="_Ref274927247"><b><i><span style="FONT-SIZE: 12pt; FONT-FAMILY: 'Arial','sans-serif'"></span></i></b></a> </p><span id="related-topics"></span></div></div></body></html>

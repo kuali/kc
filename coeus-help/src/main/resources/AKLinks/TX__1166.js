@@ -1,0 +1,1 @@
+﻿d2hStoreMenuItems("TX__1166", [["Documents/affiliationtype.htm", "right", "Affiliation Type"],["Documents/iacucprotocolaffiliationtype.htm", "right", "IACUC Protocol Affiliation Type"],["Documents/protocolaffiliationtype.htm", "right", "Protocol Affiliation Type"]]);
