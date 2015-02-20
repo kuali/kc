@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.budget.external.budget.service.impl;
+package org.kuali.kra.external.budget.service.impl;
 
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.kra.external.HashMapElement;
-import org.kuali.kra.budget.external.budget.service.BudgetCategoryDTO;
-import org.kuali.kra.budget.external.budget.service.BudgetCategoryService;
+import org.kuali.kra.external.budget.service.BudgetCategoryDTO;
+import org.kuali.kra.external.budget.service.BudgetCategoryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
 
     /**
      * This method looks up the BudgetCategories bo.
-     * @see org.kuali.kra.budget.external.budget.service.BudgetCategoryService#lookupBudgetCategories(java.util.List)
+     * @see org.kuali.kra.external.budget.service.BudgetCategoryService#lookupBudgetCategories(java.util.List)
      */
     public List<BudgetCategoryDTO> lookupBudgetCategories(List<HashMapElement> criteria) {
 

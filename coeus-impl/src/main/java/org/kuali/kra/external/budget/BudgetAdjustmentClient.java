@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.budget.external.budget;
+package org.kuali.kra.external.budget;
 
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;

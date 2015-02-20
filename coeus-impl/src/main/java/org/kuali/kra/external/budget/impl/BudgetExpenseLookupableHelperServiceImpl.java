@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.budget.external.budget.impl;
+package org.kuali.kra.external.budget.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.CostElement;

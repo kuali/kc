@@ -21,7 +21,7 @@
   <bean id="FinancialObjectCodeMappingMaintenanceDocument" parent="FinancialObjectCodeMappingMaintenanceDocument-parentBean"/>
 
   <bean id="FinancialObjectCodeMappingMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.budget.external.budget.FinancialObjectCodeMapping"/>
+    <property name="businessObjectClass" value="org.kuali.kra.external.budget.FinancialObjectCodeMapping"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -41,7 +41,7 @@
     
     <property name="documentTypeName" value="FinancialObjectCodeMappingMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-    <property name="businessRulesClass" value="org.kuali.kra.budget.external.budget.FinancialObjectCodeMappingDocumentRule"/>
+    <property name="businessRulesClass" value="org.kuali.kra.external.budget.FinancialObjectCodeMappingDocumentRule"/>
     
     
   </bean>

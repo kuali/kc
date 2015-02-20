@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.budget.external.budget.impl;
+package org.kuali.kra.external.budget.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +33,8 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
-import org.kuali.kra.budget.external.budget.BudgetAdjustmentServiceHelper;
-import org.kuali.kra.budget.external.budget.RateClassRateType;
+import org.kuali.kra.external.budget.BudgetAdjustmentServiceHelper;
+import org.kuali.kra.external.budget.RateClassRateType;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

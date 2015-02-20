@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.budget.external.budget.impl;
+package org.kuali.kra.external.budget.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,10 +33,10 @@ import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationServi
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
-import org.kuali.kra.budget.external.budget.BudgetAdjustmentClient;
-import org.kuali.kra.budget.external.budget.BudgetAdjustmentServiceHelper;
-import org.kuali.kra.budget.external.budget.FinancialObjectCodeMapping;
-import org.kuali.kra.budget.external.budget.RateClassRateType;
+import org.kuali.kra.external.budget.BudgetAdjustmentClient;
+import org.kuali.kra.external.budget.BudgetAdjustmentServiceHelper;
+import org.kuali.kra.external.budget.FinancialObjectCodeMapping;
+import org.kuali.kra.external.budget.RateClassRateType;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;

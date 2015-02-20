@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.budget.external.budget.impl;
+package org.kuali.kra.external.budget.impl;
 
 
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
-import org.kuali.kra.budget.external.budget.BudgetAdjustmentClient;
+import org.kuali.kra.external.budget.BudgetAdjustmentClient;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 
 /**
