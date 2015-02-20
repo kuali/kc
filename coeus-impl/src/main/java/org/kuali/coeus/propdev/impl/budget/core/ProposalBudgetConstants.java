@@ -37,6 +37,7 @@ public class ProposalBudgetConstants {
         public static final String PROJECT_INCOME_PAGE_ID = "PropBudget-ProjectIncomePage";
         public static final String MODULAR_PAGE_ID = "PropBudget-ModularPage";
         public static final String NOTES_PAGE_ID = "PropBudget-NotesPage";
+        public static final String COMPLETE_CONFIRMATION_DIALOG = "PropDev-CompleteBudgetConfirmationDialog";
 	}
 	
 	public static class AuthConstants {

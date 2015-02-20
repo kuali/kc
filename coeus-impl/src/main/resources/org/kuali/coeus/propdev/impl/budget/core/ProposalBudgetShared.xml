@@ -226,4 +226,28 @@
 	<bean id="PropDev-SyncConfirmationDialog" parent="PropDev-SyncConfirmationDialog-parentBean"/>
 	<bean id="PropDev-SyncConfirmationDialog-parentBean" abstract="true" parent="Uif-DialogGroup-OkCancel" p:headerText="Extend Hierarchy End Date"
 		p:promptText="Syncronizing will extend the project end date in the parent proposal. Would you like to proceed?"/>
-</beans>
+
+    <bean id="PropDev-CompleteBudgetConfirmationDialog" parent="PropDev-CompleteBudgetConfirmationDialog-parentBean"/>
+    <bean id="PropDev-CompleteBudgetConfirmationDialog-parentBean" abstract="true" parent="Uif-DialogGroup-OkCancel"
+          p:dialogCssClass=""
+          p:headerText="Is this budget complete?">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Unable to include this budget with submission as the proposal is locked by another user, would you like to complete this budget anyway?" p:order="10"
+                      p:render="@{proposalDevelopmentDocumentLocked}"/>
+                <bean parent="Uif-CheckboxInputField" p:propertyName="submitBudgetIndicator"
+                      p:fieldLabel.render="false" p:order="20">
+                     <property name="control">
+                         <bean parent="Uif-VerticalCheckboxesControl" p:render="@{!proposalDevelopmentDocumentLocked}">
+                             <property name="options">
+                                 <list>
+                                     <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Is this budget ready to be submitted to the sponsor?"/>
+                                 </list>
+                             </property>
+                         </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+     </bean>
+ </beans>

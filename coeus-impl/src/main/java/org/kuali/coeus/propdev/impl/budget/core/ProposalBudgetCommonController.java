@@ -40,6 +40,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
+import org.kuali.rice.krad.web.form.DialogResponse;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -197,11 +198,21 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	   		form.setAjaxReturnType("update-page");
 		   	return getModelAndViewService().getModelAndView(form);
 		}
-		String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
-                Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        form.getBudget().setBudgetStatus(budgetStatusCompleteCode);
-        getDataObjectService().wrap(form.getBudget()).fetchRelationship("budgetStatusDo");
-		return super.save(form);
+        DialogResponse dialogResponse = form.getDialogResponse(ProposalBudgetConstants.KradConstants.COMPLETE_CONFIRMATION_DIALOG);
+        if(dialogResponse == null) {
+            return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.COMPLETE_CONFIRMATION_DIALOG, false, form);
+        } else if (dialogResponse.getResponseAsBoolean()){
+            String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
+                    Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+            form.getBudget().setBudgetStatus(budgetStatusCompleteCode);
+            getDataObjectService().wrap(form.getBudget()).fetchRelationship("budgetStatusDo");
+            if (form.isSubmitBudgetIndicator()) {
+                form.getDevelopmentProposal().setFinalBudget(form.getBudget());
+                getDataObjectService().save(form.getDevelopmentProposal());
+            }
+            return super.save(form);
+        }
+        return getModelAndViewService().getModelAndView(form);
 	}
 	
 	protected boolean isAllowedToCompleteBudget(ProposalBudgetForm form, String errorPath) {
