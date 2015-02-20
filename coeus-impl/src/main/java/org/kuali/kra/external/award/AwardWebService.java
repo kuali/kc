@@ -16,16 +16,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.external.award;
+package org.kuali.kra.external.award;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.infrastructure.Constants;
 
 @WebService(name = "awardWebService", targetNamespace = Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE)

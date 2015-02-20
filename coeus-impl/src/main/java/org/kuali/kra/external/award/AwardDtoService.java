@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.external.award;
+package org.kuali.kra.external.award;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.award.cgb.AwardCgbConstants;
@@ -29,7 +29,6 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.kra.external.awardpayment.AwardMethodOfPaymentDTO;
 import org.kuali.kra.external.frequency.FrequencyDto;
-import org.kuali.kra.external.frequency.FrequencyDtoService;
 import org.kuali.kra.external.service.KcDtoService;
 import org.kuali.kra.external.service.KcDtoServiceBase;
 import org.kuali.kra.external.sponsor.SponsorDTO;

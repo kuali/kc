@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.external.award.impl;
+package org.kuali.kra.external.award.impl;
 
 
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
-import org.kuali.kra.award.external.award.AccountCreationClient;
+import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 
 

@@ -1233,7 +1233,7 @@
     
     <!-- Core Services -->
 
-    <bean id="accountCreationClient" class="org.kuali.kra.award.external.award.AccountCreationClientFactoryBean">
+    <bean id="accountCreationClient" class="org.kuali.kra.external.award.AccountCreationClientFactoryBean">
         <property name="sharedRice" value="${shared.rice}" />
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -1241,7 +1241,7 @@
         <property name="configurationService" ref="kualiConfigurationService" />
     </bean>
 
-    <bean id="awardAccountValidationService" class="org.kuali.kra.award.external.award.impl.AwardAccountValidationServiceImpl">
+    <bean id="awardAccountValidationService" class="org.kuali.kra.external.award.impl.AwardAccountValidationServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     

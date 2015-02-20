@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.external.award.impl;
+package org.kuali.kra.external.award.impl;
 
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.service.AccountCreationServiceSOAP;
-import org.kuali.kra.award.external.award.AccountCreationClient;
+import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.Constants;
 
 import javax.xml.ws.WebServiceClient;

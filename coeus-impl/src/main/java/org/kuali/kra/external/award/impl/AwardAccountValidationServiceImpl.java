@@ -16,15 +16,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.external.award.impl;
+package org.kuali.kra.external.award.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
-import org.kuali.kra.award.external.award.AwardAccountValidationService;
-import org.kuali.kra.award.external.award.FinancialIndirectCostRecoveryTypeCode;
+import org.kuali.kra.external.award.AwardAccountValidationService;
+import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;

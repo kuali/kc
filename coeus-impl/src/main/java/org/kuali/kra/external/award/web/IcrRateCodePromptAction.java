@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.external.award.web;
+package org.kuali.kra.external.award.web;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;

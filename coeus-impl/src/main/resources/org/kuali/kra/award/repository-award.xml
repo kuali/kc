@@ -1502,7 +1502,7 @@
     <field-descriptor name="cfdaMaintenanceTypeId" column="CFDA_MAINT_TYP_ID" jdbc-type="VARCHAR" />
     
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.award.external.award.FinancialIndirectCostRecoveryTypeCode" table="FIN_IDC_TYPE_CODE">
+	<class-descriptor class="org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode" table="FIN_IDC_TYPE_CODE">
 		<field-descriptor name="icrTypeCode" column="FIN_IDC_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey = "true"/>
 		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey = "true"/>

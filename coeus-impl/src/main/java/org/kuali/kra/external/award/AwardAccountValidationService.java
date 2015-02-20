@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-@javax.xml.bind.annotation.XmlSchema(namespace = Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE, elementFormDefault = XmlNsForm.UNQUALIFIED)
-package org.kuali.kra.award.external.award;
+package org.kuali.kra.external.award;
 
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.award.home.Award;
 
-import javax.xml.bind.annotation.XmlNsForm;
+public interface AwardAccountValidationService {
 
+    public boolean validateAwardAccountDetails(Award award);
+}

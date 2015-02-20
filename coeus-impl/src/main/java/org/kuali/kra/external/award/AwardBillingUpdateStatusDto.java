@@ -16,11 +16,37 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.external.award;
+package org.kuali.kra.external.award;
 
-import org.kuali.kra.award.home.Award;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface AwardAccountValidationService {
+public class AwardBillingUpdateStatusDto {
 
-    public boolean validateAwardAccountDetails(Award award);
+	private List<String> errorMessages;
+	private String awardNumber;
+	private boolean success = false;
+	
+	public AwardBillingUpdateStatusDto() {
+		errorMessages = new ArrayList<String>();
+	}
+	
+	public List<String> getErrorMessages() {
+		return errorMessages;
+	}
+	public void setErrorMessages(List<String> errorMessages) {
+		this.errorMessages = errorMessages;
+	}
+	public String getAwardNumber() {
+		return awardNumber;
+	}
+	public void setAwardNumber(String awardNumber) {
+		this.awardNumber = awardNumber;
+	}
+	public boolean isSuccess() {
+		return success;
+	}
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
 }

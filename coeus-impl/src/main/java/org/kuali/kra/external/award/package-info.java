@@ -16,37 +16,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.external.award;
+@javax.xml.bind.annotation.XmlSchema(namespace = Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE, elementFormDefault = XmlNsForm.UNQUALIFIED)
+package org.kuali.kra.external.award;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.kra.infrastructure.Constants;
 
-public class AwardBillingUpdateStatusDto {
+import javax.xml.bind.annotation.XmlNsForm;
 
-	private List<String> errorMessages;
-	private String awardNumber;
-	private boolean success = false;
-	
-	public AwardBillingUpdateStatusDto() {
-		errorMessages = new ArrayList<String>();
-	}
-	
-	public List<String> getErrorMessages() {
-		return errorMessages;
-	}
-	public void setErrorMessages(List<String> errorMessages) {
-		this.errorMessages = errorMessages;
-	}
-	public String getAwardNumber() {
-		return awardNumber;
-	}
-	public void setAwardNumber(String awardNumber) {
-		this.awardNumber = awardNumber;
-	}
-	public boolean isSuccess() {
-		return success;
-	}
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
-}

@@ -16,19 +16,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.external.award.impl;
+package org.kuali.kra.external.award.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.version.VersionStatus;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.external.award.AwardAccountDTO;
-import org.kuali.kra.award.external.award.AwardAccountService;
+import org.kuali.kra.external.award.AwardAccountDTO;
+import org.kuali.kra.external.award.AwardAccountService;
 import org.kuali.kra.external.service.KcDtoService;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -48,7 +44,7 @@ public class AwardAccountServiceImpl implements AwardAccountService {
 
     /**
      * This method returns all the awards linked to a financial account number and the chart
-     * @see org.kuali.kra.award.external.award.AwardAccountService#getAwardAccount(java.lang.String)
+     * @see org.kuali.kra.external.award.AwardAccountService#getAwardAccount(java.lang.String)
      */
     public List<AwardAccountDTO> getAwardAccounts(String financialAccountNumber, String chartOfAccounts) {
         if (ObjectUtils.isNull(financialAccountNumber) || ObjectUtils.isNull(chartOfAccounts)) {

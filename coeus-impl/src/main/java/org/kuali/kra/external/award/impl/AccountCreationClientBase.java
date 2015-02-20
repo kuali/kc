@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.external.award.impl;
+package org.kuali.kra.external.award.impl;
 
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,8 +31,8 @@ import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.external.award.AccountCreationClient;
-import org.kuali.kra.award.external.award.FinancialIndirectCostRecoveryTypeCode;
+import org.kuali.kra.external.award.AccountCreationClient;
+import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -108,7 +108,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     
     /**
      * This method calls the web service on KFS to create a C&G account.
-     * @see org.kuali.kra.award.external.award.AccountCreationClient#createAwardAccount(org.kuali.kra.award.home.Award)
+     * @see org.kuali.kra.external.award.AccountCreationClient#createAwardAccount(org.kuali.kra.award.home.Award)
      */
     public void createAwardAccount(Award award) throws DatatypeConfigurationException, WorkflowException {
 

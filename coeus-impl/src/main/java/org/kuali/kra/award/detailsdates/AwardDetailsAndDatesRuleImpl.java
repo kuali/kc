@@ -26,7 +26,7 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardTransferringSponsor;
 import org.kuali.kra.award.home.CFDA;
-import org.kuali.kra.award.external.award.AccountCreationClient;
+import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;

@@ -21,7 +21,7 @@
   <bean id="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument" parent="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument-parentBean"/>
 
   <bean id="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.award.external.award.FinancialIndirectCostRecoveryTypeCode"/>
+    <property name="businessObjectClass" value="org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
@@ -39,7 +39,7 @@
     
     <property name="documentTypeName" value="FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
- 	<property name="businessRulesClass" value="org.kuali.kra.award.external.award.FinancialIndirectCostRecoveryTypeCodeDocumentRule"/>
+ 	<property name="businessRulesClass" value="org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCodeDocumentRule"/>
     
     
   </bean>
