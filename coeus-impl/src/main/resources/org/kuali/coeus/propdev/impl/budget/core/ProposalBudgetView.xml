@@ -83,7 +83,9 @@
 		parent="Uif-MenuNavigationGroup" p:defaultItemIconClass="">
 		<property name="items">
 			<list>
-				<bean id="PropBudget-Menu-ReturnToProposal" parent="Uif-SecondaryActionButton-Mini" p:methodToCall="openProposal" p:actionLabel="« Return to proposal"/>
+				<bean id="PropBudget-Menu-ReturnToProposal" parent="Uif-SecondaryActionButton-Mini"
+                      p:performClientSideValidation="true"
+                      p:methodToCall="openProposal" p:actionLabel="« Return to proposal"/>
 				<bean parent="PropBudget-NavigationMenu-PeriodsAndTotals" p:order="10" />
 				<bean parent="PropBudget-NavigationMenu-Rates" p:order="20" p:render="@{!budget.developmentProposal.isParent()}"/>
 				<bean parent="PropBudget-NavigationMenu-PersonnelCosts" p:order="30" />
