@@ -43,5 +43,13 @@
         <property name="filtersToMap" ref="filtersToMap"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/sys/impl/SysComponentSpringBeans.xml"/>
     </bean>
+    
+    <bean id="kcHealthCheckConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
+    	<property name="moduleName" value="kc.healthCheck"/>
+    	<property name="moduleTitle" value="KC Health Check"/>
+    	<property name="dispatchServletName" value="healthCheck"/>
+    	<property name="filtersToMap"><list></list></property>
+    	<property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/sys/impl/HealthCheckSpringBeans.xml"/>
+    </bean>
 
 </beans>
