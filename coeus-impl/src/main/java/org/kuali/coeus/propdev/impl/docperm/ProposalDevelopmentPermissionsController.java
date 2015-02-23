@@ -136,7 +136,11 @@ public class ProposalDevelopmentPermissionsController extends ProposalDevelopmen
         if (getProposalDevelopmentPermissionsService().validateAddPermissions(document, form.getWorkingUserRoles(),newProposalUserRoles)) {
             getProposalDevelopmentPermissionsService().processAddPermission(document,newProposalUserRoles);
             form.getWorkingUserRoles().add(newProposalUserRoles);
+            if (form.getWorkflowDocument().isEnroute()) {
+                return super.save(form);
+            }
         }
+
 
         return getRefreshControllerService().refresh(form);
     }

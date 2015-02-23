@@ -18,11 +18,17 @@
  */
 package org.kuali.coeus.propdev.impl.docperm;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.view.ViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,16 +49,33 @@ public class ProposalRoleValuesFinder extends UifKeyValuesFinderBase {
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
-    public List<KeyValue> getKeyValues() {
-        ProposalRoleService proposalRoleService = KcServiceLocator.getService(ProposalRoleService.class);
-        List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
+    public List<KeyValue> getKeyValues(ViewModel model,InputField field) {
+        ProposalDevelopmentDocument document = ((ProposalDevelopmentDocumentForm)model).getProposalDevelopmentDocument();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-
-        for (Role role : proposalRoles) {
-            KeyValue pair = new ConcreteKeyValue(role.getName(), role.getName());
+        if (document.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+            List<String> roleNames = new ArrayList<String>();
+            try {
+                roleNames = (List<String>) PropertyUtils.getProperty(model, field.getBindingInfo().getBindingPath());
+            } catch (Exception e) {
+                //do nothing, if unable to retrieve the property from the model treat it as no value being selected.
+            }
+            for (String roleName : roleNames) {
+                KeyValue pair = new ConcreteKeyValue(roleName, roleName);
+                keyValues.add(pair);
+            }
+            KeyValue pair = new ConcreteKeyValue(RoleConstants.VIEWER_DOCUMENT_LEVEL, RoleConstants.VIEWER_DOCUMENT_LEVEL);
             keyValues.add(pair);
+
+        } else {
+            ProposalRoleService proposalRoleService = KcServiceLocator.getService(ProposalRoleService.class);
+            List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
+
+
+            for (Role role : proposalRoles) {
+                KeyValue pair = new ConcreteKeyValue(role.getName(), role.getName());
+                keyValues.add(pair);
+            }
         }
-        
         return keyValues;
     }
 }

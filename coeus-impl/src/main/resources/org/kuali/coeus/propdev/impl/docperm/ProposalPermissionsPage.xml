@@ -58,10 +58,10 @@
     <bean id="PropDev-PermissionsPage-AddButton" parent="PropDev-PermissionsPage-AddButton-parentBean" />
     <bean id="PropDev-PermissionsPage-AddButton-parentBean" abstract="true"
           parent="Uif-PrimaryActionButton" p:actionLabel="Add User"
-          p:methodToCall="prepareAddPermission" p:render="@{(#editModes['modifyPermissions']) and !#parent.readOnly}"
+          p:methodToCall="prepareAddPermission" p:render="@{#editModes['modifyPermissions'] or #editModes['Add Proposal Viewer']}"
           p:actionParameters="PropDev-PermissionsPage-Wizard.step:0" p:iconClass="icon-user"/>
 
-    <bean id="PropDev-PermissionsPage-Wizard" parent="Kc-Wizard"
+    <bean id="PropDev-PermissionsPage-Wizard" parent="Kc-Wizard" p:readOnly="false"
           p:fieldBindingObjectPath="addKeyPersonHelper" p:header.headerText="Add Permission">
         <property name="items">
             <list>

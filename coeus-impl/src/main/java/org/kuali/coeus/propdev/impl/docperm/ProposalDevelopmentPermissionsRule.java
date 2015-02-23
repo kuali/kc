@@ -147,12 +147,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
             getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
         }
 
-        // Can only add viewers after doc is workflowed
-        else if (kraWorkflowService.isInWorkflow(document)) {
-            isValid = false;
-            getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_PERMISSION_VIEWER_ONLY_KEY);
-        }
-        
         return isValid;
     }
 
@@ -371,7 +365,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
      * @return true if the role is Viewer
      */
     private boolean isAddingViewerOnly(ProposalUserRoles proposalUser) {
-        return proposalUser.getRoleNames().size() == 1 && StringUtils.equals(proposalUser.getRoleNames().get(0), RoleConstants.VIEWER);
+        return proposalUser.getRoleNames().size() == 1 && (StringUtils.equals(proposalUser.getRoleNames().get(0), RoleConstants.VIEWER) || StringUtils.equals(proposalUser.getRoleNames().get(0), RoleConstants.VIEWER_DOCUMENT_LEVEL));
     }
 
     public GlobalVariableService getGlobalVariableService() {
