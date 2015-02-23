@@ -23,9 +23,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentProposalAttachmentsAuditRule;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentUtils;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -48,12 +50,10 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_CE
 public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
 
     public static final String KEY_PERSONNEL_AUDIT_CLUSTER_KEY = "keyPersonnelAuditErrors";
-
-    private static final String BEFORE_APPROVE = "BA";
-    private static final String BEFORE_SUBMIT = "BS";
     
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAttachmentsAuditRule.class);
     private QuestionnaireAnswerService questionnaireAnswerService;
+
     protected QuestionnaireAnswerService getQuestionnaireAnswerService(){
         if (questionnaireAnswerService == null)
             questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
@@ -62,48 +62,54 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
     
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
-
-        if(getKeyPersonCertDeferralParm().equals(BEFORE_SUBMIT)) {
-            valid &= this.validateAllCertificationsComplete((ProposalDevelopmentDocument) document);
-        } else if(getKeyPersonCertDeferralParm().equals(BEFORE_APPROVE)) {
-        } else {
+        ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) document;
+        if(getKeyPersonCertDeferralParm().equalsIgnoreCase(ProposalDevelopmentConstants.ParameterValues.KEY_PERSON_CERTIFICATION_BEFORE_SUBMIT)) {
+            valid &= this.validateAllCertificationsComplete(pdDoc);
+        }
+        else if(getKeyPersonCertDeferralParm().equalsIgnoreCase(ProposalDevelopmentConstants.ParameterValues.KEY_PERSON_CERTIFICATION_BEFORE_APPROVE)) {
+           valid &= isRouterPiAndCertified(pdDoc);
+        }
+        else {
             LOG.warn("System parameter 'KEY_PERSON_CERTIFICATION_DEFERRAL' should be one of 'BA' or 'BS'.");
             return false;
         }
-        
         return valid;
+    }
+
+    protected boolean isRouterPiAndCertified(ProposalDevelopmentDocument pdDoc) {
+        String loggedInUser = getGlobalVariableService().getUserSession().getPrincipalId();
+        for (ProposalPerson person : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+            if (StringUtils.equalsIgnoreCase(person.getPersonId(), loggedInUser) && (person.isCoInvestigator() || person.isPrincipalInvestigator())) {
+                if (hasCertification(person) && !validKeyPersonCertification(person)) {
+                    generateAuditError(0,person.getFullName());
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean processRouteDocument(Document document) {
-        boolean isValid = true;
-
-        if(getKeyPersonCertDeferralParm().equals(BEFORE_SUBMIT)) {
-            //validation based on existence of ANY incomplete questionnaires.
-            isValid &= this.validateAllCertificationsComplete((ProposalDevelopmentDocument) document);
-        }
-        
-        return isValid;
+        return processRunAuditBusinessRules(document);
     }
 
     @Override
     public boolean processApproveDocument(ApproveDocumentEvent approveEvent) {
         boolean isValid = true;
 
-        if(getKeyPersonCertDeferralParm().equals(BEFORE_APPROVE)) {
+        if(getKeyPersonCertDeferralParm().equals(ProposalDevelopmentConstants.ParameterValues.KEY_PERSON_CERTIFICATION_BEFORE_APPROVE)) {
             //validation based on session user existing as key person and possibly aggregator.
             isValid &= this.validateKeyPersonCertification((ProposalDevelopmentDocument) approveEvent.getDocument(),
-                    GlobalVariables.getUserSession().getPerson());
+                    getGlobalVariableService().getUserSession().getPerson());
         }
         
         return isValid;
     }    
     
-    private boolean validateAllCertificationsComplete(ProposalDevelopmentDocument document) {
+    protected boolean validateAllCertificationsComplete(ProposalDevelopmentDocument document) {
         boolean retval = true;
-    
         int count = 0;
-
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             if (hasCertification(person) && !validKeyPersonCertification(person)) {
                 generateAuditError(count,person.getFullName());
@@ -111,7 +117,6 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
             }
             count++;
         }
-        
         return retval;
     }
     
@@ -119,11 +124,9 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
      * validates specifically the key person certification, if any, of the proposal person matching the
      * person in the user session
      */
-    private boolean validateKeyPersonCertification(ProposalDevelopmentDocument document, Person user) {
+    protected boolean validateKeyPersonCertification(ProposalDevelopmentDocument document, Person user) {
         boolean retval = true;
-    
         int count = 0;
-        
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
             if(StringUtils.equals(user.getPrincipalId(),person.getPersonId())
                     && hasCertification(person) && !validKeyPersonCertification(person)) {
@@ -132,15 +135,14 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
             }
             count++;
         }
-        
         return retval;
     }
     
-    private boolean validKeyPersonCertification(ProposalPerson person) {
+    protected boolean validKeyPersonCertification(ProposalPerson person) {
         return validateYesNoQuestions(person);
     }
 
-    private boolean hasCertification(ProposalPerson person) {
+    protected boolean hasCertification(ProposalPerson person) {
         
         //questionnaires should continue to be answerable only to the following approvers,
         //possibly as well as other roles. i.e. Aggregator.
@@ -165,7 +167,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
      * @param investigator Proposal Investigator
      * @return true if the given PI's Yes/No Questions are completed
      */
-    private boolean validateYesNoQuestions(ProposalPerson investigator) {
+    protected boolean validateYesNoQuestions(ProposalPerson investigator) {
         boolean retval = true;
         
         ProposalPersonModuleQuestionnaireBean bean = new ProposalPersonModuleQuestionnaireBean(investigator.getDevelopmentProposal(), investigator);
@@ -178,7 +180,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
         return retval;
     }
     
-    private void generateAuditError(int count, String personFullName) {
+    protected void generateAuditError(int count, String personFullName) {
         final String errorStarter = "document.developmentProposal.proposalPersons[";
         final String errorFinish = "].questionnaireHelper.answerHeaders[0].questions";
         
@@ -198,7 +200,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
      * @return List of AuditError instances
      */
     @SuppressWarnings("unchecked")
-    private List<AuditError> getAuditErrors() {
+    protected List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (!GlobalVariables.getAuditErrorMap().containsKey(KEY_PERSONNEL_AUDIT_CLUSTER_KEY)) {
@@ -206,14 +208,17 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
                     new AuditCluster(Constants.KEY_PERSONNEL_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         } else {
             auditErrors = ((AuditCluster) GlobalVariables.getAuditErrorMap().get(KEY_PERSONNEL_AUDIT_CLUSTER_KEY)).getAuditErrorList();
-                }
-        
+        }
         return auditErrors;
-            }
+    }
 
 
-    private String getKeyPersonCertDeferralParm() {
+    protected String getKeyPersonCertDeferralParm() {
         return ProposalDevelopmentUtils
                 .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.KEY_PERSON_CERTIFICATION_DEFERRAL_PARM);
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return KcServiceLocator.getService(GlobalVariableService.class);
     }
 }
