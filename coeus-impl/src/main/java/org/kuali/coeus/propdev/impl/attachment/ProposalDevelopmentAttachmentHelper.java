@@ -42,7 +42,8 @@ public class ProposalDevelopmentAttachmentHelper {
     private ProposalAbstract proposalAbstract;
 
     private String selectedLineIndex;
-    private String markAllStatus;
+    private String proposalAttachmentModuleStatusCode;
+    private String internalAttachmentModuleStatusCode;
 
     private Map<String,List<String>> editableFileAttachments;
 
@@ -240,14 +241,6 @@ public class ProposalDevelopmentAttachmentHelper {
         this.selectedLineIndex = selectedLineIndex;
     }
 
-    public String getMarkAllStatus() {
-        return markAllStatus;
-    }
-
-    public void setMarkAllStatus(String markAllStatus) {
-        this.markAllStatus = markAllStatus;
-    }
-
     public Narrative getInstituteAttachment() {
         return instituteAttachment;
     }
@@ -279,4 +272,20 @@ public class ProposalDevelopmentAttachmentHelper {
     public void setProposalAbstract(ProposalAbstract proposalAbstract) {
         this.proposalAbstract = proposalAbstract;
     }
+
+	public String getProposalAttachmentModuleStatusCode() {
+		return proposalAttachmentModuleStatusCode;
+	}
+
+	public void setProposalAttachmentModuleStatusCode(String proposalAttachmentModuleStatusCode) {
+		this.proposalAttachmentModuleStatusCode = proposalAttachmentModuleStatusCode;
+	}
+
+	public String getInternalAttachmentModuleStatusCode() {
+		return internalAttachmentModuleStatusCode;
+	}
+
+	public void setInternalAttachmentModuleStatusCode(String internalAttachmentModuleStatusCode) {
+		this.internalAttachmentModuleStatusCode = internalAttachmentModuleStatusCode;
+	}
 }

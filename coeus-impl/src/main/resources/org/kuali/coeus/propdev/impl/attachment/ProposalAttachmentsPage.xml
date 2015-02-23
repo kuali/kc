@@ -79,21 +79,31 @@
     <bean id="PropDev-AttachmentPage-ProposalButtons-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="markAllStatus" p:cssClasses="pull-right"
-                      p:bindingInfo.bindingObjectPath="proposalDevelopmentAttachmentHelper" p:order="10">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder" value="#{#getService('narrativeStatusValuesFinder')}" />
-                </bean>
-                <bean parent="Uif-SecondaryActionButton" p:methodToCall="markAllComplete" p:actionLabel="Set All Statuses"
-                      p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:document.developmentProposal.narratives"
-                      p:cssClasses="pull-right" p:render="@{!#parent.readOnly}" p:order="20"/>
+				<bean parent="PropDev-AttachmentPage-AttachmentStatus" p:propertyName="proposalAttachmentModuleStatusCode" p:order="10" />
+				<bean parent="PropDev-AttachmentPage-MarkStatus" p:methodToCall="markAllProposalAttachments" 
+                    p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:document.developmentProposal.narratives"
+					p:order="20" />
                 <bean parent="PropDev-AttachmentPage-AddLineButton" p:successCallback="showDialog('PropDev-AttachmentsPage-ProposalDetails');"
                       p:refreshId="PropDev-AttachmentsPage-ProposalDetails" p:order="30"/>
             </list>
         </property>
     </bean>
+
+	<bean id="PropDev-AttachmentPage-AttachmentStatus" parent="PropDev-AttachmentPage-AttachmentStatus-parentBean" />
+	<bean id="PropDev-AttachmentPage-AttachmentStatus-parentBean" abstract="true"
+          parent="Uif-InputField" p:cssClasses="pull-right"
+                      p:bindingInfo.bindingObjectPath="proposalDevelopmentAttachmentHelper">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder" value="#{#getService('narrativeStatusValuesFinder')}"/>
+	</bean>
+
+	<bean id="PropDev-AttachmentPage-MarkStatus" parent="PropDev-AttachmentPage-MarkStatus-parentBean" />
+	<bean id="PropDev-AttachmentPage-MarkStatus-parentBean" abstract="true"
+          parent="Uif-SecondaryActionButton" p:actionLabel="Set All Statuses"
+                      p:cssClasses="pull-right" p:render="@{!#parent.readOnly}">
+	</bean>
 
 	<bean id="PropDev-AttachmentsPage-ProposalCollection" parent="PropDev-AttachmentsPage-ProposalCollection-parentBean" />
 	<bean id="PropDev-AttachmentsPage-ProposalCollection-parentBean" abstract="true" parent="PropDev-AttachmentPage-MultiFileCollection"
@@ -113,9 +123,7 @@
                 <bean parent="PropDev-AttachmentPage-LinkField" p:order="10"/>
                 <bean parent="Uif-InputField" p:propertyName="narrativeTypeCode" p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
                       p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:width="5%" p:order="20" />
-               <bean parent="Uif-InputField" p:propertyName="moduleStatusCode"
-                     p:readOnlyDisplayReplacementPropertyName="narrativeStatus.description"
-                     p:required="true" p:enableAutoQuickfinder="false" p:width="25%" p:order="30"/>
+				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="30" />
                 <bean parent="Uif-InputField" p:propertyName="moduleTitle"
                       p:order="40" />
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
@@ -136,6 +144,13 @@
                 </bean>
             </list>
         </property>
+	</bean>
+
+	<bean id="PropDev-AttachmentPage-ModuleStatus" parent="PropDev-AttachmentPage-ModuleStatus-parentBean" />
+	<bean id="PropDev-AttachmentPage-ModuleStatus-parentBean" abstract="true"
+          parent="Uif-InputField" p:propertyName="moduleStatusCode"
+                     p:readOnlyDisplayReplacementPropertyName="narrativeStatus.description"
+                     p:required="true" p:enableAutoQuickfinder="false" p:width="25%">
 	</bean>
 
     <bean id="PropDev-AttachmentsPage-ProposalDetails" parent="PropDev-AttachmentsPage-ProposalDetails-parentBean"/>
@@ -381,9 +396,22 @@
           p:fieldBindingObjectPath="document.developmentProposal">
         <property name="items">
             <list>
-                <bean parent="PropDev-AttachmentPage-AddLineButton" p:methodToCall="prepareInstituteAttachment"
-                      p:refreshId="PropDev-AttachmentsPage-InternalDetails" p:order="10"/>
+               <bean parent="PropDev-AttachmentPage-InternalAttachmentButtons" p:order="10"/>
                 <bean parent="PropDev-AttachmentsPage-InternalCollection" p:order="20" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-AttachmentPage-InternalAttachmentButtons" parent="PropDev-AttachmentPage-InternalAttachmentButtons-parentBean"/>
+    <bean id="PropDev-AttachmentPage-InternalAttachmentButtons-parentBean" abstract="true" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+				<bean parent="PropDev-AttachmentPage-AttachmentStatus" p:propertyName="internalAttachmentModuleStatusCode" p:order="10" />
+				<bean parent="PropDev-AttachmentPage-MarkStatus" p:methodToCall="markAllInternalAttachments" 
+                    p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:document.developmentProposal.instituteAttachments"
+					p:order="20" />
+                <bean parent="PropDev-AttachmentPage-AddLineButton" p:methodToCall="prepareInstituteAttachment"
+                      p:refreshId="PropDev-AttachmentsPage-InternalDetails" p:order="30"/>
             </list>
         </property>
     </bean>
@@ -405,6 +433,7 @@
         <property name="collection.items">
             <list merge="true">
                 <bean parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField" p:order="30" />
+				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="35" />
                 <bean parent="Uif-InputField" p:propertyName="moduleTitle"
                       p:order="40" />
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
@@ -439,6 +468,10 @@
                       p:order="10">
                     <property name="optionsFinder" value="#{#getService('instituteAttachmentTypeValuesFinder')}" />
                 </bean>
+                <bean parent="Uif-InputField" p:propertyName="instituteAttachment.moduleStatusCode"
+                      p:readOnlyDisplayReplacementPropertyName="instituteAttachment.narrativeStatus.description"
+                      p:enableAutoQuickfinder="false"
+                      p:required="true" p:order="15" />
                 <bean parent="Uif-InputField" p:propertyName="instituteAttachment.moduleTitle"
                      p:order="20" />
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.showFileAttachmentName(proposalDevelopmentAttachmentHelper,'#{T(org.kuali.kra.infrastructure.Constants).INSTITUTIONAL_ATTACHMENT_TYPE_NAME}')}"
