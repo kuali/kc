@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.sys.framework.view.KcTransactionalDocumentView;
 import org.kuali.coeus.sys.impl.lock.PessimisticLockConstants;

@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;

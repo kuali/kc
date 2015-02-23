@@ -36,7 +36,7 @@ import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 
 public class ProposalDevelopmentRulesEngineExecutorImpl  extends KcRulesEngineExecuter  {
