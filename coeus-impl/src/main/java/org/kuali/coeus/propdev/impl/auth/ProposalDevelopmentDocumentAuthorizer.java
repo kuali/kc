@@ -528,14 +528,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     protected boolean isAuthorizedToAddBudget(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
 
-        boolean hasPermission = false;
-
         boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument());
 
-        if ((!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && !pdDocument.isViewOnly() && !pdDocument.getDevelopmentProposal().getSubmitFlag() && !pdDocument.getDevelopmentProposal().isParent()) {
-            hasPermission = getModifyNarrativePermission(pdDocument, user);
-        }
-        return hasPermission;
+        return (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && !pdDocument.isViewOnly() && !pdDocument.getDevelopmentProposal().getSubmitFlag() && !pdDocument.getDevelopmentProposal().isParent();
+
     }
 
     protected boolean isAuthorizedToAddNarrative(Document document, Person user) {
