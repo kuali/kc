@@ -332,7 +332,8 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
      */
     public void canModifyProposal(FieldGroup fieldGroup, Object model, ProposalDevelopmentDocument document) throws WorkflowException {
         final boolean canModifyProposal = getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(), document, PermissionConstants.MODIFY_PROPOSAL);
-        if (!canModifyProposal) {
+        final boolean canModifyBudget = getKcAuthorizationService().hasPermission(getGlobalVariableService().getUserSession().getPrincipalId(), document, PermissionConstants.MODIFY_BUDGET);
+        if (!canModifyProposal && !canModifyBudget) {
             fieldGroup.setRender(false);
         }
     }
