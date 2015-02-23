@@ -20,13 +20,13 @@ package org.kuali.coeus.common.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.external.customercreation.CustomerConstants;
 import org.kuali.kra.external.customercreation.CustomerCreationClient;
 import org.kuali.kra.external.dunningcampaign.DunningCampaignClient;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -47,6 +47,7 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
     private DataDictionaryService dataDictionaryService;
     private DunningCampaignClient dunningCampaignClient;
     private GlobalVariableService globalVariableService;
+    private ParameterService parameterService;
 
     /**
      * Constructs a SponsorMaintenanceDocumentRule.java.
@@ -97,6 +98,7 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         boolean valid = true;
         Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
         if (StringUtils.isNotBlank(sponsor.getDunningCampaignId())
+                && getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.PARAMETER_COMPONENT_DOCUMENT, "FIN_SYSTEM_INTEGRATION_ON_SPONSOR")
                 && getDunningCampaignClient().getDunningCampaign(sponsor.getDunningCampaignId()) == null) {
             String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "dunningCampaignId");
             getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.dunningCampaignId", KeyConstants.ERROR_MISSING, errorLabel);
@@ -109,7 +111,8 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         boolean valid = true;
         Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
         if (StringUtils.equals(sponsor.getCustomerExists(), "Y")) {
-            if (!getCustomerCreationClient().isValidCustomer(sponsor.getCustomerNumber())) {
+            if (getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.PARAMETER_COMPONENT_DOCUMENT, "FIN_SYSTEM_INTEGRATION_ON_SPONSOR")
+                    && !getCustomerCreationClient().isValidCustomer(sponsor.getCustomerNumber())) {
                 String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "customerNumber");
                 getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.customerNumber", KeyConstants.ERROR_MISSING, errorLabel);
                 valid = false;
@@ -155,5 +158,12 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
             this.globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
         }
         return this.globalVariableService;
+    }
+
+    public ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
     }
 }

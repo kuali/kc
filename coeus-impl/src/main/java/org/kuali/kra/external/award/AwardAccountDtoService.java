@@ -69,14 +69,6 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
         } else {
             awardAccountDTO.setSponsorTypeCode(null);
         }
-        awardAccountDTO.setAccountNumber(award.getAccountNumber());
-        awardAccountDTO.setChartOfAcccountsCode(award.getFinancialChartOfAccountsCode());
-        awardAccountDTO.setFinalBill(award.getAwardCgb().isFinalBill());
-        awardAccountDTO.setLastBilledDate(award.getAwardCgb().getLastBilledDate());
-        awardAccountDTO.setPreviousLastBilledDate(award.getAwardCgb().getPreviousLastBilledDate());
-        awardAccountDTO.setAmountToDraw(award.getAwardCgb().getAmountToDraw().bigDecimalValue());
-        awardAccountDTO.setLetterOfCreditReviewIndicator(award.getAwardCgb().isLetterOfCreditReviewIndicator());
-        awardAccountDTO.setInvoiceDocumentStatus(award.getAwardCgb().getInvoiceDocumentStatus());
         
         return awardAccountDTO;
 	}
@@ -95,7 +87,6 @@ public class AwardAccountDtoService extends KcDtoServiceBase<AwardAccountDTO, Aw
      * * Method checks if the award has a federal sponsor.
      * If the award sponsor type code or the prime sponsor type is federal, then
      * the document should be routed.
-     * @see org.kuali.kra.external.award.AwardAccountService#isFederalSponsor(String)
      */
     protected boolean isFederalSponsor(Award award) {
        
