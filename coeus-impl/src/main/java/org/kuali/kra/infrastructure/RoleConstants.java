@@ -45,6 +45,7 @@ public interface RoleConstants {
     public static final String NARRATIVE_WRITER = "Narrative Writer";
     public static final String BUDGET_CREATOR = "Budget Creator";
     public static final String VIEWER = "Viewer";
+    public static final String VIEWER_DOCUMENT_LEVEL = "Viewer Document Level";
     public static final String UNASSIGNED = "unassigned";
     public static final String PROTOCOL_CREATOR = "Protocol Creator";
     public static final String PROTOCOL_AGGREGATOR = "Protocol Aggregator";
