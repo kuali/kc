@@ -37,6 +37,15 @@ update EPS_PROPOSAL_BUDGET_EXT budget set PROPOSAL_NUMBER =
 	where budgetDoc.DOCUMENT_NUMBER = budget.DOCUMENT_NUMBER)
 /
 
+create table EPS_PROPOSAL_BUDGET_EXT_ORPHAN like EPS_PROPOSAL_BUDGET_EXT
+/
+
+insert into EPS_PROPOSAL_BUDGET_EXT_ORPHAN select * from EPS_PROPOSAL_BUDGET_EXT where PROPOSAL_NUMBER is null
+/
+
+delete from EPS_PROPOSAL_BUDGET_EXT where PROPOSAL_NUMBER is null
+/
+
 alter table EPS_PROPOSAL_BUDGET_EXT modify column PROPOSAL_NUMBER varchar(12) not null
 /
 
