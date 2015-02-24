@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.sys.framework.view;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.impl.lock.PessimisticLockConstants;
 import org.kuali.rice.core.api.util.RiceConstants;

@@ -21,7 +21,7 @@ package org.kuali.coeus.common.questionnaire.impl;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;

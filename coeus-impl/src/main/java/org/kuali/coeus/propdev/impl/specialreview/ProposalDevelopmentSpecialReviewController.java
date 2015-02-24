@@ -18,7 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.compliance.core.AddSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewType;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
