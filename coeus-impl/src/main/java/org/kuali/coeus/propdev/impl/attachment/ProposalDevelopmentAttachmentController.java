@@ -109,21 +109,33 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         getKcFileControllerService().getFileFromLine(uifForm,response);
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllComplete")
-    public ModelAndView markAllComplete(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllProposalAttachments")
+    public ModelAndView markAllProposalAttachments(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
                                         BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    	return markAllAttachmentStatus(form, form.getProposalDevelopmentAttachmentHelper().getProposalAttachmentModuleStatusCode());
+    }
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=markAllInternalAttachments")
+    public ModelAndView markAllInternalAttachments(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                        BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    	return markAllAttachmentStatus(form, form.getProposalDevelopmentAttachmentHelper().getInternalAttachmentModuleStatusCode());
+     }
+    
+    protected ModelAndView markAllAttachmentStatus(ProposalDevelopmentDocumentForm form, String moduleStatusCode) {
         final String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, collectionPath);
 
         for (Object object : collection) {
             if(object instanceof Narrative) {
-                ((Narrative) object).setModuleStatusCode(form.getProposalDevelopmentAttachmentHelper().getMarkAllStatus());
+            	Narrative narrative = (Narrative) object;
+            	narrative.setModuleStatusCode(moduleStatusCode);
+            	narrative.setUpdated(true);
                 getDataObjectService().wrap(object).fetchRelationship("narrativeStatus");
             }
         }
         return getRefreshControllerService().refresh(form);
-    }
-
+   }
+    
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNarrative")
     public ModelAndView prepareNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
@@ -219,7 +231,6 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     public ModelAndView addInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
         initializeNarrative(narrative,form);
-        narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         form.getDevelopmentProposal().getInstituteAttachments().add(0,narrative);
         form.getProposalDevelopmentAttachmentHelper().reset();
 
