@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetContainer;
 import org.kuali.coeus.common.budget.framework.income.BudgetPeriodIncomeTotal;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationWrapper;
@@ -34,9 +33,14 @@ import org.kuali.coeus.propdev.impl.budget.nonpersonnel.AddProjectBudgetLineItem
 import org.kuali.coeus.propdev.impl.budget.person.AddProjectPersonnelHelper;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.ToggleMenu;
@@ -58,6 +62,7 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
     private List<DataValidationItem> dataValidationItems;
     private boolean viewOnly = false;
     private List<DevelopmentProposal> hierarchyDevelopmentProposals;
+    private boolean submitBudgetIndicator;
 
     public void initialize() {
     	editableBudgetLineItems = new HashMap<String,List<String>>();
@@ -237,5 +242,30 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
 
     public void setHierarchyDevelopmentProposals(List<DevelopmentProposal> hierarchyDevelopmentProposals) {
         this.hierarchyDevelopmentProposals = hierarchyDevelopmentProposals;
+    }
+
+    public boolean isSubmitBudgetIndicator() {
+        return submitBudgetIndicator;
+    }
+
+    public void setSubmitBudgetIndicator(boolean submitBudgetIndicator) {
+        this.submitBudgetIndicator = submitBudgetIndicator;
+    }
+
+    public boolean isProposalDevelopmentDocumentLocked() {
+        getBudget().getDevelopmentProposal().getProposalDocument().refreshPessimisticLocks();
+        List<PessimisticLock> proposalDevelopmentLocks = getBudget().getDevelopmentProposal().getProposalDocument().getPessimisticLocks();
+        Person user = getGlobalVariableService().getUserSession().getPerson();
+        for (PessimisticLock lock : proposalDevelopmentLocks) {
+            String lockRegion = lock.getLockDescriptor() != null ? StringUtils.split(lock.getLockDescriptor(), "-")[1] : null;
+            if (!lock.isOwnedByUser(user) && StringUtils.equals(lockRegion, KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return KcServiceLocator.getService(GlobalVariableService.class);
     }
 }
