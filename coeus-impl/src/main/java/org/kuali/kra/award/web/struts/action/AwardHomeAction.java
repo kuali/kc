@@ -247,6 +247,8 @@ public class AwardHomeAction extends AwardAction {
                 aaiNew.setAnticipatedChange(aaiNew.getAnticipatedTotalAmount().subtract(aaiOld.getAnticipatedTotalAmount()));
                 aaiNew.setAnticipatedChangeDirect(aaiNew.getAnticipatedTotalDirect().subtract(aaiOld.getAnticipatedTotalDirect()));
                 aaiNew.setAnticipatedChangeIndirect(aaiNew.getAnticipatedTotalIndirect().subtract(aaiOld.getAnticipatedTotalIndirect()));
+                aaiNew.setObliDistributableAmount(aaiNew.getObliDistributableAmount().add(aaiNew.getObligatedChange()));
+                aaiNew.setAntDistributableAmount(aaiNew.getAntDistributableAmount().add(aaiNew.getAnticipatedChange()));
                 } catch (NullPointerException e) {
                   aaiNew.resetChangeValues();
                 }
