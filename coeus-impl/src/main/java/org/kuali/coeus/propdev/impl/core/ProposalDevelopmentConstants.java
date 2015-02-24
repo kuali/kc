@@ -37,6 +37,11 @@ public class ProposalDevelopmentConstants {
         public static final String NOTIFY_ALL_CERTIFICATIONS_COMPLETE = "notifyAggregatorWhenAllCertificationsComplete";
     }
 
+    public static class ParameterValues {
+        public static final String KEY_PERSON_CERTIFICATION_BEFORE_SUBMIT = "BS";
+        public static final String KEY_PERSON_CERTIFICATION_BEFORE_APPROVE = "BA";
+    }
+
     public static class PropertyConstants {
         public static final String DOCUMENT_DEVELOPMENT_PROPOSAL = "document.developmentProposal";
         public static final String PERSONNEL_BIOS = DOCUMENT_DEVELOPMENT_PROPOSAL + ".propPersonBios";
