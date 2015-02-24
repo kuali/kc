@@ -28,8 +28,16 @@ update AWARD_BUDGET_EXT budget set AWARD_ID = (select award.AWARD_ID from AWARD 
 -- in the case an award could not be found, which indicates the award was deleted, save invalid records into orphan table and then delete them
 create table AWARD_BUDGET_EXT_ORPHAN like AWARD_BUDGET_EXT
 /
-
+create table award_budget_limit_orphan like award_budget_limit
+/
+	
+insert into award_budget_limit_orphan select * from award_budget_limit where budget_id in (select budget_id from award_budget_ext where award_id is null)
+/
+	
 insert into AWARD_BUDGET_EXT_ORPHAN select * from AWARD_BUDGET_EXT where AWARD_ID is null
+/
+
+delete from award_budget_limit where budget_id in (select budget_id from award_budget_ext where award_id is null)
 /
 
 delete from AWARD_BUDGET_EXT where AWARD_ID is null
