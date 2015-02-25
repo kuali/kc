@@ -39,7 +39,7 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                            
 
-   <bean id="awardLookupableHelperService" class="org.kuali.kra.award.external.award.AwardCgbLookupableHelperServiceImpl" parent="parentLookupableHelperService"
+   <bean id="awardLookupableHelperService" class="org.kuali.kra.external.award.AwardCgbLookupableHelperServiceImpl" parent="parentLookupableHelperService"
           scope="prototype">
         <property name="kcPersonService" ref="kcPersonService" /> 
         <property name="awardLookupDao" ref="awardLookupDao" />

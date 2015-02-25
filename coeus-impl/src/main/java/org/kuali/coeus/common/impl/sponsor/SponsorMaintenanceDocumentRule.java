@@ -20,13 +20,14 @@ package org.kuali.coeus.common.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
-import org.kuali.coeus.common.framework.sponsor.form.SponsorForms;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.external.customercreation.CustomerConstants;
 import org.kuali.kra.external.customercreation.CustomerCreationClient;
 import org.kuali.kra.external.dunningcampaign.DunningCampaignClient;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -42,11 +43,13 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
     private static final String SPONSOR_CODE_FORMAT_DESCRIPTION = "exactly six(6) alphanumeric characters";
     private static final String SPONSOR_CODE_ERROR_PROPERTY_NAME = "document.newMaintainableObject.sponsorCode";
     private static final String SPONSOR_CODE_REGEX = "[a-zA-Z0-9]{6}";
+    private static final String FIN_SYSTEM_INTEGRATION_ON_SPONSOR = "FIN_SYSTEM_INTEGRATION_ON_SPONSOR";
 
     private CustomerCreationClient customerCreationClient;
     private DataDictionaryService dataDictionaryService;
     private DunningCampaignClient dunningCampaignClient;
     private GlobalVariableService globalVariableService;
+    private ParameterService parameterService;
 
     /**
      * Constructs a SponsorMaintenanceDocumentRule.java.
@@ -97,6 +100,7 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         boolean valid = true;
         Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
         if (StringUtils.isNotBlank(sponsor.getDunningCampaignId())
+                && getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.PARAMETER_COMPONENT_DOCUMENT, FIN_SYSTEM_INTEGRATION_ON_SPONSOR)
                 && getDunningCampaignClient().getDunningCampaign(sponsor.getDunningCampaignId()) == null) {
             String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "dunningCampaignId");
             getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.dunningCampaignId", KeyConstants.ERROR_MISSING, errorLabel);
@@ -108,18 +112,19 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
     protected boolean checkCustomer(MaintenanceDocument document) {
         boolean valid = true;
         Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
-        if (StringUtils.equals(sponsor.getCustomerExists(), "Y")) {
-            if (!getCustomerCreationClient().isValidCustomer(sponsor.getCustomerNumber())) {
+        if (StringUtils.equals(sponsor.getCustomerExists(), CustomerConstants.CustomerOptions.Types.EXISTING.getCode())) {
+            if (getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.PARAMETER_COMPONENT_DOCUMENT, FIN_SYSTEM_INTEGRATION_ON_SPONSOR)
+                    && !getCustomerCreationClient().isValidCustomer(sponsor.getCustomerNumber())) {
                 String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "customerNumber");
                 getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.customerNumber", KeyConstants.ERROR_MISSING, errorLabel);
                 valid = false;
             }
-        } else if (StringUtils.equals(sponsor.getCustomerExists(), "N") &&
+        } else if (StringUtils.equals(sponsor.getCustomerExists(), CustomerConstants.CustomerOptions.Types.NEW.getCode()) &&
                 StringUtils.isBlank(sponsor.getCustomerTypeCode())) {
             String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "customerTypeCode");
             getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.customerTypeCode", KeyConstants.ERROR_MISSING, errorLabel);
             valid = false;
-        } else if (StringUtils.equals(sponsor.getCustomerExists(), "NA")
+        } else if (StringUtils.equals(sponsor.getCustomerExists(), CustomerConstants.CustomerOptions.Types.NO.getCode())
                 && !StringUtils.isBlank(sponsor.getCustomerNumber())
                 && !StringUtils.isBlank(sponsor.getCustomerTypeCode())) {
             String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "customerExists");
@@ -136,11 +141,19 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         return this.customerCreationClient;
     }
 
+    public void setCustomerCreationClient(CustomerCreationClient customerCreationClient) {
+        this.customerCreationClient = customerCreationClient;
+    }
+
     public DataDictionaryService getDataDictionaryService() {
         if (this.dataDictionaryService == null) {
             this.dataDictionaryService = KcServiceLocator.getService(DataDictionaryService.class);
         }
         return this.dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
     public DunningCampaignClient getDunningCampaignClient() {
@@ -150,10 +163,29 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         return dunningCampaignClient;
     }
 
+    public void setDunningCampaignClient(DunningCampaignClient dunningCampaignClient) {
+        this.dunningCampaignClient = dunningCampaignClient;
+    }
+
     public GlobalVariableService getGlobalVariableService() {
         if (this.globalVariableService == null) {
             this.globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
         }
         return this.globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    public ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

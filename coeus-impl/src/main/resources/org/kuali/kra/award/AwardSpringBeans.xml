@@ -275,7 +275,7 @@
           parent="parentLookupableHelperService" scope="prototype" />
           
    <!-- Exposing the award account service as a SOAP service and as a java service -->
-    <bean id="awardAccountService" class="org.kuali.kra.award.external.award.impl.AwardAccountServiceImpl">
+    <bean id="awardAccountService" class="org.kuali.kra.external.award.impl.AwardAccountServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="awardAccountDtoService" ref="awardAccountDtoService" />
     </bean>
@@ -285,7 +285,7 @@
                 p:service-ref="awardAccountService"
                 p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
                 p:localServiceName="awardAccountService"
-                p:serviceInterface="org.kuali.kra.award.external.award.AwardAccountService"
+                p:serviceInterface="org.kuali.kra.external.award.AwardAccountService"
                 p:busSecurity="${fin.system.integration.bus.security.on}"
                 p:retryAttempts="1" />
         </property>
@@ -1128,7 +1128,7 @@
 
     <bean id="awardJavaFunctionKrmsTermService" class="org.kuali.kra.award.service.impl.AwardJavaFunctionKrmsTermServiceImpl"/>
 
-    <bean id="awardDtoService" class="org.kuali.kra.award.external.award.AwardDtoService">
+    <bean id="awardDtoService" class="org.kuali.kra.external.award.AwardDtoService">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService"/>
         <property name="proposalDtoService" ref="proposalDtoService"/>
@@ -1140,13 +1140,13 @@
         <property name="serviceName" value="institutionalProposalService" />
     </bean>
 
-    <bean id="awardAccountDtoService" class="org.kuali.kra.award.external.award.AwardAccountDtoService">
+    <bean id="awardAccountDtoService" class="org.kuali.kra.external.award.AwardAccountDtoService">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService"/>
         <property name="institutionalProposalService" ref="institutionalProposalService"/>
     </bean>
 
-    <bean id="proposalDtoService" class="org.kuali.kra.award.external.award.ProposalDtoService"/>
+    <bean id="proposalDtoService" class="org.kuali.kra.external.award.ProposalDtoService"/>
 
     <bean id="awardBasisOfPaymentDtoService" class="org.kuali.kra.external.awardpayment.AwardBasisOfPaymentDtoService"/>
     <bean id="awardMethodOfPaymentDtoService" class="org.kuali.kra.external.awardpayment.AwardMethodOfPaymentDtoService"/>
@@ -1187,7 +1187,7 @@
         </property>
     </bean>
 
-    <bean id="awardWebService" class="org.kuali.kra.award.external.award.AwardWebServiceImpl">
+    <bean id="awardWebService" class="org.kuali.kra.external.award.AwardWebServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="awardService" ref="awardService" />
         <property name="awardLookupDao" ref="awardLookupDao" />
@@ -1200,7 +1200,7 @@
                   p:service-ref="awardWebService"
                   p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
                   p:localServiceName="awardWebService"
-                  p:serviceInterface="org.kuali.kra.award.external.award.AwardWebService"
+                  p:serviceInterface="org.kuali.kra.external.award.AwardWebService"
                   p:busSecurity="${fin.system.integration.bus.security.on}"
                   p:retryAttempts="1" />
         </property>

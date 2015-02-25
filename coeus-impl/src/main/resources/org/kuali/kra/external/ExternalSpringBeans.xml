@@ -57,7 +57,9 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>org/kuali/kra/external/datadictionary</value>
+                <value>classpath:org/kuali/kra/external/datadictionary/docs/SponsorMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/external/datadictionary/DunningCampaign.xml</value>
+                <value>classpath:org/kuali/kra/external/datadictionary/Sponsor.xml</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">

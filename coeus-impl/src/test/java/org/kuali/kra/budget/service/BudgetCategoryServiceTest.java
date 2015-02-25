@@ -31,9 +31,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryType;
-import org.kuali.kra.budget.external.budget.service.BudgetCategoryDTO;
-import org.kuali.kra.budget.external.budget.service.BudgetCategoryService;
-import org.kuali.kra.budget.external.budget.service.impl.BudgetCategoryServiceImpl;
+import org.kuali.kra.external.budget.service.BudgetCategoryDTO;
+import org.kuali.kra.external.budget.service.BudgetCategoryService;
+import org.kuali.kra.external.budget.service.impl.BudgetCategoryServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class BudgetCategoryServiceTest {

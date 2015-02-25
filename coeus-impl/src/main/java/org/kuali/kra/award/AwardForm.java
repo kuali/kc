@@ -65,7 +65,7 @@ import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.printing.AwardTransactionSelectorBean;
 import org.kuali.kra.award.specialreview.SpecialReviewHelper;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
-import org.kuali.kra.award.external.award.web.AccountCreationPresentationHelper;
+import org.kuali.kra.external.award.web.AccountCreationPresentationHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.common.framework.medusa.MedusaBean;
 import org.kuali.kra.award.service.AwardHierarchyUIService;

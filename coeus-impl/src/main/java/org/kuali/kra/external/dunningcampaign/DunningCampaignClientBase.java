@@ -29,7 +29,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.external.kc.dto.DunningCampaignDTO;
 import org.kuali.kfs.module.external.kc.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.service.DunningCampaignService;
-import org.kuali.kra.award.external.award.impl.AccountCreationClientBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 

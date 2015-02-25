@@ -313,7 +313,7 @@
           <forward name="ajaxDetails" path="/WEB-INF/jsp/award/ReportTrackingAjaxDetails.jsp"/>
       </action>
       
-      <action path="/icrRateCodePrompt" name="AwardForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" type="org.kuali.kra.award.external.award.web.IcrRateCodePromptAction">
+      <action path="/icrRateCodePrompt" name="AwardForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" type="org.kuali.kra.external.award.web.IcrRateCodePromptAction">
           <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />
           <forward name="basic" path="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" />
       </action>

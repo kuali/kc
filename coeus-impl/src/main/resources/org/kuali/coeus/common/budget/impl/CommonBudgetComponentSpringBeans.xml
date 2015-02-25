@@ -31,7 +31,7 @@
 
     <context:annotation-config />
     <context:component-scan base-package="org.kuali.coeus.common.budget" />
-    <context:component-scan base-package="org.kuali.kra.budget.external.budget" />
+    <context:component-scan base-package="org.kuali.kra.external.budget" />
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
@@ -72,7 +72,7 @@
                   p:service-ref="budgetCategoryService"
                   p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
                   p:localServiceName="budgetCategoryService"
-                  p:serviceInterface="org.kuali.kra.budget.external.budget.service"
+                  p:serviceInterface="org.kuali.kra.external.budget.service"
                   p:busSecurity="${fin.system.integration.bus.security.on}"
                   p:retryAttempts="1" />
         </property>

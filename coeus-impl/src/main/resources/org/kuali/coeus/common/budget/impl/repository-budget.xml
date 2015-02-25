@@ -647,7 +647,7 @@
 		</reference-descriptor>
 	</class-descriptor>
 	<!-- Mapping table for the  -->
-	<class-descriptor class="org.kuali.kra.budget.external.budget.FinancialObjectCodeMapping" table="FIN_OBJECT_CODE_MAPPING">
+	<class-descriptor class="org.kuali.kra.external.budget.FinancialObjectCodeMapping" table="FIN_OBJECT_CODE_MAPPING">
 		<field-descriptor name="mappingId" column="MAPPING_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_FIN_OBJECT_CODE_MAPPING_ID"/>
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CODE" jdbc-type="VARCHAR"/>
