@@ -243,7 +243,7 @@ Suppresses the Create New button on the top right corner-->
 				<display:table class="datatable-100" cellspacing="0"
 				requestURIcontext="false" cellpadding="0" name="${reqSearchResults}"
 				id="row" export="true" pagesize="100" varTotals="totals" 
-				excludedParams="methodToCall reqSearchResultsActualSize searchResultKey searchUsingOnlyPrimaryKeyValues actionUrlsExist"
+				excludedParams="methodToCall reqSearchResultsActualSize searchResultKey showMaintenanceLinks searchUsingOnlyPrimaryKeyValues actionUrlsExist"
 				requestURI="lookup.do?methodToCall=viewResults&showMaintenanceLinks=${KualiForm.showMaintenanceLinks}&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}&actionUrlsExist=${KualiForm.actionUrlsExist}">
 
 				<%-- the param['d-16544-e'] parameter below is NOT null when we are in exporting mode, so this check disables rendering of return/action URLs when we are exporting to CSV, excel, xml, etc. --%>
