@@ -52,6 +52,12 @@
 				<bean parent="PropDev-BudgetVersions-GenericActions" p:order="10">
 					<property name="listPrototype.items">
 						<list merge="true">
+                            <bean parent="Uif-ActionLink" p:actionLabel="Complete Budget" p:methodToCall="completeBudget" p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-check" p:order="35">
+                                <property name="confirmationDialog">
+                                    <bean id="PropDev-BudgetVersions-CompleteBudgetConfirm" parent="Uif-DialogGroup-OkCancel"
+                                          p:promptText="Are you sure you want to set this budget to complete?" />
+                                </property>
+                             </bean>
 							<bean parent="Uif-MenuDivider" p:order="40"/>
 			        		<bean parent="Uif-ActionLink" p:actionLabel="Include for Submission"
 								p:methodToCall="markForSubmission" p:additionalSubmitData="budgetId:@{#line.budgetId}"
@@ -79,6 +85,5 @@
 				<bean parent="Uif-DialogDismissButton" p:actionLabel="Okay"/>
 			</list>
 		</property>
-	</bean>	
-
+	</bean>
 </beans>

@@ -194,7 +194,8 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	
 	@Transactional @RequestMapping(params="methodToCall=completeBudget")
 	public ModelAndView completeBudget(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
-		if(!isAllowedToCompleteBudget(form, form.getPageId())) {
+		if(!getProposalBudgetSharedController().isAllowedToCompleteBudget(form.getBudget(),form.getPageId())) {
+            form.setAuditActivated(true);
 	   		form.setAjaxReturnType("update-page");
 		   	return getModelAndViewService().getModelAndView(form);
 		}
@@ -214,23 +215,14 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         }
         return getModelAndViewService().getModelAndView(form);
 	}
-	
-	protected boolean isAllowedToCompleteBudget(ProposalBudgetForm form, String errorPath) {
-		boolean isRulePassed = ((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).applyBudgetAuditRules(form);
-		if(!isRulePassed) {
-	        getGlobalVariableService().getMessageMap().putError(errorPath, KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
-	        form.setAuditActivated(true);
-	        return false;
-		}
-		return true;
-	}
 
 	@Transactional @RequestMapping(params="methodToCall=saveBudgetSettings")
 	public ModelAndView saveBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		ProposalDevelopmentBudgetExt budget = form.getBudget();
 		ProposalDevelopmentBudgetExt originalBudget = (ProposalDevelopmentBudgetExt)getOriginalBudget(form);
-		if(budget.isBudgetComplete() && !isAllowedToCompleteBudget(form, "budget.budgetStatus")) {
-			budget.setBudgetStatus(originalBudget.getBudgetStatus());
+		if(budget.isBudgetComplete() && !getProposalBudgetSharedController().isAllowedToCompleteBudget(budget, "budget.budgetStatus")) {
+			form.setAuditActivated(true);
+            budget.setBudgetStatus(originalBudget.getBudgetStatus());
 	   		return getModelAndViewService().getModelAndView(form);
 		}
     	if(isRateTypeChanged(originalBudget, budget)) {
