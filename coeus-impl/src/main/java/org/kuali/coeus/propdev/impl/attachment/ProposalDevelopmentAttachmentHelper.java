@@ -74,7 +74,7 @@ public class ProposalDevelopmentAttachmentHelper {
     	addNewUpdateNarrativesOnDocument(form.getDevelopmentProposal().getNarratives(),document.getDevelopmentProposal().getNarratives());
     	
     }
-    
+
     public void handleInstAttachmentUpdates(ProposalDevelopmentDocumentForm form, ProposalDevelopmentDocument document) {
     	
     	// Delete Institute attachment which are not on the form - from document.

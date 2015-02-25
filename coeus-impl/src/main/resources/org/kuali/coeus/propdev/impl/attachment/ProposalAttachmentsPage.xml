@@ -193,7 +193,7 @@
                       p:successCallback="Kc.Dialog.closeDialogWithoutError('PropDev-AttachmentsPage-ProposalDetails')"
                       p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex eq null}" p:order="0"/>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="saveNarrative"
-                      p:successCallback="Kc.Dialog.closeDialogWithoutError('PropDev-AttachmentsPage-ProposalDetails')"
+                      p:successCallback="ajaxSubmitForm('sendNarrativeChangeNotification');"
                       p:render="@{proposalDevelopmentAttachmentHelper.selectedLineIndex ne null}" p:order="10"/>
             </list>
         </property>

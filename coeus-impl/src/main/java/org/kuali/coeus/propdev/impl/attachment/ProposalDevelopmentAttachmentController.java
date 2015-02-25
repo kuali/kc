@@ -23,6 +23,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.propdev.impl.core.*;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
+import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.attachment.AddPersonnelAttachmentEvent;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
@@ -297,7 +299,31 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.setUpdateComponentId("PropDev-AttachmentsPage-ProposalDetails");
             form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
+
+        if(form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
+            ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getProposalDevelopmentDocument().getDevelopmentProposal(),
+                Constants.DATA_OVERRIDE_NOTIFICATION_ACTION, Constants.DATA_OVERRIDE_CONTEXT);
+            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(form.getProposalDevelopmentDocument().getDevelopmentProposal());
+            if (form.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                form.getNotificationHelper().initializeDefaultValues(context);
+                form.setSendNarrativeChangeNotification(true);
+            }
+            else {
+                getKcNotificationService().sendNotification(context);
+            }
+        }
         return getRefreshControllerService().refresh(form);
+    }
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendNarrativeChangeNotification")
+    public ModelAndView sendNarrativeChangeNotification(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm) {
+        if (proposalDevelopmentDocumentForm.isSendNarrativeChangeNotification()) {
+             final String step = proposalDevelopmentDocumentForm.getNotificationHelper().getNotificationRecipients().isEmpty() ? "0" : "2";
+                proposalDevelopmentDocumentForm.getActionParameters().put("Kc-SendNotification-Wizard.step", step);
+                return getModelAndViewService().showDialog("Kc-SendNotification-Wizard", true, proposalDevelopmentDocumentForm);
+        }
+        proposalDevelopmentDocumentForm.setSendNarrativeChangeNotification(false);
+        return getModelAndViewService().getModelAndView(proposalDevelopmentDocumentForm);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveBiography")

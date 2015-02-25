@@ -130,6 +130,7 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     private List<String> unitRulesMessages = new ArrayList<String>();
 
     private ProposalDevelopmentBudgetExt selectedBudget;
+    private boolean sendNarrativeChangeNotification;
 
 
     public ProposalPersonQuestionnaireHelper getProposalPersonQuestionnaireHelper() {
@@ -559,6 +560,15 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     public void setSendOverrideNotification(boolean proposalChangedDataSendNotification) {
         this.sendOverrideNotification = proposalChangedDataSendNotification;
     }
+
+    public void setSendNarrativeChangeNotification(boolean send) {
+        this.sendNarrativeChangeNotification = send;
+    }
+
+    public boolean isSendNarrativeChangeNotification() {
+        return sendNarrativeChangeNotification;
+    }
+
     public ReportHelper getReportHelper() {
         return reportHelper;
     }
