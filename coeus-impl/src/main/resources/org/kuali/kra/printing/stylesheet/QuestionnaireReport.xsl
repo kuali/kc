@@ -536,22 +536,23 @@
 																<fo:table-column column-width="75%"/>
 																<fo:table-column column-width="25%"/>
 																<fo:table-body>
-																	<fo:table-row>
-																		<fo:table-cell padding="2pt" display-align="auto">
-																			<fo:block>
-																				My signature below certifies that I hereby authorize the above referenced proposal to be submitted as an institutionally authorized proposal.
-																			<fo:block>
-																				<xsl:text>&#160;</xsl:text>
-																			</fo:block>
-																			<fo:block>
-																				Please contact your department Chairperson, Dean or OSPR if you cannot certify the following:
-																			</fo:block>
-																		</fo:table-cell>
-																		<fo:table-cell padding="2pt" display-align="auto">
-																			<fo:block>
-																			</fo:block>
-																		</fo:table-cell>
-																	</fo:table-row>																	
+                                                                    <fo:table-row>
+                                                                         <fo:table-cell padding="2pt" display-align="auto">
+                                                                             <fo:block>
+                                                                                 My signature below certifies that I hereby authorize the above referenced proposal to be submitted as an institutionally authorized proposal.
+                                                                             </fo:block>
+                                                                             <fo:block>
+                                                                                <xsl:text>&#160;</xsl:text>
+                                                                             </fo:block>
+                                                                             <fo:block>
+                                                                                 Please contact your department Chairperson, Dean or OSPR if you cannot certify the following:
+                                                                             </fo:block>
+                                                                         </fo:table-cell>
+                                                                         <fo:table-cell padding="2pt" display-align="auto">
+                                                                             <fo:block>
+                                                                             </fo:block>
+                                                                         </fo:table-cell>
+                                                                    </fo:table-row>
 																</fo:table-body>
 															</fo:table>
 														</fo:table-cell>
