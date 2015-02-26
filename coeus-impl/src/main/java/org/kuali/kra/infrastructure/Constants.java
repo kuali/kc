@@ -169,7 +169,7 @@ public interface Constants {
 
     public static final String PROPOSAL_DEVELOPMENT_CREATE_IACUC_PROTOCOL_ENABLED_PARAMETER = "ENABLE_CREATE_PROPOSAL_TO_IACUC_PROTOCOL";
     public static final String PROPOSAL_DEVELOPMENT_CREATE_IRB_PROTOCOL_ENABLED_PARAMETER = "ENABLE_CREATE_PROPOSAL_TO_IRB_PROTOCOL";
-    
+
     // Key Personnel Mojo
     public static final String KEY_PERSONNEL_PAGE = "PropDev-PersonnelPage";
     public static final String CREDIT_ALLOCATION_PAGE = "PropDev-CreditAllocationPage";
@@ -183,6 +183,10 @@ public interface Constants {
     public static final String CREDIT_SPLIT_KEY = "document.developmentProposalList[0].creditSplit";
     public static final String PERSON_CERTIFICATE = "proposalPersonCertificate";
     public static final String PERSON_COMMENT = "personComment";
+
+    /*Proposal notification constants*/
+    public static final String DATA_OVERRIDE_NOTIFICATION_ACTION = "102";
+    public static final String DATA_OVERRIDE_CONTEXT = "Proposal Data Override";
    
     /* set values for ynq */
     public static final Integer ANSWER_YES_NO = 2;

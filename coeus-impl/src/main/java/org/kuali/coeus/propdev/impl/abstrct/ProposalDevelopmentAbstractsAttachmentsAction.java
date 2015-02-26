@@ -428,7 +428,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         pd.getDevelopmentProposal().replaceAttachment(getSelectedLine(request));
 
         ProposalDevelopmentNotificationContext context = 
-            new ProposalDevelopmentNotificationContext(pd.getDevelopmentProposal(), "102", "Proposal Data Override");
+            new ProposalDevelopmentNotificationContext(pd.getDevelopmentProposal(), Constants.DATA_OVERRIDE_NOTIFICATION_ACTION, Constants.DATA_OVERRIDE_CONTEXT);
         ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(modifiedNarrative);
         if (proposalDevelopmentForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
             proposalDevelopmentForm.getNotificationHelper().initializeDefaultValues(context);
