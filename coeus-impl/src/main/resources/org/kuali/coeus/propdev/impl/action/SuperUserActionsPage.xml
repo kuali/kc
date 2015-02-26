@@ -37,7 +37,15 @@
             <bean parent="Uif-PageHeader" p:headerText="Super User Actions" />
         </property>
         <property name="footer">
-            <null />
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						 <bean parent="Uif-SecondaryActionButton" p:methodToCall="closeWithoutSave"
+						 p:preSubmitCall="dirtyFormState.skipDirtyChecks = true; return true;" 
+						 p:actionLabel="Close" p:order="10" />
+					</list>
+				</property>
+			</bean>
         </property>
     </bean>
 
