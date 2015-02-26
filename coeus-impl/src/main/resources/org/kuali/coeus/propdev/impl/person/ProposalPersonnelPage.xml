@@ -409,7 +409,7 @@
             <list>
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="emailAddress"
                       p:order="10"/>
-                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="secondaryOfficeLocation"
+                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="officeLocation"
                       p:order="20"/>
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="officePhone"
                       p:order="30"/>
@@ -444,7 +444,7 @@
                 <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="state"
                       p:order="180"
                       p:refreshWhenChangedPropertyNames="#lp.countryCode"/>
-                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="officeLocation"
+                <bean parent="PropDev-PersonnelPage-EditableInputField" p:propertyName="secondaryOfficeLocation"
                       p:order="190"/>
                 <bean parent="Uif-DataField" p:propertyName="salaryAnniversaryDate"
                       p:order="200"/>
