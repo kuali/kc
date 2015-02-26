@@ -43,7 +43,6 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
     private static final String SPONSOR_CODE_FORMAT_DESCRIPTION = "exactly six(6) alphanumeric characters";
     private static final String SPONSOR_CODE_ERROR_PROPERTY_NAME = "document.newMaintainableObject.sponsorCode";
     private static final String SPONSOR_CODE_REGEX = "[a-zA-Z0-9]{6}";
-    private static final String FIN_SYSTEM_INTEGRATION_ON_SPONSOR = "FIN_SYSTEM_INTEGRATION_ON_SPONSOR";
 
     private CustomerCreationClient customerCreationClient;
     private DataDictionaryService dataDictionaryService;
@@ -100,7 +99,7 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         boolean valid = true;
         Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
         if (StringUtils.isNotBlank(sponsor.getDunningCampaignId())
-                && getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.PARAMETER_COMPONENT_DOCUMENT, FIN_SYSTEM_INTEGRATION_ON_SPONSOR)
+                && getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.PARAMETER_COMPONENT_DOCUMENT, SponsorConstants.FIN_SYSTEM_INTEGRATION_ON_SPONSOR)
                 && getDunningCampaignClient().getDunningCampaign(sponsor.getDunningCampaignId()) == null) {
             String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "dunningCampaignId");
             getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.dunningCampaignId", KeyConstants.ERROR_MISSING, errorLabel);
@@ -113,7 +112,7 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         boolean valid = true;
         Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
         if (StringUtils.equals(sponsor.getCustomerExists(), CustomerConstants.CustomerOptions.Types.EXISTING.getCode())) {
-            if (getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.PARAMETER_COMPONENT_DOCUMENT, FIN_SYSTEM_INTEGRATION_ON_SPONSOR)
+            if (getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.PARAMETER_COMPONENT_DOCUMENT, SponsorConstants.FIN_SYSTEM_INTEGRATION_ON_SPONSOR)
                     && !getCustomerCreationClient().isValidCustomer(sponsor.getCustomerNumber())) {
                 String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, "customerNumber");
                 getGlobalVariableService().getMessageMap().putError("document.newMaintainableObject.customerNumber", KeyConstants.ERROR_MISSING, errorLabel);
