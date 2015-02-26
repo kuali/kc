@@ -40,6 +40,7 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.kns.web.ui.SectionBridge;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 
@@ -58,6 +59,7 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
     private transient DataFieldMaxValueIncrementer sponsorCodeIncrementer;
     private transient SequenceAccessorService sequenceAccessorService;
     private transient GlobalVariableService globalVariableService;
+    private transient BusinessObjectService businessObjectService;
 
     @Override
     public void setGenerateDefaultValues(String docTypeName) {
@@ -177,6 +179,7 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
         			rolodex.setOwnedByUnit(sponsor.getOwnedByUnit());
         			rolodex.setSponsorAddressFlag(true);
         			rolodex.setActive(sponsor.isActive());
+                    getBusinessObjectService().save(rolodex);
         		}
         	}
     		super.saveDataObject();
@@ -224,5 +227,16 @@ public class SponsorMaintainableImpl extends KraMaintainableImpl {
 
     public void setGlobalVariableService(GlobalVariableService globalVariableService) {
         this.globalVariableService = globalVariableService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }
