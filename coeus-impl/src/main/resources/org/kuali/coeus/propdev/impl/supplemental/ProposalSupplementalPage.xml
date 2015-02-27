@@ -73,6 +73,16 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:render="false" />
                     </property>
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:render="false" p:dataObjectClassName="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup"
+                              p:inquiryParameters="value:value,customAttribute.lookupReturn:argumentName"
+                              p:viewName="PropDev-CustomData-ArgValueInquiry"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="customAttribute.lookupReturn" p:fieldLabel.render="false">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl" />
+                    </property>
                 </bean>
             </list>
         </property>

@@ -49,6 +49,7 @@ public class ProposalDevelopmentCustomDataField extends InputFieldBase {
                 valuesFinder.setArgName(customData.getCustomAttribute().getLookupReturn());
                 valuesFinder.setAddBlankOption(false);
                 setOptionsFinder(valuesFinder);
+                getInquiry().setRender(true);
             } else {
                 if (customData.getCustomAttribute().getLookupClass().equals(KcPerson.class.getName())) {
                     if (customData.getCustomAttribute().getLookupReturn().equals("userName")) {

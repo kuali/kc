@@ -228,4 +228,11 @@
             </list>
         </property>
     </bean>
+
+    <bean id="PropDev-CustomData-ArgValueInquiry" parent="PropDev-CustomData-ArgValueInquiry-parentBean"/>
+    <bean id="PropDev-CustomData-ArgValueInquiry-parentBean" abstract="true" parent="ArgValueLookup-InquiryView"
+          p:viewName="PropDev-CustomData-ArgValueInquiry"
+          p:viewHelperService="#{#getService('proposalDevelopmentCustomDataInquirable')}">
+
+    </bean>
 </beans>
