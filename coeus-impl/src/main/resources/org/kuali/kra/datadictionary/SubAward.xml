@@ -410,7 +410,7 @@
     <property name="shortLabel" value="Requisitioner ID" />
     <property name="displayLabelAttribute" value="requisitionerUserName" />
         <property name="control">
-            <bean parent="TextControlDefinition" p:size="15" />
+            <bean parent="TextControlDefinition" p:size="40" />
         </property>
   </bean>
   
