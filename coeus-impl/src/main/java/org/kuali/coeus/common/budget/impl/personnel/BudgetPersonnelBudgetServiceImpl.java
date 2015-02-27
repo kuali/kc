@@ -294,7 +294,6 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         	addPersonnelToPeriod(budgetPeriod, groupedBudgetLineItem, newBudgetPersonnelDetail);
         	calculateBudgetPersonnelLineItem(budget, groupedBudgetLineItem, newBudgetPersonnelDetail, newLineNumber);
     	}
-    	groupedBudgetLineItem = getDataObjectService().save(groupedBudgetLineItem);
     	if(newLineItem) {
             budgetPeriod.getBudgetLineItems().add(groupedBudgetLineItem);
     	}

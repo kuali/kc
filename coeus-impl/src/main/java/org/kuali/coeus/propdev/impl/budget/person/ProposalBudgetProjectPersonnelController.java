@@ -240,8 +240,9 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		boolean rulePassed = isAddRulePassed(budget, currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail);
 		if(rulePassed) {
 			getBudgetPersonnelBudgetService().addBudgetPersonnelToPeriod(currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail);
-			form.getAddProjectPersonnelHelper().reset();
 		    getBudgetCalculationService().calculateBudgetPeriod(budget, currentTabBudgetPeriod);
+		    getDataObjectService().save(budget);
+			form.getAddProjectPersonnelHelper().reset();
 		}
 		return getModelAndViewService().getModelAndView(form);
 	}
