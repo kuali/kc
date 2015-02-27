@@ -24,6 +24,7 @@
 			<description>Document used to create or update Proposal Status business objects.</description>
 			<label>Proposal Status Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
+            <helpDefinitionURL>default.htm?turl=Documents/institutionalproposalstatus.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

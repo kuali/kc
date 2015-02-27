@@ -27,7 +27,7 @@
 			<blanketApproveWorkgroupName>KC-WKFLW:QuestionnaireAdmin</blanketApproveWorkgroupName>
 			<postProcessorName>org.kuali.coeus.common.questionnaire.impl.core.QuestionnairePostProcessor</postProcessorName>
             <docHandler>${kuali.docHandler.url.prefix}/maintenanceQn.do?methodToCall=docHandler</docHandler>
-            <helpDefinitionURL>default.htm?turl=Documents/questionnaire1.htm</helpDefinitionURL>
+            <helpDefinitionURL>default.htm?turl=Documents/questionnaire11.htm</helpDefinitionURL>
             <policies>
                <policy>
                  <name>INITIATOR_MUST_BLANKET_APPROVE</name>

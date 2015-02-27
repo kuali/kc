@@ -24,6 +24,7 @@
 			<description>Create a New IP Review Result Type</description>
 			<label>IP Review Result Type</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/ipreviewresulttype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

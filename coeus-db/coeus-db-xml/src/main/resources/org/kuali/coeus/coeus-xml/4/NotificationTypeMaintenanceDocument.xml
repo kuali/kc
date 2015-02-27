@@ -24,7 +24,7 @@
 			<description>Create/Edit a Notification</description>
 			<label>Notification</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-            <helpDefinitionURL>default.htm?turl=Documents/notifications.htm</helpDefinitionURL>			
+            <helpDefinitionURL>default.htm?turl=Documents/notification.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

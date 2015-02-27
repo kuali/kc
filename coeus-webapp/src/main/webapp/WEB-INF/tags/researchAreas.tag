@@ -31,7 +31,6 @@
     <div style = "border: 1px solid #BDBDBD; margin-left : 10px; margin-right : 10px" >
         <h3>
             <span class="subhead-left"> Research Areas Hierarchy </span>
-            <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.irb.ResearchArea" altText="help"/> </span>
         </h3>
         <br/>
         <div align="left" style = " margin-left : 20px">

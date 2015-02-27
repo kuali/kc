@@ -30,7 +30,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="customData">
   	
-  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Custom Data" /></div>
+  	<div align="right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolCustomDataHelp" altText="Help"/></div>
 
 	<kra-customdata:customDataTab excludeInactive="true" />
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />

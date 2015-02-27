@@ -24,6 +24,7 @@
 			<description>Create a New Negotiation Status</description>
 			<label>Negotiation Status</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/negotiationstatus.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

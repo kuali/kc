@@ -24,6 +24,7 @@
 			<description>Document used to create or update Proposal Log Status business objects.</description>
 			<label>Proposal Log Status Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/proposallogstatus.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

@@ -24,6 +24,7 @@
 			<description>Create a New Sponsor Template</description>
 			<label>Sponsor Template</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/sponsortemplate1.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

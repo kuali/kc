@@ -24,6 +24,7 @@
 			<description>Document used to create or update Subaward Forms business objects.</description>
 			<label>Subaward Forms Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/subawardforms.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

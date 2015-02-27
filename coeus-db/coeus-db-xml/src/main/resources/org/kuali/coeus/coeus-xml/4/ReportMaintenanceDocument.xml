@@ -24,6 +24,7 @@
 			<description>Create a New Report Type</description>
 			<label>Report Type</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/report.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

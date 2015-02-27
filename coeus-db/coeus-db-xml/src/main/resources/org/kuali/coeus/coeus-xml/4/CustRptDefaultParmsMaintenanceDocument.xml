@@ -24,6 +24,7 @@
 			<description>Create a New Cust Rpt Default Parms</description>
 			<label>CustRpt Default Parms MaintenanceDocument</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/customreportdefaultparms.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

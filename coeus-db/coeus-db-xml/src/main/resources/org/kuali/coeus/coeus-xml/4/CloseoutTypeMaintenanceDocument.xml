@@ -24,6 +24,7 @@
 			<description>Document used to create or update Closeout Type business objects.</description>
 			<label>Closeout Type Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/closeouttype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>
