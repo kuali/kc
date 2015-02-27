@@ -191,7 +191,16 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
         }
         FormPrintResult formPrintResult = getFormPrintService().printForm(proposalDevelopmentDocument);
 
-
+        setValidationErrorMessage(formPrintResult.getErrors());
+        KcFile attachmentDataSource = formPrintResult.getFile();
+        if(attachmentDataSource==null || attachmentDataSource.getData()==null || attachmentDataSource.getData().length==0
+                || !formPrintResult.getErrors().isEmpty()){
+            boolean grantsGovErrorExists = copyAuditErrorsToPage(Constants.GRANTSGOV_ERRORS, "grantsGovFormValidationErrors");
+            if(grantsGovErrorExists){
+                getGlobalVariableService().getMessageMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+            }
+            return getModelAndViewService().getModelAndView(form);
+        }
         if (proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag()) {
             File grantsGovXmlDirectoryFile = getS2sSubmissionService().getGrantsGovSavedFile(proposalDevelopmentDocument);
             byte[] bytes = new byte[(int) grantsGovXmlDirectoryFile.length()];
@@ -206,16 +215,7 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
             proposalDevelopmentDocument.getDevelopmentProposal().setGrantsGovSelectFlag(false);
             return getModelAndViewService().getModelAndView(form);
         }
-        setValidationErrorMessage(formPrintResult.getErrors());
-        KcFile attachmentDataSource = formPrintResult.getFile();
-        if(attachmentDataSource==null || attachmentDataSource.getData()==null || attachmentDataSource.getData().length==0
-                || !formPrintResult.getErrors().isEmpty()){
-            boolean grantsGovErrorExists = copyAuditErrorsToPage(Constants.GRANTSGOV_ERRORS, "grantsGovFormValidationErrors");
-            if(grantsGovErrorExists){
-                getGlobalVariableService().getMessageMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
-            }
-            return getModelAndViewService().getModelAndView(form);
-        }
+
         ControllerFileUtils.streamToResponse(attachmentDataSource, response);
         return getModelAndViewService().getModelAndView(form);
     }
