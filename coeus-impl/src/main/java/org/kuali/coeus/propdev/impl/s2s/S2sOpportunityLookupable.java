@@ -20,17 +20,20 @@ package org.kuali.coeus.propdev.impl.s2s;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +47,10 @@ public class S2sOpportunityLookupable extends LookupableImpl {
     @Qualifier("s2sOpportunityLookupKradKnsHelperService")
     private S2sOpportunityLookupKradKnsHelperService s2sOpportunityLookupKradKnsHelperService;
 
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
     @Override
     public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
 
@@ -51,7 +58,33 @@ public class S2sOpportunityLookupable extends LookupableImpl {
         final String cfdaNumber = searchCriteria.get(Constants.CFDA_NUMBER);
         final String opportunityId = searchCriteria.get(Constants.OPPORTUNITY_ID);
 
-        return s2sOpportunityLookupKradKnsHelperService.performSearch(providerCode, cfdaNumber, opportunityId);
+        List<?> opportunities = s2sOpportunityLookupKradKnsHelperService.performSearch(providerCode, cfdaNumber, opportunityId);
+        if (CollectionUtils.isEmpty(opportunities)) {
+            addNotFoundMessage();
+        }
+
+        return opportunities;
     }
 
+    protected void addNotFoundMessage() {
+        MessageMap messageMap = globalVariableService.getMessageMap();
+        messageMap.putInfoForSectionId(UifConstants.MessageKeys.LOOKUP_RESULT_MESSAGES,
+                RiceKeyConstants.INFO_LOOKUP_RESULTS_NONE_FOUND);
+    }
+
+    public S2sOpportunityLookupKradKnsHelperService getS2sOpportunityLookupKradKnsHelperService() {
+        return s2sOpportunityLookupKradKnsHelperService;
+    }
+
+    public void setS2sOpportunityLookupKradKnsHelperService(S2sOpportunityLookupKradKnsHelperService s2sOpportunityLookupKradKnsHelperService) {
+        this.s2sOpportunityLookupKradKnsHelperService = s2sOpportunityLookupKradKnsHelperService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }
