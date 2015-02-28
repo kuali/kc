@@ -772,15 +772,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         List<Map<String,String>> qualifiers = roleService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualification);
         for (Map<String,String> qualifier : qualifiers) {
-        	String unitNumber = qualifier.get(KcKimAttributes.UNIT_NUMBER);
-        	boolean userHasPermission = unitAuthorizationService.hasPermission(userId, unitNumber, namespaceCode, permissionName);
-            if(userHasPermission) {
-            	Unit unit = getUnitService().getUnit(unitNumber);
-                if (unit != null) {
-                    units.add(unit);
-                    if (qualifier.containsKey(KcKimAttributes.SUBUNITS) && StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS))) {
-                        addDescendantUnits(unit, units, userId, namespaceCode, permissionName);
-                    }
+            Unit unit = getUnitService().getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
+            if (unit != null) {
+                units.add(unit);
+                if (qualifier.containsKey(KcKimAttributes.SUBUNITS) && StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS))) {
+                    addDescendantUnits(unit, units);
                 }
             }
         }
@@ -793,16 +789,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
     
-    protected void addDescendantUnits(Unit parentUnit, Set<Unit> units, String userId, String namespaceCode, String permissionName) {
+    protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) {
         List<Unit> subunits = getUnitService().getSubUnits(parentUnit.getUnitNumber());
         if (CollectionUtils.isNotEmpty(subunits)) {
-                for (Unit subunit : subunits) {
-                   	boolean userHasPermission = unitAuthorizationService.hasPermission(userId, subunit.getUnitNumber(), namespaceCode, permissionName);
-                   	if(userHasPermission) {
-                   		units.add(subunit);
-                       	addDescendantUnits(subunit, units, userId, namespaceCode, permissionName);
-                   	}
-                }
+            units.addAll(subunits);
+            for (Unit subunit : subunits) {
+                addDescendantUnits(subunit, units);
+            }
         }
     }
     
