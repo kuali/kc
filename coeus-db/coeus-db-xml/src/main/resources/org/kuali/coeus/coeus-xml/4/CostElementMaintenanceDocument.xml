@@ -24,7 +24,7 @@
 			<description>Create/Edit a Cost Element</description>
 			<label>Cost Element Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/costelement.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/objectcode1.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

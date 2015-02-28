@@ -24,7 +24,7 @@
 			<description>Create a New Science Keyword</description>
 			<label>Science Keyword</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/sciencekeyword.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/keywords2.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

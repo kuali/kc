@@ -24,7 +24,7 @@
 			<description>Create/Edit a Rate Class Inclusion</description>
 			<label>Rate Class Inclusion Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/rateclassBaseInclusion.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/rateclassinclusion1.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

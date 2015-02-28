@@ -24,6 +24,7 @@
 			<description>Create a New Report Type</description>
 			<label>Subaward Report Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/subawardreporttype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

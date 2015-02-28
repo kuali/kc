@@ -24,6 +24,7 @@
             <description>Create/Edit a Proposal Location Type</description>
             <label>Proposal Location Type</label>
             <parent>KcProposalsMaintenanceDocument</parent>
+            <helpDefinitionURL>default.htm?turl=Documents/proposallocationtype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    
 </data>

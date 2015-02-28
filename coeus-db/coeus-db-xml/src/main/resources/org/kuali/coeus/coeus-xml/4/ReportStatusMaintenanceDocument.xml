@@ -24,6 +24,7 @@
 			<description>Create a New Report Status</description>
 			<label>Report Status</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/reportstatus.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

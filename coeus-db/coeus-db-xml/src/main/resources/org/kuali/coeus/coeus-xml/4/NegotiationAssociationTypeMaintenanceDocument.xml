@@ -24,6 +24,7 @@
 			<description>Create a New Negotiation Association Type</description>
 			<label>Negotiation Status</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/negotiationassociationtype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

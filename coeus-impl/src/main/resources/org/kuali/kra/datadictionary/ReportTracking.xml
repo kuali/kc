@@ -409,7 +409,10 @@
     <bean id="ReportTracking-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Award Reporting Lookup" /><property name="lookupableID" value="reportTrackingLookupable" />
         <property name="defaultSort" >
-      <bean parent="SortDefinition"/>
+            <bean parent="SortDefinition"/>
+        </property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="reportTrackingLookupHelp" p:parameterDetailType="Document"/>
         </property>
         <property name="lookupFields" >
             <list>

@@ -24,6 +24,7 @@
 			<description>Create a New Subaward Attachment Type</description>
 			<label>Subaward Attachment Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/subawardattachmenttype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

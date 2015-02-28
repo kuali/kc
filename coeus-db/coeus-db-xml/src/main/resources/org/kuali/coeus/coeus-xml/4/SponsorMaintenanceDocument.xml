@@ -24,7 +24,7 @@
 			<description>Create a New Sponsor Type</description>
 			<label>Sponsor</label>
 			<parent>KcMiscellaneousMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/sponsor.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/sponsor1.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

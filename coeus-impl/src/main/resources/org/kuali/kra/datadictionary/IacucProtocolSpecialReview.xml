@@ -29,7 +29,7 @@
 			<ref bean="IacucProtocolSpecialReview-lookupDefinition" />
 		</property>
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="iacucProtocolSpecialReviewHelp" p:parameterDetailType="Document" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="iacucProtocolSpecialReviewHelp" p:parameterDetailType="Document" />
         </property>
 		<property name="titleAttribute" value="protocolSpecialReviewId" />
 		<property name="attributes" >

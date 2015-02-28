@@ -50,7 +50,7 @@
 	        <span class="subhead-left">
 	        	<c:out value="${currentSummaryDisplay}"/>
 	        </span>
-  			<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolIncludedCategoriesHelp" altText="Help"/></span>
+  			<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolProcedureSummaryHelp" altText="Help"/></span>
      	</h3>
 		<c:forEach items="${KualiForm.document.protocolList[0].iacucProtocolStudyGroupSpeciesList}" var="procedureSpecies" varStatus="status">
 			<c:set var="tabTitle" value="${procedureSpecies.iacucSpecies.speciesName}" />

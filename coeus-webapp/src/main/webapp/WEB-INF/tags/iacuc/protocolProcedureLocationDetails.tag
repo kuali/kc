@@ -30,7 +30,7 @@
 	<div class="innerTab-container" align="left">
     	<h3>
     		<span class="subhead-left">Location</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="${businessObjectClassName}" altText="help"/></span>
+    		<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolProcedureLocationHelp" altText="Help"/></span>
         </h3>
         
         <table id="procedureLocationsTableId" cellpadding="0" cellspacing="0" summary="">

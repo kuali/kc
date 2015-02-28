@@ -29,7 +29,7 @@
 			<ref bean="IacucProtocolPerson-lookupDefinition" />
 		</property>
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="protocolPersonnelHelpUrl" p:parameterDetailType="Document" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolPersonnelHelp" p:parameterDetailType="Document" />
         </property>
 		<property name="titleAttribute" value="protocolPersonId" />
 		<property name="attributes" >

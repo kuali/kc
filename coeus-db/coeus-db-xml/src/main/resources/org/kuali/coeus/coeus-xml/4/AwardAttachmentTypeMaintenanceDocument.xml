@@ -26,6 +26,7 @@
             <description>Create/Edit an Award Attachment Type</description>
             <label>Award Attachment Type</label>
             <parent>KcAwardsMaintenanceDocument</parent>
+            <helpDefinitionURL>default.htm?turl=Documents/attachmenttype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>
 </data>

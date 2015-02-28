@@ -24,6 +24,7 @@
 			<description>Create a New IP Review Activity Type</description>
 			<label>IP Review Activity Type</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/ipreviewactivitytype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

@@ -24,6 +24,7 @@
 			<description>Document used to create or update Valid Frequency Base business objects.</description>
 			<label>Valid Frequency Base Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/validfrequencybase.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

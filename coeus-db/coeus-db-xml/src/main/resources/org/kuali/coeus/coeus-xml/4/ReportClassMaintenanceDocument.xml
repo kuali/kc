@@ -24,6 +24,7 @@
 			<description>Create a New Report Class</description>
 			<label>Report Class</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/reportclass.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

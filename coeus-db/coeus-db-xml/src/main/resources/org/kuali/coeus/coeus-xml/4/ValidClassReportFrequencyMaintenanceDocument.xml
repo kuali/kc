@@ -24,6 +24,7 @@
 			<description>Document used to create or update Valid Class Report Frequency business objects.</description>
 			<label>Valid Class Report Frequency Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/validclassreportfrequency.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

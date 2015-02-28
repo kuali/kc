@@ -24,6 +24,7 @@
 			<description>Create/Edit Person Signature Details</description>
 			<label>Person Signature Details</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/personsignature.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

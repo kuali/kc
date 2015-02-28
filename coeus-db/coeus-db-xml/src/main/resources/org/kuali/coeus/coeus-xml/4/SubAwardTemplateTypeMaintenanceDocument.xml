@@ -24,7 +24,7 @@
 			<description>Document used to create or update Subaward Template Type business objects.</description>
 			<label>Subaward Template Type Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/subawardstatus.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/subawardtemplatetype.htm</helpDefinitionURL>
 			</documentType>
 	</documentTypes>	
 </data>

@@ -24,7 +24,7 @@
             <description>Create a new Document Access</description>
             <label>Proposal Award Person Role Maintenance Document</label>
             <parent>KcSharedMaintenanceDocument</parent>
-            <helpDefinitionURL>default.htm?turl=Documents/documentaccess.htm</helpDefinitionURL>
+            <helpDefinitionURL>default.htm?turl=Documents/proposalawardpersonrole.htm</helpDefinitionURL>
             <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
         </documentType>
     </documentTypes>

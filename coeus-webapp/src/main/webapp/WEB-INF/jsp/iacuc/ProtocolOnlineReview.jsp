@@ -52,7 +52,9 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="onlineReview">
 
-<c:choose>
+    <div align="right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolSpecialReviewHelp" altText="Help"/></div>
+
+    <c:choose>
     <c:when test = "${KualiForm.editingMode['maintainIacucProtocolOnlineReviews']}"> 
     <!--  IRB ADMIN VIEW  -->
         <kul:tabTop tabTitle="Create New Online Review" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS},onlineReviewsActionHelper.new*" >

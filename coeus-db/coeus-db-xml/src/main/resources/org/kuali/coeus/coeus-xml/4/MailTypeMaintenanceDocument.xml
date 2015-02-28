@@ -24,6 +24,7 @@
 			<description>Create/Edit a Mail Type</description>
 			<label>Mail Type</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/mailtype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

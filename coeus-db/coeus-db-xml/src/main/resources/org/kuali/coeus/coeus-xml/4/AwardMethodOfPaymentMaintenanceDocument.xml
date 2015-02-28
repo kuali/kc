@@ -24,6 +24,7 @@
 			<description>Create a New Award Method Of Payment</description>
 			<label>Award Basis Of Payment</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/methodofpayment.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

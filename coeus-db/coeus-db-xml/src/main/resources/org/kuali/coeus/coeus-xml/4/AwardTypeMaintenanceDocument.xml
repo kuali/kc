@@ -24,6 +24,7 @@
 			<description>Create a New Award Type</description>
 			<label>Award Type</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/awardtype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

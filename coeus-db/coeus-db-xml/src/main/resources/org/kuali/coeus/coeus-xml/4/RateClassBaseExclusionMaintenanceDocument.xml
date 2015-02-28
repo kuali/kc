@@ -24,7 +24,7 @@
 			<description>Create/Edit a Rate Class Exclusion</description>
 			<label>Rate Class Exclusion Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/rateclassBaseExclusion.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/rateclassexclusion1.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

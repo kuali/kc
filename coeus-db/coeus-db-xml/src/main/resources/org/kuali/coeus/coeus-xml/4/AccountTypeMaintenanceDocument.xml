@@ -24,6 +24,7 @@
 			<description>Create a New Account Type</description>
 			<label>Account Type</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/accounttype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

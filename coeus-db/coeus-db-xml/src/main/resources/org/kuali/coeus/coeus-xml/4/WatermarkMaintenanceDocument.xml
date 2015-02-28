@@ -24,6 +24,7 @@
 			<description>Create/Edit Watermark Details</description>
 			<label>Watermark Details</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/watermark.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

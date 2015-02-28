@@ -24,6 +24,7 @@
 			<description>Create a New S2S Provider</description>
 			<label>S2S Provider</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/s2serror.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

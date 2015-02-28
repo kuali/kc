@@ -28,6 +28,9 @@
 		<property name="lookupDefinition">
 			<ref bean="ResearchArea-lookupDefinition"/>
 		</property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="abstractTypeMaintenanceHelp" p:parameterDetailType="Document"/>
+        </property>
 		<property name="titleAttribute" value="researchAreaCode"/>
 		<property name="attributes">
 			<list>

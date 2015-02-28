@@ -49,7 +49,6 @@
 		    <div id="workarea">
 				<h3>
 					<span class="subhead-left"><bean:write name="KualiForm" property="${protocolPersonProperty}.personName"/></span>
-				    <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.personnel.ProtocolPerson" altText="help"/></span>
 				</h3>
 				<kra-irb:personDetailsSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>
 				<kra-irb:personContactInformationSection personIndex="${status.index}" protocolPerson="${protocolPersonProperty}"/>

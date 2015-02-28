@@ -27,7 +27,7 @@
 <kul:innerTab tabTitle="Personnel" parentTab="${parentTabName}" defaultOpen="true" tabErrorKey="" useCurrentTabIndexAsKey="true">
 		<h3>
   			<span class="subhead-left">Personnel</span>
-  			<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolIncludedCategoriesHelp" altText="Help"/></span>
+  			<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolProcedurePersonnelHelp" altText="Help"/></span>
      	</h3>
    		<table id="procedure-personnel-table" cellpadding=0 cellspacing=0 summary="">
           	<tr>

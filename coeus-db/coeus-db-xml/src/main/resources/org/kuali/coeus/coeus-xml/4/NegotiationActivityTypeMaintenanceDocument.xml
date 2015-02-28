@@ -24,6 +24,7 @@
 			<description>Create a New Negotiation Activity Type</description>
 			<label>Negotiation Activity Type</label>
 			<parent>KcProposalsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/negotiationactivitytype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

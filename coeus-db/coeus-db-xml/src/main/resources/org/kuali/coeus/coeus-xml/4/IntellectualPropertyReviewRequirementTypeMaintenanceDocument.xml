@@ -24,6 +24,7 @@
 			<description>Create a New IP Review Requirement Type</description>
 			<label>IP Review Requirement Type</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/ipreviewrequirementtype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

@@ -24,7 +24,7 @@
 			<description>Create/Edit an Organization</description>
 			<label>Organization Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/organization.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/organization1.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

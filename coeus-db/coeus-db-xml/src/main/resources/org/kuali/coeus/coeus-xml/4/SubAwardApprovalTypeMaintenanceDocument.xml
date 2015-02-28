@@ -24,6 +24,7 @@
 			<description>Document used to create or update Subaward Approval Type business objects.</description>
 			<label>Subaward Approval Type Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/subawardapprovaltype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

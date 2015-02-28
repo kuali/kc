@@ -24,6 +24,7 @@
 			<description>Create a New Award Sponsor Term</description>
 			<label>Award Sponsor Term</label>
 			<parent>KcMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/sponsorterms.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>
