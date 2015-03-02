@@ -50,10 +50,6 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 	@Qualifier("proposalBudgetSharedControllerService")
 	private ProposalBudgetSharedControllerService proposalBudgetSharedController;
 
-    @Autowired
-    @Qualifier("proposalBudgetLockService")
-    private ProposalBudgetLockService proposalBudgetLockService;
-
     @RequestMapping(params="methodToCall=addBudget")
     public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
     		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget,
@@ -80,49 +76,37 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
         return getProposalBudgetSharedController().populateBudgetSummary(budgetId, form.getDevelopmentProposal().getBudgets(), form);
     }
 
-    @Transactional @RequestMapping(params="methodToCall=completeBudget")
-    public ModelAndView completeBudget(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-        ProposalDevelopmentBudgetExt budget = getSelectedBudget(budgetId,form.getDevelopmentProposal().getBudgets());
+    @Transactional @RequestMapping(params="methodToCall=markBudgetVersionComplete")
+    public ModelAndView markBudgetVersionComplete(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        ProposalDevelopmentBudgetExt budget = getProposalBudgetSharedController().getSelectedBudget(budgetId,form.getDevelopmentProposal().getBudgets());
         form.getDocument().refreshPessimisticLocks();
-        if (isBudgetLocked(budget.getBudgetVersionNumber(),form.getDocument().getPessimisticLocks(),form.getPageId()) ||
+        if (getProposalBudgetSharedController().isBudgetLocked(budget.getBudgetVersionNumber(),form.getDocument().getPessimisticLocks(),form.getPageId()) ||
                 !getProposalBudgetSharedController().isAllowedToCompleteBudget(budget,form.getPageId())) {
             form.setAjaxReturnType("update-page");
             return getModelAndViewService().getModelAndView(form);
         }
-        String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
-                Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        budget.setBudgetStatus(budgetStatusCompleteCode);
-        getDataObjectService().wrap(budget).fetchRelationship("budgetStatusDo");
-        getDataObjectService().save(budget);
+        getProposalBudgetSharedController().markBudgetVersionStatus(budget,Constants.BUDGET_STATUS_COMPLETE_CODE);
         return getModelAndViewService().getModelAndView(form);
     }
 
-    public boolean isBudgetLocked(int budgetVersion, List<PessimisticLock> locks, String errorPath) {
-        Person user = getGlobalVariableService().getUserSession().getPerson();
-        for (PessimisticLock lock : locks) {
-            if (!lock.isOwnedByUser(user)  && getProposalBudgetLockService().doesBudgetVersionMatchDescriptor(lock.getLockDescriptor(),budgetVersion)) {
-                getGlobalVariableService().getMessageMap().putError(errorPath,KeyConstants.ERROR_COMPLETE_BUDGET_LOCK);
-                return true;
-            }
+    @Transactional @RequestMapping(params="methodToCall=markBudgetVersionIncomplete")
+    public ModelAndView markBudgetIncomplete(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        ProposalDevelopmentBudgetExt budget = getProposalBudgetSharedController().getSelectedBudget(budgetId,form.getDevelopmentProposal().getBudgets());
+        form.getDocument().refreshPessimisticLocks();
+        if (getProposalBudgetSharedController().isBudgetLocked(budget.getBudgetVersionNumber(),form.getDocument().getPessimisticLocks(),form.getPageId())) {
+            form.setAjaxReturnType("update-page");
+            return getModelAndViewService().getModelAndView(form);
         }
-        return false;
+        getProposalBudgetSharedController().markBudgetVersionStatus(budget, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+        return getModelAndViewService().getModelAndView(form);
     }
 
     @Transactional @RequestMapping(params="methodToCall=markForSubmission")
 	public ModelAndView markForSubmission(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-		ProposalDevelopmentBudgetExt finalBudget = getSelectedBudget(budgetId,form.getDevelopmentProposal().getBudgets());
+		ProposalDevelopmentBudgetExt finalBudget = getProposalBudgetSharedController().getSelectedBudget(budgetId,form.getDevelopmentProposal().getBudgets());
 		form.getProposalDevelopmentDocument().getDevelopmentProposal().setFinalBudget(finalBudget);
 		return super.save(form);
 	}
-
-    protected ProposalDevelopmentBudgetExt getSelectedBudget(Long budgetId, List<ProposalDevelopmentBudgetExt> budgets) {
-        for (ProposalDevelopmentBudgetExt curBudget : budgets) {
-            if (ObjectUtils.equals(budgetId, curBudget.getBudgetId())) {
-                return curBudget;
-            }
-        }
-        return null;
-    }
 
     @Transactional @RequestMapping(params="methodToCall=removeFromSubmission")
     public ModelAndView removeFromSubmission(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
@@ -162,11 +146,4 @@ public class ProposalBudgetController extends ProposalDevelopmentControllerBase 
 		this.proposalBudgetSharedController = proposalBudgetSharedController;
 	}
 
-    public ProposalBudgetLockService getProposalBudgetLockService() {
-        return proposalBudgetLockService;
-    }
-
-    public void setProposalBudgetLockService(ProposalBudgetLockService proposalBudgetLockService) {
-        this.proposalBudgetLockService = proposalBudgetLockService;
-    }
 }
