@@ -80,6 +80,7 @@ import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.file.FileMeta;
 import org.kuali.rice.krad.util.*;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -382,6 +383,9 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         	((ProposalDevelopmentAttachment)deleteLine).setUpdated(true);
         }
 
+        if (deleteLine instanceof FileMeta) {
+            getDataObjectService().delete(deleteLine);
+        }
         return isValid;
     }
 

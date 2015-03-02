@@ -24,6 +24,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -744,6 +745,17 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     public void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
         this.kcAttachmentService = kcAttachmentService;
+    }
+
+    @PreRemove
+    public void removeData() {
+        if (getNarrativeAttachment().getFileDataId() != null) {
+            getKcAttachmentDao().removeData(getNarrativeAttachment().getFileDataId());
+        }
+    }
+
+    private KcAttachmentDataDao getKcAttachmentDao() {
+        return KcServiceLocator.getService(KcAttachmentDataDao.class);
     }
 }
 
