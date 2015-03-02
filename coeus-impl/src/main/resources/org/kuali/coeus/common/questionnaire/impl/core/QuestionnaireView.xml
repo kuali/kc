@@ -102,6 +102,11 @@
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getQuestionMoreInfo(#lp.questionnaireQuestion.question)}"
                         p:hidden="true"/>
 				<bean parent="Questionnaire-InputField" p:order="10" />
+                <bean parent="Uif-InputField" p:propertyName="question.lookupReturn" p:fieldLabel.render="false">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl" />
+                    </property>
+                </bean>
 			</list>
 		</property>
 	</bean>
@@ -122,6 +127,11 @@
 		<property name="quickfinder">
 			<bean parent="Questionnaire-QuickFinder" p:render="false" />
 		</property>
+        <property name="inquiry">
+            <bean parent="Uif-Inquiry" p:render="false" p:dataObjectClassName="org.kuali.coeus.common.framework.custom.arg.ArgValueLookup"
+                  p:inquiryParameters="answer:value,question.lookupReturn:argumentName"
+                  p:viewName="PropDev-CustomData-ArgValueInquiry"/>
+        </property>
 	</bean>
 	<bean id="Questionnaire-ControlMappings" parent="Questionnaire-ControlMappings-parentBean" />
 	<util:map id="Questionnaire-ControlMappings-parentBean">
