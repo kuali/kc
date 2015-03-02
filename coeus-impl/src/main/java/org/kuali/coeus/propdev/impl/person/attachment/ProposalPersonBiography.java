@@ -24,6 +24,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
 import org.kuali.coeus.propdev.impl.attachment.ProposalDevelopmentAttachment;
@@ -505,5 +506,16 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     public void setKcAttachmentService(KcAttachmentService kcAttachmentService) {
         this.kcAttachmentService = kcAttachmentService;
+    }
+
+    @PreRemove
+    public void removeData() {
+        if (getPersonnelAttachment().getFileDataId() != null) {
+            getKcAttachmentDao().removeData(getPersonnelAttachment().getFileDataId());
+        }
+    }
+
+    private KcAttachmentDataDao getKcAttachmentDao() {
+        return KcServiceLocator.getService(KcAttachmentDataDao.class);
     }
 }

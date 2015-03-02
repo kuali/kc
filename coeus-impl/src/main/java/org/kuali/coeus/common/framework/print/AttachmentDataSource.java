@@ -18,10 +18,13 @@
  */
 package org.kuali.coeus.common.framework.print;
 
+import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import javax.persistence.*;
+import java.lang.ref.SoftReference;
 
 /**
  * 
@@ -36,10 +39,11 @@ public abstract class AttachmentDataSource extends KcPersistableBusinessObjectBa
     @Column(name = "CONTENT_TYPE")
     private String type;
 
-    @Column(name = "DATA")
-    @Basic(fetch = FetchType.LAZY)
-    @Lob
-    private byte[] data;
+    @Column(name = "FILE_DATA_ID")
+    private String fileDataId;
+
+    @Transient
+    private SoftReference<byte[]> data;
 
     @Override
     public String getName() {
@@ -61,10 +65,33 @@ public abstract class AttachmentDataSource extends KcPersistableBusinessObjectBa
 
     @Override
     public byte[] getData() {
-        return data;
+        if (data == null || data.get() == null) {
+            byte[] newData = getKcAttachmentDao().getData(fileDataId);
+            data = new SoftReference<byte[]>(newData);
+            return newData;
+        } else {
+            return data.get();
+        }
+    }
+
+    private KcAttachmentDataDao getKcAttachmentDao() {
+        return KcServiceLocator.getService(KcAttachmentDataDao.class);
+    }
+
+    public String getFileDataId() {
+        return fileDataId;
+    }
+
+    public void setFileDataId(String fileDataId) {
+        this.fileDataId = fileDataId;
     }
 
     public void setData(byte[] data) {
-        this.data = data;
+        if (data == null) {
+            getKcAttachmentDao().removeData(fileDataId);
+        } else {
+            fileDataId = getKcAttachmentDao().saveData(data, fileDataId);
+        }
+        this.data = new SoftReference<byte[]>(data);
     }
 }
