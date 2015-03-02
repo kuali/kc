@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
@@ -225,6 +226,11 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
             budget.setBudgetStatus(originalBudget.getBudgetStatus());
 	   		return getModelAndViewService().getModelAndView(form);
 		}
+        if (budget.getModularBudgetFlag()) {
+            for (BudgetPeriod period : budget.getBudgetPeriods())  {
+                getBudgetModularService().generateModularPeriod(period);
+            }
+        }
     	if(isRateTypeChanged(originalBudget, budget)) {
         	return getModelAndViewService().showDialog(CONFIRM_RATE_CHANGES_DIALOG_ID, true, form);
     	}
