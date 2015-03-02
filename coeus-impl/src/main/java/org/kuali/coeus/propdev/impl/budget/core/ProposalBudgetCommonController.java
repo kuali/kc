@@ -31,7 +31,6 @@ import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.lock.ProposalBudgetLockService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -239,7 +238,32 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 		return getRefreshControllerService().refresh(form);
 	}
 
-	@Transactional @RequestMapping(params="methodToCall=closeBudgetSettings")
+    @Transactional @RequestMapping(params="methodToCall=markBudgetVersionComplete")
+    public ModelAndView markBudgetVersionComplete(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        ProposalDevelopmentBudgetExt budget = getProposalBudgetSharedController().getSelectedBudget(budgetId,form.getDevelopmentProposal().getBudgets());
+        form.getDocument().refreshPessimisticLocks();
+        if (getProposalBudgetSharedController().isBudgetLocked(budget.getBudgetVersionNumber(),form.getDocument().getPessimisticLocks(),form.getPageId()) ||
+                !getProposalBudgetSharedController().isAllowedToCompleteBudget(budget,form.getPageId())) {
+            form.setAjaxReturnType("update-page");
+            return getModelAndViewService().getModelAndView(form);
+        }
+        getProposalBudgetSharedController().markBudgetVersionStatus(budget,Constants.BUDGET_STATUS_COMPLETE_CODE);
+        return getModelAndViewService().getModelAndView(form);
+    }
+
+    @Transactional @RequestMapping(params="methodToCall=markBudgetVersionIncomplete")
+    public ModelAndView markBudgetIncomplete(@RequestParam("budgetId") Long budgetId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        ProposalDevelopmentBudgetExt budget = getProposalBudgetSharedController().getSelectedBudget(budgetId,form.getDevelopmentProposal().getBudgets());
+        form.getDocument().refreshPessimisticLocks();
+        if (getProposalBudgetSharedController().isBudgetLocked(budget.getBudgetVersionNumber(), form.getDocument().getPessimisticLocks(), form.getPageId())) {
+            form.setAjaxReturnType("update-page");
+            return getModelAndViewService().getModelAndView(form);
+        }
+        getProposalBudgetSharedController().markBudgetVersionStatus(budget,Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+        return getModelAndViewService().getModelAndView(form);
+    }
+
+    @Transactional @RequestMapping(params="methodToCall=closeBudgetSettings")
 	public ModelAndView closeBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		processAuditRuleValidation(form);
 		return getKcCommonControllerService().closeDialog(BUDGET_SETTINGS_DIALOG_ID, form);
