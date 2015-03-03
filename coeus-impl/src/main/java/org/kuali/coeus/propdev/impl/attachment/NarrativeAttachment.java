@@ -20,14 +20,14 @@ package org.kuali.coeus.propdev.impl.attachment;
 
 import javax.persistence.*;
 
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.KcAttachmentDataSource;
 import org.kuali.coeus.propdev.api.attachment.NarrativeAttachmentContract;
 
 @Entity
 @Table(name = "NARRATIVE_ATTACHMENT")
 @AttributeOverride(name = "data",  column = @Column(name = "NARRATIVE_DATA"))
 @IdClass(Narrative.NarrativeId.class)
-public class NarrativeAttachment extends AttachmentDataSource implements NarrativeAttachmentContract {
+public class NarrativeAttachment extends KcAttachmentDataSource implements NarrativeAttachmentContract {
 
     @Id
     @OneToOne(cascade = { CascadeType.REFRESH })

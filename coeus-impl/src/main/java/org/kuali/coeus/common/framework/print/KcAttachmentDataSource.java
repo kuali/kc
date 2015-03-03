@@ -31,12 +31,19 @@ import java.lang.ref.SoftReference;
  * This class helps create the foundation of attachment data sources.
  */
 @MappedSuperclass
-public abstract class AttachmentDataSource implements KcFile {
+public abstract class KcAttachmentDataSource extends KcPersistableBusinessObjectBase implements KcFile {
 
+    @Column(name = "FILE_NAME")
     private String name;
+
+    @Column(name = "CONTENT_TYPE")
     private String type;
+
+    @Column(name = "FILE_DATA_ID")
     private String fileDataId;
-    private byte[] data;
+
+    @Transient
+    private transient SoftReference<byte[]> data;
 
     @Override
     public String getName() {
@@ -56,19 +63,38 @@ public abstract class AttachmentDataSource implements KcFile {
         this.type = type;
     }
 
-	public String getFileDataId() {
-		return fileDataId;
-	}
+    @Override
+    public byte[] getData() {
+        if (data != null) {
+        	byte[] existingData = data.get();
+        	if (existingData != null) {
+        		return existingData;
+        	}
+        }
+        //if we didn't have a softreference, grab the data from the db
+        byte[] newData = getKcAttachmentDao().getData(fileDataId);
+        data = new SoftReference<byte[]>(newData);
+        return newData;
+    }
 
-	public void setFileDataId(String fileDataId) {
-		this.fileDataId = fileDataId;
-	}
+    private KcAttachmentDataDao getKcAttachmentDao() {
+        return KcServiceLocator.getService(KcAttachmentDataDao.class);
+    }
 
-	public byte[] getData() {
-		return data;
-	}
+    public String getFileDataId() {
+        return fileDataId;
+    }
 
-	public void setData(byte[] data) {
-		this.data = data;
-	}
+    public void setFileDataId(String fileDataId) {
+        this.fileDataId = fileDataId;
+    }
+
+    public void setData(byte[] data) {
+        if (data == null) {
+            getKcAttachmentDao().removeData(fileDataId);
+        } else {
+            fileDataId = getKcAttachmentDao().saveData(data, fileDataId);
+        }
+        this.data = new SoftReference<byte[]>(data);
+    }
 }
