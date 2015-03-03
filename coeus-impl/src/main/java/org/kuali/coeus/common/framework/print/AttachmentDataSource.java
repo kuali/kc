@@ -18,20 +18,15 @@
  */
 package org.kuali.coeus.common.framework.print;
 
-import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
-import org.kuali.coeus.sys.api.model.KcFile;
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import java.io.Serializable;
 
-import javax.persistence.*;
-import java.lang.ref.SoftReference;
+import org.kuali.coeus.sys.api.model.KcFile;
 
 /**
  * 
  * This class helps create the foundation of attachment data sources.
  */
-@MappedSuperclass
-public abstract class AttachmentDataSource implements KcFile {
+public abstract class AttachmentDataSource implements KcFile, Serializable {
 
     private String name;
     private String type;
