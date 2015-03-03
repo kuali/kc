@@ -20,7 +20,7 @@ package org.kuali.coeus.propdev.impl.person.attachment;
 
 import javax.persistence.*;
 
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.KcAttachmentDataSource;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyAttachmentContract;
 
 /**
@@ -29,9 +29,8 @@ import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyAtta
  */
 @Entity
 @Table(name = "EPS_PROP_PERSON_BIO_ATTACHMENT")
-@AttributeOverride(name = "data",  column = @Column(name = "BIO_DATA"))
 @IdClass(ProposalPersonBiography.ProposalPersonBiographyId.class)
-public class ProposalPersonBiographyAttachment extends AttachmentDataSource implements ProposalPersonBiographyAttachmentContract {
+public class ProposalPersonBiographyAttachment extends KcAttachmentDataSource implements ProposalPersonBiographyAttachmentContract {
 
 
     @Id

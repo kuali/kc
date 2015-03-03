@@ -18,32 +18,20 @@
  */
 package org.kuali.coeus.common.framework.print;
 
-import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
-import org.kuali.coeus.sys.api.model.KcFile;
-import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import java.io.Serializable;
 
-import javax.persistence.*;
-import java.lang.ref.SoftReference;
+import org.kuali.coeus.sys.api.model.KcFile;
 
 /**
  * 
  * This class helps create the foundation of attachment data sources.
  */
-@MappedSuperclass
-public abstract class AttachmentDataSource extends KcPersistableBusinessObjectBase implements KcFile {
+public abstract class AttachmentDataSource implements KcFile, Serializable {
 
-    @Column(name = "FILE_NAME")
     private String name;
-
-    @Column(name = "CONTENT_TYPE")
     private String type;
-
-    @Column(name = "FILE_DATA_ID")
     private String fileDataId;
-
-    @Transient
-    private SoftReference<byte[]> data;
+    private byte[] data;
 
     @Override
     public String getName() {
@@ -63,35 +51,19 @@ public abstract class AttachmentDataSource extends KcPersistableBusinessObjectBa
         this.type = type;
     }
 
-    @Override
-    public byte[] getData() {
-        if (data == null || data.get() == null) {
-            byte[] newData = getKcAttachmentDao().getData(fileDataId);
-            data = new SoftReference<byte[]>(newData);
-            return newData;
-        } else {
-            return data.get();
-        }
-    }
+	public String getFileDataId() {
+		return fileDataId;
+	}
 
-    private KcAttachmentDataDao getKcAttachmentDao() {
-        return KcServiceLocator.getService(KcAttachmentDataDao.class);
-    }
+	public void setFileDataId(String fileDataId) {
+		this.fileDataId = fileDataId;
+	}
 
-    public String getFileDataId() {
-        return fileDataId;
-    }
+	public byte[] getData() {
+		return data;
+	}
 
-    public void setFileDataId(String fileDataId) {
-        this.fileDataId = fileDataId;
-    }
-
-    public void setData(byte[] data) {
-        if (data == null) {
-            getKcAttachmentDao().removeData(fileDataId);
-        } else {
-            fileDataId = getKcAttachmentDao().saveData(data, fileDataId);
-        }
-        this.data = new SoftReference<byte[]>(data);
-    }
+	public void setData(byte[] data) {
+		this.data = data;
+	}
 }

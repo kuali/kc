@@ -612,6 +612,7 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		narrativeAttachment.setNarrative(narrative);
 		narrativeAttachment.setModuleNumber(1);
 		narrativeAttachment.setName("test");
+		narrativeAttachment.setFileDataId("0000000-000000-000000-0000");
 		narrative.setNarrativeAttachment(narrativeAttachment);
 	}
 

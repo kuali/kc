@@ -35,9 +35,9 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao{
 	        			return null;
 	        		}
 	        	}
-	        }catch (Exception e) {
-	            throw new RuntimeException(e);
-	        }
+	        } catch (SQLException e) {
+	        	throw new RuntimeException(e);
+			}
     	} else {
     		return null;
     	}
