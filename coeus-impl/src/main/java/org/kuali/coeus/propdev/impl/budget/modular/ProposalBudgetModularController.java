@@ -51,6 +51,7 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
         getBudgetModularService().synchModularBudget(budget);
         getBudgetModularService().generateModularSummary(budget);
         form.setBudgetModularSummary(getBudgetModularService().generateModularSummary(budget));
+        super.saveBudget(form);
         return getRefreshControllerService().refresh(form);
     }
 
