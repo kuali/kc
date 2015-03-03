@@ -194,6 +194,10 @@
     <filter>
         <filter-name>PerformanceLoggingFilter</filter-name>
         <filter-class>org.kuali.coeus.sys.framework.controller.interceptor.PerformanceLoggingFilter</filter-class>
+        <init-param>
+        	<param-name>ignored.urls</param-name>
+        	<param-value>.*/healthCheck.*</param-value>
+        </init-param>
     </filter>
 
     <filter-mapping>

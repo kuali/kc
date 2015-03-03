@@ -23,7 +23,11 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Part of KRA's {@link FilterChain} that handles timing a {@link HttpServletRequest} and reporting on the state of 
@@ -39,13 +43,21 @@ import java.io.IOException;
 public class PerformanceLoggingFilter implements Filter {
     private static final Log LOG = LogFactory.getLog(PerformanceLoggingFilter.class);
     
+    private static final String IGNORED_URLS_PARAM = "ignored.urls";
+    
+    private List<Pattern> ignoredUrls = new ArrayList<>();
+    
     @Override
     public void destroy() {}
     
     @Override
     public void init(FilterConfig config) throws ServletException {
+    	if (config.getInitParameter(IGNORED_URLS_PARAM) != null) {
+    		for (String urlPattern : config.getInitParameter(IGNORED_URLS_PARAM).split(",")) {
+    			ignoredUrls.add(Pattern.compile(urlPattern));
+    		}
+    	}
     }
-
 
     /**
      * <p>Does the actual logging. The log4j.properties file already covers user and date/time logging for us, so the
@@ -61,15 +73,27 @@ public class PerformanceLoggingFilter implements Filter {
     public void doFilter(ServletRequest request, 
                          ServletResponse response, 
                          FilterChain chain) throws IOException, ServletException {
-        long start = System.currentTimeMillis();
-        long startMem = Runtime.getRuntime().freeMemory();
-        chain.doFilter(request, response);
-
-        if (LOG.isInfoEnabled() ) {
-            long elapsed = System.currentTimeMillis() - start;
-            long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-            LOG.info(((HttpServletRequest) request).getRequestURI() + " : " + elapsed + " ms");
-            LOG.info(((HttpServletRequest) request).getRequestURI() + " : " + usedMemory + " memory used");
-        }
+    	if (isIgnoredRequest(((HttpServletRequest) request).getRequestURL().toString())) {
+    		chain.doFilter(request, response);
+    	} else {
+	        long start = System.currentTimeMillis();
+	        chain.doFilter(request, response);
+	
+	        if (LOG.isInfoEnabled() ) {
+	            long elapsed = System.currentTimeMillis() - start;
+	            long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+	            LOG.info(((HttpServletRequest) request).getRequestURI() + " : " + elapsed + " ms");
+	            LOG.info(((HttpServletRequest) request).getRequestURI() + " : " + usedMemory + " memory used");
+	        }
+    	}
+    }
+    
+    public boolean isIgnoredRequest(String requestUrl) {
+    	for (Pattern pattern : ignoredUrls) {
+    		if (pattern.matcher(requestUrl).matches()) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 }
