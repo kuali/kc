@@ -1082,4 +1082,5 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     public void setKcFileService(KcFileService kcFileService) {
         this.kcFileService = kcFileService;
     }
+
 }
