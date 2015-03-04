@@ -19,7 +19,7 @@
  -->
 
     <bean id="QuestionnaireMaintenanceDocument" parent="QuestionnaireMaintenanceDocument-parentBean" />
-    <bean id="QuestionnaireMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <bean id="QuestionnaireMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.coeus.common.questionnaire.framework.core.Questionnaire" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="lockingKeys" >

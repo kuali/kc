@@ -20,7 +20,9 @@ package org.kuali.coeus.sys.impl.persistence;
 
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.FieldDescriptor;
+import org.apache.ojb.broker.metadata.ObjectReferenceDescriptor;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
+import org.kuali.rice.krad.bo.DataObjectRelationship;
 import org.kuali.rice.krad.exception.ClassNotPersistableException;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.service.impl.PersistenceStructureServiceImpl;
@@ -28,8 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component("kcPersistenceStructureService")
 public class KcPersistenceStructureServiceImpl extends PersistenceStructureServiceImpl implements KcPersistenceStructureService {
@@ -61,6 +62,38 @@ public class KcPersistenceStructureServiceImpl extends PersistenceStructureServi
         
         throw new ClassNotPersistableException(clazz.getName() + " is not Persistable");
      }
+
+    @Override
+    public List<DataObjectRelationship> getRelationshipsTo(Class persistableClass) throws ClassNotPersistableException {
+        if(!isPersistable(persistableClass)) {
+            throw new ClassNotPersistableException(persistableClass.getName() + " is not persistable");
+        }
+
+        final List<DataObjectRelationship> relationships = new ArrayList<>();
+
+        @SuppressWarnings("unchecked")
+        final Set<Map.Entry<String, ClassDescriptor>> entries = (Set<Map.Entry<String, ClassDescriptor>>) getDescriptorRepository().getDescriptorTable().entrySet();
+        for (Map.Entry<String, ClassDescriptor> entry : entries) {
+            @SuppressWarnings("unchecked")
+            final Collection<ObjectReferenceDescriptor> references = entry.getValue().getObjectReferenceDescriptors();
+            if (references != null) {
+                for (ObjectReferenceDescriptor reference : references) {
+                    if (reference.getItemClass().equals(persistableClass)) {
+                        final DataObjectRelationship relationship = new DataObjectRelationship(entry.getValue().getClassOfObject(), reference.getAttributeName(), reference.getItemClass());
+                        final Map<String, String> pToC = new HashMap<>();
+                        for (int i = 0; i < reference.getForeignKeyFields().size(); i++) {
+                            final String fkField = (String) reference.getForeignKeyFields().get(i);
+                            pToC.put(fkField, getDescriptorRepository().getDescriptorFor(reference.getItemClass()).getPkFields()[i].getAttributeName());
+                        }
+                        relationship.setParentToChildReferences(pToC);
+                        relationships.add(relationship);
+                    }
+                }
+            }
+        }
+
+        return relationships;
+    }
 
     @Autowired
     @Qualifier("persistenceStructureServiceOjb")

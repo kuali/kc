@@ -22,13 +22,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.common.framework.org.OrganizationYnq;
 import org.kuali.coeus.common.api.rolodex.RolodexService;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
-public class OrganizationMaintenanceDocumentRule  extends MaintenanceDocumentRuleBase {
+public class OrganizationMaintenanceDocumentRule  extends KcMaintenanceDocumentRuleBase {
 
 
     public OrganizationMaintenanceDocumentRule() {

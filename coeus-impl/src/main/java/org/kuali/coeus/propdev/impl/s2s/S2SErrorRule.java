@@ -21,17 +21,17 @@ package org.kuali.coeus.propdev.impl.s2s;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.Collections;
 import java.util.List;
 
-public class S2SErrorRule extends MaintenanceDocumentRuleBase {
+public class S2SErrorRule extends KcMaintenanceDocumentRuleBase {
 
     private DataObjectService dataObjectService;
     private GlobalVariableService globalVariableService;

@@ -24,7 +24,8 @@
 
 	<bean id="KcMaintenanceDocumentEntry" parent="KcMaintenanceDocumentEntry-parentBean" />
 	<bean id="KcMaintenanceDocumentEntry-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="workflowProperties">
+        <property name="businessRulesClass" value="org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase"/>
+        <property name="workflowProperties">
 			<ref bean="KcMaintenanceDocument-workflowProperties"/>
 		</property>
 	</bean>

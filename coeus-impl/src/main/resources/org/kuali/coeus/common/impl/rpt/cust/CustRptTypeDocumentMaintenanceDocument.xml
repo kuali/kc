@@ -24,7 +24,7 @@
 	<bean id="CustRptTypeDocumentMaintenanceDocument" parent="CustRptTypeDocumentMaintenanceDocument-parentBean" />
 
 	<bean id="CustRptTypeDocumentMaintenanceDocument-parentBean"
-		abstract="true" parent="MaintenanceDocumentEntry">
+		abstract="true" parent="KcMaintenanceDocumentEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.coeus.common.impl.rpt.cust.CustRptTypeDocument" />
 		<property name="maintainableClass"

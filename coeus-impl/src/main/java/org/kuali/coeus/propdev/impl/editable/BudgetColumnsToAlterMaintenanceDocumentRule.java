@@ -18,17 +18,17 @@
  */
 package org.kuali.coeus.propdev.impl.editable;
 
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaNumericValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AlphaValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BudgetColumnsToAlterMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
+public class BudgetColumnsToAlterMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     private static Map<String, String> validationClassesMap = new HashMap<String, String>();
     static {
         validationClassesMap.put(AnyCharacterValidationPattern.class.getName(), "STRING");

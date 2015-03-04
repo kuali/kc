@@ -8395,7 +8395,8 @@ th {
   width: 100%;
   padding-bottom: 12px;
 }
-.msg-excol .left-errmsg div {
+
+.msg-excol .left-errmsg .kul-message {
   padding: 8px 35px 8px 14px;
   margin-bottom: 20px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -8424,11 +8425,12 @@ th {
   background-color: #f2dede;
   border-color: #eed3d7;
   color: #b94a48;
-  float: left;
+  max-width: 200px;
   margin-left: 20px;
 }
 .msg-excol .left-errmsg .error + div {
-  display: none;
+    margin-left: 20px;
+    float: left;
 }
 .pull-right {
   float: right;

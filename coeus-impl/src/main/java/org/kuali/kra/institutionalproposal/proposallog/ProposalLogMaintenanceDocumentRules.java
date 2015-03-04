@@ -20,6 +20,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.api.sponsor.SponsorService;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.DateUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -27,7 +28,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.rules.MaintenanceDocumentRule;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -35,7 +35,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRuleBase
+public class ProposalLogMaintenanceDocumentRules extends KcMaintenanceDocumentRuleBase
     implements MaintenanceDocumentRule {
     
     private final String SPONSOR_CODE = "document.newMaintainableObject.sponsorCode";
