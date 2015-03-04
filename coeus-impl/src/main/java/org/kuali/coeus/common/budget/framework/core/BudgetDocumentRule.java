@@ -268,56 +268,6 @@ public class BudgetDocumentRule extends CostShareRuleResearchDocumentBase implem
         }
         return valid;
     }
-    
-    /**
-     * This method checks business rules related to Budget Personnel Budget functionality
-     * 
-     * @param budgetDocument
-     * @return
-     */
-    @KcEventMethod
-    @Deprecated
-    public boolean processBudgetPersonnelBudgetBusinessRules(BudgetSaveEvent event) {
-        boolean valid = true;
-
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-        
-        List<BudgetPeriod> budgetPeriods = event.getBudget().getBudgetPeriods();
-        int i=0;
-        int j=0;
-        int k=0;
-        for(BudgetPeriod budgetPeriod: budgetPeriods){
-            j=0;
-            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
-            k=0;
-            for(BudgetLineItem budgetLineItem: budgetLineItems){
-                for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
-                    if(budgetPersonnelDetails!=null && budgetPersonnelDetails.getStartDate()!=null && budgetPersonnelDetails.getStartDate().before(budgetLineItem.getStartDate())){
-                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].startDate",KeyConstants.ERROR_PERSONNELBUDGETLINEITEM_STARTDATE_BEFORE_LINEITEM_STARTDATE);
-                        valid = false;
-                    }
-                    if(budgetPersonnelDetails!=null && budgetPersonnelDetails.getEndDate()!=null && budgetPersonnelDetails.getEndDate().after(budgetLineItem.getEndDate())){
-                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].endDate",KeyConstants.ERROR_PERSONNELBUDGETLINEITEM_ENDDATE_AFTER_LINEITEM_ENDDATE);
-                        valid = false;
-                    }                    
-                    if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new ScaleTwoDecimal(100))){
-                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentEffort",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
-                    }
-                    if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(new ScaleTwoDecimal(100))){
-                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
-                    }
-                    if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){
-                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItems[" + j + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
-                    }
-                    k++;
-                }
-                j++;
-            }
-            i++;
-        }
-        return valid;
-    }
-    
 
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
