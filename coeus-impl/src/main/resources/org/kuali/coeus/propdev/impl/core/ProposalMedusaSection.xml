@@ -508,28 +508,28 @@
 
     <bean id="Proposal-MedusaSection-Actions" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:colSpan="4" />
 
-    <bean id="Proposal-InstitutionalProposal-Property" parent="Uif-DataField"
+    <bean id="Proposal-InstitutionalProposal-Property" parent="Medusa-DataField"
           p:dictionaryObjectEntry="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" />
 
-    <bean id="Proposal-ProposalDevelopment-Property" parent="Uif-DataField" p:additionalCssClasses="medusa-node-value"
+    <bean id="Proposal-ProposalDevelopment-Property" parent="Medusa-DataField" p:additionalCssClasses="medusa-node-value"
           p:dictionaryObjectEntry="org.kuali.coeus.propdev.impl.core.DevelopmentProposal" />
 
-    <bean id="Proposal-Award-Property" parent="Uif-DataField" p:additionalCssClasses="medusa-node-value"
+    <bean id="Proposal-Award-Property" parent="Medusa-DataField" p:additionalCssClasses="medusa-node-value"
           p:dictionaryObjectEntry="org.kuali.kra.award.home.Award" />
 
-    <bean id="Proposal-AwardAmountInfo-Property" parent="Uif-DataField" p:additionalCssClasses="medusa-node-value"
+    <bean id="Proposal-AwardAmountInfo-Property" parent="Medusa-DataField" p:additionalCssClasses="medusa-node-value"
           p:dictionaryObjectEntry="org.kuali.kra.award.home.AwardAmountInfo" />
 
-    <bean id="Proposal-SubAward-Property" parent="Uif-DataField" p:additionalCssClasses="medusa-node-value"
+    <bean id="Proposal-SubAward-Property" parent="Medusa-DataField" p:additionalCssClasses="medusa-node-value"
           p:dictionaryObjectEntry="org.kuali.kra.subaward.bo.SubAward" />
 
-    <bean id="Proposal-IRBProtocol-Property" parent="Uif-DataField" p:additionalCssClasses="medusa-node-value"
+    <bean id="Proposal-IRBProtocol-Property" parent="Medusa-DataField" p:additionalCssClasses="medusa-node-value"
           p:dictionaryObjectEntry="org.kuali.kra.irb.Protocol" />
 
-    <bean id="Proposal-IacucProtocol-Property" parent="Uif-DataField" p:additionalCssClasses="medusa-node-value"
+    <bean id="Proposal-IacucProtocol-Property" parent="Medusa-DataField" p:additionalCssClasses="medusa-node-value"
           p:dictionaryObjectEntry="org.kuali.kra.iacuc.IacucProtocol" />
 
-    <bean id="Proposal-Negotiation-Property" parent="Uif-DataField" p:additionalCssClasses="medusa-node-value"
+    <bean id="Proposal-Negotiation-Property" parent="Medusa-DataField" p:additionalCssClasses="medusa-node-value"
           p:dictionaryObjectEntry="org.kuali.kra.negotiations.bo.Negotiation" />
 
     <bean id="Proposal-Person-UnitSummary" parent="Uif-StackedSubCollection-WithinSubSection" p:propertyName="units" p:renderAddLine="false" p:renderLineActions="false">
@@ -539,6 +539,10 @@
             </list>
         </property>
     </bean>
+
+    <bean id="Medusa-DataField" parent="Medusa-DataField-parentBean"/>
+    <bean id="Medusa-DataField-parentBean" abstract="true" parent="Uif-DataField"
+          p:multiLineReadOnlyDisplay="true"/>
 
 
     <bean id="Proposal-Medusa-Link" parent="Uif-LinkField" p:target="_blank" p:cssClasses="btn,btn-default,btn-xs" />
