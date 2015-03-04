@@ -21,7 +21,6 @@ Kc.Global = Kc.Global || {};
 (function (namespace, $) {
     // set all modals to static behavior (clicking out does not close)
     $.fn.modal.Constructor.DEFAULTS.backdrop = "static";
-
     $(document).on("ready", function(){
         $.validator.addMethod("kcValidateDate", function(value,element){
             return this.optional(element) || namespace.validateDate(value);
@@ -33,6 +32,16 @@ Kc.Global = Kc.Global || {};
         $(document).on("focus", ".uif-dateControl", function(){
             //if a date input is added after document ready event.
                 $(this).rules("add",{kcValidateDate: true});
+        });
+        $(window).on("resize",function(){
+            namespace.makeApplicationFooterSticky();
+            $(".kc-navMenuDropdown .dropdown-menu").each(function(){
+                var windowWidth = $(window).width();
+                var menuLeftPosition = $(this).parent().position().left;
+                $(this).css("cssText","min-width:0px !important");
+                $(this).css("max-width","868px");
+                $(this).css("width",windowWidth-menuLeftPosition);
+            });
         });
         // date conversion for date fields to full leading 0 - for days and months and to full year dates
         $(document).on("blur", ".uif-dateControl", function(){
