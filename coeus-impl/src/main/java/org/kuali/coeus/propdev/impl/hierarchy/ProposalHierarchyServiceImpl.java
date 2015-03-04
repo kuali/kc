@@ -547,17 +547,19 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
      * @throws ProposalHierarchyException
      */
     protected boolean synchronizeChildProposal(DevelopmentProposal hierarchyProposal, DevelopmentProposal childProposal,
-                                               boolean syncPersonnelAttachments, boolean isNewChild) throws ProposalHierarchyException {
+                                                           boolean syncPersonnelAttachments, boolean isNewChild) throws ProposalHierarchyException {
         List<BudgetPeriod> oldBudgetPeriods = getOldBudgetPeriods(proposalBudgetHierarchyService.getHierarchyBudget(hierarchyProposal));
         ProposalPerson principalInvestigator = hierarchyProposal.getPrincipalInvestigator();
         childProposal.setHierarchyLastSyncHashCode(computeHierarchyHashCode(childProposal));
         
         removeChildElements(hierarchyProposal, childProposal.getProposalNumber());
-        
+
         synchronizeKeywords(hierarchyProposal, childProposal);
         synchronizeSpecialReviews(hierarchyProposal, childProposal);
         synchronizePersonsAndAggregate(hierarchyProposal, childProposal, principalInvestigator);
         syncDegreeInfo(hierarchyProposal, childProposal);
+
+        proposalBudgetHierarchyService.synchronizeChildBudget(hierarchyProposal, childProposal, oldBudgetPeriods);
 
         if (syncPersonnelAttachments) {
             synchronizeNarratives(hierarchyProposal, childProposal);
@@ -565,8 +567,6 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             syncAllPersonnelAttachments(hierarchyProposal, childProposal, isNewChild);
         }
 
-
-        proposalBudgetHierarchyService.synchronizeChildBudget(hierarchyProposal, childProposal, oldBudgetPeriods);
         dataObjectService.save(childProposal);
 
         return true;
