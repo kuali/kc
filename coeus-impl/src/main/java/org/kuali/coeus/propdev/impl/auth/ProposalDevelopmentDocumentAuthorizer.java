@@ -231,6 +231,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             editModes.add("addAddressBook");
         }
 
+        if (canSaveCertification(doc, user)) {
+            editModes.add(ProposalDevelopmentConstants.AuthConstants.CAN_SAVE_CERTIFICATION);
+        }
         setNarrativePermissions(user, doc, editModes);
     } 
     
@@ -301,12 +304,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     public boolean canEdit(Document document, Person user) {
         return isAuthorizedToModify(document, user);
     }
-    
+
     @Override
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
-    
+
     @Override
     public boolean canCancel(Document document, Person user) {
         return canEdit(document, user) && super.canCancel(document, user);
@@ -406,6 +409,16 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
             return isKeyPersonnel || canCertify;
         }
         return true;
+    }
+
+    protected boolean canSaveCertification(ProposalDevelopmentDocument document, Person user) {
+        for(ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
+            if (hasCertificationPermissions(document, user, person)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected boolean isAuthorizedToReplaceNarrative(Narrative narrative, Person user) {

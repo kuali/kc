@@ -35,10 +35,10 @@
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
 					p:performClientSideValidation="true" p:methodToCall="navigate" 
 					p:actionLabel="Back" p:finalizeMethodToCall="finalizeNavigationLinks"
-					p:finalizeMethodAdditionalArguments="previous" p:order="10" />				
+					p:finalizeMethodAdditionalArguments="previous" p:order="10" />
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
 					p:performClientSideValidation="true" p:methodToCall="save"
-					p:actionLabel="Save" p:order="20" p:render="@{!#parent.readOnly}"/>
+					p:actionLabel="Save" p:order="20" p:render="@{!#parent.readOnly or #editModes[#proposalAuthConsts.CAN_SAVE_CERTIFICATION]}"/>
 				<bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true"
 					p:performClientSideValidation="true" p:methodToCall="navigate"
 					p:actionLabel="Save and Continue" p:finalizeMethodToCall="finalizeNavigationLinks"
