@@ -1,6 +1,9 @@
 package org.kuali.coeus.common.impl.attachment;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +19,9 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 @Component("kcAttachmentDataDao")
-public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao{
+public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
+
+    private static Log LOG = LogFactory.getLog(KcAttachmentDataDaoImpl.class);
 
     @Autowired
     @Qualifier("dataSource")
@@ -24,7 +29,11 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao{
 
     @Override
     public byte[] getData(String id) {
-    	if (StringUtils.isNotBlank(id)) {
+    	if (LOG.isDebugEnabled()) {
+            LOG.debug("Fetching attachment data existing id: " + id);
+        }
+
+        if (StringUtils.isNotBlank(id)) {
 	        try(Connection connection = getDataSource().getConnection();
 	        		PreparedStatement stmt = connection.prepareStatement("select data from file_data where id = ?")) {
 	        	stmt.setString(1, id);
@@ -45,6 +54,14 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao{
 
     @Override
     public String saveData(byte[] attachmentData, String id) {
+        if (ArrayUtils.isEmpty(attachmentData)) {
+            throw new IllegalArgumentException("attachmentData is null");
+        }
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Saving attachment data, existing id: " + id);
+        }
+
         try (Connection connection = getDataSource().getConnection()) {
         	if (StringUtils.isNotBlank(id)) {
         		deleteAttachment(connection, id);
@@ -54,19 +71,31 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao{
 	        	stmt.setString(1, newId);
 	        	stmt.setBlob(2, new SerialBlob(attachmentData));
 	        	stmt.executeUpdate();
-	        	return newId;
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Created attachment data, new id: " + newId);
+                }
+
+                return newId;
         	}
         } catch (SQLException e) {
         	throw new RuntimeException(e);
         }
     }
-    
+
+    @Override
     public void removeData(String id) {
-    	try (Connection conn = dataSource.getConnection()) {
-    		deleteAttachment(conn, id);
-    	} catch (SQLException e) {
-    		throw new RuntimeException(e);
-    	}
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Removing attachment data, existing id: " + id);
+        }
+
+        if (StringUtils.isNotBlank(id)) {
+            try (Connection conn = dataSource.getConnection()) {
+                deleteAttachment(conn, id);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
         
     protected void deleteAttachment(Connection conn, String id) throws SQLException {
