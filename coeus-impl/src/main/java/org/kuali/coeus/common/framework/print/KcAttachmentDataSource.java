@@ -24,7 +24,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import javax.persistence.*;
-import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 
 /**
  * 
@@ -43,7 +43,7 @@ public abstract class KcAttachmentDataSource extends KcPersistableBusinessObject
     private String fileDataId;
 
     @Transient
-    private transient SoftReference<byte[]> data;
+    private transient WeakReference<byte[]> data;
 
     @Override
     public String getName() {
@@ -71,9 +71,9 @@ public abstract class KcAttachmentDataSource extends KcPersistableBusinessObject
         		return existingData;
         	}
         }
-        //if we didn't have a softreference, grab the data from the db
+        //if we didn't have a weakreference, grab the data from the db
         byte[] newData = getKcAttachmentDao().getData(fileDataId);
-        data = new SoftReference<byte[]>(newData);
+        data = new WeakReference<byte[]>(newData);
         return newData;
     }
 
@@ -95,6 +95,6 @@ public abstract class KcAttachmentDataSource extends KcPersistableBusinessObject
         } else {
             fileDataId = getKcAttachmentDao().saveData(data, fileDataId);
         }
-        this.data = new SoftReference<byte[]>(data);
+        this.data = new WeakReference<byte[]>(data);
     }
 }
