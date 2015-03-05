@@ -20,8 +20,8 @@ package org.kuali.coeus.propdev.impl.editable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.attr.PersonEditableField;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -37,7 +37,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERSON_EDITABLE_FI
  * we need to check to see if it already exists or not. If it already exists, don't create a new one. Only change an existing one.
  * 
  */
-public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
+public class PersonEditableFieldRule extends KcMaintenanceDocumentRuleBase {
     
         /**
          * Constructs a PersonEditableFieldRule.java.

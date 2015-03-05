@@ -24,7 +24,7 @@
 	<bean id="CustRptDefaultParmsMaintenanceDocument" parent="CustRptDefaultParmsMaintenanceDocument-parentBean" />
 
 	<bean id="CustRptDefaultParmsMaintenanceDocument-parentBean"
-		abstract="true" parent="MaintenanceDocumentEntry">
+		abstract="true" parent="KcMaintenanceDocumentEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.coeus.common.impl.rpt.cust.CustRptDefaultParms" />
 		<property name="maintainableClass"

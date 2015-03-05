@@ -18,9 +18,11 @@
  */
 package org.kuali.coeus.sys.framework.persistence;
 
+import org.kuali.rice.krad.bo.DataObjectRelationship;
 import org.kuali.rice.krad.exception.ClassNotPersistableException;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 
+import java.util.List;
 import java.util.Map;
 
 public interface KcPersistenceStructureService extends PersistenceStructureService {
@@ -28,4 +30,6 @@ public interface KcPersistenceStructureService extends PersistenceStructureServi
     Map<String, String> getPersistableAttributesColumnMap(Class clazz) throws ClassNotPersistableException;
     
     Map<String, String> getDBColumnToObjectAttributeMap(Class clazz) throws ClassNotPersistableException;
+
+    List<DataObjectRelationship> getRelationshipsTo(Class persistableClass);
 }

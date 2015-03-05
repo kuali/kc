@@ -70,7 +70,8 @@
             WEB-INF/tags/rice-portal/portalBody.tag,
             WEB-INF/tags/rice-portal/portalTabs.tag,
             kr/WEB-INF/jsp/KualiLookup.jsp,
-            kr/WEB-INF/jsp/KualiMultipleValueLookup.jsp
+            kr/WEB-INF/jsp/KualiMultipleValueLookup.jsp,
+            WEB-INF/tags/kr/page.tag
         </rice.web.excludes>
 
         <rice.output.dir>${project.build.directory}/rice-server</rice.output.dir>

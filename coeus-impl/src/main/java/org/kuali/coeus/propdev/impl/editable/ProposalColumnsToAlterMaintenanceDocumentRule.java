@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.editable;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -32,7 +33,6 @@ import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValida
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
@@ -43,7 +43,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProposalColumnsToAlterMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
+public class ProposalColumnsToAlterMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
     private static Map<String, String> validationClassesMap = new HashMap<String, String>();
     static {

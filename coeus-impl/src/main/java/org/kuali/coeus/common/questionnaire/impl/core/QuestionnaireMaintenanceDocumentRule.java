@@ -24,11 +24,11 @@ import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstant
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireService;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -41,7 +41,7 @@ import java.util.Map;
  * 
  * This class is to provide rule validation when questionnaire is to be approved.
  */
-public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
+public class QuestionnaireMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
     public static final String ALREADY_EDITED_ERROR = "error.questionnaire.alreadyEdited";
 

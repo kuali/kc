@@ -20,13 +20,13 @@ package org.kuali.coeus.common.impl.custom.attr;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class CustomAttributeMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
+public class CustomAttributeMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
     
 
     public CustomAttributeMaintenanceDocumentRule() {

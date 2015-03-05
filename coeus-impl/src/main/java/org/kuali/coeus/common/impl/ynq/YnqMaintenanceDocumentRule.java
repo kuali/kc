@@ -19,13 +19,13 @@
 package org.kuali.coeus.common.impl.ynq;
 
 import org.kuali.coeus.common.framework.ynq.Ynq;
+import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class YnqMaintenanceDocumentRule  extends MaintenanceDocumentRuleBase {
+public class YnqMaintenanceDocumentRule  extends KcMaintenanceDocumentRuleBase {
 
 
     public YnqMaintenanceDocumentRule() {
