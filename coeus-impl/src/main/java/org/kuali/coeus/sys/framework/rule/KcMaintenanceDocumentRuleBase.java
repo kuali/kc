@@ -22,11 +22,14 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.persistence.KcPersistenceStructureService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.criteria.CountFlag;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.metadata.DataObjectMetadata;
 import org.kuali.rice.krad.data.provider.MetadataProvider;
@@ -37,7 +40,6 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.DataObjectRelationship;
 import org.kuali.rice.krad.datadictionary.PrimitiveAttributeDefinition;
 import org.kuali.rice.krad.datadictionary.RelationshipDefinition;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import java.lang.reflect.InvocationTargetException;
@@ -45,11 +47,10 @@ import java.util.*;
 
 public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
-    private static final String ERROR_DELETION_BLOCKED = "error.deletion.blocked";
-
     private transient KcPersistenceStructureService kcPersistenceStructureService;
     private transient ProviderRegistry providerRegistry;
     private transient DataObjectService dataObjectService;
+    private transient GlobalVariableService globalVariableService;
 
     @Override
     protected boolean processGlobalRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -75,7 +76,7 @@ public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
                 }
             });
             if (getBoService().countMatching(relationship.getParentClass(), criteria) > 0) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ERROR_DELETION_BLOCKED);
+                getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED);
                 return false;
             }
         }
@@ -104,7 +105,7 @@ public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
             }
 
             if (getBoService().countMatching(relationship.getSourceClass(), criteria) > 0) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ERROR_DELETION_BLOCKED);
+                getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED);
                 return false;
             }
         }
@@ -138,7 +139,7 @@ public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
                             .setCountFlag(CountFlag.ONLY)
                             .build())
                     .getTotalRowCount() > 0) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ERROR_DELETION_BLOCKED);
+                getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED);
                 return false;
             }
         }
@@ -153,11 +154,11 @@ public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * 
      * This method to check pk does exist in table.  Maybe this should be in service instead in this rule base
      */
-    protected boolean checkExistenceFromTable(Class clazz, Map fieldValues, String errorField, String errorParam) {
+    protected boolean checkExistenceFromTable(Class<? extends BusinessObject> clazz, Map<String, ?> fieldValues, String errorField, String errorParam) {
         boolean success = true;
         success = getBoService().countMatching(clazz, fieldValues) != 0;
         if (!success) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + errorField, RiceKeyConstants.ERROR_EXISTENCE, errorParam);
+            getGlobalVariableService().getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + errorField, RiceKeyConstants.ERROR_EXISTENCE, errorParam);
         }
         return success;
     }
@@ -195,4 +196,14 @@ public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         this.dataObjectService = dataObjectService;
     }
 
+    protected GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            this.globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
 }
