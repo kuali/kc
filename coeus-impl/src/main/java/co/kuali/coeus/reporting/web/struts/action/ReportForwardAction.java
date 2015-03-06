@@ -15,6 +15,7 @@
  */
 package co.kuali.coeus.reporting.web.struts.action;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,17 +27,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
-
-import com.rsmart.rfabric.auth.tokenauth.AuthTokenGenerator;
-import com.rsmart.rfabric.auth.tokenauth.AuthTokenURLGenerator;
 
 /**
  * 
@@ -48,10 +46,11 @@ public class ReportForwardAction extends KualiDocumentActionBase {
     private static final String URL_RELATIVE = "rsmart.report.url.relative";
     private static final String URL_BASE = "rsmart.report.url.base";
     private static final String QUERY_BASE = "rsmart.report.query.base";
-    private static final String SHARED_SECRET = "rsmart.report.shared.secret";
     private static final String CLUSTER_ID_VAR = "RSMART_CLUSTER";
     
     private DataObjectService dataObjectService;
+    private Object tokenURLGenerator;
+    private GlobalVariableService globalVariableService;
 
 	protected String getClientId(final HttpServletRequest request) {
       String clientId = System.getenv(CLUSTER_ID_VAR);
@@ -70,31 +69,26 @@ public class ReportForwardAction extends KualiDocumentActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         
-        String currentUserId = GlobalVariables.getUserSession().getPrincipalName();
+        String currentUserId = getGlobalVariableService().getUserSession().getPrincipalName();
         String clientId = getClientId(request);
         String awardId = request.getParameter("awardId");
-        AuthTokenGenerator tokenGenerator = new AuthTokenGenerator();
-        
-        String sharedSecret = ConfigContext.getCurrentContextConfig().getProperty(SHARED_SECRET);
-        tokenGenerator.setSecret(sharedSecret);
-        
-        AuthTokenURLGenerator tokenURLGenerator = new AuthTokenURLGenerator();
-        tokenURLGenerator.setTokenGenerator(tokenGenerator);
-//        AuthTokenURLGenerator tokenURLGenerator = (AuthTokenURLGenerator) KraServiceLocator.getAppContext().getBean("urlGenerator");
+
         boolean isPI = isPrincipalInvestigator(currentUserId);
 
-        String urlRelative = ConfigContext.getCurrentContextConfig().getProperty(URL_RELATIVE);
-        String urlBase = ConfigContext.getCurrentContextConfig().getProperty(URL_BASE);
-        String queryBase = ConfigContext.getCurrentContextConfig().getProperty(QUERY_BASE);
+        String urlRelative = getKualiConfigurationService().getPropertyValueAsString(URL_RELATIVE);
+        String urlBase = getKualiConfigurationService().getPropertyValueAsString(URL_BASE);
+        String queryBase = getKualiConfigurationService().getPropertyValueAsString(QUERY_BASE);
         String credentials[] = new String[] {currentUserId, Boolean.toString(isPI), clientId};
-        String url = null;
+        final String url;
         
         if (Boolean.parseBoolean(urlRelative)) {
-          LOG.debug("generating relative URL");
-          url = tokenURLGenerator.generateRelativeURL(request, urlBase, queryBase + awardId, credentials);
+            LOG.debug("generating relative URL");
+            final Method generateRelativeURL = getTokenURLGenerator().getClass().getMethod("tokenURLGenerator", HttpServletRequest.class, String.class, String.class, String[].class);
+            url = (String) generateRelativeURL.invoke(getTokenURLGenerator(), request, urlBase, queryBase + awardId, credentials);
         } else {
-          LOG.debug("generating absolute URL");
-          url = tokenURLGenerator.generateAbsoluteURL(urlBase, queryBase + awardId, credentials);
+            LOG.debug("generating absolute URL");
+            final Method generateAbsoluteURL = getTokenURLGenerator().getClass().getMethod("generateAbsoluteURL", String.class, String.class, String[].class);
+            url = (String) generateAbsoluteURL.invoke(getTokenURLGenerator(), urlBase, queryBase + awardId, credentials);
         }
         
         LOG.debug("redirecting to url \"" + url + "\"");
@@ -107,17 +101,43 @@ public class ReportForwardAction extends KualiDocumentActionBase {
         proposalKeys.put("personId", principalId);
         proposalKeys.put("proposalPersonRoleId", Constants.PRINCIPAL_INVESTIGATOR_ROLE);
 
-        List<ProposalPerson> proposalPersons = (List<ProposalPerson>) getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.andAttributes(proposalKeys).build());
+        List<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.andAttributes(proposalKeys).build()).getResults();
         return (proposalPersons != null && proposalPersons.size() > 0);
     }
     
     public DataObjectService getDataObjectService() {
-		return dataObjectService;
+		if (dataObjectService == null) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+
+        return dataObjectService;
 	}
 
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
 	}
 
-    
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    public Object getTokenURLGenerator() {
+        if (tokenURLGenerator == null) {
+            tokenURLGenerator = KcServiceLocator.getService("urlGenerator");
+        }
+
+        return tokenURLGenerator;
+    }
+
+    public void setTokenURLGenerator(Object tokenURLGenerator) {
+        this.tokenURLGenerator = tokenURLGenerator;
+    }
 }

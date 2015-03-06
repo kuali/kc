@@ -29,7 +29,7 @@
     </parent>
     <artifactId>coeus-impl</artifactId>
     <packaging>jar</packaging>
-    <name>KualiCo Cloud Express Impl</name>
+    <name>Kuali Coeus Impl</name>
     <description>
         The Kuali Coeus Impl module contains the main source code (implementation and framework code) and unit tests for the Kuali Coeus application.
     </description>
@@ -342,11 +342,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>co.kuali</groupId>
-            <artifactId>kc-sql</artifactId>
         </dependency>
 
         <dependency>
@@ -689,16 +684,32 @@
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.rsmart</groupId>
-            <artifactId>tokenauth</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.rsmart.kuali</groupId>
-            <artifactId>kc_hr_rest</artifactId>
-        </dependency>
-
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>grm</id>
+            <activation>
+                <property>
+                    <name>!grm.off</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>co.kuali</groupId>
+                    <artifactId>kc-sql</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>com.rsmart</groupId>
+                    <artifactId>tokenauth</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>com.rsmart.kuali</groupId>
+                    <artifactId>kc_hr_rest</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

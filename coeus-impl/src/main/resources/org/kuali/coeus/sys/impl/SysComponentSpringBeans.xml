@@ -43,22 +43,17 @@
     <import resource="classpath:org/kuali/coeus/sys/impl/SysImportRiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/coeus/sys/impl/SysImportModuleSpringBeans.xml"/>
 
+    <!-- only brought in on the grm profile -->
+    <import resource="classpath:co/kuali/coeus/grm/impl/GrmSysComponentSpringBeans.xml"/>
+
     <bean id="sysModule" parent="sysModule-parentBean" />
     <bean id="sysModule-parentBean" class="org.kuali.rice.krad.service.impl.ModuleServiceBase" abstract="true">
         <property name="moduleConfiguration" ref="sysModuleConfiguration"/>
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>
-    
-    <bean id="kewIngester" class="co.kuali.coeus.data.migration.workflow.KcKewAutoIngestorService" init-method="ingest">
-    	<property name="cfgPathsToScan" value="${kc.kew.auto.ingestion.paths}"/>
-    	<property name="principalIdToIngestAs" value="${kc.kew.auto.ingestion.principalId}"/>
-    	<property name="enabled" value="${kc.kew.auto.ingestion.enabled}"/>
-    	<property name="riceDataSource" ref="riceDataSource" />
-    	<property name="xmlIngesterService" ref="xmlIngesterService" />
-    </bean>
 
     <bean id="sysModuleConfiguration" parent="sysModuleConfiguration-parentBean" />
-    <bean id="sysModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true" depends-on="kewIngester">
+    <bean id="sysModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
         <property name="namespaceCode" value="KC-SYS" />
         <property name="packagePrefixes">
             <list>

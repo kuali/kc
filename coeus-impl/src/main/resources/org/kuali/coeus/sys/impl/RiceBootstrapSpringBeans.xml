@@ -28,20 +28,10 @@
     <context:annotation-config />
 
     <import resource="classpath:org/kuali/coeus/sys/impl/DataSourceSpringBeans.xml"/>
+    <!-- only brought in on the grm profile -->
+    <import resource="classpath:co/kuali/coeus/grm/impl/GrmRiceBootstrapSpringBeans.xml"/>
 
-    <bean id="flywayMigrator" class="co.kuali.coeus.data.migration.FlywayMigrator" init-method="migrate">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="riceDataSource" ref="riceDataSource"/>
-        <property name="applyDemo" value="${kc.flyway.applyDemoData}"/>
-        <property name="applyStaging" value="${kc.flyway.applyStagingData}"/>
-        <property name="manageRice" value="${kc.flyway.manageRiceServer}"/>
-        <property name="embeddedMode" value="${kc.flyway.embeddedMode}"/>
-        <property name="enabled" value="${kc.flyway.enabled}"/>
-        <property name="sqlMigrationPath" value="${kc.flyway.sql.migration.path}" />
-        <property name="javaMigrationPath" value="${kc.flyway.java.migration.path}" />
-    </bean>
-
-    <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer" depends-on="flywayMigrator">
+    <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
         <property name="dataSource" ref="dataSource" />
         <property name="serverDataSource" ref="riceDataSource" />
         <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
