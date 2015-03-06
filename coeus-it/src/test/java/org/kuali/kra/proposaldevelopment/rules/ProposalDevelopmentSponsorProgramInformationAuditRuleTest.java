@@ -156,6 +156,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         proposal.getS2sOpportunity().setCfdaNumber("00.000");
         proposal.setCfdaNumber("00.000");
         proposal.setProgramAnnouncementTitle("Test Title");
+        proposal.setSponsorCode("000100");
         
         auditRule.setSubmissionInfoService(new SubmissionInfoServiceMock());
         validateGGAuditRules(document,SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD, true);
@@ -177,6 +178,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
         proposal.getS2sOpportunity().setCfdaNumber("00.000");
         proposal.setCfdaNumber("00.000");
         proposal.setProgramAnnouncementTitle("Test Title");
+        proposal.setSponsorCode("000100");
 
         auditRule.setSubmissionInfoService(new SubmissionInfoServiceMock());
         validateGGAuditRules(document, SPONSOR_PROPOSAL_KEY, KeyConstants.ERROR_PROPOSAL_REQUIRE_PRIOR_AWARD_FOR_RESUBMIT, true);

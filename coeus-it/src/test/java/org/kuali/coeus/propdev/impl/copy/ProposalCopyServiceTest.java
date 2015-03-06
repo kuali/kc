@@ -60,7 +60,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-@Ignore("ignoring until KRACOEUS-8664 is resolved")
 public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
 	ProposalCopyService proposalCopyService;
 	ProposalDevelopmentDocument proposalDocument;

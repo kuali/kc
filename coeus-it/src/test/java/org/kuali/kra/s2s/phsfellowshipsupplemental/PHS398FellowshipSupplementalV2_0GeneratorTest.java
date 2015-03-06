@@ -105,10 +105,12 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		List<ProposalSpecialReview> proposalSpecialReviewList = new ArrayList<ProposalSpecialReview>();
 		ProposalSpecialReview proposalSpecialReview = new ProposalSpecialReview();
 		SpecialReviewType specialReviewType = new SpecialReviewType();
-		specialReviewType.setSpecialReviewTypeCode("2");
-        proposalSpecialReview.setSpecialReviewTypeCode("2");
+		specialReviewType.setSpecialReviewTypeCode("5");
+        proposalSpecialReview.setSpecialReviewTypeCode("5");
         proposalSpecialReview.setSpecialReviewType(specialReviewType);
         proposalSpecialReview.setApprovalTypeCode("1");
+        proposalSpecialReview.setSpecialReviewNumber(1);
+        proposalSpecialReview.setDevelopmentProposal(document.getDevelopmentProposal());
         SpecialReviewApprovalType approvalType = new SpecialReviewApprovalType();
         approvalType.setApprovalTypeCode("1");
         proposalSpecialReview.setApprovalType(approvalType);
