@@ -621,10 +621,11 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		List<ProposalSpecialReview> proposalSpecialReviews = new ArrayList<ProposalSpecialReview>();
 		ProposalSpecialReview proposalSpecialReview = new ProposalSpecialReview();
 		proposalSpecialReview.setDevelopmentProposal(developmentProposal);
-		proposalSpecialReview.setSpecialReviewTypeCode("1");
+		proposalSpecialReview.setSpecialReviewTypeCode("5");
 		proposalSpecialReview.setApprovalTypeCode("2");
 		proposalSpecialReview.setHierarchyProposalNumber(developmentProposal
 				.getHierarchyParentProposalNumber());
+        proposalSpecialReview.setSpecialReviewNumber(1);
 		proposalSpecialReviews.add(proposalSpecialReview);
 		developmentProposal.setPropSpecialReviews(proposalSpecialReviews);
 	}
