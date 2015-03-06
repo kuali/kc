@@ -707,21 +707,23 @@ public class ProposalDevelopmentSubmitController extends
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=reject")
     public ModelAndView reject(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
-        DialogResponse dialogResponse = form.getDialogResponse(ProposalDevelopmentConstants.KradConstants.REJECT_DIALOG);
-        if(dialogResponse == null) {
-            return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.REJECT_DIALOG, false, form);
-        }else if (dialogResponse.getResponseAsBoolean()){
-            ProposalDevelopmentRejectionBean bean = form.getProposalDevelopmentRejectionBean();
-            if (new ProposalDevelopmentRejectionRule().proccessProposalDevelopmentRejection(bean)){
-                getProposalHierarchyService().rejectProposalDevelopmentDocument(form.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(),
-                        getGlobalVariableService().getUserSession().getPrincipalId(),bean.getRejectFile());
-            }
-        } else {
-            form.setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
-        }
-        form.setEvaluateFlagsAndModes(true);
-        return getTransactionalDocumentControllerService().reload(form);
+
+    ProposalDevelopmentRejectionBean bean = form.getProposalDevelopmentRejectionBean();
+    if (new ProposalDevelopmentRejectionRule().proccessProposalDevelopmentRejection(bean)){
+        getProposalHierarchyService().rejectProposalDevelopmentDocument(form.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(),
+                getGlobalVariableService().getUserSession().getPrincipalId(),bean.getRejectFile());
     }
+
+    form.setEvaluateFlagsAndModes(true);
+    return getTransactionalDocumentControllerService().reload(form);
+    }
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=cancelReject")
+    public ModelAndView cancelReject(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
+        form.setProposalDevelopmentRejectionBean(new ProposalDevelopmentRejectionBean());
+        return getModelAndViewService().getModelAndView(form);
+    }
+
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendAdHocRequests")
     public ModelAndView sendAdHocRequests(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
