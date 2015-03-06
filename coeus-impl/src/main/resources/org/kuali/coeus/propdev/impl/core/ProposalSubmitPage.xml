@@ -76,7 +76,7 @@
                         </property>
                     </bean>
 
-                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Reject" p:methodToCall="reject" p:order="50"
+                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Reject" p:actionScript="showDialog('PropDev-SubmitPage-RejectDialog')" p:order="50"
                           p:render="@{#editModes['rejectProposal']}"/>
 
                     <bean parent="Uif-LinkField" p:linkText="View Route Log"
@@ -165,7 +165,7 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="OK" p:methodToCall="reject" p:order="10"
                       p:dialogDismissOption="REQUEST"  p:successCallback="dismissDialog('PropDev-SubmitPage-RejectDialog');" p:dialogResponse="true"/>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="reject" p:order="20"
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancelReject" p:order="20"
                       p:dialogDismissOption="REQUEST" p:successCallback="dismissDialog('PropDev-SubmitPage-RejectDialog');" p:dialogResponse="false"/>
             </list>
         </property>
