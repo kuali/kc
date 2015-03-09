@@ -31,7 +31,8 @@
 	<param name="kc.subaward.mode">LOCAL</param>
 	<param name="kc.negotiation.mode">LOCAL</param>
 	<param name="kc.coi.mode">LOCAL</param>
-	
+    <param name="kc.healthcheck.mode">LOCAL</param>
+
 	<param name="rice.krad.componentPublishing.enabled">false</param>
 	<param name="service.namespace">KC</param>
 	<param name="app.namespace">${service.namespace}</param>
@@ -225,4 +226,5 @@
     <param name="feedback.link.url">https://jira.kuali.org/secure/CreateIssue.jspa?pid=10310&amp;issuetype=1</param>
     <param name="feedback.link.text">GET HELP</param>
 
+    <param name="rsmart.report.shared.secret">SECRETKEYVALUE</param>
 </config>

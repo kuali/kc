@@ -36,6 +36,12 @@
         <param-value>classpath:KcBootstrapSpringBeans.xml</param-value>
     </context-param>
 
+    <!-- this is resource filtered by the maven build to enable spring profiles -->
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>${build.spring.profiles.active}</param-value>
+    </context-param>
+
     <filter>
         <filter-name>HttpRequestLogger</filter-name>
         <filter-class>org.kuali.rice.core.RequestLoggingFilter</filter-class>
@@ -64,11 +70,6 @@
     <filter>
         <filter-name>UserPreferencesFilter</filter-name>
         <filter-class>org.kuali.rice.kew.web.UserPreferencesFilter</filter-class>
-    </filter>
-
-    <filter>
-        <filter-name>KCBasicAuthenticationFilter</filter-name>
-        <filter-class>com.rsmart.kuali.coeus.hr.rest.authn.KCBasicAuthFilter</filter-class>
     </filter>
 
     <filter>
@@ -205,11 +206,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <filter-mapping>
-        <filter-name>KCBasicAuthenticationFilter</filter-name>
-        <url-pattern>/hr-import/*</url-pattern>
-    </filter-mapping>
-
     <!-- ******************* End Logging Filters ********************* -->
 
     <listener>
@@ -318,16 +314,6 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
-
-  <servlet>
-    <servlet-name>HR Import REST Service</servlet-name>
-    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-    <init-param>
-      <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>com.rsmart.kuali.coeus.hr.rest</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
 
     <!--
 
@@ -450,11 +436,6 @@
     <servlet-mapping>
         <servlet-name>krad</servlet-name>
         <url-pattern>/kr-krad/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>HR Import REST Service</servlet-name>
-        <url-pattern>/hr-import/*</url-pattern>
     </servlet-mapping>
 
     <session-config>

@@ -28,7 +28,7 @@
     <artifactId>coeus-db-data-conv</artifactId>
     <version>6.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>KualiCo Cloud Express Database Conversion</name>
+    <name>Kuali Coeus Database Conversion</name>
     <description>
         The Kuali Coeus Data Conversion module is a program to aid in the conversion of data from one version of Kuali Coeus to another.
     </description>
