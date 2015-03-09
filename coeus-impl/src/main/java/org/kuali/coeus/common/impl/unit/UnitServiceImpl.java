@@ -188,13 +188,11 @@ public class UnitServiceImpl implements UnitService {
         Unit instituteUnit = getTopUnit();
         int parentIdx = 0;
         String subUnits = instituteUnit.getUnitNumber() +KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
-        int numberOfUnits = 0;
         for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
-            subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
-            // we can make it more flexible, to add a while loop and with a 'depth' argument.
-            numberOfUnits++;
+            String subUnit = parentIdx + DASH + unit.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit.getUnitName();
+            subUnits = subUnits + subUnit + SEPARATOR;;
             for (Unit unit1 : getSubUnits(unit.getUnitNumber())) {
-                subUnits = subUnits + numberOfUnits + DASH + unit1.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit1.getUnitName()+SEPARATOR;
+                subUnits = subUnits + getParentIndex(subUnits,subUnit) + DASH + unit1.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit1.getUnitName()+SEPARATOR;
             }
         }
         subUnits = subUnits.substring(0, subUnits.length() - 3);
@@ -207,13 +205,11 @@ public class UnitServiceImpl implements UnitService {
         Unit instituteUnit = getTopUnit();
         int parentIdx = 0;
         String subUnits = instituteUnit.getUnitNumber() +KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
-        int numberOfUnits = 0;
         for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
-            subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
-            // we can make it more flexible, to add a while loop and with a 'depth' argument.
-            numberOfUnits++;
+            String subUnit = parentIdx + DASH + unit.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit.getUnitName();
+            subUnits = subUnits + subUnit+SEPARATOR;
             if (depth - 2 > 0) {
-                subUnits = subUnits +  getSubUnits(numberOfUnits, unit, depth - 2);
+                subUnits = subUnits +  getSubUnits(getParentIndex(subUnits,subUnit), unit, depth - 2);
             }
         }
         subUnits = subUnits.substring(0, subUnits.length() - 3);
@@ -222,18 +218,29 @@ public class UnitServiceImpl implements UnitService {
         
     }
 
-    protected String getSubUnits (int numberOfUnits, Unit unit, int level) {
+    protected String getSubUnits (int parentIdx, Unit unit, int level) {
         String subUnits="";
-        int parentNum = numberOfUnits;
         level--;
         for (Unit unit1 : getSubUnits(unit.getUnitNumber())) {
-            subUnits = subUnits + parentNum + DASH + unit1.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit1.getUnitName()+SEPARATOR;
-            numberOfUnits++;
+            String subUnit = parentIdx + DASH + unit1.getUnitNumber()+KRADConstants.BLANK_SPACE+COLUMN+KRADConstants.BLANK_SPACE+unit1.getUnitName();
+            subUnits = subUnits + subUnit + SEPARATOR;;
             if (level > 0) {
-                subUnits = subUnits +  getSubUnits(numberOfUnits, unit1, level);
+                subUnits = subUnits +  getSubUnits(getParentIndex(subUnits,subUnit), unit1, level);
             }
         }
         return subUnits;        
+    }
+
+    protected int getParentIndex(String subUnits, String subUnit) {
+        String[] units = subUnits.split(SEPARATOR);
+        int i = 0;
+        for (String unit: units) {
+            if (StringUtils.equals(unit,subUnit)) {
+                return i;
+            }
+            i++;
+        }
+        return 0;
     }
     
     @SuppressWarnings("unchecked")
