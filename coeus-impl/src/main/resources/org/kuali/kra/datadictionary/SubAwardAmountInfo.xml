@@ -273,12 +273,6 @@
     <property name="label" value="Document" />
     <property name="shortLabel" value="Document" />
     <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="10"/>
@@ -297,13 +291,14 @@
     <property name="label" value="Mime Type" />
     <property name="shortLabel" value="Mime Type" />
     <property name="maxLength" value="4000" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-                p:allowWhitespace="true" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
     <property name="required" value="false" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="10"/>
@@ -317,20 +312,12 @@
   
   <bean id="SubAwardAmountInfo-modificationEffectiveDate" parent="SubAwardAmountInfo-modificationEffectiveDate-parentBean" />
   
-  <bean id="SubAwardAmountInfo-modificationEffectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAwardAmountInfo-modificationEffectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="modificationEffectiveDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Modification Effective Date" />
     <property name="shortLabel" value="Modification Effective Date " />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="Modification Effective Date " />
     <property name="description" value="Modification Effective Date " />    
   </bean>
@@ -342,40 +329,24 @@
   
   <bean id="SubAwardAmountInfo-periodofPerformanceStartDate" parent="SubAwardAmountInfo-periodofPerformanceStartDate-parentBean" />
   
-  <bean id="SubAwardAmountInfo-periodofPerformanceStartDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAwardAmountInfo-periodofPerformanceStartDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="periodofPerformanceStartDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Period of Performance Start Date" />
     <property name="shortLabel" value="Period of Performance Start Date" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="Period of Performance Start Date" />
     <property name="description" value="Period of Performance Start Date" />    
   </bean>
   
   <bean id="SubAwardAmountInfo-periodofPerformanceEndDate" parent="SubAwardAmountInfo-periodofPerformanceEndDate-parentBean" />
   
-  <bean id="SubAwardAmountInfo-periodofPerformanceEndDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAwardAmountInfo-periodofPerformanceEndDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="periodofPerformanceEndDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Period of Performance End Date" />
     <property name="shortLabel" value="Period of Performance End Date" />
-    <property name="maxLength" value="22" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="Period of Performance End Date" />
     <property name="description" value="Period of Performance End Date" />    
   </bean>
