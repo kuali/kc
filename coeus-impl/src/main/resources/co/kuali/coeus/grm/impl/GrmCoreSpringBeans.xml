@@ -31,26 +31,41 @@
                            http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util.xsd"
-        profile="grm">
+       profile="grm">
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
-    <context:annotation-config />
+    <import resource="classpath:com/rsmart/kuali/coeus/hr/JerseyBeans.xml"/>
 
-    <!-- this spring file contains KualiCo GRM specific Spring Beans that get importing into the sys component spring beans -->
-
-    <bean id="kewIngester" class="co.kuali.coeus.data.migration.workflow.KcKewAutoIngestorService" init-method="ingest">
-        <property name="cfgPathsToScan" value="${kc.kew.auto.ingestion.paths}"/>
-        <property name="principalIdToIngestAs" value="${kc.kew.auto.ingestion.principalId}"/>
-        <property name="enabled" value="${kc.kew.auto.ingestion.enabled}"/>
-        <property name="riceDataSource" ref="riceDataSource" />
-        <property name="xmlIngesterService" ref="xmlIngesterService" />
+    <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator">
+        <property name="filter">
+            <bean class="com.rsmart.kuali.coeus.hr.rest.authn.KCBasicAuthFilter" />
+        </property>
+        <property name="filterName" value="KCBasicAuthenticationFilter"/>
+        <property name="urlMapping">
+            <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator.Mapping">
+                <property name="maps">
+                    <list>
+                        <value>/hr-import/*</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
-    <bean id="tokenGenerator" class="com.rsmart.rfabric.auth.tokenauth.AuthTokenGenerator">
-        <property name="secret" value="${rsmart.report.shared.secret}"/>
+    <bean class="org.kuali.coeus.sys.framework.controller.ServletRegistrator">
+        <property name="servlet">
+            <bean class="com.sun.jersey.spi.container.servlet.ServletContainer"/>
+        </property>
+        <property name="servletName" value="HR Import REST Service"/>
+        <property name="initParameters">
+            <map>
+                <entry key="com.sun.jersey.config.property.packages" value="com.rsmart.kuali.coeus.hr.rest"/>
+            </map>
+        </property>
+        <property name="loadOnStartup" value="1" />
+        <property name="urlMappings">
+            <list>
+                <value>/hr-import/*</value>
+            </list>
+        </property>
     </bean>
-    <bean id="urlGenerator" class="com.rsmart.rfabric.auth.tokenauth.AuthTokenURLGenerator">
-        <property name="tokenGenerator" ref="tokenGenerator"/>
-    </bean>
-
 </beans>
