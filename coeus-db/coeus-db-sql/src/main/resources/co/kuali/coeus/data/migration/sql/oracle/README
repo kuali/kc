@@ -1,0 +1,39 @@
+*****************************************************
+Oracle installation instructions for KC Release 6.0.1
+******************************************************
+
+This folder contains the scripts for a KC 6.0.1, Oracle database upgrade.
+It is assumed that you have a 6.0 database installed already.
+If not, please download it from https://www.kuali.org/download/kc and install the db 6.0 scripts before you go ahead with the 6.0.1 installation.
+
+There are two sets of scripts to be installed depending on whether you are running a shared instance of rice or a bundled instance. They are 601_oracle_kc_upgrade.sql and 601_oracle_rice_upgrade.sql.
+
+********************
+Bundled rice
+********************
+For the bundled instance, since your kc and rice tables are housed in the same database, run both 601_oracle_kc_upgrade.sql and 601_oracle_rice_upgrade.sql against the same database using sqlplus.
+
+Example:
+
+sqlplus kc_db_username/kc_db_password < 601_oracle_rice_upgrade.sql
+sqlplus kc_db_username/kc_db_password < 601_oracle_kc_upgrade.sql
+
+
+***********************
+Standalone rice
+***********************
+
+If you are running a standalone rice server, run the 601_oracle_rice_upgrade.sql script against the rice database and 601_oracle_kc_upgrade.sql against the kc database.
+
+Example:
+
+sqlplus kr_db_username/kr_db_password < 601_oracle_rice_upgrade.sql
+sqlplus kc_db_username/kc_db_password < 601_oracle_kc_upgrade.sql
+
+*****
+LOGS
+*****
+
+Please be aware that two log files will be created in the directory where you launch sqlplus from.
+You can check these logs for errors once the scripts finish.
+
