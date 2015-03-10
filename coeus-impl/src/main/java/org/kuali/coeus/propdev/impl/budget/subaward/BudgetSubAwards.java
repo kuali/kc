@@ -19,6 +19,8 @@
 package org.kuali.coeus.propdev.impl.budget.subaward;
 
 import java.io.Serializable;
+import java.lang.ref.SoftReference;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +31,13 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.common.framework.org.Organization;
 import org.kuali.coeus.propdev.api.budget.subaward.BudgetSubAwardsContract;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyMaintainable;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -76,15 +80,20 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
     @Column(name = "SUB_AWARD_STATUS_CODE")
     private Integer subAwardStatusCode;
 
-    @Column(name = "SUB_AWARD_XFD_FILE")
-    private byte[] subAwardXfdFileData;
+    @Column(name = "FILE_DATA_ID")
+    private String fileDataId;
+
+    @Transient
+    private transient SoftReference<byte[]> subAwardXfdFileData;
 
     @Column(name = "SUB_AWARD_XFD_FILE_NAME")
     private String subAwardXfdFileName;
 
-    @Column(name = "SUB_AWARD_XML_FILE")
-    @Lob
-    private String subAwardXmlFileData;
+    @Column(name = "XML_DATA_ID")
+    private String xmlDataId;
+
+    @Transient
+    private transient SoftReference<String> subAwardXmlFileData;
 
     @Column(name = "TRANSLATION_COMMENTS")
     private String translationComments;
@@ -276,24 +285,6 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
      */
     public void setBudgetSubAwardAttachments(List<BudgetSubAwardAttachment> budgetSubAwardAttachments) {
         this.budgetSubAwardAttachments = budgetSubAwardAttachments;
-    }
-
-    @Override
-    public byte[] getSubAwardXfdFileData() {
-        return subAwardXfdFileData;
-    }
-
-    public void setSubAwardXfdFileData(byte[] subAwardXfdFileData) {
-        this.subAwardXfdFileData = subAwardXfdFileData;
-    }
-
-    @Override
-    public String getSubAwardXmlFileData() {
-        return subAwardXmlFileData;
-    }
-
-    public void setSubAwardXmlFileData(String subAwardXmlFileData) {
-        this.subAwardXmlFileData = subAwardXmlFileData;
     }
 
     /**
@@ -524,4 +515,81 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
 	public void setBudget(ProposalDevelopmentBudgetExt budget) {
 		this.budget = budget;
 	}
+
+    public String getFileDataId() {
+        return fileDataId;
+    }
+
+    public void setFileDataId(String fileDataId) {
+        this.fileDataId = fileDataId;
+    }
+
+    public String getXmlDataId() {
+        return xmlDataId;
+    }
+
+    public void setXmlDataId(String xmlDataId) {
+        this.xmlDataId = xmlDataId;
+    }
+
+    @Override
+    public byte[] getSubAwardXfdFileData() {
+        if (subAwardXfdFileData != null) {
+            byte[] existingData = subAwardXfdFileData.get();
+            if (existingData != null) {
+                return existingData;
+            }
+        }
+        //if we didn't have a softreference, grab the data from the db
+        byte[] newData = getKcAttachmentDao().getData(fileDataId);
+        subAwardXfdFileData = new SoftReference<byte[]>(newData);
+        return newData;
+    }
+
+    public void setSubAwardXfdFileData(byte[] subAwardXfdFileData) {
+        if (subAwardXfdFileData == null) {
+            getKcAttachmentDao().removeData(fileDataId);
+            fileDataId = null;
+        } else {
+            fileDataId = getKcAttachmentDao().saveData(subAwardXfdFileData, fileDataId);
+        }
+        this.subAwardXfdFileData = new SoftReference<byte[]>(subAwardXfdFileData);
+    }
+
+    @Override
+    public String getSubAwardXmlFileData() {
+        if (subAwardXmlFileData != null) {
+            return subAwardXmlFileData.get();
+        }
+        //if we didn't have a softreference, grab the data from the db
+        byte[] newData = getKcAttachmentDao().getData(xmlDataId);
+        String newString = new String(newData);
+        subAwardXmlFileData = new SoftReference<String>(newString);
+        return newString;
+    }
+
+    public void setSubAwardXmlFileData(String subAwardXmlFileData) {
+        if (subAwardXmlFileData == null) {
+            getKcAttachmentDao().removeData(xmlDataId);
+            xmlDataId = null;
+        } else {
+            xmlDataId = getKcAttachmentDao().saveData(subAwardXmlFileData.getBytes(StandardCharsets.UTF_8), xmlDataId);
+        }
+        this.subAwardXmlFileData = new SoftReference<String>(subAwardXmlFileData);
+    }
+
+    private KcAttachmentDataDao getKcAttachmentDao() {
+        return KcServiceLocator.getService(KcAttachmentDataDao.class);
+    }
+
+    @PostRemove
+    public void removeData() {
+        if (getFileDataId() != null) {
+            getKcAttachmentDao().removeData(getFileDataId());
+        }
+        if (getXmlDataId() != null) {
+            getKcAttachmentDao().removeData(getXmlDataId());
+        }
+    }
+
 }

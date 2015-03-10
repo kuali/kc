@@ -214,7 +214,7 @@
 					</property>
 				</bean>
 				<bean p:actionLabel="View XML" parent="Uif-SecondaryActionButton-Mini" p:order="20" 
-					p:disabled="@{dialogDataObject == null or dialogDataObject.subAwardXmlFileData == null}"
+					p:disabled="@{dialogDataObject == null or dialogDataObject.xmlDataId == null}"
 					p:methodToCall="viewSubAwardXml" 
 					p:ajaxSubmit="false" p:performClientSideValidation="false" p:performDirtyValidation="false" p:disableBlocking="true">
 					<property name="additionalSubmitData">
