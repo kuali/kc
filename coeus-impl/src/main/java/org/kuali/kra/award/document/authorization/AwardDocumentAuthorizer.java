@@ -39,6 +39,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -201,9 +202,21 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     @Override
     public boolean canEdit(Document document, Person user) {
         boolean isCanceled = ((AwardDocument)document).isCanceled();
-        return !isCanceled && canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
+        return !isCanceled && canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())
+                    && !isPessimisticLocked((AwardDocument)document);
     }
-    
+
+    protected boolean isPessimisticLocked(AwardDocument document) {
+        boolean isLocked = false;
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            // if lock is owned by current user, do not display message for it
+            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
+                isLocked = true;
+            }
+        }
+        return isLocked;
+    }
+
     @Override
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
