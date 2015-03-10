@@ -43,6 +43,7 @@
         <property name="riceDataSource" ref="riceDataSource"/>
         <property name="applyDemo" value="${kc.flyway.applyDemoData}"/>
         <property name="applyStaging" value="${kc.flyway.applyStagingData}"/>
+        <property name="grm" value="${kc.flyway.grm}" />
         <property name="manageRice" value="${kc.flyway.manageRiceServer}"/>
         <property name="embeddedMode" value="${kc.flyway.embeddedMode}"/>
         <property name="enabled" value="${kc.flyway.enabled}"/>
