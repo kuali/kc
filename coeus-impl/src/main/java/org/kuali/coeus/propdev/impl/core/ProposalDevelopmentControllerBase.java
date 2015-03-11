@@ -408,9 +408,9 @@ public abstract class ProposalDevelopmentControllerBase {
         if (canEdit) {
             if ((new ProposalDevelopmentDocumentRule().processAttachmentRules(form.getProposalDevelopmentDocument()))
                     && (new ProposalDevelopmentDocumentRule().processPersonnelAttachmentDuplicates(form.getProposalDevelopmentDocument()))) {
-            	form.getProposalDevelopmentAttachmentHelper().handleNarrativeUpdates(form, document);
-            	form.getProposalDevelopmentAttachmentHelper().handleInstAttachmentUpdates(form, document);
-            	form.getProposalDevelopmentAttachmentHelper().handlePersonBioUpdates(form, document);
+            	document.getDevelopmentProposal().setNarratives(form.getDevelopmentProposal().getNarratives());
+                document.getDevelopmentProposal().setInstituteAttachments(form.getDevelopmentProposal().getInstituteAttachments());
+                document.getDevelopmentProposal().setPropPersonBios(form.getDevelopmentProposal().getPropPersonBios());
                 document.getDevelopmentProposal().setProposalAbstracts(form.getDevelopmentProposal().getProposalAbstracts());
                 document.setNotes(form.getDocument().getNotes());
                 form.setDocument(document);

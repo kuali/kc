@@ -27,8 +27,4 @@ public interface ProposalDevelopmentAttachment {
     public void setMultipartFile(MultipartFile multipartFile);
 
     public String getUploadUserDisplay();
-
-    public void setUpdated(boolean isUpdated);
-
-    
 }

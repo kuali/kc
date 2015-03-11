@@ -378,10 +378,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
                 getProposalDevelopmentPermissionsService().processDeletePermission(document, ((ProposalUserRoles) deleteLine));
             }
         }
-        
-        if(deleteLine instanceof ProposalDevelopmentAttachment) {
-        	((ProposalDevelopmentAttachment)deleteLine).setUpdated(true);
-        }
 
         if (deleteLine instanceof FileMeta) {
             getDataObjectService().delete(deleteLine);
