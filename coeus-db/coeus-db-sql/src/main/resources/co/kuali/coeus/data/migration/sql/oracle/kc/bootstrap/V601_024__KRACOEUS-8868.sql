@@ -1,0 +1,2 @@
+alter table SUBAWARD MODIFY REQUISITIONER_ID varchar2(40)
+/
