@@ -768,9 +768,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
         Map<String,String> qualification =new HashMap<String,String>(qualifiedRoleAttributes);
-        List<String> roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
+        final Set<String> roleIds = new HashSet<>(systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode));
 
-        List<Map<String,String>> qualifiers = roleService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualification);
+        Set<Map<String,String>> qualifiers = new HashSet<>(roleService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, new ArrayList<>(roleIds), qualification));
+
         for (Map<String,String> qualifier : qualifiers) {
             Unit unit = getUnitService().getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
             if (unit != null) {
