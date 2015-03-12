@@ -24,7 +24,7 @@
             <description>Create a Coi Disposition Status</description>
             <label>Coi Disposition Status Maintenance Document</label>
             <parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/coidispositionStatus.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/coidispositionstatus.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    
 </data>

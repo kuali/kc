@@ -24,7 +24,7 @@
 			<description>Create a New Research Area</description>
 			<label>Report Area</label>
 			<parent>KcMiscellaneousMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/researchareas.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/iacucresearchareas.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

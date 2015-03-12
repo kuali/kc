@@ -24,7 +24,7 @@
 			<description>Create an IACUC Protocol Attachment Type Group</description>
 			<label>IACUC Protocol Attachment Type Group Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/protocolattachmenttypegroup.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/iacucprotocolattachmenttypegroup.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -26,7 +26,7 @@
 			<description>Create/Edit a IACUC Protocol Correspondence Type</description>
 			<label>IACUC Protocol Correspondence Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/correspondencetype.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/iacuccorrespondencetype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>
 </data>

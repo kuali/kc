@@ -24,6 +24,7 @@
 			<description>Create/Edit an IACUC Valid Protocol Submission Review Type</description>
 			<label>IACUC Valid Protocol Submission Review Type</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-		</documentType>
+            <helpDefinitionURL>default.htm?turl=Documents/iacucvalidprotocolsubmissionreviewtype.htm</helpDefinitionURL>
+        </documentType>
 	</documentTypes>	
 </data>

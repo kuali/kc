@@ -29,7 +29,7 @@
             <ref bean="BatchCorrespondence-lookupDefinition" />
         </property>
         <property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="committeeBatchCorrespondenceHelpUrl" p:parameterDetailType="Document" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="irbBatchCorrespondenceHelpUrl" p:parameterDetailType="Document" />
         </property>
         <property name="titleAttribute" value="batchCorrespondenceTypeCode" />
         <property name="attributes" >

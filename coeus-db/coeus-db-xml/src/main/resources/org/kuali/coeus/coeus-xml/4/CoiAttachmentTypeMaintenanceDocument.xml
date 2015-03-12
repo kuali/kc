@@ -24,7 +24,7 @@
 			<description>Create a Coi Disclosure Attachment Type</description>
 			<label>Coi Attachment Type Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/protocolattachmenttype.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/coiattachmenttype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>
