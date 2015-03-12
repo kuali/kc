@@ -33,7 +33,7 @@ public class PersonBiosketch extends KcPersistableBusinessObjectBase implements 
     private String fileName;
     private String contentType;
     private byte[] attachmentContent;
-    private FormFile attachmentFile;
+    private transient FormFile attachmentFile;
     
     public Long getPersonBiosketchId() {
         return personBiosketchId;
