@@ -3,7 +3,14 @@
 This config file should only contain config locations not actual config properties.
 -->
 <config>
-	<!-- 
+    <!--
+    KC's project test build properties
+
+    Contains properties that are set by our build process
+    -->
+    <param name="config.location">classpath:META-INF/kc-test-config-build.xml</param>
+
+    <!--
 		Rice's project defaults
 		
 		Contains properties that may not be set by KC's defaults.  This properties
