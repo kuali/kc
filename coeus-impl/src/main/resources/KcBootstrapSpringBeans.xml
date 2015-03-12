@@ -22,26 +22,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-    <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
-        <property name="configLocations">
-            <list>
-                <value>classpath:META-INF/kc-config.xml</value>
-            </list>
-        </property>
-    </bean>
-
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" value="#{bootstrapConfig.properties}" />
-    </bean>
-
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
-        <property name="arguments">
-            <list>
-                <ref bean="bootstrapConfig"/>
-            </list>
-        </property>
+        <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
     </bean>
 
     <import resource="classpath:org/kuali/coeus/sys/impl/RiceBootstrapSpringBeans.xml"/>

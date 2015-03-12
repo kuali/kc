@@ -49,7 +49,7 @@
                 <filtering>true</filtering>
                 <directory>src/test/resources</directory>
                 <includes>
-                    <include>META-INF/kc-test-config.xml</include>
+                    <include>META-INF/kc-test-config-build.xml</include>
                 </includes>
             </testResource>
             <testResource>

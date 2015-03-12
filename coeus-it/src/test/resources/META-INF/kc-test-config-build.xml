@@ -1,0 +1,8 @@
+
+
+<!--
+This config file only contains properties that are set by the maven build process using property replacement.
+-->
+<config>
+    <param name="spring.profiles.active" system="true">${build.spring.profiles.active}</param>
+</config>

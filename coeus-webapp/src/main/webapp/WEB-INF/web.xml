@@ -36,10 +36,10 @@
         <param-value>classpath:KcBootstrapSpringBeans.xml</param-value>
     </context-param>
 
-    <!-- this is resource filtered by the maven build to enable spring profiles -->
+    <!-- Change this if you want to use a different config file, can be overridden with a system property-->
     <context-param>
-        <param-name>spring.profiles.active</param-name>
-        <param-value>${build.spring.profiles.active}</param-value>
+        <param-name>web.bootstrap.config.file</param-name>
+        <param-value>classpath:META-INF/kc-config.xml</param-value>
     </context-param>
 
     <filter>

@@ -79,6 +79,7 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
         if (System.getProperty("basedir") == null) {
             System.setProperty("basedir", System.getProperty("user.dir") + "/");
         }
+        System.setProperty("web.bootstrap.config.file", TEST_CONFIG_XML);
         ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = TEST_CONFIG_XML;
         List<String> configLocations = new ArrayList<String>();
         configLocations.add(TEST_CONFIG_DEFAULTS_XML);
