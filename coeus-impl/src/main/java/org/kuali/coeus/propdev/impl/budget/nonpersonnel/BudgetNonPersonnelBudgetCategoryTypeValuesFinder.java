@@ -59,5 +59,5 @@ public class BudgetNonPersonnelBudgetCategoryTypeValuesFinder extends BudgetCate
 	public void setParameterService(ParameterService parameterService) {
 		this.parameterService = parameterService;
 	}
-   
+
 }
