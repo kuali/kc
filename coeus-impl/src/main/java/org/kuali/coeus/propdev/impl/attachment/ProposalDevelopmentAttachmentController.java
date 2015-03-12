@@ -303,6 +303,8 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         if(form.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
             ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(form.getProposalDevelopmentDocument().getDevelopmentProposal(),
                 Constants.DATA_OVERRIDE_NOTIFICATION_ACTION, Constants.DATA_OVERRIDE_CONTEXT);
+            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(narrative);
+
             ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(form.getProposalDevelopmentDocument().getDevelopmentProposal());
             if (form.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                 form.getNotificationHelper().initializeDefaultValues(context);
