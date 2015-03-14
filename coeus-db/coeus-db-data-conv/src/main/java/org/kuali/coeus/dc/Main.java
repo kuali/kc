@@ -129,6 +129,8 @@ public final class Main {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        System.exit(0);
     }
 
     private static void initLogging(String file) {
