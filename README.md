@@ -11,9 +11,9 @@ of Kuali Coeus's maven configuration is a list of dependencies.  Some of these d
 a publicly available maven repository.  At the very least you will need to install the following projects into your
 maven repo.  These projects may have more than one submodule.
 
-* Kuali Coeus API
-* Kuali Coeus S2S Gen
-* Kuali Rice
+* Kuali Coeus API (https://github.com/kuali/kc-api)
+* Kuali Coeus S2S Gen (https://github.com/kuali/kc-s2sgen)
+* Kuali Rice (https://github.com/KualiCo/rice-kc)
 
 Grm Profile
 
