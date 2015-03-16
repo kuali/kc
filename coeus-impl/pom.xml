@@ -563,6 +563,7 @@
         <dependency>
         	<groupId>org.kuali.coeus</groupId>
         	<artifactId>coeus-db-xml</artifactId>
+            <version>${project.version}</version>
         </dependency>
         
         <dependency>
