@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>6.0.1-SNAPSHOT</version>
+        <version>6.0.1</version>
     </parent>
     <artifactId>coeus-impl</artifactId>
     <packaging>jar</packaging>
@@ -690,12 +690,12 @@
     <profiles>
         <profile>
             <id>grm</id>
-            <!-- comment out activation section to turn this profile off permanently-->
+            <!-- comment out activation section to turn this profile off permanently
             <activation>
                 <property>
                     <name>!grm.off</name>
                 </property>
-            </activation>
+            </activation>-->
             <dependencies>
                 <dependency>
                     <groupId>co.kuali</groupId>
