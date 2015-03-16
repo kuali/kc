@@ -124,17 +124,6 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     @Transient
     private transient MultipartFile multipartFile;
-    
-    @Transient
-    private transient boolean isUpdated = false;
-    
-    public boolean isUpdated() {
-		return isUpdated;
-	}
-
-	public void setUpdated(boolean isUpdated) {
-		this.isUpdated = isUpdated;
-	}
 
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
