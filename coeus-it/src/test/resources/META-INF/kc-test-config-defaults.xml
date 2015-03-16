@@ -7,7 +7,7 @@
 	<param name="kns.test.port">9925</param>
 	<param name="http.port">${kns.test.port}</param>
 
-	<param name="datasource.username">KRAUNT</param>
+	<param name="datasource.username" override="false">KRAUNT</param>
 	
 	<param name="ActionList.norefresh">true</param>
 	<param name="notification.quartz.autostartup">false</param>
