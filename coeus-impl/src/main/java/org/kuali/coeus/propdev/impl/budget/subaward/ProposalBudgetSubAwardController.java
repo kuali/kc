@@ -123,7 +123,7 @@ public class ProposalBudgetSubAwardController extends
 		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
 		getPropDevBudgetSubAwardService().removeSubAwardAttachment(subAward);
 	    form.setDialogDataObject(subAward);
-		return getRefreshControllerService().refresh(form);
+		return super.save(form);
 	}
 	
 	@Transactional @RequestMapping(params="methodToCall=replaceAttachment")
@@ -146,7 +146,7 @@ public class ProposalBudgetSubAwardController extends
         }
         //on success make sure that dialogDataObject is the new, updated version.
         form.setDialogDataObject(subAward);
-        return getRefreshControllerService().refresh(form);
+        return super.save(form);
 	}
 	
     private String createXMLFileName(BudgetSubAwards subAward) {
