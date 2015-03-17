@@ -57,7 +57,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="personId" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description"/>
-        <bean parent="MaintainableFieldDefinition" p:name="attachmentFile" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="attachmentFile"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>
@@ -80,7 +80,7 @@
                     <property name="maintainableFields">
                         <list>
                             <bean parent="MaintainableFieldDefinition" p:name="description"/>
-                            <bean parent="MaintainableFieldDefinition" p:name="attachmentFile" p:required="true"/>
+                            <bean parent="MaintainableFieldDefinition" p:name="attachmentFile"/>
                             <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
                         </list>
                     </property>
