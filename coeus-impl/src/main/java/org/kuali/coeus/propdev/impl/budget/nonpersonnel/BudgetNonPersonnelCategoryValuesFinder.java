@@ -21,7 +21,9 @@ package org.kuali.coeus.propdev.impl.budget.nonpersonnel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryValuesFinder;
+import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -29,6 +31,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -39,11 +42,16 @@ public class BudgetNonPersonnelCategoryValuesFinder extends BudgetCategoryValues
 	@Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
-	
+
 	@Override
-    public List<KeyValue> getKeyValues() {
+    public List<KeyValue> getKeyValues(ViewModel model) {
+        String budgetCategoryTypeCode = ((ProposalBudgetForm)model).getAddProjectBudgetLineItemHelper().getBudgetCategoryTypeCode();
         List<Predicate> predicates = new ArrayList<Predicate>();
-        predicates.add(PredicateFactory.notEqual("budgetCategoryTypeCode", getPersonnelBudgetCategoryTypeCode()));
+        if (StringUtils.isNotEmpty(budgetCategoryTypeCode)) {
+            predicates.add(PredicateFactory.equal("budgetCategoryTypeCode",budgetCategoryTypeCode));
+        } else {
+            predicates.add(PredicateFactory.notEqual("budgetCategoryTypeCode",getPersonnelBudgetCategoryTypeCode()));
+        }
         List<KeyValue> keyValues = super.getKeyValues(predicates);
         keyValues.add(0, new ConcreteKeyValue("", "Select"));
         return keyValues;
