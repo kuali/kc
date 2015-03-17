@@ -310,7 +310,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
                 getKcNotificationService().sendNotification(context);
             }
         }
-        return getRefreshControllerService().refresh(form);
+        return super.narrativePageSave(form,true);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendNarrativeChangeNotification")
@@ -344,7 +344,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.setUpdateComponentId("PropDev-AttachmentsPage-PersonnelDetails");
             form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
-        return getRefreshControllerService().refresh(form);
+        return super.narrativePageSave(form,true);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveInstituteAttachment")
@@ -360,8 +360,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         }
         form.getDevelopmentProposal().getInstituteAttachments().set(selectedLineIndex,narrative);
         form.getProposalDevelopmentAttachmentHelper().reset();
-
-        return getRefreshControllerService().refresh(form);
+        return super.narrativePageSave(form,true);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAbstract")
