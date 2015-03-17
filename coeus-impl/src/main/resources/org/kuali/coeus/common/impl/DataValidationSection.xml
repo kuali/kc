@@ -46,8 +46,10 @@
         <property name="items">
             <list>
                 <bean parent="DataValidationSection-Collection" p:render="@{auditActivated}" p:order="10"/>
-                <bean parent="Uif-Message" p:messageText="Data Validation is currently off."  p:render="@{!auditActivated}"
+                <bean parent="Uif-Message" p:messageText="No errors or warnings present."  p:render="@{auditActivated and dataValidationItems.size() == 0}"
                       p:order="20"/>
+                <bean parent="Uif-Message" p:messageText="Data Validation is currently off."  p:render="@{!auditActivated}"
+                      p:order="30"/>
             </list>
         </property>
         <property name="footer">
