@@ -32,6 +32,7 @@ import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotification
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
@@ -136,6 +137,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
        }
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        form.getAddKeyPersonHelper().reset();
+       form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());
        return getRefreshControllerService().refresh(form);
    }
 
