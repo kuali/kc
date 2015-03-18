@@ -24,7 +24,7 @@
 			<description>Create an IACUC Alternate Search Database</description>
 			<label>IACUC Alternate Search Database Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/alternatesearchdatabase.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/iacucalternatesearchdatabase.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -24,7 +24,7 @@
 			<description>Create a New IACUC Protocol Reviewer Type</description>
 			<label>IACUC Protocol Reviewer Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/protocolreviewertype.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/iacucprotocolreviewertype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

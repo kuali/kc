@@ -24,7 +24,7 @@
 			<description>Create/Edit an IACUC Unit Correspondent</description>
 			<label>IACUC Unit Correspondent Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/unitcorrespondents.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/iacucunitcorrespondent.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

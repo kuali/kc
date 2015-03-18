@@ -27,7 +27,7 @@
           renderMultipart="true" 
           htmlFormAction="batchCorrespondenceDetail">
 
-	<div align="left"><kul:help parameterNamespace="KC-M" parameterDetailType="Document" parameterName="batchCorrespondenceHelp" altText="help"/>
+	<div align="left"><kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="irbBatchCorrespondenceHelpUrl" altText="help"/>
 	<br />
           
     <script language="javascript" src="scripts/kuali_application.js"></script>
