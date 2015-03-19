@@ -66,6 +66,16 @@
     </build>
 
     <dependencies>
+        <!-- the coeus-it module depends on artifacts that exist in the coeus-webapp module in a weird way
+             adding this dependency to express this and force the proper build order -->
+        <dependency>
+            <groupId>org.kuali.coeus</groupId>
+            <artifactId>coeus-webapp</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.kuali.coeus</groupId>
             <artifactId>coeus-impl</artifactId>
