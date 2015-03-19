@@ -134,12 +134,9 @@ public final class Main {
     }
 
     private static void initLogging(String file) {
-        String fname = System.getProperty("java.util.logging.config.file");
-        if (fname == null) {
-            fname = Main.class.getResource(file).getFile();
-        }
+        final String fname = System.getProperty("java.util.logging.config.file");
 
-        try (InputStream in = new FileInputStream(fname); BufferedInputStream bin = new BufferedInputStream(in)) {
+        try (InputStream in = (fname != null ? new FileInputStream(fname) : Main.class.getResourceAsStream(file)); BufferedInputStream bin = new BufferedInputStream(in)) {
             LogManager.getLogManager().readConfiguration(bin);
         } catch (IOException e) {
             throw new RuntimeException(e);
