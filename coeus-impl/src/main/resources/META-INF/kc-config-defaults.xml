@@ -212,7 +212,7 @@
 	<!-- Flyway Properties -->
     <param name="kc.flyway.applyDemoData" override="false">false</param>
     <param name="kc.flyway.applyStagingData" override="false">false</param>
-    <param name="kc.flyway.grm" override="false">false</param>
+    <param name="kc.flyway.grm" override="false">true</param>
     <param name="kc.flyway.manageRiceServer" override="false">true</param>
 	<param name="kc.flyway.embeddedMode" override="false">false</param>
 	<param name="kc.flyway.enabled" override="false">true</param>
@@ -228,4 +228,6 @@
     <param name="feedback.link.text">GET HELP</param>
 
     <param name="rsmart.report.shared.secret">SECRETKEYVALUE</param>
+
+    <param name="kc.schemaspy.enabled">true</param>
 </config>

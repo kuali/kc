@@ -2025,6 +2025,7 @@
                 <rsmart.cx.token.auth.version>1.0.7</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1.0-SNAPSHOT</rsmart.hr.rest.version>
                 <kc-sql.version>6.0.1-SNAPSHOT</kc-sql.version>
+                <schemaspy.version>5.0.1</schemaspy.version>
 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
@@ -2087,6 +2088,13 @@
                                 <artifactId>asm</artifactId>
                             </exclusion>
                         </exclusions>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>co.kuali.schemaspy</groupId>
+                        <artifactId>schemaspy</artifactId>
+                        <version>${schemaspy.version}</version>
+                        <scope>runtime</scope>
                     </dependency>
 
                 </dependencies>

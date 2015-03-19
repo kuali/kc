@@ -57,4 +57,12 @@
         <example>&lt;img src=/"${krafn:getIconPath(attachment.type)}/" ... &gt;</example>
     </function>
 
+    <function>
+        <description>Whether KC is in grm mode</description>
+        <name>isGrm</name>
+        <function-class>org.kuali.coeus.sys.framework.view.JstlFunctions</function-class>
+        <function-signature>boolean isGrm()</function-signature>
+        <example>&lt;c:set var="grm" value="${krafn:isGrm()}" /"&gt;</example>
+    </function>
+
 </taglib>

@@ -711,6 +711,11 @@
                     <groupId>com.rsmart.kuali</groupId>
                     <artifactId>kc_hr_rest</artifactId>
                 </dependency>
+
+                <dependency>
+                    <groupId>co.kuali.schemaspy</groupId>
+                    <artifactId>schemaspy</artifactId>
+                </dependency>
             </dependencies>
         </profile>
     </profiles>
