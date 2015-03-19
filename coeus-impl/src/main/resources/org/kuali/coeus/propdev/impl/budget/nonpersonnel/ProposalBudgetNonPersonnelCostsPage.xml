@@ -142,7 +142,7 @@
           p:header.headerText="Add Assigned Non-Personnel" p:enterKeyAction="@DEFAULT">
         <property name="items">
             <list>
-				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection" />
+				<ref bean="PropBudget-AddNonPersonnelCosts-LineItem-ObjectFieldSection" />
             </list>
         </property>
         <property name="footer">
@@ -206,18 +206,8 @@
 			</bean>
 		</property>
 	</bean>
-	
-	<bean id="PropBudget-EditNonPersonnelCosts-Details-Tab" parent="PropBudget-NonPersonnelCosts-Details-Tab-parentBean">
-		<property name="items">
-			<list>
-				<ref bean="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection"/>
-				<ref bean="PropBudget-EditNonPersonnelCosts-LineItem-ObjectFieldSection"/>
-				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection"/>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="PropBudget-EditNonPersonnelCosts-LineItem-ObjectFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean">
+
+	<bean id="PropBudget-AddNonPersonnelCosts-LineItem-ObjectFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection-parentBean">
 		<property name="items">
 			<list>
                 <bean parent="Uif-InputField" p:propertyName="budgetCategoryTypeCode"
@@ -273,6 +263,7 @@
 			<list>
 				<ref bean="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection"/>
 				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ObjectFieldSection"/>
+                <bean parent="PropBudget-LineItem-InflationRateSection" p:render="@{addProjectBudgetLineItemHelper.inflationType.size() > 0}"/>
 				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection"/>
 			</list>
 		</property>
@@ -402,10 +393,14 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                  </bean>
-				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.costElement"
-					p:refreshWhenChangedPropertyNames="#fp.budgetLineItem.budgetCategoryCode,#fp.budgetCategoryTypeCode"
-					p:label="Object Code Name" p:optionsFinder="#{#getService('budgetNonPersonnelCostElementValuesFinder')}" 
-					p:optionsFinder.addBlankOption="false" p:order="30" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"/>
+                <bean parent="Uif-InputField" p:propertyName="budgetLineItem.costElement"
+                      p:refreshWhenChangedPropertyNames="#fp.budgetLineItem.budgetCategoryCode,#fp.budgetCategoryTypeCode"
+                      p:label="Object Code Name"
+                      p:optionsFinder="#{#getService('budgetNonPersonnelCostElementValuesFinder')}"
+                      p:optionsFinder.addBlankOption="false" p:order="30"
+                      p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"
+                      p:onChangeScript="ajaxSubmitForm('refresh',{'refreshCaller': 'PropBudget-EditNonPersonnelPeriod-Section'})">
+                </bean>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemCost"
 					p:label="Total Base Cost" p:order="40" p:required="false" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.quantity" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"
@@ -428,6 +423,28 @@
 		</property>
 	</bean>
 
+    <bean id="PropBudget-LineItem-InflationRateSection" parent="PropBudget-LineItem-InflationRateSection-parentBean"/>
+    <bean id="PropBudget-LineItem-InflationRateSection-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+          p:headerText="Inflation Rates"
+          p:layoutManager.richTable.render="false"
+          p:collectionObjectClass="org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate"
+          p:propertyName="inflationType" p:layoutManager.renderSequenceField="false" p:renderInactiveToggleButton="false"
+          p:renderAddLine="false" p:renderLineActions="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="rateType.description" p:order="10" p:skipInTabOrder="true"
+                      p:enableAutoInquiry="false" p:label="Description" />
+                <bean parent="Uif-DataField" p:propertyName="startDate" p:skipInTabOrder="true" p:order="20" p:label="Start Date"/>
+                <bean parent="Uif-DataField" p:propertyName="instituteRate" p:skipInTabOrder="true" p:order="30" p:label="Institution Rate">
+                    <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="applicableRate" p:order="40" p:label="Applicable Rate">
+                    <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+                </bean>
+            </list>
+        </property>
+          </bean>
+
 	<bean id="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection" parent="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection-parentBean" />
 	<bean id="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
@@ -441,7 +458,8 @@
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.onOffCampusFlag"
                     p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag or budget.onOffCampusFlag != '#{T(org.kuali.kra.infrastructure.OnOffCampusFlagConstants).Default.code}'}"
 					p:readOnlyDisplayReplacement="@{#fp.budgetLineItem.onOffCampusFlag ? 'Yes' : 'No'}" 
-					p:order="30" p:label="On Campus"/>
+					p:order="30" p:label="On Campus"
+                    p:onChangeScript="ajaxSubmitForm('refresh',{'refreshCaller': 'PropBudget-EditNonPersonnelPeriod-Section'})"/>
 			</list>
 		</property>
 	</bean>

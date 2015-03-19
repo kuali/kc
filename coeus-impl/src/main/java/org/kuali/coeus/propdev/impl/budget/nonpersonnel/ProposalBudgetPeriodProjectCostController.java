@@ -32,6 +32,7 @@ import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpensesRuleEvent;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.stereotype.Controller;
@@ -106,6 +107,14 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	    }
     	return getModelAndViewService().showDialog(EDIT_NONPERSONNEL_PERIOD_DIALOG_ID, true, form);
 	}
+
+    @Transactional @RequestMapping(params={"methodToCall=refresh", "refreshCaller=PropBudget-EditNonPersonnelPeriod-Section"})
+    public ModelAndView refreshNonPersonnelPeriodDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+        form.setUpdateComponentId("PropBudget-EditNonPersonnelPeriod-Section");
+        getDataObjectService().wrap(form.getAddProjectBudgetLineItemHelper().getBudgetLineItem()).fetchRelationship("costElementBO");
+        return getRefreshControllerService().refresh(form);
+    }
 
 	@Transactional @RequestMapping(params="methodToCall=deleteBudgetLineItem")
 	public ModelAndView deleteBudgetLineItem(@RequestParam("budgetPeriodId") String budgetPeriodId, @ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
