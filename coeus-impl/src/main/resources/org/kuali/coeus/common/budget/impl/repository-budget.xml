@@ -953,9 +953,7 @@
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="subAwardStatusCode" column="SUB_AWARD_STATUS_CODE" jdbc-type="INTEGER"/>
-		<field-descriptor name="subAwardXfdFileData" column="SUB_AWARD_XFD_FILE" jdbc-type="LONGVARBINARY"/>
 		<field-descriptor name="subAwardXfdFileName" column="SUB_AWARD_XFD_FILE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="subAwardXmlFileData" column="SUB_AWARD_XML_FILE" jdbc-type="CLOB"/>
 		<field-descriptor name="translationComments" column="TRANSLATION_COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -965,6 +963,8 @@
 		<field-descriptor name="xmlUpdateUser" column="XML_UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="namespace" column="NAMESPACE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="fileDataId" column="FILE_DATA_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="xmlDataId" column="XML_DATA_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<collection-descriptor name="budgetSubAwardFiles" proxy="true" element-class-ref="org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardFiles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
