@@ -36,6 +36,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -46,6 +47,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Unit Tests for validating an OJB repository XML file. The objective is to validate without initializing OJB. If OJB starts up and
@@ -102,7 +104,7 @@ public class OjbRepositoryMappingTest {
     public static final String REPOSITORY_IACUC_COMMITTEE_XML = "classpath:org/kuali/kra/iacuc/repository-iacucCommittee.xml";
     public static final String REPOSITORY_COMMON_COMMITTEE_XML = "classpath:org/kuali/kra/common/committee/repository-commonCommittee.xml";
 
-    private static Map<String, String> configFileParms;
+    private static Properties configFileParms;
     
     private String dsUrl;
     private String dsUser;
@@ -115,7 +117,9 @@ public class OjbRepositoryMappingTest {
     public static void loadParms() throws Exception {
         Config config = new JAXBConfigImpl(INTERNAL_TEST_CONFIG_FILE_PATH);
         config.parseConfig();
-        configFileParms = new HashMap(config.getProperties());
+        configFileParms = new Properties();
+        configFileParms.putAll(config.getProperties());
+        configFileParms.putAll(System.getProperties());
     }
     
     @AfterClass
@@ -128,10 +132,10 @@ public class OjbRepositoryMappingTest {
     
     @Before
     public void setUp() throws Exception {
-        dsUrl = configFileParms.get(DATASOURCE_URL_NAME);
-        dsUser = configFileParms.get(DATASOURCE_USERNAME_NAME);
-        dsPass =  configFileParms.get(DATASOURCE_PASSWORD_NAME);
-        dsDriver = configFileParms.get(DATASOURCE_DRIVER_NAME);
+        dsUrl = (String) configFileParms.get(DATASOURCE_URL_NAME);
+        dsUser = (String) configFileParms.get(DATASOURCE_USERNAME_NAME);
+        dsPass =  (String) configFileParms.get(DATASOURCE_PASSWORD_NAME);
+        dsDriver = (String) configFileParms.get(DATASOURCE_DRIVER_NAME);
         dsSchema = StringUtils.upperCase(dsUser);
         
         LOG.debug(String.format("dsUrl = %s\n", dsUrl));
