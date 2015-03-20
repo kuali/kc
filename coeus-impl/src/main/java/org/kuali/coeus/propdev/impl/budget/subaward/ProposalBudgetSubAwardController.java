@@ -99,10 +99,9 @@ public class ProposalBudgetSubAwardController extends
 	@Transactional @RequestMapping(params="methodToCall=viewSubAwardXml")
 	public void viewXml(@RequestParam("subAwardNumber") Integer subAwardNumber, @ModelAttribute("KualiForm") ProposalBudgetForm form, HttpServletResponse response) {
 		BudgetSubAwards subAward = getSubAwardByNumber(subAwardNumber, form);
-		BudgetSubAwardFiles file = getDataObjectService().findUnique(BudgetSubAwardFiles.class, QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("budgetSubAward.budgetId", subAward.getBudgetId()), PredicateFactory.equal("budgetSubAward.subAwardNumber", subAwardNumber)));
         try {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(file.getSubAwardXmlFileData().getBytes());
-            KRADUtils.addAttachmentToResponse(response,inputStream,"text/xml", createXMLFileName(file.getBudgetSubAward()), file.getSubAwardXmlFileData().length());
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(subAward.getSubAwardXmlFileData().getBytes());
+            KRADUtils.addAttachmentToResponse(response,inputStream,"text/xml", createXMLFileName(subAward), subAward.getSubAwardXmlFileData().length());
             response.flushBuffer();
         } catch (Exception e) {
             LOG.error("Error while downloading attachment");
