@@ -158,7 +158,7 @@
 		<xs:sequence>
 			<xs:element name="AwardNumber" type="xs:string" minOccurs="0"/>
 			<xs:element name="SequenceNumber" type="xs:int" minOccurs="0"/>
-			<xs:element name="CommentCode" type="xs:int" minOccurs="0"/>
+			<xs:element name="CommentCode" type="xs:string" minOccurs="0"/>
 			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
 			<xs:element name="PrintChecklist" type="xs:boolean" minOccurs="0"/>
 		</xs:sequence>
