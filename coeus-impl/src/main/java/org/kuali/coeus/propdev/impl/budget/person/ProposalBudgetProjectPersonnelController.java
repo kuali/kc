@@ -35,6 +35,9 @@ import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +64,10 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	@Autowired
 	@Qualifier("budgetPersonnelBudgetService")
 	BudgetPersonnelBudgetService budgetPersonnelBudgetService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
 	private static final String EDIT_PROJECT_PERSONNEL_DIALOG_ID = "PropBudget-EditPersonnel-Section";
 	private static final String EDIT_PERSONNEL_PERIOD_DIALOG_ID = "PropBudget-EditPersonnelPeriod-Section";
@@ -188,11 +195,16 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
         		setBudgetPeriodStartDateAndEndDateOnLineItems(form, budgetPeriod);
         		form.getAddProjectPersonnelHelper().getBudgetLineItem().setBudget(budget);
         		form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail().setBudget(budget);
+                form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail().setPeriodTypeCode(getDefualtPeriodTypeCode());
         		modelAndView = getModelAndViewService().showDialog(ADD_PERSONNEL_PERIOD_DIALOG_ID, true, form);
             }
         }
 		return modelAndView;
 	}
+
+    protected String getDefualtPeriodTypeCode() {
+        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.DOCUMENT_COMPONENT,Constants.BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE);
+    }
 	
 	private void setBudgetPeriodStartDateAndEndDateOnLineItems(ProposalBudgetForm form, BudgetPeriod budgetPeriod) {
 		form.getAddProjectPersonnelHelper().getBudgetLineItem().setStartDate(budgetPeriod.getStartDate());
@@ -460,4 +472,11 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		this.budgetPersonnelBudgetService = budgetPersonnelBudgetService;
 	}
 
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }
