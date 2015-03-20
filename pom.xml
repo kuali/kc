@@ -221,9 +221,9 @@
 
         <maven.skip.packaging>false</maven.skip.packaging>
 
-        <error_prone_core.version>1.1.2</error_prone_core.version>
-        <plexus-compiler-javac.version>2.3</plexus-compiler-javac.version>
-        <plexus-compiler-javac-errorprone.version>2.3</plexus-compiler-javac-errorprone.version>
+        <error_prone_core.version>2.0.1</error_prone_core.version>
+        <plexus-compiler-javac.version>2.5</plexus-compiler-javac.version>
+        <plexus-compiler-javac-errorprone.version>2.5</plexus-compiler-javac-errorprone.version>
 
         <scm.connection>scm:git:git://github.com/kuali/kc.git</scm.connection>
         <scm.developerConnection>scm:git:git@github.com:kuali/kc.git</scm.developerConnection>
