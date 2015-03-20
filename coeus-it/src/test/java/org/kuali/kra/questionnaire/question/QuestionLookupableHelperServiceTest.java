@@ -39,6 +39,7 @@ import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,12 +89,14 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1111"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(1111, SEQUENCE_STATUS_ARCHIVED));
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument, null, null);
         
         // Create & submit new Question document for version 2 of the question
         maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1112"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestion(1112, SEQUENCE_STATUS_CURRENT));
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument, null, null);
         
         List<? extends Question> searchResults = (List<? extends Question>) questionLookupableHelperServiceImpl.getSearchResults(new HashMap());
@@ -125,6 +128,7 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1111"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(question);
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument,null,null);
         
         List pkNames = new ArrayList();
@@ -156,6 +160,7 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1111"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(question);
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument,null,null);
         
         List pkNames = new ArrayList();
@@ -194,6 +199,7 @@ public class QuestionLookupableHelperServiceTest extends KcIntegrationTestBase {
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Question.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1111"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(question);
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument,null,null);
 
         List pkNames = new ArrayList();

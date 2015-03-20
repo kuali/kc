@@ -76,7 +76,6 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         documentService = KcServiceLocator.getService(DocumentService.class);
         proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
-        proposal = getDocument().getDevelopmentProposal();//throw this one away
         proposal = getDocument().getDevelopmentProposal();
         form = new ProposalDevelopmentForm();
         form.setDocument(proposal.getProposalDocument());
