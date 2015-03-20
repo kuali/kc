@@ -18,10 +18,13 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import org.junit.Test;
 import org.kuali.coeus.propdev.impl.basic.LeadUnitValuesFinder;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,12 +44,22 @@ public class LeadUnitValuesFinderTest extends ValuesFinderTestBase {
         final List<KeyValue> keylabel = new ArrayList<KeyValue>();
         
         keylabel.add(new ConcreteKeyValue("", "select"));
-        keylabel.add(new ConcreteKeyValue("000001", "000001 - University"));
-        keylabel.add(new ConcreteKeyValue("IN-CARD", "IN-CARD - CARDIOLOGY"));
-        keylabel.add(new ConcreteKeyValue("IN-CARR", "IN-CARR - CARDIOLOGY RECHARGE CTR"));
         keylabel.add(new ConcreteKeyValue("BL-IIDC", "BL-IIDC - IND INST ON DISABILITY/COMMNTY"));
+        keylabel.add(new ConcreteKeyValue("IN-MDEP", "IN-MDEP - MEDICINE DEPT"));
+        keylabel.add(new ConcreteKeyValue("IN-PED", "IN-PED - PEDIATRICS"));
         
         return keylabel;
+    }
+    
+    @Test
+    public void testGetKeyValues() throws InstantiationException, IllegalAccessException {
+    	UserSession previousUserSession = GlobalVariables.getUserSession();
+    	GlobalVariables.setUserSession(new UserSession("woods"));
+    	try {
+    		super.testGetKeyValues();
+    	} finally {
+    		GlobalVariables.setUserSession(previousUserSession);
+    	}
     }
 
 }

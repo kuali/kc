@@ -25,4 +25,11 @@
 	<param name="filter.login.class">org.kuali.rice.krad.web.filter.AutoLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>
 	<param name="filter.login.autouser">quickstart</param>
+	
+	<param name="keystore.alias">rice</param>
+	<param name="keystore.password">r1c3pw</param>
+	<param name="keystore.file">${basedir}/coeus-it/src/test/resources/rice.keystore</param>
+	<param name="keystore.location">${basedir}/coeus-it/src/test/resources/rice.keystore</param>
+	
+	<param name="kc.schemaspy.enabled">false</param>
 </config>

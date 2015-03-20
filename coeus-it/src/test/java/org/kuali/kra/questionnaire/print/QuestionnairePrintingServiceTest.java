@@ -40,6 +40,7 @@ import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,6 +79,7 @@ public class QuestionnairePrintingServiceTest extends PrintingServiceTestBase {
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument,null,null);
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();

@@ -92,7 +92,7 @@ public class NegotiationBasicTest extends KcIntegrationTestBase {
         negotiation.setNegotiationStartDate(testStartDate);
         negotiation.setDocumentFolder("document folder");
         negotiation.setDocumentNumber("123321");
-        negotiation.setNegotiatorPersonId("jdh34");
+        negotiation.setNegotiatorPersonId("cate");
         negotiation.setNegotiatorName("quickstart");
         
         assertNull(negotiation.getUpdateUser());
@@ -138,7 +138,7 @@ public class NegotiationBasicTest extends KcIntegrationTestBase {
         negotiation.setNegotiationStartDate(testStartDate);
         negotiation.setDocumentFolder("document folder");
         negotiation.setDocumentNumber("123321");
-        negotiation.setNegotiatorPersonId("jdh34");
+        negotiation.setNegotiatorPersonId("cate");
         negotiation.setNegotiatorName("quickstart");
         businessObjectService.save(negotiation);
         
@@ -161,7 +161,7 @@ public class NegotiationBasicTest extends KcIntegrationTestBase {
         detail.setPiPersonId("10000000001");
         detail.setPiRolodexId("212");
         detail.setSponsorAwardNumber("1590431");
-        detail.setContactAdminPersonId("jdh34");
+        detail.setContactAdminPersonId("cate");
         
         businessObjectService.save(detail);
         

@@ -68,11 +68,14 @@ public class KcServiceLocatorListener implements ServletContextListener {
         final String configFile = baseProps.getProperty("web.bootstrap.config.file");
 
         JAXBConfigImpl config = StringUtils.isNotBlank(configFile) ? new JAXBConfigImpl(configFile, baseProps) :  new JAXBConfigImpl(baseProps);
+
         try {
             config.parseConfig();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        //override all configured items with system properties
+        config.putProperties(System.getProperties());
         ConfigContext.init(config);
 
         context = new XmlWebApplicationContext();

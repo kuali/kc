@@ -27,6 +27,7 @@ import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -612,7 +613,9 @@ public class ProposalHierarchyServiceImplTest extends KcIntegrationTestBase {
 		narrativeAttachment.setNarrative(narrative);
 		narrativeAttachment.setModuleNumber(1);
 		narrativeAttachment.setName("test");
-		narrativeAttachment.setFileDataId("0000000-000000-000000-0000");
+		byte[] b = new byte[100];
+		new Random().nextBytes(b);
+		narrativeAttachment.setData(b);
 		narrative.setNarrativeAttachment(narrativeAttachment);
 	}
 
