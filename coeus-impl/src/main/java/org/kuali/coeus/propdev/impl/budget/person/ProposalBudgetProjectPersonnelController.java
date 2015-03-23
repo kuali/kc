@@ -38,6 +38,7 @@ import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,7 +150,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	@Transactional @RequestMapping(params="methodToCall=prepareAddProjectPersonnel")
 	public ModelAndView prepareAddProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         form.getAddProjectPersonnelHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
-        return getModelAndViewService().showDialog(ADD_PROJECT_PERSONNEL_DIALOG_ID,true,form);
+        return getModelAndViewService().showDialog(ADD_PROJECT_PERSONNEL_DIALOG_ID, true, form);
 	}
 	
 	@Transactional @RequestMapping(params="methodToCall=updatePersonDetails")
@@ -408,12 +409,20 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     	return getModelAndViewService().showDialog(EDIT_LINE_ITEM_DETAILS_DIALOG_ID, true, form);
 	}
 
+    @Transactional @RequestMapping(params={"methodToCall=refresh", "refreshCaller=PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates"})
+    public ModelAndView refreshBudgetDetailsAndRates(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+        form.setUpdateComponentId("PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates");
+        getDataObjectService().wrap(form.getAddProjectBudgetLineItemHelper().getBudgetLineItem()).fetchRelationship("costElementBO");
+        return getRefreshControllerService().refresh(form);
+    }
+
 	@Transactional @RequestMapping(params="methodToCall=applyToLaterPeriods")
 	public ModelAndView applyToLaterPeriods(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
 	    BudgetLineItem budgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
-	    getBudgetCalculationService().applyToLaterPeriods(budget,currentTabBudgetPeriod,budgetLineItem);
+	    getBudgetCalculationService().applyToLaterPeriods(budget, currentTabBudgetPeriod, budgetLineItem);
 		return getModelAndViewService().getModelAndView(form);
 	}
 

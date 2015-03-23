@@ -367,8 +367,19 @@
 		</property>
 	</bean>
 
-	<bean id="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section" parent="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section-parentBean" />
-	<bean id="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+    <bean id="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section" parent="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section-parentBean" />
+    <bean id="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section-parentBean" abstract="true" parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <ref bean="PropBudget-AssignPersonneltoPeriods-General"/>
+                <ref bean="PropBudget-LineItem-InflationRateSection"/>
+                <ref bean="PropBudget-AssignPersonneltoPeriods-ApplyRates"/>
+            </list>
+        </property>
+    </bean>
+
+	<bean id="PropBudget-AssignPersonneltoPeriods-General" parent="PropBudget-AssignPersonneltoPeriods-General-parentBean" />
+	<bean id="PropBudget-AssignPersonneltoPeriods-General-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.budgetCategoryCode"
@@ -383,15 +394,24 @@
 					p:label="Group Description" p:order="50"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.quantity"
 					p:label="# of Persons" p:order="60"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.applyInRateFlag"
-					p:order="70" p:label="Apply Inflation"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.submitCostSharingFlag"
-					p:order="80" p:label="Submit cost sharing"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.onOffCampusFlag"
-					p:order="90" p:label="On Campus"/>
 			</list>
 		</property>
 	</bean>
+
+    <bean id="PropBudget-AssignPersonneltoPeriods-ApplyRates" parent="PropBudget-AssignPersonneltoPeriods-ApplyRates-parentBean" />
+    <bean id="PropBudget-AssignPersonneltoPeriods-ApplyRates-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="budgetLineItem.applyInRateFlag"
+                      p:order="10" p:label="Apply Inflation"/>
+                <bean parent="Uif-InputField" p:propertyName="budgetLineItem.submitCostSharingFlag"
+                      p:order="20" p:label="Submit cost sharing"/>
+                <bean parent="Uif-InputField" p:propertyName="budgetLineItem.onOffCampusFlag"
+                      p:order="30" p:label="On Campus"
+                      p:onChangeScript="ajaxSubmitForm('refresh',{'refreshCaller': 'PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates'})"/>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-RatesTab" parent="PropBudget-BudgetLineItem-Rates" />
 
