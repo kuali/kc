@@ -19,6 +19,7 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -41,6 +42,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -69,6 +71,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
     @Autowired
     @Qualifier("ynqService")
     private YnqService ynqService;
@@ -208,7 +215,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                 addUnitToPerson(proposalPerson, createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));
             }
         }
-        
+        if (proposalPerson.getCitizenshipTypeCode() != null) {
+            getDataObjectService().wrap(proposalPerson).fetchRelationship("citizenshipType");
+        }
         populateProposalPerson(proposalPerson, document);
     }
     
@@ -604,5 +613,13 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             creditSplitListItems.add(investigatorTotalLine);
         }
         return creditSplitListItems;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 }

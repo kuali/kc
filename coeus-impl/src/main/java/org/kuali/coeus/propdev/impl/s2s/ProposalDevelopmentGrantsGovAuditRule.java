@@ -104,6 +104,10 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
                     getAuditErrors(QUESTIONNAIRE_PAGE_NAME,NO_SECTION_ID,provider).add(new org.kuali.rice.krad.util.AuditError(QUESTIONNAIRE_PAGE_ID,
                             Constants.GRANTS_GOV_GENERIC_ERROR_KEY, QUESTIONNAIRE_PAGE_ID,
                             new String[]{error.getMessageKey()}));
+                } else if (StringUtils.equals(error.getLink(),"keyPersonnel")) {
+                    getAuditErrors(PERSONNEL_PAGE_NAME,NO_SECTION_ID,provider).add(new org.kuali.rice.krad.util.AuditError(PERSONNEL_PAGE_ID,
+                            Constants.GRANTS_GOV_GENERIC_ERROR_KEY, PERSONNEL_PAGE_ID,
+                            new String[]{error.getMessageKey()}));
                 } else {
                 getAuditErrors(S2S_PAGE_NAME,S2S_OPPORTUNITY_SECTION_NAME,provider).add(new org.kuali.rice.krad.util.AuditError(S2S_PAGE_ID,
                         Constants.GRANTS_GOV_GENERIC_ERROR_KEY, S2S_PAGE_ID+"."+S2S_OPPORTUNITY_SECTION_ID,
