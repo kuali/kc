@@ -427,6 +427,7 @@
     <bean id="PropBudget-LineItem-InflationRateSection-parentBean" abstract="true" parent="Uif-TableCollectionSection"
           p:headerText="Inflation Rates"
           p:layoutManager.richTable.render="false"
+          p:layoutManager.id="InflationRateTable"
           p:collectionObjectClass="org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate"
           p:propertyName="inflationType" p:layoutManager.renderSequenceField="false" p:renderInactiveToggleButton="false"
           p:renderAddLine="false" p:renderLineActions="false">
