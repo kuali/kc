@@ -116,6 +116,7 @@ public class AddProjectBudgetLineItemHelper extends AddLineHelper {
             Interval periodInterval = new Interval(budgetLineItem.getStartDate().getTime(), budgetLineItem.getEndDate().getTime());
             Interval rateInterval = new Interval(budgetRateStartDate.getMillis(),budgetRateEndDate.getMillis());
             if (StringUtils.equals(rateTypeCode, budgetRate.getRateTypeCode()) &&
+                    StringUtils.equals(budgetRate.getRateClassType(),RateClassType.INFLATION.getRateClassType()) &&
                     budgetLineItem.getOnOffCampusFlag().equals(budgetRate.getOnOffCampusFlag()) &&
                     periodInterval.overlaps(rateInterval)) {
                 inflationRates.add(budgetRate);
