@@ -647,7 +647,10 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     @Deprecated
     @Override
     public CostElement getCostElementBO() {
-        return getBudgetLineItem().getCostElementBO();
+        if (getBudgetLineItem() != null) {
+            return getBudgetLineItem().getCostElementBO();
+        }
+        return costElementBO;
     }
 
     @Deprecated
@@ -723,7 +726,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 
 	@Override
 	public Long getBudgetLineItemId() {
-		return getBudgetLineItem().getBudgetLineItemId();
+		return budgetLineItemId;
 	}
 
 	public BudgetPeriodType getBudgetPeriodType() {
