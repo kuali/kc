@@ -193,12 +193,13 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
         setValidationErrorMessage(formPrintResult.getErrors());
         KcFile attachmentDataSource = formPrintResult.getFile();
-        if(attachmentDataSource==null || attachmentDataSource.getData()==null || attachmentDataSource.getData().length==0
+        if(((attachmentDataSource==null || attachmentDataSource.getData()==null || attachmentDataSource.getData().length==0) && !proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag())
                 || !formPrintResult.getErrors().isEmpty()){
             boolean grantsGovErrorExists = copyAuditErrorsToPage(Constants.GRANTSGOV_ERRORS, "grantsGovFormValidationErrors");
             if(grantsGovErrorExists){
                 getGlobalVariableService().getMessageMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
             }
+            proposalDevelopmentDocument.getDevelopmentProposal().setGrantsGovSelectFlag(false);
             return getModelAndViewService().getModelAndView(form);
         }
         if (proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag()) {
