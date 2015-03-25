@@ -812,7 +812,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 budget.getBudgetSummaryTotals() == null ||
                 budget.getBudgetSummaryTotals().get("personnelFringeTotals") == null ||
                 budgetPeriod == null ||
-                CollectionUtils.validIndexForList(budgetPeriod.getBudgetPeriod() - 1, budget.getBudgetSummaryTotals().get("personnelFringeTotals"))) {
+                !CollectionUtils.validIndexForList(budgetPeriod.getBudgetPeriod() - 1, budget.getBudgetSummaryTotals().get("personnelFringeTotals"))) {
             return ScaleTwoDecimal.ZERO;
         }
         return budget.getBudgetSummaryTotals().get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1);
