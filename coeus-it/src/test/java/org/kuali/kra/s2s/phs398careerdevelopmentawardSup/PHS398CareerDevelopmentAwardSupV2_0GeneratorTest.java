@@ -18,14 +18,18 @@
  */
 package org.kuali.kra.s2s.phs398careerdevelopmentawardSup;
 import static org.kuali.coeus.sys.framework.service.KcServiceLocator.getService;
+
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeAttachment;
 import org.kuali.coeus.propdev.impl.attachment.NarrativeType;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.s2sgen.impl.generate.support.PHS398CareerDevelopmentAwardSupV2_0Generator;
 import org.kuali.kra.s2s.generator.S2SModularBudgetTestBase;
 import org.kuali.kra.s2s.generator.util.S2STestConstants;
@@ -74,5 +78,22 @@ public class PHS398CareerDevelopmentAwardSupV2_0GeneratorTest extends
         narrative.setModuleStatusCode("C");
 		narrativeList.add(narrative);
 		document.getDevelopmentProposal().setNarratives(narrativeList);		
+		
+		List<ProposalPerson> proposalPersons = new ArrayList<ProposalPerson>();
+		ProposalPerson principalInvestigator = new ProposalPerson();
+		principalInvestigator.setFirstName("ALAN");
+		principalInvestigator.setLastName("MCAFEE");
+		principalInvestigator.setProposalPersonRoleId("PI");
+		principalInvestigator.setPersonId("0001");
+        principalInvestigator.setProposalPersonNumber(1);
+        principalInvestigator.setDevelopmentProposal(document.getDevelopmentProposal());
+		CitizenshipType citizenshipType = new CitizenshipType();
+		
+		citizenshipType.setCode(1);
+		principalInvestigator.setCitizenshipType(citizenshipType);
+		proposalPersons.add(principalInvestigator);
+		document.getDevelopmentProposal().setProposalPersons(proposalPersons);
+		
+		
 	}
 }
