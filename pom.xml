@@ -189,7 +189,8 @@
         <failsafe.failIfNoTests>false</failsafe.failIfNoTests>
         <failsafe.forkCount>1</failsafe.forkCount>
         <failsafe.reuseForks>true</failsafe.reuseForks>
-        <failsafe.argLine>-Xmx1024m -XX:MaxPermSize=512m ${javaagent.arg}</failsafe.argLine>
+	<failsafe.memOpts>-Xmx1536m -XX:MaxPermSize=512m</failsafe.memOpts>
+        <failsafe.argLine>${failsafe.memOpts} ${javaagent.arg}</failsafe.argLine>
         <failsafe.aggregate>true</failsafe.aggregate>
         <failsafe.skipITs>true</failsafe.skipITs>
         <failsafe.include>**/*Test.java</failsafe.include>

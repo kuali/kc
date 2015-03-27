@@ -47,7 +47,8 @@
         <kc.context.path>/kc-${build.environment}</kc.context.path>
         <kc.port>8080</kc.port>
         <jetty.context.file>${basedir}/src/main/webapp/WEB-INF/jetty-web.xml</jetty.context.file>
-        <jetty.argLine>-Xmx1024m -XX:MaxPermSize=512m ${javaagent.arg}</jetty.argLine>
+	<jetty.memOpts>-Xmx1536m -XX:MaxPermSize=512m</jetty.memOpts>
+        <jetty.argLine>${jetty.memOpts} ${javaagent.arg}</jetty.argLine>
 
         <generated.web.sources>${project.build.directory}/generated-web-sources</generated.web.sources>
         <help.web.sources>${project.build.directory}/generated-web-sources/help-web-sources</help.web.sources>
