@@ -36,6 +36,11 @@
         <c:set var="postMessage" value=" text areas." />
         <c:set var="htmlControlDivStyle" value="display: inline" />
     </c:when>
+    <c:when test="${currentQuestionType == 'Multiple Choice'}">
+        <c:set var="preMessage" value="The user will be presented with " />
+        <c:set var="postMessage" value="  check boxes." />
+        <c:set var="htmlControlDivStyle" value="display: inline" />
+    </c:when>
     <c:otherwise>
         <c:set var="preMessage" value="" />
         <c:set var="postMessage" value="" />
