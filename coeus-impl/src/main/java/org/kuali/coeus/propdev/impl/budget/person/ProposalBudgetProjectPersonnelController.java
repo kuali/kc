@@ -423,7 +423,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
 	    BudgetLineItem budgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
 	    getBudgetCalculationService().applyToLaterPeriods(budget, currentTabBudgetPeriod, budgetLineItem);
-		return getModelAndViewService().getModelAndView(form);
+		return super.save(form);
 	}
 
 	@Transactional @RequestMapping(params="methodToCall=deletePersonnelLineItem")
