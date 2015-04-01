@@ -85,19 +85,19 @@
                       p:order="30"/>
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="totalCost"
                       p:order="40"
-                      p:readOnly="@{(!#emptyList(#lp.budgetLineItems) and !#isAddLine) or #parent.readOnly}"/>
+                      p:readOnly="@{!#emptyList(budget.budgetLineItems) or !#emptyList(budget.budgetPersonnelDetails) or #parent.readOnly}"/>
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="totalDirectCost"
                       p:order="50"
-                      p:readOnly="@{(!#emptyList(#lp.budgetLineItems) and !#isAddLine) or #parent.readOnly}"/>
+                      p:readOnly="@{!#emptyList(budget.budgetLineItems) or !#emptyList(budget.budgetPersonnelDetails)or #parent.readOnly}"/>
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="totalIndirectCost"
                       p:order="60"
-                      p:readOnly="@{(!#emptyList(#lp.budgetLineItems) and !#isAddLine) or #parent.readOnly}"/>
+                      p:readOnly="@{!#emptyList(budget.budgetLineItems) or !#emptyList(budget.budgetPersonnelDetails) or #parent.readOnly}"/>
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="underrecoveryAmount"
                       p:order="65"
-                      p:readOnly="@{(!#emptyList(#lp.budgetLineItems) and !#isAddLine) or #parent.readOnly}"/>
+                      p:readOnly="@{!#emptyList(budget.budgetLineItems) or !#emptyList(budget.budgetPersonnelDetails) or #parent.readOnly}"/>
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="costSharingAmount"
                       p:order="70"
-                      p:readOnly="@{(!#emptyList(#lp.budgetLineItems) and !#isAddLine) or #parent.readOnly}"/>
+                      p:readOnly="@{!#emptyList(budget.budgetLineItems) or !#emptyList(budget.budgetPersonnelDetails) or #parent.readOnly}"/>
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="totalCostLimit"
                       p:order="80"/>
                 <bean parent="Kc-InlineEdit-InputField" p:propertyName="directCostLimit"
