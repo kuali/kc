@@ -67,16 +67,7 @@ public interface BudgetCommonService<T extends BudgetParent> extends BudgetServi
      * @param budget
      */
     public void calculateBudgetOnSave(Budget budget);
-    
-    /**
-     * 
-     * This method will clear the BudgetSumamryPeriodCalcAmounts
-     * @param budgetPeriod
-     */
-    public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod);
-    
-    public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod);
-    
+
     /**
      * Make sure its ok to add a new budget version. This is primarily used for the award budgets
      * as the other budgets status affects whether a new budget may be created. This method

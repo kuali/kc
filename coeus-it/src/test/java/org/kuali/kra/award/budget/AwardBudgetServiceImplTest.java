@@ -59,7 +59,7 @@ public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
     @Test
     public void testFindBudgetPeriodsFromLinkedProposal() {
         awardBudgetService = new AwardBudgetServiceImpl(){
-            protected List findObjectsWithSingleKey(Class clazz,String key, Object value){
+            protected List findMatching(Class clazz, String key, Object value){
                 return mockedFindObjectsWithSingleKey(clazz, key, value);
             }
         };
