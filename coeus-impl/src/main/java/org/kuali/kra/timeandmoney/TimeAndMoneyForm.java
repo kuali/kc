@@ -44,6 +44,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.util.AutoPopulatingList;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.text.ParseException;
 import java.util.*;
 
@@ -59,7 +60,6 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
     private String goToAwardNumber;
     private List<String> order;
-    private List<Integer> columnSpan;
     private List<String> obligationStartDates;
     private List<String> obligationExpirationDates;
     private List<String> finalExpirationDates;
@@ -113,8 +113,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
         transactionBean = new TransactionBean(this);
         awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         order = new ArrayList<String>();
-        columnSpan = new ArrayList<Integer>();
-        obligationStartDates = new AutoPopulatingList<String>(String.class);        
+        obligationStartDates = new AutoPopulatingList<String>(String.class);
         obligationExpirationDates = new AutoPopulatingList<String>(String.class);
         finalExpirationDates = new AutoPopulatingList<String>(String.class);
         awardHierarchyNodeItems = new AutoPopulatingList<AwardHierarchyNode>(AwardHierarchyNode.class);
@@ -246,24 +245,6 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     public void setOrder(List<String> order) {
         this.order = order;
     }
-
-    /**
-     * Gets the columnSpan attribute. 
-     * @return Returns the columnSpan.
-     */
-    public List<Integer> getColumnSpan() {
-        return columnSpan;
-    }
-
-    /**
-     * Sets the columnSpan attribute value.
-     * @param columnSpan The columnSpan to set.
-     */
-    public void setColumnSpan(List<Integer> columnSpan) {
-        this.columnSpan = columnSpan;
-    }    
-    
-    
 
     private AwardHierarchyUIService getAwardHierarchyUIService() {
         return KcServiceLocator.getService(AwardHierarchyUIService.class);
