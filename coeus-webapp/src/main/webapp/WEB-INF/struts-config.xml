@@ -34,7 +34,6 @@
     	<!-- End required KNS forms -->
 <!-- Rice content End -->
 
-		<form-bean name="ProposalDevelopmentForm" type="org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm" />
 		<form-bean name="ReportGenerationForm" type="org.kuali.coeus.common.impl.rpt.ReportGenerationForm" />
 		<form-bean name="BudgetForm" type="org.kuali.coeus.common.budget.framework.core.BudgetForm" />
 		<form-bean name="AwardBudgetForm" type="org.kuali.kra.award.budget.AwardBudgetForm" />
@@ -42,7 +41,6 @@
 		<form-bean name="AwardSubcontractingGoalsExpendituresForm" type="org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresForm" />
 		<form-bean name="SubcontractingExpendituresDataGenerationForm" type="org.kuali.kra.award.subcontracting.reporting.SubcontractingExpendituresDataGenerationForm" />
 		<form-bean name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.TimeAndMoneyForm" />
-		<form-bean name="AwardHierarchyForm" type="org.kuali.kra.award.AwardHierarchyForm" />
 		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
 		<form-bean name="UnitHierarchyForm" type="org.kuali.coeus.common.impl.unit.UnitHierarchyForm" />
 		<form-bean name="SponsorHierarchyForm" type="org.kuali.coeus.common.impl.sponsor.hierarchy.SponsorHierarchyForm" />
@@ -114,8 +112,6 @@
        	<forward name="irbHoldingPage" path="/irbHoldingPage.do" redirect="true" />       	
        	
        	<forward name="closePage" path="/EmptyClosePage.html" />
-       	<forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
-       	<forward name="proposalDevelopmentSummary" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentSummary.jsp" redirect="true" />
     </global-forwards>
 
     <action-mappings>
@@ -158,37 +154,6 @@
         <action path="/isrSsrReporting" name="IsrSsrReportGenerationForm" type="org.kuali.kra.subaward.reporting.web.struts.action.IsrSsrReportGenerationAction" scope="request">
             <forward name="basic" path="/WEB-INF/jsp/subawardReporting/isrSsrReporting.jsp" />
         </action>
-        
-      <!--  KRA Proposal Development Mapping -->
-      <action path="/proposalDevelopment*" name="ProposalDevelopmentForm" input="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopment{1}.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopment{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-          <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopment{1}.jsp" />
-          <forward name="budgetVersions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentBudgetVersions.jsp" />
-          <forward name="keyPersonnel" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentKeyPersonnel.jsp" />
-          <forward name="questions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentQuestions.jsp" />
-          <forward name="hierarchy" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentHierarchy.jsp" />
-          <forward name="proposal" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentProposal.jsp" />
-          <forward name="specialReview" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentSpecialReview.jsp" />
-          <forward name="abstractsAttachments" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentAbstractsAttachments.jsp" />
-          <forward name="attachmentRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentAttachmentRights.jsp" />
-          <forward name="instituteAttachmentRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentInstituteAttachmentRights.jsp" />
-          <forward name="customData" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentCustomData.jsp" />
-          <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
-       	  <forward name="resubmit" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmission.jsp" />
-          <forward name="grantsGov" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentGrantsGov.jsp" />
-          <forward name="permissions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissions.jsp" />
-          <forward name="permissionsRoleRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsRoleRights.jsp" />
-      	  <forward name="permissionsEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsEditRoles.jsp" />
-      	  <forward name="permissionsCloseEditRoles" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsCloseEditRoles.jsp" />
-          <forward name="resubmissionPrompt" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
-          <forward name="proposalMedusa" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentMedusa.jsp" />
-          <forward name="ajaxProposalSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyProposalSummary.jsp" />
-          <forward name="ajaxBudgetSummary" path="/WEB-INF/jsp/proposalhierarchy/ProposalHierarchyBudgetSummary.jsp" />
-          <forward name="deleted" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentDeleted.jsp"/>
-          <forward name="approverView" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentApproverView.jsp" />
-          <forward name="notificationEditor" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentNotificationEditor.jsp" />
-          <forward name="proposalPersonCertificate" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPersonCertification.jsp" />
-          <forward name="personComment" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentSpecialReviewComment.jsp" />
-      </action>
 
  		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.coeus.common.impl.unit.UnitHierarchyAction" scope="request">
             <forward name="basic" path="/unitHierarchy.jsp" />
@@ -226,12 +191,6 @@
         
         <action path="/krmsRuleLookup" name="KrmsRuleLookupForm" type="org.kuali.coeus.common.questionnaire.impl.core.KrmsRuleLookupAction">
             <forward name="basic" path="/WEB-INF/jsp/questionnaire/krmsRuleLookup.jsp" />
-        </action>
-        
-        <action path="/resubmissionPrompt" name="ProposalDevelopmentForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.coeus.propdev.impl.resubmit.ProposalDevelopmentResubmissionPromptAction">
-            <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
-            <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmissionPrompt.jsp" />
-            <forward name="grantsGov" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentGrantsGov.jsp" />
         </action>
 
       <!--  Budget -->

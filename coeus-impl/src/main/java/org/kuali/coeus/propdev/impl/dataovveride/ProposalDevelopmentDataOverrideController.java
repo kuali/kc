@@ -47,8 +47,6 @@ import java.util.*;
 
 @Controller
 public class ProposalDevelopmentDataOverrideController extends ProposalDevelopmentControllerBase {
-    private static final String DATE_TYPE = "DATE";
-    private static final String NUMERIC_TYPE = "NUMBER";
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDataOverrideController.class);
 
     @Autowired

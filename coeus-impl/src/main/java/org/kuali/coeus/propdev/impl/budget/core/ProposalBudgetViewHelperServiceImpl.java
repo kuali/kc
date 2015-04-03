@@ -73,8 +73,6 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
-    @Qualifier("auditHelper")
-    private AuditHelper auditHelper;
 
     @Autowired
     @Qualifier("globalVariableService")

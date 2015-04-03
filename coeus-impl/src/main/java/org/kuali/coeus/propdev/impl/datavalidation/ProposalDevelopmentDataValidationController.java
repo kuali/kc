@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class ProposalDevelopmentDataValidationController extends ProposalDevelopmentControllerBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDataValidationController.class);
 
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=validateData")

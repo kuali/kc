@@ -18,8 +18,6 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -41,7 +39,6 @@ import java.util.Map;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class S2sOpportunityLookupable extends LookupableImpl {
 
-    private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupable.class);
 
     @Autowired
     @Qualifier("s2sOpportunityLookupKradKnsHelperService")

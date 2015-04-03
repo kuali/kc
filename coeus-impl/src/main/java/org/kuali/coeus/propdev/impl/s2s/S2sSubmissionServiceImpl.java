@@ -29,7 +29,6 @@ import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsService;
 import org.kuali.coeus.instprop.api.sponsor.InstPropSponsorService;
 import org.kuali.coeus.propdev.api.s2s.*;
-import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService;
@@ -40,7 +39,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
-import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -105,56 +103,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-
-    @Override
-    public Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity) {
-        Long result = versionNumberForS2sOpportunity;
-
-        Boolean mandatoryFormNotAvailable = false;
-        if(s2sOpportunity.getCfdaNumber()!=null){
-            proposal.setCfdaNumber(s2sOpportunity.getCfdaNumber());
-        }
-        if(s2sOpportunity.getOpportunityId()!=null){
-            proposal.setProgramAnnouncementNumber(s2sOpportunity.getOpportunityId());
-        }
-        if(s2sOpportunity.getOpportunityTitle()!=null){
-            proposal.setProgramAnnouncementTitle(s2sOpportunity.getOpportunityTitle());
-        }
-        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
-        if(s2sOpportunity.getSchemaUrl()!=null){
-            try{
-                s2sOppForms = parseOpportunityForms(s2sOpportunity);
-            }catch(S2SException ex){
-                if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
-                    ex.setErrorMessage(s2sOpportunity.getOpportunityId());
-                }
-                if(ex.getTabErrorKey()!=null){
-                    globalVariableService.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getMessageWithParams());
-                }else{
-                    globalVariableService.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
-                }
-            }
-            List<String> mandatoryForms = new ArrayList<String>();
-            if(s2sOppForms!=null){
-                for(S2sOppForms s2sOppForm:s2sOppForms){
-                    if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
-                        mandatoryFormNotAvailable = true;
-                        mandatoryForms.add(s2sOppForm.getFormName());
-                    }
-                }
-            }
-            if(!mandatoryFormNotAvailable){
-                s2sOpportunity.setS2sOppForms(s2sOppForms);
-                s2sOpportunity.setVersionNumber(versionNumberForS2sOpportunity);
-                proposal.setS2sOpportunity(s2sOpportunity);
-                result = null;
-            }else{
-                globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(),mandatoryForms.toString());
-                proposal.setS2sOpportunity(new S2sOpportunity());
-            }
-        }
-        return result;
-    }
 
     /**
      *

@@ -305,10 +305,6 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
         budget.setUrRateClassCode(originalBudget.getUrRateClassCode());
 		return getModelAndViewService().getModelAndView(form);
 	}
-	
-	public void checkViewAuthorization(@ModelAttribute("KualiForm") ProposalBudgetForm form, String methodToCall) throws AuthorizationException {
-        getTransactionalDocumentControllerService().checkViewAuthorization(form);
-	}
 
 	@MethodAccessible
 	@Transactional @RequestMapping(params="methodToCall=sessionTimeout")

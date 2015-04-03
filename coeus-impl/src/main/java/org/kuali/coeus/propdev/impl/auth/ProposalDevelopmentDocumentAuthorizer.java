@@ -358,10 +358,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return super.canAcknowledge(document, user) && isAuthorizedToHierarchyChildAckWorkflowAction(document, user);
     }
     
-    protected boolean isBudgetComplete(DevelopmentProposal developmentProposal) {
-    	return developmentProposal.getFinalBudget() != null;
-    }
-    
     @Override
     public boolean canAddNoteAttachment(Document document, String attachmentTypeCode, Person user) {
         return isAuthorizedToAddNote(document, user);
@@ -587,20 +583,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return pdDocument.getDocumentHeader().hasWorkflowDocument() && pdDocument.getDocumentHeader().getWorkflowDocument().isEnroute()
                 && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.RECALL_DOCUMENT)
                 && !isRevisionRequested(pdDocument.getDevelopmentProposal().getProposalState());
-    }
-
-    protected boolean isInProgress(ProposalState proposalState) {
-        if (proposalState != null){
-            return StringUtils.equalsIgnoreCase(proposalState.getDescription(), ProposalStateConstants.IN_PROGRESS);
-        }
-        return false;
-    }
-
-    protected boolean isApprovalPending(ProposalState proposalState) {
-        if (proposalState != null){
-            return StringUtils.equalsIgnoreCase(proposalState.getDescription(), ProposalStateConstants.APPROVAL_PENDING);
-        }
-        return false;
     }
 
     protected boolean isRevisionRequested(ProposalState proposalState) {

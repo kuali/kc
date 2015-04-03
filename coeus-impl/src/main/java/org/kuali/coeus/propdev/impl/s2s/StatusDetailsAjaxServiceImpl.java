@@ -22,7 +22,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -67,10 +67,10 @@ public class StatusDetailsAjaxServiceImpl implements StatusDetailsAjaxService {
                     isAuthorized = false;
                 } else {
                     Object formObj = globalVariableService.getUserSession().retrieveObject(docFormKey);
-                    if (formObj == null || !(formObj instanceof ProposalDevelopmentForm)) {
+                    if (formObj == null || !(formObj instanceof ProposalDevelopmentDocumentForm)) {
                         isAuthorized = false;
                     } else {
-                        Map<String, String> editModes = ((ProposalDevelopmentForm)formObj).getEditingMode();
+                        Map<String, Boolean> editModes = ((ProposalDevelopmentDocumentForm)formObj).getEditModes();
                         isAuthorized = (BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
                                 || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
                                 || BooleanUtils.toBoolean(editModes.get("modifyProposal")))

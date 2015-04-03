@@ -42,8 +42,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProposalDevelopmentCoreController extends ProposalDevelopmentControllerBase {
 
-    private static final Logger LOG = Logger.getLogger(ProposalDevelopmentCoreController.class);
-    
+
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -53,10 +52,6 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 	@Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=start")
 	public ModelAndView start(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 		return getTransactionalDocumentControllerService().start(form);
-	}
-
-	public void checkViewAuthorization(@ModelAttribute("KualiForm") DocumentFormBase form, String methodToCall) throws AuthorizationException {
-		getTransactionalDocumentControllerService().checkViewAuthorization(form);
 	}
 
 	@Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=reload")

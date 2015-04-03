@@ -64,9 +64,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     private static final Log LOG = LogFactory.getLog(KeyPersonnelServiceImpl.class);
 
-    private static final String READ_ONLY_ROLES_PARAM_NAME = "personrole.readonly.roles";
     private static final String ROLODEX_PERSON = "Unknown";
-    private static final String NIH_PARM_KEY = "nih.";
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -339,17 +337,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         return getBusinessObjectService().findAll(InvestigatorCreditType.class);
     }
 
-
-
-    /**
-     * Queries persistent storage for a <code>{@link Collection}</code> of <code>{@link Ynq}</code>
-     * instances.
-     * 
-     * @return Collection<Ynq>
-     */
-    public Collection<Ynq> getYesNoQuestions() {
-        return getBusinessObjectService().findAll(Ynq.class);
-    }
 
     /**
      * Everytime something changes that will effect credit split values, this gets called to generate a graph of the

@@ -449,30 +449,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     public void setAttachmentDao(AttachmentDao attachmentDao) {
         this.attachmentDao = attachmentDao;
     }
-
-    @Override
-    public void setNarrativeTimeStampUser(List<Narrative> narratives) {
-
-        for (Narrative narrative : narratives) {
-            Iterator personBioAtt = getAttachmentDao().getNarrativeTimeStampAndUploadUser(narrative.getModuleNumber(), narrative.getProposalNumber());
-            if (personBioAtt.hasNext()) {
-                Object[] item = (Object[])personBioAtt.next();
-                narrative.setUpdateTimestamp((Timestamp)item[0]);
-                narrative.setUpdateUser((String)item[1]);
-                //using PersonService as it will display the user's name the same as the notes panel does
-                Person person = getPersonService().getPersonByPrincipalName(narrative.getUploadUserDisplay());
-                narrative.setUploadUserFullName(ObjectUtils.isNull(person) ? narrative.getUploadUserDisplay() + "(not found)" : person.getName());
-            }
-
-            }
-        }
-    
-    public void setNarrativeTimeStampUser(DevelopmentProposal proposal) {
-        List<Narrative> narratives = new ArrayList<Narrative> ();
-        narratives.addAll(proposal.getNarratives());
-        narratives.addAll(proposal.getInstituteAttachments());
-        setNarrativeTimeStampUser(narratives);
-    }
     
     /**
      * 
