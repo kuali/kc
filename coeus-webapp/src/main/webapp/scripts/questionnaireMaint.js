@@ -1590,7 +1590,7 @@ function adjustGroupDown() {
 // -- should be shared
 
 	  
-var opArray = [ 'select', 'and', 'or' ];
+
 var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends with text', 'Matches text',
 		'Less than number', 'Less than or equals number', 'Equals number', 'Not Equal to number',
 		'Greater than or equals number', 'Greater than number', 'Before date',
