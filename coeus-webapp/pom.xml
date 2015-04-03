@@ -403,11 +403,11 @@
                                     <outputDirectory>${project.build.directory}/precompiletomcat</outputDirectory>
                                     <resources>
                                         <resource>
-                                            <directory>${basedir}/src/main/webapp</directory>
+                                            <directory>src/main/webapp</directory>
                                             <filtering>false</filtering>
                                         </resource>
                                         <resource>
-                                            <directory>${rice.web.sources}</directory>
+                                            <directory>target/generated-web-sources/rice-web-sources</directory>
                                             <filtering>false</filtering>
                                         </resource>
                                     </resources>
