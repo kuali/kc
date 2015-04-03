@@ -395,7 +395,7 @@
                         <executions>
                             <execution>
                                 <id>copy-resources-for-precompile</id>
-                                <phase>compile</phase>
+                                <phase>process-resources</phase>
                                 <goals>
                                     <goal>copy-resources</goal>
                                 </goals>
