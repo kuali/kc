@@ -24,7 +24,6 @@
 This is where application specific (kra) tag includes would go.
 
 --%>
-<%@ taglib tagdir="/WEB-INF/tags/proposaldevelopment" prefix="kra-pd"%>
 <%@ taglib tagdir="/WEB-INF/tags/budget" prefix="kra-b"%>
 <%@ taglib tagdir="/WEB-INF/tags/award" prefix="kra-a"%>
 <%@ taglib tagdir="/WEB-INF/tags/timeandmoney" prefix="kra-timeandmoney"%>
@@ -50,7 +49,6 @@ This is where application specific (kra) tag includes would go.
 <%@ taglib tagdir="/WEB-INF/tags/iacuc" prefix="kra-iacuc"%>
 <%@ taglib tagdir="/WEB-INF/tags/iacuc/action" prefix="kra-iacuc-action" %>
 <%@ taglib tagdir="/WEB-INF/tags/iacuc/onlinereview" prefix="kra-iacuc-olr"%>
-<%@ taglib tagdir="/WEB-INF/tags/person" prefix="kra-person"%>
 <%@ taglib tagdir="/WEB-INF/tags/protocol" prefix="kra-protocol"%>
 <%@ taglib tagdir="/WEB-INF/tags/summary" prefix="kra-summary"%>
 <%@ taglib tagdir="/WEB-INF/tags/protocol/action" prefix="kra-protocol-action"%>

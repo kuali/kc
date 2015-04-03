@@ -390,9 +390,45 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-resources-for-precompile</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/precompiletomcat</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${basedir}/src/main/webapp</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                        <resource>
+                                            <directory>${rice.web.sources}</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
                         <groupId>org.jasig.mojo.jspc</groupId>
                         <artifactId>jspc-maven-plugin</artifactId>
                         <version>${jspc-maven-plugin.version}</version>
+                        <configuration>
+                            <sources>
+                                <directory>${project.build.directory}/precompiletomcat</directory>
+                                <includes>
+                                    <include>**/*.jsp</include>
+                                </includes>
+                            </sources>
+                            <verbose>10</verbose>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>

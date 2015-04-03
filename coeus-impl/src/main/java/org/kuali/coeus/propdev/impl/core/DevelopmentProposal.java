@@ -109,7 +109,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     private static final String ATTACHMENTS_NONE = "None";
 
-    private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
 
     @PortableSequenceGenerator(name = "SEQ_PROPOSAL_NUMBER_KRA")
     @GeneratedValue(generator = "SEQ_PROPOSAL_NUMBER_KRA")
@@ -1036,14 +1035,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public void removePerformanceSite(int index) {
         removeProposalSiteOfType(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE, index);
-    }
-
-    public void clearPerformanceSiteAddress(int index) {
-        ProposalSite performanceSite = getPerformanceSites().get(index);
-        performanceSite.setOrganization(new Organization());
-        performanceSite.setOrganizationId("");
-        performanceSite.setRolodex(new Rolodex());
-        performanceSite.setRolodexId(null);
     }
 
     public void setOtherOrganizations(List<ProposalSite> otherOrganizations) {

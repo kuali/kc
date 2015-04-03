@@ -104,6 +104,7 @@
         <jetty.version>${jetty9.version}</jetty.version>
         <jmock.version>2.6.0</jmock.version>
         <joda-time.version>2.4</joda-time.version>
+        <joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
         <jsp.version>2.2.1</jsp.version>
         <jstl.version>1.2.1</jstl.version>
         <junit.version>4.11</junit.version>
@@ -189,7 +190,7 @@
         <failsafe.failIfNoTests>false</failsafe.failIfNoTests>
         <failsafe.forkCount>1</failsafe.forkCount>
         <failsafe.reuseForks>true</failsafe.reuseForks>
-	<failsafe.memOpts>-Xmx1536m -XX:MaxPermSize=512m</failsafe.memOpts>
+	    <failsafe.memOpts>-Xmx1536m -XX:MaxPermSize=512m</failsafe.memOpts>
         <failsafe.argLine>${failsafe.memOpts} ${javaagent.arg}</failsafe.argLine>
         <failsafe.aggregate>true</failsafe.aggregate>
         <failsafe.skipITs>true</failsafe.skipITs>
@@ -981,6 +982,12 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time-jsptags</artifactId>
+                <version>${joda-time-jsptags.version}</version>
             </dependency>
 
             <dependency>

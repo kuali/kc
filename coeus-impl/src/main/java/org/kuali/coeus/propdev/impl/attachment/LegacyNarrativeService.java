@@ -62,15 +62,6 @@ public interface LegacyNarrativeService {
      */
     public void addPerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames);
     
-
-    /**
-     * 
-     * This method set up timestamp and upload user for narrative & internal attachments.
-     * @param narratives
-     */
-    public void setNarrativeTimeStampUser(List<Narrative> narratives);
-    public void setNarrativeTimeStampUser(DevelopmentProposal proposal);
-    
     public void prepareNarrative(ProposalDevelopmentDocument document, Narrative narrative);
 
     public boolean doesProposalHaveNarrativeType(DevelopmentProposal proposal, NarrativeType narrativeType);

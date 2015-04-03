@@ -42,9 +42,6 @@ import java.util.Calendar;
  */
 public abstract class ProposalBaseStream implements XmlStream {
 
-	private final static Log LOG = LogFactory
-			.getLog(ProposalBaseStream.class);
-
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;

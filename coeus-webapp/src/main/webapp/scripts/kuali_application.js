@@ -564,19 +564,6 @@ function populateSelect(methodToCall, firstSelectId, secondSelectId) {
 	);
 }
 
-function checkGrantsGovStatusOnSponsorChange(proposalNumber, sponsorCodeFieldName) {
-	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
-	var dwrReply = {
-			callback:function(data) {
-				enableGrantsGov(data);
-			},
-			errorHandler:function( errorMessage ) {
-				window.status = errorMessage;
-				enableGrantsGov(false);
-			}
-	};
-	ProposalDevelopmentService.isGrantsGovEnabledOnSponsorChange(proposalNumber, sponsorCode, dwrReply);
-}
 function enableGrantsGov(enable) {
 	jq('input[name$="navigateTo.grantsGov"]').attr("disabled", !enable);
 }
@@ -3424,37 +3411,6 @@ function unselectAllPersonMassChangeCategory(prefix) {
 		$j('input[id=' + item + ']').attr('checked', false);
 	}
 }
-
-var propDevPersonCertificationWindow;
-function proposalDevelopmentPersonCertificationPop(personIndex,docFormKey,sessionDocument) {
-	var documentWebScope
-	
-	if(sessionDocument == "true") {
-		documentWebScope = "session"
-	}
-	if(propDevPersonCertificationWindow && propDevPersonCertificationWindow.open && !propDevPersonCertificationWindow.closed){
-		
-		propDevPersonCertificationWindow.focus();
-	}else {
-		propDevPersonCertificationWindow = window.open(extractUrlBase()+ "/proposalDevelopment.do?methodToCall=getProposalPersonCertification&personIndex="+personIndex+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "mywindow", "width=900, height=500, scrollbars=yes");
-	}
-}
-
-var propDevCommentWindow;
-function proposalDevelopmentCommentPop(personIndex,docFormKey,sessionDocument,comments) {
-	var documentWebScope
-	
-	if(sessionDocument == "true") {
-		documentWebScope = "session"
-	}
-	if(propDevCommentWindow && propDevCommentWindow.open && !propDevCommentWindow.closed){
-		
-		propDevCommentWindow.focus();
-	}else {
-		propDevCommentWindow = window.open(extractUrlBase()+ "/proposalDevelopment.do?methodToCall=getProposalComment&personIndex="+personIndex+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&comments="+comments, "mywindow", "width=800, height=300, scrollbars=yes");
-	}
-}
-
 
 var personSelectedIndex;
 function showBudgetPersonSalaryDetails(flag, personIndex, budgetId, personSequenceNumber, personId, callbackFunction) {

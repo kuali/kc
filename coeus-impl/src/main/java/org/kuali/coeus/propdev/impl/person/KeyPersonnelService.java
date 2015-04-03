@@ -52,17 +52,17 @@ public interface KeyPersonnelService {
      * @param document
      */
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document);
-    
+
     /**
      * Create a <code>{@link Collection}</code> from all the ACTIVE <code>{@link InvestigatorCreditTypes}</code>
      * stored persistently.
-     * 
+     *
      * @return a <code>{@link Collection}</code> of <code>{@link InvestigatorCreditType}</code> instances.
      */
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes();
 
     /**
-     * Add a <code>{@link ProposalPersonUnit}</code> instance to a <code>{@link ProposalPerson}</code>. 
+     * Add a <code>{@link ProposalPersonUnit}</code> instance to a <code>{@link ProposalPerson}</code>.
      * 
      * @param person
      * @param unit
@@ -106,8 +106,7 @@ public interface KeyPersonnelService {
     public void assignLeadUnit(ProposalPerson person, String unitNumber);
     
     public void addProposalPerson(ProposalPerson proposalPerson, ProposalDevelopmentDocument document);
-    
-    public boolean isValidHomeUnit(ProposalPerson person, String unitId);
+
 
     public List<ProposalCreditSplitListDto> createCreditSplitListItems(List<ProposalPerson> investigators);
 

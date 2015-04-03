@@ -50,7 +50,6 @@ import static org.kuali.kra.infrastructure.KeyConstants.*;
  * @version 1.0
  */
 public class ProposalDevelopmentNarrativeRule extends KcTransactionalDocumentRuleBase implements AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, NewNarrativeUserRightsRule { 
-    private static final String DOCUMENT_NARRATIVES = "document.developmentProposal.narratives";
     private static final String PROPOSAL = "Proposal";
     private static final String MODULE_STATUS_CODE_COMPLETED = "C";
     private static final String ERROR_PREFIX_FOR_ATTACHMENTS = "multipartFile";
