@@ -146,7 +146,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
         Assert.assertEquals(htmldata.size(), 1);
-        Assert.assertTrue(((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref().contains("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit  " + "&id="+questionnaire.getId() + "&readOnly=true"));
+        Assert.assertEquals("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit" + "&id="+questionnaire.getId() + "&readOnly=true", ((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref());
     }
     
     /**
@@ -181,9 +181,9 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
         Assert.assertEquals(4, htmldata.size());
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit" + "&id="+questionnaire.getId());
-        Assert.assertTrue(((AnchorHtmlData)htmldata.get(1)).getHref(), ((AnchorHtmlData)htmldata.get(1)).getHref().contains("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit  " + "&id="+questionnaire.getId() + "&readOnly=true"));
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), ((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() + "&methodToCall=copy" + "&id="+questionnaire.getId());
+        Assert.assertEquals("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit" + "&id="+questionnaire.getId(), ((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref());
+        Assert.assertEquals("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit" + "&id="+questionnaire.getId() + "&readOnly=true", ((AnchorHtmlData)htmldata.get(1)).getHref(), ((AnchorHtmlData)htmldata.get(1)).getHref());
+        Assert.assertEquals("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() + "&methodToCall=copy" + "&id="+questionnaire.getId(), ((AnchorHtmlData)htmldata.get(2)).getHref(), ((AnchorHtmlData)htmldata.get(2)).getHref());
     }
 
     /**
