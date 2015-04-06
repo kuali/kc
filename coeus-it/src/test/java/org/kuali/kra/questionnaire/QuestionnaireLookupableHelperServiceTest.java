@@ -146,7 +146,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
         Assert.assertEquals(htmldata.size(), 1);
-        Assert.assertTrue(((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
+        Assert.assertTrue(((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref().contains("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit  " + "&id="+questionnaire.getId() + "&readOnly=true"));
     }
     
     /**
@@ -182,10 +182,10 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
         Assert.assertEquals(4, htmldata.size());
         Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit" + "&id="+questionnaire.getId());
-        Assert.assertTrue(((AnchorHtmlData)htmldata.get(1)).getHref(), ((AnchorHtmlData)htmldata.get(1)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
+        Assert.assertTrue(((AnchorHtmlData)htmldata.get(1)).getHref(), ((AnchorHtmlData)htmldata.get(1)).getHref().contains("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit  " + "&id="+questionnaire.getId() + "&readOnly=true"));
         Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), ((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() + "&methodToCall=copy" + "&id="+questionnaire.getId());
     }
-    
+
     /**
      * 
      * This method to test getCustomActionUrls for someone with no permission to modify/view questionnaire.
