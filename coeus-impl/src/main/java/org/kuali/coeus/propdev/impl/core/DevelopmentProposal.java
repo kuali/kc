@@ -1441,15 +1441,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
     }
 
-    public void replaceAttachment(int selectedLine) {
-        Narrative narrative = getNarratives().get(selectedLine);
-        getNarrativeService().replaceAttachment(narrative);
-    }
-
-    public void replaceInstituteAttachment(int selectedLine) {
-        Narrative narrative = getInstituteAttachments().get(selectedLine);
-        getNarrativeService().replaceAttachment(narrative);
-    }
 
     public void populateNarrativeRightsForLoggedinUser() {
         getNarrativeService().populateNarrativeRightsForLoggedinUser(this.getProposalDocument());
