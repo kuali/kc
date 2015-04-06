@@ -28,7 +28,6 @@ public interface LegacyNarrativeService {
     public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
     public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete);
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
-    public void replaceAttachment(Narrative narrative);
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument);
     public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete);
   
