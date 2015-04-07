@@ -1,18 +1,18 @@
 <%--
    - Kuali Coeus, a comprehensive research administration system for higher education.
-   - 
+   -
    - Copyright 2005-2015 Kuali, Inc.
-   - 
+   -
    - This program is free software: you can redistribute it and/or modify
    - it under the terms of the GNU Affero General Public License as
    - published by the Free Software Foundation, either version 3 of the
    - License, or (at your option) any later version.
-   - 
+   -
    - This program is distributed in the hope that it will be useful,
    - but WITHOUT ANY WARRANTY; without even the implied warranty of
    - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    - GNU Affero General Public License for more details.
-   - 
+   -
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
@@ -32,7 +32,7 @@ function doFilterActivities() {
 				if ($jq(this).parents('div[id^="tab-"]').first().prev().find('input[id^="tab-"]').is('[src*="hide.gif"]')) {
 					$jq(this).parents('div[id^="tab-"]').first().show();
 				}
-				
+
 			} else {
 				$jq(this).parents('div[id^="tab-"]').first().prev().hide();
 				$jq(this).parents('div[id^="tab-"]').first().hide();
@@ -58,31 +58,39 @@ $jq(document).ready(function() {
   <kra-negotiation:negotiationActivity activity="${KualiForm.negotiationActivityHelper.newActivity}" activityIndex="-1" parentTab="Activities & Attachments" tabDivClass="innerTab-h3head" readOnly="false"/>
 </c:if>
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
-<kul:innerTab parentTab="Activities & Attachments" tabTitle="Activities" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
+
+<c:set var="tabItemCount" value="0" />
+<c:if test="${!empty KualiForm.negotiationDocument.negotiation.activities}">
+    <c:forEach var="activity" items="${KualiForm.negotiationDocument.negotiation.activities}" varStatus="status">
+        <c:set var="tabItemCount" value="${tabItemCount+1}" />
+    </c:forEach>
+</c:if>
+
+<kul:innerTab parentTab="Activities & Attachments" tabTitle="Activities" tabItemCount="${tabItemCount}" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
   <table>
    <tr>
     <th style="text-align: right; width: 5em;">Sort By:</th>
     <td><html:select style="width: 100%;" property="negotiationActivityHelper.activitySortingTypeName">
           <c:forEach items="${krafn:getOptionList('org.kuali.kra.negotiations.sorting.ActivitySortingTypeValuesFinder', paramMap)}" var="option">
             <html:option value="${option.key}"><c:out value="${option.value}"/></html:option>
-          </c:forEach> 
+          </c:forEach>
     	</html:select>
     </td>
     <td style="text-align: center; width: 60px;"><html:image property="methodToCall.sort"
    		  			src="${ConfigProperties.kra.externalizable.images.url}tinybutton-sort.gif" styleClass="tinybutton" />
-   
+
 	</td>
    </tr>
     <th style="text-align: right; width: 5em;">Display:</th>
     <th colspan="2" style="text-align:left;">
-      <label><html:radio property="filterActivities" value="${KualiForm.filterAllActivities}" onchange="doFilterActivities();">All</html:radio></label> 
+      <label><html:radio property="filterActivities" value="${KualiForm.filterAllActivities}" onchange="doFilterActivities();">All</html:radio></label>
       <label><html:radio property="filterActivities" value="${KualiForm.filterPendingActivities}" onchange="doFilterActivities();">Pending</html:radio></label>
       <html:image property="methodToCall.printNegotiationActivity"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif'
 						alt="Print Negotiation Activity" styleClass="tinybutton" onclick="excludeSubmitRestriction=true" align="right"/>
    	</th>
    </tr>
-   
+
   </table>
   <c:forEach items="${KualiForm.document.negotiation.activities}" var="activity" varStatus="ctr">
   	<kra-negotiation:negotiationActivity activity="${activity}" activityIndex="${ctr.count-1}" parentTab="All Activities" readOnly="${readOnly}"/>
@@ -90,24 +98,30 @@ $jq(document).ready(function() {
 </kul:innerTab>
 
 
-<kul:innerTab parentTab="Activities & Attachments" tabTitle="Activity/Location History" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
+    <kul:innerTab parentTab="Activities & Attachments" tabTitle="Activity/Location History" tabItemCount="${tabItemCount}" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
 	<kra-negotiation:negotiationActivityHistory/>
 </kul:innerTab>
 
+<c:set var="tabItemCount" value="0" />
+<c:if test="${!empty KualiForm.negotiationActivityHelper.allAttachments}">
+    <c:forEach var="allAttachment" items="${KualiForm.negotiationActivityHelper.allAttachments}" varStatus="status">
+        <c:set var="tabItemCount" value="${tabItemCount+1}" />
+    </c:forEach>
+</c:if>
 
-<kul:innerTab parentTab="Activities & Attachments" tabTitle="All Attachments" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
+<kul:innerTab parentTab="Activities & Attachments" tabTitle="All Attachments" tabItemCount="${tabItemCount}" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
   <table>
    <tr>
     <th style="text-align: right; width: 5em;">Sort By:</th>
     <td><html:select style="width: 100%;" property="negotiationActivityHelper.attachmentSortingTypeName">
           <c:forEach items="${krafn:getOptionList('org.kuali.kra.negotiations.sorting.AttachmentSortingTypeValuesFinder', paramMap)}" var="option">
             <html:option value="${option.key}"><c:out value="${option.value}"/></html:option>
-          </c:forEach> 
+          </c:forEach>
     	</html:select>
     </td>
     <td style="text-align: center; width: 60px;"><html:image property="methodToCall.sort"
    		  			src="${ConfigProperties.kra.externalizable.images.url}tinybutton-sort.gif" styleClass="tinybutton" />
-   
+
 	</td>
    </tr>
   </table>
@@ -142,9 +156,15 @@ $jq(document).ready(function() {
   </table>
 </kul:innerTab>
 
-<kul:innerTab parentTab="Activities & Attachments" tabTitle="Notifications" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
+<c:if test="${!empty KualiForm.negotiationDocument.negotiation.negotiationNotifications}">
+    <c:forEach var="notifications" items="${KualiForm.negotiationDocument.negotiation.negotiationNotifications}" varStatus="status">
+        <c:set var="tabItemCount" value="${tabItemCount+1}" />
+    </c:forEach>
+</c:if>
+
+<kul:innerTab parentTab="Activities & Attachments" tabTitle="Notifications" tabItemCount="${tabItemCount}" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
 	<kra-negotiation:negotiationNotifications/>
 </kul:innerTab>
 
 </div>
-</kul:tab> 
+</kul:tab>
