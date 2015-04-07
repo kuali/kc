@@ -15,15 +15,14 @@
    - GNU Affero General Public License for more details.
    - 
    - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - along with this program.  If not, see <http://www.gnu.org/licenses />.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>6.0.2.0-SNAPSHOT</version>
+    <version>6.0.2.0</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
@@ -181,7 +180,7 @@
         <surefire.failIfNoTests>false</surefire.failIfNoTests>
         <surefire.forkCount>1</surefire.forkCount>
         <surefire.reuseForks>true</surefire.reuseForks>
-        <surefire.argLine></surefire.argLine>
+        <surefire.argLine />
         <surefire.aggregate>true</surefire.aggregate>
         <surefire.skipTests>false</surefire.skipTests>
 
@@ -218,7 +217,7 @@
 
         <!-- defaults to dev unless overriden -->
         <build.environment>dev</build.environment>
-        <build.spring.profiles.active></build.spring.profiles.active>
+        <build.spring.profiles.active />
 
         <!-- This is used in the licenses section as well as the jar/war plugins -->
         <kuali.agpl3.license.url>http://www.gnu.org/licenses/agpl-3.0.txt</kuali.agpl3.license.url>
@@ -318,8 +317,8 @@
                                         <phases>clean,deploy,site</phases>
                                     </requirePluginVersions>
 
-                                    <banCircularDependencies/>
-                                    <DependencyConvergence/>
+                                    <banCircularDependencies />
+                                    <DependencyConvergence />
                                     <!-- when executed from eclipse it fails
                                      <enforceBytecodeVersion>
                                      <maxJdkVersion>${enforcer.max.jdk.version}</maxJdkVersion>
@@ -2283,7 +2282,8 @@
         <connection>${scm.connection}</connection>
         <developerConnection>${scm.developerConnection}</developerConnection>
         <url>${scm.url}</url>
-    </scm>
+      <tag>coeus-6.0.2.0</tag>
+  </scm>
 
     <distributionManagement>
         <snapshotRepository>
