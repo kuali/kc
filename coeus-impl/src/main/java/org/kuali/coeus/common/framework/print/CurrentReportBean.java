@@ -113,7 +113,7 @@ public class CurrentReportBean extends ReportBean {
         Award award = awardPerson.getAward();
         this.awardNumber = award.getAwardNumber();
         this.sponsorName = award.getSponsorName();
-        this.sponsorAwardNumber = award.getSponsorCode();
+        this.sponsorAwardNumber = award.getSponsorAwardNumber();
         this.awardTitle = award.getTitle();
         this.awardAmount = award.calculateObligatedDistributedAmountTotal();
         this.projectStartDate = award.getAwardEffectiveDate();
@@ -127,7 +127,7 @@ public class CurrentReportBean extends ReportBean {
                 this.totalIndirectCostTotal = awardAmountInfo.getObligatedTotalIndirect();
             }
         }
-        awardCustomDataList = new ArrayList<AwardCustomData>();
+        awardCustomDataList = new ArrayList<>();
         
         String customGroupName = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
         for(AwardCustomData awardcutomdata :award.getAwardCustomDataList()) {
@@ -190,8 +190,9 @@ public class CurrentReportBean extends ReportBean {
         return awardNumber.hashCode();
     }
 
+    @SuppressWarnings("deprecation")
     protected List<Column> createColumns() {
-        List<Column> columns = new ArrayList<Column>();
+        List<Column> columns = new ArrayList<>();
         columns.add(createColumn("Sponsor Award ID", "sponsorAwardNumber", sponsorAwardNumber, String.class));
         columns.add(createColumn("Sponsor", "sponsorName", sponsorName, String.class));
         columns.add(createColumn("Role", "roleCode", roleCode, String.class));
