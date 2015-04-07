@@ -1293,15 +1293,12 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
     <bean id="Kc-Header-Unit-Group6-parentBean" abstract="true" parent="Uif-MenuList" p:headerText="Workflow">
         <property name="items">
             <list>
-                <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="People Flow"
+                <bean parent="Uif-MenuAction" p:actionLabel="People Flow"
+                      p:actionUrl.baseUrl="@{#ConfigProperties['rice.server.url']}/kr-krad"
+                      p:actionUrl.methodToCall="start"
+                      p:actionUrl.viewId="PeopleFlow-LookupView"
+                      p:actionUrl.controllerMapping="/lookup"
                       p:order="10">
-                    <property name="actionUrl.requestParameters">
-                       		<map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.kew.impl.peopleflow.PeopleFlowBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
-                        </map>
-                    </property>
                 </bean>
 
                 <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
