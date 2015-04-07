@@ -30,7 +30,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
  * Defines utilities for unit testing
  */
 public class CustomAttributeDocumentTestUtilities {
-    public static final String GROUP_NAME_1 = "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf";
+    public static final String GROUP_NAME_1 = "Additional Data";
     public static final String GROUP_NAME_2 = "Personnel Items for Review";
     public static final String GROUP_NAME_3 = "Project Details";
     private static final String GROUP_NAME_4 = "Other";
