@@ -1387,46 +1387,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         getProposalPersonBiographyService().deleteProposalPersonBiography(this.getProposalDocument(), lineToDelete);
     }
 
-    /**
-     * 
-     * Method to add a new narrative to narratives list
-     * 
-     * @param narrative
-     */
-    public void addNarrative(Narrative narrative) {
-        getNarrativeService().addNarrative(this.getProposalDocument(), narrative);
-    }
-
-    /**
-     * 
-     * Method to delete a narrative from narratives list
-     * 
-     * @param lineToDelete
-     */
-    public void deleteProposalAttachment(int lineToDelete) {
-        getNarrativeService().deleteProposalAttachment(this.getProposalDocument(), lineToDelete);
-    }
-
-    /**
-     * 
-     * Method to add a new institute attachment to institute attachment list
-     * 
-     * @param narrative
-     */
-    public void addInstituteAttachment(Narrative narrative) {
-        getNarrativeService().addInstituteAttachment(this.getProposalDocument(), narrative);
-    }
-
-    /**
-     * 
-     * Method to delete a narrative from narratives list
-     * 
-     * @param lineToDelete
-     */
-    public void deleteInstitutionalAttachment(int lineToDelete) {
-        getNarrativeService().deleteInstitutionalAttachment(this.getProposalDocument(), lineToDelete);
-    }
-
     public void populatePersonNameForNarrativeUserRights(int lineNumber) {
         if (!getNarratives().isEmpty()) {
             Narrative narrative = getNarratives().get(lineNumber);

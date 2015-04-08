@@ -80,14 +80,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
 
-    public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-
-        prepareNarrative(proposaldevelopmentDocument, narrative);
-        narrative = getDataObjectService().save(narrative);
-        narrative.clearAttachment();
-        proposaldevelopmentDocument.getDevelopmentProposal().getNarratives().add(narrative);
-    }
-
     public Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
@@ -188,33 +180,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
             }
         }
         return false;
-    }
-
-    public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete) {
-        deleteAttachment(proposaldevelopmentDocument.getDevelopmentProposal().getNarratives(), lineToDelete);
-    }
-
-    public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete) {
-        deleteAttachment(proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments(), lineToDelete);
-    }
-
-    protected void deleteAttachment(List<Narrative> narratives, int lineToDelete) {
-        Narrative narrative = narratives.get(lineToDelete);
-        getDataObjectService().delete(narrative);
-        NarrativeAttachment narrAtt = new NarrativeAttachment();
-        narrAtt.setModuleNumber(narrative.getModuleNumber());
-        narrative.setNarrativeAttachment(narrAtt);
-
-        narratives.remove(lineToDelete);
-
-    }
-
-    public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-        prepareNarrative(proposaldevelopmentDocument, narrative);
-        
-        getDataObjectService().save(narrative);
-        narrative.clearAttachment();
-        proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments().add(narrative);  
     }
     
     public void prepareNarrative(ProposalDevelopmentDocument document, Narrative narrative) {

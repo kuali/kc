@@ -105,7 +105,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "MODULE_NUMBER", referencedColumnName = "MODULE_NUMBER") })
     private List<NarrativeUserRights> narrativeUserRights;
 
-    @OneToOne(mappedBy = "narrative", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToOne(mappedBy = "narrative", cascade = { CascadeType.ALL })
     private NarrativeAttachment narrativeAttachment;
 
     @Transient
@@ -395,10 +395,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         return getNarrativeUserRights().get(index);
     }
 
-    public void clearAttachment() {
-        setNarrativeAttachment(null);
-    }
-
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -621,7 +617,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
         @Override
         public int compareTo(NarrativeId other) {
-            return new CompareToBuilder().append(this.developmentProposal, other.developmentProposal).append(this.moduleNumber, other.moduleNumber).toComparison();
+        	return new CompareToBuilder().append(this.developmentProposal, other.developmentProposal).append(this.moduleNumber, other.moduleNumber).toComparison();
         }
 
 		public String getDevelopmentProposal() {

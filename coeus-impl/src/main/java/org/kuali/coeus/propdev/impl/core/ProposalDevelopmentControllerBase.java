@@ -246,10 +246,8 @@ public abstract class ProposalDevelopmentControllerBase {
 
          preSave(proposalDevelopmentDocument);
 
-         proposalDevelopmentService.initializeUnitOrganizationLocation(
-                 proposalDevelopmentDocument);
-         proposalDevelopmentService.initializeProposalSiteNumbers(
-                 proposalDevelopmentDocument);
+         proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDevelopmentDocument);
+         proposalDevelopmentService.initializeProposalSiteNumbers(proposalDevelopmentDocument);
 
          for (ProposalPersonBiography biography : form.getDevelopmentProposal().getPropPersonBios()) {
              getProposalPersonBiographyService().prepareProposalPersonBiographyForSave(form.getDevelopmentProposal(),biography);

@@ -86,7 +86,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     @JoinColumn(name = "DOCUMENT_TYPE_CODE", referencedColumnName = "DOCUMENT_TYPE_CODE", insertable = false, updatable = false)
     private PropPerDocType propPerDocType;
 
-    @OneToOne(mappedBy = "proposalPersonBiography", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToOne(mappedBy = "proposalPersonBiography", cascade = { CascadeType.ALL })
     private ProposalPersonBiographyAttachment personnelAttachment;
 
     @Transient
