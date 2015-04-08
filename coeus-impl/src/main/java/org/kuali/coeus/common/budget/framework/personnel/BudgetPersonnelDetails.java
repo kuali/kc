@@ -397,7 +397,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     }
     
     public boolean isPersonBaseSalaryZero() {
-    	return getBudgetPerson().getCalculationBase().equals(ScaleTwoDecimal.ZERO);
+    	return getBudgetPerson() == null ? false : getBudgetPerson().getCalculationBase().equals(ScaleTwoDecimal.ZERO);
     }
 
     public ScaleTwoDecimal getPersonMonths() {
