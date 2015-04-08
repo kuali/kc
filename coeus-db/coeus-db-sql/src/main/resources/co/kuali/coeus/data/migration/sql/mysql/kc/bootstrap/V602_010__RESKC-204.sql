@@ -114,32 +114,69 @@ insert into s2s_form_to_questionnaire
 VALUES ((select max(id) from SEQ_QUESTIONNAIRE_REF_ID), 'http://apply.grants.gov/forms/NSF_CoverPage_1_6-V1.6', 'NSF_CoverPage_1_6-V1.6', (select questionnaire_id from questionnaire where name='NSF cover page 1-6 supporting questions'), NOW(), 'admin', UUID(), '1');
 
 -- arg values
+DELIMITER /
 
-insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1078, 'FundingMechanism','RAPID','RAPID','admin',now(),uuid());
+drop procedure if exists findNextId
+/
 
-insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1079, 'FundingMechanism','EAGER','EAGER','admin',now(),uuid());
-
-insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1080, 'FundingMechanism','Research - Other than RAPID or EAGER','Research - Other than RAPID or EAGER','admin',now(),uuid());
-
-insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1081, 'FundingMechanism','Ideas Lab','Ideas Lab','admin',now(),uuid());
-
-insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1082, 'FundingMechanism','Equipment','Equipment','admin',now(),uuid());
-
-insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1083, 'FundingMechanism','Conference','Conference','admin',now(),uuid());
-
-insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1084, 'FundingMechanism','International Travel','International Travel','admin',now(),uuid());
-
-insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1085, 'FundingMechanism','Fellowship','Fellowship','admin',now(),uuid());
-
-insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
-    values(1086, 'FundingMechanism','Fecility/Center','Fecility/Center','admin',now(),uuid());
+create procedure findNextId(in tableName varchar(64), in idCol varchar(64), out newId int)
+begin
+-- build statement like select t1.report_code + 1 from report t1 where not exists (select null from report t2 where t1.report_code + 1 = t2.report_code)
+	set @dynamicSql = CONCAT('select t1.', idCol, ' + 1 into @dynamicSqlId from ', tableName, ' t1 where not exists (select null from ', tableName, ' t2 where t1.', idCol, ' + 1 = t2.', idCol, ') limit 1');
+	prepare stmt1 from @dynamicSql;
+	execute stmt1;
+	set newId = @dynamicSqlId;
+	deallocate prepare stmt1;
+end
+/
 
 
+DROP PROCEDURE IF EXISTS p
+/
+CREATE PROCEDURE p ()
+BEGIN
+	declare newArgValueId int default 0;
+
+	call findNextId('ARG_VALUE_LOOKUP', 'ARG_VALUE_LOOKUP_ID', newArgValueId);
+	insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
+    	values(newArgValueId, 'FundingMechanism','RAPID','RAPID','admin',now(),uuid());
+
+	call findNextId('ARG_VALUE_LOOKUP', 'ARG_VALUE_LOOKUP_ID', newArgValueId);
+	insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
+    	values(newArgValueId, 'FundingMechanism','EAGER','EAGER','admin',now(),uuid());
+
+	call findNextId('ARG_VALUE_LOOKUP', 'ARG_VALUE_LOOKUP_ID', newArgValueId);
+	insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
+	    values(newArgValueId, 'FundingMechanism','Research - Other than RAPID or EAGER','Research - Other than RAPID or EAGER','admin',now(),uuid());
+	
+	call findNextId('ARG_VALUE_LOOKUP', 'ARG_VALUE_LOOKUP_ID', newArgValueId);
+	insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
+	    values(newArgValueId, 'FundingMechanism','Ideas Lab','Ideas Lab','admin',now(),uuid());
+	
+	call findNextId('ARG_VALUE_LOOKUP', 'ARG_VALUE_LOOKUP_ID', newArgValueId);
+	insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
+	    values(newArgValueId, 'FundingMechanism','Equipment','Equipment','admin',now(),uuid());
+	
+	call findNextId('ARG_VALUE_LOOKUP', 'ARG_VALUE_LOOKUP_ID', newArgValueId);
+	insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
+	    values(newArgValueId, 'FundingMechanism','Conference','Conference','admin',now(),uuid());
+	    
+	call findNextId('ARG_VALUE_LOOKUP', 'ARG_VALUE_LOOKUP_ID', newArgValueId);
+	insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
+	    values(newArgValueId, 'FundingMechanism','International Travel','International Travel','admin',now(),uuid());
+	    
+	call findNextId('ARG_VALUE_LOOKUP', 'ARG_VALUE_LOOKUP_ID', newArgValueId);
+	insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
+	    values(newArgValueId, 'FundingMechanism','Fellowship','Fellowship','admin',now(),uuid());
+	    
+	call findNextId('ARG_VALUE_LOOKUP', 'ARG_VALUE_LOOKUP_ID', newArgValueId);
+	insert into ARG_VALUE_LOOKUP (ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID)
+	    values(newArgValueId, 'FundingMechanism','Fecility/Center','Fecility/Center','admin',now(),uuid());
+END;
+/
+CALL p ()
+/
+DROP PROCEDURE IF EXISTS p
+/
+
+DELIMITER ;
