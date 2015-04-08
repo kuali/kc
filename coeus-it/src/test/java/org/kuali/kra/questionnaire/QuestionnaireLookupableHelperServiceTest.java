@@ -90,7 +90,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument, null, null);
         List<Questionnaire> searchResults = (List<Questionnaire>) questionnaireLookupableHelperServiceImpl.getSearchResults(new HashMap());
-        assertEquals(18 , searchResults.size());
+        assertEquals(19 , searchResults.size());
         
         Questionnaire test1 = null;
         Questionnaire test2 = null;
