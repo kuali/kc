@@ -94,7 +94,11 @@
     <bean id="documentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="documentService" />
     </bean>
-    
+
+    <bean id="documentTypePermissionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="enDocumentTypePermissionService" />
+    </bean>
+
     <bean id="encryptionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="encryptionService" />
     </bean>
@@ -169,7 +173,11 @@
     
     <bean id="printingService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="printingService" />
-    </bean> 
+    </bean>
+
+    <bean id="routeHeaderService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="enDocumentRouteHeaderService" />
+    </bean>
     
     <bean id="scheduleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="scheduleService" />
