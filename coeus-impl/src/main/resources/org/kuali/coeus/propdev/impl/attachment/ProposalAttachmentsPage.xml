@@ -122,6 +122,8 @@
             <list>
                 <bean parent="PropDev-AttachmentPage-LinkField" p:order="10"/>
                 <bean parent="Uif-InputField" p:propertyName="narrativeTypeCode" p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
+                      p:onChangeScript="Kc.PropDev.Attachments.checkforExistingAttachmentsOnParent(this)"
+                      p:onClickScript="Kc.PropDev.Attachments.capturePreviousNarrativeType(this)"
                       p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:width="5%" p:order="20" />
 				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="30" />
                 <bean parent="Uif-InputField" p:propertyName="moduleTitle"
@@ -159,6 +161,8 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="narrative.narrativeTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="narrative.narrativeType.description"
+                      p:onChangeScript="Kc.PropDev.Attachments.checkforExistingAttachmentsOnParent(this)"
+                      p:onClickScript="Kc.PropDev.Attachments.capturePreviousNarrativeType(this)"
                       p:enableAutoQuickfinder="false"
                       p:order="10" />
                 <bean parent="Uif-InputField" p:propertyName="narrative.moduleStatusCode"
@@ -690,6 +694,27 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="accessType" p:fieldLabel.labelText="@{#line.personName}" p:order="10"/>
             </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-AttachmentPage-ConfirmAddAttachmentToChild" parent="Uif-DialogGroup-OkCancel"
+          p:promptText="The attachment type &quot;@{proposalDevelopmentAttachmentHelper.currentNarrativeTypeDescription}&quot; is already present in the hierarchy. Adding the attachment type &quot;@{proposalDevelopmentAttachmentHelper.currentNarrativeTypeDescription}&quot; will not be synced. Do you want to continue?">
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
+                      p:dialogDismissOption="REQUEST" p:methodToCall="revertToPreviousNarrativeType"/>
+                <bean parent="Uif-DialogConfirmButton" p:actionLabel="OK"/>
+            </list>
+        </property>
+        <property name="header.upperGroup">
+            <bean parent="Uif-SimpleGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="&amp;times;"
+                              p:dialogDismissOption="REQUEST" p:methodToCall="revertToPreviousNarrativeType" p:libraryCssClasses="close" p:ariaAttributes="hidden:true"/>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 </beans>

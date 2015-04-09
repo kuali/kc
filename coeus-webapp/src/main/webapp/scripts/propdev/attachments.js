@@ -35,4 +35,15 @@ Kc.PropDev.Attachments = Kc.PropDev.Attachments || {};
 
         });
     };
+    namespace.checkforExistingAttachmentsOnParent = function(element) {
+        var select = $(element).find("select");
+        var previousValue = $(select).data("previousValue");
+        var currentValue = $(select).val();
+        var propertyPath = $(select).attr("name");
+        ajaxSubmitForm('checkForExistingNarratives',{currentValue:currentValue,previousValue:previousValue,propertyPath:propertyPath});
+    }
+    namespace.capturePreviousNarrativeType = function(element) {
+        var select = $(element).find("select");
+        $(select).data("previousValue",$(select).val());
+    }
 })(Kc.PropDev.Attachments, jQuery);
