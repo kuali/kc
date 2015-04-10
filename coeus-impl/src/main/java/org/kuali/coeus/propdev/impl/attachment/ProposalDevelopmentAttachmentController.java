@@ -82,11 +82,6 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Qualifier("personService")
     private PersonService personService;
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-AttachmentsPage"})
-    public ModelAndView saveAttachments(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-       return super.narrativePageSave(form, form.isCanEditView());
-    }
-
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addFileUploadLine")
     public ModelAndView addFileUploadLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                           MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -338,7 +333,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
                 getKcNotificationService().sendNotification(context);
             }
         }
-        return super.narrativePageSave(form,true);
+        return super.save(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendNarrativeChangeNotification")
@@ -372,7 +367,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
             form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
-        return super.narrativePageSave(form, true);
+        return super.save(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveInstituteAttachment")
@@ -388,7 +383,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         }
         form.getDevelopmentProposal().getInstituteAttachments().set(selectedLineIndex,narrative);
         form.getProposalDevelopmentAttachmentHelper().reset();
-        return super.narrativePageSave(form, true);
+        return super.save(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAbstract")

@@ -652,7 +652,7 @@
 
                 <bean parent="Questionnaire-QuestionsGroup" p:propertyName="questionnaireHelper.answerHeaders[0].questions"
                       p:render="@{#ViewHelper.renderQuestionnaire(#line)}"
-                      p:readOnly="@{document.developmentProposal.isChild()}"
+                      p:readOnly="@{document.developmentProposal.isChild() or (#parent.readOnly and !#editModes[#proposalAuthConsts.CAN_SAVE_CERTIFICATION])}"
                       p:order="40" />
             </list>
         </property>
