@@ -18,18 +18,10 @@
  */
 package org.kuali.coeus.propdev.impl.attachment;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Predicate;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
-import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.bo.Note;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +36,9 @@ public class ProposalDevelopmentAttachmentHelper {
     private String selectedLineIndex;
     private String proposalAttachmentModuleStatusCode;
     private String internalAttachmentModuleStatusCode;
+    private String previousNarrativeTypeValue;
+    private String currentNarrativeTypeDescription;
+    private String narrativeTypePropertyPath;
 
     private Map<String,List<String>> editableFileAttachments;
 
@@ -53,7 +48,7 @@ public class ProposalDevelopmentAttachmentHelper {
         biography = new ProposalPersonBiography();
         note = new Note();
         proposalAbstract = new ProposalAbstract();
-        editableFileAttachments = new HashMap<String,List<String>>();
+        editableFileAttachments = new HashMap<>();
     }
 
     public void reset() {
@@ -62,8 +57,11 @@ public class ProposalDevelopmentAttachmentHelper {
         biography = new ProposalPersonBiography();
         note = new Note();
         proposalAbstract = new ProposalAbstract();
-        editableFileAttachments = new HashMap<String,List<String>>();
+        editableFileAttachments = new HashMap<>();
         selectedLineIndex = null;
+        previousNarrativeTypeValue = "";
+        currentNarrativeTypeDescription = "";
+        narrativeTypePropertyPath = "";
     }
 
     public ProposalPersonBiography getBiography() {
@@ -137,4 +135,28 @@ public class ProposalDevelopmentAttachmentHelper {
 	public void setInternalAttachmentModuleStatusCode(String internalAttachmentModuleStatusCode) {
 		this.internalAttachmentModuleStatusCode = internalAttachmentModuleStatusCode;
 	}
+
+    public String getPreviousNarrativeTypeValue() {
+        return previousNarrativeTypeValue;
+    }
+
+    public void setPreviousNarrativeTypeValue(String previousNarrativeTypeValue) {
+        this.previousNarrativeTypeValue = previousNarrativeTypeValue;
+    }
+
+    public String getCurrentNarrativeTypeDescription() {
+        return currentNarrativeTypeDescription;
+    }
+
+    public void setCurrentNarrativeTypeDescription(String currentNarrativeTypeDescription) {
+        this.currentNarrativeTypeDescription = currentNarrativeTypeDescription;
+    }
+
+    public String getNarrativeTypePropertyPath() {
+        return narrativeTypePropertyPath;
+    }
+
+    public void setNarrativeTypePropertyPath(String narrativeTypePropertyPath) {
+        this.narrativeTypePropertyPath = narrativeTypePropertyPath;
+    }
 }

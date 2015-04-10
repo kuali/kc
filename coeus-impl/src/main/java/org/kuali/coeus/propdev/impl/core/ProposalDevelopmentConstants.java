@@ -30,7 +30,25 @@ public class ProposalDevelopmentConstants {
         public static final String COMPLIANCE_ADD_DIALOG = "PropDev-CompliancePage_AddDialog";
 
         public static final String PERSONNEL_QUESTIONNAIRE = "personnelQuestionnaire";
-	}
+        public static final String PROP_DEV_ATTACHMENTS_PAGE_PROPOSAL_DETAILS = "PropDev-AttachmentsPage-ProposalDetails";
+        public static final String PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS = "PropDev-AttachmentsPage-PersonnelDetails";
+        public static final String PROP_DEV_ATTACHMENTS_PAGE_ABSTRACT_DETAILS = "PropDev-AttachmentsPage-AbstractDetails";
+        public static final String PROP_DEV_ATTACHMENTS_PAGE_INTERNAL_DETAILS = "PropDev-AttachmentsPage-InternalDetails";
+        public static final String PROP_DEV_ATTACHMENTS_PAGE_NOTE_DETAILS = "PropDev-AttachmentsPage-NoteDetails";
+        public static final String PROP_DEV_ATTACHMENT_PAGE_VIEW_EDIT_RIGHT_DIALOG = "PropDev-AttachmentPage-ViewEditRightDialog";
+        public static final String PROP_DEV_ATTACHMENT_PAGE_CONFIRM_ADD_ATTACHMENT_TO_CHILD = "PropDev-AttachmentPage-ConfirmAddAttachmentToChild";
+        public static final String PROP_PER_DOC_TYPE = "propPerDocType";
+        public static final String NARRATIVE_TYPE = "narrativeType";
+        public static final String NARRATIVE_STATUS = "narrativeStatus";
+        public static final String KC_SEND_NOTIFICATION_WIZARD = "Kc-SendNotification-Wizard";
+        public static final String ATTACHMENT_TYPE = "attachmentType";
+        public static final String PROPOSAL_ATTACHMENT = "proposalAttachment";
+        public static final String INSTITUTE_ATTACHMENT = "instituteAttachment";
+        public static final String BINDING_PATH = "bindingPath";
+        public static final String PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_NARRATIVE = "proposalDevelopmentAttachmentHelper.narrative";
+        public static final String PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY = "proposalDevelopmentAttachmentHelper.biography";
+        public static final String PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER = "proposalDevelopmentAttachmentHelper";
+    }
 
     public static class Parameters {
         public static final String KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY = "KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY";
