@@ -1213,19 +1213,7 @@
                       p:fieldConversions="sponsorName:sponsor.sponsorName"/>
             </property>
         </bean>
-        <bean p:propertyName="ownedByUnitNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField">
-            <property name="inquiry">
-                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
-                      p:inquiryParameters="ownedByUnitNumber:unitNumber"/>
-            </property>
-            <property name="control">
-                <bean parent="Uif-TextControl"/>
-            </property>
-            <property name="quickfinder">
-                <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
-                      p:fieldConversions="unitNumber:ownedByUnitNumber"/>
-            </property>
-        </bean>
+		<bean parent="DevelopmentProposal-Lookup-UnitField"/>
         <bean p:propertyName="ownedByUnit.unitName" parent="Uif-LookupCriteriaInputField">
             <property name="inquiry">
                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
@@ -1312,6 +1300,76 @@
           </list>
       </property>
   </bean>
+  
+<bean id="AllDevelopmentProposals-LookupViewId" parent="AllDevelopmentProposals-lookupView-parentBean" />
+   <bean id="AllDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView" p:viewName="AllLookupableDevelopmentProposals-LookupViewName" 
+	p:headerText="All Proposal Development Document Lookup" >
+	<property name="criteriaFields">
+      <list >
+        <bean p:propertyName="proposalNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalStateTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalPerson" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Proposal Person"/>
+        <bean p:propertyName="principalInvestigatorName" parent="Uif-LookupCriteriaInputField"/>
+       <bean p:propertyName="aggregator" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Aggregator"  p:enableAutoDirectInquiry="false" p:defaultValue="@{#userSession == null ? '' : #userSession.getLoggedInUserPrincipalName()}">
+            <property name="inquiry" >
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+                      p:inquiryParameters="aggregator:principalName" />
+            </property>
+        </bean>
+        <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"  p:ranged="true"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField">
+          <property name="inquiry">
+              <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
+                    p:inquiryParameters="sponsorCode:sponsorCode"/>
+          </property>
+        </bean>
+        <bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
+                      p:inquiryParameters="sponsorCode:sponsorCode"/>
+            </property>
+        </bean>
+		<bean parent="DevelopmentProposal-Lookup-UnitField"/>
+        <bean p:propertyName="ownedByUnit.unitName" parent="Uif-LookupCriteriaInputField">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                      p:inquiryParameters="ownedByUnit.unitName:unitName"/>
+            </property>
+        </bean>
+        <bean p:propertyName="currentAwardNumber" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="opportunityIdForGG" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="hierarchyStatus" parent="Uif-LookupCriteriaInputField"/>
+      </list>
+    </property>
+  </bean>
+
+<bean id="EnrouteDevelopmentProposals-LookupViewId" parent="EnrouteDevelopmentProposals-lookupView-parentBean"/>    
+<bean id="EnrouteDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView"     p:viewName="EnrouteLookupableDevelopmentProposals-LookupViewName" p:headerText="Enroute Development Proposals Lookup" 
+     p:viewHelperService="#{#getService('enrouteDevelopmentProposalLookupable')}">
+     <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="proposalNumber" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" p:order="10"/>
+        <bean p:propertyName="proposalTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField" p:order="20"/>
+        <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField" p:order="30"/>
+        <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField" p:order="40"/>
+        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField" p:order="50" />
+        <bean p:propertyName="sponsor.sponsorName" parent="Uif-LookupCriteriaInputField" p:order="60" />
+        <bean parent="DevelopmentProposal-Lookup-UnitField" p:order="70"/>
+        <bean p:propertyName="ownedByUnit.unitName" parent="Uif-LookupCriteriaInputField" p:order="80">
+            <property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                      p:inquiryParameters="ownedByUnit.unitName:unitName"/>
+            </property>
+        </bean>
+        <bean p:propertyName="currentAwardNumber" parent="Uif-LookupCriteriaInputField" p:order="90" />
+        <bean p:propertyName="opportunityIdForGG" parent="Uif-LookupCriteriaInputField" p:order="100"/>
+        <bean p:propertyName="hierarchyStatus" parent="Uif-LookupCriteriaInputField" p:order="110"/>
+        <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-LookupCriteriaInputField" p:order="120"/>
+      </list>
+  </property>
+       </bean>  
 
 
     <bean id="Development-Proposal-Lookup-result-ViewLink" parent="Uif-Link"
@@ -1336,5 +1394,20 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="DevelopmentProposal-Lookup-UnitField" p:propertyName="ownedByUnitNumber" 
+		p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField">
+     <property name="inquiry">
+         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+               p:inquiryParameters="ownedByUnitNumber:unitNumber"/>
+     </property>
+     <property name="control">
+         <bean parent="Uif-TextControl"/>
+     </property>
+     <property name="quickfinder">
+         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+               p:fieldConversions="unitNumber:ownedByUnitNumber"/>
+     </property>
+ </bean>
 
 </beans>
