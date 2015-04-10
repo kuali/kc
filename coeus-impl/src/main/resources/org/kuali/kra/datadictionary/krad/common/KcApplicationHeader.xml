@@ -1345,78 +1345,27 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
         </property>
     </bean>
 
+    <bean id="Kc-BusinessRules-MenuAction" parent="Kc-BusinessRules-MenuAction-parentBean"/>
+    <bean id="Kc-BusinessRules-MenuAction-parentBean" abstract="true" parent="Uif-MenuAction"
+          p:actionUrl.baseUrl="@{#ConfigProperties['rice.server.url']}/kr-krad"
+          p:actionUrl.methodToCall="start" p:actionUrl.controllerMapping="/lookup"/>
+
     <bean id="Kc-Header-Unit-Group7" parent="Kc-Header-Unit-Group7-parentBean"/>
     <bean id="Kc-Header-Unit-Group7-parentBean" abstract="true" parent="Uif-MenuList" p:headerText="Business Rules">
         <property name="items">
             <list>
-                <bean parent="Kc-Header-IframeMenuAction" p:actionUrl.viewId="Kc-Header-IframeView"
-                      p:actionLabel="Agenda" p:order="10">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.AgendaBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
-                        </map>
-                    </property>
-                </bean>
-
-                <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Context"
-                      p:order="20">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.ContextBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
-                        </map>
-                    </property>
-                </bean>
-
-
-                <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Attribute Definition"
-                      p:order="30">
-                    <property name="actionUrl.requestParameters">
-                      <map>
-						<entry key="href"  value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
-						</map>
-                    </property>
-                </bean>
-
-                <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Term"
-                      p:order="40">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.TermBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
-                        </map>
-                    </property>
-                </bean>
-
-
-                <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Term Specification"
-                      p:order="50">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.TermSpecificationBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
-                        </map>
-                    </property>
-                </bean>
-
-
-                <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Category"
-                      p:order="60">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['rice.server.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.CategoryBo&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=true"/>
-                        </map>
-                    </property>
-                </bean>
-
-
+                <bean parent="Kc-BusinessRules-MenuAction" p:actionLabel="Agenda"
+                      p:actionUrl.viewId="AgendaBo-LookupView" p:order="10"/>
+                <bean parent="Kc-BusinessRules-MenuAction" p:actionLabel="Context"
+                      p:actionUrl.viewId="ContextBo-LookupView" p:order="20"/>
+                <bean parent="Kc-BusinessRules-MenuAction" p:actionLabel="Attribute Definition"
+                      p:actionUrl.viewId="KrmsAttributeDefinitionBo-LookupView" p:order="30"/>
+                <bean parent="Kc-BusinessRules-MenuAction" p:actionLabel="Term"
+                      p:actionUrl.viewId="TermBo-LookupView" p:order="40"/>
+                <bean parent="Kc-BusinessRules-MenuAction" p:actionLabel="Term Specification"
+                      p:actionUrl.viewId="TermSpecificationBo-LookupView" p:order="50"/>
+                <bean parent="Kc-BusinessRules-MenuAction" p:actionLabel="Category"
+                      p:actionUrl.viewId="CategoryBo-LookupView" p:order="60"/>
             </list>
         </property>
     </bean>

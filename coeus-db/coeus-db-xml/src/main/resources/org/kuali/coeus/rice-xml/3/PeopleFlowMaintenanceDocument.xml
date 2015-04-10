@@ -17,16 +17,23 @@
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>PeopleFlowMaintenanceDocument</name>
-      <parent>RiceDocument</parent>
-      <label>PeopleFlowMaintenanceDocument</label>
-      <docHandler>${kr.krad.url}/peopleFlowMaintenance?methodToCall=docHandler</docHandler>
-      <active>true</active>
-      <routingVersion>2</routingVersion>
-    </documentType>
-  </documentTypes>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>PeopleFlowMaintenanceDocument</name>
+            <parent>RiceDocument</parent>
+            <label>PeopleFlowMaintenanceDocument</label>
+            <docHandler>${kr.krad.url}/peopleFlowMaintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <policies>
+                <policy>
+                    <name>DOC_SEARCH_TARGET</name>
+                    <stringValue>_parent</stringValue>
+                </policy>
+            </policies>
+        </documentType>
+    </documentTypes>
 </data>
 
