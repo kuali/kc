@@ -58,7 +58,7 @@
     <bean id="PropDev-PermissionsPage-AddButton" parent="PropDev-PermissionsPage-AddButton-parentBean" />
     <bean id="PropDev-PermissionsPage-AddButton-parentBean" abstract="true"
           parent="Uif-PrimaryActionButton" p:actionLabel="Add User"
-          p:methodToCall="prepareAddPermission" p:render="@{#editModes['modifyPermissions'] or #editModes['Add Proposal Viewer']}"
+          p:methodToCall="prepareAddPermission" p:render="@{(#editModes['modifyPermissions'] or #editModes['Add Proposal Viewer']) and (!#parent.readOnly or document.documentHeader.workflowDocument.enroute)}"
           p:actionParameters="PropDev-PermissionsPage-Wizard.step:0" p:iconClass="icon-user"/>
 
     <bean id="PropDev-PermissionsPage-Wizard" parent="Kc-Wizard" p:readOnly="false"

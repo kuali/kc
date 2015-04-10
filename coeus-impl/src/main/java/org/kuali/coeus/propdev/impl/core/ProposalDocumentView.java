@@ -35,27 +35,27 @@ import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
 public class ProposalDocumentView extends KcTransactionalDocumentView {
     private static final String KC_ERROR_TRANSACTIONAL_LOCKED = "kc.error.transactional.locked";
+    public static final String FULL = "full";
 
 
     @Override
     protected void generatePessimisticLockMessages(TransactionalDocumentFormBase form) {
     	ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm = (ProposalDevelopmentDocumentForm)form;
     	if(!proposalDevelopmentDocumentForm.isViewOnly()) {
-            String pageRegion = ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).getLockRegionFromPage(form.getPageId());
             Document document = form.getDocument();
+            String pageId = proposalDevelopmentDocumentForm.getPageId();
             Person user = GlobalVariables.getUserSession().getPerson();
 
             for (PessimisticLock lock : document.getPessimisticLocks()) {
                 String lockRegion = lock.getLockDescriptor() != null ? StringUtils.split(lock.getLockDescriptor(),"-")[1] : null;
-                if (!lock.isOwnedByUser(user) && ((lockRegion == null || lockRegion.equals(pageRegion)) &&
-                        !StringUtils.equals(form.getPageId(),ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID) ||
-                        (StringUtils.equals(form.getPageId(), Constants.PROP_DEV_PERMISSIONS_PAGE) && StringUtils.equals(lockRegion,KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES)))) {
-                    String lockDescriptor = StringUtils.defaultIfBlank(lock.getLockDescriptor(), "full");
+                if (!lock.isOwnedByUser(user)  && !StringUtils.equals(pageId,ProposalDevelopmentConstants.KradConstants.BUDGET_PAGE)
+                        && !StringUtils.equals(lockRegion,KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
+                    String lockDescriptor = StringUtils.defaultIfBlank(lock.getLockDescriptor(), FULL);
                     String lockOwner = lock.getOwnedByUser().getName();
                     String lockTime = RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp());
                     String lockDate = RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
 
-                    if (!getParameterService().getParameterValueAsBoolean("KC-GEN", "All", PessimisticLockConstants.ALLOW_CLEAR_PESSIMISTIC_LOCK_PARM)) {
+                    if (!getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE , Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PessimisticLockConstants.ALLOW_CLEAR_PESSIMISTIC_LOCK_PARM)) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
                             RiceKeyConstants.ERROR_TRANSACTIONAL_LOCKED, lockDescriptor, lockOwner, lockTime, lockDate);
                     } else {

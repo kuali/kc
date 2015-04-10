@@ -409,7 +409,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     protected boolean canSaveCertification(ProposalDevelopmentDocument document, Person user) {
         for(ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            if (hasCertificationPermissions(document, user, person)) {
+            if (hasCertificationPermissions(document, user, person) && document.getDocumentHeader().getWorkflowDocument().isEnroute()) {
                 return true;
             }
         }
@@ -557,7 +557,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     protected boolean isAuthorizedToReplaceNarrative(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document); 
         boolean hasPermission = false;
-        if (!pdDocument.getDevelopmentProposal().getSubmitFlag()) {
+        if (!pdDocument.getDevelopmentProposal().getSubmitFlag() && pdDocument.getDocumentHeader().getWorkflowDocument().isEnroute()) {
             hasPermission = getModifyNarrativePermission(pdDocument, user) || isAuthorizedToAlterProposalData(document, user);
         }      
         return hasPermission;
