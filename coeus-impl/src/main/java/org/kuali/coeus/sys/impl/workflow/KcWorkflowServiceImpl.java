@@ -63,7 +63,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
     public boolean hasWorkflowPermission(String userId, Document doc) {
         boolean hasPermission = false;
         WorkflowDocument workflowDoc = getWorkflowDocument(doc);
-        if (workflowDoc != null && isInWorkflow(doc)) {
+        if (workflowDoc != null && !isInitiated(doc)) {
             String routeHeaderId = workflowDoc.getDocumentId();
             hasPermission = workflowDocumentActionsService.isUserInRouteLog(routeHeaderId, userId, true);
         }
@@ -103,7 +103,15 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         }
         return isInWorkflow;
     }
-    
+
+    public boolean isInitiated(Document doc) {
+        boolean isInitiated = false;
+        WorkflowDocument workflowDoc = getWorkflowDocument(doc);
+        if (workflowDoc != null) {
+            isInitiated = workflowDoc.isInitiated();
+        }
+        return isInitiated;
+    }
     /**
      * Get the corresponding workflow document.  
      * @param doc the document
@@ -128,10 +136,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
      
     /**
      * This method gets the workflow document using the given principalId.
-     * 
-     * @param doc The document you want the workflow document for.
-     * @param principalId The principalId to use getting the document.  This impacts the return values for isApprovalRequested, etc.
-     * @return
+     *
      */
     protected WorkflowDocument getWorkflowDocument(Document doc, String principalId) {
         return WorkflowDocumentFactory.loadDocument(principalId, doc.getDocumentHeader().getWorkflowDocument().getDocumentId());
@@ -160,7 +165,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
     
     @Override
     public boolean isDocumentOnNode(Document document,String nodeName) {
-        boolean result = false;
+        boolean result;
         try {
             result = document != null && document.getDocumentHeader().getWorkflowDocument().getNodeNames().contains(nodeName);
             return result;
@@ -172,7 +177,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
     
     @Override
     public boolean isCurrentNode(Document document, String nodeName){
-        boolean result = false;
+        boolean result;
         try {
             result = document != null && document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(nodeName);
             return result;
@@ -215,7 +220,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
     @Override
     public boolean isFinalApproval(WorkflowDocument workflowDoc) {       
         RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
-        Set<String> approvalNodes = new HashSet<String>();
+        Set<String> approvalNodes = new HashSet<>();
         String currentRequest = null;
         
         DocumentDetail results1 = workflowDocumentActionsService.executeSimulation(reportCriteriaBuilder.build());
@@ -267,9 +272,6 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
        
     /**
      * Checks to see if the user has asked to receive future requests or not.
-     * @param workflowDoc
-     * @param principalId
-     * @return true if the user has not asked to NOT receive future requests.
      */
     private boolean willReceiveFutureRequests(WorkflowDocument workflowDoc, String principalId) {
         boolean doNotReceiveFutureRequests = false;    
@@ -292,7 +294,7 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         return !doNotReceiveFutureRequests;
     }
     
-    private static List<String> approvalCodes = new ArrayList<String>();
+    private static List<String> approvalCodes = new ArrayList<>();
     static {
         approvalCodes.add("C");
         approvalCodes.add("A");
@@ -300,14 +302,6 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
     
     public boolean hasPendingApprovalRequests(WorkflowDocument workflowDoc) {
         return !actionListService.getActionItems(workflowDoc.getDocumentId(), approvalCodes).isEmpty();
-    }
-
-    protected ActionListService getActionListService() {
-        return actionListService;
-    }
-
-    public void setActionListService(ActionListService actionListService) {
-        this.actionListService = actionListService;
     }
 
     public void setWorkflowDocumentActionsService(WorkflowDocumentActionsService workflowDocumentActionsService) {
