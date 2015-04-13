@@ -42,6 +42,11 @@ import java.util.List;
 
 public class KcConfigurer extends ModuleConfigurer {
 	
+	private static final String ADDITIONAL_SPRING_FILES = ".additionalSpringFiles";
+	private static final String KC_PREFIX = "kc.";
+	private static final String SPRING_SECURITY_FILTER_PROXY = ".springSecurityFilterProxy";
+	private static final String SPRING_SECURITY_FILTER_CHAIN = "springSecurityFilterChain";
+
 	protected final Log LOG = LogFactory.getLog(KcConfigurer.class);
     
     private String bootstrapSpringFile;
@@ -68,7 +73,7 @@ public class KcConfigurer extends ModuleConfigurer {
 
     @Override
     public List<String> getAdditionalSpringFiles() {
-        final String files = ConfigContext.getCurrentContextConfig().getProperty("kc." + getModuleName() + ".additionalSpringFiles");
+        final String files = ConfigContext.getCurrentContextConfig().getProperty(KC_PREFIX + getModuleName() + ADDITIONAL_SPRING_FILES);
         return files == null ? Collections.<String>emptyList() : parseFileList(files);
     }
     
@@ -100,8 +105,8 @@ public class KcConfigurer extends ModuleConfigurer {
 	            filter.addMappingForServletNames(null, true, dispatchServletName);
 	        }
 	        if (enableSpringSecurity) {
-	        	DelegatingFilterProxy filterProxy = new DelegatingFilterProxy("springSecurityFilterChain", (WebApplicationContext) ((SpringResourceLoader) rootResourceLoader.getResourceLoaders().get(0)).getContext());
-	        	FilterRegistration.Dynamic securityFilter = getServletContext().addFilter("kc." + getModuleName() + ".springSecurityFilterProxy", filterProxy);
+	        	DelegatingFilterProxy filterProxy = new DelegatingFilterProxy(SPRING_SECURITY_FILTER_CHAIN, (WebApplicationContext) ((SpringResourceLoader) rootResourceLoader.getResourceLoaders().get(0)).getContext());
+	        	FilterRegistration.Dynamic securityFilter = getServletContext().addFilter(KC_PREFIX + getModuleName() + SPRING_SECURITY_FILTER_PROXY, filterProxy);
 	        	securityFilter.addMappingForServletNames(null, true, dispatchServletName);
 	        }
     	}
