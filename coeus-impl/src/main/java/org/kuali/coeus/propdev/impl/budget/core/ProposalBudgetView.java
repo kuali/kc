@@ -45,7 +45,6 @@ public class ProposalBudgetView extends FormView {
         super.performFinalize(model, parent);
         generatePessimisticLockMessages((ProposalBudgetForm) model);
         ((ProposalBudgetForm) model).setCanEditView(!this.getReadOnly());
-        ((ProposalBudgetForm) model).setViewOnly(this.getReadOnly());
     }
 
     protected void generatePessimisticLockMessages(ProposalBudgetForm form) {
