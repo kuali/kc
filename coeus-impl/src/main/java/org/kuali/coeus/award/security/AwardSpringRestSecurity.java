@@ -16,26 +16,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.dao;
+package org.kuali.coeus.award.security;
 
-import org.kuali.kra.award.home.Award;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.coeus.sys.framework.security.SpringRestSecurity;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-public interface AwardDao {
-    public String getAwardNumber(Long awardId);
-
-    /**
-     * Does a non-wildcarded yet still limited search of awards, retrieved by the given criteria
-     * @param fieldValues the field values to set
-     * @return a Collection of found awards
-     */
-    public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues);
-    
-    public SearchResults<Award> retrievePopulatedAwardByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer pageNum, Integer numPerPage);
-
+@Configuration
+@EnableWebMvcSecurity
+public class AwardSpringRestSecurity extends SpringRestSecurity {
+	//noop class to pull SpringRestSecurity class into the award spring context
 }

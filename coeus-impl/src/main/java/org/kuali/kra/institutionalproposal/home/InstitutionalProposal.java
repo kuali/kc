@@ -148,7 +148,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private KcPerson ospAdministrator;
     private InstitutionalProposalScienceKeyword proposalScienceKeyword;
     private InstitutionalProposalCostShare proposalCostSharing;
-    // private AwardFundingProposals awardFundingProposals;
     private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit;
     private ProposalUnitCreditSplit proposalUnitCreditSplit;
     private List<InstitutionalProposalComment> proposalComments;
@@ -1148,14 +1147,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.proposalCostSharing = proposalCostSharing;
     }
 
-
-    /*
-     * public AwardFundingProposals getAwardFundingProposals() { return awardFundingProposals; }
-     * 
-     * public void setAwardFundingProposals(AwardFundingProposals awardFundingProposals) { this.awardFundingProposals =
-     * awardFundingProposals; }
-     */
-
     /**
      * Gets the projectPersons attribute. 
      * @return Returns the projectPersons.
@@ -1259,7 +1250,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     public ProposalIpReviewJoin getProposalIpReviewJoin() {
-        if (ObjectUtils.isNotNull(this.proposalIpReviewJoins != null)) {
+        if (!CollectionUtils.isEmpty(this.proposalIpReviewJoins)) {
             return this.proposalIpReviewJoins.get(0);
         }
         return null;
@@ -1456,22 +1447,23 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     protected void updateProposalIpReviewJoin() {
         ProposalIpReviewJoin proposalIpReviewJoin = this.getProposalIpReviewJoin();
-        if (ObjectUtils.isNotNull(proposalIpReviewJoin.getProposalIpReviewJoinId())) {
-            if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
-                proposalIpReviewJoin.setProposalIpReviewJoinId(null);
+        if (proposalIpReviewJoin != null) {
+	        if (proposalIpReviewJoin.getProposalIpReviewJoinId() != null) {
+	            if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
+	                proposalIpReviewJoin.setProposalIpReviewJoinId(null);
+	        } else {
+	            IntellectualPropertyReview ipReview = new IntellectualPropertyReview();
+	            ipReview.setSequenceNumber(0);
+	            ipReview.setProposalNumber(this.getProposalNumber());
+	            ipReview.setIpReviewSequenceStatus(VersionStatus.ACTIVE.toString());
+	            getBusinessObjectService().save(ipReview);
+	            proposalIpReviewJoin = new ProposalIpReviewJoin();
+	            proposalIpReviewJoin.setIpReviewId(ipReview.getIpReviewId());
+	        }
+	        proposalIpReviewJoin.setProposalId(this.getProposalId());
+	        getBusinessObjectService().save(proposalIpReviewJoin);
+	        this.setProposalIpReviewJoin(proposalIpReviewJoin);
         }
-        else {
-            IntellectualPropertyReview ipReview = new IntellectualPropertyReview();
-            ipReview.setSequenceNumber(0);
-            ipReview.setProposalNumber(this.getProposalNumber());
-            ipReview.setIpReviewSequenceStatus(VersionStatus.ACTIVE.toString());
-            getBusinessObjectService().save(ipReview);
-            proposalIpReviewJoin = new ProposalIpReviewJoin();
-            proposalIpReviewJoin.setIpReviewId(ipReview.getIpReviewId());
-        }
-        proposalIpReviewJoin.setProposalId(this.getProposalId());
-        getBusinessObjectService().save(proposalIpReviewJoin);
-        this.setProposalIpReviewJoin(proposalIpReviewJoin);
     }
 
 

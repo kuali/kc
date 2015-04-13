@@ -16,26 +16,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.dao;
+package org.kuali.coeus.common.framework.sponsor;
 
-import org.kuali.kra.award.home.Award;
-import org.kuali.rice.krad.bo.BusinessObject;
+public class SponsorDto {
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-public interface AwardDao {
-    public String getAwardNumber(Long awardId);
-
-    /**
-     * Does a non-wildcarded yet still limited search of awards, retrieved by the given criteria
-     * @param fieldValues the field values to set
-     * @return a Collection of found awards
-     */
-    public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues);
-    
-    public SearchResults<Award> retrievePopulatedAwardByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer pageNum, Integer numPerPage);
-
+	private String sponsorCode;
+	private String sponsorName;
+	private String acronym;
+	
+	public String getSponsorCode() {
+		return sponsorCode;
+	}
+	public void setSponsorCode(String sponsorCode) {
+		this.sponsorCode = sponsorCode;
+	}
+	public String getSponsorName() {
+		return sponsorName;
+	}
+	public void setSponsorName(String sponsorName) {
+		this.sponsorName = sponsorName;
+	}
+	public String getAcronym() {
+		return acronym;
+	}
+	public void setAcronym(String acronym) {
+		this.acronym = acronym;
+	}
 }
