@@ -60,12 +60,7 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
     private ParameterService parameterService;
     private AwardService awardService;
     private InstitutionalProposalService institutionalProposalService;
-    
-    /**
-     * 
-     * Constructs a AwardContactAuditRule.java. Added so unit test would not
-     * need to call processRunAuditBusinessRules and therefore declare a document.
-     */
+
     public AwardProjectPersonsAuditRule() {
         auditErrors = new ArrayList<AuditError>();
         auditWarnings = new ArrayList<AuditError>();
@@ -73,12 +68,11 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
     
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
-        boolean valid = true;
         AwardDocument awardDocument = (AwardDocument)document;
         auditErrors = new ArrayList<AuditError>();
-        auditWarnings = new ArrayList<AuditError>();        
-        
-        valid &= checkUnitExists(awardDocument.getAward().getProjectPersons());
+        auditWarnings = new ArrayList<AuditError>();
+
+        boolean valid = checkUnitExists(awardDocument.getAward().getProjectPersons());
         valid &= checkPrincipalInvestigators(awardDocument.getAward().getProjectPersons());
         valid &= checkUnits(awardDocument.getAward().getProjectPersons());
         valid &= checkLeadUnits(awardDocument.getAward().getProjectPersons());
@@ -171,10 +165,10 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
     }
     
     protected boolean checkCertifiedInvestigators(Award award) {
-        boolean retval = true;
+
         String parmVal = getParameterService().getParameterValueAsString(AwardDocument.class, AWARD_UNCERTIFIED_PARAM);
         if (StringUtils.equals(parmVal, "0")) { //do not validate uncertified investigators
-            return retval;
+            return true;
         }
         boolean error = StringUtils.equals(parmVal, "2");
         List<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
@@ -185,6 +179,8 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
                 devProposals.addAll(getInstitutionalProposalService().getAllLinkedDevelopmentProposals(fundingProposal.getProposal().getProposalNumber()));
             }
         }
+
+        boolean retval = true;
         for (AwardPerson person : award.getProjectPersons()) {
             boolean personFoundCheck = false;
             for (DevelopmentProposal proposal : devProposals) {
@@ -216,11 +212,11 @@ public class AwardProjectPersonsAuditRule implements DocumentAuditRule {
         
         return retval;
     }
-    
+
     protected boolean checkUnitExists(List<AwardPerson> awardPersons) {
         boolean valid = true;
         for (AwardPerson person : awardPersons) {
-        	if (person.getUnits() == null || person.getUnits().size() < 1) {
+        	if ((person.isKeyPerson() && person.isOptInUnitStatus()) && (person.getUnits() == null || person.getUnits().size() < 1)) {
         		valid = false;
         		String[] params = new String[1];
         		params[0] = person.getContact().getFullName();
