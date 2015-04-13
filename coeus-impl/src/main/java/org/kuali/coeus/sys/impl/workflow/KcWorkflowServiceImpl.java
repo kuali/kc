@@ -25,10 +25,7 @@ import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
-import org.kuali.rice.kew.api.action.ActionRequest;
-import org.kuali.rice.kew.api.action.ActionRequestPolicy;
-import org.kuali.rice.kew.api.action.RoutingReportCriteria;
-import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.action.*;
 import org.kuali.rice.kew.api.actionlist.ActionListService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
@@ -45,7 +42,7 @@ import java.util.*;
  */
 @Component("kcWorkflowService")
 public class KcWorkflowServiceImpl implements KcWorkflowService {
-    static Log LOG = LogFactory.getLog(KcWorkflowService.class);
+    private static final Log LOG = LogFactory.getLog(KcWorkflowService.class);
 
     @Autowired
     @Qualifier("workflowDocumentActionsService")
@@ -58,6 +55,13 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
     @Autowired
     @Qualifier("actionListService")
     protected ActionListService actionListService;
+
+    private static final List<String> approvalCodes = new ArrayList<>();
+
+    static {
+        approvalCodes.add(ActionRequestType.COMPLETE.getCode());
+        approvalCodes.add(ActionRequestType.APPROVE.getCode());
+    }
 
     @Override
     public boolean hasWorkflowPermission(String userId, Document doc) {
@@ -293,15 +297,17 @@ public class KcWorkflowServiceImpl implements KcWorkflowService {
         
         return !doNotReceiveFutureRequests;
     }
-    
-    private static List<String> approvalCodes = new ArrayList<>();
-    static {
-        approvalCodes.add("C");
-        approvalCodes.add("A");
-    }
-    
+
     public boolean hasPendingApprovalRequests(WorkflowDocument workflowDoc) {
         return !actionListService.getActionItems(workflowDoc.getDocumentId(), approvalCodes).isEmpty();
+    }
+
+    protected ActionListService getActionListService() {
+        return actionListService;
+    }
+
+    public void setActionListService(ActionListService actionListService) {
+        this.actionListService = actionListService;
     }
 
     public void setWorkflowDocumentActionsService(WorkflowDocumentActionsService workflowDocumentActionsService) {
