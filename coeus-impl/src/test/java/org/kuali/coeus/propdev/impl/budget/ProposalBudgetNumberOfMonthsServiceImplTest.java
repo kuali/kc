@@ -26,7 +26,7 @@ import java.sql.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ProposalBudgetNumberOfMonthsServiceTest {
+public class ProposalBudgetNumberOfMonthsServiceImplTest {
 	private ProposalBudgetNumberOfMonthsServiceImpl proposalBudgetNumberOfMonthsService = null;
 
 	@Before
@@ -35,12 +35,22 @@ public class ProposalBudgetNumberOfMonthsServiceTest {
 	}
 
 	@Test
+	//passed
 	public void test_getNumberOfMonth() {
 		Date startDate = java.sql.Date.valueOf("1990-11-30");
 		Date endDate = java.sql.Date.valueOf("1990-12-30");
 		double resultValue = proposalBudgetNumberOfMonthsService
 				.getNumberOfMonth(startDate, endDate);
-		assertEquals(resultValue, 1.03, 0);
+		assertEquals(1.03, resultValue, 0);
+	}
+
+	@Test
+	public void test_getNumberOfMonth_1_month() {
+		Date startDate = java.sql.Date.valueOf("1990-12-01");
+		Date endDate = java.sql.Date.valueOf("1990-12-31");
+		double resultValue = proposalBudgetNumberOfMonthsService
+				.getNumberOfMonth(startDate, endDate);
+		assertEquals(1.00, resultValue, 0);
 	}
 
 	@Test
@@ -49,7 +59,7 @@ public class ProposalBudgetNumberOfMonthsServiceTest {
 		Date endDate = java.sql.Date.valueOf("2016-03-31");
 		double resultValue = proposalBudgetNumberOfMonthsService
 				.getNumberOfMonth(startDate, endDate);
-		assertEquals(resultValue, 15.0, 0);
+		assertEquals(15.0, resultValue, 0);
 	}
 	
 	@Test
@@ -65,7 +75,25 @@ public class ProposalBudgetNumberOfMonthsServiceTest {
 		Date endDate = java.sql.Date.valueOf("2016-01-13");
 		double resultValue = proposalBudgetNumberOfMonthsService
 				.getNumberOfMonth(startDate, endDate);
-		assertNotEquals(resultValue, 12.13, 0);
-		assertEquals(resultValue, 11.81, 0);
+		assertNotEquals(12.13, resultValue, 0);
+		assertEquals(11.81, resultValue, 0);
+	}
+
+	@Test
+	public void test_get12MonthPeriod_notFirstOfMonth() {
+		Date startDate = java.sql.Date.valueOf("2015-04-02");
+		Date endDate = java.sql.Date.valueOf("2016-04-01");
+		double resultValue = proposalBudgetNumberOfMonthsService
+				.getNumberOfMonth(startDate, endDate);
+		assertEquals(12.00, resultValue, 0);
+	}
+
+	@Test
+	public void test_start_after_before() {
+		Date startDate = java.sql.Date.valueOf("2016-04-02");
+		Date endDate = java.sql.Date.valueOf("2015-04-01");
+		double resultValue = proposalBudgetNumberOfMonthsService
+				.getNumberOfMonth(startDate, endDate);
+		assertEquals(0.00, resultValue, 0);
 	}
 }

@@ -19,10 +19,10 @@
 package org.kuali.coeus.propdev.impl.budget;
 
 
+
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.Months;
-import org.joda.time.Period;
-import org.joda.time.PeriodType;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.springframework.stereotype.Component;
 
@@ -33,24 +33,19 @@ public class ProposalBudgetNumberOfMonthsServiceImpl implements ProposalBudgetNu
 
     @Override
     public double getNumberOfMonth(Date startDate, Date endDate) {
-        if (startDate == null || endDate == null) {
+        if (startDate == null || endDate == null || startDate.after(endDate)) {
             return 0.00;
-        } else {
-            return getNumberOfMonths(startDate, endDate);
         }
-    }
 
-    protected double getNumberOfMonths(Date startDate, Date endDate) {
-    	DateTime start = new DateTime(startDate);
-    	DateTime end = new DateTime(endDate);
-    	double daysInMonthForEndDate = end.dayOfMonth().getMaximumValue();
-    	
-    	PeriodType periodType = PeriodType.standard().withWeeksRemoved();
-    	Period period = new Period(start, end, periodType);
-    	double monthsBetween = Months.monthsBetween(start, end).getMonths();
-    	double daysLeft = period.getDays() + 1;
-    	
-    	double numberOfMonths = monthsBetween + (daysLeft / daysInMonthForEndDate);
+        final DateTime start = new DateTime(startDate);
+    	final DateTime end = new DateTime(endDate).plusDays(1);
+
+        final int daysInMonthForEndDate = end.dayOfMonth().getMaximumValue();
+    	final int wholeMonths = Months.monthsBetween(start, end).getMonths();
+    	final int daysRemaining = Days.daysBetween(start.plusMonths(wholeMonths), end).getDays();
+
+        //casting to ensure we don't loose precision
+    	final double numberOfMonths = wholeMonths + ((double) daysRemaining / (double) daysInMonthForEndDate);
     	
     	return new ScaleTwoDecimal(numberOfMonths).doubleValue();
     }
