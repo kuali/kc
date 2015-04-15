@@ -23,7 +23,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
@@ -36,13 +36,12 @@ import org.kuali.kra.timeandmoney.history.TransactionDetailType;
 import org.kuali.kra.timeandmoney.history.TransactionType;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
 
@@ -50,7 +49,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 
 	private static final String DATE_CHANGE_TRANSACTION_ID = "-1";
 	private static final String TIME_AND_MONEY_DOCUMENT_NUMBER = "timeAndMoneyDocumentNumber";
-	private static final String AWARD_DOCUMENT = "awardDocument";
 	private static final String ROOT_AWARD_NUMBER = "rootAwardNumber";
 	private static final String SOURCE_AWARD_NUMBER = "sourceAwardNumber";
 	private static final String DESTINATION_AWARD_NUMBER = "destinationAwardNumber";
@@ -61,22 +59,29 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	private static final String DASH = "-";
 	private static final String DEFAULT_TAB = "Versions";
 	private static final String ALTERNATE_OPEN_TAB = "Parameters";
-	public static final int INITIAL_TRANSACTION_ID = 0;
+	public static final String SEQUENCE_NUMBER = "sequenceNumber";
+	public static final String DOCUMENT_NUMBER = "documentNumber";
+	public static final String NONE = "None";
+	public static final String AWARD_NUMBER = "awardNumber";
+	public static final String ROOT_AWARD_NUMBER_VAL = "00001";
 
 	private BusinessObjectService businessObjectService;
 	private DocumentService documentService;
 	private AwardVersionService awardVersionService;
+	private DocHandlerService docHandlerService;
+	private DateTimeService dateTimeService;
+	private GlobalVariableService globalVariableService;
 
-	@SuppressWarnings("unchecked")
+	
 	public void buildTimeAndMoneyHistoryObjects(String awardNumber, List<AwardVersionHistory> awardVersionHistoryCollection) throws WorkflowException {
-		List<Award> awardVersionList = (List<Award>) businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(awardNumber), "sequenceNumber", true);
+		List<Award> awardVersionList = (List<Award>) businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(awardNumber), SEQUENCE_NUMBER, true);
 		// we want the list in reverse chronological order.
 		Collections.reverse(awardVersionList);
-		List<TimeAndMoneyDocument> docs = null;
-		Map<String, Object> fieldValues1 = new HashMap<String, Object>();
+
+		Map<String, Object> fieldValues1 = new HashMap<>();
 		// get the root award number.
 		fieldValues1.put(ROOT_AWARD_NUMBER, getRootAwardNumberForDocumentSearch(awardVersionList.get(0).getAwardNumber()));
-		docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
+		List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, DOCUMENT_NUMBER, true);
 		// we don't want canceled docs to show in history.
 		removeCanceledDocs(docs);
 		for (Award award : awardVersionList) {
@@ -91,7 +96,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 
 	public List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> awardAmountInfos, Award award)
 			throws WorkflowException {
-		List<TimeAndMoneyDocumentHistory> timeAndMoneyDocumentHistoryList = new ArrayList<TimeAndMoneyDocumentHistory>();
+		List<TimeAndMoneyDocumentHistory> timeAndMoneyDocumentHistoryList = new ArrayList<>();
 		List<AwardAmountInfo> validInfos = getValidAwardAmountInfosAssociatedWithAwardVersion(awardAmountInfos, award);
 		List<TimeAndMoneyDocument> awardVersionDocs = getValidDocumentsCreatedForAwardVersion(docs, validInfos);
 		// we want the list in reverse chronological order.
@@ -109,7 +114,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	}
 
 	protected List<AwardAmountInfoHistory> retrieveAwardAmountInfosFromPrimaryTransactions(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
-		List<AwardAmountInfoHistory> primaryInfos = new ArrayList<AwardAmountInfoHistory>();
+		List<AwardAmountInfoHistory> primaryInfos = new ArrayList<>();
 
 		primaryInfos.addAll(captureMoneyInfos(doc.getDocumentNumber(), validInfos));
 		primaryInfos.addAll(captureDateInfos(doc, validInfos));
@@ -118,7 +123,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	}
 
 	protected List<AwardAmountInfoHistory> captureMoneyInfos(String timeAndMoneyDocumentNumber, List<AwardAmountInfo> validInfos) {
-		List<AwardAmountInfoHistory> moneyInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
+		List<AwardAmountInfoHistory> moneyInfoHistoryList = new ArrayList<>();
 
 		for (AwardAmountInfo awardAmountInfo : validInfos) {
 			if (awardAmountInfo.getTimeAndMoneyDocumentNumber() != null && StringUtils.equalsIgnoreCase(timeAndMoneyDocumentNumber, awardAmountInfo.getTimeAndMoneyDocumentNumber())) {
@@ -162,15 +167,15 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	}
 
 	protected List<TransactionDetail> getTransactions(Long transactionId) {
-		Map<String, Object> values = new HashMap<String, Object>();
+		Map<String, Object> values = new HashMap<>();
 		values.put(TRANSACTION_ID, transactionId);
 		return ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, values, TRANSACTION_DETAIL_ID, true));
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	protected List<AwardAmountInfoHistory> captureDateInfos(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
-		List<AwardAmountInfoHistory> dateInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
-		Map<String, Object> fieldValues = new HashMap<String, Object>();
+		List<AwardAmountInfoHistory> dateInfoHistoryList = new ArrayList<>();
+		Map<String, Object> fieldValues = new HashMap<>();
 		for (AwardAmountInfo awardAmountInfo : validInfos) {
 			if (!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
 				if (StringUtils.equalsIgnoreCase(doc.getDocumentNumber(), awardAmountInfo.getTimeAndMoneyDocumentNumber())) {
@@ -193,10 +198,10 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		return dateInfoHistoryList;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	protected List<AwardAmountInfoHistory> captureInitialTransactionInfo(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
-		List<AwardAmountInfoHistory> initialInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
-		Map<String, Object> fieldValues = new HashMap<String, Object>();
+		List<AwardAmountInfoHistory> initialInfoHistoryList = new ArrayList<>();
+		Map<String, Object> fieldValues = new HashMap<>();
 		for (AwardAmountInfo awardAmountInfo : validInfos) {
 			if (!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
 				if (StringUtils.equalsIgnoreCase(doc.getDocumentNumber(), awardAmountInfo.getTimeAndMoneyDocumentNumber())) {
@@ -228,19 +233,19 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		if (!(aat.getNoticeDate() == null)) {
 			noticeDate = aat.getNoticeDate().toString();
 		} else {
-			noticeDate = "None";
+			noticeDate = NONE;
 		}
 		if (!(aat.getAwardTransactionType() == null)) {
 			transactionTypeDescription = aat.getAwardTransactionType().getDescription();
 		} else {
-			transactionTypeDescription = "None";
+			transactionTypeDescription = NONE;
 		}
 		return "Time And Money Document: " + transactionTypeDescription + ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser(doc) + ". Comments: "
-				+ (aat.getComments() == null ? "None" : aat.getComments());
+				+ (aat.getComments() == null ? NONE : aat.getComments());
 	}
 
 	protected List<AwardAmountInfo> getValidAwardAmountInfosAssociatedWithAwardVersion(List<AwardAmountInfo> awardAmountInfos, Award award) {
-		List<AwardAmountInfo> validInfos = new ArrayList<AwardAmountInfo>();
+		List<AwardAmountInfo> validInfos = new ArrayList<>();
 		for (AwardAmountInfo awardAmountInfo : awardAmountInfos) {
 			if (!(awardAmountInfo.getOriginatingAwardVersion() == null)) {
 				if (awardAmountInfo.getOriginatingAwardVersion().equals(award.getSequenceNumber())) {
@@ -252,7 +257,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	}
 
 	protected List<TimeAndMoneyDocument> getValidDocumentsCreatedForAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> validInfos) {
-		List<TimeAndMoneyDocument> validDocs = new ArrayList<TimeAndMoneyDocument>();
+		List<TimeAndMoneyDocument> validDocs = new ArrayList<>();
 		for (TimeAndMoneyDocument doc : docs) {
 			if (isInValidInfosCollection(doc, validInfos)) {
 				validDocs.add(doc);
@@ -275,7 +280,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	}
 
 	protected void removeCanceledDocs(List<TimeAndMoneyDocument> docs) {
-		List<TimeAndMoneyDocument> tempCanceledDocs = new ArrayList<TimeAndMoneyDocument>();
+		List<TimeAndMoneyDocument> tempCanceledDocs = new ArrayList<>();
 		for (TimeAndMoneyDocument doc : docs) {
 			if (doc.getDocumentHeader().hasWorkflowDocument()) {
 				if (doc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
@@ -285,71 +290,35 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		}
 		docs.removeAll(tempCanceledDocs);
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	public List<TimeAndMoneyDocument> buildTimeAndMoneyListForAwardDisplay(Award award) throws WorkflowException {
-		Map<String, Object> fieldValues1 = new HashMap<String, Object>();
+		Map<String, Object> fieldValues1 = new HashMap<>();
 		// get the award number.
 		fieldValues1.put(ROOT_AWARD_NUMBER, award.getAwardNumber());
-		List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
+		List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, DOCUMENT_NUMBER, true);
 		// we don't want canceled docs to show in history.
 		removeCanceledDocs(docs);
 		return docs;
 	}
 
-	public AwardVersionService getAwardVersionService() {
-		awardVersionService = KcServiceLocator.getService(AwardVersionService.class);
-		return awardVersionService;
-	}
-
 	protected Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("awardNumber", goToAwardNumber);
+		Map<String, String> map = new HashMap<>();
+		map.put(AWARD_NUMBER, goToAwardNumber);
 		return map;
-	}
-
-	public void setAwardVersionService(AwardVersionService awardVersionService) {
-		this.awardVersionService = awardVersionService;
 	}
 
 	/**
 	 * This method searches generates the next Award Node Number in Sequence.
-	 * 
-	 * @param awardNumber
-	 * @return
 	 */
 	public String getRootAwardNumberForDocumentSearch(String awardNumber) {
 		String[] splitAwardNumber = awardNumber.split(DASH);
 		StringBuilder returnString = new StringBuilder(12);
 		returnString.append(splitAwardNumber[0]);
 		returnString.append(DASH);
-		returnString.append("00001");
+		returnString.append(ROOT_AWARD_NUMBER_VAL);
 		return returnString.toString();
 	}
-
-	protected String buildAwardDescriptionLine(Award award, AwardAmountInfo awardAmountInfo, TimeAndMoneyDocument timeAndMoneyDocument) {
-		AwardAmountTransaction aat = timeAndMoneyDocument.getAwardAmountTransactions().get(0);
-		String noticeDate;
-		String transactionTypeDescription;
-		String versionNumber;
-		if (awardAmountInfo == null || awardAmountInfo.getOriginatingAwardVersion() == null) {
-			versionNumber = award.getSequenceNumber().toString();
-		} else {
-			versionNumber = awardAmountInfo.getOriginatingAwardVersion().toString();
-		}
-		if (!(aat.getNoticeDate() == null)) {
-			noticeDate = aat.getNoticeDate().toString();
-		} else {
-			noticeDate = "None";
-		}
-		if (!(award.getAwardTransactionType() == null)) {
-			transactionTypeDescription = award.getAwardTransactionType().getDescription();
-		} else {
-			transactionTypeDescription = "None";
-		}
-		return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser(award);
-	}
-
+	
 	protected String buildNewAwardDescriptionLine(Award award) {
 		String noticeDate;
 		String transactionTypeDescription;
@@ -360,15 +329,15 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		if (!(award.getNoticeDate() == null)) {
 			noticeDate = award.getNoticeDate().toString();
 		} else {
-			noticeDate = "None";
+			noticeDate = NONE;
 		}
 		if (!(award.getAwardTransactionType() == null)) {
 			transactionTypeDescription = award.getAwardTransactionType().getDescription();
 		} else {
-			transactionTypeDescription = "None";
+			transactionTypeDescription = NONE;
 		}
 		return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser(award) + ". Comments:"
-				+ (award.getAwardCurrentActionComments().getComments() == null ? "None." : award.getAwardCurrentActionComments().getComments());
+				+ (award.getAwardCurrentActionComments().getComments() == null ? NONE + "." : award.getAwardCurrentActionComments().getComments());
 	}
 
 	protected String getUpdateTimeAndUser(Award award) {
@@ -379,48 +348,10 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		String createDateStr = null;
 		String updateUser = null;
 		if (doc.getUpdateTimestamp() != null) {
-			createDateStr = CoreApiServiceLocator.getDateTimeService().toString(doc.getUpdateTimestamp(), "MM/dd/yy");
+			createDateStr = getDateTimeService().toString(doc.getUpdateTimestamp(), "MM/dd/yy");
 			updateUser = doc.getUpdateUser().length() > NUMBER_30 ? doc.getUpdateUser().substring(0, NUMBER_30) : doc.getUpdateUser();
 		}
 		return createDateStr + " by " + updateUser;
-	}
-
-	/**
-	 * Gets the documentService attribute.
-	 * 
-	 * @return Returns the documentService.
-	 */
-	public DocumentService getDocumentService() {
-		return documentService;
-	}
-
-	/**
-	 * Sets the documentService attribute value.
-	 * 
-	 * @param documentService
-	 *            The documentService to set.
-	 */
-	public void setDocumentService(DocumentService documentService) {
-		this.documentService = documentService;
-	}
-
-	/**
-	 * Gets the businessObjectService attribute.
-	 * 
-	 * @return Returns the businessObjectService.
-	 */
-	public BusinessObjectService getBusinessObjectService() {
-		return businessObjectService;
-	}
-
-	/**
-	 * Sets the businessObjectService attribute value.
-	 * 
-	 * @param businessObjectService
-	 *            The businessObjectService to set.
-	 */
-	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-		this.businessObjectService = businessObjectService;
 	}
 
 	/**
@@ -430,22 +361,67 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	 * @return String
 	 */
 	protected String buildForwardUrl(String documentNumber) {
-		DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
-		String forward = researchDocumentService.getDocHandlerUrl(documentNumber);
+		String forward = getDocHandlerService().getDocHandlerUrl(documentNumber);
 		forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
-		if (forward.indexOf("?") == -1) {
+		if (forward.contains("?")) {
 			forward += "?";
 		} else {
 			forward += "&";
 		}
 		forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + documentNumber;
 		forward += "&" + KewApiConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
-		if (GlobalVariables.getUserSession().isBackdoorInUse()) {
-			forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+		if (globalVariableService.getUserSession().isBackdoorInUse()) {
+			forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + globalVariableService.getUserSession().getPrincipalName();
 		}
 
-		String returnVal = "<a href=\"" + forward + "\"target=\"_blank\">" + documentNumber + "</a>";
-		return returnVal;
+		return "<a href=\"" + forward + "\"target=\"_blank\">" + documentNumber + "</a>";
 	}
 
+	public DocumentService getDocumentService() {
+		return documentService;
+	}
+
+	public void setDocumentService(DocumentService documentService) {
+		this.documentService = documentService;
+	}
+
+	public BusinessObjectService getBusinessObjectService() {
+		return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+
+	public AwardVersionService getAwardVersionService() {
+		return awardVersionService;
+	}
+
+	public void setAwardVersionService(AwardVersionService awardVersionService) {
+		this.awardVersionService = awardVersionService;
+	}
+
+	public DocHandlerService getDocHandlerService() {
+		return docHandlerService;
+	}
+
+	public void setDocHandlerService(DocHandlerService docHandlerService) {
+		this.docHandlerService = docHandlerService;
+	}
+
+	public GlobalVariableService getGlobalVariableService() {
+		return globalVariableService;
+	}
+
+	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+		this.globalVariableService = globalVariableService;
+	}
+
+	public DateTimeService getDateTimeService() {
+		return dateTimeService;
+	}
+
+	public void setDateTimeService(DateTimeService dateTimeService) {
+		this.dateTimeService = dateTimeService;
+	}
 }
