@@ -47,7 +47,6 @@ import java.util.*;
 
 public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryService {
 
-	private static final String DATE_CHANGE_TRANSACTION_ID = "-1";
 	private static final String TIME_AND_MONEY_DOCUMENT_NUMBER = "timeAndMoneyDocumentNumber";
 	private static final String ROOT_AWARD_NUMBER = "rootAwardNumber";
 	private static final String SOURCE_AWARD_NUMBER = "sourceAwardNumber";
@@ -172,25 +171,24 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		return ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, values, TRANSACTION_DETAIL_ID, true));
 	}
 
-	
+
 	protected List<AwardAmountInfoHistory> captureDateInfos(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
 		List<AwardAmountInfoHistory> dateInfoHistoryList = new ArrayList<>();
 		Map<String, Object> fieldValues = new HashMap<>();
 		for (AwardAmountInfo awardAmountInfo : validInfos) {
 			if (!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
 				if (StringUtils.equalsIgnoreCase(doc.getDocumentNumber(), awardAmountInfo.getTimeAndMoneyDocumentNumber())) {
-					if (awardAmountInfo.getTransactionId() == null) {
-						fieldValues.put(SOURCE_AWARD_NUMBER, awardAmountInfo.getAwardNumber());
-						fieldValues.put(TRANSACTION_ID, DATE_CHANGE_TRANSACTION_ID);
-						fieldValues.put(TIME_AND_MONEY_DOCUMENT_NUMBER, awardAmountInfo.getTimeAndMoneyDocumentNumber());
-						List<TransactionDetail> dateTransactionDetails = ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues,
-								SOURCE_AWARD_NUMBER, true));
-						if (dateTransactionDetails.size() > 0) {
-							AwardAmountInfoHistory awardAmountInfoHistory = new AwardAmountInfoHistory();
-							awardAmountInfoHistory.setAwardAmountInfo(awardAmountInfo);
-							awardAmountInfoHistory.setTransactionType(TransactionType.DATE.toString());
-							dateInfoHistoryList.add(awardAmountInfoHistory);
-						}
+					fieldValues.put(SOURCE_AWARD_NUMBER, awardAmountInfo.getAwardNumber());
+					fieldValues.put(TRANSACTION_DETAIL_TYPE, TransactionDetailType.DATE.toString());
+					fieldValues.put(TIME_AND_MONEY_DOCUMENT_NUMBER, awardAmountInfo.getTimeAndMoneyDocumentNumber());
+					fieldValues.put(TRANSACTION_ID, awardAmountInfo.getTransactionId());
+					Collection<TransactionDetail> dateTransactionDetails = businessObjectService.findMatching(TransactionDetail.class, fieldValues);
+					if (!dateTransactionDetails.isEmpty()) {
+						AwardAmountInfoHistory awardAmountInfoHistory = new AwardAmountInfoHistory();
+						awardAmountInfoHistory.setAwardAmountInfo(awardAmountInfo);
+						awardAmountInfoHistory.setTransactionType(TransactionType.DATE.toString());
+						awardAmountInfoHistory.setDateDetail(dateTransactionDetails.iterator().next());
+						dateInfoHistoryList.add(awardAmountInfoHistory);
 					}
 				}
 			}

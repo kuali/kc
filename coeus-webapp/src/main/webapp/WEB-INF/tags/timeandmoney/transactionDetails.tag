@@ -20,17 +20,8 @@
 <%@ attribute name="awardAmountInfoHistory" description="awardAmountInfoHistory" required="true" type="org.kuali.kra.timeandmoney.AwardAmountInfoHistory"%>
 
 <c:set var="transactionDetailAttributes" value="${DataDictionary.TransactionDetail.attributes}" />
-
- <c:choose>
-       	<c:when test="${awardAmountInfoHistory.transactionType == 'SINGLENODEMONEYTRANSACTION'}">
-     		<c:set var="tabTitleAttribute" value="Single Node Transaction ID:" />
-     		<c:set var="idValue" value="${awardAmountInfoHistory.primaryDetail.transactionDetailId}" />
-       	</c:when>
-       	<c:otherwise>
-       		<c:set var="tabTitleAttribute" value="Transaction Details ID:" />
-     		<c:set var="idValue" value="${awardAmountInfoHistory.primaryDetail.transactionDetailId}" />
-       	</c:otherwise>
- </c:choose>
+<c:set var="tabTitleAttribute" value="Transaction ID:" />
+<c:set var="idValue" value="${awardAmountInfoHistory.primaryDetail.transactionDetailId}" />
 
 <kul:innerTab parentTab="History" defaultOpen="false" tabTitle="Transaction Details/${tabTitleAttribute} ${idValue}" tabErrorKey="" >
 	<table border="0" cellpadding="0" cellspacing="0" summary="">

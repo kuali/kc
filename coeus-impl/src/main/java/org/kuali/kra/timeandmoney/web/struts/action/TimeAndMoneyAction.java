@@ -40,6 +40,7 @@ import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
+import org.kuali.kra.timeandmoney.history.TransactionDetailType;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
@@ -81,6 +82,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     public static final String DIRECT_INDIRECT_ENABLED = "1";
     public static final String AWARD_AMOUNT_INFOS = "awardAmountInfos";
     public static final String SINGLE_NODE_MONEY_TRANSACTION_COMMENT = "Single Node Money Transaction";
+    public static final String TRANSACTION_SEQUENCE = "SEQ_TRANSACTION_ID";
 
     private AwardVersionService awardVersionService;
     private TransactionRuleImpl transactionRuleImpl;
@@ -298,7 +300,6 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     private void captureDateChangeTransactions(ActionForm form) throws WorkflowException {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
-        List<AwardAmountInfo> awardAmountInfoObjects = new ArrayList<>();
         //save rules have not been applied yet so there needs to be a null check on transaction type code before testing the value.
         boolean isNoCostExtension;
         if (timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
@@ -339,8 +340,6 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
             }
         }
         //we want to apply save rules to doc before we save any captured changes.
-        //The save on awardAmountInfoObjects should always be after the save on entire award object otherwise awardAmountInfoObjects changes get overwritten.
-        getBusinessObjectService().save(awardAmountInfoObjects);
         getBusinessObjectService().save(timeAndMoneyDocument.getAwardAmountTransactions());
         //save all transaction details from No Cost extension date changes.
         getBusinessObjectService().save(dateChangeTransactionDetailItems);
@@ -370,8 +369,10 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
                         aai.setCurrentFundEffectiveDate(currentEffectiveDate);
                         awardHierarchyNode.getValue().setCurrentFundEffectiveDate(currentEffectiveDate);
                         award.getAwardAmountInfos().add(aai);
-                        addTransactionDetailsForDateChanges(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
-                                timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_START_COMMENT, dateChangeTransactionDetailItems);
+                TransactionDetail transactionDetail = createTransDetailForDateChanges(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+                        timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_START_COMMENT);
+                aai.setTransactionId(transactionDetail.getTransactionId());
+                dateChangeTransactionDetailItems.add(transactionDetail);
             } else {
                     AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
                     needToSave = true;
@@ -417,8 +418,10 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
                         aai.setObligationExpirationDate(currentObligationExpirationDate);
                         awardHierarchyNode.getValue().setObligationExpirationDate(currentObligationExpirationDate);
                         award.getAwardAmountInfos().add(aai);
-                        addTransactionDetailsForDateChanges(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
-                                timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_END_COMMENT, dateChangeTransactionDetailItems);
+                TransactionDetail transactionDetail = createTransDetailForDateChanges(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+                        timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_END_COMMENT);
+                aai.setTransactionId(transactionDetail.getTransactionId());
+                dateChangeTransactionDetailItems.add(transactionDetail);
             }else {
                     aai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
                     aai.setObligationExpirationDate(currentObligationExpirationDate);
@@ -460,10 +463,12 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
                   timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().after(aai.getFinalExpirationDate())) {
                     aai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
                       aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-                      awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-                      award.getAwardAmountInfos().add(aai);
-                      addTransactionDetailsForDateChanges(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
-                              timeAndMoneyDocument.getDocumentNumber(), PROJECT_END_COMMENT, dateChangeTransactionDetailItems);
+              awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+              award.getAwardAmountInfos().add(aai);
+              TransactionDetail transactionDetail = createTransDetailForDateChanges(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+                      timeAndMoneyDocument.getDocumentNumber(), PROJECT_END_COMMENT);
+              aai.setTransactionId(transactionDetail.getTransactionId());
+              dateChangeTransactionDetailItems.add(transactionDetail);
           }else {
               aai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
                   aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
@@ -506,21 +511,19 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
          }
          return needToSave;
      }
-    
-    /*
-     * This method creates a transactionDetail object and adds it to the list for persistence later.
-     */
-    protected void addTransactionDetailsForDateChanges(String sourceAwardNumber, String destinationAwardNumber, Integer sequenceNumber, String currentAwardNumber, String documentNumber,
-                                                       String commentsString, List<TransactionDetail> transactionDetailItems){
+
+    protected TransactionDetail createTransDetailForDateChanges(String sourceAwardNumber, String destinationAwardNumber, Integer sequenceNumber, String currentAwardNumber, String documentNumber,
+                                                       String commentsString){
         TransactionDetail transactionDetail = new TransactionDetail();
         transactionDetail.setSourceAwardNumber(sourceAwardNumber);
         transactionDetail.setSequenceNumber(sequenceNumber);
         transactionDetail.setDestinationAwardNumber(destinationAwardNumber);
         transactionDetail.setAwardNumber(currentAwardNumber);
-        transactionDetail.setTransactionId(-1L);
+        transactionDetail.setTransactionDetailType(TransactionDetailType.DATE.toString());
+        transactionDetail.setTransactionId(getSequenceAccessorService().getNextAvailableSequenceNumber(TRANSACTION_SEQUENCE));
         transactionDetail.setTimeAndMoneyDocumentNumber(documentNumber);
         transactionDetail.setComments(commentsString);
-        transactionDetailItems.add(transactionDetail);
+        return transactionDetail;
     }
     
     /*
@@ -674,7 +677,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(), TimeAndMoneyForm.PENDING)){
             
             Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<>();
-            List<Award> awardItems = new ArrayList<Award>();
+            List<Award> awardItems = new ArrayList<>();
             List<TransactionDetail> transactionDetailItems = new ArrayList<>();
             
             updateDocumentFromSession(doc);
