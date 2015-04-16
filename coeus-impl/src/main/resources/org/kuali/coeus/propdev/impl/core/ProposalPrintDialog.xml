@@ -89,7 +89,7 @@
                 <bean parent="Uif-DataField" p:propertyName="pageDescription" p:order="20"
                       p:fieldLabel.labelText="Description"/>
                 <bean parent="Uif-InputField" p:propertyName="selectToPrint" p:order="30"
-                      p:fieldLabel.labelText="[0]">
+                      p:fieldLabel.labelText="[0]" p:readOnly="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="@{!#editModes['printProposal']}"/>
                     </property>
