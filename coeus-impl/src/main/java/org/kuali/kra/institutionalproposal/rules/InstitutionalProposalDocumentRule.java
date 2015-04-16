@@ -1,18 +1,18 @@
 /*
  * Kuali Coeus, a comprehensive research administration system for higher education.
- * 
+ *
  * Copyright 2005-2015 Kuali, Inc.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -50,10 +50,10 @@ import java.util.Map;
 
 
 public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule, DocumentAuditRule {
-    
+
     public static final String DOCUMENT_ERROR_PATH = "document";
     public static final String IP_ERROR_PATH = "institutionalProposal";
-    
+
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -62,7 +62,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         if (!(document instanceof InstitutionalProposalDocument)) {
             return false;
         }
-        
+
         retval &= processUnrecoveredFandABusinessRules(document);
         retval &= processSponsorProgramBusinessRule(document);
         retval &= processInstitutionalProposalBusinessRules(document);
@@ -71,10 +71,10 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         retval &= processKeywordBusinessRule(document);
         retval &= processAccountIdBusinessRule(document);
         retval &= processCostShareRules(document);
-        retval &= validateSponsors(document);
+        // retval &= validateSponsors(document);
         return retval;
-    }    
-        
+    }
+
     private boolean validateSponsors(Document document) {
         boolean valid = true;
         MessageMap errorMap = GlobalVariables.getMessageMap();
@@ -91,7 +91,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         }
         return valid;
     }
-    
+
     /**
     *
     * process Cost Share business rules.
@@ -103,15 +103,15 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         MessageMap errorMap = GlobalVariables.getMessageMap();
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         int i = 0;
-        List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs = 
+        List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs =
                                     institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalUnrecoveredFandAs();
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(IP_ERROR_PATH);
         for (InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA : institutionalProposalUnrecoveredFandAs) {
             String errorPath = "institutionalProposalUnrecoveredFandAs[" + i + Constants.RIGHT_SQUARE_BRACKET;
             errorMap.addToErrorPath(errorPath);
-            InstitutionalProposalSaveUnrecoveredFandARuleEvent event = new InstitutionalProposalSaveUnrecoveredFandARuleEvent(errorPath, 
-                                                                                institutionalProposalDocument, 
+            InstitutionalProposalSaveUnrecoveredFandARuleEvent event = new InstitutionalProposalSaveUnrecoveredFandARuleEvent(errorPath,
+                                                                                institutionalProposalDocument,
                                                                                 institutionalProposalUnrecoveredFandA);
             valid &= new InstitutionalProposalUnrecoveredFandARuleImpl().processSaveInstitutionalProposalUnrecoveredFandABusinessRules(event);
             errorMap.removeFromErrorPath(errorPath);
@@ -124,16 +124,17 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
 
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
-        
+
         retval &= new KcDocumentBaseAuditRule().processRunAuditBusinessRules(document);
         retval &= new InstitutionalProposalPersonAuditRule().processRunAuditBusinessRules(document);
         retval &= processInstitutionalProposalPersonCreditSplitBusinessRules(document);
         retval &= processInstitutionalProposalPersonUnitCreditSplitBusinessRules(document);
+        retval &= new InstitutionalProposalSponsorAuditRule().processRunAuditBusinessRules(document);
         return retval;
-        
-        
+
+
     }
-    
+
     private boolean processInstitutionalProposalPersonBusinessRules(MessageMap errorMap, Document document) {
         errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
         errorMap.addToErrorPath(IP_ERROR_PATH);
@@ -141,21 +142,21 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         boolean success = new InstitutionalProposalPersonSaveRuleImpl().processInstitutionalProposalPersonSaveBusinessRules(event);
         errorMap.removeFromErrorPath(IP_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        
+
         return success;
     }
-    
+
     private boolean processInstitutionalProposalPersonCreditSplitBusinessRules(Document document) {
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         return new InstitutionalProposalCreditSplitBean(institutionalProposalDocument).recalculateCreditSplit();
-        
+
     }
-    
+
     private boolean processInstitutionalProposalPersonUnitCreditSplitBusinessRules(Document document) {
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         return new InstitutionalProposalCreditSplitBean(institutionalProposalDocument).recalculateCreditSplit();
     }
-    
+
     private boolean processKeywordBusinessRule(Document document) {
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         List<InstitutionalProposalScienceKeyword> keywords = institutionalProposalDocument.getInstitutionalProposal().getKeywords();
@@ -165,14 +166,14 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
                     continue;
                 } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
                     GlobalVariables.getMessageMap().putError("document.institutionalProposalList[0].keyword", "error.proposalKeywords.duplicate");
-                   
+
                     return false;
                 }
             }
         }
         return true;
     }
-    
+
     private boolean processAccountIdBusinessRule(Document document) {
         boolean retVal = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
@@ -197,7 +198,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         }
         return retVal;
     }
-    
+
     /**
      * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
      * @param document
@@ -207,12 +208,12 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         boolean valid = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         String errorPath = "institutionalSponsorAndProgram";
-        InstitutionalProposalSponsorAndProgramRuleEvent event = new InstitutionalProposalSponsorAndProgramRuleEvent(errorPath, 
+        InstitutionalProposalSponsorAndProgramRuleEvent event = new InstitutionalProposalSponsorAndProgramRuleEvent(errorPath,
                                                                institutionalProposalDocument, institutionalProposalDocument.getInstitutionalProposal());
         valid &= new InstitutionalProposalSponsorAndProgramRuleImpl().processInstitutionalProposalSponsorAndProgramRules(event);
         return valid;
     }
-    
+
     /**
      * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
      * @param document
@@ -222,12 +223,12 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         boolean valid = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         String errorPath = "institutionalProposalFinancial";
-        InstitutionalProposalFinancialRuleEvent event = new InstitutionalProposalFinancialRuleEvent(errorPath, 
+        InstitutionalProposalFinancialRuleEvent event = new InstitutionalProposalFinancialRuleEvent(errorPath,
                                                                institutionalProposalDocument, institutionalProposalDocument.getInstitutionalProposal());
         valid &= new InstitutionalProposalFinancialRuleImpl().processInstitutionalProposalFinancialRules(event);
         return valid;
-    }    
-    
+    }
+
     /**
      * Validate information on Institutional Proposal Tab from Institutional Proposal Home page.
      * @param document
@@ -237,7 +238,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         boolean valid = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         String errorPath = "institutionalProposal";
-        InstitutionalProposalRuleEvent event = new InstitutionalProposalRuleEvent(errorPath, 
+        InstitutionalProposalRuleEvent event = new InstitutionalProposalRuleEvent(errorPath,
                                                                institutionalProposalDocument, institutionalProposalDocument.getInstitutionalProposal());
         valid &= new InstitutionalProposalRuleImpl().processInstitutionalProposalRules(event);
         return valid;
@@ -247,8 +248,8 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
-    }   
-    
+    }
+
     private boolean processCostShareRules(Document document) {
         boolean valid = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
@@ -262,7 +263,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         }
         return valid;
     }
-    
+
     private SponsorService getSponsorService() {
         return KcServiceLocator.getService(SponsorService.class);
     }
