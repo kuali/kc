@@ -65,6 +65,7 @@ public class CoiDisclosureFactBuilderServiceImpl extends KcKrmsFactBuilderServic
         // Questionnaire Prereqs
         factsBuilder.addFact("moduleCode", CoeusModule.COI_DISCLOSURE_MODULE_CODE);
         factsBuilder.addFact("moduleItemKey", coiDisclosure.getCoiDisclosureNumber());
+        factsBuilder.addFact("moduleSubItemKey", coiDisclosure.getSequenceNumber());
     }
     
     protected String getElementValue(String docContent, String xpathExpression) {

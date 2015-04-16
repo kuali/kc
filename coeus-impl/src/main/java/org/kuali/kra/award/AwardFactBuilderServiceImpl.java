@@ -59,6 +59,7 @@ public class AwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper 
         // Questionnaire Prereqs
         factsBuilder.addFact("moduleCode", CoeusModule.AWARD_MODULE_CODE);
         factsBuilder.addFact("moduleItemKey", award.getAwardNumber());
+        factsBuilder.addFact("moduleSubItemKey", award.getSequenceNumber());
     }
     
     protected String getElementValue(String docContent, String xpathExpression) {

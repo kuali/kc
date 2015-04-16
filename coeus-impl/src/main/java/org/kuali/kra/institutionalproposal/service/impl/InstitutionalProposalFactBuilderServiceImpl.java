@@ -49,7 +49,7 @@ public class InstitutionalProposalFactBuilderServiceImpl extends KcKrmsFactBuild
         addProposalFacts(factsBuilder,institutionalProposal);
         factsBuilder.addFact("moduleCode", CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE);
         factsBuilder.addFact("moduleItemKey", institutionalProposal.getProposalNumber());
-        
+        factsBuilder.addFact("moduleSubItemKey", institutionalProposal.getSequenceNumber());
     }
     
     private void addProposalFacts(Builder factsBuilder, InstitutionalProposal institutionalProposal) {

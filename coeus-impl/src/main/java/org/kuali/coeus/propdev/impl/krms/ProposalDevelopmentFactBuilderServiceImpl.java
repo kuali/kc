@@ -69,7 +69,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
         addProposalFacts(factsBuilder,developmentProposal);
         factsBuilder.addFact("moduleCode", CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
         factsBuilder.addFact("moduleItemKey", developmentProposal.getProposalNumber());
-        
+        factsBuilder.addFact("moduleSubItemKey", new Integer(0));
     }
     
     private void addBudgetFacts(Builder factsBuilder, ProposalDevelopmentDocument proposalDevelopmentDocument) {
