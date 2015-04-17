@@ -24,6 +24,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -46,25 +47,36 @@ public class HealthCheckController {
 	@Qualifier("riceDataSource")
 	private DataSource riceDataSource;
 	
+	@Autowired
+	@Qualifier("kualiConfigurationService")
+	private ConfigurationService configurationService;
+	
 	private String kcHealthQuery = DEFAULT_HEALTH_QUERY;
 	private String riceHealthQuery = DEFAULT_HEALTH_QUERY;
 	
 	@RequestMapping("/")
-	public ResponseEntity<String> doHealthCheck() {
-		String result = "";
+	public ResponseEntity<HealthResponse> doHealthCheck() {
+		HealthResponse result = new HealthResponse();
+		result.version = configurationService.getPropertyValueAsString("version");
 		try (Connection conn = dataSource.getConnection();
 				Connection riceConn = riceDataSource.getConnection()) {
 			if (conn.createStatement().executeQuery(kcHealthQuery).next()) {
-				result += "Client DB Up\n";
+				result.kcDatabaseUp = true;
 			}
 			if (riceConn.createStatement().executeQuery(riceHealthQuery).next()) {
-				result += "Server DB Up\n";
+				result.riceDatabaseUp = true;
 			}
 		} catch (Exception e) {
 			LOG.error("Health Check Failed.", e);
-			return new ResponseEntity<String>(HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	static class HealthResponse {
+		public String version = "NO VERSION";
+		public boolean kcDatabaseUp;
+		public boolean riceDatabaseUp;
 	}
 
 	public DataSource getDataSource() {
@@ -97,6 +109,14 @@ public class HealthCheckController {
 
 	public void setRiceHealthQuery(String riceHealthQuery) {
 		this.riceHealthQuery = riceHealthQuery;
+	}
+
+	public ConfigurationService getConfigurationService() {
+		return configurationService;
+	}
+
+	public void setConfigurationService(ConfigurationService configurationService) {
+		this.configurationService = configurationService;
 	}
 	
 }
