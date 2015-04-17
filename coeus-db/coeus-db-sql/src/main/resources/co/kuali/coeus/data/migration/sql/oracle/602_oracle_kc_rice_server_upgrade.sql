@@ -17,7 +17,10 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
-/
-DELIMITER ;
+set define off
+set sqlblanklines on
+spool KR-RELEASE-6_0_2-Upgrade-ORACLE-Install.log
+@./rice/6_0_2/bootstrap/server/V602_003__helpFix.sql
+@./rice/6_0_2/bootstrap/server/V602_004__helpFix.sql
+commit;
+exit

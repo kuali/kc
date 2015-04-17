@@ -17,7 +17,8 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+update PROPOSAL_PERSONS set CONTACT_ROLE_CODE = 'MPI' where CONTACT_ROLE_CODE = 'COI' and MULTIPLE_PI = 'Y'
 /
-DELIMITER ;
+
+alter table PROPOSAL_PERSONS drop column MULTIPLE_PI
+/

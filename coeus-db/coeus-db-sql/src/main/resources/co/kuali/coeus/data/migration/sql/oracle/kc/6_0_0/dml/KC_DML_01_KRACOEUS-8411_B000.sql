@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+UPDATE PROPOSAL_STATE SET DESCRIPTION='Cancelled' where STATE_TYPE_CODE='10'
 /
-DELIMITER ;

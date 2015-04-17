@@ -17,7 +17,13 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+
+ALTER TABLE BUDGET_SUB_AWARD_ATT
+    DROP CONSTRAINT FK1_BUDGET_SUB_AWARD_ATT
 /
-DELIMITER ;
+
+ALTER TABLE BUDGET_SUB_AWARD_ATT
+    ADD CONSTRAINT FK1_BUDGET_SUB_AWARD_ATT
+    FOREIGN KEY (BUDGET_ID, SUB_AWARD_NUMBER)
+    REFERENCES BUDGET_SUB_AWARDS (BUDGET_ID, SUB_AWARD_NUMBER)
+/

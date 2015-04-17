@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+ALTER TABLE KRMS_NL_TMPL_T ADD ACTV VARCHAR(1) DEFAULT 'Y' NOT NULL
 /
-DELIMITER ;

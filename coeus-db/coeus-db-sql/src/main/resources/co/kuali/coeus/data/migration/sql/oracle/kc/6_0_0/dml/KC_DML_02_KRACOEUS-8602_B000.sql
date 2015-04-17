@@ -17,7 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+
+update BUDGET_MODULAR_IDC set DESCRIPTION = (select RATE_CLASS_CODE from RATE_CLASS where RATE_CLASS.DESCRIPTION = BUDGET_MODULAR_IDC.DESCRIPTION) where DESCRIPTION in (select DESCRIPTION from RATE_CLASS)
 /
-DELIMITER ;

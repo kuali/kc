@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+DELETE FROM KRCR_PARM_T WHERE NMSPC_CD='KC-PD' AND PARM_TYP_CD='CONFG' AND PARM_NM='proposaldevelopment.approver.view.title'
 /
-DELIMITER ;

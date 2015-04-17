@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+UPDATE KRMS_TYP_T SET SRVC_NM = 'questionnaireAgendaTypeService' WHERE NMSPC_CD = 'KC-KRMS' AND NM = 'Questionnaire Agenda'
 /
-DELIMITER ;

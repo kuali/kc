@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+alter table EPS_PROP_CONG_DISTRICT add VER_NBR NUMBER(8,0)
 /
-DELIMITER ;

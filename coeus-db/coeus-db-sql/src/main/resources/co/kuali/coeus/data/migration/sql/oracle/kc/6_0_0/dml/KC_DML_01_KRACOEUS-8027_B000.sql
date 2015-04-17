@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+ALTER TABLE NEGOTIATION_AGREEMENT_TYPE MODIFY DESCRIPTION VARCHAR2(200)
 /
-DELIMITER ;

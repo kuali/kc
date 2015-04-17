@@ -17,7 +17,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+UPDATE ROLODEX T SET T.SPONSOR_ADDRESS_FLAG = 'Y' WHERE T.ROLODEX_ID IN (SELECT T1.ROLODEX_ID FROM SPONSOR T1)
 /
-DELIMITER ;
+UPDATE ROLODEX T SET T.SPONSOR_ADDRESS_FLAG = 'N' WHERE T.ROLODEX_ID NOT IN (SELECT T1.ROLODEX_ID FROM SPONSOR T1)
+/

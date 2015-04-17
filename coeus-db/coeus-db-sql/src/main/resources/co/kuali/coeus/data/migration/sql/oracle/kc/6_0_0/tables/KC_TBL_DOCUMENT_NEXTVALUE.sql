@@ -17,7 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+
+alter table DOCUMENT_NEXTVALUE add DOCUMENT_NEXT_VALUE_TYPE varchar2(200) default 'DOC' not null
 /
-DELIMITER ;

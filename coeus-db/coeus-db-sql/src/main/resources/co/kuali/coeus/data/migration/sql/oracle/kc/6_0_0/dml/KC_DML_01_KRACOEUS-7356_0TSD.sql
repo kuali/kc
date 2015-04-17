@@ -17,7 +17,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+UPDATE CUSTOM_ATTRIBUTE 
+SET LOOKUP_CLASS='org.kuali.coeus.common.framework.person.KcPerson' 
+WHERE LOOKUP_CLASS = 'org.kuali.kra.bo.KcPerson'
 /
-DELIMITER ;

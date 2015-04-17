@@ -17,7 +17,10 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+-- KULRICE-9198 - krms_attr_defn_t.attr_defn_id is a varchar(255),
+--                but referencing columns are a mixture of varchar(40) and varchar(255)
+
+ALTER TABLE KRMS_TYP_ATTR_T MODIFY ATTR_DEFN_ID VARCHAR2(40)
 /
-DELIMITER ;
+ALTER TABLE KRMS_ATTR_DEFN_T MODIFY ATTR_DEFN_ID VARCHAR2(40)
+/

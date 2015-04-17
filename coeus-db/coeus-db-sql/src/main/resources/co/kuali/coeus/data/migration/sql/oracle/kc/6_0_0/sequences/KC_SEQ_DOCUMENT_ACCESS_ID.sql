@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+CREATE SEQUENCE SEQ_DOCUMENT_ACCESS_ID INCREMENT BY 1 START WITH 1 NOCACHE
 /
-DELIMITER ;

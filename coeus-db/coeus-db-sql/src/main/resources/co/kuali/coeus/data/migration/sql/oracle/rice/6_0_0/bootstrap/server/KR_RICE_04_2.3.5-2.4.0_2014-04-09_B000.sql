@@ -17,7 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+-- This index improves performance of KFS queries which need to fetch entities by employee ID
+CREATE INDEX KRIM_ENTITY_EMP_INFO_TI3 ON KRIM_ENTITY_EMP_INFO_T(EMP_ID)
 /
-DELIMITER ;

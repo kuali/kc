@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+UPDATE AWARD_PERSONS SET PERSON_ID = '10000000002', FULL_NAME = 'Joe  Tester' WHERE CONTACT_ROLE_CODE = 'PI' AND FULL_NAME <> 'Joe  Tester'
 /
-DELIMITER ;

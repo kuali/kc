@@ -17,7 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+insert into UNIT_ADMINISTRATOR_TYPE (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, DEFAULT_GROUP_FLAG, MULTIPLES_FLAG, OBJ_ID)  
+	values ((select max(UNIT_ADMINISTRATOR_TYPE_CODE)+1 from UNIT_ADMINISTRATOR_TYPE), 'Fund Manager', SYSDATE, 'admin', 1, 'U', 'N', SYS_GUID())
 /
-DELIMITER ;
