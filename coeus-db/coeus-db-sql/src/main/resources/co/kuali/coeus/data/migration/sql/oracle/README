@@ -1,8 +1,8 @@
 *****************************************************
-Oracle installation instructions for KC Release 6.0.2
+Oracle installation instructions for KC Release 1504
 ******************************************************
 
-This folder contains the scripts for a KC 6.0.2, Oracle database upgrade from the following KC versions
+This folder contains the scripts for a KC 1504, Oracle database upgrade from the following KC versions
 
 5.2.1
 6.0
@@ -56,7 +56,7 @@ sqlplus kc_db_username/kc_db_password < 600_oracle_kc_upgrade.sql
 sqlplus kc_db_username/kc_db_password < 600_oracle_kc_demo.sql
 
 ******************************************
-Upgrade from 6.0.0 to 6.0.2
+Upgrade from 6.0.0 to 1504
 ******************************************
 Bundled rice
 ******************************************
@@ -64,14 +64,14 @@ Please run the following scripts against your kc database.
 
 601_oracle_kc_rice_server_upgrade.sql
 601_oracle_kc_upgrade.sql
-602_oracle_kc_rice_server_upgrade.sql
-602_oracle_kc_upgrade.sql
+1504_oracle_kc_rice_server_upgrade.sql
+1504_oracle_kc_upgrade.sql
 
 Example:
 sqlplus kc_db_username/kc_db_password < 601_oracle_kc_rice_server_upgrade.sql
 sqlplus kc_db_username/kc_db_password < 601_oracle_kc_upgrade.sql
-sqlplus kc_db_username/kc_db_password < 602_oracle_kc_rice_server_upgrade.sql
-sqlplus kc_db_username/kc_db_password < 602_oracle_kc_upgrade.sql
+sqlplus kc_db_username/kc_db_password < 1504_oracle_kc_rice_server_upgrade.sql
+sqlplus kc_db_username/kc_db_password < 1504_oracle_kc_upgrade.sql
 
 ******************************************
 Standalone rice
@@ -79,19 +79,19 @@ Standalone rice
 Please run the following scripts against your rice database.
 
 601_oracle_kc_rice_server_upgrade.sql
-602_oracle_kc_rice_server_upgrade.sql
+1504_oracle_kc_rice_server_upgrade.sql
 
 sqlplus kr_db_username/kr_db_password < 601_oracle_kc_rice_server_upgrade.sql
-sqlplus kr_db_username/kr_db_password < 602_oracle_kc_rice_server_upgrade.sql
+sqlplus kr_db_username/kr_db_password < 1504_oracle_kc_rice_server_upgrade.sql
 
 Please run the following scripts against your kc database.
 
 601_oracle_kc_upgrade.sql
-602_oracle_kc_upgrade.sql
+1504_oracle_kc_upgrade.sql
 
 Example:
 sqlplus kcbnd/bnd174kc < 601_oracle_kc_upgrade.sql
-sqlplus kcbnd/bnd174kc < 602_oracle_kc_upgrade.sql
+sqlplus kcbnd/bnd174kc < 1504_oracle_kc_upgrade.sql
 
 
 

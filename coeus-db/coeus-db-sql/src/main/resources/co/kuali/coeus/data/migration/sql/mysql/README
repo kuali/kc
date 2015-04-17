@@ -1,8 +1,8 @@
 *****************************************************
-mysql installation instructions for KC Release 6.0.2
+mysql installation instructions for KC Release 1504
 ******************************************************
 
-This folder contains the scripts for a KC 6.0.2, mysql database upgrade from the following KC versions
+This folder contains the scripts for a KC 1504, mysql database upgrade from the following KC versions
 
 5.2.1
 6.0
@@ -56,7 +56,7 @@ mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_kc_upgrade.sql
 mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_kc_demo.sql
 
 ******************************************
-Upgrade from 6.0.0 to 6.0.2
+Upgrade from 6.0.0 to 1504
 ******************************************
 Bundled rice
 ******************************************
@@ -64,14 +64,14 @@ Please run the following scripts against your kc database.
 
 601_mysql_kc_rice_server_upgrade.sql
 601_mysql_kc_upgrade.sql
-602_mysql_kc_rice_server_upgrade.sql
-602_mysql_kc_upgrade.sql
+1504_mysql_kc_rice_server_upgrade.sql
+1504_mysql_kc_upgrade.sql
 
 Example:
 mysql -ukc_db_username -pkc_db_password db_name < 601_mysql_kc_rice_server_upgrade.sql
 mysql -ukc_db_username -pkc_db_password db_name < 601_mysql_kc_upgrade.sql
-mysql -ukc_db_username -pkc_db_password db_name < 602_mysql_kc_rice_server_upgrade.sql
-mysql -ukc_db_username -pkc_db_password db_name < 602_mysql_kc_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 1504_mysql_kc_rice_server_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 1504_mysql_kc_upgrade.sql
 
 ******************************************
 Standalone rice
@@ -79,19 +79,19 @@ Standalone rice
 Please run the following scripts against your rice database.
 
 601_mysql_kc_rice_server_upgrade.sql
-602_mysql_kc_rice_server_upgrade.sql
+1504_mysql_kc_rice_server_upgrade.sql
 
 mysql -ukc_db_username -pkc_db_password db_name < 601_mysql_kc_rice_server_upgrade.sql
-mysql -ukc_db_username -pkc_db_password db_name < 602_mysql_kc_rice_server_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 1504_mysql_kc_rice_server_upgrade.sql
 
 Please run the following scripts against your kc database.
 
 601_mysql_kc_upgrade.sql
-602_mysql_kc_upgrade.sql
+1504_mysql_kc_upgrade.sql
 
 Example:
 mysql -ukc_db_username -pkc_db_password db_name < 601_mysql_kc_upgrade.sql
-mysql -ukc_db_username -pkc_db_password db_name < 602_mysql_kc_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 1504_mysql_kc_upgrade.sql
 
 
 

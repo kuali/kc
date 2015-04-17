@@ -18,6 +18,7 @@
 --
 
 DELIMITER /
+
 UPDATE KRCR_PARM_T SET val = 'default.htm?turl=Documents/addpersonnel1.htm' where nmspc_cd = 'KC-PROTOCOL' and cmpnt_cd = 'Document' and parm_nm = 'protocolAddPersonnelHelp'
 /
 UPDATE KRCR_PARM_T SET val = 'default.htm?turl=Documents/questionnaire9.htm' where nmspc_cd = 'KC-PROTOCOL' and cmpnt_cd = 'Document' and parm_nm = 'protocolQuestionnaireHelp'
@@ -104,3 +105,4 @@ INSERT INTO KRCR_PARM_T (nmspc_cd, cmpnt_cd, parm_nm, OBJ_ID, VER_NBR, parm_typ_
 VALUES ('KC-IACUC', 'Document', 'iacucProtocolSpecialReviewHelp', UUID(), 1, 'HELP', 'default.htm?turl=Documents/onlinereviewreviewerview.htm','IACUC alternate search help','A','KC')
 /
 
+DELIMITER ;
