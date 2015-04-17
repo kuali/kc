@@ -65,8 +65,8 @@
         <avalon-framework.version>4.3.1</avalon-framework.version>
         <bouncycastle.version>1.51</bouncycastle.version>
         <cglib-nodep.version>3.1</cglib-nodep.version>
-        <coeus-api-all.version>6.0.0.2</coeus-api-all.version>
-        <coeus-s2sgen.version>6.0.3.1</coeus-s2sgen.version>
+        <coeus-api-all.version>1504.2</coeus-api-all.version>
+        <coeus-s2sgen.version>1504.1</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-codec.version>1.9</commons-codec.version>
         <commons-collections.version>3.2.1</commons-collections.version>
@@ -122,7 +122,7 @@
         <org.eclipse.persistence.version>2.5.2</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.4.5-kckualico</rice.version>
+        <rice.version>2.5.3.1504.1-kckualico</rice.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
         <spring.version>3.2.12.RELEASE</spring.version>
@@ -2091,8 +2091,8 @@
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
 
                 <rsmart.cx.token.auth.version>1.0.7</rsmart.cx.token.auth.version>
-                <rsmart.hr.rest.version>1.0</rsmart.hr.rest.version>
-                <kc-sql.version>6.0.1</kc-sql.version>
+                <rsmart.hr.rest.version>1504.1</rsmart.hr.rest.version>
+                <kc-sql.version>1504.1</kc-sql.version>
                 <schemaspy.version>5.0.1</schemaspy.version>
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
