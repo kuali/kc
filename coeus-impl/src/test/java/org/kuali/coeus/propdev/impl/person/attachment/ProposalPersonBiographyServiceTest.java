@@ -19,7 +19,6 @@
 package org.kuali.coeus.propdev.impl.person.attachment;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jmock.Expectations;
@@ -29,7 +28,6 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.coeus.propdev.impl.attachment.AttachmentDao;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
@@ -146,32 +144,6 @@ public class ProposalPersonBiographyServiceTest {
 		proposalPersonBiographyService
 				.setDataObjectService(dataObjectService);
 		proposalPersonBiographyService.deleteProposalPersonBiography(null, 0);
-	}
-
-	@Test
-	public void test_setPersonnelBioTimeStampUser() {
-		final List<ProposalPersonBiography> proposalPersonBios = proposalDocument
-				.getDevelopmentProposal().getPropPersonBios();
-		final AttachmentDao attachmentDao = context.mock(AttachmentDao.class);
-		final Iterator iterator = proposalPersonBios.iterator();
-		final Object objects = (Object) iterator.next();
-		context.checking(new Expectations() {
-			{
-				oneOf(attachmentDao).getPersonnelTimeStampAndUploadUser(11,
-						"11", 1);
-				will(returnValue(iterator));
-			}
-		});
-		proposalPersonBiographyService.setAttachmentDao(attachmentDao);
-		proposalPersonBiographyService
-				.setPersonnelBioTimeStampUser(proposalPersonBios);
-	}
-
-	@Test(expected = NullPointerException.class)
-	public void test_setPersonnelBioTimeStampUser_with_no_biography() {
-		final AttachmentDao attachmentDao = context.mock(AttachmentDao.class);
-		proposalPersonBiographyService.setAttachmentDao(attachmentDao);
-		proposalPersonBiographyService.setPersonnelBioTimeStampUser(null);
 	}
 
 	@Test
