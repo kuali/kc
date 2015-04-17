@@ -322,18 +322,18 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     }
 
     public Timestamp getTimestampDisplay() {
-        if (getPersonnelAttachment() == null || getPersonnelAttachment().getUpdateTimestamp() == null) {
+        if (getPersonnelAttachment() == null || getPersonnelAttachment().getUploadTimestamp() == null) {
             return getDateTimeService().getCurrentTimestamp();
         }
-        return getPersonnelAttachment().getUpdateTimestamp();
+        return getPersonnelAttachment().getUploadTimestamp();
     }
 
     public String getUploadUserDisplay() {
-        if (getPersonnelAttachment() == null || StringUtils.isBlank(getPersonnelAttachment().getUpdateUser())) {
+        if (getPersonnelAttachment() == null || StringUtils.isBlank(getPersonnelAttachment().getUploadUser())) {
             return this.getUpdateUser();
         }
 
-        return getPersonnelAttachment().getUpdateUser();
+        return getPersonnelAttachment().getUploadUser();
     }
 
     public String getUploadUserFullName() {

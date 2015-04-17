@@ -31,6 +31,7 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.common.framework.print.KcAttachmentDataSource;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchResult;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchService;
@@ -218,6 +219,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
             ProposalAbstract proposalAbstract = (ProposalAbstract) addLine;
             proposalAbstract.setProposalNumber(proposal.getProposalNumber());
             proposalAbstract.refreshReferenceObject("abstractType");
+            proposalAbstract.setUpdateDisplayFields();
         } else if (addLine instanceof ProposalSpecialReview) {
         	ProposalSpecialReview proposalSpecialReview = (ProposalSpecialReview) addLine;
         	proposalSpecialReview.setDevelopmentProposal(document.getDevelopmentProposal());
@@ -814,10 +816,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         }
     }
 
-    public void updateAttachmentInformation(KcPersistableBusinessObjectBase attachment){
+    public void updateAttachmentInformation(KcAttachmentDataSource attachment){
         if (attachment != null){
-            attachment.setUpdateUser(getGlobalVariableService().getUserSession().getPrincipalName());
-            attachment.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
+            attachment.setUploadUser(getGlobalVariableService().getUserSession().getPrincipalName());
+            attachment.setUploadTimestamp(getDateTimeService().getCurrentTimestamp());
         }
     }
 

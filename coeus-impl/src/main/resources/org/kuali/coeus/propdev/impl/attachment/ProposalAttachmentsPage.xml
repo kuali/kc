@@ -591,10 +591,6 @@
           p:link.href="?methodToCall=getFileFromLine&amp;formKey=@{formKey}&amp;fileName=@{#line.name}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}&amp;selectedLineIndex=@{#index}"
           p:order="10"/>
 
-    <bean id="PropDev-AttachmentPage-AddedByField" parent="PropDev-AttachmentPage-AddedByField-parentBean"/>
-    <bean id="PropDev-AttachmentPage-AddedByField-parentBean" abstract="true" parent="Uif-MessageField" p:label="Added By"
-           p:messageText="@{#line.updateUser} [color=grey](@{#ViewHelper.getDateUploadedFormatted(#line.updateTimestamp)})[/color]"/>
-
     <bean id="PropDev-AttachmentPage-MultiFileCollection" parent="PropDev-AttachmentPage-MultiFileCollection-parentBean"/>
     <bean id="PropDev-AttachmentPage-MultiFileCollection-parentBean" abstract="true" parent="Uif-MultiFileUploadCollection"
           p:collection.layoutManager.richTable.render="false" p:addFilesButtonText="Upload &amp; Add"
@@ -612,7 +608,6 @@
                         <bean parent="Uif-FileControl"/>
                     </property>
                 </bean>
-                <bean parent="PropDev-AttachmentPage-AddedByField" p:order="30"/>
             </list>
         </property>
         <property name="collection.layoutManager.libraryCssClasses">
@@ -640,7 +635,9 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="PropDev-AttachmentPage-AddedByField" p:fieldLabel.labelText="Author" p:order="10"/>
+                <bean parent="Uif-MessageField" p:label="Author"
+                	p:messageText="@{#line.uploadUserDisplay} [color=grey](@{#ViewHelper.getDateUploadedFormatted(#line.timestampDisplay)})[/color]"/>
+
             </list>
         </property>
         <property name="layoutManager.libraryCssClasses">

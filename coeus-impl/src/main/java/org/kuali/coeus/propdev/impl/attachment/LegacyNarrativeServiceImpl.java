@@ -66,9 +66,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     @Qualifier("personService")
     private PersonService personService;
     @Autowired
-    @Qualifier("attachmentDao")
-    private AttachmentDao attachmentDao;
-    @Autowired
     @Qualifier("kcAuthorizationService")
     private KcAuthorizationService kcAuthorizationService;
 
@@ -303,14 +300,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
-    }
-
-    public AttachmentDao getAttachmentDao() {
-        return attachmentDao;
-    }
-
-    public void setAttachmentDao(AttachmentDao attachmentDao) {
-        this.attachmentDao = attachmentDao;
     }
 
     protected KcAuthorizationService getKcAuthorizationService(){
