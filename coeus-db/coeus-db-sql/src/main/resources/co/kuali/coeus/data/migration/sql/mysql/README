@@ -1,0 +1,104 @@
+*****************************************************
+mysql installation instructions for KC Release 1504
+******************************************************
+
+This folder contains the scripts for a KC 1504, mysql database upgrade from the following KC versions
+
+5.2.1
+6.0
+6.0.1
+******************************************
+Upgrade from 5.2.1 to 6.0.0
+******************************************
+Bundled rice
+******************************************
+Please run the following scripts against your kc database.
+
+600_mysql_rice_server_upgrade.sql
+600_mysql_rice_client_upgrade.sql
+600_mysql_kc_rice_server_upgrade.sql
+600_mysql_kc_upgrade.sql
+600_mysql_kc_demo.sql
+
+Example:
+mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_rice_server_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_rice_client_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_kc_rice_server_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_kc_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_kc_demo.sql
+
+******************************************
+Standalone rice
+******************************************
+If you have not upgraded your rice server to the version required by the 6.0 release already,
+please run the following scripts against your rice database. If you have upgraded your rice server already,
+you may skip this step.
+
+600_mysql_rice_server_upgrade.sql
+600_mysql_rice_client_upgrade.sql
+
+Example:
+mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_rice_server_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_rice_client_upgrade.sql
+
+After upgrading your rice server as mentioned above, please run the following rice scripts required by kc
+against the rice database
+
+mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_kc_rice_server_upgrade.sql
+
+Once the rice upgrade is complete, run the following scripts against you kc database.
+
+600_mysql_kc_upgrade.sql
+600_mysql_kc_demo.sql
+
+Example:
+mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_kc_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 600_mysql_kc_demo.sql
+
+******************************************
+Upgrade from 6.0.0 to 1504
+******************************************
+Bundled rice
+******************************************
+Please run the following scripts against your kc database.
+
+601_mysql_kc_rice_server_upgrade.sql
+601_mysql_kc_upgrade.sql
+1504_mysql_kc_rice_server_upgrade.sql
+1504_mysql_kc_upgrade.sql
+
+Example:
+mysql -ukc_db_username -pkc_db_password db_name < 601_mysql_kc_rice_server_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 601_mysql_kc_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 1504_mysql_kc_rice_server_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 1504_mysql_kc_upgrade.sql
+
+******************************************
+Standalone rice
+******************************************
+Please run the following scripts against your rice database.
+
+601_mysql_kc_rice_server_upgrade.sql
+1504_mysql_kc_rice_server_upgrade.sql
+
+mysql -ukc_db_username -pkc_db_password db_name < 601_mysql_kc_rice_server_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 1504_mysql_kc_rice_server_upgrade.sql
+
+Please run the following scripts against your kc database.
+
+601_mysql_kc_upgrade.sql
+1504_mysql_kc_upgrade.sql
+
+Example:
+mysql -ukc_db_username -pkc_db_password db_name < 601_mysql_kc_upgrade.sql
+mysql -ukc_db_username -pkc_db_password db_name < 1504_mysql_kc_upgrade.sql
+
+
+
+*****
+LOGS
+*****
+
+Please be aware that two log files will be created in the directory where you launch sqlplus from.
+You can check these logs for errors once the scripts finish.
+

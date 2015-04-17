@@ -17,7 +17,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+UPDATE QUESTION SET LOOKUP_CLASS='org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex' WHERE LOOKUP_CLASS ='org.kuali.kra.bo.NonOrganizationalRolodex'
 /
-DELIMITER ;
+UPDATE QUESTION SET LOOKUP_CLASS='org.kuali.coeus.common.framework.org.Organization' WHERE LOOKUP_CLASS ='org.kuali.kra.bo.Organization'
+/

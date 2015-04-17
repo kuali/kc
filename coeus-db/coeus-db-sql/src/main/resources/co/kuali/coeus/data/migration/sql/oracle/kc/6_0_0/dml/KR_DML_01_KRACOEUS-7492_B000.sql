@@ -17,7 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+INSERT INTO KRCR_PARM_T(NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
+VALUES ('KC-S2S','All','HIERARCHY_LEVEL',SYS_GUID(),1,'CONFG','4','Determines which unit to be selected from unit hierarchy','A','KC')
 /
-DELIMITER ;

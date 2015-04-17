@@ -17,7 +17,8 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+UPDATE QUESTIONNAIRE_USAGE 
+   SET IS_MANDATORY = 'N'
+   WHERE QUESTIONNAIRE_LABEL = 'Generic Demo Questionnaire' AND 
+         MODULE_ITEM_CODE = (SELECT MODULE_CODE FROM COEUS_MODULE WHERE DESCRIPTION = 'Development Proposal')
 /
-DELIMITER ;

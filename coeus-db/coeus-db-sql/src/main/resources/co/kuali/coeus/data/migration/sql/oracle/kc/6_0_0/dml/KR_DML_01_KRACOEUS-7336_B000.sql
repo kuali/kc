@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+UPDATE KRCR_PARM_T SET NMSPC_CD = 'KC-S2S', CMPNT_CD = 'All' WHERE NMSPC_CD = 'KC-PD' AND CMPNT_CD = 'Document' AND PARM_NM = 's2sBudgetCategory01OtherProfs'
 /
-DELIMITER ;

@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+alter table KREW_PPL_FLW_MBR_T add FRC_ACTN NUMBER(1) default 1 NOT NULL
 /
-DELIMITER ;

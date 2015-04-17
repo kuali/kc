@@ -17,7 +17,14 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
-/
-DELIMITER ;
+set define off
+set sqlblanklines on
+spool KC-RELEASE-6_0_2-Upgrade-ORACLE-Install.log
+@./kc/6_0_2/bootstrap/V602_001__RESKC-1.sql
+@./kc/6_0_2/bootstrap/V602_002__RESKC-2.sql
+@./kc/6_0_2/bootstrap/V602_007__RESKC-229.sql
+@./kc/6_0_2/bootstrap/V602_010__RESKC-204.sql
+
+commit;
+exit
+

@@ -17,7 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+INSERT INTO KRCR_CMPNT_T (NMSPC_CD, CMPNT_CD, NM, ACTV_IND, OBJ_ID, VER_NBR)
+values ('KC-S2S', 'All', 'All', 'Y', sys_guid(), 1)
 /
-DELIMITER ;

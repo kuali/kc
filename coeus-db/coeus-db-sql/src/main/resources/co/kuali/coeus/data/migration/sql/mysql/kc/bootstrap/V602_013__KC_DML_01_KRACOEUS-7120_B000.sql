@@ -18,6 +18,10 @@
 --
 
 DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+
+UPDATE CUSTOM_ATTRIBUTE SET LOOKUP_CLASS = 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup' WHERE LOOKUP_CLASS = 'org.kuali.kra.bo.ArgValueLookup'
 /
+UPDATE QUESTION SET LOOKUP_CLASS = 'org.kuali.coeus.common.framework.custom.arg.ArgValueLookup' WHERE LOOKUP_CLASS = 'org.kuali.kra.bo.ArgValueLookup'
+/
+
 DELIMITER ;

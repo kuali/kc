@@ -17,7 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+UPDATE KRCR_PARM_T SET VAL = 'http://site.kuali.org/rice/${rice.version}/reference/html/Help.html#lookup'
+WHERE APPL_ID = 'KUALI' AND NMSPC_CD = 'KR-KRAD' AND CMPNT_CD = 'Lookup' AND PARM_NM = 'DEFAULT_HELP_URL'
 /
-DELIMITER ;

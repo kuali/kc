@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+ALTER TABLE VALID_NARR_FORMS ADD VER_NBR decimal(8,0)
 /
-DELIMITER ;

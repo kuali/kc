@@ -17,7 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+INSERT INTO KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD)
+VALUES ('KC' || KRIM_TYP_ID_S.NEXTVAL, SYS_GUID(), 1, 'Derived Role: Document Access', '{http://kc.kuali.org/core/v5_0}documentAccessDerivedRoleTypeService', 'Y', 'KC-SYS')
 /
-DELIMITER ;

@@ -17,7 +17,8 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+alter table SPONSOR add DUNNING_CAMPAIGN_ID VARCHAR2(6)
 /
-DELIMITER ;
+
+alter table SPONSOR add CUSTOMER_NUMBER VARCHAR2(40)
+/

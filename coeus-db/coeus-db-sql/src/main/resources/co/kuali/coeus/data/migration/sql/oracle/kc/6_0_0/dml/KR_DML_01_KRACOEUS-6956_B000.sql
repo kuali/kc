@@ -17,7 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+UPDATE KRMS_FUNC_PARM_T SET TYP='org.kuali.coeus.propdev.impl.core.DevelopmentProposal' WHERE NM='DevelopmentProposal'
 /
-DELIMITER ;

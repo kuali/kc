@@ -17,7 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
+-- Create a new table for holding attachment content which can be used in place of storing them on the filesystem
+CREATE TABLE krns_att_cntnt_t (att_id VARCHAR2(36), att_cntnt BLOB)
 /
-DELIMITER ;

@@ -17,7 +17,9 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-DELIMITER /
-alter table subaward modify requisitioner_id varchar(40)
-/
-DELIMITER ;
+set define off
+set sqlblanklines on
+spool KRC_RICE-RELEASE-6_0_0-Upgrade-ORACLE-Install.log
+@./rice/6_0_0/bootstrap/client/KRC_RICE_01_2.3.5-2.4.0_2014-04-09_B000.sql
+commit;
+exit
