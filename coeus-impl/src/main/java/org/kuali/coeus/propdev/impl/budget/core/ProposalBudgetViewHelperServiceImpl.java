@@ -46,7 +46,6 @@ import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.element.Action;
@@ -268,6 +267,17 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     private boolean isEmptyBudgetLineItemExists(Budget budget) {
         for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             if (CollectionUtils.isEmpty(budgetPeriod.getBudgetLineItems())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean budgetLineItemsExistInLaterPeriods(List<BudgetPeriod> budgetPeriods) {
+        for (BudgetPeriod budgetPeriod : budgetPeriods) {
+            if (budgetPeriod.getBudgetPeriod() == 1) {
+              continue;
+            } else if (!budgetPeriod.getBudgetLineItems().isEmpty()) {
                 return true;
             }
         }
