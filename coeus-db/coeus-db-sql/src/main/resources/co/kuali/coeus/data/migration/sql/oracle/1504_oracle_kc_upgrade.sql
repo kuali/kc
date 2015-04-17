@@ -19,7 +19,7 @@
 
 set define off
 set sqlblanklines on
-spool KC-RELEASE-6_0_2-Upgrade-ORACLE-Install.log
+spool 1504_oracle_kc-upgrade.log
 @./kc/6_0_2/bootstrap/V602_001__RESKC-1.sql
 @./kc/6_0_2/bootstrap/V602_002__RESKC-2.sql
 @./kc/6_0_2/bootstrap/V602_007__RESKC-229.sql

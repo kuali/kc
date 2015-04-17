@@ -19,7 +19,7 @@
 
 set define off
 set sqlblanklines on
-spool KR-RELEASE-6_0_2-Upgrade-ORACLE-Install.log
+spool 1504_oracle_kc_rice_server_upgrade.log
 @./rice/6_0_2/bootstrap/server/V602_003__helpFix.sql
 @./rice/6_0_2/bootstrap/server/V602_004__helpFix.sql
 commit;
