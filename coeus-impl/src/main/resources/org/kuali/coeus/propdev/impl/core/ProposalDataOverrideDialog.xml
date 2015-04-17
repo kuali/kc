@@ -99,6 +99,7 @@
                 <list>
                     <bean parent="Uif-DataField" p:propertyName="updateTimestamp"
                           p:fieldLabel.labelText="Date" p:order="10"/>
+                    <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayFullName(#line.updateUser)} (@{#line.updateUser})" p:fieldLabel.labelText="User" p:order="15" />
                     <bean parent="Uif-MessageField" p:messageText="@{#line.editableColumn.columnLabel}"
                           p:fieldLabel.labelText="Field" p:order="20"/>
                     <bean parent="PropDev-DataOverride-DevelopmentProposalInput" p:propertyName="oldDisplayValue" p:order="30"
