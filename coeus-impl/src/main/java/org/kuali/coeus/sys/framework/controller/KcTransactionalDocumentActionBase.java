@@ -26,7 +26,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.task.Task;
@@ -844,7 +843,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         }
         
         // Only forward to Portal if it will eventually go to the holding page
-        if (form instanceof ProposalDevelopmentForm || form instanceof InstitutionalProposalForm || form instanceof AwardForm || form instanceof IacucProtocolForm 
+        if (form instanceof InstitutionalProposalForm || form instanceof AwardForm || form instanceof IacucProtocolForm
             || form instanceof ProtocolForm || form instanceof CommitteeForm || form instanceof IacucCommitteeForm || form instanceof TimeAndMoneyForm || form instanceof SubAwardForm) {
             ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
             if (StringUtils.equals(forward.getPath(), basicForward.getPath())) {

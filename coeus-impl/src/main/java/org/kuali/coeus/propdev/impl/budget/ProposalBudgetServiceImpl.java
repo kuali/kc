@@ -18,15 +18,21 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
+import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.impl.core.AbstractBudgetService;
+import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
@@ -37,9 +43,9 @@ import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwardPeriodDetail;
 import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.budget.subaward.PropDevBudgetSubAwardService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.data.CopyOption;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.data.PersistenceOption;
 import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +63,15 @@ import java.util.Map;
 @Component("proposalBudgetService")
 public class ProposalBudgetServiceImpl extends AbstractBudgetService<DevelopmentProposal> implements ProposalBudgetService {
 
+    public static final String MODULAR_BUDGET_FLAG = "modularBudgetFlag";
+    public static final String ADD_BUDGET_DTO = "addBudgetDto";
+    public static final String BUDGET_VERSION_NUMBER = "budgetVersionNumber";
+    public static final String COST_ELEMENT_BO = "costElementBO";
+    public static final String BUDGET_CATEGORY = "budgetCategory";
     @Autowired
     @Qualifier("documentService")
     private DocumentService documentService;
 
-    @Autowired
-    @Qualifier("parameterService")
-    private ParameterService parameterService;
-    
     @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
@@ -80,7 +87,23 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     @Autowired
     @Qualifier("budgetModularService")
     private BudgetModularService budgetModularService;
-    
+
+    @Autowired
+    @Qualifier("globalVariableService")
+    private GlobalVariableService globalVariableService;
+
+    @Autowired
+    @Qualifier("dataObjectService")
+    private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("kcBusinessRulesEngine")
+    private KcBusinessRulesEngine kcBusinessRulesEngine;
+
+    @Autowired
+    @Qualifier("budgetSummaryService")
+    private BudgetSummaryService budgetSummaryService;
+
     @Override
     public ProposalDevelopmentBudgetExt getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,String budgetName, Map<String, Object> options){
         Integer budgetVersionNumber = parentDocument.getNextBudgetVersionNumber();
@@ -96,14 +119,14 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         budget.setEndDate(budgetParent.getRequestedEndDateInitial());
         budget.setCreateTimestamp(new Timestamp(System.currentTimeMillis()));
         budget.setCreateUser(getGlobalVariableService().getUserSession().getLoggedInUserPrincipalName());
-        budget.setOhRateTypeCode(this.parameterService.getParameterValueAsString(Budget.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
-        budget.setOhRateClassCode(this.parameterService.getParameterValueAsString(Budget.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
-        budget.setUrRateClassCode(this.parameterService.getParameterValueAsString(Budget.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
-        budget.setBudgetStatus(this.parameterService.getParameterValueAsString(Budget.class, budgetParent.getDefaultBudgetStatusParameter()));
-        if (options != null && options.containsKey("modularBudgetFlag")) {
-        	budget.setModularBudgetFlag((Boolean) options.get("modularBudgetFlag"));
+        budget.setOhRateTypeCode(getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
+        budget.setOhRateClassCode(getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
+        budget.setUrRateClassCode(getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
+        budget.setBudgetStatus(getParameterService().getParameterValueAsString(Budget.class, budgetParent.getDefaultBudgetStatusParameter()));
+        if (options != null && options.containsKey(MODULAR_BUDGET_FLAG)) {
+        	budget.setModularBudgetFlag((Boolean) options.get(MODULAR_BUDGET_FLAG));
         } else {
-        	budget.setModularBudgetFlag(this.parameterService.getParameterValueAsBoolean(Budget.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
+        	budget.setModularBudgetFlag(getParameterService().getParameterValueAsBoolean(Budget.class, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         }
 		boolean success = isBudgetVersionNameValid(budgetParent, budgetName);
         if(!success)
@@ -138,7 +161,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     
     @Override
     public boolean isBudgetVersionNameValid(BudgetParent parent, String name) {
-    	return getKcBusinessRulesEngine().applyRules(new ProposalAddBudgetVersionEvent("addBudgetDto", parent, name));
+    	return getKcBusinessRulesEngine().applyRules(new ProposalAddBudgetVersionEvent(ADD_BUDGET_DTO, parent, name));
     }
 
     @Override
@@ -148,7 +171,7 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 	        final List<ProposalDevelopmentBudgetExt> budgetVersions = parentDocument.getDevelopmentProposal().getBudgets();
 	        if (budgetVersions != null && !budgetVersions.isEmpty()) {
 	            QueryList<ProposalDevelopmentBudgetExt> budgetVersionsQuery = new QueryList<ProposalDevelopmentBudgetExt>();
-	            budgetVersionsQuery.sort("budgetVersionNumber", false);
+	            budgetVersionsQuery.sort(BUDGET_VERSION_NUMBER, false);
 	            finalBudget = budgetVersionsQuery.get(0);
 	        }
         }
@@ -163,37 +186,6 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     	return getDataObjectService().save(budget, PersistenceOption.FLUSH);
     }
 
-    /**
-     * Gets the documentService attribute. 
-     * @return Returns the documentService.
-     */
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    /**
-     * Sets the documentService attribute value.
-     * @param documentService The documentService to set.
-     */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
     public Budget copyBudgetVersion(Budget budget){
         return copyBudgetVersion(budget, false);
     }
@@ -201,25 +193,12 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public void recalculateBudget(Budget budget) {
         budgetCalculationService.calculateBudget(budget);
     }
-    /**
-     * Sets the budgetCalculationService attribute value.
-     * @param budgetCalculationService The budgetCalculationService to set.
-     */
-    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
-        this.budgetCalculationService = budgetCalculationService;
-    }
-    /**
-     * Gets the budgetCalculationService attribute. 
-     * @return Returns the budgetCalculationService.
-     */
-    public BudgetCalculationService getBudgetCalculationService() {
-        return budgetCalculationService;
-    }
+
     public void calculateBudgetOnSave(Budget budget) {
         for (BudgetSubAwards subAward : budget.getBudgetSubAwards()) {
             getPropDevBudgetSubAwardService().generateSubAwardLineItems(subAward, (ProposalDevelopmentBudgetExt) budget);
         }
-        budgetCalculationService.calculateBudget(budget);
+        recalculateBudget(budget);
     }
     
     @Override
@@ -294,16 +273,6 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
 		return doServiceCopy;
     }
 
-    /**
-     * Do nothing for proposal budget
-     * @see org.kuali.coeus.common.budget.framework.core.BudgetCommonService#removeBudgetSummaryPeriodCalcAmounts(org.kuali.coeus.common.budget.framework.period.BudgetPeriod)
-     */
-    public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod) {
-    }
-    public void populateSummaryCalcAmounts(Budget budget, BudgetPeriod budgetPeriod) {
-        // DO NOTHING
-    }
-    
     @Override
     public boolean validateAddingNewBudget(BudgetParentDocument<DevelopmentProposal> parentDocument) {
         return true;
@@ -311,6 +280,61 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     public void recalculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod) {
         budgetCalculationService.calculateBudget(budget);
     }
+
+    public boolean isBudgetMarkedForSubmission(Budget finalBudget, Budget currentBudget) {
+        boolean budgetMarkedForSubmission = false;
+        if (finalBudget != null) {
+            if(finalBudget.getBudgetId().equals(currentBudget.getBudgetId())) {
+                budgetMarkedForSubmission = true;
+            }
+        }
+        return budgetMarkedForSubmission;
+    }
+
+    @Override
+    public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod) {
+        Budget budget = budgetPeriod.getBudget();
+        newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
+        newBudgetLineItem.setBudgetPeriodBO(budgetPeriod);
+        newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+        newBudgetLineItem.setStartDate(budgetPeriod.getStartDate());
+        newBudgetLineItem.setEndDate(budgetPeriod.getEndDate());
+        newBudgetLineItem.setBudgetId(budget.getBudgetId());
+        newBudgetLineItem.setLineItemNumber(budget.getNextValue(Constants.BUDGET_LINEITEM_NUMBER));
+        newBudgetLineItem.setApplyInRateFlag(true);
+        newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
+        refreshBudgetLineCostElement(newBudgetLineItem);
+        // on/off campus flag enhancement
+        String onOffCampusFlag = budget.getOnOffCampusFlag();
+        if (onOffCampusFlag.equalsIgnoreCase(BudgetConstants.DEFAULT_CAMPUS_FLAG)) {
+            newBudgetLineItem.setOnOffCampusFlag(newBudgetLineItem.getCostElementBO().getOnOffCampusFlag());
+        } else {
+            newBudgetLineItem.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMUS_FLAG));
+        }
+        newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
+        newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
+        refreshBudgetLineBudgetCategory(newBudgetLineItem);
+
+        if(isBudgetFormulatedCostEnabled()){
+            List<String> formulatedCostElements = getFormulatedCostElements();
+            if(formulatedCostElements.contains(newBudgetLineItem.getCostElement())){
+                newBudgetLineItem.setFormulatedCostElementFlag(true);
+            }
+        }
+    }
+
+    protected void refreshBudgetLineCostElement(BudgetLineItem newBudgetLineItem) {
+        if(StringUtils.isNotEmpty(newBudgetLineItem.getCostElement())) {
+            getDataObjectService().wrap(newBudgetLineItem).fetchRelationship(COST_ELEMENT_BO);
+        }
+    }
+
+    protected void refreshBudgetLineBudgetCategory(BudgetLineItem newBudgetLineItem) {
+        if(StringUtils.isNotEmpty(newBudgetLineItem.getBudgetCategoryCode())) {
+            getDataObjectService().wrap(newBudgetLineItem).fetchRelationship(BUDGET_CATEGORY);
+        }
+    }
+
     protected PropDevBudgetSubAwardService getPropDevBudgetSubAwardService() {
         return propDevBudgetSubAwardService;
     }
@@ -334,14 +358,51 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
         this.budgetModularService = budgetModularService;
     }
 
-    public boolean isBudgetMarkedForSubmission(Budget finalBudget, Budget currentBudget) {
-		boolean budgetMarkedForSubmission = false;
-        if (finalBudget != null) {
-        	if(finalBudget.getBudgetId().equals(currentBudget.getBudgetId())) {
-        		budgetMarkedForSubmission = true;
-        	}
-        }
-		return budgetMarkedForSubmission;
+    public DocumentService getDocumentService() {
+        return documentService;
     }
-    
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
+    }
+
+    public BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    public GlobalVariableService getGlobalVariableService() {
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
+    }
+
+    public KcBusinessRulesEngine getKcBusinessRulesEngine() {
+        return kcBusinessRulesEngine;
+    }
+
+    public void setKcBusinessRulesEngine(KcBusinessRulesEngine kcBusinessRulesEngine) {
+        this.kcBusinessRulesEngine = kcBusinessRulesEngine;
+    }
+
+    public BudgetSummaryService getBudgetSummaryService() {
+        return budgetSummaryService;
+    }
+
+    public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
+        this.budgetSummaryService = budgetSummaryService;
+    }
 }

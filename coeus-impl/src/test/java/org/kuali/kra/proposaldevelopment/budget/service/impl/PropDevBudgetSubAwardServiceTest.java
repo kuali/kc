@@ -366,12 +366,13 @@ public class PropDevBudgetSubAwardServiceTest {
 			return null;
 		}
 		@Override
-		protected void calculateBudgetOnSave(Budget budget) {
-			
-		}
-		@Override
 		public boolean isBudgetVersionNameValid(BudgetParent parent, String name) {
 			return true;
 		}
+
+        @Override
+        public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod) {
+            return null;
+        }
     }
 }

@@ -26,11 +26,8 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.List;
-import java.util.Map;
 
 public interface TimeAndMoneyHistoryService {
-    
-    void  getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory, List<Integer> columnSpan) throws WorkflowException;
 
     void buildTimeAndMoneyHistoryObjects(String awardNumber, List<AwardVersionHistory> awardVersionHistoryCollection) throws WorkflowException;
     

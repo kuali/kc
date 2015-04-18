@@ -44,6 +44,7 @@ import org.kuali.coeus.common.framework.impl.LineItemGroup;
 import org.kuali.coeus.common.framework.impl.LineItemObject;
 import org.kuali.coeus.common.framework.impl.Period;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
+import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -662,7 +663,10 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(!isRateOveridden(budget,budgetPeriod)){
-                getBudgetCommonService(budget).populateSummaryCalcAmounts(budget,budgetPeriod);
+                BudgetCommonService<?> budgetCommonService = getBudgetCommonService(budget);
+                if (budgetCommonService instanceof AwardBudgetService) {
+                    ((AwardBudgetService) budgetCommonService).populateSummaryCalcAmounts(budget,budgetPeriod);
+                }
             }
         }
     }

@@ -15,17 +15,16 @@
    - GNU Affero General Public License for more details.
    - 
    - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - along with this program.  If not, see <http://www.gnu.org/licenses />.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>6.0.1</version>
+        <version>1504.3-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-webapp</artifactId>
     <packaging>war</packaging>
@@ -47,7 +46,8 @@
         <kc.context.path>/kc-${build.environment}</kc.context.path>
         <kc.port>8080</kc.port>
         <jetty.context.file>${basedir}/src/main/webapp/WEB-INF/jetty-web.xml</jetty.context.file>
-        <jetty.argLine>-Xmx1024m -XX:MaxPermSize=512m ${javaagent.arg}</jetty.argLine>
+	<jetty.memOpts>-Xmx1536m -XX:MaxPermSize=512m</jetty.memOpts>
+        <jetty.argLine>${jetty.memOpts} ${javaagent.arg}</jetty.argLine>
 
         <generated.web.sources>${project.build.directory}/generated-web-sources</generated.web.sources>
         <help.web.sources>${project.build.directory}/generated-web-sources/help-web-sources</help.web.sources>
@@ -386,12 +386,52 @@
 
         <profile>
             <id>precompile-jsp-tomcat-7</id>
+            <properties>
+                <tomcat.version>7.0.59</tomcat.version>
+            </properties>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>${maven-resources-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copy-resources-for-precompile</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/precompiletomcat</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${basedir}/src/main/webapp</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                        <resource>
+                                            <directory>${rice.web.sources}</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                     <plugin>
                         <groupId>org.jasig.mojo.jspc</groupId>
                         <artifactId>jspc-maven-plugin</artifactId>
                         <version>${jspc-maven-plugin.version}</version>
+                        <configuration>
+                            <sources>
+                                <directory>${project.build.directory}/precompiletomcat</directory>
+                                <includes>
+                                    <include>**/*.jsp</include>
+                                </includes>
+                            </sources>
+                            <verbose>10</verbose>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
@@ -416,6 +456,16 @@
                                 <artifactId>slf4j-simple</artifactId>
                                 <version>${slf4j.version}</version>
                                 <scope>runtime</scope>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-annotations-api</artifactId>
+                                <version>${tomcat.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat-jasper</artifactId>
+                                <version>${tomcat.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>

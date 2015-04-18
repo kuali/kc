@@ -48,27 +48,25 @@ public class ProposalBudgetView extends FormView {
     }
 
     protected void generatePessimisticLockMessages(ProposalBudgetForm form) {
-    	if(!form.isViewOnly()) {
-            Document document = form.getBudget().getDevelopmentProposal().getDocument();
-            Person user = GlobalVariables.getUserSession().getPerson();
-            int budgetVersion = form.getBudget().getBudgetVersionNumber();
-            for (PessimisticLock lock : document.getPessimisticLocks()) {
-                if (!lock.isOwnedByUser(user) && getProposalBudgetLockService().doesBudgetVersionMatchDescriptor(lock.getLockDescriptor(),budgetVersion)) {
-                    String lockDescriptor = StringUtils.defaultIfBlank(lock.getLockDescriptor(), "full");
-                    String lockOwner = lock.getOwnedByUser().getName();
-                    String lockTime = RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp());
-                    String lockDate = RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
+        Document document = form.getBudget().getDevelopmentProposal().getDocument();
+        Person user = GlobalVariables.getUserSession().getPerson();
+        int budgetVersion = form.getBudget().getBudgetVersionNumber();
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            if (!lock.isOwnedByUser(user) && getProposalBudgetLockService().doesBudgetVersionMatchDescriptor(lock.getLockDescriptor(), budgetVersion)) {
+                String lockDescriptor = StringUtils.defaultIfBlank(lock.getLockDescriptor(), "full");
+                String lockOwner = lock.getOwnedByUser().getName();
+                String lockTime = RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp());
+                String lockDate = RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
 
-                    if (!getParameterService().getParameterValueAsBoolean("KC-GEN", "All", PessimisticLockConstants.ALLOW_CLEAR_PESSIMISTIC_LOCK_PARM)) {
-                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
-                                ERROR_TRANSACTIONAL_LOCKED, lockDescriptor, lockOwner, lockTime, lockDate);
-                    } else {
-                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
-                                KC_ERROR_TRANSACTIONAL_LOCKED, lockDescriptor, lockOwner, lockTime, lockDate, lock.getId().toString());
-                    }
+                if (!getParameterService().getParameterValueAsBoolean("KC-GEN", "All", PessimisticLockConstants.ALLOW_CLEAR_PESSIMISTIC_LOCK_PARM)) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
+                            ERROR_TRANSACTIONAL_LOCKED, lockDescriptor, lockOwner, lockTime, lockDate);
+                } else {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
+                            KC_ERROR_TRANSACTIONAL_LOCKED, lockDescriptor, lockOwner, lockTime, lockDate, lock.getId().toString());
                 }
             }
-    	}
+        }
     }
 
     public ParameterService getParameterService() {

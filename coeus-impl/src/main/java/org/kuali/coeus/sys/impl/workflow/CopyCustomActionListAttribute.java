@@ -30,6 +30,8 @@ import org.kuali.rice.kew.api.actionlist.DisplayParameters;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
 public class CopyCustomActionListAttribute implements CustomActionListAttribute {
+    private static final String CUSTOM_COPY_ACTION = "P";
+
     @Override
     public DisplayParameters getDocHandlerDisplayParameters(String principalId, ActionItem actionItem) throws Exception {
     	DisplayParameters dp = DisplayParameters.Builder.create(new Integer(300)).build();
@@ -39,7 +41,9 @@ public class CopyCustomActionListAttribute implements CustomActionListAttribute 
     @Override
     public ActionSet getLegalActions(String principalId, ActionItem actionItem) throws Exception {
     	ActionSet as = ActionSet.Builder.create().build();
-    	as.addAction("P");
+    	as.addAction(CUSTOM_COPY_ACTION);
+        as.addFyi();
+        as.addAcknowledge();
     	return as;
     }
 }

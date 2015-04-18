@@ -44,7 +44,7 @@
 		p:propertyName="budget.budgetPersons"
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.BudgetPerson"
 		p:addWithDialog="false" p:renderAddLine="false"
-		p:layoutManager.renderSequenceField="false">
+		p:layoutManager.renderSequenceField="false" p:readOnly="false">
 		<property name="layoutManager.groupingPropertyNames">
     		<list>
       			<value>personGroup</value>
@@ -62,9 +62,10 @@
 			<bean parent="Uif-HeaderRightGroup">
 				<property name="items">
 					<list>
-						<ref bean="PropBudget-ProjectPersonnelPage-AddButton"/>
+						<bean parent="PropBudget-ProjectPersonnelPage-AddButton"
+							  p:render="@{!viewOnly and canEditView}"/>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync from Proposal"
-							p:methodToCall="syncFromProposal" p:render="@{!#parent.readOnly}"
+							p:methodToCall="syncFromProposal" p:render="@{!viewOnly and canEditView}"
 							p:order="20" />
 					</list>
 				</property>
@@ -98,7 +99,7 @@
 				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editPersonDetails"
 					p:actionLabel="Details" p:refreshId="null" p:order="10" />
 				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="20" p:methodToCall="deleteProjectPersonnel"
-					p:iconClass="icon-trash" p:render="@{!#parent.readOnly}" p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup">
+					p:iconClass="icon-trash" p:render="@{!viewOnly and canEditView}" p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup">
                     <property name="confirmationDialog">
                     	<bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete @{#lp.personName}?"/>
                     </property>

@@ -88,9 +88,9 @@
     <bean id="PersonBiosketch-attachmentFile" parent="PersonBiosketch-attachmentFile-parentBean" />
     <bean id="PersonBiosketch-attachmentFile-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="attachmentFile" />
-        <property name="label" value="Attachment File" />
+        <property name="label" value="* Attachment File" />
         <property name="shortLabel" value="Attachment File" />
-        <property name="required" value="true" />
+        <property name="required" value="false" />
         <property name="control" >
       <bean parent="FileControlDefinition" p:size="50"/>
     </property>

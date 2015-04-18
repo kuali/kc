@@ -378,10 +378,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
                 getProposalDevelopmentPermissionsService().processDeletePermission(document, ((ProposalUserRoles) deleteLine));
             }
         }
-        
-        if(deleteLine instanceof ProposalDevelopmentAttachment) {
-        	((ProposalDevelopmentAttachment)deleteLine).setUpdated(true);
-        }
 
         if (deleteLine instanceof FileMeta) {
             getDataObjectService().delete(deleteLine);
@@ -959,45 +955,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return getSponsorHierarchyService().isSponsorNihMultiplePi(sponsorCode);
     }
 
-    // Returns piece that should be locked for this form
-    protected String getLockRegion(ProposalDevelopmentDocumentForm form) {
-        //default lock region
-        String lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
-        if (isNarrativeAction(form)) {
-            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES;
-        }
-
-        return lockRegion;
-    }
-
-    // Checks whether the action associated with this form instance maps to the Narrative page
-    private boolean isNarrativeAction(ProposalDevelopmentDocumentForm form) {
-        boolean isNarrativeAction = false;
-        String navigateTo = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
-        if (StringUtils.equals(form.getPageId(), ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)
-                && StringUtils.isEmpty(navigateTo)) {
-            isNarrativeAction = true;
-        } else if (StringUtils.isNotEmpty(navigateTo) && navigateTo.equalsIgnoreCase(ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
-            isNarrativeAction = true;
-        }
-
-        return isNarrativeAction;
-
-    }
-
-    public void setupLockRegions(ProposalDevelopmentDocumentForm form) {
-        String lockRegion = getLockRegion(form);
-        GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);
-    }
-
-    public String getLockRegionFromPage(String pageId) {
-        String pageRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
-        if (StringUtils.equals(pageId, ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID)) {
-            pageRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_NARRATIVES;
-        }
-        return pageRegion;
-    }
-    
     public boolean syncRequiresEndDateExtension(DevelopmentProposal proposal) {
     	DevelopmentProposal hierarchyProposal = getProposalHierarchyService().getDevelopmentProposal(proposal.getHierarchyParentProposalNumber());
     	return getProposalHierarchyService().needToExtendProjectDate(hierarchyProposal, proposal);

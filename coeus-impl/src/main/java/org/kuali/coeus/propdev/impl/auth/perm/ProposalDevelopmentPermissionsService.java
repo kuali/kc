@@ -28,10 +28,7 @@ public interface ProposalDevelopmentPermissionsService {
     public List<ProposalUserRoles> getPermissions(ProposalDevelopmentDocument document);
 
     public void savePermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> persistedUsers, List<ProposalUserRoles> newUsers);
-    
-    public void saveProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc);
-    
-    public void deleteProposalUser(ProposalUserRoles proposalUser, ProposalDevelopmentDocument doc);
+
 
     public boolean validateAddPermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles proposalUser);
 

@@ -81,7 +81,9 @@ public class PersonRolodexComparator implements Comparator<PersonRolodex> {
             }
         }
         
-        LOG.info("retval = " + retval);
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug("retval = " + retval);
+        }
 
         return retval;
     }

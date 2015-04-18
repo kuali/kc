@@ -66,7 +66,6 @@ public class OpportunitySchemaParserServiceImpl implements OpportunitySchemaPars
     private static final String ALL = "all";
     private static final String IMPORT = "import";
     private static final String XSD_NS = "http://www.w3.org/2001/XMLSchema";
-    private static final Log LOG = LogFactory.getLog(OpportunitySchemaParserServiceImpl.class);
 
     @Autowired
     @Qualifier("formMappingService")

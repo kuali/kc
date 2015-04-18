@@ -49,6 +49,7 @@ public class LookupServiceTest extends KcIntegrationTestBase {
     public void testLookupReturnLimits() throws Exception {
         LookupService lookupService = KRADServiceLocatorWeb.getLookupService();
         Map formProps = new HashMap();
+        formProps.put("sponsorName", "B*");
         Collection sponsor = lookupService.findCollectionBySearchHelper(Sponsor.class, formProps, false);
         assertTrue(8000 >= sponsor.size());
 
@@ -66,6 +67,7 @@ public class LookupServiceTest extends KcIntegrationTestBase {
     public void testLookupReturnDefaultUnbounded() throws Exception {
         LookupService lookupService = KRADServiceLocatorWeb.getLookupService();
         Map formProps = new HashMap();
+        formProps.put("sponsorName", "B*");
         Collection sponsor = lookupService.findCollectionBySearchHelper(Sponsor.class, formProps, true);
         int size = sponsor.size();
         assertTrue("# of sposnor should be > 200", size > 200);

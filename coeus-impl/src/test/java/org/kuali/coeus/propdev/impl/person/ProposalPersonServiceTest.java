@@ -189,9 +189,10 @@ public class ProposalPersonServiceTest {
 		doc.getDevelopmentProposal().setProposalPersons(proposalPersons);
 
 		final KcPerson person = new KcPerson() {
-			@Override
+			private String personId;
+            @Override
 			public void setPersonId(String personId) {
-				personId = personId;
+				this.personId = personId;
 			}
 		};
 		context.checking(new Expectations() {
@@ -213,9 +214,10 @@ public class ProposalPersonServiceTest {
 						PredicateFactory.equal(
 								"developmentProposal.proposalNumber", "111"));
 		final KcPerson person = new KcPerson() {
-			@Override
+            private String personId;
+            @Override
 			public void setPersonId(String personId) {
-				personId = personId;
+				this.personId = personId;
 			}
 		};
 		context.checking(new Expectations() {

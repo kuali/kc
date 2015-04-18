@@ -197,17 +197,8 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
     
     protected AnchorHtmlData getViewLink(BusinessObject businessObject, List pkNames) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        Questionnaire questionnaire = (Questionnaire) businessObject;
-        if (StringUtils.isNotBlank(questionnaire.getDocumentNumber())) {
-            String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
-            htmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, questionnaire.getDocumentNumber()).replace("&docId",
-                    "&readOnly=true&docId"));
-        }
-        else {
-            htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
-            htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
-
-        }
+        htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
+        htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
         htmlData.setDisplayText(VIEW);
         return htmlData;
     }

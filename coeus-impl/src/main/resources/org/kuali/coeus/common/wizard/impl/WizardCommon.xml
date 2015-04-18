@@ -58,10 +58,20 @@
                       p:dictionaryAttributeName="officePhone" />
                 <bean parent="Kc-Wizard-PersonInputField"
                       p:propertyName="lookupFieldValues['primaryDepartmentCode']"
-                      p:order="70" p:dictionaryAttributeName="organizationIdentifier" />
+                      p:order="70" p:dictionaryAttributeName="organizationIdentifier">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.coeus.common.framework.unit.Unit"
+                              p:fieldConversions="unitNumber:lookupFieldValues['primaryDepartmentCode']"/>
+                    </property>
+                </bean>
                 <bean parent="Kc-Wizard-PersonInputField"
                       p:propertyName="lookupFieldValues['campusCode']" p:order="80"
-                      p:dictionaryAttributeName="campusCode" />
+                      p:dictionaryAttributeName="campusCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.location.impl.campus.CampusBo"
+                              p:fieldConversions="code:lookupFieldValues['campusCode']"/>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

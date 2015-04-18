@@ -109,7 +109,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     private static final String ATTACHMENTS_NONE = "None";
 
-    private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
 
     @PortableSequenceGenerator(name = "SEQ_PROPOSAL_NUMBER_KRA")
     @GeneratedValue(generator = "SEQ_PROPOSAL_NUMBER_KRA")
@@ -1038,14 +1037,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         removeProposalSiteOfType(ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE, index);
     }
 
-    public void clearPerformanceSiteAddress(int index) {
-        ProposalSite performanceSite = getPerformanceSites().get(index);
-        performanceSite.setOrganization(new Organization());
-        performanceSite.setOrganizationId("");
-        performanceSite.setRolodex(new Rolodex());
-        performanceSite.setRolodexId(null);
-    }
-
     public void setOtherOrganizations(List<ProposalSite> otherOrganizations) {
         setProposalSitesForType(otherOrganizations, ProposalSite.PROPOSAL_SITE_OTHER_ORGANIZATION);
     }
@@ -1396,46 +1387,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         getProposalPersonBiographyService().deleteProposalPersonBiography(this.getProposalDocument(), lineToDelete);
     }
 
-    /**
-     * 
-     * Method to add a new narrative to narratives list
-     * 
-     * @param narrative
-     */
-    public void addNarrative(Narrative narrative) {
-        getNarrativeService().addNarrative(this.getProposalDocument(), narrative);
-    }
-
-    /**
-     * 
-     * Method to delete a narrative from narratives list
-     * 
-     * @param lineToDelete
-     */
-    public void deleteProposalAttachment(int lineToDelete) {
-        getNarrativeService().deleteProposalAttachment(this.getProposalDocument(), lineToDelete);
-    }
-
-    /**
-     * 
-     * Method to add a new institute attachment to institute attachment list
-     * 
-     * @param narrative
-     */
-    public void addInstituteAttachment(Narrative narrative) {
-        getNarrativeService().addInstituteAttachment(this.getProposalDocument(), narrative);
-    }
-
-    /**
-     * 
-     * Method to delete a narrative from narratives list
-     * 
-     * @param lineToDelete
-     */
-    public void deleteInstitutionalAttachment(int lineToDelete) {
-        getNarrativeService().deleteInstitutionalAttachment(this.getProposalDocument(), lineToDelete);
-    }
-
     public void populatePersonNameForNarrativeUserRights(int lineNumber) {
         if (!getNarratives().isEmpty()) {
             Narrative narrative = getNarratives().get(lineNumber);
@@ -1450,15 +1401,6 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
         }
     }
 
-    public void replaceAttachment(int selectedLine) {
-        Narrative narrative = getNarratives().get(selectedLine);
-        getNarrativeService().replaceAttachment(narrative);
-    }
-
-    public void replaceInstituteAttachment(int selectedLine) {
-        Narrative narrative = getInstituteAttachments().get(selectedLine);
-        getNarrativeService().replaceAttachment(narrative);
-    }
 
     public void populateNarrativeRightsForLoggedinUser() {
         getNarrativeService().populateNarrativeRightsForLoggedinUser(this.getProposalDocument());

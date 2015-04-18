@@ -62,7 +62,7 @@
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-PeriodTab-parentBean" abstract="true" parent="Uif-TableCollectionSection" p:headerText="Period @{#budgetPeriod}"
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails"
 		p:propertyName="budget.budgetPersonnelDetails" 
-		p:addWithDialog="false" p:renderAddLine="false" 
+		p:addWithDialog="false" p:renderAddLine="false" p:readOnly="false"
 		p:layoutManager.renderSequenceField="false"
 		p:renderInactiveToggleButton="false">
 		<property name="layoutManager.groupingTitle" value="@{#lp.personDetailGroup} [color=#B0BED9] [css='pull-right'][action=editBudgetDetailsAndRates,data={budgetPeriodId:@{#budgetPeriodId},lineItemGroupKey:'@{#lp.personDetailGroup}'}][b]Details &amp; Rates[/b][/action][/css][/color]"/>
@@ -83,8 +83,8 @@
 			<bean parent="Uif-HeaderRightGroup">
 				<property name="items">
 					<list>
-						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-CalculateCurrentPeriod" p:render="@{!#parent.readOnly}" p:order="10"/>
-						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-AssignPersonnel" p:render="@{!#parent.readOnly}" p:order="20"/>
+						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-CalculateCurrentPeriod" p:render="@{!viewOnly and canEditView }" p:order="10"/>
+						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-AssignPersonnel" p:render="@{!viewOnly and canEditView}" p:order="20"/>
 					</list>
 				</property>
 			</bean>
@@ -112,7 +112,7 @@
 		<property name="lineActions">
 			<list>
 				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editPersonPeriodDetails"
-					p:actionLabel="Details" p:order="10">
+					p:actionLabel="Details" p:order="10" p:render="@{!#parent.readOnly}">
 					<property name="additionalSubmitData">
 						<map>
 							<entry key="budgetPeriodId" value="@{#budgetPeriodId}"/>
@@ -120,7 +120,7 @@
 					</property>		
 				</bean>
 				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="20" p:methodToCall="deletePersonnelLineItem"
-					p:iconClass="icon-trash" p:render="@{!#parent.readOnly}">
+					p:iconClass="icon-trash" p:render="@{!viewOnly and canEditView}">
 					<property name="additionalSubmitData">
 						<map>
 							<entry key="budgetPeriodId" value="@{#budgetPeriodId}"/>
@@ -279,20 +279,20 @@
  				<bean parent="Uif-MessageField" p:messageText="@{addProjectPersonnelHelper.budgetPersonnelDetail.budgetPerson?.effectiveDate}"
 					p:order="30" p:label="Salary Effective Date"/>
 				<bean parent="Uif-InputField" p:propertyName="periodTypeCode" p:order="40" p:enableAutoQuickfinder="false"
-					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
 					p:readOnlyDisplayReplacement="&amp;nbsp;"/>
 				<bean parent="Uif-InputField" p:propertyName="startDate"
 					p:required="true" p:order="50"/>
 				<bean parent="Uif-InputField" p:propertyName="endDate"
 					p:required="true" p:order="60"/>
 				<bean parent="PropBudget-AssignPersonnelToPeriodsPage-PercentField" p:propertyName="percentEffort" 
-					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
 					p:label="Effort" p:order="70" p:readOnlyDisplayReplacement="&amp;nbsp;"/>
 				<bean parent="PropBudget-AssignPersonnelToPeriodsPage-PercentField" p:propertyName="percentCharged" 
-					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
 					p:label="Charged" p:order="80" p:readOnlyDisplayReplacement="&amp;nbsp;"/>
 				<bean parent="Uif-InputField" p:propertyName="salaryRequested" 
-					p:readOnly="@{#fp.personSequenceNumber != #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
+					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber != #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
 					p:label="Requested Salary" p:order="90" />
 				<bean parent="Uif-DataField" p:propertyName="calculatedFringe"
 					p:label="Calculated Fringe" p:order="100"/>
@@ -302,7 +302,7 @@
 					p:label="Unrecovered F&amp;A" p:order="120" />
 				<bean parent="Uif-DataField" p:propertyName="personMonths" p:label="Person Months" p:order="130"/>
 				<bean parent="Uif-InputField" p:propertyName="lineItemDescription" p:order="140"
-					p:readOnly="@{#fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}">
+					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}">
   					<property name="control">
     					<bean parent="Uif-TextAreaControl" p:cols="60" p:rows="3"/>
   					</property>
@@ -367,8 +367,19 @@
 		</property>
 	</bean>
 
-	<bean id="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section" parent="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section-parentBean" />
-	<bean id="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+    <bean id="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section" parent="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section-parentBean" />
+    <bean id="PropBudget-AssignPersonneltoPeriods-GeneralTab-Section-parentBean" abstract="true" parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <ref bean="PropBudget-AssignPersonneltoPeriods-General"/>
+                <ref bean="PropBudget-LineItem-InflationRateSection"/>
+                <ref bean="PropBudget-AssignPersonneltoPeriods-ApplyRates"/>
+            </list>
+        </property>
+    </bean>
+
+	<bean id="PropBudget-AssignPersonneltoPeriods-General" parent="PropBudget-AssignPersonneltoPeriods-General-parentBean" />
+	<bean id="PropBudget-AssignPersonneltoPeriods-General-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.budgetCategoryCode"
@@ -383,15 +394,24 @@
 					p:label="Group Description" p:order="50"/>
 				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.quantity"
 					p:label="# of Persons" p:order="60"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.applyInRateFlag"
-					p:order="70" p:label="Apply Inflation"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.submitCostSharingFlag"
-					p:order="80" p:label="Submit cost sharing"/>
-				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.onOffCampusFlag"
-					p:order="90" p:label="On Campus"/>
 			</list>
 		</property>
 	</bean>
+
+    <bean id="PropBudget-AssignPersonneltoPeriods-ApplyRates" parent="PropBudget-AssignPersonneltoPeriods-ApplyRates-parentBean" />
+    <bean id="PropBudget-AssignPersonneltoPeriods-ApplyRates-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="budgetLineItem.applyInRateFlag"
+                      p:order="10" p:label="Apply Inflation"/>
+                <bean parent="Uif-InputField" p:propertyName="budgetLineItem.submitCostSharingFlag"
+                      p:order="20" p:label="Submit cost sharing"/>
+                <bean parent="Uif-InputField" p:propertyName="budgetLineItem.onOffCampusFlag"
+                      p:order="30" p:label="On Campus"
+                      p:onChangeScript="ajaxSubmitForm('refresh',{'refreshCaller': 'PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates'})"/>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates-RatesTab" parent="PropBudget-BudgetLineItem-Rates" />
 

@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -103,21 +102,6 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
         return globalVariableService.getUserSession().getPrincipalId();
     }
 
-    /**
-     * Create the original set of Proposal Users for a new Proposal Development Document.
-     * The creator the proposal is assigned to the AGGREGATOR role.
-     */
-    @Override
-     public void initializeProposalUsers(ProposalDevelopmentDocument doc) {
-         // Assign the creator of the proposal to the AGGREGATOR role.
-         String userId = getCreator(doc);
-         if (!kraAuthorizationService.hasDocumentLevelRole(userId, RoleConstants.AGGREGATOR, doc))
-             kraAuthorizationService.addDocumentLevelRole(userId, RoleConstants.AGGREGATOR, doc);
-
-         // Add the users defined in the role templates for the proposal's lead unit
-         addUsers(doc);
-    }
-    
     /**
      * Get the role templates for the proposal.  The retrieved role templates correspond
      * to the proposal's lead unit.

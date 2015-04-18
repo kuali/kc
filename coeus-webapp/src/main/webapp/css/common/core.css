@@ -471,8 +471,12 @@ input[type="checkbox"] {
     .kc-navMenuDropdown .dropdown-menu {
         min-width: 65em !important;
     }
+    
+    .kc-reportsDropdown .dropdown-menu {
+    	min-width: 25em !important;
+	}
 
-    .kc-researcherDropdown .dropdown-menu, .kc-unitDropdown .dropdown-menu, .kc-centralAdminDropdown .dropdown-menu {
+    .kc-researcherDropdown .dropdown-menu, .kc-unitDropdown .dropdown-menu, .kc-centralAdminDropdown .dropdown-menu, .kc-reportsDropdown .dropdown-menu {
         left: 0;
         right: inherit;
     }
@@ -482,8 +486,12 @@ input[type="checkbox"] {
     .kc-navMenuDropdown .dropdown-menu {
         min-width: 70em !important;
     }
+    
+    .kc-reportsDropdown .dropdown-menu {
+    	min-width: 25em !important;
+	}
 
-    .kc-centralAdminDropdown .dropdown-menu {
+    .kc-centralAdminDropdown .dropdown-menu, .kc-reportsDropDown .dropdown-menu {
         right: 0;
     }
 }

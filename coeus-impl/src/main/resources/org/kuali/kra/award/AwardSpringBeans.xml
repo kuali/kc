@@ -35,6 +35,24 @@
 
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:annotation-config />
+    <context:component-scan base-package="org.kuali.kra.award" />
+    <context:component-scan base-package="org.kuali.coeus.award"/>
+    
+    <bean id="grlImporter" abstract="true" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
+    
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
+			</list>
+		</property>
+	</bean>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
@@ -94,7 +112,11 @@
     <bean id="documentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="documentService" />
     </bean>
-    
+
+    <bean id="documentTypePermissionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="enDocumentTypePermissionService" />
+    </bean>
+
     <bean id="encryptionService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="encryptionService" />
     </bean>
@@ -169,7 +191,11 @@
     
     <bean id="printingService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="printingService" />
-    </bean> 
+    </bean>
+
+    <bean id="routeHeaderService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="enDocumentRouteHeaderService" />
+    </bean>
     
     <bean id="scheduleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="scheduleService" />
@@ -210,7 +236,7 @@
     <bean id="kcBusinessRulesEngine" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kcBusinessRulesEngine" />
     </bean>
-    
+
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
@@ -246,7 +272,7 @@
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
 
-    <bean id="awardDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardDaoOjb" />
+    <bean id="awardDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardDaoOjb"/>
 
     <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardLookupDaoOjb">
     	<property name="versionHistoryLookupDao" ref="versionHistoryLookupDao" /> 

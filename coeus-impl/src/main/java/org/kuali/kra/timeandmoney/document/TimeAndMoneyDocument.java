@@ -62,7 +62,6 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     private Map<String, AwardHierarchy> awardHierarchyItems;
     private List<PendingTransaction> pendingTransactions;
     private List<AwardAmountTransaction> awardAmountTransactions;
-    private Map<Object, Object> timeAndMoneyHistory;
     private List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems;
     private Award award;
     private AwardAmountTransaction newAwardAmountTransaction;
@@ -101,7 +100,6 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
         awardHierarchyItems = new HashMap<String, AwardHierarchy>();
         pendingTransactions = new ArrayList<PendingTransaction>();
         awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
-        timeAndMoneyHistory = new LinkedHashMap<Object, Object>();
         timeAndMoneyActionSummaryItems = new ArrayList<TimeAndMoneyActionSummary>();
         newAwardAmountTransaction = new AwardAmountTransaction();
         awardVersionHistoryList = new ArrayList<AwardVersionHistory>();
@@ -258,22 +256,6 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
      */
     public void setAwardAmountTransactions(List<AwardAmountTransaction> awardAmountTransactions) {
         this.awardAmountTransactions = awardAmountTransactions;
-    }
-
-    /**
-     * Gets the timeAndMoneyHistory attribute. 
-     * @return Returns the timeAndMoneyHistory.
-     */
-    public Map<Object, Object> getTimeAndMoneyHistory() {
-        return timeAndMoneyHistory;
-    }
-
-    /**
-     * Sets the timeAndMoneyHistory attribute value.
-     * @param timeAndMoneyHistory The timeAndMoneyHistory to set.
-     */
-    public void setTimeAndMoneyHistory(Map<Object, Object> timeAndMoneyHistory) {
-        this.timeAndMoneyHistory = timeAndMoneyHistory;
     }
 
     /**

@@ -30,7 +30,9 @@
     <bean id="kcAwardConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
         <property name="moduleName" value="kc.award"/>
         <property name="moduleTitle" value="KC Award"/>
+        <property name="dispatchServletName" value="kc-award"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/award/AwardComponentSpringBeans.xml"/>
+        <property name="enableSpringSecurity" value="true"/>
     </bean>
 
 </beans>

@@ -24,7 +24,7 @@
 			<description>Create a New IacucProtocolOnlineReview Status</description>
 			<label>Iacuc Protocol Review Status Code</label>
 			<parent>KcAwardsMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/protocolonlinereviewstatuscodes.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/iacucprotocolonlinereviewstatuscodes.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

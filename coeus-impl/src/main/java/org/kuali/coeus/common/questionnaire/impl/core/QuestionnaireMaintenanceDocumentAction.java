@@ -568,6 +568,12 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         }
         return forward;
     }
+    
+    @Override
+    protected boolean canSave(ActionForm form) {
+    	QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+    	return !qnForm.isReadOnly() && super.canSave(qnForm);
+    }
 
 
     /**

@@ -15,17 +15,16 @@
    - GNU Affero General Public License for more details.
    - 
    - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - along with this program.  If not, see <http://www.gnu.org/licenses />.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>6.0.1</version>
+        <version>1504.3-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-impl</artifactId>
     <packaging>jar</packaging>
@@ -337,6 +336,11 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time-jsptags</artifactId>
         </dependency>
 
         <dependency>
@@ -660,12 +664,27 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
-
+        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
-
+        
+        <dependency>
+           	<groupId>org.springframework</groupId>
+           	<artifactId>spring-expression</artifactId>
+        </dependency>
+        
+        <dependency>
+        	<groupId>org.springframework.security</groupId>
+        	<artifactId>spring-security-web</artifactId>
+        </dependency>
+        
+        <dependency>
+        	<groupId>org.springframework.security</groupId>
+        	<artifactId>spring-security-config</artifactId>
+        </dependency>        
+        
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
@@ -685,6 +704,15 @@
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
         </dependency>
+        <dependency>
+	    <groupId>com.codiform</groupId>
+	    <artifactId>moo-mvel</artifactId>
+	</dependency>
+	                  	<dependency>
+                  		<groupId>org.mvel</groupId>
+                  		<artifactId>mvel2</artifactId>
+                  	</dependency>
+	  
     </dependencies>
 
     <profiles>
@@ -710,6 +738,11 @@
                 <dependency>
                     <groupId>com.rsmart.kuali</groupId>
                     <artifactId>kc_hr_rest</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>co.kuali.schemaspy</groupId>
+                    <artifactId>schemaspy</artifactId>
                 </dependency>
             </dependencies>
         </profile>

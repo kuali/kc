@@ -358,10 +358,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return super.canAcknowledge(document, user) && isAuthorizedToHierarchyChildAckWorkflowAction(document, user);
     }
     
-    protected boolean isBudgetComplete(DevelopmentProposal developmentProposal) {
-    	return developmentProposal.getFinalBudget() != null;
-    }
-    
     @Override
     public boolean canAddNoteAttachment(Document document, String attachmentTypeCode, Person user) {
         return isAuthorizedToAddNote(document, user);
@@ -413,7 +409,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
 
     protected boolean canSaveCertification(ProposalDevelopmentDocument document, Person user) {
         for(ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            if (hasCertificationPermissions(document, user, person)) {
+            if (hasCertificationPermissions(document, user, person) && document.getDocumentHeader().getWorkflowDocument().isEnroute()) {
                 return true;
             }
         }
@@ -561,7 +557,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     protected boolean isAuthorizedToReplaceNarrative(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document); 
         boolean hasPermission = false;
-        if (!pdDocument.getDevelopmentProposal().getSubmitFlag()) {
+        if (!pdDocument.getDevelopmentProposal().getSubmitFlag() && pdDocument.getDocumentHeader().getWorkflowDocument().isEnroute()) {
             hasPermission = getModifyNarrativePermission(pdDocument, user) || isAuthorizedToAlterProposalData(document, user);
         }      
         return hasPermission;
@@ -587,20 +583,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return pdDocument.getDocumentHeader().hasWorkflowDocument() && pdDocument.getDocumentHeader().getWorkflowDocument().isEnroute()
                 && getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.RECALL_DOCUMENT)
                 && !isRevisionRequested(pdDocument.getDevelopmentProposal().getProposalState());
-    }
-
-    protected boolean isInProgress(ProposalState proposalState) {
-        if (proposalState != null){
-            return StringUtils.equalsIgnoreCase(proposalState.getDescription(), ProposalStateConstants.IN_PROGRESS);
-        }
-        return false;
-    }
-
-    protected boolean isApprovalPending(ProposalState proposalState) {
-        if (proposalState != null){
-            return StringUtils.equalsIgnoreCase(proposalState.getDescription(), ProposalStateConstants.APPROVAL_PENDING);
-        }
-        return false;
     }
 
     protected boolean isRevisionRequested(ProposalState proposalState) {

@@ -40,6 +40,7 @@ import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNavigationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
+import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
@@ -72,8 +73,6 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
-    @Qualifier("auditHelper")
-    private AuditHelper auditHelper;
 
     @Autowired
     @Qualifier("globalVariableService")
@@ -157,6 +156,15 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     @Override
     public void processAfterSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
     	getDataObjectService().save(lineObject);
+    }
+
+    @Override
+    protected boolean performDeleteLineValidation(ViewModel model, String collectionId, String collectionPath,
+                                                  Object deleteLine) {
+        if (deleteLine instanceof BudgetSubAwards) {
+            getDataObjectService().delete(deleteLine);
+        }
+       return super.performDeleteLineValidation(model,collectionId,collectionPath,deleteLine);
     }
 
     public String getWizardMaxResults() {

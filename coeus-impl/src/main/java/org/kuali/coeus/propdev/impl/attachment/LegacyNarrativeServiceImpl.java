@@ -30,16 +30,13 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.coeus.propdev.impl.person.ProposalPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -48,8 +45,8 @@ import java.util.*;
 @Component("legacyNarrativeService")
 public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
-    private static final String NSF_DATA_MANAGEMENT_PLAN_PDF = "NSF_DATA_MANAGEMENT_PLAN.pdf";
-
+    public static final String NARRATIVE_TYPE = "narrativeType";
+    public static final String NARRATIVE_STATUS = "narrativeStatus";
     @Autowired
     @Qualifier("narrativeAuthZService")
     private NarrativeAuthZService narrativeAuthZService;
@@ -82,25 +79,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-
-    /**
-     * 
-     * Method to add a new narrative to narratives list
-     * @param narrative
-     */
-    public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-
-        prepareNarrative(proposaldevelopmentDocument, narrative);
-        narrative = getDataObjectService().save(narrative);
-        narrative.clearAttachment();
-        proposaldevelopmentDocument.getDevelopmentProposal().getNarratives().add(narrative);
-    }
-
-    private Narrative changeDataManagementPlanAttachmentName(Narrative narrative) {
-        narrative.setName(NSF_DATA_MANAGEMENT_PLAN_PDF);
-        narrative.getNarrativeAttachment().setName(NSF_DATA_MANAGEMENT_PLAN_PDF);
-        return narrative;
-    }
 
     public Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
@@ -159,13 +137,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
             }
         }
     }
-    
-    /**
-     * Is this person in the list of narrative user rights?
-     * @param person the person to look for
-     * @param narrativeUserRights the list of narrative user rights
-     * @return true if the person is in the list; otherwise false
-     */
+
     protected boolean isPersonInNarrativeRights(KcPerson person, List<NarrativeUserRights> narrativeUserRights) {
         for (NarrativeUserRights right : narrativeUserRights) {
             if (StringUtils.equals(right.getUserId(), person.getPersonId())) {
@@ -174,12 +146,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         }
         return false;
     }
-    
-    /**
-     * Get the persons who have permissions relating to the proposal.
-     * @param proposalDevelopmentDocument the Proposal Development Document
-     * @return the list of persons (see Permission's page)
-     */
+
     protected List<KcPerson> getPersons(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         List<Role> proposalRoles = getSystemAuthorizationService().getRoles(RoleConstants.PROPOSAL_ROLE_TYPE);
         
@@ -205,13 +172,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         }
         return allPersons;
     }
-    
-    /**
-     * Is the person in the list of persons?
-     * @param person the person to look for
-     * @param persons the list of persons
-     * @return true if the person is in the list; otherwise false
-     */
+
     protected boolean isPersonInList(KcPerson person, List<KcPerson> persons) {
         for (KcPerson p : persons) {
             if (StringUtils.equals(p.getPersonId(), person.getPersonId())) {
@@ -220,38 +181,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         }
         return false;
     }
-
-    public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete) {
-        deleteAttachment(proposaldevelopmentDocument.getDevelopmentProposal().getNarratives(), lineToDelete);
-    }
-
-    public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete) {
-        deleteAttachment(proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments(), lineToDelete);
-    }
-
-    protected void deleteAttachment(List<Narrative> narratives, int lineToDelete) {
-        Narrative narrative = narratives.get(lineToDelete);
-        getDataObjectService().delete(narrative);
-        NarrativeAttachment narrAtt = new NarrativeAttachment();
-        narrAtt.setModuleNumber(narrative.getModuleNumber());
-        narrative.setNarrativeAttachment(narrAtt);
-
-        narratives.remove(lineToDelete);
-
-    }
-
-    /**
-     * 
-     * Method to add a new institute attachment to institute attachment list
-     * @param narrative
-     */
-    public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-        prepareNarrative(proposaldevelopmentDocument, narrative);
-        
-        getDataObjectService().save(narrative);
-        narrative.clearAttachment();
-        proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments().add(narrative);  
-    }
     
     public void prepareNarrative(ProposalDevelopmentDocument document, Narrative narrative) {
     	narrative.setDevelopmentProposal(document.getDevelopmentProposal());
@@ -259,11 +188,9 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(document));
         narrative.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         narrative.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
-        getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
-        getDataObjectService().wrap(narrative).fetchRelationship("narrativeStatus");
+        getDataObjectService().wrap(narrative).fetchRelationship(NARRATIVE_TYPE);
+        getDataObjectService().wrap(narrative).fetchRelationship(NARRATIVE_STATUS);
 
-
-        narrative.populateAttachment();
         populateNarrativeUserRights(document,narrative);
     }
 
@@ -277,25 +204,12 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         return false;
     }
 
-    /**
-     * Method to populate personname for all user who have narrative rights
-     */
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
         for (NarrativeUserRights narrativeUserRight : narrativeUserRights) {
             String personName = getProposalPersonService().getPersonName(proposaldevelopmentDocument, narrativeUserRight.getUserId());
             narrativeUserRight.setPersonName(personName);
         }
-    }
-
-    public void replaceAttachment(Narrative narrative) {
-        narrative.refreshReferenceObject("narrativeAttachment");
-        narrative.populateAttachment();
-        if (narrative.getNarrativeTypeCode().equalsIgnoreCase("200")) {
-            narrative = changeDataManagementPlanAttachmentName(narrative);
-        }
-        getDataObjectService().save(narrative);
-        narrative.clearAttachment();
     }
 
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument) {
@@ -310,56 +224,9 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         }
     }
 
-    /**
-     * Update the User and Timestamp for the business object.
-     * @param bo the business object
-     */
     protected void updateUserTimestamp(KcPersistableBusinessObjectBase bo) {
         bo.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         bo.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
-    }
-    /**
-     * Gets the narrativeAuthZService attribute. 
-     * @return Returns the narrativeAuthZService.
-     */
-    public NarrativeAuthZService getNarrativeAuthZService() {
-        return narrativeAuthZService;
-    }
-    /**
-     * Sets the narrativeAuthZService attribute value.
-     * @param narrativeAuthZService The narrativeAuthZService to set.
-     */
-    public void setNarrativeAuthZService(NarrativeAuthZService narrativeAuthZService) {
-        this.narrativeAuthZService = narrativeAuthZService;
-    }
-    /**
-     * Gets the proposalPersonService attribute. 
-     * @return Returns the proposalPersonService.
-     */
-    public ProposalPersonService getProposalPersonService() {
-        return proposalPersonService;
-    }
-    /**
-     * Sets the proposalPersonService attribute value.
-     * @param proposalPersonService The proposalPersonService to set.
-     */
-    public void setProposalPersonService(ProposalPersonService proposalPersonService) {
-        this.proposalPersonService = proposalPersonService;
-    }
-
-    /**
-     * Gets the dateTimeService attribute. 
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-    /**
-     * Sets the dateTimeService attribute value.
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
     @Override
@@ -376,7 +243,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         }
     }
 
-   
     public void readjustRights(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames) {
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
@@ -434,10 +300,7 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
     }
     
     protected KcPersonService getKcPersonService (){return kcPersonService;}
-    /**
-     * Sets the KC Person Service.
-     * @param kcPersonService the kc person service
-     */
+
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
@@ -450,35 +313,6 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
         this.attachmentDao = attachmentDao;
     }
 
-    @Override
-    public void setNarrativeTimeStampUser(List<Narrative> narratives) {
-
-        for (Narrative narrative : narratives) {
-            Iterator personBioAtt = getAttachmentDao().getNarrativeTimeStampAndUploadUser(narrative.getModuleNumber(), narrative.getProposalNumber());
-            if (personBioAtt.hasNext()) {
-                Object[] item = (Object[])personBioAtt.next();
-                narrative.setUpdateTimestamp((Timestamp)item[0]);
-                narrative.setUpdateUser((String)item[1]);
-                //using PersonService as it will display the user's name the same as the notes panel does
-                Person person = getPersonService().getPersonByPrincipalName(narrative.getUploadUserDisplay());
-                narrative.setUploadUserFullName(ObjectUtils.isNull(person) ? narrative.getUploadUserDisplay() + "(not found)" : person.getName());
-            }
-
-            }
-        }
-    
-    public void setNarrativeTimeStampUser(DevelopmentProposal proposal) {
-        List<Narrative> narratives = new ArrayList<Narrative> ();
-        narratives.addAll(proposal.getNarratives());
-        narratives.addAll(proposal.getInstituteAttachments());
-        setNarrativeTimeStampUser(narratives);
-    }
-    
-    /**
-     * 
-     * This is a helper method for retrieving KraAuthorizationService
-     * @return
-     */
     protected KcAuthorizationService getKcAuthorizationService(){
         return kcAuthorizationService;
     }
@@ -513,5 +347,29 @@ public class LegacyNarrativeServiceImpl implements LegacyNarrativeService {
 
     public void setDataObjectService(DataObjectService dataObjectService) {
         this.dataObjectService = dataObjectService;
+    }
+
+    public NarrativeAuthZService getNarrativeAuthZService() {
+        return narrativeAuthZService;
+    }
+
+    public void setNarrativeAuthZService(NarrativeAuthZService narrativeAuthZService) {
+        this.narrativeAuthZService = narrativeAuthZService;
+    }
+
+    public ProposalPersonService getProposalPersonService() {
+        return proposalPersonService;
+    }
+
+    public void setProposalPersonService(ProposalPersonService proposalPersonService) {
+        this.proposalPersonService = proposalPersonService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

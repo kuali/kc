@@ -28,7 +28,7 @@
           renderMultipart="true" 
           htmlFormAction="iacucBatchCorrespondenceDetail">
 
-	<div align="left"><kul:help parameterNamespace="KC-M" parameterDetailType="Document" parameterName="batchCorrespondenceHelp" altText="help"/>
+	<div align="left"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucBatchCorrespondenceHelpUrl" altText="help"/>
 	<br />
     
     <div id="workarea">

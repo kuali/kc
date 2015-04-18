@@ -59,10 +59,10 @@
                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
 
 					<bean  p:actionLabel="Submit for Review" parent="Uif-PrimaryActionButton" p:methodToCall="submitForReview"  p:order="10"
-                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and document.documentHeader.workflowDocument.saved}"/>
+                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and document.documentHeader.workflowDocument.saved and !#parent.readOnly}"/>
 
                     <bean  p:actionLabel="Ad Hoc Recipients" parent="Uif-PrimaryActionButton" p:methodToCall="populateAdHocs"  p:order="20"
-                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS] and !document.developmentProposal.isChild()}" />
+                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS] and (!#parent.readOnly or document.documentHeader.workflowDocument.enroute) and !document.developmentProposal.isChild()}" />
 
 
                     <bean parent="Uif-PrimaryActionButton" p:actionLabel="Approve" p:methodToCall="approve" p:order="30"
@@ -93,7 +93,7 @@
 
 
 			   		<bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel proposal" p:methodToCall="cancelProposal" p:order="80"
-						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}">
+						p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL] and !#parent.readOnly}">
 					 	<property name="confirmationDialog">
 			          		<bean id="ProposalCancelDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to cancel ?"/>
 			          	</property>
@@ -102,7 +102,7 @@
 					<bean parent="Uif-Space"/><bean parent="Uif-Space"/>
 					 
 					 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Delete Proposal" p:methodToCall="deleteProposal" p:order="90"
-					 	p:render="@{#actionFlags[#{deleteDocument}]}">
+					 	p:render="@{#actionFlags[#{deleteDocument}] and !#parent.readOnly}">
 					 	<property name="confirmationDialog">
 			          		<bean id="ProposalDeleteDialog" parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete ?"/>
 			          	</property>

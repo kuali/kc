@@ -48,7 +48,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @param budgetLineItem
      * @return
      */
-    public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem);
+    public boolean validInflationCeRate(BudgetLineItemBase budgetLineItem);
     
     public String getActivityTypeForBudget(Budget budget);
 
@@ -71,8 +71,6 @@ public interface BudgetService<T extends BudgetParent>  {
      * @throws WorkflowException
      */    
     public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod);
-    
-    public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId);
     
     public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod);
 

@@ -23,7 +23,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.propdev.api.person.attachment.ProposalPersonBiographyContract;
@@ -39,7 +38,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -88,14 +86,11 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
     @JoinColumn(name = "DOCUMENT_TYPE_CODE", referencedColumnName = "DOCUMENT_TYPE_CODE", insertable = false, updatable = false)
     private PropPerDocType propPerDocType;
 
-    @OneToOne(mappedBy = "proposalPersonBiography", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToOne(mappedBy = "proposalPersonBiography", cascade = { CascadeType.ALL })
     private ProposalPersonBiographyAttachment personnelAttachment;
 
     @Transient
     private String proposalPersonNumberString;
-
-    @Transient
-    private transient FormFile personnelAttachmentFile;
 
     @Transient
     private String uploadUserFullName;
@@ -114,8 +109,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     @Transient
     private String url;
-
-
+    
     @Transient
     private transient DateTimeService dateTimeService;
 
@@ -124,17 +118,6 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     @Transient
     private transient MultipartFile multipartFile;
-    
-    @Transient
-    private transient boolean isUpdated = false;
-    
-    public boolean isUpdated() {
-		return isUpdated;
-	}
-
-	public void setUpdated(boolean isUpdated) {
-		this.isUpdated = isUpdated;
-	}
 
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
@@ -290,14 +273,6 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.documentTypeCode = documentTypeCode;
     }
 
-    public FormFile getPersonnelAttachmentFile() {
-        return personnelAttachmentFile;
-    }
-
-    public void setPersonnelAttachmentFile(FormFile personnelAttachmentFile) {
-        this.personnelAttachmentFile = personnelAttachmentFile;
-    }
-
     @Override
     public ProposalPersonBiographyAttachment getPersonnelAttachment() {
         return personnelAttachment;
@@ -394,34 +369,6 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.positionNumber = positionNumber;
     }
 
-    public void populateAttachment() {
-        FormFile personnelFile = getPersonnelAttachmentFile();
-        if (personnelFile == null)
-            return;
-        byte[] personnellFileData;
-        try {
-            personnellFileData = personnelFile.getFileData();
-            if (personnellFileData.length > 0) {
-                ProposalPersonBiographyAttachment personnelAttachment = getPersonnelAttachment();
-                if (personnelAttachment == null) {
-                    personnelAttachment = new ProposalPersonBiographyAttachment();
-                    setPersonnelAttachment(personnelAttachment);
-                }
-                String fileName = personnelFile.getFileName();
-                personnelAttachment.setName(fileName);
-                personnelAttachment.setType(personnelFile.getContentType());
-                personnelAttachment.setData(personnelFile.getFileData());
-                personnelAttachment.setProposalNumber(getProposalNumber());
-                setName(personnelAttachment.getName());
-                setType(personnelAttachment.getType());
-            } else {
-                setPersonnelAttachment(null);
-            }
-        } catch (IOException e) {
-            setPersonnelAttachment(null);
-        }
-    }
-
     public static final class ProposalPersonBiographyId implements Serializable, Comparable<ProposalPersonBiographyId> {
 
         private Integer proposalPersonNumber;
@@ -508,7 +455,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
         this.kcAttachmentService = kcAttachmentService;
     }
 
-    @PreRemove
+    @PostRemove
     public void removeData() {
         if (getPersonnelAttachment().getFileDataId() != null) {
             getKcAttachmentDao().removeData(getPersonnelAttachment().getFileDataId());

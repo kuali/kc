@@ -147,11 +147,5 @@ public class ProposalDevelopmentBudgetExt extends Budget implements ProposalDeve
 	public void setNextValues(List<ProposalBudgetNextValue> nextValues) {
 		this.nextValues = nextValues;
 	}
-	
-	public void removeBudgetLineItems(List<BudgetLineItem> lineItems) {
-		getBudgetLineItems().removeAll(lineItems);
-		for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
-			budgetPeriod.getBudgetLineItems().removeAll(lineItems);
-		}
-	}
+
 }

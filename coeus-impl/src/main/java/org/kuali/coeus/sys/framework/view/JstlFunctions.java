@@ -22,6 +22,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 import java.math.BigDecimal;
@@ -42,9 +43,14 @@ public final class JstlFunctions {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(JstlFunctions.class);
 
     private static KcAttachmentService KC_ATTACHMENT_SERVICE;
+    private static ConfigurationService CONFIGURATION_SERVICE;
 
     private JstlFunctions() {}
-    
+
+    public static boolean isGrm() {
+        return getConfigurationService().getPropertyValueAsString("spring.profiles.active").contains("grm");
+    }
+
     /**
      * Returns a list of key/value pairs for displaying in an HTML option for a select list. This is a customized approach to retrieving
      * key/value data from database based on criteria specified in the <code>params {@link Map}</code><br/>
@@ -177,5 +183,17 @@ public final class JstlFunctions {
 
     public static void setKcAttachmentService(KcAttachmentService KcAttachmentService) {
         KC_ATTACHMENT_SERVICE = KcAttachmentService;
+    }
+
+    public static ConfigurationService getConfigurationService() {
+        if (CONFIGURATION_SERVICE == null) {
+            CONFIGURATION_SERVICE = KcServiceLocator.getService(ConfigurationService.class);
+        }
+
+        return CONFIGURATION_SERVICE;
+    }
+
+    public static void setKcAttachmentService(ConfigurationService configurationService) {
+        CONFIGURATION_SERVICE = configurationService;
     }
 }

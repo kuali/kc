@@ -151,7 +151,7 @@ public abstract class BudgetLineItemBase extends KcPersistableBusinessObjectBase
     public abstract void setTotalCostSharingAmount(ScaleTwoDecimal totalCostSharingAmount);
 
     public boolean isValidToApplyInRate() {
-        return getBudgetService().ValidInflationCeRate(this);
+        return getBudgetService().validInflationCeRate(this);
     }
 
     public abstract void setSubmitCostSharingFlag(Boolean submitCostSharingFlag);

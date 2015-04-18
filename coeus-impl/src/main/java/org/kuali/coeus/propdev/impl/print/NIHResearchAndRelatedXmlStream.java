@@ -471,66 +471,6 @@ public class NIHResearchAndRelatedXmlStream extends
         return degree;
     }
 
-    /**
-     * 
-     * This method computes the number of months between any 2 given
-     * {@link Date} objects
-     * 
-     * @param dateStart
-     *            starting date.
-     * @param dateEnd
-     *            end date.
-     * 
-     * @return number of months between the start date and end date.
-     */
-    private ScaleTwoDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
-        BigDecimal monthCount = ScaleTwoDecimal.ZERO.bigDecimalValue();
-        int fullMonthCount = 0;
-
-        Calendar startDate = Calendar.getInstance();
-        Calendar endDate = Calendar.getInstance();
-        startDate.setTime(dateStart);
-        endDate.setTime(dateEnd);
-
-        startDate.clear(Calendar.HOUR);
-        startDate.clear(Calendar.MINUTE);
-        startDate.clear(Calendar.SECOND);
-        startDate.clear(Calendar.MILLISECOND);
-
-        endDate.clear(Calendar.HOUR);
-        endDate.clear(Calendar.MINUTE);
-        endDate.clear(Calendar.SECOND);
-        endDate.clear(Calendar.MILLISECOND);
-
-        if (startDate.after(endDate)) {
-            return ScaleTwoDecimal.ZERO;
-        }
-        int startMonthDays = startDate.getActualMaximum(Calendar.DATE)
-        - startDate.get(Calendar.DATE);
-        startMonthDays++;
-        int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
-        BigDecimal startMonthFraction = new ScaleTwoDecimal(startMonthDays).bigDecimalValue()
-        .divide(new ScaleTwoDecimal(startMonthMaxDays).bigDecimalValue(), RoundingMode.HALF_UP);
-
-        int endMonthDays = endDate.get(Calendar.DATE);
-        int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
-
-        BigDecimal endMonthFraction = new ScaleTwoDecimal(endMonthDays).bigDecimalValue()
-        .divide(new ScaleTwoDecimal(endMonthMaxDays).bigDecimalValue(), RoundingMode.HALF_UP);
-
-        startDate.set(Calendar.DATE, 1);
-        endDate.set(Calendar.DATE, 1);
-
-        while (startDate.getTimeInMillis() < endDate.getTimeInMillis()) {
-            startDate.set(Calendar.MONTH, startDate.get(Calendar.MONTH) + 1);
-            fullMonthCount++;
-        }
-        fullMonthCount = fullMonthCount - 1;
-        monthCount = monthCount.add(new ScaleTwoDecimal(fullMonthCount).bigDecimalValue()).add(
-                startMonthFraction).add(endMonthFraction);
-        return new ScaleTwoDecimal(monthCount);
-    }
-
     private PersonFullNameType getProposalPersonFullNameType(
             ProposalPerson proposalPerson) {
         PersonFullNameType personFullNameType = PersonFullNameType.Factory

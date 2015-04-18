@@ -23,7 +23,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.api.model.KcFile;
@@ -39,7 +38,6 @@ import org.kuali.rice.krad.file.FileMeta;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.*;
@@ -107,11 +105,8 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     @JoinColumns({ @JoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @JoinColumn(name = "MODULE_NUMBER", referencedColumnName = "MODULE_NUMBER") })
     private List<NarrativeUserRights> narrativeUserRights;
 
-    @OneToOne(mappedBy = "narrative", orphanRemoval = true, cascade = { CascadeType.ALL })
+    @OneToOne(mappedBy = "narrative", cascade = { CascadeType.ALL })
     private NarrativeAttachment narrativeAttachment;
-
-    @Transient
-    private transient FormFile narrativeFile;
 
     @Transient
     private String uploadUserFullName;
@@ -136,17 +131,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
     @Transient
     private transient KcAttachmentService kcAttachmentService;
-    
-    @Transient
-    private transient boolean isUpdated = false;
-    
-    public boolean isUpdated() {
-		return isUpdated;
-	}
-
-	public void setUpdated(boolean isUpdated) {
-		this.isUpdated = isUpdated;
-	}
 
     @Override
     public void init(MultipartFile multipartFile) throws Exception {
@@ -375,14 +359,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         }
     }
 
-    public FormFile getNarrativeFile() {
-        return narrativeFile;
-    }
-
-    public void setNarrativeFile(FormFile narrativeFile) {
-        this.narrativeFile = narrativeFile;
-    }
-
     @Override
     public String getName() {
         return name;
@@ -393,9 +369,9 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     /**
-     * 
+     *
      * This method is to return institutional attachment type.  This column does not exist in table.
-     * Basically, it is for narrativetypecode in table. 
+     * Basically, it is for narrativetypecode in table.
      * @return
      */
     public String getInstitutionalAttachmentTypeCode() {
@@ -409,57 +385,14 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
      * @param institutionalAttachmentTypeCode
      */
     public void setInstitutionalAttachmentTypeCode(String institutionalAttachmentTypeCode) {
-        //this.institutionalAttachmentTypeCode = institutionalAttachmentTypeCode;  
         this.narrativeTypeCode = institutionalAttachmentTypeCode;
     }
 
-    /**
-     * 
-     * This method used to populate the attachment to narrative object by reading FormFile 
-     */
-    public void populateAttachment() {
-        FormFile narrativeFile = getNarrativeFile();
-        if (narrativeFile == null)
-            return;
-        byte[] narrativeFileData;
-        try {
-            narrativeFileData = narrativeFile.getFileData();
-            if (narrativeFileData.length > 0) {
-                NarrativeAttachment narrativeAttachment = getNarrativeAttachment();
-                if (narrativeAttachment == null) {
-                    narrativeAttachment = new NarrativeAttachment();
-                    setNarrativeAttachment(narrativeAttachment);
-                }
-                String fileName = narrativeFile.getFileName();
-                narrativeAttachment.setName(fileName);
-                narrativeAttachment.setType(narrativeFile.getContentType());
-                narrativeAttachment.setData(narrativeFile.getFileData());
-                narrativeAttachment.setModuleNumber(getModuleNumber());
-                setName(narrativeAttachment.getName());
-                setType(narrativeAttachment.getType());
-            } else {
-                setNarrativeAttachment(null);
-            }
-        } catch (IOException e) {
-            setNarrativeAttachment(null);
-        }
-    }
-
-    /**
-     * Gets index i from the narrativeUserRights list.
-     * 
-     * @param index
-     * @return Question at index i
-     */
     public NarrativeUserRights getNarrativeUserRight(int index) {
         while (getNarrativeUserRights().size() <= index) {
             getNarrativeUserRights().add(new NarrativeUserRights());
         }
-        return (NarrativeUserRights) getNarrativeUserRights().get(index);
-    }
-
-    public void clearAttachment() {
-        setNarrativeAttachment(null);
+        return getNarrativeUserRights().get(index);
     }
 
     @Override
@@ -608,36 +541,20 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.uploadUserFullName = uploadUserFullName;
     }
 
-    /**
-     * Gets the hierarchyProposalNumber attribute. 
-     * @return Returns the hierarchyProposalNumber.
-     */
     @Override
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }
 
-    /**
-     * Sets the hierarchyProposalNumber attribute value.
-     * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
-     */
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
         this.hierarchyProposalNumber = hierarchyProposalNumber;
     }
 
-    /**
-     * Gets the hiddenInHierarchy attribute. 
-     * @return Returns the hiddenInHierarchy.
-     */
     @Override
     public boolean isHiddenInHierarchy() {
         return hiddenInHierarchy;
     }
 
-    /**
-     * Sets the hiddenInHierarchy attribute value.
-     * @param hiddenInHierarchy The hiddenInHierarchy to set.
-     */
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
         this.hiddenInHierarchy = hiddenInHierarchy;
     }
@@ -648,17 +565,17 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     public void setType(String contentType) {
-        this.type = type;
+        this.type = contentType;
     }
 
     public byte[] getData() {
         return getNarrativeAttachment() != null ? getNarrativeAttachment().getData() : null;
     }
 
-
-
     public static final class NarrativeId implements Serializable, Comparable<NarrativeId> {
 
+        public static final String DEVELOPMENT_PROPOSAL = "developmentProposal";
+        public static final String MODULE_NUMBER = "moduleNumber";
         private String developmentProposal;
 
         private Integer moduleNumber;
@@ -678,7 +595,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append("developmentProposal", this.developmentProposal).append("moduleNumber", this.moduleNumber).toString();
+            return new ToStringBuilder(this).append(DEVELOPMENT_PROPOSAL, this.developmentProposal).append(MODULE_NUMBER, this.moduleNumber).toString();
         }
 
         @Override
@@ -700,7 +617,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
 
         @Override
         public int compareTo(NarrativeId other) {
-            return new CompareToBuilder().append(this.developmentProposal, other.developmentProposal).append(this.moduleNumber, other.moduleNumber).toComparison();
+        	return new CompareToBuilder().append(this.developmentProposal, other.developmentProposal).append(this.moduleNumber, other.moduleNumber).toComparison();
         }
 
 		public String getDevelopmentProposal() {
@@ -747,7 +664,7 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
         this.kcAttachmentService = kcAttachmentService;
     }
 
-    @PreRemove
+    @PostRemove
     public void removeData() {
         if (getNarrativeAttachment().getFileDataId() != null) {
             getKcAttachmentDao().removeData(getNarrativeAttachment().getFileDataId());

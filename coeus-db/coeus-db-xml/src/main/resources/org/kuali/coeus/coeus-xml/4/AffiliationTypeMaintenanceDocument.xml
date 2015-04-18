@@ -24,7 +24,7 @@
 			<description>Create/Edit an IRB Affiliation Type</description>
 			<label>IRB Affiliation Type Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/affiliationtype.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/protocolaffiliationtype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

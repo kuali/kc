@@ -72,10 +72,6 @@ public class KeyPersonnelServiceAdapter implements KeyPersonnelService {
         
     }
     @Override
-    public boolean isValidHomeUnit(ProposalPerson person, String unitId) {
-        return false;
-    }
-    @Override
     public List<ProposalCreditSplitListDto> createCreditSplitListItems(List<ProposalPerson> investigators) {
         return null;
     }

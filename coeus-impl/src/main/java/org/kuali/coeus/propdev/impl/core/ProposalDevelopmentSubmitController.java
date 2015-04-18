@@ -429,11 +429,6 @@ public class ProposalDevelopmentSubmitController extends
     	return isValid;
     }
     
-    protected List<String> getUnitRulesMessages(ProposalDevelopmentDocument pdDoc) {
-        return getKrmsRulesExecutionService().processUnitValidations(pdDoc.getLeadUnitNumber(), pdDoc);
-    }
-    
-    
     public void submitApplication(ProposalDevelopmentDocumentForm proposalDevelopmentForm)throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         

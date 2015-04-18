@@ -25,6 +25,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.award.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -32,13 +33,16 @@ import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.doctype.service.DocumentTypePermissionService;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -51,13 +55,13 @@ import java.util.*;
 public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
     private AwardHierarchyService awardHierarchyService;
-    
-    /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(
-     * org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
-     */
+    private static final String VIEW_ACCOUNT_ELEMENT = "viewAccountElement";
+    private static final String VIEW_CHART_OF_ACCOUNTS_ELEMENT = "viewChartOfAccountsElement";
+
+
+
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
-        Set<String> editModes = new HashSet<String>();
+        Set<String> editModes = new HashSet<>();
         
         AwardDocument awardDocument = (AwardDocument) document;
         
@@ -65,10 +69,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             if (canCreateAward(user.getPrincipalId())) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);         
                 if (canViewChartOfAccountsElement(awardDocument)) {
-                    editModes.add("viewChartOfAccountsElement");
+                    editModes.add(VIEW_CHART_OF_ACCOUNTS_ELEMENT);
                 }
                 if (canViewAccountElement(awardDocument)) {
-                    editModes.add("viewAccountElement");
+                    editModes.add(VIEW_ACCOUNT_ELEMENT);
                 }
             }
             else {
@@ -103,7 +107,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                 editModes.add(Constants.CAN_CREATE_AWARD_KEY);
             }
             
-            if (canCreateAwardAccount(document, user)) {
+            if (canCreateAwardAccount(document)) {
                 editModes.add("createAwardAccount");
             }
             if (awardHasHierarchyChildren(document)) {
@@ -127,20 +131,15 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
   
     /**
      * This method decides if a user has permissions to create a financial account.
-     * @param document
-     * @param user
-     * @return hasPermission
      */
-    public boolean canCreateAwardAccount(Document document, Person user) {
+    public boolean canCreateAwardAccount(Document document) {
         AwardDocument awardDocument = (AwardDocument) document;
         Award award = awardDocument.getAward();
         boolean hasPermission = false;
         String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
-        // if document is in processed or final state
-        if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD) || 
+        if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD) ||
             status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
             
-            // if the integration parameter is ON
             if (isFinancialSystemIntegrationParameterOn()) {
                 hasPermission = hasCreateAccountPermission(awardDocument);
                 // only the OSP admin can create a financial account
@@ -155,11 +154,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     
     protected boolean isFinancialSystemIntegrationParameterOn() {
-        Boolean awardAccountParameter = getParameterService().getParameterValueAsBoolean (
-                                                                Constants.PARAMETER_MODULE_AWARD, 
-                                                                ParameterConstants.DOCUMENT_COMPONENT, 
+        return getParameterService().getParameterValueAsBoolean (
+                                                                Constants.PARAMETER_MODULE_AWARD,
+                                                                ParameterConstants.DOCUMENT_COMPONENT,
                                                                 Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
-        return awardAccountParameter;
     }
     
     public boolean hasCreateAccountPermission(AwardDocument document) {  
@@ -170,10 +168,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      * This only appears when the integration is ON
      */
     public boolean canViewChartOfAccountsElement(AwardDocument document) {
-        if (hasCreateAccountPermission(document) && isFinancialSystemIntegrationParameterOn()) {
-            return true;
-        }
-        return false;
+        return hasCreateAccountPermission(document) && isFinancialSystemIntegrationParameterOn();
     }
     /*
      * This field appears even if the financial integration if OFF 
@@ -201,9 +196,21 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     @Override
     public boolean canEdit(Document document, Person user) {
         boolean isCanceled = ((AwardDocument)document).isCanceled();
-        return !isCanceled && canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
+        return !isCanceled && canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())
+                    && !isPessimisticLocked((AwardDocument)document);
     }
-    
+
+    protected boolean isPessimisticLocked(AwardDocument document) {
+        boolean isLocked = false;
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            // if lock is owned by current user, do not display message for it
+            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
+                isLocked = true;
+            }
+        }
+        return isLocked;
+    }
+
     @Override
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
@@ -227,17 +234,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     
     private boolean isCurrentAwardTheFirstVersion(Award currentAward) {
-        if(currentAward.getSequenceNumber() == 1) {
-            return true;
-        }else {
-            return false;
-        }
+        return currentAward.getSequenceNumber() == 1;
     }
-    /**
-     * @throws WorkflowException 
-     * @throws WorkflowException 
-     * @see org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
+
     @Override
     public boolean canCancel(Document document, Person user) {
         if(!canEdit(document, user)) {
@@ -254,8 +253,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             AwardDocument awardDocument = (AwardDocument) document;
             AwardHierarchyService awardHierarchyService = KcServiceLocator.getService(AwardHierarchyService.class);
             Award currentAward = awardDocument.getAward();
-            Map<String, AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
-            Map<String, AwardHierarchy> awardHierarchyItems = awardHierarchyService.getAwardHierarchy(awardDocument.getAward().getAwardNumber(), new ArrayList<String>());
+            Map<String, AwardHierarchyNode> awardHierarchyNodes = new HashMap<>();
+            Map<String, AwardHierarchy> awardHierarchyItems;
+            awardHierarchyItems = awardHierarchyService.getAwardHierarchy(awardDocument.getAward().getAwardNumber(), new ArrayList<String>());
             AwardHierarchy currentAwardNode = awardHierarchyItems.get(currentAward.getAwardNumber());
             if((currentAwardNode != null && currentAwardNode.isRootNode()) && isCurrentAwardTheFirstVersion(currentAward)) {
                 awardHierarchyService.populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
@@ -264,82 +264,77 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         return canCancel;
     }
-    
-    /**
-     * Can the user approve the given document?
-     * @param document the document
-     * @param user the user
-     * @return true if the user can approve the document; otherwise false
-     */
+
     @Override
     public boolean canApprove(Document document, Person user) {
         return isEnroute(document) &&  super.canApprove(document, user);
     }
-    
-    /**
-     * Can the user disapprove the given document?
-     * @param document the document
-     * @param user the user
-     * @return true if the user can disapprove the document; otherwise false
-     */
+
     @Override
     public boolean canDisapprove(Document document, Person user) {
         return canApprove(document, user);
     }
-    
-    /**
-     * Can the user blanket approve the given document?
-     * @param document the document
-     * @param user the user
-     * @return true if the user can blanket approve the document; otherwise false
-     */
+
     @Override
     public boolean canBlanketApprove(Document document, Person user) {
-        boolean canBA = false;
-        PermissionService permService = KcServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
-        canBA = 
-                (!(isFinal(document)||isProcessed (document))&&
-                        permService.hasPermission (user.getPrincipalId(), "KC-AWARD", "Blanket Approve AwardDocument"));
-        if (!isFinal(document) &&canBA){
-            // check system parameter - if Y, use default workflow behavior: allow a user with the permission
-            // to perform the blanket approve action at any time
-            try {
-                if ( getParameterService().getParameterValueAsBoolean(KRADConstants.KNS_NAMESPACE, KRADConstants.DetailTypes.DOCUMENT_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND) ) {
-                    return canEdit(document);
-                }
-            } catch ( IllegalArgumentException ex ) {
-                // do nothing, the parameter does not exist and defaults to "N"
-            }
-            // (prior to routing)
+
+        if (areConditionsMetForBlanketApproval(document, user)) {
+            if (allowBlanketApproveWhileEnroute()) return canEdit(document);
+
+            // (prior to routing) or to a user with an approval action request
             WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-            if ( canRoute(document)){
+            return canRoute(document) || workflowDocument.isApprovalRequested();
+
+        }
+
+        return false;
+    }
+
+    private boolean allowBlanketApproveWhileEnroute() {
+        // check system parameter - if Y, use default workflow behavior: allow a user with the permission
+        // to perform the blanket approve action at any time
+        try {
+            if (getBlanketApprovalParameter()) {
                 return true;
             }
-            // or to a user with an approval action request
-            if ( workflowDocument.isApprovalRequested() ) {
-                return true;
-            }
+        } catch ( IllegalArgumentException ex ) {
+            // do nothing, the parameter does not exist and defaults to "N"
         }
         return false;
     }
-    
-    /**
-     * Does the user have permission to create a award?
-     * @param user the user
-     * @return true if the user can create a award; otherwise false
-     */
+
+    private Boolean getBlanketApprovalParameter() {
+        return getParameterService().getParameterValueAsBoolean(KRADConstants.KNS_NAMESPACE, KRADConstants.DetailTypes.DOCUMENT_DETAIL_TYPE,
+                KRADConstants.SystemGroupParameterNames.ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND);
+    }
+
+    private boolean areConditionsMetForBlanketApproval(Document document, Person user) {
+        return isInRightStateToApprove(document) && hasPermissionToBlanketApprove(document, user);
+    }
+
+    private boolean isInRightStateToApprove(Document document) {
+        return !(isFinal(document) || isProcessed (document));
+    }
+
+    protected boolean hasPermissionToBlanketApprove(Document document, Person user) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        DocumentRouteHeaderValue routeHeader = getRouteHeaderService().getRouteHeader(workflowDocument.getDocumentId());
+        return getDocumentTypePermissionService().canBlanketApprove(user.getPrincipalId(), routeHeader);
+    }
+
+    private RouteHeaderService getRouteHeaderService() {
+        return KcServiceLocator.getService(RouteHeaderService.class);
+    }
+
+    private DocumentTypePermissionService getDocumentTypePermissionService() {
+        return KcServiceLocator.getService(DocumentTypePermissionService.class);
+    }
+
     private boolean canCreateAward(String userId) {
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_AWARD);
         return getTaskAuthorizationService().isAuthorized(userId, task);
     }
-    
-    /**
-     * Does the user have permission to execute the given task for a award?
-     * @param username the user's username
-     * @param doc the award document
-     * @param taskName the name of the task
-     * @return true if has permission; otherwise false
-     */
+
     private boolean canExecuteAwardTask(String userId, AwardDocument doc, String taskName) {
         AwardTask task = new AwardTask(taskName, doc.getAward());
         return getTaskAuthorizationService().isAuthorized(userId, task);
@@ -370,12 +365,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     @Override
     public boolean canRoute(Document document, Person user) {
-        boolean canRoute = false;
         PermissionService permService = KcServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
-        canRoute = 
-                (!(isFinal(document)||isProcessed (document))&&
-                        permService.hasPermission (user.getPrincipalId(), "KC-AWARD", "Submit Award"));
-        return canRoute;
+        return (isInRightStateToApprove(document) &&
+                        permService.hasPermission (user.getPrincipalId(), Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.SUBMIT_AWARD.getAwardPermission()));
     }
     @Override
     public boolean canAcknowledge(Document document, Person user) {      
@@ -385,7 +377,6 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     protected boolean isProcessed (Document document){
        boolean isProcessed = false;
        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
-       // if document is in processed state
        if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD))
                isProcessed = true;
        return isProcessed;   

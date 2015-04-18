@@ -24,7 +24,7 @@
 			<description>Create/Edit an IACUC Protocol Project Type</description>
 			<label>IACUC Protocol Project Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/protocolprojecttype.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/iacucprotocolprojecttype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

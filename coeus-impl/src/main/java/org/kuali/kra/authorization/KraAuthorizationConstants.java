@@ -31,7 +31,6 @@ public class KraAuthorizationConstants {
     
     public static final String LOCK_DESCRIPTOR_PROPOSAL = "PROPOSAL DEVELOPMENT";
     public static final String LOCK_DESCRIPTOR_BUDGET = "BUDGET";
-    public static final String LOCK_DESCRIPTOR_NARRATIVES = "NARRATIVES";
     public static final String LOCK_DESCRIPTOR_AWARD = "AWARD";
     public static final String LOCK_DESCRIPTOR_TIME_AND_MONEY = "TIME_AND_MONEY";
     public static final String LOCK_DESCRIPTOR_PROTOCOL = "PROTOCOL";

@@ -34,6 +34,7 @@ import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
@@ -262,6 +263,7 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
            }
 
             ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
+           try {
             ModelAndView modelAndView = getTransactionalDocumentControllerService().docHandler(form);
             propDevForm.initialize();
             propDevForm.getCustomDataHelper().prepareCustomData();
@@ -297,6 +299,9 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
             }
 
             return modelAndView;
+           }catch (AuthorizationException e) {
+               return getModelAndViewService().getMessageView(form, "Authorization Exception Report", "Error Message: [color=red]"+ e.getMessage() + "[/color]");
+           }
        }
    }
 
