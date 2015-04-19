@@ -49,6 +49,7 @@ public class IrbProtocolFactBuilderServiceImpl extends KcKrmsFactBuilderServiceH
         factsBuilder.addFact(KcKrmsConstants.IrbProtocol.IRB_PROTOCOL, protocol);
         factsBuilder.addFact("moduleCode", CoeusModule.IRB_MODULE_CODE);
         factsBuilder.addFact("moduleItemKey", protocol.getProtocolNumber());
+        factsBuilder.addFact("moduleSubItemKey", protocol.getSequenceNumber());
     }
 
     /**
