@@ -1084,11 +1084,26 @@
               <bean p:propertyName="animalWelfareAssurance" parent="Uif-DataField"/>
               <bean p:propertyName="cableAddress" parent="Uif-DataField"/>
               <bean p:propertyName="cageNumber" parent="Uif-DataField"/>
-              <bean p:propertyName="cognizantAuditor" parent="Uif-DataField"/>
+              <bean p:propertyName="cognizantAuditor" parent="Uif-DataField">
+                <property name="inquiry">
+                  <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
+                        p:inquiryParameters="cognizantAuditor:rolodexId"/>
+                </property>
+              </bean>
               <bean p:propertyName="comGovEntityCode" parent="Uif-DataField"/>
               <bean p:propertyName="congressionalDistrict" parent="Uif-DataField"/>
-              <bean p:propertyName="contactAddressId" parent="Uif-DataField"/>
-              <bean p:propertyName="rolodex.fullName" parent="Uif-DataField"/>
+              <bean p:propertyName="contactAddressId" parent="Uif-DataField">
+                <property name="inquiry">
+                  <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
+                        p:inquiryParameters="contactAddressId:rolodexId"/>
+                </property>
+              </bean>
+              <bean p:propertyName="rolodex.fullName" parent="Uif-DataField">
+                <property name="inquiry">
+                  <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
+                        p:inquiryParameters="contactAddressId:rolodexId"/>
+                </property>
+              </bean>
               <bean p:propertyName="county" parent="Uif-DataField"/>
               <bean p:propertyName="dodacNumber" parent="Uif-DataField"/>
               <bean p:propertyName="dunsNumber" parent="Uif-DataField"/>
@@ -1103,7 +1118,12 @@
               <bean p:propertyName="stateTaxExemptNum" parent="Uif-DataField"/>
               <bean p:propertyName="nsfInstitutionalCode" parent="Uif-DataField"/>
               <bean p:propertyName="numberOfEmployees" parent="Uif-DataField"/>
-              <bean p:propertyName="onrResidentRep" parent="Uif-DataField"/>
+              <bean p:propertyName="onrResidentRep" parent="Uif-DataField">
+                <property name="inquiry">
+                  <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.rolodex.Rolodex"
+                        p:inquiryParameters="onrResidentRep:rolodexId"/>
+                </property>
+              </bean>
               <bean p:propertyName="organizationName" parent="Uif-DataField"/>
               <bean p:propertyName="phsAccount" parent="Uif-DataField"/>
               <bean p:propertyName="scienceMisconductComplDate" parent="Uif-DataField"/>
@@ -1119,7 +1139,12 @@
           <property name="collectionObjectClass" value="org.kuali.coeus.common.framework.org.type.OrganizationType"/>
           <property name="items">
             <list>
-              <bean p:propertyName="organizationTypeList.description" parent="Uif-DataField"/>
+              <bean p:propertyName="organizationTypeList.description" parent="Uif-DataField">
+                <property name="inquiry">
+                  <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.org.type.OrganizationTypeList"
+                        p:inquiryParameters="organizationTypeList.code:code"/>
+                </property>
+              </bean>
             </list>
           </property>
         </bean>
@@ -1160,7 +1185,12 @@
           <property name="collectionObjectClass" value="org.kuali.coeus.common.framework.org.OrganizationYnq"/>
           <property name="items">
             <list>
-              <bean p:propertyName="questionId" parent="Uif-DataField"/>
+              <bean p:propertyName="questionId" parent="Uif-DataField">
+                <property name="inquiry">
+                  <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.ynq.Ynq"
+                        p:inquiryParameters="questionId:questionId"/>
+                </property>
+              </bean>
               <bean p:propertyName="answer" parent="Uif-DataField"/>
               <bean p:propertyName="explanation" parent="Uif-DataField"/>
               <bean p:propertyName="reviewDate" parent="Uif-DataField"/>
