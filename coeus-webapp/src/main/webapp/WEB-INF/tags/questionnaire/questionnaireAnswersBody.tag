@@ -127,6 +127,40 @@
 		        	                </c:if>    
 		                        </c:forEach>
                             </c:when>
+                            <c:when test="${answer.question.questionTypeId == 100}" >
+                               <c:choose>
+                                   <c:when test="${answer.question.maxAnswers == 1 && answer.question.maxAnswers != answer.question.displayedAnswers}">
+                                       <c:forEach items="${answer.question.multipleChoicePrompts}" var="option" varStatus="opStatus">
+                                           <c:choose>
+                                               <c:when test="${fn:startsWith(answer.answer, option)}">
+                                                   &#10004;&nbsp;${answer.answer}<br>
+                                               </c:when>
+                                               <c:otherwise>
+                                                   &#9744;&nbsp;${option}<br>
+                                               </c:otherwise>
+                                           </c:choose>
+                                       </c:forEach>
+                                   </c:when>
+                                   <c:otherwise>
+                                       <c:set var="prompt" value="${answer.question.multipleChoicePrompts[answer.answerNumber - 1]}" />
+                                       <c:choose>
+                                           <c:when test="${not empty answer.answer}">
+                                               <c:choose>
+                                                   <c:when test="${fn:endsWith(prompt,':')}" >
+                                                       &#10004;&nbsp;${answer.answer}<br>
+                                                   </c:when>
+                                                   <c:otherwise>
+                                                       &#10004;&nbsp;${prompt}<br>
+                                                   </c:otherwise>
+                                               </c:choose>
+                                           </c:when>
+                                           <c:otherwise>
+                                               &#9744;&nbsp;${prompt}<br>
+                                           </c:otherwise>
+                                       </c:choose>
+                                   </c:otherwise>
+                               </c:choose>
+                            </c:when>
                             <c:otherwise>
                                   ${answer.answer} </br>
                             </c:otherwise>

@@ -379,7 +379,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             for (Answer answer : answerHeader.getAnswers()) {
                 if (answer.getQuestion().getMaxAnswers() != null && answer.getQuestion().getMaxAnswers() > 1
                         && answer.getAnswerNumber() == 1) {
-                    moveAnswer(answerHeader.getAnswers(), i);
+                    if(answer.getQuestion().getQuestionTypeId() != Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE) {
+                        moveAnswer(answerHeader.getAnswers(), i);
+                    }
                 }
                 i++;
             }
@@ -513,6 +515,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         if (questionnaireQuestion.getQuestion().getMaxAnswers() != null) {
             maxAnswers = questionnaireQuestion.getQuestion().getMaxAnswers();
         }
+        if (questionnaireQuestion.getQuestion().getDisplayedAnswers() != null && questionnaireQuestion.getQuestion().getQuestionTypeId() == Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE) {
+            if(!questionnaireQuestion.getQuestion().isRadioButton()) {
+                maxAnswers = questionnaireQuestion.getQuestion().getDisplayedAnswers();
+            }
+        }
         for (int i = 0; i < maxAnswers; i++) {
             Answer answer = new Answer();
             answer.setQuestion(questionnaireQuestion.getQuestion());
@@ -627,13 +634,25 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * check if all the required answers are entered.
      */
     public boolean isQuestionnaireAnswerComplete(List<Answer> answers) {
-
+        Map<Long, Boolean> questionIdsAnswered = new HashMap<Long,Boolean>();
         boolean isComplete = true;
         for (Answer answer : answers) {
-            if (YES.equals(answer.getMatchedChild()) && StringUtils.isBlank(answer.getAnswer()) && answer.getAnswerNumber() == 1) {
-                isComplete = false;
-                break;
+            if (answer.getQuestion().getQuestionTypeId() != Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE) {
+                if (YES.equals(answer.getMatchedChild()) && StringUtils.isBlank(answer.getAnswer()) && answer.getAnswerNumber() == 1) {
+                    isComplete = false;
+                }
             }
+            else {
+                if(answer.getMatchedChild().equals(YES)) {
+                    Boolean questionHasAnswer = questionIdsAnswered.get(answer.getQuestionId());
+                    if(questionHasAnswer == null || questionHasAnswer.booleanValue() == false) {
+                        questionIdsAnswered.put(answer.getQuestionId(), new Boolean(answer.getAnswer() != null));
+                    }
+                }
+            }
+        }
+        for(Boolean answered : questionIdsAnswered.values()) {
+            isComplete &= answered.booleanValue();
         }
         return isComplete;
     }
