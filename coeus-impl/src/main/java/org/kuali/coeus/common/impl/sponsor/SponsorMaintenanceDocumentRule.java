@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.impl.sponsor;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -103,6 +104,17 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
             valid = false;
         }
         return valid;
+    }
+
+    public void setupBaseConvenienceObjects(MaintenanceDocument document) {
+        Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
+        Rolodex temporaryRolodex = sponsor.getRolodex();
+
+        super.setupBaseConvenienceObjects(document);
+
+        SponsorMaintainableImpl newSponsorMaintainable = (SponsorMaintainableImpl) document.getNewMaintainableObject();
+        Sponsor newSponsor = (Sponsor) newSponsorMaintainable.getBusinessObject();
+        newSponsor.setRolodex(temporaryRolodex);
     }
 
     public CustomerCreationClient getCustomerCreationClient() {
