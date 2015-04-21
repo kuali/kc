@@ -342,4 +342,9 @@ public class Sponsor extends KcPersistableBusinessObjectBase implements SponsorC
     public void setCustomerTypeCode(String customerTypeCode) {
         this.customerTypeCode = customerTypeCode;
     }
+
+    @Override
+    public void refreshNonUpdateableReferences() {
+
+    }
 }
