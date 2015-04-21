@@ -39,20 +39,12 @@ import java.util.regex.Pattern;
  * sponsor code and return a more informative error message than the Rice message if the length constraint is violated.
  */
 public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
-    private static final String SPONSOR_CODE_FIELD_NAME = "sponsorCode";
-    private static final String SPONSOR_CODE_FORMAT_DESCRIPTION = "exactly six(6) alphanumeric characters";
-    private static final String SPONSOR_CODE_ERROR_PROPERTY_NAME = "document.newMaintainableObject.sponsorCode";
-    private static final String SPONSOR_CODE_REGEX = "[a-zA-Z0-9]{6}";
-
     private CustomerCreationClient customerCreationClient;
     private DataDictionaryService dataDictionaryService;
     private DunningCampaignClient dunningCampaignClient;
     private GlobalVariableService globalVariableService;
     private ParameterService parameterService;
 
-    /**
-     * Constructs a SponsorMaintenanceDocumentRule.java.
-     */
     public SponsorMaintenanceDocumentRule() {
         super();
     }
@@ -63,8 +55,7 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return checkSponsorCode(document) && checkDunningCampaign(document)
-                && checkCustomer(document);
+        return checkDunningCampaign(document) && checkCustomer(document);
     }
 
     /**
@@ -73,26 +64,7 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return checkSponsorCode(document) && checkDunningCampaign(document)
-                && checkCustomer(document);
-    }
-
-    /**
-     * This method verifies that the sponsorCode adheres to the required rules.
-     *
-     * @param document
-     * @return
-     */
-    private boolean checkSponsorCode(MaintenanceDocument document) {
-        boolean valid = true;
-        Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
-        if (sponsor.getSponsorCode() != null && !Pattern.matches(SPONSOR_CODE_REGEX, sponsor.getSponsorCode())) {
-            String errorLabel = getDataDictionaryService().getAttributeErrorLabel(Sponsor.class, SPONSOR_CODE_FIELD_NAME);
-            getGlobalVariableService().getMessageMap().putError(SPONSOR_CODE_ERROR_PROPERTY_NAME, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, errorLabel,
-                    sponsor.getSponsorCode(), SPONSOR_CODE_FORMAT_DESCRIPTION);
-            valid = false;
-        }
-        return valid;
+        return checkDunningCampaign(document) && checkCustomer(document);
     }
 
     protected boolean checkDunningCampaign(MaintenanceDocument document) {

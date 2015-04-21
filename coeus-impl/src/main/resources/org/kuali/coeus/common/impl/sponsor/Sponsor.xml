@@ -105,9 +105,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Sponsor Code" />
     <property name="shortLabel" value="Sponsor Code" />
-    <!-- define an exact length via maxLength = minLength = 6 -->
     <property name="maxLength" value="6" />
-    <property name="minLength" value="6" />
     <property name="validCharactersConstraint" >
       <bean parent="AlphaNumericPatternConstraint"/>
     </property>
