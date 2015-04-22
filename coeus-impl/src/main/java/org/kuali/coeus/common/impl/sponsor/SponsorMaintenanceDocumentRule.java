@@ -106,17 +106,6 @@ public class SponsorMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBas
         return valid;
     }
 
-    public void setupBaseConvenienceObjects(MaintenanceDocument document) {
-        Sponsor sponsor = (Sponsor) document.getNewMaintainableObject().getDataObject();
-        Rolodex temporaryRolodex = sponsor.getRolodex();
-
-        super.setupBaseConvenienceObjects(document);
-
-        SponsorMaintainableImpl newSponsorMaintainable = (SponsorMaintainableImpl) document.getNewMaintainableObject();
-        Sponsor newSponsor = (Sponsor) newSponsorMaintainable.getBusinessObject();
-        newSponsor.setRolodex(temporaryRolodex);
-    }
-
     public CustomerCreationClient getCustomerCreationClient() {
         if (this.customerCreationClient == null) {
             this.customerCreationClient = KcServiceLocator.getService(CustomerCreationClient.class);
