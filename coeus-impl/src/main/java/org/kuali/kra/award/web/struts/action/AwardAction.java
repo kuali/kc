@@ -1240,7 +1240,9 @@ public class AwardAction extends BudgetParentActionBase {
     protected void loadDocument(KualiDocumentFormBase kualiForm) throws WorkflowException {
         super.loadDocument(kualiForm);
         Award award = ((AwardForm) kualiForm).getAwardDocument().getAward();
-        award.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(award.getSponsorCode()));
+        if (!((AwardForm) kualiForm).getAwardDocument().isPlaceHolderDocument()) {
+        	award.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(award.getSponsorCode()));
+        }
     }
    
    /**
