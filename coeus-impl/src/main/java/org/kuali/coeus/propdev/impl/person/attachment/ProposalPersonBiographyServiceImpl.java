@@ -22,19 +22,14 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.attachment.AttachmentDao;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-
-import java.sql.Timestamp;
 import java.util.*;
 
 @Component("proposalPersonBiographyService")
@@ -48,10 +43,6 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-
-    @Autowired
-    @Qualifier("attachmentDao")
-    private AttachmentDao attachmentDao;
 
     @Autowired
     @Qualifier("personService")
@@ -133,37 +124,12 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         }
         return null;
     }
-    
-    @Override
-    public void setPersonnelBioTimeStampUser(List<ProposalPersonBiography> proposalPersonBios) {
-
-        for (ProposalPersonBiography proposalPersonBiography : proposalPersonBios) {
-            Iterator personBioAtt = attachmentDao.getPersonnelTimeStampAndUploadUser(proposalPersonBiography.getProposalPersonNumber(), proposalPersonBiography.getProposalNumber(), proposalPersonBiography.getBiographyNumber());
-            if (personBioAtt.hasNext()) {
-                Object[] item = (Object[])personBioAtt.next();
-                proposalPersonBiography.setUpdateTimestamp((Timestamp)item[0]);
-                proposalPersonBiography.setUpdateUser((String)item[1]);
-                //using PersonService as it will display the user's name the same as the notes panel does
-                Person person = personService.getPersonByPrincipalName(proposalPersonBiography.getUploadUserDisplay());
-                proposalPersonBiography.setUploadUserFullName(ObjectUtils.isNull(person) ? proposalPersonBiography.getUploadUserDisplay() + "(not found)" : person.getName());
-             }
-
-        }
-    }
 
     @Override
     public PropPerDocType findPropPerDocTypeForOther() {
         Map<String,String> narrativeTypeMap = new HashMap<String,String>();
         narrativeTypeMap.put(DOC_TYPE_DESCRIPTION, OTHER_DOCUMENT_TYPE_DESCRIPTION);
         return getDataObjectService().findMatching(PropPerDocType.class, QueryByCriteria.Builder.andAttributes(narrativeTypeMap).build()).getResults().get(0);
-    }
-
-    public AttachmentDao getAttachmentDao() {
-        return attachmentDao;
-    }
-
-    public void setAttachmentDao(AttachmentDao attachmentDao) {
-        this.attachmentDao = attachmentDao;
     }
 
     public PersonService getPersonService() {

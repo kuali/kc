@@ -38,6 +38,7 @@ import org.kuali.rice.krad.file.FileMeta;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.*;
@@ -136,7 +137,6 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     public void init(MultipartFile multipartFile) throws Exception {
         this.name = multipartFile.getOriginalFilename();
         this.size = multipartFile.getSize();
-
 
         NarrativeAttachment attachment = new NarrativeAttachment();
         attachment.setType(multipartFile.getContentType());
@@ -518,19 +518,19 @@ public class Narrative extends KcPersistableBusinessObjectBase implements Hierar
     }
 
     public Timestamp getTimestampDisplay() {
-        if (getNarrativeAttachment() == null || getNarrativeAttachment().getUpdateTimestamp() == null) {
+        if (getNarrativeAttachment() == null || getNarrativeAttachment().getUploadTimestamp() == null) {
             return getDateTimeService().getCurrentTimestamp();
         }
 
-        return getNarrativeAttachment().getUpdateTimestamp();
+        return getNarrativeAttachment().getUploadTimestamp();
 }
 
     public String getUploadUserDisplay() {
-        if (getNarrativeAttachment() == null || StringUtils.isBlank(getNarrativeAttachment().getUpdateUser())) {
+        if (getNarrativeAttachment() == null || StringUtils.isBlank(getNarrativeAttachment().getUploadUser())) {
             return this.getUpdateUser();
         }
 
-        return getNarrativeAttachment().getUpdateUser();
+        return getNarrativeAttachment().getUploadUser();
     }
 
     public String getUploadUserFullName() {

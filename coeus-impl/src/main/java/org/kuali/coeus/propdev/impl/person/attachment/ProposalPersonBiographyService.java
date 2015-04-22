@@ -49,14 +49,7 @@ public interface ProposalPersonBiographyService {
      * @param lineToDelete
      */
     public void deleteProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete);
-    
-    /**
-     * 
-     * This method is to set up timestamp and upload user for personnel attachments.
-     * @param proposalPersonBios
-     */
 
-    public void setPersonnelBioTimeStampUser(List<ProposalPersonBiography> proposalPersonBios);
     public void prepareProposalPersonBiographyForSave(DevelopmentProposal developmentProposal, ProposalPersonBiography biography);
     public PropPerDocType findPropPerDocTypeForOther();
 }

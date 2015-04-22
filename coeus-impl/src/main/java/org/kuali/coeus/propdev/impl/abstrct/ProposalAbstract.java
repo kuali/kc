@@ -168,6 +168,7 @@ public class ProposalAbstract extends KcPersistableBusinessObjectBase implements
         } else {
             this.abstractDetails = abstractDetails;
         }
+        setUpdateDisplayFields();
     }
 
     /**
@@ -212,8 +213,8 @@ public class ProposalAbstract extends KcPersistableBusinessObjectBase implements
     /**
      * Set timestampDisplay and userDisplay prior to persistence
      */
-    private void setUpdateDisplayFields() {
-        if (uploadUserDisplay == null || timestampDisplay == null) {
+    public void setUpdateDisplayFields() {
+        if ((uploadUserDisplay == null || timestampDisplay == null) && GlobalVariables.getUserSession() != null) {
             String updateUser = GlobalVariables.getUserSession().getPrincipalName();
             // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters  
             if (updateUser.length() > 60) {
