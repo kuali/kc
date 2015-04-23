@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.framework.print;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -121,5 +122,17 @@ public abstract class KcAttachmentDataSource extends KcPersistableBusinessObject
 	public void setUploadTimestamp(Timestamp uploadTimestamp) {
 		this.uploadTimestamp = uploadTimestamp;
 	}
+	
+    @Override
+    protected void prePersist() {
+    	super.prePersist();
+    	if (StringUtils.isBlank(uploadUser)) {
+    		uploadUser = getUpdateUser();
+    	}
+    	if (uploadTimestamp == null) {
+    		uploadTimestamp = getUpdateTimestamp();
+    	}
+    }
+
 
 }
