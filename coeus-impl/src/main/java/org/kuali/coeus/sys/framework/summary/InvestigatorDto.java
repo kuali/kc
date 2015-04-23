@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.award.contacts;
+package org.kuali.coeus.sys.framework.summary;
 
 import com.codiform.moo.annotation.Optionality;
 import com.codiform.moo.annotation.Property;

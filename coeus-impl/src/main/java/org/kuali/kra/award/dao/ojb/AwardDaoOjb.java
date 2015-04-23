@@ -23,7 +23,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.kra.award.dao.AwardDao;
-import org.kuali.kra.award.dao.SearchResults;
+import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.core.framework.persistence.platform.DatabasePlatform;
 import org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform;

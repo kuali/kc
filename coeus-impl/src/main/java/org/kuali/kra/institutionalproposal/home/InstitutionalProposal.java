@@ -164,6 +164,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs;
     @SkipVersioning
     private List<AwardFundingProposal> awardFundingProposals;
+    private List<AwardFundingProposal> allFundingProposals;
     private Map<String, InstitutionalProposalComment> commentMap;
     private boolean sponsorNihMultiplePi;
 
@@ -1820,5 +1821,13 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
+    }
+
+    public List<AwardFundingProposal> getAllFundingProposals() {
+        return allFundingProposals;
+    }
+
+    public void setAllFundingProposals(List<AwardFundingProposal> allFundingProposals) {
+        this.allFundingProposals = allFundingProposals;
     }
 }
