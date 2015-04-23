@@ -199,6 +199,9 @@
         <collection-descriptor name="awardFundingProposals" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
+		<collection-descriptor name="allFundingProposals" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<query-customizer class="org.kuali.kra.institutionalproposal.dao.ojb.AllFundingProposalQueryCustomizer"/>
+		</collection-descriptor>
         <collection-descriptor name="proposalIpReviewJoins" proxy="true" orderby="proposalIpReviewJoinId" sort="DESC" element-class-ref="org.kuali.kra.institutionalproposal.ProposalIpReviewJoin" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <inverse-foreignkey field-ref="proposalId"/>
         </collection-descriptor>
@@ -249,6 +252,7 @@
 		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_PROPOSAL_ID"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="proposalSequenceStatus" column="PROPOSAL_SEQUENCE_STATUS" jdbc-type="VARCHAR" />
 		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />

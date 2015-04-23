@@ -61,6 +61,7 @@ public class InstitutionalProposalBoLite extends KcPersistableBusinessObjectBase
 	private String proposalNumber;
     
 	private Integer sequenceNumber;
+	private String proposalSequenceStatus;
     
 	private Integer proposalTypeCode;
     private ProposalType proposalType;
@@ -334,6 +335,12 @@ public class InstitutionalProposalBoLite extends KcPersistableBusinessObjectBase
 	public InstitutionalProposalDocument getInstitutionalProposalDocument() {
 		return this.getInstitutionalProposal().getInstitutionalProposalDocument();
 	}
-    
-	
+
+	public String getProposalSequenceStatus() {
+		return proposalSequenceStatus;
+	}
+
+	public void setProposalSequenceStatus(String proposalSequenceStatus) {
+		this.proposalSequenceStatus = proposalSequenceStatus;
+	}
 }
