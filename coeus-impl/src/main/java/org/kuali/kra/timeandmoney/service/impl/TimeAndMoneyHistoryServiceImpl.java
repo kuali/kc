@@ -58,11 +58,12 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	private static final String DASH = "-";
 	private static final String DEFAULT_TAB = "Versions";
 	private static final String ALTERNATE_OPEN_TAB = "Parameters";
-	public static final String SEQUENCE_NUMBER = "sequenceNumber";
-	public static final String DOCUMENT_NUMBER = "documentNumber";
-	public static final String NONE = "None";
-	public static final String AWARD_NUMBER = "awardNumber";
-	public static final String ROOT_AWARD_NUMBER_VAL = "00001";
+	private static final String SEQUENCE_NUMBER = "sequenceNumber";
+	private static final String DOCUMENT_NUMBER = "documentNumber";
+	private static final String NONE = "None";
+	private static final String AWARD_NUMBER = "awardNumber";
+	private static final String ROOT_AWARD_NUMBER_VAL = "00001";
+	private static final String MM_DD_YY_FORMAT = "MM/dd/yy";
 
 	private BusinessObjectService businessObjectService;
 	private DocumentService documentService;
@@ -346,7 +347,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		String createDateStr = null;
 		String updateUser = null;
 		if (doc.getUpdateTimestamp() != null) {
-			createDateStr = getDateTimeService().toString(doc.getUpdateTimestamp(), "MM/dd/yy");
+			createDateStr = getDateTimeService().toString(doc.getUpdateTimestamp(), MM_DD_YY_FORMAT);
 			updateUser = doc.getUpdateUser().length() > NUMBER_30 ? doc.getUpdateUser().substring(0, NUMBER_30) : doc.getUpdateUser();
 		}
 		return createDateStr + " by " + updateUser;
