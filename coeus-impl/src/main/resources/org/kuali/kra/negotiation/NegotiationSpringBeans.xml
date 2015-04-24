@@ -247,7 +247,7 @@
         <property name="xmlStream" ref="negotiationActivityXmlStream" />
     </bean>
     
-    <bean id="negotiationActivityXmlStream" class="org.kuali.kra.negotiations.printing.xmlstream.NegotiationActivityXmlStream">
+    <bean id="negotiationActivityXmlStream" class="org.kuali.kra.negotiations.printing.xmlstream.NegotiationActivityXmlStream" scope="prototype">
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />           

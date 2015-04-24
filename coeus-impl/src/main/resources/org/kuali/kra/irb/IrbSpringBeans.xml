@@ -976,7 +976,7 @@
     <!-- Protocol Print -->
    
         <bean id="protocolXmlStream"
-            class="org.kuali.kra.irb.actions.print.ProtocolXmlStream" parent="printBaseXmlStream">
+            class="org.kuali.kra.irb.actions.print.ProtocolXmlStream" parent="printBaseXmlStream" scope="prototype">
             <property name="irbPrintXmlUtilService">
                 <ref bean="irbPrintXmlUtilService" />
             </property>
@@ -992,11 +992,11 @@
         </bean>
         
         <bean id="protocolSummaryXmlStream"
-            class="org.kuali.kra.irb.actions.print.ProtocolSummaryXmlStream" parent="printBaseXmlStream">
+            class="org.kuali.kra.irb.actions.print.ProtocolSummaryXmlStream" parent="printBaseXmlStream" scope="prototype">
         </bean>
         
         <bean id="correspondenceXmlStream"
-            class="org.kuali.kra.irb.actions.print.CorrespondenceXmlStream" parent="printBaseXmlStream">
+            class="org.kuali.kra.irb.actions.print.CorrespondenceXmlStream" parent="printBaseXmlStream" scope="prototype">
             <property name="protocolXmlStream">
                 <ref bean="protocolXmlStream" />
             </property>
@@ -1048,7 +1048,7 @@
 
                 
     <bean id="renewalReminderStream"
-            class="org.kuali.kra.irb.actions.print.RenewalReminderStream" parent="printBaseXmlStream">
+            class="org.kuali.kra.irb.actions.print.RenewalReminderStream" parent="printBaseXmlStream" scope="prototype">
          <property name="protocolXmlStream" ref="protocolXmlStream" />
          <property name="committeeXmlStream" ref="committeeXmlStream" />
     </bean>
@@ -1211,7 +1211,7 @@
     	<property name="parameterService" ref="parameterService" />
     </bean>
 
-    <bean id="printBaseXmlStream" class="org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream" abstract="true">
+    <bean id="printBaseXmlStream" class="org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream" abstract="true" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>

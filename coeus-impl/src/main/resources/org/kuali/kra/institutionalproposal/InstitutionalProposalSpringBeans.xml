@@ -217,7 +217,7 @@
         <property name="xmlStream" ref="proposalLogXmlStream" />
     </bean>  
        
-    <bean id="proposalLogXmlStream" class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogXmlStream">
+    <bean id="proposalLogXmlStream" class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogXmlStream" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
@@ -307,7 +307,7 @@
         <property name="xmlStream" ref="institutionalProposalXmlStream" />
     </bean>
     
-    <bean id="institutionalProposalXmlStream" class="org.kuali.kra.institutionalproposal.printing.xmlstream.InstitutionalProposalXmlStream">
+    <bean id="institutionalProposalXmlStream" class="org.kuali.kra.institutionalproposal.printing.xmlstream.InstitutionalProposalXmlStream" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="institutionalProposalPersonService" ref="institutionalProposalPersonService" />
