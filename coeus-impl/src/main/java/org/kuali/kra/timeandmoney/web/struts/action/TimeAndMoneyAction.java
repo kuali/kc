@@ -451,29 +451,29 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
      * Date changes in hierarchy view are captured here.  If the transaction is a No Cost Extension, we report the transaction
      * details for display in history tab.
      */
-    protected boolean inspectAndCaptureFinalExpirationDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
+    protected boolean inspectAndCaptureFinalExpirationDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo awardAmountInfo, Integer index,
                                                         Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
                                                         List<TransactionDetail> dateChangeTransactionDetailItems) {
        
         boolean needToSave = false;
         if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
                 && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null 
-                && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate())){ 
+                && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(awardAmountInfo.getFinalExpirationDate())){
           if (isNoCostExtension && 
-                  timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().after(aai.getFinalExpirationDate())) {
-                    aai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
-                      aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                  timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().after(awardAmountInfo.getFinalExpirationDate())) {
+                    awardAmountInfo = getNewAwardAmountInfoForDateChangeTransaction(awardAmountInfo, award, timeAndMoneyDocument.getDocumentNumber());
+                      awardAmountInfo.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
               awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-              award.getAwardAmountInfos().add(aai);
-              TransactionDetail transactionDetail = createTransDetailForDateChanges(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+              award.getAwardAmountInfos().add(awardAmountInfo);
+              TransactionDetail transactionDetail = createTransDetailForDateChanges(awardAmountInfo.getAwardNumber(), awardAmountInfo.getAwardNumber(), awardAmountInfo.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
                       timeAndMoneyDocument.getDocumentNumber(), PROJECT_END_COMMENT);
-              aai.setTransactionId(transactionDetail.getTransactionId());
+              awardAmountInfo.setTransactionId(transactionDetail.getTransactionId());
               dateChangeTransactionDetailItems.add(transactionDetail);
           }else {
-              aai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
-                  aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+              awardAmountInfo = getNewAwardAmountInfoForDateChangeTransaction(awardAmountInfo, award, timeAndMoneyDocument.getDocumentNumber());
+                  awardAmountInfo.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
                   awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-                  award.getAwardAmountInfos().add(aai);
+                  award.getAwardAmountInfos().add(awardAmountInfo);
           }
           needToSave = true;
       } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
@@ -486,7 +486,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
       //in save rules.
       if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null && 
               timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() != null &&
-              timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate()) &&
+              timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(awardAmountInfo.getFinalExpirationDate()) &&
               !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(awardHierarchyNode.getValue().getFinalExpirationDate())) {
           awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
       }
@@ -580,8 +580,8 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     }
 
     private int findAwardHierarchyNodeIndex(Entry<String, AwardHierarchyNode> awardHierarchyNode) {
-        String i = awardHierarchyNode.getValue().getAwardNumber().replaceAll("\\d*\\-0*", "");
-        return Integer.parseInt(i);
+        final String nodeIndex = awardHierarchyNode.getValue().getAwardNumber().replaceAll("\\d*\\-0*", "");
+        return Integer.parseInt(nodeIndex);
     }
     
     /*
@@ -941,21 +941,18 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
 
     public ActionForward goToNextAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
-        Map<String, String> map = new HashMap<>();
-        String nextAwardNumber = timeAndMoneyForm.getNextNodeMap().get(timeAndMoneyForm.getAwardForSummaryPanelDisplay().getAwardNumber());
-        map.put(AWARD_NUMBER, nextAwardNumber);
-        Award nextAward = ((List<Award>)getBusinessObjectService().findMatching(Award.class, map)).get(0);
-        timeAndMoneyForm.setAwardForSummaryPanelDisplay(nextAward);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return goToAward(mapping, timeAndMoneyForm, timeAndMoneyForm.getNextNodeMap().get(timeAndMoneyForm.getAwardForSummaryPanelDisplay().getAwardNumber()));
+
     }
         
     public ActionForward goToPreviousAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
-        Map<String, String> map = new HashMap<>();
-        String previousAwardNumber = timeAndMoneyForm.getPreviousNodeMap().get(timeAndMoneyForm.getAwardForSummaryPanelDisplay().getAwardNumber());
-        map.put(AWARD_NUMBER, previousAwardNumber);
-        Award previousAward = ((List<Award>)getBusinessObjectService().findMatching(Award.class, map)).get(0);
-        timeAndMoneyForm.setAwardForSummaryPanelDisplay(previousAward);
+        return goToAward(mapping, timeAndMoneyForm, timeAndMoneyForm.getPreviousNodeMap().get(timeAndMoneyForm.getAwardForSummaryPanelDisplay().getAwardNumber()));
+    }
+
+    private ActionForward goToAward(ActionMapping mapping, TimeAndMoneyForm timeAndMoneyForm, String awardNumber) throws Exception {
+        Award awardForSummary = ((List<Award>)getBusinessObjectService().findMatching(Award.class, Collections.singletonMap(AWARD_NUMBER, awardNumber))).get(0);
+        timeAndMoneyForm.setAwardForSummaryPanelDisplay(awardForSummary);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
