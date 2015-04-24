@@ -376,7 +376,7 @@
         </property>
     </bean>
 
-    <bean id="coiCertificationXmlStream" class="org.kuali.kra.coi.print.CoiCertificationXmlStream">
+    <bean id="coiCertificationXmlStream" class="org.kuali.kra.coi.print.CoiCertificationXmlStream" scope="prototype">
 		<property name="businessObjectService">
         	<ref bean="businessObjectService" />
         </property>

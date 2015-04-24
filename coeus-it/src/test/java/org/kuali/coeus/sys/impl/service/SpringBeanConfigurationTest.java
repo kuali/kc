@@ -28,6 +28,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.s2sgen.impl.generate.S2SFormGenerator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -39,6 +40,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 import javax.xml.namespace.QName;
+
 import java.lang.reflect.Proxy;
 import java.util.*;
 
@@ -200,6 +202,11 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
     @Test
     public void test_printables_are_prototype_scope() {
         toEachSpringBean(new PrototypeVerification(Printable.class), true);
+    }
+    
+    @Test
+    public void test_xmlstreams_are_prototype_scope() {
+        toEachSpringBean(new PrototypeVerification(XmlStream.class), true);
     }
 
     /**
