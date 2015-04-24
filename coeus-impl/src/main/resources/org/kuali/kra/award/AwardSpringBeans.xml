@@ -497,7 +497,7 @@
         <property name="xmlStream" ref="awardBudgetHistoryTransactionXmlStream" />
     </bean>
             
-    <bean id="awardBaseStream" class="org.kuali.kra.award.printing.xmlstream.AwardBaseStream" abstract="true">
+    <bean id="awardBaseStream" class="org.kuali.kra.award.printing.xmlstream.AwardBaseStream" abstract="true" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dataObjectService" ref="dataObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
@@ -505,31 +505,31 @@
         <property name="parameterService" ref="parameterService" />
     </bean>
 
-    <bean id="awardDeltaXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardDeltaXmlStream" parent="awardBaseStream">
+    <bean id="awardDeltaXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardDeltaXmlStream" parent="awardBaseStream" scope="prototype">
         <property name="versionHistoryService" ref="versionHistoryService" />
     </bean>
 
-    <bean id="awardNoticeXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardNoticeXmlStream" parent="awardBaseStream">
+    <bean id="awardNoticeXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardNoticeXmlStream" parent="awardBaseStream" scope="prototype">
         <property name="versionHistoryService" ref="versionHistoryService" />
     </bean>
         
-    <bean id="awardTemplateXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardTemplateXmlStream">
+    <bean id="awardTemplateXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardTemplateXmlStream" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
-    <bean id="awardMoneyAndEndDatesHistoryXmlStream" class="org.kuali.kra.award.printing.xmlstream.MoneyAndEndDatesHistoryXmlStream" parent="awardBaseStream" />
+    <bean id="awardMoneyAndEndDatesHistoryXmlStream" class="org.kuali.kra.award.printing.xmlstream.MoneyAndEndDatesHistoryXmlStream" parent="awardBaseStream" scope="prototype"/>
         
-    <bean id="awardBudgetBaseStream" class="org.kuali.kra.award.printing.xmlstream.AwardBudgetBaseStream" abstract="true">
+    <bean id="awardBudgetBaseStream" class="org.kuali.kra.award.printing.xmlstream.AwardBudgetBaseStream" abstract="true" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="parameterService" ref="parameterService" />
     </bean>
     
-    <bean id="awardBudgetHierarchyXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardBudgetHierarchyXmlStream" parent="awardBudgetBaseStream" />
+    <bean id="awardBudgetHierarchyXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardBudgetHierarchyXmlStream" parent="awardBudgetBaseStream" scope="prototype"/>
 
     <bean id="awardBudgetHistoryTransactionXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardBudgetHistoryTransactionXmlStream" 
-          parent="awardBudgetBaseStream" />
+          parent="awardBudgetBaseStream" scope="prototype"/>
 
     <bean id="timeAndMoneyVersionService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyVersionServiceImpl" scope="prototype">
         <property name="awardVersionService" ref="awardVersionService" />
@@ -1104,7 +1104,7 @@
 	</bean>
 
 	<bean id="reportTrackingXmlStream"
-		class="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingXmlStream">
+		class="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingXmlStream" scope="prototype">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
