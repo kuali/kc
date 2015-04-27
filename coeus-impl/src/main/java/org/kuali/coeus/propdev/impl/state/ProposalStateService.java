@@ -48,10 +48,9 @@ public interface ProposalStateService {
      * then approved, the state is "Approved Post-Submission".
      * 
      * @param proposalDevelopmentDocument the proposal development document
-     * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
      * @param isReject was the action taken a rejection of the document?
      * @return the proposal state type code
      */
-    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged, boolean isReject);
+    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isReject);
 
 }

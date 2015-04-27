@@ -18,8 +18,10 @@
  */
 package org.kuali.coeus.propdev.impl.state;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,9 +33,13 @@ public class ProposalStateServiceImpl implements ProposalStateService {
 	@Autowired
 	@Qualifier("proposalHierarchyService")
 	private ProposalHierarchyService proposalHierarchyService;
+
+    @Autowired
+    @Qualifier("kcWorkflowService")
+    private KcWorkflowService kcWorkflowService;
     
     @Override
-    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged, boolean isRejectAction ) {
+    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRejectAction) {
         WorkflowDocument wd = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument();
         
         if (wd.isInitiated()) {
@@ -45,9 +51,9 @@ public class ProposalStateServiceImpl implements ProposalStateService {
         } else if (wd.isEnroute()) {
             return computeProposalStateForEnRoute(proposalDevelopmentDocument);
         } else if (wd.isApproved()) {
-            return computeProposalStateForApproved(proposalDevelopmentDocument, isRouteStatusChanged);
+            return computeProposalStateForApproved(proposalDevelopmentDocument);
         } else if (wd.isDisapproved()) {
-            return computeProposalStateForDisapproved(proposalDevelopmentDocument, isRouteStatusChanged);
+            return computeProposalStateForDisapproved(proposalDevelopmentDocument);
         } else if (wd.isCanceled()) {
             return ProposalState.CANCELED;
         } else {
@@ -64,16 +70,27 @@ public class ProposalStateServiceImpl implements ProposalStateService {
     }
 
     protected String computeProposalStateForEnRoute(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        if (isSubmitted(proposalDevelopmentDocument)) {
+        String proposalStateTypeCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
+        if ((isSubmitted(proposalDevelopmentDocument) && !isFinalApproval(proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument())) ||
+                StringUtils.equals(proposalStateTypeCode,ProposalState.APPROVAL_PENDING_SUBMITTED)) {
             return ProposalState.APPROVAL_PENDING_SUBMITTED;
         } else {
             return ProposalState.APPROVAL_PENDING;
         }
     }
 
-    protected String computeProposalStateForApproved(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
+    protected boolean isFinalApproval(WorkflowDocument workflowDocument) {
+        if (StringUtils.isNotEmpty(workflowDocument.getDocumentId())) {
+            return getKcWorkflowService().isFinalApproval(workflowDocument);
+        }
+        return false;
+    }
+
+    protected String computeProposalStateForApproved(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        String proposalStateTypeCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
         if (isSubmitted(proposalDevelopmentDocument)) {
-            if (isRouteStatusChanged) {
+            if (StringUtils.equals(proposalStateTypeCode,ProposalState.APPROVAL_PENDING_SUBMITTED) ||
+                    StringUtils.equals(proposalStateTypeCode,ProposalState.APPROVED_POST_SUBMISSION)) {
                 return ProposalState.APPROVED_POST_SUBMISSION;
             } else {
                 return ProposalState.APPROVED_AND_SUBMITTED;
@@ -83,8 +100,8 @@ public class ProposalStateServiceImpl implements ProposalStateService {
         }
     }
 
-    protected String computeProposalStateForDisapproved(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
-        if (isSubmitted(proposalDevelopmentDocument) && isRouteStatusChanged) {
+    protected String computeProposalStateForDisapproved(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        if (isSubmitted(proposalDevelopmentDocument)) {
             return ProposalState.DISAPPROVED_POST_SUBMISSION;
         } else {
             return ProposalState.DISAPPROVED;
@@ -101,6 +118,13 @@ public class ProposalStateServiceImpl implements ProposalStateService {
 
     public void setProposalHierarchyService(ProposalHierarchyService proposalHierarchyService) {
         this.proposalHierarchyService = proposalHierarchyService;
-    } 
-    
+    }
+
+    public KcWorkflowService getKcWorkflowService() {
+        return kcWorkflowService;
+    }
+
+    public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
+        this.kcWorkflowService = kcWorkflowService;
+    }
 }

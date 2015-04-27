@@ -465,7 +465,7 @@ public class ProposalDevelopmentSubmitController extends
             if (ProposalState.APPROVED.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode())) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED_AND_SUBMITTED);
             } else {
-                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false, false));
+                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false));
             }
         } else {
             if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
@@ -694,7 +694,7 @@ public class ProposalDevelopmentSubmitController extends
         getGlobalVariableService().getMessageMap().getInfoMessages().clear();
         getGlobalVariableService().getMessageMap().putInfoForSectionId(ProposalDevelopmentConstants.KradConstants.SUBMIT_PAGE, KeyConstants.APPROVAL_CYCLE_COMPLETE);
     } else {
-        form.getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(form.getProposalDevelopmentDocument(), true, false));
+        form.getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(form.getProposalDevelopmentDocument(), false));
     }
     getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalState");
     return getModelAndViewService().getModelAndView(form);
