@@ -32,14 +32,15 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 public class AllFundingProposalQueryCustomizer extends QueryCustomizerDefaultImpl {
     private static final String ACTIVE = "active";
 	private static final String PROPOSAL_SEQUENCE_STATUS = "proposal.proposalSequenceStatus";
-	private static final String PROPOSAL_ID = "proposal.proposalId";
+    private static final String PROPOSAL_NUMBER = "proposalNumber";
 
-	@Override
+
+    @Override
     public Query customizeQuery(Object anObject,
             PersistenceBroker aBroker,
             CollectionDescriptor aCod, QueryByCriteria aQuery){
     	Criteria crit = new Criteria();
-    	crit.addEqualTo(PROPOSAL_ID, ((InstitutionalProposal) anObject).getProposalId());
+    	crit.addEqualTo(PROPOSAL_NUMBER, ((InstitutionalProposal) anObject).getProposalNumber());
      	crit.addIn(PROPOSAL_SEQUENCE_STATUS, Arrays.asList(new String[]{VersionStatus.ACTIVE.toString(), VersionStatus.PENDING.toString(), VersionStatus.ARCHIVED.toString()}));
     	crit.addEqualTo(ACTIVE, Boolean.TRUE);
         aQuery.setCriteria(crit);
