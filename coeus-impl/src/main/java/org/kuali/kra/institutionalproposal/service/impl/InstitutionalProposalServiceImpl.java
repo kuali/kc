@@ -90,7 +90,16 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private static final String DECIMAL_FORMAT = "00000000";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    
+    public static final String PROPOSAL_ID = "proposalId";
+    public static final String ACTIVE = "active";
+    public static final String ACTIVE_VALUE = "Y";
+    public static final String INST_PROPOSAL_ID = "instProposalId";
+    public static final int DEFAULT_STATUS_CODE = 1;
+    public static final int WITHDRAWN_STATUS_CODE = 5;
+    public static final int DEFAULT_COST_SHARE_TYPE_CODE = 1;
+    public static final String VALID_FUNDING_PROPOSAL_STATUS_CODES = "validFundingProposalStatusCodes";
+    public static final String SEPARATOR = ",";
+
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private VersioningService versioningService;
@@ -222,7 +231,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     
                     InstitutionalProposal newVersion = versioningService.createNewVersion(activeVersion);
                     newVersion.setStatusCode(ProposalStatus.FUNDED);
-                    newVersion.setAwardFundingProposals(transferFundingProposals(activeVersion, newVersion));
+                    newVersion.setAwardFundingProposals(new ArrayList<AwardFundingProposal>());
                     
                     InstitutionalProposalDocument institutionalProposalDocument = 
                         (InstitutionalProposalDocument) documentService.getNewDocument(InstitutionalProposalDocument.class);
@@ -325,7 +334,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         List<InstitutionalProposal> proposals = getProposalsForProposalNumber(proposalNumber);
         for (InstitutionalProposal curProposal : proposals) {
             List<ProposalAdminDetails> details = new ArrayList<ProposalAdminDetails>(businessObjectService.findMatching(ProposalAdminDetails.class,
-                    Collections.singletonMap("instProposalId", curProposal.getProposalId())));
+                    Collections.singletonMap(INST_PROPOSAL_ID, curProposal.getProposalId())));
             for (ProposalAdminDetails detail : details) {
             	result.add(dataObjectService.find(DevelopmentProposal.class, detail.getDevProposalNumber()));
             }
@@ -339,16 +348,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         String nextProposalNumberAsString = formatter.format(nextProposalNumber);
         return nextProposalNumberAsString;
     }
-    
-    /* Local helper methods */
-    
-    /**
-     * Queries the persistence layer to find the InstitutionalProposal record for the given proposalNumber.
-     * 
-     * @param proposalNumber String
-     * @return InstitutionalProposal
-     */
-    @SuppressWarnings("unchecked")
+
     protected InstitutionalProposal getActiveInstitutionalProposal(String proposalNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put(InstitutionalProposal.PROPOSAL_NUMBER_PROPERTY_STRING, proposalNumber);
@@ -502,13 +502,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipPersonCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());
             ipPerson.add(ipPersonCreditSplit);
         }
-        //ipPerson.setEmailAddress(pdPerson.getEmailAddress());
         ipPerson.setFaculty(pdPerson.getFacultyFlag());
         ipPerson.setFullName(pdPerson.getFullName());
         ipPerson.setKeyPersonRole(pdPerson.getProjectRole());
         ipPerson.setNewCollectionRecord(pdPerson.isNewCollectionRecord());
-        //ipPerson.setPerson(pdPerson.getPerson());
-        //ipPerson.setPhoneNumber(pdPerson.getPhoneNumber());
         ipPerson.setRoleCode(pdPerson.getRole().getRoleCode());
         ipPerson.setTotalEffort(pdPerson.getPercentageEffort());
         ipPerson.setAcademicYearEffort(pdPerson.getAcademicYearEffort());
@@ -626,15 +623,15 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
     
     protected Integer getDefaultStatusCode() {
-        return 1;
+        return DEFAULT_STATUS_CODE;
     }
     
     protected Integer getWithdrawnStatusCode() {
-        return 5;
+        return WITHDRAWN_STATUS_CODE;
     }
     
     protected Integer getDefaultCostShareTypeCode() {
-        return 1;
+        return DEFAULT_COST_SHARE_TYPE_CODE;
     }
     
     
@@ -647,7 +644,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         synchNewCustomAttributes(newVersion, currentInstitutionalProposal);
         
         newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
-        newVersion.setAwardFundingProposals(transferFundingProposals(currentInstitutionalProposal, newVersion));
+        newVersion.setAwardFundingProposals(null);
         InstitutionalProposalDocument newInstitutionalProposalDocument = 
             (InstitutionalProposalDocument) getDocumentService().getNewDocument(InstitutionalProposalDocument.class);
         newInstitutionalProposalDocument.getDocumentHeader().setDocumentDescription(currentInstitutionalProposalDocument.getDocumentHeader().getDocumentDescription());
@@ -688,7 +685,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     protected ArrayList<AwardFundingProposal> transferFundingProposals(InstitutionalProposal oldIP, InstitutionalProposal newIP) {
         ArrayList<AwardFundingProposal> newFundingProposals = new ArrayList<AwardFundingProposal>();
         for (AwardFundingProposal afpp:oldIP.getAwardFundingProposals()) {
-            newFundingProposals.add(new AwardFundingProposal(afpp.getAward(), newIP));
+            AwardFundingProposal awardFundingProposal = new AwardFundingProposal(afpp.getAward(), newIP);
+            awardFundingProposal.setActive(true);
+            newFundingProposals.add(awardFundingProposal);
             afpp.setActive(false);
         }
         getBusinessObjectService().save(oldIP.getAwardFundingProposals());
@@ -751,8 +750,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
 
     @Override
     public Collection<String> getValidFundingProposalStatusCodes() {
-        String value = getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, "validFundingProposalStatusCodes");
-        return Arrays.asList(value.split(","));
+        String value = getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, VALID_FUNDING_PROPOSAL_STATUS_CODES);
+        return Arrays.asList(value.split(SEPARATOR));
     }
 
     @Override
