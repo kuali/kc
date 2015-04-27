@@ -170,10 +170,12 @@
 						        			<c:out value="${awardAmountInfoHistory.primaryDetail.transactionId}" />
 							        	</c:when>
 							        	<c:when test="${awardAmountInfoHistory.transactionType == 'DATE'}">
-							        		<c:out value="No Cost Extension" />
+											<c:out value="Transaction ID: " />
+											<c:out value="${awardAmountInfoHistory.dateDetail.transactionId}" />
 							        	</c:when>
 							        	<c:when test="${awardAmountInfoHistory.transactionType == 'SINGLENODEMONEYTRANSACTION'}">
-							        		<c:out value="Single Node Money Transaction" />
+											<c:out value="Transaction ID: " />
+											<c:out value="${awardAmountInfoHistory.primaryDetail.transactionId}" />
 							        	</c:when>
 						    	    	<c:otherwise>
 						        			<c:out value="Initial Transaction" />

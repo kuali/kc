@@ -65,8 +65,9 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
                     }
                 }
             }
-            Award currentAward = getAwardVersion(awardNumber, sequenceNumber);
             transactionIds.removeAll(excludedTransactionIds);
+
+            Award currentAward = getAwardVersion(awardNumber, sequenceNumber);
             Map<Integer, String> retval = new TreeMap<Integer, String>(new Comparator<Integer>(){
                 public int compare(Integer o1, Integer o2) {
                     //sort in descending order instead of ascending

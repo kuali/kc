@@ -22,5 +22,5 @@ package org.kuali.kra.timeandmoney.history;
  * This class holds all types of transaction details.
  */
 public enum TransactionDetailType {
-    PRIMARY, INTERMEDIATE
+    PRIMARY, INTERMEDIATE, DATE
 }
