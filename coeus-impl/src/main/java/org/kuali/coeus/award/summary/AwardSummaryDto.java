@@ -20,7 +20,8 @@ package org.kuali.coeus.award.summary;
 
 import java.util.List;
 
-import org.kuali.coeus.award.contacts.InvestigatorDto;
+import org.kuali.coeus.sys.framework.summary.FundingProposalSummaryDto;
+import org.kuali.coeus.sys.framework.summary.InvestigatorDto;
 import org.kuali.coeus.common.framework.sponsor.SponsorDto;
 import org.kuali.coeus.common.framework.type.ActivityTypeDto;
 
@@ -43,7 +44,7 @@ public class AwardSummaryDto {
 	private ActivityTypeDto activityType;
 	@Property(translate = true)
 	private SponsorDto sponsor;
-	@CollectionProperty(source = "allFundingProposals", itemSource="proposal", itemClass=org.kuali.coeus.award.summary.FundingProposalSummaryDto.class)
+	@CollectionProperty(source = "allFundingProposals", itemClass=FundingProposalSummaryDto.class)
 	private List<FundingProposalSummaryDto> fundingProposals;
 	@Property(translate = true)
 	private InvestigatorDto principalInvestigator;
