@@ -2090,7 +2090,7 @@
             <properties>
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
 
-                <rsmart.cx.token.auth.version>1.0.7</rsmart.cx.token.auth.version>
+                <rsmart.cx.token.auth.version>1504.2</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1504.1</rsmart.hr.rest.version>
                 <kc-sql.version>1504.2</kc-sql.version>
                 <schemaspy.version>5.0.1</schemaspy.version>
