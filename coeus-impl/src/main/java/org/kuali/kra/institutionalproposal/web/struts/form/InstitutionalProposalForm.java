@@ -466,16 +466,30 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
                 if (displayTab) {
                     resultList.add(nav);
                 }
-            } else {
+            } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(), Constants.MAPPING_INSTITUTIONAL_PROPOSAL_INTELLECTUAL_PROPERTY_REVIEW_PAGE)) {
+                if (isIPReviewTabEnabled()) {
+                    resultList.add(nav);
+                }
+            }
+            else {
                 resultList.add(nav);
             }
         }
-        
+
         HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
         resultList.toArray(result);
         return result;
     }
-    
+
+    public boolean isIPReviewTabEnabled() {
+        Boolean ipReviewTabEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_IP_REVIEW_TAB_ENABLED);
+        if (ipReviewTabEnabled != null) {
+            return ipReviewTabEnabled;
+        }
+        return true;
+    }
+
     public List<ExtraButton> getExtraActionsButtons() {
         extraButtons.clear();
         
