@@ -46,25 +46,6 @@
         <property name="xmlIngesterService" ref="xmlIngesterService" />
     </bean>
 
-    <bean id="schemaAnalyzer" class="net.sourceforge.schemaspy.SchemaAnalyzer"/>
-
-    <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator">
-        <property name="filter">
-            <bean class="co.kuali.coeus.sys.impl.persistence.SchemaSpyFilter" />
-        </property>
-        <property name="filterName" value="SchemaSpyFilter"/>
-        <property name="urlMapping">
-            <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator.Mapping">
-                <property name="matchAfter" value="true"/>
-                <property name="maps">
-                    <list>
-                        <value>/schemaspy/*</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
-
     <bean id="tokenGenerator" class="com.rsmart.rfabric.auth.tokenauth.AuthTokenGenerator">
         <property name="secret" value="${rsmart.report.shared.secret}"/>
     </bean>

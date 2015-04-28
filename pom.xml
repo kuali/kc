@@ -123,6 +123,7 @@
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
         <rice.version>2.5.3.1504.2-kckualico</rice.version>
+        <schemaspy.version>1504.2</schemaspy.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
         <spring.version>3.2.12.RELEASE</spring.version>
@@ -767,6 +768,24 @@
                 <groupId>cglib</groupId>
                 <artifactId>cglib-nodep</artifactId>
                 <version>${cglib-nodep.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>co.kuali.schemaspy</groupId>
+                <artifactId>schemaspy</artifactId>
+                <version>${schemaspy.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codiform</groupId>
+                <artifactId>moo-mvel</artifactId>
+                <version>${moo-mvel.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1870,6 +1889,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.mvel</groupId>
+                <artifactId>mvel2</artifactId>
+                <version>${mvel.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.opensaml</groupId>
                 <artifactId>opensaml</artifactId>
                 <version>${opensaml.version}</version>
@@ -2057,22 +2082,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-			<dependency>
-				<groupId>org.mvel</groupId>
-				<artifactId>mvel2</artifactId>
-				<version>${mvel.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.codiform</groupId>
-				<artifactId>moo-mvel</artifactId>
-				<version>${moo-mvel.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>ch.qos.logback</groupId>
-						<artifactId>logback-classic</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -2093,7 +2102,7 @@
                 <rsmart.cx.token.auth.version>1504.3</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1504.2</rsmart.hr.rest.version>
                 <kc-sql.version>1504.3</kc-sql.version>
-                <schemaspy.version>5.0.1</schemaspy.version>
+                
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
                 <scm.url>https://github.com/kualico/kc</scm.url>
@@ -2155,13 +2164,6 @@
                                 <artifactId>asm</artifactId>
                             </exclusion>
                         </exclusions>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>co.kuali.schemaspy</groupId>
-                        <artifactId>schemaspy</artifactId>
-                        <version>${schemaspy.version}</version>
-                        <scope>runtime</scope>
                     </dependency>
                 </dependencies>
             </dependencyManagement>
