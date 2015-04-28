@@ -101,6 +101,8 @@
 			<list>
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getQuestionMoreInfo(#lp.questionnaireQuestion.question)}"
                         p:hidden="true"/>
+				<bean parent="Uif-MessageField" p:messageText="Mandatory Question not complete." p:hidden="@{#ViewHelper.isAnsweredAnswer(#line)}"
+					  p:render="@{auditActivated}" p:additionalCssClasses="alert-danger"/>
 				<bean parent="Questionnaire-InputField" p:order="10" />
                 <bean parent="Uif-InputField" p:propertyName="question.lookupReturn" p:fieldLabel.render="false">
                     <property name="control">

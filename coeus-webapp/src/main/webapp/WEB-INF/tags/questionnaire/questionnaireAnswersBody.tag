@@ -17,6 +17,7 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <%@ attribute name="bean" required="true" type="org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase" %>
 <%@ attribute name="property" required="true" %>
@@ -127,13 +128,18 @@
 		        	                </c:if>    
 		                        </c:forEach>
                             </c:when>
+                            <c:when test="${answer.question.questionTypeId == 5}">
+                                <html:textarea name="KualiForm" property="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${status.index}].answer" disabled="true" />
+                            </c:when>
                             <c:otherwise>
-                                  ${answer.answer} </br>
+                                <c:out value="${answer.answer}" /> </br>
                             </c:otherwise>
                         </c:choose>
                     </c:when>
                     <c:otherwise>
-                        <kra-questionnaire:questionnaireAnswer questionIndex="${status.index}" bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" />        
+                        <c:set var="showError" value="${!answer.answered and KualiForm.auditActivated and answer.questionNumber != shownError}" />
+                        <c:set var="shownError" value="${answer.questionNumber}" />
+                        <kra-questionnaire:questionnaireAnswer questionIndex="${status.index}" bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" showError="${showError}" />
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
