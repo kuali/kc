@@ -244,6 +244,16 @@
         </dependency>
 
         <dependency>
+            <groupId>co.kuali.schemaspy</groupId>
+            <artifactId>schemaspy</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.codiform</groupId>
+            <artifactId>moo-mvel</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
@@ -596,6 +606,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.mvel</groupId>
+            <artifactId>mvel2</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.opensaml</groupId>
             <artifactId>opensaml</artifactId>
         </dependency>
@@ -704,14 +719,6 @@
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
         </dependency>
-        <dependency>
-	    <groupId>com.codiform</groupId>
-	    <artifactId>moo-mvel</artifactId>
-	</dependency>
-	                  	<dependency>
-                  		<groupId>org.mvel</groupId>
-                  		<artifactId>mvel2</artifactId>
-                  	</dependency>
 	  
     </dependencies>
 
@@ -738,11 +745,6 @@
                 <dependency>
                     <groupId>com.rsmart.kuali</groupId>
                     <artifactId>kc_hr_rest</artifactId>
-                </dependency>
-
-                <dependency>
-                    <groupId>co.kuali.schemaspy</groupId>
-                    <artifactId>schemaspy</artifactId>
                 </dependency>
             </dependencies>
         </profile>
