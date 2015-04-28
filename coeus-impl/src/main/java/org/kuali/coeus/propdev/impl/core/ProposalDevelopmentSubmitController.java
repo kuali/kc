@@ -227,11 +227,7 @@ public class ProposalDevelopmentSubmitController extends
         }
         form.setEvaluateFlagsAndModes(true);
         getTransactionalDocumentControllerService().route(form);
-        for (PessimisticLock lock : form.getProposalDevelopmentDocument().getPessimisticLocks()){
-            getDataObjectService().delete(lock);
-        }
-        form.getProposalDevelopmentDocument().refreshPessimisticLocks();
-
+        getPessimisticLockService().releaseWorkflowPessimisticLocking(form.getProposalDevelopmentDocument());
         return updateProposalState(form);
     }
 
@@ -610,6 +606,7 @@ public class ProposalDevelopmentSubmitController extends
         }
 
         getTransactionalDocumentControllerService().performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE);
+        getPessimisticLockService().releaseWorkflowPessimisticLocking(form.getProposalDevelopmentDocument());
         if (form.getActionFlags().containsKey("submitToSponsor")
                 && getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, "autoSubmitToSponsorOnFinalApproval")
                 && getKcWorkflowService().isFinalApproval(workflowDoc)) {
