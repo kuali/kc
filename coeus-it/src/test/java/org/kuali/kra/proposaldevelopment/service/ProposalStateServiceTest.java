@@ -66,7 +66,7 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
      */
     @Test
     public void testInitiated() {
-        runTest(INITIATED, false, false, ProposalState.IN_PROGRESS, ProposalState.IN_PROGRESS);  
+        runTest(INITIATED, false, false, ProposalState.IN_PROGRESS, ProposalState.IN_PROGRESS, null);
     }
     
     /**
@@ -75,8 +75,8 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
      */
     @Test
     public void testSaved() {
-        runTest(SAVED, false, false, ProposalState.IN_PROGRESS, ProposalState.IN_PROGRESS);
-        runTest(SAVED, true, false, ProposalState.APPROVAL_NOT_INITIATED_SUBMITTED, ProposalState.APPROVAL_NOT_INITIATED_SUBMITTED);
+        runTest(SAVED, false, false, ProposalState.IN_PROGRESS, ProposalState.IN_PROGRESS, null);
+        runTest(SAVED, true, false, ProposalState.APPROVAL_NOT_INITIATED_SUBMITTED, ProposalState.APPROVAL_NOT_INITIATED_SUBMITTED, null);
     }
     
     /**
@@ -85,9 +85,9 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
      */
     @Test
     public void testEnroute() {
-        runTest(ENROUTE, false, false, ProposalState.APPROVAL_PENDING, ProposalState.APPROVAL_PENDING );
-        runTest(ENROUTE, true, false, ProposalState.APPROVAL_PENDING_SUBMITTED, ProposalState.APPROVAL_PENDING_SUBMITTED );
-        runTest(ENROUTE, true, true, ProposalState.REVISIONS_REQUESTED, ProposalState.REVISIONS_REQUESTED );
+        runTest(ENROUTE, false, false, ProposalState.APPROVAL_PENDING, ProposalState.APPROVAL_PENDING, ProposalState.APPROVAL_PENDING);
+        runTest(ENROUTE, true, false, ProposalState.APPROVAL_PENDING_SUBMITTED, ProposalState.APPROVAL_PENDING_SUBMITTED, ProposalState.APPROVAL_PENDING);
+        runTest(ENROUTE, true, true, ProposalState.REVISIONS_REQUESTED, ProposalState.REVISIONS_REQUESTED, null);
     }
     
     /**
@@ -99,8 +99,8 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
      */
     @Test
     public void testApproved() {
-        runTest(APPROVED, false, false, ProposalState.APPROVAL_GRANTED, ProposalState.APPROVAL_GRANTED);
-        runTest(APPROVED, true, false, ProposalState.APPROVED_AND_SUBMITTED, ProposalState.APPROVED_POST_SUBMISSION);
+        runTest(APPROVED, false, false, ProposalState.APPROVAL_GRANTED, ProposalState.APPROVAL_GRANTED, ProposalState.APPROVAL_PENDING);
+        runTest(APPROVED, true, false, ProposalState.APPROVED_POST_SUBMISSION, ProposalState.APPROVED_POST_SUBMISSION, ProposalState.APPROVAL_PENDING_SUBMITTED);
     }
    
     /**
@@ -113,8 +113,8 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
      */
     @Test
     public void testDisapproved() {
-        runTest(DISAPPROVED, false, false, ProposalState.DISAPPROVED, ProposalState.DISAPPROVED);
-        runTest(DISAPPROVED, true, false, ProposalState.DISAPPROVED, ProposalState.DISAPPROVED_POST_SUBMISSION);
+        runTest(DISAPPROVED, false, false, ProposalState.DISAPPROVED, ProposalState.DISAPPROVED, null);
+        runTest(DISAPPROVED, true, false, ProposalState.DISAPPROVED_POST_SUBMISSION, ProposalState.DISAPPROVED_POST_SUBMISSION, null);
     }
     
     /**
@@ -122,8 +122,8 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
      */
     @Test
     public void testCanceled() {
-        runTest(CANCELED, false, false, ProposalState.CANCELED, ProposalState.CANCELED);
-        runTest(CANCELED, true, false, ProposalState.CANCELED, ProposalState.CANCELED);
+        runTest(CANCELED, false, false, ProposalState.CANCELED, ProposalState.CANCELED, null);
+        runTest(CANCELED, true, false, ProposalState.CANCELED, ProposalState.CANCELED, null);
     }
     
     /**
@@ -131,8 +131,8 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
      */
     @Test
     public void testException() {
-        runTest(EXCEPTION, false, false, ProposalState.DOCUMENT_ERROR, ProposalState.DOCUMENT_ERROR);
-        runTest(EXCEPTION, true, false, ProposalState.DOCUMENT_ERROR, ProposalState.DOCUMENT_ERROR );
+        runTest(EXCEPTION, false, false, ProposalState.DOCUMENT_ERROR, ProposalState.DOCUMENT_ERROR, null);
+        runTest(EXCEPTION, true, false, ProposalState.DOCUMENT_ERROR, ProposalState.DOCUMENT_ERROR, null);
     }
     
     
@@ -146,15 +146,17 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
      * @param isRejected has the proposal been rejected? ( Revisions Requested ).
      * @param expectedState1 the first expected proposal state value
      * @param expectedState2 the second expected proposal state value
+     * @param previousStateTypeCode
      *  
      */
-    private void runTest(int workflowState, boolean isSubmitted, boolean isRejected, String expectedState1, String expectedState2 ) {
+    private void runTest(int workflowState, boolean isSubmitted, boolean isRejected, String expectedState1, String expectedState2, String previousStateTypeCode) {
         ProposalDevelopmentDocument doc = createProposalDevelopmentDocument(workflowState, isSubmitted);
-        
-        String state = service.getProposalStateTypeCode(doc, false, isRejected );
+
+        doc.getDevelopmentProposal().setProposalStateTypeCode(previousStateTypeCode);
+        String state = service.getProposalStateTypeCode(doc, isRejected );
         assertEquals("Proposal State", expectedState1, state);
         
-        state = service.getProposalStateTypeCode(doc, true, isRejected);
+        state = service.getProposalStateTypeCode(doc, isRejected);
         assertEquals("Proposal State", expectedState2, state );
         
     }
@@ -176,7 +178,7 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
          
         docHdr.setWorkflowDocument((WorkflowDocument) mock);
         doc.setDocumentHeader(docHdr);
-        
+
         return doc;
     }
     
@@ -203,6 +205,7 @@ public class ProposalStateServiceTest extends KcIntegrationTestBase {
                     atLeast(1).of(mock).isInitiated(); will(returnValue(false));
                     atLeast(1).of(mock).isSaved(); will(returnValue(false));
                     atLeast(2).of(mock).isEnroute(); will(returnValue(true));
+                    atLeast(1).of(mock).getDocumentId(); will(returnValue(null));
                     break;
                     
                 case APPROVED:
