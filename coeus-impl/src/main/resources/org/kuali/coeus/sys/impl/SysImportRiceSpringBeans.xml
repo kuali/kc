@@ -61,6 +61,7 @@
     <bean id="queryControllerService" parent="grlImporter" p:serviceName="queryControllerService" />
     <bean id="refreshControllerService" parent="grlImporter" p:serviceName="refreshControllerService" />
     <bean id="saveControllerService" parent="grlImporter" p:serviceName="saveControllerService" />
+    <bean id="permissionService" parent="grlImporter" p:serviceName="kimPermissionService" />
 
     <bean id="ccImporter" abstract="true" class="org.kuali.coeus.sys.framework.service.ConfigContextConfigObjectFactoryBean" p:singleton="true" p:mustExist="true" />
 
