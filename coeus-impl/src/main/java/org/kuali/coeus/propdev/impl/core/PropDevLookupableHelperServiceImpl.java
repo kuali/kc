@@ -120,7 +120,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
         QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(DevelopmentProposal.class, modifiedSearchCriteria,
                 wildcardAsLiteralSearchCriteria, getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(DevelopmentProposal.class, modifiedSearchCriteria));
-        if (!bounded && searchResultsLimit != null) {
+        if (searchResultsLimit != null) {
             query.setMaxResults(searchResultsLimit);
         }
         if (StringUtils.isBlank(adjustedSearchCriteria.get("proposalNumber"))
