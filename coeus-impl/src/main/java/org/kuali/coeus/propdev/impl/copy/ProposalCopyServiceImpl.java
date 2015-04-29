@@ -624,14 +624,16 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             for (ProposalPersonBiography newBiography : newBiographies) {
                 if (oldBiography.getProposalPersonNumber().equals(newBiography.getProposalPersonNumber()) &&
                         oldBiography.getBiographyNumber().equals(newBiography.getBiographyNumber())) {
-                    ProposalPersonBiographyAttachment newBiographyAttachment = new ProposalPersonBiographyAttachment();
-                    newBiographyAttachment.setProposalPersonBiography(newBiography);
-                    newBiographyAttachment.setProposalPersonNumber(oldBiography.getProposalPersonNumber());
-                    newBiographyAttachment.setBiographyNumber(oldBiography.getBiographyNumber());
-                    newBiographyAttachment.setData(oldBiography.getPersonnelAttachment().getData());
-                    newBiographyAttachment.setName(oldBiography.getPersonnelAttachment().getName());
-                    newBiographyAttachment.setType(oldBiography.getPersonnelAttachment().getType());
-                    newBiography.setPersonnelAttachment(newBiographyAttachment);
+                    if (oldBiography.getPersonnelAttachment() != null) {
+                        ProposalPersonBiographyAttachment newBiographyAttachment = new ProposalPersonBiographyAttachment();
+                        newBiographyAttachment.setProposalPersonBiography(newBiography);
+                        newBiographyAttachment.setProposalPersonNumber(oldBiography.getProposalPersonNumber());
+                        newBiographyAttachment.setBiographyNumber(oldBiography.getBiographyNumber());
+                        newBiographyAttachment.setData(oldBiography.getPersonnelAttachment().getData());
+                        newBiographyAttachment.setName(oldBiography.getPersonnelAttachment().getName());
+                        newBiographyAttachment.setType(oldBiography.getPersonnelAttachment().getType());
+                        newBiography.setPersonnelAttachment(newBiographyAttachment);
+                    }
                 }
             }
         }
@@ -641,13 +643,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         for (Narrative oldNarrative : oldNarratives) {
             for (Narrative newNarrative : newNarratives) {
                 if (oldNarrative.getModuleNumber().equals(newNarrative.getModuleNumber())) {
-                    NarrativeAttachment newNarrativeAttachment = new NarrativeAttachment();
-                    newNarrativeAttachment.setNarrative(newNarrative);
-                    newNarrativeAttachment.setModuleNumber(oldNarrative.getModuleNumber());
-                    newNarrativeAttachment.setData(oldNarrative.getNarrativeAttachment().getData());
-                    newNarrativeAttachment.setName(oldNarrative.getNarrativeAttachment().getName());
-                    newNarrativeAttachment.setType(oldNarrative.getNarrativeAttachment().getType());
-                    newNarrative.setNarrativeAttachment(newNarrativeAttachment);
+                    if (oldNarrative.getNarrativeAttachment() != null) {
+                        NarrativeAttachment newNarrativeAttachment = new NarrativeAttachment();
+                        newNarrativeAttachment.setNarrative(newNarrative);
+                        newNarrativeAttachment.setModuleNumber(oldNarrative.getModuleNumber());
+                        newNarrativeAttachment.setData(oldNarrative.getNarrativeAttachment().getData());
+                        newNarrativeAttachment.setName(oldNarrative.getNarrativeAttachment().getName());
+                        newNarrativeAttachment.setType(oldNarrative.getNarrativeAttachment().getType());
+                        newNarrative.setNarrativeAttachment(newNarrativeAttachment);
+                    }
                 }
             }
         }
