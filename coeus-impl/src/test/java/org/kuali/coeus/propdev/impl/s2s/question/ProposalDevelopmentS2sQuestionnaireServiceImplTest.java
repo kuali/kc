@@ -437,6 +437,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImplTest {
 		List<S2sOppForms> s2sOppFormsList = new ArrayList<S2sOppForms>();
 		S2sOppForms s2sOppForms = new S2sOppForms();
 		s2sOppForms.setFormName(formName);
+		s2sOppForms.setInclude(true);
 		S2sOppFormsId formsId = new S2sOppFormsId();
 		formsId.setOppNameSpace(oppNameSpace);
 		formsId.setProposalNumber(developmentProposal.getProposalNumber());
