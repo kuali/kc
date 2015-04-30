@@ -377,13 +377,6 @@
     <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
     </property>
-    <property name="validCharactersConstraint">
-      <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="12"/>
-        <property name="scale" value="2"/>
-        <property name="allowNegative" value="true"/>
-      </bean>
-    </property>
     <property name="control" >
       <bean parent="CurrencyControlDefinition" p:formattedMaxLength="15" p:size="13"/>
     </property>
