@@ -107,6 +107,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     public static final String BLANK_COMMENT = "";
     public static final String ICR_RATE_CODE_NONE = "ICRNONE";
+    private static final String NONE = "None";
 
     private static final String NO_FLAG = "N";
     private static final int TOTAL_STATIC_REPORTS = 5;
@@ -3360,28 +3361,32 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public String getAwardDescriptionLine() {
-        AwardAmountInfo aai = getLastAwardAmountInfo();
-        String transactionTypeDescription;
-        String versionNumber;
-        if(aai == null || aai.getOriginatingAwardVersion() == null) {
-            versionNumber = getSequenceNumber().toString();
-        }else {
-            versionNumber = aai.getOriginatingAwardVersion().toString();
-        }
-        if(!(getAwardTransactionType() == null)) {
-            transactionTypeDescription = getAwardTransactionType().getDescription();
-        }else {
-            transactionTypeDescription = "None";
-        }
-        return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", updated " + getUpdateTimeAndUser(); 
+		String noticeDate;
+		String transactionTypeDescription;
+		String versionNumber;
+
+		versionNumber = getSequenceNumber().toString();
+
+		if (!(getNoticeDate() == null)) {
+			noticeDate = getNoticeDate().toString();
+		} else {
+			noticeDate = NONE;
+		}
+		if (!(getAwardTransactionType() == null)) {
+			transactionTypeDescription = getAwardTransactionType().getDescription();
+		} else {
+			transactionTypeDescription = NONE;
+		}
+		return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser() + ". Comments:"
+				+ (getAwardCurrentActionComments().getComments() == null ? NONE + "." : getAwardCurrentActionComments().getComments());
     }
 
     public String getUpdateTimeAndUser() {
         String createDateStr = null;
         String updateUser = null;
         if (getUpdateTimestamp() != null) {
-            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
-            updateUser = getUpdateUser().length() > 30 ? getUpdateUser().substring(0, 30) : getUpdateUser(); 
+            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
+            updateUser = awardDocument.getUpdateUser().length() > 30 ? getUpdateUser().substring(0, 30) : getUpdateUser(); 
         }
         return createDateStr + ", by " + updateUser;
     }
