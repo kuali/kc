@@ -20,6 +20,7 @@ package org.kuali.kra.institutionalproposal.service.impl;
 
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -47,9 +48,9 @@ public class InstitutionalProposalFactBuilderServiceImpl extends KcKrmsFactBuild
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument)document;
         InstitutionalProposal institutionalProposal = institutionalProposalDocument.getInstitutionalProposal();
         addProposalFacts(factsBuilder,institutionalProposal);
-        factsBuilder.addFact("moduleCode", CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE);
-        factsBuilder.addFact("moduleItemKey", institutionalProposal.getProposalNumber());
-        
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_CODE, CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE);
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_ITEM_KEY, institutionalProposal.getProposalNumber());
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_SUB_ITEM_KEY, institutionalProposal.getSequenceNumber());
     }
     
     private void addProposalFacts(Builder factsBuilder, InstitutionalProposal institutionalProposal) {

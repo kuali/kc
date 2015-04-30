@@ -20,6 +20,7 @@ package org.kuali.kra.award;
 
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
@@ -57,8 +58,9 @@ public class AwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper 
         addObjectMembersAsFacts(factsBuilder,award,KcKrmsConstants.Award.AWARD_CONTEXT_ID,Constants.MODULE_NAMESPACE_AWARD);
         factsBuilder.addFact(KcKrmsConstants.Award.AWARD, award);
         // Questionnaire Prereqs
-        factsBuilder.addFact("moduleCode", CoeusModule.AWARD_MODULE_CODE);
-        factsBuilder.addFact("moduleItemKey", award.getAwardNumber());
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_CODE, CoeusModule.AWARD_MODULE_CODE);
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_ITEM_KEY, award.getAwardNumber());
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_SUB_ITEM_KEY, award.getSequenceNumber());
     }
     
     protected String getElementValue(String docContent, String xpathExpression) {

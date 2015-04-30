@@ -20,6 +20,7 @@ package org.kuali.coeus.propdev.impl.krms;
 
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.infrastructure.Constants;
@@ -39,6 +40,7 @@ import org.w3c.dom.Document;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,8 +49,9 @@ import org.springframework.stereotype.Component;
 
 @Component("proposalDevelopmentFactBuilderService")
 public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
-    
-	@Autowired
+
+    private static final String COMPLETE = "C";
+    @Autowired
 	@Qualifier("documentService")
 	private DocumentService documentService;
     
@@ -67,9 +70,9 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         addBudgetFacts(factsBuilder,proposalDevelopmentDocument);
         addProposalFacts(factsBuilder,developmentProposal);
-        factsBuilder.addFact("moduleCode", CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
-        factsBuilder.addFact("moduleItemKey", developmentProposal.getProposalNumber());
-        
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_CODE, CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_ITEM_KEY, developmentProposal.getProposalNumber());
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_SUB_ITEM_KEY, 0);
     }
     
     private void addBudgetFacts(Builder factsBuilder, ProposalDevelopmentDocument proposalDevelopmentDocument) {
@@ -86,7 +89,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
     
     protected boolean isProposalNarrativesComplete(DevelopmentProposal developmentProposal) {
         for (Narrative narrative : developmentProposal.getNarratives()) {
-            if (!"C".equals(narrative.getNarrativeStatus())) {
+            if (!COMPLETE.equals(narrative.getNarrativeStatus().getCode())) {
                 return false;
             }
         }
@@ -94,8 +97,8 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
     }
 
     protected String getElementValue(String docContent, String xpathExpression) {
-        try {
-            Document document = XmlHelper.trimXml(new ByteArrayInputStream(docContent.getBytes()));
+        try (InputStream stream = new ByteArrayInputStream(docContent.getBytes())) {
+            Document document = XmlHelper.trimXml(stream);
 
             XPath xpath = XPathHelper.newXPath();
             String value = (String) xpath.evaluate(xpathExpression, document, XPathConstants.STRING);

@@ -21,6 +21,7 @@ package org.kuali.kra.irb;
 
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
@@ -47,8 +48,9 @@ public class IrbProtocolFactBuilderServiceImpl extends KcKrmsFactBuilderServiceH
         Protocol protocol = protocolDocument.getProtocol();
         addObjectMembersAsFacts(factsBuilder,protocol,KcKrmsConstants.IrbProtocol.IRB_PROTOCOL_CONTEXT_ID,Constants.MODULE_NAMESPACE_PROTOCOL);
         factsBuilder.addFact(KcKrmsConstants.IrbProtocol.IRB_PROTOCOL, protocol);
-        factsBuilder.addFact("moduleCode", CoeusModule.IRB_MODULE_CODE);
-        factsBuilder.addFact("moduleItemKey", protocol.getProtocolNumber());
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_CODE, CoeusModule.IRB_MODULE_CODE);
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_ITEM_KEY, protocol.getProtocolNumber());
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_SUB_ITEM_KEY, protocol.getSequenceNumber());
     }
 
     /**
