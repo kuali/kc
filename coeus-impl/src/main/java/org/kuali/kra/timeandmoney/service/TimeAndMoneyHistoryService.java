@@ -29,7 +29,7 @@ import java.util.List;
 
 public interface TimeAndMoneyHistoryService {
 
-    void buildTimeAndMoneyHistoryObjects(String awardNumber, List<AwardVersionHistory> awardVersionHistoryCollection) throws WorkflowException;
+    List<AwardVersionHistory> buildTimeAndMoneyHistoryObjects(String awardNumber) throws WorkflowException;
     
     public List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs,
             List<AwardAmountInfo> awardAmountInfos, Award award) throws WorkflowException;

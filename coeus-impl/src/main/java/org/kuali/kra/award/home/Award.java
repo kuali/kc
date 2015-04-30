@@ -1515,25 +1515,16 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return getAwardCommentByType( Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE,Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true );
     }
 
-    /*
-     * Get a comment by type. If it does not exist, then create it.
-     */
-
-    public AwardComment getAwardCommentByType(String awardTypeCode, Boolean checklistPrintFlag, boolean createNew) {
+    public AwardComment getAwardCommentByType(String awardCommentTypeCode, Boolean checklistPrintFlag, boolean createNew) {
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
-        AwardComment awardComment = getCommentMap().get(awardTypeCode);
+        AwardComment awardComment = getCommentMap().get(awardCommentTypeCode);
         if ((awardComment == null && createNew)) {
-            awardComment = awardCommentFactory.createAwardComment(awardTypeCode, (checklistPrintFlag == null ? false : checklistPrintFlag.booleanValue()));
+            awardComment = awardCommentFactory.createAwardComment(awardCommentTypeCode, (checklistPrintFlag == null ? false : checklistPrintFlag.booleanValue()));
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
         return awardComment;
     }
-
-
-    /*
-     * Get a sponsor term by sponsor term id.
-     */
 
     public AwardSponsorTerm getAwardSponsorTermByTemplateTerm(AwardTemplateTerm templateTerm, boolean createNew) {
         AwardSponsorTerm result = null;

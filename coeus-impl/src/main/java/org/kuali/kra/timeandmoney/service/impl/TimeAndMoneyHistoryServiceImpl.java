@@ -72,8 +72,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	private DateTimeService dateTimeService;
 	private GlobalVariableService globalVariableService;
 
-	
-	public void buildTimeAndMoneyHistoryObjects(String awardNumber, List<AwardVersionHistory> awardVersionHistoryCollection) throws WorkflowException {
+	@Override
+	public List<AwardVersionHistory> buildTimeAndMoneyHistoryObjects(String awardNumber) throws WorkflowException {
 		List<Award> awardVersionList = (List<Award>) businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(awardNumber), SEQUENCE_NUMBER, true);
 		// we want the list in reverse chronological order.
 		Collections.reverse(awardVersionList);
@@ -84,6 +84,11 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, DOCUMENT_NUMBER, true);
 		// we don't want canceled docs to show in history.
 		removeCanceledDocs(docs);
+		return buildAwardVersionHistoryList(awardVersionList, docs);
+	}
+
+	List<AwardVersionHistory> buildAwardVersionHistoryList(List<Award> awardVersionList, List<TimeAndMoneyDocument> docs) throws WorkflowException {
+		List<AwardVersionHistory> awardVersionHistoryCollection = new ArrayList<>();
 		for (Award award : awardVersionList) {
 			AwardVersionHistory awardVersionHistory = new AwardVersionHistory(award);
 			awardVersionHistory.setDocumentUrl(buildForwardUrl(award.getAwardDocument().getDocumentNumber()));
@@ -92,6 +97,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 
 			awardVersionHistoryCollection.add(awardVersionHistory);
 		}
+		return awardVersionHistoryCollection;
 	}
 
 	public List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> awardAmountInfos, Award award)
@@ -335,7 +341,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	 * @return String
 	 */
 	protected String buildForwardUrl(String documentNumber) {
-		String forward = getDocHandlerService().getDocHandlerUrl(documentNumber);
+		String forward = getDocHandlerUrl(documentNumber);
 		forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
 		if (forward.contains("?")) {
 			forward += "?";
@@ -344,11 +350,20 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		}
 		forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + documentNumber;
 		forward += "&" + KewApiConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
-		if (globalVariableService.getUserSession().isBackdoorInUse()) {
+		if (isBackdoorUserInUse()) {
 			forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + globalVariableService.getUserSession().getPrincipalName();
 		}
 
 		return "<a href=\"" + forward + "\"target=\"_blank\">" + documentNumber + "</a>";
+	}
+
+	boolean isBackdoorUserInUse() {
+		return globalVariableService.getUserSession().isBackdoorInUse();
+	}
+
+	String getDocHandlerUrl(String documentNumber) {
+		String forward = getDocHandlerService().getDocHandlerUrl(documentNumber);
+		return forward;
 	}
 
 	public DocumentService getDocumentService() {
