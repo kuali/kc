@@ -158,28 +158,10 @@
   
   <bean id="BudgetPersonSalaryDetails-baseSalary" parent="BudgetPersonSalaryDetails-baseSalary-parentBean" />
 
-  <bean id="BudgetPersonSalaryDetails-baseSalary-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetPersonSalaryDetails-baseSalary-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="baseSalary" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Base Salary" />
     <property name="shortLabel" value="Salary" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="false"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="12"/>
-        <property name="scale" value="2"/>
-        <property name="allowNegative" value="false"/>
-      </bean>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="20" parent="Uif-TextControl"/>
-    </property>
     <property name="summary" value="Salary" />
     <property name="description" value="Salary" />
   </bean>

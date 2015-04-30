@@ -204,25 +204,17 @@
 					p:required="true"
 					p:fieldLabel.renderColon="false" >
                 <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
-				    <property name="validCharactersConstraint">
-				      <bean parent="FixedPointPatternConstraint">
-				        <property name="precision" value="12"/>
-				        <property name="scale" value="2"/>
-				        <property name="allowNegative" value="false"/>
-				      </bean>
-				    </property>
+                    <property name="control">
+                        <bean p:size="13" p:maxLength="15" parent="Uif-CurrencyTextControl"/>
+                    </property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="consortiumFna"
 					p:required="true"
 					p:order="20" p:label="Consortium F&amp;A" p:fieldLabel.renderColon="false" >
                 <property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
-				    <property name="validCharactersConstraint">
-				      <bean parent="FixedPointPatternConstraint">
-				        <property name="precision" value="12"/>
-				        <property name="scale" value="2"/>
-				        <property name="allowNegative" value="false"/>
-				      </bean>
-				    </property>
+                    <property name="control">
+                        <bean p:size="13" p:maxLength="15" parent="Uif-CurrencyTextControl"/>
+                    </property>
                 </bean>
 				<bean parent="Uif-DataField" p:propertyName="totalDirectCost"
 					p:order="30" p:label="Total" p:fieldLabel.renderColon="false" >
