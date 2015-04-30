@@ -87,7 +87,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		for (Award award : awardVersionList) {
 			AwardVersionHistory awardVersionHistory = new AwardVersionHistory(award);
 			awardVersionHistory.setDocumentUrl(buildForwardUrl(award.getAwardDocument().getDocumentNumber()));
-			awardVersionHistory.setAwardDescriptionLine(buildNewAwardDescriptionLine(award));
+			awardVersionHistory.setAwardDescriptionLine(award.getAwardDescriptionLine());
 			awardVersionHistory.setTimeAndMoneyDocumentHistoryList(getDocHistoryAndValidInfosAssociatedWithAwardVersion(docs, award.getAwardAmountInfos(), award));
 
 			awardVersionHistoryCollection.add(awardVersionHistory);
@@ -316,31 +316,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 		returnString.append(DASH);
 		returnString.append(ROOT_AWARD_NUMBER_VAL);
 		return returnString.toString();
-	}
-	
-	protected String buildNewAwardDescriptionLine(Award award) {
-		String noticeDate;
-		String transactionTypeDescription;
-		String versionNumber;
-
-		versionNumber = award.getSequenceNumber().toString();
-
-		if (!(award.getNoticeDate() == null)) {
-			noticeDate = award.getNoticeDate().toString();
-		} else {
-			noticeDate = NONE;
-		}
-		if (!(award.getAwardTransactionType() == null)) {
-			transactionTypeDescription = award.getAwardTransactionType().getDescription();
-		} else {
-			transactionTypeDescription = NONE;
-		}
-		return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser(award) + ". Comments:"
-				+ (award.getAwardCurrentActionComments().getComments() == null ? NONE + "." : award.getAwardCurrentActionComments().getComments());
-	}
-
-	protected String getUpdateTimeAndUser(Award award) {
-		return award.getUpdateTimeAndUser();
 	}
 
 	protected String getUpdateTimeAndUser(TimeAndMoneyDocument doc) {
