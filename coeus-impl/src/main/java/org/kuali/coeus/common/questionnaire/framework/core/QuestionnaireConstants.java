@@ -34,6 +34,10 @@ public final class QuestionnaireConstants {
 	 * Sequence name
 	 */
 	public static final String DB_SEQUENCE_NAME_QUESTION_SEQ_ID = "SEQ_QUESTION_ID";
+	public static final String MODULE_CODE = "moduleCode";
+	public static final String MODULE_ITEM_KEY = "moduleItemKey";
+	public static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
+	public static final String MODULE_ITEM_CODE = "moduleItemCode";
 
 	private QuestionnaireConstants() {
 		throw new UnsupportedOperationException("do not instantiate");

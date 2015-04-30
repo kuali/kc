@@ -20,6 +20,7 @@ package org.kuali.kra.coi;
 
 import org.kuali.coeus.common.framework.krms.KrmsRulesContext;
 import org.kuali.coeus.common.framework.module.CoeusModule;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.coeus.common.impl.krms.KcKrmsFactBuilderServiceHelper;
@@ -63,8 +64,9 @@ public class CoiDisclosureFactBuilderServiceImpl extends KcKrmsFactBuilderServic
         // Person campus code
     
         // Questionnaire Prereqs
-        factsBuilder.addFact("moduleCode", CoeusModule.COI_DISCLOSURE_MODULE_CODE);
-        factsBuilder.addFact("moduleItemKey", coiDisclosure.getCoiDisclosureNumber());
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_CODE, CoeusModule.COI_DISCLOSURE_MODULE_CODE);
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_ITEM_KEY, coiDisclosure.getCoiDisclosureNumber());
+        factsBuilder.addFact(QuestionnaireConstants.MODULE_SUB_ITEM_KEY, coiDisclosure.getSequenceNumber());
     }
     
     protected String getElementValue(String docContent, String xpathExpression) {
@@ -77,7 +79,7 @@ public class CoiDisclosureFactBuilderServiceImpl extends KcKrmsFactBuilderServic
             return value;
 
         } catch (Exception e) {
-            throw new RiceRuntimeException();
+            throw new RiceRuntimeException(e);
         }
     }
 
