@@ -28,6 +28,7 @@ import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.AwardAmountInfoService;
@@ -57,6 +58,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DocumentService;
@@ -69,6 +72,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
 
 @Transactional
 public class AwardHierarchyServiceImpl implements AwardHierarchyService {
@@ -85,6 +89,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     ParameterService parameterService;
     private AwardService awardService;
     AwardVersionService awardVersionService;
+    GlobalVariableService globalVariableService;
 
     /**
      * 
@@ -492,15 +497,19 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     }
 
     AwardDocument createPlaceholderDocument() throws WorkflowException {
-        AwardDocument document;
-        document = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
-        if(document != null) {  // will be null in unit test, but not otherwise. Rice should allow us to create a new Document() (or new form) in a unit test
-            document.getDocumentHeader().setDocumentDescription(AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);
-            document.getAwardList().clear();
-            documentService.saveDocument(document);
-            LOG.info("Created Placeholder Document #" + document.getDocumentNumber());
-        }
-        return document;
+        return getGlobalVariableService().doInNewGlobalVariables(new UserSession("admin"), new Callable<AwardDocument>() {
+			@Override
+			public AwardDocument call() throws Exception {
+				AwardDocument document = null;
+		        document = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
+		        document.getDocumentHeader().setDocumentDescription(AwardDocument.PLACEHOLDER_DOC_DESCRIPTION);
+		        document.getAwardList().clear();
+		        documentService.saveDocument(document);
+		        documentService.blanketApproveDocument(document, "Placeholder being routed to final", Collections.<AdHocRouteRecipient> emptyList());
+		        LOG.info("Created Placeholder Document #" + document.getDocumentNumber());
+		        return document;
+			}
+        });
     }
 
     /**
@@ -849,4 +858,15 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             }
         }
     }
+
+	GlobalVariableService getGlobalVariableService() {
+		if (globalVariableService == null) {
+			globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+		}
+		return globalVariableService;
+	}
+
+	public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+		this.globalVariableService = globalVariableService;
+	}
 }
