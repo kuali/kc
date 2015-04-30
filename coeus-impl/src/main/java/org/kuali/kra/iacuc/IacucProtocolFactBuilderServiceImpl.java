@@ -49,6 +49,7 @@ public class IacucProtocolFactBuilderServiceImpl extends KcKrmsFactBuilderServic
         factsBuilder.addFact(KcKrmsConstants.IacucProtocol.IACUC_PROTOCOL, protocol);
         factsBuilder.addFact("moduleCode", CoeusModule.IACUC_PROTOCOL_MODULE_CODE);
         factsBuilder.addFact("moduleItemKey", protocol.getProtocolNumber());
+        factsBuilder.addFact("moduleSubItemKey", protocol.getSequenceNumber());
     }
 
     /**
