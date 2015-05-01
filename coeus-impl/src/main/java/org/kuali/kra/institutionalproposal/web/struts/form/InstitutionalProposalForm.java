@@ -87,10 +87,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     private boolean viewFundingSource;
     private boolean docOpenedFromIPSearch;
     
-    /**
-     * 
-     * Constructs a AwardForm.
-     */
+
     public InstitutionalProposalForm() {
         super();
         initialize();
@@ -125,7 +122,6 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     /**
      * 
      * This method returns the AwardDocument object.
-     * @return
      */
     public InstitutionalProposalDocument getInstitutionalProposalDocument() {
         return (InstitutionalProposalDocument) super.getDocument();
@@ -133,100 +129,52 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     
     /**
      * This method returns a string representation of the document type
-     * @return
      */
     public String getDocumentTypeName() {
         return "InstitutionalProposalDocument";
     }
-    
-    /**
-     * Gets the Special Review Helper.
-     * @return the Special Review Helper
-     */
+
     public SpecialReviewHelper getSpecialReviewHelper() {
         return specialReviewHelper;
     }
 
-    /**
-     * Sets the Special Review Helper.
-     * @param specialReviewHelper the Special Review Helper
-     */
     public void setSpecialReviewHelper(SpecialReviewHelper specialReviewHelper) {
         this.specialReviewHelper = specialReviewHelper;
     }
 
-    /**
-     * Gets the institutionalProposalCustomDataFormHelper attribute. 
-     * @return Returns the institutionalProposalCustomDataFormHelper.
-     */
     public InstitutionalProposalCustomDataFormHelper getCustomDataHelper() {
         return institutionalProposalCustomDataFormHelper;
     }
-    
-    /**
-     * Gets the institutionalProposalCustomDataFormHelper attribute. 
-     * @return Returns the institutionalProposalCustomDataFormHelper.
-     */
+
     public InstitutionalProposalCustomDataFormHelper getInstitutionalProposalCustomDataFormHelper() {
         return institutionalProposalCustomDataFormHelper;
     }
 
-    /**
-     * Sets the institutionalProposalCustomDataFormHelper attribute value.
-     * @param institutionalProposalCustomDataFormHelper The institutionalProposalCustomDataFormHelper to set.
-     */
     public void setInstitutionalProposalCustomDataFormHelper(
             InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper) {
         this.institutionalProposalCustomDataFormHelper = institutionalProposalCustomDataFormHelper;
     }
-    
-    /**
-     * Gets the notificationHelper attribute. 
-     * @return Returns the notificationHelper.
-     */
+
     public NotificationHelper<InstitutionalProposalNotificationContext> getNotificationHelper() {
         return notificationHelper;
     }
 
-    /**
-     * Sets the notificationHelper attribute value.
-     * @param notificationHelper The notificationHelper to set.
-     */
     public void setNotificationHelper(NotificationHelper<InstitutionalProposalNotificationContext> notificationHelper) {
         this.notificationHelper = notificationHelper;
     }
-    
-    /**
-     * Gets the institutionalProposalNotepadBean attribute. 
-     * @return Returns the institutionalProposalNotepadBean.
-     */
+
     public InstitutionalProposalNotepadBean getInstitutionalProposalNotepadBean() {
         return institutionalProposalNotepadBean;
     }
 
-    /**
-     * Sets the institutionalProposalNotepadBean attribute value.
-     * @param institutionalProposalNotepadBean The institutionalProposalNotepadBean to set.
-     */
     public void setInstitutionalProposalNotepadBean(InstitutionalProposalNotepadBean institutionalProposalNotepadBean) {
         this.institutionalProposalNotepadBean = institutionalProposalNotepadBean;
     }
-    
-    
 
-
-    /**
-     * Gets the projectPersonnelBean attribute. 
-     * @return Returns the projectPersonnelBean.
-     */
     public InstitutionalProposalProjectPersonnelBean getProjectPersonnelBean() {
         return projectPersonnelBean;
     }
 
-    /**
-     * Sets the projectPersonnelBean attribute value.
-     * @param projectPersonnelBean The projectPersonnelBean to set.
-     */
     public void setProjectPersonnelBean(InstitutionalProposalProjectPersonnelBean projectPersonnelBean) {
         this.projectPersonnelBean = projectPersonnelBean;
     }
@@ -234,57 +182,31 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     public InstitutionalProposalUnitContactsBean getUnitContactsBean() {
         return unitContactsBean;
     }
-    
 
     public InstitutionalProposalCentralAdminContactsBean getCentralAdminContactsBean() {
         return centralAdminContactsBean;
     }
-    
 
-    /**
-     * Gets the institutionalProposalCreditSplitBean attribute. 
-     * @return Returns the institutionalProposalCreditSplitBean.
-     */
     public InstitutionalProposalCreditSplitBean getInstitutionalProposalCreditSplitBean() {
         return institutionalProposalCreditSplitBean;
     }
 
-    /**
-     * Sets the institutionalProposalCreditSplitBean attribute value.
-     * @param institutionalProposalCreditSplitBean The institutionalProposalCreditSplitBean to set.
-     */
     public void setInstitutionalProposalCreditSplitBean(InstitutionalProposalCreditSplitBean institutionalProposalCreditSplitBean) {
         this.institutionalProposalCreditSplitBean = institutionalProposalCreditSplitBean;
     }
 
-    /**
-     * Gets the institutionalProposalCostShareBean attribute. 
-     * @return Returns the institutionalProposalCostShareBean.
-     */
     public InstitutionalProposalCostShareBean getInstitutionalProposalCostShareBean() {
         return institutionalProposalCostShareBean;
     }
 
-    /**
-     * Sets the institutionalProposalCostShareBean attribute value.
-     * @param institutionalProposalCostShareBean The institutionalProposalCostShareBean to set.
-     */
     public void setInstitutionalProposalCostShareBean(InstitutionalProposalCostShareBean institutionalProposalCostShareBean) {
         this.institutionalProposalCostShareBean = institutionalProposalCostShareBean;
     }
 
-    /**
-     * Gets the institutionalProposalUnrecoveredFandABean attribute. 
-     * @return Returns the institutionalProposalUnrecoveredFandABean.
-     */
     public InstitutionalProposalUnrecoveredFandABean getInstitutionalProposalUnrecoveredFandABean() {
         return institutionalProposalUnrecoveredFandABean;
     }
 
-    /**
-     * Sets the institutionalProposalUnrecoveredFandABean attribute value.
-     * @param institutionalProposalUnrecoveredFandABean The institutionalProposalUnrecoveredFandABean to set.
-     */
     public void setInstitutionalProposalUnrecoveredFandABean(
             InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean) {
         this.institutionalProposalUnrecoveredFandABean = institutionalProposalUnrecoveredFandABean;
@@ -294,17 +216,11 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     public String getActionName() {
         return "institutionalProposal";
     }
-    
-    /**
-     * @return The selected lead unit
-     */
+
     public String getSelectedLeadUnit() {
         return projectPersonnelBean.getSelectedLeadUnit();
     }
-    
-    /**
-     * @param unitName
-     */
+
     public void setSelectedLeadUnit(String unitName) {
         projectPersonnelBean.setSelectedLeadUnit(unitName);
     }
@@ -330,34 +246,18 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         this.auditActivated = auditActivated;
     }
 
-    /**
-     * Gets the lookupResultsSequenceNumber attribute. 
-     * @return Returns the lookupResultsSequenceNumber.
-     */
     public String getLookupResultsSequenceNumber() {
         return lookupResultsSequenceNumber;
     }
 
-    /**
-     * Sets the lookupResultsSequenceNumber attribute value.
-     * @param lookupResultsSequenceNumber The lookupResultsSequenceNumber to set.
-     */
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
     }
 
-    /**
-     * Gets the lookupResultsBOClassName attribute. 
-     * @return Returns the lookupResultsBOClassName.
-     */
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
 
-    /**
-     * Sets the lookupResultsBOClassName attribute value.
-     * @param lookupResultsBOClassName The lookupResultsBOClassName to set.
-     */
     public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
         this.lookupResultsBOClassName = lookupResultsBOClassName;
     }
@@ -370,18 +270,10 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         this.proposalNumber = proposalNumber;
     }
 
-    /**
-     * Gets the medusaBean attribute. 
-     * @return Returns the medusaBean.
-     */
     public MedusaBean getMedusaBean() {
         return medusaBean;
     }
 
-    /**
-     * Sets the medusaBean attribute value.
-     * @param medusaBean The medusaBean to set.
-     */
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
     }
@@ -466,16 +358,26 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
                 if (displayTab) {
                     resultList.add(nav);
                 }
-            } else {
+            } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(), Constants.MAPPING_INSTITUTIONAL_PROPOSAL_INTELLECTUAL_PROPERTY_REVIEW_PAGE)) {
+                if (isIPReviewTabEnabled()) {
+                    resultList.add(nav);
+                }
+            }
+            else {
                 resultList.add(nav);
             }
         }
-        
+
         HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
         resultList.toArray(result);
         return result;
     }
-    
+
+    public boolean isIPReviewTabEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_IP_REVIEW_TAB_ENABLED);
+    }
+
     public List<ExtraButton> getExtraActionsButtons() {
         extraButtons.clear();
         
