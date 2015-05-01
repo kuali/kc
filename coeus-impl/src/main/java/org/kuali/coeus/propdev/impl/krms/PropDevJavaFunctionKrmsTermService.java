@@ -70,7 +70,7 @@ public interface PropDevJavaFunctionKrmsTermService {
     public String attachmentFileNameRule(DevelopmentProposal developmentProposal);
     public String mtdcDeviationInVersion(DevelopmentProposal developmentProposal, String versionNumber);
     public String proposalTypeRule(DevelopmentProposal developmentProposal, String proposalTypeCode);
-    public String incompleteNarrativeRule(DevelopmentProposal developmentProposal);
+    public String completeNarrativeRule(DevelopmentProposal developmentProposal);
     
     public String investigatorCitizenshipTypeRule(DevelopmentProposal developmentProposal, String citizenshipTypeToCheck);
     public String piAppointmentTypeRule(DevelopmentProposal developmentProposal);
