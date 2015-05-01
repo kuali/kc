@@ -1597,9 +1597,7 @@ public class AwardAction extends BudgetParentActionBase {
     protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
         
         AwardForm awardForm = (AwardForm) formBase;
-        if(awardForm.getMethodToCall().equals("docHandler")){
-            super.populateAuthorizationFields(formBase);
-        }
+        super.populateAuthorizationFields(formBase);
         AwardDocument awardDocument = awardForm.getAwardDocument();
         Award award = awardDocument.getAward();
         Map documentActions = formBase.getDocumentActions();
