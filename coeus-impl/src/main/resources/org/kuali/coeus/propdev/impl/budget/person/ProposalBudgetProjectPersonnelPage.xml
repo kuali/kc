@@ -176,16 +176,7 @@
 							<bean parent="Uif-InputField" p:propertyName="salaryAnniversaryDate"
 								p:order="60" p:required="false"/>
 							<bean parent="Uif-InputField" p:propertyName="calculationBase"
-								p:order="70" p:required="false">
-							    <property name="validCharactersConstraint">
-							      <bean parent="FixedPointPatternConstraint">
-							        <property name="precision" value="12"/>
-							        <property name="scale" value="2"/>
-							        <property name="allowNegative" value="false"/>
-        							<property name="messageKey" value="error.budgetPerson.calculationBase"/>
-							      </bean>
-							    </property>
-							</bean>
+								p:order="70" p:required="false"/>
 						</list>
 					</property>
 				</bean>

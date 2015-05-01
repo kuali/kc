@@ -77,7 +77,29 @@ function totalUnallocatedFandA (values) {
 function sumValues(values) {
     var total = 0;
     for (var i = 0; i < values.length; i++) {
-        total += values[i];
+		var value = values[i];
+		if (isNaN(value)) {
+			value.replace(/,/g,"");
+		}
+        total += value;
     }
-    return total.toFixed(2);
+    return Kc.PropDev.Budget.formatMoney(new Number(total),2, '.', ',')
 }
+
+/**
+ * Override
+ * Fix to remove all commas from complex numbers not just the first
+ * @param value
+ * @returns {*}
+ */
+function convertComplexNumericValue(value) {
+	if (!value) {
+		return value;
+	}
+
+	return value.replace(/$/g, "").replace(/,/g, "").replace("&yen;", "").replace("&euro;",
+		"").replace("&pound;", "").replace("&curren;", "").replace("%", "").replace("&#8355;",
+		"").replace("&#8356;", "").replace("&#8359;", "").replace("&cent;", "");
+}
+
+

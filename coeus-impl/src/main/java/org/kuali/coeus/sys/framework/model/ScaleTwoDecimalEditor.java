@@ -19,7 +19,7 @@
 package org.kuali.coeus.sys.framework.model;
 
 import java.beans.PropertyEditorSupport;
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,15 +27,13 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 public class ScaleTwoDecimalEditor extends PropertyEditorSupport {
 
-	private NumberFormat numberFormat;
+	private DecimalFormat numberFormat;
 	private boolean allowEmpty;
-	
-	public ScaleTwoDecimalEditor(boolean allowEmpty) {
-		this.allowEmpty = allowEmpty;
-	}
-	
-	public ScaleTwoDecimalEditor(NumberFormat numberFormat, boolean allowEmpty) {
+
+	public ScaleTwoDecimalEditor(DecimalFormat numberFormat, boolean allowEmpty) {
 		this.numberFormat = numberFormat;
+		this.numberFormat.setGroupingUsed(true);
+		this.numberFormat.setGroupingSize(3);
 		this.allowEmpty = allowEmpty;
 	}
 
@@ -69,13 +67,12 @@ public class ScaleTwoDecimalEditor extends PropertyEditorSupport {
 		}
 		return strValue;
 	}
-	
 
-	public NumberFormat getNumberFormat() {
+	public DecimalFormat getNumberFormat() {
 		return numberFormat;
 	}
 
-	public void setNumberFormat(NumberFormat numberFormat) {
+	public void setNumberFormat(DecimalFormat numberFormat) {
 		this.numberFormat = numberFormat;
 	}
 
