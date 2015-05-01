@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.questionnaire.framework.answer;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
@@ -180,5 +181,17 @@ public class Answer extends KcPersistableBusinessObjectBase implements AnswerCon
 
     public void setRuleMatched(boolean ruleMatched) {
         this.ruleMatched = ruleMatched;
+    }
+
+    public boolean isAnswered() {
+        if (!StringUtils.isBlank(this.getAnswer())) {
+            return true;
+        }
+        for (Answer answer: answerHeader.getAnswers()) {
+            if (answer.getQuestionNumber().equals(questionNumber) && !StringUtils.isBlank(answer.getAnswer())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
