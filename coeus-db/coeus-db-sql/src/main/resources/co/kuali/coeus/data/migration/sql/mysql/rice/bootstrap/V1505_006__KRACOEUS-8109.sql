@@ -17,5 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 UPDATE KRMS_FUNC_T
-SET NM = 'completeNarrativeRule' AND DESC_TXT= 'Complete Narrative Rule'
+SET NM = 'completeNarrativeRule', DESC_TXT= 'Complete Narrative Rule'
 where FUNC_ID='KC1025';
