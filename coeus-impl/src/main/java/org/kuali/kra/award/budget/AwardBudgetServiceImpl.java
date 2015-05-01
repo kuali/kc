@@ -444,7 +444,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 		}
 		if (budgetDocument != null) {
 			AwardBudgetExt budget = budgetDocument.getBudget();
-			if (budget.getStartDate() != null) {
+                if (budget.getBudgetPeriods().isEmpty() && budget.getStartDate() != null) {
 	            budget.setBudgetPeriods(getBudgetSummaryService().generateBudgetPeriods(budget));
 	        }
 			awardDocument.getAward().getBudgets().add(budget);
