@@ -58,6 +58,7 @@ public class NSFCoverPageV1_6GeneratorTest extends S2STestBase<NSFCoverPageV1_6G
         List<S2sOppForms> S2sOppFormsList = new ArrayList<S2sOppForms>();
         S2sOppForms s2sOppForms = new S2sOppForms();
         s2sOppForms.setAvailable(true);
+        s2sOppForms.setInclude(true);
 
         S2sOppForms.S2sOppFormsId s2sOppFormsId = new S2sOppForms.S2sOppFormsId();
         s2sOppFormsId.setOppNameSpace(namespace);
