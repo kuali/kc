@@ -458,6 +458,9 @@ public interface Constants {
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE = "institutionalProposalActions";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_MEDUSA_PAGE = "medusa";
 
+    public static final String INSTITUTIONAL_PROPOSAL_IP_PANEL_ANCHOR = "institutionalProposal";
+
+
     public static final String PARAMETER_IP_REVIEW_TAB_ENABLED = "IP_INTELLECTUAL_PROPERTY_REVIEW_TAB_ENABLED";
 
     public static final String INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE = "SEQ_PROPOSAL_PROPOSAL_ID";
