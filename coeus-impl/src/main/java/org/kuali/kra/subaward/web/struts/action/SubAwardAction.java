@@ -176,6 +176,9 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         } else if (Constants.MAPPING_SUBAWARD_ACTION_PAGE.equals(command)) {
             loadDocumentInForm(request, subAwardForm);
             forward = subAwardActions(mapping, subAwardForm, request, response);
+        } else if (Constants.MAPPING_FINANCIAL_PAGE.equals(command)) {
+            loadDocumentInForm(request, subAwardForm);
+            forward = mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
         } else {
             forward = super.docHandler(mapping, form, request, response);
         }

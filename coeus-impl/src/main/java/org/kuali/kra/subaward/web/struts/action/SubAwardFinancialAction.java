@@ -37,12 +37,14 @@ import org.kuali.rice.krad.util.KRADConstants;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 public class SubAwardFinancialAction extends SubAwardAction{
     
     private static final String LINE_NUMBER = "line";
-    private static final String DOC_HANDLER_URL_PATTERN = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
 
     /**.
      * This method is for addAmountInfo
@@ -127,9 +129,10 @@ public class SubAwardFinancialAction extends SubAwardAction{
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
         if (getKualiRuleService().applyRules(new SaveDocumentEvent("document", subAward.getSubAwardDocument()))) {
             this.save(mapping, subAwardForm, request, response);
+            String backUrl = URLEncoder.encode(buildActionUrl(subAward.getSubAwardDocument().getDocumentNumber(), Constants.MAPPING_FINANCIAL_PAGE, "SubAwardDocument"), StandardCharsets.UTF_8.name());
             response.sendRedirect("kr/maintenance.do?businessObjectClassName=" + SubAwardAmountReleased.class.getName() + "&methodToCall=start" +
-                    "&subAwardId=" + subAward.getSubAwardId() + "&subAwardCode=" + subAward.getSubAwardCode() + 
-                    "&sequenceNumber=" + subAward.getSequenceNumber());
+                    "&subAwardId=" + subAward.getSubAwardId() + "&subAwardCode=" + subAward.getSubAwardCode() +
+                    "&sequenceNumber=" + subAward.getSequenceNumber() + "&backLocation=" + backUrl);
         }
         return null;
     }
@@ -156,9 +159,8 @@ public class SubAwardFinancialAction extends SubAwardAction{
             invoiceIdx = getInvoiceIndex(request);
         }
         SubAwardAmountReleased invoice = subAward.getSubAwardAmountReleasedList().get(invoiceIdx);
-        String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
-        response.sendRedirect(String.format(DOC_HANDLER_URL_PATTERN, workflowUrl, invoice.getDocumentNumber()));
-
+        String backUrl = URLEncoder.encode(buildActionUrl(subAward.getSubAwardDocument().getDocumentNumber(), Constants.MAPPING_FINANCIAL_PAGE, "SubAwardDocument"), StandardCharsets.UTF_8.name());
+        response.sendRedirect("kr/maintenance.do?methodToCall=docHandler&docId=" + invoice.getDocumentNumber() + "&command=displayDocSearchView&backLocation=" + backUrl);
         return null;
     }    
 
