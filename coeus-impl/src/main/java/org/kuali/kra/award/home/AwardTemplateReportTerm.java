@@ -26,9 +26,9 @@ import org.kuali.kra.award.paymentreports.FrequencyBase;
 import org.kuali.kra.award.paymentreports.Report;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.GenericAwardReportTerm;
-import org.springframework.util.AutoPopulatingList;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AwardTemplateReportTerm extends KcPersistableBusinessObjectBase implements GenericAwardReportTerm {
@@ -65,7 +65,7 @@ public class AwardTemplateReportTerm extends KcPersistableBusinessObjectBase imp
     private ReportClass reportClass;
 
     public AwardTemplateReportTerm() {
-        awardTemplateReportTermRecipients = new AutoPopulatingList<AwardTemplateReportTermRecipient>(AwardTemplateReportTermRecipient.class);
+        awardTemplateReportTermRecipients = new ArrayList<>();
     }
 
     public Integer getTemplateReportTermId() {
