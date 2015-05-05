@@ -21,7 +21,6 @@ package org.kuali.kra.award.home;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,12 +70,11 @@ public class AwardTemplate extends KcPersistableBusinessObjectBase {
 
     private List<AwardTemplateTerm> templateTerms;
 
-    @SuppressWarnings("unchecked")
     public AwardTemplate() {
-        templateContacts = new AutoPopulatingList<AwardTemplateContact>(AwardTemplateContact.class);
-        templateComments = new AutoPopulatingList<AwardTemplateComment>(AwardTemplateComment.class);
-        templateTerms = new AutoPopulatingList<AwardTemplateTerm>(AwardTemplateTerm.class);
-        templateReportTerms = new AutoPopulatingList<AwardTemplateReportTerm>(AwardTemplateReportTerm.class);
+        templateContacts = new ArrayList<>();
+        templateComments = new ArrayList<>();
+        templateTerms = new ArrayList<>();
+        templateReportTerms = new ArrayList<>();
     }
 
     public String getStatusCode() {
