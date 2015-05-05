@@ -135,23 +135,6 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     }
 
     /**
-     * Test setting a user to have an Aggregator role with another role.
-     *  
-     * @throws Exception
-     */
-    @Test
-    public void testEditAggregatorOnly() throws Exception {
-        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUserRoles editRoles = createProposalUserRoles("chew");
-        editRoles.addRoleName(RoleConstants.AGGREGATOR_DOCUMENT_LEVEL);
-        editRoles.addRoleName(RoleConstants.NARRATIVE_WRITER);
-        assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
-        assertError(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
-    }
-
-
-    /**
      * Try removing the Aggregator role from the last user to have that role.
      *  
      * @throws Exception
