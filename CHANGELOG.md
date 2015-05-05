@@ -1,5 +1,29 @@
 
 
+##coeus-1505.9
+* fixes STE when editing or adding sponsor templates
+
+  * Maintenance > Awards > Sponsor Template > Create New.
+  * Selected and added all required fields in each section:
+  * -edit sponsor template - filled in all
+
+    edit sponsor contacts - added a contact
+    edit sponsor comments - added a comment
+    -edit sponsor template reports - added a report type
+    added a report recipient
+    Tried to save; got STE
+
+  * java.lang.RuntimeException: Unable to resolve collection property: class org.kuali.kra.award.home.AwardTemplate:templateContacts
+  * org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl.addMaintainableItemRestrictions(BusinessObjectAuthorizationServiceImpl.java:519)
+  * Joe Williams on Tue, 5 May 2015 09:53:12 -0500 [View Commit](../../commit/80823d2cd8b55530839cc34c2aad91b74c3677bd)
+* QuestionResolver contribution
+
+  * https://github.com/kuali/kc/pull/1577
+  * KRACOEUS-7230
+
+  * This re-implements some changes to the QuestionResolver code that we contributed before, and which made it into KC 5.2.1 but seem to have been left out of KC 6.0. It also includes a couple of our additional improvements/fixes to the QuestionResolver functionality, such as using the module sub item key when retrieving Answer Headers, filtering retrieved Answer Headers to only include those for the latest versions of Questionnaires, and making sure the Question Seq Id comparison is properly comparing String values.
+  * Travis Schneberger on Thu, 30 Apr 2015 12:08:09 -0400 [View Commit](../../commit/e8a5e39b895bfb7a425d7f4a1c1597ca8301aa57)
+
 ##coeus-1505.8
 * Oracle fixes
   * Our oracle installation scripts had a few issues.
