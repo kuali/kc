@@ -713,15 +713,18 @@
                 </td>
                 <c:set var="cumTotal" value="0.00" />
         	    <c:forEach var="period" items="${KualiForm.document.budget.budgetPeriods}" varStatus="status" >
-  	    			<td class="infoline">
-  	    				<div align="right">
-	    					<c:if test="${KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].rateOverrideFlag}">
-		          	  			<span class="fineprint">(Overridden amount)</span>
-		          	  		</c:if>
-  	    					<kul:htmlControlAttribute styleClass="align-right" property="document.budget.budgetPeriods[${period.budgetPeriod-1}].totalIndirectCost" 
-								attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" onchange="setRateOverrideFlag(${period.budgetPeriod});"/>
-						</div>
-					</td>
+                    <c:set var="periodTotalVar" value="period${status.index}" />
+                    <c:if test="${status.index ge periodStartIndex and status.index le periodEndIndex }" >
+                        <td class="infoline">
+                            <div align="right">
+                                <c:if test="${KualiForm.document.budget.budgetPeriods[period.budgetPeriod-1].rateOverrideFlag}">
+                                    <span class="fineprint">(Overridden amount)</span>
+                                </c:if>
+                                <kul:htmlControlAttribute styleClass="align-right" property="document.budget.budgetPeriods[${period.budgetPeriod-1}].totalIndirectCost"
+                                    attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" onchange="setRateOverrideFlag(${period.budgetPeriod});"/>
+                            </div>
+                        </td>
+                    </c:if>
         	    	<c:set var="calculatedIndirectExpenseVar" value="calculatedIndirectExpense${status.index}" />
 					<c:set var="cumTotal" value = "${cumTotal + krafn:getFloatValue(period.totalIndirectCost)}" />
 				</c:forEach>    
