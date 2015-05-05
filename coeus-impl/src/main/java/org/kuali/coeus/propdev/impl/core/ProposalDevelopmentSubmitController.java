@@ -69,7 +69,6 @@ import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -204,9 +203,9 @@ public class ProposalDevelopmentSubmitController extends
        populateAdHocRecipients(form.getProposalDevelopmentDocument());
        AuditHelper.ValidationState severityLevel = getValidationState(form);
  	   if(severityLevel.equals(AuditHelper.ValidationState.ERROR)) {
-           return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+           return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
 	   } else if (severityLevel.equals(AuditHelper.ValidationState.WARNING)) {
-           return getModelAndViewService().showDialog("PropDev-DataValidationSection-WithSubmit", true, form);
+           return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_SECTION_WITH_SUBMIT, true, form);
 	   } else {
            return internalSubmit(form);
        }
@@ -252,7 +251,7 @@ public class ProposalDevelopmentSubmitController extends
             form.setEvaluateFlagsAndModes(true);
             return getTransactionalDocumentControllerService().blanketApprove(form);
         }
-        return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
     }
    
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=recall")
@@ -339,7 +338,7 @@ public class ProposalDevelopmentSubmitController extends
                 handleSubmissionToS2S(form);
                 return getModelAndViewService().getModelAndView(form,"PropDev-OpportunityPage");
             } else {
-    			return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+    			return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
     		}
         } else {
         	return getModelAndViewService().showDialog("PropDev-Resumbit-OptionsSection", true, form);
@@ -370,7 +369,8 @@ public class ProposalDevelopmentSubmitController extends
                 form.setDeferredMessages(getGlobalVariableService().getMessageMap());
                 return sendSubmitToSponsorNotification(form);
     		} else {
-                return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+                form.setDataValidationItems(((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateDataValidation());
+                return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
     		}
     	} else {
             return getModelAndViewService().showDialog("PropDev-Resumbit-OptionsSection", true, form);
