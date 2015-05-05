@@ -194,8 +194,7 @@ public final class KeyConstants {
     public static final String QUESTION_DELETE_PROPOSAL_USER_CONFIRMATION = "document.question.deleteProposalUser.text";
     public static final String ERROR_UNKNOWN_USERNAME = "error.unknown.username";
     public static final String ERROR_DUPLICATE_PROPOSAL_USER = "error.duplicate.proposalUser";
-    public static final String ERROR_AGGREGATOR_INCLUSIVE = "error.aggregator.inclusive";
-    public static final String ERROR_LAST_AGGREGATOR = "error.last.aggregator"; 
+    public static final String ERROR_LAST_AGGREGATOR = "error.last.aggregator";
     public static final String ERROR_EMPTY_USERNAME = "error.empty.username";
     public static final String ERROR_PROP_DEV_PERM_INITIATOR = "error.propdev.perm.initiator";
     public static final String ERROR_UNFINISHED_PERMISSIONS = "error.unsaved.permissions";

@@ -38,7 +38,6 @@ import java.util.List;
  * Business Rule to determine the legality of modifying the access
  * to a Proposal Development Document.
  * 
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentRuleBase implements PermissionsRule {
     
@@ -51,9 +50,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     @Override
     public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles proposalUser) {
         boolean isValid = true;
-        
-        //KRACOEUS-5530 Check if user name is Null or Empty
-        
         if(StringUtils.isEmpty(proposalUser.getUsername())){
             isValid = false;
             this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username",
@@ -62,7 +58,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
        
         // The given username must be valid, i.e. it must correspond
         // to a person in the database.
-            
         else if (!isValidUser(proposalUser.getUsername())) {
             isValid = false;
             this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username",
@@ -71,7 +66,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
             
         // Don't add the same user to the list.  The "edit roles" button
         // must be used to modify roles for an existing user.
-            
         else if (isDuplicate(proposalUser.getUsername(), proposalUserRolesList)) {
             isValid = false;
             this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username",
@@ -102,7 +96,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         }
         
         // The user cannot delete the last Aggregator on a proposal.
-            
         if (isLastAggregator(username, proposalUserRolesList)) {
             isValid = false;
             getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
@@ -123,25 +116,14 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     @Override
     public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles editRoles) {
         boolean isValid = true;
-        KcWorkflowService kraWorkflowService = getKcWorkflowService();
         String username = editRoles.getUsername();
 
         if (isRemovingModifyNarrativePermission(proposalUserRolesList, editRoles)) {
             isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getNarratives(), Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, "Proposal Attachment");
             isValid &= !testForLastModifier(username, document.getDevelopmentProposal().getInstituteAttachments(), Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, "Internal Attachment");
         }
-
-        // The Aggregator encompasses all of the other roles.  Therefore, if the
-        // user selects the Aggregator role, don't allow any of the other roles
-        // to be selected.
-        
-        if (hasAggregator(editRoles) && hasNonAggregator(editRoles)) {
-            isValid = false;
-            getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
-        }
             
         // The user cannot delete the last Aggregator on a proposal.
-            
         else if (!isAggregatorRolePresent(proposalUserRolesList)) {
             isValid = false;
             getGlobalVariableService().getMessageMap().putErrorForSectionId(Constants.PERMISSION_PROPOSAL_USERS_COLLECTION_ID_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
@@ -162,13 +144,10 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
 
     /**
      * This method tests if the user is the only user with modify narrative rights for the narrative
-     * @param username the user
-     * @param narrative the narrative
-     * @return true if the user is the only one with modify rights for the narrative
      */
     private boolean isOnlyModifier(String username, Narrative narrative) {
         boolean retval = true;
-        KcPerson person = null;
+        KcPerson person;
         for (NarrativeUserRights narrativeUserRights : narrative.getNarrativeUserRights()) {
             person = getKcPersonService().getKcPersonByPersonId(narrativeUserRights.getUserId());
             if(!StringUtils.equals(username, person.getUserName()) 
@@ -179,11 +158,7 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         }
         return retval;
     }
-    
-    /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
-     */
+
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
@@ -205,9 +180,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     /**
      * This method tests if the user is having modify narrative permissions removed.  It does this by seeing if the user in the 
      * ProposalUserRoles has modify narrative permissions in ProposalUserRoles but not in the list of ProposalUserRoles.
-     * @param proposalUserRolesList the list of all users' existing roles
-     * @param editRoles the proposed new roles for the user in question
-     * @return true if the user has modify narrative permissions in the list but not in the ProposalUserRoles
      */
     private boolean isRemovingModifyNarrativePermission(List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles editRoles) {
         boolean newListContainsModifyNarrative = false;
@@ -226,9 +198,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     
     /**
      * This method checks if the user has Modify Narrative permission in the passed list of ProposalUserRoles
-     * @param username the user
-     * @param proposalUserRolesList the list of ProposalUserRoles to check
-     * @return true if the user has Modify Narrative permissions in the list of ProposalUserRoles
      */
     private boolean hasModifyNarrativePermission(String username, List<ProposalUserRoles> proposalUserRolesList) {
         SystemAuthorizationService systemAuthorizationService =getSystemAuthorizationService();
@@ -248,11 +217,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     /**
      * This method cycles through a list of attachments and checks if the user is the last user with modify permissions
      * on any of them.  It uses the passed label to report an error for each and returns true if an error is reportes
-     * @param username The user
-     * @param attachments A list of Narratives to test
-     * @param errorLocationKey The location key to use when reporting errors
-     * @param errorLabel The label to use when reporting errors
-     * @return true if any of the attachments has the user as the only user with midufy permissions
      */
     private boolean testForLastModifier(String username, List<Narrative> attachments, String errorLocationKey, String errorLabel) {
         int index = 1;
@@ -269,8 +233,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     
     /**
      * Has the Aggregator role been selected?
-     * @param editRoles the Proposal Edit Roles
-     * @return true if the Aggregator is selected; otherwise false
      */
     private boolean hasAggregator(ProposalUserRoles editRoles) {
         for (String roleName : editRoles.getRoleNames()) {
@@ -280,25 +242,9 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
         }
         return false;
     }
-    
-    /**
-     * Has any role other than Aggregator been selected?
-     * @param editRoles the Proposal Edit Roles
-     * @return true if a role other than Aggregator has been selected; otherwise false
-     */
-    private boolean hasNonAggregator(ProposalUserRoles editRoles) {
-        for (String roleName : editRoles.getRoleNames()) {
-            if (!isAggregatorRole(roleName)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * Is this a valid username?  The User must reside in the database.
-     * @param username the username
-     * @return true if valid; otherwise false
      */
     private boolean isValidUser(String username) {
         return getKcPersonService().getKcPersonByUserName(username) != null;
@@ -308,9 +254,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
      * Is this a duplicate user?  In other words, has this user
      * already been added to the list of users who can access the
      * proposal?
-     * @param username the user's username
-     * @param proposalUserRolesList the list of user roles
-     * @return true if the user is already in the list; otherwise false
      */
     private boolean isDuplicate(String username, List<ProposalUserRoles> proposalUserRolesList) {
         for (ProposalUserRoles userRoles : proposalUserRolesList) {
@@ -325,9 +268,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
      * Is this user the last Aggregator in the list?  There must always be at least
      * one user with the Aggregator role.  Any attemp to delete that user or remove
      * the Aggregator role from that user must be prevented.
-     * @param username the user to ignore in the list
-     * @param proposalUserRolesList the list of user roles
-     * @return true if the user is the last Aggregator; otherwise false
      */
     private boolean isLastAggregator(String username, List<ProposalUserRoles> proposalUserRolesList) {
         for (ProposalUserRoles userRoles : proposalUserRolesList) {
@@ -361,8 +301,6 @@ public class ProposalDevelopmentPermissionsRule extends KcTransactionalDocumentR
     
     /**
      * This method tests if the role for the ProposalUser is Viewer
-     * @param proposalUser the ProposalUser
-     * @return true if the role is Viewer
      */
     private boolean isAddingViewerOnly(ProposalUserRoles proposalUser) {
         return proposalUser.getRoleNames().size() == 1 && (StringUtils.equals(proposalUser.getRoleNames().get(0), RoleConstants.VIEWER) || StringUtils.equals(proposalUser.getRoleNames().get(0), RoleConstants.VIEWER_DOCUMENT_LEVEL));
