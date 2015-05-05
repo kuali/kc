@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.questionnaire.impl;
 
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
@@ -28,20 +29,18 @@ import java.util.*;
 
 public class QuestionResolver implements TermResolver<Object> {
 
-    public static final String MODULE_CODE = "moduleCode";
-    public static final String MODULE_ITEM_KEY = "moduleItemKey";
-    public static final String QUESTIONNAIRE_REF_ID = "Questionnaire Ref ID";
+    public static final String QUESTIONNAIRE_SEQ_ID = "Questionnaire Seq ID";
     public static final String QUESTION_SEQ_ID = "Question Seq ID";
-    public static final String MODULE_ITEM_CODE = "moduleItemCode";
     private String outputName;
     private Set<String> prereqs;
     private Set<String> params;
     
     public QuestionResolver(String outputName, Set<String> params) {
         this.outputName = outputName;
-        this.prereqs = new HashSet<String>();
-        prereqs.add(MODULE_CODE);
-        prereqs.add(MODULE_ITEM_KEY);
+        this.prereqs = new HashSet<>();
+        prereqs.add(QuestionnaireConstants.MODULE_CODE);
+        prereqs.add(QuestionnaireConstants.MODULE_ITEM_KEY);
+        prereqs.add(QuestionnaireConstants.MODULE_SUB_ITEM_KEY);
         if (params == null) {
             this.params = Collections.emptySet(); 
         } else {
@@ -67,15 +66,16 @@ public class QuestionResolver implements TermResolver<Object> {
     
     @Override
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) {
-        String questionnaireId = parameters.get(QUESTIONNAIRE_REF_ID);
+        String questionnaireId = parameters.get(QUESTIONNAIRE_SEQ_ID);
         String questionId = parameters.get(QUESTION_SEQ_ID);
-        String moduleCode = (String) resolvedPrereqs.get(MODULE_CODE);
-        String moduleItemKey = (String) resolvedPrereqs.get(MODULE_ITEM_KEY);
-        List<AnswerHeader> answerHeaders = getQuestionnaireAnswers(moduleCode, moduleItemKey);
-        for (AnswerHeader answerHeader : answerHeaders) {
-            if (answerHeader.getQuestionnaireId().equals(questionnaireId)) {
+        String moduleCode = (String) resolvedPrereqs.get(QuestionnaireConstants.MODULE_CODE);
+        String moduleItemKey = (String) resolvedPrereqs.get(QuestionnaireConstants.MODULE_ITEM_KEY);
+        String moduleSubItemKey = resolvedPrereqs.get(QuestionnaireConstants.MODULE_SUB_ITEM_KEY).toString();
+        List<AnswerHeader> answerHeaders = getQuestionnaireAnswers(moduleCode, moduleItemKey, moduleSubItemKey);
+        for (AnswerHeader answerHeader : getLatestAnswerVersions(answerHeaders)) {
+            if (answerHeader.getQuestionnaire().getQuestionnaireSeqId().equals(questionnaireId)) {
                 for (Answer answer : answerHeader.getAnswers()) {
-                    if (answer.getQuestion().getQuestionSeqId().equals(questionId)) {
+                    if (String.valueOf(answer.getQuestion().getQuestionSeqId()).equals(questionId)) {
                         return answer.getAnswer();
                     }
                 }
@@ -83,12 +83,24 @@ public class QuestionResolver implements TermResolver<Object> {
         }
         return "";
     }
-    
-    protected List<AnswerHeader> getQuestionnaireAnswers(String moduleCode, String moduleItemKey) {
+
+    protected Collection<AnswerHeader> getLatestAnswerVersions(List<AnswerHeader> allAnswerHeaders) {
+        Map<String, AnswerHeader> latestAnswerHeaders = new HashMap<>();
+        for (AnswerHeader header : allAnswerHeaders) {
+            AnswerHeader compHeader = latestAnswerHeaders.get(header.getQuestionnaire().getQuestionnaireSeqId());
+            if (compHeader == null || header.getQuestionnaire().getSequenceNumber() > compHeader.getQuestionnaire().getSequenceNumber()) {
+                latestAnswerHeaders.put(header.getQuestionnaire().getQuestionnaireSeqId(), header);
+            }
+        }
+        return latestAnswerHeaders.values();
+    }
+
+    protected List<AnswerHeader> getQuestionnaireAnswers(String moduleCode, String moduleItemKey, String moduleSubItemKey) {
         BusinessObjectService boService = KcServiceLocator.getService(BusinessObjectService.class);
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(MODULE_ITEM_CODE, moduleCode);
-        fieldValues.put(MODULE_ITEM_KEY, moduleItemKey);
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(QuestionnaireConstants.MODULE_ITEM_CODE, moduleCode);
+        fieldValues.put(QuestionnaireConstants.MODULE_ITEM_KEY, moduleItemKey);
+        fieldValues.put(QuestionnaireConstants.MODULE_SUB_ITEM_KEY, moduleSubItemKey);
         return (List<AnswerHeader>) boService.findMatching(AnswerHeader.class, fieldValues);
     }
 

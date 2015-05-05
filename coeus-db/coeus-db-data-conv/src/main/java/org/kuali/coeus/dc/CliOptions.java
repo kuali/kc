@@ -52,6 +52,10 @@ public class CliOptions {
             return true;
         }
 
+        if (valid && (containsQuestSeq() && !"".equals(getCoeusConnectionString()) && !"".equals(getRiceConnectionString()))) {
+            return true;
+        }
+
         if (valid && (inactivateCleanupPolicy() || deleteCleanupPolicy())) {
             return true;
         }
@@ -93,6 +97,10 @@ public class CliOptions {
 
     public boolean containsIacuc() {
         return contains("iacuc");
+    }
+
+    public boolean containsQuestSeq() {
+        return contains("questseq");
     }
 
     private boolean contains(String name) {
@@ -214,7 +222,7 @@ public class CliOptions {
                 + "\n"
                 + "If platform is not specified then the platform will be autodetected from the connection strings.\n"
                 + "\n"
-                + "The valid conversion targets are (proposal|irb|iacuc|pprole).\n"
+                + "The valid conversion targets are (proposal|irb|iacuc|pprole|questseq).\n"
                 + "\n"
                 + "The dryrun flag may still cause database sequences to increment.\n"
                 + "\n"

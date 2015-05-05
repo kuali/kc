@@ -25,6 +25,8 @@ import org.kuali.coeus.dc.access.proposal.*;
 import org.kuali.coeus.dc.common.db.*;
 import org.kuali.coeus.dc.pprole.ProposalPersonRoleDao;
 import org.kuali.coeus.dc.pprole.ProposalPersonRoleDaoImpl;
+import org.kuali.coeus.dc.questseq.QuestSeqDao;
+import org.kuali.coeus.dc.questseq.QuestSeqDaoImpl;
 
 public final class CliOptionsBasedDaoFactory {
 
@@ -125,6 +127,12 @@ public final class CliOptionsBasedDaoFactory {
         ps.setConnectionDaoService(getConnectionDaoService());
         ps.setParameterDao(getParameterDao());
         return ps;
+    }
+
+    public QuestSeqDao getQuestSeqDao() {
+        QuestSeqDaoImpl qsd = new QuestSeqDaoImpl();
+        qsd.setConnectionDaoService(getConnectionDaoService());
+        return qsd;
     }
 
     public CliOptions getCliOptions() {

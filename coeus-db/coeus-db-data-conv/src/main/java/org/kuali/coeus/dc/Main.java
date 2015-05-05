@@ -119,6 +119,10 @@ public final class Main {
                 System.out.println("IACUC Conversion not supported");
             }
 
+            if (options.containsQuestSeq()) {
+                factory.getQuestSeqDao().convertQuestSeqKrmsValues();
+            }
+
             if (options.containsDryRun()) {
                 coeusConnection.rollback();
                 riceConnection.rollback();
