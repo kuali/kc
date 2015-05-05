@@ -1,5 +1,32 @@
 
 
+##coeus-1505.10
+* Create and route award placeholder as admin
+
+  * This will avoid the placeholder ever being created as the user who is only trying to create a new award and avoid creating an editable Placeholder as well. This prevents the situation of placeholder award showing up in the users action list as an item to complete. This change also depends on the 'admin' user still existing and still having superuser privileges.
+  * blackcathacker on Thu, 30 Apr 2015 15:09:07 -0700 [View Commit](../../commit/71b4839cad80c6af75da7987ee5b809b1e474c67)
+* RESKC-291 - Budget summary table ui fix for fa columns
+  * bsmith83 on Tue, 5 May 2015 10:10:28 -0700 [View Commit](../../commit/16be4d6e78b2d02ba4225f913cf1e925420eb7c4)
+*  Accept lower case characters
+  * In the S2S opportunity lookup, if user enters any lower case letters as part of the opportunity id, the system returns an error message.
+  * The search field should not be case sensitive.
+  * Search field is not case sensitive in 5.2.x.
+  * Gayathri on Tue, 5 May 2015 10:51:09 -0700 [View Commit](../../commit/23d7d0490af7dddb180a1dc18e9e70cf5595490a)
+* Avoid NullPointerException in KRMS when a narrative does not have a narrative status.
+  * Travis Schneberger on Tue, 5 May 2015 14:10:01 -0400 [View Commit](../../commit/85e1c3fb8d3d566c0f1ba92759cb9d5a17966572)
+* Fix character encoding in the app.
+  * Create or edit award
+  * In a Word document, type in: 'single quote' "double quote" long—dash
+  * Cut that from Word and past in Award Title
+  * Try to save it.
+  * Result:
+  * "Errors found in this Section: The Award Title (Title) may only consist of visible characters, spaces, or tabs."
+  * And Award title is changed to: â€˜singleâ€™ â€œdoubleâ€ longâ€”dash
+  * And if the user keeps saving, the system keeps transforming the characters until the maximum allowed characters are reached and an STE occurs: org.springframework.jdbc.UncategorizedSQLException: OJB operation; uncategorized SQLException for SQL []; SQL state [72000]; error code [12899]; ORA-12899: value too large for column "KCSO"."AWARD"."TITLE" (actual: 250, maximum: 200)
+  * Expected Result is that KC accepts 'single quote' "double quote" long—dash.
+  * Unless there is some technical reason that KC cannot accept (or transform and accept) these characters, based on how we are handling unicode.
+  * Gayathri on Tue, 5 May 2015 09:53:42 -0700 [View Commit](../../commit/feb6e0869f5dd368b6f2067b53f7e355757c47a4)
+
 ##coeus-1505.9
 * fixes STE when editing or adding sponsor templates
 
