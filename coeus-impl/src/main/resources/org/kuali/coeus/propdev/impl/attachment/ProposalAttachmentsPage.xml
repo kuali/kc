@@ -125,7 +125,8 @@
                       p:onChangeScript="Kc.PropDev.Attachments.checkforExistingAttachmentsOnParent(this)"
                       p:onClickScript="Kc.PropDev.Attachments.capturePreviousNarrativeType(this)"
                       p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:width="5%" p:order="20" />
-				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="30" />
+				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="30"
+                      p:readOnly="@{(#parent.readOnly and !#editModes['replaceNarratives']) or pageId ne 'PropDev-AttachmentsPage'}"/>
                 <bean parent="Uif-InputField" p:propertyName="moduleTitle"
                       p:order="40" />
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayFullName(#line.uploadUserDisplay)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
@@ -166,6 +167,7 @@
                       p:enableAutoQuickfinder="false"
                       p:order="10" />
                 <bean parent="Uif-InputField" p:propertyName="narrative.moduleStatusCode"
+                      p:readOnly="@{#parent.readOnly and !#editModes['replaceNarratives']}"
                       p:readOnlyDisplayReplacementPropertyName="narrative.narrativeStatus.description"
                       p:enableAutoQuickfinder="false"
                       p:required="true" p:order="20" />
@@ -437,7 +439,8 @@
         <property name="collection.items">
             <list merge="true">
                 <bean parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField" p:order="30" />
-				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="35" />
+				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="35"
+                      p:readOnly="@{(#parent.readOnly and !#editModes['replaceNarratives']) or pageId ne 'PropDev-AttachmentsPage'}"/>
                 <bean parent="Uif-InputField" p:propertyName="moduleTitle"
                       p:order="40" />
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayFullName(#line.uploadUserDisplay)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
@@ -473,6 +476,7 @@
                     <property name="optionsFinder" value="#{#getService('instituteAttachmentTypeValuesFinder')}" />
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="instituteAttachment.moduleStatusCode"
+                      p:readOnly="@{#parent.readOnly and !#editModes['replaceNarratives']}"
                       p:readOnlyDisplayReplacementPropertyName="instituteAttachment.narrativeStatus.description"
                       p:enableAutoQuickfinder="false"
                       p:required="true" p:order="15" />

@@ -65,6 +65,7 @@ public final class KeyConstants {
     
     // Abstracts and Attachments errors
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE = "error.document.narrativestatuscode.not.complete";
+    public static final String ERROR_INTERNAL_ATTACHMENT_NOT_COMPLETE = "error.document.internalattachment.statuscode.not.complete";
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_FOUND = "error.document.narrative.not.present";
     public static final String ERROR_PROPOSAL_MENTORINGPLAN_ATTACHMENT_NOT_FOUND = "error.document.mentoringplan.narrative.not.present";
 
