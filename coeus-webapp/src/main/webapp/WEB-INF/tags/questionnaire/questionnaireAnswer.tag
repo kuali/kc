@@ -78,6 +78,12 @@
             </c:otherwise>
         </c:choose>
     </c:when>
+    <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 100}" >
+        <kra-questionnaire:multipleChoiceQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
+            answer="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex]}" questionIndex="${questionIndex}"
+            bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}"
+            answerValidationError = "${answerValidationError}"/>
+    </c:when>
 </c:choose>
 </div>
 

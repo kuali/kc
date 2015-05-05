@@ -67,7 +67,7 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
         GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject.businessObject");
 
         // document must have a newMaintainable object
-        Maintainable newMaintainable = document.getNewMaintainableObject();
+        Maintainable newMaintainable = document.getNewMaintainableObject(   );
         if (newMaintainable == null) {
             GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
             throw new ValidationException("Maintainable object from Maintenance Document '" + document.getDocumentTitle() + "' is null, unable to proceed.");
@@ -166,6 +166,9 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
                 case (int) Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
                     isValid &= validateResponseTypeLookup(question); 
                     break;
+                case (int) Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE:
+                    isValid &= validateResponseTypeMultipleChoice(question);
+                    break;
                 default:
                     isValid &= false;
                     GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID,
@@ -256,6 +259,34 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
         return isValid;
     }
 
+    private boolean validateResponseTypeMultipleChoice(Question question) {
+        boolean isValid = true;
+
+        isValid &= validateDisplayedAnswers(question);
+        isValid &= validateMaxAnswers(question);
+        isValid &= validateMultipleChoiceOptions(question);
+
+        return isValid;
+    }
+
+    private boolean validateMultipleChoiceOptions(Question question) {
+        boolean isValid = true;
+
+        if (StringUtils.isBlank(question.getAffirmativeStatementConversion()) || question.getDisplayedAnswers() <= 0) {
+            isValid = false;
+        }
+        else if (question.getMultipleChoicePrompts() != null && question.getMultipleChoicePrompts().length != question.getDisplayedAnswers()) {
+            isValid = false;
+        }
+
+        if (!isValid) {
+            GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
+                    KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_CHECKBOXES_TEXT);
+        }
+
+        return isValid;
+    }
+
     /**
      * This method validates the displayedAnswers field.  The field must contain a number greater than zero.
      * @param question - the question to be validated
@@ -268,7 +299,12 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
             if (question.getQuestionTypeId() == Constants.QUESTION_RESPONSE_TYPE_TEXT) {
                 GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
                         KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_AREAS);
-            } else {
+            }
+            else if (question.getQuestionTypeId() == Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE) {
+                GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
+                        KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_CHECKBOXES);
+            }
+            else {
                 GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
                         KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_BOXES);
             }
@@ -332,6 +368,10 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
                 case (int) Constants.QUESTION_RESPONSE_TYPE_TEXT :
                     GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
                             KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_AREAS);
+                    break;
+                case (int) Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE :
+                    GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
+                            KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_CHECKBOXES);
                     break;
                 default :
                     GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,

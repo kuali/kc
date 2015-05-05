@@ -113,6 +113,16 @@
             document.getElementById("max_answers_html_control").style.display = "inline";
             document.getElementById("max_answers_br").style.display = "inline";
             break;
+        case "100":
+            document.getElementById("displayed_answers_pre_message").innerHTML = "The user will be presented with ";
+            document.getElementById("displayed_answers_post_message").innerHTML = " check boxes.";
+            document.getElementById("displayed_answers_html_control").style.display = "inline";
+            document.getElementById("displayed_answers_br").style.display = "inline";
+            document.getElementById("max_answers_pre_message").innerHTML = "The number of possible answers is ";
+            document.getElementById("max_answers_post_message").innerHTML = ", not exceeding the number of text areas presented.";
+            document.getElementById("max_answers_html_control").style.display = "inline";
+            document.getElementById("max_answers_br").style.display = "inline";
+            break;
         default :
             document.getElementById("response_message").innerHTML = "<i>The question type is not yet supported.  Contact the system administrator to have this fixed.  Meanwhile please select a different Type of response for for this question.</i> <br />";
             document.getElementById("response_message_br").style.display = "inline";

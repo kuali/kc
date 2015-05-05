@@ -20,9 +20,9 @@ package org.kuali.coeus.common.questionnaire.framework.question;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.questionnaire.api.question.QuestionContract;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
-import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -400,5 +400,55 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
 
     public void resetPersistenceState() {
         this.id = null;
+    }
+
+    public String[] getMultipleChoicePrompts() {
+        String[] options = getAffirmativeStatementConversion().split(";");
+        return trimOptions(options);
+    }
+
+    public String[] getMultipleChoiceDescriptions() {
+        String negativeStatement = getNegativeStatementConversion();
+        if(negativeStatement == null) {
+            return null;
+        }
+        return trimOptions(getNegativeStatementConversion().split(";"));
+    }
+
+    protected String[] trimOptions(String[] options) {
+        if (options != null) {
+            for (int i = 0; i < options.length; i++) {
+                if (options[i] != null) {
+                    options[i] = options[i].trim();
+                }
+            }
+        }
+        return options;
+    }
+
+    public String getMultipleChoiceDescriptionForAnswer(String answer) {
+        if (questionTypeId == Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE) {
+            String[] prompts = getMultipleChoicePrompts();
+            String[] descriptions = getMultipleChoiceDescriptions();
+            if (descriptions == null) {
+                return answer;
+            }
+            for (int i = 0; i < prompts.length; i++) {
+                if (prompts[i].equals(answer) && i < descriptions.length) {
+                    return descriptions[i];
+                }
+                else if (answer.startsWith(prompts[i]) && prompts[i].endsWith(":") && i < descriptions.length) {
+                    if (descriptions[i].contains("[[") && descriptions[i].contains("]]")) {
+                        String actualAnswer = answer.replaceAll(prompts[i], "");
+                        return descriptions[i].replaceAll("\\[\\[[^\\]]+\\]\\]", actualAnswer);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean isRadioButton() {
+        return getMaxAnswers() == 1 && getDisplayedAnswers() != 1;
     }
 }
