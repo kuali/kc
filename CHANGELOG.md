@@ -1,5 +1,24 @@
 
 
+##coeus-1505.8
+* Oracle fixes
+  * Our oracle installation scripts had a few issues.
+  * 1. The anonymous block was assuming there was only one record in the subawards table while there could be more than one.
+  * 2. Constraint was being applied in the wrong order.
+  * The errors were
+  * ADD CONSTRAINT FK3_BUDGET_SUB_AWARDS
+                   *
+  * ERROR at line 2:
+  * ORA-02298: cannot validate (MG1504.FK3_BUDGET_SUB_AWARDS) - parent keys not
+  * found
+
+  * DECLARE
+*
+  * ERROR at line 1:
+  * ORA-01422: exact fetch returns more than requested number of rows
+  * ORA-06512: at line 7
+  * Gayathri on Mon, 4 May 2015 13:59:37 -0700 [View Commit](../../commit/20babdc1852e11501469e4022a466eca3d8d3759)
+
 ##coeus-1505.7
 * No Changes
 
