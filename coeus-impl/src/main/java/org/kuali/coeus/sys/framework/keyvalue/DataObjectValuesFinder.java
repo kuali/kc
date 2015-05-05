@@ -25,8 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.rice.core.api.criteria.OrderByField;
+import org.kuali.rice.core.api.criteria.OrderDirection;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -47,6 +50,8 @@ public class DataObjectValuesFinder extends UifKeyValuesFinderBase {
     protected boolean includeKeyInDescription = false;
     protected String blankRowValue = "select";
     protected Map<String,String> matchingCriteria = new HashMap<String,String>();
+    protected String orderByField;
+    protected boolean orderDescending;
 
     @Autowired
     @Qualifier("dataObjectService")
@@ -61,11 +66,15 @@ public class DataObjectValuesFinder extends UifKeyValuesFinderBase {
 	public List<KeyValue> getKeyValues() {
         List<KeyValue> labels = new ArrayList<KeyValue>();
     	try {
-            Collection<?> objects = null;
+           List<OrderByField> orderByFields = new ArrayList<>();
+            if (StringUtils.isNotEmpty(orderByField)) {
+               orderByFields.add(OrderByField.Builder.create(orderByField,orderDescending ? OrderDirection.DESCENDING : OrderDirection.ASCENDING).build());
+            }
+            Collection<?> objects;
             if(matchingCriteria == null || matchingCriteria.isEmpty()) {
-            	objects = getDataObjectService().findAll(dataObjectClass).getResults();
+            	objects = getDataObjectService().findMatching(dataObjectClass,QueryByCriteria.Builder.create().setOrderByFields(orderByFields).build()).getResults();
             }else {
-            	objects = getDataObjectService().findMatching(dataObjectClass,QueryByCriteria.Builder.andAttributes(matchingCriteria).build()).getResults();
+            	objects = getDataObjectService().findMatching(dataObjectClass,QueryByCriteria.Builder.andAttributes(matchingCriteria).setOrderByFields(orderByFields).build()).getResults();
             }
             if(isAddBlankOption()) {
             	labels.add(new ConcreteKeyValue("", blankRowValue));
@@ -130,5 +139,20 @@ public class DataObjectValuesFinder extends UifKeyValuesFinderBase {
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
 	}
-    
+
+    public String getOrderByField() {
+        return orderByField;
+    }
+
+    public void setOrderByField(String orderByField) {
+        this.orderByField = orderByField;
+    }
+
+    public boolean isOrderDescending() {
+        return orderDescending;
+    }
+
+    public void setOrderDescending(boolean orderDescending) {
+        this.orderDescending = orderDescending;
+    }
 }
