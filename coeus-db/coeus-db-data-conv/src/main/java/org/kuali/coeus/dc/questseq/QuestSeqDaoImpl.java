@@ -24,8 +24,13 @@ public class QuestSeqDaoImpl implements QuestSeqDao {
 
     @Override
     public void convertQuestSeqKrmsValues() {
-        //term parm with QUESTION_ID name does not need to be converted because they already contain question seq ids
-
+        final Collection<TermParm> parmsQuestion = getTermParmWithName(QUESTION_ID);
+        for (TermParm parm : parmsQuestion) {
+            parm.name = QUESTION_SEQ_ID;
+            //not fixing the value because the value is already the question seq id
+            parm.versionNumber = parm.versionNumber + 1;
+        }
+        updateTermParms(parmsQuestion);
         updateTermResolverParamSpecName(QUESTION_ID, QUESTION_SEQ_ID);
         updateTermResolverParamSpecName(QUESTION_REF_ID, QUESTION_SEQ_ID);
 
@@ -48,23 +53,6 @@ public class QuestSeqDaoImpl implements QuestSeqDao {
 
     public void setConnectionDaoService(ConnectionDaoService connectionDaoService) {
         this.connectionDaoService = connectionDaoService;
-    }
-
-    private String getQuestionSeqId(String questionId) {
-        Connection connection = connectionDaoService.getCoeusConnection();
-        //the question_id is actually the question seq id.  The question_ref_id is the question id.
-        try (PreparedStatement stmt =
-                     setString(1, questionId,
-                             connection.prepareStatement("SELECT QUESTION_ID FROM QUESTION WHERE QUESTION_REF_ID = ?"));
-             ResultSet result = stmt.executeQuery()) {
-
-            if (result.next()) {
-                return result.getString(1);
-            }
-            return null;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private String getQuestionnaireSeqId(String questionnaireId) {
