@@ -48,6 +48,8 @@ public class ProposalDevelopmentConstants {
         public static final String PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_NARRATIVE = "proposalDevelopmentAttachmentHelper.narrative";
         public static final String PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY = "proposalDevelopmentAttachmentHelper.biography";
         public static final String PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER = "proposalDevelopmentAttachmentHelper";
+        public static final String DATA_VALIDATION_DIALOG_ID = "DataValidationSection";
+        public static final String DATA_VALIDATION_SECTION_WITH_SUBMIT = "DataValidationSection-WithSubmit";
     }
 
     public static class Parameters {

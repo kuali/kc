@@ -19,6 +19,7 @@
 package org.kuali.coeus.propdev.impl.action;
 
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
@@ -39,7 +40,7 @@ public class ProposalDevelopmentSuperUserController extends ProposalDevelopmentC
             return getTransactionalDocumentControllerService().superUserTakeActions(form);
         }
         else{
-            return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+            return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
         }
     }
 
@@ -50,7 +51,7 @@ public class ProposalDevelopmentSuperUserController extends ProposalDevelopmentC
             return getTransactionalDocumentControllerService().superUserApprove(form);
         }
         else{
-            return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+            return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
         }
     }
 

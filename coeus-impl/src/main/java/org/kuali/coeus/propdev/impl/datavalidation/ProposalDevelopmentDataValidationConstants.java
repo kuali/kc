@@ -67,8 +67,11 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String ATTACHMENT_PROPOSAL_SECTION_NAME = "Proposal Attachments";
     public static final String ATTACHMENT_PERSONNEL_SECTION_ID = "PropDev-AttachmentsPage-PersonnelSection";
     public static final String ATTACHMENT_PERSONNEL_SECTION_NAME = "Personnel Attachments";
+    public static final String ATTACHMENT_INTERNAL_SECTION_ID =  "PropDev-AttachmentsPage-InternalSection";
+    public static final String ATTACHMENT_INTERNAL_SECTION_NAME = "Internal Attachments";
     public static final String NARRATIVES_KEY = "document.developmentProposal.narratives";
     public static final String NARRATIVES_STATUS_KEY = "document.developmentProposal.narratives[%d].moduleStatusCode";
+    public static final String INSTITUTE_ATTACHMENTS_STATUS_KEY = "document.developmentProposal.instituteAttachments[%d].moduleStatusCode";
     public static final String BIOGRAPHIES_KEY = "document.developmentProposal.propPersonBios";
     public static final String BIOGRAPHY_TYPE_KEY = "document.developmentProposal.propPersonBios[%d].documentTypeCode";
     public static final String BIOGRAPHY_PERSON_KEY = "document.developmentProposal.propPersonBios[%d].proposalPersonNumberString";

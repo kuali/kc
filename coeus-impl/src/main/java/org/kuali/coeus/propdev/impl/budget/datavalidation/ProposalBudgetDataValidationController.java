@@ -23,6 +23,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +39,7 @@ public class ProposalBudgetDataValidationController extends ProposalBudgetContro
     @Transactional @RequestMapping(params="methodToCall=validateData")
     public ModelAndView validateData(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         setDataValidation(form);
-        return getModelAndViewService().showDialog("DataValidationSection", true, form);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
     }
 
     @Transactional @RequestMapping(params="methodToCall=toggleValidation")

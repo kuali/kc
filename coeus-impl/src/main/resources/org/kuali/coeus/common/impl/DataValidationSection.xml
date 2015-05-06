@@ -56,7 +56,7 @@
         	<bean parent="Uif-DialogFooter">
         		<property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:order="20" p:methodToCall="closeBudgetSettings"/> 
+                        <bean parent="Uif-DialogDismissButton" p:actionLabel="Close" p:order="20"/>
                     </list>
                 </property>
         	</bean>
@@ -67,7 +67,7 @@
     <bean id="DataValidationSection-Collection-parentBean" parent="Uif-TableCollectionSection"
           p:collectionObjectClass="org.kuali.coeus.sys.impl.validation.DataValidationItem"
           p:propertyName="dataValidationItems" p:layoutManager.richTable.render="false"
-          p:renderAddLine="false" p:layoutManager.renderSequenceField="false">
+          p:renderAddLine="false" p:layoutManager.renderSequenceField="false" p:readOnly="false">
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="area" p:fieldLabel.labelText="Area" p:order="10"/>

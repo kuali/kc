@@ -34,7 +34,6 @@ import org.kuali.coeus.propdev.impl.lock.ProposalBudgetLockService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
@@ -58,7 +57,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
 	private static final String CONFIRM_RATE_CHANGES_DIALOG_ID = "PropBudget-BudgetSettings-ChangeRateDialog";
 	private static final String BUDGET_SETTINGS_DIALOG_ID = "PropBudget-BudgetSettings-Dialog";
-	private static final String BUDGET_DATA_VALIDATION_DIALOG_ID = "DataValidationSection";
 	private static final String ACTIVITY_RATE_CHANGE_DIALOG_ID = "PropBudget-ActivityTypeChanged-Dialog";
 	private static final String NO_RATES_DIALOG_ID = "PropBudget-NoRates-Dialog";
 
@@ -278,7 +276,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	@Transactional @RequestMapping(params="methodToCall=closeBudgetValidation")
 	public ModelAndView closeBudgetValidation(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		processAuditRuleValidation(form);
-		return getKcCommonControllerService().closeDialog(BUDGET_DATA_VALIDATION_DIALOG_ID, form);
+		return getKcCommonControllerService().closeDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, form);
 	}
 	
 	protected void processAuditRuleValidation(ProposalBudgetForm form) {

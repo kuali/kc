@@ -19,6 +19,7 @@
 package org.kuali.coeus.propdev.impl.datavalidation;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl;
@@ -47,7 +48,7 @@ public class ProposalDevelopmentDataValidationController extends ProposalDevelop
             form.setDataValidationItems(((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateDataValidation(form));
         }
 
-        return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=toggleValidation")
