@@ -1,5 +1,14 @@
 
 
+##coeus-1505.15
+* QuestionResolver contribution
+
+  * https://github.com/kuali/kc/pull/1577
+  * KRACOEUS-7230
+
+  * Fixing conversion program
+  * Travis Schneberger on Wed, 6 May 2015 14:58:59 -0400 [View Commit](../../commit/f84886cc19d3068f3903be077ab96847ef2ac1d5)
+
 ##coeus-1505.14
 * Sort Special Review Approval Status Alphabetically
   * Joe Williams on Tue, 5 May 2015 16:41:02 -0500 [View Commit](../../commit/d514c3fa7b68e6b029917f521b2d512f169663b0)
