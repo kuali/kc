@@ -1,5 +1,9 @@
 
 
+##coeus-1505.12
+* No Changes
+
+
 ##coeus-1505.11
 *  Allow other roles to be assigned in addition to aggregator document level role
   * There should not be a constraint of adding of other roles when aggregator is selected. These roles may be modified by implementing school so it may be necessary for Aggregator to also have any other role, ex: delete proposal.
