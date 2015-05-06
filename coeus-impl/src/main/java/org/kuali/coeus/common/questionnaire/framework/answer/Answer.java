@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.questionnaire.framework.answer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
@@ -155,7 +156,6 @@ public class Answer extends KcPersistableBusinessObjectBase implements AnswerCon
      * 
      * This method is to get the flag whether to display the child question or not based on parent answer
      * revised : this may also based rule evaluation, and eventually root node may be applied for rule evaluation.
-     * @return
      */
     public String getMatchedChild() {
         return matchedChild;
@@ -180,5 +180,17 @@ public class Answer extends KcPersistableBusinessObjectBase implements AnswerCon
 
     public void setRuleMatched(boolean ruleMatched) {
         this.ruleMatched = ruleMatched;
+    }
+
+    public boolean isAnswered() {
+        if (!StringUtils.isBlank(this.getAnswer())) {
+            return true;
+        }
+        for (Answer answer: answerHeader.getAnswers()) {
+            if (answer.getQuestionNumber().equals(questionNumber) && !StringUtils.isBlank(answer.getAnswer())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
