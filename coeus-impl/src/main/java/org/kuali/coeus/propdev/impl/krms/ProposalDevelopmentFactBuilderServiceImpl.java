@@ -51,12 +51,13 @@ import org.springframework.stereotype.Component;
 public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
 
     private static final String COMPLETE = "C";
+    public static final String DOCUMENT_NUMBER = "//document/documentNumber";
     @Autowired
 	@Qualifier("documentService")
 	private DocumentService documentService;
     
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
-        String documentNumber = getElementValue(docContent, "//document/documentNumber");
+        String documentNumber = getElementValue(docContent, DOCUMENT_NUMBER);
         try {
             ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)getDocumentService().getByDocumentHeaderId(documentNumber);
             addFacts(factsBuilder, proposalDevelopmentDocument);
@@ -77,11 +78,13 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
     
     private void addBudgetFacts(Builder factsBuilder, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         Budget budget =  proposalDevelopmentDocument.getDevelopmentProposal().getFinalBudget();
-        addObjectMembersAsFacts(factsBuilder,budget,KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT_ID,Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
+        addObjectMembersAsFacts(factsBuilder,budget,KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT_ID,
+                                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
     }
     
     private void addProposalFacts(Builder factsBuilder, DevelopmentProposal developmentProposal) {
-        addObjectMembersAsFacts(factsBuilder,developmentProposal,KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT_ID,Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
+        addObjectMembersAsFacts(factsBuilder,developmentProposal,KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT_ID,
+                                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
         factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.DEVELOPMENT_PROPOSAL, developmentProposal);
         factsBuilder.addFact(KcKrmsConstants.ProposalDevelopment.PROPOSAL_NARRATIVES_COMPLETE, isProposalNarrativesComplete(developmentProposal));
     }
@@ -99,12 +102,9 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
     protected String getElementValue(String docContent, String xpathExpression) {
         try (InputStream stream = new ByteArrayInputStream(docContent.getBytes())) {
             Document document = XmlHelper.trimXml(stream);
-
             XPath xpath = XPathHelper.newXPath();
-            String value = (String) xpath.evaluate(xpathExpression, document, XPathConstants.STRING);
 
-            return value;
-
+            return (String) xpath.evaluate(xpathExpression, document, XPathConstants.STRING);
         } catch (Exception e) {
             throw new RiceRuntimeException();
         }
