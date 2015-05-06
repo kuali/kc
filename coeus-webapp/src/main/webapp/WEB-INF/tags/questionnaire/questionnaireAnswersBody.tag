@@ -17,6 +17,7 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <%@ attribute name="bean" required="true" type="org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase" %>
 <%@ attribute name="property" required="true" %>
@@ -52,11 +53,6 @@
                        alt="Print Questionnaire Answer" title="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/>
 				</c:otherwise>
 			</c:choose>
-<%--                <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.coeus.common.questionnaire.framework.question.Question">
-                    <img styleClass="tinybutton" alt="[Help]help" src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif"></a>
-                    <%--  when using this tag, the 'print' and '?' is not aligning well.
-                    <kul:help businessObjectClassName="org.kuali.coeus.common.questionnaire.framework.question.Question" altText="help"/>
-                    --%> 
             </span>
         </h3>
         <div class="questionnaireContent">
@@ -127,13 +123,18 @@
 		        	                </c:if>    
 		                        </c:forEach>
                             </c:when>
+                            <c:when test="${answer.question.questionTypeId == 5}">
+                                <html:textarea name="KualiForm" property="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${status.index}].answer" disabled="true" />
+                            </c:when>
                             <c:otherwise>
-                                  ${answer.answer} </br>
+                                <c:out value="${answer.answer}" /> </br>
                             </c:otherwise>
                         </c:choose>
                     </c:when>
                     <c:otherwise>
-                        <kra-questionnaire:questionnaireAnswer questionIndex="${status.index}" bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" />        
+                        <c:set var="showError" value="${!answer.answered and KualiForm.auditActivated and answer.questionNumber != shownError && answer.answerHeader.questionnaireMandatory}" />
+                        <c:set var="shownError" value="${answer.questionNumber}" />
+                        <kra-questionnaire:questionnaireAnswer questionIndex="${status.index}" bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}" showError="${showError}" />
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
