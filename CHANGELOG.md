@@ -1,5 +1,19 @@
 
 
+##coeus-1505.14
+* Sort Special Review Approval Status Alphabetically
+  * Joe Williams on Tue, 5 May 2015 16:41:02 -0500 [View Commit](../../commit/d514c3fa7b68e6b029917f521b2d512f169663b0)
+* Added View Institutionally Maintained Salaries Document Level Role
+  * Joe Williams on Thu, 30 Apr 2015 15:27:12 -0500 [View Commit](../../commit/70429e355b58b94d74a2fae52eb172df1560ba2f)
+* validate attachment status when submitting to sponsor
+
+  * There is a parameter for Proposal Development named AUDIT_INCOMPLETE_PROPOSAL_ATTACHMENTS that has the following description:
+  * "When set to Y, proposals will be audited for incomplete attachments up to and including sponsor submission. When set to N, incomplete attachments are valid on a proposal up to but excluding sponsor submission."
+  * When this flag is set to N, a proposal can be successfully routed with an incomplete attachment, but there is no validation upon submission to sponsor that the status has been set to complete. On the KualiCo QA instance running build 1505.4, I was able to submit a proposal with an incomplete attachment without any warnings or errors; see attached screenshot.
+  * In the KC 1504.3 release, there appeared to be some validation logic that was intended to prevent submission with incomplete attachments (in the class org.kuali.coeus.propdev.impl.core.SubmitToSponsorRule) but it was buggy; upon submitting a proposal with an incomplete attachment, the data validation window would pop up but would contain no errors, and the proposal would go into "approved" state but no IP would be generated. So it seems that the logic in SubmitToSponsorRule was partially working, but no indication of this error was given to the user and the proposal was not prevented from entering the "approved" state.
+  * In 1505.4 it seems as though this partial validation has been removed.
+  * Joe Williams on Tue, 5 May 2015 15:06:35 -0500 [View Commit](../../commit/9a968d1c2ffad96304f50d3b4fa4d71ff7efb705)
+
 ##coeus-1505.13
 *  Budget null pointer
   * In trying to figure out RESOPS-114, I could not open budget because of a null pointer so I added a null check in the place where I think this is coming from. Not sure if this will fix it but attempting.
