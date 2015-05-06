@@ -51,6 +51,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -206,7 +207,7 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     }
 
     public String getDateFromTimeStamp(Timestamp timestamp) {
-        return getDateTimeService().toDateString(new Date(timestamp.getTime()));
+        return ObjectUtils.isNull(timestamp)? "" : getDateTimeService().toDateString(new Date(timestamp.getTime()));
     }
 
     public DateTimeService getDateTimeService() {
