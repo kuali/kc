@@ -45,7 +45,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 //not exactly sure how to do this with autowiring since exception handlers are special
 public class KcUifHandlerExceptionResolver implements org.springframework.web.servlet.HandlerExceptionResolver, Ordered {
-    HandlerExceptionResolver innerHandler;
+	private static final Logger LOG = Logger.getLogger(KcUifHandlerExceptionResolver.class);
+	HandlerExceptionResolver innerHandler;
 
     public int getOrder() {
         return Integer.MIN_VALUE;
@@ -53,6 +54,12 @@ public class KcUifHandlerExceptionResolver implements org.springframework.web.se
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+    	UserSession requestSession = (UserSession) request.getSession().getAttribute(KRADConstants.USER_SESSION_KEY);
+		if (System.identityHashCode(GlobalVariables.getUserSession()) != System.identityHashCode(requestSession)) {
+    		LOG.error("User Session Difference Detected. GlobalVariables session = " + GlobalVariables.getUserSession() + ", request session = " + requestSession);
+    	}
+    	GlobalVariables.setUserSession(requestSession);
+    	
         //Avoids NPE in rice incident handler
         if (handler == null) {
             return innerHandler.resolveException(request, response, NullHandler.INSTANCE, ex);
@@ -60,7 +67,7 @@ public class KcUifHandlerExceptionResolver implements org.springframework.web.se
 
         return innerHandler.resolveException(request, response, handler, ex);
     }
-
+    
     public void setInnerHandler(HandlerExceptionResolver innerHandler) {
         this.innerHandler = innerHandler;
     }
