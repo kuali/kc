@@ -1,5 +1,19 @@
 
 
+##coeus-1505.17
+* When opening subaward for award use edit mode
+
+  * Link to Subaward in the Award funding should open with edit button if user has appropriate role/permissions
+  * Award modifiers should be able to edit an existing subaward via the awards module by selecting subawards -> Open subaward and then an edit button. The edit button is currently missing from this page.
+  * Steps to Reproduce
+  * Open an Award Document that has subaward funding (ex 6703 in https://res-demo1.kuali.co)
+  * go to the Subawards panel on Award Tab
+  * Click on the Open Subaward link in the Subawards where this awared is a Funding source subpanel.
+  * Scroll to the bottom of the subaward document and look for the edit button.
+  * RESULT: Only close button appears. Even though user has role/permission to create & edit subawards, the edit button is missing.
+  * EXPECTED RESULT: User with appropriate role/permission should see an edit button in the subaward document when opening it via the link from awards. This is similar to how the link from subaward to award works when it opens the award and displays the edit button on the award document.
+  * blackcathacker on Wed, 6 May 2015 17:58:23 -0700 [View Commit](../../commit/310ee38bc3b3b082e18658eb41553bfef8b49cba)
+
 ##coeus-1505.16
 *  Fix term spec to call the right method.
   * If you build an agenda with the costShareAmount term and create a PD with budget, you cannot navigate to the submit or questionnaire pages. Following STE
