@@ -24,7 +24,7 @@
 <c:set var="canViewCfdaLookup" value="${KualiForm.cfdaLookupRequired}" scope="request" />
 
 <kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" 
-	tabErrorKey="document.institutionalProposal.noticeOfOpportunityCode,document.institutionalProposal.programAnnouncementNumber,document.institutionalProposal.sponsorProposalNumber,document.institutionalProposal.nsfCode,document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorCode,,document.institutionalProposalList[0].sponsorCode,document.institutionalProposal.deadlineTime, document.institutionalProposalList[0].deadlineTime,document.institutionalProposal.primeSponsorCode,document.institutionalProposalList[0].opportunity,document.institutionalProposalList[0].primeSponsorCode" 
+	tabErrorKey="document.institutionalProposal.noticeOfOpportunityCode,document.institutionalProposal.programAnnouncementNumber,document.institutionalProposal.sponsorProposalNumber,document.institutionalProposal.nsfCode,document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorCode,document.institutionalProposalList[0].sponsorCode,document.institutionalProposal.deadlineTime, document.institutionalProposalList[0].deadlineTime,document.institutionalProposal.primeSponsorCode,document.institutionalProposalList[0].opportunity,document.institutionalProposalList[0].primeSponsorCode"
 	auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" 
 	tabAuditKey="document.institutionalProposal.cfdaNumber,document.institutionalProposal.sponsorProposalNumber" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -62,7 +62,7 @@
                 	<kul:directInquiry boClassName="org.kuali.coeus.common.framework.sponsor.Sponsor" inquiryParameters="document.institutionalProposalList[0].primeSponsorCode:sponsorCode" anchor="${tabKey}"/>
                 	<br />
                 	<div id="primeSponsorName.div" class="fineprint">
-                		${KualiForm.document.institutionalProposal.primeSponsor.sponsorName}&nbsp;
+                		${KualiForm.document.institutionalProposalList[0].primeSponsor.sponsorName}&nbsp;
 					</div>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.nsfCode}" /></div></th>
