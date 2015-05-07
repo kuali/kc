@@ -1,5 +1,10 @@
 
 
+##coeus-1505.18
+*  Cleaning up all the other terms
+  * While working on this jira, I noticed that the method mapped for the term was wrong. While checking other terms, I found that other terms were mapped wrong as well. So fixing those.
+  * Gayathri on Wed, 6 May 2015 15:25:02 -0700 [View Commit](../../commit/a8fd87a4556c0b3d44399effcc160b7cf8811a00)
+
 ##coeus-1505.17
 * When opening subaward for award use edit mode
 
