@@ -105,7 +105,7 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends KcTransactio
             BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
             List<Sponsor> sponsors = (List<Sponsor>)businessObjectService.findMatching(Sponsor.class, fieldValues);
             if(sponsors.size() == 0) {
-                this.reportError("document.institutionalProposal.primeSponsorCode", KeyConstants.ERROR_INVALID_PRIME_SPONSOR_CODE);
+                this.reportError("document.institutionalProposalList[0].primeSponsorCode", KeyConstants.ERROR_INVALID_PRIME_SPONSOR_CODE);
                 valid = false;
             }
         }
