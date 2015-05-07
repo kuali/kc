@@ -1,5 +1,17 @@
 
 
+##coeus-1505.19
+* Institutional Proposal with inactive sponsor or prime sponsor.
+
+  * https://github.com/kuali/kc/pull/1581
+
+  * [KRAFDBCK-12386] Disabled hard error on save for inactive Sponsors in IP and replaced with an audit warning.
+
+  * This code change provides a solution to the problem of trying to edit IPs with Sponsors that have been inactivated since the IP was first approved, by replacing the hard save error with an audit warning instead.
+  * Travis Schneberger on Mon, 4 May 2015 16:14:41 -0400 [View Commit](../../commit/f9204cfdc0c565c21f85ade541870f90873269c0)
+* When and invalid prime sponsor is entered on an Institutional Proposal Document the Prime Sponsor ID field is not highlighted with an error indicator.
+  * Travis Schneberger on Thu, 7 May 2015 09:30:00 -0400 [View Commit](../../commit/f048b27c305a1164ac751e5e308e3793b50bfb70)
+
 ##coeus-1505.18
 *  Cleaning up all the other terms
   * While working on this jira, I noticed that the method mapped for the term was wrong. While checking other terms, I found that other terms were mapped wrong as well. So fixing those.
