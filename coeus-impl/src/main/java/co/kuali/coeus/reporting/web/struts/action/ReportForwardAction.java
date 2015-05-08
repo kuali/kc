@@ -33,6 +33,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -46,9 +47,9 @@ import org.kuali.rice.krad.data.DataObjectService;
 public class ReportForwardAction extends KualiDocumentActionBase {
 
     private static Log LOG = LogFactory.getLog(ReportForwardAction.class);
-    private static final String URL_RELATIVE = "rsmart.report.url.relative";
     private static final String URL_BASE = "rsmart.report.url.base";
     private static final String QUERY_BASE = "rsmart.report.query.base";
+    private static final String ADHOC_LIST_QUERY = "rsmart.report.adhoc.list.query";
     private static final String CLUSTER_ID_VAR = "RSMART_CLUSTER";
     
     private DataObjectService dataObjectService;
@@ -74,25 +75,25 @@ public class ReportForwardAction extends KualiDocumentActionBase {
         
         String currentUserId = getGlobalVariableService().getUserSession().getPrincipalName();
         String clientId = getClientId(request);
-        String awardId = request.getParameter("awardId");
+        String reportId = request.getParameter("reportId");
 
         boolean isPI = isPrincipalInvestigator(currentUserId);
 
-        String urlRelative = getKualiConfigurationService().getPropertyValueAsString(URL_RELATIVE);
         String urlBase = getKualiConfigurationService().getPropertyValueAsString(URL_BASE);
         String queryBase = getKualiConfigurationService().getPropertyValueAsString(QUERY_BASE);
+        String adHocView = getKualiConfigurationService().getPropertyValueAsString(ADHOC_LIST_QUERY);
         String credentials[] = new String[] {currentUserId, Boolean.toString(isPI), clientId};
         final String url;
-        
-        if (Boolean.parseBoolean(urlRelative)) {
-            LOG.debug("generating relative URL");
-            final Method generateRelativeURL = getTokenURLGenerator().getClass().getMethod("tokenURLGenerator", HttpServletRequest.class, String.class, String.class, String[].class);
-            url = (String) generateRelativeURL.invoke(getTokenURLGenerator(), request, urlBase, queryBase + awardId, credentials);
+
+        final String query;
+        if (StringUtils.isNotBlank(reportId)) {
+        	query = queryBase + reportId;
         } else {
-            LOG.debug("generating absolute URL");
-            final Method generateAbsoluteURL = getTokenURLGenerator().getClass().getMethod("generateAbsoluteURL", String.class, String.class, String[].class);
-            url = (String) generateAbsoluteURL.invoke(getTokenURLGenerator(), urlBase, queryBase + awardId, credentials);
+        	query = adHocView;
         }
+        LOG.debug("generating absolute URL");
+        final Method generateAbsoluteURL = getTokenURLGenerator().getClass().getMethod("generateAbsoluteURL", String.class, String.class, String[].class);
+        url = (String) generateAbsoluteURL.invoke(getTokenURLGenerator(), urlBase, query, credentials);
         
         LOG.debug("redirecting to url \"" + url + "\"");
         response.sendRedirect(url);
