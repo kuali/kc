@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.Interval;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -286,8 +287,15 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     }
 	
     private void syncLineItemDates(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
-		budgetLineItem.setStartDate(budgetPersonnelDetails.getStartDate());
-		budgetLineItem.setEndDate(budgetPersonnelDetails.getEndDate());
+		long longestDuration = 0;
+		for (BudgetPersonnelDetails detail: budgetLineItem.getBudgetPersonnelDetailsList()) {
+			Interval interval = new Interval(detail.getStartDate().getTime(),detail.getEndDate().getTime());
+			if (interval.toDurationMillis() >= longestDuration) {
+				longestDuration = interval.toDurationMillis();
+				budgetLineItem.setStartDate(detail.getStartDate());
+				budgetLineItem.setEndDate(detail.getEndDate());
+			}
+		}
 	}
 	
 	private boolean isSaveRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail, int editLineIndex) {
