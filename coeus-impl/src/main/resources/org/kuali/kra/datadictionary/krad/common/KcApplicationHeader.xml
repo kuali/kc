@@ -1443,6 +1443,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
             <list>
                 <bean parent="Kc-Header-Reports-AwardReports" p:order="10"/>
                 <bean parent="Kc-Header-Reports-ProposalReports" p:order="20"/>
+                <bean parent="Kc-Header-Reports-AdHoc" p:order="30"/>
             </list>
         </property>
     </bean>
@@ -1453,23 +1454,23 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
 		<property name="items">
 			<list>
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=Active_Awards"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=Active_Awards"
 					p:target="reportWindow" p:linkText="Active Awards" p:order="10" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=AwardsByPI"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AwardsByPI"
 					p:target="reportWindow" p:linkText="Awards by PI" p:order="20" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=AwardsBySponsor"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AwardsBySponsor"
 					p:target="reportWindow" p:linkText="Awards by Sponsor" p:order="30" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=Awards_By_Sponsor_Type"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=Awards_By_Sponsor_Type"
 					p:target="reportWindow" p:linkText="Awards by Sponsor Type"
 					p:order="40" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=AwardsByAwardType"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AwardsByAwardType"
 					p:target="reportWindow" p:linkText="Awards by Award Type" p:order="50" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=AWARDS_BY_START_DATE"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_START_DATE"
 					p:target="reportWindow" p:linkText="Awards by Notice Date" p:order="60" />
 
 			</list>
@@ -1481,24 +1482,36 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
 		<property name="items">
 			<list>
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=ProposalsBySponsor"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=ProposalsBySponsor"
 					p:target="reportWindow" p:linkText="Institutional Proposals by Sponsor"
 					p:order="10" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=ProposalbyProposaType"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=ProposalbyProposaType"
 					p:target="reportWindow" p:linkText="Institutional Proposals by Proposal Type"
 					p:order="20" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=InvestigatorHistory"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=InvestigatorHistory"
 					p:target="reportWindow" p:linkText="Investigator Proposal History"
 					p:order="30" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=FundingStatus"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=FundingStatus"
 					p:target="reportWindow" p:linkText="Funding Status" p:order="40" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?awardId=PendingProposals"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=PendingProposals"
 					p:target="reportWindow" p:linkText="Institutional Proposals By Lead Unit"
 					p:order="50" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="Kc-Header-Reports-AdHoc" parent="Kc-Header-Reports-AdHoc-parentBean" />
+	<bean id="Kc-Header-Reports-AdHoc-parentBean" abstract="true"
+		parent="Uif-MenuList" p:headerText="Ad Hoc Reports">
+		<property name="items">
+			<list>
+				<bean parent="Uif-Link"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do"
+					p:target="reportWindow" p:linkText="Ad Hoc Report List" p:order="10" />
 			</list>
 		</property>
 	</bean>
