@@ -1,5 +1,35 @@
 
 
+##coeus-1505.22
+* Fixes autocalculate dates error with dates not exactly the same as the period
+
+  * If user adds a budget expense for tba personnel and the dates are not the same as the budget period start and end dates, then the autocalculate does not get dates for any budget items in additional years correct.
+
+steps to reproduce
+
+    create a proposal with basic requirements to start make sure period is for at least two years
+    add a budget
+    add personnel: one tba data entry assistant and one tba programmer
+    give personnel salary
+    navigate to assign personnel
+    add programmer object code as post-doc
+    effort and charge is 100
+    period type is calendar
+    add the tba data entry personnel
+    add data entry personnel object code as post-doc
+    change dates to be three months summer (6/1-8/31 of that year)
+    effort and charge is 100
+    period type is summer
+    save and autocalculate periods
+    compare period 1 to period 2 and you will see that dates are not for the same months in each of the years.
+
+  * Current Result - Period 2 shows the data entry person and the programmer as starting and ending on the same day when period 1 was set up to show persons starting and ending on different days.
+
+  * Expected result - whatever information (other than amount) entered in period 1 will be the same in out years when user autocalculates, with only the year applicable changing
+  * Joe Williams on Thu, 7 May 2015 09:01:38 -0500 [View Commit](../../commit/f233b94bfc5a0515a308bc90ef0c17ed131938de)
+* Upgrading libraries in preparation for the move to Java 8
+  * Travis Schneberger on Fri, 8 May 2015 10:33:46 -0400 [View Commit](../../commit/e077f0d99b1538aa7f56cd2f26253a588c87183d)
+
 ##coeus-1505.21
 * No Changes
 
