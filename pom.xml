@@ -84,6 +84,7 @@
         <displaytag.version>1.2</displaytag.version>
         <drools.version>6.0.1.Final</drools.version>
         <dwr.version>3.0.RC2</dwr.version>
+        <ecj.version>4.4.2</ecj.version>
         <ehcache.version>2.6.9</ehcache.version>
         <el.version>2.2.1</el.version>
         <fop.version>1.1</fop.version>
@@ -119,10 +120,10 @@
         <oracle.artifactId>ojdbc6</oracle.artifactId>
         <oracle.version>10.2.0.3.0</oracle.version>
         <org.eclipse.birt.runtime.version>4.4.0</org.eclipse.birt.runtime.version>
-        <org.eclipse.persistence.version>2.5.2</org.eclipse.persistence.version>
+        <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.3.1504.2-kckualico</rice.version>
+        <rice.version>2.5.3.1505.2-kckualico</rice.version>
         <schemaspy.version>1504.2</schemaspy.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
@@ -479,6 +480,7 @@
                                             <exclude>commons-collections:commons-collections</exclude>
                                             <exclude>commons-fileupload:commons-fileupload</exclude>
                                             <exclude>org.apache.ws.security:wss4j</exclude>
+                                            <exclude>asm:asm</exclude>
                                         </excludes>
 
                                         <includes>
@@ -1097,6 +1099,10 @@
                         <groupId>org.apache.velocity</groupId>
                         <artifactId>velocity</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>asm</groupId>
+                        <artifactId>asm</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1108,6 +1114,10 @@
                     <exclusion>
                         <groupId>org.apache.geronimo.specs</groupId>
                         <artifactId>geronimo-javamail_1.4_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>asm</groupId>
+                        <artifactId>asm</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1332,6 +1342,12 @@
                 <groupId>org.drools</groupId>
                 <artifactId>drools-compiler</artifactId>
                 <version>${drools.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.eclipse.jdt.core.compiler</groupId>
+                        <artifactId>ecj</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1445,6 +1461,12 @@
                         <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jdt.core.compiler</groupId>
+                <artifactId>ecj</artifactId>
+                <version>${ecj.version}</version>
             </dependency>
 
             <dependency>
