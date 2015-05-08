@@ -1,5 +1,11 @@
 
 
+##coeus-1505.20
+* Ensure GlobalVariables is updated in IncidentReport
+
+  * The incident report in some cases(clicking cancel button for instance) doesn't update the GlobalVariables user session. This checks for and logs incidents of this nature but also overwrites the GlobalVariables with the request user session to ensure it is up to date.
+  * blackcathacker on Thu, 7 May 2015 14:35:41 -0700 [View Commit](../../commit/c07238ae057f362a1ee301db6abb0b03fe822586)
+
 ##coeus-1505.19
 * Institutional Proposal with inactive sponsor or prime sponsor.
 
