@@ -1,5 +1,9 @@
 
 
+##coeus-1505.23
+* No Changes
+
+
 ##coeus-1505.22
 * Fixes autocalculate dates error with dates not exactly the same as the period
 
