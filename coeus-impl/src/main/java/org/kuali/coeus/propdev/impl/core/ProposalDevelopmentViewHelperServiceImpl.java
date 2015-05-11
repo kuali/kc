@@ -579,6 +579,17 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         return false;
     }
 
+    public boolean isAnsweredAnswer(Answer answer) {
+        if (answer.getAnswerNumber() != 1) {
+            return true;
+        }
+        return answer.isAnswered();
+    }
+
+    public boolean isQuestionnaireMandatory(AnswerHeader header) {
+        return header.isQuestionnaireMandatory();
+    }
+
     public boolean areAnsweredQuestionnaires(List<AnswerHeader> answerHeaders) {
         for (AnswerHeader answerHeader : answerHeaders) {
             if (answerHeader.isActive()) {

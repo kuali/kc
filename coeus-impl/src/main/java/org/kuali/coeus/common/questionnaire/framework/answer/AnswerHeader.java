@@ -23,6 +23,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.question.QuestionDTO;
 import org.kuali.coeus.common.questionnaire.api.answer.AnswerHeaderContract;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 import java.util.ArrayList;
@@ -71,6 +72,8 @@ public class AnswerHeader extends KcPersistableBusinessObjectBase implements Ina
     private boolean activeQuestionnaire = true;
     
     private String label;
+
+    private transient QuestionnaireAnswerService questionnaireAnswerService;
 
     public AnswerHeader() {
         super();
@@ -256,5 +259,23 @@ public class AnswerHeader extends KcPersistableBusinessObjectBase implements Ina
     @Override
     public boolean isActive() {
         return this.activeQuestionnaire && this.hasVisibleQuestion;
+    }
+
+    public boolean isQuestionnaireMandatory() {
+        Integer questionniareSeqId = this.getQuestionnaire().getQuestionnaireSeqIdAsInteger();
+        String coeusModuleCode = this.getModuleItemCode();
+        String coeusSubModuleCode = this.getModuleSubItemCode();
+        return getQuestionnaireAnswerService().checkIfQuestionnaireIsMandatoryForModule(questionniareSeqId, coeusModuleCode, coeusSubModuleCode);
+    }
+
+    public QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        if (questionnaireAnswerService == null) {
+            questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
+        }
+        return questionnaireAnswerService;
+    }
+
+    protected void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+        this.questionnaireAnswerService = questionnaireAnswerService;
     }
 }

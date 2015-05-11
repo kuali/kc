@@ -319,6 +319,19 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return isActive;               
     }
 
+    @Override
+    public boolean checkIfQuestionnaireIsMandatoryForModule(Integer questionniareSeqId, String moduleItemCode, String moduleSubItemCode) {
+        Questionnaire latestQnnrInstance = getLatestQuestionnaireVersion(questionniareSeqId);
+        if(null != latestQnnrInstance && latestQnnrInstance.isActive()) {
+            for (QuestionnaireUsage usage : latestQnnrInstance.getQuestionnaireUsages()) {
+                if (usage.isMandatory()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * 
      * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#copyAnswerToNewVersion(org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader,
