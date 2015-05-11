@@ -64,7 +64,8 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="budgetReportName" p:label="Print Forms" p:order="10" />
-				<bean parent="Uif-InputField" p:propertyName="selectToComment" p:fieldLabel.labelText="[0]" p:order="20">
+				<bean parent="Uif-InputField" p:propertyName="selectToComment" p:fieldLabel.labelText="[0]" p:order="20"
+					  p:readOnly="false">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" />
 					</property>
@@ -84,7 +85,8 @@
                         </list>
                     </property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="selectToPrint" p:fieldLabel.labelText="[0]" p:order="30">
+				<bean parent="Uif-InputField" p:propertyName="selectToPrint" p:fieldLabel.labelText="[0]" p:order="30"
+					  p:readOnly="false">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" />
 					</property>
