@@ -1,5 +1,9 @@
 
 
+##coeus-1505.24
+* Upgrading libraries in preparation for the move to Java 8: Spring upgrade
+  * Travis Schneberger on Mon, 11 May 2015 10:08:06 -0400 [View Commit](../../commit/b98b9183f9bd0c5f4a754878bc2845b5acc41131)
+
 ##coeus-1505.23
 * No Changes
 
