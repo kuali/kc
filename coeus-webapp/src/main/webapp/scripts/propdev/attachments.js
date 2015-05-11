@@ -19,6 +19,26 @@
 var Kc = Kc || {};
 Kc.PropDev.Attachments = Kc.PropDev.Attachments || {};
 (function(namespace, $) {
+    $(document).on("paste keypress", ".abstractDetails", function(e){
+        if (!e.ctrlKey && !e.metaKey) {
+            namespace.removeWarning(this);
+            namespace.addWarning(this);
+        }
+
+    });
+    namespace.addWarning = function(element) {
+        setTimeout(function () {
+            var value = $(element).val().replace(/(\r\n|\n|\r)/g, '--');
+            if (value.length >= 49000) {
+                $(element).closest("div").prepend("<span class='alert-warning'>Data entry for this field is limited to 49,000 characters (with spaces).</span>");
+                $(element).closest("div").addClass("has-warning")
+            }
+        },10);
+    }
+    namespace.removeWarning = function(element) {
+        $(element).closest("div").find("span.alert-warning").remove();
+        $(element).closest("div").removeClass("has-warning")
+    }
     namespace.initAttachmentCounts = function(){
         $("#PropDev-AttachmentsPage").ajaxSuccess(function() {
             var proposalAttachmentCount = $("#PropDev-AttachmentsPage-ProposalCollection-Collection").find("tbody").find("tr").size();
