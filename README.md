@@ -121,7 +121,7 @@ mvn clean source:jar javadoc:jar install -Dgrm.off=true
 ***Otherwise***:
 	[Download][7] and configure java agent in at the jvm level.
 ```
-	-javaagent:/Users/user/.m2/repository/org/springframework/spring-instrument/3.2.12.RELEASE/spring-instrument-3.2.12.RELEASE.jar
+	-javaagent:/Users/user/.m2/repository/org/springframework/spring-instrument/3.2.13.RELEASE/spring-instrument-3.2.13.RELEASE.jar
 ``` 
 
 >**Note:** Application will fail to start up in spring instrumentation is not installed correctly.
@@ -145,6 +145,6 @@ Kuali Coeus supports MySQL 5.5, 5.6 and Oracle. We recommend MySQL 5.6 though as
   [3]: https://tomcat.apache.org/download-70.cgi
   [4]: http://dev.mysql.com/downloads/mysql/
   [5]: http://git-scm.com/downloads
-  [6]: http://mvnrepository.com/artifact/org.springframework/spring-instrument-tomcat/3.2.12.RELEASE
-  [7]: http://mvnrepository.com/artifact/org.springframework/spring-instrument/3.2.12.RELEASE
+  [6]: http://mvnrepository.com/artifact/org.springframework/spring-instrument-tomcat/3.2.13.RELEASE
+  [7]: http://mvnrepository.com/artifact/org.springframework/spring-instrument/3.2.13.RELEASE
   [8]: http://www.graphviz.org/Download..php
