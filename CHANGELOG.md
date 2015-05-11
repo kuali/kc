@@ -1,5 +1,12 @@
 
 
+##coeus-1505.25
+* Unanswered question audit errors.
+
+  * https://github.com/kuali/kc/pull/1583
+  * [KRAFDBCK-12535] Adding error messages to individual incomplete Questionnaire questions when audit mode is active and the questionnaire is mandatory.
+  * Travis Schneberger on Wed, 6 May 2015 13:13:57 -0400 [View Commit](../../commit/fb144a4af7ebcbf8d83964ec3b345cb5d1776e07)
+
 ##coeus-1505.24
 * Upgrading libraries in preparation for the move to Java 8: Spring upgrade
   * Travis Schneberger on Mon, 11 May 2015 10:08:06 -0400 [View Commit](../../commit/b98b9183f9bd0c5f4a754878bc2845b5acc41131)
