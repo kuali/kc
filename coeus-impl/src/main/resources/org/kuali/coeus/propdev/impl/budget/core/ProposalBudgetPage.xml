@@ -47,19 +47,23 @@
                 <entry key="@{#line.budgetId == document.developmentProposal.finalBudget?.budgetId}" value="finalBudget"/>
             </map>
         </property>
-		<property name="lineActions">
-			<list>
-				<bean parent="PropDev-BudgetVersions-GenericActions" p:order="10">
-					<property name="listPrototype.items">
-						<list merge="true">
-							<bean parent="Uif-MenuDivider" p:order="40"/>
-			        		<bean parent="Uif-ActionLink" p:actionLabel="Include for Submission"
-								p:methodToCall="markForSubmission" p:additionalSubmitData="budgetId:@{#line.budgetId}"
-								p:iconClass="icon-ok" p:render="@{#line.budgetId != document.developmentProposal.finalBudget?.budgetId and canEditView}" p:order="50"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Remove from Submission"
-                                  p:methodToCall="removeFromSubmission" p:iconClass="icon-ok"
-                                  p:render="@{#line.budgetId == document.developmentProposal.finalBudget?.budgetId and canEditView}" p:order="60"/>
-						</list>
+		<property name="items">
+			<list merge="true">
+				<bean parent="Uif-FieldGroupBase" p:label="Actions" p:order="100">
+					<property name="group">
+						<bean parent="PropDev-BudgetVersions-GenericActions">
+							<property name="listPrototype.items">
+								<list merge="true">
+									<bean parent="Uif-MenuDivider" p:order="40"/>
+									<bean parent="Uif-ActionLink" p:actionLabel="Include for Submission"
+										  p:methodToCall="markForSubmission" p:additionalSubmitData="budgetId:@{#line.budgetId}"
+										  p:iconClass="icon-ok" p:render="@{#line.budgetId != document.developmentProposal.finalBudget?.budgetId and canEditView}" p:order="50"/>
+									<bean parent="Uif-ActionLink" p:actionLabel="Remove from Submission"
+										  p:methodToCall="removeFromSubmission" p:iconClass="icon-ok"
+										  p:render="@{#line.budgetId == document.developmentProposal.finalBudget?.budgetId and canEditView}" p:order="60"/>
+								</list>
+							</property>
+						</bean>
 					</property>
 				</bean>
 			</list>
