@@ -1,5 +1,19 @@
 
 
+##coeus-1505.26
+* Added the ability to view budget summary and print budget forms when proposal is view only
+
+  * As an Approver and an Aggregator, I need to have access to the Budget Printed Reports for all status of proposals.
+  * Issue: in the 1504 kuali co release; the Budget > Actions menu (where the Print menu for budget reports is located) does not appear to the user when the proposal is submitted to routing, and stays hidden when the proposal is submitted.
+  * For non-s2s proposals, this leaves no method to access budget reports.
+
+  * Scenario:
+  * Create a proposal with a detailed budget that is going to an industrial or foundation sponsor.
+  * Complete the required information to route the proposal.
+  * Submit the proposal to routing.
+  * As an APPROVER: attempt to print the Budget Summary Report from the Budget > Actions menu. There is no Action menu.
+  * Joe Williams on Mon, 11 May 2015 13:57:44 -0500 [View Commit](../../commit/f0ee8d85e649106fdcc285b117b096e07d11fc00)
+
 ##coeus-1505.25
 * Unanswered question audit errors.
 
