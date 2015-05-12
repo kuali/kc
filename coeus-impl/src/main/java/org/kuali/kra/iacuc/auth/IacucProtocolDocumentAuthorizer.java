@@ -211,12 +211,7 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
-    
-    @Override
-    public boolean canClose(Document document, Person user) {
-        return canEdit(document, user);
-    }
-    
+
     @Override
     public boolean canCopy(Document document, Person user) {
         return false;
