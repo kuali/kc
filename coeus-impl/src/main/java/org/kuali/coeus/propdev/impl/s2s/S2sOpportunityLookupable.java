@@ -18,13 +18,20 @@
  */
 package org.kuali.coeus.propdev.impl.s2s;
 
+import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -34,11 +41,19 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 @Component("s2sOpportunityLookupable")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class S2sOpportunityLookupable extends LookupableImpl {
 
+    @Autowired
+    @Qualifier("documentTypeService")
+    private DocumentTypeService documentTypeService;
+
+    @Autowired
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
 
     @Autowired
     @Qualifier("s2sOpportunityLookupKradKnsHelperService")
@@ -61,6 +76,39 @@ public class S2sOpportunityLookupable extends LookupableImpl {
         }
 
         return opportunities;
+    }
+
+    public String buildCreatePropActionHref(S2sOpportunity opportunity) throws WorkflowException {
+
+        Properties parameters = new Properties();
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+        parameters.put(UifConstants.UrlParams.VIEW_ID, ProposalDevelopmentConstants.KradConstants.PROP_DEV_INITIATE_VIEW);
+        parameters.put(ProposalDevelopmentConstants.S2sConstants.CFDA_NUMBER, opportunity.getCfdaNumber() != null ? opportunity.getCfdaNumber() : "");
+        parameters.put(ProposalDevelopmentConstants.S2sConstants.OPPORTUNITY_ID, opportunity.getOpportunityId() != null ? opportunity.getOpportunityId() : "");
+        parameters.put(ProposalDevelopmentConstants.S2sConstants.OPPORTUNITY_TITLE, opportunity.getOpportunityTitle() != null ? opportunity.getOpportunityTitle() : "");
+        parameters.put(ProposalDevelopmentConstants.S2sConstants.OPENING_DATE, opportunity.getOpeningDate() != null ? getDateTimeService().toDateTimeString(opportunity.getOpeningDate().getTime()) : "");
+        parameters.put(ProposalDevelopmentConstants.S2sConstants.INSTRUCTION_URL, opportunity.getInstructionUrl() != null ? opportunity.getInstructionUrl() : "");
+        parameters.put(ProposalDevelopmentConstants.S2sConstants.COMPETETION_ID, opportunity.getCompetetionId() != null ? opportunity.getCompetetionId() : "");
+        parameters.put(ProposalDevelopmentConstants.S2sConstants.SCHEMA_URL, opportunity.getSchemaUrl() != null ? opportunity.getSchemaUrl() : "");
+        parameters.put(ProposalDevelopmentConstants.S2sConstants.PROVIDER_CODE, opportunity.getProviderCode());
+        return UrlFactory.parameterizeUrl(getDocumentTypeService().getDocumentTypeByName("ProposalDevelopmentDocument").getResolvedDocumentHandlerUrl(), parameters);
+    }
+
+    protected DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+
+    public DocumentTypeService getDocumentTypeService() {
+        return documentTypeService;
+    }
+
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 
     protected void addNotFoundMessage() {

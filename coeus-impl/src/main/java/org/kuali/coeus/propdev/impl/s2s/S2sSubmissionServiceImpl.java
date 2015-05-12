@@ -22,6 +22,7 @@ import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRespo
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
 import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse;
 import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationResponse;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,6 +30,7 @@ import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsService;
 import org.kuali.coeus.instprop.api.sponsor.InstPropSponsorService;
 import org.kuali.coeus.propdev.api.s2s.*;
+import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorService;
@@ -480,10 +482,41 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      */
     @Override
     public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2sCommunicationException{
-        String opportunityContent = getOpportunityContent(opportunity.getSchemaUrl());
-        opportunity.setOpportunity(opportunityContent);
+        setOpportunityContent(opportunity);
         return opportunitySchemaParserService.getForms(opportunity.getProposalNumber(),opportunity.getSchemaUrl());
     }
+
+    public List<String> setMandatoryForms(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity) {
+        List<String> missingMandatoryForms = new ArrayList<String>();
+        s2sOpportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, s2sOpportunity.getProviderCode()));
+        List<S2sOppForms> s2sOppForms = parseOpportunityForms(s2sOpportunity);
+        if (s2sOppForms != null) {
+            for (S2sOppForms s2sOppForm : s2sOppForms) {
+                if (s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()) {
+                    missingMandatoryForms.add(s2sOppForm.getFormName());
+                }
+            }
+        }
+        if (CollectionUtils.isEmpty(missingMandatoryForms)) {
+            Collections.sort(s2sOppForms, new Comparator<S2sOppForms>() {
+                public int compare(S2sOppForms arg0, S2sOppForms arg1) {
+                    int result = arg0.getMandatory().compareTo(arg1.getMandatory()) * -1;
+                    if (result == 0) {
+                        result = arg0.getFormName().compareTo(arg1.getFormName());
+                    }
+                    return result;
+                }
+            });
+            s2sOpportunity.setS2sOppForms(s2sOppForms);
+        }
+        return missingMandatoryForms;
+    }
+
+    public void setOpportunityContent(S2sOpportunity opportunity) {
+        String opportunityContent = getOpportunityContent(opportunity.getSchemaUrl());
+        opportunity.setOpportunity(opportunityContent);
+    }
+
     private String getOpportunityContent(String schemaUrl) throws S2sCommunicationException{
         String opportunity = "";
         InputStream is  = null;

@@ -18,6 +18,8 @@
  */
 package org.kuali.coeus.propdev.impl.basic;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.persistence.EntityManager;
@@ -32,7 +34,11 @@ import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
+import org.kuali.coeus.propdev.impl.s2s.S2sSubmissionService;
+import org.kuali.coeus.propdev.impl.s2s.connect.OpportunitySchemaParserService;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
@@ -70,13 +76,25 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     @Qualifier("kcEntityManager")
     private EntityManager entityManager;
 
-   @MethodAccessible
+    @Autowired
+    @Qualifier("opportunitySchemaParserService")
+    private OpportunitySchemaParserService opportunitySchemaParserService;
+
+    @Autowired
+    @Qualifier("s2sSubmissionService")
+    private S2sSubmissionService s2sSubmissionService;
+
+
+    @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
        initialSave(proposalDevelopmentDocument);
+       // this is needed if the proposal is being created from an opportunity, in which case
+       // the opportunity content needs to be generated before save
+       generateOpportunity(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity());
        save(form, result, request, response);
        initializeProposalUsers(form.getProposalDevelopmentDocument());
        form.setWorkingUserRoles(getProposalDevelopmentPermissionsService().getPermissions(form.getProposalDevelopmentDocument()));
@@ -87,8 +105,21 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalState");
        getPessimisticLockService().releaseAllLocksForUser(form.getDocument().getPessimisticLocks(),getGlobalVariableService().getUserSession().getPerson());
        form.getDocument().refreshPessimisticLocks();
+       generateForms(form.getDevelopmentProposal());
        return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
+
+    protected void generateForms(DevelopmentProposal proposal) {
+        if (ObjectUtils.isNotNull(proposal.getS2sOpportunity())) {
+            s2sSubmissionService.setMandatoryForms(proposal, proposal.getS2sOpportunity());
+        }
+    }
+
+    protected void generateOpportunity(S2sOpportunity opportunity) {
+        if (ObjectUtils.isNotNull(opportunity)) {
+            s2sSubmissionService.setOpportunityContent(opportunity);
+        }
+    }
 
     /**
      * Starts a view of the proposal development document, the only difference between this method and the docHandler
@@ -120,11 +151,11 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
             form.setProposalCopyCriteria(new ProposalCopyCriteria(document));
             ((ProposalDevelopmentViewHelperServiceImpl)form.getView().getViewHelperService()).populateQuestionnaires(form);
 
-            if (!this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,
-                    getGlobalVariableService().getUserSession().getPerson())) {
-                throw new DocumentAuthorizationException(getGlobalVariableService().getUserSession().getPerson().getPrincipalName(),
-                                "open", document.getDocumentNumber());
-            }
+             if (!this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,
+                        getGlobalVariableService().getUserSession().getPerson())) {
+                    throw new DocumentAuthorizationException(getGlobalVariableService().getUserSession().getPerson().getPrincipalName(),
+                            "open", document.getDocumentNumber());
+             }
 
             if (StringUtils.isNotEmpty(userName)) {
                 for (ProposalPerson person : form.getDevelopmentProposal().getProposalPersons()) {
@@ -233,10 +264,12 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        return super.save(pdForm, result, request, response);
    }
 
-   @MethodAccessible
+
+    @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=docHandler")
    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, @RequestParam(required = false) String auditActivated, @RequestParam(required = false) String viewOnly,
-                                  @RequestParam(required = false) String navigateToPageId, @RequestParam(required = false) String defaultOpenTab) throws Exception {
+                                  @RequestParam(required = false) String navigateToPageId, @RequestParam(required = false) String defaultOpenTab
+                                  ) throws Exception {
        ProposalDevelopmentDocument document;
        boolean isDeleted = false;
        if(!ObjectUtils.isNull(form.getDocId())) {
@@ -261,14 +294,18 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
                // Command used to get document info
                form.setCommand("displayActionListView");
            }
+           ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
 
-            ProposalDevelopmentDocumentForm propDevForm = (ProposalDevelopmentDocumentForm) form;
+
            try {
             ModelAndView modelAndView = getTransactionalDocumentControllerService().docHandler(form);
             propDevForm.initialize();
             propDevForm.getCustomDataHelper().prepareCustomData();
 
-            propDevForm.setWorkingUserRoles(getProposalDevelopmentPermissionsService().getPermissions(propDevForm.getProposalDevelopmentDocument()));
+            setS2sOpportunityFromLookup(form, propDevForm);
+
+
+               propDevForm.setWorkingUserRoles(getProposalDevelopmentPermissionsService().getPermissions(propDevForm.getProposalDevelopmentDocument()));
 
            if (summaryView) {
                 form.setView(this.getDataDictionaryService().getViewById("PropDev-SummaryView"));
@@ -304,6 +341,30 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
            }
        }
    }
+
+    protected void setS2sOpportunityFromLookup(DocumentFormBase form, ProposalDevelopmentDocumentForm propDevForm) throws ParseException {
+        if (StringUtils.isNotBlank(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.OPPORTUNITY_ID))) {
+
+            S2sOpportunity opportunity = new S2sOpportunity();
+            Calendar openingDate = Calendar.getInstance();
+            if (ObjectUtils.isNotNull(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.OPENING_DATE))) {
+                SimpleDateFormat sdf = new SimpleDateFormat(Constants.MM_DD_YYYY_HH_MM_A_DATE_FORMAT);
+                openingDate.setTime(sdf.parse(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.OPENING_DATE)));
+
+            }
+            opportunity.setOpeningDate(openingDate);
+            opportunity.setCompetetionId(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.COMPETETION_ID));
+            opportunity.setInstructionUrl(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.INSTRUCTION_URL));
+            opportunity.setOpportunityId(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.OPPORTUNITY_ID));
+            opportunity.setOpportunityTitle(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.OPPORTUNITY_TITLE));
+            opportunity.setProviderCode(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.PROVIDER_CODE));
+            opportunity.setSchemaUrl(form.getRequest().getParameter(ProposalDevelopmentConstants.S2sConstants.SCHEMA_URL));
+            opportunity.setDevelopmentProposal(propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal());
+
+            propDevForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(opportunity);
+
+        }
+    }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=editCollectionLine")
     public ModelAndView editCollectionLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
@@ -343,5 +404,21 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    public S2sSubmissionService getS2sSubmissionService() {
+        return s2sSubmissionService;
+    }
+
+    public void setS2sSubmissionService(S2sSubmissionService s2sSubmissionService) {
+        this.s2sSubmissionService = s2sSubmissionService;
+    }
+
+    public OpportunitySchemaParserService getOpportunitySchemaParserService() {
+        return opportunitySchemaParserService;
+    }
+
+    public void setOpportunitySchemaParserService(OpportunitySchemaParserService opportunitySchemaParserService) {
+        this.opportunitySchemaParserService = opportunitySchemaParserService;
     }
 }
