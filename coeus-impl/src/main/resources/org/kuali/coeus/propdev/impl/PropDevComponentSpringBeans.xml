@@ -187,10 +187,6 @@
         <property name="labelAttributeName" value="description"/>
     </bean>
 
-    <bean id="legacyS2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService" ref="s2sOpportunityLookupableHelperService"/>
-    </bean>
-
     <bean id="grantsGovConnectorService"
           class="org.kuali.coeus.propdev.impl.s2s.connect.S2SConnectorServiceBase">
         <property name="serviceHost" value="grants.gov.s2s.host"/>
