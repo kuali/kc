@@ -1,5 +1,16 @@
 
 
+##coeus-1505.29
+*  Creating proposal from s2s opportunity
+  * Module: Proposal Development/Researcher Portal link
+  * Issue: STE when clicking on Create Proposal for S2S Opportunity link
+  * User Story: As a proposal creator, I want to click on the link in the portal to Create a Proposal for S2S opportunity so that I can submit via to Grants.gov
+  * Given a proposal creator want to create a Proposal for S2S, when I click on the Create Proposal for S2S Opportunity link in the portal, then I open a proposal development document and begin creating proposal.
+  * Expected Result: Click on link and create a proposal
+  * Actual result: click on link and get error:
+  * org.springframework.web.bind.UnsatisfiedServletRequestParameterException: Parameter conditions "methodToCall=preparePrintDialog" not met for actual request parameters: document.developmentProposal.proposalTypeCode={}, document.developmentProposal.ownedByUnitNumber={}, document.developmentProposal.activityTypeCode={}, document.developmentProposal.requestedStartDateInitial={}, document.developmentProposal.requestedEndDateInitial={}, document.developmentProposal.title={}, document.developmentProposal.sponsorCode={}
+  * Gayathri on Mon, 11 May 2015 21:04:14 -0700 [View Commit](../../commit/9a9266531eac4e8ccdd16cff9250cc7a2d6326df)
+
 ##coeus-1505.28
 * added warning message when abstract detail character limit has been reached
 
