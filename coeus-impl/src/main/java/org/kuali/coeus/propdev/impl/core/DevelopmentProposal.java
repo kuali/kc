@@ -2290,7 +2290,7 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
     public ProposalDevelopmentBudgetExt getFinalBudget() {
     	return finalBudget;
     }
-    
+
 
 	public void setFinalBudget(ProposalDevelopmentBudgetExt finalBudget) {
 		this.finalBudget = finalBudget;

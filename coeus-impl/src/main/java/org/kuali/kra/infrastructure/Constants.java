@@ -899,6 +899,7 @@ public interface Constants {
 
     //Prop Dev Parameter
     public static final String SPONSOR_HIERACHY_REQ_DIV_PROG_CODES = "SPONSOR_HIERACHY_REQ_DIV_PROG_CODES";
-    
+
+    public static final String MM_DD_YYYY_HH_MM_A_DATE_FORMAT = "MM/dd/yyyy hh:mm a";
 }
 

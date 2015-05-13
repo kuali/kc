@@ -25,9 +25,6 @@
     <property name="inquiryDefinition" >
       <ref bean="S2sOpportunity-inquiryDefinition" />
     </property>
-    <property name="lookupDefinition" >
-      <ref bean="S2sOpportunity-lookupDefinition" />
-    </property>
     <property name="helpDefinition" >
       <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentOpportunityHelpUrl" p:parameterDetailType="Document"/>
     </property>
@@ -420,34 +417,6 @@
             </list>
           </property>
         </bean>
-      </list>
-    </property>
-  </bean>
-
-  <!-- Business Object Lookup Definition -->
-  <bean id="S2sOpportunity-lookupDefinition" parent="S2sOpportunity-lookupDefinition-parentBean" />
-  <bean id="S2sOpportunity-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="Opportunity Lookup" />
-    <property name="lookupableID" value="legacyS2sOpportunityLookupable" /><property name="defaultSort" >
-      <bean parent="SortDefinition"/>
-    </property>
-    <property name="lookupFields" >
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="providerCode"/>
-        <bean parent="FieldDefinition" p:attributeName="opportunityId"/>
-        <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
-      </list>
-    </property>
-    <property name="resultFields" >
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="closingDate"/>
-        <bean parent="FieldDefinition" p:attributeName="competetionId"/>
-        <bean parent="FieldDefinition" p:attributeName="instructionUrl"/>
-        <bean parent="FieldDefinition" p:attributeName="openingDate"/>
-        <bean parent="FieldDefinition" p:attributeName="opportunityId"/>
-        <bean parent="FieldDefinition" p:attributeName="opportunityTitle"/>
-        <bean parent="FieldDefinition" p:attributeName="schemaUrl"/>
       </list>
     </property>
   </bean>

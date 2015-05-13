@@ -91,6 +91,7 @@
 		<property name="quickfinder">
 			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity"
 				p:hideCriteriaOnSearch="true"
+                p:viewName="S2sOpportunity-LookupViewName"
 				p:fieldConversions="opportunityId:newS2sOpportunity.opportunityId,cfdaNumber:newS2sOpportunity.cfdaNumber,opportunityTitle:newS2sOpportunity.opportunityTitle,s2sSubmissionTypeCode:newS2sOpportunity.s2sSubmissionTypeCode,revisionCode:newS2sOpportunity.revisionCode,competetionId:newS2sOpportunity.competetionId,openingDate:newS2sOpportunity.openingDate,closingDate:newS2sOpportunity.closingDate,instructionUrl:newS2sOpportunity.instructionUrl,schemaUrl:newS2sOpportunity.schemaUrl,providerCode:newS2sOpportunity.providerCode">
 				<property name="quickfinderAction">
 					<bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="performLookup"
