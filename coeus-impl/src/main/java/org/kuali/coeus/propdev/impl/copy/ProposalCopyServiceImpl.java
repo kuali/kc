@@ -689,12 +689,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             String unitOrganizationId = ownedByUnit.getOrganizationId();
             for (ProposalSite proposalSite: developmentProposal.getProposalSites()) {
                 // set location name to default from Organization
-                proposalSite.setOrganizationId(unitOrganizationId);
-                proposalSite.refreshReferenceObject("organization");
-                proposalSite.setLocationName(proposalSite.getOrganization().getOrganizationName());
-                proposalSite.setRolodexId(proposalSite.getOrganization().getContactAddressId());
-                proposalSite.refreshReferenceObject("rolodex");
-                initializeCongressionalDistrict(proposalSite.getOrganizationId(), proposalSite);
+                if (proposalSite.getLocationTypeCode().equals(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION) ||
+                        proposalSite.getLocationTypeCode().equals(ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION)) {
+                    proposalSite.setOrganizationId(unitOrganizationId);
+                    proposalSite.refreshReferenceObject("organization");
+                    proposalSite.setLocationName(proposalSite.getOrganization().getOrganizationName());
+                    proposalSite.setRolodexId(proposalSite.getOrganization().getContactAddressId());
+                    proposalSite.refreshReferenceObject("rolodex");
+                    initializeCongressionalDistrict(proposalSite.getOrganizationId(), proposalSite);
+                }
             }
         }
     }
