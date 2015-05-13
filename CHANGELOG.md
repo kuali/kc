@@ -1,5 +1,53 @@
 
 
+##coeus-1505.30
+* add close button to IACUC protocols after Submit action
+
+  * Steps:
+
+    Complete an IACUC protocol
+    Submit for Review
+    Post-processing page appears
+    Do not select option to return to portal on Post-processing page
+    After processing, Protocol is displayed and message appears ‘Document was successfully submitted."
+
+  * Actual Result:
+  * There is then no way to close the protocol.
+
+  * Expected Result:
+  * There should be a Close button like there is in IRB protocols. Clicking the Close button should remove any locks on the protocol and return the user to the KRAD Portal.
+  * Joe Williams on Tue, 12 May 2015 12:39:57 -0500 [View Commit](../../commit/46d635687f3609d414fed881453d6afe30a0c2c3)
+* Fix modular idc currency validation to allow commas
+
+  * Attempting to verify an RESSUP case, I created a new budget in existing proposal 332, added details, and then synced to the modular budget screen.
+  * At Save, I got Errors on all 5 budget periods.
+  * The F&A Base field in outlined in Red.
+  * The value displayed conforms to the format. Example P1 = 192,496.73
+
+  * With this error, I cannot save, cannot navigate of the screen, cannot return to proposal.
+  * The only way I have found to save and safely exit is to delete the F&A Base value entirely for each period.
+
+  * This is the first time I've synced a modular budget since the addition of commas to the numbers.
+  * Joe Williams on Tue, 12 May 2015 14:02:46 -0500 [View Commit](../../commit/42e085fefb89598f7fadf0ccef0adab133eb8445)
+* Fixed proposal copy action to keep original performance sites and other organizations
+
+  * Copied Proposals replace the user added organization record with the Applicant Organization data.
+  * Steps to Duplicate:
+  * 1. Locate a proposal with an added Organization in the Basics > Organizations & Locations > Other Organizations (Example #276 in the res-i1ap.kuali.co) I added University of MD.
+  * 2. Copy the Proposal (Example #351)
+  * 3. Navigate to Basics > Org &Loc > Other Organizations: the org record matches the Applicant - NOT the U. MD record added by the user in the source proposal.
+
+  * Occurs for Performance Sites as well Other Organizations. To reproduce use steps above for Performance Site Locations instead of Other Organizations
+  * Joe Williams on Wed, 13 May 2015 08:57:42 -0500 [View Commit](../../commit/3eb72b26048625fac9a3eb97f17975b16317792a)
+* Fixes inablility to open committee
+  * sanju.b on Mon, 10 Nov 2014 21:32:40 +0530 [View Commit](../../commit/2940fb7ce4a57e93426b4ebb1151b20f580246c3)
+* fix to display sponsor name when proposal is view only
+
+  * The proposal opens on the Basics screen where Sponsor field displays the sponsor code but not the sponsor name (see attached screen shot).
+
+  * Expected Result: The sponsor name needs to appear along with the sponsor code.
+  * Joe Williams on Wed, 13 May 2015 09:39:54 -0500 [View Commit](../../commit/c4c21ada04c0b92cc1d48bb309fc4f437bcc5669)
+
 ##coeus-1505.29
 *  Creating proposal from s2s opportunity
   * Module: Proposal Development/Researcher Portal link
