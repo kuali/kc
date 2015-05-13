@@ -49,6 +49,10 @@
         <c:set var="message" value="" />
         <c:set var="htmlControlDivStyle" value="display: none" />
     </c:when>
+    <c:when test="${currentQuestionType == 'Multiple Choice'}">
+        <c:set var="message" value="Please enter possible answers in the Multi-Choice section." />
+        <c:set var="htmlControlDivStyle" value="display: inline" />
+    </c:when>
     <c:otherwise>
         <c:set var="message" value="<i>The question type is not yet supported.  Contact the system administrator to have this fixed.  Meanwhile please select a different Type of response for for this question.</i>" />
         <c:set var="htmlControlDivStyle" value="display: inline" />

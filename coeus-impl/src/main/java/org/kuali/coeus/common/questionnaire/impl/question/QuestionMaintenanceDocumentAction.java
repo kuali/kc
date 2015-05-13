@@ -28,7 +28,6 @@ import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.impl.version.VersioningServiceImpl;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
-import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -59,13 +58,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
     /**
      * 
      * This method gets called upon clicking the refresh button to display the newly selected
-     * question response type when javascript is turned off on the browser. 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * question response type when javascript is turned off on the browser.
      */
     public ActionForward loadQuestionResponse(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) {
@@ -82,12 +75,6 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
      * 
      * This method gets called upon clicking of refresh pulldown menu buttons on the screen
      * to populate the drop down menus afresh based on other parameters.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward refreshPulldownOptions(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -99,9 +86,6 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
     /**
      * 
      * This method implements special behaviors for Question.
-     * @param questionMaintenanceForm
-     * @param request
-     * @throws VersionException 
      */
     private void specialHandlingOfQuestion(QuestionMaintenanceForm questionMaintenanceForm, HttpServletRequest request) throws VersionException {
         MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) questionMaintenanceForm.getDocument();
@@ -123,8 +107,6 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
     /**
      * 
      * This method creates a new version of the question.
-     * @param maintenanceDocumentBase
-     * @throws VersionException
      */
     private void createNewQuestionVersion(MaintenanceDocumentBase maintenanceDocumentBase, Long oldQuestionId) throws VersionException {
         // Get most recent approved Question from DB
@@ -160,7 +142,6 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
     /**
      * 
      * This method nulls out the questionId and sequenceNumber so new ones are created for the copied question
-     * @param maintenanceDocumentBase
      */
     private void initCopiedQuestion(MaintenanceDocumentBase maintenanceDocumentBase) {
         QuestionMaintainableImpl oldMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
@@ -249,28 +230,6 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
             Map<String, String> documentActions = new HashMap<String, String>();
             documentActions.put(KRADConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
             questionMaintenanceForm.setDocumentActions(documentActions);
-            
-           // questionMaintenanceForm.setReadOnly(isReadOnly);
         }
     }
-
-    @Override
-    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        ActionForward forward = super.copy(mapping, form, request, response);
-        MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) ((QuestionMaintenanceForm) form).getDocument();
-        QuestionMaintainableImpl newMaintainableObject = (QuestionMaintainableImpl) maintenanceDocumentBase
-                .getNewMaintainableObject();
-        Question newQuestion = (Question) newMaintainableObject.getBusinessObject();
-        newQuestion.setQuestionSeqId(null);
-        newQuestion.setSequenceNumber(1);
-        for (QuestionExplanation questionExplanation : newQuestion.getQuestionExplanations()) {
-            questionExplanation.setId(null);
-            questionExplanation.setQuestionId(null);
-        }
-        return forward;
-
-    }
-    
 }

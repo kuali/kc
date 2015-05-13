@@ -62,22 +62,31 @@ public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         return retVal;
     }
 
+    /**
+     * Override this method to manually ignore certain relationships from delete verification.
+     */
+    protected Collection<Class<?>> relationshipDeleteVerificationIgnores() {
+        return Collections.emptyList();
+    }
+
     protected boolean verifyOjbRelationships() {
         final List<DataObjectRelationship> ojbRelationships = getKcPersistenceStructureService().getRelationshipsTo(getNewBo().getClass());
         for (DataObjectRelationship relationship : ojbRelationships) {
-            final Map<String, Object> criteria = Maps.transformEntries(relationship.getParentToChildReferences(), new Maps.EntryTransformer<String, String, Object>() {
-                @Override
-                public Object transformEntry(String key, String value) {
-                    try {
-                        return PropertyUtils.getProperty(getNewBo(), value);
-                    } catch (IllegalAccessException|InvocationTargetException|NoSuchMethodException e) {
-                        throw new RuntimeException(e);
+            if (!relationshipDeleteVerificationIgnores().contains(relationship.getParentClass())) {
+                final Map<String, Object> criteria = Maps.transformEntries(relationship.getParentToChildReferences(), new Maps.EntryTransformer<String, String, Object>() {
+                    @Override
+                    public Object transformEntry(String key, String value) {
+                        try {
+                            return PropertyUtils.getProperty(getNewBo(), value);
+                        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
+                });
+                if (getBoService().countMatching(relationship.getParentClass(), criteria) > 0) {
+                    getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED);
+                    return false;
                 }
-            });
-            if (getBoService().countMatching(relationship.getParentClass(), criteria) > 0) {
-                getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED);
-                return false;
             }
         }
         return true;
@@ -95,18 +104,20 @@ public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
 
         for (RelationshipDefinition relationship : ddRelationships) {
-            final Map<String, Object> criteria = new HashMap<>();
-            for (PrimitiveAttributeDefinition attr : relationship.getPrimitiveAttributes()) {
-                try {
-                    criteria.put(attr.getSourceName(), PropertyUtils.getProperty(getNewBo(), attr.getTargetName()));
-                } catch (IllegalAccessException|InvocationTargetException|NoSuchMethodException e) {
-                    throw new RuntimeException(e);
+            if (!relationshipDeleteVerificationIgnores().contains(relationship.getSourceClass())) {
+                final Map<String, Object> criteria = new HashMap<>();
+                for (PrimitiveAttributeDefinition attr : relationship.getPrimitiveAttributes()) {
+                    try {
+                        criteria.put(attr.getSourceName(), PropertyUtils.getProperty(getNewBo(), attr.getTargetName()));
+                    } catch (IllegalAccessException|InvocationTargetException|NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-            }
 
-            if (getBoService().countMatching(relationship.getSourceClass(), criteria) > 0) {
-                getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED);
-                return false;
+                if (getBoService().countMatching(relationship.getSourceClass(), criteria) > 0) {
+                    getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED);
+                    return false;
+                }
             }
         }
         return true;
@@ -125,22 +136,24 @@ public class KcMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
 
         for (Map.Entry<Class<?>,org.kuali.rice.krad.data.metadata.DataObjectRelationship> relationship : kradDataRelationships.entrySet()) {
-            final Map<String, Object> criteria = new HashMap<>();
-            for (org.kuali.rice.krad.data.metadata.DataObjectAttributeRelationship attr : relationship.getValue().getAttributeRelationships()) {
-                try {
-                    criteria.put(attr.getParentAttributeName(), PropertyUtils.getProperty(getNewBo(), attr.getChildAttributeName()));
-                } catch (IllegalAccessException|InvocationTargetException|NoSuchMethodException e) {
-                    throw new RuntimeException(e);
+            if (!relationshipDeleteVerificationIgnores().contains(relationship.getKey())) {
+                final Map<String, Object> criteria = new HashMap<>();
+                for (org.kuali.rice.krad.data.metadata.DataObjectAttributeRelationship attr : relationship.getValue().getAttributeRelationships()) {
+                    try {
+                        criteria.put(attr.getParentAttributeName(), PropertyUtils.getProperty(getNewBo(), attr.getChildAttributeName()));
+                    } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-            }
 
-            if (getDataObjectService().findMatching(relationship.getKey(),
-                    QueryByCriteria.Builder.andAttributes(criteria)
-                            .setCountFlag(CountFlag.ONLY)
-                            .build())
-                    .getTotalRowCount() > 0) {
-                getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED);
-                return false;
+                if (getDataObjectService().findMatching(relationship.getKey(),
+                        QueryByCriteria.Builder.andAttributes(criteria)
+                                .setCountFlag(CountFlag.ONLY)
+                                .build())
+                        .getTotalRowCount() > 0) {
+                    getGlobalVariableService().getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KeyConstants.ERROR_DELETION_BLOCKED);
+                    return false;
+                }
             }
         }
         return true;

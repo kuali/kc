@@ -104,6 +104,21 @@
                         </list>
                     </property>
                 </bean>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="questionMultiChoices"/>
+                    <property name="sourceClassName" value="org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice"/>
+                    <property name="businessObjectClass" value="org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice"/>
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition"
+                                  p:name="id" />
+                            <bean parent="MaintainableFieldDefinition"
+                                  p:name="prompt" />
+                            <bean parent="MaintainableFieldDefinition"
+                                  p:name="description" />
+                        </list>
+                    </property>
+                </bean>
                 <bean parent="MaintainableFieldDefinition"
                     p:name="documentNumber" />
             </list>

@@ -30,36 +30,25 @@
          tabErrorKey="document.newMaintainableObject.*">
     <kra-questionnaire:questionManagerQuestion />
     <kra-questionnaire:questionManagerResponse />
+    <kra-questionnaire:questionManagerQuestionMultiChoice />
 </kul:tab>
+
+<script type="text/javascript">
+    $j(document).ready(function() {
+        showQuestionType();
+    });
+</script>
+
+<script type="text/javascript" src="scripts/questionMaint.js"/>
 
      <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code }"  />   
      <input type="hidden" id="readOnly" name="readOnly" value="${KualiForm.readOnly}"  />   
 
 <script language="javascript">
         $j(document).ready(function(){
-           if ($j("#readOnly").attr("value") == 'true' && $j("#docStatus").attr("value") == 'I') {    
-       // option 1 : simply hide it
+           if ($j("#readOnly").attr("value") == 'true' && $j("#docStatus").attr("value") == 'I') {
                $j("#tab-RouteLog-div").hide();
                $j("#tab-RouteLog-div").prev().hide();
-       
-       // option 2 : display message on route log tab
-       /*
-                var routemsg = $j('<div class="tab-container">').attr("id", "noroutelog");
-        
-                var tbltmp = $j('<table width="100%" width="100%" cellpadding="0" cellspacing="0" class="datatable" />');
- 
-                var tbodytmp = $j('<tbody/>');
-                var tr1 = $j('<tr></tr>');
-                var td1 = $j('<td class="subelementcontent"></td>');
-                td1.html("Route log is not available for Bootstrap data");
-                tr1.html(td1);
-                tbodytmp.html(tr1);
-                tbltmp.html(tbodytmp);
-                routemsg.html(tbltmp);
-                routemsg.insertAfter($j("#tab-RouteLog-div").children('div:eq(0)'));
-        
-                $j("#tab-RouteLog-div").children('div:eq(0)').hide();
-            */
            }
 
         });

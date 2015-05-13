@@ -31,17 +31,17 @@ import org.kuali.coeus.common.framework.module.CoeusModule;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
-import org.kuali.coeus.common.questionnaire.impl.QuestionnaireDao;
-import org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl;
-import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.core.Questionnaire;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireQuestion;
-import org.kuali.coeus.common.questionnaire.impl.core.QuestionnaireServiceImpl;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireUsage;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.common.questionnaire.impl.QuestionnaireDao;
+import org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl;
+import org.kuali.coeus.common.questionnaire.impl.core.QuestionnaireServiceImpl;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -172,6 +172,7 @@ public class QuestionnaireAnswerServiceTest {
         question.setId(questionRefId);
         question.setQuestionSeqId(questionId);
         question.setMaxAnswers(1);
+        question.setQuestionTypeId(1L);
         return question;
         
     }
