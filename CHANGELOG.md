@@ -1,5 +1,14 @@
 
 
+##coeus-1505.28
+* added warning message when abstract detail character limit has been reached
+
+  * In a basic proposal, add an Abstract (Layman Abstract type used for test). Use text generator to get a 50,000-character (with spaces) block of text. Copy/paste into abstract details modal (actually called Add Line). Text is truncated at 49,000 characters (with spaces) with no warning message that not all of the text has been pasted.
+  * User Story:
+  * As a user, I would like to have a warning message that I have reached a system limit for entering text, especially so that I do not assume my entire selection has been pasted into the limited space.
+  * Something like << Data entry for this field is limited to 49,000 characters (with spaces). >> would cover both the situation of a person typing directly into the field and hitting the limit, and a user pasting a block of text from another source.
+  * Joe Williams on Mon, 11 May 2015 08:25:23 -0500 [View Commit](../../commit/1e81f10f668f432f5875d10ca6751b93360f2f49)
+
 ##coeus-1505.27
 * No Changes
 
