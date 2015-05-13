@@ -152,6 +152,7 @@
     <bean id="PropDev-DetailsPage-SponsorField" parent="PropDev-DetailsPage-SponsorField-parentBean" />
     <bean id="PropDev-DetailsPage-SponsorField-parentBean" abstract="true"
           parent="PropDev-DetailsPage-SponsorField-Defaults" p:propertyName="sponsorCode"
+          p:readOnlyDisplayReplacement="@{document.developmentProposal.sponsorCode} &amp;nbsp;-&amp;nbsp; @{document.developmentProposal.sponsor?.sponsorName?:'&amp;nbsp;'}"
           p:instructionalMessage.messageText="@{document.developmentProposal.sponsor?.sponsorName?:'&amp;nbsp;'}">
         <property name="quickfinder">
             <bean parent="PropDev-DetailsPage-SponsorQuickFinder"
