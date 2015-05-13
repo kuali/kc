@@ -48,6 +48,7 @@ public interface PermissionConstants {
     public static final String RECALL_DOCUMENT = "Recall Document";
     public static final String ADD_ADDRESS_BOOK = "Add Address Book";
     public static final String NOTIFY_PROPOSAL_PERSONS = "NOTIFY_PROPOSAL_PERSONS";
+    public static final String MODIFY_S2S_ENROUTE = "Modify Proposal Development S2s While Enroute";
         
     /* IRB Permissions */
     
