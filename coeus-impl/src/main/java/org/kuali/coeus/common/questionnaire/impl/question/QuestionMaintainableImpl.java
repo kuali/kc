@@ -19,6 +19,8 @@
 package org.kuali.coeus.common.questionnaire.impl.question;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -33,11 +35,13 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class customizes the maintainable class for the question maintenance document.
@@ -47,6 +51,8 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
     private static final long serialVersionUID = 713068582185818373L;
     
     private static final String SEQUENCE_STATUS_ARCHIVED = "A";
+
+    private transient BusinessObjectService businessObjectService;
 
     @Override
     public void prepareForSave() {
@@ -85,8 +91,8 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
         if (KNSGlobalVariables.getKualiForm() != null && KNSGlobalVariables.getKualiForm() instanceof KualiMaintenanceForm) {
             Question question = (Question)((MaintenanceDocumentBase)((KualiMaintenanceForm)KNSGlobalVariables.getKualiForm()).getDocument()).getDocumentBusinessObject();
             if (StringUtils.isNotBlank(question.getLookupClass())) {
-                if (StringUtils.isBlank((String)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME)) && ((((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS))) == null || ((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS)).size() == 0)) {
-                    GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)question.getLookupClass());                    
+                if (StringUtils.isBlank((String) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME)) && ((((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS))) == null || ((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS)).size() == 0)) {
+                    GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object) question.getLookupClass());
                 }
             }
         }
@@ -112,6 +118,7 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
                     question.setDisplayedAnswers(null);
                     question.setMaxAnswers(null);
                     question.setAnswerMaxLength(null);
+                    question.setQuestionMultiChoices(new ArrayList<QuestionMultiChoice>());
                     break;
                 case (int) Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA:
                     question.setLookupClass(null);
@@ -119,23 +126,31 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
                     question.setDisplayedAnswers(null);
                     question.setMaxAnswers(null);
                     question.setAnswerMaxLength(null);
+                    question.setQuestionMultiChoices(new ArrayList<QuestionMultiChoice>());
                     break;
                 case (int) Constants.QUESTION_RESPONSE_TYPE_NUMBER:
                     question.setLookupClass(null);
                     question.setLookupReturn(null);
+                    question.setQuestionMultiChoices(new ArrayList<QuestionMultiChoice>());
                     break;
                 case (int) Constants.QUESTION_RESPONSE_TYPE_DATE:
                     question.setLookupClass(null);
                     question.setLookupReturn(null);
                     question.setAnswerMaxLength(null);
+                    question.setQuestionMultiChoices(new ArrayList<QuestionMultiChoice>());
                     break;
                 case (int) Constants.QUESTION_RESPONSE_TYPE_TEXT:
                     question.setLookupClass(null);
                     question.setLookupReturn(null);
+                    question.setQuestionMultiChoices(new ArrayList<QuestionMultiChoice>());
                     break;
                 case (int) Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
                     question.setDisplayedAnswers(null);
                     question.setAnswerMaxLength(null);
+                    question.setQuestionMultiChoices(new ArrayList<QuestionMultiChoice>());
+                    break;
+                case (int) Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE:
+                    question.setDisplayedAnswers(question.getQuestionMultiChoices().size());
                     break;
             }
         }
@@ -152,6 +167,10 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
         Question newQuestion = (Question) businessObject;
         QuestionService questionService = KcServiceLocator.getService(QuestionService.class);
         Question oldQuestion = questionService.getQuestionByQuestionSequenceId(newQuestion.getQuestionSeqId());
+        for (QuestionMultiChoice choice : newQuestion.getQuestionMultiChoices()) {
+            choice.setQuestionId(newQuestion.getId());
+        }
+
         if (oldQuestion != null && !oldQuestion.getId().equals(newQuestion.getId())) {
             oldQuestion.setSequenceStatus(SEQUENCE_STATUS_ARCHIVED);
             KNSServiceLocator.getBusinessObjectService().save(oldQuestion);
@@ -160,4 +179,68 @@ public class QuestionMaintainableImpl extends KraMaintainableImpl {
         super.saveBusinessObject();
     }
 
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterCopy(document, parameters);
+        final Question newQuestion = (Question) document.getNewMaintainableObject().getBusinessObject();
+        newQuestion.setQuestionSeqId(null);
+        newQuestion.setSequenceNumber(1);
+
+        for (QuestionMultiChoice choice : newQuestion.getQuestionMultiChoices()) {
+            choice.setQuestionId(null);
+            choice.setId(null);
+        }
+
+        for (QuestionExplanation questionExplanation : newQuestion.getQuestionExplanations()) {
+            questionExplanation.setQuestionId(null);
+            questionExplanation.setId(null);
+        }
+    }
+
+    @Override
+    public void deleteBusinessObject() {
+        if (businessObject == null) {
+            return;
+        }
+
+        handleRelationshipsForDelete((Question) businessObject);
+
+        super.deleteBusinessObject();
+    }
+
+    //this is required because deleteBusinessObject is never called by rice even though Question is not a DataObject
+    @Override
+    public void deleteDataObject() {
+        final Object dataObject = getDataObject();
+
+        if (dataObject == null) {
+            return;
+        }
+
+        handleRelationshipsForDelete((Question) dataObject);
+
+        super.deleteDataObject();
+    }
+
+    private void handleRelationshipsForDelete(Question question) {
+        if (question.getQuestionMultiChoices() != null && !question.getQuestionMultiChoices().isEmpty()) {
+            getBusinessObjectService().delete(question.getQuestionMultiChoices());
+        }
+
+        if (question.getQuestionExplanations() != null && !question.getQuestionExplanations().isEmpty()) {
+            getBusinessObjectService().delete(question.getQuestionExplanations());
+        }
+    }
+
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

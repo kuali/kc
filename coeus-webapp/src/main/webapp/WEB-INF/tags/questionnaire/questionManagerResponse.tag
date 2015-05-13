@@ -43,8 +43,9 @@
         document.getElementById("max_answers_post_message").innerHTML = "";
         document.getElementById("max_answers_html_control").style.display = "none";
         document.getElementById("max_answers_br").style.display = "none";
+        document.getElementById("multichoice-container").style.display = "none";
 
-        switch(document.getElementById("document.newMaintainableObject.businessObject.questionTypeId").value) {
+        switch(document.getElementsByName("document.newMaintainableObject.businessObject.questionTypeId")[0].value) {
         case "" :
             document.getElementById("response_message").innerHTML = "<i> Please select the Type of response you would like for this question. </i>";
             document.getElementById("response_message_br").style.display = "inline";
@@ -112,6 +113,13 @@
             document.getElementById("max_answers_post_message").innerHTML = ".";
             document.getElementById("max_answers_html_control").style.display = "inline";
             document.getElementById("max_answers_br").style.display = "inline";
+            break;
+        case "100":
+            document.getElementById("max_answers_pre_message").innerHTML = "The number of possible answers is ";
+            document.getElementById("max_answers_post_message").innerHTML = ", not exceeding the number of text areas presented.";
+            document.getElementById("max_answers_html_control").style.display = "inline";
+            document.getElementById("max_answers_br").style.display = "inline";
+            document.getElementById("multichoice-container").style.display = "inline";
             break;
         default :
             document.getElementById("response_message").innerHTML = "<i>The question type is not yet supported.  Contact the system administrator to have this fixed.  Meanwhile please select a different Type of response for for this question.</i> <br />";

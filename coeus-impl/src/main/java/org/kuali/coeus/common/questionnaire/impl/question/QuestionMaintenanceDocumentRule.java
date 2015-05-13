@@ -18,12 +18,16 @@
  */
 package org.kuali.coeus.common.questionnaire.impl.question;
 
+import com.google.common.collect.Lists;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
@@ -34,6 +38,8 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -46,6 +52,10 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
 
     public QuestionMaintenanceDocumentRule() {
         super();
+    }
+
+    protected Collection<Class<?>> relationshipDeleteVerificationIgnores() {
+        return Lists.<Class<?>>newArrayList(QuestionMultiChoice.class, QuestionExplanation.class);
     }
 
     /**
@@ -65,35 +75,36 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
 
         // explicitly put the errorPath that the dictionaryValidationService requires
         GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject.businessObject");
+        try {
+            // document must have a newMaintainable object
+            Maintainable newMaintainable = document.getNewMaintainableObject();
+            if (newMaintainable == null) {
+                GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
+                throw new ValidationException("Maintainable object from Maintenance Document '" + document.getDocumentTitle() + "' is null, unable to proceed.");
+            }
 
-        // document must have a newMaintainable object
-        Maintainable newMaintainable = document.getNewMaintainableObject();
-        if (newMaintainable == null) {
-            GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject");
-            throw new ValidationException("Maintainable object from Maintenance Document '" + document.getDocumentTitle() + "' is null, unable to proceed.");
+            // document's newMaintainable must contain an object (ie, not null)
+            PersistableBusinessObject businessObject = newMaintainable.getBusinessObject();
+            if (businessObject == null) {
+                GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.");
+                throw new ValidationException("Maintainable's component business object is null.");
+            }
+
+            // run required check from maintenance data dictionary
+            maintDocDictionaryService.validateMaintenanceRequiredFields(document);
+
+            //check for duplicate entries in collections if necessary
+            maintDocDictionaryService.validateMaintainableCollectionsForDuplicateEntries(document);
+
+            // run the DD DictionaryValidation (non-recursive)
+            dictionaryValidationService.validateBusinessObject(businessObject, false);
+
+            // do default (ie, mandatory) existence checks
+            dictionaryValidationService.validateDefaultExistenceChecks(businessObject);
+        } finally {
+            // explicitly remove the errorPath we've added
+            GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.businessObject");
         }
-
-        // document's newMaintainable must contain an object (ie, not null)
-        PersistableBusinessObject businessObject = newMaintainable.getBusinessObject();
-        if (businessObject == null) {
-            GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.");
-            throw new ValidationException("Maintainable's component business object is null.");
-        }
-        
-        // run required check from maintenance data dictionary
-        maintDocDictionaryService.validateMaintenanceRequiredFields(document);
-        
-        //check for duplicate entries in collections if necessary
-        maintDocDictionaryService.validateMaintainableCollectionsForDuplicateEntries(document);
-
-        // run the DD DictionaryValidation (non-recursive)
-        dictionaryValidationService.validateBusinessObject(businessObject,false);
-
-        // do default (ie, mandatory) existence checks
-        dictionaryValidationService.validateDefaultExistenceChecks(businessObject);
-
-        // explicitly remove the errorPath we've added
-        GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.businessObject");
 
         LOG.debug("MaintenanceDocument validation ending");
         return true;
@@ -165,6 +176,9 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
                     break;
                 case (int) Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
                     isValid &= validateResponseTypeLookup(question); 
+                    break;
+                case (int) Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE:
+                    isValid &= validateResponseTypeMultipleChoice(question);
                     break;
                 default:
                     isValid &= false;
@@ -256,6 +270,34 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
         return isValid;
     }
 
+    private boolean validateResponseTypeMultipleChoice(Question question) {
+        boolean isValid = true;
+
+        isValid &= validateDisplayedAnswers(question);
+        isValid &= validateMaxAnswers(question);
+        isValid &= validateMultipleChoiceOptions(question);
+        return isValid;
+    }
+
+    private boolean validateMultipleChoiceOptions(Question question) {
+        boolean isValid = true;
+
+        if (CollectionUtils.isEmpty(question.getQuestionMultiChoices()) || question.getDisplayedAnswers() <= 0) {
+            isValid = false;
+        }
+
+        for (int i = 0; i < question.getQuestionMultiChoices().size(); i++) {
+            GlobalVariables.getMessageMap().addToErrorPath("document.newMaintainableObject.businessObject.questionMultiChoices[" + i + "]");
+            try {
+                dictionaryValidationService.validate(question.getQuestionMultiChoices().get(i));
+            } finally {
+                GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.businessObject.questionMultiChoices[" + i + "]");
+            }
+        }
+
+        return isValid;
+    }
+
     /**
      * This method validates the displayedAnswers field.  The field must contain a number greater than zero.
      * @param question - the question to be validated
@@ -264,16 +306,19 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
     private boolean validateDisplayedAnswers(Question question) {
         if (question.getDisplayedAnswers() != null && question.getDisplayedAnswers() > 0) {
             return true;
-        } else {
-            if (question.getQuestionTypeId() == Constants.QUESTION_RESPONSE_TYPE_TEXT) {
-                GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
-                        KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_AREAS);
-            } else {
-                GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
-                        KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_BOXES);
-            }
+        }
+
+        if (Long.valueOf(Constants.QUESTION_RESPONSE_TYPE_TEXT).equals(question.getQuestionTypeId())) {
+            GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
+                    KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_AREAS);
+            return false;
+        } else if (!Long.valueOf(Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE).equals(question.getQuestionTypeId())) {
+            GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_DISPLAYED_ANSWERS,
+                    KeyConstants.ERROR_QUESTION_DISPLAYED_ANSWERS_INVALID_BOXES);
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -332,6 +377,10 @@ public class QuestionMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBa
                 case (int) Constants.QUESTION_RESPONSE_TYPE_TEXT :
                     GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
                             KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_AREAS);
+                    break;
+                case (int) Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE :
+                    GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
+                            KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_CHECKBOXES);
                     break;
                 default :
                     GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
