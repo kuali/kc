@@ -628,3 +628,8 @@ section.medusa div.btn a:hover{
 	width : 50px;
 }
 
+.fluidInputField {
+	min-width: 100px;
+	width: 100%;
+}
+
