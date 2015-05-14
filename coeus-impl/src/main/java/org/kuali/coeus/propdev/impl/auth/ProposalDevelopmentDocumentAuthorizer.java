@@ -219,6 +219,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         if (isAuthorizedToSubmitToSponsor(doc, user)) {
             editModes.add("submitToSponsor");
         }
+        
+        if (isAuthorizedToModifyS2s(doc, user)) {
+        	editModes.add(ProposalDevelopmentConstants.AuthConstants.MODIFY_S2S);
+        }
+        
         if (isAuthorizedToMaintainProposalHierarchy(doc, user)) {
             editModes.add("maintainProposalHierarchy");
         }
@@ -526,6 +531,37 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         boolean rejectedDocument = getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument());
         return ( (!getKcWorkflowService().isInWorkflow(pdDocument) || rejectedDocument) && hasModifyBudgetPermission);
     }
+    
+    Boolean getCachedPermissionResult(Document document, String permissionCacheKey) {
+    	DocumentRequestAuthorizationCache documentRequestAuthorizationCache = getDocumentRequestAuthorizationCache(document);
+    	if (documentRequestAuthorizationCache.hasPermissionResult(permissionCacheKey)) {
+    		return documentRequestAuthorizationCache.getPermissionResult(permissionCacheKey);
+    	} else {
+    		return null;
+    	}
+    }
+    
+    void addCachedPermissionResult(Document document, String permissionCacheKey, boolean result) {
+    	DocumentRequestAuthorizationCache documentRequestAuthorizationCache = getDocumentRequestAuthorizationCache(document);
+    	documentRequestAuthorizationCache.addPermissionResult(permissionCacheKey, result);
+    }
+    
+    String buildPermissionCacheKey(Document document, Person user, String permissionCacheName) {
+    	return permissionCacheName + "|" + document.getDocumentNumber() + "|" + user.getPrincipalId();
+    }
+    
+    protected boolean hasModifyS2sEnroutePermission(Document document, Person user) {
+		Boolean cachedResult = getCachedPermissionResult(document, buildPermissionCacheKey(document, user, PermissionConstants.MODIFY_S2S_ENROUTE));
+    	if (cachedResult != null) {
+    		return cachedResult;
+    	}
+    	
+    	ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) document;
+    	boolean result = getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.MODIFY_S2S_ENROUTE);
+    	addCachedPermissionResult(document, buildPermissionCacheKey(document, user, PermissionConstants.MODIFY_S2S_ENROUTE), result);
+    	
+    	return result;
+    }
 
     protected boolean isAuthorizedToOpenBudget(Document document, Person user) {
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
@@ -756,6 +792,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         final ProposalDevelopmentDocument pdDocument = ((ProposalDevelopmentDocument) document);
         return getKcAuthorizationService().hasPermission(user.getPrincipalId(), pdDocument, PermissionConstants.VIEW_PROPOSAL)
                 || getKcWorkflowService().hasWorkflowPermission(user.getPrincipalId(), pdDocument);
+    }
+    
+    protected boolean isAuthorizedToModifyS2s(Document document, Person user) {
+    	return canEdit(document, user)
+			|| (this.hasModifyS2sEnroutePermission(document, user) 
+				&& !((ProposalDevelopmentDocument) document).getDevelopmentProposal().getSubmitFlag());
     }
 
     protected boolean isAuthorizedToAddNote(Document document, Person user) {

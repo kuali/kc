@@ -24,7 +24,7 @@
 
 	<!-- Opportunity Search Page -->
 	<bean id="PropDev-OpportunityPage" parent="PropDev-OpportunityPage-parentBean" />
-	<bean id="PropDev-OpportunityPage-parentBean" parent="PropDev-DocumentPage">
+	<bean id="PropDev-OpportunityPage-parentBean" parent="PropDev-DocumentPage" p:readOnly="@{!#editModes[#proposalAuthConsts.MODIFY_S2S]}">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-OpportunityPage-SearchSection" p:order="10"/>
@@ -36,16 +36,16 @@
 			<bean parent="Uif-PageHeader" p:headerText="Opportunity Search" />
 		</property>
 	</bean>
-
+	
 	<!-- Opportunity Search Section -->
 	<bean id="PropDev-OpportunityPage-SearchSection" parent="PropDev-OpportunityPage-SearchSection-parentBean" />
 	<bean id="PropDev-OpportunityPage-SearchSection-parentBean"
 		abstract="true" parent="Uif-VerticalBoxSection"
-		p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId == null}">
+		p:render="@{document.developmentProposal.s2sOpportunity?.opportunityId == null and !#parent.readOnly}">
 		<property name="items">
 			<list>
 				<bean parent="PropDev-OpportunityPage-OpportunitySearch"
-					p:order="10" />
+					p:order="10"/>
 			</list>
 		</property>
 	</bean>
@@ -59,7 +59,7 @@
  			p:methodToCall="clearOpportunity" p:iconClass="icon-remove" p:order="10"/>
  			<bean parent="PropDev-OpportunityPage-OpportunitySearch"
  			p:quickfinder.quickfinderAction.iconClass="icon-exchange"
- 			p:quickfinder.quickfinderAction.actionLabel="Change opportunity" p:order="20"  />	
+ 			p:quickfinder.quickfinderAction.actionLabel="Change opportunity" p:render="@{!#parent.readOnly}" p:order="20" />	
  		</list>
  		</property>
  	</bean>
@@ -188,7 +188,7 @@
 					p:readOnly="@{#lp.mandatory}" p:readOnlyDisplayReplacement="Yes"
                     p:fieldLabel.labelText="[0]">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:disabled="@{!#line.available or !#editModes['printProposal'] or !canEditView}" />
+                        <bean parent="Uif-CheckboxControl" p:disabled="@{!#line.available or !#editModes[#proposalAuthConsts.MODIFY_S2S]}" />
                     </property>
                     <property name="fieldLabel.inlineComponents">
                         <list>
