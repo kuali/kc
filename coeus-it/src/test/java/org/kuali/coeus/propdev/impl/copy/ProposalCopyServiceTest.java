@@ -246,7 +246,7 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         assertEquals(copiedSites.get(1).getOrganization().getOrganizationId(), "000001");
 
         // test cong district
-        assertEquals(copiedSites.get(0).getDefaultCongressionalDistrict().getCongressionalDistrict(), "MA-008");
+        assertEquals(copiedSites.get(0).getDefaultCongressionalDistrict().getCongressionalDistrict(), "AZ-002");
 
         assertTrue(copiedDocument.getDevelopmentProposal().getNarratives().size() == 0);
 
