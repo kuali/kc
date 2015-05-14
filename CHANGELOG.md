@@ -1,5 +1,21 @@
 
 
+##coeus-1505.33
+* scale attachment collections better with page resize
+
+  * The new kualico ui, many of the screens redraw when in edit/add mode, putting several columns/buttons out of the window view, requiring scrolling.
+
+  * When I add attachments, I must now use the scroll bar to find/have access to the Details/Edit/Delete options, as well as other columns (userid/timestamp).
+  * If I compress the browser window, there is no compacting or wrapping of any column to aid in using a smaller screen.
+  * I have to have the browser window open to at least 14.5 inches to see all the columns. If I compact the left navigation bar to icon mode, I still have to have the window at 13 inches to see all columns. (Chrome on a PC)
+  * IE, I was able to see all in a 10.5 inch screen if I used icons for left nav bar.
+
+  * Once a user gets the 10-20 narratives uploaded for an NIH submission, they will need to scroll down to get to the horizontal scroll bar, and then scroll back up to get to the Actions column to edit the attachments.
+  * The white space is nice, but the row number column could be smaller, as can the Description column. Any ability to wrap text would also help if a user wanted to/had to work in a smaller window.
+
+  * Can something be done to address the expanding window content? Like allowing these columns to text-wrap? In Add Attachments - reducing the column width of the Description field?
+  * Joe Williams on Wed, 13 May 2015 13:42:45 -0500 [View Commit](../../commit/4c2a6a84f58b000a37895bf9d5cf1982d09566a4)
+
 ##coeus-1505.32
 * No Changes
 
