@@ -50,7 +50,7 @@
         </policy>
         <policy>
           <name>DOC_SEARCH_TARGET</name>
-          <stringValue>_parent</stringValue>
+          <stringValue>_top</stringValue>
         </policy>
       </policies>
     <attributes>
