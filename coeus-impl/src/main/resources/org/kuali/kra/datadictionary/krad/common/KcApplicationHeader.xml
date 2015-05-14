@@ -126,7 +126,7 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-Link" p:href="../portal.do"
+                <bean parent="Uif-Link" p:href="@{#ConfigProperties['application.url']}/portal.do"
                     p:wrapperCssClasses="pull-right" p:target="_new"
                     p:linkText="SYSTEM ADMIN PORTAL" p:order="50"/>
             </list>
