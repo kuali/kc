@@ -188,7 +188,10 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 
     @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=closeProposal")
     public ModelAndView closeProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-        DialogResponse dialogResponse = form.getDialogResponse("PropDev-Close-Dialog");
+		if (!form.isCanEditView() || form.isViewOnly()) {
+			return closeWithoutSave(form);
+		}
+		DialogResponse dialogResponse = form.getDialogResponse("PropDev-Close-Dialog");
         if(dialogResponse == null) {
             return getModelAndViewService().showDialog("PropDev-Close-Dialog", true, form);
         }else if (dialogResponse.getResponse().equals("yes")){
