@@ -230,12 +230,6 @@ public class PrintingServiceImpl implements PrintingService {
 
         printablePdf = new PrintableAttachment();
         byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList, headerFooterRequired);
-        /*
-         * if(printableArtifactList!=null && printableArtifactList.size()>0){ printableArtifactObject =
-         * printableArtifactList.get(0); try { if(printableArtifactObject.isWatermarkEnabled()){ mergedPdfBytes =
-         * watermarkService.applyWatermark( mergedPdfBytes,printableArtifactObject.getWatermarkable().getWatermark()); } } catch
-         * (Exception e) { LOG.error("Exception Occured in printServiceImpl. Water mark Exception: ",e); } }
-         */// Commented for 1327 #1
         // If there is a stylesheet issue, the pdf bytes will be null. To avoid an exception
         // initialize to an empty array before sending the content back
         if (mergedPdfBytes == null) {

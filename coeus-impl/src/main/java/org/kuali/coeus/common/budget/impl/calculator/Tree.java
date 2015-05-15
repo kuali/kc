@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * Represents a Tree of Objects of generic type T. The Tree is represented as
- * a single rootElement which points to a List<Node<T>> of children. There is
+ * a single rootElement which points to a List&lt;Node&lt;T&gt;&gt; of children. There is
  * no restriction on the number of children that a particular node may have.
  * This Tree provides a method to serialize the Tree into a List by doing a
  * pre-order traversal. It has several methods to allow easy updation of Nodes
@@ -54,9 +54,9 @@ public class Tree<T> {
     }
      
     /**
-     * Returns the Tree<T> as a List of Node<T> objects. The elements of the
+     * Returns the Tree&lt;T&gt; as a List of Node&lt;T&gt; objects. The elements of the
      * List are generated from a pre-order traversal of the tree.
-     * @return a List<Node<T>>.
+     * @return a List&lt;Node&lt;T&gt;&gt;.
      */
     public List<Node<T>> toList() {
         List<Node<T>> list = new ArrayList<Node<T>>();
@@ -112,11 +112,11 @@ class Node<T> {
     }
      
     /**
-     * Return the children of Node<T>. The Tree<T> is represented by a single
-     * root Node<T> whose children are represented by a List<Node<T>>. Each of
-     * these Node<T> elements in the List can have children. The getChildren()
-     * method will return the children of a Node<T>.
-     * @return the children of Node<T>
+     * Return the children of Node&lt;T&gt;. The Tree&lt;T&gt; is represented by a single
+     * root Node&lt;T&gt; whose children are represented by a List&lt;Node&lt;T&gt;&gt;. Each of
+     * these Node&lt;T&gt; elements in the List can have children. The getChildren()
+     * method will return the children of a Node&lt;T&gt;.
+     * @return the children of Node&lt;T&gt;
      */
     public List<Node<T>> getChildren() {
         if (this.children == null) {
@@ -126,9 +126,9 @@ class Node<T> {
     }
  
     /**
-     * Sets the children of a Node<T> object. See docs for getChildren() for
+     * Sets the children of a Node&lt;T&gt; object. See docs for getChildren() for
      * more information.
-     * @param children the List<Node<T>> to set.
+     * @param children the List&lt;Node&lt;T&gt;&gt; to set.
      */
     public void setChildren(List<Node<T>> children) {
         this.children = children;
@@ -146,9 +146,9 @@ class Node<T> {
     }
      
     /**
-     * Adds a child to the list of children for this Node<T>. The addition of
-     * the first child will create a new List<Node<T>>.
-     * @param child a Node<T> object to set.
+     * Adds a child to the list of children for this Node&lt;T&gt;. The addition of
+     * the first child will create a new List&lt;Node&lt;T&gt;&gt;.
+     * @param child a Node&lt;T&gt; object to set.
      */
     public void addChild(Node<T> child) {
         if (children == null) {
@@ -158,9 +158,10 @@ class Node<T> {
     }
      
     /**
-     * Inserts a Node<T> at the specified position in the child list. Will     * throw an ArrayIndexOutOfBoundsException if the index does not exist.
+     * Inserts a Node&lt;T&gt; at the specified position in the child list. Will
+     * @throws ArrayIndexOutOfBoundsException if the index does not exist.
      * @param index the position to insert at.
-     * @param child the Node<T> object to insert.
+     * @param child the Node&lt;T&gt; object to insert.
      * @throws IndexOutOfBoundsException if thrown.
      */
     public void insertChildAt(int index, Node<T> child) throws IndexOutOfBoundsException {
@@ -175,7 +176,7 @@ class Node<T> {
     }
      
     /**
-     * Remove the Node<T> element at index index of the List<Node<T>>.
+     * Remove the Node&lt;T&gt; element at index index of the List&lt;Node&lt;T&gt;&gt;.
      * @param index the index of the element to delete.
      * @throws IndexOutOfBoundsException if thrown.
      */

@@ -219,9 +219,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
      * This method initialize all form variables
      */
     public void initialize() {
-        //newAwardCostShare = new AwardCostShare();
-        newAwardFandaRate = new AwardFandaRate(); 
-        //setNewSponsorTerms(new ArrayList<SponsorTerm>());
+        newAwardFandaRate = new AwardFandaRate();
         awardCommentHistoryByType = new ArrayList<AwardComment>();
         costShareFormHelper = new CostShareFormHelper(this);
         centralAdminContactsBean = new AwardCentralAdminContactsBean(this);
@@ -237,11 +235,9 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         awardReportsBean = new AwardReportsBean(this);
         awardNotepadBean = new AwardNotepadBean(this);
         awardAttachmentFormBean = new AwardAttachmentFormBean(this);
-        //awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
         setSpecialReviewHelper(new SpecialReviewHelper(this));
         setNotificationHelper(new NotificationHelper());
-        //sponsorTermTypes = new ArrayList<KeyValue>();
         awardCreditSplitBean = new AwardCreditSplitBean(this);
         awardCommentBean = new AwardCommentBean(this);
         awardCloseoutBean = new AwardCloseoutBean(this);

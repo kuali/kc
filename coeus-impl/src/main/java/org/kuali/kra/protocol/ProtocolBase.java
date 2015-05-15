@@ -561,7 +561,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * Purpose of this method is to use the list in buildListOfDeletionAwareLists.
      * Looks like OJB is not searching beyond the first level. It doesn't delete
      * from collection under ProtocolPersonBase.
-     * @return List<ProtocolAttachmentPersonnelBase>
+     * @return List&lt;ProtocolAttachmentPersonnelBase&gt;
      */
     private List<ProtocolAttachmentPersonnelBase> getProtocolAttachmentPersonnel() {
         List<ProtocolAttachmentPersonnelBase> protocolAttachmentPersonnel = new ArrayList<ProtocolAttachmentPersonnelBase>();
@@ -578,7 +578,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
      * Purpose of this method is to use the list in buildListOfDeletionAwareLists.
      * Looks like OJB is not searching beyond the first level. It doesn't delete
      * from collection under ProtocolPersonBase.
-     * @return List<ProtocolUnitBase>
+     * @return List&lt;ProtocolUnitBase&gt;
      */
     private List<ProtocolUnitBase> getProtocolUnits() {
         List<ProtocolUnitBase> protocolUnits = new ArrayList<ProtocolUnitBase>();

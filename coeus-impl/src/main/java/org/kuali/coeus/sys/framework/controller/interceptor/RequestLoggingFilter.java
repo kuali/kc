@@ -46,7 +46,7 @@ import java.util.Enumeration;
  *   <li>Client IP Address</li>
  *   <li>Request Parameters</li>
  * </ul>
- * <br/>
+ *
  * Everything is logged at DEBUG except the following uses the INFO Log Level:
  * <ul>
  *   <li>Currently logged in user</li>

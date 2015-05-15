@@ -76,8 +76,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     
     private BudgetPeriod newBudgetPeriod;
     private List<BudgetLineItem> newBudgetLineItems;   
-//    private BudgetLineItem newPersonnelLineItem;   
-    private Integer newBudgetPeriodNumber = Integer.valueOf(0);    
+    private Integer newBudgetPeriodNumber = Integer.valueOf(0);
     
     private BudgetCostShare newBudgetCostShare;
     private BudgetProjectIncome newBudgetProjectIncome;

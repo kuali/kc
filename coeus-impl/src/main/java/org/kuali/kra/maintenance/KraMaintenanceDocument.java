@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * This class is primarily for Questionnaire maintenance, so that QuestionnaireQuestions & QuestionnaireUsages
+ * This class is primarily for Questionnaire maintenance, so that QuestionnaireQuestions &amp; QuestionnaireUsages
  * can be include in xmldocumentcontent.
  * It has a classdescriptor in repository.xml
  */

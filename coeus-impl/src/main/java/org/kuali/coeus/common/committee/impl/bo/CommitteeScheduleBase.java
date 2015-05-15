@@ -317,22 +317,9 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
 
 
     public abstract CMT getParentCommittee();
-    
-//    public CMT getCommittee() {
-//        if (committee == null && getCommitteeIdFk() == null) {
-//            committee = getNewCommitteeInstanceHook();
-//        }
-//        return committee;
-//	}
-
-//	protected abstract CMT getNewCommitteeInstanceHook();
 
 	
 	public abstract void setCommittee(CMT committee);
-	
-//    public void setCommittee(CMT committee) {
-//		this.committee = committee;
-//	}
 
     public ScheduleStatus getScheduleStatus() {
         return scheduleStatus;

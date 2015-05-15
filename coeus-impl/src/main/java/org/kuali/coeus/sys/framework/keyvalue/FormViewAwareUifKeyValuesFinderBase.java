@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * This base values finder class serves as a compatible layer to be used during the kns to krad conversion.
  * Once the conversion is complete this class should be removed.  The main purpose of this class is to make
- * Forms or Views available to the values finders in a way that is consistent with the kns & krad.
+ * Forms or Views available to the values finders in a way that is consistent with the kns &amp; krad.
  */
 public class FormViewAwareUifKeyValuesFinderBase extends UifKeyValuesFinderBase {
 

@@ -63,7 +63,7 @@ public class PersonEditableFieldValuesFinder extends UifKeyValuesFinderBase {
      * Returns a searchable <code>{@link Collection}</code> of attributes to explicitly not allow for <code>{@link PersonEditableField}</code>
      *  assignment.
      *  
-     * @return Collection<String>
+     * @return Collection&lt;String&gt;
      */
     private Collection<String> getExcludedAttributes() {
         return asList(new String[] {"proposalNumber", "proposalPersonNumber", "personId", "rolodexId", "delete", "versionNumber"});
@@ -71,7 +71,7 @@ public class PersonEditableFieldValuesFinder extends UifKeyValuesFinderBase {
     
     /**
      * Read-only access to a map of attributes for <code>{@link ProposalPerson}</code>
-     * @return Map<String, AttributeDefinition>
+     * @return Map&lt;String, AttributeDefinition&gt;
      */
     private List<AttributeDefinition> getAttributes() {
     	if (attributes == null) {

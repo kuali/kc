@@ -367,9 +367,9 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
      * The default comparator goes by the order of questionId, sequenceNumber.
      * @param argQuestion the Question to be compared.
      * @return the value 0 if this Question is equal to the argument Question;
-     *         a value less than 0 if this Question has a questionId & sequenceNumber pair that is less
+     *         a value less than 0 if this Question has a questionId &amp; sequenceNumber pair that is less
      *         than the argument Question;  and a value greater than 0 if this Question has a questionId
-     *         & sequenceNumber pair that is greater than the argument Question.
+     *         &amp; sequenceNumber pair that is greater than the argument Question.
      */
     public int compareTo(Question argQuestion) {
         if (ObjectUtils.equals(this.getQuestionSeqId(), argQuestion.getQuestionSeqId())) {

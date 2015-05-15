@@ -41,7 +41,6 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     protected static final String MEDUSA = "medusa";
     /**
      * create 'edit' link
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -50,11 +49,6 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         return htmlDataList;
 
 }
-
-    /**
-     * @param businessObject
-     * @return
-     */
     protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
@@ -157,7 +151,7 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     /**
      * 
      * This method is to set up field definitions for lookup fields.  
-     * These fields does not have a reference object defined for it in repository & bo.
+     * These fields does not have a reference object defined for it in repository &amp; bo.
      * @param field
      * @param keyName
      * @param className

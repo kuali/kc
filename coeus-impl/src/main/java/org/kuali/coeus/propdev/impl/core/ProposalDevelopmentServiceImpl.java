@@ -229,7 +229,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     protected String getDataOverrideLookupDisplayDisplayValue(String lookupClassName, String value, String displayAttributeName) {
-       // Map<String, Object> primaryKeys = new HashMap<String, Object>();
         List<String> lookupClassPkFields = null;
         Class lookupClass = null;
         String displayValue = "";
@@ -246,7 +245,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             if (CollectionUtils.isNotEmpty(lookupClassPkFields)) {
 
                 if (StringUtils.isNotEmpty(value)) {
-                   // primaryKeys.put(lookupClassPkFields.get(0), value);
                     businessObject = (PersistableBusinessObject) getDataObjectService().find (lookupClass, value);
                     if (businessObject != null) {
                         displayValue = getPropertyValue(businessObject, displayAttributeName);

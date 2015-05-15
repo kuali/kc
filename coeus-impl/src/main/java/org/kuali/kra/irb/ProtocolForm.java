@@ -259,8 +259,8 @@ public class ProtocolForm extends ProtocolFormBase {
     } 
 
     /**
-     * Gets the Notes & Attachments Helper.
-     * @return Notes & Attachments Helper
+     * Gets the Notes &amp; Attachments Helper.
+     * @return Notes &amp; Attachments Helper
      */
     public NotesAttachmentsHelper getNotesAttachmentsHelper() {
         return (NotesAttachmentsHelper) super.getNotesAttachmentsHelper();

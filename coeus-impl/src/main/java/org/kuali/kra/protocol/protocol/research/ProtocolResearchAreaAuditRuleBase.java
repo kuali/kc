@@ -57,7 +57,7 @@ public abstract class ProtocolResearchAreaAuditRuleBase extends KcTransactionalD
     }
     
     /**
-     * Creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
+     * Creates and adds the Audit Error to the <code>{@link List&lt;AuditError&gt;}</code> auditError.
      */
     protected void addErrorToAuditErrors() {
         StringBuilder stringBuilder = new StringBuilder();

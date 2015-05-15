@@ -85,7 +85,7 @@ public abstract class BaseQuestionnaireAuditRule<T extends KcTransactionalDocume
     }
     
     /**
-     * Creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
+     * Creates and adds the Audit Error to the <code>{@link List&lt;AuditError&gt;}</code> auditError.
      */
     protected void addErrorToAuditErrors(List<Integer> headerIds) {
         for (Integer id : headerIds) {

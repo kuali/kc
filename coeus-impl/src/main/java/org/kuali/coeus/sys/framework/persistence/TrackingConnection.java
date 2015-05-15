@@ -378,7 +378,7 @@ public class TrackingConnection implements Connection {
         }
 
         /**
-         * This method adds a new ConnectionInfo for a given Connection & key.  If a Connection
+         * This method adds a new ConnectionInfo for a given Connection &amp; key.  If a Connection
          * already exists then that connection is removed from tracking and the new ConnectionInfo is created.
          * This handles Connection reuse.
          *
@@ -416,7 +416,7 @@ public class TrackingConnection implements Connection {
         }
 
         /**
-         * Removes all ConnectionInfos from tracking where for the key & passed in Connection
+         * Removes all ConnectionInfos from tracking where for the key &amp; passed in Connection
          * @param key the connection key
          * @param con the connection to remove
          */
@@ -508,7 +508,7 @@ public class TrackingConnection implements Connection {
             private final Connection connection;
             private final String establishedStack;
 
-            /** creates an object with the connection & establisher. */
+            /** creates an object with the connection &amp; establisher. */
             private ConnectionInfo(Connection connection, String establishedStack) {
                 this.connection = connection;
                 this.establishedStack = establishedStack;

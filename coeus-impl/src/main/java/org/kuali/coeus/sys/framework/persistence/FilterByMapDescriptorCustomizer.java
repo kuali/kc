@@ -34,7 +34,7 @@ import java.util.Map;
  * attribute name using the criteria supplied in the filterMap.
  *
  * For example:
- *
+ * {@code
  * @Customizer(FullTimeActiveEmployeesCustomizer.class)
  * class Department {
  *     List<Employee> employees;
@@ -60,6 +60,7 @@ import java.util.Map;
  *      filterMap.put("type", "F");
  *      return filterMap;
  *   }
+ * }
  * }
  */
 @Deprecated

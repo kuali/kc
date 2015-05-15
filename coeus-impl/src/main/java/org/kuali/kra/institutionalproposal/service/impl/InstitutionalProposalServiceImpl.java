@@ -215,7 +215,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * If the current Active version is already Funded, it will be left alone.
      * 
      * @param proposalNumbers The proposals to update.
-     * @return List<InstitutionalProposal> The new Funded versions.
+     * @return List&lt;InstitutionalProposal&gt; The new Funded versions.
      */
     public List<InstitutionalProposal> fundInstitutionalProposals(Set<String> proposalNumbers) {
 
@@ -274,7 +274,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @param proposalNumbers The proposals to update.
      * @param awardNumber The Award that is de-funding the proposal.
      * @param awardSequence The sequence number of the Award.
-     * @return List<InstitutionalProposal> The new Pending versions.
+     * @return List&lt;InstitutionalProposal&gt; The new Pending versions.
      */
     public List<InstitutionalProposal> defundInstitutionalProposals(Set<String> proposalNumbers, String awardNumber, Integer awardSequence) {
 

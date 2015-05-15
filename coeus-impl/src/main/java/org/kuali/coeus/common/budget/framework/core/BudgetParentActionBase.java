@@ -44,9 +44,7 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
     
     /**
      * Copy the given budget version and add it to the given proposal.
-     * 
-     * @param budgetParentDocument
-     * @param budgetToCopy
+     *
      * @param copyPeriodOneOnly if only the first budget period is to be copied
      */
     @SuppressWarnings("unchecked")
@@ -67,12 +65,7 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
             }
         }
     }
-    /**
-     * 
-     * This method gets the BudgetCommonService
-     * @param parentBudgetDocument
-     * @return
-     */
+
     private BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent parentBudget) {
         return BudgetCommonServiceFactory.createInstance(parentBudget);
     }

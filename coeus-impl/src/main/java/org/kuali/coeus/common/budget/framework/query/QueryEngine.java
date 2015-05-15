@@ -56,9 +56,7 @@ public class QueryEngine {
      * relational conditions.
      * @return Query List
      * @param beanClass bean Class
-     * @param key dataCollection key
      * @param operator Operator
-     * @CoeusException
      */
     public QueryList executeQuery(Class beanClass, Operator operator){
         List dataList = (List)dataCollection.get(beanClass);
@@ -71,7 +69,6 @@ public class QueryEngine {
      * operator parameter. Operator can be a combination of multiple logical and
      * relational conditions.
      * @return returns results in this Query List
-     * @param collectionKey collection key
      * @param key data key
      * @param operator Operator
      */
@@ -86,8 +83,6 @@ public class QueryEngine {
      * operator parameter. Operator can be a combination of multiple logical and
      * relational conditions.
      * @return returns results in this Query List
-     * @param collectionKey collection key
-     * @param key data key
      * @param operator Operator
      */
     public QueryList executeQuery(List dataList, Operator operator) {
@@ -97,7 +92,6 @@ public class QueryEngine {
     
     /** returns a clone(copy) of dataList which is passed as the parameter.
      * @param queryList QueryList
-     * @CoeusException
      * @return QueryList
      */
     public QueryList cloneListData(QueryList queryList){
@@ -114,7 +108,6 @@ public class QueryEngine {
      * @return QueryList
      * @param key dataCollection key
      * @param beanClass beanClass
-     * @CoeusException
      */
     public QueryList getDetails(Object key, Class beanClass) {
         List dataList = (List)dataCollection.get(beanClass);
@@ -126,7 +119,6 @@ public class QueryEngine {
      * @return QueryList
      * @param key dataCollection key
      * @param collectionKey collectionKey
-     * @CoeusException
      */
     public QueryList getDetails(Object key, Object collectionKey){
         List dataList = (List)dataCollection.get(collectionKey);
@@ -151,7 +143,6 @@ public class QueryEngine {
     
     /** adds a CoeusBean to the DataCollection with the specified key
      * @param baseBean BaseBean
-     * @param key key of the DataCollection
      */
     public void addData(Object baseBean) {
         List dataList = (List)dataCollection.get(baseBean.getClass());
@@ -173,7 +164,6 @@ public class QueryEngine {
     
     /** removes CoeusBean from the DataCollection with the specified key
      * @param baseBean BaseBean
-     * @param key DataCollection key
      */
     public void removeData(Object baseBean) {
         List dataList = (List)dataCollection.get(baseBean.getClass());
@@ -181,7 +171,6 @@ public class QueryEngine {
     }
     
     /** removes a CoeusBean from the DataCollection with the specified key
-     * @param key DataCollection key
      * @param beanClass Class type of the bean to locate QueryList from
      * where the Object has to be removed
      * @param index index at which the Object has to be removed.
@@ -193,9 +182,7 @@ public class QueryEngine {
     
     /** removes a CoeusBean from the DataCollection with the specified key
      * @param key DataCollection key
-     * @param beanClass Class type of the bean to locate QueryList from
      * where the Object has to be removed
-     * @param index index at which the Object has to be removed.
      */
     public void removeData(Object key, Operator operator) {
         if(key == null || operator == null) return ;
@@ -214,7 +201,6 @@ public class QueryEngine {
     }
     
     /** Removes bean instances from query engine.
-     * @param key data collection key.
      * @param beanClass bean class.
      * @param operator operator.
      */

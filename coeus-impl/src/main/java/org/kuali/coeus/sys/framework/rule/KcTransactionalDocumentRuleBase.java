@@ -131,7 +131,7 @@ public abstract class KcTransactionalDocumentRuleBase extends DocumentRuleBase {
     
     /**
      * Is the given code valid?  Query the database for a matching code
-     * If found, it is valid; otherwise it is invalid.<br/>
+     * If found, it is valid; otherwise it is invalid.
      * 
      * @param boClass the class of the business object to validate
      * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances

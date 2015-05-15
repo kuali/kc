@@ -29,18 +29,10 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 public interface BudgetCommonService<T extends BudgetParent> extends BudgetService<T> {
     /**
      * Returns a new finalized BudgetDocument based on the given ProposalDevelopmentDocument and documentDescription.
-     * 
-     * @param parentDocument
-     * @param documentDescription
-     * @return BudgetDocument
-     * @throws WorkflowException
      */
     public Budget getNewBudgetVersion(BudgetParentDocument<T> parent, String documentDescription, Map<String, Object> options);
     /**
      * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
-     * @param budgetDocument
-     * @return BudgetDocument
-     * @throws WorkflowException
      */
     public Budget copyBudgetVersion(Budget budget);
     
@@ -49,7 +41,6 @@ public interface BudgetCommonService<T extends BudgetParent> extends BudgetServi
     /**
      * This method is to check whether Budget Summary calculated amounts for a BudgetPeriod 
      * have been modified on AwardBudgetSummary screen
-     * @param budgetPeriod
      * @return true if there is any change
      */
     public boolean isRateOverridden(BudgetPeriod budgetPeriod);

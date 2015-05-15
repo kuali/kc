@@ -42,7 +42,7 @@ public abstract class ProtocolFundingSourceRuleBase extends KcTransactionalDocum
     private ProtocolFundingSourceService protocolFundingSourceService;
         
     /**
-     * This method will validate funding source based on type & check for duplicates.
+     * This method will validate funding source based on type &amp; check for duplicates.
      * @param addProtocolFundingSourceEvent
      * @return
      */

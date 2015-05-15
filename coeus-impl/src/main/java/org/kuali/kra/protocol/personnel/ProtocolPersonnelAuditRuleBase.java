@@ -58,7 +58,7 @@ public abstract class ProtocolPersonnelAuditRuleBase extends KcTransactionalDocu
     }
        
     /**
-     * This method creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
+     * This method creates and adds the Audit Error to the <code>{@link List&lt;AuditError&gt;}</code> auditError.
      */
     protected void addErrorToAuditErrors(int personIndex) {
         String label = Constants.PROTOCOL_FROM_DOCUMENT + ".protocolPersons[" + personIndex + "].protocolPersonRoleId"; 

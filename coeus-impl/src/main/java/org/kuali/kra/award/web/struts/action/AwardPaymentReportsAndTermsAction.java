@@ -57,7 +57,7 @@ import java.util.*;
 /**
  * 
  * This class represents the Struts Action for Payments, 
- * Reports & Terms page(AwardPaymentsReportsAndTerms.jsp)
+ * Reports &amp; Terms page(AwardPaymentsReportsAndTerms.jsp)
  */
 public class AwardPaymentReportsAndTermsAction extends AwardAction {
     private static final Log LOG = LogFactory.getLog( AwardPaymentReportsAndTermsAction.class );

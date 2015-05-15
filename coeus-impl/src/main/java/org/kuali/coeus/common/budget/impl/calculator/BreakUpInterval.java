@@ -232,7 +232,7 @@ public class BreakUpInterval{
 
     /**
      * Sets the budget attribute value.
-     * @param budget id to set.
+     * @param budgetId to set.
      */
     public void setBudgetId(Long budgetId) {
         this.budgetId = budgetId;

@@ -20,7 +20,7 @@ package org.kuali.coeus.common.budget.framework.query.operator;
 
 
 
-/** This class is a wrapper for and operator ( & ).
+/** This class is a wrapper for and operator ( and ).
  * Takes two Operators as parameters and returs true
  * if both the operators return true as result, else returns false.
  */

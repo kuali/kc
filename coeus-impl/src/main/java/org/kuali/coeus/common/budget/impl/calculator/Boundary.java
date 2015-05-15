@@ -26,7 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * This class holds the date boundaries ie, Start Date & End Date. Also
+ * This class holds the date boundaries ie, Start Date &amp; End Date. Also
  * have methods which to get the date related values like the no of days in
  * StartDate, month of StartDate, etc.
  *
@@ -50,7 +50,7 @@ public class Boundary {
 
 /**
  * Constructor...
- * Accepts 2 parameters, viz startDate & endDate and sets the values to the 
+ * Accepts 2 parameters, viz startDate &amp; endDate and sets the values to the
  * class variables
  * 
  * @param startDate 
@@ -125,7 +125,7 @@ public class Boundary {
     }   
 
 /**
- * Returns the no. of days between the startDate & endDate
+ * Returns the no. of days between the startDate &amp; endDate
  * 
  * @return long
  */

@@ -1128,7 +1128,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     
     /**
      * This method is to group totals for budget summary
-     * get budget summary totals - total direct and f&a
+     * get budget summary totals - total direct and f&amp;a
      * @param budgetPeriod
      * @return
      */

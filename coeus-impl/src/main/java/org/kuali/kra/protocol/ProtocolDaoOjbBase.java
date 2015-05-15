@@ -243,7 +243,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     }
 
     /*
-     * initialize several maps & lists for use
+     * initialize several maps &amp; lists for use
      */
     private void initialization() {
         initExcludedFields();
@@ -271,7 +271,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     
 
     /*
-     * investigator include PI & COI roles, key person includes SP/CA/CRC
+     * investigator include PI &amp; COI roles, key person includes SP/CA/CRC
      */
     private void initRoleLists() {
         initRoleListsHook(investigatorRole, personRole);
@@ -299,7 +299,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     }
     
     /*
-     * This is for personid & principalinvestigatorid.  
+     * This is for personid &amp; principalinvestigatorid.
      */
     private void addPersonRoleId(String key, Criteria crit) {
         if (key.equals(ProtocolLookupConstants.Property.KEY_PERSON)) {

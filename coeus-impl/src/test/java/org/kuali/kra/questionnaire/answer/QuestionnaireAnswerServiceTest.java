@@ -385,7 +385,6 @@ public class QuestionnaireAnswerServiceTest {
             one(businessObjectService).findMatching(AnswerHeader.class, fieldValues); will(returnValue(headers));
         }});
         
-        //fieldValues = new HashMap<String, String>();
         final Map <String, String> fieldValues1 = new HashMap<String, String>();
         fieldValues1.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
         final Questionnaire questionnairenew = getQuestionnaire(2, 0, 2L);

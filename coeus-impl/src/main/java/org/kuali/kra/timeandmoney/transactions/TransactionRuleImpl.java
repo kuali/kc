@@ -148,25 +148,6 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
     }
     
     
-/* apparently this is no longer used...
-    private Award findUpdatedRootAward(List<Award> awards, String rootAwardNumber) {
-
-        Award returnAward = null;
-        for (Award award : awards) {
-            if (award.getAwardNumber() == rootAwardNumber) {
-                returnAward = award;
-            }
-        }
-        if(returnAward == null) {
-            returnAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);
-//            if(returnAward == null){
-//                returnAward = getActiveAwardVersion(rootAwardNumber);
-//            }
-        }
-        return returnAward;
-    }
-*/    
-    
     private List<Award> processTransactions(TimeAndMoneyDocument timeAndMoneyDocument) {
         Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
         List<Award> awardItems = new ArrayList<Award>();
@@ -187,9 +168,6 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
         }
         if(returnAward == null) {
             returnAward = getAwardVersionService().getWorkingAwardVersion(sourceAwardNumber);
-//            if(returnAward == null){
-//                returnAward = getActiveAwardVersion(sourceAwardNumber);
-//            }
         }
         return returnAward;
     }
@@ -299,7 +277,6 @@ public class TransactionRuleImpl extends KcTransactionalDocumentRuleBase impleme
 
     /**
      * Validate required fields present
-     * @param equipmentItem
      * @return
      */
     boolean areRequiredFieldsComplete(PendingTransaction pendingTransactionItem) {        

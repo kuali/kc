@@ -158,8 +158,6 @@ public class BudgetAction extends BudgetActionBase {
     
     /**
      * This method returns true if the BudgetDocument is an AwardBudgetDocument instance
-     * @param budgetDocument
-     * @return
      */
     protected boolean isAwardBudget(Budget budget) {
         return budget instanceof AwardBudgetExt;
@@ -652,11 +650,7 @@ public class BudgetAction extends BudgetActionBase {
     protected void calculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod) {
         getCalculationService().calculateBudgetPeriod(budget, budgetPeriod);
     }
-    /**
-     * Locates the {@link BudgetCalculationService]
-     *
-     * @return {@link BudgetCalculationService} singleton instance
-     */ 
+
     protected BudgetCalculationService getCalculationService() {
         return KcServiceLocator.getService(BudgetCalculationService.class);
     }

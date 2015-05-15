@@ -100,7 +100,7 @@ public interface S2sSubmissionService {
      *            parameter for the opportunity.
      * @param competitionId
      *            parameter for the opportunity.
-     * @return List<S2sOpportunity> a list containing the available
+     * @return List&lt;S2sOpportunity&gt; a list containing the available
      *         opportunities for the corresponding parameters.
      * @throws S2sCommunicationException
      */

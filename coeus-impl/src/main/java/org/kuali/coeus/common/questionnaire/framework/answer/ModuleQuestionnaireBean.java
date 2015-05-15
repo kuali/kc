@@ -26,7 +26,7 @@ import java.util.Map;
 
 
 /**
- * This class is intend as a link between modules & questionnaire answer So, Questionnaire answer service can be shared.
+ * This class is intend as a link between modules &amp; questionnaire answer So, Questionnaire answer service can be shared.
  **/
 public abstract class ModuleQuestionnaireBean {
     private String moduleItemCode;

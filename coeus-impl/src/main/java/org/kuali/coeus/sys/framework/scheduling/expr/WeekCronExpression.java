@@ -38,7 +38,7 @@ import java.util.Date;
  * Explanation: Generate dates for every week on Monday at 10:10 (hh:mm)
  * 
  * e.g. Start Date : 02/24/09, Time : 10:10 (hh:mm) Format (second minute hour day month year) Generated Expression :0 10 10 ? *
- * MON,FRI Explanation: Generate dates for every week on Monday & Friday at 10:10 (hh:mm)
+ * MON,FRI Explanation: Generate dates for every week on Monday &amp; Friday at 10:10 (hh:mm)
  */
 public class WeekCronExpression extends CronExpression {
 

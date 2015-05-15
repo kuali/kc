@@ -94,12 +94,6 @@ public class PersonEditableField extends KcPersistableBusinessObjectBase impleme
     }
 
     public CoeusModule getCoeusModule() {
-        // if "All" is implemented 
-        //        if (StringUtils.equals("0", moduleCode) && coeusModule == null) { 
-        //            coeusModule = new CoeusModule(); 
-        //            coeusModule.setModuleCode("0"); 
-        //            coeusModule.setDescription("All"); 
-        //        } 
         return coeusModule;
     }
 

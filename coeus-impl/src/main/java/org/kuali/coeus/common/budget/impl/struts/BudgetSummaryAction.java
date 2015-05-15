@@ -177,7 +177,6 @@ public class BudgetSummaryAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
         BudgetPeriod newBudgetPeriod = budgetForm.getNewBudgetPeriod();
-        // List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         if (getKcBusinessRulesEngine().applyRules(new AddBudgetPeriodEvent(budget, newBudgetPeriod))) {
             budget.getBudgetSummaryService().addBudgetPeriod(budget, newBudgetPeriod);
             /* set new period and calculate all periods */

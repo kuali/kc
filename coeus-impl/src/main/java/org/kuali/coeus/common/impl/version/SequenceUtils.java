@@ -50,7 +50,7 @@ public class SequenceUtils {
 
     /**
      * Using an identity set to store already sequenced references.  In Java 6 and above the following can be used
-     * as a Set Implementation java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<SequenceAssociate<?>, Boolean>())
+     * as a Set Implementation java.util.Collections.newSetFromMap(new java.util.IdentityHashMap&lt;SequenceAssociate&lt;?&gt;, Boolean&gt;())
      */
     private final Set<SequenceAssociate<?>> alreadySequencedAssociates = Collections.synchronizedSet(Sets.newSetFromMap(new IdentityHashMap<SequenceAssociate<?>, Boolean>()));
 

@@ -53,9 +53,9 @@ public final class JstlFunctions {
 
     /**
      * Returns a list of key/value pairs for displaying in an HTML option for a select list. This is a customized approach to retrieving
-     * key/value data from database based on criteria specified in the <code>params {@link Map}</code><br/>
-     * <br/>
-     * Here is an example of how the code is used from a JSP:<br/>
+     * key/value data from database based on criteria specified in the <code>params {@link Map}</code>
+     *
+     * Here is an example of how the code is used from a JSP:
      * <code>
      * <jsp:useBean id="paramMap" class="java.util.HashMap"/>
                     <c:set target="${paramMap}" property="forAddedPerson" value="true" />
@@ -118,11 +118,11 @@ public final class JstlFunctions {
      * Initiates the values finder by its <code>valuesFinderClassName</code>. First locates the class in the class path. Then, 
      * creates an instance of it. A <code>{@link Map}</code> of key/values <code>{@link String}</code> instances a is used
      * to set properties on the values finder instance. Uses the apache <code>{@link BeanUtils}</code> class to set properties
-     * by the name of the key in the <code>{@link Map}</code>.<br/>
-     * <br/>
+     * by the name of the key in the <code>{@link Map}</code>.
+     *
      * Basically, a new values finder is created. the <code>params</code> parameter is a <code>{@link Map}</code> of arbitrary values
-     * mapped to properties of the values finder class.<br/>
-     * <br/>
+     * mapped to properties of the values finder class.
+     *
      * Since this is so flexible and the ambiguity of properties referenced in the <code>{@link Map}</code>, a number of exceptions are caught
      * if a property cannot be set or if the values finder cannot be instantiated. All of these exceptions are handled within the method. None
      * of these exceptions are thrown back.

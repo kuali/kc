@@ -373,11 +373,11 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     }
 
     /**
-     * This method convert GetOpportunityListResponse to ArrayList<OpportunityInfo>
+     * This method convert GetOpportunityListResponse to ArrayList&lt;OpportunityInfo&gt;
      *
      * @param resList
      *            {GetOpportunityListResponse}
-     * @return ArrayList<OpportunityInfo> containing all form information
+     * @return ArrayList&lt;OpportunityInfo&gt; containing all form information
      */
 
     protected ArrayList<S2sOpportunity> convertToArrayList(String source,
@@ -439,7 +439,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      *            parameter for the opportunity.
      * @param competitionId
      *            parameter for the opportunity.
-     * @return List<S2sOpportunity> a list containing the available
+     * @return List&lt;S2sOpportunity&gt; a list containing the available
      *         opportunities for the corresponding parameters.
      * @throws S2sCommunicationException
      */
