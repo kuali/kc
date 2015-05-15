@@ -22,12 +22,6 @@
     <bean id="QuestionMultiChoice-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice" />
 		<property name="objectLabel" value="Question Multi-Choice" />
-        <property name="inquiryDefinition" >
-            <ref bean="QuestionMultiChoice-inquiryDefinition" />
-        </property>
-        <property name="lookupDefinition" >
-            <ref bean="QuestionMultiChoice-lookupDefinition" />
-        </property>
         <property name="titleAttribute" value="id" />
         <property name="attributes" >
             <list>
@@ -137,93 +131,4 @@
     
       <bean id="QuestionMultiChoice-versionNumber" parent="QuestionMultiChoice-versionNumber-parentBean" />
       <bean id="QuestionMultiChoice-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
-        <!-- Business Object Inquiry Definition -->
-      <bean id="QuestionMultiChoice-inquiryDefinition" parent="QuestionMultiChoice-inquiryDefinition-parentBean" />
-      <bean id="QuestionMultiChoice-InquiryView" parent="QuestionMultiChoice-InquiryView-parentBean"/>
-    <bean id="QuestionMultiChoice-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Question Multi-Choice Id" />
-        <property name="inquirySections" >
-            <list>
-                <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Question Multi-Choice Id" />
-                    <property name="numberOfColumns" value="1" />
-                    <property name="inquiryFields" >
-                        <list>
-              <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-              <bean parent="FieldDefinition" p:attributeName="questionId"/>
-              <bean parent="FieldDefinition" p:attributeName="prompt"/>
-              <bean parent="FieldDefinition" p:attributeName="description"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="QuestionMultiChoice-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
-    <property name="headerText" value="Question Multi-Choice Id"/>
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice"/>
-    <property name="items">
-      <list>
-        <bean parent="Uif-Disclosure-GridSection">
-          <property name="headerText" value="Question Multi-Choice Id"/>
-          <property name="layoutManager.numberOfColumns" value="2"/>
-          <property name="items">
-            <list>
-              <bean p:propertyName="id" parent="Uif-DataField"/>
-              <bean p:propertyName="questionId" parent="Uif-DataField"/>
-              <bean p:propertyName="prompt" parent="Uif-DataField"/>
-              <bean p:propertyName="description" parent="Uif-DataField"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <!-- Business Object Lookup Definition -->
-    <bean id="QuestionMultiChoice-lookupDefinition" parent="QuestionMultiChoice-lookupDefinition-parentBean" />
-  <bean id="QuestionMultiChoice-LookupView" parent="QuestionMultiChoice-LookupView-parentBean"/>
-    <bean id="QuestionMultiChoice-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Question Multi-Choice Lookup" /><property name="defaultSort" >
-      <bean parent="SortDefinition"/>
-        </property>
-        <property name="lookupFields" >
-            <list>
-        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="questionId"/>
-        <bean parent="FieldDefinition" p:attributeName="prompt"/>
-        <bean parent="FieldDefinition" p:attributeName="description"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="id" p:forceInquiry="true"/>
-        <bean parent="FieldDefinition" p:attributeName="questionId"/>
-        <bean parent="FieldDefinition" p:attributeName="prompt"/>
-        <bean parent="FieldDefinition" p:attributeName="description"/>
-      </list>
-    </property>
-  </bean>
-
-  <bean id="QuestionMultiChoice-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
-    <property name="dataObjectClassName" value="org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice"/>
-    <property name="headerText" value="Question Multi-Choice Lookup"/>
-    <property name="criteriaFields">
-      <list>
-        <bean p:propertyName="id" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="questionId" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="prompt" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
-            </list>
-        </property>
-        <property name="resultFields" >
-            <list>
-        <bean p:propertyName="id" parent="Uif-DataField"/>
-        <bean p:propertyName="questionId" parent="Uif-DataField"/>
-        <bean p:propertyName="prompt" parent="Uif-DataField"/>
-        <bean p:propertyName="description" parent="Uif-DataField"/>
-            </list>
-        </property>
-    </bean>
 </beans>
