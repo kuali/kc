@@ -331,7 +331,7 @@ public class SubAwardServiceImpl implements SubAwardService {
     @Override
     public List<SubAward> getLinkedSubAwards(Award award) {
         Map<String, Object> values = new HashMap<String, Object>();
-        values.put("awardId", award.getAwardId());
+        values.put("award.awardNumber", award.getAwardNumber());
         Collection<SubAwardFundingSource> subAwardFundingSources = businessObjectService.findMatching(SubAwardFundingSource.class, values);
         Set<String> subAwardSet = new TreeSet<String>();
         for(SubAwardFundingSource subAwardFundingSource : subAwardFundingSources){
