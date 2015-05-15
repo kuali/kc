@@ -64,7 +64,7 @@
         <aopalliance.version>1.0</aopalliance.version>
         <avalon-framework.version>4.3.1</avalon-framework.version>
         <bouncycastle.version>1.51</bouncycastle.version>
-        <cglib-nodep.version>3.1</cglib-nodep.version>
+        <cglib.version>3.1</cglib.version>
         <coeus-api-all.version>1505.2</coeus-api-all.version>
         <coeus-s2sgen.version>1505.5</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
@@ -366,8 +366,8 @@
                                             <!-- excluding all slf4j -->
                                             <exclude>org.slf4j</exclude>
 
-                                            <!-- already including cglib-nodep -->
-                                            <exclude>cglib:cglib</exclude>
+                                            <!-- already including cglib -->
+                                            <exclude>cglib:cglib-nodep</exclude>
 
                                             <!-- excluding old jstl implementations which can cause hard-to-detect errors -->
                                             <exclude>taglibs:standard</exclude>
@@ -769,8 +769,19 @@
 
             <dependency>
                 <groupId>cglib</groupId>
-                <artifactId>cglib-nodep</artifactId>
-                <version>${cglib-nodep.version}</version>
+                <artifactId>cglib</artifactId>
+                <version>${cglib.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                    </exclusion>
+
+                    <exclusion>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm-util</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1581,6 +1592,12 @@
                 <artifactId>jmock</artifactId>
                 <version>${jmock.version}</version>
                 <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1588,6 +1605,12 @@
                 <artifactId>jmock-legacy</artifactId>
                 <version>${jmock.version}</version>
                 <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1595,6 +1618,12 @@
                 <artifactId>jmock-junit4</artifactId>
                 <version>${jmock.version}</version>
                 <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -1693,6 +1722,10 @@
                         <groupId>org.kuali.db.ojb</groupId>
                         <artifactId>db-ojb</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1708,6 +1741,10 @@
                     <exclusion>
                         <groupId>org.eclipse.persistence</groupId>
                         <artifactId>org.eclipse.persistence.oracle</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1833,6 +1870,10 @@
                         <groupId>org.eclipse.persistence</groupId>
                         <artifactId>org.eclipse.persistence.oracle</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1870,6 +1911,10 @@
                         <groupId>javax.servlet</groupId>
                         <artifactId>servlet-api</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1890,6 +1935,10 @@
                         <groupId>org.apache.velocity</groupId>
                         <artifactId>velocity</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
@@ -1897,12 +1946,24 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-ksb-web</artifactId>
                 <version>${rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-legacy-web</artifactId>
                 <version>${rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
