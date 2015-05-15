@@ -52,11 +52,6 @@ public class SubAwardFDPAgreement extends AbstractPrint {
         this.businessObjectService = businessObjectService;
     }
     
-    /*public List<Source> getXSLTemplates() {
-        ArrayList<Source> sourceList = PrintingUtils
-                .getXSLTforReport(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType());
-        return sourceList;
-    }*/
     public Map<String,Source> getXSLTemplateWithBookmarks() {
         Map<String,Source> sourceMap = new LinkedHashMap<String,Source>(); 
         List<SubAwardForms> printFormTemplates = (List<SubAwardForms>)getReportParameters().get(SubAwardPrintingService.SELECTED_TEMPLATES);

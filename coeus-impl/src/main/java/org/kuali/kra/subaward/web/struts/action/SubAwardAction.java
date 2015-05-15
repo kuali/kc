@@ -107,7 +107,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
 
         if(subAwardForm.getSubAwardDocument().getSubAwardList() != null) {
             for(SubAward subAwardList:subAwardForm.getSubAwardDocument().getSubAwardList()) {
-                List<SubAwardAttachments> subAwardAttachmentsList = subAwardList.getSubAwardAttachments();//new ArrayList<SubAwardAttachments>();
+                List<SubAwardAttachments> subAwardAttachmentsList = subAwardList.getSubAwardAttachments();
                 if(subAwardAttachmentsList != null && !subAwardAttachmentsList.isEmpty()) {
                      for(SubAwardAttachments subAwardAttachments:subAwardAttachmentsList) {
                             if(subAwardAttachments.getFileName() != null) {

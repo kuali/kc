@@ -188,7 +188,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
     }
                 
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
+     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List&lt;AuditError&gt;}</code>
      * to the auditErrorMap.
      * 
      * @return List of AuditError instances

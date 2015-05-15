@@ -77,8 +77,7 @@ public class CoiNotesAndAttachmentsHelper {
     private boolean modifyAttachments;
     private boolean modifyNotepads;
     private boolean addCoiReviewerComments;
-    //private List<Boolean> canDeleteUpdateNote = new ArrayList<Boolean>(); 
-    private Map<Integer, Boolean> canDeleteUpdateAttachment = new HashMap<Integer, Boolean>(); 
+    private Map<Integer, Boolean> canDeleteUpdateAttachment = new HashMap<Integer, Boolean>();
     private Map<Integer, Boolean> canDeleteUpdateNote = new HashMap<Integer, Boolean>();
     
     public CoiNotesAndAttachmentsHelper(CoiDisclosureForm coiDisclosureForm) {

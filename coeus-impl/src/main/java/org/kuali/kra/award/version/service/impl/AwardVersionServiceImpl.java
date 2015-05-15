@@ -35,7 +35,7 @@ public class AwardVersionServiceImpl implements AwardVersionService {
     private VersionHistoryService versionHistoryService;
     
     /**
-     * This method returns the proper Award for displaying information in T&M, Budget and Award documents.  Logic for canceled documents.
+     * This method returns the proper Award for displaying information in T&amp;M, Budget and Award documents.  Logic for canceled documents.
      * @param awardNumber
      * @return
      */

@@ -274,8 +274,8 @@ public abstract class PermissionsActionHelperBase implements Serializable {
     }
     
     /*
-     * Generically creates a <code>{@link StrutsConfirmation}</code> instance while deriving the question from a resource bundle.<br/>
-     * <br/> In this case, the question in the resource bundle is expected to be parameterized. This method takes this into account,
+     * Generically creates a <code>{@link StrutsConfirmation}</code> instance while deriving the question from a resource bundle.
+     *  In this case, the question in the resource bundle is expected to be parameterized. This method takes this into account,
      * and passes parameters and replaces tokens in the question with the parameters.
      */
     private StrutsConfirmation buildParameterizedConfirmationQuestion(ActionMapping mapping, ActionForm form,

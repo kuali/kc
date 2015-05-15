@@ -24,7 +24,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 
 /**
  * 
- * This class is to maintain repetitive coeus legacy code, protocolNumber & sequenceNumber, for protocol Bos.
+ * This class is to maintain repetitive coeus legacy code, protocolNumber &amp; sequenceNumber, for protocol Bos.
  * 
  * Much of this class is duplicated with ProtocolAssociateBase but there is no
  * way around that due to the limitations in rice, ojb, etc.

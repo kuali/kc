@@ -49,14 +49,12 @@ import java.util.Set;
  * since it is a little different than the rest of KC.
  *
  * This class adds error messages directly to the
- * {@link GlobalVariables#getErrorMap() GlobalVariables.getMessageMap()}
+ * {@link GlobalVariables#getMessageMap() GlobalVariables.getMessageMap()}
  * Make sure to add to the error map's path before calling the validate method.
  *
  * Currently warning are generated and placed in a {@code Set<String>}.
  * This is different because warnings are not supported by the rice framework
  * and therefore behave differently from errors.
- *
- * See {@link #getErrorMessages() getErrorMessages()}
  * </p>
  */
 @KcBusinessRule("budgetModularTotalDirectCostRule")
@@ -82,9 +80,6 @@ public class BudgetModularTotalDirectCostRule {
      * is positive and at least one is not positive than a warning is produced.
      * </p>
      *
-     * @param parentDocument the document to check rule against
-     * @param reportErrors whether to report errors
-     * @param warningMessages container to place warning messages.  Warning messages
      * are added to this set to be accessed by the caller.
      *
      * @throws NullPointerException if the pdDocument or warningMessages are null.
@@ -109,12 +104,6 @@ public class BudgetModularTotalDirectCostRule {
     /**
      * Checks the tdc on a {@link Budget Budget}
      * following the business rules described at
-     * {@link #validateTotalDirectCost(ProposalDevelopmentDocument, boolean, Set) validateTotalDirectCost()}
-     *
-     * @param budgetDocument the current budget document
-     * @param currentIndex the current index corresponding to the document.
-     * @param reportErrors whether to report errors
-     * @param warningMessages container to place warning messages.
      * @return true if no errors false if errors
      */
     private boolean checkTotalDirectCost(final Budget budget,

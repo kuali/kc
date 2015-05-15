@@ -53,7 +53,7 @@ public class AwardCommitmentsAction extends AwardAction {
     }
     
     /**
-     * Overridden to validate F&A rates
+     * Overridden to validate F&amp;A rates
      * @param mapping
      * @param form
      * @param request
@@ -183,7 +183,7 @@ public class AwardCommitmentsAction extends AwardAction {
      * 
      * This method adds an <code>AwardFandaRate</code> business object to 
      * the list of <code>AwardFandaRate</code> business objects
-     * It gets called upon delete action on F&A Rates Sub-Panel of Rates Panel
+     * It gets called upon delete action on F&amp;A Rates Sub-Panel of Rates Panel
      * @param mapping
      * @param form
      * @param request
@@ -221,7 +221,7 @@ public class AwardCommitmentsAction extends AwardAction {
      * 
      * This method deletes an <code>AwardFandaRate</code> business object from 
      * the list of <code>AwardFandaRate</code> business objects
-     * It gets called upon delete action on F&A Rates Sub-Panel of Rates Panel
+     * It gets called upon delete action on F&amp;A Rates Sub-Panel of Rates Panel
      * @param mapping
      * @param form
      * @param request
@@ -253,8 +253,8 @@ public class AwardCommitmentsAction extends AwardAction {
     
     /**
      * 
-     * This method recalculates the Unrecovered F&A; It gets called upon Recalculate action on 
-     * F&A Rates sub-panel
+     * This method recalculates the Unrecovered F&amp;A; It gets called upon Recalculate action on
+     * F&amp;A Rates sub-panel
      * of Rates Panel.
      * @param mapping
      * @param form

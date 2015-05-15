@@ -94,7 +94,7 @@ public interface InstitutionalProposalService {
      * If the current Active version is already Funded, it will be left alone.
      * 
      * @param proposalNumbers The proposals to update.
-     * @return List<InstitutionalProposal> The new Funded versions.
+     * @return List&lt;InstitutionalProposal&gt; The new Funded versions.
      */
     List<InstitutionalProposal> fundInstitutionalProposals(Set<String> proposalNumbers);
     
@@ -110,7 +110,7 @@ public interface InstitutionalProposalService {
      * @param proposalNumbers The proposals to update.
      * @param awardNumber The Award that is de-funding the proposal.
      * @param awardSequence The sequence number of the Award.
-     * @return List<InstitutionalProposal> The new Pending versions.
+     * @return List&lt;InstitutionalProposal&gt; The new Pending versions.
      */
     List<InstitutionalProposal> defundInstitutionalProposals(Set<String> proposalNumbers, String awardNumber, Integer awardSequence);
     

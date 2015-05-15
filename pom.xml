@@ -65,8 +65,8 @@
         <avalon-framework.version>4.3.1</avalon-framework.version>
         <bouncycastle.version>1.51</bouncycastle.version>
         <cglib-nodep.version>3.1</cglib-nodep.version>
-        <coeus-api-all.version>1504.3</coeus-api-all.version>
-        <coeus-s2sgen.version>1505.2</coeus-s2sgen.version>
+        <coeus-api-all.version>1505.2</coeus-api-all.version>
+        <coeus-s2sgen.version>1505.5</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-codec.version>1.9</commons-codec.version>
         <commons-collections.version>3.2.1</commons-collections.version>
@@ -123,8 +123,8 @@
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.3.1505.2-kckualico</rice.version>
-        <schemaspy.version>1504.2</schemaspy.version>
+        <rice.version>2.5.3.1505.4-kckualico</rice.version>
+        <schemaspy.version>1505.4</schemaspy.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
         <spring.version>3.2.13.RELEASE</spring.version>
@@ -213,7 +213,7 @@
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
 
-        <project.java.version>1.7</project.java.version>
+        <project.java.version>1.8</project.java.version>
         <!-- These are used by multiple plugins (compiler, javadoc, xref, etc) -->
         <project.compile.source>${project.java.version}</project.compile.source>
         <project.compile.target>${project.java.version}</project.compile.target>
@@ -545,6 +545,7 @@
                     <version>${maven-javadoc-plugin.version}</version>
                     <configuration>
                         <maxmemory>${javadoc.maxmemory}</maxmemory>
+                        <additionalparam>-Xdoclint:none</additionalparam>
                     </configuration>
                 </plugin>
 
@@ -2122,8 +2123,8 @@
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
 
                 <rsmart.cx.token.auth.version>1504.3</rsmart.cx.token.auth.version>
-                <rsmart.hr.rest.version>1505.2</rsmart.hr.rest.version>
-                <kc-sql.version>1504.3</kc-sql.version>
+                <rsmart.hr.rest.version>1505.7</rsmart.hr.rest.version>
+                <kc-sql.version>1505.2</kc-sql.version>
                 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>

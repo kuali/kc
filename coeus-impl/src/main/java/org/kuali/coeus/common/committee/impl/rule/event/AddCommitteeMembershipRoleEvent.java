@@ -72,7 +72,7 @@ public class AddCommitteeMembershipRoleEvent extends CommitteeMembershipRoleEven
      * 
      * Invokes the processing of the rules when adding a <code>{@link CommitteeMembershipRole}</code>.
      * 
-     * @param The <code>{@link AddCommitteeMembershipRoleRule}</code> that is to be used for processing
+     * @param rule <code>{@link AddCommitteeMembershipRoleRule}</code> that is to be used for processing
      * @return <code>true</code> if all rules are satisfied, otherwise <code>false</code>
      */
     public boolean invokeRuleMethod(BusinessRule rule) {

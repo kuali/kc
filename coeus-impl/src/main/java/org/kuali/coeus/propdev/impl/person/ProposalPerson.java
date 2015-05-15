@@ -429,7 +429,7 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     }
 
     /**
-     * set the <code>simpleName</code> & the full name.
+     * set the <code>simpleName</code> &amp; the full name.
      */
     @Override
     public void setFullName(String fullName) {

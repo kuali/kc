@@ -43,8 +43,8 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
      * This method fetches the Award Amount Info object that is to be displayed in UI for Award.  
      * The rules are:
      * 1)the Award Amount Infos awardNumber and versionNumber must match the Award BO
-     * 2)The Award Amount Infos timeAndMoneyDocumentNumber must be null or from a T&M document that has been finalized
-     * Users don't want this data to apply to Award until the T&M document has been approved.
+     * 2)The Award Amount Infos timeAndMoneyDocumentNumber must be null or from a T&amp;M document that has been finalized
+     * Users don't want this data to apply to Award until the T&amp;M document has been approved.
      * @param award
      * @return
      * @throws WorkflowException 
@@ -118,40 +118,19 @@ public AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAm
        
         return awardAmountInfos.size() - 1;
     }
-       
 
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
+
     public DocumentService getDocumentService() {
         return documentService;
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }

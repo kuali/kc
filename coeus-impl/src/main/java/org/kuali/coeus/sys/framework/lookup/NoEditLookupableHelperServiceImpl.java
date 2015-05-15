@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 /**
  * 
  * This class is to set the allowsMaintenanceEditAction to false, so the 'edit' action
- * will not be created in search result list.  currently Budget5categorymapping & validceratetype are 
+ * will not be created in search result list.  currently Budget5categorymapping &amp; validceratetype are
  * using this as lookupable.
  */
 @Component("noEditLookupableHelperService")

@@ -840,8 +840,6 @@ public class NIHResearchAndRelatedXmlStream extends
         }else{
             List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
             for (BudgetLineItem budgetLineItem : budgetLineItems) {
-                //                List<BudgetPersonnelDetails> budgetPersonnelLineItems = budgetLineItem.getBudgetPersonnelDetailsList();
-                //                if(budgetPersonnelLineItems.isEmpty()){
                 List<BudgetRateAndBase> budgetRateAndBases = budgetLineItem.getBudgetRateAndBaseList();
                 for (BudgetRateAndBase budgetRateAndBase : budgetRateAndBases) {
                     String key = budgetRateAndBase.getRateClassCode()+budgetRateAndBase.getRateTypeCode();

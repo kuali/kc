@@ -713,7 +713,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     }
 
     /*
-     * populate memberpresentbean & otherpresentbean
+     * populate memberpresentbean &amp; otherpresentbean
      */
     protected void populatePresentBean(MeetingHelperBase meetingHelper, List<CommitteeMembershipBase> committeeMemberships,
             CS commSchedule) {

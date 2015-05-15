@@ -31,7 +31,6 @@ public class AwardBasisOfPayment extends KcPersistableBusinessObjectBase {
 
     private String description;
 
-    //	private List<ValidAwardBasisPayment> validAwardBasisPayments;   
     private List<ValidBasisMethodPayment> validBasisMethodPayments;
 
     public AwardBasisOfPayment() {

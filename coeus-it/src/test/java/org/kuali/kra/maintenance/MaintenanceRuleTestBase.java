@@ -158,7 +158,7 @@ public abstract class MaintenanceRuleTestBase extends KcIntegrationTestBase {
 
     /**
      * This method tests whether a given combination of fieldName and errorKey exists in the GlobalVariables.getMessageMap(). The
-     * assert will fail if the fieldName & errorKey combination doesnt exist. NOTE that fieldName should NOT include the prefix
+     * assert will fail if the fieldName &amp; errorKey combination doesnt exist. NOTE that fieldName should NOT include the prefix
      * errorPath.
      * 
      * @param fieldName - fieldName as it would be provided when adding the error

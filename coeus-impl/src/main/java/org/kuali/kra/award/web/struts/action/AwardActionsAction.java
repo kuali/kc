@@ -648,7 +648,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     
     /**
      * Since a child award will always be part of a multiple award hierarchy, we need to set the boolean to true so that the anticipated
-     * and obligated totals on Details & Dates tab will be uneditable on initial creation.  After the initial save of document
+     * and obligated totals on Details &amp; Dates tab will be uneditable on initial creation.  After the initial save of document
      * this is handled in the docHandler and home methods of AwardAction.
      */
     private void setMultipleNodeHierarchyOnAwardFormTrue(Award award) {

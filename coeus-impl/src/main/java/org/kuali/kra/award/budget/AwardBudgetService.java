@@ -93,7 +93,6 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * Populates the passed in limit summary given the award document. Will not overwrite or recalculate
      * previously stored budgets in the summary if they are the same budget as in the award document.
      * @param limitSummary
-     * @param awardDocument
      */
     void populateBudgetLimitSummary(BudgetLimitSummaryHelper limitSummary, Award award);
     
@@ -102,16 +101,12 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
     /**
      * 
      * Get the total cost limit from the award. Returns the less of the obligated distributable amount or the total cost limit.
-     * @param awardDocument
-     * @return
      */
     ScaleTwoDecimal getTotalCostLimit(Award award);
     
     /**
      * Populates the budget limits from the award. This includes total cost limit and
-     * specific budget limits (direct and F&A currently)
-     * @param awardBudgetDocument
-     * @param parentDocument
+     * specific budget limits (direct and F&amp;A currently)
      */
     void setBudgetLimits(AwardBudgetDocument awardBudgetDocument, Award award); 
     
@@ -125,8 +120,6 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
 //    public boolean isSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod);
     /**
      * Checks for budgets that have not been posted, cancelled or rejected.
-     * @param event
-     * @param award
      * @return true if any unfinalized budgets are found
      * @throws WorkflowException
      */
@@ -135,9 +128,6 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
     /**
      * 
      * This method checks if Award rates changed, then display confirmation message on 'open' budget version.
-     * @param saved award budget rates
-     * @param Award award
-     * @return
      */
     public boolean checkRateChange(Collection<BudgetRate> allPropRates,Award award);
     
@@ -146,7 +136,6 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
     /**
      *
      * This method will clear the BudgetSumamryPeriodCalcAmounts
-     * @param budgetPeriod
      */
     public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod);
 

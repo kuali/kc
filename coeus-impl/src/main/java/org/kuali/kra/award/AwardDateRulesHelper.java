@@ -26,7 +26,7 @@ import java.sql.Date;
 
 /**
  * 
- * This class will be used by both Time & Money and Awards to help validate various date fields and to ensure both apply the same logic. 
+ * This class will be used by both Time &amp; Money and Awards to help validate various date fields and to ensure both apply the same logic.
  */
 public class AwardDateRulesHelper {
     

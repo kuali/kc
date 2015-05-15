@@ -30,7 +30,7 @@ public interface AwardCommentService {
 
     /**
      * This method gets all of the comment types from database where awardCommentScreenFlag is set to 'Y' so
-     * they can be displayed on the Comments, Notes & Attachments tab.
+     * they can be displayed on the Comments, Notes &amp; Attachments tab.
      * @return
      */
     List<CommentType> retrieveCommentTypes();
@@ -46,7 +46,6 @@ public interface AwardCommentService {
      * This method retrieves from the database all Award Comments with the give type code and Award ID for
      * display in view history popup page.
      * @param awardCommentTypeCode
-     * @param AwardId
      * @return
      */
     List<AwardComment> retrieveCommentHistoryByType(String awardCommentTypeCode, String awardId);

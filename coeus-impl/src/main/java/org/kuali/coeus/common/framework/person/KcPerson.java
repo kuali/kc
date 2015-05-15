@@ -129,7 +129,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     }
     
     /**
-     * Creates a KcPerson from an EntityContract & principalId.
+     * Creates a KcPerson from an EntityContract &amp; principalId.
      * 
      * @param entity the KIM entity.
      * @param personId the principal id in KIM.  This is needed b/c a KIM entity can have multiple principal.  This determines
@@ -173,7 +173,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     }
     
     /**
-     * Creates a KcPerson from an EntityContract & principalId.
+     * Creates a KcPerson from an EntityContract &amp; principalId.
      * 
      * @param entity the KIM entity.
      * @param userName the principal's user name in KIM.  This is needed b/c a KIM entity can have multiple principal.  This determines
@@ -1088,7 +1088,7 @@ public class KcPerson extends TransientBusinessObjectBase implements Contactable
     }
     
     /** 
-     * Gets the default & active address.  will never return null
+     * Gets the default &amp; active address.  will never return null
      * @return address
      */
     private EntityAddressContract getDefaultActiveAddress() {

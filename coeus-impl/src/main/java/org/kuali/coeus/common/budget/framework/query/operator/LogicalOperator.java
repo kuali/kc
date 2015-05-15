@@ -19,7 +19,7 @@
 package org.kuali.coeus.common.budget.framework.query.operator;
 
 /** implements Operator and holds left hand and right hand values
- * which are instances of Opertors(Since Logical Operators operate on two Relational, Logical Operators).
+ * which are instances of Operators (Since Logical Operators operate on two Relational, Logical Operators).
  */
 public abstract class LogicalOperator implements Operator {
     

@@ -23,7 +23,7 @@ import org.kuali.kra.protocol.ProtocolAssociateBase;
 /**
  * 
  * This class represents the "Three R's" or principles of IACUC,
- * (Reduction, Refinement, & Replacement).
+ * (Reduction, Refinement, &amp; Replacement).
  */
 public class IacucPrinciples extends ProtocolAssociateBase {
 

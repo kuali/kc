@@ -27,20 +27,9 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import java.util.Collection;
 import java.util.Map;
 
-/**
- * Budget Service interface
- */
 public interface BudgetService<T extends BudgetParent>  {
     
-    
-    /**
-     * Service method for adding a {@link BudgetVersionOverview} to a {@link ProposalDevelopmentDocument}. If a 
-     * {@link BudgetVersionOverview} instance with the  <code>versionName</code> already exists 
-     * in the {@link ProposalDevelopmentDocument}, then a hard error will occur. Try it and you'll see what I mean.
-     * 
-     * @param document instance to add {@link BudgetVersionOverview} to
-     * @param versionName of the {@link BudgetVersionOverview}
-     */
+
     public Budget addBudgetVersion(BudgetParentDocument<T> budgetParent, String versionName, Map<String, Object> options);
     
     /**
@@ -54,21 +43,10 @@ public interface BudgetService<T extends BudgetParent>  {
 
     public Collection<BudgetRate> getSavedProposalRates(Budget budgetToOpen);
 
-    /**
-     * Determine if the names of a {@link BudgetVersionOverview} instances in the given {@link  ProposalDevelopmentDocument} instance is valid
-     *
-     * @param document {@link ProposalDevelopmentDocument} instance to get {@link BudgetVersionOverview} instances from
-     * @param versionName to check
-     * @return true for valid false otherwie
-     */
     public boolean isBudgetVersionNameValid(BudgetParent parent, String versionName);
 
     /**
      * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
-     * @param budgetDocument
-     * @param onlyOnePeriod
-     * @return BudgetDocument
-     * @throws WorkflowException
      */    
     public Budget copyBudgetVersion(Budget budget, boolean onlyOnePeriod);
     

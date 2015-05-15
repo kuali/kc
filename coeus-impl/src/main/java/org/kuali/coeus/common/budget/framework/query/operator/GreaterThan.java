@@ -20,7 +20,7 @@ package org.kuali.coeus.common.budget.framework.query.operator;
 
 
 
-/** This class is a wrapper for greater than operator ( > ).
+/** This class is a wrapper for greater than operator ( &gt; ).
  * Takes field and Comparable object as parameters in the constructor and returs true
  * if the field of the Object object is greater than the Comparable object, else returns false.
  */

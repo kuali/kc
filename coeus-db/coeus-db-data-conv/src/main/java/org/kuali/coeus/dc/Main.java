@@ -38,7 +38,9 @@ import java.util.logging.Logger;
  *
  * Example arguments:
  *
+ * {@code
  * -debug -dbcoeuscon jdbc:mysql://localhost/kcbnd?user=kcbnd&password=bndpass -dbricecon jdbc:mysql://localhost/kcbnd?user=kcbnd&password=bndpass proposal
+ * }
  */
 public final class Main {
 

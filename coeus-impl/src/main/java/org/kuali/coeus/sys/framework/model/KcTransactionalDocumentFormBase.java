@@ -267,7 +267,6 @@ public abstract class KcTransactionalDocumentFormBase extends KualiTransactional
         setPersonEditableFields(new HashMap<String, Boolean>());
 
         @SuppressWarnings("unchecked")
-     //   Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
         Map fieldValues = new HashMap();
         fieldValues.put("moduleCode", getModuleCode());
         Collection<PersonEditableField> fields = getBusinessObjectService().findMatching(PersonEditableField.class, fieldValues);

@@ -86,7 +86,6 @@ public class AwardLockServiceImpl extends PessimisticLockServiceImpl implements 
                 || "addBudget".equals(entry.getKey()) 
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
-            //return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("TRUE".equals(fullEntryEditModeValue)) );
             return ((ObjectUtils.isNotNull(fullEntryEditModeValue)) && StringUtils.equalsIgnoreCase(KRADConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));
         }
         return false;
@@ -96,7 +95,6 @@ public class AwardLockServiceImpl extends PessimisticLockServiceImpl implements 
     @Override
     protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
         Map editModeMap = new HashMap();
-        //Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
         for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
             if (StringUtils.equals(entry.getKey(), "addBudget")) {

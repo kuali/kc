@@ -34,7 +34,6 @@ public class ViewCoiDisclosureAuthorizer extends CoiDisclosureAuthorizer {
         return hasPermission(userId, coiDisclosure, PermissionConstants.VIEW_COI_DISCLOSURE)
                 || hasPermission(userId, coiDisclosure, PermissionConstants.MAINTAIN_COI_DISCLOSURE)
                 || StringUtils.equals(userId, coiDisclosure.getPersonId());
-        // && kraWorkflowService.hasWorkflowPermission(userId, coiDisclosure.getCoiDisclosureDocument());
 
     }
         

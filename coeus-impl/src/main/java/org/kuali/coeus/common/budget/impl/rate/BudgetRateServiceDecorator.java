@@ -245,10 +245,6 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         Award award = (Award)budget.getBudgetParent();
         return award.getAwardFandaRate().isEmpty() && award.getSpecialEbRateOffCampus()==null && award.getSpecialEbRateOnCampus()==null;
     }
-
-//    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument){
-//      super.getBudgetRates(rateClassTypes, budgetDocument);
-//    }
     
     private boolean isOutOfSyncAwardRates(Budget budget) {
         Award award = (Award)budget.getBudgetParent();

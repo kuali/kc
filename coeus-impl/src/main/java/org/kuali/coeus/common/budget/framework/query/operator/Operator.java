@@ -20,7 +20,7 @@ package org.kuali.coeus.common.budget.framework.query.operator;
 
 /** The Operator interface should be implemented by any class whose instances are intended to be executed as an Operator. The class must define a method of boolean argument called getResult.
  *
- * This interface is designed to provide a common protocol for objects that wish be recognised as Operators. For example, Operator is implemented by class GreaterThan which is a wrapper for greater than ( > ) operator.
+ * This interface is designed to provide a common protocol for objects that wish be recognised as Operators. For example, Operator is implemented by class GreaterThan which is a wrapper for greater than ( &gt; ) operator.
  *
  */
 public interface Operator {

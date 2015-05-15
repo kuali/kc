@@ -147,7 +147,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      * Overriding populate method so that we can register editable properties in form base.  htmlControlAttribute registers
-     * these fields and the form base does validation on them.  We are using jQuery for Award Hierarchy view in Award and T&M, and
+     * these fields and the form base does validation on them.  We are using jQuery for Award Hierarchy view in Award and T&amp;M, and
      * we need to register these properties explicitly before we call populate.
      */
     @Override
@@ -553,14 +553,9 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     @Override
     @SuppressWarnings("unchecked")
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
-        // super.populateHeaderFields(workflowDocument);
 
         TimeAndMoneyDocument timeAndMoneyDocument = getTimeAndMoneyDocument();
         if(timeAndMoneyDocument.getAward() == null) {
-//            Map<String, String> map = new HashMap<String,String>();
-//            map.put("awardNumber", timeAndMoneyDocument.getRootAwardNumber());
-//            List<Award> awardList = (List<Award>) getBusinessObjectService().findMatching(Award.class, map);
-//            timeAndMoneyDocument.setAward(awardList.get(0)); 
                Award award = getAwardVersionService().getWorkingAwardVersion(timeAndMoneyDocument.getRootAwardNumber());
                timeAndMoneyDocument.setAward(award);
         }

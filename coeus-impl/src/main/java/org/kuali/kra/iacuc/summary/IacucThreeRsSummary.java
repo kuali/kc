@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * 
  * This class represents a summary view of the "Three R's" or principles of IACUC,
- * (Reduction, Refinement, & Replacement).
+ * (Reduction, Refinement, &amp; Replacement).
  */
 public class IacucThreeRsSummary implements Serializable {
 

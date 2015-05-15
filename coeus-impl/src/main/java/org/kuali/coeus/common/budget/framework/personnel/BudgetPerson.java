@@ -394,7 +394,7 @@ public class BudgetPerson extends KcPersistableBusinessObjectBase implements Per
     }
 
     /**
-     * This method determines if the given budgetPerson is the same person with the same job code & effective date
+     * This method determines if the given budgetPerson is the same person with the same job code and effective date
      * @param budgetPerson
      * @return boolean
      */

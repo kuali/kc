@@ -347,9 +347,9 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
      * The default comparator goes by the order of committeeId, sequenceNumber.
      * @param committee the CommitteeBase to be compared.
      * @return the value 0 if this CommitteeBase is equal to the argument CommitteeBase; 
-     *         a value less than 0 if this CommitteeBase has a committeeId & sequenceNumber pair that is less
+     *         a value less than 0 if this CommitteeBase has a committeeId &amp; sequenceNumber pair that is less
      *         than the argument CommitteeBase; and a value greater than 0 if this CommitteeBase has a committeeId
-     *         & sequenceNumber pair that is greater than the argument CommitteeBase.
+     *         &amp; sequenceNumber pair that is greater than the argument CommitteeBase.
      */
     public int compareTo(CMT committee) {
         // java.lang.NullPointerException

@@ -318,7 +318,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * Queries persistent storage for a <code>{@link Collection}</code> of <code>{@link InvestigatorCreditType}</code>
      * instances.
      * 
-     * @return Collection<InvestigatorCreditType> of active credit types
+     * @return Collection&lt;InvestigatorCreditType&gt; of active credit types
      */
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
         Map<String,String> valueMap = new HashMap<String, String>();
@@ -331,7 +331,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * Queries persistent storage for a <code>{@link Collection}</code> of <code>{@link InvestigatorCreditType}</code>
      * instances.
      * 
-     * @return Collection<InvestigatorCreditType> of all credit types
+     * @return Collection&lt;InvestigatorCreditType&gt; of all credit types
      */
     public Collection<InvestigatorCreditType> getAllInvestigatorCreditTypes() {
         return getBusinessObjectService().findAll(InvestigatorCreditType.class);

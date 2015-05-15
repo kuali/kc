@@ -35,7 +35,7 @@ public interface ScheduleService {
      * @param endDate is end date.
      * @param time is time.
      * @param scheduleSequence to used for generating sequence. If value passed is null, DefaultScheduleSequnce will be used.
-     * @return List<Date> of date sequence generated.
+     * @return List&lt;Date&gt; of date sequence generated.
      * @throws ParseException
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence)
@@ -48,7 +48,7 @@ public interface ScheduleService {
      * @param time is time.
      * @param frequencyInDay
      * @param scheduleSequence to used for generating sequence. If value passed is null, DefaultScheduleSequnce will be used.
-     * @return List<Date> of date sequence generated.
+     * @return List&lt;Date&gt; of date sequence generated.
      * @throws ParseException
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer frequencyInDay,
@@ -60,7 +60,7 @@ public interface ScheduleService {
      * @param endDate is end date.
      * @param time is time.
      * @param intervalInDays is the number of days in each repeating interval
-     * @return List<Date> of date sequence generated.
+     * @return List&lt;Date&gt; of date sequence generated.
      * @throws ParseException
      */
     public List<Date> getIntervalInDaysScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer intervalInDays) throws ParseException;
@@ -72,7 +72,7 @@ public interface ScheduleService {
      * @param time is time.
      * @param weekdays is array of CronSpecialChars containing week day values.
      * @param scheduleSequence to used for generating sequence. If value passed is null, DefaultScheduleSequnce will be used.
-     * @return List<Date> of date sequence generated.
+     * @return List&lt;Date&gt; of date sequence generated.
      * @throws ParseException
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars[] weekdays,
@@ -86,7 +86,7 @@ public interface ScheduleService {
      * @param day is day of month.
      * @param frequencyInMonth
      * @param scheduleSequence to used for generating sequence. If value passed is null, DefaultScheduleSequnce will be used.
-     * @return List<Date> of date sequence generated.
+     * @return List&lt;Date&gt; of date sequence generated.
      * @throws ParseException
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, Integer day, Integer frequencyInMonth,
@@ -98,7 +98,7 @@ public interface ScheduleService {
      * @param endDate is end date.
      * @param time is time.
      * @param scheduleSequence to used for generating sequence. If value passed is null, DefaultScheduleSequnce will be used.
-     * @return List<Date> of date sequence generated.
+     * @return List&lt;Date&gt; of date sequence generated.
      * @throws ParseException
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, ScheduleSequence scheduleSequence, Integer dayOfMonth) throws ParseException;
@@ -112,7 +112,7 @@ public interface ScheduleService {
      * @param weekOfMonth is CronSpecialChars defining week of month.
      * @param frequencyInMonth
      * @param scheduleSequence to used for generating sequence. If value passed is null, DefaultScheduleSequnce will be used.
-     * @return List<Date> of date sequence generated.
+     * @return List&lt;Date&gt; of date sequence generated.
      * @throws ParseException
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars dayOfWeek,
@@ -127,7 +127,7 @@ public interface ScheduleService {
      * @param day is day of month.
      * @param frequencyInYear
      * @param scheduleSequence to used for generating sequence. If value passed is null, DefaultScheduleSequnce will be used.
-     * @return List<Date> of date sequence generated.
+     * @return List&lt;Date&gt; of date sequence generated.
      * @throws ParseException
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars month, Integer day,
@@ -143,7 +143,7 @@ public interface ScheduleService {
      * @param month is CronSpecialChars defining month.
      * @param frequencyInYear
      * @param scheduleSequence to used for generating sequence. If value passed is null, DefaultScheduleSequnce will be used.
-     * @return List<Date> of date sequence generated.
+     * @return List&lt;Date&gt; of date sequence generated.
      * @throws ParseException
      */
     public List<Date> getScheduledDates(Date startDate, Date endDate, Time24HrFmt time, CronSpecialChars weekOfMonth,

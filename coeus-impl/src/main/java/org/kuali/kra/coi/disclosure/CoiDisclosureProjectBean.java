@@ -35,10 +35,6 @@ import java.util.List;
 public class CoiDisclosureProjectBean implements Serializable {
 
     private static final long serialVersionUID = -100427824220789523L;
-    // TODO : should create interface "CoiDisclosureable" for these project. It is to close to 4.0 release
-    // so wait after 4.0
-    //private KraPersistableBusinessObjectBase disclosureProject;
-    //private List<CoiDiscDetail> projectDiscDetails;
     private CoiDisclProject coiDisclProject;
     private CoiDisclosure coiDisclosure;
     private String projectName;
@@ -46,16 +42,13 @@ public class CoiDisclosureProjectBean implements Serializable {
     private Date approvalDate; 
     private List<CoiDisclosureAttachment> projectDiscAttachments;
     private List<CoiDisclosureNotepad> projectDiscNotepads;
-    //private List<AnswerHeader> answerHeaders;
     private DisclProjectQuestionnaireHelper projectQuestionnaireHelper;
     private boolean excludeFE; 
 
     public CoiDisclosureProjectBean() {
         coiDisclProject = new CoiDisclProject();
-        //projectDiscDetails = new ArrayList<CoiDiscDetail> ();
         projectDiscAttachments = new ArrayList<CoiDisclosureAttachment> ();
         projectDiscNotepads = new ArrayList<CoiDisclosureNotepad> ();
-        //answerHeaders = new ArrayList<AnswerHeader> ();
     }
     
     public CoiDisclProject getCoiDisclProject() {
@@ -157,15 +150,6 @@ public class CoiDisclosureProjectBean implements Serializable {
         this.projectDiscNotepads = projectDiscNotepads;
     }
 
-
-//    public List<AnswerHeader> getAnswerHeaders() {
-//        return answerHeaders;
-//    }
-//
-//
-//    public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
-//        this.answerHeaders = answerHeaders;
-//    }
 
     public boolean isExcludeFE() {
         return excludeFE;

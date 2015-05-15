@@ -50,7 +50,6 @@ public class BudgetPeriodAuditRule extends BudgetAuditRuleBase {
     
     /**
      * Executes audit rules for budget periods.
-     * @param document the budget document
      * @return true if valid false if not
      * @throws NullPointerException if the document is null
      */
@@ -66,7 +65,7 @@ public class BudgetPeriodAuditRule extends BudgetAuditRuleBase {
     /**
      * This method is to validate budget period start/end date against project start/end date if
      * project start/end date have been adjusted.
-     * @param budgetDocument the budget document
+     * @param budget the budget
      * @return true if valid false if not
      */
     private boolean validatePeriodDates(final Budget budget) {
@@ -140,7 +139,7 @@ public class BudgetPeriodAuditRule extends BudgetAuditRuleBase {
             }
 
             if (periodIndex == 0 && (budgetPeriodStartDate != null && budgetPeriodStartDate.after(projectStartDate))) {
-            	auditWarnings.add(new AuditError(budgetPeriodAndTotalRule.getPageId(),
+            	auditWarnings.addBudgetPersonnelPeriodRule.java(new AuditError(budgetPeriodAndTotalRule.getPageId(),
                     KeyConstants.AUDIT_WARNING_BUDGETPERIOD_START_AFTER_PROJECT_START_DATE,
                     budgetPeriodAndTotalRule.getPageId(), new String[] {budgetPeriod.getBudgetPeriod().toString()}));
                 retval = false;

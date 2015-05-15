@@ -88,8 +88,6 @@ public class AwardCommentBean implements Serializable {
     //
     public void setAwardCommentScreenDisplayTypesOnForm() {
         AwardCommentService awardCommentService = getAwardCommentService();
-        //List<CommentType> commentTypes = awardCommentService.retrieveCommentTypes();
-        //setAwardCommentScreenDisplayTypes(commentTypes);
         setAwardCommentScreenDisplayTypes(awardCommentService.retrieveCommentTypes());
         for (CommentType commentType :  getAwardCommentScreenDisplayTypes()) {
             setupAwardComment(form, commentType);

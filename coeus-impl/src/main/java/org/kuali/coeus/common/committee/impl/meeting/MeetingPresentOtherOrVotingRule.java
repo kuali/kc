@@ -37,7 +37,7 @@ public class MeetingPresentOtherOrVotingRule extends KcTransactionalDocumentRule
     /**
      * 
      * This method is to validate that the member absent is not an alternate for.
-     * This will be called by action 'presentVoting & 'presentOther'
+     * This will be called by action 'presentVoting &amp; 'presentOther'
      * @param event
      * @return
      */

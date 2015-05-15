@@ -47,7 +47,7 @@ import java.util.List;
 import static org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants.*;
 
 /**
- * This class processes audit rules (warnings) for the Sponsor & Program Information related
+ * This class processes audit rules (warnings) for the Sponsor &amp; Program Information related
  * data of the ProposalDevelopmenDocument.
  */
 public class ProposalDevelopmentSponsorProgramInformationAuditRule implements DocumentAuditRule { 

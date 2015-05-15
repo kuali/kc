@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 
- * This class represents the Struts Action for Notes & Attachments page(AwardNotesAndAttachments.jsp)
+ * This class represents the Struts Action for Notes &amp; Attachments page(AwardNotesAndAttachments.jsp)
  */
 public class AwardNotesAndAttachmentsAction extends AwardAction {    
    
