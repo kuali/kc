@@ -110,7 +110,6 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
      * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
-     * @param protocol
      */
     public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview) {
         protocolOnlineReviewList.set(0, (ProtocolOnlineReview) protocolOnlineReview);
@@ -121,7 +120,7 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
      * 
      * This method is used by OJB to get around with anonymous keys issue.
      * Warning : Developers should never use this method.
-     * @return List<Protocol>
+     * @return List&lt;Protocol&gt;
      */
     public List<ProtocolOnlineReview> getProtocolOnlineReviewList() {
         return protocolOnlineReviewList;
@@ -131,7 +130,6 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
      * 
      * This method is used by OJB to get around with anonymous keys issue.
      * Warning : Developers should never use this method
-     * @param protocolList
      */
     public void setProtocolOnlineReviewList(List<ProtocolOnlineReview> protocolOnlineReviewList) {
         this.protocolOnlineReviewList = protocolOnlineReviewList;

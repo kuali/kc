@@ -34,8 +34,6 @@ public class CreateAwardBudgetAuthorizer extends AwardAuthorizer {
     public boolean isAuthorized(String userId, AwardTask task) {
         AwardDocument doc = task.getAward().getAwardDocument(); 
         
-//        return !doc.isViewOnly() && !kraWorkflowService.isInWorkflow(doc) && 
-//        hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.CREATE_AWARD_BUDGET.getAwardPermission());
         return hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.CREATE_AWARD_BUDGET.getAwardPermission());
     }
 }

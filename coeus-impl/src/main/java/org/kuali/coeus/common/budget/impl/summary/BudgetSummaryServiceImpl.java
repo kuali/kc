@@ -487,13 +487,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     /**
      * 
-     * This method is to be shared by adjusting dates for budgetperiod->lineitem and lineitem->personnellineitem
+     * This method is to be shared by adjusting dates for budgetperiod.lineitem and lineitem.personnellineitem
      * refer to jira-1376 for rules
-     * @param parentStartDate
-     * @param oldStartDate
-     * @param parentEndDate
-     * @param startEndDates
-     * @return
      */
     protected List<Date> getNewStartEndDates(Date parentStartDate, Date oldStartDate, Date parentEndDate, Date oldEndDate, List<Date> startEndDates) {
         Date startDate = startEndDates.get(0);

@@ -143,7 +143,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      * @param endDate is end date of sequence.
      * @param time at which schedule is held.
      * @param scheduleSequence executes schedule sequence based on implementation of the ScheduleSequence.
-     * @return List<Date> of valid schedule dates between start and end date.
+     * @return List&lt;Date&gt; of valid schedule dates between start and end date.
      * @throws ParseException
      */
     protected List<Date> getScheduledDates(CronExpression expression, Date startDate, Date endDate, Time24HrFmt time,
@@ -159,7 +159,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      * 
      * @param date to be wrapped.
      * @param time to be added to date.
-     * @return wrapped date & time.
+     * @return wrapped date &amp; time.
      */
     protected Date wrapTime(Date date, Time24HrFmt time) {
         Calendar calendar = new GregorianCalendar();

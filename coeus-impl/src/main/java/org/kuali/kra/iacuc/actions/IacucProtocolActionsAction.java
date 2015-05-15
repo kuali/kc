@@ -797,7 +797,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     /*
-     * This is to view Personnel attachment if attachment is selected in print & summary panel.
+     * This is to view Personnel attachment if attachment is selected in print &amp; summary panel.
      */
     private ActionForward printPersonnelAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,IacucProtocolForm form) throws Exception {
 

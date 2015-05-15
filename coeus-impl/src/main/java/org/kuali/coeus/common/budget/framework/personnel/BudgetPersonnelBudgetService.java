@@ -35,7 +35,7 @@ public interface BudgetPersonnelBudgetService {
      * Removes all {@link BudgetPersonnelDetails} instances for a given {@link BudgetPerson}. Has to iterate through {@link BudgetPeriod} instances,
      * {@link BudgetLineItem} instances, and finally {@link BudgetPersonnelDetails} instances. Then the {@link BudgetPerson} instances are compared.
      *
-     * @param document Budget to remove {@link BudgetPersonnelDetails} from
+     * @param budget Budget to remove {@link BudgetPersonnelDetails} from
      * @param person {@link BudgetPerson} we're looking for
      */
     public void deleteBudgetPersonnelDetailsForPerson(Budget budget, BudgetPerson person);

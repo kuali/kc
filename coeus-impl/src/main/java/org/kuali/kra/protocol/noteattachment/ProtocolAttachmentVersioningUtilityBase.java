@@ -155,7 +155,7 @@ public abstract class ProtocolAttachmentVersioningUtilityBase {
     /** 
      * Versions all attachments for a given Collection of attachments on the protocol.  Any changes done on a passed in
      * attachment will effectively be reverted to what is in the database and those changes will be reflected
-     * in a new attachment & protocol version.  The passed in Collection or objects in Collection may be modified.
+     * in a new attachment &amp; protocol version.  The passed in Collection or objects in Collection may be modified.
      * <T> the type of attachments
      * @param attachments the attachments.
      * @param class1 the class token for type of attachments (required for adding to generic Collection)

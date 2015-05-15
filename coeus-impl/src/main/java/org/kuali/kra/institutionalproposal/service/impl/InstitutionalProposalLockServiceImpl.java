@@ -53,7 +53,6 @@ public class InstitutionalProposalLockServiceImpl extends PessimisticLockService
          //check for entry edit mode
         for (Iterator iterator = editMode.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry entry = (Map.Entry) iterator.next();
-            //if (isEntryEditMode(entry) && StringUtils.isNotEmpty(activeLockRegion)) {
             if (isEntryEditMode(entry)) {
                 return true;
             }
@@ -67,9 +66,7 @@ public class InstitutionalProposalLockServiceImpl extends PessimisticLockService
      * 
      * @param entry -
      *            the {@link Map.Entry} object that contains an edit mode such as the ones returned but
-     *           
-     * @return true if the given entry has a key signifying an 'entry type' edit mode and the value is equal to
-     *         {@link #EDIT_MODE_DEFAULT_TRUE_VALUE}... false if not
+     *
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -82,41 +79,10 @@ public class InstitutionalProposalLockServiceImpl extends PessimisticLockService
                 || "addBudget".equals(entry.getKey()) 
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
-            //return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("true".equals(fullEntryEditModeValue)) );
-            return ((ObjectUtils.isNotNull(fullEntryEditModeValue)) && StringUtils.equalsIgnoreCase(KRADConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));         
+            return ((ObjectUtils.isNotNull(fullEntryEditModeValue)) && StringUtils.equalsIgnoreCase(KRADConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));
 
         }
         return false;
     }
     
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
-//        Map editModeMap = new HashMap();
-//        //Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
-//        for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
-//            Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
-//            if (StringUtils.equals(entry.getKey(), "addBudget")) {
-//                entry.setValue("FALSE");
-//            }
-//        }
-//        return editModeMap;
-//    }
-    
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, Person user) {
-//        if (useCustomLockDescriptors()) {
-//            String lockDescriptor = getCustomLockDescriptor(document, editMode, user);
-//            AwardDocument pdDocument = (AwardDocument) document;
-//            if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
-//                for(BudgetDocumentVersion budgetOverview: pdDocument.getBudgetDocumentVersions()) {
-//                    generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
-//                }  
-//            }
-//            return generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
-//        } else {
-//            return generateNewLock(document.getDocumentNumber(), user);
-//        }
-//    }
 }

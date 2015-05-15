@@ -23,20 +23,17 @@ import org.kuali.coeus.common.budget.framework.core.Budget;
 public interface BudgetDistributionService {
 
     /**
-     * This method initializes both the Cost Sharing and Unrecovered F&A defaults
-     * @param budget
+     * This method initializes both the Cost Sharing and Unrecovered F&amp;A defaults
      */
     public void initializeCollectionDefaults(Budget budget);
     
     /**
      * This method initializes the Cost Sharing defaults
-     * @param budget
      */
     public void initializeCostSharingCollectionDefaults(Budget budget);
     
     /**
-     * This method initializes the Unrecovered F&A defaults
-     * @param budget
+     * This method initializes the Unrecovered F&amp;A defaults
      */
     public void initializeUnrecoveredFandACollectionDefaults(Budget budget);
     

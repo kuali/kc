@@ -46,8 +46,6 @@ public class JobCodeServiceImpl implements JobCodeService {
      * This method provides the appropriate JobCode object
      * for a particular jobCode string.
      * 
-     * @param JobCode
-     * @return
      */
     public JobCode findJobCodeRef(String jobCode) {
         return getDataObjectService().find(JobCode.class, jobCode);

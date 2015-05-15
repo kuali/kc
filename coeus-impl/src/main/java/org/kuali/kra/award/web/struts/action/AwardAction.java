@@ -1590,7 +1590,7 @@ public class AwardAction extends BudgetParentActionBase {
     
     /**
      * @see org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     * If Award Infos or dates have been edited in a T&M document, then we want to suppress the cancel action.
+     * If Award Infos or dates have been edited in a T&amp;M document, then we want to suppress the cancel action.
      */
     @SuppressWarnings("unchecked")
     @Override

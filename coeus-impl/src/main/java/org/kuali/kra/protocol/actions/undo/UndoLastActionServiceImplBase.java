@@ -178,7 +178,7 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
     protected abstract ProtocolBase getOldProtocol(ProtocolBase protocol);
 
     /*
-     * create & route onlnreview doc for the new versioned protocol
+     * create &amp; route onlnreview doc for the new versioned protocol
      */
     protected void createOnlnReviews(ProtocolBase protocol, ProtocolBase oldProtocol) throws Exception {
         String routeAnnotation = "Recreate Online Review for undo action.";
@@ -273,7 +273,7 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
     }
     
     /*
-     * copy old onlnreview, and reset key & fk fields.
+     * copy old onlnreview, and reset key &amp; fk fields.
      */
     protected void setNewOnlnReview(ProtocolOnlineReviewBase copiedReview, ProtocolReviewer reviewer, ProtocolBase protocol) {
         ProtocolSubmissionBase protocolSubmission = protocol.getProtocolSubmission();

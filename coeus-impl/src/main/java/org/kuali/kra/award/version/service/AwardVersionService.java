@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.Award;
 public interface AwardVersionService {
     
     /**
-     * This method returns the proper Award for displaying information in T&M and Award documents.  Logic for canceled documents.
+     * This method returns the proper Award for displaying information in T&amp;M and Award documents.  Logic for canceled documents.
      * @param awardNumber
      * @return
      */

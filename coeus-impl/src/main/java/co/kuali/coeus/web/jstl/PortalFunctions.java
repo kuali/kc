@@ -34,7 +34,7 @@ public class PortalFunctions {
      * Determines if the given the currently logged in user has affiliations of the types specified in <code>types</code>
      * 
      * @param types comma separated list of affiliation types. It will get split.
-     * @param return true if the currently logged in user has ANY type in <code>types</code>. 
+     * @return true if the currently logged in user has ANY type in <code>types</code>.
      */
 	public static boolean showByAffiliateType(String types){
 		boolean success = false;

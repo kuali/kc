@@ -98,7 +98,6 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
      * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocument
-     * @param protocol
      */
     public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview) {
         protocolOnlineReviewList.set(0, (IacucProtocolOnlineReview) protocolOnlineReview);
@@ -108,7 +107,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
      * 
      * This method is used by OJB to get around with anonymous keys issue.
      * Warning : Developers should never use this method.
-     * @return List<ProtocolBase>
+     * @return List&lt;ProtocolBase&gt;
      */
     public List<IacucProtocolOnlineReview> getProtocolOnlineReviewList() {
         return protocolOnlineReviewList;
@@ -118,7 +117,6 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
      * 
      * This method is used by OJB to get around with anonymous keys issue.
      * Warning : Developers should never use this method
-     * @param protocolList
      */
     public void setProtocolOnlineReviewList(List<IacucProtocolOnlineReview> protocolOnlineReviewList) {
         this.protocolOnlineReviewList = protocolOnlineReviewList;

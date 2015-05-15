@@ -195,7 +195,7 @@ public class CreditSplitValidator {
     }
     
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
+     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List&lt;AuditError&gt;}</code>
      * to the auditErrorMap.
      * 
      * @return List of AuditError instances
@@ -214,9 +214,9 @@ public class CreditSplitValidator {
     }
 
     /**
-     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.<br/>
-     * <br/>
-     * The <code>{@link AuditError}</code> that is added is.<br/>
+     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.
+     *
+     * The <code>{@link AuditError}</code> that is added is.
      * <code>CREDIT_SPLIT_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR</code>
      * 
      * @param messageKey
@@ -238,8 +238,8 @@ public class CreditSplitValidator {
      * A class for holding a <code>{@link ScaleTwoDecimal}</code> instance. There is no way to add to
      * or modify the value of a <code>{@link ScaleTwoDecimal}</code> without changing its reference; therefore,
      * pointing to a new instance. This causes a problem where a <code>{@link ScaleTwoDecimal}</code> instance
-     * is used in a memento pattern.<br/>
-     * <br/>
+     * is used in a memento pattern.
+     *
      * <code>{@link DecimalHolder}</code> is created to handle that case. <code>{@link DecimalHolder}</code> becomes
      * the memento for a changing <code>{@link ScaleTwoDecimal}</code> instance.
      * 

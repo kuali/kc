@@ -183,7 +183,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
 
     /**
      * Initiates a Confirmation. Part of the Question Framework for handling confirmations where a "yes" or "no" answer is required.
-     * <br/> <br/> A <code>yesMethodName</code> is provided as well as a <code>noMethodName</code>. These are callback methods
+     * A <code>yesMethodName</code> is provided as well as a <code>noMethodName</code>. These are callback methods
      * for handling "yes" or "no" responses.
      * 
      * @param question a bean containing question information for the delegated
@@ -218,8 +218,8 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
     }
 
     /**
-     * Generically creates a <code>{@link StrutsConfirmation}</code> instance while deriving the question from a resource bundle.<br/>
-     * <br/> In this case, the question in the resource bundle is expected to be parameterized. This method takes this into account,
+     * Generically creates a <code>{@link StrutsConfirmation}</code> instance while deriving the question from a resource bundle.
+     * In this case, the question in the resource bundle is expected to be parameterized. This method takes this into account,
      * and passes parameters and replaces tokens in the question with the parameters.
      * 
      * @param mapping The mapping associated with this action.
@@ -640,12 +640,6 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
      * only after asking the user if they want to save the document first.
      * Only users who have the "canSave()" permission are given this option.
      *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
      */
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

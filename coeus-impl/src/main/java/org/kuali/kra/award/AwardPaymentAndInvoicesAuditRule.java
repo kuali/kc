@@ -69,7 +69,7 @@ public class AwardPaymentAndInvoicesAuditRule implements DocumentAuditRule {
     }
     
     /**
-     * This method creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
+     * This method creates and adds the Audit Error to the <code>{@link List&lt;AuditError&gt;}</code> auditError.
      * @param description
      */
     protected void addErrorToAuditErrors(List<AuditError> auditErrors, String relAuditErrorKey, String description) {

@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 /**
- * Service class for Award Comments on Comments, Notes & Attachments tab.
+ * Service class for Award Comments on Comments, Notes &amp; Attachments tab.
  */
 @Transactional
 public class AwardCommentServiceImpl implements AwardCommentService {

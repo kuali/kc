@@ -50,7 +50,7 @@ private static final Log LOG = LogFactory.getLog(InstitutionalProposalAddCostSha
     }
     
     /**
-     * This method returns all unrecovered F&A distributions
+     * This method returns all unrecovered F&amp;A distributions
      * @return
      */
     public List<InstitutionalProposalUnrecoveredFandA> getInstitutionalProposalUnrecoveredFandAs() {

@@ -259,7 +259,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     /**
      * This method is to fetch person role mapping data based on source role id
      * @param sourceRoleId
-     * @return Collection<PersonTraining>
+     * @return Collection&lt;PersonTraining&gt;
      */
     public List<ProtocolPersonRoleMappingBase> getPersonRoleMapping(String sourceRoleId) {
         List<ProtocolPersonRoleMappingBase> personRoleMappings = new ArrayList<ProtocolPersonRoleMappingBase>();

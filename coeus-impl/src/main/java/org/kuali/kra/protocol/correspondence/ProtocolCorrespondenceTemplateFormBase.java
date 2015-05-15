@@ -104,7 +104,7 @@ public abstract class ProtocolCorrespondenceTemplateFormBase extends KualiForm {
     /**
      * This method returns all existing correspondence types from the database
      * 
-     * @return List<ProtocolCorrespondenceTypeBase> 
+     * @return List&lt;ProtocolCorrespondenceTypeBase&gt;
      */
     @SuppressWarnings("unchecked")
     private List<ProtocolCorrespondenceTypeBase> initCorrespondenceTypes() {

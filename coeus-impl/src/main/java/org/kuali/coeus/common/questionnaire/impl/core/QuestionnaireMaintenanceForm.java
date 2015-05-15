@@ -48,9 +48,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     private Integer questionNumber;
     private String lookupResultsBOClassName;
     private String docStatus;
-   // private List<String> qnaireQuestions;
     // "List" without parameter will cause Notserializableexception; so add "transient" here
-    // List<String> will cause cast exception see kcirb-1306
     private transient List qnaireQuestions;
     private String lookedUpCollectionName;
     private transient FormFile templateFile;
@@ -223,12 +221,10 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
     }
     
     public List getQnaireQuestions() {
-    //public List<String> getQnaireQuestions() {
         return qnaireQuestions;
     }
 
     public void setQnaireQuestions(List qnaireQuestions) {
-    //public void setQnaireQuestions(List<String> qnaireQuestions) {
         this.qnaireQuestions = qnaireQuestions;
     }
 

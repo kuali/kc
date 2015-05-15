@@ -30,7 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * This is the service class for Direct F and A Distribution tab in Award Time & Money page.
+ * This is the service class for Direct F and A Distribution tab in Award Time &amp; Money page.
  */
 @Transactional
 public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandADistributionService {
@@ -44,7 +44,7 @@ public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandA
    }
    
    /**
- * This method builds the default list of Award Direct F and A Distributions to be added to the Award on navigation to Time & Money panel.
+ * This method builds the default list of Award Direct F and A Distributions to be added to the Award on navigation to Time &amp; Money panel.
  * @param award
  * @return
  */

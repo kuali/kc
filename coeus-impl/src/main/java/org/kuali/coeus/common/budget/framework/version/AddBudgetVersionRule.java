@@ -33,7 +33,7 @@ public interface AddBudgetVersionRule  extends BusinessRule {
      * Entry method for the business rule. 
      *
      * @param event The {@link org.kuali.coeus.common.budget.framework.version.AddBudgetVersionEvent} triggering the rule
-     * @returns true if it passed, false if it failed
+     * @return true if it passed, false if it failed
      */
     public boolean processAddBudgetVersionName(AddBudgetVersionEvent event);
     

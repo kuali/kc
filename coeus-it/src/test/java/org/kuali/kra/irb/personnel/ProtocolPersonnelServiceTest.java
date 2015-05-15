@@ -296,7 +296,7 @@ public class ProtocolPersonnelServiceTest extends KcIntegrationTestBase {
 
     /**
      * This method is to get a list of protocol units with lead unit flag set
-     * @return List<ProtocolUnit>
+     * @return List&lt;ProtocolUnit&gt;
      */
     private List<ProtocolUnit> getProtocolUnits() {
         List<ProtocolUnit> protocolUnits = new ArrayList<ProtocolUnit>();

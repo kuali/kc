@@ -81,7 +81,7 @@ public interface ProposalDevelopmentPrintingService {
      * 
      * @param sponsorFormTemplateLists
      *            list of SponsorFormTemplateList.
-     * @return List<SponsorFormTemplate> list of SponsorFormTemplate
+     * @return List&lt;SponsorFormTemplate&gt; list of SponsorFormTemplate
      *         corresponding to the SponsorFormTemplateList object.
      */
     List<SponsorFormTemplate> getSponsorFormTemplates(

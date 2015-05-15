@@ -75,7 +75,7 @@ public class AwardValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     
     /**
-     * This method grabs the root award number from the hierarchy nodes since it is not set when add the T&M document to the session data.
+     * This method grabs the root award number from the hierarchy nodes since it is not set when add the T&amp;M document to the session data.
      * 
      * @param document
      * @return

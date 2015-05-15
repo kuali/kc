@@ -105,10 +105,7 @@ public class SubAwardCustomData extends SubAwardAssociate implements DocumentCus
         this.value = value;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     * &return result
-     */
+
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -32,7 +32,7 @@ public interface BudgetRatesService <T extends BudgetParent>{
      * Searches for persisted {@link RateClass} instances based on the given <code>rateClassType</code>
      *
      * @param rateClassType to use for retrieving {@link RateClass} instances
-     * @returns a List of {@link RateClass} instances
+     * @return a List of {@link RateClass} instances
      */
     public Collection<RateClass> getBudgetRateClasses(String rateClassType);
 
@@ -64,7 +64,7 @@ public interface BudgetRatesService <T extends BudgetParent>{
      *
      * This method returns the saved Proposal Rates collection.
      * @param budget
-     * @return Collection<BudgetRate>
+     * @return Collection&lt;BudgetRate&gt;
      */
 
     public Collection<BudgetRate> getSavedBudgetRates(Budget budget);

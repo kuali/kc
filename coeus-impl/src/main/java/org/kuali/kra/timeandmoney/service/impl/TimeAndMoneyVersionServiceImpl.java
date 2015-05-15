@@ -39,7 +39,7 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
     private DocumentService documentService;
 
     /*
-     * Find any existing T&M document for the given award number, with the intent to 
+     * Find any existing T&amp;M document for the given award number, with the intent to
      * edit it.  If open one is found, return it. If no open one is found, create new one.
      */
     public TimeAndMoneyDocument findOpenedTimeAndMoney(String rootAwardNumber) throws WorkflowException {
@@ -52,7 +52,7 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
             (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, criteria);
         Collections.sort(timeAndMoneyDocuments);
         
-        // check for existing non-finalized T & M document before versioning the existing one.
+        // check for existing non-finalized T &amp; M document before versioning the existing one.
         TimeAndMoneyDocument timeAndMoneyDocument = getLastNonCanceledTandMDocument(timeAndMoneyDocuments);
         if(timeAndMoneyDocument == null || timeAndMoneyDocuments.size() == 0) {
             throw new WorkflowException("Missing Time and Money Document");

@@ -50,7 +50,7 @@ public class InstitutionalProposalAddUnrecoveredFandARuleEvent extends KcDocumen
     }
     
     /**
-     * This method returns all unrecovered F&A distributions
+     * This method returns all unrecovered F&amp;A distributions
      * @return
      */
     public List<InstitutionalProposalUnrecoveredFandA> getInstitutionalProposalUnrecoveredFandAs() {

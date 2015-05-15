@@ -53,9 +53,9 @@ import java.util.*;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 /*
- * Big issue is that questionnairequestions and usages can't be included in xmldoccontent because maintframework - questions &
+ * Big issue is that questionnairequestions and usages can't be included in xmldoccontent because maintframework - questions &amp;
  * usages are not defined in maint DD's 'maintsections'. Current work around is using KraMaintenanceDocument to make rice
- * maintenance framework to think that QnQuestions & QnUsages are defined in maintenance section. So, they will be saved in
+ * maintenance framework to think that QnQuestions &amp; QnUsages are defined in maintenance section. So, they will be saved in
  * xmldoccontent.
  * 
  * The hierarchical nature of data and heavily depending on js also needs some manipulation, so make these a little

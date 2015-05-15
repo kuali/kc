@@ -227,13 +227,6 @@ public class ResearchAreasServiceTest {
             
             updateActiveResearchArea.setActive(true);
             oneOf(businessObjectService).save(updateActiveResearchArea);
-            /*
-             * TODO remove this
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("parentResearchAreaCode", "05.12");
-            oneOf(businessObjectService).findMatching(ResearchArea.class, fieldValues);
-            will(returnValue(new ArrayList()));
-            */
         }});
         researchAreasService.setBusinessObjectService(businessObjectService);
 

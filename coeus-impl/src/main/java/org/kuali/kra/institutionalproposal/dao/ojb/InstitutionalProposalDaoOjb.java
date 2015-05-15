@@ -41,7 +41,7 @@ public class InstitutionalProposalDaoOjb extends LookupDaoOjb implements Institu
     private static final String UPDATE_TIMESTAMP = "updateTimestamp";
     private static final String PROPOSAL_SEQUENCE_STATUS = "proposalSequenceStatus";
     /**
-     * Finds the proposal for the award & returns only the id
+     * Finds the proposal for the award &amp; returns only the id
      * @param award the award to find the proposal id for
      * @return hte proposal id
      */

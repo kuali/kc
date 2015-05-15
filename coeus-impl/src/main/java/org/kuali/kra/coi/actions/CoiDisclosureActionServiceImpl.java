@@ -193,7 +193,6 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     
     private void copyDisclosureQuestionnaire(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         // versioning questionnaire answer
-//        if (masterCoiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument() == null) {
             try {
             CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) KcServiceLocator
                     .getService(DocumentService.class).getByDocumentHeaderId(masterCoiDisclosure.getCoiDisclosureDocument().getDocumentNumber());
@@ -202,10 +201,6 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             } catch (Exception e) {
                 
             }
-//        }
-
-        //    List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(new DisclosureModuleQuestionnaireBean(masterCoiDisclosure)
-        //    , coiDisclosure.getSequenceNumber());
             List<AnswerHeader> newAnswerHeaders = versioningQuestionnaireAnswer(masterCoiDisclosure);
          if (!newAnswerHeaders.isEmpty()) {
              for (AnswerHeader answerHeader : newAnswerHeaders) {

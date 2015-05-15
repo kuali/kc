@@ -158,10 +158,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
     
     /**
      * Yes/No questions have to be submitted to Grants.gov on document route. If the submitter has not completed the certifications,
-     * errors should be displayed in audit mode.<br/> 
-     * <br/>
-     * This method differs from <code>{@link #validateKeyPersonCertification(ProposalDevelopmentDocument)}</code> that it refers to a specific person.
-     * If any one of the Yes/No Questions is not completed, then this check will fail.
+     * errors should be displayed in audit mode.
      * 
      * 
      * @param investigator Proposal Investigator
@@ -194,7 +191,7 @@ public class KeyPersonnelCertificationRule extends KcTransactionalDocumentRuleBa
     }
 
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
+     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List&lt;AuditError&gt;}</code>
      * to the auditErrorMap.
      * 
      * @return List of AuditError instances

@@ -57,8 +57,8 @@ public class CreditSplitValidatorTest extends KcIntegrationTestBase {
     }
 
     /**
-     * A <code>{@link ProposalDevelopmentDocument}</code> instance can only have one Proposal Investigator. Test that the rule applies.<br/> 
-     * <br/>
+     * A <code>{@link ProposalDevelopmentDocument}</code> instance can only have one Proposal Investigator. Test that the rule applies.
+     *
      * This tests whether exactly one Principle Investigator will work. This test should yield a passed rule.
      * 
      * @see org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument

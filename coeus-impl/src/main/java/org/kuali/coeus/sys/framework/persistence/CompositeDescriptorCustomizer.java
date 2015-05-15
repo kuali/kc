@@ -30,7 +30,7 @@ import java.util.Collection;
  * can be in a separate class.
  *
  * For example:
- *
+ * {@code
  * @Customizer(DepartmentCustomizer.class)
  * class Department {
  *     List<Employee> employees;
@@ -48,6 +48,7 @@ import java.util.Collection;
  *          customizers.add(new RoomCustomizer());
  *          return customizers;
  *      }
+ * }
  * }
  */
 @Deprecated

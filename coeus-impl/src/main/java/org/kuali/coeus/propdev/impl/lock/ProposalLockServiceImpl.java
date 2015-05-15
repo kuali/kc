@@ -112,7 +112,6 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
                 || ADD_BUDGET.equals(entry.getKey()) 
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
-            //return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && ("TRUE".equals(fullEntryEditModeValue)) );
             return ((ObjectUtils.isNotNull(fullEntryEditModeValue)) && StringUtils.equalsIgnoreCase(KRADConstants.KUALI_DEFAULT_TRUE_VALUE, fullEntryEditModeValue));
         }
         return false;

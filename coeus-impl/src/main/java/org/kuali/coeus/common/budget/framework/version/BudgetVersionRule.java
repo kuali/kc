@@ -46,8 +46,7 @@ public abstract class BudgetVersionRule {
     /**
      * Entry method for the business rule
      *
-     * @param document is a {@link Budget} instance that the {@link BudgetVersionOverview} is getting added to
-     * @returns true if it passed, false if it failed
+     * @return true if it passed, false if it failed
      */
     protected boolean processAddBudgetVersionName(AddBudgetVersionEvent event) {
         boolean retval = true;
@@ -66,9 +65,9 @@ public abstract class BudgetVersionRule {
     }
 
     /**
-     * Validates the name of the {@link BudgetVersion} to be added.
+     * Validates the name of the {@link Budget} to be added.
      * 
-     * @param newBudgetVersionName name of the {@link BudgetVersion} to be added.
+     * @param newBudgetVersionName name of the {@link Budget} to be added.
      * @return true if the name is valid, false otherwise
      */
     protected boolean isNameValid(String newBudgetVersionName) {
@@ -77,13 +76,13 @@ public abstract class BudgetVersionRule {
 
 
     /**
-     * Determines if the given {@link List} of {@link BudgetVersionsOverview} instances contains the given {@link BudgetVersionOverview}. It does this by getting
-     * the name of the {@link BudgetVersionOverview} and compares it to those in the {@link List}. We use this to prevent duplicate names among
-     * {@link BudgetVersionOverview} instances.
+     * Determines if the given {@link List} of {@link Budget} instances contains the given {@link Budget}. It does this by getting
+     * the name of the {@link Budget} and compares it to those in the {@link List}. We use this to prevent duplicate names among
+     * {@link Budget} instances.
      * 
-     * @param document {@link ProposalDevelopmentDocument} containing {@link List} of {@link BudgetVersionOverview} instances
-     * @param versionName is the name of the {@link BudgetVersionOverview} to look for
-     * @returns true if it found <code>versionName</code> inside <code>document</code>, false otherwise
+     * @param existingBudgets {@link List} of {@link Budget} instances
+     * @param versionName is the name of the {@link Budget} to look for
+     * @return true if it found <code>versionName</code> inside <code>existingBudgets</code>, false otherwise
      */
     protected boolean containsVersionName(List<? extends Budget> existingBudgets, String versionName) {
         for (Budget version : existingBudgets) {            

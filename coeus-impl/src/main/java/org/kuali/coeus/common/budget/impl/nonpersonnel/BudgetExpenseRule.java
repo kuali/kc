@@ -116,8 +116,7 @@ public class BudgetExpenseRule {
 
     /**
      * This method is checks line item start and end dates for validity and proper ordering in the entire budget document
-     * 
-     * @param budgetDocument the BudgetDocument
+     *
      * @return true if the dates are valid, false otherwise
      */
     @KcEventMethod
@@ -144,7 +143,7 @@ public class BudgetExpenseRule {
      * This method is checks individual line item start and end dates for validity and proper ordering.
      * 
      * @param currentBudgetPeriod the period containing the line item
-     * @param selectedLineItem the number of the line item
+     * @param budgetLineItem the number of the line item
      * @return true if the dates are valid, false otherwise
      */
     protected boolean processCheckLineItemDates(BudgetPeriod currentBudgetPeriod, BudgetLineItem budgetLineItem, String errorPath) {

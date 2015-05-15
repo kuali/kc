@@ -1405,7 +1405,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     /**
      * 
-     * Get the award F & A Rates Comments. If the comment has not been set...... initialize and return new Comment.
+     * Get the award F &amp; A Rates Comments. If the comment has not been set...... initialize and return new Comment.
      */
     public AwardComment getAwardFandaRateComment() {
         return getAwardCommentByType(Constants.FANDA_RATE_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST, true);
@@ -3408,7 +3408,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     /*
-     * This method is used by the tag file to display the F&A rate totals.
+     * This method is used by the tag file to display the F&amp;A rate totals.
      * Needed to convert to KualiDecimal to avoid rounding issues.
      */
     public ScaleTwoDecimal getFandATotals() {

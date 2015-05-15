@@ -52,7 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 /**
  * 
- * Base class for <code>LineItemCalculator<code> and <code>PersonnelLineItemCalculator</code>.
+ * Base class for <code>LineItemCalculator</code> and <code>PersonnelLineItemCalculator</code>.
  */
 public abstract class AbstractBudgetCalculator {
     private static final String UNDER_REECOVERY_RATE_TYPE_CODE = "1";
@@ -125,7 +125,7 @@ public abstract class AbstractBudgetCalculator {
         QueryList budgetProposalRates = new QueryList();
 
         /*
-         * Get all rates from Proposal Rates & Proposal LA Rates which matches with the rates in line item cal amts
+         * Get all rates from Proposal Rates &amp; Proposal LA Rates which matches with the rates in line item cal amts
          */
         for (AbstractBudgetCalculatedAmount calAmtsBean : lineItemCalcAmts) {
             String rateClassCode = calAmtsBean.getRateClassCode();
@@ -361,9 +361,9 @@ public abstract class AbstractBudgetCalculator {
     }
 
     /**
-     * Combine the sorted Prop & LA rates, which should be in sorted order(asc). Now create the breakup boundaries and use it to
+     * Combine the sorted Prop &amp; LA rates, which should be in sorted order(asc). Now create the breakup boundaries and use it to
      * create breakup intervals and set all the values required for calculation. Then call calculateBreakupInterval method for each
-     * AmountBean for setting the calculated cost & calculated cost sharing ie for each rate class & rate type.
+     * AmountBean for setting the calculated cost &amp; calculated cost sharing ie for each rate class &amp; rate type.
      */
     protected void createBreakUpInterval() {
         String messageTemplate = "";
@@ -583,7 +583,7 @@ public abstract class AbstractBudgetCalculator {
     }
 
     /**
-     * Use the combined & sorted Prop & LA rates to create Boundary objects. Each Boundary will contain start date & end date. Check
+     * Use the combined &amp; sorted Prop &amp; LA rates to create Boundary objects. Each Boundary will contain start date &amp; end date. Check
      * whether any rate changes, and break at this point to create a new boundary.
      * 
      * @return List of boundary objects
@@ -622,7 +622,7 @@ public abstract class AbstractBudgetCalculator {
                 boundaries.add(boundary);
             }
             /**
-             * if no rate changes during the period create one boundary with startDate & endDate same as that for line item
+             * if no rate changes during the period create one boundary with startDate &amp; endDate same as that for line item
              */
             if (boundaries.size() == 0) {
                 Boundary boundary = new Boundary(liStartDate, liEndDate);

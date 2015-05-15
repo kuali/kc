@@ -200,7 +200,6 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
                 context = new IRBNotificationContext((Protocol)notificationRequestBeans.get(i).getProtocol(), (ProtocolOnlineReview)notificationRequestBeans.get(i)
                         .getProtocolOnlineReview(), notificationRequestBeans.get(i).getActionType(), notificationRequestBeans
                         .get(i).getDescription(), renderer);
-                // protocolForm.getNotificationHelper().setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());
                 context.setPopulateRole(true);
                 protocolForm.getNotificationHelper().initializeDefaultValues(context);
                 List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();

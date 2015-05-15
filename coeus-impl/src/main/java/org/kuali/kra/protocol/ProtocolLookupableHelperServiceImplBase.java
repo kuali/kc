@@ -338,8 +338,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
 
 
     /**
-     * This override is reset field definition for research area lookup fields & investigator label.
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     * This override is reset field definition for research area lookup fields &amp; investigator label.
      */
     @SuppressWarnings("deprecation")
     @Override

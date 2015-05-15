@@ -157,7 +157,7 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
     
     /**
      * This method should only be called if an audit error is intending to be added because it will actually 
-     * add a <code>{@link List<AuditError>}</code> to the auditErrorMap.
+     * add a <code>{@link List&lt;AuditError&gt;}</code> to the auditErrorMap.
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditProblems(String auditKey, String problemType) {

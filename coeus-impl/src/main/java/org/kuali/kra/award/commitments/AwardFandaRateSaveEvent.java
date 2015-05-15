@@ -31,7 +31,7 @@ public class AwardFandaRateSaveEvent extends AwardFandaRateEvent {
      * 
      * @param errorPathPrefix
      * @param awardDocument
-     * @param fandaRateIndex The index of the F&A rate in the list of F&A rates
+     * @param fandaRateIndex The index of the F&amp;A rate in the list of F&amp;A rates
      */
     public AwardFandaRateSaveEvent(String errorPathPrefix, AwardDocument awardDocument, int fandaRateIndex) {
         super("Saving F&A Rates in Award document " + getDocumentId(awardDocument)

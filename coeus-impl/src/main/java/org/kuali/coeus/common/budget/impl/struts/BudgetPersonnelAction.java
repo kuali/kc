@@ -598,8 +598,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
     }
     
     /**
-     * Builds the Delete Abstract Confirmation Question as a <code>{@link StrutsConfirmation}</code> instance.<br/>  
-     * <br/>
+     * Builds the Delete Abstract Confirmation Question as a <code>{@link StrutsConfirmation}</code> instance.
+     *
      * The confirmation question is extracted from the resource bundle
      * and the parameter {0} is replaced with the name of the abstract type
      * that will be deleted.

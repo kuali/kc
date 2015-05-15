@@ -125,7 +125,7 @@ public abstract class ProtocolDocumentBase extends KcTransactionalDocumentBase i
      * 
      * This method is used by OJB to get around with anonymous keys issue.
      * Warning : Developers should never use this method.
-     * @return List<ProtocolBase>
+     * @return List&lt;ProtocolBase&gt;
      */
     public List<ProtocolBase> getProtocolList() {
         return protocolList;
