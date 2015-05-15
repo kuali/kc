@@ -72,11 +72,13 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
     private QuestionType questionType;
 
     private List<QuestionExplanation> questionExplanations;
+    private List<QuestionMultiChoice> questionMultiChoices;
 
     public Question() {
         this.setSequenceNumber(1);
         this.setSequenceStatus(SEQUENCE_STATUS_CURRENT);
         this.setQuestionExplanations(new ArrayList<QuestionExplanation>());
+        this.setQuestionMultiChoices(new ArrayList<QuestionMultiChoice>());
     }
 
     public String getDocumentNumber() {
@@ -400,5 +402,17 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
 
     public void resetPersistenceState() {
         this.id = null;
+    }
+
+    public List<QuestionMultiChoice> getQuestionMultiChoices() {
+        return questionMultiChoices;
+    }
+
+    public void setQuestionMultiChoices(List<QuestionMultiChoice> questionMultiChoices) {
+        this.questionMultiChoices = questionMultiChoices;
+    }
+
+    public boolean isRadioButton() {
+        return getMaxAnswers() == 1 && getDisplayedAnswers() != 1;
     }
 }

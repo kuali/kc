@@ -685,6 +685,7 @@ public interface Constants {
     public static final long QUESTION_RESPONSE_TYPE_DATE = 4L;
     public static final long QUESTION_RESPONSE_TYPE_TEXT = 5L;
     public static final long QUESTION_RESPONSE_TYPE_LOOKUP = 6L;
+    public static final long QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE = 100L;
     
     public static final String QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID = "document.newMaintainableObject.businessObject.questionTypeId";
     public static final String QUESTION_DOCUMENT_FIELD_STATUS = "document.newMaintainableObject.businessObject.status";
