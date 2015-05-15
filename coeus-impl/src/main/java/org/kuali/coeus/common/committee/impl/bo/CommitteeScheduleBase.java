@@ -20,7 +20,7 @@ package org.kuali.coeus.common.committee.impl.bo;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.meeting.*;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.DayOfWeek;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;

@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.award.home.AwardTemplate;
