@@ -39,7 +39,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_NTE_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_NTE_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_NTE_TI1';
 ELSE
@@ -85,7 +85,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ATT_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ATT_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ATT_TI1';
 ELSE
@@ -119,7 +119,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_ACTN_ITM_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_ACTN_ITM_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_ACTN_ITM_T DROP CONSTRAINT KREW_ACTN_ITM_TP1';
 ELSE
@@ -130,7 +130,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI1';
 ELSE
@@ -141,7 +141,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI2';
 ELSE
@@ -152,7 +152,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI3';
 ELSE
@@ -163,7 +163,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI5' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI5' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI5';
 ELSE
@@ -230,7 +230,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_ACTN_TKN_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_ACTN_TKN_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_ACTN_TKN_T DROP CONSTRAINT KREW_ACTN_TKN_TP1';
 ELSE
@@ -241,7 +241,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI1';
 ELSE
@@ -252,7 +252,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI2';
 ELSE
@@ -263,7 +263,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI3';
 ELSE
@@ -274,7 +274,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI4' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI4' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI4';
 ELSE
@@ -285,7 +285,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI5' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI5' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI5';
 ELSE
@@ -344,7 +344,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_ACTN_RQST_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_ACTN_RQST_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_ACTN_RQST_T DROP CONSTRAINT KREW_ACTN_RQST_TP1';
 ELSE
@@ -355,7 +355,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T11' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T11' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T11';
 ELSE
@@ -366,7 +366,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T12' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T12' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T12';
 ELSE
@@ -377,7 +377,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T13' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T13' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T13';
 ELSE
@@ -388,7 +388,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T14' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T14' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T14';
 ELSE
@@ -399,7 +399,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T15' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T15' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T15';
 ELSE
@@ -410,7 +410,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T16' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T16' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T16';
 ELSE
@@ -421,7 +421,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T17' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T17' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T17';
 ELSE
@@ -432,7 +432,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T19' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T19' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T19';
 ELSE
@@ -556,7 +556,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RULE_TMPL_ATTR_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RULE_TMPL_ATTR_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RULE_TMPL_ATTR_T DROP CONSTRAINT KREW_RULE_TMPL_ATTR_TP1';
 ELSE
@@ -567,7 +567,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RULE_TMPL_ATTR_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RULE_TMPL_ATTR_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RULE_TMPL_ATTR_TI1';
 ELSE
@@ -578,7 +578,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RULE_TMPL_ATTR_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RULE_TMPL_ATTR_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RULE_TMPL_ATTR_TI2';
 ELSE
@@ -709,7 +709,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RULE_RSP_TC0' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RULE_RSP_TC0' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RULE_RSP_T DROP CONSTRAINT KREW_RULE_RSP_TC0';
 ELSE
@@ -720,7 +720,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RULE_RSP_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RULE_RSP_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RULE_RSP_T DROP CONSTRAINT KREW_RULE_RSP_TP1';
 ELSE
@@ -731,7 +731,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RULE_RSP_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RULE_RSP_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RULE_RSP_TI1';
 ELSE
@@ -777,7 +777,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RULE_EXT_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RULE_EXT_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RULE_EXT_T DROP CONSTRAINT KREW_RULE_EXT_TP1';
 ELSE
@@ -788,7 +788,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RULE_EXT_T1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RULE_EXT_T1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RULE_EXT_T1';
 ELSE
@@ -827,7 +827,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RTE_NODE_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RTE_NODE_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RTE_NODE_T DROP CONSTRAINT KREW_RTE_NODE_TP1';
 ELSE
@@ -838,7 +838,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_TI1';
 ELSE
@@ -849,7 +849,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_TI2';
 ELSE
@@ -860,7 +860,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_TI3';
 ELSE
@@ -871,7 +871,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_TI4' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_TI4' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_TI4';
 ELSE
@@ -930,7 +930,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RTE_NODE_INSTN_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RTE_NODE_INSTN_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RTE_NODE_INSTN_T DROP CONSTRAINT KREW_RTE_NODE_INSTN_TP1';
 ELSE
@@ -941,7 +941,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_INSTN_TI1';
 ELSE
@@ -952,7 +952,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_INSTN_TI2';
 ELSE
@@ -963,7 +963,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_INSTN_TI3';
 ELSE
@@ -974,7 +974,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_TI4' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_TI4' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_INSTN_TI4';
 ELSE
@@ -1030,7 +1030,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RTE_NODE_INSTN_LNK_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RTE_NODE_INSTN_LNK_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RTE_NODE_INSTN_LNK_T DROP CONSTRAINT KREW_RTE_NODE_INSTN_LNK_TP1';
 ELSE
@@ -1041,7 +1041,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_LNK_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_LNK_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_INSTN_LNK_TI1';
 ELSE
@@ -1052,7 +1052,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_LNK_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_LNK_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_INSTN_LNK_TI2';
 ELSE
@@ -1091,7 +1091,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RTE_BRCH_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RTE_BRCH_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RTE_BRCH_T DROP CONSTRAINT KREW_RTE_BRCH_TP1';
 ELSE
@@ -1102,7 +1102,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_BRCH_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_BRCH_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_BRCH_TI1';
 ELSE
@@ -1113,7 +1113,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_BRCH_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_BRCH_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_BRCH_TI2';
 ELSE
@@ -1124,7 +1124,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_BRCH_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_BRCH_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_BRCH_TI3';
 ELSE
@@ -1135,7 +1135,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_BRCH_TI4' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_BRCH_TI4' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_BRCH_TI4';
 ELSE
@@ -1146,7 +1146,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_BRCH_TI5' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_BRCH_TI5' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_BRCH_TI5';
 ELSE
@@ -1202,7 +1202,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RTE_BRCH_ST_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RTE_BRCH_ST_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RTE_BRCH_ST_T DROP CONSTRAINT KREW_RTE_BRCH_ST_TP1';
 ELSE
@@ -1213,7 +1213,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_BRCH_ST_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_BRCH_ST_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_BRCH_ST_TI1';
 ELSE
@@ -1224,7 +1224,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_BRCH_ST_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_BRCH_ST_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_BRCH_ST_TI2';
 ELSE
@@ -1235,7 +1235,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_BRCH_ST_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_BRCH_ST_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_BRCH_ST_TI3';
 ELSE
@@ -1281,7 +1281,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RTE_NODE_INSTN_ST_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RTE_NODE_INSTN_ST_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RTE_NODE_INSTN_ST_T DROP CONSTRAINT KREW_RTE_NODE_INSTN_ST_TP1';
 ELSE
@@ -1292,7 +1292,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_ST_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_ST_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_INSTN_ST_TI1';
 ELSE
@@ -1303,7 +1303,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_ST_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_ST_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_INSTN_ST_TI2';
 ELSE
@@ -1314,7 +1314,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_ST_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_INSTN_ST_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_INSTN_ST_TI3';
 ELSE
@@ -1360,7 +1360,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_DOC_TYP_ATTR_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_DOC_TYP_ATTR_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_DOC_TYP_ATTR_T DROP CONSTRAINT KREW_DOC_TYP_ATTR_TP1';
 ELSE
@@ -1371,7 +1371,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_TYP_ATTR_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_TYP_ATTR_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_TYP_ATTR_TI1';
 ELSE
@@ -1472,7 +1472,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_OUT_BOX_ITM_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_OUT_BOX_ITM_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_OUT_BOX_ITM_T DROP CONSTRAINT KREW_OUT_BOX_ITM_TP1';
 ELSE
@@ -1483,7 +1483,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_OUT_BOX_ITM_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_OUT_BOX_ITM_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_OUT_BOX_ITM_TI1';
 ELSE
@@ -1494,7 +1494,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_OUT_BOX_ITM_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_OUT_BOX_ITM_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_OUT_BOX_ITM_TI2';
 ELSE
@@ -1505,7 +1505,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_OUT_BOX_ITM_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_OUT_BOX_ITM_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_OUT_BOX_ITM_TI3';
 ELSE
@@ -1570,7 +1570,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RTE_NODE_CFG_PARM_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RTE_NODE_CFG_PARM_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RTE_NODE_CFG_PARM_T DROP CONSTRAINT KREW_RTE_NODE_CFG_PARM_TP1';
 ELSE
@@ -1581,7 +1581,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_NODE_CFG_PARM_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_NODE_CFG_PARM_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_NODE_CFG_PARM_TI1';
 ELSE
@@ -1620,7 +1620,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_DOC_TYP_PROC_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_DOC_TYP_PROC_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_DOC_TYP_PROC_T DROP CONSTRAINT KREW_DOC_TYP_PROC_TP1';
 ELSE
@@ -1631,7 +1631,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_TYP_PROC_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_TYP_PROC_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_TYP_PROC_TI1';
 ELSE
@@ -1642,7 +1642,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_TYP_PROC_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_TYP_PROC_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_TYP_PROC_TI2';
 ELSE
@@ -1653,7 +1653,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_TYP_PROC_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_TYP_PROC_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_TYP_PROC_TI3';
 ELSE
@@ -1701,7 +1701,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_DOC_LNK_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_DOC_LNK_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_DOC_LNK_T DROP CONSTRAINT KREW_DOC_LNK_TP1';
 ELSE
@@ -1712,7 +1712,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_LNK_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_LNK_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_LNK_TI1';
 ELSE
@@ -1750,7 +1750,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RTE_BRCH_PROTO_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RTE_BRCH_PROTO_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RTE_BRCH_PROTO_T DROP CONSTRAINT KREW_RTE_BRCH_PROTO_TP1';
 ELSE
@@ -1761,7 +1761,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RTE_BRCH_PROTO_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RTE_BRCH_PROTO_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RTE_BRCH_PROTO_TI1';
 ELSE
@@ -1799,7 +1799,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_HLP_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_HLP_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_HLP_T DROP CONSTRAINT KREW_HLP_TP1';
 ELSE
@@ -1810,7 +1810,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_HLP_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_HLP_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_HLP_TI1';
 ELSE
@@ -1850,7 +1850,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_RULE_EXT_VAL_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_RULE_EXT_VAL_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_RULE_EXT_VAL_T DROP CONSTRAINT KREW_RULE_EXT_VAL_TP1';
 ELSE
@@ -1861,7 +1861,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RULE_EXT_VAL_T1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RULE_EXT_VAL_T1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RULE_EXT_VAL_T1';
 ELSE
@@ -1872,7 +1872,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_RULE_EXT_VAL_T2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_RULE_EXT_VAL_T2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_RULE_EXT_VAL_T2';
 ELSE
@@ -1944,7 +1944,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_APP_DOC_STAT_TRAN_TC0' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_APP_DOC_STAT_TRAN_TC0' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_APP_DOC_STAT_TRAN_T DROP CONSTRAINT KREW_APP_DOC_STAT_TRAN_TC0';
 ELSE
@@ -1955,7 +1955,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_APP_DOC_STAT_TRAN_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_APP_DOC_STAT_TRAN_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_APP_DOC_STAT_TRAN_T DROP CONSTRAINT KREW_APP_DOC_STAT_TRAN_TP1';
 ELSE
@@ -1966,7 +1966,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_APP_DOC_STAT_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_APP_DOC_STAT_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_APP_DOC_STAT_TI1';
 ELSE
@@ -1977,7 +1977,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_APP_DOC_STAT_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_APP_DOC_STAT_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_APP_DOC_STAT_TI2';
 ELSE
@@ -1988,7 +1988,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_APP_DOC_STAT_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_APP_DOC_STAT_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_APP_DOC_STAT_TI3';
 ELSE
@@ -2037,7 +2037,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_DOC_HDR_EXT_DT_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_DOC_HDR_EXT_DT_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_DOC_HDR_EXT_DT_T DROP CONSTRAINT KREW_DOC_HDR_EXT_DT_TP1';
 ELSE
@@ -2048,7 +2048,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_DT_TI1';
 ELSE
@@ -2059,7 +2059,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_DT_TI2';
 ELSE
@@ -2070,7 +2070,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_DT_TI3';
 ELSE
@@ -2115,7 +2115,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_DOC_HDR_EXT_LONG_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_DOC_HDR_EXT_LONG_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_DOC_HDR_EXT_LONG_T DROP CONSTRAINT KREW_DOC_HDR_EXT_LONG_TP1';
 ELSE
@@ -2126,7 +2126,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_LONG_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_LONG_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_LONG_TI1';
 ELSE
@@ -2137,7 +2137,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_LONG_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_LONG_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_LONG_TI2';
 ELSE
@@ -2148,7 +2148,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_LONG_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_LONG_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_LONG_TI3';
 ELSE
@@ -2193,7 +2193,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_DOC_HDR_EXT_FLT_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_DOC_HDR_EXT_FLT_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_DOC_HDR_EXT_FLT_T DROP CONSTRAINT KREW_DOC_HDR_EXT_FLT_TP1';
 ELSE
@@ -2204,7 +2204,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_FLT_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_FLT_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_FLT_TI1';
 ELSE
@@ -2215,7 +2215,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_FLT_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_FLT_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_FLT_TI2';
 ELSE
@@ -2226,7 +2226,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_FLT_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_FLT_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_FLT_TI3';
 ELSE
@@ -2271,7 +2271,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_DOC_HDR_EXT_TP1' ;
+select count(*) into c from user_constraints where CONSTRAINT_NAME = 'KREW_DOC_HDR_EXT_TP1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'ALTER TABLE KREW_DOC_HDR_EXT_T DROP CONSTRAINT KREW_DOC_HDR_EXT_TP1';
 ELSE
@@ -2282,7 +2282,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_TI1' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_TI1' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_TI1';
 ELSE
@@ -2293,7 +2293,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_TI2' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_TI2' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_TI2';
 ELSE
@@ -2304,7 +2304,7 @@ end;
 DECLARE
 c NUMBER;
 BEGIN
-select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_TI3' ;
+select count(*) into c from user_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_TI3' ;
 IF c>0 THEN
 EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_TI3';
 ELSE
