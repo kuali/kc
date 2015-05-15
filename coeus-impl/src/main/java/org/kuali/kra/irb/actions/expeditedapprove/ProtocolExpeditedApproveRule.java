@@ -34,7 +34,7 @@ public class ProtocolExpeditedApproveRule extends ProtocolApproveRule {
     public boolean processRules(ProtocolApproveEvent event) {
         boolean isValid = super.processRules(event);
         ProtocolExpeditedApproveBean expeditedBean = (ProtocolExpeditedApproveBean)event.getProtocolApproveBean();
-        if (expeditedBean.isAssignToAgenda() && StringUtils.isEmpty(expeditedBean.getScheduleId())) {
+        if (expeditedBean.isAssignToAgenda() && StringUtils.isBlank(expeditedBean.getScheduleId())) {
             isValid = false;
             reportError(SCHEDULE_FIELD, KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
         }

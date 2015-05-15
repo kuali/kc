@@ -53,13 +53,13 @@ public class ValidProtocolActionActionMaintenanceDocumentRule extends KcMaintena
     
     private boolean validatePromptUser(ValidProtocolActionAction validProtocolActionAction) {
         boolean result = true;
-        if (validProtocolActionAction.getUserPromptFlag() && StringUtils.isEmpty(validProtocolActionAction.getUserPrompt()) ) {
+        if (validProtocolActionAction.getUserPromptFlag() && StringUtils.isBlank(validProtocolActionAction.getUserPrompt()) ) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.userPrompt",
                     KeyConstants.ERROR_FOLLOWUP_USER_PROMPT_REQUIRED,
                     new String[] { });
             result = false;
 
-        } else if (!validProtocolActionAction.getUserPromptFlag() && !StringUtils.isEmpty(validProtocolActionAction.getUserPrompt())) {
+        } else if (!validProtocolActionAction.getUserPromptFlag() && StringUtils.isNotBlank(validProtocolActionAction.getUserPrompt())) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.userPrompt",
                     KeyConstants.ERROR_FOLLOWUP_USER_PROMPT_REQUIRED_EMPTY,
                     new String[] { });
