@@ -62,7 +62,7 @@ public class DroolsRuleHandler {
         try {
             final KieServices kieServices = KieServices.Factory.get();
             final KieFileSystem kfs = kieServices.newKieFileSystem();
-            kfs.write(ResourceFactory.newFileResource(resource.getFile()));
+            kfs.write(ResourceFactory.newUrlResource(resource.getURL()));
 
             final KieBuilder kieBuilder = kieServices.newKieBuilder(kfs).buildAll();
 
