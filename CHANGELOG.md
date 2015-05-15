@@ -1,5 +1,65 @@
 
 
+##coeus-1505.34
+* Sort Special Review Type Alphabetically
+  * Joe Williams on Wed, 13 May 2015 16:11:13 -0500 [View Commit](../../commit/28424fd6ca9a57554ed4cb0e90b675083e79b78c)
+* Allow modification of S2S Opportunity anytime before submit
+
+  * Revise selections in S2S Opportunity screen pre- and post-submission
+  * As a Superuser or Proposal Approver and Submitter of S2S proposals to Grants.gov, I need to be able revise selections on the S2S Opportunity screen > Opportunity, Forms, and User Attached Forms tabs in proposals that are enroute/under review as well as Approved status, because the Submit to S2S step normally takes place after approval and submit to sponsor.
+  * A new permission called 'Modify Proposal Development S2s While Enroute' has been added that controls the ability for a user to make modifications after the proposal is enroute.
+  * blackcathacker on Tue, 12 May 2015 20:10:52 -0700 [View Commit](../../commit/b4e28cabef310cab212cc24275ba42c3da6b7e8d)
+* Fixed double headers for cache admin and proposal development documents
+
+  * 1) login as quickstart
+  * 2) switch to System Admin Tab (or maintenance tab)
+  * 3) Select Action list
+  * 4) Open document
+  * Result: Double Headers appear
+  * Joe Williams on Thu, 14 May 2015 09:55:38 -0500 [View Commit](../../commit/5cfb32530579f088458d6b8bcc342aa69de4688b)
+* when proposal is view only don't prompt user to save on close
+
+  * User is confused if they enter a proposal in view mode and then select close that the modal asks if they want to save.
+
+  * Steps to Reproduce
+  * 1. Login as quickstart. Create proposal.
+  * 2. Add user psmock as Viewer Document level.
+  * 3. Note proposal number and doc number. Close. Save.
+  * 4. Open incognito or private browsing window.
+  * 5. Login as psmock.
+  * 6. Use Search Proposal link (Researcher menu) to find proposal number
+  * 7. Click ‘view’ link.
+  * 8. Navigate to one of the other sections.
+  * 9. Click close on that screen. Should not get the ‘do you want to save message’.
+
+  * Results: The modal asking the user if they would like to save document displays.
+  * Expected Results: Whenever proposal is in view mode It should not generate the modal asking to save when when closing.
+  * Joe Williams on Thu, 14 May 2015 11:21:33 -0500 [View Commit](../../commit/cea4ee4ed5816eff95400775ccc41448f64330d8)
+* fixes STE when cancelling from add instituional proposal lookup
+
+  * 1. Central Admin > Pre-Award > Institutional Proposal
+  * 2. Click on plus sign for creating an institutional proposal
+  * 3. On the Proposal Log Lookup screen click on the cancel button
+  * RESULT: Stack trace error (see below)
+  * EXPECTED RESULT: User should be returned to the KRAD window.
+
+  * org.kuali.rice.krad.datadictionary.DataDictionaryException: Unable to find View with id: Kc-LandingPage-RedirectView?forInstitutionalProposal
+  * at org.kuali.rice.krad.datadictionary.uif.UifDictionaryIndex.getImmutableViewById(UifDictionaryIndex.java:142)
+  * at org.kuali.rice.krad.datadictionary.uif.UifDictionaryIndex.getViewById(UifDictionaryIndex.java:128)
+  * Joe Williams on Thu, 14 May 2015 12:38:14 -0500 [View Commit](../../commit/f53d8d72fe0eed583664c258863efe2cde34872b)
+*  Making field readOnly so the values do not get updated while enroute
+  * As a viewer of routing proposals, I navigate to review the included S2S Opportunity Forms. Upon opening this screen, all selected forms to include display as unchecked. Confirmed that the items were checked prior to routing; and remain checked if no one views them. But if the screen is opened prior to submitting to s2s, none of these optional forms & their attachments are being submitted.
+  * Tried an alternate method to preview S2S forms via the Toolbar menu. At first opening, the checks were there. But when I reopened the toolbar print option in the same session - the checkmarks were gone.
+  * This is a serious problem.
+  * OSP Admins always verify that the users have checked the correct s2s forms to include, and print/preview some attachments as part of their review from this screen.
+
+  * Created and submitted by user rhanlon
+  * PA-C-R01 with Detailed Budget and Subaward Budget selected as optional forms.
+  * Confirmed checks prior to submitting.
+  * As approver RRabbit - logged in, Action List> opened proposal
+  * Navigated to S2S Opportunity screen > Forms - all optional forms unchecked.
+  * Gayathri on Thu, 14 May 2015 14:46:01 -0700 [View Commit](../../commit/2fb0b7106cc3a7670d181a0f8cd34469f53a721b)
+
 ##coeus-1505.33
 * scale attachment collections better with page resize
 
