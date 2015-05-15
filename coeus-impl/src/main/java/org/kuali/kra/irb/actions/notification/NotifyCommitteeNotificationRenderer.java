@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 

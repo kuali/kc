@@ -19,7 +19,7 @@
 package org.kuali.kra.award.timeandmoney;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAmountInfoService;
