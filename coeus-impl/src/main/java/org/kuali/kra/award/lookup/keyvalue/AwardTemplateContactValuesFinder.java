@@ -55,7 +55,7 @@ public class AwardTemplateContactValuesFinder extends FormViewAwareUifKeyValuesF
             StringBuffer sb = new StringBuffer(contact.getContactType().getDescription());
             if (contact.getRolodex() != null) {
                 sb.append(" : ");
-                if (!StringUtils.isEmpty(contact.getRolodex().getFullName())) {
+                if (StringUtils.isNotBlank(contact.getRolodex().getFullName())) {
                     sb.append(contact.getRolodex().getFullName());
                 } else {
                     sb.append(contact.getRolodex().getOrganization());
