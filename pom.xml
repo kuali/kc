@@ -82,7 +82,7 @@
         <cxf.version>2.7.12</cxf.version>
         <db-ojb.version>1.0.4-patch8</db-ojb.version>
         <displaytag.version>1.2</displaytag.version>
-        <drools.version>6.0.1.Final</drools.version>
+        <drools.version>6.2.0.Final</drools.version>
         <dwr.version>3.0.RC2</dwr.version>
         <ecj.version>4.4.2</ecj.version>
         <ehcache.version>2.6.9</ehcache.version>
@@ -143,7 +143,7 @@
         <extra-enforcer-rules.version>1.0-beta-2</extra-enforcer-rules.version>
         <cas-client-core.version>3.3.3</cas-client-core.version>
         <moo-mvel.version>2.0</moo-mvel.version>
-        <mvel.version>2.1.8.Final</mvel.version>
+        <mvel.version>2.2.4.Final</mvel.version>
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
