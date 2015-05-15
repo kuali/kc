@@ -17,10 +17,10 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-UPDATE krms_term_spec_t SET NM = 'sumTotalCostAmountFromPeriods' where NMSPC_CD = "KC-PD" and NM = 'totalCost';
-UPDATE krms_term_spec_t SET NM = 'sumDirectCostAmountFromPeriods' where NMSPC_CD = "KC-PD" and NM = 'totalDirectCost';
-UPDATE krms_term_spec_t SET NM = 'sumIndirectCostAmountFromPeriods' where NMSPC_CD = "KC-PD" and NM = 'totalIndirectCost';
-UPDATE krms_term_spec_t SET NM = 'sumUnderrecoveryAmountFromPeriods' where NMSPC_CD = "KC-PD" and NM = 'underrecoveryAmount';
-UPDATE krms_term_spec_t SET NM = 'getSumTotalDirectCostLimitFromPeriods' where NMSPC_CD = "KC-PD" and NM = 'totalDirectCostLimit';
+UPDATE krms_term_spec_t SET NM = 'sumTotalCostAmountFromPeriods' where NMSPC_CD = 'KC-PD' and NM = 'totalCost';
+UPDATE krms_term_spec_t SET NM = 'sumDirectCostAmountFromPeriods' where NMSPC_CD = 'KC-PD' and NM = 'totalDirectCost';
+UPDATE krms_term_spec_t SET NM = 'sumIndirectCostAmountFromPeriods' where NMSPC_CD = 'KC-PD' and NM = 'totalIndirectCost';
+UPDATE krms_term_spec_t SET NM = 'sumUnderrecoveryAmountFromPeriods' where NMSPC_CD = 'KC-PD' and NM = 'underrecoveryAmount';
+UPDATE krms_term_spec_t SET NM = 'getSumTotalDirectCostLimitFromPeriods' where NMSPC_CD = 'KC-PD' and NM = 'totalDirectCostLimit';
 
 

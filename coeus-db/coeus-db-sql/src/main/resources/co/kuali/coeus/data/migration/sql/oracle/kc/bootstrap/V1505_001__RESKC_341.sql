@@ -18,17 +18,13 @@
 --
 
 INSERT INTO S2S_ERROR (S2S_ERROR_ID, MESSAGE_KEY, MESSAGE, FIX_LINK, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES (SEQ_S2S_ERROR_ID.NEXTVAL, '/GrantApplication/Forms/RR_SF424_1_0/CongressionalDistrict/ApplicantCongressionalDistrict', 'A Congressional District is required for Applicant Organization', 'proposal.Organization/Location',SYSDATE,'admin',1,SYS_GUID())
-/
+VALUES (SEQ_S2S_ERROR_ID.NEXTVAL, '/GrantApplication/Forms/RR_SF424_1_0/CongressionalDistrict/ApplicantCongressionalDistrict', 'A Congressional District is required for Applicant Organization', 'proposal.Organization/Location',SYSDATE,'admin',1,SYS_GUID());
 
 INSERT INTO S2S_ERROR (S2S_ERROR_ID, MESSAGE_KEY, MESSAGE, FIX_LINK, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES (SEQ_S2S_ERROR_ID.NEXTVAL, '/GrantApplication/Forms/RR_SF424_1_1/CongressionalDistrict/ApplicantCongressionalDistrict', 'A Congressional District is required for Applicant Organization', 'proposal.Organization/Location',SYSDATE,'admin',1,SYS_GUID())
-/
+VALUES (SEQ_S2S_ERROR_ID.NEXTVAL, '/GrantApplication/Forms/RR_SF424_1_1/CongressionalDistrict/ApplicantCongressionalDistrict', 'A Congressional District is required for Applicant Organization', 'proposal.Organization/Location',SYSDATE,'admin',1,SYS_GUID());
 
 INSERT INTO S2S_ERROR (S2S_ERROR_ID, MESSAGE_KEY, MESSAGE, FIX_LINK, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES (SEQ_S2S_ERROR_ID.NEXTVAL, '/GrantApplication/Forms/RR_SF424_1_2/CongressionalDistrict/ApplicantCongressionalDistrict', 'A Congressional District is required for Applicant Organization', 'proposal.Organization/Location',SYSDATE,'admin',1,SYS_GUID())
-/
+VALUES (SEQ_S2S_ERROR_ID.NEXTVAL, '/GrantApplication/Forms/RR_SF424_1_2/CongressionalDistrict/ApplicantCongressionalDistrict', 'A Congressional District is required for Applicant Organization', 'proposal.Organization/Location',SYSDATE,'admin',1,SYS_GUID());
 
 INSERT INTO S2S_ERROR (S2S_ERROR_ID, MESSAGE_KEY, MESSAGE, FIX_LINK, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
-VALUES (SEQ_S2S_ERROR_ID.NEXTVAL, '/GrantApplication/Forms/RR_SF424_2_0/CongressionalDistrict/ApplicantCongressionalDistrict', 'A Congressional District is required for Applicant Organization', 'proposal.Organization/Location',SYSDATE,'admin',1,SYS_GUID())
-/
+VALUES (SEQ_S2S_ERROR_ID.NEXTVAL, '/GrantApplication/Forms/RR_SF424_2_0/CongressionalDistrict/ApplicantCongressionalDistrict', 'A Congressional District is required for Applicant Organization', 'proposal.Organization/Location',SYSDATE,'admin',1,SYS_GUID());
