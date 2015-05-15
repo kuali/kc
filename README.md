@@ -6,7 +6,7 @@ Kuali Coeus (KC) for Research Administration is a comprehensive system to manage
 ##**Installation**
 **Prerequisites**
 [Maven 3.2.x][1]
-[Java 1.7.x][2]
+[Java 1.8.x][2]
 [Tomcat 7.x][3]
 [MySQL 5.6.x][4]
 [Git 2.3.x][5]
@@ -143,7 +143,7 @@ Kuali Coeus supports MySQL 5.5, 5.6 and Oracle. We recommend MySQL 5.6 though as
 
 
   [1]: http://maven.apache.org/download.cgi
-  [2]: http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+  [2]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
   [3]: https://tomcat.apache.org/download-70.cgi
   [4]: http://dev.mysql.com/downloads/mysql/
   [5]: http://git-scm.com/downloads
