@@ -545,6 +545,7 @@
                     <version>${maven-javadoc-plugin.version}</version>
                     <configuration>
                         <maxmemory>${javadoc.maxmemory}</maxmemory>
+                        <additionalparam>-Xdoclint:none</additionalparam>
                     </configuration>
                 </plugin>
 
