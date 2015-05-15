@@ -188,7 +188,7 @@ public class RRSF424V1_2GeneratorTest extends
 
 		answerHeader.setAnswers(answers);
 		businessObjectService.save(answerHeader);
-
+		answers.forEach(a -> a.refreshReferenceObject("question"));
 		Organization organization = null;
 		developmentProposal
 				.setProgramAnnouncementTitle("programAnnouncementTitle");

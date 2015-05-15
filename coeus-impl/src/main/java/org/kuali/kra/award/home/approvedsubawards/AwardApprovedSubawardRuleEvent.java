@@ -22,6 +22,7 @@ import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -33,34 +34,22 @@ public class AwardApprovedSubawardRuleEvent extends KcDocumentEventBase {
     private List<AwardApprovedSubaward> awardApprovedSubawards;
     
 
-    /**
-     * Constructs a AwardApprovedSubawardRuleEvent.java.
-     * @param errorPathPrefix
-     * @param awardDocument
-     * @param awardApprovedSubaward
-     * @param awardApprovedSubawards
-     */
+
     public AwardApprovedSubawardRuleEvent(String errorPathPrefix, 
                                            AwardDocument awardDocument,
                                            AwardApprovedSubaward awardApprovedSubaward,
                                            List<AwardApprovedSubaward> awardApprovedSubawards) {
         super("ApprovedSubaward", errorPathPrefix, awardDocument);
         this.awardApprovedSubaward = awardApprovedSubaward;
-        this.awardApprovedSubawards = awardApprovedSubawards;
+        this.awardApprovedSubawards = new ArrayList<>(awardApprovedSubawards);
     }
     
-    /**
-     * Convenience method to return an AwardDocument
-     * @return
-     */
+
     public AwardDocument getAwardDocument() {
         return (AwardDocument) getDocument();
     }
     
-    /**
-     * This method returns the equipment item for validation
-     * @return
-     */
+
     public AwardApprovedSubaward getApprovedSubaward() {
         return awardApprovedSubaward;
     }
@@ -91,11 +80,7 @@ public class AwardApprovedSubawardRuleEvent extends KcDocumentEventBase {
         }
         
     }
-    
-    /**
-     * Gets the awardApprovedSubawards attribute. 
-     * @return Returns the awardApprovedSubawards.
-     */
+
     public List<AwardApprovedSubaward> getAwardApprovedSubawards() {
         
         Collections.sort(awardApprovedSubawards, new SubAwardComparator());
