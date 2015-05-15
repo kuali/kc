@@ -139,7 +139,7 @@ public class BudgetPeriodAuditRule extends BudgetAuditRuleBase {
             }
 
             if (periodIndex == 0 && (budgetPeriodStartDate != null && budgetPeriodStartDate.after(projectStartDate))) {
-            	auditWarnings.addBudgetPersonnelPeriodRule.java(new AuditError(budgetPeriodAndTotalRule.getPageId(),
+            	auditWarnings.add(new AuditError(budgetPeriodAndTotalRule.getPageId(),
                     KeyConstants.AUDIT_WARNING_BUDGETPERIOD_START_AFTER_PROJECT_START_DATE,
                     budgetPeriodAndTotalRule.getPageId(), new String[] {budgetPeriod.getBudgetPeriod().toString()}));
                 retval = false;
