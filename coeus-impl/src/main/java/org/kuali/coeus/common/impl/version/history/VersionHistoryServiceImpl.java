@@ -187,16 +187,10 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
 
     protected VersionHistory findActiveVersionHistory(List<VersionHistory> histories) {
         VersionHistory activeVersionHistory = null;
-        if(histories.size() > 0) {
-            if(histories.size() == 1 && histories.get(0).getStatus() == VersionStatus.ACTIVE) {
-                activeVersionHistory = histories.get(0);
-            } else {
-                for(VersionHistory vh: histories) {
-                    if(vh.getStatus() == VersionStatus.ACTIVE) {
-                        activeVersionHistory = vh;
-                        break;
-                    }
-                }
+        for(VersionHistory vh: histories) {
+            if(vh.getStatus() == VersionStatus.ACTIVE) {
+                activeVersionHistory = vh;
+                break;
             }
         }
         return activeVersionHistory;
