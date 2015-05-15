@@ -103,7 +103,7 @@ import static org.kuali.rice.krad.util.KRADConstants.*;
 
 
 public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
-    
+
     private static final Log LOG = LogFactory.getLog(KcTransactionalDocumentActionBase.class);
     
     private static final String DEFAULT_TAB = "Versions";
@@ -111,6 +111,7 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
 
     private static final String ONE_ADHOC_REQUIRED_ERROR_KEY = "error.adhoc.oneAdHocRequired";
     private static final String DOCUMENT_RELOAD_QUESTION="DocReload";
+    public static final String KRAD_PORTAL_URL = "/kc-krad/landingPage?viewId=Kc-LandingPage-RedirectView";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -1037,6 +1038,9 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
 
     @Override
     protected ActionForward returnToSender(HttpServletRequest request, ActionMapping mapping, KualiDocumentFormBase form) {
+        if (StringUtils.isEmpty(form.getBackLocation())) {
+            form.setBackLocation(KRAD_PORTAL_URL);
+        }
         //call this first so it will call setupDocumentExit before we try to return
         ActionForward superForward = super.returnToSender(request, mapping, form);
         if (form instanceof KcTransactionalDocumentFormBase) {
