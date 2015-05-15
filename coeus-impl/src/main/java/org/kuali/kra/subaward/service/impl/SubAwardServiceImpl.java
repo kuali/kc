@@ -46,12 +46,13 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
 import java.sql.Date;
 import java.util.*;
 
-/**
- * This class is service impl for subAward...
- */
 public class SubAwardServiceImpl implements SubAwardService {
 
     private static final Log LOG = LogFactory.getLog(SubAwardServiceImpl.class);
+    public static final String SUB_AWARD_ID = "subAwardId";
+    public static final String SUB_AWARD_SEQUENCE_STATUS = "subAwardSequenceStatus";
+    public static final String SUBAWARD_FOLLOW_UP = "Subaward Follow Up";
+    public static final String AWARD_AWARD_NUMBER = "award.awardNumber";
 
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
@@ -60,11 +61,6 @@ public class SubAwardServiceImpl implements SubAwardService {
     private SequenceAccessorService sequenceAccessorService;
     private ParameterService parameterService;
 
-    /**.
-     * This method is for creating new subAward version
-     * @param subAwardDocument
-     * @return newSubAwardDocument the newSubAwardDocument
-     */
     public SubAwardDocument createNewSubAwardVersion(
     SubAwardDocument subAwardDocument) throws
     VersionException, WorkflowException {
@@ -83,56 +79,6 @@ public class SubAwardServiceImpl implements SubAwardService {
         return newSubAwardDocument;
     }
 
-    /**.
-     * This method is for  getVersioningService
-     * @return versioningService...
-     *
-     */
-    protected VersioningService getVersioningService() {
-        return versioningService;
-    }
-
-    /**
-     * This method is for setting versioningService...
-     * @param versioningService the versioningService
-     */
-    public void setVersioningService(VersioningService versioningService) {
-        this.versioningService = versioningService;
-    }
-
-
-    /**.
-    * This is the Getter Method for documentService
-	 * @return Returns the documentService.
-	 */
-	public DocumentService getDocumentService() {
-		return documentService;
-	}
-
-	/**.
-	 * This is the Setter Method for documentService
-	 * @param documentService The documentService to set.
-	 */
-	public void setDocumentService(DocumentService documentService) {
-		this.documentService = documentService;
-	}
-
-	/**.
-	 * This is the Getter Method for parameterService
-	 * @return Returns the parameterService.
-	 */
-	public ParameterService getParameterService() {
-		return parameterService;
-	}
-
-	/**.
-	 * This is the Setter Method for parameterService
-	 * @param parameterService The parameterService to set.
-	 */
-	public void setParameterService(ParameterService parameterService) {
-		this.parameterService = parameterService;
-	}
-
 	@Override
     public void updateSubAwardSequenceStatus(
     SubAward subAward, VersionStatus status) {
@@ -142,14 +88,11 @@ public class SubAwardServiceImpl implements SubAwardService {
         subAward.setSubAwardSequenceStatus(status.toString());
        getBusinessObjectService().save(subAward);
     }
-    /**
-     * This method is for archiveCurrentActiveSubAward...
-     * @param subAwardId
-     */
+
     protected void archiveCurrentActiveSubAward(Long subAwardId) {
         Map<String, Object> values = new HashMap<String, Object>();
-        values.put("subAwardId", Long.toString(subAwardId));
-        values.put("subAwardSequenceStatus", VersionStatus.ACTIVE.name());
+        values.put(SUB_AWARD_ID, Long.toString(subAwardId));
+        values.put(SUB_AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.name());
         Collection<SubAward> subAwards = getBusinessObjectService().
         findMatching(SubAward.class, values);
         for (SubAward subAward : subAwards) {
@@ -158,44 +101,27 @@ public class SubAwardServiceImpl implements SubAwardService {
         }
     }
 
-
-    /**.
-	 * This is the Getter Method for businessObjectService
-	 * @return Returns the businessObjectService.
-	 */
 	public BusinessObjectService getBusinessObjectService() {
 		return businessObjectService;
 	}
 
-	/**.
-	 * This is the Setter Method for businessObjectService
-	 * @param businessObjectService The businessObjectService to set.
-	 */
 	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
 		this.businessObjectService = businessObjectService;
 	}
 
     @Override
     public String getNextSubAwardCode() {
- Long nextAwardNumber = sequenceAccessorService.
- getNextAvailableSequenceNumber(Constants.SUBAWARD_SEQUENCE_SUBAWARD_CODE, SubAward.class);
+        Long nextAwardNumber = sequenceAccessorService.
+        getNextAvailableSequenceNumber(Constants.SUBAWARD_SEQUENCE_SUBAWARD_CODE, SubAward.class);
 
         return nextAwardNumber.toString();
     }
-    /**
-     * Set the Sequence Accessor Service.
-     * @param sequenceAccessorService the Sequence Accessor Service
-     */
+
     public void setSequenceAccessorService(
     SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
-    /**.
-     * This method is using for getAmountInfo
-     * @param subAward
-     * @return subAward
-     */
     public SubAward getAmountInfo(SubAward subAward) {
 
         List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getSubAwardAmountInfoList();
@@ -247,24 +173,12 @@ public class SubAwardServiceImpl implements SubAwardService {
 
         return subAward;
     }
-    /**.
-     * this method is for getFollowupDateDefaultLength
-     *
-     * @return followupDateRange
-     */
+
     public String getFollowupDateDefaultLength() {
-        String namespaceCode = "KC-SUBAWARD";
-        String componentCode = "Document";
-        String parameterName = "Subaward Follow Up";
-        String followupDateRange = this.getParameterService().
-        getParameterValueAsString(namespaceCode, componentCode, parameterName);
-        return followupDateRange;
+        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, SUBAWARD_FOLLOW_UP);
     }
-    /**.
-     * this method is for getCalculatedFollowupDate
-     * @param baseDate
-     * @return retDate
-     */
+
     public Date getCalculatedFollowupDate(Date baseDate) {
         Date retDate =
         new Date(DateUtils.addDays(baseDate, getFollowupDateDefaultLengthInDays()).getTime());
@@ -289,16 +203,11 @@ public class SubAwardServiceImpl implements SubAwardService {
                 
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
-                // something wasn't a number or a valid date element;
             }
         }
         return empty;
     }
 
-    /**.
-     * this method is for gettingFollowUpDates
-     * @return returnAmount
-     */
     public int getFollowupDateDefaultLengthInDays() {
         String followupDateRange = getFollowupDateDefaultLength();
         String rangeUnit = followupDateRange.substring(
@@ -321,7 +230,7 @@ public class SubAwardServiceImpl implements SubAwardService {
     
     public SubAward getActiveSubAward(Long subAwardId) {
         Map<String, Object> values = new HashMap<String, Object>();
-        values.put("subAwardId", subAwardId);
+        values.put(SUB_AWARD_ID, subAwardId);
         List<SubAward> subAwards = (List<SubAward>) getBusinessObjectService().findMatching(SubAward.class, values);
         SubAward subAward = subAwards.get(0);
         getAmountInfo(subAward);
@@ -330,8 +239,8 @@ public class SubAwardServiceImpl implements SubAwardService {
 
     @Override
     public List<SubAward> getLinkedSubAwards(Award award) {
-        Map<String, Object> values = new HashMap<String, Object>();
-        values.put("awardId", award.getAwardId());
+        Map<String, Object> values = new HashMap<>();
+        values.put(AWARD_AWARD_NUMBER, award.getAwardNumber());
         Collection<SubAwardFundingSource> subAwardFundingSources = businessObjectService.findMatching(SubAwardFundingSource.class, values);
         Set<String> subAwardSet = new TreeSet<String>();
         for(SubAwardFundingSource subAwardFundingSource : subAwardFundingSources){
@@ -358,5 +267,29 @@ public class SubAwardServiceImpl implements SubAwardService {
 
     public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
         this.versionHistoryService = versionHistoryService;
+    }
+
+    protected VersioningService getVersioningService() {
+        return versioningService;
+    }
+
+    public void setVersioningService(VersioningService versioningService) {
+        this.versioningService = versioningService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }
