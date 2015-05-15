@@ -484,7 +484,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
         for (PS submission : protocolSubmissions) {
             // gonna do something a little hacktacular here... in some cases, protocol and/or protocol number might not be set.
             // in that case, go ahead and pass submissions on to caller
-            if (submission.getProtocol() == null || StringUtils.isEmpty(submission.getProtocol().getProtocolNumber())) {
+            if (submission.getProtocol() == null || StringUtils.isBlank(submission.getProtocol().getProtocolNumber())) {
                 returnList.add(submission);
             } else {
                 String key = submission.getProtocol().getProtocolNumber();

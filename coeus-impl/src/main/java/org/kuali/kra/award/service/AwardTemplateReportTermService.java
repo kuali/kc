@@ -25,55 +25,35 @@ public interface AwardTemplateReportTermService {
     /**
      * 
      * This method is to get the report types of the ValidClassReportFrequency based on the reportClasscode and converted to string separated by ",".
-     * @param reportClassCode
-     * @return String
-     * @throws Exception
      */
-    public String getReportTypeForAjaxCall(String reportClassCode) throws Exception;
+    String getReportTypeForAjaxCall(String reportClassCode);
     
     /**
      * 
-     * This method is to get the report types of the ValidClassReportFrequency based on the reportClasscode
-     * @param reportClassCode
-     * @return
-     * @throws Exception
+     * This method is to get the report types of the ValidClassReportFrequency based on the reportClasscode.
      */
-    public Collection getReportTypesUsingReportClassCode(String reportClassCode) throws Exception ;
+    Collection<String> getReportTypesUsingReportClassCode(String reportClassCode);
     
     /**
      * 
      * This method is to get the frequency based on reportCode and converted to string separated by ",".
-     * @param reportCode
-     * @param reportClass
-     * @return String
-     * @throws Exception
      */
-    public String getFrequencyForAjaxCall(String reportCode, String reportClass) throws Exception;
+    String getFrequencyForAjaxCall(String reportCode, String reportClass);
 
     /**
      * 
-     * This method is to get the frequency based on the reportCode
-     * @param reportClassCode
-     * @param reportClass
-     * @return
-     * @throws Exception
+     * This method is to get the frequency based on the reportCode.
      */
-    public Collection getFrequencyUsingReportCodeAndClass(String reportCode, String reportClass) throws Exception ;
+    Collection<String> getFrequencyUsingReportCodeAndClass(String reportCode, String reportClass);
     /**
      * 
      * This method is to get frequency bases based on frequencyCode and converted to string separated by ",".
-     * @param frequencyCode
-     * @return String
-     * @throws Exception
      */
-    public String getFrequencyBaseForAjaxCall(String frequencyCode) throws Exception;
+    String getFrequencyBaseForAjaxCall(String frequencyCode);
     /**
      * 
-     * This method is to get the frequency bases based on the frequencyCode
-     * @param frequencyCode
-     * @return
-     * @throws Exception
+     * This method is to get the frequency bases based on the frequencyCode.
      */
-    public Collection getFrequencyBaseUsingFrequencyCode(String frequencyCode) throws Exception ;
+    Collection<String> getFrequencyBaseUsingFrequencyCode(String frequencyCode);
 
 }

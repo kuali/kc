@@ -218,7 +218,7 @@ public final class DateUtils {
      */
     @Deprecated
     public static String formatFrom12Or24Str(String input) {
-        if (!StringUtils.isEmpty(input)) {
+        if (StringUtils.isNotBlank(input)) {
             input = input.trim();
 
             Matcher matcher = TIME_PATTERN_12_HOUR.matcher(input);

@@ -423,6 +423,8 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		answers.add(answer6);
 		answerHeader.setAnswers(answers);
 		businessObjectService.save(answerHeader);
-		answers.forEach(a -> a.refreshReferenceObject("question"));
+		for (Answer a : answers) {
+			a.refreshReferenceObject("question");
+		}
 	}
 }
