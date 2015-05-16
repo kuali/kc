@@ -1,5 +1,72 @@
 
 
+##coeus-1505.36
+* Upgrading to Java 8: updating libraries, documentation, fixing test.
+  * Travis Schneberger on Thu, 14 May 2015 21:18:16 -0400 [View Commit](../../commit/b7f1a198b77ea4134c7beedbf898f92ec6378101)
+* Upgrading to Java 8: fixing javadoc errors from Java 8's strict javadoc tool
+  * Travis Schneberger on Fri, 15 May 2015 09:27:28 -0400 [View Commit](../../commit/09301ace83c6fe888f32ec5f90231e00c5c8d09e)
+* Multiple Choice enhancement for contribution.
+
+  * https://github.com/kuali/kc/pull/1582
+
+  * KRAFDBCK-12521
+  * Adds a Multiple Choice question type to the Questionnaire framework. Utilizes a new table to store the multiple choice prompts and descriptions, respectively. Uses the MAX_ANSWERS fields to determine whether the question renders as a set of checkboxes or radio buttons.
+
+  * Additional bugfixes:
+* Fixed question deletion causing a constraint violation where a question has an explanation.
+* Fixed proper form initialization based on the Response type where the first time a question page was loaded the page would display incorrectly until the response type was changed.
+* Fixed the read only display not showing the correct dynamic information based on response type.  This was common when viewing after routing.
+
+  * Other:
+  * Cleaned up questionnaire maintenance code that is no longer used as of KC 6.0
+  * Added Missing license headers
+  * Travis Schneberger on Wed, 13 May 2015 14:54:54 -0400 [View Commit](../../commit/39264466a27f087779f1d76b506c89c2bc3f6059)
+* Fix to display correct linked subawards when award is versioned
+
+  * 1. Create and submit a new Award (just complete the required fields to save and submit, no need to do a T&M document)
+  * 2. Create a new Subaward, adding the just-created Award as the Funding Source, and then submit the Subaward
+  * 3. Observe Medusa from both the Award and Subaward view
+  * Actual Behavior: The system displays the linkage between the Award and Subaward from both Medusa views.
+  * 4. Create and submit a new Proposal Log document
+  * 5. Create and submit a new Institutional Proposal document, using the just-created Proposal Log
+  * 6. Search for the just-submitted Award document and click the Edit action button
+  * 7. Add the just-created Institutional Proposal as a Funding Proposal
+  * 8. Select a Transaction Type
+  * 9. Submit the edited Award
+  * 10. Observe Medusa from the Award, Institutional Proposal, and Subaward views
+  * Actual Behavior: The system does not display the Subaward linkage from either the Award and Institutional Proposal Medusa views. The system does display all linkages from the Subaward Medusa view (see attached screen images).
+  * Expected Behavior: The system should display the linkage to the Subaward from both the Award and Institutional Proposal Medusa views.
+  * 11. Create a Negotiation, selecting Award, Institutional Proposal, or Subaward for Negotiation Association Type and selecting one of the just-created documents
+  * 12. Click Save to finalize the Negotiation
+  * 13. Observe Medusa from the Award, Institutional Proposal, Negotiation and Subaward views
+  * Actual Behavior: The system does not display the Subaward linkage from the Award, Institutional Proposal, and Negotiation Medusa views. The system does display all linkages from the Subaward Medusa view (see attached screen images).
+  * Expected Behavior: The system should display the linkage to the Subaward from the Award, Institutional Proposal, and Negotiation Medusa views.
+  * Joe Williams on Fri, 15 May 2015 09:39:13 -0500 [View Commit](../../commit/2a483666703e61eb93a8804faeb70d09499497e8)
+* Multiple Choice enhancement for contribution.
+
+  * https://github.com/kuali/kc/pull/1582
+
+  * KRAFDBCK-12521
+
+  * code review comments
+  * Travis Schneberger on Fri, 15 May 2015 10:43:38 -0400 [View Commit](../../commit/d9690e74dfec73c6431f932aca5d9525a13820ec)
+* refactoring and added tests
+  * Joe Williams on Fri, 15 May 2015 09:42:08 -0500 [View Commit](../../commit/d489080c07844d78585d69e085c3b5fefe7c93cd)
+* Upgrading to Java 8: upgrading jmock
+  * Travis Schneberger on Fri, 15 May 2015 11:20:12 -0400 [View Commit](../../commit/2cd5e268c5ab56658c411f870d515ce7e7542925)
+* Upgrading to Java 8: switching version of cglib to use an updated/non-repackaged version of asm
+  * Travis Schneberger on Fri, 15 May 2015 12:32:24 -0400 [View Commit](../../commit/cb8adf607d85b67a7d71e5defd1b00e0379bc8ac)
+* return user to krad portal when closing a transactional document
+  * Joe Williams on Fri, 15 May 2015 10:37:34 -0500 [View Commit](../../commit/3e3c3d50c6df0e90ffb3942d3311cb3c0ec245d3)
+* Upgrading to Java 8: removing MaxPerm setting since java 8 does not have perm gen space
+  * Travis Schneberger on Fri, 15 May 2015 12:46:55 -0400 [View Commit](../../commit/7217b0a4096a69b468ccf40fa2597cc03add0604)
+* Java 8: Upgrading Drools and MVEL to support Java 8, removing incorrect references to drools string utils
+  * Travis Schneberger on Fri, 15 May 2015 15:14:13 -0400 [View Commit](../../commit/edc26dfe1b6c82769d11c051bae13c155a0dc5f7)
+* Java 8: Fixing tests, changing StringUtils api usage to isBlank which is closer to drool's StringUtils isEmpty method.
+  * Travis Schneberger on Fri, 15 May 2015 17:02:22 -0400 [View Commit](../../commit/f1645535c21b60a2ca05e6e65e76f050c3275c23)
+* Java 8: Fixing drools so that rules files can be loaded from within jars.
+  * Travis Schneberger on Fri, 15 May 2015 17:49:07 -0400 [View Commit](../../commit/82f1d2bcc43e389b31b6cab81263bb500dafdea4)
+
 ##coeus-1505.35
 * No Changes
 
