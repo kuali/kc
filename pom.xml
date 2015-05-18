@@ -2168,12 +2168,12 @@
     <profiles>
         <profile>
             <id>grm</id>
-            <!-- comment out activation section to turn this profile off permanently
+            <!-- comment out activation section to turn this profile off permanently-->
             <activation>
                 <property>
                     <name>!grm.off</name>
                 </property>
-            </activation>-->
+            </activation>
 
             <properties>
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
