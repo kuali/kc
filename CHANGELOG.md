@@ -1,5 +1,26 @@
 
 
+##coeus-1505.39
+* Fix for award error when saving on Payment, Reports & Terms
+
+  * -Create new award
+  * -Enter required data on Award tab, save
+  * -Go to Payment, Reports & Terms tab
+  * -Click save, error occurs
+
+  * This is only happening on new awards.
+  * HTTP Status 500 -
+
+  * type Exception report
+
+  * message
+
+  * description The server encountered an internal error that prevented it from fulfilling this request.
+
+  * org.springframework.dao.DataIntegrityViolationException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KCSO"."AWARD_REPORT_TRACKING"."LAST_UPDATE_USER")
+  * ; nested exception is java.sql.SQLIntegrityConstraintViolationException: ORA-01400: cannot insert NULL into ("KCSO"."AWARD_REPORT_TRACKING"."LAST_UPDATE_USER")
+  * Joe Williams on Mon, 18 May 2015 08:49:18 -0500 [View Commit](../../commit/aca0ce6122a5e03405598b0a13d7640e7db17046)
+
 ##coeus-1505.38
 * Java 8: making is possible to turn off java 8 specific javadoc parm
   * Travis Schneberger on Sun, 17 May 2015 21:20:56 -0400 [View Commit](../../commit/9fabcc7995c78c1f995747dccdfa7950fdc2cb95)
