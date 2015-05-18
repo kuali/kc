@@ -54,15 +54,19 @@ Then check out the correct tag before installing.
 > 
 *mvn clean install -Dgrm.off=true*
 
-> **Source and Javadoc jars:** When building Kuali Coeus Projects in may be helpful to also build source and javadoc jars.  These jars can be consumed by tools such as debuggers. 
+> **Source and Javadoc jars:** When building Kuali Coeus Projects it may be helpful to also build source and javadoc jars.  These jars can be consumed by tools such as debuggers.  Note: due to changes in the javadoc tool in Java 8, you may need to execute the compile phase before attempting to create a javadoc jar. 
 >
-*mvn clean source:jar javadoc:jar install*
+*mvn clean compile source:jar javadoc:jar install*
+
+> **Java 7:** We are currently targeting Java 8 (compile time and runtime) by default for all projects.  We still support Java 7 at this time but this support will be removed in a future release.  Please move to Java 8 as soon as possible.
+>
+*mvn clean compile source:jar javadoc:jar install -Dproject.java.version=1.7 -Djavadoc.additionalparam*
 
 Check out the correct schemaspy version and run maven clean install.
 ```
 cd schemaspy
 git checkout tags/schemaspy-xxxx.xx
-mvn clean source:jar javadoc:jar install -Dgrm.off=true
+mvn clean compile source:jar javadoc:jar install -Dgrm.off=true
 ```
 
 **Step 4: Build Kuali Coeus Rice**
@@ -70,7 +74,7 @@ Checkout the correct version of kuali coeus rice and install.
 ```
 cd ../kc-rice
 git checkout tags/rice-x.x.x.xxxxx.xx
-mvn clean source:jar javadoc:jar install -Dgrm.off=true 
+mvn clean compile source:jar javadoc:jar install -Dgrm.off=true 
 ```
 
 Wait until coeus-api has installed successfully before moving to the next step.
@@ -80,7 +84,7 @@ Checkout the correct version of coeus api and install.
 ```
 cd ../kc-api
 git checkout tags/coeus-api-xxxx.xx
-mvn clean source:jar javadoc:jar install -Dgrm.off=true 
+mvn clean compile source:jar javadoc:jar install -Dgrm.off=true 
 ```
 
 Wait until coeus-api has installed successfully before moving to the next step.
@@ -90,7 +94,7 @@ Checkout the correct version of coeus-s2sgen and install
 ```
 cd ../kc-s2sgen
 git checkout tags/coeus-s2sgen-xxxx.xx
-mvn clean source:jar javadoc:jar install -Dgrm.off=true 
+mvn clean compile source:jar javadoc:jar install -Dgrm.off=true 
 ```
 
 Wait until coeus-s2sgen has installed successfully before moving to the next step.
@@ -101,7 +105,7 @@ Installing Kuali Coeus
 
 ```
 cd ../kc
-mvn clean source:jar javadoc:jar install -Dgrm.off=true
+mvn clean compile source:jar javadoc:jar install -Dgrm.off=true
 ```
 
 **Step 8: Install Spring Instrumentation**
