@@ -220,6 +220,7 @@
         <enforcer.require.java.version>${project.java.version}</enforcer.require.java.version>
         <enforcer.max.jdk.version>${project.java.version}</enforcer.max.jdk.version>
         <javadoc.maxmemory>3g</javadoc.maxmemory>
+        <javadoc.additionalparam>-Xdoclint:none</javadoc.additionalparam>
 
         <!-- defaults to dev unless overriden -->
         <build.environment>dev</build.environment>
@@ -545,7 +546,7 @@
                     <version>${maven-javadoc-plugin.version}</version>
                     <configuration>
                         <maxmemory>${javadoc.maxmemory}</maxmemory>
-                        <additionalparam>-Xdoclint:none</additionalparam>
+                        <additionalparam>${javadoc.additionalparam}</additionalparam>
                     </configuration>
                 </plugin>
 
