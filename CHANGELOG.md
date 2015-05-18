@@ -1,5 +1,9 @@
 
 
+##coeus-1505.38
+* Java 8: making is possible to turn off java 8 specific javadoc parm
+  * Travis Schneberger on Sun, 17 May 2015 21:20:56 -0400 [View Commit](../../commit/9fabcc7995c78c1f995747dccdfa7950fdc2cb95)
+
 ##coeus-1505.37
 * No Changes
 
