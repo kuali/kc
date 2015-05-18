@@ -211,7 +211,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         reportTracking.setFrequencyCode(awardTerm.getFrequencyCode());
         reportTracking.setOspDistributionCode(awardTerm.getOspDistributionCode());
         reportTracking.setLastUpdateDate(new Timestamp(new java.util.Date().getTime()));
-        reportTracking.setLastUpdateUser(StringUtils.EMPTY);
+        reportTracking.setLastUpdateUser(null);
         reportTracking.setLeadUnit(award.getLeadUnit());
         reportTracking.setLeadUnitNumber(award.getLeadUnitNumber());
         reportTracking.setOverdue(0);
