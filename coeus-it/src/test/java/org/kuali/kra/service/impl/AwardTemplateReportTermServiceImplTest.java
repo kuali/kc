@@ -109,7 +109,7 @@ public class AwardTemplateReportTermServiceImplTest extends KcIntegrationTestBas
         Collections.sort(expected);
 
         List<String> resultFields = Arrays.asList(awardTemplateReportTermService.getFrequencyBaseForAjaxCall("2").split(","));
-        Collections.sort(expected);
+        Collections.sort(resultFields);
 
         assertEquals(expected,resultFields);
     }
