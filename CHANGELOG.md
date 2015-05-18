@@ -1,5 +1,24 @@
 
 
+##coeus-1505.41
+* return to award from award budget if budget was opened from award
+
+  * Open an Award
+  * Go to Budget Versions
+  * Create or open an Award Budget
+  * Perform a budget action such as approve, reject, or even close
+
+  * Actual Results:
+  * -User is taken to the Sys Admin portal.
+
+  * Expected Results:
+  * -User remains in the Award.
+  * Joe Williams on Fri, 15 May 2015 14:59:20 -0500 [View Commit](../../commit/5fe248a09e4cc55bceeb24fd7845f951d79f1e0e)
+
+##coeus-1505.40
+* No Changes
+
+
 ##coeus-1505.39
 * Fix for award error when saving on Payment, Reports & Terms
 
