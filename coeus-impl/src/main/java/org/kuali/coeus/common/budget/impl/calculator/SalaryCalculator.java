@@ -59,13 +59,7 @@ public class SalaryCalculator {
     private List<String> warningList;
     private QueryList<BudgetRate> inflationRates;
 
-    /**
-     * 
-     * Constructs a SalaryCalculator.java.
-     * 
-     * @param budget
-     * @param personnelLineItem
-     */
+
     public SalaryCalculator(Budget budget, BudgetPersonnelDetails personnelLineItem) {
         this.budget = budget;
         this.personnelLineItem = personnelLineItem;
@@ -138,16 +132,9 @@ public class SalaryCalculator {
 
     }
 
-    /**
-     * 
-     * This method filter the budget persons with respect to start date and end date
-     * 
-     * @return list of BudgetPerson
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private QueryList<BudgetPerson> filterBudgetPersons() {
         QueryList<BudgetPerson> filteredPersons = new QueryList<BudgetPerson>();
-        List<BudgetPerson> savedBudgetPersons = budget.getBudgetPersons();
+        List<BudgetPerson> savedBudgetPersons = new ArrayList<>(budget.getBudgetPersons());
 
         if (savedBudgetPersons.isEmpty()){
         	return filteredPersons;
@@ -156,7 +143,8 @@ public class SalaryCalculator {
         int i = 0;
         boolean personInDocument = false;
         List<BudgetPerson> documentBudgetPersons = new ArrayList<BudgetPerson>();
-        for (BudgetPerson savedPerson : savedBudgetPersons) {
+
+        for(BudgetPerson savedPerson : savedBudgetPersons) {
             personInDocument = false;
             for (BudgetPerson docPerson : budget.getBudgetPersons()) {
                 if (savedPerson.getPersonSequenceNumber().intValue() == docPerson.getPersonSequenceNumber().intValue()) {
