@@ -126,7 +126,7 @@ public class SchemaSpyFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         final UserSession session = getGlobalVariableService().getUserSession();
-        if (session != null && !getPermissionService().isAuthorizedByTemplate(getGlobalVariableService().getUserSession().getPrincipalId(),
+        if (session == null || !getPermissionService().isAuthorizedByTemplate(getGlobalVariableService().getUserSession().getPrincipalId(),
                 KRADConstants.KRAD_NAMESPACE,
                 KimConstants.PermissionTemplateNames.OPEN_VIEW,
                 Collections.singletonMap(KimConstants.AttributeConstants.VIEW_ID, KIM_SCHEMA_SPY_VIEW_ID),
