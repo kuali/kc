@@ -410,6 +410,7 @@ public interface Constants {
     public static final String MAPPING_AWARD_ACTIONS_PAGE = "awardActions";
     public static final String MAPPING_AWARD_MEDUSA_PAGE = "medusa";
     public static final String MAPPING_AWARD_BUDGET_VERSIONS_PAGE = "budgets";
+    public static final String MAPPING_AWARD_NOTIFICATION_EDITOR = "notificationEditor";
     public static final String MAPPING_ICR_RATE_CODE_PROMPT = "icrRateCodePrompt";
     
     
