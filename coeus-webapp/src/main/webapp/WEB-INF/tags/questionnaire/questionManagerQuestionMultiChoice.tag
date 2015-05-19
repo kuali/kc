@@ -77,7 +77,7 @@
 
             <td style="text-align: center;">
                 <c:if test="${!KualiForm.readOnly}">
-                    <input type="image" id="deleteMultiChoice" name="deleteMultiChoice" class="deleteMultiChoice" title="Delete Multi-Choice" src="static/images/tinybutton-delete1.gif" class="tinybutton"/>
+                    <input type="image" name="deleteMultiChoice" title="Delete Multi-Choice" src="static/images/tinybutton-delete1.gif" class="tinybutton deleteMultiChoice"/>
                 </c:if>
             </td>
         </tr>
@@ -98,7 +98,7 @@
                 </td>
                 <td style="text-align: center;">
                     <c:if test="${!KualiForm.readOnly}">
-                        <input type="image" id="deleteMultiChoice" name="deleteMultiChoice" class="deleteMultiChoice" title="Delete Multi-Choice" src="static/images/tinybutton-delete1.gif" class="tinybutton"/>
+                        <input type="image" name="deleteMultiChoice" title="Delete Multi-Choice" src="static/images/tinybutton-delete1.gif" class="tinybutton deleteMultiChoice"/>
                     </c:if>
                 </td>
             </tr>

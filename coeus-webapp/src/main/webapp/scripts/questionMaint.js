@@ -17,25 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-jQuery("#addMultiChoice").click(function() {
-	var newPrompt = jQuery("#newQuestionMultiChoice\\.prompt").val();
-	var newDescription = jQuery("#newQuestionMultiChoice\\.description").val();
-
-	var template = jQuery('tr.multiChoiceTemplate').html();
-	template = template.replace(/%PROMPT%/g, newPrompt);
-	template = template.replace(/%PROMPT_NAME%/g, "document.newMaintainableObject.businessObject.questionMultiChoices[0].prompt");
-	template = template.replace(/%DESCRIPTION%/g, newDescription);
-	template = template.replace(/%DESCRIPTION_NAME%/g, "document.newMaintainableObject.businessObject.questionMultiChoices[0].description");
-	var newRow = jQuery('<tr/>').append(template);
-	jQuery(newRow).appendTo(jQuery("#multiChoice-table tbody"));
-
-	jQuery("#newQuestionMultiChoice\\.prompt").val("");
-	jQuery("#newQuestionMultiChoice\\.description").val("");
-
-	adjustIndexes();
+jQuery(document).ready(function() {
+	addMultiChoiceHandler();
 	addDeleteClickHandler();
-	return false;
 });
+
+function addMultiChoiceHandler() {
+	jQuery("#addMultiChoice").click(function() {
+		var newPrompt = jQuery("#newQuestionMultiChoice\\.prompt").val();
+		var newDescription = jQuery("#newQuestionMultiChoice\\.description").val();
+
+		var template = jQuery('tr.multiChoiceTemplate').html();
+		template = template.replace(/%PROMPT%/g, newPrompt);
+		template = template.replace(/%PROMPT_NAME%/g, "document.newMaintainableObject.businessObject.questionMultiChoices[0].prompt");
+		template = template.replace(/%DESCRIPTION%/g, newDescription);
+		template = template.replace(/%DESCRIPTION_NAME%/g, "document.newMaintainableObject.businessObject.questionMultiChoices[0].description");
+		var newRow = jQuery('<tr/>').append(template);
+		jQuery(newRow).appendTo(jQuery("#multiChoice-table tbody"));
+
+		jQuery("#newQuestionMultiChoice\\.prompt").val("");
+		jQuery("#newQuestionMultiChoice\\.description").val("");
+
+		adjustIndexes();
+		addDeleteClickHandler();
+		return false;
+	});
+}
 
 function adjustIndexes() {
 	var index = 0;
@@ -55,8 +62,7 @@ function adjustIndexes() {
 }
 
 function addDeleteClickHandler() {
-	jQuery('.deleteMultiChoice').click(
-	    function() {
+	jQuery('.deleteMultiChoice').click(function() {
 	        curnode = jQuery(this).parents('tr:eq(0)');
 	        while (curnode.next().size() > 0) {
 	            curnode = curnode.next();
@@ -68,5 +74,5 @@ function addDeleteClickHandler() {
 	        jQuery(this).parents('tr:eq(0)').remove();
 			adjustIndexes();
 	        return false;
-	    });
+    });
 }
