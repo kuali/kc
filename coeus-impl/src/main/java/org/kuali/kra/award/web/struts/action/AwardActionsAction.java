@@ -22,9 +22,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
-import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -32,11 +35,15 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
-import org.kuali.kra.award.contacts.AwardSponsorContactAuditRule;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
+import org.kuali.kra.award.infrastructure.AwardTaskNames;
+import org.kuali.kra.award.notification.AwardNoticeNotificationRenderer;
+import org.kuali.kra.award.notification.AwardNoticePrintout;
 import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
@@ -47,21 +54,24 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.util.*;
 
 /**
@@ -321,7 +331,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         AwardHierarchy targetNode = findTargetNode(request, awardForm);
         AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewChildAwardBasedOnAnotherAwardInHierarchy(awardNumberOfNodeToCopyFrom,
-                                                                                                                            targetNode.getAwardNumber());
+                targetNode.getAwardNumber());
         return prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);
     }
 
@@ -416,22 +426,97 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     		}            
     	}
     	return false;
-    }    
+    }
 
-    public ActionForward printNotice(final ActionMapping mapping, final ActionForm form,
-            final HttpServletRequest request, final HttpServletResponse response)
+    public ActionForward printNotice(ActionMapping mapping, ActionForm form,
+                                     HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        final AwardForm awardForm = (AwardForm) form;
+        AwardForm awardForm = (AwardForm) form;
+        Map<String, Object> reportParameters = populateResponseParametersForNotice(awardForm);
 
-        if (!new AwardSponsorContactAuditRule().processRunAuditBusinessRules(awardForm.getDocument())
-            && auditErrorExists(AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY)) {            
-            GlobalVariables.getMessageMap().putError(AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY,
-                                                     ERROR_INVALID_COUNTRY_CODE);
-            return mapping.findForward("contacts"); // Switch to the contacts tab and show the error.
+        AwardPrintingService awardPrintService = KcServiceLocator.getService(AwardPrintingService.class);
+        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+                awardForm.getAwardDocument().getAward(),AwardPrintType.AWARD_NOTICE_REPORT,reportParameters);
+        streamToResponse(dataStream, response);
+        //return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        return null;
+    }
+
+    public ActionForward printNoticeFromNotification(ActionMapping mapping, ActionForm form,
+                                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String awardNoticeId = request.getParameter("awardNoticeId");
+
+        Map<String, Long> printoutKeyMap = new HashMap<String, Long>();
+        printoutKeyMap.put("awardNoticeId", Long.valueOf(awardNoticeId));
+        AwardNoticePrintout printout = getBusinessObjectService().findByPrimaryKey(AwardNoticePrintout.class, printoutKeyMap);
+
+        if (printout == null) {
+            String authMessage = "No Award Notice with an ID of %s exists";
+            authMessage = String.format(authMessage, GlobalVariables.getUserSession().getPerson().getPrincipalName(), awardNoticeId);
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "print", "Award Notice",
+                    authMessage, new HashMap<String, Object>());
         }
 
+        Award award = KcServiceLocator.getService(AwardService.class).getAward(printout.getAwardId());
+        TaskAuthorizationService taskAuthService = KcServiceLocator.getService(TaskAuthorizationService.class);
 
-        final Map<String, Object> reportParameters = new HashMap<String, Object>();
+        Map<String, String> awardQualifier = new HashMap<String, String>();
+        awardQualifier.put(KcKimAttributes.AWARD, String.valueOf(award.getAwardId()));
+
+        // Check if the user can view this Award-- if so then they can print the Notice
+        AwardTask viewTask = new AwardTask(AwardTaskNames.VIEW_AWARD.getAwardTaskName(), award);
+        boolean canPrint = taskAuthService.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), viewTask);
+
+        if (canPrint) {
+            ByteArrayOutputStream noticeOutputStream = new ByteArrayOutputStream();
+            noticeOutputStream.write(printout.getPdfContent());
+
+            WebUtils.saveMimeOutputStreamAsFile(response, Constants.PDF_REPORT_CONTENT_TYPE,
+                    noticeOutputStream, printout.getAwardNumber() + "_Award_Notice_Report" + Constants.PDF_FILE_EXTENSION);
+
+            return null;
+        }
+
+        String authMessage = "User '%s' is not authorized to print Award Notice for Award %s";
+        authMessage = String.format(authMessage, GlobalVariables.getUserSession().getPerson().getPrincipalName(), award.getAwardNumber());
+        throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "print", "Award Notice",
+                authMessage, new HashMap<String, Object>());
+    }
+
+    public ActionForward sendNotice(ActionMapping mapping, ActionForm form,
+                                    HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        Map<String, Object> reportParameters = populateResponseParametersForNotice(awardForm);
+
+        AwardPrintingService awardPrintService = KcServiceLocator.getService(AwardPrintingService.class);
+        AwardDocument awardDocument = awardForm.getAwardDocument();
+        Award award = awardDocument.getAward();
+
+        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+                awardForm.getAwardDocument().getAward(), AwardPrintType.AWARD_NOTICE_REPORT, reportParameters);
+
+        AwardNoticePrintout awardPrintout = new AwardNoticePrintout(award.getAwardId(), award.getAwardNumber(), award.getUnitNumber());
+        awardPrintout.setPdfContent(dataStream.getData());
+        getBusinessObjectService().save(awardPrintout);
+
+        AwardNoticeNotificationRenderer noticeRenderer = new AwardNoticeNotificationRenderer(awardPrintout.getAwardNoticeId(), award.getAwardNumber());
+        AwardNotificationContext noticeContext = new AwardNotificationContext(awardForm.getAwardDocument().getAward(), "556",
+                "Award Notice", noticeRenderer, Constants.MAPPING_AWARD_ACTIONS_PAGE);
+
+        awardForm.getNotificationHelper().initializeDefaultValues(noticeContext);
+        if (awardForm.getNotificationHelper().getPromptUserForNotificationEditor(noticeContext)) {
+            return mapping.findForward(Constants.MAPPING_AWARD_NOTIFICATION_EDITOR);
+        }
+        else {
+            getNotificationService().sendNotification(noticeContext);
+        }
+
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+
+    private Map<String, Object> populateResponseParametersForNotice(AwardForm awardForm) {
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(AwardPrintParameters.ADDRESS_LIST
                 .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
                 .getSponsorContacts());
@@ -489,16 +574,16 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         reportParameters.put(AwardPrintParameters.PROPOSAL_DUE
                 .getAwardPrintParameter(), false);
         //awardForm.getAwardPrintNotice().getProposalsDue());
-        
+
         reportParameters.put(AwardPrintParameters.SIGNATURE_REQUIRED
                 .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
                 .getRequireSignature());
-        AwardPrintingService awardPrintService = KcServiceLocator
-                .getService(AwardPrintingService.class);
-        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                awardForm.getAwardDocument().getAward(),AwardPrintType.AWARD_NOTICE_REPORT,reportParameters);
-        streamToResponse(dataStream, response);
-        return null;
+
+        return reportParameters;
+    }
+
+    protected KcNotificationService getNotificationService() {
+        return KcServiceLocator.getService(KcNotificationService.class);
     }
 
     public ActionForward printChangeReport(ActionMapping mapping,
@@ -720,7 +805,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * Since a child award will always be part of a multiple award hierarchy, we need to set the boolean to true so that the anticipated
      * and obligated totals on Details & Dates tab will be uneditable on initial creation.  After the initial save of document
      * this is handled in the docHandler and home methods of AwardAction.
-     * @param awardForm
+     * @param award
      */
     private void setMultipleNodeHierarchyOnAwardFormTrue(Award award) {
          award.setAwardInMultipleNodeHierarchy(true);
