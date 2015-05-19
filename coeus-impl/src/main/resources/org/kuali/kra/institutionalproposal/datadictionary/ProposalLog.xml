@@ -62,11 +62,22 @@
                 <ref bean="ProposalLog-proposalType.description" /> 
                 <ref bean="ProposalLog-person.fullName" />
                 <ref bean="ProposalLog-rolodex.fullName" />
+                <ref bean="ProposalLog-forInstitutionalProposal" />
+
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
+    <bean id="ProposalLog-forInstitutionalProposal" parent="ProposalLog-forInstitutionalProposal-parentBean" />
+    <bean id="ProposalLog-forInstitutionalProposal-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="forInstitutionalProposal" />
+        <property name="label" value="forInstitutionalProposal" />
+        <property name="shortLabel" value="forInstitutionalProposal" />
+        <property name="summary" value="forInstitutionalProposal" />
+        <property name="description" value="forInstitutionalProposal" />
+    </bean>
+
     <bean id="ProposalLog-proposalNumber" parent="ProposalLog-proposalNumber-parentBean" />
     <bean id="ProposalLog-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="proposalNumber" />
@@ -639,6 +650,8 @@
         <bean parent="FieldDefinition" p:attributeName="sponsorName"/>
         <bean parent="FieldDefinition" p:attributeName="comments"/>
         <bean parent="FieldDefinition" p:attributeName="deadlineDate"/>
+        <bean parent="FieldDefinition" p:attributeName="forInstitutionalProposal" p:noLookup="true" p:hidden="true"/>
+
             </list>
         </property>
         <property name="resultFields" >

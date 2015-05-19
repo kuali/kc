@@ -35,6 +35,7 @@ import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 import java.util.*;
@@ -44,16 +45,34 @@ import java.util.*;
  */     
 public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
+    public static final String PRINT_PROPOSAL_LOG_ACTION = "../printProposalLog.do";
     private static final long serialVersionUID = -7638045643796948730L;
     
     private static final String USERNAME_FIELD = "person.userName";
     private static final String STATUS_PENDING = "1";
+    public static final String FOR_INSTITUTIONAL_PROPOSAL = "forInstitutionalProposal";
+    public static final String LOG_STATUS = "logStatus";
+    public static final String DOC_HANDLER = "docHandler";
+    public static final String INITIATE = "initiate";
+    public static final String PROPOSAL_NUMBER = "proposalNumber";
+    public static final String INSTITUTIONAL_PROPOSAL_HOME_ACTION = "../institutionalProposalHome.do";
+    public static final String MERGE = "merge";
+    public static final String PAGE_ENTRY = "pageEntry";
+    public static final String PROPOSAL_LOG_NUMBER = "proposalLogNumber";
+    public static final String MERGE_PROPOSAL_LOG_ACTION = "../mergeProposalLog.do";
+    public static final String PRINT_PROPOSAL_LOG = "printProposalLog";
+    public static final String PI_ID = "piId";
+    public static final String NEGOTIATION_NEGOTIATION = "negotiationNegotiation";
+    public static final String BACK_LOCATION = "backLocation";
+    public static final String FIELD_CONVERSIONS = "principalName:person.userName,principalId:personId";
+    public static final String DISPLAY_TEXT = "select";
+    public static final String PRINT_LINK = "print";
 
-    private boolean isLookupForProposalCreation;
     private KcPersonService kcPersonService;
     private DocumentDictionaryService documentDictionaryService;
+    public static final String INST_PROP_DOC_NAME  = "InstitutionalProposalDocument";
 
-    
+
     /*
      * We want to allow users to query on principal name instead of person id, 
      * so we need to translate before performing the lookup.
@@ -62,15 +81,17 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         String userName = (String) lookupForm.getFieldsForLookup().get(USERNAME_FIELD);
+        lookupForm.getFieldsForLookup().remove(FOR_INSTITUTIONAL_PROPOSAL);
+
         if (!StringUtils.isBlank(userName)) {
             KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
             if (person != null) {
-                lookupForm.getFieldsForLookup().put("piId", person.getPersonId());
+                lookupForm.getFieldsForLookup().put(PI_ID, person.getPersonId());
             }
             lookupForm.getFieldsForLookup().remove(USERNAME_FIELD);
         }
         Collection results = super.performLookup(lookupForm, resultTable, bounded);
-        if (StringUtils.containsIgnoreCase(lookupForm.getBackLocation(), "negotiationNegotiation")) {
+        if (StringUtils.containsIgnoreCase(lookupForm.getBackLocation(), NEGOTIATION_NEGOTIATION)) {
             return cleanSearchResultsForNegotiationLookup(results);
         } else {
             return results;
@@ -83,11 +104,11 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         
-        checkIsLookupForProposalCreation(fieldValues.get("backLocation"));
+        checkIsLookupForProposalCreation();
         List<ProposalLog> results = (List<ProposalLog>)super.getSearchResults(fieldValues);
-        String returnLocation = fieldValues.get("backLocation");
+        String returnLocation = fieldValues.get(BACK_LOCATION);
        List<ProposalLog> searchList = filterForPermissions(results);
-        if (StringUtils.containsIgnoreCase(returnLocation, "negotiationNegotiation")) {
+        if (StringUtils.containsIgnoreCase(returnLocation, NEGOTIATION_NEGOTIATION)) {
             return cleanSearchResultsForNegotiationLookup(searchList);
         } else {
             return searchList;
@@ -125,7 +146,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if (isLookupForProposalCreation) {
+        if (isLookupToCreateProposal()) {
             if (STATUS_PENDING.equals(((ProposalLog) businessObject).getLogStatus())) {
                 htmlDataList.add(getSelectLinkForProposalCreation((ProposalLog) businessObject));
             }
@@ -145,18 +166,14 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     
     @Override
     public List<Row> getRows() {
-        if (this.getParameters().containsKey("returnLocation")
-                && (this.getParameters().get("returnLocation"))[0].indexOf("institutionalProposalCreate") > 0) {
-            isLookupForProposalCreation = true;
-        }
 
         List<Row> rows = super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals(USERNAME_FIELD)) {
-                    field.setFieldConversions("principalName:person.userName,principalId:personId");
+                    field.setFieldConversions(FIELD_CONVERSIONS);
                 }
-                if (field.getPropertyName().equals("logStatus") && isLookupForProposalCreation) {
+                if (field.getPropertyName().equals(LOG_STATUS) && isLookupToCreateProposal()) {
                     field.setPropertyValue(STATUS_PENDING);
                 }
             }
@@ -166,13 +183,13 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     
     protected AnchorHtmlData getSelectLinkForProposalCreation(ProposalLog proposalLog) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        htmlData.setDisplayText("select");
+        htmlData.setDisplayText(DISPLAY_TEXT);
         Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "docHandler");
-        parameters.put(KRADConstants.PARAMETER_COMMAND, "initiate");
-        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, "InstitutionalProposalDocument");
-        parameters.put("proposalNumber", proposalLog.getProposalNumber());
-        String href  = UrlFactory.parameterizeUrl("../institutionalProposalHome.do", parameters);
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, DOC_HANDLER);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, INITIATE);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, INST_PROP_DOC_NAME);
+        parameters.put(PROPOSAL_NUMBER, proposalLog.getProposalNumber());
+        String href  = UrlFactory.parameterizeUrl(INSTITUTIONAL_PROPOSAL_HOME_ACTION, parameters);
 
         htmlData.setHref(href);
         return htmlData;
@@ -181,11 +198,11 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     protected AnchorHtmlData getMergeLink(String proposalNumber) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        htmlData.setDisplayText("merge");
+        htmlData.setDisplayText(MERGE);
         Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "pageEntry");
-        parameters.put("proposalLogNumber", proposalNumber);
-        String href  = UrlFactory.parameterizeUrl("../mergeProposalLog.do", parameters);
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, PAGE_ENTRY);
+        parameters.put(PROPOSAL_LOG_NUMBER, proposalNumber);
+        String href  = UrlFactory.parameterizeUrl(MERGE_PROPOSAL_LOG_ACTION, parameters);
         
         htmlData.setHref(href);
         return htmlData;
@@ -193,33 +210,37 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     
     protected AnchorHtmlData getPrintLink(String proposalNumber) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        htmlData.setDisplayText("print");
+        htmlData.setDisplayText(PRINT_LINK);
         Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "printProposalLog");
-        parameters.put("proposalNumber", proposalNumber);
-        String href  = UrlFactory.parameterizeUrl("../printProposalLog.do", parameters);
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, PRINT_PROPOSAL_LOG);
+        parameters.put(PROPOSAL_NUMBER, proposalNumber);
+        String href  = UrlFactory.parameterizeUrl(PRINT_PROPOSAL_LOG_ACTION, parameters);
         
         htmlData.setHref(href);
         return htmlData;
-    }    
-    
-    protected void checkIsLookupForProposalCreation(String backLocation) {
-        if (backLocation.contains("forInstitutionalProposal")) {
-            isLookupForProposalCreation = true;
+    }
+
+    protected void checkIsLookupForProposalCreation() {
+        if (isLookupToCreateProposal()) {
             Person user = GlobalVariables.getUserSession().getPerson();
-            String instPropDocName = "InstitutionalProposalDocument";
             // get the authorization
-            DocumentAuthorizer documentAuthorizer = getDocumentDictionaryService().getDocumentAuthorizer(instPropDocName);
-            DocumentPresentationController documentPresentationController = getDocumentDictionaryService().getDocumentPresentationController(instPropDocName);
+            DocumentAuthorizer documentAuthorizer = getDocumentDictionaryService().getDocumentAuthorizer(INST_PROP_DOC_NAME);
+            DocumentPresentationController documentPresentationController = getDocumentDictionaryService().getDocumentPresentationController(INST_PROP_DOC_NAME);
             // make sure this person is authorized to initiate
             LOG.debug("calling canInitiate from getNewDocument()");
-            if (!documentPresentationController.canInitiate(instPropDocName) ||
-                    !documentAuthorizer.canInitiate(instPropDocName, user)) {
-                throw new DocumentAuthorizationException(user.getPrincipalName(), "initiate", instPropDocName);
+            if (!documentPresentationController.canInitiate(INST_PROP_DOC_NAME) ||
+                    !documentAuthorizer.canInitiate(INST_PROP_DOC_NAME, user)) {
+                throw new DocumentAuthorizationException(user.getPrincipalName(), INITIATE, INST_PROP_DOC_NAME);
             }
         }
     }
-    
+
+    private boolean isLookupToCreateProposal() {
+        Map<String, String[]> parameterList = getParameters();
+        String[] paramArray = parameterList.get(FOR_INSTITUTIONAL_PROPOSAL);
+        return ObjectUtils.isNotNull(paramArray) && Boolean.TRUE.equals(Boolean.parseBoolean(paramArray[0]));
+    }
+
     protected void removeEditLink(List<HtmlData> htmlDataList) {
         int editLinkIndex = -1;
         int currentIndex = 0;
