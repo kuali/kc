@@ -1,5 +1,664 @@
 
 
+##coeus-1505.42
+* release
+  * Travis Schneberger on Mon, 16 Mar 2015 12:51:00 -0400 [View Commit](../../commit/bb72f3def08e57a5f0b5cb18f8b6dcb4950849ed)
+* releasing
+  * Travis Schneberger on Mon, 16 Mar 2015 14:13:11 -0400 [View Commit](../../commit/7f64da820e133d1d0fbd3d5bc216145d58d0dc44)
+* kc-sql version update
+  * blackcathacker on Fri, 17 Apr 2015 21:48:12 -0700 [View Commit](../../commit/000b000c1bcb3c8ae91236e60f120b1e7863a1c4)
+* added update user to data over history
+  * Joe Williams on Fri, 17 Apr 2015 13:58:48 -0500 [View Commit](../../commit/2f75317d94266a9cb1054511dec9cd090a2fb36f)
+* added rolodex and ynq inquiry links to organization inquiry view
+  * Joe Williams on Fri, 17 Apr 2015 14:59:43 -0500 [View Commit](../../commit/a1c752970037090bb002df5fb75632b13722a169)
+* Oracle scripts
+
+  * Bring full oracle scripts renamed and numbered back into the project
+  * blackcathacker on Tue, 21 Apr 2015 09:15:55 -0400 [View Commit](../../commit/14507ad004e32834d9cc4767d4186a1fceda7dc4)
+* Allow sponsor code to be smaller than 6 characters
+
+  * A customer ended up with sponsor codes shorter than 6 characters and since it was allowed by the database and a minimal functional change the sponsor code can now be any alphanumeric up to 6 characters
+  * blackcathacker on Tue, 21 Apr 2015 16:02:18 -0400 [View Commit](../../commit/ed1500ec3dd9bfa11425fcbf3519f7574ed64bea)
+* fix rolodex persistence through sponsor maintenance document
+
+  * Scenario:
+  * 1 - Create a new Sponsor
+  * 2 - Add Sponsor and Address details
+  * 3 - Submit new Sponsor
+  * 4 - Search for new Sponsor and open inquiry.
+
+  * Result:
+  * When the inquiry is opened you can see that a new rolodex record has been created but there is no address book information. If you try searching for the address book record, you can only copy the record, not edit it.
+
+  * Expected Behavior:
+  * 1 - The address book entry details should be saved when the sponsor record saves.
+  * 2 - The address book record should be editable from the address book lookup.
+  * Joe Williams on Tue, 21 Apr 2015 18:53:04 -0400 [View Commit](../../commit/6accf7789f227682d599c533e7d3bc6a3d4d2aaf)
+*  Cleaning up commit. Since we are overriding refreshNonUpdateableReferences anyway, we do not need to override method in rule base. Serialization changes also not needed it appears.
+  * Gayathri on Wed, 22 Apr 2015 05:59:13 -0700 [View Commit](../../commit/abbd850c9110b1bffe6e2c11166d7f5bd596e436)
+* Award Placeholder Document fixes
+
+  * When the placeholder doc was created by creating an award and not copying a hierarchy the resulting document doesn't have a valid award. Specifically no sponsor code which was causing an exception. This checks for the placeholder doc before checking for the sponsor groups.
+  * blackcathacker on Wed, 22 Apr 2015 11:33:56 -0400 [View Commit](../../commit/29773eb718669a185ef526f2919b9358ea39d16d)
+* Fix update user and date on attachments in PropDev
+  * blackcathacker on Thu, 16 Apr 2015 22:28:17 -0700 [View Commit](../../commit/21dbe7a52a4ec67e9db54db8b74e9bf279793d7b)
+* Code review comments
+  * blackcathacker on Fri, 17 Apr 2015 09:25:18 -0700 [View Commit](../../commit/49aab06b0024335363541359a2150be529de8095)
+* add warning message to autocalculate periods
+  * Joe Williams on Fri, 17 Apr 2015 15:32:59 -0500 [View Commit](../../commit/0e0a7e0cde1e9cbcddfbd787a02d6fc570c959c4)
+* Remove duplicately versioned sql files
+  * blackcathacker on Wed, 22 Apr 2015 16:43:11 -0400 [View Commit](../../commit/6c90e27d2050456d8a7a88dc59c4fc084b1e866b)
+* Fix failing integration tests
+
+  * Integration tests are failing as the controllers were the only things setting the upload information in the attachment. By setting the upload info during pre-persist we make sure the info is never null in integration tests or in the case of additional code paths
+  * blackcathacker on Thu, 23 Apr 2015 09:30:24 -0400 [View Commit](../../commit/57f3a7f16a133ce76a23dd738db592748771da9e)
+* HealthCheck now reports configured version and specific database status
+  * blackcathacker on Thu, 16 Apr 2015 17:52:24 -0700 [View Commit](../../commit/deee751524ba0e8dcad9a8b0a61b585458826f44)
+*  added correct s2s error message and fix it link for congressional district errors
+
+  * The Fix button for Validation error on Congressional District in the Grants.gov Errors section takes you to S2S window; it should take you to Organization Tab where error can be fixed.
+  * Joe Williams on Fri, 24 Apr 2015 09:40:05 -0400 [View Commit](../../commit/b3428ae736ac22b7d2d826b6de8792f5e9950ec8)
+* Make all xmlstream beans prototype scope
+
+  * XMLStream beans contain state which means they all need to be prototype scope to avoid potential clashes when server is under load
+  * blackcathacker on Fri, 24 Apr 2015 10:03:02 -0400 [View Commit](../../commit/9d03addaef34a426aaa43286af951c931d61028b)
+*  cleanup
+  * Travis Schneberger on Wed, 15 Apr 2015 09:02:54 -0400 [View Commit](../../commit/6a44b3b4a0e1c08183ca4895dae7217c5bab704f)
+*  make award date change transactions show up with a transaction id in the various history views and transaction print dropdown menus
+  * Travis Schneberger on Wed, 15 Apr 2015 15:42:18 -0400 [View Commit](../../commit/3832977239e89c6d877c0e68219edf1cf77abc6e)
+*  code review comments
+  * Travis Schneberger on Fri, 24 Apr 2015 10:18:51 -0400 [View Commit](../../commit/de832842dafaaeacbee2d0a34c3206f2a711e401)
+*  resequencing sql scripts, adding oracle script
+  * Travis Schneberger on Fri, 24 Apr 2015 10:57:40 -0400 [View Commit](../../commit/3be9e0c54554a8d11f7f9ce74eb3a0daeeded7ae)
+*  depending on new kualico build of jasper token auth jar
+  * Travis Schneberger on Mon, 27 Apr 2015 17:26:07 -0400 [View Commit](../../commit/7d09e80ead59320026a5f93474336f94ea695953)
+*  added institutional proposal rest service
+  * Joe Williams on Thu, 23 Apr 2015 12:30:06 -0400 [View Commit](../../commit/a77012e0380744c91b4b96dc3ae7ad251ebccba1)
+* RESKC_352:clean up proposalHierarchyServiceImpl
+  * Joe Williams on Mon, 27 Apr 2015 08:18:52 -0500 [View Commit](../../commit/530d493dd6db7a5eb6a6e4304e80c941a7ab0e30)
+* Fix Wrong Proposal Status after Proposal Approved at Final Stop and Submitted to Sponsor
+
+  * Create Proposal
+  * Submit for Review
+  * Do approvals
+  * At final stop, approve and then automatic submission to sponsor
+  * Actual Result: Status is set to 'Approved Post-Submission'
+  * Expected Result: Status is set to 'Approved and Submitted'
+  * Joe Williams on Mon, 27 Apr 2015 15:35:26 -0500 [View Commit](../../commit/47212200a0a570fdb927c032a01a0be28ebf9c42)
+* release workflow pessimistic locks after approval
+
+  * Approvers receive the following error message after approving proposal development document:
+
+  * This document currently has a 160-PROPOSAL DEVELOPMENT lock owned by KR
+  * Joe Williams on Tue, 28 Apr 2015 08:39:16 -0500 [View Commit](../../commit/26b45e35514791bfbf5d4ea361946066b56dd864)
+* set correct update user after editing an institutional proposal
+
+  * Edit an IP
+  * The Last Update field appropriately indicates the user that is updating the record while it is open.
+  * Approve
+  * Close
+  * Reopen the IP
+
+  * Actual result: Last update shows as performed by "kr"
+  * Expected result: Last update should display user not "kr".
+  * Joe Williams on Tue, 28 Apr 2015 09:01:05 -0500 [View Commit](../../commit/a533f70ea2acf7963a8a1532b2fa1bcb7819dd2b)
+*  IP versioning should not copy award funding proposals over.
+  * When a version of IP is linked to a version of the award, only that version needs to be linked instead of all edits of ths IP beling linked to the award. While displaying the awards linked in IP, display all the IP versions linked to awards.
+  * Gayathri on Mon, 27 Apr 2015 11:28:20 -0700 [View Commit](../../commit/c96268ccb1fdc8e62bf13e0014cd8e971021a89c)
+*  Moving schemaspy feature to public release.
+
+* Moving schemaspy initialization logic and dependency info out of the grm profile
+* Making schemaspy a compile-time dependency, with current version
+* Adding database script with conditional insert for schemaspy auth
+* Adding schemaspy instructions to readme.md
+* supporting oracle in schemaspy filter and cleanup
+* cleanup of poms
+* fix incorrect instructions for instrumentation in readme.md
+  * Travis Schneberger on Tue, 28 Apr 2015 10:57:12 -0400 [View Commit](../../commit/090381e3152e2f78597122ff0bf1d8ef16c38310)
+* RESKC-361 avoiding a NullPointerException on proposal copy.
+
+  * When an attachment exists such as a narrative or biography but the attachment does not have attachment data and the proposal attachment is copied with the copy attachments option then a NullPointerException occurs.  This scenario should not happen under normal circumstances and may indicate bad data in the system.
+  * Travis Schneberger on Wed, 29 Apr 2015 15:18:45 -0400 [View Commit](../../commit/81e13a9a03d04e0e7aa131551524721ac16d239b)
+* RESKC-361 avoiding a resource leak that was indicated by a OJB warning message.
+  * Travis Schneberger on Wed, 29 Apr 2015 15:19:27 -0400 [View Commit](../../commit/8e50c6bbd1a73be876acadf5d8f17b0d5463495c)
+* Omit questionnaires when related forms are not marked as included
+  * Joe Williams on Wed, 29 Apr 2015 15:54:10 -0500 [View Commit](../../commit/d4ddf1ced13386c23d87a53b8b9c348d616c8d6c)
+* Set bounds on DevelopmentProposal lookups
+
+  * When tested originally we were able to repo a outofmemory error and the search taking a LONG time. By setting bounds on the search always the search returns rather quickly. Further work needs to be done to resolve problems when a user has limited access to proposals as none may returned as the first 20 returned don't include any they have permission on.
+  * blackcathacker on Wed, 29 Apr 2015 14:11:21 -0700 [View Commit](../../commit/479f8b3c87119a205dac441f16ba6dcaa8768215)
+* Fix unit test related to: Omit questionnaires when related forms are not marked as included
+  * Travis Schneberger on Wed, 29 Apr 2015 19:38:44 -0400 [View Commit](../../commit/32b9392ebb5052ab2c9a79ce76dbfc2c513f5f54)
+* Award: Increase system performance on structure with many child accounts
+  * Travis Schneberger on Thu, 30 Apr 2015 09:16:14 -0400 [View Commit](../../commit/42e27297087a985e47107aecc2729a60fdb8420e)
+* Use awardDocument updated info instead of award
+
+  * Award Time and Money - T&M updates should not alter Award Version update timestamp and user
+  * The History view should not reflect the update of the T&M change, but maintain when the award was last updated.
+  * Using the awardDocument update timestamp accomplishes this.
+  * blackcathacker on Wed, 29 Apr 2015 17:58:30 -0700 [View Commit](../../commit/776c97730929f9f9085e2efc9a3b5f537954dd7a)
+*  Refactoring and small unit test to exercise code
+  * blackcathacker on Wed, 29 Apr 2015 20:11:52 -0700 [View Commit](../../commit/8bfb47b2ba80b14cbc294503e24062e17a0fe9cc)
+* Add contributing file for public contributions
+  * blackcathacker on Wed, 29 Apr 2015 10:19:55 -0700 [View Commit](../../commit/dabcec5c3c1d54eec3f3852f5e4f9db92364ebe9)
+* Review comment updates for CONTRIB file
+  * blackcathacker on Thu, 30 Apr 2015 09:13:52 -0700 [View Commit](../../commit/f20c423660567290a9a07223675d83d31fba7419)
+* Editing budget category generates STE
+
+  * User Story: As a system administrator, I want to periodically edit budget categories, so our budget calculations are accurate
+
+  * Steps to Reproduce:
+
+  * 1) System Admin Portal > Maintenance > Budget Category
+  * 2) Click the 'search'
+  * 3) Click 'edit' next to any result
+  * 4) Enter a description on the Document Overview tab and then edit the Description in the Edit Budget Category tab
+  * 5) Click either 'submit' or ' blanket approve'
+
+  * Actual results:
+
+  * User is redirected to an Incident Report screen with the following error: Error Details: OJB operation; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'budgetCategoryTypeCode' in 'where clause'
+
+  * Expected results:
+
+  * Document should go directly to final and record should be updated with the users changes.
+
+  * User acceptance criteria:
+
+  * Given a system administrator has to edit a budget category, when the appropriate edits are made and submitted, then the budget category is updated with my changes.
+  * Joe Williams on Thu, 30 Apr 2015 14:20:24 -0500 [View Commit](../../commit/e95f90171f079a8add01d288fc427a37711b5237)
+* Fixed issue of showing latest version of award instead of Active in Awrd
+  * heirarchy view.
+  * vineeth on Thu, 2 Oct 2014 10:51:48 -0400 [View Commit](../../commit/e30394d9e7f2e5a190b59f2ed88ff8eaf9d26007)
+* Negotiation Unassociated Detail Inquiry Title Change fix
+  * Joe Williams on Thu, 30 Apr 2015 16:32:05 -0500 [View Commit](../../commit/dc022f5e81122533bae7b702e0fd9164e4876f21)
+* https://github.com/kuali/kc/pull/1584
+  * KRAFDBCK-12440
+
+  * This enhancement adds a new parameter "IP_INTELLECTUAL_PROPERTY_REVIEW_TAB_ENABLED" to determine whether or not the Intellectual Property Review tab should be shown in IP.
+  * Travis Schneberger on Thu, 30 Apr 2015 15:46:24 -0400 [View Commit](../../commit/eb2d937679106ab4bb292c825eccf4d93bf1069b)
+* SubAward Status is incorporated instead of Award Status in Subaward tab
+  * in Award Document.
+  * anumole on Mon, 27 Oct 2014 17:33:28 +0530 [View Commit](../../commit/86a8e980638252e10984a776f98a3d1682d9dda5)
+*  Do not regenerate periods if periods already exist!
+  * As an award budget user, when I create a rebudget (new version of posted budget with no change to authorized amount), I expect to have all the budget details from the last posted version appear in the rebudget. I should be reducing funds from the existing line items and redistributing that amount to current or new line items, confined to matching the preexisting authorized total.
+  * Current (4/29/15) release is not copying the posted budget details to the rebudget; the rebudget is blank, only letting me search for an IP to link details or manually reenter all items. This is not the intended functionality, and not consistent with prior releases.
+  * Steps to recreate:
+  * Kuali.com demo1 site on 4/29/2015. Award *73-00001, acct id 2533529
+  * As Quickstart:
+  * Locate an existing award or create a new award with T&M values maintained.
+  * Create an initial Award Budget, match to auth total: Actions> submit;
+  * As JTester:
+  * Action list: Award budget link:Actions> approve the award budget.
+  * As Quickstart:
+  * Open Award Budget: Actions > post.
+  * Open Award > Open Budget Versions
+  * To create the rebudget (new AB without change to T&M).
+  * -click 'new' to create the rebudget documument
+  * result:
+  * The new 'rebudget' is not populated with the details entered in the prior approved/posted version.
+  * Thus, all the manually entered the details (or modified pulled in PD budget details) are lost, requiring the AB admin to do all the work over again from scratch.
+  * The system should be copying the budget line item details forward to the rebudget; users should only be required to shift funds (reduce some line items to rebudget to another) to meet the authorized amount.
+  * Rebudget had been working in previous tests: I have done a rebudget where I put in negative value in an existing detail line item to the add that value to another or new line item.
+  * Gayathri on Thu, 30 Apr 2015 17:32:16 -0700 [View Commit](../../commit/7c23cc83246c24d0b6f59c6ed96fdfaf4e3cc9d1)
+* KRMS - Rule Function 'Incomplete Narrative Rule' has logic reversed
+
+  * The KC KRMS Function "Incomplete Narrative Rule" has logic reversed and is actually checking that narratives are complete.
+  * Analogous Coeus function is "Complete Proposal Narratives.
+  * Rather than reprogramming the logic of the KC function, the name should be changed to represent what the function actually does.
+
+  * Change name of function to "Complete Narrative Rule"
+  * Joe Williams on Thu, 30 Apr 2015 15:43:40 -0500 [View Commit](../../commit/3ebea27d494d8f720ce82cb1e7d8044d67dd089e)
+* format currency values with commas
+
+  * Throughout the PD Budget, money values are formatted without any commas (or dollar signs). When populated, money value fields should be formatted with commas and decimal as for currency. And especially when you get into the millions not having the commas becomes a problem.
+  * Joe Williams on Thu, 30 Apr 2015 11:24:24 -0500 [View Commit](../../commit/2b6865ce25af2cfc068be4d219f34fda113b3c08)
+* Sponsor Award ID label.
+
+  * https://github.com/kuali/kc/pull/1578
+  * KRAFDBCK-9468
+
+  * Changing "Sponsor Award" label to "Sponsor Award ID" in Negotiation.
+  * Travis Schneberger on Fri, 1 May 2015 14:48:22 -0400 [View Commit](../../commit/9e8c0d664922d138e3a91b41791a86e10325710b)
+* Custom data escape.
+
+  * https://github.com/kuali/kc/pull/1579
+
+  * [KRAFDBCK-10749] Escaping custom data values so single quotes don't terminate them early.
+
+  * This fixes being able to break out of custom data values with single quotes in the KNS custom data tag (KRAD does this already).
+  * Travis Schneberger on Fri, 1 May 2015 14:54:18 -0400 [View Commit](../../commit/5fa3491f23e46113ccc743465c6c8cd152b6e080)
+* Copying award results in read-only award and broken hierarchies
+
+  * This is due to the authorization fields no being populated and only populated during docHandler. Removing this check added fixes this.
+  * blackcathacker on Fri, 1 May 2015 15:28:27 -0700 [View Commit](../../commit/a57e6d07e05c851b5dd8ca94a9732c85b504a3c5)
+* return user to the subaward document from subaward invoice if subaward invoice was opened from the subaward document
+
+  * Create/open subaward document.
+  * Use Add Invoice Button on the Financial tab to open an invoice document.
+  * At close, submit, or blanket approve, the user is taken back to the KNS maintenance screen instead of the KRAD portal
+  * Joe Williams on Mon, 4 May 2015 11:03:48 -0500 [View Commit](../../commit/7812a240f2dc29d06459dcea768f22822b7bbb21)
+* fixes issues with printing s2s forms after proposal has been submitted to s2s
+
+  * As a user, I need to be able to open a previously submitted PD and generate the PDF form files. I use this tool to verify the attachments I uploaded are the same as those in the sponsor's grant image, and to reference when I am preparing a resubmitted version of this research project. In the current release, I cannot generate the PDF forms of a submitted proposal. I get an STE.
+
+  * Steps to reproduce:
+  * Locate a submitted proposal (example res-demo1: Proposal #65, doc 5146)
+  * Navigate to Basics > S2S Opportunity Search > Forms
+  * OR Toolbar > Print > Grants.gov forms
+  * Select one or all of the available s2s forms
+  * use the Generate the PDF file tool
+
+  * Expected result: the PDF file is generated and can be opened, viewed, saved, etc.
+  * Actual result: STE appears onscreen.
+
+  * java.lang.NullPointerException at org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentS2SController.printForms(ProposalDevelopmentS2SController.java:196) at org.kuali.coeus.propdev.impl.s2s.ProposalDevelopmentS2SController$$FastClassBySpringCGLIB$$5f5dd18.invoke(<generated>) at
+  * Joe Williams on Mon, 4 May 2015 16:26:12 -0500 [View Commit](../../commit/328288555a35833ae16ac9cecbd25e8774b25bab)
+* Oracle fixes
+  * Our oracle installation scripts had a few issues.
+  * 1. The anonymous block was assuming there was only one record in the subawards table while there could be more than one.
+  * 2. Constraint was being applied in the wrong order.
+  * The errors were
+  * ADD CONSTRAINT FK3_BUDGET_SUB_AWARDS
+                   *
+  * ERROR at line 2:
+  * ORA-02298: cannot validate (MG1504.FK3_BUDGET_SUB_AWARDS) - parent keys not
+  * found
+
+  * DECLARE
+*
+  * ERROR at line 1:
+  * ORA-01422: exact fetch returns more than requested number of rows
+  * ORA-06512: at line 7
+  * Gayathri on Mon, 4 May 2015 13:59:37 -0700 [View Commit](../../commit/ced5293396f1b9f30c9de75d5cd212f0448782de)
+* fixes STE when editing or adding sponsor templates
+
+  * Maintenance > Awards > Sponsor Template > Create New.
+  * Selected and added all required fields in each section:
+  * -edit sponsor template - filled in all
+
+    edit sponsor contacts - added a contact
+    edit sponsor comments - added a comment
+    -edit sponsor template reports - added a report type
+    added a report recipient
+    Tried to save; got STE
+
+  * java.lang.RuntimeException: Unable to resolve collection property: class org.kuali.kra.award.home.AwardTemplate:templateContacts
+  * org.kuali.rice.kns.service.impl.BusinessObjectAuthorizationServiceImpl.addMaintainableItemRestrictions(BusinessObjectAuthorizationServiceImpl.java:519)
+  * Joe Williams on Tue, 5 May 2015 09:53:12 -0500 [View Commit](../../commit/1d0c82975d545371f0d51acd847a39f1148e0160)
+* QuestionResolver contribution
+
+  * https://github.com/kuali/kc/pull/1577
+  * KRACOEUS-7230
+
+  * This re-implements some changes to the QuestionResolver code that we contributed before, and which made it into KC 5.2.1 but seem to have been left out of KC 6.0. It also includes a couple of our additional improvements/fixes to the QuestionResolver functionality, such as using the module sub item key when retrieving Answer Headers, filtering retrieved Answer Headers to only include those for the latest versions of Questionnaires, and making sure the Question Seq Id comparison is properly comparing String values.
+  * Travis Schneberger on Thu, 30 Apr 2015 12:08:09 -0400 [View Commit](../../commit/04e5d1096c40f9392da2b372b44fb7448ce0e776)
+* Avoid NullPointerException in KRMS when a narrative does not have a narrative status.
+  * Travis Schneberger on Tue, 5 May 2015 14:10:01 -0400 [View Commit](../../commit/32dd6eeb4478e1fafdf1cdabd6022d491cc1257d)
+* RESKC-291 - Budget summary table ui fix for fa columns
+  * bsmith83 on Tue, 5 May 2015 10:10:28 -0700 [View Commit](../../commit/dba0ab3ae66db0a31df76a8ee933668bda14ba05)
+*  Accept lower case characters
+  * In the S2S opportunity lookup, if user enters any lower case letters as part of the opportunity id, the system returns an error message.
+  * The search field should not be case sensitive.
+  * Search field is not case sensitive in 5.2.x.
+  * Gayathri on Tue, 5 May 2015 10:51:09 -0700 [View Commit](../../commit/26fc0a13fc394ca5a9344d71582d9c505186521d)
+* Create and route award placeholder as admin
+
+  * This will avoid the placeholder ever being created as the user who is only trying to create a new award and avoid creating an editable Placeholder as well. This prevents the situation of placeholder award showing up in the users action list as an item to complete. This change also depends on the 'admin' user still existing and still having superuser privileges.
+  * blackcathacker on Thu, 30 Apr 2015 15:09:07 -0700 [View Commit](../../commit/992884c355e41320e9b76910cb1561c7accb9b0b)
+* Fix character encoding in the app.
+  * Create or edit award
+  * In a Word document, type in: 'single quote' "double quote" long—dash
+  * Cut that from Word and past in Award Title
+  * Try to save it.
+  * Result:
+  * "Errors found in this Section: The Award Title (Title) may only consist of visible characters, spaces, or tabs."
+  * And Award title is changed to: â€˜singleâ€™ â€œdoubleâ€ longâ€”dash
+  * And if the user keeps saving, the system keeps transforming the characters until the maximum allowed characters are reached and an STE occurs: org.springframework.jdbc.UncategorizedSQLException: OJB operation; uncategorized SQLException for SQL []; SQL state [72000]; error code [12899]; ORA-12899: value too large for column "KCSO"."AWARD"."TITLE" (actual: 250, maximum: 200)
+  * Expected Result is that KC accepts 'single quote' "double quote" long—dash.
+  * Unless there is some technical reason that KC cannot accept (or transform and accept) these characters, based on how we are handling unicode.
+  * Gayathri on Tue, 5 May 2015 09:53:42 -0700 [View Commit](../../commit/dc7f4acb037a248626beaaff8aefcefb8495c1fe)
+*  Allow other roles to be assigned in addition to aggregator document level role
+  * There should not be a constraint of adding of other roles when aggregator is selected. These roles may be modified by implementing school so it may be necessary for Aggregator to also have any other role, ex: delete proposal.
+  * Gayathri on Tue, 5 May 2015 13:01:28 -0700 [View Commit](../../commit/64fb806bb2641bc0a2b06058187671f8e28a496b)
+*  Budget null pointer
+  * In trying to figure out RESOPS-114, I could not open budget because of a null pointer so I added a null check in the place where I think this is coming from. Not sure if this will fix it but attempting.
+  * java.lang.RuntimeException: Exception evaluating expression: #ViewHelper.getDateFromTimeStamp(budget.createTimestamp) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpression(DefaultExpressionEvaluator.java:448) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpression(DefaultExpressionEvaluator.java:514) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluatePropertyExpressions(DefaultExpressionEvaluator.java:735) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpressionsOnConfigurable(DefaultExpressionEvaluator.java:421)
+  * Caused by: java.lang.NullPointerException at org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetViewHelperServiceImpl.getDateFromTimeStamp(ProposalBudgetViewHelperServiceImpl.java:209) at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:606) at org.springframework.expression.spel.support.ReflectiveMethodExecutor.execute(ReflectiveMethodExecutor.java:69) at org.springframework.expression.spel.ast.MethodReference.getValueInternal(MethodReference.java:122) at org.springframework.expression.spel.ast.MethodReference.access$000(MethodReference.java:44) at org.springframework.expression.spel.ast.MethodReference$MethodValueRef.getValue(MethodReference.java:258) at org.springframework.expression.spel.ast.CompoundExpression.getValueInternal(CompoundExpression.java:82) at org.springframework.expression.spel.ast.SpelNodeImpl.getValue(SpelNodeImpl.java:93) at org.springframework.expression.spel.standard.SpelExpression.getValue(SpelExpression.java:89) at org.kuali.rice.krad.uif.view.DefaultExpressionEvaluator.evaluateExpression(DefaultExpressionEvaluator.java:445) ... 81 more
+  * Gayathri on Tue, 5 May 2015 16:39:57 -0700 [View Commit](../../commit/a020e99dd03db54a2225fe4fd1278d94718043c1)
+* Sort Special Review Approval Status Alphabetically
+  * Joe Williams on Tue, 5 May 2015 16:41:02 -0500 [View Commit](../../commit/e4d1de92e60910d6df9672992eb93843509d2847)
+* Added View Institutionally Maintained Salaries Document Level Role
+  * Joe Williams on Thu, 30 Apr 2015 15:27:12 -0500 [View Commit](../../commit/b3e54a17d2bffb04c83cad0bc8f1b5cc15ba89ea)
+* validate attachment status when submitting to sponsor
+
+  * There is a parameter for Proposal Development named AUDIT_INCOMPLETE_PROPOSAL_ATTACHMENTS that has the following description:
+  * "When set to Y, proposals will be audited for incomplete attachments up to and including sponsor submission. When set to N, incomplete attachments are valid on a proposal up to but excluding sponsor submission."
+  * When this flag is set to N, a proposal can be successfully routed with an incomplete attachment, but there is no validation upon submission to sponsor that the status has been set to complete. On the KualiCo QA instance running build 1505.4, I was able to submit a proposal with an incomplete attachment without any warnings or errors; see attached screenshot.
+  * In the KC 1504.3 release, there appeared to be some validation logic that was intended to prevent submission with incomplete attachments (in the class org.kuali.coeus.propdev.impl.core.SubmitToSponsorRule) but it was buggy; upon submitting a proposal with an incomplete attachment, the data validation window would pop up but would contain no errors, and the proposal would go into "approved" state but no IP would be generated. So it seems that the logic in SubmitToSponsorRule was partially working, but no indication of this error was given to the user and the proposal was not prevented from entering the "approved" state.
+  * In 1505.4 it seems as though this partial validation has been removed.
+  * Joe Williams on Tue, 5 May 2015 15:06:35 -0500 [View Commit](../../commit/014644597889f46b2cdbdcca010dfdb53d58dc63)
+* QuestionResolver contribution
+
+  * https://github.com/kuali/kc/pull/1577
+  * KRACOEUS-7230
+
+  * Fixing conversion program
+  * Travis Schneberger on Wed, 6 May 2015 14:58:59 -0400 [View Commit](../../commit/6d099d70e752bbc2e43ab3b1526ddf571a734992)
+*  Fix term spec to call the right method.
+  * If you build an agenda with the costShareAmount term and create a PD with budget, you cannot navigate to the submit or questionnaire pages. Following STE
+  * org.kuali.rice.krms.api.engine.TermResolutionException: Unable to plan the resolution of Term([costShareAmount]) [TermResolver=null, parameters={}] at org.kuali.rice.krms.framework.engine.TermResolutionEngineImpl.resolveTerm(TermResolutionEngineImpl.java:121) at org.kuali.rice.krms.framework.engine.BasicExecutionEnvironment.resolveTerm(BasicExecutionEnvironment.java:100) at org.kuali.rice.krms.framework.engine.expression.TermExpression.invoke(TermExpression.java:46) at  org.kuali.coeus.common.impl.krms.KrmsRulesExecutionServiceImpl.runApplicableRules(KrmsRulesExecutionServiceImpl.java:134) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.runApplicableRules(QuestionnaireAnswerServiceImpl.java:799) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.setupChildAnswerIndicator(QuestionnaireAnswerServiceImpl.java:549) at org.kuali.coeus.common.questionnaire.impl.answer.QuestionnaireAnswerServiceImpl.getQuestionnaireAnswer(QuestionnaireAnswerServiceImpl.java:258) at org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase.populateAnswers(QuestionnaireHelperBase.java:163) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl.populateQuestionnaires(ProposalDevelopmentViewHelperServiceImpl.java:620) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentViewHelperServiceImpl.prepareSummaryPage(ProposalDevelopmentViewHelperServiceImpl.java:772) at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentSubmitController.navigateToSubmit(ProposalDevelopmentSubmitController.java:244)
+  * Gayathri on Wed, 6 May 2015 14:37:13 -0700 [View Commit](../../commit/9e1838e75ed3a9b250c778111506e5d0e173b124)
+* When opening subaward for award use edit mode
+
+  * Link to Subaward in the Award funding should open with edit button if user has appropriate role/permissions
+  * Award modifiers should be able to edit an existing subaward via the awards module by selecting subawards -> Open subaward and then an edit button. The edit button is currently missing from this page.
+  * Steps to Reproduce
+  * Open an Award Document that has subaward funding (ex 6703 in https://res-demo1.kuali.co)
+  * go to the Subawards panel on Award Tab
+  * Click on the Open Subaward link in the Subawards where this awared is a Funding source subpanel.
+  * Scroll to the bottom of the subaward document and look for the edit button.
+  * RESULT: Only close button appears. Even though user has role/permission to create & edit subawards, the edit button is missing.
+  * EXPECTED RESULT: User with appropriate role/permission should see an edit button in the subaward document when opening it via the link from awards. This is similar to how the link from subaward to award works when it opens the award and displays the edit button on the award document.
+  * blackcathacker on Wed, 6 May 2015 17:58:23 -0700 [View Commit](../../commit/3de848fa6f829f2f09373bbe57467d7ee130b349)
+*  Cleaning up all the other terms
+  * While working on this jira, I noticed that the method mapped for the term was wrong. While checking other terms, I found that other terms were mapped wrong as well. So fixing those.
+  * Gayathri on Wed, 6 May 2015 15:25:02 -0700 [View Commit](../../commit/06439fc9933399b11c2c33756027c555080a94b2)
+* Institutional Proposal with inactive sponsor or prime sponsor.
+
+  * https://github.com/kuali/kc/pull/1581
+
+  * [KRAFDBCK-12386] Disabled hard error on save for inactive Sponsors in IP and replaced with an audit warning.
+
+  * This code change provides a solution to the problem of trying to edit IPs with Sponsors that have been inactivated since the IP was first approved, by replacing the hard save error with an audit warning instead.
+  * Travis Schneberger on Mon, 4 May 2015 16:14:41 -0400 [View Commit](../../commit/674046f87b5f66f8b4856a519499787536947ae9)
+* When and invalid prime sponsor is entered on an Institutional Proposal Document the Prime Sponsor ID field is not highlighted with an error indicator.
+  * Travis Schneberger on Thu, 7 May 2015 09:30:00 -0400 [View Commit](../../commit/4f551c99fbea31a6412efca5f25b455c6f7bae2c)
+* Ensure GlobalVariables is updated in IncidentReport
+
+  * The incident report in some cases(clicking cancel button for instance) doesn't update the GlobalVariables user session. This checks for and logs incidents of this nature but also overwrites the GlobalVariables with the request user session to ensure it is up to date.
+  * blackcathacker on Thu, 7 May 2015 14:35:41 -0700 [View Commit](../../commit/5cac86e2863da970a4a1db64bce4d1be6ad10c3c)
+* Upgrading libraries in preparation for the move to Java 8
+  * Travis Schneberger on Fri, 8 May 2015 10:33:46 -0400 [View Commit](../../commit/77db2617239fe2b95f7d24561e6050d9b67d5f10)
+* Fixes autocalculate dates error with dates not exactly the same as the period
+
+  * If user adds a budget expense for tba personnel and the dates are not the same as the budget period start and end dates, then the autocalculate does not get dates for any budget items in additional years correct.
+
+steps to reproduce
+
+    create a proposal with basic requirements to start make sure period is for at least two years
+    add a budget
+    add personnel: one tba data entry assistant and one tba programmer
+    give personnel salary
+    navigate to assign personnel
+    add programmer object code as post-doc
+    effort and charge is 100
+    period type is calendar
+    add the tba data entry personnel
+    add data entry personnel object code as post-doc
+    change dates to be three months summer (6/1-8/31 of that year)
+    effort and charge is 100
+    period type is summer
+    save and autocalculate periods
+    compare period 1 to period 2 and you will see that dates are not for the same months in each of the years.
+
+  * Current Result - Period 2 shows the data entry person and the programmer as starting and ending on the same day when period 1 was set up to show persons starting and ending on different days.
+
+  * Expected result - whatever information (other than amount) entered in period 1 will be the same in out years when user autocalculates, with only the year applicable changing
+  * Joe Williams on Thu, 7 May 2015 09:01:38 -0500 [View Commit](../../commit/42654d78a834682b77f2042faa40154d2c40de2b)
+* Upgrading libraries in preparation for the move to Java 8: Spring upgrade
+  * Travis Schneberger on Mon, 11 May 2015 10:08:06 -0400 [View Commit](../../commit/2be0fe4903074768439f75c43d91ddf95923b5b3)
+* Unanswered question audit errors.
+
+  * https://github.com/kuali/kc/pull/1583
+  * [KRAFDBCK-12535] Adding error messages to individual incomplete Questionnaire questions when audit mode is active and the questionnaire is mandatory.
+  * Travis Schneberger on Wed, 6 May 2015 13:13:57 -0400 [View Commit](../../commit/f12527fbe308d39afd3507fc1dd39e3352c42003)
+* Added the ability to view budget summary and print budget forms when proposal is view only
+
+  * As an Approver and an Aggregator, I need to have access to the Budget Printed Reports for all status of proposals.
+  * Issue: in the 1504 kuali co release; the Budget > Actions menu (where the Print menu for budget reports is located) does not appear to the user when the proposal is submitted to routing, and stays hidden when the proposal is submitted.
+  * For non-s2s proposals, this leaves no method to access budget reports.
+
+  * Scenario:
+  * Create a proposal with a detailed budget that is going to an industrial or foundation sponsor.
+  * Complete the required information to route the proposal.
+  * Submit the proposal to routing.
+  * As an APPROVER: attempt to print the Budget Summary Report from the Budget > Actions menu. There is no Action menu.
+  * Joe Williams on Mon, 11 May 2015 13:57:44 -0500 [View Commit](../../commit/dcc16aba588d3843832fc0730c6bd545ec05ba19)
+* added warning message when abstract detail character limit has been reached
+
+  * In a basic proposal, add an Abstract (Layman Abstract type used for test). Use text generator to get a 50,000-character (with spaces) block of text. Copy/paste into abstract details modal (actually called Add Line). Text is truncated at 49,000 characters (with spaces) with no warning message that not all of the text has been pasted.
+  * User Story:
+  * As a user, I would like to have a warning message that I have reached a system limit for entering text, especially so that I do not assume my entire selection has been pasted into the limited space.
+  * Something like << Data entry for this field is limited to 49,000 characters (with spaces). >> would cover both the situation of a person typing directly into the field and hitting the limit, and a user pasting a block of text from another source.
+  * Joe Williams on Mon, 11 May 2015 08:25:23 -0500 [View Commit](../../commit/7a9b5711af404d8c11a9bbbb46246a5c51d263c4)
+*  Creating proposal from s2s opportunity
+  * Module: Proposal Development/Researcher Portal link
+  * Issue: STE when clicking on Create Proposal for S2S Opportunity link
+  * User Story: As a proposal creator, I want to click on the link in the portal to Create a Proposal for S2S opportunity so that I can submit via to Grants.gov
+  * Given a proposal creator want to create a Proposal for S2S, when I click on the Create Proposal for S2S Opportunity link in the portal, then I open a proposal development document and begin creating proposal.
+  * Expected Result: Click on link and create a proposal
+  * Actual result: click on link and get error:
+  * org.springframework.web.bind.UnsatisfiedServletRequestParameterException: Parameter conditions "methodToCall=preparePrintDialog" not met for actual request parameters: document.developmentProposal.proposalTypeCode={}, document.developmentProposal.ownedByUnitNumber={}, document.developmentProposal.activityTypeCode={}, document.developmentProposal.requestedStartDateInitial={}, document.developmentProposal.requestedEndDateInitial={}, document.developmentProposal.title={}, document.developmentProposal.sponsorCode={}
+  * Gayathri on Mon, 11 May 2015 21:04:14 -0700 [View Commit](../../commit/be4d40f7e4eb9bedaa9d74e4679895f4bc66a83e)
+* Fixed proposal copy action to keep original performance sites and other organizations
+
+  * Copied Proposals replace the user added organization record with the Applicant Organization data.
+  * Steps to Duplicate:
+  * 1. Locate a proposal with an added Organization in the Basics > Organizations & Locations > Other Organizations (Example #276 in the res-i1ap.kuali.co) I added University of MD.
+  * 2. Copy the Proposal (Example #351)
+  * 3. Navigate to Basics > Org &Loc > Other Organizations: the org record matches the Applicant - NOT the U. MD record added by the user in the source proposal.
+
+  * Occurs for Performance Sites as well Other Organizations. To reproduce use steps above for Performance Site Locations instead of Other Organizations
+  * Joe Williams on Wed, 13 May 2015 08:57:42 -0500 [View Commit](../../commit/cb61949d861d36007865c2607b96da04dff61ddf)
+* Fixes inablility to open committee
+  * sanju.b on Mon, 10 Nov 2014 21:32:40 +0530 [View Commit](../../commit/2cbe4e0b22efedd2e1750cc9a162034d70bd4865)
+* add close button to IACUC protocols after Submit action
+
+  * Steps:
+
+    Complete an IACUC protocol
+    Submit for Review
+    Post-processing page appears
+    Do not select option to return to portal on Post-processing page
+    After processing, Protocol is displayed and message appears ‘Document was successfully submitted."
+
+  * Actual Result:
+  * There is then no way to close the protocol.
+
+  * Expected Result:
+  * There should be a Close button like there is in IRB protocols. Clicking the Close button should remove any locks on the protocol and return the user to the KRAD Portal.
+  * Joe Williams on Tue, 12 May 2015 12:39:57 -0500 [View Commit](../../commit/a560732a9ca958365fc7a0d14f52ad371ace275a)
+* Fix modular idc currency validation to allow commas
+
+  * Attempting to verify an RESSUP case, I created a new budget in existing proposal 332, added details, and then synced to the modular budget screen.
+  * At Save, I got Errors on all 5 budget periods.
+  * The F&A Base field in outlined in Red.
+  * The value displayed conforms to the format. Example P1 = 192,496.73
+
+  * With this error, I cannot save, cannot navigate of the screen, cannot return to proposal.
+  * The only way I have found to save and safely exit is to delete the F&A Base value entirely for each period.
+
+  * This is the first time I've synced a modular budget since the addition of commas to the numbers.
+  * Joe Williams on Tue, 12 May 2015 14:02:46 -0500 [View Commit](../../commit/cbdcfd024fba4f7d2bc1a37aecc458339e4ca354)
+* fix to display sponsor name when proposal is view only
+
+  * The proposal opens on the Basics screen where Sponsor field displays the sponsor code but not the sponsor name (see attached screen shot).
+
+  * Expected Result: The sponsor name needs to appear along with the sponsor code.
+  * Joe Williams on Wed, 13 May 2015 09:39:54 -0500 [View Commit](../../commit/0a4242d8d3e6a0164e38236cd9a6659b0ee11417)
+* scale attachment collections better with page resize
+
+  * The new kualico ui, many of the screens redraw when in edit/add mode, putting several columns/buttons out of the window view, requiring scrolling.
+
+  * When I add attachments, I must now use the scroll bar to find/have access to the Details/Edit/Delete options, as well as other columns (userid/timestamp).
+  * If I compress the browser window, there is no compacting or wrapping of any column to aid in using a smaller screen.
+  * I have to have the browser window open to at least 14.5 inches to see all the columns. If I compact the left navigation bar to icon mode, I still have to have the window at 13 inches to see all columns. (Chrome on a PC)
+  * IE, I was able to see all in a 10.5 inch screen if I used icons for left nav bar.
+
+  * Once a user gets the 10-20 narratives uploaded for an NIH submission, they will need to scroll down to get to the horizontal scroll bar, and then scroll back up to get to the Actions column to edit the attachments.
+  * The white space is nice, but the row number column could be smaller, as can the Description column. Any ability to wrap text would also help if a user wanted to/had to work in a smaller window.
+
+  * Can something be done to address the expanding window content? Like allowing these columns to text-wrap? In Add Attachments - reducing the column width of the Description field?
+  * Joe Williams on Wed, 13 May 2015 13:42:45 -0500 [View Commit](../../commit/e4c0c7b45f8b50236a02e5d7d62e9e45d7f4ec92)
+* Sort Special Review Type Alphabetically
+  * Joe Williams on Wed, 13 May 2015 16:11:13 -0500 [View Commit](../../commit/61b40cc2d03e36f9e5ea7cbe6ba57da375908e6c)
+* Fixed double headers for cache admin and proposal development documents
+
+  * 1) login as quickstart
+  * 2) switch to System Admin Tab (or maintenance tab)
+  * 3) Select Action list
+  * 4) Open document
+  * Result: Double Headers appear
+  * Joe Williams on Thu, 14 May 2015 09:55:38 -0500 [View Commit](../../commit/2fe83a31e4911a57708e86cfb1f771f75deeabd6)
+* Allow modification of S2S Opportunity anytime before submit
+
+  * Revise selections in S2S Opportunity screen pre- and post-submission
+  * As a Superuser or Proposal Approver and Submitter of S2S proposals to Grants.gov, I need to be able revise selections on the S2S Opportunity screen > Opportunity, Forms, and User Attached Forms tabs in proposals that are enroute/under review as well as Approved status, because the Submit to S2S step normally takes place after approval and submit to sponsor.
+  * A new permission called 'Modify Proposal Development S2s While Enroute' has been added that controls the ability for a user to make modifications after the proposal is enroute.
+  * blackcathacker on Tue, 12 May 2015 20:10:52 -0700 [View Commit](../../commit/5b4625f60f7b28a9f719bb6a47951b2354e83bd0)
+* when proposal is view only don't prompt user to save on close
+
+  * User is confused if they enter a proposal in view mode and then select close that the modal asks if they want to save.
+
+  * Steps to Reproduce
+  * 1. Login as quickstart. Create proposal.
+  * 2. Add user psmock as Viewer Document level.
+  * 3. Note proposal number and doc number. Close. Save.
+  * 4. Open incognito or private browsing window.
+  * 5. Login as psmock.
+  * 6. Use Search Proposal link (Researcher menu) to find proposal number
+  * 7. Click ‘view’ link.
+  * 8. Navigate to one of the other sections.
+  * 9. Click close on that screen. Should not get the ‘do you want to save message’.
+
+  * Results: The modal asking the user if they would like to save document displays.
+  * Expected Results: Whenever proposal is in view mode It should not generate the modal asking to save when when closing.
+  * Joe Williams on Thu, 14 May 2015 11:21:33 -0500 [View Commit](../../commit/c2a77a56286bf1e1b3ee79196fddf4bba8ff6a38)
+* fixes STE when cancelling from add instituional proposal lookup
+
+  * 1. Central Admin > Pre-Award > Institutional Proposal
+  * 2. Click on plus sign for creating an institutional proposal
+  * 3. On the Proposal Log Lookup screen click on the cancel button
+  * RESULT: Stack trace error (see below)
+  * EXPECTED RESULT: User should be returned to the KRAD window.
+
+  * org.kuali.rice.krad.datadictionary.DataDictionaryException: Unable to find View with id: Kc-LandingPage-RedirectView?forInstitutionalProposal
+  * at org.kuali.rice.krad.datadictionary.uif.UifDictionaryIndex.getImmutableViewById(UifDictionaryIndex.java:142)
+  * at org.kuali.rice.krad.datadictionary.uif.UifDictionaryIndex.getViewById(UifDictionaryIndex.java:128)
+  * Joe Williams on Thu, 14 May 2015 12:38:14 -0500 [View Commit](../../commit/9c26bbd42ab635382b1f0eacb9aa70f6755b14f9)
+*  Making field readOnly so the values do not get updated while enroute
+  * As a viewer of routing proposals, I navigate to review the included S2S Opportunity Forms. Upon opening this screen, all selected forms to include display as unchecked. Confirmed that the items were checked prior to routing; and remain checked if no one views them. But if the screen is opened prior to submitting to s2s, none of these optional forms & their attachments are being submitted.
+  * Tried an alternate method to preview S2S forms via the Toolbar menu. At first opening, the checks were there. But when I reopened the toolbar print option in the same session - the checkmarks were gone.
+  * This is a serious problem.
+  * OSP Admins always verify that the users have checked the correct s2s forms to include, and print/preview some attachments as part of their review from this screen.
+
+  * Created and submitted by user rhanlon
+  * PA-C-R01 with Detailed Budget and Subaward Budget selected as optional forms.
+  * Confirmed checks prior to submitting.
+  * As approver RRabbit - logged in, Action List> opened proposal
+  * Navigated to S2S Opportunity screen > Forms - all optional forms unchecked.
+  * Gayathri on Thu, 14 May 2015 14:46:01 -0700 [View Commit](../../commit/0ea3178b4ee77c0cd5074cbc3c78b1ff90404762)
+* Upgrading to Java 8: updating libraries, documentation, fixing test.
+  * Travis Schneberger on Thu, 14 May 2015 21:18:16 -0400 [View Commit](../../commit/96c7e65fb0f166ead4e30826416721560f3a9854)
+* Upgrading to Java 8: fixing javadoc errors from Java 8's strict javadoc tool
+  * Travis Schneberger on Fri, 15 May 2015 09:27:28 -0400 [View Commit](../../commit/d681620f0f5808b553395d8b62f29af8958faa22)
+* Upgrading to Java 8: upgrading jmock
+  * Travis Schneberger on Fri, 15 May 2015 11:20:12 -0400 [View Commit](../../commit/280ee3568f8742ad1befe9849da8cff6fb5b2e71)
+* Multiple Choice enhancement for contribution.
+
+  * https://github.com/kuali/kc/pull/1582
+
+  * KRAFDBCK-12521
+  * Adds a Multiple Choice question type to the Questionnaire framework. Utilizes a new table to store the multiple choice prompts and descriptions, respectively. Uses the MAX_ANSWERS fields to determine whether the question renders as a set of checkboxes or radio buttons.
+
+  * Additional bugfixes:
+* Fixed question deletion causing a constraint violation where a question has an explanation.
+* Fixed proper form initialization based on the Response type where the first time a question page was loaded the page would display incorrectly until the response type was changed.
+* Fixed the read only display not showing the correct dynamic information based on response type.  This was common when viewing after routing.
+
+  * Other:
+  * Cleaned up questionnaire maintenance code that is no longer used as of KC 6.0
+  * Added Missing license headers
+  * Travis Schneberger on Wed, 13 May 2015 14:54:54 -0400 [View Commit](../../commit/9422724a92bda8496e787abc4ca93e3b95e7eb91)
+* Multiple Choice enhancement for contribution.
+
+  * https://github.com/kuali/kc/pull/1582
+
+  * KRAFDBCK-12521
+
+  * code review comments
+  * Travis Schneberger on Fri, 15 May 2015 10:43:38 -0400 [View Commit](../../commit/8ecc43ab6555c69c0e48d785b620ba1b48ed7ee4)
+* Upgrading to Java 8: switching version of cglib to use an updated/non-repackaged version of asm
+  * Travis Schneberger on Fri, 15 May 2015 12:32:24 -0400 [View Commit](../../commit/b8e88dfdd7cab8052fefe36223f54f71a1cf4449)
+* Upgrading to Java 8: removing MaxPerm setting since java 8 does not have perm gen space
+  * Travis Schneberger on Fri, 15 May 2015 12:46:55 -0400 [View Commit](../../commit/c747ca00a8e0dd01043bc42a9b50b3d5eb3cd84c)
+* return user to krad portal when closing a transactional document
+  * Joe Williams on Fri, 15 May 2015 10:37:34 -0500 [View Commit](../../commit/3fb76b8f8c1a505707271e2765ee0aa0480af2ff)
+* Fix to display correct linked subawards when award is versioned
+
+  * 1. Create and submit a new Award (just complete the required fields to save and submit, no need to do a T&M document)
+  * 2. Create a new Subaward, adding the just-created Award as the Funding Source, and then submit the Subaward
+  * 3. Observe Medusa from both the Award and Subaward view
+  * Actual Behavior: The system displays the linkage between the Award and Subaward from both Medusa views.
+  * 4. Create and submit a new Proposal Log document
+  * 5. Create and submit a new Institutional Proposal document, using the just-created Proposal Log
+  * 6. Search for the just-submitted Award document and click the Edit action button
+  * 7. Add the just-created Institutional Proposal as a Funding Proposal
+  * 8. Select a Transaction Type
+  * 9. Submit the edited Award
+  * 10. Observe Medusa from the Award, Institutional Proposal, and Subaward views
+  * Actual Behavior: The system does not display the Subaward linkage from either the Award and Institutional Proposal Medusa views. The system does display all linkages from the Subaward Medusa view (see attached screen images).
+  * Expected Behavior: The system should display the linkage to the Subaward from both the Award and Institutional Proposal Medusa views.
+  * 11. Create a Negotiation, selecting Award, Institutional Proposal, or Subaward for Negotiation Association Type and selecting one of the just-created documents
+  * 12. Click Save to finalize the Negotiation
+  * 13. Observe Medusa from the Award, Institutional Proposal, Negotiation and Subaward views
+  * Actual Behavior: The system does not display the Subaward linkage from the Award, Institutional Proposal, and Negotiation Medusa views. The system does display all linkages from the Subaward Medusa view (see attached screen images).
+  * Expected Behavior: The system should display the linkage to the Subaward from the Award, Institutional Proposal, and Negotiation Medusa views.
+  * Joe Williams on Fri, 15 May 2015 09:39:13 -0500 [View Commit](../../commit/53db7d44ee996b0ac3408b22bceab708c77babec)
+* refactoring and added tests
+  * Joe Williams on Fri, 15 May 2015 09:42:08 -0500 [View Commit](../../commit/695a397d36d1a398fc1fce040b5e3aa9041b0931)
+* Java 8: Upgrading Drools and MVEL to support Java 8, removing incorrect references to drools string utils
+  * Travis Schneberger on Fri, 15 May 2015 15:14:13 -0400 [View Commit](../../commit/f144fab784cfbe0d3998437e52406151b53b267e)
+* Java 8: Fixing tests, changing StringUtils api usage to isBlank which is closer to drool's StringUtils isEmpty method.
+  * Travis Schneberger on Fri, 15 May 2015 17:02:22 -0400 [View Commit](../../commit/dc938b3641a91ee4b488fe4b7c71fd5db7e3664e)
+* Java 8: Fixing drools so that rules files can be loaded from within jars.
+  * Travis Schneberger on Fri, 15 May 2015 17:49:07 -0400 [View Commit](../../commit/54be5e8613aa5842803024bc326054a19b51570b)
+* Java 8: making is possible to turn off java 8 specific javadoc parm
+  * Travis Schneberger on Sun, 17 May 2015 21:20:56 -0400 [View Commit](../../commit/7305c54e5731b274ccf72899117af2edeaeefe36)
+* Fix for award error when saving on Payment, Reports & Terms
+
+  * -Create new award
+  * -Enter required data on Award tab, save
+  * -Go to Payment, Reports & Terms tab
+  * -Click save, error occurs
+
+  * This is only happening on new awards.
+  * HTTP Status 500 -
+
+  * type Exception report
+
+  * message
+
+  * description The server encountered an internal error that prevented it from fulfilling this request.
+
+  * org.springframework.dao.DataIntegrityViolationException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KCSO"."AWARD_REPORT_TRACKING"."LAST_UPDATE_USER")
+  * ; nested exception is java.sql.SQLIntegrityConstraintViolationException: ORA-01400: cannot insert NULL into ("KCSO"."AWARD_REPORT_TRACKING"."LAST_UPDATE_USER")
+  * Joe Williams on Mon, 18 May 2015 08:49:18 -0500 [View Commit](../../commit/fc05d34448ed466425bc5e731c57673fa6919f2c)
+* return to award from award budget if budget was opened from award
+
+  * Open an Award
+  * Go to Budget Versions
+  * Create or open an Award Budget
+  * Perform a budget action such as approve, reject, or even close
+
+  * Actual Results:
+  * -User is taken to the Sys Admin portal.
+
+  * Expected Results:
+  * -User remains in the Award.
+  * Joe Williams on Fri, 15 May 2015 14:59:20 -0500 [View Commit](../../commit/3248d256434f9643a6de6dc94b9134cd27360818)
+
 ##coeus-1505.41
 * return to award from award budget if budget was opened from award
 
