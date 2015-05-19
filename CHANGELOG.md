@@ -1,5 +1,19 @@
 
 
+##coeus-1505.44
+* Multiple Choice enhancement for contribution.
+
+  * https://github.com/kuali/kc/pull/1582
+
+  * KRAFDBCK-12521
+
+* fix ability to submit document with multi choice
+* fix ability to delete multi choice when form first opens
+* now allows whitespace in prompt and description
+  * Travis Schneberger on Tue, 19 May 2015 08:55:16 -0400 [View Commit](../../commit/7d197581c5c77714aa37311f0a58085b73d81c01)
+* updating documentation for changes in javadoc tool and for the move to Java 8
+  * Travis Schneberger on Mon, 18 May 2015 10:28:59 -0400 [View Commit](../../commit/168bb268de43b7362d6fd9df11ae0d7a13bc6b09)
+
 ##coeus-1505.43
 * No Changes
 
