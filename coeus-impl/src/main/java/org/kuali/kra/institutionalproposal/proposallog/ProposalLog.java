@@ -81,7 +81,9 @@ public class ProposalLog extends KcPersistableBusinessObjectBase implements Nego
     private String instProposalNumber;
     
     private transient KcPersonService kcPersonService;
-    
+    private transient boolean forInstitutionalProposal;
+
+
 
     public ProposalLog() { 
 
@@ -519,5 +521,15 @@ public class ProposalLog extends KcPersistableBusinessObjectBase implements Nego
 
     public void setMergedWithProposal(ProposalLog mergedWithProposal) {
         this.mergedWithProposal = mergedWithProposal;
-    }    
+    }
+
+    public boolean isForInstitutionalProposal() {
+        return forInstitutionalProposal;
+    }
+
+    public void setForInstitutionalProposal(boolean forInstitutionalProposal) {
+        this.forInstitutionalProposal = forInstitutionalProposal;
+    }
+
+
 }
