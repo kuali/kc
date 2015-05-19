@@ -1,5 +1,9 @@
 
 
+##coeus-1505.45
+*  fix schemaspy authz when a user does not have a session established.
+  * Travis Schneberger on Tue, 19 May 2015 09:57:40 -0400 [View Commit](../../commit/e17a1c3923aecf2f43ac6d8ac43b23f9878ef943)
+
 ##coeus-1505.44
 * Multiple Choice enhancement for contribution.
 
