@@ -65,7 +65,9 @@ class UnitAgenda extends BasicAgenda {
     protected boolean appliesToUnit(String agendaQualifierValue, String environmentQualifierValue) {
         for (String environmentUnitNumber : environmentQualifierValue.split(DELIMITER)) {
             List<Unit> unitHierarchyForUnit = getUnitService().getUnitHierarchyForUnit(environmentUnitNumber);
-            return appliesToAnyUnitInHierarchy(agendaQualifierValue, unitHierarchyForUnit);
+            if (appliesToAnyUnitInHierarchy(agendaQualifierValue, unitHierarchyForUnit)) {
+                return true;
+            }
         }
         return false;
     }
