@@ -429,33 +429,7 @@
     <property name="summary" value="Award Id" />
     <property name="description" value="Award Id" />
   </bean>
-  
-  <!-- 
-  <bean id="Award-accountTypeCode" parent="Award-accountTypeCode-parentBean" />
-  
-  <bean id="Award-accountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountTypeCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Account Type" />
-    <property name="shortLabel" value="Account Type" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.home.AwardMethodOfPayment"
-            p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="methodOfPaymentCode"
-            p:labelAttribute="description" />
-    </property>
-    <property name="summary" value="Payment Method" />
-    <property name="description" value="Payment Method" />
-  </bean>
-   -->
+
   <bean id="Award-activityTypeCode" parent="DevelopmentProposal-activityTypeCode-parentBean" />
 
     <bean id="Award-title" parent="Award-title-parentBean" />
@@ -465,6 +439,7 @@
         <property name="label" value="Award Title" />
         <property name="shortLabel" value="Title" />
         <property name="maxLength" value="200" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="UTF8AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
