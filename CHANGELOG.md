@@ -1,5 +1,69 @@
 
 
+##coeus-1505.47
+* UnitAgenda does not apply to subunits.
+
+  * To reproduce: Create a UnitAgenda with a unit number of some parent unit (BL-BL in demo data).  Add a proposition to call a function such as All proposals when 'true'.  Add an action such as a KC Validation Action where it displays a warning such as (Area Name: Proposal Details, Page Id: PropDev-DetailsPage, Section Id: PropDev-DetailsPage-Section).  Create a proposal with a lead unit that is above the unit in the agenda (000001 in demo data).  Add a key person that belongs to a unit in the agenda or a subunit (BL-RUGS or BL-BL in demo data).  Turn validation on.  A warning from KRMS should appear.  It does not.
+  * Travis Schneberger on Tue, 19 May 2015 14:36:58 -0400 [View Commit](../../commit/1713c9255a506294259b2384c68695491dca83cf)
+*  budget personnel STE
+  * Steps to reproduce
+  * Create a new proposal
+  * Add several persons to the Key Personnel screen for budget use
+  * Create a new detailed budget version
+  * Define the budget persons with appointment types & salaries
+  * On Assign Personnel to Period> select a person, maintain the required fields, click Save.
+  * STE appears.
+  * java.util.ConcurrentModificationException at java.util.Vector$Itr.checkForComodification(Vector.java:1184) at java.util.Vector$Itr.next(Vector.java:1137) at org.eclipse.persistence.indirection.IndirectList$1.next(IndirectList.java:618) at org.kuali.coeus.common.budget.impl.calculator.SalaryCalculator.filterBudgetPersons(SalaryCalculator.java:159) at
+  * Gayathri on Tue, 19 May 2015 11:50:53 -0700 [View Commit](../../commit/549c441d856b0bedc5e5d63de4b17b9394fa9d42)
+*  making award title required in the data dictionary to avoid a constraint violation when award title is not entered.
+  * Travis Schneberger on Tue, 19 May 2015 16:13:03 -0400 [View Commit](../../commit/2851c3ff2f392e08c626d024c41e2db801cd23c9)
+* Rice update for KULRICE-12991
+  * bsmith83 on Tue, 19 May 2015 13:42:57 -0700 [View Commit](../../commit/0646694b70c3c8de7df65ee3e23287498a07303c)
+*  Fixing printed dates and amounts
+  * 1. Create a new Award, completing all fields required to save and submit the document and to create a Time & Money document, but do not submit the Award document
+  * 2. Click Time & Money
+  * 3. On the Transactions panel, add a transaction, such as the following:
+   Source Award: External
+  Destination Award: 000021-00001
+  Obligated Change: 100.00
+  Anticipated Change: 100.00
+  * 4. Submit the Time & Money document
+  * 5. Return to the Award and Submit the Award document
+  * 6. Once the Award is submitted, observe the Time & Money panel on the Award tab and verify the accurate Anticipated and Obligated dates and values are displayed
+  * 7. Click the Award Actions tab
+  * 8. Click Show on the Print panel
+  * 9. On the Award Notice row, click the Select All action button
+  * 10. Click Print on the Award Notice row
+  * 11. Observe the Anticipated and Obligated values and Obligated Start and End Dates on the printed Award Notice
+  * +Actual Behavior+: The system does not display the Obligated Start and End Dates on the printed Award Notice for Version #1. The system displays $0.00 for all Anticipated and Obligated amounts.
+  * +Expected Behavior+: The system should display the Obligated Start and End Dates on the printed Award Notice. The system should display accurate values for all Anticipated and Obligated amounts. See attached screen images.
+
+  * 12. On the Award, click Edit
+  * 13. Without making any changes, other than selecting a Transaction Type, Submit the Award
+  * 14. Print and observe the Award Notice for Version 2 of the Award
+  * +Actual Behavior+: The system displays the correct Obligation Start and End Dates. The system displays the correct Anticipated and Obligated amounts.
+
+  * +Expected Behavior+: The system should display the correct dates and amounts on the Award Notice that reflect the current version of the Award.
+
+  * 15. Edit the Time & Money document
+  * 16. On the Transactions panel, add a transaction, such as the following:
+  Source Award: External
+  Destination Award: 000021-00001
+  Obligated Change: 250.00
+  Anticipated Change: 250.00
+  * 17. Submit the Time & Money document
+  * 18. Return to the Award
+  * 19. Once the Award is submitted, observe the Time & Money panel on the Award tab and verify the accurate Anticipated and Obligated dates and values are displayed
+  * 20. Click the Award Actions tab
+  * 21. Click Show on the Print panel
+  * 22. Click Print on the Award Notice row
+  * 23. Observe the Anticipated and Obligated values and Obligated Start and End Dates on the printed Award Notice
+  * +Actual Behavior+: Again, the system does not display the current Obligated Start and End Dates on the printed Award Notice. The system displays $100.00 for all Anticipated and Obligated amounts, the amounts associated with Version 1 of the Award.
+  * +Expected Behavior+: The system should display the accurate Obligated Start and End Dates on the printed Award Notice for the current version of the Award, even if a new Time & Money document has been edited and submitted for the existing Award version. The system should display accurate values for all Anticipated and Obligated amounts reflecting the current version of the Award, even if a new Time & Money document has been edited and submitted for the existing Award version.
+  * Gayathri on Tue, 19 May 2015 15:20:02 -0700 [View Commit](../../commit/b71459b454b890485c5a72e238ef9035bf26afe4)
+* fix compilation issue on java 7 related to generics
+  * Travis Schneberger on Wed, 20 May 2015 11:56:16 -0400 [View Commit](../../commit/53047746238ee7844f65271b4134fee78a00687e)
+
 ##coeus-1505.46
 *  Change column length of indicator fields in IP
   * 1. Create and submit/blanket approve a Proposal Log
