@@ -1,5 +1,24 @@
 
 
+##coeus-1505.46
+*  Change column length of indicator fields in IP
+  * 1. Create and submit/blanket approve a Proposal Log
+  * 2. Create a new Institutional Proposal, using the just-created Proposal Log
+  * 3. Complete all required fields to save and submit the document
+  * 4. Submit the document so that the Status = FINAL
+  * 5. On the Institutional Proposal tab, click Edit
+  * 6. Click the Institutional Proposal Actions tab
+  * 7. Click Submit (or Blanket Approve)
+  * Actual Behavior: The system does not allow the user to submit the document. The system indicates that three error messages were found on the page. The system displays three instances of the following error message below all panels: Must be at most 1 characters
+  * Expected Behavior: The system should allow the user to submit the Institutional Proposal document. The system should not display any error messages. If the system displays any valid error messages, the system should indicate to the user to how fix them.
+  * Gayathri on Tue, 19 May 2015 09:47:04 -0700 [View Commit](../../commit/045bc87f662b10841c8339d5b98b098a01cf9c34)
+*  Fix IP creation from proposal log
+  * Create a proposal log and blanket approve.
+  * Click on Create IP link, search for proposal log.
+  * Results display with edit, copy buttons instead of select.
+  * There's no way to select a proposal log.
+  * Gayathri on Mon, 18 May 2015 20:41:50 -0700 [View Commit](../../commit/0a66d55d943809e4dd6df7615f1a4a28b8754649)
+
 ##coeus-1505.45
 *  fix schemaspy authz when a user does not have a session established.
   * Travis Schneberger on Tue, 19 May 2015 09:57:40 -0400 [View Commit](../../commit/e17a1c3923aecf2f43ac6d8ac43b23f9878ef943)
