@@ -23,15 +23,14 @@ import org.kuali.kra.award.AwardTemplateSyncScope;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.bo.CommentType;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * This class is business object representation of an Award Comment
  */
 public class AwardComment extends AwardAssociate implements Comparable<AwardComment> {
 
-
+    public static final String UPDATE_DATE_FORMAT = "M/dd/yyyy";
     private static final long serialVersionUID = 3611932717292205490L;
 
     private Long awardCommentId;
@@ -179,13 +178,12 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     /**
-     * Gets the updateTimestampDateString attribute. 
+     * Gets the updateTimestampDateString attribute.
      * @return Returns the updateTimestampDateString.
      */
     public String getUpdateTimestampDateString() {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime((Date) getUpdateTimestamp());
-        return Integer.toString(cal.get(Calendar.MONTH)) + "/" + Integer.toString(cal.get(Calendar.DAY_OF_MONTH)) + "/" + Integer.toString(cal.get(Calendar.YEAR));
+        SimpleDateFormat dateFormat = new SimpleDateFormat(UPDATE_DATE_FORMAT);
+        return dateFormat.format(getUpdateTimestamp());
     }
 
     public void resetPersistenceState() {
