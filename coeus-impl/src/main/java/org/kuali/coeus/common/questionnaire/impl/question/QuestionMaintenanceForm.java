@@ -50,7 +50,7 @@ public class QuestionMaintenanceForm extends KualiMaintenanceForm {
         final int index = getLargestMultiChoiceIndex(CollectionUtils.toIterable(request.getParameterNames()));
         if (index != -1 && getDocument() != null) {
             final Question question = (Question) ((MaintenanceDocument) getDocument()).getNewMaintainableObject().getBusinessObject();
-            question.setQuestionMultiChoices(new ArrayList<>());
+            question.setQuestionMultiChoices(new ArrayList<QuestionMultiChoice>());
             for (int i = question.getQuestionMultiChoices().size(); i <= index; i++) {
                 question.getQuestionMultiChoices().add(new QuestionMultiChoice());
             }
