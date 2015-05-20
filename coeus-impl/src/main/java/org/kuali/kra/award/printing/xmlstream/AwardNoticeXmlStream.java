@@ -107,7 +107,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 		this.award = award;
 		List<AwardAmountInfo> awardAmountInfos = award.getAwardAmountInfos();
 		if (awardAmountInfos != null && !awardAmountInfos.isEmpty()) {
-			awardAmountInfo = awardAmountInfos.get(0);
+			awardAmountInfo = awardAmountInfos.get(awardAmountInfos.size() - 1);
 		}
 	}
 
@@ -269,7 +269,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
 	}
 
 	private void setAwardHierarchy(AwardHierarchy awardHierarchy, ChildAwardDetails childAwardDetails) {
-        if(awardHierarchy!=null){
+        if(awardHierarchy!=null) {
             ChildAwardType childAwardType = childAwardDetails.addNewChildAward();
             AwardHierarchyType hierarchyType = childAwardType.addNewAwardHierarchy();
             hierarchyType.setAwardNumber(awardHierarchy.getAwardNumber());
