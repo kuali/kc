@@ -1,5 +1,19 @@
 
 
+##coeus-1505.49
+*  Fixing occasional STE in award
+  * This error cropts up occassionally when you try to save an award.
+
+  * SEVERE: Servlet.service() for servlet [action] in context with path [/kc-qa-wkly] threw exception
+  * java.lang.RuntimeException
+	at org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase.populateForProperty(PojoFormBase.java:233)
+  * Caused by: java.lang.NullPointerException
+	at org.kuali.kra.award.home.Award.getAwardCgb(Award.java:3548)
+	... 76 more
+  * Gayathri on Wed, 20 May 2015 15:19:10 -0700 [View Commit](../../commit/75294447d9bfa8db54422d8b87682832f71ab466)
+*  support the oracle thin driver in schemaspy
+  * Travis Schneberger on Thu, 21 May 2015 09:39:15 -0400 [View Commit](../../commit/e458426eafb623f3d04e349bfc6bf2772bb8d353)
+
 ##coeus-1505.48
 * Rice upgrade for RESKC-432
   * bsmith83 on Wed, 20 May 2015 15:25:33 -0700 [View Commit](../../commit/b9e7b201a08ef08e0af544563f5cc6279a5e33e8)
