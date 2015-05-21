@@ -30,9 +30,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Negotiation Activity BO.
- */
 public class NegotiationActivity extends KcPersistableBusinessObjectBase {
 
 
@@ -80,14 +77,14 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
 
     public NegotiationActivity() {
         restricted = Boolean.TRUE;
-        attachments = new ArrayList<NegotiationActivityAttachment>();
+        attachments = new ArrayList<>();
         newAttachment = new NegotiationActivityAttachment();
     }
 
     /**
      * Calculates the number of days between the start date and either the end date when
      * available or the current date.
-     * @return
+
      */
     public String getNumberOfDays() {
         return getNumberOfDays(getStartDate(), getEndDate());
@@ -96,22 +93,19 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
     /**
      * 
      * This method Calculates the number of days between the start date and either the end date when available or the current date.
-     * @param startDate
-     * @param endDate
-     * @return
      */
     public static String getNumberOfDays(Date startDate, Date endDate) {
         if (startDate == null) {
             return "";
         } else {
             long start = startDate.getTime();
-            long end = 0L;
+            final long end;
             if (endDate == null) {
                 end = Calendar.getInstance().getTimeInMillis();
             } else {
                 end = endDate.getTime();
             }
-            return (((end - start) / MILLISECS_PER_DAY) + 1) + "";
+            return (((end - start) / MILLISECS_PER_DAY)) + "";
         }
     }
 
@@ -296,7 +290,6 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
 
     /**
      * Add a new attachment to this activity.
-     * @param attachment
      */
     public void add(NegotiationActivityAttachment attachment) {
         updated = true;
@@ -319,10 +312,6 @@ public class NegotiationActivity extends KcPersistableBusinessObjectBase {
         this.newAttachment = newAttachment;
     }
 
-    /**
-     * Looks up and returns the KcPersonService.
-     * @return the person service.
-     */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
