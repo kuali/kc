@@ -26,20 +26,23 @@ import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+
 
 
 public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransactionalDocumentRuleBase implements
         InstitutionalProposalUnrecoveredFandARule {
-    
 
-    BusinessObjectService businessObjectService;
     
     private static final String NEW_PROPOSAL_UNRECOVERED_FNA = "newInstitutionalProposalUnrecoveredFandA";
+    private static final String FISCAL_YEAR_PROP = ".fiscalYear";
+    private static final String COMMITMENT_AMOUNT_PROP = ".commitmentAmount";
+    private static final String RATE_TYPE_CODE_PROP = ".rateTypeCode";
+    private static final String COST_SHARE_PERCENTAGE_PROP = ".costSharePercentage";
+    private static final String SOURCE_ACCOUNT_PROP = ".sourceAccount";
+    private static final String INDIRECTCOST_RATE_TYPE_CODE = "indirectcostRateTypeCode";
 
     @Override
     public boolean processAddInstitutionalProposalUnrecoveredFandABusinessRules(
@@ -57,8 +60,6 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
     
     /**
      * This method processes common validations for business rules
-     * @param event
-     * @return
      */
     public boolean processCommonValidations(InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA, List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs) {
         boolean validFiscalYearRange = validateUnrecoveredFandAFiscalYearRange(institutionalProposalUnrecoveredFandA);
@@ -84,8 +85,6 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
     /**
     *
     * Test fiscal year for valid range.
-    * @param AwardCostShare, MessageMap
-    * @return Boolean
     */
     public boolean validateUnrecoveredFandAFiscalYearRange(InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA){
         boolean valid = true;
@@ -94,18 +93,18 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
                 int fiscalYear = Integer.parseInt(institutionalProposalUnrecoveredFandA.getFiscalYear());
                 if(fiscalYear < Constants.MIN_FISCAL_YEAR || fiscalYear > Constants.MAX_FISCAL_YEAR) {
                     valid = false;
-                    reportError(NEW_PROPOSAL_UNRECOVERED_FNA + ".fiscalYear", 
+                    reportError(NEW_PROPOSAL_UNRECOVERED_FNA + FISCAL_YEAR_PROP,
                             KeyConstants.ERROR_PROPOSAL_UFNA_FISCAL_YEAR_RANGE);
                 }
             } catch (NumberFormatException e) {
                 valid = false;
-                reportError(NEW_PROPOSAL_UNRECOVERED_FNA + ".fiscalYear", 
+                reportError(NEW_PROPOSAL_UNRECOVERED_FNA + FISCAL_YEAR_PROP,
                         KeyConstants.ERROR_PROPOSAL_UFNA_FISCAL_YEAR_FORMAT);
             }
         }
         else {
             valid = false;
-            reportError(NEW_PROPOSAL_UNRECOVERED_FNA+".fiscalYear", 
+            reportError(NEW_PROPOSAL_UNRECOVERED_FNA+ FISCAL_YEAR_PROP,
                     KeyConstants.ERROR_PROPOSAL_UFNA_FISCAL_YEAR_REQUIRED);
         }
         return valid;
@@ -115,7 +114,7 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
         boolean isValid = true;
         if (percentage!=null && percentage.isLessThan(new ScaleTwoDecimal(0))) {
             isValid = false;
-            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".costSharePercentage", KeyConstants.ERROR_PROPOSAL_UFNA_APPLICABLE_RATE_INVALID);
+            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + COST_SHARE_PERCENTAGE_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_APPLICABLE_RATE_INVALID);
         }
         return isValid;
     }
@@ -124,20 +123,12 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
         boolean isValid = true;
         if (rateTypeCode == null) {
             isValid = false;
-            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".rateTypeCode", KeyConstants.ERROR_PROPOSAL_UFNA_RATE_TYPE_CODE_REQUIRED);
+            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + RATE_TYPE_CODE_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_RATE_TYPE_CODE_REQUIRED);
         }
         else {
-            BusinessObjectService thisBusinessObjectService;
-            if (businessObjectService == null) {
-                thisBusinessObjectService = getBusinessObjectService();
-            }else {
-                thisBusinessObjectService = businessObjectService;
-            }
-            Map<String,Integer> fieldValues = new HashMap<String,Integer>();
-            fieldValues.put("indirectcostRateTypeCode", rateTypeCode);
-            if (thisBusinessObjectService.countMatching(IndirectcostRateType.class, fieldValues) != 1) {
+            if (getBusinessObjectService().countMatching(IndirectcostRateType.class, Collections.singletonMap(INDIRECTCOST_RATE_TYPE_CODE, rateTypeCode)) != 1) {
                 isValid = false;
-                this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".rateTypeCode", KeyConstants.ERROR_PROPOSAL_UFNA_RATE_TYPE_CODE_INVALID, new String[] { rateTypeCode.toString() });
+                this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + RATE_TYPE_CODE_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_RATE_TYPE_CODE_INVALID, rateTypeCode.toString());
             }
         }
         return isValid;
@@ -147,7 +138,7 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
         boolean isValid = true;
         if (StringUtils.isBlank(a)) {
             isValid = false;
-            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".sourceAccount", KeyConstants.ERROR_PROPOSAL_UFNA_SOURCE_ACCOUNT_REQUIRED);
+            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + SOURCE_ACCOUNT_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_SOURCE_ACCOUNT_REQUIRED);
         }
         return isValid;
     }
@@ -156,11 +147,11 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
         boolean isValid = true;
         if (amount == null) {
             isValid = false;
-            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".commitmentAmount", KeyConstants.ERROR_PROPOSAL_UFNA_AMOUNT_REQUIRED);
+            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + COMMITMENT_AMOUNT_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_AMOUNT_REQUIRED);
         }
         else if (amount.isLessThan(new ScaleTwoDecimal(0))) {
             isValid = false;
-            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".commitmentAmount", KeyConstants.ERROR_PROPOSAL_UFNA_AMOUNT_INVALID, new String[] { amount.toString() });
+            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + COMMITMENT_AMOUNT_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_AMOUNT_INVALID,  amount.toString());
         }
         return isValid;
     }
@@ -173,23 +164,12 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
                     ObjectUtils.equals(a.getIndirectcostRateTypeCode(), institutionalProposalUnrecoveredFandA.getIndirectcostRateTypeCode()) &&
                     ObjectUtils.equals(a.getApplicableIndirectcostRate(), institutionalProposalUnrecoveredFandA.getApplicableIndirectcostRate()) &&
                     ObjectUtils.equals(a.getOnCampusFlag(), institutionalProposalUnrecoveredFandA.getOnCampusFlag()) &&
-                    StringUtils.equals(a.getSourceAccount(), institutionalProposalUnrecoveredFandA.getSourceAccount()) &&
-                    ObjectUtils.equals(a.getAmount(), institutionalProposalUnrecoveredFandA.getAmount())) {
+                    StringUtils.equals(a.getSourceAccount(), institutionalProposalUnrecoveredFandA.getSourceAccount()) ) {
                 noDuplicates = false;
-                this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + ".fiscalYear", KeyConstants.ERROR_PROPOSAL_UFNA_DUPLICATE_ROW);
+                this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + FISCAL_YEAR_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_DUPLICATE_ROW);
 
             }
         }
         return noDuplicates;
     }
-    
-    /**
-     * Accessor for <code>{@link BusinessObjectService}</code>
-     *
-     * @param bos BusinessObjectService
-     */
-    public void setBusinessObjectService(BusinessObjectService bos) {
-        businessObjectService = bos;
-    }
-    
 }
