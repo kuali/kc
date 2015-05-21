@@ -58,6 +58,7 @@ public class SchemaSpyFilter implements Filter {
     private static final String DB_TYPE_FLAG = "-t";
     private static final String MYSQL_DB_TYPE = "mysql";
     private static final String ORACLE_DB_TYPE = "ora";
+    private static final String ORACLE_THIN_DB_TYPE = "orathin";
     private static final String DB_HOST_FLAG = "-host";
     private static final String DB_PORT_FLAG = "-port";
     private static final String DP_DRIVER_LOCATION_FLAG = "-dp";
@@ -84,7 +85,10 @@ public class SchemaSpyFilter implements Filter {
     private static final String NO_RENDERER = "";
     private static final String SCHEMA_SPY_CONFIG_PARAM = "kc.schemaspy.enabled";
     private static final String MYSQL_PLATFORM_NAME = "MySQL";
+    private static final String ORACLE_PLATFORM_NAME = "Oracle";
+    private static final String ORACLE_9I_PLATFORM_NAME = "Oracle9i";
     private static final String DATASOURCE_PLATFORM_PARAM = "datasource.ojb.platform";
+    private static final String ORACLE_THIN_CON_STR_FRAGMENT = "oracle:thin";
 
     private FilterConfig filterConfig;
     private ConfigurationService configurationService;
@@ -169,7 +173,7 @@ public class SchemaSpyFilter implements Filter {
         final String dbUrl = getConfigurationService().getPropertyValueAsString(org.kuali.rice.core.api.config.property.Config.DATASOURCE_URL);
 
         args.add(DB_TYPE_FLAG);
-        args.add(getDbType());
+        args.add(getDbType(dbUrl));
         args.add(DB_HOST_FLAG);
         args.add(parseHost(dbUrl));
         args.add(DB_PORT_FLAG);
@@ -212,8 +216,26 @@ public class SchemaSpyFilter implements Filter {
         return MYSQL_PLATFORM_NAME.equals(getConfigurationService().getPropertyValueAsString(DATASOURCE_PLATFORM_PARAM));
     }
 
-    private String getDbType() {
-        return isMySql() ? MYSQL_DB_TYPE : ORACLE_DB_TYPE;
+    private boolean isOracle(String url) {
+        return ORACLE_PLATFORM_NAME.equals(getConfigurationService().getPropertyValueAsString(DATASOURCE_PLATFORM_PARAM)) ||
+                ORACLE_9I_PLATFORM_NAME.equals(getConfigurationService().getPropertyValueAsString(DATASOURCE_PLATFORM_PARAM)) && !url.contains(ORACLE_THIN_CON_STR_FRAGMENT);
+    }
+
+    private boolean isOracleThin(String url) {
+        return ORACLE_PLATFORM_NAME.equals(getConfigurationService().getPropertyValueAsString(DATASOURCE_PLATFORM_PARAM)) ||
+                ORACLE_9I_PLATFORM_NAME.equals(getConfigurationService().getPropertyValueAsString(DATASOURCE_PLATFORM_PARAM)) && url.contains(ORACLE_THIN_CON_STR_FRAGMENT);
+    }
+
+    private String getDbType(String url) {
+        if (isMySql()) {
+            return MYSQL_DB_TYPE;
+        } else if (isOracleThin(url)) {
+            return ORACLE_THIN_DB_TYPE;
+        } else if (isOracle(url)) {
+            return ORACLE_DB_TYPE;
+        } else {
+            throw new RuntimeException("unknown db type");
+        }
     }
 
     private String getDriverLocation() {
