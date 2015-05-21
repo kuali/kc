@@ -1,5 +1,9 @@
 
 
+##coeus-1505.48
+* Rice upgrade for RESKC-432
+  * bsmith83 on Wed, 20 May 2015 15:25:33 -0700 [View Commit](../../commit/b9e7b201a08ef08e0af544563f5cc6279a5e33e8)
+
 ##coeus-1505.47
 * UnitAgenda does not apply to subunits.
 
