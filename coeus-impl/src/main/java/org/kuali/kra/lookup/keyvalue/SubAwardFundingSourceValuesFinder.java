@@ -18,9 +18,7 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -31,20 +29,20 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class SubAwardFundingSourceValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
-    
+
+    private transient BusinessObjectService businessObjectService;
+
     @Override
     public List<KeyValue> getKeyValues() {
-        SubAwardDocument doc = (SubAwardDocument)getDocument();
-        StringBuffer fundingValues = new StringBuffer();
-        Long subawardID = doc.getSubAward().getSubAwardId();
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        Collection<SubAwardFundingSource> fundingSource = (Collection<SubAwardFundingSource>) KcServiceLocator
-                .getService(BusinessObjectService.class).findAll(SubAwardFundingSource.class);
+        final SubAwardDocument doc = (SubAwardDocument) getDocument();
+        final StringBuilder fundingValues = new StringBuilder();
+        final Long subawardID = doc.getSubAward().getSubAwardId();
+        final List<KeyValue> keyValues = new ArrayList<>();
+        final Collection<SubAwardFundingSource> fundingSource = getBusinessObjectService().findMatching(SubAwardFundingSource.class, Collections.singletonMap("subAwardId", subawardID));
+        
         for (SubAwardFundingSource subAwardFunding : fundingSource) {
-            if (subAwardFunding.getSubAwardId().equals(subawardID)) {
                 fundingValues.append(subAwardFunding.getAward().getAwardNumber());
                 keyValues.add(new ConcreteKeyValue(subAwardFunding.getSubAwardFundingSourceId().toString(),"Award:"+subAwardFunding.getAward().getAwardNumber()));
-            }
         }
         if(fundingValues.length() == 0){
             keyValues.add(0, new ConcreteKeyValue("", "No Funding Source has been added to this Subaward"));
@@ -52,4 +50,16 @@ public class SubAwardFundingSourceValuesFinder extends FormViewAwareUifKeyValues
         return keyValues;
     }
 
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }
