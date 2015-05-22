@@ -1436,7 +1436,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         syncChanges = new ArrayList<AwardSyncChange>();
         syncStatuses = new ArrayList<AwardSyncStatus>();
         subAwardList = new ArrayList<SubAward>();
-        budgets = new ArrayList<AwardBudgetExt>();
+        currentVersionBudgets = new ArrayList<AwardBudgetExt>();
     }
 
     public void initializeAwardAmountInfoObjects() {
@@ -2763,31 +2763,31 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 	public Budget getNewBudget() {
 		return new AwardBudgetExt();
 	}
+    private List<AwardBudgetExt> currentVersionBudgets;
     private List<AwardBudgetExt> budgets;
-    private List<AwardBudgetExt> allAwardBudgets;
 
 	@Override
 	public Integer getNextBudgetVersionNumber() {
 		return getAwardDocument().getNextBudgetVersionNumber();
 	}
 
-	public List<AwardBudgetExt> getAllAwardBudgets() {
-		if (allAwardBudgets == null || allAwardBudgets.isEmpty()) {
-			allAwardBudgets = KcServiceLocator.getService(AwardBudgetService.class).getAllBudgetsForAward(this);
-		}
-		return allAwardBudgets;
-	}
-
-	public void setAllAwardBudgets(List<AwardBudgetExt> budgets) {
-		this.allAwardBudgets = budgets;
-	}
-
 	public List<AwardBudgetExt> getBudgets() {
+		if (budgets == null || budgets.isEmpty()) {
+			budgets = KcServiceLocator.getService(AwardBudgetService.class).getAllBudgetsForAward(this);
+		}
 		return budgets;
 	}
 
 	public void setBudgets(List<AwardBudgetExt> budgets) {
 		this.budgets = budgets;
+	}
+
+	public List<AwardBudgetExt> getCurrentVersionBudgets() {
+		return currentVersionBudgets;
+	}
+
+	public void setCurrentVersionBudgets(List<AwardBudgetExt> budgets) {
+		this.currentVersionBudgets = budgets;
 	}
 
     public AwardComment getAdditionalFormsDescriptionComment() {

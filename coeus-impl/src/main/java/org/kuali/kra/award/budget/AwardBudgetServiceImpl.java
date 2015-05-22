@@ -447,6 +447,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 if (budget.getBudgetPeriods().isEmpty() && budget.getStartDate() != null) {
 	            budget.setBudgetPeriods(getBudgetSummaryService().generateBudgetPeriods(budget));
 	        }
+			awardDocument.getAward().getCurrentVersionBudgets().add(budget);
 			awardDocument.getAward().getBudgets().add(budget);
             try {
                 budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
@@ -904,7 +905,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, award.getAwardNumber());
         for (VersionHistory version : versions) {
             if (version.getSequenceOwnerSequenceNumber() <= award.getSequenceNumber() && !(version.getSequenceOwner() == null) && !(((Award) version.getSequenceOwner()).getAwardDocument() == null)) {
-                result.addAll(((Award) version.getSequenceOwner()).getBudgets());
+                result.addAll(((Award) version.getSequenceOwner()).getCurrentVersionBudgets());
             }
         }
         List<AwardBudgetExt> listResult = new ArrayList<AwardBudgetExt>(result);
