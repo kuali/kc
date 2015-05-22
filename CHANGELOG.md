@@ -1,5 +1,23 @@
 
 
+##coeus-1505.52
+* adds lookup fields related to s2s
+  * Travis Schneberger on Thu, 21 May 2015 10:54:19 -0400 [View Commit](../../commit/6fffc2914affe29761f7298ed1d3385690dcc6a7)
+* populate the anticipated award type description
+  * Travis Schneberger on Thu, 21 May 2015 11:13:19 -0400 [View Commit](../../commit/aaca8247cfb21b0d965702150f74bcc7de64e504)
+* filter subaward funding source with query criteria
+  * Travis Schneberger on Thu, 21 May 2015 11:28:48 -0400 [View Commit](../../commit/49294778766e32bbd5bc541d654529bbd6cdf7df)
+* Fixed F and A cost resetting when approve Award Budget
+  * Travis Schneberger on Fri, 22 May 2015 08:30:43 -0400 [View Commit](../../commit/a2606ad24055755b7023b1e4bbfbc2265fbae335)
+* Validation for eRA Commons User Name is based on sponsor group NIH
+
+  * Currently any proposal that has a sponsor under the 'NIH Multiple PI' Sponsor Hierarchy will require the eRA Commons username for PD/PIs, and if missing it will throw the following validation: eRA Commons User Name is missing for <insert PI name>.
+
+  * Originally we tied this validation to the 'NIH Multiple PI' sponsor hierarchy, but since schools may be using this hierarchy for all sponsors (not just NIH) we need to tie this validation to another hierarchy.
+  * Joe Williams on Fri, 22 May 2015 09:02:53 -0500 [View Commit](../../commit/5fca18771194606d0554d80c096d7ba883d59ee2)
+* code cleanup, minor schemaspy fixes.
+  * Travis Schneberger on Fri, 22 May 2015 10:07:13 -0400 [View Commit](../../commit/e72cb2dedf7396823efc6e83f3030c1e11c930ed)
+
 ##coeus-1505.51
 *  STE while printing budget summary with TBS budget person
 
