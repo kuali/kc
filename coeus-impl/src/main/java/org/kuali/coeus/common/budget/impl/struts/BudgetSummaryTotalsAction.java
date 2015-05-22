@@ -39,6 +39,12 @@ import java.util.Map;
 
 public class BudgetSummaryTotalsAction extends BudgetAction {
 
+    private static final String SUMMARY_TOTALS = "summaryTotals";
+    private static final String START_INDEX = "startIndex";
+    private static final String END_INDEX = "endIndex";
+    private static final String PERIOD_END_INDEX = "periodEndIndex";
+    private static final String PERIOD_START_INDEX = "periodStartIndex";
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -49,7 +55,7 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
             throws Exception {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         Budget budget = getBudget(form);
-        getBudgetCommonService(budget.getBudgetParent()).recalculateBudget(budget);
+        getBudgetCommonService(budget.getBudgetParent()).calculateBudgetOnSave(budget);
         return actionForward;
     }
 
@@ -76,10 +82,10 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
     }
 
     public ActionForward previousPeriodSet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if(StringUtils.isNotEmpty(request.getParameter("periodStartIndex")) && 
-                StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {
-            int oldPeriodStartIndex = Integer.parseInt(request.getParameter("periodStartIndex"));
-            int oldPeriodEndIndex = Integer.parseInt(request.getParameter("periodEndIndex"));
+        if(StringUtils.isNotEmpty(request.getParameter(PERIOD_START_INDEX)) &&
+                StringUtils.isNotEmpty(request.getParameter(PERIOD_END_INDEX))) {
+            int oldPeriodStartIndex = Integer.parseInt(request.getParameter(PERIOD_START_INDEX));
+            int oldPeriodEndIndex = Integer.parseInt(request.getParameter(PERIOD_END_INDEX));
             
             int newPeriodStartIndex = oldPeriodStartIndex - Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE; 
             int newPeriodEndIndex = oldPeriodEndIndex - Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE; 
@@ -88,8 +94,8 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
                 newPeriodStartIndex = 0;
                 newPeriodEndIndex = newPeriodStartIndex + (Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE -1);
             }
-            request.setAttribute("startIndex", newPeriodStartIndex);
-            request.setAttribute("endIndex", newPeriodEndIndex);
+            request.setAttribute(START_INDEX, newPeriodStartIndex);
+            request.setAttribute(END_INDEX, newPeriodEndIndex);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -98,10 +104,10 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
     public ActionForward nextPeriodSet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Budget budget = getBudget(form);
         
-        if(StringUtils.isNotEmpty(request.getParameter("periodStartIndex")) && 
-                StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {
-            int oldPeriodStartIndex = Integer.parseInt(request.getParameter("periodStartIndex"));
-            int oldPeriodEndIndex = Integer.parseInt(request.getParameter("periodEndIndex"));
+        if(StringUtils.isNotEmpty(request.getParameter(PERIOD_START_INDEX)) &&
+                StringUtils.isNotEmpty(request.getParameter(PERIOD_END_INDEX))) {
+            int oldPeriodStartIndex = Integer.parseInt(request.getParameter(PERIOD_START_INDEX));
+            int oldPeriodEndIndex = Integer.parseInt(request.getParameter(PERIOD_END_INDEX));
             
             int newPeriodStartIndex = -1; 
             int newPeriodEndIndex = -1;
@@ -114,8 +120,8 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
                 newPeriodStartIndex = newPeriodEndIndex - (Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE -1);
             }
             
-            request.setAttribute("startIndex", newPeriodStartIndex);
-            request.setAttribute("endIndex", newPeriodEndIndex);
+            request.setAttribute(START_INDEX, newPeriodStartIndex);
+            request.setAttribute(END_INDEX, newPeriodEndIndex);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -133,7 +139,7 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) formBase;
         String navigateTo = budgetForm.getNavigateTo();
         Map documentActions = formBase.getDocumentActions();
-        if ("summaryTotals".equalsIgnoreCase(navigateTo)) {
+        if (SUMMARY_TOTALS.equalsIgnoreCase(navigateTo)) {
             if (documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_RELOAD)) {
                 documentActions.remove(KRADConstants.KUALI_ACTION_CAN_RELOAD);
             }
