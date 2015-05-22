@@ -16,12 +16,12 @@
 -- You should have received a copy of the GNU Affero General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
-\. ./kc/bootstrap/V602_001__RESKC-1.sql
-\. ./kc/bootstrap/V602_002__RESKC-2.sql
-\. ./kc/bootstrap/V602_007__RESKC-229.sql
-\. ./kc/bootstrap/V602_010__RESKC-204.sql
-\. ./kc/bootstrap/V602_012__RESKC-290.sql
-\. ./kc/bootstrap/V602_013__KC_DML_01_KRACOEUS-7120_B000.sql
 
+
+\. ./kc/bootstrap/V1505_001__RESKC-341.sql
+\. ./kc/bootstrap/V1505_002__RESKC-275.sql
+\. ./kc/bootstrap/V1505_014__AlphabeticallySortSpecialReview.sql
+\. ./kc/bootstrap/V1505_016__mult_choice_question_type.sql
+\. ./kc/bootstrap/V1505_017__RESKC-348.sql
+\. ./kc/bootstrap/V1505_018__RESKC-172.sql
 commit;
-exit

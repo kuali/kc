@@ -17,6 +17,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+
 \. ./rice_server/bootstrap/V600_002__KR_RICE_01_2.3.5-2.4.0_2014-01-09_B000.sql
 \. ./rice_server/bootstrap/V600_003__KR_RICE_02_2.3.5-2.4.0_2014-03-20_B000.sql
 \. ./rice_server/bootstrap/V600_004__KR_RICE_03_2.3.5-2.4.0_2014-04-09_B000.sql
@@ -30,4 +31,3 @@
 \. ./rice_server/bootstrap/V600_012__KR_RICE_12_2.4.0-2.5.0_2014-08-22_KULRICE-12691_B000.sql
 \. ./rice_server/bootstrap/V600_013__KR_RICE_13_2.4.0-2.5.0_2014-08-26_KULRICE-9109_B000.sql
 commit;
-exit

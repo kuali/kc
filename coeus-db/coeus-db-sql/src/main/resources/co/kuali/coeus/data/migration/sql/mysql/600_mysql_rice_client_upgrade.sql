@@ -16,7 +16,7 @@
 -- You should have received a copy of the GNU Affero General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
-\. ./kc/embedded_client_scripts/V600_041__KRC_RICE_01_2.3.5-2.4.0_2014-04-09_B000.sql
 
+
+\. ./kc/embedded_client_scripts/V600_041__KRC_RICE_01_2.3.5-2.4.0_2014-04-09_B000.sql
 commit;
-exit

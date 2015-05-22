@@ -17,7 +17,12 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-\. ./rice/bootstrap/V602_003__helpFix.sql
-\. ./rice/bootstrap/V602_004__helpFix.sql
+
+\. ./rice/bootstrap/V1505_003__add_schemaspy_auth.sql
+\. ./rice/bootstrap/V1505_005__hide_ip_review.sql
+\. ./rice/bootstrap/V1505_006__KRACOEUS-8109.sql
+\. ./rice/bootstrap/V1505_008__SalariesDocumentLevel.sql
+\. ./rice/bootstrap/V1505_011__RESOPS-114.sql
+\. ./rice/bootstrap/V1505_012__clean_term_spec.sql
+\. ./rice/bootstrap/V1505_015__RESKC-5.sql
 commit;
-exit
