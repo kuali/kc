@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 1505_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1505_001__RESKC_341.sql
 @./kc/bootstrap/V1505_002__RESKC-275.sql
 @./kc/bootstrap/V1505_014__AlphabeticallySortSpecialReview.sql

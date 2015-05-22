@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 1505_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1505_003__add_schemaspy_auth.sql
 @./rice/bootstrap/V1505_005__hide_ip_review.sql
 @./rice/bootstrap/V1505_006__KRACOEUS-8109.sql

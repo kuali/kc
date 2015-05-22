@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 600_oracle_kc_demo.sql.log
 @./kc/demo/V600_084_01__KRC_DML_31001_KRNS_DOC_HDR_T_0TSD.sql
 @./kc/demo/V600_085_01__KC_DML_31001_COMMITTEE_DOCUMENT_0TSD.sql
 @./kc/demo/V600_086__KC_DML_31001_COST_ELEMENT_0TSD.sql

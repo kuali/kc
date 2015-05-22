@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 600_oracle_rice_server_upgrade.sql.log
 @./rice_server/bootstrap/V600_002__KR_RICE_01_2.3.5-2.4.0_2014-01-09_B000.sql
 @./rice_server/bootstrap/V600_003__KR_RICE_02_2.3.5-2.4.0_2014-03-20_B000.sql
 @./rice_server/bootstrap/V600_004__KR_RICE_03_2.3.5-2.4.0_2014-04-09_B000.sql
