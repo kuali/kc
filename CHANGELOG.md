@@ -1,5 +1,13 @@
 
 
+##coeus-1505.55
+* Fix Java 7 compilation, code cleanup
+  * Travis Schneberger on Fri, 22 May 2015 16:55:49 -0400 [View Commit](../../commit/c566ab7abe65b86773ac7725a17bf38c24b675ca)
+* Fix award budget versioning issues
+
+  * When versioning awards the budgets need to stay with the original award, but new awards need to display all budgets. Additionally the budget creation process wasn't looking at the correct list of budgets and only the current awards budgets which meant it could easily ignore previously posted budgets.
+  * blackcathacker on Fri, 22 May 2015 14:36:31 -0700 [View Commit](../../commit/b6734a4345c6c7e08675860d3995a308c67bc54e)
+
 ##coeus-1505.54
 * No Changes
 
