@@ -1,5 +1,13 @@
 
 
+##coeus-1505.53
+* Removing validation constraints from award comments
+  * Travis Schneberger on Fri, 22 May 2015 11:35:42 -0400 [View Commit](../../commit/199f9746681b9825ce1bf816d2aed7b2ef924a62)
+*  fix award budget issues
+  * Award budget documents seem to be attached to a particular sequence of the award and when new award sequences are created you can no longer view the budget created on an earlier sequence. Such as today account 2388937. When this happens users are also able to create new budget versions in the new award sequence regardless of the status of the earlier budget version. So now account 2388937 has two budget documents 1440820 and 1439251. Which again, shouldn't affect our work or SAP but I don't think this is how we want this to work.
+  * Award budget totals when editing / versioning an award are not right either.
+  * Gayathri on Fri, 22 May 2015 09:29:50 -0700 [View Commit](../../commit/0a7c381178303321d9753e3c9436ea94ae5b81c7)
+
 ##coeus-1505.52
 * adds lookup fields related to s2s
   * Travis Schneberger on Thu, 21 May 2015 10:54:19 -0400 [View Commit](../../commit/6fffc2914affe29761f7298ed1d3385690dcc6a7)
