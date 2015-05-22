@@ -77,7 +77,7 @@ public class AwardServiceImpl implements AwardService {
 
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException {
         Award newVersion = getVersioningService().createNewVersion(awardDocument.getAward());
-        
+        newVersion.setBudgets(new ArrayList<>());
         for (AwardAttachment attach : newVersion.getAwardAttachments()) {
             AwardAttachment orignalAttachment = findMatchingAwardAttachment(awardDocument.getAward().getAwardAttachments(), attach.getFileId());
             attach.setUpdateUser(orignalAttachment.getUpdateUser());

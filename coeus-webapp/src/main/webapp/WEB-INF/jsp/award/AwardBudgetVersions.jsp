@@ -126,8 +126,8 @@
 </kul:tabTop>
   	
   	<kra-b:budgetVersions 
-  		budgetDocumentVersions="${KualiForm.document.award.budgets}" 
-  		pathToVersions="document.award.budgets"
+  		budgetDocumentVersions="${KualiForm.document.award.allAwardBudgets}"
+  		pathToVersions="document.award.allAwardBudgets"
   		errorKey="document.budgetDocumentVersion*,
   					document.award.budget*"
   		requestedStartDateInitial="${KualiForm.document.award.beginDate}"
