@@ -99,7 +99,7 @@
 			<%-- Existing data --%>
 			                        <c:set var="idx" value="1"/>
         	                        <c:forEach var="protocolSubmission" items="${KualiForm.meetingHelper.committeeSchedule.latestProtocolSubmissions}" varStatus="status">
-        	                          <c:if test = "${protocolSubmission.protocol.active}" >
+        	                          <c:if test = "${protocolSubmission.protocol.active || protocolSubmission.protocol.protocolStatus.description eq 'Disapproved'}" >
 	                                    <tr>
 					                       <th class="infoline" align="center">
 						                       <c:out value="${idx}" />
@@ -151,7 +151,7 @@
                                           		</a>
 		                                    </td>
 	                                   </tr>
-	                                 </c:if>  
+	                                 </c:if>
         	                       </c:forEach>
 			<%-- Existing data --%>
                        </tbody>		

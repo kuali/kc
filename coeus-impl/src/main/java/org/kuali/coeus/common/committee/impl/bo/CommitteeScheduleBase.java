@@ -44,11 +44,12 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
                                               PS extends ProtocolSubmissionBase,
                                               CSM extends CommitteeScheduleMinuteBase<CSM, CS>>
 
-                                              extends CommitteeAssociateBase implements Comparable<CS>, Permissionable{ 
-    
+                                              extends CommitteeAssociateBase implements Comparable<CS>, Permissionable{
+
     private static final long serialVersionUID = -360139608123017188L;
     public static final Long DEFAULT_SCHEDULE_ID = 9999999999L;
-    
+    public static final String DISAPPROVED = "Disapproved";
+
     private Time12HrFmt viewTime;
     
     private boolean filter = true;
@@ -488,7 +489,8 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
                 returnList.add(submission);
             } else {
                 String key = submission.getProtocol().getProtocolNumber();
-                if (submission.getProtocol().isActive()) {
+                if (submission.getProtocol().isActive() ||
+                        StringUtils.equals(submission.getProtocol().getProtocolStatus().getDescription(), DISAPPROVED)) {
                     PS existingSubmission = latestSubmissions.get(key);
                     if (existingSubmission == null) {
                         latestSubmissions.put(key, submission);
