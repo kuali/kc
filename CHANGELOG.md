@@ -1,5 +1,13 @@
 
 
+##coeus-1505.50
+* Fix to AwardComment to display correct update timestamp string
+  * Joe Williams on Wed, 20 May 2015 14:53:48 -0500 [View Commit](../../commit/203598d178e7b244f4bdab368b9c7c3eaefd2746)
+* fix where the negotiation counter is off by one day
+  * Travis Schneberger on Thu, 21 May 2015 11:01:11 -0400 [View Commit](../../commit/569c9c8c370ca6411e56db1fac856e4e37301b3c)
+* excluding amount from ip rule
+  * Travis Schneberger on Thu, 21 May 2015 11:49:06 -0400 [View Commit](../../commit/980462adb249dde972e0cd002d482f276862c863)
+
 ##coeus-1505.49
 *  Fixing occasional STE in award
   * This error cropts up occassionally when you try to save an award.
