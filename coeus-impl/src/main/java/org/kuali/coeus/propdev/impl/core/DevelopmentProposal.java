@@ -1998,7 +1998,8 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
 
     public Integer getParentInvestigatorFlag(String personId, Integer flag) {
         for (ProposalPerson pPerson : this.getProposalPersons()) {
-            if (pPerson.getPersonId() != null && pPerson.getPersonId().equals(personId) || pPerson.getRolodexId() != null && pPerson.getRolodexId().equals(Integer.valueOf(personId))) {
+            if (pPerson.getPersonId() != null && pPerson.getPersonId().equals(personId) ||
+                pPerson.getRolodexId() != null && String.valueOf(pPerson.getRolodexId()).equalsIgnoreCase(personId)) {
                 flag = 2;
                 if (pPerson.getProposalPersonRoleId().equals("PI")) {
                     flag = 1;
