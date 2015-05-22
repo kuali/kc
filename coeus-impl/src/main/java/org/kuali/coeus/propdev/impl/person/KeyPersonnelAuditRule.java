@@ -26,6 +26,7 @@ import org.kuali.coeus.propdev.impl.person.creditsplit.CreditSplitValidator;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.util.AuditCluster;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -50,6 +51,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.*;
  */
 public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelAuditRule.class);
+    public static final String SPONSOR_GROUPS = "Sponsor Groups";
 
     private SponsorHierarchyService sponsorHierarchyService;
     private KeyPersonnelService keyPersonnelService;
@@ -80,7 +82,9 @@ public class KeyPersonnelAuditRule extends KcTransactionalDocumentRuleBase imple
         int  personCount = 0;
         for (ProposalPerson person : pd.getDevelopmentProposal().getProposalPersons()) {
             retval &= validateInvestigator(person,personCount);
-            if (pd.getDevelopmentProposal().getS2sOpportunity() != null && !pd.getDevelopmentProposal().getS2sOpportunity().getOpportunityId().isEmpty() && getSponsorHierarchyService().isSponsorNihMultiplePi(pd.getDevelopmentProposal().getSponsorCode())) {
+            if (pd.getDevelopmentProposal().getS2sOpportunity() != null &&
+                    !pd.getDevelopmentProposal().getS2sOpportunity().getOpportunityId().isEmpty() &&
+                    getSponsorHierarchyService().isSponsorInHierarchy(pd.getDevelopmentProposal().getSponsorCode(), SPONSOR_GROUPS, 1, Constants.NIH_SPONSOR_ACRONYM)) {
                 if (person.isMultiplePi() || person.isPrincipalInvestigator()) {
                     retval &= validateEraCommonUserName(person, personCount);
                 }
