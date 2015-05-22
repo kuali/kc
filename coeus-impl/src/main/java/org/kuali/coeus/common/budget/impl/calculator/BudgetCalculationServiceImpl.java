@@ -162,7 +162,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
         budgetPersonnelDetails.setApplyInRateFlag(budgetLineItem.getApplyInRateFlag());
         budgetPersonnelDetails.setOnOffCampusFlag(budgetLineItem.getOnOffCampusFlag());
-
+        budgetPersonnelDetails.setBudgetLineItem(budgetLineItem);
     }
 
     @Override
@@ -955,7 +955,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             LineItemGroup totalsGroup = getBudgetSummaryTotals(budgetPeriod);
         	summaryPeriod.getLineItemGroups().add(totalsGroup);
             budgetSummaryPeriods.add(summaryPeriod);
-       }
+        }
         budget.setBudgetSummaryDetails(budgetSummaryPeriods);
     	
     }
