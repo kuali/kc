@@ -24,6 +24,7 @@ import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.document.AwardDocument;
@@ -50,34 +51,29 @@ public class AwardServiceImpl implements AwardService {
      * Note Awards are ordered by sequenceNumber
      * @see org.kuali.kra.award.home.AwardService#findAwardsForAwardNumber(java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     public List<Award> findAwardsForAwardNumber(String awardNumber) {
-        List<Award> results = new ArrayList<Award>(businessObjectService.findMatchingOrderBy(Award.class,
+        return new ArrayList<Award>(businessObjectService.findMatchingOrderBy(Award.class,
                 Collections.singletonMap(AWARD_NUMBER, awardNumber),
                                                                 SEQUENCE_NUMBER,
                                                                 true));
-        return results;
     }    
     
     @Override
     public Award getAward(Long awardId) {
-        return awardId != null ? (Award) businessObjectService.findByPrimaryKey(Award.class, 
+        return awardId != null ? businessObjectService.findByPrimaryKey(Award.class,
                                         Collections.singletonMap(AWARD_ID, awardId)) : null;
     }
     
     @Override
     public Award getAward(String awardId) {
-        return awardId != null ? (Award) businessObjectService.findByPrimaryKey(Award.class,
+        return awardId != null ? businessObjectService.findByPrimaryKey(Award.class,
                 Collections.singletonMap(AWARD_ID, awardId)) : null;
     }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
+    @Override
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException {
         Award newVersion = getVersioningService().createNewVersion(awardDocument.getAward());
-        newVersion.setBudgets(new ArrayList<>());
+        newVersion.setBudgets(new ArrayList<AwardBudgetExt>());
         for (AwardAttachment attach : newVersion.getAwardAttachments()) {
             AwardAttachment orignalAttachment = findMatchingAwardAttachment(awardDocument.getAward().getAwardAttachments(), attach.getFileId());
             attach.setUpdateUser(orignalAttachment.getUpdateUser());
@@ -107,7 +103,7 @@ public class AwardServiceImpl implements AwardService {
     
     @Override
     public void synchNewCustomAttributes(Award newAward, Award oldAward) {
-        Set<Integer> availableCustomAttributes = new HashSet<Integer>();
+        Set<Integer> availableCustomAttributes = new HashSet<>();
         for(AwardCustomData awardCustomData : newAward.getAwardCustomDataList()) {
             availableCustomAttributes.add(awardCustomData.getCustomAttributeId().intValue());
         }
@@ -118,7 +114,7 @@ public class AwardServiceImpl implements AwardService {
                 CustomAttributeDocument customAttributeDocument = entry.getValue();
                 if(!availableCustomAttributes.contains(customAttributeDocument.getId().intValue())) {
                     AwardCustomData awardCustomData = new AwardCustomData();
-                    awardCustomData.setCustomAttributeId((long) customAttributeDocument.getId());
+                    awardCustomData.setCustomAttributeId(customAttributeDocument.getId());
                     awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
                     awardCustomData.setValue(customAttributeDocument.getCustomAttribute().getDefaultValue());
                     awardCustomData.setAward(newAward);
@@ -130,7 +126,7 @@ public class AwardServiceImpl implements AwardService {
     }
     
     private List<AwardCustomData> getInactiveCustomDataList(List<AwardCustomData> awardCustomDataList, Map<String, CustomAttributeDocument> customAttributeDocuments) {
-        List<AwardCustomData> inactiveCustomDataList = new ArrayList<AwardCustomData>();
+        List<AwardCustomData> inactiveCustomDataList = new ArrayList<>();
         for(AwardCustomData awardCustomData : awardCustomDataList) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(awardCustomData.getCustomAttributeId().toString());
             if(customAttributeDocument == null || !customAttributeDocument.isActive()) {
@@ -155,13 +151,13 @@ public class AwardServiceImpl implements AwardService {
     }
     
     protected Map<String, String> getHashMap(String awardNumber) {
-        Map<String, String> map = new HashMap<String,String>();
+        Map<String, String> map = new HashMap<>();
         map.put("sequenceOwnerVersionNameValue", awardNumber);
         return map;
     }
     
     protected List<AwardAmountInfo> minimizeAwardAmountInfoCollection(List<AwardAmountInfo> awardAmountInfos) {
-        List<AwardAmountInfo> returnList = new ArrayList<AwardAmountInfo>();
+        List<AwardAmountInfo> returnList = new ArrayList<>();
         returnList.add(awardAmountInfos.get(awardAmountInfos.size() - 1));
         return returnList;
     }
@@ -202,7 +198,7 @@ public class AwardServiceImpl implements AwardService {
     }
     
     protected void archiveCurrentActiveAward(String awardNumber) {
-        Map<String, Object> values = new HashMap<String, Object>();
+        Map<String, Object> values = new HashMap<>();
         values.put("awardNumber", awardNumber);
         values.put("awardSequenceStatus", VersionStatus.ACTIVE.name());
         Collection<Award> awards = businessObjectService.findMatching(Award.class, values);
@@ -220,7 +216,6 @@ public class AwardServiceImpl implements AwardService {
         for (VersionHistory version: versions) {
             if (version.getStatus() == VersionStatus.ACTIVE) {
                 newest = version;
-//                break;
             } else if (newest == null || (version.getStatus() != VersionStatus.CANCELED && version.getSequenceOwnerSequenceNumber() > newest.getSequenceOwnerSequenceNumber())) {
                 newest = version;
             }  
@@ -232,9 +227,10 @@ public class AwardServiceImpl implements AwardService {
         }
         
     }
-    
+
+    @Override
     public Award getAwardAssociatedWithDocument(String docNumber) {
-        Map<String, Object> values = new HashMap<String, Object>();
+        Map<String, Object> values = new HashMap<>();
         values.put("documentNumber", docNumber);
         List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, values);
         return awards.get(0);
@@ -263,4 +259,7 @@ public class AwardServiceImpl implements AwardService {
         this.awardDao = awardDao;
     }
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }
