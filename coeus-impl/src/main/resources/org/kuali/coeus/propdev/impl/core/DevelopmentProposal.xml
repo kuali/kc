@@ -1150,6 +1150,10 @@
 		<property name="resultFields">
 			<list>
         <bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="prevGrantsGovTrackingID" />
+                <bean parent="FieldDefinition" p:attributeName="programAnnouncementNumber" />
+                <bean parent="FieldDefinition" p:attributeName="programAnnouncementTitle" />
+                <bean parent="FieldDefinition" p:attributeName="cfdaNumber" />
 				<bean parent="FieldDefinition" p:attributeName="proposalType.description" />
 				<bean parent="FieldDefinition" p:attributeName="proposalState.description" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
@@ -1228,6 +1232,7 @@
     <property name="resultFields">
       <list>
         <bean p:propertyName="proposalNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="proposalDocument.documentNumber" parent="Uif-DataField"/> 
         <bean p:propertyName="proposalType.description" parent="Uif-DataField">
           <property name="inquiry">
                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.type.ProposalType"
@@ -1241,6 +1246,11 @@
             </property>
         </bean>
         <bean p:propertyName="title" parent="Uif-DataField"/>
+        <bean p:propertyName="prevGrantsGovTrackingID" parent="Uif-DataField"/>
+        <bean p:propertyName="programAnnouncementNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="programAnnouncementTitle" parent="Uif-DataField"/>
+        <bean p:propertyName="cfdaNumber" parent="Uif-DataField"/>
+        <bean p:propertyName="agencyRoutingIdentifier" parent="Uif-DataField"/>
         <bean p:propertyName="sponsor.sponsorName" parent="Uif-DataField">
             <property name="inquiry">
                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.coeus.common.framework.sponsor.Sponsor"
