@@ -125,9 +125,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
                     awardForm.setNewBudgetVersionName("");
                 }
             }
-        // set to null so that this list is reloaded from db when
-        // new version is added.
-        awardDoc.getAward().setAllAwardBudgets(null);
         return actionForward;
     }
     
