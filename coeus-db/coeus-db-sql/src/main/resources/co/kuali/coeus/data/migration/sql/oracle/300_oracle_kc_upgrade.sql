@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 300_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V300_107__schema.sql
 @./kc/bootstrap/V300_108__KRC_DML_01_KRNS_NTE_TYP_T.sql
 @./kc/bootstrap/V300_109__KRC_DML_01_KRSB_QRTZ_LOCKS.sql

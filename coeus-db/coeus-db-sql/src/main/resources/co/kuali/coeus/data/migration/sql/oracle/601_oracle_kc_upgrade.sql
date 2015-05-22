@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 601_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V601_001__KC_TBL_EPS_PROP_PERSON.sql
 @./kc/bootstrap/V601_002__KC_DML_KRACOEUS-6639.sql
 @./kc/bootstrap/V601_003__Resolve_Repackaging_Db_Issues.sql

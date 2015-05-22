@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 520_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V520_036__KC_SEQ_IACUC_ORG_CORRESPONDENT.sql
 @./kc/bootstrap/V520_037__KC_SEQ_IACUC_PERSON_PROC_DETAIL.sql
 @./kc/bootstrap/V520_038__KC_SEQ_IACUC_PERSON_TRAINING.sql

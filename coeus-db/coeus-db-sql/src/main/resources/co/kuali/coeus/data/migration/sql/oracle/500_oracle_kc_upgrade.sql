@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 500_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V500_074__KC_SEQ_IACUC_EXEMPT_NUMBER_ID.sql
 @./kc/bootstrap/V500_075__KC_SEQ_IACUC_PA_PERSONNEL_ID.sql
 @./kc/bootstrap/V500_076__KC_SEQ_IACUC_PA_PROTOCOL_ID.sql

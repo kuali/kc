@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 301_oracle_rice_server_upgrade.sql.log
 @./rice_server/bootstrap/V301_002__DML_BS1_KRIM_PERM_ATTR_DATA_T.sql
 @./rice_server/bootstrap/V301_003__DML_BS1_KRIM_ROLE_MBR_T.sql
 @./rice_server/bootstrap/V301_004__DML_BS1_KRNS_PARM_T.sql

@@ -20,5 +20,6 @@
 set define off
 set sqlblanklines on
 
+spool 510_oracle_rice_client_upgrade.sql.log
 @./kc/embedded_client_scripts/V510_054__KRC_RICE_01_2.1.2-2.1.3_2012-12-12_B000.sql
 commit;

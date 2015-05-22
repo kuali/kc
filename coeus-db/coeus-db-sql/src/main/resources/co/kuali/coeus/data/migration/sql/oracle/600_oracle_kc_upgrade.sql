@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 600_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V600_042__KC_SEQ_COMMITTEE_SCHEDULE_ATTACHMENT_ID.sql
 @./kc/bootstrap/V600_043__KC_SEQ_DOCUMENT_ACCESS_ID.sql
 @./kc/bootstrap/V600_044__KC_SEQ_EPS_PROP_PERSON_ROLE.sql

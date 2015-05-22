@@ -20,6 +20,7 @@
 set define off
 set sqlblanklines on
 
+spool 311_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V311_038__KC_SEQ_SEQ_CUSTOM_ATTRIBUTE.sql
 @./kc/bootstrap/V311_039__KC_SEQ_SEQ_FIN_OBJECT_CODE_MAPPING_ID.sql
 @./kc/bootstrap/V311_040__KC_TBL_AWARD.sql
