@@ -449,6 +449,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return getAward();
     }
 
+    public Budget getBudgetDocumentVersion(int selectedLine) {
+        return ((Award)getBudgetParent()).getAllAwardBudgets().get(selectedLine);
+    }
+
     public Task getParentAuthZTask(String taskName) {
         return new AwardTask(taskName,getAward());
     }
