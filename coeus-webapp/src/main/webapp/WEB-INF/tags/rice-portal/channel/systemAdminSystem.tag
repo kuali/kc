@@ -27,9 +27,7 @@
     <li><portal:portalLink displayTitle="true" title="Person Extended Attributes" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li><portal:portalLink displayTitle="true" title="Document Configuration Hierarchy" url="${ConfigProperties.kew.url}/RuleQuickLinks.do?methodToCall=start&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li>System Options</li>
-    <c:if test="${krafn:isGrm()}">
-      <li><portal:portalLink displayTitle="true" title="Database Schema Information" url="${ConfigProperties.application.url}/schemaspy/index.html" /></li>
-    </c:if>
+    <li><portal:portalLink displayTitle="true" title="Database Schema Information" url="${ConfigProperties.application.url}/schemaspy/index.html" /></li>
   </ul>
 </div>
 <channel:portalChannelBottom />

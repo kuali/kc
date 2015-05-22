@@ -24,6 +24,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.util.HttpUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -135,12 +136,13 @@ public class SchemaSpyFilter implements Filter {
                 KimConstants.PermissionTemplateNames.OPEN_VIEW,
                 Collections.singletonMap(KimConstants.AttributeConstants.VIEW_ID, KIM_SCHEMA_SPY_VIEW_ID),
                 Collections.<String, String>emptyMap())) {
+            HttpUtils.disableCache((HttpServletResponse) response);
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
 
         if (!getConfigurationService().getPropertyValueAsBoolean(SCHEMA_SPY_CONFIG_PARAM)) {
-            disableCache((HttpServletResponse) response);
+            HttpUtils.disableCache((HttpServletResponse) response);
             response.getWriter().write("SchemaSpy has been disabled.");
             return;
         }
@@ -151,20 +153,13 @@ public class SchemaSpyFilter implements Filter {
             }
 
             if (!initialized.get()) {
-                disableCache((HttpServletResponse) response);
+                HttpUtils.disableCache((HttpServletResponse) response);
                 response.getWriter().write("Please wait. SchemaSpy is still processing.");
                 return;
             }
         }
 
         chain.doFilter(request, response);
-    }
-
-    private void disableCache(HttpServletResponse response) {
-        response.setHeader("Expires", "-1");
-        response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-        response.addHeader("Cache-Control", "post-check=0, pre-check=0");
-        response.setHeader("Pragma", "no-cache");
     }
 
     private List<String> createArgs() {
