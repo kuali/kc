@@ -17,9 +17,9 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+
+\. ./kc/demo/V600_257__KC_DML_01_KRACOEUS-7120_BTSD.sql
 \. ./kc/demo/V600_258__KC_DML_01_KRACOEUS-7356_0TSD.sql
 \. ./kc/demo/V600_259__KC_DML_01_KRACOEUS-7659_00SD.sql
 \. ./kc/demo/V600_260__KC_DML_01_KRACOEUS-8741_000D.sql
-
 commit;
-exit

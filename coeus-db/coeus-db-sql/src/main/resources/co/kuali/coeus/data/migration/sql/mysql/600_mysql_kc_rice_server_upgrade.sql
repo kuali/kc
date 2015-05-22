@@ -17,6 +17,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+
 \. ./rice/bootstrap/V600_014__KR_DML_01_KCINFR-979_B000.sql
 \. ./rice/bootstrap/V600_015__KR_DML_01_KFSMI-11381_B000.sql
 \. ./rice/bootstrap/V600_016__KR_DML_01_KFSMI-11382_B000.sql
@@ -44,6 +45,4 @@
 \. ./rice/bootstrap/V600_038__KR_DML_03_KRACOEUS-7014_B000.sql
 \. ./rice/bootstrap/V600_039__KR_DML_03_KRACOEUS-8105_B000.sql
 \. ./rice/bootstrap/V600_040__KR_DML_04_KRACOEUS-8105_B000.sql
-
 commit;
-exit

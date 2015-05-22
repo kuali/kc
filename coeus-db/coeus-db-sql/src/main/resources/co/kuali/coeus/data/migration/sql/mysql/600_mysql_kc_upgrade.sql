@@ -59,6 +59,4 @@
 \. ./kc/bootstrap/V600_080__KC_DML_02_KRACOEUS-8602_B000.sql
 \. ./kc/bootstrap/V600_081__KC_FK1_BUDGET_SUB_AWARD_ATT.sql
 \. ./kc/bootstrap/V600_083__KC_DML_01_KRACOEUS-7120_BTSD.sql
-
 commit;
-exit
