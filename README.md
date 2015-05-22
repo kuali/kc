@@ -9,7 +9,7 @@ Kuali Coeus (KC) for Research Administration is a comprehensive system to manage
 [Java 1.8.x][2]
 [Tomcat 7.x][3]
 [MySQL 5.6.x][4]
-[Git 2.3.x][5]
+[Git 2.4.x][5]
 
 **Instructions**
 The Kuali Coeus application uses maven as it's build tool.  Inside of Kuali Coeus's maven configuration is a list of dependencies.  Some of these dependencies may not be available in a publicly available maven repository.  At the very least you will need to install the following projects into your maven repo.  These projects may have more than one submodule.
@@ -101,8 +101,12 @@ Wait until coeus-s2sgen has installed successfully before moving to the next ste
 
 **Step 7: Build Kuali Coeus**
 Installing Kuali Coeus
-> **Oracle Pofile:** If using an Oracle data base make sure oracle profile is used to insure Oracle specific jars are added to the classpath.  Application will fail to start up if the Oracle jar is not added.
+> **Oracle Profile:** If using an Oracle database make sure oracle profile is used to insure Oracle specific jars are added to the classpath.  Application will fail to start up if the Oracle jar is not added.
+```
+mvn clean install -Dgrm.off=true -Poracle
+```
 
+Install without Oracle support
 ```
 cd ../kc
 mvn clean compile source:jar javadoc:jar install -Dgrm.off=true
