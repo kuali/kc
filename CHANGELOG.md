@@ -1,5 +1,33 @@
 
 
+##coeus-1505.51
+*  STE while printing budget summary with TBS budget person
+
+  * While priting budget summary with a TBS person in the budget, the following STE was received
+  * ERROR org.kuali.rice.krad.web.controller.UifHandlerExceptionResolver - For input string: "TBA4650"
+  * java.lang.NumberFormatException: For input string: "TBA4650"
+  * at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+  * at java.lang.Integer.parseInt(Integer.java:492)
+  * at java.lang.Integer.valueOf(Integer.java:582)
+  * at org.kuali.coeus.propdev.impl.core.DevelopmentProposal.getParentInvestigatorFlag(DevelopmentProposal.java:2131)
+  * at org.kuali.coeus.common.budget.impl.print.BudgetBaseStream.getInvestigatorFlag(BudgetBaseStream.java:1928)
+  * at org.kuali.coeus.common.budget.impl.print.BudgetBaseStream.getReportTypeVO(BudgetBaseStream.java:2296)
+  * at org.kuali.coeus.common.budget.impl.print.BudgetBaseStream.addReportTypeVO(BudgetBaseStream.java:2244)
+  * at org.kuali.coeus.common.budget.impl.print.BudgetBaseStream.getReportTypeVOList(BudgetBaseStream.java:2227)
+  * at org.kuali.coeus.common.budget.impl.print.BudgetSummaryXmlStream.setReportTypeForBudgetSalarySummary(BudgetSummaryXmlStream.java:199)
+  * at org.kuali.coeus.common.budget.impl.print.BudgetSummaryXmlStream.getSalarySummary(BudgetSummaryXmlStream.java:185)
+  * at org.kuali.coeus.common.budget.impl.print.BudgetSummaryXmlStream.getBudgetSummary(BudgetSummaryXmlStream.java:156)
+  * at org.kuali.coeus.common.budget.impl.print.BudgetSummaryXmlStream.getBudgetSummaryReportPageType(BudgetSummaryXmlStream.java:138)
+  * at org.kuali.coeus.common.budget.impl.print.BudgetSummaryXmlStream.getBudgetSummaryReport(BudgetSummaryXmlStream.java:112)
+  * at org.kuali.coeus.common.budget.impl.print.BudgetSummaryXmlStream.generateXmlStream(BudgetSummaryXmlStream.java:86)
+  * at org.kuali.coeus.common.framework.print.AbstractPrint.renderXML(AbstractPrint.java:120)
+  * at org.kuali.c
+  * Gayathri on Thu, 21 May 2015 11:28:00 -0700 [View Commit](../../commit/9eebe1e17a689dd496ae1f3d17834ada7db1b2ef)
+* Add Numeric Validation to BudgetLineItem Quantity
+  * Joe Williams on Thu, 21 May 2015 15:56:35 -0500 [View Commit](../../commit/02c38d3ff0ce5d27c625588d8b496434c308a79b)
+* Rice upgrade for security fix KULRICE-14248 and jdk8 bug RESKC-452
+  * bsmith83 on Thu, 21 May 2015 16:16:45 -0700 [View Commit](../../commit/49277aa09477fec4d73531142a689b0a70f8146f)
+
 ##coeus-1505.50
 * Fix to AwardComment to display correct update timestamp string
   * Joe Williams on Wed, 20 May 2015 14:53:48 -0500 [View Commit](../../commit/203598d178e7b244f4bdab368b9c7c3eaefd2746)
