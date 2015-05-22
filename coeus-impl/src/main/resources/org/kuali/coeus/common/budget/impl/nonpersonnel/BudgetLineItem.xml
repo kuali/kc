@@ -409,6 +409,12 @@
     <property name="controlField">
       <bean p:size="4" parent="Uif-TextControl"/>
     </property>
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
     <property name="summary" value="Quantity" />
     <property name="description" value="Quantity" />
   </bean>
