@@ -127,14 +127,6 @@
     <property name="label" value="Comments" />
     <property name="shortLabel" value="Comments" />
     <property name="maxLength" value="999999999" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
     <property name="control" >
       <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
     </property>
