@@ -16,6 +16,4 @@
 -- You should have received a copy of the GNU Affero General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
-UPDATE KRMS_FUNC_T
-SET NM = 'completeNarrativeRule', DESC_TXT= 'Complete Narrative Rule'
-where FUNC_ID='KC1025';
+UPDATE KRMS_FUNC_T SET NM = 'completeNarrativeRule', DESC_TXT= 'Complete Narrative Rule' where FUNC_ID='KC1025';
