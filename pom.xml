@@ -124,7 +124,7 @@
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
         <rice.version>2.5.3.1505.13-kckualico</rice.version>
-        <schemaspy.version>1505.4</schemaspy.version>
+        <schemaspy.version>1505.5</schemaspy.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
         <spring.version>3.2.13.RELEASE</spring.version>
