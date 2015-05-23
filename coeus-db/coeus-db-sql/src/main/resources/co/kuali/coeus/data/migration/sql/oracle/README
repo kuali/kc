@@ -1,104 +1,37 @@
 *****************************************************
-Oracle installation instructions for KC Release 1504
+Oracle installation instructions for the current release.
 ******************************************************
 
-This folder contains the scripts for a KC 1504, Oracle database upgrade from the following KC versions
+This folder contains the scripts for the installation of the current KC version, from all KC versions
 
-5.2.1
-6.0
-6.0.1
 ******************************************
-Upgrade from 5.2.1 to 6.0.0
+Upgrade from V1 to V3
 ******************************************
 Bundled rice
 ******************************************
-Please run the following scripts against your kc database.
+Please run ALL the scripts for EACH release in the release order against your kc database.
+So if you want to get from V1 to V3 where V1 < V2 < V3, run in the following order
+to get from V1 to V3.
 
-600_oracle_rice_server_upgrade.sql
-600_oracle_rice_client_upgrade.sql
-600_oracle_kc_rice_server_upgrade.sql
-600_oracle_kc_upgrade.sql
-600_oracle_kc_demo.sql
+V2_oracle_rice_server_upgrade.sql
+V2_oracle_rice_client_upgrade.sql
+V2_oracle_kc_rice_server_upgrade.sql
+V2_oracle_kc_upgrade.sql
+V2_oracle_kc_demo.sql
 
-Example:
-sqlplus kc_db_username/kc_db_password < 600_oracle_rice_server_upgrade.sql
-sqlplus kc_db_username/kc_db_password < 600_oracle_rice_client_upgrade.sql
-sqlplus kc_db_username/kc_db_password < 600_oracle_kc_rice_server_upgrade.sql
-sqlplus kc_db_username/kc_db_password < 600_oracle_kc_upgrade.sql
-sqlplus kc_db_username/kc_db_password < 600_oracle_kc_demo.sql
+Once on V2, do the same for V3. Now your database would have been upgraded from V1 -> V2 -> V3.
+
 
 ******************************************
 Standalone rice
 ******************************************
-If you have not upgraded your rice server to the version required by the 6.0 release already,
-please run the following scripts against your rice database. If you have upgraded your rice server already,
-you may skip this step.
-
-600_oracle_rice_server_upgrade.sql
-600_oracle_rice_client_upgrade.sql
-
-Example:
-sqlplus kr_db_username/kr_db_password < 600_oracle_rice_server_upgrade.sql
-sqlplus kr_db_username/kr_db_password < 600_oracle_rice_client_upgrade.sql
-
-After upgrading your rice server as mentioned above, please run the following rice scripts required by kc
-against the rice database
-
-sqlplus kr_db_username/kr_db_password < 600_oracle_kc_rice_server_upgrade.sql
-
-Once the rice upgrade is complete, run the following scripts against you kc database.
-
-600_oracle_kc_upgrade.sql
-600_oracle_kc_demo.sql
-
-Example:
-sqlplus kc_db_username/kc_db_password < 600_oracle_kc_upgrade.sql
-sqlplus kc_db_username/kc_db_password < 600_oracle_kc_demo.sql
-
-******************************************
-Upgrade from 6.0.0 to 1504
-******************************************
-Bundled rice
-******************************************
-Please run the following scripts against your kc database.
-
-601_oracle_kc_rice_server_upgrade.sql
-601_oracle_kc_upgrade.sql
-1504_oracle_kc_rice_server_upgrade.sql
-1504_oracle_kc_upgrade.sql
-
-Example:
-sqlplus kc_db_username/kc_db_password < 601_oracle_kc_rice_server_upgrade.sql
-sqlplus kc_db_username/kc_db_password < 601_oracle_kc_upgrade.sql
-sqlplus kc_db_username/kc_db_password < 1504_oracle_kc_rice_server_upgrade.sql
-sqlplus kc_db_username/kc_db_password < 1504_oracle_kc_upgrade.sql
-
-******************************************
-Standalone rice
-******************************************
-Please run the following scripts against your rice database.
-
-601_oracle_kc_rice_server_upgrade.sql
-1504_oracle_kc_rice_server_upgrade.sql
-
-sqlplus kr_db_username/kr_db_password < 601_oracle_kc_rice_server_upgrade.sql
-sqlplus kr_db_username/kr_db_password < 1504_oracle_kc_rice_server_upgrade.sql
-
-Please run the following scripts against your kc database.
-
-601_oracle_kc_upgrade.sql
-1504_oracle_kc_upgrade.sql
-
-Example:
-sqlplus kcbnd/bnd174kc < 601_oracle_kc_upgrade.sql
-sqlplus kcbnd/bnd174kc < 1504_oracle_kc_upgrade.sql
-
-
+If you did not upgrade your rice server separately, the same instructions from above apply, you run the above scripts in the same order but the rice scripts should be run against the rice db instead of the 
+kc db.
 
 *****
-LOGS
+NOTE
 *****
-
-Please be aware that two log files will be created in the directory where you launch sqlplus from.
+1. It is OK if some files are missing, just run the ones that are present in the order listed above.
+2. Please be aware that two log files will be created in the directory where you launch sqlplus from.
 You can check these logs for errors once the scripts finish.
-
+3. Do not skip any versions, this is only an incremental upgrade path, you cannot upgrade directly from a version to any version other than the one immediately after.
