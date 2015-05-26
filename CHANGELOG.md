@@ -1,6 +1,118 @@
 
 
 ##CURRENT
+* The reject button for the Award Document is missing when the document is on the initial node.
+  * Travis Schneberger on Fri, 22 May 2015 08:37:33 -0400 [View Commit](../../commit/4561b722f639bedd5c7ce2c4c0087cdcd408bb7d)
+* code cleanup in preparation for bugfix
+  * Travis Schneberger on Fri, 22 May 2015 09:12:00 -0400 [View Commit](../../commit/19e51dda6dc904ba00be227649f1e58f55d56fc5)
+* Award Budget causes an exception when adding personnel details.
+  * Travis Schneberger on Fri, 22 May 2015 09:12:41 -0400 [View Commit](../../commit/4ecc447a74cdc9de91464d66e625402b6dda7a54)
+* getting budget before reloading, fixing reload error.
+  * Travis Schneberger on Fri, 22 May 2015 09:18:48 -0400 [View Commit](../../commit/c1c476618b1bdc3b6e3934a3ca341325808dbfc9)
+* Institutional Proposal's award type not saving for an anticipated award type.
+  * Travis Schneberger on Fri, 22 May 2015 11:18:59 -0400 [View Commit](../../commit/f4b4b177b8ea1ddc2267358e12e27252f3d809cb)
+* display disaproved submitted protocols in meeting
+
+  * Amendment or Renewal with or without Amendment docs that are assigned to a Full Committee Meeting Agenda appear in the Protocol Submitted panel of the meeting document but disappear from that list after the recording of Disapprove decision on the amendment doc. This is the opposite of what is required.
+
+  * On further searching, it appears that the after taking the Disapprove action on an amendment or renewal, the entire amendment/renewal record disappears. If attached steps are followed for a renewal w/amendment, the record disappears after Disapprove. If a new renewal is created, KC will maintain sequence structure (so R002 will appear, if R001 was preceding), but R001 will not return from search results.
+
+  * Steps:
+
+    Login as quickstart
+    On Central Admin tab click on Lookup next to Human Participants
+    Select Protocol Status – Active – Open to Enrollment
+    Click search
+    Click edit in Actions column on result list and Protocol displays
+    Click on Protocol Actions tab
+    Click show on Request an Action panel
+    Click show on Create Renewal with Amendment
+    Enter something in Summary box and check all the Amend boxes
+    Click create button
+    Record the Protocol # for this amendment (1502000021R002)
+    Click cancel for Notification
+    Click on Protocol Actions tab
+    Click show on Data Validation panel
+    Click turn on validation – fix any errors and save
+    Click show on Request an Action panel
+    Click show on Submit for Review panel
+    Submission Type Continuing Review/Continuation with Amendment, Submission Review Type Full
+    Select Committee and Schedule Date (next available)
+    Select one primary reviewer
+    Record Schedule date
+    Click submit button
+    Click show on Request an Action
+    Click show on Assign to Agenda
+    Click submit
+    Click close button for protocol
+    On Central Admin tab click lookup on IRB Schedules
+    Enter the Schedule Date From and Schedule Date To that matches the Full Committee Schedule Date from above.
+    Committee Id – select from dropdown menu
+    Click search
+    Click edit on result list item
+    Click show on Protocol Submitted
+    Verify that the protocol Amendment for this scenario is listed as In Agenda
+    Click show on Attendance
+    Add 3 Voting Members as Present Voting (only if there are not at least 3 Voting Members Present)
+    Click close for the Meeting document – yes for “Would you like to save meeting data before close it?”
+    Lookup for Human Participants on Central Admin tab
+    Enter the Renewal with Amendment doc nbr in Protocol # field and search
+    Click edit on the result list item
+    Click on Protocol Actions tab
+    Click show on Request an Action
+    Click show on Record Committee Decision
+    For Motion Type select “Disapprove”
+    Enter No = 0 and Yes = 3
+    Show on Review Comments – type in a comment
+    Click final check box for the Comment
+    Click add
+    Click submit
+    On Disapprove panel click submit
+    Verify that Submission Status and Status are Disapproved
+    Click close
+    Click on Central Admin tab
+    Click on IRB Schedules on Central Admin tab
+    Enter the Schedule Date From and Schedule Date for this amendment
+    Click edit on result list item
+    Click show on Protocol Submitted
+    The Renewal with Amendment Protocol number for this scenario is no longer listed. Expectation is that it will still be listed as a Protocol Submitted.
+  * Joe Williams on Fri, 22 May 2015 10:59:53 -0500 [View Commit](../../commit/a15a9120600dc6bd1d6300ecf97c2ecc2d56ea30)
+* fix to display TBN table on add budget personnel
+
+  * Tried to add a TBA person to a budget; but the list does not appear and the modal window does not fully generate.
+  * I verified that there are 7 defined TBA persons in the maintenance document.
+
+  * Steps to duplicate:
+  * Locate an in-progress proposal or create a new one.
+  * Open or create a budget version
+  * On the Project Personnel screen, use the +Add Personnel button to open the modal
+  * Select TBA from the 'search for' list option
+
+  * Expected result: the list of maintained To Be Named persons should present with the ability to select how many to apply.
+
+  * Current result: the field updates to To Be Named, but the rest of the modal window does not generate. There is only a letter-box window containing this type field. User cannot add a TBA person to the budget.
+  * Joe Williams on Tue, 26 May 2015 09:50:22 -0500 [View Commit](../../commit/0d6467ccecdd72c6209a1ed2a4ce03910044d7aa)
+*  Do not show cancelled award docs in T&M history
+  * As an award administrator, I may need to cancel an award edit transaction instead of saving or submitting. The information may be incomplete, incorrect, or I may have selected the wrong award/node by mistake. I should be able to use the cancel button on the Actions panel to completely delete any updates or changes.
+
+  * Steps:
+
+  * Open existing award
+  * Go to time and money and check history, note current version number and update timestamp/user
+  * Return to award and click edit
+  * Go to award actions and click cancel
+  * Reopen award
+  * Go to time and money and check history: cancelled award version will now be listed
+
+  * Expected Result: all evidence of the cancelled document are removed from the Award, T&M, or Award Budget documents.
+  * Currently, any cancelled documents are appearing as a Version in the T&M History panel.
+  * Gayathri on Tue, 26 May 2015 10:41:02 -0700 [View Commit](../../commit/f84addc63df91c0afcbb4bcb4464345f469b9bb3)
+* Fixes Issues With Sorting of Budget Persons
+  * vineeth on Thu, 15 Jan 2015 16:49:20 -0500 [View Commit](../../commit/51fb5dc493e10c206496f3310234ac5eaae56058)
+* fix compiler error related to generics, fix compiler warnings
+  * Travis Schneberger on Tue, 26 May 2015 15:58:53 -0400 [View Commit](../../commit/ca0c90838bd55f4b683b9e17d6e1c7550b29e632)
+
+##coeus-1505.61
 * No Changes
 
 
