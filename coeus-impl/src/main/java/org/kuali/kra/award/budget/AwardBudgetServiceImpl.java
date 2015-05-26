@@ -373,8 +373,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         WorkflowDocument workFlowDocument = getWorkflowDocument(awardBudgetDocument);
         if(workFlowDocument.isFinal()){
             processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_TO_BE_POSTED);
+            saveDocument(awardBudgetDocument);
         }
-        saveDocument(awardBudgetDocument);
     }
 
     @Override
