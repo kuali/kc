@@ -110,7 +110,6 @@
                 <bean class="org.kuali.kra.award.budget.document.authorizer.RejectAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="rejectBudget" />
                     <property name="requiresWritableDoc" value="true"/>
-                    <property name="kraDocumentRejectionService" ref="kcDocumentRejectionService"/>
                 </bean>
                 <bean class="org.kuali.kra.award.budget.document.authorizer.CancelAwardBudgetAuthorizer" parent="parentBudgetAuthorizer">
                     <property name="taskName" value="cancelBudget" />
