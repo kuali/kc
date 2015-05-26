@@ -39,7 +39,9 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
     private static final long serialVersionUID = -4306012301567173292L;
     private ScaleTwoDecimal obligatedAmount;
     private ScaleTwoDecimal totalFringeAmount;
-    private List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFringeAmounts;
+    private ScaleTwoDecimal prevTotalFringeAmount;
+
+	private List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFringeAmounts;
     private List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFnAAmounts;
     private Map<String, ScaleTwoDecimal> fringeForCostElements;
     private boolean rateOverrideFlag;
@@ -84,6 +86,13 @@ public class AwardBudgetPeriodExt extends BudgetPeriod {
         }
         return fringeForCostElements;
     }
+    public ScaleTwoDecimal getPrevTotalFringeAmount() {
+		return ScaleTwoDecimal.returnZeroIfNull(prevTotalFringeAmount);
+	}
+	public void setPrevTotalFringeAmount(ScaleTwoDecimal prevTotalFringeAmount) {
+		this.prevTotalFringeAmount=prevTotalFringeAmount;
+	}
+
     /**
      * Gets the totalFringeAmount attribute. 
      * @return Returns the totalFringeAmount.

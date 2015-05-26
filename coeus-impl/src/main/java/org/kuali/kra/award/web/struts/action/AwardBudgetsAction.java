@@ -67,6 +67,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
 
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
+    public static final String DEFAULT_BUDGET_ACTIVITY_TYPE_CODE = "x";
 
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
@@ -203,6 +204,9 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             AwardBudgetDocument budgetDocument = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
             Budget budget = budgetDocument.getBudget();
+            if (budget.getActivityTypeCode().equals(DEFAULT_BUDGET_ACTIVITY_TYPE_CODE)) {
+                budget.setActivityTypeCode(getBudgetService().getActivityTypeForBudget(budget));
+            }
             String backUrl = URLEncoder.encode(buildActionUrl(awardDocument.getDocumentNumber(), Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE, "AwardDocument"), StandardCharsets.UTF_8.name());
             String forward = buildForwardUrl(routeHeaderId) + "&backLocation=" + backUrl;
             if (!budget.getActivityTypeCode().equals(newestAward.getActivityTypeCode()) || budget.isRateClassTypesReloaded()) {

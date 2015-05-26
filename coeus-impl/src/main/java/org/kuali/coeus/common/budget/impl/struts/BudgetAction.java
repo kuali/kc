@@ -33,6 +33,7 @@ import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.award.budget.AwardBudgetExt;
+import org.kuali.kra.award.budget.AwardBudgetPeriodExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -97,6 +98,16 @@ public class BudgetAction extends BudgetActionBase {
     protected static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
     protected static final String CONFIRM_SYNCH_AWARD_RATES = "confirmSynchAwardRates";
     protected static final String NO_SYNCH_AWARD_RATES = "noSynchAwardRates";
+    public static final String BUDGET_SUMMARY_TOTALS_ACTION = "BudgetSummaryTotalsAction";
+    public static final String BUDGET_PERSON = "budgetPerson";
+    public static final String SAVE = "save";
+    public static final String BUDGET_ACTIONS = "budgetActions";
+    public static final String RATE_CLASS = "rateClass";
+    public static final String BUDGET_PERIODS = "budgetPeriods";
+    public static final String TRUE = "TRUE";
+    public static final String PROPOSAL_HIERARCHY_SUB_PROJECT_INDIRECT_COST_ELEMENT = "proposalHierarchySubProjectIndirectCostElement";
+    public static final String SUMMARY_TOTALS = "summaryTotals";
+    public static final String ROUTE = "route";
 
     private ProposalHierarcyActionHelper hierarchyHelper;
     @Override
@@ -190,12 +201,12 @@ public class BudgetAction extends BudgetActionBase {
         actionForward = super.execute(mapping, budgetForm, request, response);    
         
         if (actionForward != null) {
-            if ("summaryTotals".equals(actionForward.getName())) { 
+            if (SUMMARY_TOTALS.equals(actionForward.getName())) {
                 budgetForm.suppressButtonsForTotalPage();
             }               
         }
         // check if audit rule check is done from PD
-        if (budgetForm.isAuditActivated() && !"route".equals(((KualiForm)form).getMethodToCall())) {
+        if (budgetForm.isAuditActivated() && !ROUTE.equals(((KualiForm) form).getMethodToCall())) {
             KcServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetForm.getBudgetDocument()));
         }
         } else {
@@ -214,19 +225,27 @@ public class BudgetAction extends BudgetActionBase {
         budgetForm.getDocument().prepareForSave();
         
         Budget budget = budgetDoc.getBudget();
-        getBudgetCommonService(budget.getBudgetParent()).calculateBudgetOnSave(budget);
+        if (budgetForm.getActionName().equals(BUDGET_SUMMARY_TOTALS_ACTION)) {
+        	getBudgetCommonService(budget.getBudgetParent()).calculateBudgetOnSave(budget);
+        }else{
+        	getBudgetCalculationService().calculateBudget(budget);
+        }
         ActionForward forward = super.save(mapping, form, request, response);
         BudgetForm savedBudgetForm = (BudgetForm) form;
         AwardBudgetDocument savedBudgetDoc = savedBudgetForm.getBudgetDocument();
 
-        if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
-            forward = mapping.findForward("budgetActions");
+        if (budgetForm.getMethodToCall().equals(SAVE) && budgetForm.isAuditActivated()) {
+            forward = mapping.findForward(BUDGET_ACTIONS);
         }
 
         return forward;
     }
 
-    protected BudgetSummaryService getBudgetSummaryService() {
+    private BudgetCalculationService getBudgetCalculationService() {
+		return KcServiceLocator.getService(BudgetCalculationService.class);
+	}
+
+	protected BudgetSummaryService getBudgetSummaryService() {
         return KcServiceLocator.getService(BudgetSummaryService.class);
     }
 
@@ -281,18 +300,18 @@ public class BudgetAction extends BudgetActionBase {
         for(BudgetPeriod period : budget.getBudgetPeriods()) {
             for(BudgetLineItem lineItem : period.getBudgetLineItems()) {
                 for(BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
-                    budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
+                    budgetPersonnelDetails.refreshReferenceObject(BUDGET_PERSON);
                     ObjectUtils.materializeObjects(budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts());
                     for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount:budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts()){
                         if(budgetPersonnelCalculatedAmount.getRateClass() == null) {
-                            budgetPersonnelCalculatedAmount.refreshReferenceObject("rateClass");
+                            budgetPersonnelCalculatedAmount.refreshReferenceObject(RATE_CLASS);
                         }
                     }
                 }
                 
                 for(BudgetLineItemCalculatedAmount lineItemCalculatedAmount:lineItem.getBudgetLineItemCalculatedAmounts()){
                     if(lineItemCalculatedAmount.getRateClass() == null) {
-                        lineItemCalculatedAmount.refreshReferenceObject("rateClass");
+                        lineItemCalculatedAmount.refreshReferenceObject(RATE_CLASS);
                     }
                 }
             }
@@ -352,7 +371,7 @@ public class BudgetAction extends BudgetActionBase {
         populateNonPersonnelCategoryTypeCodes(budgetForm);
         
         Budget budget = budgetForm.getBudget();
-        budget.refreshReferenceObject("budgetPeriods");       
+        budget.refreshReferenceObject(BUDGET_PERIODS);
         
         return mapping.findForward(Constants.BUDGET_EXPENSES_PAGE);
     }
@@ -409,16 +428,28 @@ public class BudgetAction extends BudgetActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
         populatePersonnelRoles(budget);
+        List<BudgetPeriod> awardBudgetPeriods = new ArrayList<BudgetPeriod>();
+        if(isAwardBudget(budget)){
+        	for(BudgetPeriod period : budget.getBudgetPeriods()) {
+
+        		AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)period;
+        		awardBudgetPeriod.setPrevTotalFringeAmount(awardBudgetPeriod.getTotalFringeAmount());
+        		awardBudgetPeriods.add(awardBudgetPeriod);
+
+        	}
+        	budget.setBudgetPeriods(awardBudgetPeriods);
+        }
         for(BudgetPeriod period : budget.getBudgetPeriods()) {
-            for(BudgetLineItem lineItem : period.getBudgetLineItems()) {
-                for(BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
-                    budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
-                }
-            }
+        	
+        	for(BudgetLineItem lineItem : period.getBudgetLineItems()) {
+        		for(BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+        			budgetPersonnelDetails.refreshReferenceObject(BUDGET_PERSON);
+        		}
+        	}
         }
         
         budget.getBudgetTotals();
-        budgetForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValueAsString(AwardBudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"));
+        budgetForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValueAsString(AwardBudgetDocument.class, PROPOSAL_HIERARCHY_SUB_PROJECT_INDIRECT_COST_ELEMENT));
         return mapping.findForward(Constants.BUDGET_SUMMARY_TOTALS_PAGE);
     }
     
@@ -450,7 +481,7 @@ public class BudgetAction extends BudgetActionBase {
         final BudgetForm budgetForm = (BudgetForm) form;
         ActionForward forward = null;
         
-        if (!StringUtils.equalsIgnoreCase((String)budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY), "TRUE")) {
+        if (!StringUtils.equalsIgnoreCase((String)budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY), TRUE)) {
             forward = this.save(mapping, form, request, response);
         }
        
