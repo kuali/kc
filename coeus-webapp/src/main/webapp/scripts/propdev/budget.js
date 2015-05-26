@@ -57,6 +57,11 @@ Kc.PropDev.Budget = Kc.PropDev.Budget || {};
 			}
 		}
 	};
+	namespace.refreshAddPersonnelDialog = function() {
+		if ($("select[name='addProjectPersonnelHelper.lineType']").val() == "T") {
+			retrieveComponent('PropBudget-ProjectPersonnelPage-Wizard');
+		}
+	};
 })(Kc.PropDev.Budget, jQuery);
 
 function totalUnallocatedCostSharing (values){

@@ -157,7 +157,8 @@
         <property name="items">
             <list>
                 <bean parent="PropDev-Personnel-TypeSelection-InputField" p:optionsFinder="#{#getService('personTypeValuesFinder')}" 
-                p:optionsFinder.addBlankOption="false" p:required="true"/>
+                p:optionsFinder.addBlankOption="false" p:required="true"
+					  p:onChangeScript="Kc.PropDev.Budget.refreshAddPersonnelDialog()"/>
             </list>
         </property>
     </bean>
@@ -174,7 +175,6 @@
 		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.personnel.TbnPerson"
 		p:layoutManager.renderSequenceField="false" p:renderLineActions="false"
 		p:renderAddLine="false"
-		p:progressiveRenderAndRefresh="true" 
 		p:progressiveRender="@{addProjectPersonnelHelper.lineType == '#{T(org.kuali.coeus.common.framework.person.PersonTypeConstants).TBN.code}'}">
 		<property name="layoutManager.richTable.templateOptions">
 			<map>
