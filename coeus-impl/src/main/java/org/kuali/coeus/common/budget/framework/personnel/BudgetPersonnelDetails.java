@@ -369,7 +369,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
     }
 
     @Override
-    public List getBudgetCalculatedAmounts() {
+    public List<BudgetPersonnelCalculatedAmount> getBudgetCalculatedAmounts() {
         return getBudgetPersonnelCalculatedAmounts();
     }
 
