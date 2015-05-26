@@ -24,6 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.budget.framework.income.BudgetProjectIncome;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
@@ -62,15 +64,14 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -187,7 +188,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
         budget.setBudgetVersionNumber(budget.getBudgetParent().getNextBudgetVersionNumber());
         try {
-            Map<String, Object> objectMap = new HashMap<String, Object>();
+            Map<String, Object> objectMap = new HashMap<>();
             fixProperty(budget, "setBudgetId", Long.class, null, objectMap);
             objectMap.clear();
             fixProperty(budget, "setBudgetPeriodId", Long.class, null, objectMap);
@@ -217,7 +218,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         }
 
         //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
-        Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>();
+        Map<String, BudgetModular> tmpBudgetModulars = new HashMap<>();
         for(BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
             BudgetModular tmpObject = null;
             if(budgetPeriod.getBudgetModular() != null) {
@@ -232,7 +233,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         // setting this to null so copied budget can be posted.
         budget.setBudgetAdjustmentDocumentNumber(null);
         List<BudgetProjectIncome> projectIncomes = budget.getBudgetProjectIncomes();
-        budget.setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
+        budget.setBudgetProjectIncomes(new ArrayList<>());
         if (projectIncomes != null && !projectIncomes.isEmpty()) {
             updateProjectIncomes(budget, projectIncomes);
         }
@@ -280,10 +281,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
                         if(value != null) {
                             if (value instanceof Collection) {
-                                Collection<Object> c = (Collection<Object>) value;
-                                Iterator<Object> iter = c.iterator();
-                                while (iter.hasNext()) {
-                                    Object entry = iter.next();
+                                Collection<?> c = (Collection<?>) value;
+                                for (Object entry : c) {
                                     fixProperty(entry, methodName, clazz, propertyValue, objectMap);
                                 }
                             } else {
@@ -408,8 +407,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     @Override
     public AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException{
-        AwardBudgetDocument rebudgetDocument = createNewBudgetDocument(documentDescription, awardDocument.getAward(), true);
-        return rebudgetDocument;
+        return createNewBudgetDocument(documentDescription, awardDocument.getAward(), true);
     }
 
     /**
@@ -434,7 +432,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     }
 
     @Override
-    public Budget getNewBudgetVersion(BudgetParentDocument parentBudgetDocument, String documentDescription, Map options){
+    public Budget getNewBudgetVersion(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options){
     	AwardDocument awardDocument = (AwardDocument) parentBudgetDocument;
     	AwardBudgetDocument budgetDocument;
 		try {
@@ -470,9 +468,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             return null;
         }
         
-        AwardBudgetDocument awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument.getAward(), false);
-
-        return awardBudgetDocument;
+        return createNewBudgetDocument(documentDescription, parentDocument.getAward(), false);
     }
 
     protected AwardBudgetDocument createNewBudgetDocument(String documentDescription, Award award,boolean rebudget)
@@ -487,8 +483,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         if (isPostedBudgetExist(award)) {
             ScaleTwoDecimal obligatedChangeAmount = getTotalCostLimit(award);
             AwardBudgetExt previousPostedBudget = getLatestPostedBudget(award);
-            AwardBudgetDocument postedBudgetDocument = (AwardBudgetDocument) previousPostedBudget.getBudgetDocument();
-            awardBudgetDocument =  (AwardBudgetDocument) copyBudgetVersion(postedBudgetDocument);
+            AwardBudgetDocument postedBudgetDocument = previousPostedBudget.getBudgetDocument();
+            awardBudgetDocument =  copyBudgetVersion(postedBudgetDocument);
             copyObligatedAmountToLineItems(awardBudgetDocument,obligatedChangeAmount);
         } else {
             awardBudgetDocument = (AwardBudgetDocument) documentService.getNewDocument(AwardBudgetDocument.class);
@@ -560,15 +556,16 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         AwardBudgetExt newAwardBudgetFromPosted = awardBudgetDocument.getAwardBudget();
         List<BudgetPeriod> awardBudgetPeriods = newAwardBudgetFromPosted.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : awardBudgetPeriods) {
-            AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriod;
+            AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt) budgetPeriod;
             List<BudgetLineItem> lineItems = awardBudgetPeriod.getBudgetLineItems();
             for (BudgetLineItem budgetLineItem : lineItems) {
-                AwardBudgetLineItemExt awardBudgetLineItem = (AwardBudgetLineItemExt)budgetLineItem;
+                AwardBudgetLineItemExt awardBudgetLineItem = (AwardBudgetLineItemExt) budgetLineItem;
                 List<BudgetPersonnelDetails> personnelDetailsList = awardBudgetLineItem.getBudgetPersonnelDetailsList();
                 for (BudgetPersonnelDetails budgetPersonnelDetails : personnelDetailsList) {
-                    AwardBudgetPersonnelDetailsExt awardBudgetPersonnelDetails = (AwardBudgetPersonnelDetailsExt)budgetPersonnelDetails;
-                    List<AwardBudgetPersonnelCalculatedAmountExt> personnelCalcAmounts = awardBudgetPersonnelDetails.getBudgetCalculatedAmounts();
-                    for (AwardBudgetPersonnelCalculatedAmountExt awardBudgetPersonnelCalculatedAmountExt : personnelCalcAmounts) {
+                    AwardBudgetPersonnelDetailsExt awardBudgetPersonnelDetails = (AwardBudgetPersonnelDetailsExt) budgetPersonnelDetails;
+                    List<BudgetPersonnelCalculatedAmount> personnelCalcAmounts = awardBudgetPersonnelDetails.getBudgetCalculatedAmounts();
+                    for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmountExt : personnelCalcAmounts) {
+                        AwardBudgetPersonnelCalculatedAmountExt awardBudgetPersonnelCalculatedAmountExt = (AwardBudgetPersonnelCalculatedAmountExt) budgetPersonnelCalculatedAmountExt;
                         awardBudgetPersonnelCalculatedAmountExt.setObligatedAmount(
                                 awardBudgetPersonnelCalculatedAmountExt.getObligatedAmount().add(
                                         awardBudgetPersonnelCalculatedAmountExt.getCalculatedCost().add(
@@ -585,14 +582,15 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                     awardBudgetPersonnelDetails.setSalaryRequested(ScaleTwoDecimal.ZERO);
                     awardBudgetPersonnelDetails.setCostSharingAmount(ScaleTwoDecimal.ZERO);
                 }
-                List<AwardBudgetLineItemCalculatedAmountExt> calcAmounts = budgetLineItem.getBudgetCalculatedAmounts();
-                for (AwardBudgetLineItemCalculatedAmountExt budgetLineItemCalculatedAmount : calcAmounts) {
-                    budgetLineItemCalculatedAmount.setObligatedAmount(
-                            budgetLineItemCalculatedAmount.getObligatedAmount().add(
-                            budgetLineItemCalculatedAmount.getCalculatedCost().add(
-                                    budgetLineItemCalculatedAmount.getCalculatedCostSharing())));
-                    budgetLineItemCalculatedAmount.setCalculatedCost(ScaleTwoDecimal.ZERO);
-                    budgetLineItemCalculatedAmount.setCalculatedCostSharing(ScaleTwoDecimal.ZERO);
+                List<BudgetLineItemCalculatedAmount> calcAmounts = awardBudgetLineItem.getBudgetCalculatedAmounts();
+                for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
+                    AwardBudgetLineItemCalculatedAmountExt awardBudgetLineItemCalculatedAmount = (AwardBudgetLineItemCalculatedAmountExt) budgetLineItemCalculatedAmount;
+                    awardBudgetLineItemCalculatedAmount.setObligatedAmount(
+                            awardBudgetLineItemCalculatedAmount.getObligatedAmount().add(
+                                    awardBudgetLineItemCalculatedAmount.getCalculatedCost().add(
+                                            awardBudgetLineItemCalculatedAmount.getCalculatedCostSharing())));
+                    awardBudgetLineItemCalculatedAmount.setCalculatedCost(ScaleTwoDecimal.ZERO);
+                    awardBudgetLineItemCalculatedAmount.setCalculatedCostSharing(ScaleTwoDecimal.ZERO);
                 }
                 awardBudgetLineItem.setObligatedAmount(
                         awardBudgetLineItem.getObligatedAmount().add(
@@ -762,38 +760,29 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 		return copyBudgetVersion(budget, false);
 	}
 
-    public void copyLineItemsFromProposalPeriods(Collection rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException {
+    public void copyLineItemsFromProposalPeriods(Collection<BudgetPeriod> rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException {
     	//calling awardBudgetPeriod.getBudget() will load Budget.class instead of AwardBudgetExt.class
         //this will cause classcastexceptions later as the budget with that id is technically an AwardBudgetExt
         //this is all due to an ojb bug. So here we make sure OJB caches the budget as an AwardBudgetExt correctly.
         AwardBudgetExt budget = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, awardBudgetPeriod.getBudgetId());
         awardBudgetPeriod.getBudgetLineItems().clear();
-        Iterator iter = rawValues.iterator();
-        while (iter.hasNext()) {
-            BudgetPeriod proposalPeriod = (BudgetPeriod)iter.next();
+
+        for (BudgetPeriod proposalPeriod : rawValues) {
             copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod, proposalPeriod);
         }
         getDocumentService().saveDocument(((AwardBudgetExt)awardBudgetPeriod.getBudget()).getBudgetDocument());        
         getBudgetSummaryService().calculateBudget(awardBudgetPeriod.getBudget());
     }
-    
-    /**
-     * Use the business object service to match the criteria passed in
-     * @param clazz
-     * @param key
-     * @param value
-     * @return
-     */
-    
-    protected List findMatching(Class clazz, String key, Object value){
-        Map<String,Object> fieldValues = new HashMap<String,Object>();
+
+    protected <T extends BusinessObject> List<T> findMatching(Class<T> clazz, String key, Object value){
+        Map<String,Object> fieldValues = new HashMap<>();
         fieldValues.put(key, value);
-        return (List) getBusinessObjectService().findMatching(clazz, fieldValues);
+        return (List<T>) getBusinessObjectService().findMatching(clazz, fieldValues);
     }
     
     @Override
     public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber) {
-        List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
+        List<BudgetPeriod> budgetPeriods = new ArrayList<>();
         List<Award> awardVersions = findMatching(Award.class, AWARD_NUMBER, awardNumber);
         for (Award award : awardVersions) {
             List<AwardFundingProposal> fundingProposals = findMatching(AwardFundingProposal.class, AWARD_ID, award.getAwardId());
@@ -843,7 +832,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     
     @Override
     public List<String> getInactiveBudgetStatus() {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         result.add(getRejectedBudgetStatus());
         result.add(getCancelledBudgetStatus());
         result.add(getDoNotPostBudgetStatus());
@@ -908,7 +897,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
                 result.addAll(((Award) version.getSequenceOwner()).getCurrentVersionBudgets());
             }
         }
-        List<AwardBudgetExt> listResult = new ArrayList<AwardBudgetExt>(result);
+        List<AwardBudgetExt> listResult = new ArrayList<>(result);
         Collections.sort(listResult);
         return listResult;
     }
@@ -987,9 +976,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         if(awardBudgetPeriodFringeAmounts.isEmpty()){
             Map<String,List<ScaleTwoDecimal>> objectCodePersonnelFringe = budget.getObjectCodePersonnelFringeTotals();
             if(objectCodePersonnelFringe!=null){
-                Iterator<String> objectCodes = objectCodePersonnelFringe.keySet().iterator();
-                while (objectCodes.hasNext()) {
-                    String costElement =  objectCodes.next();
+
+                for (String costElement : objectCodePersonnelFringe.keySet()) {
                     String[] costElementAndPersonId = costElement.split(",");
 
                     List<ScaleTwoDecimal> fringeTotals = objectCodePersonnelFringe.get(costElement);
@@ -1025,10 +1013,9 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
      */
     private QueryList<AwardBudgetPeriodSummaryCalculatedAmount> filterEBRates(AwardBudgetPeriodExt budgetPeriod) {
         QueryList<AwardBudgetPeriodSummaryCalculatedAmount> qlAwardBudgetPeriodSummaryCalculatedAmounts = 
-                                                        new QueryList<AwardBudgetPeriodSummaryCalculatedAmount>(budgetPeriod.getAwardBudgetPeriodFringeAmounts());
+                                                        new QueryList<>(budgetPeriod.getAwardBudgetPeriodFringeAmounts());
         Equals ebClassType = new Equals(RATE_CLASS_TYPE,RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-        QueryList<AwardBudgetPeriodSummaryCalculatedAmount> ebCalculatedAmounts = qlAwardBudgetPeriodSummaryCalculatedAmounts.filter(ebClassType);
-        return ebCalculatedAmounts;
+        return qlAwardBudgetPeriodSummaryCalculatedAmounts.filter(ebClassType);
     }
     
     private AwardBudgetPeriodSummaryCalculatedAmount createNewAwardBudgetPeriodSummaryCalculatedAmount(AwardBudgetPeriodExt budgetPeriodExt,
@@ -1084,7 +1071,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
             Equals eqCampusFlag = new Equals(ON_OFF_CAMPUS_FLAG, budgetFnARate.getOnOffCampusFlag());
             And rateClassAndRateType = new And(eqRateClasCode,eqRateTypeCode);
             And rateClassAndRateTypeAndCampusFlag = new And(rateClassAndRateType,eqCampusFlag);
-            QueryList<BudgetRate> matchAwardFnARate = new QueryList<BudgetRate>(savedBudgetRates).filter(rateClassAndRateTypeAndCampusFlag);
+            QueryList<BudgetRate> matchAwardFnARate = new QueryList<>(savedBudgetRates).filter(rateClassAndRateTypeAndCampusFlag);
             if(matchAwardFnARate.isEmpty() || matchAwardFnARate.size()>1 ||
                     !matchAwardFnARate.get(0).getApplicableRate().equals(budgetFnARate.getApplicableFandaRate())) {
                 changeFlag = true;
@@ -1093,7 +1080,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         Equals eqRateClasCode = new Equals(RATE_CLASS_CODE, getBudgetParameterValue(Constants.AWARD_BUDGET_EB_RATE_CLASS_CODE));
         Equals eqRateTypeCode = new Equals(RATE_TYPE_CODE, getBudgetParameterValue(Constants.AWARD_BUDGET_EB_RATE_TYPE_CODE));
         And rateClassAndRateType = new And(eqRateClasCode,eqRateTypeCode);
-        QueryList<BudgetRate> matchAwardEBCampusRates = new QueryList<BudgetRate>(savedBudgetRates).filter(rateClassAndRateType);
+        QueryList<BudgetRate> matchAwardEBCampusRates = new QueryList<>(savedBudgetRates).filter(rateClassAndRateType);
         for (BudgetRate budgetEBRate : matchAwardEBCampusRates) {
             if(budgetEBRate.getOnOffCampusFlag()) {
                 if(award.getSpecialEbRateOnCampus()!=null && !award.getSpecialEbRateOnCampus().equals(budgetEBRate.getApplicableRate())){
