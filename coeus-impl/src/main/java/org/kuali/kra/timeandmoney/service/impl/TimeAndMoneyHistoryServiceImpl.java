@@ -22,8 +22,10 @@ import org.apache.commons.collections4.Predicate;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
@@ -90,12 +92,13 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	List<AwardVersionHistory> buildAwardVersionHistoryList(List<Award> awardVersionList, List<TimeAndMoneyDocument> docs) throws WorkflowException {
 		List<AwardVersionHistory> awardVersionHistoryCollection = new ArrayList<>();
 		for (Award award : awardVersionList) {
-			AwardVersionHistory awardVersionHistory = new AwardVersionHistory(award);
-			awardVersionHistory.setDocumentUrl(buildForwardUrl(award.getAwardDocument().getDocumentNumber()));
-			awardVersionHistory.setAwardDescriptionLine(award.getAwardDescriptionLine());
-			awardVersionHistory.setTimeAndMoneyDocumentHistoryList(getDocHistoryAndValidInfosAssociatedWithAwardVersion(docs, award.getAwardAmountInfos(), award));
-
-			awardVersionHistoryCollection.add(awardVersionHistory);
+            if (!award.getAwardSequenceStatus().equalsIgnoreCase(VersionStatus.CANCELED.toString())) {
+                AwardVersionHistory awardVersionHistory = new AwardVersionHistory(award);
+                awardVersionHistory.setDocumentUrl(buildForwardUrl(award.getAwardDocument().getDocumentNumber()));
+                awardVersionHistory.setAwardDescriptionLine(award.getAwardDescriptionLine());
+                awardVersionHistory.setTimeAndMoneyDocumentHistoryList(getDocHistoryAndValidInfosAssociatedWithAwardVersion(docs, award.getAwardAmountInfos(), award));
+                awardVersionHistoryCollection.add(awardVersionHistory);
+            }
 		}
 		return awardVersionHistoryCollection;
 	}
@@ -287,16 +290,18 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	protected void removeCanceledDocs(List<TimeAndMoneyDocument> docs) {
 		List<TimeAndMoneyDocument> tempCanceledDocs = new ArrayList<>();
 		for (TimeAndMoneyDocument doc : docs) {
-			if (doc.getDocumentHeader().hasWorkflowDocument()) {
-				if (doc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-					tempCanceledDocs.add(doc);
-				}
-			}
-		}
+            if (isDocCancelled(doc)) {
+                tempCanceledDocs.add(doc);
+            }
+        }
 		docs.removeAll(tempCanceledDocs);
 	}
-	
-	public List<TimeAndMoneyDocument> buildTimeAndMoneyListForAwardDisplay(Award award) throws WorkflowException {
+
+    protected boolean isDocCancelled(KcTransactionalDocumentBase doc) {
+        return doc.getDocumentHeader().hasWorkflowDocument() && doc.getDocumentHeader().getWorkflowDocument().isCanceled();
+    }
+
+    public List<TimeAndMoneyDocument> buildTimeAndMoneyListForAwardDisplay(Award award) throws WorkflowException {
 		Map<String, Object> fieldValues1 = new HashMap<>();
 		// get the award number.
 		fieldValues1.put(ROOT_AWARD_NUMBER, award.getAwardNumber());
@@ -309,6 +314,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	protected Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
 		Map<String, String> map = new HashMap<>();
 		map.put(AWARD_NUMBER, goToAwardNumber);
+
 		return map;
 	}
 
