@@ -746,8 +746,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public String displayFullName(String userName){
-        String name = getPersonService().getPersonByPrincipalName(userName).getName();
-        return name;
+        return ObjectUtils.isNull(userName) ? "" : getPersonService().getPersonByPrincipalName(userName).getName();
     }
 
     public String replaceLineBreaks(String string) {
