@@ -27,6 +27,7 @@ import org.kuali.coeus.propdev.impl.editable.ProposalColumnsToAlter;
 import org.kuali.coeus.propdev.impl.editable.ProposalDataOverrideEvent;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.data.DataType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -118,19 +119,28 @@ public class ProposalDevelopmentDataOverrideController extends ProposalDevelopme
             form.setNewProposalChangedData(new ProposalChangedData());
 
             ProposalDevelopmentNotificationContext context =
-                    new ProposalDevelopmentNotificationContext(pdDocument.getDevelopmentProposal(), "103", "Proposal Data Override");
+                    new ProposalDevelopmentNotificationContext(pdDocument.getDevelopmentProposal(), Constants.PROPOSAL_DATA_OVVERRIDE_ACTION_TYPE_CODE, Constants.DATA_OVERRIDE_CONTEXT);
             ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setProposalChangedData(newProposalChangedData);
             ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(pdDocument.getDevelopmentProposal());
+
+            sendNotificationIfNoErrors(form, context);
+
+        }
+
+       return getRefreshControllerService().refresh(form);
+    }
+
+    protected void sendNotificationIfNoErrors(ProposalDevelopmentDocumentForm form, ProposalDevelopmentNotificationContext context) {
+        if (getGlobalVariableService().getMessageMap().hasNoErrors()) {
             if (form.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                 form.getNotificationHelper().initializeDefaultValues(context);
                 form.setSendOverrideNotification(true);
             } else {
                 getKcNotificationService().sendNotification(context);
             }
-
+        } else {
+            form.setSendOverrideNotification(false);
         }
-
-       return getRefreshControllerService().refresh(form);
     }
 
     protected void setChangedValue(DevelopmentProposal developmentProposal, ProposalChangedData proposalChangedData) throws Exception {
