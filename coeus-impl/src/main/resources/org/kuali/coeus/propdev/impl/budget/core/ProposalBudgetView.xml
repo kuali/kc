@@ -208,7 +208,7 @@
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropBudget-BudgetVersions-Dialog');"
 							p:iconClass="icon-money" p:order="50" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Autocalculate Periods" p:methodToCall="generateAllPeriods"
-							  p:render="@{!#ViewHelper.budgetLineItemsExistInLaterPeriods(budget.budgetPeriods)}"
+							  p:render="@{!#ViewHelper.budgetLineItemsExistInLaterPeriods(budget.budgetPeriods) and !viewOnly and canEditView}"
 							  p:iconClass="icon-stack" p:order="60">
 								<property name="confirmationDialog">
 									<bean parent="Uif-DialogGroup-YesNo"

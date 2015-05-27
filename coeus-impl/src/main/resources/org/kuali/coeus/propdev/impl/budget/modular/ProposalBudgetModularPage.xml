@@ -152,14 +152,16 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync" p:methodToCall="synchModular"
-                              p:style="float: right;" p:order="10" >
+                              p:style="float: right;" p:order="10"
+                              p:disabled="@{viewOnly or !canEditView}">
                         <property name="confirmationDialog">
                             <bean id="ProposalModularSync" parent="Uif-DialogGroup-OkCancel"
                                   p:promptText="Are you sure you want to sync the modular budget?" />
                         </property>
 						</bean>
                         <bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Recalculate" p:methodToCall="recalculateModular"
-                              p:style="float: right;" p:order="20" />
+                              p:style="float: right;" p:order="20"
+                              p:disabled="@{viewOnly or !canEditView}"/>
 					</list>
 				</property>
 			</bean>
@@ -182,10 +184,11 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync" p:methodToCall="synchModular"
-							p:performClientSideValidation="true"
+							p:performClientSideValidation="true" p:disabled="@{viewOnly or !canEditView}"
 							p:style="float: right;" p:order="10" />
                         <bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Recalculate" p:methodToCall="recalculateModular"
                               p:performClientSideValidation="true"
+                              p:disabled="@{viewOnly or !canEditView}"
                               p:style="float: right;" p:order="20" />
 					</list>
 				</property>
