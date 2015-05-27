@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* New parameter for Default Email Recipient
+  * Joe Williams on Wed, 27 May 2015 15:55:29 -0500 [View Commit](../../commit/6ec322368d14c0ebe58b3876d94e8dc8353a430f)
+
+##coeus-1505.66
 * copy over modular budgets when proposal is copied
 
   * As a proposal aggregator, I need to copy proposals & budgets. When I copy a proposal & budget with a modular budget filled with details that were either manually added or sync'd from the detailed budget, that screen is not being copied to the new proposal. If I am trying to quickly prepare a change/corrected s2s submission, this missing information will cause another error at the sponsor.
