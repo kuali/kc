@@ -85,6 +85,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private static final Log LOG = LogFactory.getLog(KcNotificationServiceImpl.class);
     private static final String KC_NOTIFICATION_DOC_TYPE_NAME = "KcNotificationDocumentTypeName";
     
+    private static final String KC_DEFAULT_EMAIL_RECIPIENT = "KC_DEFAULT_EMAIL_RECIPIENT";
+
     protected NotificationChannel kcNotificationChannel;
     protected NotificationProducer systemNotificationProducer;
     
@@ -538,6 +540,12 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             }
         }
         
+        if(emailAddresses.isEmpty()){
+        	String defaultEmailRecipient = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,KC_DEFAULT_EMAIL_RECIPIENT);
+        	if(defaultEmailRecipient!=null){
+        		emailAddresses.add(defaultEmailRecipient);
+        	}
+        }
         return emailAddresses;
     }
     
