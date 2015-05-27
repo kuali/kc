@@ -22,11 +22,11 @@
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus-db</artifactId>
-        <version>1505.66-SNAPSHOT</version>
+        <version>1505.66</version>
     </parent>
 
     <artifactId>coeus-db-data-conv</artifactId>
-    <version>1505.66-SNAPSHOT</version>
+    <version>1505.66</version>
     <packaging>jar</packaging>
     <name>Kuali Coeus Database Conversion</name>
     <description>
