@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Add Include Custom Action Urls On All My Protocols Search
+  * Joe Williams on Tue, 26 May 2015 10:59:04 -0500 [View Commit](../../commit/a1dade2b0085e1002a3386dd1daf5d9f38590dd6)
+
+##coeus-1505.67
 * New parameter for Default Email Recipient
   * Joe Williams on Wed, 27 May 2015 15:55:29 -0500 [View Commit](../../commit/6ec322368d14c0ebe58b3876d94e8dc8353a430f)
 
