@@ -1,6 +1,37 @@
 
 
 ##CURRENT
+* copy over modular budgets when proposal is copied
+
+  * As a proposal aggregator, I need to copy proposals & budgets. When I copy a proposal & budget with a modular budget filled with details that were either manually added or sync'd from the detailed budget, that screen is not being copied to the new proposal. If I am trying to quickly prepare a change/corrected s2s submission, this missing information will cause another error at the sponsor.
+
+  * Confirmed problem in res-demo1 1505.47 05-20-2015 10:49
+
+  * Steps to duplicate:
+  * Locate or create a proposal & budget with the Budget > Modular screen completed.
+  * Example: #553 in res-demo1.
+  * Copy the proposal> select to copy for submission budget (or version with modular complete)
+  * In the new proposal (example #554); notice the following:
+  * S2S opportunity >Forms > Optional Modular Budget form still checked to 'include'
+  * Budget > Budget Settings > Modular checkbox still checked
+  * Budget > Modular Budget screen > blank. No details copied.
+  * Joe Williams on Wed, 27 May 2015 13:37:12 -0500 [View Commit](../../commit/4e3eb00e3b8799efae7189d928a43c2c352e0fcd)
+*  Fixing report amounts for awards.
+steps to reproduce:
+  * 1: Central Admin >click link for Current & Pending to open window
+  * 2 click show. Print reports
+  * 3. click icon for Person Search in Current Report or Pending Report (result will populate both fields)
+  * 4. Enter search criteria, to locate a person with current awards (jtester in kualico)
+  * 5 click search
+  * 6. select the person from the list and click return value
+  * 7. click [initiate report] for Current - view results on screen
+  * Expected results:
+  * A single row for each award maintained as "current" displaying the obligated amount from the award.
+  * Actual result:
+  * Some awards are showing double the amount obligated. In Kualico, some other multiple of the current obligated is appearing.
+  * Gayathri on Wed, 27 May 2015 12:15:32 -0700 [View Commit](../../commit/e631f92ffd8a16f693eed90f1496cebf404f790f)
+
+##coeus-1505.65
 *  STE in dataoverride when using award id
   * As an OSP Contract Administrator and proposal approver, I need to use data override to correct information on routing proposals (defined in the maintenance doc 'proposal dev editable columns).
 
