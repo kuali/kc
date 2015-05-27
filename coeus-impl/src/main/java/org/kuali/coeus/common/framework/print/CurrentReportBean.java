@@ -115,7 +115,7 @@ public class CurrentReportBean extends ReportBean {
         this.sponsorName = award.getSponsorName();
         this.sponsorAwardNumber = award.getSponsorAwardNumber();
         this.awardTitle = award.getTitle();
-        this.awardAmount = award.calculateObligatedDistributedAmountTotal();
+        this.awardAmount = award.getObligatedTotal();
         this.projectStartDate = award.getAwardEffectiveDate();
         this.projectEndDate = award.findLatestFinalExpirationDate();
         parameterService = KcServiceLocator.getService(ParameterService.class);
