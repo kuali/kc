@@ -1,6 +1,34 @@
 
 
 ##CURRENT
+*  STE in dataoverride when using award id
+  * As an OSP Contract Administrator and proposal approver, I need to use data override to correct information on routing proposals (defined in the maintenance doc 'proposal dev editable columns).
+
+  * To duplicate;
+  * As Quickstart in res-demo1, open a proposal in approval pending status
+  * Open DataOverride from toolbar
+  * Select Award ID
+  * Enter the 12 digit award id
+  * When I enter a valid award id, it takes it. If I enter an invalid one, the modal shows an error but if I go ahead and submit, I either get a STE or screen goes blank.
+
+  * org.kuali.rice.core.api.exception.RiceRuntimeException: Exception trying to invoke action SAVE for document: 4690
+	at org.kuali.rice.krad.document.DocumentControllerServiceImpl.performWorkflowAction(DocumentControllerServiceImpl.java:892)
+	at org.kuali.rice.krad.document.DocumentControllerServiceImpl.save(DocumentControllerServiceImpl.java:285)
+	at org.kuali.rice.krad.document.DocumentControllerServiceImpl.save(DocumentControllerServiceImpl.java:266)
+	at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase.save(ProposalDevelopmentControllerBase.java:257)
+	at org.kuali.coeus.propdev.impl.dataovveride.ProposalDevelopmentDataOverrideController.createOverride(ProposalDevelopmentDataOverrideController.java:115)
+	at org.kuali.coeus.propdev.impl.dataovveride.ProposalDevelopmentDataOverrideController$$FastClassBySpringCGLIB$$76e3085c.invoke(<generated>)
+
+  * Caused by: java.lang.RuntimeException: No PersistenceProvider handles type: class org.kuali.kra.award.home.Award
+	at org.kuali.rice.krad.data.provider.impl.ProviderBasedDataObjectService.persistenceProviderForType(ProviderBasedDataObjectService.java:266)
+	at org.kuali.rice.krad.data.provider.impl.ProviderBasedDataObjectService.findMatching(ProviderBasedDataObjectService.java:96)
+	at org.kuali.coeus.propdev.impl.core.SubmissionInfoServiceImpl.getProposalCurrentAwardVersion(SubmissionInfoServiceImpl.java:303)
+	at org.kuali.coeus.propdev.impl.core.SubmissionInfoServiceImpl.getProposalCurrentAwardSponsorAwardNumber(SubmissionInfoServiceImpl.java:169)
+	at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentRule.processProposalRequiredFieldsBusinessRule(ProposalDevelopmentDocumentRule.java:319)
+	at
+  * Gayathri on Tue, 26 May 2015 16:18:27 -0700 [View Commit](../../commit/b62b0145f680376a40523f1c68343f995d476e83)
+
+##coeus-1505.64
 * disable autocalculate, and syns/recalculate modular budgets when in view only mode
 
   * When proposal is opened in view mode, budget is also opened in view mode but user has access to generate all periods and sync, calculate buttons are enabled in modular budget.
