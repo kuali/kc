@@ -98,8 +98,7 @@ public class BudgetPeriod extends KcPersistableBusinessObjectBase implements Bud
     @Convert(converter = ScaleTwoDecimalConverter.class)
     private ScaleTwoDecimal directCostLimit;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "budgetPeriodObj",orphanRemoval = true, cascade = CascadeType.ALL)
     private BudgetModular budgetModular;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })

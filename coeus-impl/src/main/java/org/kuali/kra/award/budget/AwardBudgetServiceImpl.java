@@ -240,7 +240,7 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
             BudgetModular tmpBudgetModular = tmpBudgetModulars.get(""+tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
             if(tmpBudgetModular != null) {
-                tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
+                tmpBudgetModular.setBudgetPeriodObj(tmpBudgetPeriod);
                 tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
             }
         }
