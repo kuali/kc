@@ -1,6 +1,39 @@
 
 
 ##CURRENT
+* disable autocalculate, and syns/recalculate modular budgets when in view only mode
+
+  * When proposal is opened in view mode, budget is also opened in view mode but user has access to generate all periods and sync, calculate buttons are enabled in modular budget.
+
+  * Case 1: Proposal is opened by someone with view access only
+  * Case 2: Proposal is opened with Search proposals: view link, regardless of user’s access
+  * Case 3: User with budget creator access opens a budget currently being edited by another user (locked for editing view status)
+  * In all cases, the sync to modular information is saved.
+  * In some cases, the institutional commitments reset to default button result is saved. (If only this button is clicked, results don’t save. If the viewer also clicks the sync button in modular section, the reset to default action is saved.)
+  * In all cases, the autocalculate function will run, but the results will not save on return to/close proposal action.
+
+  * Steps to reproduce:
+  * 1. As quickstart, create a proposal with NIH as sponsor. Add PI Nicolas Majors. Add users oblood and chew as Budget
+  * Creators Add user psmock as Viewer.
+  * 2. Save and close. Logout.
+
+  * For Case 1: Proposal is opened by someone with view access only
+  * 1. Login as oblood. Create budget version named < oblood version >. Add non‐personnel item, period 1 only. Save, return to proposal. Close (yes to save). Logout.
+  * 2. Login as psmock. Click Budget in left navigation bar. Click on oblood version to open. Navigate to modular section. Click ‘sync’. Budget information for Period 1 is synced. Click autocalculate periods link. Budget for all periods is generated (confirm by viewing Budget Summary). Click return to proposal. Close (btw: user is prompted for save, but this prompt shouldn’t happen in view mode).
+
+  * Case 2: Proposal is opened with Search proposals: view link, regardless of user’s access
+  * 1. Login as chew. Create budget version named < chew version >. Complete salary detail for Majors. Add personnel item for Majors with 10% effort, 5% charged. Add non‐personnel item Materials & Services $50,000. In Institutional Commitments, Cost Sharing section, Period 1: enter 100 for Percentage, < dept1 > for Source account. Save. Return to proposal. Close (yes to save). Logout.
+  * 2. Login as quickstart. Use Search Proposal link, enter proposal number, click ‘view’ from the results Actions options. Click Budget. Open chew version. Navigate to Institutional Commitments. Click reset to default button. Information for percentage and source is cleared. Navigate to Modular section. Click sync. Information for period 1 is synced.
+
+  * Case 3: User with budget creator access opens a budget currently being edited by another user (locked for editing view status)
+  * 1. Login as oblood. Open proposal. Create new budget version < oblood 2 >. Add non‐personnel item Materials & Services, $50,000. Save.
+  * 2. Open a new incognito or private browsing window. Login as chew. Open the same proposal. Open oblood 2 budget version. Navigate to Modular section. Click ‘sync’. Information syncs and saves. (Since proposal is locked for editing, sync button should not be active.) Click autocalculate all periods link. Budget information for all periods is generated (confirm by viewing Budget Summary).
+
+  * Results: Action buttons are available to user when budget is accessed in View Mode
+  * Expected Results: These action buttons should not appear, since action should only be available to users when editing.
+  * Joe Williams on Tue, 26 May 2015 16:59:48 -0500 [View Commit](../../commit/d2800edc293ad638e642955f08ecf5ed331e9a3d)
+
+##coeus-1505.63
 * Adds Parameters For Comment Type Codes
   * Joe Williams on Tue, 26 May 2015 10:07:24 -0500 [View Commit](../../commit/b448141bf75a59eafbec9841f78423dc6a5b2519)
 * Fixes issues with awards with null fields on award funding proposal
