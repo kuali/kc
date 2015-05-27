@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.copy;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.org.Organization;
@@ -539,10 +540,24 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
         }
 
+        if (criteria.getIncludeBudget()) {
+            modifyBudgetModular(newDoc);
+        }
+
         copyOpportunity(newDoc, srcDoc);
 
         fixS2sUserAttachedForms(newDoc);
 
+    }
+
+    private void modifyBudgetModular(ProposalDevelopmentDocument newDoc) {
+        for(Budget budget : newDoc.getDevelopmentProposal().getBudgets()) {
+            for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                if (budgetPeriod.getBudgetModular() != null) {
+                    budgetPeriod.getBudgetModular().setBudgetId(budget.getBudgetId());
+                }
+            }
+        }
     }
 
     /*

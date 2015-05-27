@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.api.budget.modular.BudgetModularContract;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -32,14 +33,15 @@ import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 public class BudgetModular extends KcPersistableBusinessObjectBase implements BudgetModularContract {
 
     @Id
-    @Column(name = "BUDGET_PERIOD_NUMBER")
-    private Long budgetPeriodId;
+    @OneToOne(cascade = { CascadeType.REFRESH })
+    @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = true, updatable = true)
+    private BudgetPeriod budgetPeriodObj;
 
     @Column(name = "BUDGET_ID")
     private Long budgetId;
 
     @Column(name = "BUDGET_PERIOD")
-    private Integer budgetPeriod;  
+    private Integer budgetPeriod;
 
     @Column(name = "DIRECT_COST_LESS_CONSOR_FNA")
     @Convert(converter = ScaleTwoDecimalConverter.class)
@@ -71,12 +73,11 @@ public class BudgetModular extends KcPersistableBusinessObjectBase implements Bu
         totalDirectCost = new ScaleTwoDecimal(0);
     }
 
-    public BudgetModular(Long budgetId, Integer budgetPeriod) {
+    public BudgetModular(BudgetPeriod budgetPeriod) {
         this();
-        this.setBudgetId(budgetId);
-        //        this.setProposalNumber(proposalNumber);  
-        //        this.setBudgetVersionNumber(budgetVersionNumber);  
-        this.setBudgetPeriod(budgetPeriod);
+        this.setBudgetPeriodObj(budgetPeriod);
+        this.setBudgetId(budgetPeriod.getBudgetId());
+        this.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
     }
 
     @Override
@@ -221,10 +222,17 @@ public class BudgetModular extends KcPersistableBusinessObjectBase implements Bu
 
     @Override
     public Long getBudgetPeriodId() {
-        return budgetPeriodId;
+        if (budgetPeriodObj != null) {
+            return budgetPeriodObj.getBudgetPeriodId();
+        }
+        return null;
     }
 
-    public void setBudgetPeriodId(Long budgetPeriodId) {
-        this.budgetPeriodId = budgetPeriodId;
+    public BudgetPeriod getBudgetPeriodObj() {
+        return budgetPeriodObj;
+    }
+
+    public void setBudgetPeriodObj(BudgetPeriod budgetPeriodObj) {
+        this.budgetPeriodObj = budgetPeriodObj;
     }
 }
