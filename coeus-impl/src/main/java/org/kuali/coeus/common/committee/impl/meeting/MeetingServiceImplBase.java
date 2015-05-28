@@ -35,7 +35,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
@@ -283,27 +282,26 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
         return isAlternate;
     }
 
-    /*
-     * check if this membership is active based on schedule date
-     */
     protected boolean isActiveMembership(CommitteeMembershipBase committeeMembership, Date scheduledDate) {
-        boolean isActiveMember = !committeeMembership.getTermStartDate().after(scheduledDate)
-                && !committeeMembership.getTermEndDate().before(scheduledDate);
-        if (isActiveMember) {
-            for (CommitteeMembershipRole membershipRole : committeeMembership.getMembershipRoles()) {
-                if (!membershipRole.getStartDate().after(scheduledDate) && !membershipRole.getEndDate().before(scheduledDate)) {
-                    if (membershipRole.getMembershipRoleCode().equals(CommitteeMembershipRole.INACTIVE_ROLE)) {
-                        // Inactive matched, stop here
-                        isActiveMember = false;
-                        break;
-                    }
-                }
-            }
+        if (isActiveForScheduledDate(scheduledDate, committeeMembership.getTermStartDate(), committeeMembership.getTermEndDate())) {
+            return hasActiveMembershipRoleForScheduledDate(committeeMembership.getMembershipRoles(), scheduledDate);
         }
-        return isActiveMember;
-
+        return false;
     }
 
+    private boolean hasActiveMembershipRoleForScheduledDate(List<CommitteeMembershipRole> committeeMembershipRoles, Date scheduledDate) {
+        for (CommitteeMembershipRole membershipRole : committeeMembershipRoles) {
+           if (!membershipRole.getMembershipRoleCode().equals(CommitteeMembershipRole.INACTIVE_ROLE) &&
+                   isActiveForScheduledDate(scheduledDate, membershipRole.getStartDate(), membershipRole.getEndDate())) {
+               return true;
+           }
+        }
+        return false;
+    }
+
+    private boolean isActiveForScheduledDate(Date scheduledDate, Date startDate, Date endDate) {
+        return startDate.before(scheduledDate) && endDate.after(scheduledDate);
+    }
 
     /*
      * check if this membership has alternate role based on schedule date.
@@ -345,7 +343,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     protected String getRoleNameForMembership(CommitteeMembershipBase committeeMembership, Date scheduledDate) {
         String roleName = "";
         for (CommitteeMembershipRole membershipRole : committeeMembership.getMembershipRoles()) {
-            if (!membershipRole.getStartDate().after(scheduledDate) && !membershipRole.getEndDate().before(scheduledDate)) {
+            if (isActiveForScheduledDate(scheduledDate, membershipRole.getStartDate(), membershipRole.getEndDate())) {
                 roleName = roleName + "," + membershipRole.getMembershipRole().getDescription();
             }
         }
@@ -368,8 +366,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
                     .getPersonId().equals(committeeMembership.getRolodexId().toString()))
                     || (!committeeScheduleAttendance.getNonEmployeeFlag() && committeeScheduleAttendance.getPersonId().equals(
                             committeeMembership.getPersonId()))) {
-                if (!committeeMembership.getTermStartDate().after(scheduleDate)
-                        && !committeeMembership.getTermEndDate().before(scheduleDate)) {
+                if (isActiveForScheduledDate(scheduleDate, committeeMembership.getTermStartDate(), committeeMembership.getTermEndDate())) {
                     isActiveMember = isActiveMembership(committeeMembership, scheduleDate);
                 }
             }
