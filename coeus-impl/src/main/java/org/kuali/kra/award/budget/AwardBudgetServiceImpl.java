@@ -961,15 +961,21 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
             AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
             ScaleTwoDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
-            if(!periodFringeTotal.equals(ScaleTwoDecimal.ZERO) || !budgetPeriod.getTotalFringeAmount().equals(ScaleTwoDecimal.ZERO)){
-                budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().subtract(periodFringeTotal).add(budgetPeriod.getTotalFringeAmount()));
-                budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
-            }
+            ScaleTwoDecimal prevPeriodFringeTotal = budgetPeriod.getPrevTotalFringeAmount();
+            ScaleTwoDecimal totalFringeAmount = budgetPeriod.getTotalFringeAmount();
+            ScaleTwoDecimal fringeAmountDiff = totalFringeAmount.subtract(prevPeriodFringeTotal);
+        	ScaleTwoDecimal totalDirect = budgetPeriod.getTotalDirectCost().add(fringeAmountDiff);
+        	budgetPeriod.setPrevTotalFringeAmount(totalFringeAmount);
+			if(!totalDirect.equals(budgetPeriod.getTotalDirectCost())){
+				budgetPeriod.setTotalDirectCost(totalDirect);
+			}
+            budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
         }
         setBudgetCostsFromPeriods(budget);
     }
     
-    public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod) {
+
+	public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod) {
         AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriod;
         List<AwardBudgetPeriodSummaryCalculatedAmount> awardBudgetPeriodFringeAmounts = awardBudgetPeriod.getAwardBudgetPeriodFringeAmounts();
         awardBudgetPeriodFringeAmounts.clear();
