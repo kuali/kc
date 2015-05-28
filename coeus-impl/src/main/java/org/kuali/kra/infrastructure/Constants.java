@@ -187,6 +187,7 @@ public interface Constants {
     /*Proposal notification constants*/
     public static final String DATA_OVERRIDE_NOTIFICATION_ACTION = "102";
     public static final String DATA_OVERRIDE_CONTEXT = "Proposal Data Override";
+    public static final String PROPOSAL_DATA_OVVERRIDE_ACTION_TYPE_CODE = "103";
    
     /* set values for ynq */
     public static final Integer ANSWER_YES_NO = 2;
