@@ -111,6 +111,7 @@
     </bean>
 
     <bean id="kcQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="exposeSchedulerInRepository" value="true" />
         <property name="triggers">
             <list merge="true">
                 <ref bean="kcPessimisticLockingCronTrigger" />
@@ -188,6 +189,7 @@
                 <entry key="log" value="true"/>
                 <entry key="disabled" value="#{not (T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getBooleanProperty('kc.monitoring.enabled'))}" />
                 <entry key="monitoring-path" value="/monitoring/jm" />
+                <entry key="quartz-default-listener-disabled" value="true"/>
             </map>
         </property>
     </bean>
