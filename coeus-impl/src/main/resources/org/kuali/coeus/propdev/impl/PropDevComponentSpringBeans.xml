@@ -369,6 +369,7 @@
 
     <bean id="s2SSchedulerStarter"
           class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SSchedulerFactoryBean">
+        <property name="exposeSchedulerInRepository" value="true" />
         <property name="triggers">
             <list>
                 <ref bean="preValidationTrigger" />

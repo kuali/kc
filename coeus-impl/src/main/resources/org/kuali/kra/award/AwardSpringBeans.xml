@@ -829,6 +829,7 @@
     </bean>
 
     <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="exposeSchedulerInRepository" value="true" />
         <property name="triggers">
             <list>
                 <ref local="cfdaTrigger"/>
