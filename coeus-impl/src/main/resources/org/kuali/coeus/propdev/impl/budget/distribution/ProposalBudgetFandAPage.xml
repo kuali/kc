@@ -127,7 +127,7 @@
 				<property name="items">
 					<list>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Reset to Default"
-                            p:methodToCall="resetUnrecoveredFandA"
+                            p:render="@{!#parent.readOnly}" p:methodToCall="resetUnrecoveredFandA"
 							p:style="float: right;" p:order="10" />
 					</list>
 				</property>
