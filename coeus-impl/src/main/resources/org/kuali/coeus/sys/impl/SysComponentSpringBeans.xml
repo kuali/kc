@@ -146,4 +146,56 @@
         </property>
     </bean>
 
+    <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator">
+        <property name="filter">
+            <bean class="co.kuali.coeus.sys.impl.monitor.MonitoringFilter">
+                <property name="globalVariableService" ref="globalVariableService" />
+                <property name="permissionService" ref="permissionService" />
+                <property name="configurationService" ref="kualiConfigurationService" />
+            </bean>
+        </property>
+        <property name="filterName" value="monitoring"/>
+        <property name="urlMapping">
+            <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator.Mapping">
+                <property name="matchAfter" value="false"/>
+                <property name="maps">
+                    <list>
+                        <value>/monitoring/*</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator">
+        <property name="filter">
+            <bean class="net.bull.javamelody.MonitoringFilter"/>
+        </property>
+        <property name="filterName" value="javamelody"/>
+        <property name="urlMapping">
+            <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator.Mapping">
+                <property name="matchAfter" value="true"/>
+                <property name="maps">
+                    <list>
+                        <value>/*</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="initParameters">
+            <map>
+                <entry key="url-exclude-pattern" value="/static/.*"/>
+                <entry key="log" value="true"/>
+                <entry key="disabled" value="#{not (T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getBooleanProperty('kc.monitoring.enabled'))}" />
+                <entry key="monitoring-path" value="/monitoring/jm" />
+            </map>
+        </property>
+    </bean>
+
+    <bean class="org.kuali.coeus.sys.framework.listener.ListenerRegistrator">
+        <property name="listener">
+            <bean class="net.bull.javamelody.SessionListener"/>
+        </property>
+    </bean>
+
 </beans>
