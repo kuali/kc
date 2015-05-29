@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Disable Reset To Default Capabilities When Budget Is View Only
+  * Joe Williams on Fri, 29 May 2015 12:48:47 -0500 [View Commit](../../commit/18df6cb41cc4a4c6b5269a7913bf6d6df8f64cee)
+*  Rice upgrade for rice quartz job monitoring, ehcache statistics monitoring, kc quartz job monitoring, SQL monitoring.
+  * Travis Schneberger on Fri, 29 May 2015 17:19:03 -0400 [View Commit](../../commit/34fdc9dfad0dc9903e836f32e8075c0aca899b0f)
+* Fix Issue Where Multi Pis Are Removed From Award Upon Editing
+  * Joe Williams on Fri, 29 May 2015 14:44:06 -0500 [View Commit](../../commit/9169df3b0c6f0e1411083e74c10949fb1280cee8)
+
+##coeus-1505.69
 *  Suppress notification if business rule failure on data override
   * In the Kualico instance, the system still presents the Data Override Notification even if entered item was invalid.The Notice should NOT be sent.
   * Steps:
