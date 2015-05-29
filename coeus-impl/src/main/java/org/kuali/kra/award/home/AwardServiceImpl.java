@@ -18,13 +18,13 @@
  */
 package org.kuali.kra.award.home;
 
+import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
-import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.document.AwardDocument;
@@ -36,23 +36,23 @@ import org.kuali.rice.krad.service.DocumentService;
 import java.util.*;
 
 public class AwardServiceImpl implements AwardService {
-    
+
     private static final String AWARD_NUMBER = "awardNumber";
     private static final String AWARD_ID = "awardId";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    
+    public static final String SEQUENCE_OWNER_VERSION_NAME_VALUE = "sequenceOwnerVersionNameValue";
+    public static final String AWARD_SEQUENCE_STATUS = "awardSequenceStatus";
+    public static final String DOCUMENT_NUMBER = "documentNumber";
+
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
     private DocumentService documentService;
     private VersionHistoryService versionHistoryService;
     private AwardDao awardDao;
+    private SponsorHierarchyService sponsorHierarchyService;
 
-    /**
-     * Note Awards are ordered by sequenceNumber
-     * @see org.kuali.kra.award.home.AwardService#findAwardsForAwardNumber(java.lang.String)
-     */
     public List<Award> findAwardsForAwardNumber(String awardNumber) {
-        return new ArrayList<Award>(businessObjectService.findMatchingOrderBy(Award.class,
+        return new ArrayList<>(businessObjectService.findMatchingOrderBy(Award.class,
                 Collections.singletonMap(AWARD_NUMBER, awardNumber),
                                                                 SEQUENCE_NUMBER,
                                                                 true));
@@ -73,7 +73,7 @@ public class AwardServiceImpl implements AwardService {
     @Override
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException {
         Award newVersion = getVersioningService().createNewVersion(awardDocument.getAward());
-        newVersion.setCurrentVersionBudgets(new ArrayList<AwardBudgetExt>());
+        newVersion.setCurrentVersionBudgets(new ArrayList<>());
         for (AwardAttachment attach : newVersion.getAwardAttachments()) {
             AwardAttachment orignalAttachment = findMatchingAwardAttachment(awardDocument.getAward().getAwardAttachments(), attach.getFileId());
             attach.setUpdateUser(orignalAttachment.getUpdateUser());
@@ -95,12 +95,13 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getAwardAmountInfos().get(0).setOriginatingAwardVersion(newVersion.getSequenceNumber());
         newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         newVersion.getAwardAmountInfos().get(0).setSequenceNumber(newVersion.getSequenceNumber());
+        newVersion.setSponsorNihMultiplePi(getSponsorHierarchyService().isSponsorNihMultiplePi(newVersion.getSponsorCode()));
         
         synchNewCustomAttributes(newVersion, awardDocument.getAward());
         
         return newAwardDocument;
-    }   
-    
+    }
+
     @Override
     public void synchNewCustomAttributes(Award newAward, Award oldAward) {
         Set<Integer> availableCustomAttributes = new HashSet<>();
@@ -152,7 +153,7 @@ public class AwardServiceImpl implements AwardService {
     
     protected Map<String, String> getHashMap(String awardNumber) {
         Map<String, String> map = new HashMap<>();
-        map.put("sequenceOwnerVersionNameValue", awardNumber);
+        map.put(SEQUENCE_OWNER_VERSION_NAME_VALUE, awardNumber);
         return map;
     }
     
@@ -199,8 +200,8 @@ public class AwardServiceImpl implements AwardService {
     
     protected void archiveCurrentActiveAward(String awardNumber) {
         Map<String, Object> values = new HashMap<>();
-        values.put("awardNumber", awardNumber);
-        values.put("awardSequenceStatus", VersionStatus.ACTIVE.name());
+        values.put(AWARD_NUMBER, awardNumber);
+        values.put(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.name());
         Collection<Award> awards = businessObjectService.findMatching(Award.class, values);
         for (Award award : awards) {
             award.setAwardSequenceStatus(VersionStatus.ARCHIVED.name());
@@ -231,7 +232,7 @@ public class AwardServiceImpl implements AwardService {
     @Override
     public Award getAwardAssociatedWithDocument(String docNumber) {
         Map<String, Object> values = new HashMap<>();
-        values.put("documentNumber", docNumber);
+        values.put(DOCUMENT_NUMBER, docNumber);
         List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, values);
         return awards.get(0);
     }
@@ -241,11 +242,6 @@ public class AwardServiceImpl implements AwardService {
         return awardDao.getAwardNumber(awardId);
     }
 
-    /**
-     * Defer to the DAO
-     * @param fieldValues a Map of criteria to find matching awards for
-     * @return a limited result Collection of matching Awards
-     */
     @Override
     public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues) {
         return getAwardDao().retrieveAwardsByCriteria(fieldValues);
@@ -261,5 +257,13 @@ public class AwardServiceImpl implements AwardService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public SponsorHierarchyService getSponsorHierarchyService() {
+        return sponsorHierarchyService;
+    }
+
+    public void setSponsorHierarchyService(SponsorHierarchyService sponsorHierarchyService) {
+        this.sponsorHierarchyService = sponsorHierarchyService;
     }
 }
