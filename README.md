@@ -58,10 +58,6 @@ Then check out the correct tag before installing.
 >
 *mvn clean compile source:jar javadoc:jar install*
 
-> **Java 7:** We are currently targeting Java 8 (compile time and runtime) by default for all projects.  We still support Java 7 at this time but this support will be removed in a future release.  Please move to Java 8 as soon as possible.
->
-*mvn clean compile source:jar javadoc:jar install -Dproject.java.version=1.7 -Djavadoc.additionalparam*
-
 Check out the correct schemaspy version and run maven clean install.
 ```
 cd schemaspy
@@ -142,7 +138,7 @@ mvn clean compile source:jar javadoc:jar install -Dgrm.off=true
 
 ##**Creating DB**
 
-Kuali Coeus supports MySQL 5.5, 5.6 and Oracle. We recommend MySQL 5.6 though as that is the database we develop and support internally and are more easily able to respond to problems with that database.
+Kuali Coeus supports MySQL 5.6 and Oracle. We recommend MySQL though as that is the database we develop and support internally and are more easily able to respond to problems with that database.
 
 * [Mysql Installation Instructions](coeus-db/coeus-db-sql/src/main/resources/co/kuali/coeus/data/migration/sql/mysql/README)
 * [Oracle Installation Instructions](coeus-db/coeus-db-sql/src/main/resources/co/kuali/coeus/data/migration/sql/oracle/README)
