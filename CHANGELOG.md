@@ -1,6 +1,46 @@
 
 
 ##CURRENT
+*  Suppress notification if business rule failure on data override
+  * In the Kualico instance, the system still presents the Data Override Notification even if entered item was invalid.The Notice should NOT be sent.
+  * Steps:
+  * In an enroute proposal; OSP admin uses Data Override. Example: Award ID:
+  * If user enters a value in the 'change' field that does not match the valid criteria (too few #/, too long, not a true Award ID) the system outlines the field in red and presents an error warning in the window; but the user can still click 'create override'; the window closes, and the Notification window still presents to alert Aggregator of override. But the override did NOT occur.
+  * The Notification window should NOT be generated if the override did not occur.
+  * In the MIT QA instance, the data override notification "prompt user' is NOT CHECKED. So these incorrect notices are being sent.
+  * The RESKC-485 case fixes the issue of the override validation error message not appearing on the proposal screen when the override modal window closes.
+  * This case is to fix the notice from being generated when the override action is not performed due to invalid/incomplete entry.
+  * Gayathri on Wed, 27 May 2015 14:45:39 -0700 [View Commit](../../commit/4e0173e80c4174eaaad4a369c519fd3647e13b3c)
+* fixes issue when adding fringe amounts the award budget sumary tab
+
+  * When adding fringe amounts in the award budget summary tab every time you navigate to the paramters tab, the fringe amount will increase
+  * Joe Williams on Tue, 26 May 2015 13:02:49 -0500 [View Commit](../../commit/038a9cfa54d76af45ac8e1c68844bfc242d154fc)
+*  Allow same person to be added under different roles.
+  * As an Award Maintainer, I need to set up new, and maintain existing Awards.
+  * When adding Unit and Sponsor Contacts, I sometimes need to add the person to multiple project roles. This usually occurs with small/independent industrial and foundation sponsors in the Sponsor Contacts; and with small internal departments in the Unit Contacts panel.
+  * Currently, the system will not let me add the same person to multiple roles. I get an error message on the top of the page, and a specific error above the panel identifying the person saying they are already added to contacts.
+
+  * Steps to reproduce:
+  * 1 Either create a new award, or open an existing award in Edit mode.
+  * 2 Select a Transaction type on the Award panel.
+  * 3 Click the Contacts tab to open
+  * 4 Expand the Sponsor Contacts panel.
+  * 5 Search for an address book person to add; select a project role; Add.
+  * 6 Search the address book again for the same id added in step 5; select a different project role. Add.
+  * Result: Error on page and above panel stating that the person already exists.
+  * Desired Result: Allow duplicates for all Award contacts; Sponsor, Unit, Central Admin.
+  * Gayathri on Thu, 28 May 2015 10:23:20 -0700 [View Commit](../../commit/887b8a0c110d14ca9f5cee73b8a2c4ccd51cf1e2)
+*  enable java melody
+  * Travis Schneberger on Fri, 29 May 2015 10:12:43 -0400 [View Commit](../../commit/b60cf41839c3e97992cee3027fd7d5cb461cb705)
+* Removing unused integration test initalization logic
+  * Travis Schneberger on Fri, 29 May 2015 10:13:08 -0400 [View Commit](../../commit/e06acb545eb6d1afe53730c9f60385699381e3eb)
+* Adding null check to avoid a NPE for an anticipated award type.
+ Code cleanup.
+  * Travis Schneberger on Fri, 29 May 2015 10:25:31 -0400 [View Commit](../../commit/ea974ef658ffebca00714d4a4771e6b5c2b79472)
+* Updating docs with supported infastructure
+  * Travis Schneberger on Fri, 29 May 2015 10:30:59 -0400 [View Commit](../../commit/ead3ae673109f6c72749a6dc473a0d42b9482977)
+
+##coeus-1505.68
 * Add Include Custom Action Urls On All My Protocols Search
   * Joe Williams on Tue, 26 May 2015 10:59:04 -0500 [View Commit](../../commit/a1dade2b0085e1002a3386dd1daf5d9f38590dd6)
 
