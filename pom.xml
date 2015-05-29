@@ -92,6 +92,7 @@
         <hamcrest.version>1.3</hamcrest.version>
         <itext.version>2.1.7</itext.version>
         <jackson.version>1.9.13</jackson.version>
+        <javamelody-core.version>1.56.0</javamelody-core.version>
         <javax.mail.version>1.5.2</javax.mail.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
@@ -1064,6 +1065,13 @@
                 <groupId>logkit</groupId>
                 <artifactId>logkit</artifactId>
                 <version>${logkit.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>net.bull.javamelody</groupId>
+                <artifactId>javamelody-core</artifactId>
+                <version>${javamelody-core.version}</version>
                 <scope>runtime</scope>
             </dependency>
 
@@ -2181,7 +2189,7 @@
                 <rsmart.cx.token.auth.version>1504.3</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1505.7</rsmart.hr.rest.version>
                 <kc-sql.version>1505.2</kc-sql.version>
-                
+
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
                 <scm.url>https://github.com/kualico/kc</scm.url>

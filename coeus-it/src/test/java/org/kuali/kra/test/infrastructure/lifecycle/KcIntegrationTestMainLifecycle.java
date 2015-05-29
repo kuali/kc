@@ -20,17 +20,14 @@ package org.kuali.kra.test.infrastructure.lifecycle;
 
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.ApplicationServerLifecycle;
-import org.kuali.kra.test.infrastructure.TestHarnessServiceLocator;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.core.impl.config.property.ConfigFactoryBean;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -42,7 +39,6 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
     
     private static final String TEST_CONFIG_XML = "classpath:META-INF/kc-test-config.xml";
     private static final String TEST_CONFIG_DEFAULTS_XML = "classpath:META-INF/test-config-defaults.xml";
-    private static final String DEFAULT_TEST_HARNESS_SPRING_BEANS = "classpath:TestHarnessSpringBeans.xml";
     private static final String RELATIVE_KC_WEB_ROOT = "coeus-webapp/src/main/webapp";
     private static final String RELATIVE_HELP_WEB_ROOT = "coeus-webapp/target/generated-web-sources/help-web-sources";
     private static final String RELATIVE_RICE_WEB_ROOT = "coeus-webapp/target/generated-web-sources/rice-web-sources";
@@ -56,7 +52,6 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
     private static final String DEFAULT_TRANSACTION_MANAGER_NAME = "transactionManager";
 
     private PlatformTransactionManager transactionManager;
-    private SpringResourceLoader loader;
     private ApplicationServerLifecycle jetty;
     private TransactionStatus perTestTransactionStatus;
 
@@ -90,9 +85,7 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
         if (LOG.isInfoEnabled()) {
             LOG.info("Loading Spring Context...");
         }
-        loader = new SpringResourceLoader(new QName("TestHarnessSpringContext"), DEFAULT_TEST_HARNESS_SPRING_BEANS, null);
-        TestHarnessServiceLocator.setContext(loader.getContext());
-        loader.start();
+
         if (LOG.isInfoEnabled()) {
             LOG.info("Loading Application Server...");
         }
@@ -105,7 +98,6 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
     @Override
     protected void doPerSuiteStop() throws Throwable {
         jetty.stop();
-        loader.stop();
     }
 
     @Override

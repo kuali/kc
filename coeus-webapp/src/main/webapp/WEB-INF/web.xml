@@ -175,6 +175,16 @@
     </filter-mapping>
     <!-- Rice content End -->
 
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <url-pattern>/schemaspy/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <url-pattern>/monitoring/*</url-pattern>
+    </filter-mapping>
+
     <filter>
         <filter-name>SessionExpiredFilter</filter-name>
         <filter-class>org.kuali.coeus.sys.framework.controller.interceptor.SessionExpiredFilter</filter-class>
