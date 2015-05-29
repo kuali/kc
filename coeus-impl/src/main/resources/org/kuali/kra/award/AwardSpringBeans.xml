@@ -237,6 +237,10 @@
         <property name="serviceName" value="kcBusinessRulesEngine" />
     </bean>
 
+    <bean id="sponsorHierarchyService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="sponsorHierarchyService" />
+    </bean>
+
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
@@ -256,6 +260,7 @@
         <property name="documentService" ref="documentService" />
         <property name="versioningService" ref="versioningService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
+        <property name="sponsorHierarchyService" ref="sponsorHierarchyService" />
         <property name="awardDao" ref="awardDao" />
     </bean>
     
