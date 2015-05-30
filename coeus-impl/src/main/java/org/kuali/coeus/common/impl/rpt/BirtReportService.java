@@ -21,32 +21,24 @@ package org.kuali.coeus.common.impl.rpt;
 import org.kuali.coeus.common.impl.rpt.cust.CustReportDetails;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public interface BirtReportService {
     
     /**
-    * Fetch input parameters from  template
-    * @param reportId
-    * @return List of BirtParameterBean instances
-    * @throws Exception
+    * Fetch input parameters from template.
     */    
-    public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String reportId) throws Exception;
+    List<BirtParameterBean> getInputParametersFromTemplateFile(String reportId) throws Exception;
 
     /**
-     * Generate ReportDesignFileStream
-     * @param reportId
-     * @return InputStream
+     * Generate ReportDesignFileStream.
      */
-    public InputStream getReportDesignFileStream(String reportId);
+    InputStream getReportDesignFileStream(String reportId);
 
     /**
-     * Fetch reports for which the user has permission
-     * @param 
-     * @return List of CustReportDetails instances
+     * Fetch reports for which the user has permission.
      */
-    public List<CustReportDetails> getReports();
+    List<CustReportDetails> getReports();
     
 }

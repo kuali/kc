@@ -25,59 +25,41 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class BirtHelper {
-    
-    private static IReportEngine engine;
-    private static XAPoolDataSource xAPoolDataSource;
-    private static OdaDataSourceHandle dataSourceHandle;
-    private static final String DATA_SOURCE = "org.eclipse.birt.report.data.oda.jdbc";
-    
-    public BirtHelper() throws Exception {
-        BirtInstance birtInstance = BirtInstance.getInstance();
-        engine = birtInstance.getIReportEngine();
-        xAPoolDataSource = getXAPoolDataSource();
-    }
-    
-    /**
-     * Fetch input parameters from  template
-     * @param reportStream
-     * @return List of BirtParameterBean instances
-     * @throws Exception
-     */ 
-    public ArrayList<BirtParameterBean> getParameters(InputStream reportStream) throws Exception {
 
-        ArrayList<BirtParameterBean> listParameters = new ArrayList<BirtParameterBean>();
-        IReportRunnable design = engine.openReportDesign(reportStream);
-        IGetParameterDefinitionTask task = engine.createGetParameterDefinitionTask(design);
-        Collection params = task.getParameterDefns(true);        
-        Iterator parameterIterator = params.iterator();
-        while (parameterIterator.hasNext()) {
-            IParameterDefnBase param = (IParameterDefnBase) parameterIterator.next();           
-            IScalarParameterDefn scalar = (IScalarParameterDefn) param;
-            listParameters.add(loadParameterDetails(task, scalar, design));            
-        }
-        return listParameters;
+    private static final String DATA_SOURCE = "org.eclipse.birt.report.data.oda.jdbc";
+
+    private static IReportEngine engine;
+    private static ConfigurationService configurationService;
+    private static OdaDataSourceHandle dataSourceHandle;
+
+    /**
+     * Fetch input parameters from template.
+     */ 
+    public List<BirtParameterBean> getParameters(InputStream reportStream) throws Exception {
+
+        final IReportRunnable design = getEngine().openReportDesign(reportStream);
+        final IGetParameterDefinitionTask task = getEngine().createGetParameterDefinitionTask(design);
+        final Collection<IScalarParameterDefn> defns = task.getParameterDefns(true);
+        return defns.stream().map(scalar -> loadParameterDetails(task, scalar, design)).collect(Collectors.toList());
     }
     
     /**
-     * set properties of parameters
-     * @param iGetParameterDefinitionTask
-     * @param iScalarParameterDefn
-     * @param iReportRunnable
-     * @return birtParameterBean
+     * set properties of parameters.
      */ 
     private BirtParameterBean loadParameterDetails(IGetParameterDefinitionTask task, IScalarParameterDefn scalar, IReportRunnable report) {
         
-        BirtParameterBean birtParameterBean = new BirtParameterBean();
+        final BirtParameterBean birtParameterBean = new BirtParameterBean();
         birtParameterBean.setName(scalar.getName());
         birtParameterBean.setHelp(scalar.getHelpText());
         birtParameterBean.setFormat(scalar.getDisplayFormat());
@@ -94,6 +76,7 @@ public class BirtHelper {
                 birtParameterBean.setControlType(Constants.TYPE_TEXT);
                 break;
         }
+
         switch (scalar.getDataType()) {
             case IScalarParameterDefn.TYPE_STRING:
                 birtParameterBean.setDataType(Constants.STRING_TYPE);
@@ -108,51 +91,65 @@ public class BirtHelper {
         return birtParameterBean;
     }
     
-    public static IReportEngine getEngine() {
-        return engine;
-    }
-
-    public static void setEngine(IReportEngine engine) {
-        BirtHelper.engine = engine;
-    }
-    
-    public static XAPoolDataSource getXAPoolDataSource() {
-        if (xAPoolDataSource == null) {
-            xAPoolDataSource =  KcServiceLocator.getService("dataSourceXAPool");
-        }
-        return xAPoolDataSource;
-    }
-
-    public static OdaDataSourceHandle getDataSourceHandle() throws SemanticException, SQLException {
-        if (dataSourceHandle == null) {
-           return getNewDataSourceHandle();
-            
-        }
-        return dataSourceHandle;
-    }
-    
     /**
      * sets the data source properties
      * @return OdaDataSourceHandle instance
      */
     private static OdaDataSourceHandle getNewDataSourceHandle() throws SemanticException, SQLException {
         
-        ElementFactory designFactory = new ElementFactory(new ReportDesign());
-        dataSourceHandle  = designFactory.newOdaDataSource(Constants.BIRT_DATA_SOURCE,DATA_SOURCE);
+        final ElementFactory designFactory = new ElementFactory(new ReportDesign());
+        final OdaDataSourceHandle newDataSourceHandle  = designFactory.newOdaDataSource(Constants.BIRT_DATA_SOURCE,DATA_SOURCE);
 
-        String odaDriverClassName = xAPoolDataSource.getDriverClassName();
-        String odaURL = xAPoolDataSource.getUrl();
-        String odaUser = xAPoolDataSource.getUsername();
-        String odaPassword =  xAPoolDataSource.getPassword();
-        
-        dataSourceHandle.setProperty("odaDriverClass", odaDriverClassName);
-        dataSourceHandle.setProperty("odaURL", odaURL);
-        dataSourceHandle.setProperty("odaUser", odaUser);
-        dataSourceHandle.setProperty("odaPassword", odaPassword);
+        final String odaDriverClassName = getConfigurationService().getPropertyValueAsString(Config.DATASOURCE_DRIVER_NAME);
+        final String odaURL = getConfigurationService().getPropertyValueAsString(Config.DATASOURCE_URL);
+        final String odaUser = getConfigurationService().getPropertyValueAsString(Config.DATASOURCE_USERNAME);
+        final String odaPassword =  getConfigurationService().getPropertyValueAsString(Config.DATASOURCE_PASSWORD);
+
+        newDataSourceHandle.setProperty("odaDriverClass", odaDriverClassName);
+        newDataSourceHandle.setProperty("odaURL", odaURL);
+        newDataSourceHandle.setProperty("odaUser", odaUser);
+        newDataSourceHandle.setProperty("odaPassword", odaPassword);
+        return newDataSourceHandle;
+    }
+
+    public static IReportEngine getEngine() {
+        if (engine == null) {
+            final BirtInstance birtInstance;
+            try {
+                birtInstance = BirtInstance.getInstance();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            engine = birtInstance.getIReportEngine();
+        }
+
+        return engine;
+    }
+
+    public static void setEngine(IReportEngine engine) {
+        BirtHelper.engine = engine;
+    }
+
+    public static OdaDataSourceHandle getDataSourceHandle() throws SemanticException, SQLException {
+        if (dataSourceHandle == null) {
+            dataSourceHandle = getNewDataSourceHandle();
+
+        }
         return dataSourceHandle;
     }
 
     public static void setDataSourceHandle(OdaDataSourceHandle dataSourceHandle) {
         BirtHelper.dataSourceHandle = dataSourceHandle;
+    }
+
+    public static ConfigurationService getConfigurationService() {
+        if (configurationService == null) {
+            configurationService =  KcServiceLocator.getService(ConfigurationService.class);
+        }
+        return configurationService;
+    }
+
+    public static void setConfigurationService(ConfigurationService configurationService) {
+        BirtHelper.configurationService = configurationService;
     }
 }

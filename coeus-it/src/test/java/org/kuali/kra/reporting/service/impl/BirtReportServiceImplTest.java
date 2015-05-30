@@ -28,7 +28,6 @@ import org.kuali.coeus.common.impl.rpt.BirtReportService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -36,7 +35,7 @@ public class BirtReportServiceImplTest extends KcIntegrationTestBase {
     
     private BirtReportService birtReportService;
     private String reportId;
-    ArrayList<BirtParameterBean> parameterList;
+    List<BirtParameterBean> parameterList;
     List<CustReportDetails> custReportDetails;
     
     @Before
