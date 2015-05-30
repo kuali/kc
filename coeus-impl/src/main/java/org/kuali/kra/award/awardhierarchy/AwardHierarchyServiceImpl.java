@@ -379,6 +379,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             award.setAwardDocument(document);
             copyAwardAmountDateInfo(award, newAward);
             award.setBudgets(new ArrayList<>());
+            newAward.setCurrentVersionBudgets(new ArrayList<>());
 
             List<AwardSpecialReview> awardSpecialReviews = new ArrayList<AwardSpecialReview>();
             newAward.setSpecialReviews(awardSpecialReviews);
