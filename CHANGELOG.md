@@ -1,6 +1,75 @@
 
 
 ##CURRENT
+* Fix to Display Only Active Committee Members On Schedule Absentee List
+  * Joe Williams on Thu, 28 May 2015 11:51:04 -0500 [View Commit](../../commit/edbc42b86401affc92212a0e36583972b4ab894d)
+* added award audit rule to check for invalid sponsor codes
+
+  * 1. Create an award document filling in only the required fields.
+  * 2. For the Sponsor enter an invalid code such as '010002' which after it is entered will indicate in red "not found"
+  * 3. Submit to the award e-doc to final.
+  * RESULT: Document saves and finalizes even though the sponsor field (which is a required field) has an invalid code entered.
+  * EXPECTED RESULT: Document should not save or finalize with a sponsor code that is not found. An error should be displayed indicating the sponsor is invalid.
+
+  * The way this is described could cause some problems. If you create an award with a sponsor that later becomes inactive you wouldn't be able to maintain your document as the hard on save errors also prevent editing. This should probably be done via a validation error which would prevent submission. It should also apply to the prime sponsor field.
+  * Joe Williams on Fri, 29 May 2015 12:07:14 -0500 [View Commit](../../commit/4534d9a3a61c3efcc9b9de93bdc71d28e72f90df)
+* Fixed Cost Sharing and U/R screens display 'NAN' instead of total unallocated
+
+steps to reproduce
+  * Open an existing Proposal #564 in res-demo1
+  * Open the Budget version
+  * (see assigned person Rosemary Hanlon, or do the following:
+  * Add a Person; maintain their cost object and salary
+  * Assign the person to a budget period with their Effort% greater than Charge% (to generate cost sharing) save
+
+  * Edit the Details & Rates
+  * Click on the Rates tab
+  * Uncheck the "apply' box in the MTDC row (to generate under recovered f&a)
+  * Save
+  * Save proposal
+
+  * Click to Institutional Commitments
+  * >Click to Unrecovered F&A
+  * The "total Unallocated" field shows "NAN"
+
+  * >Click Cost Sharing
+  * The "total unallocated" field shows "NAN"
+
+  * Expected Result: should display a numeric value = to 0 until user starts allocating, and then the numeric value should update based on the maintained amounts in the table rows.
+  * Joe Williams on Fri, 29 May 2015 12:26:19 -0500 [View Commit](../../commit/93d1e02a83b7b2e4da1becc9272018adcd5d42ab)
+*  Hierarchy copy fixes
+  * "Award Copy + Copy as child of" and "New Child + based on copy from parent" and "selected award" are also copying the budget.
+  * Create an Award Hierarchy Structure
+  * Test 1: New Child section > click button to ‘copy from parent’, then click [create]
+  * 1.	Start with an existing Award with T&M doc. (Example: 000073-00001:2533529)
+  * (this root node award had an award budget)
+  * 2.	Award Actions > Show Hierarchy Actions panel
+  * 3.	Expand the node detail by clicking on the  beside the award-node number
+  * 4.	In the New Child section > click button to ‘copy from parent’, then click [create] at the end of the row; A new award in ‘initiated’ status will open in the screen. (my test = 000073-00002)
+  * 5.	Complete the required fields to submit:
+  * a.	Award tab –
+  * i.	Description
+  * ii.	Details & Dates section: Change title to make this easier to locate; otherwise all fields from parent are pre-filled.-save Award tab
+  * b.	Payments/Reports/Terms (BUG?) I had to add a report to get past the error validation. But often, we don’t want to have reporting requirements at the child nodes – so no types should be required. (separate JIRA after more testing.)
+  * c.	Award Actions Tab > submit
+  * Even prior to submit, I opened the Budget Versions tab and found that the budget version from the root node were copied into this -00002 child node.
+  * Test 2: Create new child node: Hierarchy Actions > New Child > Based on Selected Award = child node 2 (same as open award node w/award budget)
+  * 1.	Search and open award *73-00002 (this node has an award budget copied from the root node)
+  * 2.	Award Actions > Show Hierarchy Actions panel
+  * 3.	Click the green  beside the root node -0000001 to expand the award view
+  * 4.	Click the green  beside the child -00002 node to expand the copy options
+  * 5.	Click the button beside “selected award” and then click the drop-down to select the *73-00002 node (same as open) then [create]
+  * 6.	The new -00003 award node will present in the screen to be maintained.
+  * a.	At this point, you can click on Budget Versions and confirm that versions were copied from the selected node.
+  * 7.	Award Actions > Submit.
+  * 8.	Wait for processing to complete
+  * 9.	Click on Budget Versions screen.
+  * 10.	Click [open] on the rebudget version that is still in progress
+  * Gayathri on Fri, 29 May 2015 16:20:15 -0700 [View Commit](../../commit/5140c119bb88e8c1d154dc2f78b891d4abf1509e)
+*  fixing test related to java melody datasource monitoring, code cleanup
+  * Travis Schneberger on Sat, 30 May 2015 11:25:04 -0400 [View Commit](../../commit/13b95b7ba487bb43590988cf594bc7e6ece3743d)
+
+##coeus-1505.70
 * Disable Reset To Default Capabilities When Budget Is View Only
   * Joe Williams on Fri, 29 May 2015 12:48:47 -0500 [View Commit](../../commit/18df6cb41cc4a4c6b5269a7913bf6d6df8f64cee)
 *  Rice upgrade for rice quartz job monitoring, ehcache statistics monitoring, kc quartz job monitoring, SQL monitoring.
