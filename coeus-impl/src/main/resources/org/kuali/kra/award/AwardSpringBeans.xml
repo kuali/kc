@@ -519,7 +519,6 @@
     </bean>
         
     <bean id="awardTemplateXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardTemplateXmlStream" scope="prototype">
-        <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
@@ -1111,9 +1110,6 @@
 
 	<bean id="reportTrackingXmlStream"
 		class="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingXmlStream" scope="prototype">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>

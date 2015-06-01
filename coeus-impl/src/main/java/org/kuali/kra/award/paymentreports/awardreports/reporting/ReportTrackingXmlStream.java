@@ -36,7 +36,6 @@ import org.kuali.kra.printing.schema.AwardReportingRequirementDocument.AwardRepo
 import org.kuali.kra.printing.schema.ReportingRequirement;
 import org.kuali.kra.printing.schema.ReportingRequirementDetail;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.*;
@@ -44,12 +43,11 @@ import java.util.*;
 public class ReportTrackingXmlStream implements XmlStream {
 
     private DateTimeService dateTimeService;
-    private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private static final Log LOG = LogFactory.getLog(ReportTrackingXmlStream.class);
     /**
      * This method generates XML committee report. It uses data passed in
-     * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
+     * {@link KcPersistableBusinessObjectBase} for populating the XML nodes. The XMl once
      * generated is returned as {@link XmlObject}
      *
      * @param printableBusinessObject
@@ -79,12 +77,7 @@ public class ReportTrackingXmlStream implements XmlStream {
     /**
      *
      * This method is to get the AwardReporting data for print.
-     * @param document
-     * @param params
-     * @return
-     * @throws PrintingException
      */
-   // @SuppressWarnings("unchecked")
     public AwardReportingRequirement getAwardReporting(KcPersistableBusinessObjectBase
         printableBusinessObject, Map<String, Object> htData) throws Exception{
         ReportTracking reportTracking =
@@ -247,14 +240,7 @@ public class ReportTrackingXmlStream implements XmlStream {
                     reportReqDetailList.toArray(new ReportingRequirementDetail[0]));
         }
     }
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }

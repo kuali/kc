@@ -39,8 +39,6 @@ import org.kuali.kra.printing.schema.DisclosureDocumentsDocument.DisclosureDocum
 import org.kuali.kra.printing.schema.DisclosureNotesDocument.DisclosureNotes;
 import org.kuali.kra.printing.schema.DisclosureProjectsDocument.DisclosureProjects;
 import org.kuali.kra.printing.schema.PersonDocument;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.*;
@@ -49,13 +47,11 @@ public class CoiCertificationXmlStream implements XmlStream {
 
     private static final Log LOG = LogFactory.getLog(CoiCertificationXmlStream.class);
 
-    private DateTimeService dateTimeService;
-    private BusinessObjectService businessObjectService;
     private DocumentService documentService;
 
     /**
      * This method generates XML committee report. It uses data passed in
-     * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
+     * {@link KcPersistableBusinessObjectBase} for populating the XML nodes. The XMl once
      * generated is returned as {@link XmlObject}
      * 
      * @param printableBusinessObject
@@ -81,13 +77,8 @@ public class CoiCertificationXmlStream implements XmlStream {
     /**
      * 
      * This method is to get the Disclosure Certification data for print.
-     * @param document
-     * @param params
-     * @return
-     * @throws PrintingException
+	 *
      */
-    @SuppressWarnings("unchecked")
-    
     public ApprovedDisclosure getDisclosureData(KcPersistableBusinessObjectBase printableBusinessObject,
     	    Map<String, Object> htData) throws PrintingException{
     	    CoiDisclosure disclosure=(CoiDisclosure)printableBusinessObject;
@@ -200,24 +191,7 @@ public class CoiCertificationXmlStream implements XmlStream {
     	        disclosureDocumentList.add(disclDocuments);
     	        }
     	        approvedDisclosure.setDisclosureDocumentsArray(disclosureDocumentList.toArray(new DisclosureDocuments[0]));
-    	    } 
-    	    
-    	    public BusinessObjectService getBusinessObjectService() {
-    	        return businessObjectService;
     	    }
-
-    	    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-    	        this.businessObjectService = businessObjectService;
-    	    }
-    	    
-    	    public DateTimeService getDateTimeService() {
-    	        return dateTimeService;
-    	    }
-
-    	    public void setDateTimeService(DateTimeService dateTimeService) {
-    	        this.dateTimeService = dateTimeService;
-    	    }
-
     	    public DocumentService getDocumentService() {
     	        return documentService;
     	    }

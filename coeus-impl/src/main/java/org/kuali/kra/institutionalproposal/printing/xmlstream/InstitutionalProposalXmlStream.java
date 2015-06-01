@@ -24,6 +24,7 @@ import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeService;
 import org.kuali.coeus.common.framework.noo.NoticeOfOpportunity;
 import org.kuali.coeus.common.framework.person.KcPerson;
+import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
@@ -50,8 +51,10 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.InstituteProposalDocument.InstituteProposal;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
 
@@ -61,8 +64,7 @@ import java.util.*;
  * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and {@link Map} of details passed to the class.
  * 
  */
-public class InstitutionalProposalXmlStream extends
-		InstitutionalProposalBaseStream {
+public class InstitutionalProposalXmlStream implements XmlStream {
     
 
 	private static final String PROPOSAL_SUMMARY_COMMENT_CODE;
@@ -76,7 +78,9 @@ public class InstitutionalProposalXmlStream extends
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
 	private InstitutionalProposalPersonService institutionalProposalPersonService;
-	
+	private BusinessObjectService businessObjectService;
+	private DateTimeService dateTimeService;
+
 	static{
 		//FIXME below hardcoded values to be fixed once InstituteProposalComments BO is fully integrated
 		PROPOSAL_SUMMARY_COMMENT_CODE = "21";
@@ -1036,5 +1040,21 @@ public class InstitutionalProposalXmlStream extends
 			//TODO Log Exception
 		}
 		return value;
+	}
+
+	public BusinessObjectService getBusinessObjectService() {
+		return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+
+	public DateTimeService getDateTimeService() {
+		return dateTimeService;
+	}
+
+	public void setDateTimeService(DateTimeService dateTimeService) {
+		this.dateTimeService = dateTimeService;
 	}
 }

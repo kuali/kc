@@ -44,7 +44,6 @@ import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractRepor
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ContractorType;
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ReportingPeriod;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
@@ -58,18 +57,10 @@ public class SubawardXmlStream implements XmlStream {
     private BusinessObjectService businessObjectService;
     private String awardNumber;
 
-    /**
-     * This method get's the businessObjectService
-     */
-    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
-    /**
-     * This method set's the businessObjectService
-     */
-    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -556,17 +547,4 @@ public class SubawardXmlStream implements XmlStream {
         }
         return pct;
     }
-
-    @Override
-    public DateTimeService getDateTimeService() {
-
-        return null;
-    }
-
-    @Override
-    public void setDateTimeService(DateTimeService dateTimeService) {
-
-
-    }
-
 }

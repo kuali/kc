@@ -44,7 +44,6 @@ import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
@@ -87,10 +86,6 @@ public class QuestionnaireXmlStream implements XmlStream {
     private static final int QUESTION_TYPE_INT = 3;
 
     List<QuestionnaireQuestion> sortedQuestionnaireQuestions;
-
-    @Autowired
-    @Qualifier("dateTimeService")
-    private DateTimeService dateTimeService;
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -145,14 +140,6 @@ public class QuestionnaireXmlStream implements XmlStream {
             LOG.error(e.getMessage(), e);
         }
         return xmlObjectList;
-    }
-
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 
     public BusinessObjectService getBusinessObjectService() {
