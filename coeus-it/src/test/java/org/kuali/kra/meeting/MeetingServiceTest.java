@@ -404,8 +404,10 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
                 TERM_END_DATE);
         committeeMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_1, ROLE_START_DATE, ROLE_END_DATE));
         committee.getCommitteeMemberships().add(committeeMembership);
+        CommitteeMembership rolodexMembership = getMembership(null, ROLODEX_ID, MEMBERSHIP_TYPE_CD, TERM_START_DATE, TERM_END_DATE);
+        rolodexMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_1, ROLE_START_DATE, ROLE_END_DATE));
         committee.getCommitteeMemberships()
-                .add(getMembership(null, ROLODEX_ID, MEMBERSHIP_TYPE_CD, TERM_START_DATE, TERM_END_DATE));
+                .add(rolodexMembership);
         committeeMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_4, ROLE_START_DATE, ROLE_END_DATE));
         return committee;
     }
@@ -530,8 +532,10 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
         CommitteeMembership committeeMembership = getMembership(PERSON_ID, null, MEMBERSHIP_TYPE_CD, TERM_START_DATE, TERM_END_DATE);
         committeeMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_1, ROLE_START_DATE, ROLE_END_DATE));
         committee.getCommitteeMemberships().add(committeeMembership);
+        CommitteeMembership rolodexMembership = getMembership(null, ROLODEX_ID, MEMBERSHIP_TYPE_CD, TERM_START_DATE, TERM_END_DATE);
+        rolodexMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_1, ROLE_START_DATE, ROLE_END_DATE));
         committee.getCommitteeMemberships()
-                .add(getMembership(null, ROLODEX_ID, MEMBERSHIP_TYPE_CD, TERM_START_DATE, TERM_END_DATE));
+                .add(rolodexMembership);
         committeeMembership.getMembershipRoles().add(getRole(MEMBERSHIP_ROLE_CD_4, ROLE_START_DATE, ROLE_END_DATE));
         committeeSchedule.setCommittee(committee);
         // TODO : test if "alternate for" role ?
