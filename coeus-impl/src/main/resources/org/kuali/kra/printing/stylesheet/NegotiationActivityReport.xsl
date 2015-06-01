@@ -778,11 +778,7 @@
 											<xsl:text>&#160;</xsl:text>
 										</fo:inline>
 										<fo:inline font-family="Times New Roman" font-size="8pt">
-											<xsl:value-of select="format-number(number(substring(string(negotiations/negotiationData/currentDate), 6, 2)), '00')"/>
-											<xsl:text>/</xsl:text>
-											<xsl:value-of select="format-number(number(substring(string(negotiations/negotiationData/currentDate), 9, 2)), '00')"/>
-											<xsl:text>/</xsl:text>
-											<xsl:value-of select="format-number(number(substring(string(string(negotiations/negotiationData/currentDate)), 1, 4)), '0000')"/>
+											 <xsl:value-of select="current-date()" />
 										</fo:inline>
 										<fo:inline font-family="Times New Roman" font-size="8pt">
 											<xsl:text>&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
