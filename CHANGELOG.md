@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1506.4
 * Fixing Delta Report Formatting Issues, code cleanup
   * Travis Schneberger on Mon, 1 Jun 2015 17:14:54 -0400 [View Commit](../../commit/59d2221de555d3629683c85a70d2fcd5eac687bb)
 
