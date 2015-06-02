@@ -35,16 +35,12 @@ public interface ProtocolDao<GenericProtocol extends ProtocolBase> {
     /**
      * 
      * This method get protocols lookup search results.
-     * @param fieldValues
-     * @return
      */
     List<GenericProtocol> getProtocols(Map<String,String> fieldValues);
     
     /**
      * 
      * This method Check if there are any pending amendmends/renewals for this protocols.
-     * @param protocolNumber
-     * @return
      */
     boolean getProtocolSubmissionCountFromProtocol(String protocolNumber);
     
@@ -73,8 +69,7 @@ public interface ProtocolDao<GenericProtocol extends ProtocolBase> {
      * This method returns all Protocols that were given a decision status of "Specify Minor Revision" (SMR)
      * or "Substantive Revision Required" (SRR) by the specified committee in the specified date range.
      * 
-     * @param committeeId of the 
-     * @param startDate
+     * @param committeeId of the
      * @param endDate of the date range for the 
      * @return List of the requested Protocols
      */
