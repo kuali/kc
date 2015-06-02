@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Avoiding a NullPointerException with report tracking.
+  * Travis Schneberger on Mon, 1 Jun 2015 11:44:26 -0400 [View Commit](../../commit/5a8152afd64213bd8031ba45324a885d1e8ee640)
+* negotiation xml stream calendar fix, xml stream code cleanup
+  * Travis Schneberger on Mon, 1 Jun 2015 17:54:58 -0400 [View Commit](../../commit/13d66c82d7d08f2cbe18c16a3774679f805e6a96)
+* negotiation xml stream calendar formating fix and parameter name fix
+  * Travis Schneberger on Mon, 1 Jun 2015 17:59:49 -0400 [View Commit](../../commit/46194609e4b3a70939fc56e37dc25f382a2d7b52)
+
+##coeus-1506.1
 * Fix to Display Only Active Committee Members On Schedule Absentee List
   * Joe Williams on Thu, 28 May 2015 11:51:04 -0500 [View Commit](../../commit/edbc42b86401affc92212a0e36583972b4ab894d)
 * added award audit rule to check for invalid sponsor codes
