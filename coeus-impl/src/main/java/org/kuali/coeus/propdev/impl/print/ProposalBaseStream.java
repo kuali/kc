@@ -18,8 +18,6 @@
  */
 package org.kuali.coeus.propdev.impl.print;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;

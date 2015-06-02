@@ -27,7 +27,6 @@ import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -42,14 +41,13 @@ import java.util.Map;
 public class ProposalLogXmlStream implements XmlStream {
 	
 	private DateTimeService dateTimeService;
-	private BusinessObjectService businessObjectService = null;
 
     /**
      * This method generates XML for Print Certification Report. It uses data
      * passed in {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The
      * XMl once generated is returned as {@link XmlObject}
      * 
-     * @param object
+     * @param printableBusinessObject
      *            using which XML is generated
      * @param reportParameters
      *            parameters related to XML generation
@@ -59,7 +57,7 @@ public class ProposalLogXmlStream implements XmlStream {
      */
     public Map<String, XmlObject> generateXmlStream(
             KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-        Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+        Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
         ProposalLog proposalLog = (ProposalLog)reportParameters.get(ProposalLogPrintingService.PROPOSAL_LOG_KEY);
         proposalLog.refreshNonUpdateableReferences();
         ProposalLogDocument proposalLogDocument = ProposalLogDocument.Factory.newInstance();
@@ -107,15 +105,6 @@ public class ProposalLogXmlStream implements XmlStream {
         pi.setFullName(person.getFullName());
         pi.setPersonID(person.getPersonId());
         return pi;
-    }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(
-            BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     public DateTimeService getDateTimeService() {

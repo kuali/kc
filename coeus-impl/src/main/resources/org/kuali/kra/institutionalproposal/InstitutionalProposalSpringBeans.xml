@@ -232,7 +232,6 @@
     </bean>  
        
     <bean id="proposalLogXmlStream" class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogXmlStream" scope="prototype">
-        <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 	

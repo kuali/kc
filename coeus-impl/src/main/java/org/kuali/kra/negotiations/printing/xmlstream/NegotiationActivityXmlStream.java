@@ -28,81 +28,20 @@ import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.NegotiationsDocument.Negotiations;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
+
 
 import java.util.*;
 
 
 public class NegotiationActivityXmlStream implements XmlStream {
-       
+
+    private static final String PROP_LOG = "PL";
+    private static final String PROP_TYPE_CODE = "PROPOSAL_TYPE_CODE";
+
     private Negotiation negotiation;
-    private DocumentService documentService;
     private DateTimeService dateTimeService;
     private BusinessObjectService businessObjectService;
-    
-    private static final String PROP_LOG = "PL";
-    private static final String PROP_TYPE_CODE = "proposalTypeCode";
-     
-    /**
-     * This method get's the negotiation
-     */
-    public Negotiation getNegotiation() {
-        return negotiation;
-    }
 
-    /**
-     * This method set's the negotiation
-     */
-    public void setNegotiation(Negotiation negotiation) {
-        this.negotiation = negotiation;
-    }    
-    
-    /**
-     * This method get's the documentService
-     */
-    public DocumentService getDocumentService() {
-        return documentService;
-    }    
-    
-    /**
-     * This method set's the documentService
-     */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }  
-    
-    /**
-     * This method get's the businessObjectService
-     */
-    @Override
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-    
-    /**
-     * This method get's the dateTimeService
-     */
-    @Override
-    public DateTimeService getDateTimeService() {        
-        return  dateTimeService;
-    }
-
-    /**
-     * This method set's the businessObjectService
-     */
-    @Override
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;        
-    }
-    
-    /**
-     * This method set's the dateTimeService
-     */
-    @Override
-    public void setDateTimeService(DateTimeService dateTimeService) {
-       this.dateTimeService = dateTimeService;        
-    }    
-   
     /**
      * This method generates XML for Negotiation Activity Report. It uses data passed in
      * {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} for populating the XML nodes. The XML once
@@ -116,7 +55,7 @@ public class NegotiationActivityXmlStream implements XmlStream {
      */
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) {
-        Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>(); 
+        Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
         NegotiationsDocument negotiationsDocument = NegotiationsDocument.Factory.newInstance();
         initialize((Negotiation) printableBusinessObject);
         negotiationsDocument.setNegotiations(getNegotiations());
@@ -139,9 +78,9 @@ public class NegotiationActivityXmlStream implements XmlStream {
      */
     protected Negotiations getNegotiations() {
         Negotiations negotiations = Negotiations.Factory.newInstance();  
-        List<NegotiationDataType> negotiationDataList = new ArrayList<NegotiationDataType>();
+        List<NegotiationDataType> negotiationDataList = new ArrayList<>();
         negotiationDataList.add(getNegotiationDataType());
-        negotiations.setNegotiationDataArray( (NegotiationDataType[]) negotiationDataList.toArray(new NegotiationDataType[0]));
+        negotiations.setNegotiationDataArray(negotiationDataList.toArray(new NegotiationDataType[0]));
         return negotiations;
     }
     
@@ -152,13 +91,17 @@ public class NegotiationActivityXmlStream implements XmlStream {
     protected NegotiationDataType getNegotiationDataType() {
         NegotiationDataType negotiationDataType = NegotiationDataType.Factory.newInstance();   
         NegotiationAssociationType negotiationAssociationType = negotiation.getNegotiationAssociationType(); 
-        
+
         if(negotiation.getNegotiator() != null ){
             negotiationDataType.setNegotiator(negotiation.getNegotiator().getFullName());
         }    
         if(negotiation.getNegotiationStartDate() != null){
             negotiationDataType.setStartDate(getDateTimeService().getCalendar(negotiation.getNegotiationStartDate())); 
         }
+
+        Calendar cal = getDateTimeService().getCurrentCalendar();
+		negotiationDataType.setCurrentDate(cal);
+		
         if(negotiation.getNegotiationStatus() != null){
             StatusType statusType = StatusType.Factory.newInstance();
             statusType.setStatusDesc(negotiation.getNegotiationStatus().getDescription());
@@ -235,7 +178,7 @@ public class NegotiationActivityXmlStream implements XmlStream {
      * This method will set the values to NegotiationActivity attributes     
      */
     private void setActivitiesType(NegotiationDataType negotiationDataType){
-        List<ActivitiesType> activitiesTypeList = new ArrayList<ActivitiesType>();
+        List<ActivitiesType> activitiesTypeList = new ArrayList<>();
         
         List<NegotiationActivity> negotiationActivities = negotiation.getActivities(); 
         if(negotiation.getPrintindex() == 0){
@@ -248,7 +191,7 @@ public class NegotiationActivityXmlStream implements XmlStream {
         else{
             activitiesTypeList.add(getActivitiesType(negotiationActivities.get(negotiation.getPrintindex()-1)));
         }
-        negotiationDataType.setActivitiesArray((ActivitiesType[]) activitiesTypeList.toArray(new ActivitiesType[0]));      
+        negotiationDataType.setActivitiesArray(activitiesTypeList.toArray(new ActivitiesType[0]));
     }
     
     /*
@@ -281,17 +224,40 @@ public class NegotiationActivityXmlStream implements XmlStream {
      */
     private String getProposalTypeDescription(int proposalTypeCode) {
         String proposalTypeDescription = null;
-        Map<String, String> proposalTypeDescMap = new HashMap<String, String>();
-        List<ProposalType> proposalTypeList = new ArrayList<ProposalType>();
+        Map<String, String> proposalTypeDescMap = new HashMap<>();
         
         proposalTypeDescMap.put(PROP_TYPE_CODE, String
-                .valueOf(proposalTypeCode));       
-        proposalTypeList = (List<ProposalType>) getBusinessObjectService()
+                .valueOf(proposalTypeCode));
+        List<ProposalType> proposalTypeList = (List<ProposalType>) getBusinessObjectService()
                         .findMatching(ProposalType.class,proposalTypeDescMap);
         if (proposalTypeList != null && !proposalTypeList.isEmpty()) {
             ProposalType proposalType = proposalTypeList.get(0);
             proposalTypeDescription = proposalType.getDescription();
         }
         return proposalTypeDescription;
-    }       
+    }
+
+    public Negotiation getNegotiation() {
+        return negotiation;
+    }
+
+    public void setNegotiation(Negotiation negotiation) {
+        this.negotiation = negotiation;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return  dateTimeService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 }
