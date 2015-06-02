@@ -388,7 +388,7 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
 
     public Rolodex getPiRolodex() {
         if (piRolodex == null && getPiRolodexId() != null) {
-            piRolodex = (NonOrganizationalRolodex) getBusinessObjectService().findBySinglePrimaryKey(NonOrganizationalRolodex.class, getPiRolodexId());
+            piRolodex =  getBusinessObjectService().findBySinglePrimaryKey(NonOrganizationalRolodex.class, getPiRolodexId());
         }
         return piRolodex;
     }
@@ -473,8 +473,6 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
     /**
      * 
      * This method checks the fields available on the UI and if any of those fields are different than the DB version, it returns true.
-     * @param dbReportTracking
-     * @return
      */
     public boolean hasBeenUpdated(ReportTracking dbReportTracking) {
         boolean retVal = false;
@@ -507,7 +505,6 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
      * This method returns true if the report is in pending status, the reports regeneration type is add only.
      * Note, that there is no way of determining if this report is based on the same frequency date as is currently set in the award,
      * so this record MAY be generated on the next save.
-     * @return
      */
     public boolean getDisplayDeleteButton() {
         boolean retVal = false;
