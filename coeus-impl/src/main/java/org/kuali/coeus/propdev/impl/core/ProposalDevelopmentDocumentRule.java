@@ -94,7 +94,6 @@ import org.kuali.rice.krad.util.MessageMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -105,7 +104,7 @@ import java.util.Map;
 
 public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, AddInstituteAttachmentRule, ReplaceInstituteAttachmentRule, AddPersonnelAttachmentRule, ReplacePersonnelAttachmentRule, AddProposalSiteRule, KcBusinessRule, SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule, DocumentAuditRule {
 
-    @SuppressWarnings("unused")
+
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class); 
     private static final String PROPOSAL_QUESTIONS_KEY="proposalYnq[%d].%s";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER="answer";
@@ -148,7 +147,6 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean retval = true;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 
         retval &= super.processCustomRouteDocumentBusinessRules(document);
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
@@ -222,8 +220,6 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     *
     * Validate proposal questions rule. validate explanation required and date required fields based on 
     * question configuration. Answers are mandatory for routing
-    * @param proposalDevelopmentDocument
-    * @return
     */
     public boolean processProposalYNQBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean docRouting) {
         boolean valid = true;
@@ -233,7 +229,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
 
             String groupName = proposalYnq.getYnq().getGroupName();
             HashMap<String,Integer> questionSerial = getQuestionSerialNumberBasedOnGroup( proposalDevelopmentDocument );
-            String[] errorParameter = {groupName};
+
             String ynqAnswer = proposalYnq.getAnswer();
             /* look for answers - required for routing */
             if(docRouting && StringUtils.isBlank(proposalYnq.getAnswer())) {
@@ -273,9 +269,9 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     
     
     public static HashMap<String,Integer> getQuestionSerialNumberBasedOnGroup(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        HashMap<String,Integer> ynqGroupSerial = new HashMap<String,Integer>();
+        HashMap<String,Integer> ynqGroupSerial = new HashMap<>();
         for (YnqGroupName ynqGroupName : proposalDevelopmentDocument.getDevelopmentProposal().getYnqGroupNames()) {
-            Integer serialNumber = Integer.valueOf(1);
+            Integer serialNumber = 1;
             for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getDevelopmentProposal().getProposalYnqs()) {
                 if(ynqGroupName.getGroupName().equalsIgnoreCase(proposalYnq.getYnq().getGroupName())) {
                     ynqGroupSerial.put(proposalYnq.getQuestionId(), serialNumber);
@@ -307,11 +303,10 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
                     proposalDevelopmentDocument.getDevelopmentProposal().getRequestedEndDateInitial())) {
                 valid = false;
                 errorMap.putError("requestedStartDateInitial", KeyConstants.ERROR_START_DATE_AFTER_END_DATE,
-                        new String[] {
                                 dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class,
                                         "requestedStartDateInitial"),
                                 dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class,
-                                        "requestedEndDateInitial") });
+                                        "requestedEndDateInitial"));
             }
         }
         
@@ -335,11 +330,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     }
 
     /**
-    *
-    *
     * Validate Grants.gov business rules.
-    * @param proposalDevelopmentDocument
-    * @return boolean
     */
     private boolean processProposalGrantsGovBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
@@ -382,8 +373,6 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     }
     /**
      * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
-     * @param proposalDevelopmentDocument
-     * @return boolean
     */
     private boolean processSponsorProgramBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         
@@ -394,9 +383,9 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber())
                 && !(proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber().matches(regExpr))
                 && GlobalVariables.getMessageMap().getMessages("document.developmentProposalList[0].cfdaNumber") == null) {
-            errorMap.putError("developmentProposalList[0].cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] {
+            errorMap.putError("developmentProposalList[0].cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT,
                     dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "cfdaNumber"),
-                    proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber() });
+                    proposalDevelopmentDocument.getDevelopmentProposal().getCfdaNumber());
             valid = false;
          }
  
@@ -408,8 +397,8 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
              String sponsorName = sponsorService.getSponsorName(sponsorCode);
              if (sponsorName == null)
              {
-                 errorMap.putError("developmentProposalList[0].primeSponsorCode", RiceKeyConstants.ERROR_EXISTENCE, new String[] {
-                         dataDictionaryService.getAttributeLabel(DevelopmentProposal.class, "primeSponsorCode") });
+                 errorMap.putError("developmentProposalList[0].primeSponsorCode", RiceKeyConstants.ERROR_EXISTENCE,
+                         dataDictionaryService.getAttributeLabel(DevelopmentProposal.class, "primeSponsorCode") );
                  valid = false;
              }
          }
@@ -449,7 +438,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
         boolean isIrbProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
         boolean isIacucProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER);
-        return new SaveSpecialReviewRule<ProposalSpecialReview>().processRules(new SaveSpecialReviewEvent<ProposalSpecialReview>("propSpecialReviews",document,specialReviews,isIrbProtocolLinkingEnabled,isIacucProtocolLinkingEnabled));
+        return new SaveSpecialReviewRule<ProposalSpecialReview>().processRules(new SaveSpecialReviewEvent<>("propSpecialReviews",document,specialReviews,isIrbProtocolLinkingEnabled,isIacucProtocolLinkingEnabled));
     }
 
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent) {
@@ -498,15 +487,18 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     
     public boolean processRunAuditBudgetVersionRule(DevelopmentProposal proposal) {
         // audit check for budgetversion with final status
-        boolean finalAndCompleteBudgetVersionFound = false;
-        boolean budgetVersionsExists = false;
         boolean retval = true;
         
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        List<AuditError> auditErrors = new ArrayList<>();
+        List<AuditError> auditWarnings = new ArrayList<>();
         String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(
                 Budget.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
-        budgetVersionsExists = !proposal.getBudgets().isEmpty();
-        if (proposal.getFinalBudget() == null && budgetVersionsExists) {
+        boolean budgetVersionsExists = !proposal.getBudgets().isEmpty();
+        if(!budgetVersionsExists) {
+        	AuditError noBudgetWarning = new AuditError(ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID, KeyConstants.AUDIT_WARNING_PROPOSAL_WITHNO_BUDGET, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID, new String[] { proposal.getProposalNumber() });
+        	auditWarnings.add(noBudgetWarning);
+        	retval = false;
+        } else if (proposal.getFinalBudget() == null && budgetVersionsExists) {
         	auditErrors.add(new AuditError("document.developmentProposal.budgets", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_FINAL, ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_ID));
         	retval = false;
         } else if (proposal.getFinalBudget() != null &&
@@ -518,6 +510,9 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
             GlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_NAME, auditErrors, ProposalDevelopmentDataValidationConstants.AUDIT_ERRORS));
         }
 
+        if (auditWarnings.size() > 0) {
+            GlobalVariables.getAuditErrorMap().put("budgetVersionWarnings", new AuditCluster(ProposalDevelopmentDataValidationConstants.BUDGET_PAGE_NAME, auditWarnings, ProposalDevelopmentDataValidationConstants.AUDIT_WARNINGS));
+        }
         return retval;
     }
 
@@ -539,31 +534,6 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
             index++;
         }
         return retVal;
-    }
-
-    /**
-     * Use the existing attachment rules and convert any audit errors into messagemap errors
-     * @param document
-     * @return
-     */
-    public boolean processPersonnelAttachmentDuplicates(ProposalDevelopmentDocument document){
-        boolean valid = true;
-        int index = 0;
-        String property = ProposalDevelopmentDataValidationConstants.BIOGRAPHY_TYPE_KEY;
-        Map<String, ProposalPersonBiography> personBiographyMap = new HashMap<String,ProposalPersonBiography>();
-        for (ProposalPersonBiography biography : document.getDevelopmentProposal().getPropPersonBios()){
-            String key = biography.getProposalPersonNumberString() + "_" + biography.getDocumentTypeCode();
-            if (personBiographyMap.get(key) == null){
-                personBiographyMap.put(key, biography);
-            }
-            else{
-                valid = false;
-                GlobalVariables.getMessageMap().putError(String.format(property, index), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_DUPLICATE);
-            }
-            index++;
-        }
-
-        return valid;
     }
 
     @Override
@@ -681,9 +651,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
 
 
     public boolean processRules(KcDocumentEventBaseExtension event) {
-        boolean retVal = false;
-        retVal = event.getRule().processRules(event);
-        return retVal;
+        return event.getRule().processRules(event);
     }
 	public ParameterService getParameterService() {
 		if (parameterService == null) {
