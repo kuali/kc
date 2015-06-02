@@ -29,6 +29,7 @@ import org.kuali.kra.protocol.noteattachment.TypedAttachment;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
@@ -100,6 +101,17 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
                 crit.addExists(getUnitReportQuery(entry));
             }
         }
+        
+        Long matchingResultsCount = null;
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(getProtocolBOClassHook());
+        if (searchResultsLimit != null) {
+        	matchingResultsCount = new Long(getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(getProtocolBOClassHook(), crit)));
+            LookupUtils.applySearchResultsLimit(getProtocolBOClassHook(), crit, getDbPlatform());
+        }
+        if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
+            matchingResultsCount = new Long(0);
+        }
+        
         Query q = QueryFactory.newQuery(getProtocolBOClassHook(), crit, true);
         logQuery(q);
         
