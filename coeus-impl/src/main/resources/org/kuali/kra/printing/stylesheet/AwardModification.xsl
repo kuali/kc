@@ -1240,12 +1240,9 @@
 																								</xsl:otherwise>
 																							</xsl:choose>
 																						</xsl:for-each>
-																						<xsl:if
-																							test="../PrincipalInvestigator  =  1 or ../PrincipalInvestigator = &apos;true&apos;">
 																							<fo:inline>
 																								<xsl:text>(PI)</xsl:text>
 																							</fo:inline>
-																						</xsl:if>
 																					</fo:block>
 																				</fo:table-cell>
 																				<fo:table-cell font-family="Arial"
@@ -1323,12 +1320,9 @@
 																									<xsl:text>&#160;</xsl:text>
 																								</fo:inline>
 																							</xsl:for-each>
-																							<xsl:if
-																								test="../LeadUnit  = 1 or ../LeadUnit = &apos;true&apos;">
 																								<fo:inline>
 																									<xsl:text>(LU)</xsl:text>
 																								</fo:inline>
-																							</xsl:if>
 																						</xsl:for-each>
 																					</fo:block>
 																				</fo:table-cell>
@@ -6479,10 +6473,10 @@ or ( ../PrintRequirement/CloseoutRequired = 1 and  count(  CloseOutDeadlines  ) 
 																								font-size="9pt" font-weight="normal"
 																								padding-bottom="1pt" padding="0" display-align="center">
 																								<fo:block>
+																								<xsl:for-each select="DueDate">
 																									<xsl:if
 																										test="DueDate != &apos;1900-01-01+00:00&apos;">
-																										<xsl:for-each select="DueDate">
-																											<fo:inline font-family="Arial"
+																										<fo:inline font-family="Arial"
 																												font-size="9pt" font-weight="normal">
 																												<xsl:value-of
 																													select="format-number(number(substring(string(string(.)), 6, 2)), '00')" />
@@ -6493,8 +6487,8 @@ or ( ../PrintRequirement/CloseoutRequired = 1 and  count(  CloseOutDeadlines  ) 
 																												<xsl:value-of
 																													select="format-number(number(substring(string(string(string(.))), 1, 4)), '0000')" />
 																											</fo:inline>
-																										</xsl:for-each>
-																									</xsl:if>
+																										</xsl:if>
+																									</xsl:for-each>
 																								</fo:block>
 																							</fo:table-cell>
 																						</fo:table-row>
@@ -7962,7 +7956,7 @@ or ( ../PrintRequirement/CloseoutRequired = 1 and  count(  CloseOutDeadlines  ) 
 										</fo:table>
 										<fo:inline font-family="Arial" font-size="12pt"
 											font-weight="bold">
-											<xsl:text>Sponsor Contacts for Account</xsl:text>
+											<xsl:text>Address List for Account</xsl:text>
 										</fo:inline>
 										<fo:inline font-size="12pt">
 											<xsl:text>&#160;</xsl:text>
