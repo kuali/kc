@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1506.2
 * Avoiding a NullPointerException with report tracking.
   * Travis Schneberger on Mon, 1 Jun 2015 11:44:26 -0400 [View Commit](../../commit/5a8152afd64213bd8031ba45324a885d1e8ee640)
 * negotiation xml stream calendar fix, xml stream code cleanup
