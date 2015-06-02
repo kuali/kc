@@ -95,11 +95,7 @@
 			<param name="beanName" value="objectCodeToBudgetCategoryCodeService" />
 			<include method="getBudgetCategoryCodeForCostElment" />
 		</create>
-		<create creator="spring" javascript="ProposalDevelopmentService">
-			<param name="beanName" value="proposalDevelopmentService" />
-			<include method="populateProposalEditableFieldMetaDataForAjaxCall" />
-			<include method="populateBudgetEditableFieldMetaDataForAjaxCall" />
-		</create>
+
 		<create creator="spring" javascript="JobCodeService">
 			<param name="beanName" value="jobCodeService" />
 			<include method="findJobCodeTitle" />
