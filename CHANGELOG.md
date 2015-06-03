@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Making the absentee list populate correctly
+  * Travis Schneberger on Mon, 1 Jun 2015 11:32:44 -0400 [View Commit](../../commit/56f94cff610b7157e9d4cda08f30ee9e20557698)
+* Award Title and Status Modification Highlights Fixed in Delta, code cleanup
+  * Travis Schneberger on Mon, 1 Jun 2015 13:53:02 -0400 [View Commit](../../commit/95622c82f932340c43b98c976f315840baaf920d)
+
+##coeus-1506.5
 * No Changes
 
 
