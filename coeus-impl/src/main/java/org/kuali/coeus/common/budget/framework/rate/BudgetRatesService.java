@@ -20,6 +20,7 @@ package org.kuali.coeus.common.budget.framework.rate;
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
 import java.util.Collection;
 import java.util.List;
@@ -58,7 +59,7 @@ public interface BudgetRatesService <T extends BudgetParent>{
     public boolean performSyncFlag(Budget budget);
     public void syncParentDocumentRates(Budget budget);
     
-    public double getUnitFormulatedCost(String unitNumber,String formulatedType);
+    public ScaleTwoDecimal getUnitFormulatedCost(String unitNumber,String formulatedType);
 
     /**
      *

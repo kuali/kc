@@ -308,6 +308,8 @@
 		</property>
 	    <property name="addLineDialog">
 	    	<bean id="PropBudget-FormulatedCost-Details-AddDialog" parent="Uif-AddLineDialog" p:headerText="Add Formulated Cost"
+                  p:methodToCallOnRefresh="refreshFormulatedUnitCost"
+                  p:refreshWhenChangedPropertyNames="newCollectionLines['addProjectBudgetLineItemHelper.budgetLineItem.budgetFormulatedCosts'].formulatedTypeCode"
                   p:retrieveViaAjax="true">
 			   <property name="footer.items">
 			     <list>

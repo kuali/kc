@@ -36,6 +36,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -863,7 +864,7 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
     }
 
     @Override
-    public double getUnitFormulatedCost(String unitNumber,String formulatedTypeCode) {
+    public ScaleTwoDecimal getUnitFormulatedCost(String unitNumber,String formulatedTypeCode) {
         Map<String, String> param = new HashMap<String, String>();
         param.put("formulatedTypeCode", formulatedTypeCode);
         List<UnitFormulatedCost> unitFormulatedCosts = (List<UnitFormulatedCost>) getBusinessObjectService().findMatchingOrderBy(UnitFormulatedCost.class, param, "unitNumber", true);
@@ -871,11 +872,11 @@ public abstract class BudgetRatesServiceImpl<T extends BudgetParent> implements 
         for (Unit unit : unitHierarchy) {
             for (UnitFormulatedCost unitFormulatedCost : unitFormulatedCosts) {
                 if(unit.getUnitNumber().equals(unitFormulatedCost.getUnitNumber())){
-                    return unitFormulatedCost.getUnitCost().doubleValue();
+                    return unitFormulatedCost.getUnitCost();
                 }
             }
         }
-        return 0;
+        return ScaleTwoDecimal.ZERO;
     }
 
     @SuppressWarnings("unchecked")

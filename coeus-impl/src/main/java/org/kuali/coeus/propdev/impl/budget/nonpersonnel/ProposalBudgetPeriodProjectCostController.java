@@ -314,6 +314,17 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
         return getModelAndViewService().getModelAndView(form);
 	}
 
+	@Transactional @RequestMapping(params="methodToCall=refreshFormulatedUnitCost")
+	public ModelAndView refreshFormulatedUnitCost(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		String newLineItemPath = "addProjectBudgetLineItemHelper.budgetLineItem.budgetFormulatedCosts";
+		BudgetFormulatedCostDetail newBudgetFormulatedCostDetail = ((BudgetFormulatedCostDetail)form.getNewCollectionLines().get(newLineItemPath));
+		String leadUnitNumber = form.getBudget().getDevelopmentProposal().getOwnedByUnitNumber();
+		String formulatedType = newBudgetFormulatedCostDetail.getFormulatedTypeCode();
+		ScaleTwoDecimal unitCost = getBudgetRatesService().getUnitFormulatedCost(leadUnitNumber, formulatedType);
+		newBudgetFormulatedCostDetail.setUnitCost(unitCost);
+		return getModelAndViewService().getModelAndView(form);
+	}
+	
 	protected void calculateAndUpdateFormulatedCost(ProposalBudgetForm form) {
 	    BudgetLineItem budgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();
 	    getBudgetCalculationService().calculateAndUpdateFormulatedCost(budgetLineItem);
@@ -337,8 +348,8 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
 	}
 
 	protected ModelAndView setUnitFormulatedCost(ProposalBudgetForm form, BudgetFormulatedCostDetail  budgetFormulatedCostDetail) {
-		ScaleTwoDecimal unitCost = new ScaleTwoDecimal(getBudgetRatesService().getUnitFormulatedCost(
-				form.getBudget().getDevelopmentProposal().getUnitNumber(), budgetFormulatedCostDetail.getFormulatedTypeCode()));
+		ScaleTwoDecimal unitCost = getBudgetRatesService().getUnitFormulatedCost(
+				form.getBudget().getDevelopmentProposal().getUnitNumber(), budgetFormulatedCostDetail.getFormulatedTypeCode());
 		budgetFormulatedCostDetail.setUnitCost(unitCost);
 		return getRefreshControllerService().refresh(form);
 	}

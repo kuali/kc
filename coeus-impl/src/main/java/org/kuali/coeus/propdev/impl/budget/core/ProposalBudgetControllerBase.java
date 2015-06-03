@@ -31,6 +31,7 @@ import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRulesEngine;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetJustificationService;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpensesRuleEvent;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
@@ -135,6 +136,10 @@ public abstract class ProposalBudgetControllerBase {
     @Qualifier("budgetSummaryService")
     private BudgetSummaryService budgetSummaryService;
 
+    @Autowired
+    @Qualifier("budgetRatesService")
+    private BudgetRatesService budgetRatesService;
+    
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalBudgetForm();
     }
@@ -190,7 +195,7 @@ public abstract class ProposalBudgetControllerBase {
     	}else if(form.getPageId().equalsIgnoreCase(BudgetConstants.BudgetAuditRules.PERSONNEL_COSTS.getPageId())) {
     		errorPath = BudgetConstants.BudgetAuditRules.PERSONNEL_COSTS.getPageId();
     	}
-    	
+
     	if(errorPath != null) {
     		getKcBusinessRulesEngine().applyRules(new BudgetExpensesRuleEvent(form.getBudget(), errorPath));
     	}
@@ -384,5 +389,12 @@ public abstract class ProposalBudgetControllerBase {
 	public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
 		this.budgetSummaryService = budgetSummaryService;
 	}
+    
+    public BudgetRatesService getBudgetRatesService() {
+		return budgetRatesService;
+	}
 
+	public void setBudgetRatesService(BudgetRatesService budgetRatesService) {
+		this.budgetRatesService = budgetRatesService;
+	}
 }
