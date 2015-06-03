@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
    - Kuali Coeus, a comprehensive research administration system for higher education.
    - 
@@ -126,8 +127,8 @@
 	        	</td>
 			</tr>
 			</c:if>
-			
-			<c:forEach var="institutionalProposalContact" items="${KualiForm.document.institutionalProposalList[0].projectPersons}" varStatus="institutionalProposalContactRowStatus">
+
+			<c:forEach var="institutionalProposalContact" items="${KualiForm.document.institutionalProposalList[0].sortedProjectPersons}" varStatus="institutionalProposalContactRowStatus">
 				<tr>
 					<th class="infoline" scope="row" rowspan="4">
 						<c:out value="${institutionalProposalContactRowStatus.index + 1}" />
