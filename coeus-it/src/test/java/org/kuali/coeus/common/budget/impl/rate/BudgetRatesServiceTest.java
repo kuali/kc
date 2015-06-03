@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.budget.service;
+package org.kuali.coeus.common.budget.impl.rate;
 
 
 import org.junit.*;
@@ -26,7 +26,6 @@ import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.common.budget.framework.rate.AbstractBudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
-import org.kuali.coeus.common.budget.impl.rate.BudgetRatesServiceImpl;
 import org.kuali.coeus.common.budget.framework.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.rate.AbstractInstituteRate;
 import org.kuali.coeus.common.budget.framework.rate.InstituteLaRate;

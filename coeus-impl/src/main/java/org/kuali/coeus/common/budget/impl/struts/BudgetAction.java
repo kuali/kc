@@ -175,7 +175,7 @@ public class BudgetAction extends BudgetActionBase {
     }
 
     
-    private BudgetRatesService<BudgetParent> getBudgetRatesService() {
+    private BudgetRatesService getBudgetRatesService() {
         return KcServiceLocator.getService(BudgetRatesService.class);
     }
     public List<HeaderNavigation> getBudgetHeaderNavigatorList(){
