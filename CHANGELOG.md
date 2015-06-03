@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1506.7
 * fix delete proposal, code cleanup, remove unused code
   * Travis Schneberger on Tue, 2 Jun 2015 14:27:54 -0400 [View Commit](../../commit/6232384dccb99a8a2d7a193eaed3ec46acff4930)
 * add warning when no budget exists, code cleanup
