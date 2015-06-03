@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* fix delete proposal, code cleanup, remove unused code
+  * Travis Schneberger on Tue, 2 Jun 2015 14:27:54 -0400 [View Commit](../../commit/6232384dccb99a8a2d7a193eaed3ec46acff4930)
+* add warning when no budget exists, code cleanup
+  * Travis Schneberger on Tue, 2 Jun 2015 14:42:01 -0400 [View Commit](../../commit/8535ecf3b817ddbca291d7719c0305772ecd1731)
+* increment sequence number of new Institutional Proposal
+  * Travis Schneberger on Tue, 2 Jun 2015 15:24:32 -0400 [View Commit](../../commit/9f64a0f1118e858e2fc2b302afadcfa7b9f44190)
+* code cleanup
+  * Travis Schneberger on Tue, 2 Jun 2015 15:24:53 -0400 [View Commit](../../commit/c349e5dfa9fc30be11f11ea6126bdec64d0ae3a1)
+* Update unit formulated Cost
+  * Travis Schneberger on Wed, 3 Jun 2015 09:35:54 -0400 [View Commit](../../commit/f1657abefdfd2a52509f4f1d35054994e00950b7)
+* code cleanup
+  * Travis Schneberger on Wed, 3 Jun 2015 10:36:22 -0400 [View Commit](../../commit/1f82d85d0fd7b5d0b6c3857e4e4aa35833c4404a)
+
+##coeus-1506.6
 * Making the absentee list populate correctly
   * Travis Schneberger on Mon, 1 Jun 2015 11:32:44 -0400 [View Commit](../../commit/56f94cff610b7157e9d4cda08f30ee9e20557698)
 * Award Title and Status Modification Highlights Fixed in Delta, code cleanup
