@@ -65,7 +65,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
         if(dialogResponse == null && budgetPeriod.getBudgetPeriod() > 1 && !isBudgetLineItemExists(budget)) {
         	modelAndView = getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.CONFIRM_PERIOD_CHANGES_DIALOG_ID, true, form);
         }else {
-            boolean confirmResetDefault = dialogResponse == null ? true : dialogResponse.getResponseAsBoolean();
+            boolean confirmResetDefault = dialogResponse == null || dialogResponse.getResponseAsBoolean();
             if(confirmResetDefault) {
         		form.getAddProjectBudgetLineItemHelper().reset();
         		form.getAddProjectBudgetLineItemHelper().setCurrentTabBudgetPeriod(budgetPeriod);
@@ -177,7 +177,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
         if(dialogResponse == null && currentTabBudgetPeriod.getTotalDirectCost().isGreaterThan(currentTabBudgetPeriod.getDirectCostLimit())) {
         	return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.CONFIRM_SYNC_TO_DIRECT_COST_LIMIT_DIALOG_ID, true, form);
         }else {
-            boolean confirmResetDefault = dialogResponse == null ? true : dialogResponse.getResponseAsBoolean();
+            boolean confirmResetDefault = dialogResponse == null || dialogResponse.getResponseAsBoolean();
             if(confirmResetDefault) {
         	    BudgetLineItem editedBudgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();
         	    editedBudgetLineItem.setLineItemCost(budgetLineItem.getLineItemCost());
@@ -207,7 +207,7 @@ public class ProposalBudgetPeriodProjectCostController extends ProposalBudgetCon
         if(dialogResponse == null && currentTabBudgetPeriod.getTotalCost().isGreaterThan(currentTabBudgetPeriod.getTotalCostLimit())) {
         	return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.CONFIRM_SYNC_TO_PERIOD_COST_LIMIT_DIALOG_ID, true, form);
         }else {
-            boolean confirmResetDefault = dialogResponse == null ? true : dialogResponse.getResponseAsBoolean();
+            boolean confirmResetDefault = dialogResponse == null || dialogResponse.getResponseAsBoolean();
             if(confirmResetDefault) {
         	    BudgetLineItem editedBudgetLineItem = form.getAddProjectBudgetLineItemHelper().getBudgetLineItem();
         	    editedBudgetLineItem.setLineItemCost(budgetLineItem.getLineItemCost());

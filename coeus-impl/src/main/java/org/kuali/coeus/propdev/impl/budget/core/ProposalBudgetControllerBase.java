@@ -146,12 +146,11 @@ public abstract class ProposalBudgetControllerBase {
     
     @ModelAttribute(value = "KualiForm")
     public UifFormBase initForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        UifFormBase form =  getKcCommonControllerService().initForm(this.createInitialForm(request), request, response);
-        return form;
+        return  getKcCommonControllerService().initForm(this.createInitialForm(request), request, response);
     }
 
     protected ProposalDevelopmentBudgetExt loadBudget(Long budgetId) {
-    	ProposalDevelopmentBudgetExt budget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", Long.valueOf(budgetId))).build());
+    	ProposalDevelopmentBudgetExt budget = getDataObjectService().findUnique(ProposalDevelopmentBudgetExt.class, QueryByCriteria.Builder.andAttributes(Collections.singletonMap("budgetId", budgetId)).build());
     	budget.setStartDate(budget.getDevelopmentProposal().getRequestedStartDateInitial());
     	budget.setEndDate(budget.getDevelopmentProposal().getRequestedEndDateInitial());
         getBudgetSummaryService().setupOldStartEndDate(budget, false);
