@@ -30,6 +30,7 @@ public interface PermissionConstants {
     public static final String CREATE_PROPOSAL = "Create ProposalDevelopmentDocument";
     public static final String MODIFY_PROPOSAL = "Modify ProposalDevelopmentDocument";
     public static final String VIEW_PROPOSAL = "View Proposal";
+    public static final String VIEW_CERTIFICATION = "View Certification";
     public static final String MODIFY_NARRATIVE = "Modify Narrative";
     public static final String VIEW_NARRATIVE = "View Narratives";
     public static final String MODIFY_BUDGET = "Modify Budget";

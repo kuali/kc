@@ -147,8 +147,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     @Transient
     private transient Boolean allowsNoteAttachments;
+    
+    @Transient
+    private transient Boolean certtifyViewOnly = false;
 
-    public ProposalDevelopmentDocument() {
+    
+	public ProposalDevelopmentDocument() {
         super();
         DevelopmentProposal newProposal = new DevelopmentProposal();
         newProposal.setProposalDocument(this);
@@ -620,6 +624,13 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     void setDocumentHeaderService(DocumentHeaderService documentHeaderService) {
         this.documentHeaderService = documentHeaderService;
     }
+
+    public Boolean getCerttifyViewOnly() {
+		return certtifyViewOnly;
+	}
+	public void setCerttifyViewOnly(Boolean certtifyViewOnly) {
+		this.certtifyViewOnly = certtifyViewOnly;
+	}
 
     @Override
     public String getCustomLockDescriptor(Person user) {

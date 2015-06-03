@@ -63,7 +63,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Qualifier("keyPersonnelService")
 	private KeyPersonnelService keyPersonnelService;
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
+	@Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         for (ProposalPerson person : form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
             //workaround for the document associated with the OJB retrived dev prop not having a workflow doc.
@@ -136,6 +136,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         newProposalPerson.setProjectRole((String)form.getAddKeyPersonHelper().getParameter("keyPersonProjectRole"));
        }
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
+       Collections.sort(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons(), new ProposalPersonRoleComparator());
        form.getAddKeyPersonHelper().reset();
        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());
        return super.save(form);
@@ -234,23 +235,27 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         KcNotification notification = getKcNotificationService().createNotificationObject(context);
         NotificationTypeRecipient recipient = new NotificationTypeRecipient();
         recipient.setPersonId(person.getPersonId());
-        getKcNotificationService().sendNotification(context,notification,Collections.singletonList(recipient));
-        getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-PersonnelPage-Collection", KeyConstants.INFO_NOTIFICATIONS_SENT, person.getFullName());
+        getKcNotificationService().sendNotification(context, notification, Collections.singletonList(recipient));
+        getGlobalVariableService().getMessageMap().putInfoForSectionId("PropDev-PersonnelPage-Collection", KeyConstants.INFO_NOTIFICATIONS_SENT, person.getFullName() + " " + notification.getCreateTimestamp());
+        person.setLastNotification(getDateTimeService().getCurrentTimestamp());
+        getDataObjectService().save(person);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=sendAllCertificationNotifications")
     public ModelAndView sendAllCertificationNotifications(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
         int index = 0;
         for (ProposalPerson proposalPerson : form.getDevelopmentProposal().getProposalPersons()) {
-            boolean certificationComplete = true;
-            for (AnswerHeader answerHeader : proposalPerson.getQuestionnaireHelper().getAnswerHeaders()) {
-                certificationComplete &= answerHeader.isCompleted();
-            }
-            if (!certificationComplete) {
-                sendPersonNotification(form, String.valueOf(index));
-            }
+            if (proposalPerson.isSelectedPerson()) {
+                boolean certificationComplete = true;
+                for (AnswerHeader answerHeader : proposalPerson.getQuestionnaireHelper().getAnswerHeaders()) {
+                    certificationComplete &= answerHeader.isCompleted();
+                }
+                if (!certificationComplete) {
+                    sendPersonNotification(form, String.valueOf(index));
+                }
 
-            index++;
+                index++;
+            }
         }
         return super.save(form);
     }
@@ -333,4 +338,52 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public void setWizardControllerService(WizardControllerService wizardControllerService) {
         this.wizardControllerService = wizardControllerService;
     }
+
+	public static class ProposalPersonRoleComparator implements Comparator<ProposalPerson> {
+		@Override
+		public int compare(ProposalPerson person1, ProposalPerson person2) {
+			int retval = 0;
+			if (person1.isInvestigator() || person2.isInvestigator()) {
+				if (person1.isPrincipalInvestigator() || person2.isPrincipalInvestigator()) {
+					if (person1.isPrincipalInvestigator()) {
+						retval--;
+					}
+					if (person2.isPrincipalInvestigator()) {
+						retval++;
+					}
+				}
+				if (retval == 0) {
+					if (person1.isMultiplePi() || person2.isMultiplePi()) {
+						if (person1.isMultiplePi()) {
+							retval--;
+						}
+						if (person2.isMultiplePi()) {
+							retval++;
+						}
+					}
+				}
+			}
+			if (retval == 0) {
+				if (person1.isCoInvestigator() || person2.isCoInvestigator()) {
+					if (person1.isCoInvestigator()) {
+						retval--;
+					}
+					if (person2.isCoInvestigator()) {
+						retval++;
+					}
+				}
+			}
+			if (retval == 0) {
+				if (person1.isKeyPerson() || person2.isKeyPerson()) {
+					if (person1.isKeyPerson()) {
+						retval--;
+					}
+					if (person2.isKeyPerson()) {
+						retval++;
+					}
+				}
+			}
+			return retval;
+		}
+	}
 }

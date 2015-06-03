@@ -46,6 +46,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.question.ProposalPersonQuestionnaireHelper;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -55,6 +56,8 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -108,6 +111,18 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
 
     @Column(name = "PROP_PERSON_ROLE_ID")
     private String proposalPersonRoleId;
+	
+	
+	@Column(name = "CERTIFIED_BY")
+	private String certifiedBy;
+
+
+	@Column(name = "LAST_NOTIFICATION")
+	private Timestamp lastNotification;
+    
+
+	@Column(name = "CERTIFIED_TIME")
+	private Timestamp certifiedTime;
 
     @OneToOne(cascade = { CascadeType.REFRESH })
     @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(name = "PROPOSAL_NUMBER", referencedColumnName = "PROPOSAL_NUMBER"), @PrimaryKeyJoinColumn(name = "PROP_PERSON_NUMBER", referencedColumnName = "PROP_PERSON_NUMBER") })
@@ -377,6 +392,9 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     private CitizenshipType citizenshipType;
 
     @Transient
+    private boolean selectedPerson;
+
+    @Transient
     private Boolean active = true;
 
     @ManyToOne(targetEntity = Unit.class, cascade = { CascadeType.REFRESH })
@@ -400,7 +418,17 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     
     @Transient
     private transient PropAwardPersonRoleService propAwardPersonRoleService;
- 
+    
+    @Transient
+    private transient String  certifiedPersonName;
+    
+    @Transient
+    private transient String  certifiedTimeStamp;
+
+    @Transient
+    private Timestamp createTimestamp;
+    
+
     public boolean isMoveDownAllowed() {
         return moveDownAllowed;
     }
@@ -1767,4 +1795,71 @@ public class ProposalPerson extends KcPersistableBusinessObjectBase implements N
     public void setSummerEffort(ScaleTwoDecimal summerEffort) {
         this.summerEffort = summerEffort;
     }
+
+	public boolean isSelectedPerson() {
+		return selectedPerson;
+	}
+
+
+	public void setSelectedPerson(boolean selectedPerson) {
+		this.selectedPerson = selectedPerson;
+	}
+
+	public Timestamp getCreateTimestamp() {
+		return createTimestamp;
+	}
+
+	public void setCreateTimestamp(Timestamp createTimestamp) {
+		this.createTimestamp = createTimestamp;
+	}
+	
+	public String getCertifiedBy() {
+		
+		return certifiedBy;
+	}
+
+	public void setCertifiedBy(String certifiedBy) {
+		this.certifiedBy = certifiedBy;
+	}
+	
+	public Timestamp getLastNotification() {
+		return lastNotification;
+	}
+
+	public void setLastNotification(Timestamp lastNotification) {
+		this.lastNotification = lastNotification;
+	}
+
+	public Timestamp getCertifiedTime() {
+		
+		return certifiedTime;
+	}
+
+	public void setCertifiedTime(Timestamp certifiedTime) {
+		this.certifiedTime = certifiedTime;
+	}
+	
+	public String getCertifiedPersonName() {
+		if(this.certifiedBy!=null){
+			 this.certifiedPersonName = getKcPersonService().getKcPersonByPersonId(certifiedBy).getUserName();
+			}
+		return certifiedPersonName;
+	}
+
+	public void setCertifiedPersonName(String certifiedPersonName) {
+		this.certifiedPersonName = certifiedPersonName;
+	}
+	
+	public String getCertifiedTimeStamp() {
+		if(this.certifiedTime!=null){
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.MM_DD_YYYY_HH_MM_A_DATE_FORMAT);
+            certifiedTimeStamp = simpleDateFormat.format(certifiedTime);
+		}
+		return certifiedTimeStamp;
+	}
+
+	public void setCertifiedTimeStamp(String certifiedTimeStamp) {
+		this.certifiedTimeStamp = certifiedTimeStamp;
+	}
+
 }
