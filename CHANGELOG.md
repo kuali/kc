@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  fixing concurrent modification exception in Java 8 when sorting a collection in a getter without returning a copy.
+  * Travis Schneeberger on Wed, 3 Jun 2015 17:59:45 -0400 [View Commit](../../commit/2f08417736f01e63714b9b578d7aa6fd0edee92e)
+
+##coeus-1506.8
 * No Changes
 
 
