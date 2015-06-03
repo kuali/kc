@@ -72,6 +72,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class provides the default implementation of the InstitutionalProposalService.
@@ -637,7 +638,15 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             InstitutionalProposalDocument currentInstitutionalProposalDocument) throws VersionException, 
             WorkflowException, IOException{
         InstitutionalProposal newVersion = getVersioningService().createNewVersion(currentInstitutionalProposal);
-        
+        Map<String, String> fieldValues = new HashMap<>();
+		fieldValues.put("proposalNumber", currentInstitutionalProposal.getProposalNumber());
+    	List<InstitutionalProposal> instProp = (List<InstitutionalProposal>) businessObjectService.findMatchingOrderBy(InstitutionalProposal.class, fieldValues, "sequenceNumber", false);
+    	if (instProp != null && instProp.size() > 0) {
+    		for(InstitutionalProposal instProposal:instProp) {
+    	        if (instProposal.getSequenceNumber().equals(newVersion.getSequenceNumber()))
+    	        	newVersion.setSequenceNumber(instProp.get(0).getSequenceNumber()+1);
+    		}
+        }
         synchNewCustomAttributes(newVersion, currentInstitutionalProposal);
         
         newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
@@ -656,11 +665,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * tied to the new document.
      */
     protected void synchNewCustomAttributes(InstitutionalProposal newInstitutionalProposal, InstitutionalProposal oldInstitutionalProposal) {
-        Set<Integer> availableCustomAttributes = new HashSet<>();
-        for(InstitutionalProposalCustomData customData : newInstitutionalProposal.getInstitutionalProposalCustomDataList()) {
-            availableCustomAttributes.add(customData.getCustomAttributeId().intValue());
-        }
-        
+        final Set<Integer> availableCustomAttributes = newInstitutionalProposal.getInstitutionalProposalCustomDataList().stream().map(customData -> customData.getCustomAttributeId().intValue()).collect(Collectors.toSet());
+
         if(oldInstitutionalProposal.getInstitutionalProposalDocument() != null) {
             Map<String, CustomAttributeDocument> customAttributeDocuments = oldInstitutionalProposal.getInstitutionalProposalDocument().getCustomAttributeDocuments();
             for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
@@ -704,8 +710,6 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         }
     }
 
-    /* Service injection getters and setters */
-    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -721,11 +725,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     public void setInstitutionalProposalVersioningService(InstitutionalProposalVersioningService institutionalProposalVersioningService) {
         this.institutionalProposalVersioningService = institutionalProposalVersioningService;
     }
-    
-    /**
-     * Set the Sequence Accessor Service.
-     * @param sequenceAccessorService the Sequence Accessor Service
-     */
+
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
