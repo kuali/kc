@@ -231,6 +231,7 @@
 
     <param name="kc.schemaspy.enabled">true</param>
 	<param name="kc.monitoring.enabled">true</param>
+	<param name="rice.krad.jpa.global.jpa.vendor.adapter.class" override="false">co.kuali.coeus.sys.impl.monitor.MonitoringEclipseLinkJpaVendorAdapter</param>
 
     <param name="kc.rest.admin.username" override="false"></param>
     <param name="kc.rest.admin.password" override="false"></param>
