@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.kuali.coeus.sys.framework.summary.FundingProposalSummaryDto;
 import org.kuali.coeus.sys.framework.summary.InvestigatorDto;
+import org.kuali.coeus.common.api.type.ActivityTypeDto;
 import org.kuali.coeus.common.framework.sponsor.SponsorDto;
-import org.kuali.coeus.common.framework.type.ActivityTypeDto;
 
 import com.codiform.moo.annotation.CollectionProperty;
 import com.codiform.moo.annotation.Property;

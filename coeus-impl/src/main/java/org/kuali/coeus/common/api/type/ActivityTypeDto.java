@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.common.framework.type;
+package org.kuali.coeus.common.api.type;
 
 public class ActivityTypeDto {
 

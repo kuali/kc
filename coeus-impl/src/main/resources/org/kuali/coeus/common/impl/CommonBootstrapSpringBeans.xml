@@ -36,6 +36,11 @@
         <property name="moduleTitle" value="KC Common"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/common/impl/CommonAllComponentSpringBeans.xml"/>
         <property name="dispatchServletName" value="kc-common"/>
+        <property name="dispatchServletMappings">
+        	<list>
+        		<value>research-common</value>
+        	</list>
+        </property>
     </bean>
 
 </beans>

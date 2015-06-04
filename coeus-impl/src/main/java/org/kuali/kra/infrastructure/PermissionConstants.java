@@ -270,4 +270,7 @@ public interface PermissionConstants {
     String CANCEL_INSTITUTIONAL_PROPOSAL = "Cancel Institutional Proposal";
     String SAVE_INSTITUTIONAL_PROPOSAL = "Save Institutional Proposal";
     String INITIATE_DOCUMENT = "Initiate Document";
+    
+    // Maintenance Documents
+    public static final String MAINTAIN_INSTITUTE_RATES = "Maintain Institute Rates"; 
 }
