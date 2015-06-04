@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+*  allow iacuc online review without a schedule
+
+  * Steps to reproduce:
+  * Create IACUC protocol
+  * Submit for Designated Member Review (DMR).
+  * Modify Submission details.
+  * Assign to a Committee
+  * Do not assign a schedule.
+  * Select a primary reviewer.
+  * Submit
+
+  * Result: Online Review tab does not appear in protocol. Usable Online Review documents are not created. Reviewer get notification in Action List and a review appears in their All My Reviews list but they cannot do anything with it.
+
+  * Expected Result: Online Review tab appears in protocol. Online Review documents are created and accessible/usable by reviewers. A schedule should not be needed for DMR.
+  * Joe Williams on Wed, 3 Jun 2015 16:54:56 -0500 [View Commit](../../commit/b55208952f2d315dddf5af1a34adb19e26a2e10b)
+
+##coeus-1506.10
 * fix STE on award navigation after submission
 
   * Logged in as Admin to Res-Demo1
