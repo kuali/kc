@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* fix STE on award navigation after submission
+
+  * Logged in as Admin to Res-Demo1
+  * Searched for existing award using account number 2533529
+  * Opened record > clicked edit button
+  * Maintained Description and Transaction Type on Award Tab.
+  * Clicked on another tab to make the award change; got an STE very much like the one listed below by Victor. (input string referenced my award -For input string: "000073-00001"
+
+  * This is a blocker issue in Award .
+
+  * I am getting STEs when I try to navigate to the Award tab after finalizing an Award, or when I try to finalize a Time and Money document.  This is happening in Demo1 and Demo2
+  * Joe Williams on Thu, 4 Jun 2015 08:14:15 -0500 [View Commit](../../commit/65e8bb75b88ed9d266daa1daa112ed994d9fe1c3)
+
+##coeus-1506.9
 *  fixing concurrent modification exception in Java 8 when sorting a collection in a getter without returning a copy.
   * Travis Schneeberger on Wed, 3 Jun 2015 17:59:45 -0400 [View Commit](../../commit/2f08417736f01e63714b9b578d7aa6fd0edee92e)
 
