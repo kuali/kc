@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Make reject action permission based.
+  * Gayathri Athreya on Fri, 5 Jun 2015 08:36:11 -0700 [View Commit](../../commit/263dea90d8bc15669d9606e97a04d8fc8f4b0548)
+
+##coeus-1506.15
 *  ignoring url patterns for static content and healthcheck
   * Travis Schneeberger on Fri, 5 Jun 2015 15:46:27 -0400 [View Commit](../../commit/1e9f9bd56ec096e1ef01a5e011d1fc9a6aad045a)
 
