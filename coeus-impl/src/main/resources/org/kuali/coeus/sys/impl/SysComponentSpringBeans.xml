@@ -185,7 +185,7 @@
         </property>
         <property name="initParameters">
             <map>
-                <entry key="url-exclude-pattern" value="/static/.*"/>
+                <entry key="url-exclude-pattern" value="/static/.*|/healthCheck/.*|/css/.*|/rice-contrib/.*|/scripts/.*|/schemaspy/.*"/>
                 <entry key="log" value="true"/>
                 <entry key="disabled" value="#{not (T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getBooleanProperty('kc.monitoring.enabled'))}" />
                 <entry key="monitoring-path" value="/monitoring/jm" />
