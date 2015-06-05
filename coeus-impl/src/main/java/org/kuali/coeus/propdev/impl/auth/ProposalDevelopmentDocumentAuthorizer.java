@@ -348,7 +348,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     
     @Override
     public boolean canApprove( Document document, Person user ) {
-        return super.canApprove(document,user) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
+        return super.canApprove(document, user) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
     }
     
     @Override
@@ -627,7 +627,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
                 getDocumentRequestAuthorizationCache(document).getWorkflowDocumentInfo();
 
-        return (!workflowDocumentInfo.isCompletionRequested()) && (!getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument())) && (workflowDocumentInfo.isApprovalRequested()) && (workflowDocumentInfo.isEnroute());
+        return ((!workflowDocumentInfo.isCompletionRequested() && workflowDocumentInfo.isApprovalRequested()) || canReject(user)) &&
+                !getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument())
+                && workflowDocumentInfo.isEnroute();
+    }
+
+    protected boolean canReject(Person user) {
+        return getPermissionService().hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                PermissionConstants.REJECT_PROPOSAL_DEVELOPMENT_DOCUMENT);
     }
 
     protected boolean isAuthorizedToSubmitToWorkflow(Document document, Person user) {
