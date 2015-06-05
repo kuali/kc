@@ -1,6 +1,21 @@
 
 
 ##CURRENT
+* Warning should not count as rules errors.
+  * In Kualico instance: Negative under recovered F&A generated in budget; values do not populate to Commitments> UR Distribution. Cannot resolve validation.
+
+  * Create a proposal type Research.
+  * Create a budget;
+  * in Settings: select Rate Type of TDC and select Unrecovered Rate Type of FUNSN
+  * in Rates screen: set TDC rate to 10%
+  * Add budget expenses and generate periods
+  * Review calculated Rate in budget item Details modal: TDC rate calculates correctly.
+  * Review the P&T screen: note negative UR amount in column
+  * Complete Budget action prompts Validation Error to clear audit.
+  * Open Commitments> Unrecovered F&A screen. System says no UR generated.
+  * Gayathri Athreya on Fri, 5 Jun 2015 12:12:43 -0700 [View Commit](../../commit/97c0fc0aeaf7fc96b3df8ba773d1be3c13c9c24c)
+
+##coeus-1506.13
 *  adding java melody jpa monitoring
   * Travis Schneeberger on Thu, 4 Jun 2015 16:39:44 -0400 [View Commit](../../commit/2641c16aef2cea6b1ce8fda6d0863ec1a267d662)
 
