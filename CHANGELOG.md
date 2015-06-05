@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Proposal Person Certification Enhancements
+  * Joe Williams on Wed, 3 Jun 2015 14:06:23 -0500 [View Commit](../../commit/0f3bce441c0d94a98c081ea7f16a1737c915f2ad)
+
+##coeus-1506.11
 *  allow iacuc online review without a schedule
 
   * Steps to reproduce:
