@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  adding java melody jpa monitoring
+  * Travis Schneeberger on Thu, 4 Jun 2015 16:39:44 -0400 [View Commit](../../commit/2641c16aef2cea6b1ce8fda6d0863ec1a267d662)
+
+##coeus-1506.12
 * Proposal Person Certification Enhancements
   * Joe Williams on Wed, 3 Jun 2015 14:06:23 -0500 [View Commit](../../commit/0f3bce441c0d94a98c081ea7f16a1737c915f2ad)
 
