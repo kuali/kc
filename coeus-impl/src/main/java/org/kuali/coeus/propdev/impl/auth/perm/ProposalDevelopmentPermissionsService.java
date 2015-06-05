@@ -22,13 +22,14 @@ import java.util.List;
 
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
+import org.kuali.rice.kim.api.identity.Person;
 
 public interface ProposalDevelopmentPermissionsService {
 
     public List<ProposalUserRoles> getPermissions(ProposalDevelopmentDocument document);
 
     public void savePermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> persistedUsers, List<ProposalUserRoles> newUsers);
-
 
     public boolean validateAddPermissions(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserRoles proposalUser);
 
@@ -41,4 +42,7 @@ public interface ProposalDevelopmentPermissionsService {
     public void processDeletePermission(ProposalDevelopmentDocument document, ProposalUserRoles proposalUser);
 
     public void processUpdatePermission(ProposalDevelopmentDocument document, ProposalUserRoles proposalUser);
+
+    public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user,ProposalPerson proposalPerson);
+
 }
