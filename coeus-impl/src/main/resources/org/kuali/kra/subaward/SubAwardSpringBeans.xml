@@ -209,7 +209,6 @@
 	
 	<bean id="subAwardLookupableHelperService" class="org.kuali.kra.subaward.lookup.SubAwardLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
 	      scope="prototype">
-		<property name="versionHistoryService" ref="versionHistoryService" />
   	</bean>
   	
   	<!-- SubAward Task Authorizers -->
