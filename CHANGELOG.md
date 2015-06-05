@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  ignoring url patterns for static content and healthcheck
+  * Travis Schneeberger on Fri, 5 Jun 2015 15:46:27 -0400 [View Commit](../../commit/1e9f9bd56ec096e1ef01a5e011d1fc9a6aad045a)
+
+##coeus-1506.14
 * Warning should not count as rules errors.
   * In Kualico instance: Negative under recovered F&A generated in budget; values do not populate to Commitments> UR Distribution. Cannot resolve validation.
 
