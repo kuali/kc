@@ -265,4 +265,5 @@ public interface PermissionConstants {
      /* COI Undisclosed events */
      public static final String VIEW_COI_UNDISCLOSED_EVENTS = "View COI Undisclosed Events";
 
+    String REJECT_PROPOSAL_DEVELOPMENT_DOCUMENT = "Reject ProposalDevelopmentDocument";
 }
