@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* Fix NPE that occurred with certain activity date combo
+
+  * When a Negotation has activities that are in the past in the same location such that the later activity starts before the previous activity ends and does not have an end date, building the history for the activities will cause an NPE to be thrown during JSP page rendering(not displayed to the user). Any further activity will produce an error similar to java.lang.RuntimeException: Error occured while trying to create a new instance for class interface java.util.List.
+
+  * The underlying NPE was occurring here. java.lang.NullPointerException
+        at org.kuali.kra.negotiations.service.NegotiationServiceImpl.getNegotiationActivityHistoryLineBeans(NegotiationServiceImpl.java:294)
+        at org.kuali.kra.negotiations.web.struts.form.NegotiationForm.getNegotiationActivityHistoryLineBeans(NegotiationForm.java:292)
+  * blackcathacker on Fri, 5 Jun 2015 17:16:08 -0700 [View Commit](../../commit/dc576524f2d67bfa87e0be0f8caef2c8c2c8bb80)
+
+##coeus-1506.16
 *  Make reject action permission based.
   * Gayathri Athreya on Fri, 5 Jun 2015 08:36:11 -0700 [View Commit](../../commit/263dea90d8bc15669d9606e97a04d8fc8f4b0548)
 
