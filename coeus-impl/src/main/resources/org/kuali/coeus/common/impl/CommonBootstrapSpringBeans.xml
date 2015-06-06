@@ -37,6 +37,8 @@
         <property name="moduleName" value="kc.common"/>
         <property name="moduleTitle" value="KC Common"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/coeus/common/impl/CommonAllComponentSpringBeans.xml"/>
+        <property name="dispatchServletName" value="kc-common"/>
+        <property name="enableSpringSecurity" value="true"/>
     </bean>
 
 </beans>
