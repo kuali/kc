@@ -281,7 +281,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     /**
      * This method calculates fiscal Month and fiscal Year fields. It also adds leading 0 to Month if needed.
      */
-    void calculateFiscalMonthAndYearFields() {
+    protected void calculateFiscalMonthAndYearFields() {
         String monthString = this.getFiscalYearMonthService().getCurrentFiscalMonthForDisplay().toString();
         if (monthString.length() == 1) {
             monthString = DEFAULT_VALUE + monthString;

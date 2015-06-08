@@ -20,7 +20,10 @@ package org.kuali.coeus.instprop.impl.summary;
 
 import com.codiform.moo.Moo;
 import com.codiform.moo.curry.Translate;
+
+import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.institutionalproposal.dao.InstitutionalProposalDao;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -43,8 +46,12 @@ public class InstitutionalProposalSummaryController {
     InstitutionalProposalResults getInstitutionalProposalSummary(@RequestParam(value="updatedSince", required=false) Date updatedSince,
                                  @RequestParam(value="page", required=false) Integer page, @RequestParam(value="numberPerPage", required=false) Integer numberPerPage) {
         Moo moo = new Moo();
-        return Translate.to(InstitutionalProposalResults.class).from(getInstitutionalProposalDao().retrievePopulatedInstitutionalProposalByCriteria(new HashMap<String, Object>(), updatedSince, page, numberPerPage));
+        return Translate.to(InstitutionalProposalResults.class).from(getProposals(updatedSince, page, numberPerPage));
     }
+
+	SearchResults<InstitutionalProposal> getProposals(Date updatedSince, Integer page, Integer numberPerPage) {
+		return getInstitutionalProposalDao().retrievePopulatedInstitutionalProposalByCriteria(new HashMap<String, Object>(), updatedSince, page, numberPerPage);
+	}
 
     public InstitutionalProposalDao getInstitutionalProposalDao() {
         return institutionalProposalDao;
