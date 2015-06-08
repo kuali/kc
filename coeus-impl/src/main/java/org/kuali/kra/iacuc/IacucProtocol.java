@@ -725,7 +725,7 @@ public class IacucProtocol extends ProtocolBase {
     }
 
     public boolean isContinuation() {
-        return getProtocolNumber().contains(CONTINUATION_LETTER);
+        return getProtocolNumber() != null && getProtocolNumber().contains(CONTINUATION_LETTER);
     }
 
 
