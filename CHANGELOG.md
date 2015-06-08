@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+* only return active version of subawards on subaward lookup
+
+  * 1. Create & blanket approve a subaward document with Subrecipient #000040 "University of Maine". Note that this is Version 1.
+  * 2. Now edit & blanket approve the subaward from step 1, changing the Subrecipient to #000041 "University of Maryland". Note that this is Version 2.
+  * 3. Central Admin > Post-Award > Subawards > click on search icon (magnifying glass)
+  * 4. While in the Subaward Lookup, enter 000040 (University of Maine) in the Subrecipient field.
+  * 5. Click search.
+
+  * RESULT: The search returns the subaward where current value for Subrecipient is 000041: "University of Maryland" (version 2).
+
+  * EXPECTED RESULT: Search should only look for values from the maximum finalized subaward documents in the Subaward Lookup (most recent final value). In this example, the search in step 4 should have returned no values when searching for 000040 "University of Maine" since it was only present on Version 1 and had been replaced by version 2 with 000041 "University of Maryland".
+
+  * This is true for the following Subaward Lookup criteria: Subrecipient, Start Date From, Start Date To, End Date From, End Date To, Subaward Type, Purchase Order ID, Title, Account ID, Vendor ID, Requisitioner Unit, Archive Location, Closeout Date From.
+  * Joe Williams on Fri, 5 Jun 2015 09:37:57 -0500 [View Commit](../../commit/836420eced7243977843f5c546a187210d6bf261)
+
+##coeus-1506.17
 * Fix NPE that occurred with certain activity date combo
 
   * When a Negotation has activities that are in the past in the same location such that the later activity starts before the previous activity ends and does not have an end date, building the history for the activities will cause an NPE to be thrown during JSP page rendering(not displayed to the user). Any further activity will produce an error similar to java.lang.RuntimeException: Error occured while trying to create a new instance for class interface java.util.List.
