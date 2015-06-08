@@ -24,6 +24,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.rolodex.NonOrganizationalRolodex;
+import org.kuali.coeus.common.framework.version.history.VersionHistorySearchBo;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
 import org.kuali.coeus.common.framework.type.ProposalType;
 import org.kuali.coeus.common.framework.unit.Unit;
@@ -154,9 +155,9 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
     private List<SubAwardTemplateInfo> subAwardTemplateInfo;
     private List<SubAwardPrintAgreement> subAwardPrintAgreement;
     private List<SubAwardForms> subAwardForms;
-    
-    
-    
+
+    private VersionHistorySearchBo versionHistory;
+
     /**
      * Gets the subAwardForms attribute. 
      * @return Returns the subAwardForms.
@@ -1593,5 +1594,13 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
      */
     public void setPerformanceEnddate(Date performanceEnddate) {
         this.performanceEnddate = performanceEnddate;
+    }
+
+    public VersionHistorySearchBo getVersionHistory() {
+        return versionHistory;
+    }
+
+    public void setVersionHistory(VersionHistorySearchBo versionHistory) {
+        this.versionHistory = versionHistory;
     }
 }

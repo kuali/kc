@@ -50,6 +50,7 @@
         <ref bean="SubAward-requisitionerName" />  
         <ref bean="SubAward-unit.unitName" /> 
         <ref bean="SubAward-organizationName" />
+        <ref bean="SubAward-organization.organizationName" />
         <ref bean="SubAward-subAwardStatus.description" />
         <ref bean="SubAward-subAwardType.description" />
         <ref bean="SubAward-totalObligatedAmount" />      
@@ -59,7 +60,8 @@
         <ref bean="SubAward-docIdStatus" />  
         <ref bean="SubAward-lastUpdate" />
         <ref bean="SubAward-subAwardCode" />    
-        <ref bean="SubAward-awardNumber" /> 
+        <ref bean="SubAward-awardNumber" />
+        <ref bean="SubAward-subAwardFundingSourceList.award.awardNumber"/>
         <ref bean="SubAward-costType" />
         <ref bean="SubAward-executionDate" />
         <ref bean="SubAward-requisitionId" />
@@ -160,7 +162,25 @@
       <bean p:size="60" parent="Uif-TextControl"/>
     </property>
     <property name="summary" value="Subrecipient Name" />
-    <property name="description" value="Subrecipient Name" />    
+    <property name="description" value="Subrecipient Name" />
+  </bean>
+
+  <bean id="SubAward-organization.organizationName" parent="SubAward-organization.organizationName-parentBean" />
+  <bean id="SubAward-organization.organizationName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organization.organizationName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Subrecipient Name" />
+    <property name="shortLabel" value="Subrecipient Name" />
+    <property name="maxLength" value="60" />
+    <property name="required" value="false" />
+    <property name="control" >
+      <bean parent="TextControlDefinition" p:size="60"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="60" parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="Subrecipient Name" />
+    <property name="description" value="Subrecipient Name" />
   </bean>
   
   <bean id="SubAward-startDate" parent="SubAward-startDate-parentBean" />
@@ -682,6 +702,17 @@
     <property name="description" value="Award ID"/>
   </bean>
 
+  <bean id="SubAward-subAwardFundingSourceList.award.awardNumber" parent="SubAward-subAwardFundingSourceList.award.awardNumber-parentBean"/>
+  <bean id="SubAward-subAwardFundingSourceList.award.awardNumber-parentBean" abstract="true" parent="KraAttributeReferenceDummy-awardNumber">
+    <property name="name" value="subAwardFundingSourceList.award.awardNumber"/>
+    <property name="label" value="Award ID"/>
+    <property name="shortLabel" value="Award ID"/>
+    <property name="required" value="false"/>
+    <property name="summary" value="Award ID"/>
+    <property name="description" value="Award ID"/>
+  </bean>
+
+
   <bean id="SubAward-costType" parent="SubAward-costType-parentBean" />
   
   <bean id="SubAward-costType-parentBean" abstract="true" parent="AttributeDefinition">
@@ -841,12 +872,12 @@
       <list>
         <bean p:attributeName="subAwardCode" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="organizationId" parent="FieldDefinition" p:forceInquiry="true" />
-        <bean p:attributeName="organizationName" parent="FieldDefinition" p:forceInquiry="true" />
+        <bean p:attributeName="organization.organizationName" parent="FieldDefinition" p:noLookup="true" />
         <bean p:attributeName="startDate" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="endDate" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="subAwardTypeCode" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="purchaseOrderNum" parent="FieldDefinition" p:forceInquiry="true" />
-        <bean p:attributeName="awardNumber" parent="FieldDefinition"  />
+        <bean p:attributeName="subAwardFundingSourceList.award.awardNumber" parent="FieldDefinition" p:noLookup="true" />
         <bean p:attributeName="title" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="statusCode" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="accountNumber" parent="FieldDefinition" p:forceInquiry="true" />
