@@ -1,6 +1,46 @@
 
 
 ##CURRENT
+* Organization Summary Service
+
+  * Includes additional tests for other summary services to validate Moo conversion
+  * blackcathacker on Fri, 5 Jun 2015 20:16:24 -0700 [View Commit](../../commit/5922725d9eacb8d3f0de482facdf337621736236)
+*  correctly display other degree type question
+
+  * Discovered in testing S2S questionnaire supporting the PHS Fellowship form:
+  * Users answering the s2s form supporting Fellowship questionnaires presented with 2 follow up (requirement based) questions when one of five (5) specific "Other" Degree types are selected from the argument value list. The 5 questions include the full text word "other" in the question text, so question ID 100 requirement = "OTH" presents when it should not.
+
+  * In the s2s form supporting Fellowship Questionnaire, there is a question branch with a series of questions that only present if the prior answer selected from an argument value list contains a certain text value. (for an “other” type of degree).
+  * The requirement in each question in the branch is if it contains the text value ( DDOT, DOTH, MDOT, MOTH, VDOT, and OTH).
+
+  * In KC, the Upper Case requirement is not being honored, so 5 of these questions are presenting both their specific match and the “OTH” question, because there is lower case text in each with the full word ‘other’ in lower case.
+  * Requirement in KC is picking up lowercase appearance of “other” in the question text:
+  * ID16 = MOTH
+  * ID 17 =DOTH
+  * ID18 = DDOT
+  * ID19 = VDOT
+  * ID 100 = OTH
+  * ID 21 = MDOT
+
+  * Only ID 100= OTH is working as anticipated: (OTH should only present when OTH is selected from the prior question.)
+  * Joe Williams on Mon, 8 Jun 2015 09:57:25 -0500 [View Commit](../../commit/aa251ab2796cc604024b024e4775cf834cd9baf2)
+*  Hide delete attachment button when institutional proposals are view only
+
+  * A user should be required to edit the IP document before the Notes and Attachments allow 'delete' therefore delete button should be hid in view mode.
+
+  * Steps to reproduce:
+  * 1. create or search for an Institutional Proposal
+  * 2. in edit mode, on the Institutional Proposal tab under Notes and Attachments, attach a file
+  * 3. fill out other required fields
+  * 4. save and blanket approve
+  * 5. re-open the IP
+  * 6. open Notes and Attachments
+
+  * Results- delete button appears next to the file.
+  * Expected Results- delete button should not appear when the IP is in view mode, user should be required to edit document first
+  * Joe Williams on Mon, 8 Jun 2015 10:13:45 -0500 [View Commit](../../commit/3b75f94e0d8d74301058cefb7a845004b2820ba0)
+
+##coeus-1506.18
 * only return active version of subawards on subaward lookup
 
   * 1. Create & blanket approve a subaward document with Subrecipient #000040 "University of Maine". Note that this is Version 1.
