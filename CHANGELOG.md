@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* IRB protocol search limit fix
+  * Travis Schneberger on Tue, 2 Jun 2015 16:04:38 -0400 [View Commit](../../commit/32ad34ce3f9a8545a8f9a4200c2374091707c194)
+* code cleanup
+  * Travis Schneberger on Tue, 2 Jun 2015 16:20:54 -0400 [View Commit](../../commit/7e159c1eb5d59d0a8c500b33e9c8cae54dd9816e)
+
+##coeus-1506.20
 * avoiding a NPE when submitting an IACUC amendment.
   * Travis Schneeberger on Mon, 8 Jun 2015 15:01:14 -0400 [View Commit](../../commit/df09356f3e3f64481c8ca2f3d335d55344557141)
 
