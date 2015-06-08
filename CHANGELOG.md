@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* avoiding a NPE when submitting an IACUC amendment.
+  * Travis Schneeberger on Mon, 8 Jun 2015 15:01:14 -0400 [View Commit](../../commit/df09356f3e3f64481c8ca2f3d335d55344557141)
+
+##coeus-1506.19
 * Organization Summary Service
 
   * Includes additional tests for other summary services to validate Moo conversion
