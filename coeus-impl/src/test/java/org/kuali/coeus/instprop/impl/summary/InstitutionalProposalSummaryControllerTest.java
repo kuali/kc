@@ -39,14 +39,6 @@ public class InstitutionalProposalSummaryControllerTest {
 		sponsor.setAcronym("TSC");
 		sponsor.setSponsorName("TestSponsorCode");
 		
-		proposalLite1 = new InstitutionalProposalBoLite();
-		proposalLite1.setProposalNumber("123");
-		proposalLite1.setSequenceNumber(1);
-		
-		proposalLite2 = new InstitutionalProposalBoLite();
-		proposalLite2.setProposalNumber("345");
-		proposalLite2.setSequenceNumber(2);
-		
 		piPerson = new KcPerson() {
 			String personId;
 			public String getPersonId() {
@@ -73,47 +65,45 @@ public class InstitutionalProposalSummaryControllerTest {
 		award1.setAwardId(1L);
 		award1.setAwardNumber("000001-00001");
 		award1.setSequenceNumber(1);
-		award1.setAccountNumber("123");
-		award1.setSponsor(sponsor);
 		
 		award2 = new Award();
 		award2.setAwardId(1L);
 		award2.setAwardNumber("000001-00001");
 		award2.setSequenceNumber(1);
-		award2.setAccountNumber("123");
 		
+		proposalLite1 = new InstitutionalProposalBoLite();
+		proposalLite1.setProposalNumber("123");
+		proposalLite1.setSequenceNumber(1);
+		
+		proposalLite2 = new InstitutionalProposalBoLite();
+		proposalLite2.setProposalNumber("345");
+		proposalLite2.setSequenceNumber(2);
+		
+		proposal1 = buildTestProposal(proposalLite1);
+		proposal2 = buildTestProposal(proposalLite2);
+		
+		proposals = new ArrayList<>();
+		proposals.add(proposal1);
+		proposals.add(proposal2);
+		
+	}
+
+	InstitutionalProposal buildTestProposal(InstitutionalProposalBoLite proposalLite) {
+		InstitutionalProposal proposal1;
 		proposal1 = new InstitutionalProposal() {
 			protected void calculateFiscalMonthAndYearFields() { }
 		};
 		proposal1.getProjectPersons().add(pi);
 		proposal1.setSponsor(sponsor);
 		AwardFundingProposal fp1 = new AwardFundingProposal();
-		fp1.setProposal(proposalLite1);
+		fp1.setProposal(proposalLite);
 		fp1.setAward(award1);
 		proposal1.getAwardFundingProposals().add(fp1);
 		AwardFundingProposal fp2 = new AwardFundingProposal();
-		fp2.setProposal(proposalLite1);
+		fp2.setProposal(proposalLite);
 		fp2.setAward(award2);
 		proposal1.getAwardFundingProposals().add(fp2);
-		
-		proposal2 = new InstitutionalProposal() {
-			protected void calculateFiscalMonthAndYearFields() { }
-		};
-		proposal2.getProjectPersons().add(pi);
-		proposal2.setSponsor(sponsor);
-		fp1 = new AwardFundingProposal();
-		fp1.setProposal(proposalLite1);
-		fp1.setAward(award1);
-		proposal2.getAwardFundingProposals().add(fp1);
-		fp2 = new AwardFundingProposal();
-		fp2.setProposal(proposalLite1);
-		fp2.setAward(award2);
-		proposal2.getAwardFundingProposals().add(fp2);
-		
-		proposals = new ArrayList<>();
-		proposals.add(proposal1);
-		proposals.add(proposal2);
-		
+		return proposal1;
 	}
 	
 	@Test

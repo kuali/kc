@@ -35,6 +35,8 @@ public class AwardSummaryControllerTest {
 	
 	@Before
 	public void setup() {
+		final String accountNumber = "123";
+		
 		sponsor = new Sponsor();
 		sponsor.setSponsorCode("000001");
 		sponsor.setAcronym("TSC");
@@ -49,7 +51,7 @@ public class AwardSummaryControllerTest {
 		activityType.setDescription("Test");
 		
 		proposal1 = new InstitutionalProposalBoLite();
-		proposal1.setProposalNumber("123");
+		proposal1.setProposalNumber(accountNumber);
 		proposal1.setSequenceNumber(1);
 		
 		proposal2 = new InstitutionalProposalBoLite();
@@ -76,53 +78,14 @@ public class AwardSummaryControllerTest {
 		pi.setEmailAddress("test@nowhere.com");
 		pi.setRoleCode("PI");
 		
-		award1 = new Award() {
-			public void refreshReferenceObject(String prop) {
-				
-			}
-		};
-		award1.setAwardId(1L);
-		award1.setAwardNumber("000001-00001");
-		award1.setSequenceNumber(1);
-		award1.setAccountNumber("123");
-		award1.setModificationNumber("TestMod");
-		award1.setSponsorAwardNumber("00001234");
-		award1.setCfdaNumber("1234");
-		award1.setTitle("Testing");
-		award1.setAwardStatus(awardStatus);
-		award1.setActivityType(activityType);
-		award1.setSponsor(sponsor);
-		award1.getInvestigators().add(pi);
-		AwardFundingProposal fp1 = new AwardFundingProposal();
-		fp1.setProposal(proposal1);
-		fp1.setAward(award1);
-		award1.getFundingProposals().add(fp1);
-		AwardFundingProposal fp2 = new AwardFundingProposal();
-		fp2.setProposal(proposal2);
-		fp2.setAward(award1);
-		award1.getFundingProposals().add(fp2);
-		
-		award2 = new Award() {
-			public void refreshReferenceObject(String prop) {
-				
-			}
-		};
-		award2.setAwardId(1L);
-		award2.setAwardNumber("000001-00001");
-		award2.setSequenceNumber(1);
-		award2.setAccountNumber("123");
-		award2.setModificationNumber("TestMod");
-		award2.setSponsorAwardNumber("00001234");
-		award2.setCfdaNumber("1234");
-		award2.setTitle("Testing");
-		award2.setAwardStatus(awardStatus);
-		award2.setActivityType(activityType);
-		award2.setSponsor(sponsor);
-		award2.getInvestigators().add(pi);
-		fp1 = new AwardFundingProposal();
-		fp1.setProposal(proposal1);
-		fp1.setAward(award2);
-		award2.getFundingProposals().add(fp2);
+		final String modificationNumber = "TestMod";
+		final String sponsorAwardNumber = "00001234";
+		final String cfdaNumber = "1234";
+		final String title = "Testing";
+		award1 = buildTestAward(1L, "000001-00001", accountNumber, modificationNumber, 
+				sponsorAwardNumber, cfdaNumber, title);
+		award2 = buildTestAward(2L, "000001-00002", accountNumber, modificationNumber, 
+				sponsorAwardNumber, cfdaNumber, title);
 		
 		awards = new ArrayList<>();
 		awards.add(award1);
@@ -147,5 +110,36 @@ public class AwardSummaryControllerTest {
 		assertEquals(2, result.getCount().intValue());
 		assertEquals(2, result.getAwards().size());
 		assertEquals(award1.getAwardId(), ((List<AwardSummaryDto>)result.getAwards()).get(0).getAwardId());
-	}	
+	}
+	
+	Award buildTestAward(final long awardId, final String awardNumber, final String accountNumber, final String modificationNumber, final String sponsorAwardNumber, final String cfdaNumber,
+			final String title) {
+		Award award1;
+		award1 = new Award() {
+			public void refreshReferenceObject(String prop) {
+				
+			}
+		};
+		award1.setAwardId(awardId);
+		award1.setAwardNumber(awardNumber);
+		award1.setSequenceNumber(1);
+		award1.setAccountNumber(accountNumber);
+		award1.setModificationNumber(modificationNumber);
+		award1.setSponsorAwardNumber(sponsorAwardNumber);
+		award1.setCfdaNumber(cfdaNumber);
+		award1.setTitle(title);
+		award1.setAwardStatus(awardStatus);
+		award1.setActivityType(activityType);
+		award1.setSponsor(sponsor);
+		award1.getInvestigators().add(pi);
+		AwardFundingProposal fp1 = new AwardFundingProposal();
+		fp1.setProposal(proposal1);
+		fp1.setAward(award1);
+		award1.getFundingProposals().add(fp1);
+		AwardFundingProposal fp2 = new AwardFundingProposal();
+		fp2.setProposal(proposal2);
+		fp2.setAward(award1);
+		award1.getFundingProposals().add(fp2);
+		return award1;
+	}
 }
