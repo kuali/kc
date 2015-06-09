@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1506.22
 * added coi hierarchy parameter
   * Joe Williams on Tue, 9 Jun 2015 09:20:08 -0500 [View Commit](../../commit/ef589a6c01b4f7623880e53e6089620e9d23de93)
 *  Fixing non personnel underrecovery rate calculation.
