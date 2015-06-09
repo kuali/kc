@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2015 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="PropBudget-SinglePointEntryPage" parent="PropBudget-SinglePointEntryPage-parentBean" />
+	<bean id="PropBudget-SinglePointEntryPage-parentBean" parent="PropBudget-Page" >
+		<property name="items">
+			<list>
+					<ref bean="PropBudget-PeriodsPageSPE-CollectionGroup" />
+					<ref bean="PropBudget-SinglePointEntry-TabGroup" />
+            		<bean id="PropBudget-SinglePointEntryPage-EditNonPersonnel-Dialog" parent="PropBudget-EditSPELineItemPeriod-Section"
+            		p:retrieveViaAjax="true"/>
+            	<bean id="PropBudget-NonPersonnelCostsPage-EditParticipantSupport-Dialog" parent="PropBudget-EditNonPersonnelPeriod-ParticipantSupportSection"
+            		p:retrieveViaAjax="true"/>
+			</list>
+		</property>
+		<property name="header">
+			<bean parent="Uif-PageHeader" />
+		</property>
+	</bean>
+	
+
+	 <bean id="PropBudget-PeriodsPageSPE-CollectionGroup" parent="PropBudget-PeriodsPageSPE-CollectionGroup-parentBean"/>
+    <bean id="PropBudget-PeriodsPageSPE-CollectionGroup-parentBean" parent="Uif-TableCollectionSection" abstract="true" p:layoutManager.numberOfColumns="3"
+    	  p:headerText="Budget Summary Details"
+          p:propertyName="budget.budgetPeriods"
+          p:collectionObjectClass="org.kuali.coeus.common.budget.framework.period.BudgetPeriod"
+          p:addWithDialog="false" p:layoutManager.renderSequenceField="false" p:renderAddLine="false" p:renderLineActions="false" >
+
+          <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="startDate" 
+                      p:order="10" />
+                <bean parent="Uif-DataField" p:propertyName="endDate" 
+                      p:order="20" />
+                <bean parent="Uif-DataField" p:propertyName="numberOfMonths" p:label="Months"
+                      p:order="30"
+                      p:readOnly="true"/>
+                <bean parent="Uif-DataField" p:propertyName="totalCost"
+                      p:order="40" />
+                <bean parent="Uif-DataField" p:propertyName="totalDirectCost"
+                      p:order="50" />
+                <bean parent="Uif-DataField" p:propertyName="totalIndirectCost"
+                      p:order="60" />
+                <bean parent="Uif-DataField" p:propertyName="underrecoveryAmount"
+                      p:order="65" />
+                <bean parent="Uif-DataField" p:propertyName="costSharingAmount"
+                      p:order="70" />
+                <bean parent="Uif-DataField" p:propertyName="totalCostLimit"
+                      p:order="80" />
+                <bean parent="Uif-DataField" p:propertyName="directCostLimit"
+                      p:order="90" />
+            </list>
+          </property>
+
+        	<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+	</bean>  
+
+	<bean id="PropBudget-SinglePointEntry-TabGroup" parent="PropBudget-SinglePointEntry-TabGroup-parentBean" />
+	<bean id="PropBudget-SinglePointEntry-TabGroup-parentBean"
+		abstract="true" parent="Kc-DynamicTabSection"
+		p:tabCollectionPropertyName="budget.budgetPeriods"
+		p:setFieldBindingObjectPath = "true"
+		p:expressionProperties="budgetPeriod:budgetPeriod,budgetPeriodId:budgetPeriodId"
+		p:idSuffixPropertyName="budgetPeriod" p:header.headerText="Single Point Entry">
+		<property name="groupPrototype">
+			<bean id="PropBudget-SinglePointEntry-LineItemDetails" parent="PropBudget-SinglePointEntry-PeriodTab" />
+		</property>
+		<property name="header.lowerGroup">
+			<bean parent="Uif-HeaderLowerGroup">
+				<property name="items">
+					<list>
+						<bean parent="Uif-Message"
+							p:messageText="Add and configure personnel/non-personnel items for this budget period."
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-SinglePointEntry-PeriodTab" parent="PropBudget-SinglePointEntry-PeriodTab-parentBean" />
+	<bean id="PropBudget-SinglePointEntry-PeriodTab-parentBean"
+		abstract="true" parent="Uif-TableCollectionSection" p:headerText="Period @{#budgetPeriod} "
+		p:collectionObjectClass="org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem"
+		p:propertyName="budgetLineItems" p:addWithDialog="false"
+		p:renderAddLine="true" p:layoutManager.renderSequenceField="false"
+		p:renderInactiveToggleButton="false" p:layoutManager.richTable.render="true">
+   		<property name="addLineActions">
+        	<list>
+            	<bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addSPELineItemToPeriod" p:actionLabel="Add"
+            		  p:performClientSideValidation="true" p:render="@{!#parent.readOnly}">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="budgetPeriod" value="@{#budgetPeriod}" />
+						</map>
+					</property>
+            	</bean>
+        	</list>
+    	</property>
+		<property name="filters">
+			<list>
+				<bean parent="Uif-ConditionalCollectionFilter" p:expression="@{#line.budgetPeriod.toString() == #budgetPeriod}"/>
+			</list>
+		</property>
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="startDate"
+					p:order="10" p:required="true" p:readOnly="@{!#isAddLine}"/>
+				<bean parent="Uif-InputField" p:propertyName="endDate" p:order="20"
+					p:required="true" p:readOnly="@{!#isAddLine}"/>
+				<bean parent="Uif-InputField" p:propertyName="costElement" 
+					p:optionsFinder="#{#getService('costElementValuesFinder')}"
+					p:optionsFinder.addBlankOption="false"
+					p:label="Object Code Name" p:order="30" p:required="true" p:readOnly="@{!#isAddLine}"/>
+				<bean parent="Uif-InputField" p:propertyName="lineItemCost"
+					p:label="Total Base Cost" p:order="40" p:required="false" p:readOnly="@{!#isAddLine}"/>
+				<bean parent="Uif-InputField" p:propertyName="quantity"
+					p:order="50" p:required="false" p:readOnly="@{!#isAddLine}"/>
+				<bean parent="Uif-InputField" p:propertyName="lineItemDescription"
+					p:order="60" p:required="false" p:readOnly="@{!#isAddLine}"/>
+			</list>
+		</property>
+		<property name="lineActions">
+			<list>
+				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editSPELineItemDetails"
+					p:actionLabel="Details" p:order="10" p:render="@{!#line.personnelLineItem}">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="budgetPeriodId" value="@{#budgetPeriodId}" />
+						</map>
+					</property>
+				</bean>
+				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="20"
+					p:methodToCall="deleteSPEBudgetLineItem" p:iconClass="icon-trash"
+					p:render="@{!#parent.readOnly and !#line.personnelLineItem}">
+					<property name="additionalSubmitData">
+						<map>
+							<entry key="budgetPeriodId" value="@{#budgetPeriodId}" />
+						</map>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	
+	<bean id="PropBudget-SinglePointEntryPage-AssignNonPersonnel"
+		parent="PropBudget-SinglePointEntryPage-AssignNonPersonnel-parentBean" />
+	<bean id="PropBudget-SinglePointEntryPage-AssignNonPersonnel-parentBean"
+		abstract="true" parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Add Line-Item..."
+		p:refreshId="PropBudget-SinglePointEntryPage-AddNonPersonnel"
+		p:methodToCall="assignSEPLineItemToPeriod" p:render="@{!#parent.readOnly}">
+		<property name="additionalSubmitData">
+			<map>
+				<entry key="budgetPeriodId" value="@{#budgetPeriodId}" />
+			</map>
+		</property>
+	</bean>
+	
+
+	<bean id="PropBudget-EditSPELineItemPeriod-Section" parent="PropBudget-EditSPELineItemPeriod-Section-parent" />
+	<bean id="PropBudget-EditSPELineItemPeriod-Section-parent" abstract="true" parent="Uif-DialogGroup" 
+		p:readOnly="@{#parent.readOnly}"
+        p:onHideDialogScript="jQuery('#PropBudget-SinglePointEntryPage-EditNonPersonnel-Dialog').one(kradVariables.EVENTS.HIDDEN_MODAL, function(e){Kc.Dialog.resetDialogFields(jQuery('#PropBudget-SinglePointEntryPage-EditNonPersonnel-Dialog'));});"
+		p:headerText="Edit Assigned Cost Element" p:enterKeyAction="@DEFAULT">
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="addProjectBudgetLineItemHelper.budgetLineItem.lineItemDescription"
+					p:style="font-weight: bold; font-size: larger;" p:order="10"/>
+				<bean parent="PropBudget-SPECosts-Details-TabSection" p:order="20"/>
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Changes" p:methodToCall="saveSPEBudgetLineItem"
+							p:ajaxReturnType="update-page" 	
+                      		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetLineItems,
+                      		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_ID}:PropBudget-NonPersonnelCosts-LineItemDetails,
+                      		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectBudgetLineItemHelper.editLineIndex}"
+							p:dialogDismissOption="REQUEST" p:performClientSideValidation="true" p:defaultEnterKeyAction="true"
+							p:order="10" p:render="@{!#parent.readOnly}"/>
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Save And Apply To Other Periods"
+							p:ajaxReturnType="update-page"
+                      		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetLineItems,
+                      		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_ID}:PropBudget-NonPersonnelCosts-LineItemDetails,
+                      		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectBudgetLineItemHelper.editLineIndex}"
+							p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}"
+							p:methodToCall="saveAndApplyToLaterPeriods" p:order="20" p:performClientSideValidation="true"/>
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync To Period Direct Cost Limit"
+							p:refreshId="PropBudget-SinglePointEntryPage-EditNonPersonnel-Dialog" p:render="@{!#parent.readOnly}"
+							p:methodToCall="syncToPeriodCostDirectLimit" p:order="30" />
+						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync To Period Cost Limit"
+							p:refreshId="PropBudget-SinglePointEntryPage-EditNonPersonnel-Dialog" p:render="@{!#parent.readOnly}"
+							p:methodToCall="syncToPeriodCostLimit" p:order="40"/>
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
+							p:order="50" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-SPECosts-Details-TabSection" parent="PropBudget-SPECosts-Details-TabSection-parentBean" />
+	<bean id="PropBudget-SPECosts-Details-TabSection-parentBean" parent="Uif-TabSection">
+		<property name="items">
+			<list>
+				<bean parent="PropBudget-SPECosts-Details-Tab" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"
+					p:headerText="Details" p:order="10"/>
+				<bean parent="PropBudget-NonPersonnelCosts-FormulatedCost-Tab"
+					p:headerText="Formulated Cost" p:order="20" p:render="@{addProjectBudgetLineItemHelper.budgetLineItem.formulatedCostElementFlag}"/>
+				<bean parent="PropBudget-NonPersonnelCosts-CostSharing-Tab"
+					p:headerText="Cost Sharing" p:order="30" p:fieldBindingObjectPath="addProjectBudgetLineItemHelper"/>
+				<bean parent="PropBudget-NonPersonnelCosts-Rates-Tab"
+					p:headerText="Rates" p:order="40"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-SPECosts-Details-Tab" parent="PropBudget-SPECosts-Details-Tab-parentBean" />
+	<bean id="PropBudget-SPECosts-Details-Tab-parentBean" abstract="true" parent="Uif-VerticalBoxSubSection">
+		<property name="items">
+			<list>
+				<ref bean="PropBudget-NonPersonnelCosts-LineItem-DateFieldSection"/>
+				<ref bean="PropBudget-SPECosts-LineItem-ObjectFieldSection"/>
+                <bean parent="PropBudget-LineItem-InflationRateSection" p:render="@{addProjectBudgetLineItemHelper.inflationType.size() > 0}"/>
+				<ref bean="PropBudget-NonPersonnelCosts-LineItem-ApplyRateFieldSection"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PropBudget-SPECosts-LineItem-ObjectFieldSection" parent="PropBudget-SPECosts-LineItem-ObjectFieldSection-parentBean" />
+	<bean id="PropBudget-SPECosts-LineItem-ObjectFieldSection-parentBean" parent="Uif-CssGridSection-1FieldLabelColumn">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="budgetCategoryTypeCode" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag or #parent.readOnly}"
+					  p:label="Category Type" p:order="05" p:required="false"
+					  p:optionsFinder="#{#getService('budgetCategoryTypeValuesFinder')}"
+					  p:optionsFinder.addBlankOption="false">
+					<property name="control">
+						<bean parent="Uif-DropdownControl"/>
+					</property>
+				</bean>
+                <bean parent="Uif-InputField" p:propertyName="budgetLineItem.budgetCategoryCode" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag or #parent.readOnly}"
+                    p:label="Category" p:order="10" p:required="false"
+					  p:refreshWhenChangedPropertyNames="#fp.budgetCategoryTypeCode"
+					  p:optionsFinder="#{#getService('proposalBudgetCategoryValueFinder')}"
+                    p:optionsFinder.addBlankOption="false">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                 </bean>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.costElement"
+                    p:refreshWhenChangedPropertyNames="#fp.budgetLineItem.budgetCategoryCode,#fp.budgetCategoryTypeCode"
+					p:label="Object Code Name" p:optionsFinder="#{#getService('budgetCostElementValuesFinder')}"
+					p:optionsFinder.addBlankOption="false" p:order="20" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemCost"
+					p:label="Total Base Cost" p:order="30" p:required="false" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.quantity" p:readOnly="@{#fp.budgetLineItem.formulatedCostElementFlag}"
+					p:order="40" p:required="false"/>
+				<bean parent="Uif-InputField" p:propertyName="budgetLineItem.lineItemDescription"
+					p:order="50" p:required="false"/>
+			</list>
+		</property>
+	</bean>
+		
+</beans>
+                    

@@ -22,12 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.budget.framework.core.category.BudgetCategoryValuesFinder;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetCategoryValueFinder;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -37,24 +36,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component("budgetNonPersonnelBudgetCategoryValuesFinder")
-public class BudgetNonPersonnelCategoryValuesFinder extends BudgetCategoryValuesFinder {
-	
-	@Autowired
+public class BudgetNonPersonnelCategoryValuesFinder extends ProposalBudgetCategoryValueFinder {
+
+    @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
-
-	@Override
-    public List<KeyValue> getKeyValues(ViewModel model) {
-        String budgetCategoryTypeCode = ((ProposalBudgetForm)model).getAddProjectBudgetLineItemHelper().getBudgetCategoryTypeCode();
-        List<Predicate> predicates = new ArrayList<Predicate>();
+    
+    @Override
+    protected List<Predicate> getPredicates(ProposalBudgetForm model) {
+        String budgetCategoryTypeCode = model.getAddProjectBudgetLineItemHelper().getBudgetCategoryTypeCode();
+        List<Predicate> predicates = new ArrayList<>();
         if (StringUtils.isNotEmpty(budgetCategoryTypeCode)) {
-            predicates.add(PredicateFactory.equal("budgetCategoryTypeCode",budgetCategoryTypeCode));
+            predicates.add(PredicateFactory.equal(BUDGET_CATEGORY_TYPE_CODE, budgetCategoryTypeCode));
         } else {
-            predicates.add(PredicateFactory.notEqual("budgetCategoryTypeCode",getPersonnelBudgetCategoryTypeCode()));
+            predicates.add(PredicateFactory.notEqual(BUDGET_CATEGORY_TYPE_CODE,getPersonnelBudgetCategoryTypeCode()));
         }
-        List<KeyValue> keyValues = super.getKeyValues(predicates);
-        keyValues.add(0, new ConcreteKeyValue("", "Select"));
-        return keyValues;
+        return predicates;
     }
 
     private String getPersonnelBudgetCategoryTypeCode() {

@@ -26,6 +26,7 @@ import java.util.Map;
 import org.kuali.rice.krad.datadictionary.parse.BeanTag;
 import org.kuali.rice.krad.datadictionary.parse.BeanTags;
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.TabGroup;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
@@ -36,9 +37,9 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
  * A dynamic tab group is an extension of the standard tab group where the tabs
  * are dynamically data driven. Instead of specifying the tabs as items in the group
  * collection, items for this group are derived based on a collection specified by <code>tabCollectionPropertyName</code>.
- * 
+ *
  * Each tab will then be created using the <code>groupPrototype</code> specified.
- * 
+ *
  * Additionally the bean id suffix can be extended from the group prototype by specifying <code>idSuffixPropertyname</code>
  * The SpEL context for each group is also extended, first by adding <code>#tabContext</code> as the item from the collection
  * but also by specifying <code>expressionProperties</code> which is a map containing SpEL variable names and the related property
@@ -55,7 +56,7 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
 	private Map<String, String> expressionProperties;
 	private String idSuffixPropertyName;
 	private Boolean setFieldBindingObjectPath = Boolean.FALSE;
-	
+
     /**
      * {@inheritDoc}
      */
@@ -80,11 +81,12 @@ public class DynamicTabGroupBase extends TabGroup implements DynamicTabGroup {
 	        	}
 	        	ContextUtils.pushAllToContextDeep(newGroup, tabContext);
         	}
-        	if (setFieldBindingObjectPath) {
-        		newGroup.setFieldBindingObjectPath(tabCollectionPropertyName + "[" + index + "]");
+        	if (setFieldBindingObjectPath && newGroup instanceof CollectionGroup) {
+        		((CollectionGroup)newGroup).getBindingInfo().setBindingObjectPath(tabCollectionPropertyName + "[" + index + "]");
+        	} else if (setFieldBindingObjectPath) {
+        		 newGroup.setFieldBindingObjectPath(tabCollectionPropertyName + "[" + index + "]");
         	}
-        	
-        	items.add(newGroup);
+			items.add(newGroup);
             index ++;
         }
         setItems(items);

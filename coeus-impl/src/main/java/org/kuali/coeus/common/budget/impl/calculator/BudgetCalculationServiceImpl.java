@@ -46,6 +46,7 @@ import org.kuali.coeus.common.framework.impl.Period;
 import org.kuali.coeus.propdev.impl.hierarchy.HierarchyStatusConstants;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -147,7 +148,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             
 
             final Collection<BudgetLineItem> deletedLineItems
-                = this.businessObjectService.findMatching(BudgetLineItem.class, fieldValues);
+                = this.dataObjectService.findMatching(BudgetLineItem.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
             return !deletedLineItems.isEmpty();
         }
             
