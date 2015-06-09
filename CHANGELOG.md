@@ -1,6 +1,34 @@
 
 
 ##CURRENT
+* added coi hierarchy parameter
+  * Joe Williams on Tue, 9 Jun 2015 09:20:08 -0500 [View Commit](../../commit/ef589a6c01b4f7623880e53e6089620e9d23de93)
+*  Fixing non personnel underrecovery rate calculation.
+  * As a user I need to create a budget with a reduced MTDC rate of 10% 'de minimus' rate for an NSF submission. My institution needs to capture the under recovered F&A, so I must set the Budget F&A Rate Type to MTDC (and manually set the rate to 10% as the applied rate) and set the UR Rate Type to FUNSN (which will apply the 56% F&A rate on Salaries and 10% F&A rate on Materials and Services). This follows my institute policy of capturing the UR on the salary&applied eb/fringe/vacation.
+  * Steps to reproduce:
+  * Create a proposal in Unit 000001 (rates modified)
+  * activity type = research
+  * Create a budget
+  * Budget Settings:
+select F&A Rate type of MTDC
+  * Select UR Rate Type of FUNSN
+  * Rates Screen:
+  * Edit the Applied rate for MTDC to %10
+  * Review FUNSN rates 56% for Salaries; 10% for M&S
+  * Add a person to the Budget; enter a salary amount for the person; apply the person to the first budget period.
+  * Add a non-personnel line item, example Travel. for $10,000.
+  * Save.
+  * Expected Results:
+  * The Personnel salary will generate Under Recovered F&A
+  * (Difference of the full 56% FUNSN Salary rate less the 10% reduced MTDC rate).
+  * The Non-personnel line item will NOT generate UR, because the applied MTDC rate and the standard FUNSN M&S rate are equal.
+  * Current Result:
+  * Personnel calculate UR correctly.
+  * Non-Personnel do NOT calculate correctly and are generating UR.
+  * It appears that the first FUNSN rate for Salaries is being applied.
+  * Gayathri Athreya on Mon, 8 Jun 2015 14:08:42 -0700 [View Commit](../../commit/bea3df997cabcd6625e24e150c86e428885ec9c9)
+
+##coeus-1506.21
 * IRB protocol search limit fix
   * Travis Schneberger on Tue, 2 Jun 2015 16:04:38 -0400 [View Commit](../../commit/32ad34ce3f9a8545a8f9a4200c2374091707c194)
 * code cleanup
