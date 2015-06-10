@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Adding indexes to prevent deadlock and increase performance
+  * Travis Schneeberger on Wed, 10 Jun 2015 12:11:11 -0400 [View Commit](../../commit/f6264ba08d874cb7f713c740bb51a43e13fab2fa)
+
+##coeus-1506.24
 * [RESKC-499] Multiple browser windows/tabs open when editing Schedules will cause data to overwrite
   * Travis Schneeberger on Wed, 10 Jun 2015 10:03:35 -0400 [View Commit](../../commit/09a463c4f471be4c9dc8776c1dabaabf21a97e4e)
 
