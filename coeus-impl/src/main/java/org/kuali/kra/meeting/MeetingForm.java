@@ -18,7 +18,9 @@
  */
 package org.kuali.kra.meeting;
 
+import org.kuali.coeus.common.committee.impl.meeting.MeetingControllerService;
 import org.kuali.coeus.common.committee.impl.meeting.MeetingFormBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 /**
  * 
@@ -31,6 +33,10 @@ public class MeetingForm extends MeetingFormBase {
 
     @Override
     protected MeetingHelper getNewMeetingHelperInstanceHook(MeetingFormBase meetingForm) {
-        return new MeetingHelper((MeetingForm) meetingForm);
+        return new MeetingHelper(meetingForm);
+    }
+
+    protected MeetingControllerService getMeetingControllerService() {
+        return KcServiceLocator.getService("meetingControllerService");
     }
 }

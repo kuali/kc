@@ -23,10 +23,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
-import org.kuali.coeus.common.committee.impl.meeting.CommScheduleMinuteDocBase;
-import org.kuali.coeus.common.committee.impl.meeting.CommonMeetingService;
-import org.kuali.coeus.common.committee.impl.meeting.MeetingActionsActionBase;
-import org.kuali.coeus.common.committee.impl.meeting.ScheduleAgendaBase;
+import org.kuali.coeus.common.committee.impl.meeting.*;
 import org.kuali.coeus.common.framework.print.PrintingException;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
@@ -178,5 +175,10 @@ public class MeetingActionsAction extends MeetingActionsActionBase {
     @Override
     protected CorrespondencePrintingService getCorrespondencePrintingService() {
         return KcServiceLocator.getService(ScheduleCorrespondencePrint.class);
+    }
+
+    @Override
+    protected MeetingControllerService getMeetingControllerService() {
+        return KcServiceLocator.getService("meetingControllerService");
     }
 }

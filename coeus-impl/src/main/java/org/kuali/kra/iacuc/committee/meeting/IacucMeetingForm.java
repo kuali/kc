@@ -18,11 +18,10 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.coeus.common.committee.impl.meeting.MeetingFormBase;
-import org.kuali.coeus.common.committee.impl.meeting.MeetingHelperBase;
+import org.kuali.coeus.common.committee.impl.meeting.*;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 public class IacucMeetingForm extends MeetingFormBase {
-
 
     private static final long serialVersionUID = -2580635682386198931L;
 
@@ -31,4 +30,8 @@ public class IacucMeetingForm extends MeetingFormBase {
         return new IacucMeetingHelper(meetingForm);
     }
 
+    @Override
+    protected MeetingControllerService getMeetingControllerService() {
+        return KcServiceLocator.getService("iacucMeetingControllerService");
+    }
 }

@@ -101,7 +101,7 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
             if (protocolCorrespondence.isRegenerateFlag()) {
                 ProtocolBase protocol = protocolCorrespondence.getProtocol();
                 AttachmentDataSource dataSource = generateCorrespondenceDocumentAndAttach(protocol, protocolCorrespondence);
-                PrintableAttachment source = new PrintableAttachment();
+
                 if (dataSource != null) {
                     protocolCorrespondence.setCorrespondence(dataSource.getData());
                     protocolCorrespondence.setFinalFlag(false);
@@ -129,6 +129,11 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
     @Override
     protected CorrespondencePrintingService getCorrespondencePrintingService() {
         return KcServiceLocator.getService(IacucScheduleCorrespondencePrint.class);
+    }
+
+    @Override
+    protected MeetingControllerService getMeetingControllerService() {
+        return KcServiceLocator.getService("iacucMeetingControllerService");
     }
     
 }
