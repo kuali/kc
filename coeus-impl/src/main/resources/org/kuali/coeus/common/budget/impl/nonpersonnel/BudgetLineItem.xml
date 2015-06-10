@@ -34,6 +34,7 @@
     </property>
     <property name="attributes" >
       <list>
+        <ref bean="BudgetLineItem-budgetPeriodId" />
         <ref bean="BudgetLineItem-budgetPeriod" />
         <ref bean="BudgetLineItem-lineItemNumber" />
         <ref bean="BudgetLineItem-versionNumber" />
@@ -59,6 +60,30 @@
 
 <!-- Attribute Definitions -->
 
+
+ <bean id="BudgetLineItem-budgetPeriodId" parent="BudgetLineItem-budgetPeriodId-parentBean" />
+
+  <bean id="BudgetLineItem-budgetPeriodId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetPeriodId" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Budget Period Id" />
+    <property name="shortLabel" value="Budget Period Id" />
+    <property name="maxLength" value="3" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition" />
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl"/>
+    </property>
+    <property name="summary" value="Budget Period Id" />
+    <property name="description" value="Budget Period Id" />
+  </bean>
 
   <bean id="BudgetLineItem-budgetPeriod" parent="BudgetLineItem-budgetPeriod-parentBean" />
 

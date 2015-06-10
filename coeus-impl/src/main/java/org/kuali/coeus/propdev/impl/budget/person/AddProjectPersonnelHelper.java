@@ -21,7 +21,7 @@ package org.kuali.coeus.propdev.impl.budget.person;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.TbnPerson;
@@ -32,10 +32,14 @@ import org.kuali.rice.krad.data.DataObjectService;
 
 public class AddProjectPersonnelHelper extends AddProjectBudgetLineItemHelper {
 
-    private BudgetPerson editBudgetPerson;
+	public static final String JOB_CODE_REF = "jobCodeRef";
+	public static final String BUDGET_PERSON = "budgetPerson";
+
+	private BudgetPerson editBudgetPerson;
     private DataObjectService dataObjectService;
     private List<TbnPerson> tbnPersons;
     private BudgetPersonnelDetails budgetPersonnelDetail;
+    private BudgetPersonnelDetails editBudgetPersonnelDetail;
     private String budgetPersonGroupName;
     
     public AddProjectPersonnelHelper() {
@@ -51,8 +55,9 @@ public class AddProjectPersonnelHelper extends AddProjectBudgetLineItemHelper {
     private void initPersonDetails() {
         editBudgetPerson = new BudgetPerson();
         budgetPersonnelDetail = new BudgetPersonnelDetails();
-        budgetPersonGroupName="";
-        tbnPersons = new ArrayList<TbnPerson>();
+        editBudgetPersonnelDetail = new BudgetPersonnelDetails();
+        budgetPersonGroupName=StringUtils.EMPTY;
+        tbnPersons = new ArrayList<>();
     }
     
 	public BudgetPerson getEditBudgetPerson() {
@@ -104,15 +109,24 @@ public class AddProjectPersonnelHelper extends AddProjectBudgetLineItemHelper {
 	
 	public String getJobTitle() {
 		if(getEditBudgetPerson().getJobCode() != null) {
-			getDataObjectService().wrap(getEditBudgetPerson()).fetchRelationship("jobCodeRef");
+			getDataObjectService().wrap(getEditBudgetPerson()).fetchRelationship(JOB_CODE_REF);
 		}
-		return getEditBudgetPerson().getJobCodeRef() != null ? getEditBudgetPerson().getJobCodeRef().getJobTitle() : "";
+		return getEditBudgetPerson().getJobCodeRef() != null ? getEditBudgetPerson().getJobCodeRef().getJobTitle() : StringUtils.EMPTY;
 	}
 
 	public String getAppointmentType() {
-		getDataObjectService().wrap(getBudgetPersonnelDetail()).fetchRelationship("budgetPerson");
+		getDataObjectService().wrap(getBudgetPersonnelDetail()).fetchRelationship(BUDGET_PERSON);
 		BudgetPerson budgetPerson = getBudgetPersonnelDetail().getBudgetPerson();
-		return budgetPerson != null ? budgetPerson.getAppointmentType().getDescription() : "";
+		return budgetPerson != null ? budgetPerson.getAppointmentType().getDescription() : StringUtils.EMPTY;
+	}
+
+	public BudgetPersonnelDetails getEditBudgetPersonnelDetail() {
+		return editBudgetPersonnelDetail;
+	}
+
+	public void setEditBudgetPersonnelDetail(
+			BudgetPersonnelDetails editBudgetPersonnelDetail) {
+		this.editBudgetPersonnelDetail = editBudgetPersonnelDetail;
 	}
 
 }

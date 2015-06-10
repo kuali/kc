@@ -44,6 +44,7 @@ import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
@@ -62,6 +63,7 @@ import org.springframework.util.CollectionUtils;
 @Scope("prototype")
 public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl {
 
+    public static final String SINGLE_POINT_ENTRY_FLAG = "SINGLE_POINT_ENTRY_FLAG";
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
@@ -295,6 +297,10 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
                 }
             }
         }
+    }
+
+    public boolean isSinglePointEntry() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT, SINGLE_POINT_ENTRY_FLAG);
     }
 
     public BudgetCalculationService getBudgetCalculationService() {

@@ -33,6 +33,7 @@ public class ProposalBudgetConstants {
         public static final String RATES_PAGE_ID = "PropBudget-RatesPage";
         public static final String ASSIGN_PERSONNEL_PAGE_ID = "PropBudget-AssignPersonnelToPeriodsPage";
         public static final String NON_PERSONNEL_PAGE_ID = "PropBudget-NonPersonnelCostsPage";
+        public static final String SPE_PAGE_ID = "PropBudget-SinglePointEntryPage";
         public static final String SUBAWARD_PAGE_ID = "PropBudget-SubawardsPage";
         public static final String PROJECT_INCOME_PAGE_ID = "PropBudget-ProjectIncomePage";
         public static final String MODULAR_PAGE_ID = "PropBudget-ModularPage";

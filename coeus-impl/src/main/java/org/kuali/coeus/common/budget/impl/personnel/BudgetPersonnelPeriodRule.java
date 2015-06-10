@@ -39,12 +39,22 @@ import java.util.Set;
 
 @KcBusinessRule("budgetPersonnelPeriodRule")
 public class BudgetPersonnelPeriodRule {
-    
+
+    public static final String PERSON_SEQUENCE_NUMBER = "personSequenceNumber";
+    public static final String START_DATE = "startDate";
+    public static final String PERCENT_EFFORT = "percentEffort";
+    public static final String PERCENT_CHARGED = "percentCharged";
+    public static final String END_DATE = "endDate";
+    public static final String CAN_NOT_BE_AFTER = "can not be after";
+    public static final String CAN_NOT_BE_BEFORE = "can not be before";
+    public static final String LOWER_END_DATE = "end date";
+    public static final String LOWER_START_DATE = "start date";
+
     @KcEventMethod
     public KcEventResult validateAddBudgetPersonnelPeriod(BudgetAddPersonnelPeriodEvent event) {
     	KcEventResult result = new KcEventResult();
     	result.getMessageMap().addToErrorPath(event.getErrorPath());
-        verifyProjectPersonnel(event.getBudgetLineItem(), event.getBudgetPersonnelDetails(), event.getBudgetPeriod().getBudgetLineItems(), result);
+        verifyProjectPersonnel(event, result);
     	verifyPersonnelEffortAndCharged(event.getBudgetPersonnelDetails(), result);
     	verifyPersonnelDates(event.getBudgetPersonnelDetails(),event.getBudgetPeriod(), result);
     	result.getMessageMap().removeFromErrorPath(event.getErrorPath());
@@ -65,8 +75,10 @@ public class BudgetPersonnelPeriodRule {
         return result;
     }
 
-    protected void verifyProjectPersonnel(BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, List<BudgetLineItem> budgetLineItemList , 
-    		KcEventResult result) {
+    protected void verifyProjectPersonnel(BudgetAddPersonnelPeriodEvent event, KcEventResult result) {
+    	BudgetLineItem newBudgetLineItem = event.getBudgetLineItem(); 
+    	BudgetPersonnelDetails newBudgetPersonnelDetails = event.getBudgetPersonnelDetails(); 
+    	List<BudgetLineItem> budgetLineItemList = event.getBudgetPeriod().getBudgetLineItems();
     	String newBudgetCategoryTypeCode = newBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode();
         for(BudgetLineItem budgetLineItem : budgetLineItemList) {
         	String existingBudgetCategoryTypeCode = budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode();
@@ -74,10 +86,10 @@ public class BudgetPersonnelPeriodRule {
                 if(newBudgetLineItem.getCostElement().equalsIgnoreCase(budgetLineItem.getCostElement()) && 
                         StringUtils.equals(newBudgetLineItem.getGroupName(), budgetLineItem.getGroupName())) {
                 	if(isSummaryPerson(newBudgetPersonnelDetails)) {
-                		addSummaryPersonnelLineItemErrorMessage(budgetLineItem, result);
+                		addSummaryPersonnelLineItemErrorMessage(budgetLineItem, event, result);
                     	break;
                 	}else {
-                		verifyPersonnel(budgetLineItem, newBudgetLineItem, newBudgetPersonnelDetails, result);
+                		verifyPersonnel(budgetLineItem, newBudgetLineItem, newBudgetPersonnelDetails, event, result);
                 		if(!result.getSuccess()) {
                         	break;
                 		}
@@ -96,14 +108,15 @@ public class BudgetPersonnelPeriodRule {
      * Condition matched (object code and group)
      * Error either summary line already exists or personnel line item exists
      */
-    protected void addSummaryPersonnelLineItemErrorMessage(BudgetLineItem budgetLineItem, KcEventResult result) {
+    protected void addSummaryPersonnelLineItemErrorMessage(BudgetLineItem budgetLineItem, BudgetAddPersonnelPeriodEvent event, KcEventResult result) {
         //Summary is already added and user is attempting to add a second summary
+    	String errorKey = event.getErrorKeyPerson() != null ? event.getErrorKeyPerson() : PERSON_SEQUENCE_NUMBER;
         if(budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
-            result.getMessageMap().putError("personSequenceNumber", KeyConstants.ERROR_SUMMARY_LINEITEM_EXISTS);
+            result.getMessageMap().putError(errorKey, KeyConstants.ERROR_SUMMARY_LINEITEM_EXISTS);
             result.setSuccess(false);
         }else {
             //Condition where Personnel are already added for the line item
-            result.getMessageMap().putError("personSequenceNumber", KeyConstants.ERROR_PERSONNEL_EXISTS);
+            result.getMessageMap().putError(errorKey, KeyConstants.ERROR_PERSONNEL_EXISTS);
             result.setSuccess(false);
         }
     }
@@ -113,9 +126,10 @@ public class BudgetPersonnelPeriodRule {
      * Condition matched (object code and group)
      * Error check whether summary line already exists or personnel line is duplicate
      */
-    protected void verifyPersonnel(BudgetLineItem budgetLineItem, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, KcEventResult result) {
+    protected void verifyPersonnel(BudgetLineItem budgetLineItem, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, BudgetAddPersonnelPeriodEvent event, KcEventResult result) {
+    	String errorKey = event.getErrorKeyPerson() != null ? event.getErrorKeyPerson() : PERSON_SEQUENCE_NUMBER;
         if(budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
-            result.getMessageMap().putError("personSequenceNumber", KeyConstants.ERROR_SUMMARY_LINEITEM_EXISTS);
+            result.getMessageMap().putError(errorKey, KeyConstants.ERROR_SUMMARY_LINEITEM_EXISTS);
             result.setSuccess(false);
         }else {
             List<BudgetPersonnelDetails> budgetPersonnelDetails = getBudgetPersonnelDetails(budgetLineItem, newBudgetPersonnelDetails);
@@ -132,7 +146,7 @@ public class BudgetPersonnelPeriodRule {
     	Set<String> uniquePersonDetails = new HashSet<String>();
     	for(BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetailsList) {
         	if(!uniquePersonDetails.add(getBudgetPersonnelPeriodUniqueKey(budgetPersonnelDetails))) {
-                result.getMessageMap().putError("startDate", KeyConstants.ERROR_DUPLICATE_PERSON, newBudgetPersonnelDetails.getBudgetPerson().getPersonName());
+                result.getMessageMap().putError(START_DATE, KeyConstants.ERROR_DUPLICATE_PERSON, newBudgetPersonnelDetails.getBudgetPerson().getPersonName());
                 result.setSuccess(false);
                 break;
         	}
@@ -163,38 +177,38 @@ public class BudgetPersonnelPeriodRule {
     
     protected void verifyPersonnelEffortAndCharged(BudgetPersonnelDetails budgetPersonnelDetails, KcEventResult result) {
         if(budgetPersonnelDetails.getPercentEffort().isGreaterThan(new ScaleTwoDecimal(100))){
-            result.getMessageMap().putError("percentEffort", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
+            result.getMessageMap().putError(PERCENT_EFFORT, KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_EFFORT_FIELD);
             result.setSuccess(false);
         }
         if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(new ScaleTwoDecimal(100))){
-            result.getMessageMap().putError("percentCharged", KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
+            result.getMessageMap().putError(PERCENT_CHARGED, KeyConstants.ERROR_PERCENTAGE, Constants.PERCENT_CHARGED_FIELD);
             result.setSuccess(false);
         }
         if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){
-            result.getMessageMap().putError("percentCharged", KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
+            result.getMessageMap().putError(PERCENT_CHARGED, KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
             result.setSuccess(false);
         }
     }
 
     protected void verifyPersonnelDates(BudgetPersonnelDetails budgetPersonnelDetails, BudgetPeriod budgetPeriod, KcEventResult result) {
         if(budgetPersonnelDetails.getEndDate().compareTo(budgetPersonnelDetails.getStartDate()) < 0) {
-            result.getMessageMap().putError("endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_DATES);
+            result.getMessageMap().putError(END_DATE, KeyConstants.ERROR_PERSONNEL_DETAIL_DATES);
             result.setSuccess(false);
         }
         if(budgetPeriod.getEndDate().compareTo(budgetPersonnelDetails.getEndDate()) < 0) {
-            result.getMessageMap().putError("endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_END_DATE, new String[] {"can not be after", "end date"});
+            result.getMessageMap().putError(END_DATE, KeyConstants.ERROR_PERSONNEL_DETAIL_END_DATE, new String[] {CAN_NOT_BE_AFTER, LOWER_END_DATE});
             result.setSuccess(false);
         }
         if(budgetPeriod.getStartDate().compareTo(budgetPersonnelDetails.getEndDate()) > 0) {
-            result.getMessageMap().putError("endDate", KeyConstants.ERROR_PERSONNEL_DETAIL_END_DATE, new String[] {"can not be before", "start date"});
+            result.getMessageMap().putError(END_DATE, KeyConstants.ERROR_PERSONNEL_DETAIL_END_DATE, new String[] {CAN_NOT_BE_BEFORE, LOWER_START_DATE});
             result.setSuccess(false);
         }
         if(budgetPeriod.getStartDate().compareTo(budgetPersonnelDetails.getStartDate()) > 0) {
-            result.getMessageMap().putError("startDate", KeyConstants.ERROR_PERSONNEL_DETAIL_START_DATE, new String[] {"can not be before", "start date"});
+            result.getMessageMap().putError(START_DATE, KeyConstants.ERROR_PERSONNEL_DETAIL_START_DATE, new String[] {CAN_NOT_BE_BEFORE, LOWER_START_DATE});
             result.setSuccess(false);
         }
         if(budgetPeriod.getEndDate().compareTo(budgetPersonnelDetails.getStartDate()) < 0) {
-            result.getMessageMap().putError("startDate", KeyConstants.ERROR_PERSONNEL_DETAIL_START_DATE, new String[] {"can not be after", "end date"});
+            result.getMessageMap().putError(START_DATE, KeyConstants.ERROR_PERSONNEL_DETAIL_START_DATE, new String[] {CAN_NOT_BE_AFTER, LOWER_END_DATE});
             result.setSuccess(false);
         }
     }

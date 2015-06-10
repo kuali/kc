@@ -32,6 +32,7 @@
 			<list>
 				<ref bean="PropBudget-AssignPersonnelToPeriodsPage-TabGroup" />
 				<ref bean="PropBudget-AssignPersonnelToPeriodsPage-AddPersonnel"/>
+				<ref bean="PropBudget-EditPersonnelPeriod-Section"/>
 			</list>
 		</property>
 		<property name="header">
@@ -233,14 +234,16 @@
     </bean>
 
 	<bean id="PropBudget-EditPersonnelPeriod-Section" parent="PropBudget-EditPersonnelPeriod-Section-parent" />
-	<bean id="PropBudget-EditPersonnelPeriod-Section-parent" p:fieldBindingObjectPath="addProjectPersonnelHelper.budgetPersonnelDetail" abstract="true" parent="Uif-DialogGroup" 
+	<bean id="PropBudget-EditPersonnelPeriod-Section-parent" p:fieldBindingObjectPath="addProjectPersonnelHelper.editBudgetPersonnelDetail" abstract="true" parent="Uif-DialogGroup" 
         p:onHideDialogScript="retrieveComponent('PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails_@{#fp.addProjectPersonnelHelper.currentTabBudgetPeriod.budgetPeriod}', 'refreshPageWithBudgetExpenseRules');"
+		p:refreshWhenChangedPropertyNames="addProjectPersonnelHelper.editBudgetPersonnelDetail.personSequenceNumber"
+		p:methodToCallOnRefresh="refreshEditBudgetLineItem"
 		p:retrieveViaAjax="true"
 		p:headerText="Edit Assigned Personnel" p:destroyDialogOnHidden="true" p:enterKeyAction="@DEFAULT">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:fieldLabel.labelText=" " p:propertyName="budgetPerson.personName"
-					p:style="font-weight: bold; font-size: larger;" p:order="10"/>
+					p:style="font-weight: bold; font-size: larger;" p:order="0"/>
 				<ref bean="PropBudget-EditPersonnelPeriod-Section-Details" />
 			</list>
 		</property>
@@ -272,36 +275,39 @@
 	<bean id="PropBudget-EditPersonnelPeriod-Section-Details-parent" abstract="true" parent="Uif-CssGridSection-2FieldLabelColumn">
 		<property name="items">
 			<list>
+				<bean parent="Uif-InputField" p:propertyName="personSequenceNumber"
+					p:optionsFinder="#{#getService('budgetPersonValuesFinder')}" p:order="10" p:required="true"
+					p:enableAutoQuickfinder="false"/>
 				<bean parent="Uif-DataField" p:propertyName="budgetPerson.role"
-					p:label="Role" p:order="10"/>
+					p:label="Role" p:order="20"/>
  				<bean parent="Uif-MessageField" p:messageText="@{addProjectPersonnelHelper.budgetPersonnelDetail.budgetPerson?.appointmentType?.description}"
-					p:order="20" p:label="Appointment Type"/>
+					p:order="30" p:label="Appointment Type"/>
  				<bean parent="Uif-MessageField" p:messageText="@{addProjectPersonnelHelper.budgetPersonnelDetail.budgetPerson?.effectiveDate}"
-					p:order="30" p:label="Salary Effective Date"/>
-				<bean parent="Uif-InputField" p:propertyName="periodTypeCode" p:order="40" p:enableAutoQuickfinder="false"
+					p:order="40" p:label="Salary Effective Date"/>
+				<bean parent="Uif-InputField" p:propertyName="periodTypeCode" p:order="50" p:enableAutoQuickfinder="false"
 					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
 					p:readOnlyDisplayReplacement="&amp;nbsp;"/>
 				<bean parent="Uif-InputField" p:propertyName="startDate"
-					p:required="true" p:order="50"/>
-				<bean parent="Uif-InputField" p:propertyName="endDate"
 					p:required="true" p:order="60"/>
+				<bean parent="Uif-InputField" p:propertyName="endDate"
+					p:required="true" p:order="70"/>
 				<bean parent="PropBudget-AssignPersonnelToPeriodsPage-PercentField" p:propertyName="percentEffort" 
 					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
-					p:label="Effort" p:order="70" p:readOnlyDisplayReplacement="&amp;nbsp;"/>
+					p:label="Effort" p:order="80" p:readOnlyDisplayReplacement="&amp;nbsp;"/>
 				<bean parent="PropBudget-AssignPersonnelToPeriodsPage-PercentField" p:propertyName="percentCharged" 
 					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
-					p:label="Charged" p:order="80" p:readOnlyDisplayReplacement="&amp;nbsp;"/>
+					p:label="Charged" p:order="90" p:readOnlyDisplayReplacement="&amp;nbsp;"/>
 				<bean parent="Uif-InputField" p:propertyName="salaryRequested" 
 					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber != #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}"
-					p:label="Requested Salary" p:order="90" />
+					p:label="Requested Salary" p:order="100" />
 				<bean parent="Uif-DataField" p:propertyName="calculatedFringe"
-					p:label="Calculated Fringe" p:order="100"/>
+					p:label="Calculated Fringe" p:order="110"/>
 				<bean parent="Uif-DataField" p:propertyName="costSharingAmount" 
-					p:label="Cost Sharing Amount" p:order="110" />
+					p:label="Cost Sharing Amount" p:order="120" />
 				<bean parent="Uif-DataField" p:propertyName="underrecoveryAmount" 
-					p:label="Unrecovered F&amp;A" p:order="120" />
-				<bean parent="Uif-DataField" p:propertyName="personMonths" p:label="Person Months" p:order="130"/>
-				<bean parent="Uif-InputField" p:propertyName="lineItemDescription" p:order="140"
+					p:label="Unrecovered F&amp;A" p:order="130" />
+				<bean parent="Uif-DataField" p:propertyName="personMonths" p:label="Person Months" p:order="140"/>
+				<bean parent="Uif-InputField" p:propertyName="lineItemDescription" p:order="150"
 					p:readOnly="@{#parent.readOnly or #fp.personSequenceNumber == #{T(org.kuali.coeus.common.budget.framework.core.BudgetConstants.BudgetPerson).SUMMARYPERSON.personId}}">
   					<property name="control">
     					<bean parent="Uif-TextAreaControl" p:cols="60" p:rows="3"/>
