@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+*  Fixing a hidden NPE when accessing a Protocol Amendment and the Protocol Person does not have an affiliation.
+  * Travis Schneeberger on Wed, 10 Jun 2015 14:58:44 -0400 [View Commit](../../commit/c6b573e15480da1fb8f95d33fe3f1cf22570d7d6)
+*  Fixing an index out of bounds exception which is swallowed and then becomes visible to the end user as a exception creating java.util.List
+  * Travis Schneeberger on Wed, 10 Jun 2015 15:00:45 -0400 [View Commit](../../commit/22091cc7fbc5360ef58a4139a346ee7d6b67e76f)
+* Budget Single Point Entry Enhancement
+  * Joe Williams on Tue, 9 Jun 2015 16:34:58 -0500 [View Commit](../../commit/ff64bd468921aab9d39bebf9bbc76a13ac3283fa)
+*  Code Cleanup
+  * Travis Schneeberger on Wed, 10 Jun 2015 15:06:03 -0400 [View Commit](../../commit/8759f8779c7c36714234a2ac6fb4f08aa0121ada)
+
+##coeus-1506.25
 *  Adding indexes to prevent deadlock and increase performance
   * Travis Schneeberger on Wed, 10 Jun 2015 12:11:11 -0400 [View Commit](../../commit/f6264ba08d874cb7f713c740bb51a43e13fab2fa)
 
