@@ -53,7 +53,7 @@ public class IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends Derive
         
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
             for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
-                if (StringUtils.equals(getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()), roleName) &&
+                if (StringUtils.equals(getAffiliationType(person.getAffiliationTypeCode()), roleName) &&
                     StringUtils.isNotBlank(person.getPerson().getPersonId())) {
                     members.add(RoleMembership.Builder.create(null, null, person.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build());
                 }
