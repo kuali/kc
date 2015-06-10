@@ -28,10 +28,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
- * 
  * This class is a form for Meeting management,
  */
-@SuppressWarnings("deprecation")
+
 public abstract class MeetingFormBase extends KualiForm {
     private static final long serialVersionUID = -7825455832928793712L;
     private MeetingHelperBase meetingHelper;
@@ -49,15 +48,14 @@ public abstract class MeetingFormBase extends KualiForm {
      * This method initialize all form variables
      */
     public void initialize() {
-       setMeetingHelper(getNewMeetingHelperInstanceHook(this));
+        setMeetingHelper(getNewMeetingHelperInstanceHook(this));
     }
-    
+
     protected abstract MeetingHelperBase getNewMeetingHelperInstanceHook(MeetingFormBase meetingForm);
 
     public MeetingHelperBase getMeetingHelper() {
         return meetingHelper;
     }
-
 
     public void setMeetingHelper(MeetingHelperBase meetingHelper) {
         this.meetingHelper = meetingHelper;
@@ -92,9 +90,13 @@ public abstract class MeetingFormBase extends KualiForm {
     public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;
     }
-    
+
     @Override
     public void populate(HttpServletRequest request) {
+        String scheduleId = request.getParameter("meetingHelper.committeeSchedule.id");
+        if (scheduleId != null) {
+            getMeetingControllerService().populateSchedule(this, request, scheduleId);
+        }
         super.populate(request);
         populateFalseCheckboxes(request);
     }
@@ -102,26 +104,26 @@ public abstract class MeetingFormBase extends KualiForm {
     /**
      * Uses the "checkboxToReset" parameter to find checkboxes which had not been
      * populated in the request and attempts to populate them
-     * 
+     *
      * @param request the request to populate
      */
-    @SuppressWarnings("unchecked")
+
     private void populateFalseCheckboxes(HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
         if (parameterMap.get("checkboxToReset") != null) {
             final String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
-            if(checkboxesToReset != null && checkboxesToReset.length > 0) {
+            if (checkboxesToReset != null && checkboxesToReset.length > 0) {
                 for (int i = 0; i < checkboxesToReset.length; i++) {
                     String propertyName = (String) checkboxesToReset[i];
-                    if ( !StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null ) {
+                    if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null) {
                         populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
-                    }  
-                    else if ( !StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null && parameterMap.get(propertyName).length >= 1 && parameterMap.get(propertyName)[0].equalsIgnoreCase("on") ) {
-                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap); 
+                    } else if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null && parameterMap.get(propertyName).length >= 1 && parameterMap.get(propertyName)[0].equalsIgnoreCase("on")) {
+                        populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap);
                     }
                 }
             }
         }
     }
 
+    protected abstract MeetingControllerService getMeetingControllerService();
 }

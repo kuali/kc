@@ -82,4 +82,9 @@ public class IacucMeetingManagementAction extends MeetingManagementActionBase {
         return "iacucCommitteeCommittee";
     }
 
+    @Override
+    protected MeetingControllerService getMeetingControllerService() {
+        return KcServiceLocator.getService("iacucMeetingControllerService");
+    }
+
 }

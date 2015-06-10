@@ -582,7 +582,7 @@
      </action>    
      
      
-     <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" input="/WEB-INF/jsp/meeting/meeting{1}.jsp" attribute="KualiForm">
+     <action path="/meeting*" name="MeetingForm" type="org.kuali.kra.meeting.Meeting{1}Action" input="/WEB-INF/jsp/meeting/meeting{1}.jsp" scope="request" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/meeting/meeting{1}.jsp" />
             <forward name="management" path="/WEB-INF/jsp/meeting/meetingManagement.jsp" />
             <forward name="actions" path="/WEB-INF/jsp/meeting/meetingActions.jsp" />
@@ -590,7 +590,7 @@
      </action>
 
 	
-     <action path="/iacucMeeting*" name="IacucMeetingForm" type="org.kuali.kra.iacuc.committee.meeting.IacucMeeting{1}Action" input="/WEB-INF/jsp/meeting/IacucMeeting{1}.jsp" attribute="KualiForm">
+     <action path="/iacucMeeting*" name="IacucMeetingForm" type="org.kuali.kra.iacuc.committee.meeting.IacucMeeting{1}Action" input="/WEB-INF/jsp/meeting/IacucMeeting{1}.jsp" scope="request" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/meeting/IacucMeeting{1}.jsp" />
             <forward name="management" path="/WEB-INF/jsp/meeting/IacucMeetingManagement.jsp" />
             <forward name="actions" path="/WEB-INF/jsp/meeting/IacucMeetingActions.jsp" />
