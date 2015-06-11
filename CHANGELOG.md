@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+* iacuc copy link redirects user to the copy action on the protocol
+
+  * Login as user who can edit/copy IACUC protocols.
+  * From the Researcher portal, select Search IACUC Protocols
+  * Perform a search that you know will return results. (Or create a new IACUC protocol if needed to get results.)
+  * From the Results list, select Copy from one of the protocols.
+  * Result: User is taken to KC Landing Page.
+  * Expected Result: Protocol is opened and user is taken to the Copy option in Protocol Actions where they can copy the protocol.
+
+  * Workaround: From the Results list, select View or Edit instead of Copy. The protocol opens. Go to IACUC Protocol Actions, Copy to New Document.
+  * Joe Williams on Thu, 11 Jun 2015 14:16:59 -0500 [View Commit](../../commit/23d45eb4d3b0464d56561348183ac8848da5716f)
+
+##coeus-1506.29
 * No Changes
 
 
