@@ -117,7 +117,7 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
             
             AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             IacucProtocolDocument document = ((IacucProtocol) businessObject).getIacucProtocolDocument();
-            copyHtmlData.setHref("../iacucProtocolActions.do?docId=" + document.getDocumentNumber() +"&doCopy=True");
+            copyHtmlData.setHref("../DocCopyHandler.do?docId=" + document.getDocumentNumber() + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName() + "&doCopy=True");
             htmlDataList.add(copyHtmlData);
         }
         if (kraAuthorizationService.hasPermission(getUserIdentifier(), (IacucProtocol) businessObject, PermissionConstants.VIEW_IACUC_PROTOCOL)) {
