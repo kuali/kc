@@ -185,8 +185,8 @@
         </property>
         <property name="initParameters">
             <map>
-                <entry key="url-exclude-pattern" value="/static/.*|/healthCheck/.*|/css/.*|/rice-contrib/.*|/scripts/.*|/schemaspy/.*"/>
-                <entry key="log" value="true"/>
+                <entry key="url-exclude-pattern" value="${kc.monitoring.exclude.pattern}"/>
+                <entry key="log" value="${kc.monitoring.verbose.logging}"/>
                 <entry key="disabled" value="#{not (T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getBooleanProperty('kc.monitoring.enabled'))}" />
                 <entry key="monitoring-path" value="/monitoring/jm" />
                 <entry key="quartz-default-listener-disabled" value="true"/>
