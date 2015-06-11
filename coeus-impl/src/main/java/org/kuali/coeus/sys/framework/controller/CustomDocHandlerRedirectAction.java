@@ -21,6 +21,7 @@ package org.kuali.coeus.sys.framework.controller;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kew.routing.web.ClientAppDocHandlerRedirectAction;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -35,6 +36,12 @@ import javax.servlet.http.HttpServletResponse;
         
 public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectAction {
 
+    public static final String PROPOSAL_DEVELOPMENT_DOCUMENT = "ProposalDevelopmentDocument";
+    public static final String DOCUMENT_TYPE_NAME = "documentTypeName";
+    public static final String PROTOCOL_DOCUMENT = "ProtocolDocument";
+    public static final String IACUC_PROTOCOL_DOCUMENT = "IacucProtocolDocument";
+    public static final String AWARD_DOCUMENT = "AwardDocument";
+
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return start(mapping, form, request, response);
     }
@@ -44,12 +51,13 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
         ActionForward returnForward = super.execute(mapping, form, request, response);
         
         String docHandler = returnForward.getPath();
-        if (("ProposalDevelopmentDocument").equals(request.getParameter("documentTypeName"))) {
-            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, "actions");
-        } else if (("ProtocolDocument").equals(request.getParameter("documentTypeName"))) {
-            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, "protocolActions");
-        } else if (("AwardDocument").equals(request.getParameter("documentTypeName"))) {
-            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, "awardActions");
+        if (PROPOSAL_DEVELOPMENT_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME))) {
+            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, Constants.PROPOSAL_ACTIONS_PAGE);
+        } else if (PROTOCOL_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME)) ||
+                IACUC_PROTOCOL_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME))) {
+            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, Constants.MAPPING_PROPOSAL_ACTIONS);
+        } else if (AWARD_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME))) {
+            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, Constants.MAPPING_AWARD_ACTIONS_PAGE);
         }
           
         returnForward = new ActionForward(docHandler, returnForward.getRedirect());
