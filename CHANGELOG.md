@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1506.27
+* No Changes
+
+
 ##coeus-1506.26
 *  Fixing a hidden NPE when accessing a Protocol Amendment and the Protocol Person does not have an affiliation.
   * Travis Schneeberger on Wed, 10 Jun 2015 14:58:44 -0400 [View Commit](../../commit/c6b573e15480da1fb8f95d33fe3f1cf22570d7d6)
