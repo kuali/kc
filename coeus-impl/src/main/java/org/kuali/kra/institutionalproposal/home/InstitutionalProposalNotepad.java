@@ -21,6 +21,7 @@ package org.kuali.kra.institutionalproposal.home;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.version.sequence.associate.SequenceAssociate;
 import org.kuali.coeus.common.framework.version.sequence.owner.SequenceOwner;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.rice.kim.api.identity.Person;
@@ -28,7 +29,6 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.NoteService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -154,9 +154,14 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
     protected void prePersist() {
         super.prePersist();
 
-        Calendar cl = Calendar.getInstance();
-        setCreateTimestamp(new Date(cl.getTime().getTime()));
-        setCreateUser(StringUtils.substring(GlobalVariables.getUserSession().getPrincipalName(), 0, UPDATE_USER_LENGTH));
+        if (createUser == null) {
+            setCreateUser(StringUtils.substring(getGlobalVariableService().getUserSession().getPrincipalName(), 0, UPDATE_USER_LENGTH));
+        }
+
+        if (createTimestamp == null) {
+            Calendar cl = Calendar.getInstance();
+            setCreateTimestamp(new Date(cl.getTime().getTime()));
+        }
     }
 
     @Override
@@ -220,4 +225,7 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
         this.createUser = createUser;
     }
 
+    private GlobalVariableService getGlobalVariableService() {
+        return KcServiceLocator.getService(GlobalVariableService.class);
+    }
 }

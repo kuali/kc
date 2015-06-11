@@ -172,14 +172,14 @@
 	<bean id="AwardAttachment-updateUser" parent="AwardAttachment-updateUser-parentBean" />
 	<bean id="AwardAttachment-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
 		<property name="name" value="updateUser" />
-		<property name="label" value="Updated By" />
+		<property name="label" value="Uploaded By" />
 		<property name="shortLabel" value="Uploaded By" />
 	</bean>
 	
 	<bean id="AwardAttachment-updateTimestamp" parent="AwardAttachment-updateTimestamp-parentBean" />
 	<bean id="AwardAttachment-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
 		<property name="name" value="updateTimestamp" />
-		<property name="label" value="Last Update" />
+		<property name="label" value="Posted Timestamp" />
 		<property name="shortLabel" value="Posted Timestamp" />
 	</bean>
 
