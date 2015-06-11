@@ -29,16 +29,21 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.exception.AuthorizationException;
 
 /**
  * 
@@ -54,7 +59,9 @@ public class ReportForwardAction extends KualiDocumentActionBase {
     
     private DataObjectService dataObjectService;
     private Object tokenURLGenerator;
+    private UnitAuthorizationService unitAuthorizationService;
     private GlobalVariableService globalVariableService;
+    private UnitService unitService;
 
 	protected String getClientId(final HttpServletRequest request) {
       String clientId = System.getenv(CLUSTER_ID_VAR);
@@ -73,16 +80,21 @@ public class ReportForwardAction extends KualiDocumentActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         
-        String currentUserId = getGlobalVariableService().getUserSession().getPrincipalName();
+        String currentUserName = getGlobalVariableService().getUserSession().getPrincipalName();
+        String currentUserId = getGlobalVariableService().getUserSession().getPrincipalId();
         String clientId = getClientId(request);
         String reportId = request.getParameter("reportId");
+        
+        if (!getUnitAuthorizationService().hasPermission(currentUserId, getUnitService().getTopUnit().getUnitNumber(), RoleConstants.DEPARTMENT_ROLE_TYPE, PermissionConstants.RUN_GLOBAL_REPORTS)) {
+        	throw new AuthorizationException(currentUserName, "Run", "Reports");
+        }
 
-        boolean isPI = isPrincipalInvestigator(currentUserId);
+        boolean isPI = isPrincipalInvestigator(currentUserName);
 
         String urlBase = getKualiConfigurationService().getPropertyValueAsString(URL_BASE);
         String queryBase = getKualiConfigurationService().getPropertyValueAsString(QUERY_BASE);
         String adHocView = getKualiConfigurationService().getPropertyValueAsString(ADHOC_LIST_QUERY);
-        String credentials[] = new String[] {currentUserId, Boolean.toString(isPI), clientId};
+        String credentials[] = new String[] {currentUserName, Boolean.toString(isPI), clientId};
         final String url;
 
         final String query;
@@ -144,4 +156,26 @@ public class ReportForwardAction extends KualiDocumentActionBase {
     public void setTokenURLGenerator(Object tokenURLGenerator) {
         this.tokenURLGenerator = tokenURLGenerator;
     }
+
+	public UnitAuthorizationService getUnitAuthorizationService() {
+		if (unitAuthorizationService == null) {
+			unitAuthorizationService = KcServiceLocator.getService(UnitAuthorizationService.class);
+		}
+		return unitAuthorizationService;
+	}
+
+	public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
+		this.unitAuthorizationService = unitAuthorizationService;
+	}
+
+	public UnitService getUnitService() {
+		if (unitService == null) {
+			unitService = KcServiceLocator.getService(UnitService.class);
+		}
+		return unitService;
+	}
+
+	public void setUnitService(UnitService unitService) {
+		this.unitService = unitService;
+	}
 }

@@ -21,6 +21,7 @@ package org.kuali.coeus.common.impl.rpt;
 import org.kuali.coeus.common.impl.rpt.cust.CustReportDetails;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,6 @@ import java.util.Map;
 
 @Component("birtReportService")
 public class BirtReportServiceImpl implements BirtReportService{
-
-    public static final String PERMISSION_NAME = "RUN GLOBAL REPORTS";
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -86,7 +85,7 @@ public class BirtReportServiceImpl implements BirtReportService{
         List<CustReportDetails> custReportDetails = new ArrayList<>();
         for (CustReportDetails custReportDetail : custReportDetailsList) {
             if(custReportDetail.getPermissionName() != null) {
-                if(custReportDetail.getPermissionName().equalsIgnoreCase(PERMISSION_NAME)) {
+                if(custReportDetail.getPermissionName().equalsIgnoreCase(PermissionConstants.RUN_GLOBAL_REPORTS)) {
                     boolean hasPermission = getUnitAuthorizationService().hasPermission(principalId, departmentCode,
                             RoleConstants.DEPARTMENT_ROLE_TYPE, custReportDetail.getPermissionName());
                     if (hasPermission) {
