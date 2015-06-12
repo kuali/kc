@@ -1,6 +1,34 @@
 
 
 ##CURRENT
+* update check specified narrative type krms function to check internal attachments
+
+  * KRMS rule built using any internal attachment type with the function "check specified narrative type" either always shows or never shows. If user configures validation to show message when attachment is missing, it is not possible for the proposal user to make a selection (by adding the missing attachment) to clear the data validation.
+
+  * Steps to reproduce
+
+    Create an Agenda
+    Add a rule to run when true
+    In the proposition add description
+    select function
+    find term "check specified narrative type"
+    use "=" comparison
+    value of "true"
+    add name
+    narrative type: use any internal attachment, such as 55 (for MIT Cost Sharing Distribution")
+    KC Validation
+    Action Warning
+    Message- any message
+    Area: Attachments
+    Section Name: Internal Attachments
+    Page ID: PropDev-AttachmentsPage
+    Section ID: PropDev-AttachmentsPage-InternalSection
+    Name: any name
+    Add rule
+    Blanket Approve Agenda
+  * Joe Williams on Fri, 12 Jun 2015 16:23:30 -0500 [View Commit](../../commit/72b53881f118b2c4954e6908090b1e612803325d)
+
+##coeus-1506.35
 *  Improve the performance of the protocol authorizers by removing edit mode logic that is not used.
   * Travis Schneeberger on Fri, 12 Jun 2015 14:27:37 -0400 [View Commit](../../commit/38e23b44be4f947f66dc0819a922b95e350b99ed)
 
