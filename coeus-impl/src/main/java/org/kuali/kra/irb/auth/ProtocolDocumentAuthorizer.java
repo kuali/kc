@@ -25,7 +25,6 @@ import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
@@ -50,7 +49,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
 
     @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
-        Set<String> editModes = new HashSet<String>();
+        Set<String> editModes = new HashSet<>();
         
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
         String userId = user.getPrincipalId();
@@ -58,25 +57,22 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         if (protocolDocument.getProtocol().getProtocolId() == null) {
             if (canCreateProtocol(user)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-            } 
-            else {
+            } else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
-        } 
-        else {
-            if (canExecuteProtocolTask(userId, protocolDocument, TaskName.MODIFY_PROTOCOL)) {  
+        } else {
+            if (canExecuteProtocolTask(userId, protocolDocument, TaskName.MODIFY_PROTOCOL)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-            }
-            else if (canExecuteProtocolTask(userId, protocolDocument, TaskName.VIEW_PROTOCOL)) {
+            } else if (canExecuteProtocolTask(userId, protocolDocument, TaskName.VIEW_PROTOCOL)) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
-            }
-            else {
+            } else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
             
-            if( canExecuteProtocolTask(userId,protocolDocument,TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {
+            if (canExecuteProtocolTask(userId,protocolDocument,TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {
                 editModes.add(TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS);
             }
+
             if (canViewReviewComments(protocolDocument, user)) {
                 editModes.add(Constants.CAN_VIEW_REVIEW_COMMENTS);
             }
@@ -87,9 +83,6 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     
     /**
      * This method determines if a person can view the review comments.
-     * @param document
-     * @param user
-     * @return boolean
      */
     public boolean canViewReviewComments(Document document, Person user) {
         ProtocolDocument protocolDoc = (ProtocolDocument)document;
@@ -135,13 +128,13 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     
     /**
      * Does the user have permission to execute the given task for a protocol?
-     * @param username the user's username
+     * @param userId the user's username
      * @param doc the protocol document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteProtocolTask(String userId, ProtocolDocument doc, String taskName) {
-        ProtocolTask task = new ProtocolTask(taskName, (Protocol) doc.getProtocol());       
+        ProtocolTask task = new ProtocolTask(taskName, doc.getProtocol());
         TaskAuthorizationService taskAuthenticationService = KcServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
