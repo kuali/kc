@@ -471,8 +471,10 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      */
     @Override
     public String narrativeTypeRule(DevelopmentProposal developmentProposal,String narrativeTypeCode) {
-        List<Narrative> narratives = developmentProposal.getNarratives();
-        for (Narrative narrative : narratives) {
+        List<Narrative> attachments = new ArrayList<>();
+        attachments.addAll(developmentProposal.getNarratives());
+        attachments.addAll(developmentProposal.getInstituteAttachments());
+        for (Narrative narrative : attachments) {
             if(narrative.getNarrativeTypeCode().equals(narrativeTypeCode)){
                 return TRUE;
             }
