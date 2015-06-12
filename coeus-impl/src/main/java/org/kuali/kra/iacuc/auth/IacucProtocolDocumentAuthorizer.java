@@ -25,36 +25,28 @@ import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.sql.Date;
-import java.util.Calendar;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
-    // TODO : detail need to be implemented after role and tasks are set up.
-    
 
     private static final long serialVersionUID = -5078229085592345997L;
 
     @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
-        Set<String> editModes = new HashSet<String>();
+        Set<String> editModes = new HashSet<>();
         
         IacucProtocolDocument iacucProtocolDocument = (IacucProtocolDocument) document;
         String userId = user.getPrincipalId();
@@ -62,36 +54,27 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
         if (iacucProtocolDocument.getProtocol().getProtocolId() == null) {
             if (canCreateIacucProtocol(user)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-            } 
-            else {
+            } else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
-        } 
-        else {
-            if (canExecuteIacucProtocolTask(userId, iacucProtocolDocument, TaskName.MODIFY_IACUC_PROTOCOL)) {  
+        } else {
+            if (canExecuteIacucProtocolTask(userId, iacucProtocolDocument, TaskName.MODIFY_IACUC_PROTOCOL)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-            }
-            else if (canExecuteIacucProtocolTask(userId, iacucProtocolDocument, TaskName.VIEW_IACUC_PROTOCOL)) {
+            } else if (canExecuteIacucProtocolTask(userId, iacucProtocolDocument, TaskName.VIEW_IACUC_PROTOCOL)) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
-            }
-            else {
+            } else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
-            if( canExecuteIacucProtocolTask(userId,iacucProtocolDocument,TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS)) {
+
+            if(canExecuteIacucProtocolTask(userId,iacucProtocolDocument,TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS)) {
                 editModes.add(TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS);
             }
+
             if (canViewReviewComments(iacucProtocolDocument, user)) {
                 editModes.add(Constants.CAN_VIEW_REVIEW_COMMENTS);
             }
-            if (canEditReviewComments(iacucProtocolDocument, user)) {
-                editModes.add(Constants.CAN_EDIT_REVIEW_COMMENTS);
-            }
-            if (canEditReviewAttachments(iacucProtocolDocument, user)) {
-                editModes.add(Constants.CAN_EDIT_REVIEW_ATTACHMENTS);
-            }
            
         }
-        
         return editModes;
     }
     
@@ -107,57 +90,6 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
             }
         }
         return true;
-    }
-    
-    public boolean canEditReviewComments(Document document, Person user) {
-        IacucProtocolDocument protocolDoc = (IacucProtocolDocument)document;
-        List<ProtocolOnlineReviewBase> reviews = getIacucProtocolOnlineReviewService().getProtocolReviews(protocolDoc.getProtocol().getProtocolNumber());
-        if (reviews != null && reviews.size() > 0) {
-            for (ProtocolOnlineReviewBase review : reviews) {
-                ProtocolReviewer reviewer = review.getProtocolReviewer();
-                if (StringUtils.equalsIgnoreCase(reviewer.getPerson().getPersonId(), user.getPrincipalId())) {
-                    if (isPrimarySecondary(reviewer)) {
-                        return true;
-                    } else if(isCommitteeAndPastDeterminationDueDate(reviewer, review)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-    
-    public boolean canEditReviewAttachments(Document document, Person user) {
-        IacucProtocolDocument protocolDoc = (IacucProtocolDocument)document;
-        List<ProtocolOnlineReviewBase> reviews = getIacucProtocolOnlineReviewService().getProtocolReviews(protocolDoc.getProtocol().getProtocolNumber());
-        if (reviews != null && reviews.size() > 0) {
-            for (ProtocolOnlineReviewBase review : reviews) {
-                ProtocolReviewer reviewer = review.getProtocolReviewer();
-                if (StringUtils.equalsIgnoreCase(reviewer.getPerson().getPersonId(), user.getPrincipalId())) {
-                    if (isPrimarySecondary(reviewer)) {
-                        return true;
-                    } else if(isCommitteeAndPastDeterminationDueDate(reviewer, review)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-    
-    protected boolean isPrimarySecondary(ProtocolReviewer reviewer) {
-        return StringUtils.equalsIgnoreCase(reviewer.getReviewerTypeCode(), IacucProtocolReviewerType.PRIMARY) || 
-                StringUtils.equalsIgnoreCase(reviewer.getReviewerTypeCode(), IacucProtocolReviewerType.SECONDARY);
-    }
-    
-    protected boolean isCommitteeAndPastDeterminationDueDate(ProtocolReviewer reviewer, ProtocolOnlineReviewBase review) {
-        if(StringUtils.equalsIgnoreCase(reviewer.getReviewerTypeCode(), IacucProtocolReviewerType.COMMITTEE)) {
-            Date determinationDueDate = ((IacucProtocolOnlineReview) review.getProtocolOnlineReviewDocument().getProtocolOnlineReview()).getDeterminationReviewDateDue();
-            if (determinationDueDate != null && Calendar.getInstance().getTime().after(determinationDueDate)) {
-                return true;
-            }
-        }
-        return false;
     }
     
     @Override
@@ -191,7 +123,7 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
     
     /**
      * Does the user have permission to execute the given task for a Iacuc Protocol?
-     * @param username the user's username
+     * @param userId the user's userId
      * @param doc the Iacuc Protocol document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
@@ -246,9 +178,5 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
     @Override
     public boolean canFyi(Document document, Person user) {
         return false;
-    }
-    
-    protected IacucProtocolOnlineReviewService getIacucProtocolOnlineReviewService() {
-        return KcServiceLocator.getService(IacucProtocolOnlineReviewService.class);
     }
 }
