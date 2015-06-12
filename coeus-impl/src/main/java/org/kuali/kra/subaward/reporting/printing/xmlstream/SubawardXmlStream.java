@@ -26,6 +26,7 @@ import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -55,6 +56,7 @@ public class SubawardXmlStream implements XmlStream {
     private static final String ORGANIZATION_ID = "000001";
 
     private BusinessObjectService businessObjectService;
+    private UnitService unitService;
     private String awardNumber;
 
     public BusinessObjectService getBusinessObjectService() {
@@ -296,7 +298,7 @@ public class SubawardXmlStream implements XmlStream {
         AdministeringOfficial administeringOfficial = AdministeringOfficial.Factory.newInstance();
 
         Map<String, String> unitAdministratorMap = new HashMap<String, String>();
-        unitAdministratorMap.put("unitNumber", "000001");
+        unitAdministratorMap.put("unitNumber", unitService.getTopUnit().getUnitNumber());
         unitAdministratorMap.put("unitAdministratorTypeCode", "2");
         List<UnitAdministrator> unitAdministratorList = (List<UnitAdministrator>) businessObjectService.findMatching(
                 UnitAdministrator.class, unitAdministratorMap);
@@ -547,4 +549,12 @@ public class SubawardXmlStream implements XmlStream {
         }
         return pct;
     }
+
+	public UnitService getUnitService() {
+		return unitService;
+	}
+
+	public void setUnitService(UnitService unitService) {
+		this.unitService = unitService;
+	}
 }

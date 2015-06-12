@@ -74,7 +74,6 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardService;
@@ -175,6 +174,10 @@ public class NIHResearchAndRelatedXmlStream extends
     @Autowired
     @Qualifier("submissionInfoService")
     private SubmissionInfoService submissionInfoService;
+    
+    @Autowired
+    @Qualifier("unitService")
+    private UnitService unitService;
 
     private ScaleTwoDecimal cumulativeCalendarMonthsFunded = ScaleTwoDecimal.ZERO;
 
@@ -566,14 +569,12 @@ public class NIHResearchAndRelatedXmlStream extends
     }
 
     private String getMajorSubDivision(String leadUnit) {
-        UnitService unitService = KcServiceLocator.getService(UnitService.class);
-        List<Unit> units = unitService.getAllSubUnits("000001");
-        for (Unit unit : units) {
-            if(unit.getUnitNumber().equals(leadUnit)){
-                return unit.getParentUnitNumber();
-            }
+        Unit unit = unitService.getUnit(leadUnit);
+        if (unit != null) {
+        	return unit.getParentUnitNumber();
+        } else {
+        	return leadUnit;
         }
-        return leadUnit;
     }
 
     private String getLeadUnit(DevelopmentProposal developmentProposal) {
@@ -1815,4 +1816,12 @@ public class NIHResearchAndRelatedXmlStream extends
     public void setSubmissionInfoService(SubmissionInfoService submissionInfoService) {
         this.submissionInfoService = submissionInfoService;
     }
+
+	public UnitService getUnitService() {
+		return unitService;
+	}
+
+	public void setUnitService(UnitService unitService) {
+		this.unitService = unitService;
+	}
 }

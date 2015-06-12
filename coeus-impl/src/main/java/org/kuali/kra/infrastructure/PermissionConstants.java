@@ -266,4 +266,5 @@ public interface PermissionConstants {
      public static final String VIEW_COI_UNDISCLOSED_EVENTS = "View COI Undisclosed Events";
 
     String REJECT_PROPOSAL_DEVELOPMENT_DOCUMENT = "Reject ProposalDevelopmentDocument";
+	public static final String RUN_GLOBAL_REPORTS = "RUN GLOBAL REPORTS";
 }

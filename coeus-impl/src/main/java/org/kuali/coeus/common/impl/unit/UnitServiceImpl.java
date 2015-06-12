@@ -165,19 +165,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public Unit getTopUnit() {
-        Unit topUnit = null;
-
-        List<Unit> allUnits = (List<Unit>) getUnits();
-        if (CollectionUtils.isNotEmpty(allUnits)) {
-            for (Unit unit : allUnits) {
-                if (StringUtils.isEmpty(unit.getParentUnitNumber())) {
-                    topUnit = unit;
-                    break;
-                }
-            }
-        }
-
-        return topUnit;
+    	return getUnitLookupDao().getTopUnit();
     }
 
     /**
