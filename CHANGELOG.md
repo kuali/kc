@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1506.33
 * Improve unit service
 
   * Remove hard-coded usage of 000001. Add index and foreign key check on unit table to improve performance and safety. Refactor getTopUnit to simply query for record with null parent unit.
