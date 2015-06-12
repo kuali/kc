@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  making log messages use one log statement (avoids interleave), make perf filter & monitoring filter use the same exclude configuration, make monitoring verbose logging configurable.
+  * Travis Schneeberger on Thu, 11 Jun 2015 11:21:04 -0400 [View Commit](../../commit/a21ce042d412b09fb9c8f88cc6090dc87449f5dc)
+
+##coeus-1506.31
 * No Changes
 
 
