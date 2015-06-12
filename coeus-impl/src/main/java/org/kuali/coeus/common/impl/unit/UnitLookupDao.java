@@ -29,5 +29,10 @@ public interface UnitLookupDao {
      * @return the matching unit object or null if no match was found.
      */
     public Unit findUnitbyNumberCaseInsensitive(String unitNumber);
+    
+    /**
+     * Return the top unit in the hierarchy, or the one with a NULL parent unit
+     */
+    public Unit getTopUnit();
 
 }
