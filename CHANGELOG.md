@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Improve the performance of the protocol authorizers by removing edit mode logic that is not used.
+  * Travis Schneeberger on Fri, 12 Jun 2015 14:27:37 -0400 [View Commit](../../commit/38e23b44be4f947f66dc0819a922b95e350b99ed)
+
+##coeus-1506.34
 * No Changes
 
 
