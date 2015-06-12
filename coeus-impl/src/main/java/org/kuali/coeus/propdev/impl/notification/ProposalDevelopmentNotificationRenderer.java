@@ -71,7 +71,6 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         Map<String, String> result = super.getDefaultReplacementParameters();
         result.put("{DOCUMENT_NUMBER}",developmentProposal.getProposalDocument().getDocumentNumber());
         result.put("{PROPOSAL_NUMBER}", developmentProposal.getProposalNumber());
-        result.put("{DOCUMENT_NUMBER}", developmentProposal.getProposalDocument().getDocumentNumber());
         result.put("{PROPOSAL_TITLE}", developmentProposal.getTitle());
         result.put("{PRINCIPAL INVESTIGATOR}",developmentProposal.getPrincipalInvestigatorName());
         result.put("{SPONSOR_CODE}", developmentProposal.getSponsorCode());
@@ -105,6 +104,8 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         }
         if (proposalPerson != null) {
             result.put("{USER_NAME}",proposalPerson.getUserName());
+            result.put("{PROPOSAL_CERTIFY_USER}",proposalPerson.getCertifiedPersonName()); 
+            result.put("{PROPOSAL_CERTIFY_TIME_STAMP}", proposalPerson.getCertifiedTimeStamp());        
         }
         return result;
     }
