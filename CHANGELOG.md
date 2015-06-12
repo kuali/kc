@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Improve unit service
+
+  * Remove hard-coded usage of 000001. Add index and foreign key check on unit table to improve performance and safety. Refactor getTopUnit to simply query for record with null parent unit.
+  * blackcathacker on Thu, 11 Jun 2015 18:26:02 -0700 [View Commit](../../commit/9cf34d9a006a88e5a1eaba3a0bb2cab328cddd46)
+* Add certify user and timestamp to notification renderer
+  * Joe Williams on Fri, 12 Jun 2015 07:59:04 -0500 [View Commit](../../commit/34625af33a0a864e4d195b8de2645091e77a2072)
+
+##coeus-1506.32
 *  making log messages use one log statement (avoids interleave), make perf filter & monitoring filter use the same exclude configuration, make monitoring verbose logging configurable.
   * Travis Schneeberger on Thu, 11 Jun 2015 11:21:04 -0400 [View Commit](../../commit/a21ce042d412b09fb9c8f88cc6090dc87449f5dc)
 
