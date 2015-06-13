@@ -108,6 +108,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
     private transient List<ProtocolFundingSourceBase> deletedProtocolFundingSources;
  
     private boolean showNotificationEditor = false;  // yep, it's a hack
+    private boolean initialized = false;
     
     public ProtocolFormBase() throws Exception {
         super();
@@ -122,19 +123,22 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
      * @throws Exception 
      */
     public void initialize() throws Exception {
-        setProtocolHelper(createNewProtocolHelperInstanceHook(this));
-        setPersonnelHelper(createNewPersonnelHelperInstanceHook(this));
-        setPermissionsHelper(createNewPermissionsHelperInstanceHook(this));        
-        setCustomDataHelper(createNewCustomDataHelperInstanceHook(this)); 
-        setSpecialReviewHelper(createNewSpecialReviewHelperInstanceHook(this));
-        setActionHelper(createNewActionHelperInstanceHook(this));
-        setQuestionnaireHelper(createNewQuestionnaireHelperInstanceHook(this));        
-        setNotesAttachmentsHelper(createNewNotesAttachmentsHelperInstanceHook(this));   
-        this.notesAttachmentsHelper.prepareView();        
-        setNewProtocolReferenceBean(createNewProtocolReferenceBeanInstance());
-        setOnlineReviewsActionHelper(createNewOnlineReviewsActionHelperInstanceHook(this));
-        setNotificationHelper(getNotificationHelperHook());
-        setMedusaBean(new MedusaBean());
+        if (!initialized) {
+            setProtocolHelper(createNewProtocolHelperInstanceHook(this));
+            setPersonnelHelper(createNewPersonnelHelperInstanceHook(this));
+            setPermissionsHelper(createNewPermissionsHelperInstanceHook(this));
+            setCustomDataHelper(createNewCustomDataHelperInstanceHook(this));
+            setSpecialReviewHelper(createNewSpecialReviewHelperInstanceHook(this));
+            setActionHelper(createNewActionHelperInstanceHook(this));
+            setQuestionnaireHelper(createNewQuestionnaireHelperInstanceHook(this));
+            setNotesAttachmentsHelper(createNewNotesAttachmentsHelperInstanceHook(this));
+            this.notesAttachmentsHelper.prepareView();
+            setNewProtocolReferenceBean(createNewProtocolReferenceBeanInstance());
+            setOnlineReviewsActionHelper(createNewOnlineReviewsActionHelperInstanceHook(this));
+            setNotificationHelper(getNotificationHelperHook());
+            setMedusaBean(new MedusaBean());
+            initialized = true;
+        }
     }
        
   
