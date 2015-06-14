@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1506.36
 * update check specified narrative type krms function to check internal attachments
 
   * KRMS rule built using any internal attachment type with the function "check specified narrative type" either always shows or never shows. If user configures validation to show message when attachment is missing, it is not possible for the proposal user to make a selection (by adding the missing attachment) to clear the data validation.
