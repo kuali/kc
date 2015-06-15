@@ -91,8 +91,10 @@ public class ProtocolSubmission extends ProtocolSubmissionBase {
     
     @Override
     public CommitteeSchedule getCommitteeSchedule() {
+       if (committeeSchedule == null) {
+           committeeSchedule = (CommitteeSchedule) super.getCommitteeSchedule();
+       }
         return committeeSchedule;
-
     }
 
     public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
@@ -102,6 +104,9 @@ public class ProtocolSubmission extends ProtocolSubmissionBase {
 
     @Override
     public Protocol getProtocol() {
+        if (protocol == null) {
+            protocol = (Protocol) super.getProtocol();
+        }
         return protocol;
     }
 
