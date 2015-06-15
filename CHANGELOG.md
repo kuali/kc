@@ -1,6 +1,33 @@
 
 
 ##CURRENT
+* fix protocol submissions search when title and schedule date criterion are used
+
+  * Currently, the Protocol Submission search returns ALL submitted protocols, even with criteria entered in the search screen.
+  * User Story:
+  * As an IRB Protocol administrator, I want to search Protocol Submissions and use the filtering tools to adjust my search criteria to limit my results. For example, I would like to use a date range to only locate protocols submitted in a certain month.
+
+  * Steps to reproduce:
+  * As a user with IRB roles (or quickstart in Kualico)
+  * Navigate to Central Admin > Post-Submission Compliance > Protocol Submissions
+  * In the generated Look up screen, enter Submission Date From (1/1/2015) and Submission Date To (5/31/2015)
+  * Click Search
+  * Result: 28 records return.
+
+  * Clear search
+  * Try entering a partial title "JF" > click Search
+  * Result: 28 records return.
+
+  * Clear search
+  * Do not enter any variables in the lookup screen > click Search
+  * Result: 28 records return.
+
+  * Desired Results: Filters should work to limit the search results.
+  * Joe Williams on Fri, 12 Jun 2015 13:47:01 -0500 [View Commit](../../commit/9c89ae2f9ac6cb02ce8c0be086478787528a5361)
+* changes
+  * Joe Williams on Mon, 15 Jun 2015 11:19:32 -0500 [View Commit](../../commit/b7f8f13789177812981b7f10c5c440c316c057cc)
+
+##coeus-1506.39
 * Reverts back an MIT commit
   * Joe Williams on Mon, 15 Jun 2015 08:56:09 -0500 [View Commit](../../commit/5e0c6629d8ea1d336bdd6a1fd4f68f244802d708)
 
