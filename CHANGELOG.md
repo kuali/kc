@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* [RESKC-522] Protocol performance tweaks
+  * bsmith83 on Fri, 12 Jun 2015 19:12:49 -0700 [View Commit](../../commit/5cab2a8bbf2825b16d5f98808a8e1df43290d17c)
+
+##coeus-1506.37
 * No Changes
 
 
