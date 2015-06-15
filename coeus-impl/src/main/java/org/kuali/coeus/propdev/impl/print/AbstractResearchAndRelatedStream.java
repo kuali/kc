@@ -103,13 +103,13 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String RATE_TYPE_ADMINISTRATIVE_SALARIES = "2";
     private static final String RATE_TYPE_SUPPORT_STAFF_SALARIES = "3";
     private static final String PERIOD_TYPE_ACADEMIC_MONTHS = "2";
-    private static final String PERIOD_TYPE_CALENDAR_MONTHS = "3";
     private static final String PERIOD_TYPE_SUMMER_MONTHS = "4";
     private static final String SENIOR_PERSONNEL_CATEGORY_CODE = "1";    
     private static final String KEYPERSON_OTHER = "Other (Specify)";
     private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";
     private static final String APPOINTMENT_TYPE_TMP_EMPLOYEE = "TMP EMPLOYEE";
     public static final String VALUE_UNKNOWN = "Unknown";
+    public static final String BUDGET_PERSON = "budgetPerson";
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -612,9 +612,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return salaryAndWages;
     }
 
-    /*
-     * This method gets the fringe amount from List of BudgetPersonnelRateAndBase
-     */
     protected ScaleTwoDecimal getFringeCost(BudgetPersonnelDetails budgetPersDetails) {
         ScaleTwoDecimal fringe = ScaleTwoDecimal.ZERO;
         for (BudgetPersonnelRateAndBase budgetPersRateBase : budgetPersDetails.getBudgetPersonnelRateAndBaseList()) {
@@ -748,7 +745,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 if (CATEGORY_CODE_TRAVEL_FOREIGN.equals(budgetLineItem.getBudgetCategoryCode())) {
                     travelCost.setType(TravelType.FOREIGN);
                 }
-                else { // if (CATEGORY_CODE_TRAVEL_DOMESTIC.equals(budgetLineItem.getBudgetCategoryCode())) {
+                else {
                     travelCost.setType(TravelType.DOMESTIC);
                 }
 
@@ -1058,80 +1055,80 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     protected List<KeyPersonInfo> getBudgetPersonsForCategoryMap(DevelopmentProposal developmentProposal,
             BudgetPeriod budgetPeriod, String categoryCode, String categoryMappingName) {
 
-        boolean personAlreadyAdded = false;
-        KeyPersonInfo keyPerson = null;
         List<KeyPersonInfo> keyPersons = new ArrayList<KeyPersonInfo>();
-        List<ProposalPerson> proposalPersons = developmentProposal.getProposalPersons();
-        for (ProposalPerson proposalPerson : proposalPersons) {
-            // if(proposalPerson.getProposalPersonRoleId().equals(ProposalPersonRole.PI_CODE) ||
-            // proposalPerson.getProposalPersonRoleId().equals(ProposalPersonRole.COI_CODE)){
-            keyPerson = getKeyPersonFromProposalPerson(proposalPerson);
-            keyPersons.add(keyPerson);
-            // }
 
-        }
         Map<String, String> categoryMap = new HashMap<String, String>();
         categoryMap.put(KEY_TARGET_CATEGORY_CODE, categoryCode);
         categoryMap.put(KEY_MAPPING_NAME, categoryMappingName);
         List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
+
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-            boolean lineItemIsSeniorPersonnel = false;
             for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
                 if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
-                    lineItemIsSeniorPersonnel = true;
+                    addSeniorPerson(keyPersons, lineItem);
                     break;
-                }
-            }
-            if (lineItemIsSeniorPersonnel) {
-                for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
-                    personAlreadyAdded = false;
-                    for (ProposalPerson proposalPerson : developmentProposal.getProposalPersons()) {
-                        if (budgetPersonService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
-                            personAlreadyAdded = true;
-                            break;
-                        }
-                    }
-                    budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
-                    if (!personAlreadyAdded) {
-                        if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
-                            keyPerson = getKeyPersonFromRolodex(budgetPersonnelDetails);
-                            keyPersons.add(keyPerson);
-                        }
-                        else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
-                            keyPerson = getKeyPersonFromTbnPerson(budgetPersonnelDetails);
-                            keyPersons.add(keyPerson);
-                        }
-                        else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getPersonId())) {
-                            keyPerson = getKeyPersonFromKcPerson(budgetPersonnelDetails.getPersonId());
-                            keyPersons.add(keyPerson);
-                        }
-                    }
                 }
             }
         }
 
         for (KeyPersonInfo keyPersonInfo : keyPersons) {
-            KeyPersonInfo keyPersonComp = keyPersonInfo;
-            CompensationInfo compensationInfo = new CompensationInfo();
-            setCompensation(keyPersonComp, budgetPeriod,compensationInfo);
-            keyPersonComp.setAcademicMonths(compensationInfo.getAcademicMonths());
-            keyPersonComp.setCalendarMonths(compensationInfo.getCalendarMonths());
-            keyPersonComp.setSummerMonths(compensationInfo.getSummerMonths());
-            keyPersonComp.setBaseSalary(compensationInfo.getBaseSalary());
-            keyPersonComp.setRequestedSalary(compensationInfo.getRequestedSalary());
-            keyPersonComp.setFundsRequested(compensationInfo.getFundsRequested());
-            keyPersonComp.setFringe(compensationInfo.getFringe());
-            keyPersonComp.setCostSharingAmount(compensationInfo.getCostSharingAmount());
-            keyPersonComp.setNonFundsRequested(compensationInfo.getNonFundsRequested());
-            keyPersonComp.setFringeCostSharing(compensationInfo.getFringeCostSharing());
+            setKeyPersonCompensationForPeriod(budgetPeriod, keyPersonInfo);
         }
         return keyPersons;
     }
 
+    private void setKeyPersonCompensationForPeriod(BudgetPeriod budgetPeriod, KeyPersonInfo keyPersonInfo) {
+        CompensationInfo compensationInfo = new CompensationInfo();
+        setCompensationForPeriod(keyPersonInfo, budgetPeriod, compensationInfo);
+        setKeyPersonComp(keyPersonInfo, compensationInfo);
+    }
+
+    private void setKeyPersonCompensation(Budget budget, KeyPersonInfo keyPersonComp) {
+        CompensationInfo compensationInfo = new CompensationInfo();
+        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
+        for (BudgetPeriod budgetPeriod : budgetPeriods) {
+            setCompensationForPeriod(keyPersonComp, budgetPeriod, compensationInfo);
+        }
+        setKeyPersonComp(keyPersonComp, compensationInfo);
+    }
+
+    private void setKeyPersonComp(KeyPersonInfo keyPersonComp, CompensationInfo compensationInfo) {
+        keyPersonComp.setAcademicMonths(compensationInfo.getAcademicMonths());
+        keyPersonComp.setCalendarMonths(compensationInfo.getCalendarMonths());
+        keyPersonComp.setSummerMonths(compensationInfo.getSummerMonths());
+        keyPersonComp.setBaseSalary(compensationInfo.getBaseSalary());
+        keyPersonComp.setRequestedSalary(compensationInfo.getRequestedSalary());
+        keyPersonComp.setFundsRequested(compensationInfo.getFundsRequested());
+        keyPersonComp.setFringe(compensationInfo.getFringe());
+        keyPersonComp.setCostSharingAmount(compensationInfo.getCostSharingAmount());
+        keyPersonComp.setNonFundsRequested(compensationInfo.getNonFundsRequested());
+        keyPersonComp.setFringeCostSharing(compensationInfo.getFringeCostSharing());
+    }
+
+
+    private void addSeniorPerson(List<KeyPersonInfo> keyPersons, BudgetLineItem lineItem) {
+        for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+            KeyPersonInfo keyPerson;
+            budgetPersonnelDetails.refreshReferenceObject(BUDGET_PERSON);
+            if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
+                keyPerson = getKeyPersonFromRolodex(budgetPersonnelDetails);
+                addToKeyPersonList(keyPerson, keyPersons);
+            }
+            else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
+                keyPerson = getKeyPersonFromTbnPerson(budgetPersonnelDetails);
+                addToKeyPersonList(keyPerson, keyPersons);
+            }
+            else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getPersonId())) {
+                keyPerson = getKeyPersonFromKcPerson(budgetPersonnelDetails.getPersonId());
+                addToKeyPersonList(keyPerson, keyPersons);
+            }
+        }
+    }
+
+
     protected List<KeyPersonInfo> getBudgetPersonsForCategoryMap(DevelopmentProposal developmentProposal,
             Budget budget, String categoryCode, String categoryMappingName) {
 
-        boolean personAlreadyAdded = false;
         KeyPersonInfo keyPerson = null;
         List<KeyPersonInfo> keyPersons = new ArrayList<KeyPersonInfo>();
         List<ProposalPerson> proposalPersons = developmentProposal.getProposalPersons();
@@ -1145,60 +1142,23 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
         
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                boolean lineItemIsSeniorPersonnel = false;
-                for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+        for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+            for (BudgetPeriod budgetPeriod : budgetPeriods) {
+                for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                     if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
-                        lineItemIsSeniorPersonnel = true;
+                        addSeniorPerson(keyPersons, lineItem);
                         break;
-                    }
-                }
-                if (lineItemIsSeniorPersonnel) {
-                    for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
-                        personAlreadyAdded = false;
-                        for (ProposalPerson proposalPerson : developmentProposal.getProposalPersons()) {
-                            if (budgetPersonService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
-                                personAlreadyAdded = true;
-                            }
-                        }
-                        budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
-                        if (!personAlreadyAdded) {
-                            if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
-                                keyPerson = getKeyPersonFromRolodex(budgetPersonnelDetails);
-                                addToKeyPersonList(keyPerson, keyPersons);
-                            }
-                            else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
-                                keyPerson = getKeyPersonFromTbnPerson(budgetPersonnelDetails);
-                                addToKeyPersonList(keyPerson, keyPersons);
-                            }
-                            else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getPersonId())) {
-                                keyPerson = getKeyPersonFromKcPerson(budgetPersonnelDetails.getPersonId());
-                                addToKeyPersonList(keyPerson, keyPersons);
-                            }
-                        }
                     }
                 }
             }
         }
         for (KeyPersonInfo keyPersonComp : keyPersons) {
-            CompensationInfo compensationInfo = getCompensation(keyPersonComp,budget);
-            keyPersonComp.setAcademicMonths(compensationInfo.getAcademicMonths());
-            keyPersonComp.setCalendarMonths(compensationInfo.getCalendarMonths());
-            keyPersonComp.setSummerMonths(compensationInfo.getSummerMonths());
-            keyPersonComp.setBaseSalary(compensationInfo.getBaseSalary());
-            keyPersonComp.setRequestedSalary(compensationInfo.getRequestedSalary());
-            keyPersonComp.setFundsRequested(compensationInfo.getFundsRequested());
-            keyPersonComp.setFringe(compensationInfo.getFringe());
-            keyPersonComp.setCostSharingAmount(compensationInfo.getCostSharingAmount());
-            keyPersonComp.setNonFundsRequested(compensationInfo.getNonFundsRequested());
-            keyPersonComp.setFringeCostSharing(compensationInfo.getFringeCostSharing());
+            setKeyPersonCompensation(budget, keyPersonComp);
         }
 
 
         return keyPersons;
     }
-
 
     private void addToKeyPersonList(KeyPersonInfo keyPerson, List<KeyPersonInfo> keyPersons) {
         if(!keyPersons.contains(keyPerson)){
@@ -1290,18 +1250,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return budgetCategoryMappings;
     }
 
-    private void setCompensation(KeyPersonInfo keyPerson, BudgetPeriod budgetPeriod,CompensationInfo compensationInfo) {
-        setCompensationForPeriod(keyPerson, budgetPeriod, compensationInfo);
-    }
-    private CompensationInfo getCompensation(KeyPersonInfo keyPerson, Budget budget) {
-        CompensationInfo compensationInfo = new CompensationInfo();
-        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            setCompensationForPeriod(keyPerson, budgetPeriod, compensationInfo);
-        }
-        return compensationInfo;
-    }
-
     /**
      * This method is to get the compensation for period
      * @param keyPerson
@@ -1334,11 +1282,10 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                         }
                     }
                     ScaleTwoDecimal totalSal = personDetails.getSalaryRequested();
-                    if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
-                        compensationInfo.setRequestedSalary(compensationInfo.getRequestedSalary().add(totalSal));
-                    }
+                    compensationInfo.setRequestedSalary(compensationInfo.getRequestedSalary().add(totalSal));
                     ScaleTwoDecimal totalSalCostSharing = personDetails.getCostSharingAmount();
                     compensationInfo.setCostSharingAmount(compensationInfo.getCostSharingAmount().add(totalSalCostSharing));
+
                     for (BudgetPersonnelCalculatedAmount personCalculatedAmt : personDetails.getBudgetPersonnelCalculatedAmounts()) {
                         personCalculatedAmt.refreshReferenceObject("rateClass");
                         if ((personCalculatedAmt.getRateClass().getRateClassTypeCode().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS) && !personCalculatedAmt
