@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Reverts back an MIT commit
+  * Joe Williams on Mon, 15 Jun 2015 08:56:09 -0500 [View Commit](../../commit/5e0c6629d8ea1d336bdd6a1fd4f68f244802d708)
+
+##coeus-1506.38
 * [RESKC-522] Protocol performance tweaks
   * bsmith83 on Fri, 12 Jun 2015 19:12:49 -0700 [View Commit](../../commit/5cab2a8bbf2825b16d5f98808a8e1df43290d17c)
 
