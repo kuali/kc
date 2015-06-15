@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Do not fail rules on warning
+  * Gayathri Athreya on Mon, 15 Jun 2015 13:47:02 -0700 [View Commit](../../commit/799e0aa4465d00bc667a92aff5b34fc3fe3bef05)
+*  Fixing funds requested calculations and allocations and LA calculation
+  * Gayathri Athreya on Wed, 10 Jun 2015 15:16:46 -0700 [View Commit](../../commit/0a961a18201c18c3cbf5a60a04fc634dbeaf4ec7)
+
+##coeus-1506.41
 * No Changes
 
 
