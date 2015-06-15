@@ -34,8 +34,10 @@ import java.util.List;
  */
 public class ProtocolSubmission extends ProtocolSubmissionBase {
 
+    //hiding the protocolbase inherited from the parent for lookups based on the protocol to work.
     private Protocol protocol;
 
+    //hiding the committeeScheduleBase inherited from the parent for lookups based on the CommitteeSchedule to work.
     @SkipVersioning
     private transient CommitteeSchedule committeeSchedule;
 
