@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1506.40
 * fix protocol submissions search when title and schedule date criterion are used
 
   * Currently, the Protocol Submission search returns ALL submitted protocols, even with criteria entered in the search screen.
