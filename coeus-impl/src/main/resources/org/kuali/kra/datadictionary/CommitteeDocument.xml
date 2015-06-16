@@ -74,6 +74,10 @@
                 <ref bean="CommitteeDocument-updateTimestamp"/>
             </list>
         </property>
+
+        <property name="workflowProperties">
+            <ref bean="CommitteeDocument-workflowProperties"/>
+        </property>
     </bean>
 
     <!-- Attribute Definitions -->
@@ -92,5 +96,24 @@
         <property name="label" value="Last Updated" />
 		<property name="shortLabel" value="Last Updated" />
         <property name="description" value="The timestamp when the Committee Document was last modified." />
+    </bean>
+
+    <bean id="CommitteeDocument-workflowProperties" parent="CommitteeDocument-workflowProperties-parentBean"/>
+    <bean id="CommitteeDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="documentHeader"/>
+                            <bean parent="WorkflowProperty" p:path="committee.committeeId"/>
+                            <bean parent="WorkflowProperty" p:path="committee.sequenceNumber"/>
+                            <bean parent="WorkflowProperty" p:path="committee.committeeName"/>
+                            <bean parent="WorkflowProperty" p:path="committee.homeUnitNumber"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 </beans>
