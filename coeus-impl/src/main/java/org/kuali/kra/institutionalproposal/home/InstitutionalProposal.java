@@ -62,7 +62,9 @@ import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -294,6 +296,11 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         if (institutionalProposalDocument == null) {
             this.refreshReferenceObject(INSTITUTIONAL_PROPOSAL_DOCUMENT);
         }
+
+        if (institutionalProposalDocument.getDocumentHeader() != null && institutionalProposalDocument.getDocumentNumber() != null && !institutionalProposalDocument.getDocumentHeader().hasWorkflowDocument()) {
+            institutionalProposalDocument.getDocumentHeader().setWorkflowDocument(WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), institutionalProposalDocument.getDocumentNumber()));
+        }
+
         return institutionalProposalDocument;
     }
 

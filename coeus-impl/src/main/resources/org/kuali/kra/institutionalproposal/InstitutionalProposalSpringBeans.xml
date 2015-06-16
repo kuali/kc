@@ -256,7 +256,6 @@
     <bean id="institutionalProposalLookupableHelperService" 
           class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
           scope="prototype">
-        <property name="documentService" ref="documentService" />
         <property name="institutionalProposalService" ref="institutionalProposalService" />
     </bean>
 
