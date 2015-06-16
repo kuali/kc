@@ -267,4 +267,7 @@ public interface PermissionConstants {
 
     String REJECT_PROPOSAL_DEVELOPMENT_DOCUMENT = "Reject ProposalDevelopmentDocument";
 	public static final String RUN_GLOBAL_REPORTS = "RUN GLOBAL REPORTS";
+    String CANCEL_INSTITUTIONAL_PROPOSAL = "Cancel Institutional Proposal";
+    String SAVE_INSTITUTIONAL_PROPOSAL = "Save Institutional Proposal";
+    String INITIATE_DOCUMENT = "Initiate Document";
 }

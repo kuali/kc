@@ -257,6 +257,7 @@ public final class KeyConstants {
     public static final String WARNING_TOTAL_COST_LIMIT_EXCEEDED= "warning.budgetCostLimit.exceeded";
     public static final String WARNING_PERIOD_COST_LIMIT_EXCEEDED= "warning.periodCostLimit.exceeded";
     public static final String WARNING_UNRECOVERED_FA_NEGATIVE= "warning.unrecoveredFA.negative";
+    
     public static final String WARNING_TOTAL_DIRECT_COST_LIMIT_EXCEEDED= "warning.budgetDirectCostLimit.exceeded";
     public static final String WARNING_PERIOD_DIRECT_COST_LIMIT_EXCEEDED= "warning.periodDirectCostLimit.exceeded";
 
@@ -449,11 +450,17 @@ public final class KeyConstants {
     public static final String QUESTION_SYNC_PANEL = "document.question.syncPanel.text";
     public static final String QUESTION_SYNC_FULL = "document.question.syncAll.text";
     public static final String QUESTION_SYNC_PANEL_TO_EMPTY = "document.question.syncPanelToEmpty.text";
-      
+     
+    public static final String QUESTION_VOID_ATTACHMENT = "document.question.voidAttachment.text";
     //Award Attachments
     public static final String QUESTION_DELETE_ATTACHMENT = "document.question.deleteAttachment.text";
     public static final String AWARD_ATTACHMENT_TYPE_CODE_REQUIRED = "error.awardNotesAndAttachments.attachment.typeRequired";
     public static final String AWARD_ATTACHMENT_FILE_REQUIRED = "error.awardNotesAndAttachments.attachment.fileRequired";
+    
+//InstitutionalProposal Attachments
+    
+    public static final String INSTITUTIONAL_PROPOSAL_ATTACHMENT_TYPE_CODE_REQUIRED = "error.institutionalProposalAttachments.attachment.typeRequired";
+    public static final String INSTITUTIONAL_PROPOSAL_ATTACHMENT_FILE_REQUIRED = "error.institutionalProposalAttachments.attachment.fileRequired";
     
     //Award Budget
     public static final String ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL = "error.budget.award.not.final";

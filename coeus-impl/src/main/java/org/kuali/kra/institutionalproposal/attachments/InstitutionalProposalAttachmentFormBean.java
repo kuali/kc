@@ -1,0 +1,219 @@
+/*
+ * Kuali Coeus, a comprehensive research administration system for higher education.
+ *
+ * Copyright 2005-2015 Kuali, Inc.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.kuali.kra.institutionalproposal.attachments;
+
+import org.apache.commons.lang3.StringUtils;
+
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+public class InstitutionalProposalAttachmentFormBean implements Serializable{
+
+
+    private static final long serialVersionUID = 4184903707661244083L;
+    private static final String ACTIVE_DOCUMENT_STATUS_CODE = "A";
+
+    private static final int MAX_FILE_NAME_LENGTH = 150;
+
+    private static final int MAX_FILE_TYPE_LENGTH = 250;
+
+    private final InstitutionalProposalForm form;
+    
+    private InstitutionalProposalAttachments newAttachment;
+    
+    private boolean disableAttachmentRemovalIndicator=false;
+    
+    private boolean maintainInstituteProposal=false;
+    
+    private boolean canViewAttachment=false;
+    
+    public InstitutionalProposalAttachmentFormBean(final InstitutionalProposalForm form) {
+        this.form = form;
+    }
+
+    public InstitutionalProposalAttachments getNewAttachment() {
+    	if (this.newAttachment == null) {
+            this.initAttachment();
+        }
+        return this.newAttachment;
+    }
+
+    private void initAttachment() {
+        this.setNewAttachment(new InstitutionalProposalAttachments(this.getInstitutionalProposal()));
+    }
+
+    public void setNewAttachment(InstitutionalProposalAttachments newAttachment) {
+        this.newAttachment = newAttachment;
+    }
+
+    public InstitutionalProposalForm getForm() {
+        return form;
+    }
+
+    public InstitutionalProposal getInstitutionalProposal() {
+
+        if (this.form.getInstitutionalProposalDocument() == null) {
+            throw new IllegalArgumentException("the document is null");
+        }
+        
+        if (this.form.getInstitutionalProposalDocument().getInstitutionalProposal() == null) {
+            throw new IllegalArgumentException("the award is null");
+        }
+
+        return this.form.getInstitutionalProposalDocument().getInstitutionalProposal();
+    }
+    
+    /**
+     * Adds the "new" IPAttachment to the InstitutionalProposal.  Before
+     * adding this method executes validation.  If the validation fails the attachment is not added.
+     */
+    public void addNewInstitutionalProposalAttachment() {
+         this.newAttachment.setProposalId(this.getInstitutionalProposal().getProposalId()); //OJB Hack.  Could not get the awardId to persist with anonymous access in repository file.
+         this.newAttachment.setDocumentStatusCode(ACTIVE_DOCUMENT_STATUS_CODE);
+         Map<String, String> criteria = new HashMap<String, String>();
+         criteria.put(Constants.PROPOSAL_NUMBER, this.getInstitutionalProposal().getProposalNumber());
+         Collection<InstitutionalProposalAttachments> allAttachments = getBusinessObjectService().findMatching(InstitutionalProposalAttachments.class, criteria);
+         setAttachmentNumber(allAttachments);
+         this.syncNewFiles(Collections.singletonList(this.getNewAttachment()));
+         this.getInstitutionalProposal().addAttachment(this.newAttachment);
+         getBusinessObjectService().save(this.newAttachment);
+         this.initNewAttachment();
+    }
+
+    public InstitutionalProposalAttachments retrieveExistingAttachment(int attachmentNumber) {
+        if (!validIndexForList(attachmentNumber, this.getInstitutionalProposal().getInstProposalAttachments())) {
+            return null;
+        }
+        return this.getInstitutionalProposal().getInstProposalAttachments().get(attachmentNumber);
+    }
+
+    private static boolean validIndexForList(int index, final List<?> forList) {      
+        return forList != null && index >= 0 && index <= forList.size() - 1;
+    }
+
+    private void initNewAttachment() {
+        this.setNewAttachment(new InstitutionalProposalAttachments(this.getInstitutionalProposal()));
+    }
+
+
+    /**
+     * Syncs all new files for a given Collection of attachments on the award.
+     * @param attachments the attachments.
+     */
+    private void syncNewFiles(List<InstitutionalProposalAttachments> attachments) {
+        assert attachments != null : "the attachments was null";
+        for (InstitutionalProposalAttachments attachment : attachments) {
+            if (InstitutionalProposalAttachmentFormBean.doesNewFileExist(attachment)) {
+                try{
+                    attachment.setFileName(removeFrontForLength(attachment.getNewFile().getFileName(), MAX_FILE_NAME_LENGTH));
+                    attachment.setContentType(removeFrontForLength(attachment.getNewFile().getContentType(), MAX_FILE_TYPE_LENGTH));
+                    attachment.setData(attachment.getNewFile().getFileData());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+           }
+        }
+    }
+
+    private static String removeFrontForLength(String aString, int aLength) {
+        assert aString != null : "aString is null";
+        assert aLength > 0 : "aLength is negative: " + aLength;
+        if (aString.length() > aLength) {
+            StringBuilder tempString = new StringBuilder(aString);
+            tempString.delete(0, tempString.length() - aLength);
+            return tempString.toString();
+        }
+        return aString;
+    }
+
+    /**
+     * Checks if a new file exists on an attachment
+     *
+     * @param attachment the attachment
+     * @return true if new false if not
+     */
+    private static boolean doesNewFileExist(InstitutionalProposalAttachments attachment) {
+        return attachment.getNewFile() != null && StringUtils.isNotBlank(attachment.getNewFile().getFileName());
+    }
+
+    /**
+     * Add attachment Number
+     *
+     * @param allAttachments the attachment
+     * @return attachmentNumber
+     */
+    private void setAttachmentNumber(Collection<InstitutionalProposalAttachments> allAttachments) {
+    	if(allAttachments.isEmpty() || allAttachments == null) {
+        	this.newAttachment.setAttachmentNumber(1);	
+        } else {
+        	ArrayList<Integer> maxAttachmentNumber = new ArrayList<Integer>();
+    		for(InstitutionalProposalAttachments attachment: allAttachments) {
+        		if(attachment.getAttachmentNumber() != null) {
+        			maxAttachmentNumber.add(attachment.getAttachmentNumber());
+        		}
+        	} 
+        	    if(Collections.max(maxAttachmentNumber) != null) {
+        		this.newAttachment.setAttachmentNumber((Collections.max(maxAttachmentNumber)+1));
+        		}
+        }
+    }
+
+    public boolean isDisableAttachmentRemovalIndicator() {
+		return disableAttachmentRemovalIndicator;
+	}
+
+	public void setDisableAttachmentRemovalIndicator(
+			boolean disableAttachmentRemovalIndicator) {
+		this.disableAttachmentRemovalIndicator = disableAttachmentRemovalIndicator;
+	}
+
+	public boolean isMaintainInstituteProposal() {
+		return maintainInstituteProposal;
+	}
+
+	public void setMaintainInstituteProposal(boolean maintainInstituteProposal) {
+		this.maintainInstituteProposal = maintainInstituteProposal;
+	}
+
+	public boolean isCanViewAttachment() {
+		return canViewAttachment;
+	}
+
+	public void setCanViewAttachment(boolean canViewAttachment) {
+		this.canViewAttachment = canViewAttachment;
+	}
+
+	private BusinessObjectService getBusinessObjectService() {
+        return KcServiceLocator.getService(BusinessObjectService.class);
+    }
+}

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2015 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:p="http://www.springframework.org/schema/p" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+ <bean id="InstitutionalProposalAttachments" parent="InstitutionalProposalAttachments-parentBean" />
+ <bean abstract="true" id="InstitutionalProposalAttachments-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachments"/>
+		<property name="objectLabel" value="Institutional Proposal Attachment"/>
+		<property name="titleAttribute" value="proposalAttachmentId"/>
+		<property name="attributes">
+			<list>
+			<ref bean="InstitutionalProposalAttachments-attachmentTypeCode"/>
+		    <ref bean="InstitutionalProposalAttachments-comments"/>
+			<ref bean="InstitutionalProposalAttachments-fileName" />
+			<ref bean="InstitutionalProposalAttachments-attachmentTitle"/>
+			<ref bean="InstitutionalProposalAttachments-updateUser" />
+			<ref bean="InstitutionalProposalAttachments-updateTimestamp" />
+			<ref bean="InstitutionalProposalAttachments-versionNumber" />
+            </list>
+		</property>
+	</bean>
+	
+	
+	<!-- Attribute Definitions -->
+	
+		<bean id="InstitutionalProposalAttachments-attachmentTypeCode" parent="InstitutionalProposalAttachments-attachmentTypeCode-parentBean"/>
+		<bean id="InstitutionalProposalAttachments-attachmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		    <property name="name" value="attachmentTypeCode" />
+		    <property name="forceUppercase" value="false" />
+		    <property name="label" value="Attachment Type" />
+		    <property name="shortLabel" value="Attachment Type" />
+		    <property name="maxLength" value="22" />
+		    <property name="validationPattern" >
+		      <bean parent="NumericValidationPattern" />
+		    </property>
+		   <property name="required" value="true" />
+    	<property name="control" >
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAttachmentType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="attachmentTypeCode" p:labelAttribute="description"/>
+    </property>
+    <property name="optionsFinder">
+      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAttachmentType"/>
+        <property name="includeKeyInDescription" value="false"/>
+        <property name="includeBlankRow" value="false"/>
+        <property name="keyAttributeName" value="attachmentTypeCode"/>
+        <property name="labelAttributeName" value="description"/>
+      </bean>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-DropdownControl"/>
+    	</property>    
+	   </bean>
+	   
+	   <bean id="InstitutionalProposalAttachments-fileName" parent="InstitutionalProposalAttachments-fileName-parentBean" />
+       <bean id="InstitutionalProposalAttachments-fileName-parentBean"  parent="AttachmentFile-id">
+	    <property name="name" value="fileName" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="File Name" />
+	    <property name="shortLabel" value="File Name" />
+	    <property name="maxLength" value="150" />
+	    <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+	  </bean>
+	
+	    <bean id="InstitutionalProposalAttachments-comments" parent="InstitutionalProposalAttachments-comments-parentBean" />
+        <bean id="InstitutionalProposalAttachments-comments-parentBean"  parent="AttributeDefinition">
+	    <property name="name" value="comments"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Comments"/>
+		<property name="shortLabel" value="Comments"/>
+		<property name="maxLength" value="2000"/>
+		<property name="validationPattern">
+			<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+		</property>
+        <property name="validCharactersConstraint">
+         <bean parent="AnyCharacterPatternConstraint">
+          <property name="allowWhitespace" value="true"/>
+         </bean>
+         </property>
+	     <property name="control">
+	      <bean p:cols="40" p:rows="4" parent="TextareaControlDefinition"/>
+	     </property>
+         <property name="controlField">
+         <bean p:cols="40" p:rows="4" parent="Uif-TextAreaControl"/>
+         </property>
+		 <property name="summary" value="Comments"/>
+		 <property name="description" value="Comments"/>
+		 </bean>
+		 
+		 <bean id="InstitutionalProposalAttachments-updateUser" parent="InstitutionalProposalAttachments-updateUser-parentBean" />
+	     <bean id="InstitutionalProposalAttachments-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
+		<property name="name" value="updateUser" />
+		<property name="label" value="Updated By" />
+		<property name="shortLabel" value="Uploaded By" />
+	    </bean>
+	
+	   <bean id="InstitutionalProposalAttachments-updateTimestamp" parent="InstitutionalProposalAttachments-updateTimestamp-parentBean" />
+	   <bean id="InstitutionalProposalAttachments-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
+		<property name="name" value="updateTimestamp" />
+		<property name="label" value="Last Update" />
+		<property name="shortLabel" value="Posted Timestamp" />
+	   </bean>
+	   
+	    <bean id="InstitutionalProposalAttachments-attachmentTitle" parent="InstitutionalProposalAttachments-attachmentTitle-parentBean" />
+        <bean id="InstitutionalProposalAttachments-attachmentTitle-parentBean"  parent="AttributeDefinition">
+	    <property name="name" value="attachmentTitle" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Description" />
+	    <property name="shortLabel" value="Description" />
+	    <property name="maxLength" value="150" />
+	    <property name="validationPattern">
+           <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+           <bean parent="AnyCharacterPatternConstraint">
+             <property name="allowWhitespace" value="true"/>
+           </bean>
+       </property>
+       <property name="control" >
+          <bean parent="TextControlDefinition" p:size="25"/>
+       </property>
+        <property name="controlField">
+          <bean p:size="15" parent="Uif-TextControl"/>
+        </property>
+	   </bean>
+	  
+    <bean id="InstitutionalProposalAttachments-versionNumber" parent="InstitutionalProposalAttachments-versionNumber-parentBean" />
+    <bean id="InstitutionalProposalAttachments-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+	    
+ </beans>
