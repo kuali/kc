@@ -297,7 +297,8 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
             this.refreshReferenceObject(INSTITUTIONAL_PROPOSAL_DOCUMENT);
         }
 
-        if (institutionalProposalDocument.getDocumentHeader() != null && institutionalProposalDocument.getDocumentNumber() != null && !institutionalProposalDocument.getDocumentHeader().hasWorkflowDocument()) {
+        if (institutionalProposalDocument != null && institutionalProposalDocument.getDocumentHeader() != null 
+        		&& institutionalProposalDocument.getDocumentNumber() != null && !institutionalProposalDocument.getDocumentHeader().hasWorkflowDocument()) {
             institutionalProposalDocument.getDocumentHeader().setWorkflowDocument(WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), institutionalProposalDocument.getDocumentNumber()));
         }
 
