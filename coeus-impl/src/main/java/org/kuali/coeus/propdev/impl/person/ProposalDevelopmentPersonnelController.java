@@ -55,6 +55,7 @@ import java.util.*;
 @Controller
 public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentControllerBase {
 
+    public static final String PROPOSAL_PERSONS_PATH = "document.developmentProposal.proposalPersons";
     @Autowired
     @Qualifier("wizardControllerService")
     private WizardControllerService wizardControllerService;
@@ -155,23 +156,35 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public ModelAndView deletePerson(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
         @RequestParam("actionParameters[" + UifParameters.SELECTED_COLLECTION_PATH + "]") String selectedCollectionPath,
         @RequestParam("actionParameters[" + UifParameters.SELECTED_LINE_INDEX + "]") String selectedLine) throws Exception {
-        if (selectedCollectionPath.equals("document.developmentProposal.proposalPersons")) {
+        if (selectedCollectionPath.equals(PROPOSAL_PERSONS_PATH)) {
             Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
-            Object deleteLine = ((List<Object>) collection).get(Integer.parseInt(selectedLine));String personId = ((ProposalPerson)deleteLine).getPersonId();
+            Object deleteLine = ((List<Object>) collection).get(Integer.parseInt(selectedLine));
+            String personId = ((ProposalPerson)deleteLine).getPersonId();
 
-            List<ProposalPersonBiography> tmpBios= new ArrayList<ProposalPersonBiography>();
-            for (ProposalPersonBiography biography : form.getDevelopmentProposal().getPropPersonBios()) {
-                if (!biography.getPersonId().equals(personId)) {
-                    tmpBios.add(biography);
-                }
-            }
-            form.getDevelopmentProposal().setPropPersonBios(tmpBios);
+            deleteProposalPersonBios(form.getDevelopmentProposal(), (ProposalPerson) deleteLine, personId);
         }
 
         return getCollectionControllerService().deleteLine(form);
     }
 
-   @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
+    private void deleteProposalPersonBios(DevelopmentProposal proposal, ProposalPerson deleteLine, String personId) {
+        List<ProposalPersonBiography> tmpBios= new ArrayList<>();
+        for (ProposalPersonBiography biography : proposal.getPropPersonBios()) {
+            if (personId == null) {
+                Integer rolodexId = deleteLine.getRolodexId();
+                if (rolodexId.compareTo(biography.getRolodexId()) != 0) {
+                    tmpBios.add(biography);
+                }
+            }
+            else {
+                if (!biography.getPersonId().equals(personId))
+                    tmpBios.add(biography);
+            }
+        }
+        proposal.setPropPersonBios(tmpBios);
+    }
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=clearAnswers")
    public ModelAndView clearAnswers(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
 	   ProposalDevelopmentDocumentForm pdForm = (ProposalDevelopmentDocumentForm) form;
