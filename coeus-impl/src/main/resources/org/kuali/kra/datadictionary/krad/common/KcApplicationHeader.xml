@@ -173,7 +173,11 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
 
     <bean id="Kc-Header-IframeView" parent="Kc-Header-IframeView-parentBean"/>
     <bean id="Kc-Header-IframeView-parentBean" abstract="true" class="org.kuali.kra.web.krad.CustomHrefIframeView"
-          parent="Uif-IframeView" p:location.baseUrl="@{#ConfigProperties['application.url']}"/>
+          parent="Uif-IframeView" p:location.baseUrl="@{#ConfigProperties['application.url']}">
+        <property name="additionalScriptFiles">
+            <value>scripts/common/iframe.js</value>
+        </property>
+    </bean>
 
     <bean id="Kc-Header-ActionListView" parent="Kc-Header-ActionListView-parentBean"/>
     <bean id="Kc-Header-ActionListView-parentBean" abstract="true"

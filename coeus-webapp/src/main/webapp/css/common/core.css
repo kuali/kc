@@ -633,3 +633,6 @@ section.medusa div.btn a:hover{
 	width: 100%;
 }
 
+.uif-applicationHeader .toolbar {
+	margin-right: 0;
+}
