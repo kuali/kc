@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* [RESKC-394] Double scrollbar fix for iframe views
+  * bsmith83 on Tue, 16 Jun 2015 19:11:50 -0700 [View Commit](../../commit/11aaaa3c7f1b0b09d099ca545eb413a4b9ef4d46)
+
+##coeus-1506.44
 *  Improve the performance of the ip lookup
   * Travis Schneeberger on Mon, 15 Jun 2015 13:20:53 -0400 [View Commit](../../commit/7b597811463584c542079ccaf0e035d56f80b313)
 *  code cleanup
