@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+*  Improve the performance of the ip lookup
+  * Travis Schneeberger on Mon, 15 Jun 2015 13:20:53 -0400 [View Commit](../../commit/7b597811463584c542079ccaf0e035d56f80b313)
+*  code cleanup
+  * Travis Schneeberger on Mon, 15 Jun 2015 13:52:54 -0400 [View Commit](../../commit/8695f890bcbde1ad2145ea83a3afcec6f92ed71b)
+* retain posted timestamp for award and IP notes and attachments
+
+  * As an Award Maintainer, or
+  * As an IP Maintainer, I need to update aspects of existing (Awards or ) Institutional Proposals.
+  * When editing these records, my ID and Time stamp should only be added to the document, and to any new items I maintain that add them.
+  * Currently, when I Edit an IP record or Award with existing Attachments, ALL those existing attachments update with MY user ID and the current time stamp.
+  * Those attachments should maintain the User ID and time stamp from when they were originally added or actually last maintained. NOT with the info from the current edit.
+  * Joe Williams on Thu, 11 Jun 2015 13:20:00 -0500 [View Commit](../../commit/49a65b7a5617cad0c55dea67ce5905c899134808)
+*  When canceling a saved committee document, rice refreshes all references on the BO.  This populates BOs which contains cycles.  When rice tries to serialize the document for the cancel action xstream gets stuck in the cycle between Organization & OrganizationYnq and causes a StackOverflow.  By adding workflow properties we specify which attributes to serialize avoiding the cycles.
+  * Travis Schneeberger on Tue, 16 Jun 2015 16:53:44 -0400 [View Commit](../../commit/4089f0f213f27956eca0ce953f4dde0185a83242)
+
+##coeus-1506.43
 * No Changes
 
 
