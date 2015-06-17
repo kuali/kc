@@ -45,7 +45,11 @@ public class SubAwardAttachmentFormBean implements Serializable {
     
     private SubAwardReports newReport;
     
+    private boolean disableAttachmentRemovalIndicator=false;
     
+    private boolean maintainSubawardAttachment=false;
+    
+    private boolean canViewAttachment=false;
     /**
      * Gets the newReport attribute. 
      * @return Returns the newReport.
@@ -66,7 +70,7 @@ public class SubAwardAttachmentFormBean implements Serializable {
         this.newReport = newReport;
     }
 
-    public SubAwardAttachmentFormBean(final SubAwardForm form) {
+	public SubAwardAttachmentFormBean(final SubAwardForm form) {
         this.form = form;
     }
 
@@ -100,7 +104,32 @@ public class SubAwardAttachmentFormBean implements Serializable {
         this.newAttachment = newAttachment;
     }
 
-    public SubAwardForm getForm() {
+    public boolean isDisableAttachmentRemovalIndicator() {
+		return disableAttachmentRemovalIndicator;
+	}
+
+	public void setDisableAttachmentRemovalIndicator(
+			boolean disableAttachmentRemovalIndicator) {
+		this.disableAttachmentRemovalIndicator = disableAttachmentRemovalIndicator;
+	}
+
+	public boolean isMaintainSubawardAttachment() {
+		return maintainSubawardAttachment;
+	}
+
+	public void setMaintainSubawardAttachment(boolean maintainSubawardAttachment) {
+		this.maintainSubawardAttachment = maintainSubawardAttachment;
+	}
+
+	public boolean isCanViewAttachment() {
+		return canViewAttachment;
+	}
+
+	public void setCanViewAttachment(boolean canViewAttachment) {
+		this.canViewAttachment = canViewAttachment;
+	}
+
+	public SubAwardForm getForm() {
         return form;
     }
     
@@ -246,6 +275,7 @@ public class SubAwardAttachmentFormBean implements Serializable {
                 this.createTypeToMaxDocNumber(this.getSubAward().getSubAwardAttachments()));
         
         this.newAttachment.setSubAwardId(this.getSubAward().getSubAwardId()); //OJB Hack.  Could not get the awardId to persist with anonymous access in repository file.
+        this.newAttachment.setDocumentStatusCode("A");
         this.getSubAward().addAttachment(this.newAttachment);
         getBusinessObjectService().save(this.newAttachment);
         this.initNewAttachment();

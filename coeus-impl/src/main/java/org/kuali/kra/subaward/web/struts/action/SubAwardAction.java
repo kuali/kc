@@ -39,6 +39,7 @@ import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBas
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAttachmentType;
@@ -53,10 +54,13 @@ import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
+import org.kuali.kra.subaward.templateAttachments.SubAwardAttachmentFormBean;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -75,6 +79,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SubAwardAction extends KcTransactionalDocumentActionBase {
 
+    public static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
     private transient SubAwardService subAwardService;
     private static final Log LOG = LogFactory.getLog(SubAwardAction.class);
     private static final String SUBAWARD_AGREEMENT = "fdpAgreement";
@@ -114,6 +119,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
                                 String printAttachmentTypeInclusion=KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_PRINT_ATTACHMENT_TYPE_INCLUSION);
                                 String[] attachmentTypeCode=printAttachmentTypeInclusion.split("\\,");
                                 for(int typeCode=0;typeCode<attachmentTypeCode.length;typeCode++) {
+                                  if(subAwardAttachments.getSubAwardAttachmentTypeCode() != null) {
                                     if(subAwardAttachments.getSubAwardAttachmentTypeCode().equals(attachmentTypeCode[typeCode])) {
                                         String[] fileNameSplit=subAwardAttachments.getFileName().toString().split("\\.pdf");
                                         SubAwardPrintingService printService = KcServiceLocator.getService(SubAwardPrintingService.class);
@@ -121,6 +127,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
                                             subAwardAttachments.setFileNameSplit(fileNameSplit[0]);
                                             }
                                      }
+                                  }
                                  }
                              }
                             SubAwardAttachmentType subAwardAttachmentTypeValue =  KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(SubAwardAttachmentType.class, subAwardAttachments.getSubAwardAttachmentTypeCode());
@@ -152,7 +159,30 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         SubAward subAward = KcServiceLocator.getService(
                 SubAwardService.class).getAmountInfo(subAwardDocument.getSubAward());
         subAwardForm.getSubAwardDocument().setSubAward(subAward);
+
+
+        handleAttachmentsDocument(((SubAwardForm) form).getSubAwardAttachmentFormBean());
         return forward;
+    }
+
+    protected void handleAttachmentsDocument(SubAwardAttachmentFormBean subAwardAttachmentForm) {
+        String currentUser = GlobalVariables.getUserSession().getPrincipalId();
+        if (subAwardAttachmentForm != null) {
+            if (hasViewSubAwardAttachmentPermission(currentUser)) {
+                subAwardAttachmentForm.setCanViewAttachment(true);
+            }
+            if (getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_SUBAWARD, PermissionConstants.MODIFY_SUBAWARD)) {
+                subAwardAttachmentForm.setMaintainSubawardAttachment(true);
+            }
+
+            subAwardAttachmentForm.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                    ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
+        }
+    }
+
+    protected boolean hasViewSubAwardAttachmentPermission(String currentUser) {
+        return getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_SUBAWARD, PermissionConstants.VIEW_SUBAWARD) ||
+                   getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_SUBAWARD, PermissionConstants.MODIFY_SUBAWARD);
     }
 
     /**.
@@ -625,4 +655,9 @@ public ActionForward blanketApprove(ActionMapping mapping,
       
       return  mapping.findForward(Constants.MAPPING_BASIC);
   }
+ 
+ private PermissionService getPermissionService() {
+     return KimApiServiceLocator.getPermissionService();
+ }
+ 
 }
