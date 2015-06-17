@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+*  person bio deletion issues.
+  * Tried to delete the Co-Investigator from the proposal and each time got Incident report. Then navigation within proposal was not possible and more incident reports resulted when selecting any tab from left menu.
+  * removing bio uploaded for person from db resolved issue.
+  * Associated Personnel attachments should be deleted when person is deleted as Coeus did.
+  * Step to reproduce:
+  * Add a rolodex add personnel attachments which insert records in eps_prop_person and eps_prop_person_bio tables.
+  * Delete the person, which delete the person record from eps_prop_person table, but not from eps_prop_person_bio table. So the error.
+  * Gayathri Athreya on Wed, 17 Jun 2015 12:55:22 -0700 [View Commit](../../commit/6942ff4c4b8e76d6e799a210d7bb35ed00aa360d)
+
+##coeus-1506.45
 * [RESKC-394] Double scrollbar fix for iframe views
   * bsmith83 on Tue, 16 Jun 2015 19:11:50 -0700 [View Commit](../../commit/11aaaa3c7f1b0b09d099ca545eb413a4b9ef4d46)
 
