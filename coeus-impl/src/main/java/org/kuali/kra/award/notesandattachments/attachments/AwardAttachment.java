@@ -55,6 +55,14 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
     private Integer documentId;
 
     private String description;
+    
+    private String documentStatusCode;
+    
+    private boolean modifyAttachment=false;
+
+    private Timestamp lastUpdateTimestamp;
+
+    private String lastUpdateUser;
 
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -116,7 +124,23 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         this.description = description;
     }
 
-    public String getAttachmentDescription() {
+    public String getDocumentStatusCode() {
+		return documentStatusCode;
+	}
+
+	public void setDocumentStatusCode(String documentStatusCode) {
+		this.documentStatusCode = documentStatusCode;
+	}
+
+	public boolean isModifyAttachment() {
+		return modifyAttachment;
+	}
+
+	public void setModifyAttachment(boolean modifyAttachment) {
+		this.modifyAttachment = modifyAttachment;
+	}
+
+	public String getAttachmentDescription() {
         return "Award Attachment";
     }
 
@@ -300,32 +324,25 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         }
     }
 
-    /**
-     * 
-     * This method returns the full name of the update user.
-     * @return
-     */
-    public String getUpdateUserName() {
-        Person updateUser = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getUpdateUser());
+    public String getLastUpdateUserName() {
+        Person updateUser = KcServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getLastUpdateUser());
         return updateUser != null ? updateUser.getName() : this.getUpdateUser();
     }
 
-    /**
-     * This sets the update time stamp only if it hasn't already been set.
-     * @see org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase#setUpdateTimestamp(java.sql.Timestamp)
-     */
-    @Override
-    public void setUpdateTimestamp(Timestamp updateTimestamp) {
-        if (getUpdateTimestamp() == null) {
-            super.setUpdateTimestamp(updateTimestamp);
-        }
+    public Timestamp getLastUpdateTimestamp() {
+        return lastUpdateTimestamp;
     }
 
-    @Override
-    public void setUpdateUser(String updateUser) {
-        if (getUpdateUser() == null) {
-            super.setUpdateUser(updateUser);
-        }
+    public void setLastUpdateTimestamp(Timestamp lastUpdateTimestamp) {
+        this.lastUpdateTimestamp = lastUpdateTimestamp;
+    }
+
+    public String getLastUpdateUser() {
+        return lastUpdateUser;
+    }
+
+    public void setLastUpdateUser(String lastUpdateUser) {
+        this.lastUpdateUser = lastUpdateUser;
     }
 
     /**
@@ -349,6 +366,17 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
                 setFile(null);
                 setFileId(null);
             }
+        }
+    }
+
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        if (lastUpdateUser == null) {
+            setLastUpdateUser(getUpdateUser());
+        }
+        if (lastUpdateTimestamp == null) {
+            setLastUpdateTimestamp(getUpdateTimestamp());
         }
     }
 }

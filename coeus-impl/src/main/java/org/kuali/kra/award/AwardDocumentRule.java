@@ -44,6 +44,7 @@ import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleImpl;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
+import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.paymentreports.awardreports.*;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
@@ -281,6 +282,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         retval &= processAwardDetailsAndDatesSaveRules(document);
         retval &= processDateBusinessRule(errorMap, awardDocument);
         retval &=processKeywordBusinessRule(awardDocument);
+        retval &=processAwardAttachmentBusinessRule(awardDocument);
         
         return retval;
     }
@@ -323,17 +325,33 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         return success;
     }
     
+    private boolean processAwardAttachmentBusinessRule(AwardDocument awardDocument) {
+       boolean valid=true;
+       List<AwardAttachment> awardAttachments= awardDocument.getAwardList().get(0).getAwardAttachments();
+       for ( AwardAttachment awardAttachment : awardAttachments ) {
+           if (awardAttachment.getTypeCode() == null) {
+                   valid = false;
+           }
+      }
+       if(valid) {
+           for (AwardAttachment awardattachment : awardAttachments) {
+        	   awardattachment.setModifyAttachment(false); 
+           }
+       }
+        return valid;
+    }
+    
     private boolean processKeywordBusinessRule(AwardDocument awardDocument) {
         
        List<AwardScienceKeyword> keywords= awardDocument.getAward().getKeywords();
-        
+
        for ( AwardScienceKeyword keyword : keywords ) {
             for ( AwardScienceKeyword keyword2 : keywords ) {
                 if ( keyword == keyword2 ) {
                     continue;
                 } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
                     GlobalVariables.getMessageMap().putError("document.awardList[0].keywords", "error.proposalKeywords.duplicate");
-                   
+
                     return false;
                 }
             }
