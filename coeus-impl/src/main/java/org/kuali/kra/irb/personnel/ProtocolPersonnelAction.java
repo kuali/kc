@@ -354,8 +354,8 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                 // reset PI from cached getter
                 protocol.setPrincipalInvestigatorId(null);
 
+                // Assign the PI the APPROVER role if PI has a personId (for doc cancel).
                 if (protocolPerson.getPersonId() != null) {
-                    // Assign the PI the AGGREGATOR role.
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
                     kraAuthService.addDocumentLevelRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
