@@ -39,6 +39,7 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -48,6 +49,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 
@@ -63,12 +66,20 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     private static final String PERSON_NAME = "personName";
     private static final String RESEARCH_AREA_CODE = "researchAreaCode";
     private static final String DOCHANDLER_LINK = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
-    
+
+    private Map<String, String> latestFinalCommitteeMap = new HashMap<>();
+
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<CMT> getSearchResults(Map<String, String> fieldValues) {
         // we set the lookup to only list committees of type chosen
         fieldValues.put(COMMITTEE_TYPE_CODE_FIELD_NAME, getCommitteeTypeCodeHook());
-        List<CMT> activeCommittees =  (List<CMT>)getUniqueList(super.getSearchResultsUnbounded(fieldValues), fieldValues);
+
+        final List<CMT> results = (List<CMT>) super.getSearchResultsUnbounded(fieldValues);
+        final List<CMT> unapprovedCommittees = getUnapprovedCommittees(fieldValues);
+        final List<CMT> all = Stream.concat(results.stream(), unapprovedCommittees.stream()).collect(Collectors.toList());
+
+        final List<CMT> activeCommittees = getUniqueList(all);
+        latestFinalCommitteeMap = getLatestFinalDocumentNumber(all);
         Long matchingResultsCount = new Long(activeCommittees.size());
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
         
@@ -104,15 +115,14 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     /*
      * remove duplicates and get only the one with the highest sequence number from the search results
      */
-    @SuppressWarnings("unchecked")
-    protected List<? extends BusinessObject> getUniqueList(List<? extends BusinessObject> searchResults, Map<String, String> fieldValues) {
+    protected List<CMT> getUniqueList(List<CMT> committees) {
 
         List<CMT> uniqueResults = new ArrayList<CMT>();
         List<String> committeeIds = new ArrayList<String>();
-        ((List<CMT>)searchResults).addAll(getUnapprovedCommittees(fieldValues));
-        if (CollectionUtils.isNotEmpty(searchResults)) {
-            Collections.sort((List<CMT>) searchResults, Collections.reverseOrder());
-            for (CMT committee : (List<CMT>) searchResults) {
+
+        if (CollectionUtils.isNotEmpty(committees)) {
+            Collections.sort(committees, Collections.reverseOrder());
+            for (CMT committee : committees) {
                 if (!committeeIds.contains(committee.getCommitteeId())) {
                     committee.getCommitteeChair();
                     uniqueResults.add(committee);
@@ -122,8 +132,22 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         }
         return uniqueResults;
     }
-    
-    
+
+    protected Map<String, String> getLatestFinalDocumentNumber(List<CMT> committees) {
+         return committees.stream()
+                 .filter(committee -> committee.getCommitteeDocument().getDocStatusCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD))
+             .collect(Collectors.groupingBy(committee -> committee.getCommitteeId())).entrySet().stream()
+                 .collect(Collectors.toMap(Map.Entry::getKey, value -> value.getValue().stream()
+                         .max(Comparator.comparingInt(committee -> committee.getSequenceNumber())).get().getCommitteeDocument().getDocumentNumber()));
+    }
+
+    @Override
+    protected Properties getViewLinkProperties(Document document) {
+        Properties p =  super.getViewLinkProperties(document);
+        p.put("docId", latestFinalCommitteeMap.get(((CommitteeDocumentBase<?,?,?>)document).getCommitteeId()));
+        return p;
+    }
+
     protected abstract String getHtmlAction();
     protected abstract String getDocumentTypeName();
     protected abstract String getCustomResumeEditUrl(final String editCommitteeDocId);

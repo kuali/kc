@@ -65,19 +65,23 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     protected AnchorHtmlData getViewLink(Document document) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText(VIEW);
-        Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
-        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
-        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
-        parameters.put("viewDocument", "true");
-        parameters.put("docId", document.getDocumentNumber());
-        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
+        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), getViewLinkProperties(document));
         
         htmlData.setHref(href);
         return htmlData;
 
     }
-    
+
+    protected Properties getViewLinkProperties(Document document) {
+        final Properties parameters = new Properties();
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("viewDocument", "true");
+        parameters.put("docId", document.getDocumentNumber());
+        return parameters;
+    }
+
     protected AnchorHtmlData getMedusaLink(Document document, Boolean readOnly) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText(MEDUSA);
