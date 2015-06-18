@@ -106,6 +106,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class generates XML that confirms with the RaR XSD related to Proposal
@@ -416,6 +417,7 @@ public class NIHResearchAndRelatedXmlStream extends
         .newInstance();
         String degree = getDegree(proposalPerson);
         proposalPersonType.setDegree(degree);
+        proposalPersonType.setGraduationYear(getGraduationYear(proposalPerson));
         proposalPersonType.setEmail(proposalPerson.getEmailAddress());
         proposalPersonType
         .setName(getProposalPersonFullNameType(proposalPerson));
@@ -468,13 +470,15 @@ public class NIHResearchAndRelatedXmlStream extends
 
 
     private String getDegree(ProposalPerson proposalPerson) {
-        List<ProposalPersonDegree> proposalPersonDegress = proposalPerson.getProposalPersonDegrees();
-        String degree = null;
-        for (ProposalPersonDegree proposalPersonDegree : proposalPersonDegress) {
-            degree = degree==null?proposalPersonDegree.getDegree():degree+","+proposalPersonDegree.getDegree(); 
-        }
-        return degree;
+        List<ProposalPersonDegree> proposalPersonDegrees = proposalPerson.getProposalPersonDegrees();
+        return proposalPersonDegrees.stream().map(p -> p.getDegree()).collect(Collectors.joining(","));
     }
+
+    private String getGraduationYear(ProposalPerson proposalPerson) {
+        List<ProposalPersonDegree> proposalPersonDegrees = proposalPerson.getProposalPersonDegrees();
+        return proposalPersonDegrees.stream().map(p -> p.getGraduationYear()).collect(Collectors.joining(","));
+    }
+
 
     private PersonFullNameType getProposalPersonFullNameType(
             ProposalPerson proposalPerson) {
