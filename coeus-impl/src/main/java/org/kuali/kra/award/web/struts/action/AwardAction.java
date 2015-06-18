@@ -102,6 +102,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.replace;
@@ -787,7 +789,8 @@ public class AwardAction extends BudgetParentActionBase {
                 getBusinessObjectService().save(transactionDetail);
             }
             String routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
-            String forward = buildForwardUrl(routeHeaderId);
+            String backUrl = URLEncoder.encode(buildActionUrl(awardDocument.getDocumentNumber(), Constants.MAPPING_AWARD_HOME_PAGE, "AwardDocument"), StandardCharsets.UTF_8.name());
+            String forward = buildForwardUrl(routeHeaderId) + "&backLocation=" + backUrl;
             actionForward = new ActionForward(forward, true);
             //add this to session and leverage in T&M for return to award action.
             GlobalVariables.getUserSession  ().addObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + timeAndMoneyDocument.getDocumentNumber(), awardDocument.getDocumentNumber());            
@@ -1133,6 +1136,9 @@ public class AwardAction extends BudgetParentActionBase {
         } else if (Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE.equals(command)) {
             loadDocument(awardForm);
             forward = budgets(mapping,awardForm,request,response);
+        } else if (Constants.MAPPING_AWARD_HOME_PAGE.equals(command)) {
+            loadDocument(awardForm);
+            forward = home(mapping,awardForm,request,response);
         } else {
             forward = super.docHandler(mapping, form, request, response);
         }
