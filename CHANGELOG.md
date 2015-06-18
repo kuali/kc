@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+*  Removing unused parameters
+  * Travis Schneeberger on Thu, 18 Jun 2015 11:26:16 -0400 [View Commit](../../commit/b87d0dc978fc352bb8b4f6314082acf9c8e7accd)
+* Assign Iacuc PI correct roles
+
+  * Create an IACUC Protocol
+  * Use person without any IACUC roles as PI
+  * Save
+  * On Permission tab, person is added as PI and IACUC Protocol aggregator
+  * Go to the PIs person record, they have IACUC Protocol Aggregator (role 1582)
+  * They should just be given the PI derived role on the protocol not IACUC Protocol aggregator.
+  * This works as expected in IRB but not IACUC.
+  * Joe Williams on Thu, 18 Jun 2015 10:41:09 -0500 [View Commit](../../commit/f951fd9c3ab8967cc36db73c93a8cf029cb609b0)
+
+##coeus-1506.47
 * return to award document from time and money document if accessed from award
 
   * 1. Create an Award, completing all required fields to save the document and create a Time & Money
