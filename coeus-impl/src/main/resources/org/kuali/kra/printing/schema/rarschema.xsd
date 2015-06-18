@@ -652,6 +652,7 @@
 				<xs:element name="Phone" type="common:PhoneNumberType" minOccurs="0"/>
 				<xs:element name="Email" type="xs:token" minOccurs="0"/>
 				<xs:element name="Degree" type="xs:string" minOccurs="0"/>
+				<xs:element name="GraduationYear" type="xs:string" minOccurs="0"/>
 				<xs:element name="ProjectRole" type="rar:ProjectRoleType"/>
 				<xs:element name="PercentEffort" type="xs:decimal"/>
 				<xs:element name="FundingMonths" type="common:MonthNumberType" minOccurs="0">
