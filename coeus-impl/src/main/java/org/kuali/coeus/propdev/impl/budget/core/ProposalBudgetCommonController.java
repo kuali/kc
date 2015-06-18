@@ -44,7 +44,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,10 +53,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("proposalBudgetCommonController")
 @RequestMapping(value = "/proposalBudget")
 public class ProposalBudgetCommonController extends ProposalBudgetControllerBase {
-	private static final String CONFIRM_RATE_CHANGES_DIALOG_ID = "PropBudget-BudgetSettings-ChangeRateDialog";
-	private static final String BUDGET_SETTINGS_DIALOG_ID = "PropBudget-BudgetSettings-Dialog";
-	private static final String ACTIVITY_RATE_CHANGE_DIALOG_ID = "PropBudget-ActivityTypeChanged-Dialog";
-	private static final String NO_RATES_DIALOG_ID = "PropBudget-NoRates-Dialog";
 
 	@Autowired
 	@Qualifier("proposalBudgetSharedControllerService")
@@ -70,7 +65,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     @Autowired
     @Qualifier("proposalBudgetLockService")
     private ProposalBudgetLockService proposalBudgetLockService;
-    
+
 	@MethodAccessible
 	@Transactional @RequestMapping(params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") ProposalBudgetForm form) {
@@ -100,9 +95,9 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     	}
         
         if (canModify && getBudgetRatesService().checkActivityTypeChange(form.getBudget().getBudgetRates(), form.getDevelopmentProposal().getActivityTypeCode())) {
-        	return getModelAndViewService().showDialog(ACTIVITY_RATE_CHANGE_DIALOG_ID, true, form);
+        	return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.ACTIVITY_RATE_CHANGE_DIALOG_ID, true, form);
         } else if (canModify && form.getBudget().getBudgetRates().isEmpty()) {
-        	return getModelAndViewService().showDialog(NO_RATES_DIALOG_ID, true, form);
+        	return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.NO_RATES_DIALOG_ID, true, form);
         } else {
         	return result;
         }
@@ -164,7 +159,30 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
 	public ModelAndView navigate(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		return super.navigate(form);
 	}
-	
+
+	@Transactional @RequestMapping(params = "methodToCall=closeBudget")
+	public ModelAndView closeBudget(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		if (!form.isCanEditView() || form.isViewOnly()) {
+			return closeWithoutSave(form);
+		}
+		return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.PROP_DEV_CLOSE_BUDGET_DIALOG, true, form);
+	}
+
+	@Transactional
+	@RequestMapping(params = "methodToCall=closeWithSave")
+	public ModelAndView closeWithSave(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		super.save(form);
+		getProposalBudgetLockService().deleteBudgetLock(form.getBudget());
+		return getNavigationControllerService().returnToHub(form);
+	}
+
+	@Transactional
+	@RequestMapping(params = "methodToCall=closeWithoutSave")
+	public ModelAndView closeWithoutSave(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		getProposalBudgetLockService().deleteBudgetLock(form.getBudget());
+		return getNavigationControllerService().returnToHub(form);
+	}
+
 	@RequestMapping(params="methodToCall=addBudget")
     public ModelAndView addBudget(@RequestParam("addBudgetDto.budgetName") String budgetName, 
     		@RequestParam("addBudgetDto.summaryBudget") Boolean summaryBudget, 
@@ -223,7 +241,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
             }
         }
     	if(isRateTypeChanged(originalBudget, budget)) {
-        	return getModelAndViewService().showDialog(CONFIRM_RATE_CHANGES_DIALOG_ID, true, form);
+        	return getModelAndViewService().showDialog(ProposalBudgetConstants.KradConstants.CONFIRM_RATE_CHANGES_DIALOG_ID, true, form);
     	}
     	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
         super.save(form);
@@ -264,7 +282,7 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
     @Transactional @RequestMapping(params="methodToCall=closeBudgetSettings")
 	public ModelAndView closeBudgetSettings(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		processAuditRuleValidation(form);
-		return getKcCommonControllerService().closeDialog(BUDGET_SETTINGS_DIALOG_ID, form);
+		return getKcCommonControllerService().closeDialog(ProposalBudgetConstants.KradConstants.BUDGET_SETTINGS_DIALOG_ID, form);
 	}
 
 	@Transactional @RequestMapping(params="methodToCall=closeBudgetValidation")

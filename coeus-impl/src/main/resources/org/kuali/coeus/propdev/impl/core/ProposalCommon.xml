@@ -128,12 +128,23 @@
     <bean id="PropDev-Close-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
           p:headerText="Please Select"
           p:promptText="Would you like to save this document before you close it?">
-         <property name="availableResponses">
-                <list>
-                    <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="yes"/>
-                    <bean parent="Uif-KeyLabelPair" p:key="no" p:value="no"/>
-                    <bean parent="Uif-KeyLabelPair" p:key="" p:value="return to document"/>
-                </list>
-         </property>
+        <property name="footer">
+            <bean parent="Uif-DialogFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
+                              p:methodToCall="closeWithSave" p:disableBlocking="true"
+                              p:dialogDismissOption="REQUEST"
+                              p:actionLabel="Yes" p:order="10"/>
+                        <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false"
+                              p:methodToCall="closeWithoutSave" p:disableBlocking="true"
+                              p:dialogDismissOption="REQUEST"
+                              p:actionLabel="No" p:order="20"/>
+                        <bean parent="Uif-SecondaryActionButton" p:dialogDismissOption="PRESUBMIT"
+                              p:actionLabel="Return To Document" p:order="30"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
      </bean>
 </beans>
