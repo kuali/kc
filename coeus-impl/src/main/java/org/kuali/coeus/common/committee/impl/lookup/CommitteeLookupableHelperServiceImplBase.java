@@ -41,10 +41,8 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -56,7 +54,6 @@ import java.util.stream.Stream;
  * 
  * This class is for committee lookup.
  */
-@SuppressWarnings({ "serial", "deprecation" })
 public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends CommitteeBase<CMT, CD, ?>,
                                                            CD extends CommitteeDocumentBase<CD, CMT, ?>> 
 
@@ -65,29 +62,32 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     private static final String COMMITTEE_TYPE_CODE_FIELD_NAME = "committeeTypeCode";
     private static final String PERSON_NAME = "personName";
     private static final String RESEARCH_AREA_CODE = "researchAreaCode";
-    private static final String DOCHANDLER_LINK = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
 
     private Map<String, String> latestFinalCommitteeMap = new HashMap<>();
+
+    private transient RouteHeaderService routeHeaderService;
+    private transient KcAuthorizationService kcAuthorizationService;
 
     @Override
     public List<CMT> getSearchResults(Map<String, String> fieldValues) {
         // we set the lookup to only list committees of type chosen
         fieldValues.put(COMMITTEE_TYPE_CODE_FIELD_NAME, getCommitteeTypeCodeHook());
 
+        @SuppressWarnings("unchecked")
         final List<CMT> results = (List<CMT>) super.getSearchResultsUnbounded(fieldValues);
         final List<CMT> unapprovedCommittees = getUnapprovedCommittees(fieldValues);
         final List<CMT> all = Stream.concat(results.stream(), unapprovedCommittees.stream()).collect(Collectors.toList());
 
         final List<CMT> activeCommittees = getUniqueList(all);
         latestFinalCommitteeMap = getLatestFinalDocumentNumber(all);
-        Long matchingResultsCount = new Long(activeCommittees.size());
-        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
+        final long matchingResultsCount = (long) activeCommittees.size();
+        final Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
         
-        if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
-            return new CollectionIncomplete(activeCommittees, new Long(0));
+        if (matchingResultsCount <= searchResultsLimit) {
+            return new CollectionIncomplete<>(activeCommittees, 0L);
         } 
         else {
-            return new CollectionIncomplete(trimResult(activeCommittees, searchResultsLimit), matchingResultsCount);
+            return new CollectionIncomplete<>(trimResult(activeCommittees, searchResultsLimit), matchingResultsCount);
         }
     }
 
@@ -117,18 +117,16 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
      */
     protected List<CMT> getUniqueList(List<CMT> committees) {
 
-        List<CMT> uniqueResults = new ArrayList<CMT>();
-        List<String> committeeIds = new ArrayList<String>();
+        List<CMT> uniqueResults = new ArrayList<>();
+        List<String> committeeIds = new ArrayList<>();
 
         if (CollectionUtils.isNotEmpty(committees)) {
             Collections.sort(committees, Collections.reverseOrder());
-            for (CMT committee : committees) {
-                if (!committeeIds.contains(committee.getCommitteeId())) {
-                    committee.getCommitteeChair();
-                    uniqueResults.add(committee);
-                    committeeIds.add(committee.getCommitteeId());
-                }
-            }
+            committees.stream().filter(committee -> !committeeIds.contains(committee.getCommitteeId())).forEach(committee -> {
+                committee.getCommitteeChair();
+                uniqueResults.add(committee);
+                committeeIds.add(committee.getCommitteeId());
+            });
         }
         return uniqueResults;
     }
@@ -158,7 +156,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        List<HtmlData> htmlDataList = new ArrayList<>();
         String editCommitteeDocId = getEditedCommitteeDocId((CMT) businessObject);
         boolean isUnappprovedCommittee = false;
         if (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals((((CMT) businessObject).getCommitteeDocument().getDocStatusCode())) 
@@ -166,14 +164,11 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
             isUnappprovedCommittee = true;
             editCommitteeDocId = ((CMT) businessObject).getCommitteeDocument().getDocumentNumber();
         }
-//        if (getKraAuthorizationService().hasPermission(getUserIdentifier(), (CMT) businessObject,
-//                PermissionConstants.MODIFY_IACUC_COMMITTEE)) {
+
         if (getKraAuthorizationService().hasPermission(getUserIdentifier(), (CMT) businessObject, getModifyCommitteePermissionNameHook())) {   
             htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
             if (StringUtils.isNotBlank(editCommitteeDocId)) {
                 AnchorHtmlData htmlData = (AnchorHtmlData) htmlDataList.get(0);
-                CD document = ((CMT) businessObject).getCommitteeDocument();
-                String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
                 htmlData.setHref(getCustomResumeEditUrl(editCommitteeDocId));
                 htmlData.setDisplayText("resume edit");
             }
@@ -208,17 +203,10 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
      * should only have one if exists
      */
     protected List<CD> getCommitteeDocuments(String committeeId) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put("committeeId", committeeId);
         List<CD> documents = (List<CD>) getBusinessObjectService().findMatching(getCommitteeDocumentBOClassHook(), fieldValues);
-        List<CD> result = new ArrayList<CD>();
-        for (CD commDoc : documents) {
-            if (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(commDoc.getDocStatusCode())) {
-                result.add(commDoc);
-            }
-        }
-        return result;
-
+        return documents.stream().filter(commDoc -> KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(commDoc.getDocStatusCode())).collect(Collectors.toList());
     }
     
     protected abstract Class<CD> getCommitteeDocumentBOClassHook();
@@ -229,33 +217,31 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
      */
     protected List<CMT> getUnapprovedCommittees(Map<String, String> criterias) {
 
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, String> fieldValues = new HashMap<>();
         fieldValues.put("docStatusCode", "S");
 
         List<CD> documents = (List<CD>) getBusinessObjectService().findMatching(getCommitteeDocumentBOClassHook(), fieldValues);
-        List<CMT> result = new ArrayList<CMT>();
+        List<CMT> result = new ArrayList<>();
         List<String> committeeIds = getCommitteeIds();
-        for (CD commDoc : documents) {
-            if (!committeeIds.contains(commDoc.getCommitteeId())) {
-                try {
-                    CD workflowCommitteeDoc = (CD) KcServiceLocator
-                            .getService(DocumentService.class).getByDocumentHeaderId(commDoc.getDocumentNumber());
-                    // Get XML of workflow document
-                    String content = KcServiceLocator.getService(RouteHeaderService.class).getContent(
-                            workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
+        // Get XML of workflow document
+        // Create committee from XML and add to the document
+        documents.stream().filter(commDoc -> !committeeIds.contains(commDoc.getCommitteeId())).forEach(commDoc -> {
+            try {
+                // Get XML of workflow document
+                String content = getRouteHeaderService().getContent(
+                        commDoc.getDocumentNumber()).getDocumentContent();
 
-                    // Create committee from XML and add to the document
+                // Create committee from XML and add to the document
 
-                    commDoc.getCommitteeList().add(populateCommitteeFromXmlDocumentContents(content));
-                    if (isCriteriaMatched(commDoc.getCommittee(), criterias)) {
-                        commDoc.getCommittee().setCommitteeDocument(commDoc);
-                        result.add(commDoc.getCommittee());
-                    }
-                } catch (Exception e) {
-                    LOG.info("CommitteeBase Doc " + commDoc.getDocumentNumber() + " parsing error");
+                commDoc.getCommitteeList().add(populateCommitteeFromXmlDocumentContents(content));
+                if (isCriteriaMatched(commDoc.getCommittee(), criterias)) {
+                    commDoc.getCommittee().setCommitteeDocument(commDoc);
+                    result.add(commDoc.getCommittee());
                 }
+            } catch (Exception e) {
+                LOG.warn("CommitteeBase Doc " + commDoc.getDocumentNumber() + " parsing error", e);
             }
-        }
+        });
         return result;
 
     }
@@ -293,12 +279,9 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
 
         // researchareacode check
         if (isMatch && (StringUtils.isNotBlank(criterias.get("committeeResearchAreas.researchAreaCode")))) {
-            if (CollectionUtils.isNotEmpty(committee.getCommitteeResearchAreas())) {
-                isMatch = isAreaResearchMatch(criterias.get("committeeResearchAreas.researchAreaCode"), committee.getCommitteeResearchAreas());
-            } else {
-                isMatch = false;
-            }
+            isMatch = CollectionUtils.isNotEmpty(committee.getCommitteeResearchAreas()) && isAreaResearchMatch(criterias.get("committeeResearchAreas.researchAreaCode"), committee.getCommitteeResearchAreas());
         }
+
         if (isMatch) {
             committee.refreshReferenceObject("homeUnit");
         }
@@ -353,7 +336,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
      * using reg expression to check if pattern matched
      */
     protected boolean isMatching(String patternString, String value) {
-        boolean isMatch = false;
+        final boolean isMatch;
         if (StringUtils.isBlank(patternString)) {
             isMatch = true;
         }
@@ -378,15 +361,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
      * check if the selected code matched
      */
     protected boolean isMatchingCode(String selectedCode, String value) {
-        boolean isMatch = false;
-        if (StringUtils.isBlank(selectedCode)) {
-            isMatch = true;
-        }
-        else {
-            isMatch = selectedCode.equals(value);
-        }
-        return isMatch;
-
+        return StringUtils.isBlank(selectedCode) || selectedCode.equals(value);
     }
 
     /*
@@ -414,12 +389,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         if (objXml.contains("itemDesctiption")) {
             objXml = objXml.replaceAll("itemDesctiption", "itemDescription");
         }
-        PersistableBusinessObject businessObject = (PersistableBusinessObject) KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
-        return businessObject;
-    }
-
-    protected KcAuthorizationService getKraAuthorizationService() {
-        return KcServiceLocator.getService(KcAuthorizationService.class);
+        return (PersistableBusinessObject) KRADServiceLocator.getXmlObjectSerializerService().fromXml(objXml);
     }
     
     /*
@@ -427,12 +397,10 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
      */
     protected List<String> getCommitteeIds() {
         List<CMT> committees = (List<CMT>) getBusinessObjectService().findAll(getCommitteeBOClassHook());
-        List<String> result = new ArrayList<String>();
-        for (CMT committee : committees) {
-            if (!result.contains(committee.getCommitteeId())) {
-                result.add(committee.getCommitteeId());
-            }
-        }
+        List<String> result = new ArrayList<>();
+        committees.stream().filter(committee -> !result.contains(committee.getCommitteeId())).forEach(committee -> {
+            result.add(committee.getCommitteeId());
+        });
         return result;
     }
 
@@ -447,13 +415,31 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
      * @return the trimmed result set
      */
     protected List<CMT> trimResult(List<CMT> result, Integer trimSize) {
-        List<CMT> trimedResult = new ArrayList<CMT>();
-        for (CMT committee : result) {
-            if (trimedResult.size()< trimSize) {
-                trimedResult.add(committee); 
-            }
-        }
-        return trimedResult;
+        List<CMT> trimmedResult = new ArrayList<>();
+        result.stream().filter(committee -> trimmedResult.size() < trimSize).forEach(trimmedResult::add);
+        return trimmedResult;
     }
 
+    protected KcAuthorizationService getKraAuthorizationService() {
+        if (kcAuthorizationService == null) {
+            kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
+        }
+        return kcAuthorizationService;
+    }
+
+    public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
+        this.kcAuthorizationService = kcAuthorizationService;
+    }
+
+    public RouteHeaderService getRouteHeaderService() {
+        if (routeHeaderService == null) {
+            routeHeaderService = KcServiceLocator.getService(RouteHeaderService.class);
+        }
+
+        return routeHeaderService;
+    }
+
+    public void setRouteHeaderService(RouteHeaderService routeHeaderService) {
+        this.routeHeaderService = routeHeaderService;
+    }
 }

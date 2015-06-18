@@ -98,12 +98,9 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     }
     
     /**
-     * 
-     * @param document
+     *
      * @param methodToCall method to call on action
-     * @param linkName 
      * @param readOnly whether the document should be readOnly or not
-     * @return
      */
     protected AnchorHtmlData getCustomLink(Document document, String methodToCall, String linkName, Boolean readOnly) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
@@ -123,7 +120,6 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     
     /**
      * To force to it to show action links, such as 'edit' if it is not 'lookup' to search of return value.
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.core.web.struts.form.LookupForm, java.util.Collection, boolean)
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
@@ -138,7 +134,6 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     /**
      * 
      * This method to set both fields if child class override getSearchResults
-     * @param fieldValues
      */
     protected void setBackLocationDocFormKey(Map<String, String> fieldValues) {
 
@@ -156,9 +151,6 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
      * 
      * This method is to set up field definitions for lookup fields.  
      * These fields does not have a reference object defined for it in repository &amp; bo.
-     * @param field
-     * @param keyName
-     * @param className
      */
     protected void updateLookupField(Field field, String keyName, String className) {
         if (StringUtils.isNotBlank(keyName) && StringUtils.isNotBlank(className)) {
@@ -179,14 +171,12 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     /**
      * 
      * This method to set document type of the lookup bo's document
-     * @return
      */
     protected abstract String getDocumentTypeName();
     
     /**
      * 
      * This method is set the key field to retrieve bo for editing.  May change to  a map if there are multiple fields.
-     * @return
      */
     protected abstract String getKeyFieldName();
 
