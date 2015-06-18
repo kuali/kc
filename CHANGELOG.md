@@ -1,6 +1,38 @@
 
 
 ##CURRENT
+* return to award document from time and money document if accessed from award
+
+  * 1. Create an Award, completing all required fields to save the document and create a Time & Money
+  * 2. Click Time & Money
+  * 3. Click Cancel (or Close)
+  * 4. Click Yes to the question asking the user to confirm whether or not to follow-through on canceling the Time & Money document (or click either Yes or No to saving upon clicking Close)
+  * Expected Behavior: If the Time & Money document was accessed through the Award document's Time & Money button, the system should return the user to the Award. The system should not return the user to the KC portal page.
+  * Actual Behavior: The system does not return the user to the Award. The system returns the user to the KC portal page (KC 5.2.1 / KC-DLY) or the KRAD portal page (KC 6.0 / KC-TRUNK).
+  * Joe Williams on Wed, 17 Jun 2015 15:53:18 -0500 [View Commit](../../commit/e7600be15e9adca39b28f5749fc73a56bb2a7aa6)
+* add close button to proposal budget
+
+  * User needs to be able to exit the entire proposal from the budget screens. Budget missing a close option from ALL budget screens.
+
+  * Acceptance criteria
+  * As a user logged in with the permission 'modify budget'
+
+    When user chooses to close the budget
+    Then user should see warning message such as "Would you like to save this document before you close it?"
+
+    When user does not intend to choose close budget,
+    Then they may return to the document
+
+    When a user does want to save the budget before closing
+    Then the most recent screen edits will be saved and the budget screen will close, sending user to the main KRAD portal screen
+
+    When a user does not want to save the budget before closing
+    Then the most recent screen edits will NOT be saved and the budget screen will close, sending user to the main KRAD portal screen
+
+  * Also fixes issue with dirty checking on closing
+  * Joe Williams on Thu, 18 Jun 2015 09:30:14 -0500 [View Commit](../../commit/b17f8606fb0ecd38c2714c2b83caa5f152f44e53)
+
+##coeus-1506.46
 *  person bio deletion issues.
   * Tried to delete the Co-Investigator from the proposal and each time got Incident report. Then navigation within proposal was not possible and more incident reports resulted when selecting any tab from left menu.
   * removing bio uploaded for person from db resolved issue.
