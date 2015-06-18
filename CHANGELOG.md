@@ -1,6 +1,29 @@
 
 
 ##CURRENT
+* Display Graduation Year on Generic and NSF Cover Page Forms
+
+  * In Proposal Dev, the printing of the Cover Page for Generic Printing Forms and the NSF sponsor forms from Print > Sponsor From Packages > Cover Sheet does not populate the date of the PD/PI(S) graduation date(s)
+
+  * Tested this out in Trunk build-1c8ac214 (Dec-23-02:17) Oracle9i
+  * user=quickstart
+  * proposal #54
+  * PI = Opal blood.
+
+  * The NSF (non g.gov) coversheet print and the Generic print form coversheet both have:
+  * Degree populated from the Proposal Person > Degree > "Degree Description" field.
+  * Both leave "Graduation year" blank even when populated in Proposal Person > Degree > "Graduation Year".
+
+  * See screenshots.
+
+  * (Note: the mapping for G.gov forms is different.
+  * The Grants.gov RR Key Person Form print has:
+  * Degree populated from the
+
+  * The year is populated from the Proposal Person > Extended Details > Education > "Year Graduated" field.)
+  * Joe Williams on Thu, 18 Jun 2015 15:27:48 -0500 [View Commit](../../commit/84d71a8300eab3e098e47abcb54ef94a58ddb83a)
+
+##coeus-1506.48
 *  Removing unused parameters
   * Travis Schneeberger on Thu, 18 Jun 2015 11:26:16 -0400 [View Commit](../../commit/b87d0dc978fc352bb8b4f6314082acf9c8e7accd)
 * Assign Iacuc PI correct roles
