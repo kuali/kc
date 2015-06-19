@@ -80,7 +80,7 @@ opacity:1;
              <c:if test="${!readOnly}">
                 <tbody class="addline">
 	             <tr>
-	             <c:if test="${subAwardAttachmentFormBean.maintainSubawardAttachment == true}">
+	             <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
 	                <td align="center" valign="middle" class="infoline">
 	                	<div align="center">
 	                		Add:
@@ -192,7 +192,7 @@ opacity:1;
 					   <c:if test="${KualiForm.document.subAwardList[0].subAwardAttachments[itrStatus.index].documentStatusCode != 'V'}">
 						<c:choose>
 						<c:when test="${readOnly}">
-						<c:if test="${subAwardAttachmentFormBean.canViewAttachment}">
+						<c:if test="${!empty KualiForm.editingMode['fullEntry'] || !empty KualiForm.editingMode['viewOnly']}">
 						<html:image property="methodToCall.viewAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 								alt="View Attachment" onclick="excludeSubmitRestriction = true;"/>
@@ -208,7 +208,7 @@ opacity:1;
 
 						   <c:choose>
 						   <c:when test="${subAwardAttachmentFormBean.disableAttachmentRemovalIndicator == true}">
-								<c:if test="${subAwardAttachmentFormBean.maintainSubawardAttachment == true && !readOnly}">
+								<c:if test="${!empty KualiForm.editingMode['fullEntry'] && !readOnly}">
 								<c:if test="${KualiForm.document.subAwardList[0].subAwardAttachments[itrStatus.index].documentStatusCode != 'V'}">
 								<html:image property="methodToCall.voidAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 									   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-void.gif' styleClass="tinybutton"

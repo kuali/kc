@@ -52,11 +52,7 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
     private InstitutionalProposalAttachments newAttachment;
     
     private boolean disableAttachmentRemovalIndicator=false;
-    
-    private boolean maintainInstituteProposal=false;
-    
-    private boolean canViewAttachment=false;
-    
+
     public InstitutionalProposalAttachmentFormBean(final InstitutionalProposalForm form) {
         this.form = form;
     }
@@ -195,22 +191,6 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
 	public void setDisableAttachmentRemovalIndicator(
 			boolean disableAttachmentRemovalIndicator) {
 		this.disableAttachmentRemovalIndicator = disableAttachmentRemovalIndicator;
-	}
-
-	public boolean isMaintainInstituteProposal() {
-		return maintainInstituteProposal;
-	}
-
-	public void setMaintainInstituteProposal(boolean maintainInstituteProposal) {
-		this.maintainInstituteProposal = maintainInstituteProposal;
-	}
-
-	public boolean isCanViewAttachment() {
-		return canViewAttachment;
-	}
-
-	public void setCanViewAttachment(boolean canViewAttachment) {
-		this.canViewAttachment = canViewAttachment;
 	}
 
 	private BusinessObjectService getBusinessObjectService() {

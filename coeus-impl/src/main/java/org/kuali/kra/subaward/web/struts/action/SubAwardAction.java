@@ -166,23 +166,10 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
     }
 
     protected void handleAttachmentsDocument(SubAwardAttachmentFormBean subAwardAttachmentForm) {
-        String currentUser = GlobalVariables.getUserSession().getPrincipalId();
         if (subAwardAttachmentForm != null) {
-            if (hasViewSubAwardAttachmentPermission(currentUser)) {
-                subAwardAttachmentForm.setCanViewAttachment(true);
-            }
-            if (getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_SUBAWARD, PermissionConstants.MODIFY_SUBAWARD)) {
-                subAwardAttachmentForm.setMaintainSubawardAttachment(true);
-            }
-
             subAwardAttachmentForm.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
                     ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
         }
-    }
-
-    protected boolean hasViewSubAwardAttachmentPermission(String currentUser) {
-        return getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_SUBAWARD, PermissionConstants.VIEW_SUBAWARD) ||
-                   getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_SUBAWARD, PermissionConstants.MODIFY_SUBAWARD);
     }
 
     /**.

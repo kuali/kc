@@ -82,7 +82,7 @@ opacity:1;
 				</th>
              </tr>
              
-                <c:if test="${awardAttachmentFormBean.maintainAwardAttachment == true}">
+                <c:if test="${!empty KualiForm.editingMode['CAN_MAINTAIN_AWARD_ATTACHMENTS']}">
                 <tbody class="addline">
 	             <tr>
 	                <td align="center" valign="middle" class="infoline">
@@ -186,7 +186,7 @@ opacity:1;
 						<c:if test="${KualiForm.document.awardList[0].awardAttachments[itrStatus.index].documentStatusCode != 'V'}">
 						<c:choose>
 						<c:when test="${readOnly}">
-						<c:if test="${awardAttachmentFormBean.canViewAttachment}">
+						<c:if test="${!empty KualiForm.editingMode['CAN_VIEW_AWARD_ATTACHMENTS']}">
 						<html:image property="methodToCall.viewAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
 								alt="View Attachment" onclick="excludeSubmitRestriction = true;"/>
@@ -202,7 +202,7 @@ opacity:1;
 						<c:choose>
 							<c:when test="${awardAttachmentFormBean.disableAttachmentRemovalIndicator == true}">
 								
-								<c:if test="${awardAttachmentFormBean.maintainAwardAttachment == true}">
+								<c:if test="${!empty KualiForm.editingMode['CAN_MAINTAIN_AWARD_ATTACHMENTS']}">
 								<c:if test="${KualiForm.document.awardList[0].awardAttachments[itrStatus.index].documentStatusCode != 'V'}">
 								<html:image property="methodToCall.voidAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 									   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-void.gif' styleClass="tinybutton"

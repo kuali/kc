@@ -18,14 +18,20 @@
  */
 package org.kuali.kra.institutionalproposal.document.authorization;
 
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class is the Institutional Proposal Document Authorizer.  It determines the edit modes and
@@ -35,7 +41,22 @@ public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocume
     implements TransactionalDocumentAuthorizer {
     
     public static final String ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY = "DISAPPROVED_PD_WITH_LINKED_IP";
-   
+
+    @Override
+    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
+        Set<String> actions = super.getDocumentActions(document, user, documentActions);
+
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        if (canMaintainInstitutionalProposal(user, institutionalProposalDocument)) {
+            actions.add(Constants.CAN_MAINTAIN_IP_ATTACHMENTS);
+        }
+        if (actions.contains(Constants.CAN_MAINTAIN_IP_ATTACHMENTS) ||
+                canViewInstitutionalProposalAttachments(user, institutionalProposalDocument)) {
+            actions.add(Constants.CAN_VIEW_IP_ATTACHMENTS);
+        }
+
+        return actions;
+    }
     @Override
     protected void addRoleQualification(
             Object primaryBusinessObjectOrDocument,
@@ -58,5 +79,23 @@ public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocume
         } else {
             return super.canInitiate(documentTypeName, user);
         }
-    }    
+    }
+
+    private boolean canViewInstitutionalProposalAttachments(Person user, InstitutionalProposalDocument document) {
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.VIEW_PROPOSAL) ||
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.CANCEL_INSTITUTIONAL_PROPOSAL) ||
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.SAVE_INSTITUTIONAL_PROPOSAL) ||
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL) ||
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.INITIATE_DOCUMENT);
+    }
+
+    private boolean canMaintainInstitutionalProposal(Person user, InstitutionalProposalDocument document) {
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL) ||
+                getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.EDIT_INSTITUTE_PROPOSAL);
+    }
+
+    private KcAuthorizationService getKcAuthorizationService() {
+        return KcServiceLocator.getService(KcAuthorizationService.class);
+    }
+
 }

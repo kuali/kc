@@ -90,8 +90,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -224,30 +222,9 @@ public class AwardAction extends BudgetParentActionBase {
     protected void handleAttachmentsDocument(AwardAttachmentFormBean awardAttachmentForm) {
         String currentUser = GlobalVariables.getUserSession().getPrincipalId();
         if (awardAttachmentForm != null) {
-            if (hasViewAwardAttachmentPermission(currentUser)) {
-                awardAttachmentForm.setCanViewAttachment(true);
-            }
-
-            if (hasMaintainAwardAttachmentPermissions(currentUser)) {
-                awardAttachmentForm.setMaintainAwardAttachment(true);
-            }
-
             awardAttachmentForm.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
                     ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
         }
-    }
-
-    protected boolean hasMaintainAwardAttachmentPermissions(String currentUser) {
-        return getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission()) ||
-                getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.CREATE_AWARD.getAwardPermission()) ||
-                getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.MAINTAIN_AWARD_ATTACHMENTS.getAwardPermission());
-    }
-
-    protected boolean hasViewAwardAttachmentPermission(String currentUser) {
-        return getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.VIEW_AWARD_ATTACHMENTS.getAwardPermission()) ||
-                getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission()) ||
-                getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.CREATE_AWARD.getAwardPermission()) ||
-                getPermissionService().hasPermission(currentUser, Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.MAINTAIN_AWARD_ATTACHMENTS.getAwardPermission());
     }
 
     private void handlePlaceHolderDocument(AwardForm form, AwardDocument awardDocument) {
@@ -1657,9 +1634,5 @@ public class AwardAction extends BudgetParentActionBase {
     @Override
     public ActionForward takeSuperUserActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return superUserActionHelper(SuperUserAction.TAKE_SUPER_USER_ACTIONS, mapping, form, request, response);
-    }
-    
-    private PermissionService getPermissionService() {
-        return KimApiServiceLocator.getPermissionService();
     }
 }

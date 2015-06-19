@@ -38,7 +38,6 @@ import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachmentFormBean;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -50,8 +49,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
@@ -111,7 +108,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
             } else {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
             }
-            if (hasPermission(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,PermissionConstants.EDIT_INSTITUTE_PROPOSAL)) {
+            if (hasPermission("Edit Institutional Proposal")) {
                 editModes.add(MODIFY_IP);
             }
             Map editMode = this.convertSetToMap(editModes);
@@ -141,9 +138,9 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         
     }
     
-    private boolean hasPermission(String nameSpace,String permissionName){
+    private boolean hasPermission(String permissionName){
         KcPerson person = getKcPersonService().getKcPersonByUserName(getUserName());       
-        return getUnitAuthorizationService().hasPermission(person.getPersonId(),nameSpace, permissionName);
+        return getUnitAuthorizationService().hasPermission(person.getPersonId(), "KC-IP", permissionName);
 
     }
     private String getUserName() {
@@ -354,41 +351,19 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         
         if (Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE.equals(command)) {
             forward = institutionalProposalActions(mapping, form, request, response);
-        }  
-        
+        }
+
         handleAttachmentsDocument(form);
 
         return forward;
     }
+
     private void handleAttachmentsDocument(ActionForm form) {
         InstitutionalProposalAttachmentFormBean instProposalAttachmentForm = ((InstitutionalProposalForm) form).getInstitutionalProposalAttachmentBean();
         if (instProposalAttachmentForm != null) {
-            if (canMaintainInstitutionalProposal()) {
-                instProposalAttachmentForm.setMaintainInstituteProposal(true);
-            }
-
-            if (canViewInstitutionalProposalAttachments()) {
-                instProposalAttachmentForm.setCanViewAttachment(true);
-            }
-
             instProposalAttachmentForm.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
                     ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
         }
-    }
-
-    private boolean canViewInstitutionalProposalAttachments() {
-        return hasPermission(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL) ||
-                hasPermission(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, PermissionConstants.EDIT_INSTITUTE_PROPOSAL) ||
-                hasPermission(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, PermissionConstants.VIEW_PROPOSAL) ||
-                hasPermission(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, PermissionConstants.CANCEL_INSTITUTIONAL_PROPOSAL) ||
-                hasPermission(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, PermissionConstants.SAVE_INSTITUTIONAL_PROPOSAL) ||
-                hasPermission(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL) ||
-                hasPermission(Constants.MODULE_NAMESPACE_SYSTEM, PermissionConstants.INITIATE_DOCUMENT);
-    }
-
-    private boolean canMaintainInstitutionalProposal() {
-        return hasPermission(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL) ||
-                hasPermission(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL, PermissionConstants.EDIT_INSTITUTE_PROPOSAL);
     }
 
     @Override
@@ -421,7 +396,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
            loadDocumentInForm(request, institutionalProposalForm);
        }
        InstitutionalProposalDocument document = (InstitutionalProposalDocument) institutionalProposalForm.getDocument();
-       
+
        institutionalProposalForm.getMedusaBean().setMedusaViewRadio("0");
        institutionalProposalForm.getMedusaBean().setModuleName("IP");
        institutionalProposalForm.getMedusaBean().setModuleIdentifier(document.getInstitutionalProposal().getProposalId());
@@ -470,9 +445,5 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         KrmsRulesExecutionService rulesService = KcServiceLocator.getService(KrmsRulesExecutionService.class);
         return rulesService.processUnitValidations(ipDoc.getLeadUnitNumber(), ipDoc);
     }
-    
-    private PermissionService getPermissionService() {
-        return KimApiServiceLocator.getPermissionService();
-    } 
 
 }
