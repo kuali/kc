@@ -63,8 +63,6 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     private DataDictionaryService dataDictionaryService;
     private List<String> investigatorRole = new ArrayList<>();
     private List<String> personRole = new ArrayList<>();
-    private Map<String, String> baseLookupFieldValues;
-    private Map<String, CriteriaFieldHelper> collectionFieldValues;
     private List<String> excludedFields = new ArrayList<>();
     protected List<String> collectionFieldNames = new ArrayList<>();
     
@@ -76,9 +74,9 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     @Override
     public List<GenericProtocol> getProtocols(Map<String, String> fieldValues) {
         Criteria crit = new Criteria();
-        baseLookupFieldValues = new HashMap<>();
-        collectionFieldValues = new HashMap<>();
-        setupCritMaps(fieldValues);
+        final Map<String, String> baseLookupFieldValues = new HashMap<>();
+        final Map<String, CriteriaFieldHelper> collectionFieldValues = new HashMap<>();
+        setupCritMaps(fieldValues, baseLookupFieldValues, collectionFieldValues);
         
         if (!baseLookupFieldValues.isEmpty()) {
             try {
@@ -316,7 +314,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     /*
      * filter excluded field.  Also group fields to base lookup and collection lookup fields.
      */
-    private void setupCritMaps(Map<String, String> fieldValues) {
+    private void setupCritMaps(Map<String, String> fieldValues, Map<String, String> baseLookupFieldValues, Map<String, CriteriaFieldHelper> collectionFieldValues) {
 
         fieldValues.entrySet().stream().filter(entry -> !excludedFields.contains(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())).forEach(entry -> {
             if (collectionFieldNames.contains(entry.getKey())) {
