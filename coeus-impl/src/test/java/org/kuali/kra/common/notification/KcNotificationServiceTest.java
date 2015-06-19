@@ -40,17 +40,14 @@ import org.kuali.coeus.common.notification.impl.exception.UnknownRoleException;
 import org.kuali.coeus.common.notification.impl.service.impl.KcNotificationServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.ken.api.notification.Notification;
 import org.kuali.rice.ken.api.notification.NotificationRecipient;
 import org.kuali.rice.ken.api.service.SendNotificationService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 import com.google.common.collect.Lists;
 
