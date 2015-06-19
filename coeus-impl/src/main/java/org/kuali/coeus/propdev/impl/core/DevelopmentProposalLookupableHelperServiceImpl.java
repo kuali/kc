@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.core;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -29,6 +30,8 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -38,6 +41,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 @Component("proposalDevelopmentLookupableHelperService")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -78,7 +82,7 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
         boolean canModifyProposal = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.MODIFY_PROPOSAL);
         boolean canViewProposal = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.VIEW_PROPOSAL);
         if(canModifyProposal) {
-            AnchorHtmlData editHtmlData = getViewLink(document);
+            AnchorHtmlData editHtmlData = getViewLink(document.getDocumentNumber());
             String href = editHtmlData.getHref();
             href = href.replace("viewDocument=true", "viewDocument=false");
             editHtmlData.setHref(href);
@@ -86,19 +90,39 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
             htmlDataList.add(editHtmlData);
         }
         if(canViewProposal) {
-            AnchorHtmlData viewLink = getViewLink(document);
+            AnchorHtmlData viewLink = getViewLink(document.getDocumentNumber());
             htmlDataList.add(viewLink);
             
-            htmlDataList.add(getCustomLink(document, "actions", "copy", !canModifyProposal));
+            htmlDataList.add(getCustomLink(document.getDocumentNumber(), "actions", "copy", !canModifyProposal));
         }
         
         if (canModifyProposal) {
-            htmlDataList.add(getMedusaLink(document, false));
+            htmlDataList.add(getMedusaLink(document.getDocumentNumber(), false));
         } else if (canViewProposal) {
-            htmlDataList.add(getMedusaLink(document, true));
+            htmlDataList.add(getMedusaLink(document.getDocumentNumber(), true));
         }
         
         return htmlDataList;
+    }
+
+    /**
+     *
+     * @param methodToCall method to call on action
+     * @param readOnly whether the document should be readOnly or not
+     */
+    protected AnchorHtmlData getCustomLink(String documentNumber, String methodToCall, String linkName, Boolean readOnly) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText(linkName);
+        Properties parameters = new Properties();
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
+        parameters.put("viewDocument", readOnly.toString());
+        parameters.put("docId", documentNumber);
+        String href  = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
+
+        htmlData.setHref(href);
+        return htmlData;
     }
 
     @Override

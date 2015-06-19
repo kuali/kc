@@ -27,7 +27,7 @@ import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class IacucCommitteeLookupableHelperServiceImpl extends CommitteeLookupableHelperServiceImplBase<IacucCommittee, CommonCommitteeDocument> {
+public class IacucCommitteeLookupableHelperServiceImpl extends CommitteeLookupableHelperServiceImplBase<IacucCommittee> {
 
 
     private static final String DOCHANDLER_LINK = "%s/%s?methodToCall=docHandler&docId=%s&command=displayDocSearchView";
@@ -68,11 +68,6 @@ public class IacucCommitteeLookupableHelperServiceImpl extends CommitteeLookupab
     @Override
     protected String getModifyCommitteePermissionNameHook() {
         return PermissionConstants.MODIFY_IACUC_COMMITTEE;
-    }
-
-    @Override
-    protected Class<CommonCommitteeDocument> getCommitteeDocumentBOClassHook() {
-        return CommonCommitteeDocument.class;
     }
 
     @Override
