@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+*  Making "view active" committee open a committee with the highest sequence number that is also on a final document.
+  * Travis Schneeberger on Thu, 18 Jun 2015 14:45:47 -0400 [View Commit](../../commit/09acbe59aff89744e0411d52b932c1ee77305e97)
+*  Code cleanup, removing unnecessary document service call
+  * Travis Schneeberger on Thu, 18 Jun 2015 15:18:12 -0400 [View Commit](../../commit/e74843ed9c2af797585ac54305211e65a235581c)
+* Removing global state that is mutated in places other than bean initialization
+  * Travis Schneeberger on Fri, 19 Jun 2015 09:50:12 -0400 [View Commit](../../commit/5142a997dc91134321990cfbc03ccfe1c7388221)
+*  Removing unnecessary logic from committee lookup, cleanup other lookup logic
+  * Travis Schneeberger on Fri, 19 Jun 2015 15:17:18 -0400 [View Commit](../../commit/5de793e2c61c313ade118771caa85b9f4850619f)
+
+##coeus-1506.50
 * No Changes
 
 
