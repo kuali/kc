@@ -318,7 +318,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
         if (kraAuthorizationService.hasPermission(getUserIdentifier(), (ProtocolBase) businessObject, PermissionConstants.MODIFY_PROTOCOL)) {
             //htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
             // Chnage "edit" to edit same document, NOT initializing a new Doc
-            AnchorHtmlData editHtmlData = getViewLink(((ProtocolBase) businessObject).getProtocolDocument());
+            AnchorHtmlData editHtmlData = getViewLink(((ProtocolBase) businessObject).getProtocolDocument().getDocumentNumber());
             String href = editHtmlData.getHref();
             href = href.replace("viewDocument=true", "viewDocument=false");
             editHtmlData.setHref(href);
@@ -331,7 +331,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
             htmlDataList.add(htmlData);
         }
         if (kraAuthorizationService.hasPermission(getUserIdentifier(), (ProtocolBase) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
-            htmlDataList.add(getViewLink(((ProtocolBase) businessObject).getProtocolDocument()));
+            htmlDataList.add(getViewLink(((ProtocolBase) businessObject).getProtocolDocument().getDocumentNumber()));
         }
         return htmlDataList;
     }

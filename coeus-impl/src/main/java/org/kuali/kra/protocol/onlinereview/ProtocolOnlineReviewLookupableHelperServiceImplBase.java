@@ -164,36 +164,36 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
         ProtocolOnlineReviewBase protocolOnlineReview = (ProtocolOnlineReviewBase) businessObject;
         
         if (getProtocolOLRSavedStatusCodeHook().equals(protocolOnlineReview.getProtocolOnlineReviewStatusCode())) {
-            htmlDataList.add(getEditLink(protocolOnlineReview.getProtocolOnlineReviewDocument()));
+            htmlDataList.add(getEditLinkForDocument(protocolOnlineReview.getProtocolOnlineReviewDocument()));
         } else {
-            htmlDataList.add(getViewLink(protocolOnlineReview.getProtocolOnlineReviewDocument()));
+            htmlDataList.add(getViewLink(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber()));
         }
     }
     
     protected abstract String getProtocolOLRSavedStatusCodeHook();
 
     @Override
-    protected AnchorHtmlData getViewLink(Document document) {
-        Properties parameters = getLinkProperties(document);
+    protected AnchorHtmlData getViewLink(String documentNumber) {
+        Properties parameters = getLinkProperties(documentNumber);
         parameters.put("viewDocument", "true");
         String displayText = "view";
         
         return getAnchorHtmlData(parameters, displayText);
     }
     
-    private AnchorHtmlData getEditLink(Document document) {
-        Properties parameters = getLinkProperties(document);
+    private AnchorHtmlData getEditLinkForDocument(Document document) {
+        Properties parameters = getLinkProperties(document.getDocumentNumber());
         String displayText = KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL;
         
         return getAnchorHtmlData(parameters, displayText);
     }
     
-    private Properties getLinkProperties(Document document) {
+    private Properties getLinkProperties(String documentNumber) {
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "redirectToProtocolFromReview");
         parameters.put(KRADConstants.PARAMETER_COMMAND, "displayDocSearchView");
         parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
-        parameters.put("docId", document.getDocumentNumber());
+        parameters.put("docId", documentNumber);
         return parameters;
     }
     
