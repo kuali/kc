@@ -140,8 +140,7 @@ mvn clean compile source:jar javadoc:jar install -Dgrm.off=true
 
 Kuali Coeus supports MySQL 5.6 and Oracle. We recommend MySQL though as that is the database we develop and support internally and are more easily able to respond to problems with that database.
 
-* [Mysql Installation Instructions](coeus-db/coeus-db-sql/src/main/resources/co/kuali/coeus/data/migration/sql/mysql/README)
-* [Oracle Installation Instructions](coeus-db/coeus-db-sql/src/main/resources/co/kuali/coeus/data/migration/sql/oracle/README)
+* [Database Installation Instructions](coeus-db/coeus-db-sql/src/main/resources/co/kuali/coeus/data/migration/sql/README.md)
 
 
 
