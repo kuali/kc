@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1506.52
+* No Changes
+
+
 ##coeus-1506.51
 *  Making "view active" committee open a committee with the highest sequence number that is also on a final document.
   * Travis Schneeberger on Thu, 18 Jun 2015 14:45:47 -0400 [View Commit](../../commit/09acbe59aff89744e0411d52b932c1ee77305e97)

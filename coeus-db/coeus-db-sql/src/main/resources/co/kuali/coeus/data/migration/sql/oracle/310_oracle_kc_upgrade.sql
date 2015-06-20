@@ -42,7 +42,6 @@ spool 310_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V310_1_041__TBL_LOCATION_TYPE.sql
 @./kc/bootstrap/V310_1_042__TBL_NARRATIVE.sql
 @./kc/bootstrap/V310_1_043__TBL_OBJ_ID_NOT_NULL.sql
-@./kc/bootstrap/V310_1_043__TBL_OBJ_ID_NOT_NULL.sql~
 @./kc/bootstrap/V310_1_044__TBL_PENDING_TRANSACTIONS.sql
 @./kc/bootstrap/V310_1_045__TBL_PERSON_EXT_T.sql
 @./kc/bootstrap/V310_1_046__TBL_PROPOSAL_CUSTOM_DATA.sql
