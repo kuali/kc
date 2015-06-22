@@ -20,7 +20,6 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
-<!-- <script type='text/javascript' src='dwr/engine.js'></script> -->
 <script type='text/javascript' src='dwr/util.js'></script>
 
 <c:set var="awardSponsorContactAttributes" value="${DataDictionary.AwardSponsorContact.attributes}" />

@@ -154,8 +154,6 @@
                         <td align="center" valign="middle">
                             <div align="center">
                             <nobr>
-                                <!--   html:image property="methodToCall.editProtocolException.line${status.index}.anchor${tabKey}"
-                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/ -->                            
                                 <html:image property="methodToCall.deleteProtocolException.line${status.index}.anchor${tabKey}"
                                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                             </nobr>

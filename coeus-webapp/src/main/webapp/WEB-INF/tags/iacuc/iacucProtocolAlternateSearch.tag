@@ -127,8 +127,7 @@
 		                    <td style="background-image:inherit; background-position: center middle; border: none;">
 		                        ${kfunc:registerEditableProperty(KualiForm, "iacucAlternateSearchHelper.newDatabases")}
                                 <html:select property="iacucAlternateSearchHelper.newDatabases" multiple="multiple" size="5" styleId="new-databases-select" styleClass="iacuc-alt-search-multi-select" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;">
-                                    <!--  html:optionsCollection property="iacucAlternateSearchHelper.newAlternateSearch.databases" value="alternateSearchDatabaseName" label="alternateSearchDatabaseName" style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11;"/ -->
-                                </html:select>		                    
+                                </html:select>
 		                    </td>
                         </tr>
                         <tr style="background-image: inherit; background-position: center bottom;">
@@ -198,8 +197,6 @@
                         <td align="center" valign="middle">
                             <div align="center">
                             <nobr>
-                                <!--   html:image property="methodToCall.editAlternateSearch.line.${status.index}.anchor${tabKey}"
-                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/ -->                            
                                 <html:image property="methodToCall.deleteAlternateSearch.line.${status.index}.anchor${tabKey}"
                                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
                             </nobr>

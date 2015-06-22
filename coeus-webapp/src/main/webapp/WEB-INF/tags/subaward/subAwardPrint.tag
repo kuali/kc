@@ -86,7 +86,7 @@ li.truncateAlign table {
 				<td>
 						<table id="print-table" cellpadding="0" cellspacing="0">
 						<tr>
-						<!-- <td style="border-left: 0px; border-bottom: 0px;"> -->
+
 						<div class="multi-col-list" id="awardPrintNoticeItems">
 						<dl><dd><ul>
 						<li>
@@ -100,7 +100,7 @@ li.truncateAlign table {
 		      			</li>
 						</ul></dd></dl>
 						</div>
-						<!-- </td> -->
+
 						</tr>
 					</table>
 				</td>

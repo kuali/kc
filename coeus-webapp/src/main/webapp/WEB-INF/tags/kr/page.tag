@@ -325,7 +325,7 @@ jQuery(function(){
                         <c:choose>
                             <c:when test="${empty headerDispatch}">
                                 <c:forEach var="headerTab" items="${KualiForm.headerNavigationTabs}" varStatus="status">
-                                    <c:set var="currentTab" value="${headerTabActive eq headerTab.headerTabNavigateTo}" /> <!-- ${headerTab.headerTabNavigateTo}; ${headerTabActive}; ${currentTab} -->
+                                    <c:set var="currentTab" value="${headerTabActive eq headerTab.headerTabNavigateTo}" />
                                     <c:choose>
                                         <c:when test="${currentTab}"><dt class="licurrent"></c:when>
                                         <c:otherwise><dt></c:otherwise>
@@ -337,7 +337,7 @@ jQuery(function(){
                             </c:when>
                             <c:otherwise>
                                 <c:forEach var="headerTab" items="${KualiForm.headerNavigationTabs}" varStatus="status">
-                                    <c:set var="currentTab" value="${headerTabActive eq headerTab.headerTabNavigateTo}" /> <!-- ${headerTab.headerTabNavigateTo}; ${headerTabActive}; ${currentTab} -->
+                                    <c:set var="currentTab" value="${headerTabActive eq headerTab.headerTabNavigateTo}" />
                                     <c:choose><c:when test="${currentTab}"><dt class="licurrent"></c:when><c:otherwise><dt></c:otherwise></c:choose>
                                     <span class="tabright ${currentTab ? 'tabcurrent' : ''}">
                                         <html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}"  alt="${headerTab.headerTabDisplayName}" disabled="${headerTab.disabled}"  />

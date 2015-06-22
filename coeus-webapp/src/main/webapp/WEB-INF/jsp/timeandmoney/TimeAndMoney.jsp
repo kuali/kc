@@ -32,7 +32,6 @@
   	
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
-<!-- <script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script> -->
 
 <script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
 	
