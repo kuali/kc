@@ -36,7 +36,6 @@
 		      	</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardType.description}" />
-		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardTypeCode" attributeEntry="${awardAttributes.awardTypeCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.awardType.description}" readOnly="true" />-->
 		      	</td>		    	
 		  	</tr>
 		  	<tr>
@@ -45,14 +44,12 @@
 		      	</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.sponsorAwardNumber}" />
-		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.sponsorAwardNumber" attributeEntry="${awardAttributes.sponsorAwardNumber}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.sponsorAwardNumber}" readOnly="true" />-->
 		    	</td>
 		    	<th>
 		    		<div align="right">Activity Type</div>
 		    	</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.activityType.description}" />
-		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.activityTypeCode" attributeEntry="${awardAttributes.activityTypeCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.activityType.description}" readOnly="true" />-->
 				</td>
 		  	</tr>
 		  	<tr>
@@ -61,14 +58,12 @@
 		      	</th>
 		    	<td align="left" valign="middle">
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.accountNumber}" />
-		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.accountNumber" attributeEntry="${awardAttributes.accountNumber}" readOnly="true" />-->
 		    	</td>
 		    	<th>
 		    		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountTypeCode}" /></div>
 				</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.accountTypeDescription}" />
-		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.accountTypeCode" attributeEntry="${awardAttributes.accountTypeCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.accountTypeDescription}" readOnly="true" />-->
 				</td>
 		  	</tr>
 		  	<tr>
@@ -79,7 +74,6 @@
 		      	</th>
 		    	<td>
 		    		<c:out value="${KualiForm.awardForSummaryPanelDisplay.awardStatus.description}" />
-		    		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.statusCode" attributeEntry="${awardAttributes.statusCode}" readOnlyAlternateDisplay="${KualiForm.awardForSummaryPanelDisplay.awardStatus.description}" readOnly="true" />-->
 		      	</td>
 		    	<th>&nbsp;</th>
 		    	<td align="left" valign="middle">&nbsp;</td>
@@ -95,7 +89,6 @@
 		        		<tr>
 		            		<td style="border:none; width:100%;">
 		            			<c:out value="${KualiForm.awardForSummaryPanelDisplay.title}" />
-		            			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.title" attributeEntry="${awardAttributes.title}" readOnly="true"/>-->		                    	
 		        			</td>
 		            	</tr>
 		        	</table>
@@ -110,12 +103,10 @@
         <table cellpadding="0" cellspacing="0" summary="">
 	    	<tr>
 	        	<th>
-	            	<!--  <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.sponsorCode}" /></div>-->
 	            	<div align="right">Sponsor:</div>
 	        	</th>
 	        	<td colspan="3">
 	        		<c:out value="${KualiForm.awardForSummaryPanelDisplay.sponsorCode}" />
-	        		<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.sponsorCode" attributeEntry="${awardAttributes.sponsorCode}" readOnly="true"/>-->
 	        		<c:out value=" - ${KualiForm.awardForSummaryPanelDisplay.sponsor.sponsorName}" />
 	        	</td>	        	       		
 	        </tr>	        	
@@ -124,14 +115,12 @@
         		</th>
         		<td align="left" valign="middle" >
         			<fmt:formatDate pattern="MM/dd/yyyy" value="${KualiForm.awardForSummaryPanelDisplay.awardEffectiveDate}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardEffectiveDate" attributeEntry="${awardAttributes.awardEffectiveDate}" readOnly="true" />-->
 				</td>
 				<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
         			<fmt:formatDate pattern="MM/dd/yyyy" value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].currentFundEffectiveDate}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].currentFundEffectiveDate" attributeEntry="${awardAmountInfoAttributes.currentFundEffectiveDate}" readOnly="true" />-->
         		</td>
 	        <tr>	        	
 				<th style="text-align: right;">Project End Date:</th>
@@ -143,7 +132,6 @@
         		</th>
         		<td align="left" valign="middle">
         			<fmt:formatDate pattern="MM/dd/yyyy" value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].obligationExpirationDate}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}" readOnly="true" />-->
         		</td>	        	
 	        </tr>
 	        <tr>	        	
@@ -152,14 +140,12 @@
         		</th>
         		<td align="left" valign="middle">
         			<fmt:formatNumber type="currency"  value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].anticipatedTotalAmount}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].anticipatedTotalAmount" attributeEntry="${awardAmountInfoAttributes.anticipatedTotalAmount}" readOnly="true" />-->
         		</td>
         		<th>
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" /></div>
         		</th>
         		<td align="left" valign="middle">
         			<fmt:formatNumber type="currency"  value="${KualiForm.awardForSummaryPanelDisplay.awardAmountInfos[KualiForm.indexOfAwardAmountInfoForDisplay].amountObligatedToDate}" />
-        			<!--<kul:htmlControlAttribute property="awardForSummaryPanelDisplay.awardAmountInfos[${KualiForm.indexOfAwardAmountInfoForDisplay}].amountObligatedToDate" attributeEntry="${awardAmountInfoAttributes.amountObligatedToDate}" readOnly="true" />-->
         		</td>
 	        </tr>
         </table>	
