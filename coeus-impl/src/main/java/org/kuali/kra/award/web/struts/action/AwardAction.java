@@ -724,16 +724,38 @@ public class AwardAction extends BudgetParentActionBase {
             
             Award rootAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);   
             // check for existing finalized T & M document before creating a new one.
-            TimeAndMoneyDocument timeAndMoneyDocument = getLastFinalTandMDocument(timeAndMoneyDocuments);
-            if(timeAndMoneyDocuments.size() > 0 && timeAndMoneyDocument != null) {
+
+            TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyDocuments.stream()
+                    .filter(doc -> !VersionStatus.CANCELED.toString().equals(doc.getDocumentStatus()))
+                    .sorted((TimeAndMoneyDocument o1, TimeAndMoneyDocument o2) -> {
+                            if (o1.getDocumentStatus().equals( o2.getDocumentStatus())) {
+                                return o1.getDocumentNumber().compareTo(o2.getDocumentNumber());
+                            }
+                            else if (VersionStatus.PENDING.toString().equals(o1.getDocumentStatus())) {
+                                return -1;
+                            }
+                            else if (VersionStatus.ACTIVE.toString().equals(o1.getDocumentStatus())){
+                                if (VersionStatus.PENDING.toString().equals(o2.getDocumentStatus())) {
+                                    return 1;
+                                }
+                                else {
+                                    return -1;
+                                }
+                            }
+                            else {
+                                return 1;
+                            }
+                        }
+                    )
+                    .findFirst().orElse(null);
+            if(timeAndMoneyDocument != null) {
                 firstTimeAndMoneyDocCreation = Boolean.FALSE;
             }
-    
-            if (timeAndMoneyDocument == null) {
+            else {
                 generateDirectFandADistribution(currentAward);
             }
-                
-            if(firstTimeAndMoneyDocCreation){
+
+            if(firstTimeAndMoneyDocCreation) {
                 timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
                 timeAndMoneyDocument.getDocumentHeader().setDocumentDescription(TIMEANDMONEY_DOCUMENT);
                 timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
@@ -761,7 +783,8 @@ public class AwardAction extends BudgetParentActionBase {
                 documentService.saveDocument(timeAndMoneyDocument);
                 getBusinessObjectService().save(transactionDetail);
             }
-            String routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
+
+            String routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getDocumentNumber();
             String backUrl = URLEncoder.encode(buildActionUrl(awardDocument.getDocumentNumber(), Constants.MAPPING_AWARD_HOME_PAGE, AWARD_DOCUMENT), StandardCharsets.UTF_8.name());
             String forward = buildForwardUrl(routeHeaderId) + BACK_LOCATION + backUrl;
             actionForward = new ActionForward(forward, true);
@@ -772,21 +795,6 @@ public class AwardAction extends BudgetParentActionBase {
         }
         return actionForward;
 
-    }
-        
-    protected TimeAndMoneyDocument getLastFinalTandMDocument(List<TimeAndMoneyDocument> timeAndMoneyDocuments) throws WorkflowException {
-        TimeAndMoneyDocument returnVal = null;
-        while(timeAndMoneyDocuments.size() > 0) {
-            TimeAndMoneyDocument docWithWorkFlowData = 
-                (TimeAndMoneyDocument) getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());
-            if(docWithWorkFlowData.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-                timeAndMoneyDocuments.remove(timeAndMoneyDocuments.size() - 1);
-            }else {
-                returnVal = docWithWorkFlowData;
-                break;
-            }
-        }
-        return returnVal;
     }
 
     protected TransactionDetail addTransactionDetails(String sourceAwardNumber, String destinationAwardNumber, Integer sequenceNumber, String documentNumber, 

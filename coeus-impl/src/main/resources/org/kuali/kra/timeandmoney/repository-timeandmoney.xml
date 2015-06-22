@@ -21,6 +21,7 @@
 	<class-descriptor class="org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument" table="TIME_AND_MONEY_DOCUMENT">			
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="rootAwardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="documentStatus" column="TIME_AND_MONEY_DOC_STATUS" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>		
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

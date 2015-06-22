@@ -20,6 +20,7 @@ package org.kuali.kra.timeandmoney.document;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
@@ -34,6 +35,7 @@ import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyVersionService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -58,6 +60,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     
     private String rootAwardNumber;
     private String awardNumber;
+    private String documentStatus;
     private Map<String, AwardHierarchyNode> awardHierarchyNodes;
     private Map<String, AwardHierarchy> awardHierarchyItems;
     private List<PendingTransaction> pendingTransactions;
@@ -67,7 +70,8 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     private AwardAmountTransaction newAwardAmountTransaction;
     private List<AwardVersionHistory> awardVersionHistoryList;
     private List<String> order;
-    
+
+    private transient TimeAndMoneyVersionService timeAndMoneyVersionService;
 
     public TimeAndMoneyDocument(){        
         super();        
@@ -104,7 +108,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
         newAwardAmountTransaction = new AwardAmountTransaction();
         awardVersionHistoryList = new ArrayList<AwardVersionHistory>();
         order = new ArrayList<String>();
-
+        documentStatus = VersionStatus.PENDING.toString();
     }
     
     @Override
@@ -121,6 +125,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
                 getAwardHierarchyService().populateAwardHierarchyNodesForTandMDoc(this.getAwardHierarchyItems(), this.getAwardHierarchyNodes(), null, null, this);
             }
             getActivePendingTransactionsService().approveTransactions(this, awardAmountTransactions.get(0));
+            getTimeAndMoneyVersionService().updateDocumentStatus(this, VersionStatus.ACTIVE);
         }
     }
     
@@ -173,51 +178,35 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
         return documentNumber == null;
     }
 
-    /**
-     * Gets the awardNumber attribute. 
-     * @return Returns the awardNumber.
-     */
     public String getAwardNumber() {
         return awardNumber;
     }
 
-    /**
-     * Sets the awardNumber attribute value.
-     * @param awardNumber The awardNumber to set.
-     */
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
     }
 
-    /**
-     * Gets the awardHierarchyNodes attribute. 
-     * @return Returns the awardHierarchyNodes.
-     */
+    public String getDocumentStatus() {
+        return documentStatus;
+    }
+
+    public void setDocumentStatus(String documentStatus) {
+        this.documentStatus = documentStatus;
+    }
+
     public Map<String, AwardHierarchyNode> getAwardHierarchyNodes() {
         return awardHierarchyNodes;
     }
 
-    /**
-     * Sets the awardHierarchyNodes attribute value.
-     * @param awardHierarchyNodes The awardHierarchyNodes to set.
-     */
     public void setAwardHierarchyNodes(Map<String, AwardHierarchyNode> awardHierarchyNodes) {
         this.awardHierarchyNodes = awardHierarchyNodes;
     }    
 
-    /**
-     * Gets the pendingTransactions attribute. 
-     * @return Returns the pendingTransactions.
-     */
     public List<PendingTransaction> getPendingTransactions() {
         Collections.sort(pendingTransactions, new PendingTransactionComparator());
         return pendingTransactions;
     }
 
-    /**
-     * Sets the pendingTransactions attribute value.
-     * @param pendingTransactions The pendingTransactions to set.
-     */
     public void setPendingTransactions(List<PendingTransaction> pendingTransactions) {
         this.pendingTransactions = pendingTransactions;
     }
@@ -422,4 +411,14 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
       return "TIME AND MONEY-" + getAwardNumber();
     }
 
+    public TimeAndMoneyVersionService getTimeAndMoneyVersionService() {
+        if (timeAndMoneyVersionService == null) {
+            timeAndMoneyVersionService = KcServiceLocator.getService(TimeAndMoneyVersionService.class);
+        }
+        return timeAndMoneyVersionService;
+    }
+
+    public void setTimeAndMoneyVersionService(TimeAndMoneyVersionService timeAndMoneyVersionService) {
+        this.timeAndMoneyVersionService = timeAndMoneyVersionService;
+    }
 }

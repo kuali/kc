@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.timeandmoney.service.impl;
 
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.award.home.Award;
@@ -41,24 +42,14 @@ public class TimeAndMoneyExistenceServiceImpl implements TimeAndMoneyExistenceSe
     
     public boolean validateTimeAndMoneyRule(Award award, String rootAwardNumber) throws WorkflowException {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        Boolean timeAndMoneyDocumentDoesNotExist = Boolean.TRUE;
         fieldValues.put("rootAwardNumber", rootAwardNumber);
+        fieldValues.put("documentStatus", VersionStatus.PENDING.toString());
 
         BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
 
         List<TimeAndMoneyDocument> timeAndMoneyDocuments = (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
-        TimeAndMoneyDocument timeAndMoneyDocument = null;
 
-        for(TimeAndMoneyDocument t : timeAndMoneyDocuments){
-            timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-            timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
-            timeAndMoneyDocument.setAward(award);
-            if(!kraWorkflowService.isInWorkflow(timeAndMoneyDocument)){
-                timeAndMoneyDocumentDoesNotExist = Boolean.FALSE;
-                break;
-            }
-        }
-        return timeAndMoneyDocumentDoesNotExist;
+        return timeAndMoneyDocuments == null || timeAndMoneyDocuments.isEmpty();
     }
     
     public void addAwardVersionErrorMessage() {

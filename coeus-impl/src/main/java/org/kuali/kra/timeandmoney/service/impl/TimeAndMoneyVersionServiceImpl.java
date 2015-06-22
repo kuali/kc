@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.timeandmoney.service.impl;
 
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.version.service.AwardVersionService;
@@ -28,15 +29,15 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionService {
 
+    public static final String ROOT_AWARD_NUMBER = "rootAwardNumber";
+    public static final String DOCUMENT_STATUS = "documentStatus";
     private AwardVersionService awardVersionService;
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
 
     /*
      * Find any existing T&amp;M document for the given award number, with the intent to
@@ -97,6 +98,25 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
         return timeAndMoneyDocument;
     }
 
+    public void updateDocumentStatus(TimeAndMoneyDocument document, VersionStatus status) {
+        if (status.equals(VersionStatus.ACTIVE)) {
+            archiveActiveTimeAndMoneyDocs(document.getAwardNumber());
+        }
+        document.setDocumentStatus(status.toString());
+        businessObjectService.save(document);
+    }
+
+    private void archiveActiveTimeAndMoneyDocs(String awardNumber) {
+        Map<String, Object> values = new HashMap<>();
+        values.put(ROOT_AWARD_NUMBER, awardNumber);
+        values.put(DOCUMENT_STATUS, VersionStatus.ACTIVE.name());
+        Collection<TimeAndMoneyDocument> documents = businessObjectService.findMatching(TimeAndMoneyDocument.class, values);
+        for (TimeAndMoneyDocument document : documents) {
+            document.setDocumentStatus(VersionStatus.ARCHIVED.name());
+            businessObjectService.save(document);
+        }
+    }
+
     public AwardVersionService getAwardVersionService() {
         return awardVersionService;
     }
@@ -112,5 +132,12 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }
