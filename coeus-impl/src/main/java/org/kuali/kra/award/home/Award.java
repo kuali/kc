@@ -280,6 +280,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private transient KcPersonService kcPersonService;
 
     private List<AwardCgb> awardCgbList;
+    
+    private transient Integer indexOfAwardAmountInfoForDisplay;
 
     public Award() {
         super();
@@ -371,6 +373,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public int getIndexOfAwardAmountInfoForDisplay() throws WorkflowException {
+    	if (indexOfAwardAmountInfoForDisplay != null) {
+    		return indexOfAwardAmountInfoForDisplay;
+    	}
         AwardAmountInfo aai = getAwardAmountInfoService().fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(this);
         int returnVal = 0;
         int index = 0;
@@ -391,7 +396,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
                 }
             }
         }
-        return returnVal;
+        indexOfAwardAmountInfoForDisplay = returnVal;
+        return indexOfAwardAmountInfoForDisplay;
     }
 
     public int getIndexOfAwardAmountInfoForDisplayFromTimeAndMoneyDocNumber(String docNum) throws WorkflowException {
