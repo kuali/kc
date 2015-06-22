@@ -51,10 +51,9 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
     @SuppressWarnings("unchecked")
     public AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) {
         
-        List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
         List<AwardAmountInfo> awardAmountInfos = new ArrayList<>(award.getAwardAmountInfos());
         Collections.reverse(awardAmountInfos);
-        awardAmountInfos.stream().filter(aai -> {
+        return awardAmountInfos.stream().filter(aai -> {
             //the aai needs to be added if it is created on initialization, or in the case of a root node we add a new one for initial money transaction.
             //if an award has been versioned, the initial transaction will be the first index in list.
             if(aai.getTimeAndMoneyDocumentNumber() == null || (aai.getAwardNumber().endsWith("-00001") && 
@@ -81,8 +80,7 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
         
             }
 			return false;
-        }).findFirst();
-    return validAwardAmountInfos.get(validAwardAmountInfos.size() -1);
+        }).findFirst().get();
 }
     
     public AwardAmountInfo fetchLastAwardAmountInfoForDocNum(Award award, String docNum){
