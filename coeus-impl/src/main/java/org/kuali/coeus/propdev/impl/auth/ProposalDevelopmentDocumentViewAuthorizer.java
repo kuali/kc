@@ -131,7 +131,12 @@ public class ProposalDevelopmentDocumentViewAuthorizer extends KcKradTransaction
 
     @Override
     public boolean canEditView(View view, ViewModel model, Person user) {
-       return super.canEditView(view, model, user) && userHasLock(user, model);
+        ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm = (ProposalDevelopmentDocumentForm) model;
+        if(!proposalDevelopmentDocumentForm.isViewOnly()) {
+            return super.canEditView(view, model, user) && userHasLock(user, model);
+        }
+
+        return false;
     }
 
     public boolean userHasLock(Person user, ViewModel model) {
