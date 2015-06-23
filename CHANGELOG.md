@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* Always populate negotiation documents with most recent custom data attributes
+
+  * Steps to Recreate:
+  * 1 Create a Negotiation Document
+  * 2 Enter the necessary fields to save and save the negotiation
+  * 3 Create a New Custom Data field for Negotiation
+  * 4 Re-open your negotiation document
+  * When you take these steps only the custom data fields that were entered into the system at the time the Negotiation was created are populated. A similar problem happened with other document types. However, the correction is dependent on the document going through a versioning step. As Negotiation is never versioned this Jira did not correct this problem for the Negotiation module. Some negotiations will stay open for quite a while, and a change in needed data that happens in the middle of a given negotiation may still apply to them. So the issue that was solved for the other modules with KRACOEUS-6009 needs a Negotiation fix.
+  * Joe Williams on Tue, 23 Jun 2015 13:25:23 -0500 [View Commit](../../commit/d11c136c3a48188e4eb7eba519bd2470658b02b6)
+
+##coeus-1506.54
 * Fix Calculate Button On Summary Personnel Item Details
 
   * Testing and documenting the use of Summary instead of project person in the budget.
