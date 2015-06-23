@@ -404,6 +404,12 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	
 	@Transactional @RequestMapping(params="methodToCall=calculatePersonnelPeriodLineItem")
 	public ModelAndView calculatePersonnelPeriodLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		BudgetPersonnelDetails editBudgetPersonnelDetail = form.getAddProjectPersonnelHelper().getEditBudgetPersonnelDetail();
+		BudgetLineItem budgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
+		if(isSummaryPersonnel(editBudgetPersonnelDetail)) {
+			budgetLineItem.setLineItemCost(editBudgetPersonnelDetail.getSalaryRequested());
+			editBudgetPersonnelDetail.setBudgetLineItem(budgetLineItem);
+		}
 		calculatePersonnelLineItem(form, false);
 		return getModelAndViewService().getModelAndView(form);
 	}
