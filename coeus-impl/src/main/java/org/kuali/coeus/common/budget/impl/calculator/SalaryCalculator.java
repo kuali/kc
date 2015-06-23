@@ -42,6 +42,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.*;
+import java.util.Date;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * This class is to calculate the salary
@@ -70,122 +73,78 @@ public class SalaryCalculator {
         this.dateTimeService = KcServiceLocator.getService(DateTimeService.class);
     }
 
-    /**
-     * 
-     * This method for filtering the inflation rates with respect to start date and end date
-     * 
-     * @return list of inflation rates
-     */
     private QueryList<BudgetRate> filterInflationRates() {
+        if (personnelLineItem.getApplyInRateFlag()) {
+            final CostElement costElement = getCostElement(personnelLineItem);
+            final ValidCeRateType inflationRateType = costElement.getValidCeRateTypes().stream().filter(t -> t.getRateClassType().equals(RateClassType.INFLATION.getRateClassType())).findFirst().get();
+
+            final Predicate<BudgetRate> dateAndRateAndOnOffCampusFlag = budgetRate -> {
+                final boolean iInflationRCEquals = StringUtils.equals(inflationRateType.getRateClassCode(), budgetRate.getRateClassCode());
+                final boolean iInflationRTEquals = StringUtils.equals(inflationRateType.getRateTypeCode(), budgetRate.getRateTypeCode());
+                final boolean startDateLtEqualsEndDate = Objects.compare(budgetRate.getStartDate(), this.endDate, Comparator.<Date>naturalOrder()) <= 0;
+                final boolean startDateGtEqualsStartDate = Objects.compare(budgetRate.getStartDate(), this.startDate, Comparator.<Date>naturalOrder()) >= 0;
+                final boolean onOffCampusEquals = Objects.equals(costElement.getOnOffCampusFlag(), budgetRate.getOnOffCampusFlag());
+                return iInflationRCEquals && iInflationRTEquals && startDateLtEqualsEndDate && startDateGtEqualsStartDate && onOffCampusEquals;
+            };
+
+            return new QueryList<>((getInflationRates() == null ? budget.getBudgetRates().stream().filter(dateAndRateAndOnOffCampusFlag)
+                     : getInflationRates().stream().filter(dateAndRateAndOnOffCampusFlag)).collect(Collectors.toList()));
+        } else {
+            return new QueryList<>();
+        }
+
+    }
+
+    private CostElement getCostElement(BudgetPersonnelDetails personnelLineItem) {
         CostElement costElement = personnelLineItem.getCostElementBO();
         if (costElement == null) {
             BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
             Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("costElement", personnelLineItem.getCostElement());
-            costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, pkMap);
+            costElement = businessObjectService.findByPrimaryKey(CostElement.class, pkMap);
         }
         List<ValidCeRateType> costElementRates = costElement.getValidCeRateTypes();
         if (costElementRates == null || costElementRates.isEmpty()) {
             costElement.refreshReferenceObject("validCeRateTypes");
-            costElementRates = costElement.getValidCeRateTypes();
         }
-        ValidCeRateType inflationRateType = null;
-        if (costElementRates != null){
-            for (ValidCeRateType validCeRateType : costElementRates) {
-                if (validCeRateType.getRateClassType().equals(RateClassType.INFLATION.getRateClassType())) {
-                    inflationRateType = validCeRateType;
-                    break;
-                }
-            }
-        }
-        Equals eInflationRC = null;
-        Equals eInflationRT = null;
-        And inflRCandRT = null;
+        return costElement;
+    }
 
-        if (inflationRateType != null) {
-            eInflationRC = new Equals("rateClassCode", inflationRateType.getRateClassCode());
-            eInflationRT = new Equals("rateTypeCode", inflationRateType.getRateTypeCode());
-            inflRCandRT = new And(eInflationRC, eInflationRT);
-        }
-
-        LesserThan ltEndDate = new LesserThan("startDate", this.endDate);
-        Equals eEndDate = new Equals("startDate", this.endDate);
-        Or ltOrEqEndDate = new Or(ltEndDate, eEndDate);
-
-        GreaterThan gtStartDate = new GreaterThan("startDate", this.startDate);
-        Equals eStartDate = new Equals("startDate", this.startDate);
-        Or gtOrEqStartDate = new Or(gtStartDate, eStartDate);
-
-        And gtOrEqStartDateAndltOrEqEndDate = new And(gtOrEqStartDate, ltOrEqEndDate);
-        And dateAndRate = new And(inflRCandRT, gtOrEqStartDateAndltOrEqEndDate);
-
-        Equals onOffCampus = new Equals("onOffCampusFlag", costElement.getOnOffCampusFlag());
-        And dateAndRateAndOnOffCampusFlag = new And(dateAndRate, onOffCampus);
-
-        if (personnelLineItem.getApplyInRateFlag()) {
-            return getInflationRates() == null ? new QueryList<BudgetRate>(budget.getBudgetRates())
-                    .filter(dateAndRateAndOnOffCampusFlag) : getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
-        }
-        else {
-            return new QueryList<BudgetRate>();
-        }
-
+    private ValidCeRateType getInflationRateType(CostElement costElement) {
+        return costElement.getValidCeRateTypes().stream().filter(t -> t.getRateClassType().equals(RateClassType.INFLATION.getRateClassType())).findFirst().get();
     }
 
     private QueryList<BudgetPerson> filterBudgetPersons() {
-        QueryList<BudgetPerson> filteredPersons = new QueryList<BudgetPerson>();
 
-        if (budget.getBudgetPersons().isEmpty()){
-        	return filteredPersons;
+        final List<BudgetPerson> persons = budget.getBudgetPersons();
+        if (persons.isEmpty()) {
+            return new QueryList<>();
         }
 
-        QueryList<BudgetPerson> budgetPersons = new QueryList<BudgetPerson>(budget.getBudgetPersons());
-
-        Equals ePersonSeqNumber = new Equals("personSequenceNumber", personnelLineItem.getPersonSequenceNumber());
-        QueryList<BudgetPerson> fltdBudgetPersonList = budgetPersons.filter(ePersonSeqNumber);
-        if (fltdBudgetPersonList.isEmpty()){
-            return filteredPersons;
+        final Optional<BudgetPerson> first = persons.stream().filter(person -> person.getPersonSequenceNumber().equals(personnelLineItem.getPersonSequenceNumber())).findFirst();
+        if (!first.isPresent()) {
+            return new QueryList<>();
         }
-        BudgetPerson budgetPerson = fltdBudgetPersonList.get(0);
-        Equals ePersonId = new Equals("personId", budgetPerson.getPersonId());
-        Equals eJobCode = new Equals("jobCode", budgetPerson.getJobCode());
-        Equals eRolodexId = new Equals("rolodexId", budgetPerson.getRolodexId());
-        And personIdAndJobCode = new And(ePersonId, eJobCode);
-        And personIdAndRoldexIdAndJobCode = new And(personIdAndJobCode, eRolodexId);
-        LesserThan ltEndDate = new LesserThan("effectiveDate", this.endDate);
-        Equals eEndDate = new Equals("effectiveDate", this.endDate);
-        Or ltOrEqEndDate = new Or(ltEndDate, eEndDate);
-        And personIdAndJobCodeAndltOrEqEndDate = new And(personIdAndRoldexIdAndJobCode, ltOrEqEndDate);
 
-        filteredPersons = budgetPersons.filter(personIdAndJobCodeAndltOrEqEndDate);
-        LOG.debug("budget persons list size after filtering persons list with oprator" + personIdAndJobCodeAndltOrEqEndDate
-                + " is " + filteredPersons.size());
+        final List<BudgetPerson> filteredPersons = persons.stream().filter(person -> {
+            final boolean personIdEquals = StringUtils.equals(person.getPersonId(), first.get().getPersonId());
+            final boolean jobCodeEquals = StringUtils.equals(person.getJobCode(),first.get().getJobCode());
+            final boolean rolodexIdEquals = Objects.equals(person.getRolodexId(), first.get().getRolodexId());
+            final boolean effectiveDateLtEqualsEndDate = Objects.compare(person.getEffectiveDate(), this.endDate, Comparator.<Date>naturalOrder()) <= 0;
+            return personIdEquals && jobCodeEquals && rolodexIdEquals && effectiveDateLtEqualsEndDate;
+        }).collect(Collectors.toList());
 
-        LesserThan ltStartDate = new LesserThan("effectiveDate", this.startDate);
-        Equals eStartDate = new Equals("effectiveDate", this.startDate);
-        Or ltOrEqStartDate = new Or(ltStartDate, eStartDate);
-        QueryList<BudgetPerson> tmpFltdPersons = filteredPersons.filter(ltOrEqStartDate);
-        List<BudgetPerson> removeList = new ArrayList<BudgetPerson>();
-        for (BudgetPerson bgPerson : tmpFltdPersons) {
-            if (bgPerson.getEffectiveDate().compareTo(budgetPerson.getEffectiveDate()) == 0
-                    && bgPerson.getPersonSequenceNumber().intValue() != budgetPerson.getPersonSequenceNumber().intValue()) {
-                removeList.add(bgPerson);
-            }
-        }
-        tmpFltdPersons.removeAll(removeList);
-        boolean noCalcBase = false;
-        if (tmpFltdPersons.isEmpty()) {
-            noCalcBase = true;
-        }
-        LOG.debug("budget persons list size after filtering persons list after removing " + ltOrEqStartDate + " is "
-                + filteredPersons.size());
-        if (!tmpFltdPersons.isEmpty()) {
+        final Optional<BudgetPerson> tmpFirst = filteredPersons.stream().filter(person -> {
+            final boolean effectiveDateLtEqualsStartDate = Objects.compare(person.getEffectiveDate(), this.startDate, Comparator.<Date>naturalOrder()) <= 0;
+            final boolean effectiveDateEquals = Objects.compare(person.getEffectiveDate(), first.get().getEffectiveDate(), Comparator.<java.sql.Date>naturalOrder()) == 0;
+            final boolean seqNotEquals = person.getPersonSequenceNumber().intValue() != first.get().getPersonSequenceNumber();
+            return effectiveDateLtEqualsStartDate && !(effectiveDateEquals && seqNotEquals);
+        }).sorted(Comparator.comparing(BudgetPerson::getEffectiveDate).reversed()).findFirst();
+
+        if (tmpFirst.isPresent()) {
             filteredPersons.clear();
-            tmpFltdPersons.sort("effectiveDate", false);
-            filteredPersons.add(tmpFltdPersons.get(0));
-            LOG.debug("actual filtered persons list size is" + filteredPersons.size());
-        }
-        if (noCalcBase) {
+            filteredPersons.add(tmpFirst.get());
+        } else {
             StringBuilder warningMsg = new StringBuilder("Base salary information is not available for the person ");
             StringBuilder errMsg = new StringBuilder("Error finding the calculation base for the person ");
             errMsg.append(this.personnelLineItem.getPersonId());
@@ -200,8 +159,7 @@ public class SalaryCalculator {
             warningMsg.append(" to ");
             if (!filteredPersons.isEmpty()) {
                 warningMsg.append(dateTimeService.toDateString(add(filteredPersons.get(0).getEffectiveDate(), -1)));
-            }
-            else {
+            } else {
                 warningMsg.append(dateTimeService.toDateString(personnelLineItem.getEndDate()));
             }
             warningMsg.append("\n");
@@ -210,7 +168,8 @@ public class SalaryCalculator {
             warningList.add(warningMsg.toString());
             errorList.add(errMsg.toString());
         }
-        return filteredPersons;
+
+        return new QueryList<>(filteredPersons);
     }
 
     /**
@@ -718,28 +677,9 @@ public class SalaryCalculator {
     }
 
     private QueryList<BudgetRate> filterInflationRates(Date sDate, Date eDate) {
-        CostElement costElement = personnelLineItem.getCostElementBO();
-        if (costElement == null) {
-            BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-            Map<String, String> pkMap = new HashMap<String, String>();
-            pkMap.put("costElement", personnelLineItem.getCostElement());
-            costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, pkMap);
-        }
-        List<ValidCeRateType> costElementRates = costElement.getValidCeRateTypes();
-        if (costElementRates == null || costElementRates.isEmpty()) {
-            costElement.refreshReferenceObject("validCeRateTypes");
-            costElementRates = costElement.getValidCeRateTypes();
-        }
-        ValidCeRateType inflationRateType = null;
-        if (costElementRates != null){
-            for (ValidCeRateType validCeRateType : costElementRates) {
-                if (validCeRateType.getRateClassType().equals(RateClassType.INFLATION.getRateClassType())) {
-                    inflationRateType = validCeRateType;
-                    LOG.info("Costelement " + costElement + " gets inflation");
-                    break;
-                }
-            }
-        }
+        final CostElement costElement = getCostElement(personnelLineItem);
+        final ValidCeRateType inflationRateType = getInflationRateType(costElement);
+
         Equals eInflationRC = null;
         Equals eInflationRT = null;
         And inflRCandRT = null;
