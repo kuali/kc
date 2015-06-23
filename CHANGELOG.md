@@ -1,6 +1,30 @@
 
 
 ##CURRENT
+* Fix Calculate Button On Summary Personnel Item Details
+
+  * Testing and documenting the use of Summary instead of project person in the budget.
+  * If I edit the entered Requested Salary field and click calculate, the screen does not refresh to display the revised Fringe amount. The user has to close the window and then the period screen refreshes to show the amount. The calculate works/refreshes fringe when a project person is used.
+  * The intent of using Summary is to enter an uncalculated salary value to meet a specific sponsor request - usually. So it is helpful to the user to be able to see the calc' fringe amount so they can revise the base salary, if needed. They have to close and re-open the window to see the change now.
+
+  * Steps to Reproduce
+
+    create a proposal and create a new budget
+    navigate to assign personnel to periods
+    assign personnel
+    select summary as the "person" to add
+    choose object code (like admin -on)
+    assign to period 1
+    open details modal
+    enter requested salary
+    click calculate button
+
+  * Result: Nothing happens
+  * Expected Result: The Calculated Fringe and Underrecovery F&A calculations should update if there are rates associated with those types for this proposal
+  * Joe Williams on Tue, 23 Jun 2015 09:46:35 -0500 [View Commit](../../commit/c6427fe8f7350b06f4522dd6e2b463dc5506a188)
+* Update README.md  * Gayathri Athreya on Tue, 23 Jun 2015 09:04:37 -0700 [View Commit](../../commit/89a2c48f9c9c1e85609db70e86a2afd45094e687)
+
+##coeus-1506.53
 * No Changes
 
 
