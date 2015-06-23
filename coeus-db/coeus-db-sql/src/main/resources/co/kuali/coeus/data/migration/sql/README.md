@@ -1,6 +1,6 @@
 # SQL Installation Instructions
 
-The folders here contain scripts to facilitate the installation of the necessary Mysql or Oracle database in order to run KC. Inside the mysql and oracle directories you will find a series of scripts named similarly to the following.
+The folders here contain scripts to facilitate the installation of the necessary Mysql or Oracle database in order to run KC. Inside the mysql and oracle directories you will find a series of scripts named similar to the following.
 
 * 600_mysql_kc_demo.sql
 * 600_mysql_kc_rice_server_upgrade.sql
