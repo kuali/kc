@@ -32,7 +32,6 @@ import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonService;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetSavePersonnelEvent;
-import org.kuali.coeus.common.budget.impl.personnel.BudgetPersonnelRule;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -116,7 +115,7 @@ public class BudgetPersonnelRuleTest {
         budget.getBudgetPerson(0).setJobCode("Foo");
         
         context.checking(new Expectations() {
-            {   
+            {
                 oneOf(rule.getBudgetPersonService()).getApplicableCostElements(budget, "1");
                 will(returnValue(Collections.emptyList()));
             }});

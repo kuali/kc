@@ -163,6 +163,15 @@ public abstract class ProposalBudgetControllerBase {
     public ModelAndView save(ProposalBudgetForm form) {
         if (form.isCanEditView()) {
         	saveBudget(form);
+        } else {
+            getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
+            getBudgetSummaryService().setupOldStartEndDate(form.getBudget(), false);
+            form.setBudgetModularSummary(budgetModularService.generateModularSummary(form.getBudget()));
+            validateBudgetExpenses(form);
+        }
+
+        if (form.isAuditActivated()){
+        	((ProposalBudgetViewHelperServiceImpl)form.getViewHelperService()).applyBudgetAuditRules(form);
         }
         checkAudit(form);
         return getModelAndViewService().getModelAndView(form);
