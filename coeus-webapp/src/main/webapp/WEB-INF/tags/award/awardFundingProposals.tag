@@ -118,10 +118,8 @@
    i.e. kul:htmlControlAttribute property="${fundingProposalBean.awardVersions[awardRrowStatus.index]}.fundingProposals[proosalRowStatus.index].sequenceNumber}"
 4) Add total of funding proposals for each version 
  --%>
- 			<c:forEach var="award" items="${KualiForm.fundingProposalBean.allAwardsForAwardNumber}" varStatus="awardRowStatus">
- 				<c:set var="isLastAward" value="${awardRowStatus.index == (KualiForm.fundingProposalBean.allAwardsForAwardNumberSize - 1)}" />
- 				<c:forEach var="fundingProposal" items="${award.fundingProposals}" varStatus="fundingProposalRowStatus">
-			    	<c:set var="awardExpr" value="fundingProposalBean.allAwardsForAwardNumber[${awardRowStatus.index}]" />
+ 				<c:forEach var="fundingProposal" items="${KualiForm.awardDocument.award.allFundingProposalsSortedBySequence}" varStatus="fundingProposalRowStatus">
+ 					<c:set var="isLastAward" value="${fundingProposal.award.sequenceNumber == KualiForm.awardDocument.award.sequenceNumber}" />
 			    	<c:set var="parentTab" value="Funding Proposals" scope="request"/>
 			    	<c:set var="versionTab" value="FundingProposals${awardRowStatus.index}${fundingProposalRowStatus.index}"/>
 			    	<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, versionTab)}"/>
@@ -157,38 +155,31 @@
 								 <div align="center">${fundingProposal.award.sequenceNumber}</div>
 					    	</td>
 					    	<td class="tab-subhead">
-					    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.principalInvestigator.fullName" 
-													  attributeEntry="${fundingProposalAttributes.initialContractAdmin}" readOnly="true" />							 
+					    		<c:out value="${fundingProposal.proposal.principalInvestigator.fullName }"/>
 					    	</td>
 					    	<td class="tab-subhead">
-				    			<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.leadUnit.unitNumber" 
-																attributeEntry="${unitAttributes.unitNumber}" readOnly="true" />
+					    		<c:out value="${fundingProposal.proposal.leadUnit.unitNumber }"/>
 								&nbsp;-&nbsp;
-								<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.leadUnit.unitName" 
-																attributeEntry="${unitAttributes.unitName}" readOnly="true" />
+								<c:out value="${fundingProposal.proposal.leadUnit.unitName}" />
 					    	</td>
 					    	<td class="tab-subhead">
-					    		<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorCode" 
-																attributeEntry="${sponsorAttributes.sponsorCode}" readOnly="true" />
+					    		<c:out value="${fundingProposal.proposal.sponsorCode}" />
 								&nbsp;
-								<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.sponsorName" 
-																attributeEntry="${sponsorAttributes.sponsorName}" readOnly="true" />
+								<c:out value="${fundingProposal.proposal.sponsorName }" />
 				    		</td>
 				    		<td class="tab-subhead">
 				    			<div align="center">
-									<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.requestedStartDateTotal" 
-																attributeEntry="${fundingProposalAttributes.requestedStartDateTotal}" readOnly="true" />
+				    				<fmt:formatDate value="${fundingProposal.proposal.requestedStartDateTotal }" pattern="MM/dd/yyyy"/>
 								</div>															    		
 					    	</td>
 					    	<td class="tab-subhead">
 					    		<div align="center">
-									<kul:htmlControlAttribute property="${awardExpr}.fundingProposals[${fundingProposalRowStatus.index}].proposal.requestedEndDateTotal" 
-																	attributeEntry="${fundingProposalAttributes.requestedEndDateTotal}" readOnly="true" />
+				    				<fmt:formatDate value="${fundingProposal.proposal.requestedEndDateTotal }" pattern="MM/dd/yyyy"/>					    			
 								</div>    		
 				    		</td>
 					    	<td class="tab-subhead">
 					    		<div align="right">
-					    			$<fmt:formatNumber value="${award.fundingProposals[fundingProposalRowStatus.index].proposal.totalCost}" type="currency" currencySymbol="" maxFractionDigits="2" />
+					    			$<fmt:formatNumber value="${fundingProposal.proposal.totalCost}" type="currency" currencySymbol="" maxFractionDigits="2" />
 					    		</div>   		
 					    	</td>
 				    	    <td class="tab-subhead">
@@ -215,28 +206,25 @@
 		      		<tbody style="${displayStyle}" id = "tab-${versionTab}-div">
 			      		<tr>
 			      			<td colspan="9" class="infoline">
-		      					<kra-a:awardFundingProposalDetails awardRowIndex="${awardRowStatus.index}" fundingProposalRowIndex="${fundingProposalRowStatus.index}" />
-		      					<kra-a:awardFundingProposalBudgetDetails awardRowIndex="${awardRowStatus.index}" fundingProposalRowIndex="${fundingProposalRowStatus.index}"/>
+		      					<kra-a:awardFundingProposalDetails fundingProposal="${fundingProposal}" />
+		      					<kra-a:awardFundingProposalBudgetDetails fundingProposal="${fundingProposal}"/>
 			      			</td>
 			      		</tr>
 			         </tbody>
 				</c:forEach>
-				<c:if test="${isLastAward}">
-					<tr>
-		      			<th colspan="7" class="infoline">
-		      				<div align="right">
-		      					Total:
-		      				</div>
-		      			</th>
-		      			<%-- To fix JIRA KRACOEUS-4366 --%>
-		      			<th align="right" style="padding-right:2px">
-		      				$<fmt:formatNumber value="${KualiForm.fundingProposalBean.totalCostOfFundingProposals}" type="currency" currencySymbol="" maxFractionDigits="2" />
-		      			</th>
-		      			<th></th>
-		      			
-		      		</tr>
-	      		</c:if>
-			</c:forEach>
+				<tr>
+	      			<th colspan="7" class="infoline">
+	      				<div align="right">
+	      					Total:
+	      				</div>
+	      			</th>
+	      			<%-- To fix JIRA KRACOEUS-4366 --%>
+	      			<th align="right" style="padding-right:2px">
+	      				$<fmt:formatNumber value="${KualiForm.fundingProposalBean.totalCostOfFundingProposals}" type="currency" currencySymbol="" maxFractionDigits="2" />
+	      			</th>
+	      			<th></th>
+	      			
+	      		</tr>
 	  	</table>
 	</div>
 </kul:tab>
