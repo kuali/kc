@@ -335,6 +335,10 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.setAuditActivated(true);
 
         ValidationState status = getAuditHelper().isValidSubmission(awardForm, true);
+
+        if (awardForm.getUnitRulesErrors().size() > 0) {
+            status = ValidationState.ERROR;
+        }
         
         if (status == ValidationState.WARNING) {
             return handleWarning(mapping, form, request, response);
