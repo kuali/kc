@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+* code clean up
+  * Joe Williams on Tue, 23 Jun 2015 15:20:19 -0500 [View Commit](../../commit/9f4d091488f99e2264b533db72217e2a5111fd70)
+* prevent award submission when krms errors are present
+
+  * Looks to be same issue as KRACOEUS-6343 and KRACOEUS-6502 but fixes not extended to all modules.
+  * built a Term Specification, Term, and Agenda to create a validation that would not allow sponsorCode = 000400. I then created an award and selected the sponsor of 000400 and then 'turned on validations' and the error displayed appropriately in the Unit Business Rules Errors' section. However, even though there was an error present upon validation I was able to submit the Award into routing. I tested the very same field and validation in Propdev and the system prevented the user from submitting into routing because of the error. See attached screenshot for further reference.
+  * Joe Williams on Tue, 23 Jun 2015 15:21:00 -0500 [View Commit](../../commit/1c6fb22fdcee3b99c34e53e6fa2978809cacf6d0)
+*  Do not create pessimistic locks in view mode.
+  * Steps:
+  * Open proposal from loolup in view mode. Without closing proposal, go to pessimistic locks lookup and search. See the proposal in the lookup.
+  * Gayathri Athreya on Tue, 23 Jun 2015 13:36:49 -0700 [View Commit](../../commit/0562a80508f7fd8783306267106fb7e93a3e9591)
+
+##coeus-1506.55
 * Always populate negotiation documents with most recent custom data attributes
 
   * Steps to Recreate:
