@@ -56,7 +56,6 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     private static final long serialVersionUID = 1L;
     private ProtocolFormBase form;
 
-    //new reviewer data
     private Long newProtocolReviewCommitteeMembershipId;
     private String newReviewerTypeCode;
     private Date newReviewDateRequested;
@@ -293,7 +292,6 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     /**
      * Sets the newProtocolReviewPersonId attribute value.
      *
-     * @param newProtocolReviewPersonId The newProtocolReviewPersonId to set.
      */
     public void setNewProtocolReviewCommitteeMembershipId(Long newProtocolReviewCommitteeMembershipId) {
         this.newProtocolReviewCommitteeMembershipId = newProtocolReviewCommitteeMembershipId;
@@ -371,6 +369,9 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     }
 
     public Map<String, Object> getHelperMapByDocumentNumber(String documentNumber) {
+        if (documentHelperMap == null) {
+            initDocumentHelperMap();
+        }
         Map<String, Object> helperMap = documentHelperMap.get(documentNumber);
         if (helperMap == null) {
             throw new IllegalArgumentException(String.format("Document %s does not exist in the helper map.", documentNumber));
