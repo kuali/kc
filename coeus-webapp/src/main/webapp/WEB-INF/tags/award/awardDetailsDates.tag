@@ -33,7 +33,7 @@
 	<h3>
    		<span class="subhead-left">Details and Dates</span>
    		<span class="subhead-right">
-   		    <c:if test="${fn:length(KualiForm.awardsForHistoryDisplay) > 0}" >
+   		    <c:if test="${KualiForm.awardDocument.award.sequenceNumber > 1}" >
       	        <a href="${pageContext.request.contextPath}/awardHistory.do?command=redirectAwardHistoryFullViewForPopup&awardDocumentNumber=${KualiForm.document.documentNumber}&awardNumber=${KualiForm.document.awardList[0].awardNumber}&docTypeName=${KualiForm.docTypeName}" target="_blank" >
                     <img align="top" width="80" height="15" alt="View History" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewhistory.gif" styleClass="tinybutton" />
                 </a>

@@ -27,4 +27,6 @@ public interface TimeAndMoneyVersionService {
     public TimeAndMoneyDocument findOpenedTimeAndMoney(String awardNumber) throws WorkflowException;
 
     public void updateDocumentStatus(TimeAndMoneyDocument document, VersionStatus status);
+    
+    public String getCurrentTimeAndMoneyDocumentNumber(String awardNumber);
 }
