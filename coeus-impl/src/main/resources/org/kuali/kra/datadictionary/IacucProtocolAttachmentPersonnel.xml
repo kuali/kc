@@ -100,21 +100,12 @@
 		<property name="name" value="personId" />
 		<property name="label" value="Person" />
 		<property name="shortLabel" value="Person" />
-	    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.iacuc.personnel.IacucProtocolPerson" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="protocolPersonId" p:labelAttribute="personName"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.iacuc.personnel.IacucProtocolPerson"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="protocolPersonId"/>
-        <property name="labelAttributeName" value="personName"/>
-      </bean>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-	    </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="40" parent="Uif-TextControl"/>
+        </property>
 		<property name="summary" value="Person" />
 		<property name="description" value="Person" />
 	</bean>
