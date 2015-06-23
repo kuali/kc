@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Fixing online review issue.
+  * Not easily reproducible but getting this in both IRB and IACUC protocols at times on performing Protocol Actions or trying to access an online review: org.kuali.rice.core.api.exception.RiceRuntimeException: The workflow document is null. This indicates that the DocumentHeader has not been initialized properly. This can be caused by not retrieving a document using the DocumentService. at org.kuali.rice.krad.bo.DocumentHeader.getWorkflowDocument(DocumentHeader.java:75)
+  * In res1-demo1, login as oblood, got to All My Reviews, and open IACUC Protocol #: 1506000154, go to Online Review tab and see that it doesn't render correctly, then go to Protocol Actions, and see the error.
+  * Gayathri Athreya on Tue, 23 Jun 2015 10:28:41 -0700 [View Commit](../../commit/a5dbfbe452b3bb36eccbad79edc0b2ea18462763)
+
+##coeus-1506.56
 * code clean up
   * Joe Williams on Tue, 23 Jun 2015 15:20:19 -0500 [View Commit](../../commit/9f4d091488f99e2264b533db72217e2a5111fd70)
 * prevent award submission when krms errors are present
