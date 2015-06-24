@@ -28,27 +28,28 @@ import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
  */
 public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS, CMT, PS, CSM>,
                                               CMT extends CommitteeBase<CMT, ?, CS>, 
-                                              PS extends ProtocolSubmissionBase,
+                                              PS extends ProtocolSubmissionLiteBase,
                                               CSM extends CommitteeScheduleMinuteBase<CSM, CS>>
 
                                               extends CommitteeAssociateBase implements Comparable<CS>, Permissionable{
 
     private static final long serialVersionUID = -360139608123017188L;
     public static final Long DEFAULT_SCHEDULE_ID = 9999999999L;
-    public static final String DISAPPROVED = "Disapproved";
 
     private Time12HrFmt viewTime;
     
@@ -480,34 +481,9 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
     }
 
     public List<PS> getLatestProtocolSubmissions() {
-        TreeMap<String, PS> latestSubmissions = new TreeMap<String, PS>();
-        List<PS> returnList = new ArrayList<PS>();
-        for (PS submission : protocolSubmissions) {
-            // gonna do something a little hacktacular here... in some cases, protocol and/or protocol number might not be set.
-            // in that case, go ahead and pass submissions on to caller
-            if (submission.getProtocol() == null || StringUtils.isBlank(submission.getProtocol().getProtocolNumber())) {
-                returnList.add(submission);
-            } else {
-                String key = submission.getProtocol().getProtocolNumber();
-                if (submission.getProtocol().isActive() ||
-                        StringUtils.equals(submission.getProtocol().getProtocolStatus().getDescription(), DISAPPROVED)) {
-                    PS existingSubmission = latestSubmissions.get(key);
-                    if (existingSubmission == null) {
-                        latestSubmissions.put(key, submission);
-                    } else {
-                        int newInt = submission.getSequenceNumber().intValue();
-                        int existInt = existingSubmission.getSequenceNumber().intValue();
-                        int newSubNum = submission.getSubmissionNumber().intValue();
-                        int existSubNum = existingSubmission.getSubmissionNumber().intValue();
-                        if ((newInt > existInt) || ((newInt == existInt) && (newSubNum > existSubNum))){
-                            latestSubmissions.put(key, submission);
-                        }
-                    }
-                }
-            }
-        }
-        returnList.addAll(latestSubmissions.values());
-        return returnList;
+        return protocolSubmissions.stream()
+                .filter(submission -> submission.isProtocolActive() || StringUtils.equals(submission.getProtocolStatusCode(), ProtocolStatus.DISAPPROVED))
+                .collect(Collectors.toList());
     }
 
     public void setProtocolSubmissions(List<PS> protocolSubmissions) {

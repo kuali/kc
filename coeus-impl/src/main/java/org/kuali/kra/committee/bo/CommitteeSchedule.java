@@ -19,13 +19,13 @@
 package org.kuali.kra.committee.bo;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
  */
-public class CommitteeSchedule extends CommitteeScheduleBase<CommitteeSchedule, Committee, ProtocolSubmission, CommitteeScheduleMinute> { 
+public class CommitteeSchedule extends CommitteeScheduleBase<CommitteeSchedule, Committee, ProtocolSubmissionLite, CommitteeScheduleMinute> {
     
     private static final long serialVersionUID = -360139608123017188L;
     

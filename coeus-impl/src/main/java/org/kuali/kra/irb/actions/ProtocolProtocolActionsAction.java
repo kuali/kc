@@ -80,11 +80,7 @@ import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
 import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
 import org.kuali.kra.irb.actions.reviewcomments.*;
 import org.kuali.kra.irb.actions.risklevel.*;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionEvent;
-import org.kuali.kra.irb.actions.submit.ValidProtocolActionAction;
+import org.kuali.kra.irb.actions.submit.*;
 import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.undo.UndoLastActionService;
 import org.kuali.kra.irb.auth.ProtocolTask;
@@ -307,10 +303,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return isMax;
     }
 
-    private int activeSubmissonCount(List<ProtocolSubmission> submissions) {
+    private int activeSubmissonCount(List<ProtocolSubmissionLite> submissions) {
         int count = 0;
-        for (ProtocolSubmission submission : submissions) {
-            if (submission.getProtocol().isActive()) {
+        for (ProtocolSubmissionLite submission : submissions) {
+            if (submission.isProtocolActive()) {
                 count++;
             }
         }

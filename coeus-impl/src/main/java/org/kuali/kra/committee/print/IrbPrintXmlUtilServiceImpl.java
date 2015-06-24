@@ -235,7 +235,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
     }
 
     public void setProcotolMinutes(CommitteeSchedule committeeSchedule,
-            org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmission protocolSubmissionType) {
+            org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission, ProtocolSubmission protocolSubmissionType) {
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
             ProtocolBase protocol = minuteEntryInfoBean.getProtocol();

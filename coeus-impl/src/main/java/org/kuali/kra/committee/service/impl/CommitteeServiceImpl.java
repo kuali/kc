@@ -24,13 +24,13 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 
 /**
  * The Committee Service implementation.
  */
-public class CommitteeServiceImpl extends CommitteeServiceImplBase<Committee, CommitteeSchedule, ProtocolSubmission, CommitteeScheduleMinute> implements CommitteeService {
+public class CommitteeServiceImpl extends CommitteeServiceImplBase<Committee, CommitteeSchedule, ProtocolSubmissionLite, CommitteeScheduleMinute> implements CommitteeService {
 
     @Override
     protected Class<Committee> getCommitteeBOClassHook() {

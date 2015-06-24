@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2015 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="IacucProtocolSubmissionLite" parent="IacucProtocolSubmissionLite-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionLite" />
+		<property name="objectLabel" value="IACUC Protocol Submission" />
+        <property name="inquiryDefinition" >
+            <ref bean="IacucProtocolSubmissionLite-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="IacucProtocolSubmissionLite-lookupDefinition" />
+        </property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingProtocolSubmittedHelpUrl" p:parameterDetailType="Document" />
+        </property>
+        <property name="titleAttribute" value="submissionNumber" />
+        <property name="attributes" >
+            <list>
+                <ref bean="IacucProtocolSubmissionLite-submissionNumber" />
+                <ref bean="IacucProtocolSubmissionLite-protocolNumber" />
+                <ref bean="IacucProtocolSubmissionLite-sequenceNumber" />
+                <ref bean="IacucProtocolSubmissionLite-scheduleId" />
+                <ref bean="IacucProtocolSubmissionLite-committeeId" />
+                <ref bean="IacucProtocolSubmissionLite-committeeIdFk" />
+                <ref bean="IacucProtocolSubmissionLite-submissionTypeCode" />
+                <ref bean="IacucProtocolSubmissionLite-submissionTypeQualifierCode" />
+                <ref bean="IacucProtocolSubmissionLite-protocolReviewTypeCode" />
+                <ref bean="IacucProtocolSubmissionLite-submissionStatusCode" />
+                <ref bean="IacucProtocolSubmissionLite-submissionDate" />
+                <ref bean="IacucProtocolSubmissionLite-comments" />
+                <ref bean="IacucProtocolSubmissionLite-committeeDecisionMotionTypeCode" />
+                <ref bean="IacucProtocolSubmissionLite-yesVoteCount" />
+                <ref bean="IacucProtocolSubmissionLite-noVoteCount" />
+                <ref bean="IacucProtocolSubmissionLite-abstainerCount" />
+                <ref bean="IacucProtocolSubmissionLite-votingComments" />
+                <ref bean="IacucProtocolSubmissionLite-versionNumber" />
+                <ref bean="IacucProtocolSubmissionLite-protocolTitle" />
+                <ref bean="IacucProtocolSubmissionLite-piName" />
+                <ref bean="IacucProtocolSubmissionLite-submissionStatus.description" />
+                <ref bean="IacucProtocolSubmissionLite-protocolSubmissionType.description" />
+                <ref bean="IacucProtocolSubmissionLite-protocolReviewType.description" />
+                <ref bean="IacucProtocolSubmissionLite-protocolSubmissionQualifierType.description" />
+                <ref bean="IacucProtocolSubmissionLite-isBillable" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="IacucProtocolSubmissionLite-submissionNumber" parent="IacucProtocolSubmissionLite-submissionNumber-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-submissionNumber-parentBean" abstract="true" parent="IacucProtocolSubmission-submissionNumber" />
+
+    <bean id="IacucProtocolSubmissionLite-protocolNumber" parent="IacucProtocolSubmissionLite-protocolNumber-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-protocolNumber-parentBean" abstract="true" parent="IacucProtocolSubmission-protocolNumber" />
+
+    <bean id="IacucProtocolSubmissionLite-sequenceNumber" parent="IacucProtocolSubmissionLite-sequenceNumber-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-sequenceNumber-parentBean" abstract="true" parent="IacucProtocolSubmission-sequenceNumber" />
+
+    <bean id="IacucProtocolSubmissionLite-scheduleId" parent="IacucProtocolSubmissionLite-scheduleId-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-scheduleId-parentBean" abstract="true" parent="IacucProtocolSubmission-scheduleId" />
+
+    <bean id="IacucProtocolSubmissionLite-committeeId" parent="IacucProtocolSubmissionLite-committeeId-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-committeeId-parentBean" abstract="true" parent="IacucProtocolSubmission-committeeId" />
+
+    <bean id="IacucProtocolSubmissionLite-committeeIdFk" parent="IacucProtocolSubmissionLite-committeeIdFk-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-committeeIdFk-parentBean" abstract="true" parent="IacucProtocolSubmission-committeeIdFk" />
+
+    <bean id="IacucProtocolSubmissionLite-submissionTypeCode" parent="IacucProtocolSubmissionLite-submissionTypeCode-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-submissionTypeCode-parentBean" abstract="true" parent="IacucProtocolSubmission-submissionTypeCode" />
+
+    <bean id="IacucProtocolSubmissionLite-submissionTypeQualifierCode" parent="IacucProtocolSubmissionLite-submissionTypeQualifierCode-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-submissionTypeQualifierCode-parentBean" abstract="true" parent="IacucProtocolSubmission-submissionTypeQualifierCode" />
+
+    <bean id="IacucProtocolSubmissionLite-protocolReviewTypeCode" parent="IacucProtocolSubmissionLite-protocolReviewTypeCode-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-protocolReviewTypeCode-parentBean" abstract="true" parent="IacucProtocolSubmission-protocolReviewTypeCode" />
+
+    <bean id="IacucProtocolSubmissionLite-submissionStatusCode" parent="IacucProtocolSubmissionLite-submissionStatusCode-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-submissionStatusCode-parentBean" abstract="true" parent="IacucProtocolSubmission-submissionStatusCode" />
+
+
+    <bean id="IacucProtocolSubmissionLite-submissionDate" parent="IacucProtocolSubmissionLite-submissionDate-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-submissionDate-parentBean" abstract="true" parent="IacucProtocolSubmission-submissionDate" />
+
+
+    <bean id="IacucProtocolSubmissionLite-submissionFromDate" parent="IacucProtocolSubmissionLite-submissionFromDate-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-submissionFromDate-parentBean" abstract="true" parent="IacucProtocolSubmission-submissionFromDate" />
+
+
+    <bean id="IacucProtocolSubmissionLite-submissionToDate" parent="IacucProtocolSubmissionLite-submissionToDate-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-submissionToDate-parentBean" abstract="true" parent="IacucProtocolSubmission-submissionToDate" />
+
+    <bean id="IacucProtocolSubmissionLite-piName" parent="IacucProtocolSubmissionLite-piName-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-piName-parentBean" abstract="true" parent="IacucProtocolSubmission-piName">
+		<property name="name" value="piPersonName" />
+    </bean>
+
+    <bean id="IacucProtocolSubmissionLite-protocolTitle" parent="IacucProtocolSubmissionLite-protocolTitle-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-protocolTitle-parentBean" abstract="true" parent="IacucProtocolSubmission-protocolTitle" />
+
+    <bean id="IacucProtocolSubmissionLite-comments" parent="IacucProtocolSubmissionLite-comments-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-comments-parentBean" abstract="true" parent="IacucProtocolSubmission-comments" />
+    
+    <bean id="IacucProtocolSubmissionLite-committeeDecisionMotionTypeCode" parent="IacucProtocolSubmissionLite-committeeDecisionMotionTypeCode-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-committeeDecisionMotionTypeCode-parentBean" abstract="true" parent="IacucProtocolSubmission-committeeDecisionMotionTypeCode" />
+
+    <bean id="IacucProtocolSubmissionLite-yesVoteCount" parent="IacucProtocolSubmissionLite-yesVoteCount-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-yesVoteCount-parentBean" abstract="true" parent="IacucProtocolSubmission-yesVoteCount" />
+
+    <bean id="IacucProtocolSubmissionLite-noVoteCount" parent="IacucProtocolSubmissionLite-noVoteCount-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-noVoteCount-parentBean" abstract="true" parent="IacucProtocolSubmission-noVoteCount" />
+
+
+    <bean id="IacucProtocolSubmissionLite-abstainerCount" parent="IacucProtocolSubmissionLite-abstainerCount-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-abstainerCount-parentBean" abstract="true" parent="IacucProtocolSubmission-abstainerCount" />
+
+
+    <bean id="IacucProtocolSubmissionLite-votingComments" parent="IacucProtocolSubmissionLite-votingComments-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-votingComments-parentBean" abstract="true" parent="IacucProtocolSubmission-votingComments" />
+
+    <bean id="IacucProtocolSubmissionLite-versionNumber" parent="IacucProtocolSubmissionLite-versionNumber-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-versionNumber-parentBean" abstract="true" parent="IacucProtocolSubmission-versionNumber"/>
+
+    <bean id="IacucProtocolSubmissionLite-protocolReviewType.description" parent="IacucProtocolSubmissionLite-protocolReviewType.description-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-protocolReviewType.description-parentBean" abstract="true" parent="IacucProtocolSubmission-protocolReviewType.description"/>
+
+    <bean id="IacucProtocolSubmissionLite-submissionStatus.description" parent="IacucProtocolSubmissionLite-submissionStatus.description-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-submissionStatus.description-parentBean" abstract="true" parent="IacucProtocolSubmission-submissionStatus.description"/>
+
+    <bean id="IacucProtocolSubmissionLite-protocolSubmissionQualifierType.description" parent="IacucProtocolSubmissionLite-protocolSubmissionQualifierType.description-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-protocolSubmissionQualifierType.description-parentBean" abstract="true" parent="IacucProtocolSubmission-protocolSubmissionQualifierType.description"/>
+
+    <bean id="IacucProtocolSubmissionLite-protocolSubmissionType.description" parent="IacucProtocolSubmissionLite-protocolSubmissionType.description-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-protocolSubmissionType.description-parentBean" abstract="true" parent="IacucProtocolSubmission-protocolSubmissionType.description"/>
+
+    <bean id="IacucProtocolSubmissionLite-isBillable" parent="IacucProtocolSubmissionLite-isBillable-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-isBillable-parentBean" abstract="true" parent="IacucProtocolSubmission-isBillable" />
+
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="IacucProtocolSubmissionLite-inquiryDefinition" parent="IacucProtocolSubmissionLite-inquiryDefinition-parentBean" />
+    <bean id="IacucProtocolSubmissionLite-InquiryView" parent="IacucProtocolSubmissionLite-InquiryView-parentBean"/>
+    <bean id="IacucProtocolSubmissionLite-inquiryDefinition-parentBean" abstract="true" parent="IacucProtocolSubmission-inquiryDefinition-parentBean"/>
+
+
+  <bean id="IacucProtocolSubmissionLite-InquiryView-parentBean" abstract="true" parent="IacucProtocolSubmission-InquiryView-parentBean">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionLite"/>
+  </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="IacucProtocolSubmissionLite-lookupDefinition" parent="IacucProtocolSubmissionLite-lookupDefinition-parentBean" />
+  <bean id="IacucProtocolSubmissionLite-LookupView" parent="IacucProtocolSubmissionLite-LookupView-parentBean"/>
+    <bean id="IacucProtocolSubmissionLite-lookupDefinition-parentBean" abstract="true" parent="IacucProtocolSubmission-lookupDefinition"/>
+
+  <bean id="IacucProtocolSubmissionLite-LookupView-parentBean" abstract="true" parent="IacucProtocolSubmission-LookupView-parentBean">
+    <property name="dataObjectClassName" value="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionLite"/>
+  </bean>
+
+</beans>

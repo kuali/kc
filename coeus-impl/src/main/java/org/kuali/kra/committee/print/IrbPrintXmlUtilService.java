@@ -42,7 +42,7 @@ public interface IrbPrintXmlUtilService {
             SubmissionDetails protocolSubmissionDetail);
     public void setMinutes(CommitteeSchedule scheduleDetailsBean, Schedule schedule);
     public void setProcotolMinutes(CommitteeSchedule committeeSchedule, 
-            org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmission protocolSubmissionType);
+            org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission, ProtocolSubmission protocolSubmissionType);
     public void setProcotolSubmissionMinutes(CommitteeSchedule committeeSchedule,
             org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType);
     

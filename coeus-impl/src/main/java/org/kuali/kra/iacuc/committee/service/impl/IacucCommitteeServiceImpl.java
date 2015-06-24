@@ -20,14 +20,14 @@ package org.kuali.kra.iacuc.committee.service.impl;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeResearchAreaBase;
 import org.kuali.coeus.common.committee.impl.service.impl.CommitteeServiceImplBase;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionLite;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeResearchArea;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 
-public class IacucCommitteeServiceImpl extends CommitteeServiceImplBase<IacucCommittee, IacucCommitteeSchedule, IacucProtocolSubmission, IacucCommitteeScheduleMinute> implements IacucCommitteeService {
+public class IacucCommitteeServiceImpl extends CommitteeServiceImplBase<IacucCommittee, IacucCommitteeSchedule, IacucProtocolSubmissionLite, IacucCommitteeScheduleMinute> implements IacucCommitteeService {
 
     @Override
     protected Class<IacucCommittee> getCommitteeBOClassHook() {
