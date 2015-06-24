@@ -19,6 +19,7 @@
 package org.kuali.kra.award.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.coeus.common.framework.version.VersionStatus;
@@ -82,41 +83,36 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
     }
 
 	@Override
-	public SearchResults<Award> retrievePopulatedAwardByCriteria(
+	public SearchResults<Award> retrieveActiveAwardsByCriteria(
 			Map<String, Object> fieldValues, Date updatedSince, Integer page,
 			Integer numberPerPage) {
+		fieldValues.put(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
+		SearchResults<Award> result = retrieveAwardsByCriteria(fieldValues, updatedSince, page, numberPerPage);
+		return result;
+	}
 
+	public SearchResults<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer page, Integer numberPerPage) {
 		SearchResults<Award> result = new SearchResults<>();
 		Criteria origCrit = getCollectionCriteriaFromMap(new Award(), fieldValues);
 		Criteria crit = new Criteria();
-		crit.addEqualTo(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
 		if (updatedSince != null) {
 			crit.addGreaterOrEqualThan(UPDATE_TIMESTAMP, new java.sql.Date(updatedSince.getTime()));
 		}
 		crit.addAndCriteria(origCrit);
-		if (page != null) {
-			result.setTotalResults(getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(Award.class, crit)));
-			crit.addSql(generatePagingSql(page, numberPerPage == null ? 20 : numberPerPage));
+		crit.addOrderByDescending("awardId");
+		QueryByCriteria newCrit = QueryFactory.newQuery(Award.class, crit);QueryFactory.newQuery(Award.class, crit);
+		if (page != null && numberPerPage != -1) {
+			result.setTotalResults(getPersistenceBrokerTemplate().getCount(newCrit));
+			newCrit.setStartAtIndex((page-1)*numberPerPage);
+			newCrit.setEndAtIndex(page*numberPerPage);
 		}
 		
-		result.setResults(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, crit)));
+		final Collection queryResults = getPersistenceBrokerTemplate().getCollectionByQuery(newCrit);
 		
+		result.setResults(queryResults);
 		if (page == null) {
 			result.setTotalResults(result.getResults().size());
 		}
 		return result;
 	}
-	
-	public String generatePagingSql(Integer page, Integer numberPerPage) {
-		DatabasePlatform dbPlatform = getDbPlatform();
-		// OJB includes this as an AND to the existing statement so need it to say 'AND 1 = 1 ..."
-		String result = " 1 = 1 ORDER BY AWARD_ID ";
-		if (dbPlatform instanceof MySQLDatabasePlatform) {
-			return result + " LIMIT " + ((page-1)*numberPerPage) + "," + numberPerPage;
-		} else if (dbPlatform instanceof OracleDatabasePlatform) {
-			return result + " ROWNUM >= " + ((page-1)*numberPerPage) + " AND ROWNUM < " + (page*numberPerPage);
-		} else {
-			throw new UnsupportedOperationException("Unsupported database detected");
-		}
-	}  
 }

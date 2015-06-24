@@ -33,6 +33,9 @@
 		<collection-descriptor name="awardAmountTransactions" proxy="true" element-class-ref="org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="documentNumber"/>
 		</collection-descriptor>
+		<collection-descriptor name="awardAmountInfos" element-class-ref="org.kuali.kra.award.home.AwardAmountInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<inverse-foreignkey field-ref="timeAndMoneyDocumentNumber"/>
+		</collection-descriptor>
 	</class-descriptor>
 	
     <class-descriptor class="org.kuali.kra.timeandmoney.history.TransactionDetail" table="TRANSACTION_DETAILS">

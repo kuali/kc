@@ -2705,7 +2705,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
  
     public List<TimeAndMoneyDocumentHistory>getTimeAndMoneyDocumentHistoryList() throws WorkflowException {  
-        List<TimeAndMoneyDocument> tnmDocs = getTimeAndMoneyHistoryService().buildTimeAndMoneyListForAwardDisplay(this);
+        List<TimeAndMoneyDocument> tnmDocs = getTimeAndMoneyHistoryService().buildTimeAndMoneyListForAwardDisplay(this, true);
         List<TimeAndMoneyDocumentHistory> timeAndMoneyHistoryList = 
             getTimeAndMoneyHistoryService().getDocHistoryAndValidInfosAssociatedWithAwardVersion(tnmDocs,getAwardAmountInfos(), this);
         return timeAndMoneyHistoryList;

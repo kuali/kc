@@ -35,6 +35,8 @@ public interface AwardDao {
      */
     public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues);
     
-    public SearchResults<Award> retrievePopulatedAwardByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer pageNum, Integer numPerPage);
+    public SearchResults<Award> retrieveActiveAwardsByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer pageNum, Integer numPerPage);
+    
+    public SearchResults<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer page, Integer numberPerPage);
 
 }

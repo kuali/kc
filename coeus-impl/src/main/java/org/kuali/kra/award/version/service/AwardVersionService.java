@@ -18,6 +18,8 @@
  */
 package org.kuali.kra.award.version.service;
 
+import java.util.List;
+
 import org.kuali.kra.award.home.Award;
 
 /**
@@ -35,6 +37,8 @@ public interface AwardVersionService {
     public Award getActiveAwardVersion(String awardNumber);
 
     public Award getPendingAwardVersion(String awardNumber);
+    
+    public List<Award> getAllActiveAwardsForHierarchy(String awardNumber);
     
 
 }

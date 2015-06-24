@@ -301,6 +301,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     private void captureDateChangeTransactions(ActionForm form) throws WorkflowException {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
+        final List<AwardHierarchyNode> awardHierarchyNodeItems = timeAndMoneyForm.getAwardHierarchyNodeItems();
         //save rules have not been applied yet so there needs to be a null check on transaction type code before testing the value.
         boolean isNoCostExtension;
         if (timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
@@ -808,6 +809,22 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward timeAndMoneySummaryAndHistory(ActionMapping mapping, ActionForm form , HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+    	TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
+    	Award award = getAwardVersionService().getWorkingAwardVersion(timeAndMoneyForm.getGoToAwardNumber());
+    	if (award == null) {
+    		GlobalVariables.getMessageMap().putError("goToAwardNumber", "error.timeandmoney.invalidawardnumber", timeAndMoneyForm.getGoToAwardNumber());
+    		return mapping.findForward(Constants.MAPPING_BASIC);
+    	}
+
+    	timeAndMoneyDocument.setAwardVersionHistoryList(getTimeAndMoneyHistoryService().buildTimeAndMoneyHistoryObjects(award.getAwardNumber(), true));
+    	timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
+    	getTimeAndMoneyActionSummaryService().populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), timeAndMoneyForm.getGoToAwardNumber());
+
+    	return mapping.findForward("timeAndMoneySummaryAndHistory");
+    }
 
     /*
      * This method populates Summary, Action Summary and History panels for selected award.
@@ -822,12 +839,6 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
         timeAndMoneyDocument.setAward(award);
-
-        timeAndMoneyDocument.getAwardVersionHistoryList().clear();
-        timeAndMoneyDocument.setAwardVersionHistoryList(getTimeAndMoneyHistoryService().buildTimeAndMoneyHistoryObjects(award.getAwardNumber()));
-        timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
-        getTimeAndMoneyActionSummaryService().populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), goToAwardNumber);
-        
         timeAndMoneyDocument.setNewAwardAmountTransaction(newAwardAmountTransaction);
     }
     
