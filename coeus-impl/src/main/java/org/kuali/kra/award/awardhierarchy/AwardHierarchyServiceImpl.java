@@ -128,14 +128,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public AwardHierarchy copyAwardAsNewHierarchy(AwardHierarchy targetNode) {
         String nextAwardNumber = awardNumberService.getNextAwardNumber();
         Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
-        // Nulling out all dates and amounts from new award since it is copied as new from hierarchy and
-        // should not contain any old dates.
-        newAward.setAwardEffectiveDate(null);
-        int indexOfLatestAwardVersion = newAward.getAwardAmountInfos().size() -1;
-        newAward.getAwardAmountInfos().get(indexOfLatestAwardVersion).setFinalExpirationDate(null);
-        newAward.getAwardAmountInfos().get(indexOfLatestAwardVersion).setObligationExpirationDate(null);
-        newAward.getAwardAmountInfos().get(indexOfLatestAwardVersion).setCurrentFundEffectiveDate(null);
-        newAward.setAwardDirectFandADistributions(new ArrayList<AwardDirectFandADistribution>());
+        newAward.setAwardDirectFandADistributions(new ArrayList<>());
 
         AwardHierarchy newNode = createBasicHierarchy(nextAwardNumber);
         newNode.setAward(newAward);
