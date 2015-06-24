@@ -34,6 +34,17 @@
 ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySubmissionBean.numberOfReviewers")}
 <html:hidden styleId="numberOfReviewers" property="actionHelper.iacucProtocolModifySubmissionBean.numberOfReviewers" value="${fn:length(KualiForm.actionHelper.iacucProtocolModifySubmissionBean.reviewers)}"></html:hidden>
 
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            protocolModifySubmissionReviewers('getModifySubmissionProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId',
+            'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId},
+                    'iacucProtocolModifySubmissionBean', 'actionHelper.iacucProtocolModifySubmissionBean.protocolReviewTypeCode');
+            setModifySubmissionDefaultReviewerTypeCode('getModifySubmissionProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId',
+                    'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId},
+                    'iacucProtocolModifySubmissionBean', 'actionHelper.iacucProtocolModifySubmissionBean.protocolReviewTypeCode');
+        });
+    </script>
+
 <kul:innerTab tabTitle="Modify Submission Request" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.iacucProtocolModifySubmissionBean*">
     <div class="innerTab-container" align="left">
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
