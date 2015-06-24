@@ -29,6 +29,7 @@ import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.print.CorrespondencePrintOption;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -100,7 +101,8 @@ public abstract class CommitteeHelperBase implements Serializable {
             modifyCommittee = false;
             CommitteeBase activeCommittee = getCommitteeService().getCommitteeById(
                     getCommittee().getCommitteeId());
-            if (activeCommittee != null && activeCommittee.getId().equals(getCommittee().getId())) {
+            if (activeCommittee != null && (activeCommittee.getId().equals(getCommittee().getId())
+                    || KewApiConstants.ROUTE_HEADER_CANCEL_CD.equals(activeCommittee.getCommitteeDocument().getDocStatusCode()))) {
                 modifySchedule = canModifySchedule();
                 viewSchedule = canViewSchedule();
                 viewSpecificSchedule = canViewSpecificSchedule();
