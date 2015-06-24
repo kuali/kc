@@ -244,7 +244,7 @@
 			
 			<%-- Existing data --%>
             <c:set var="maxLen" value="${fn:length(KualiForm.meetingHelper.committeeSchedule.committeeScheduleMinutes) - 1}"/>
-        	<c:forEach var="committeeScheduleMinute" items="${KualiForm.meetingHelper.committeeSchedule.committeeScheduleMinutes}" varStatus="status">
+        	<c:forEach var="committeeScheduleMinute" items="${krafn:copy(KualiForm.meetingHelper.committeeSchedule.committeeScheduleMinutes)}" varStatus="status">
 	            <tr>
 					<th class="infoline">
 						<!-- <c:out value="${status.index+1}" /> -->
