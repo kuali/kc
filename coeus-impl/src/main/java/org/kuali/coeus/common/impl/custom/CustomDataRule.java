@@ -34,6 +34,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.AnyCharacterValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.NumericValidationPattern;
 import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
@@ -85,10 +86,17 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
         boolean rulePassed = true;
         Map<String, CustomAttributeDocument> customAttributeDocuments = event.getCustomAttributeDocuments();
         for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
+
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
 
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
+
             List<? extends DocumentCustomData> customDataList = event.getCustomDataList();
+
+            if (isDocEnrouteAndDoesNotContainCustomAttribute(customAttribute.getId(), customDataList,
+                    event.getDocument().getDocumentHeader().getWorkflowDocument())) {
+                continue;
+            }
             int index = 0;
             for (DocumentCustomData data : customDataList) {
                 if (data.getCustomAttributeId() == customAttribute.getId().longValue()) {
@@ -117,6 +125,18 @@ public class CustomDataRule extends KcTransactionalDocumentRuleBase implements K
         }
 
         return rulePassed;
+    }
+
+    protected boolean isDocEnrouteAndDoesNotContainCustomAttribute(Long customAttributeId, List<? extends DocumentCustomData> customDataList, WorkflowDocument workflowDocument) {
+        if (!workflowDocument.isSaved() && !workflowDocument.isInitiated()){
+            for (DocumentCustomData data : customDataList) {
+                if (data.getCustomAttributeId().equals(customAttributeId)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
 
