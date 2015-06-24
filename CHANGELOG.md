@@ -1,6 +1,26 @@
 
 
 ##CURRENT
+* do not validate newly added custom attributes when document is enroute
+
+  * Discovered this in UA's local 5.2.1 implementation and confirmed still an issue in 6.0.1
+  * If a new Custom Data field is added for the Proposal module (and it is required) all enroute proposals will validate requiring the new field and be stuck in routing. However, if you return the document to the initiator (via 'return for edit' or superuser return to initiated) the newly added custom data field is not inserted into the document so the initiator can't fill it out even though it validates as required. The only way to update the proposal with the newly created Custom Data is for the initiator to 'recall' the document. However, typically on newly added Custom Data fields we want them to affect only new proposals not enroute proposals.
+  * STEPS TO REPRODUCE FOR PROPOSAL:
+  * 1. create proposal and submit into routing (notate document number).
+  * 2. on maintenance tab select custom attribute and create new custom data field.
+  * 3. add newly created custom data to proposal development module via the Custom Attribute Document table (make it required).
+  * 4. login as current workflow stop user
+  * 5. open the newly created enroute proposal.
+  * 6. on Proposal Actions tab run validations, see new requirement for Custom Data.
+  * 7. click 'return for edit' on proposal and fill out text box, click 'yes'
+  * 8. login as initiator of document
+  * 9. open doc and go to Custom Data, new custom data field not present
+  * 10. go to Proposal Actions tab and run validations, error still present
+  * 11. click 'recall' button
+  * 12. get back into document and go to Custom Data, now it's present and can be added/edited.
+  * Joe Williams on Wed, 24 Jun 2015 08:28:29 -0500 [View Commit](../../commit/064b6728ec9871cfef789d68e776bebbd39a3ba1)
+
+##coeus-1506.58
 * bring over award dates when award is copied
 
   * 1. Create an Award, completing all required fields to submit the document
