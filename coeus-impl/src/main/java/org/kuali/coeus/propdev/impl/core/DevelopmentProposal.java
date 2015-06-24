@@ -94,6 +94,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import javax.persistence.*;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Entity
@@ -240,6 +241,12 @@ public class DevelopmentProposal extends KcPersistableBusinessObjectBase impleme
     
     @Column(name = "PREV_GG_TRACKID")
     private String prevGrantsGovTrackingID;
+
+    @Column(name = "CREATE_TIMESTAMP")
+    private Timestamp createTimestamp;
+
+    @Column(name = "CREATE_USER")
+    private String createUser;
 
     @ManyToOne(targetEntity = DeadlineType.class, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "DEADLINE_TYPE", referencedColumnName = "DEADLINE_TYPE_CODE", insertable = false, updatable = false)
@@ -2292,7 +2299,24 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
         }
         return this.sponsorHierarchyService;
     }
-    
+
+
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
     @Override
     public ProposalDevelopmentBudgetExt getFinalBudget() {
     	return finalBudget;

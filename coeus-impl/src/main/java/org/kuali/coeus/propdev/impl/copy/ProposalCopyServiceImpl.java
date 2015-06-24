@@ -74,6 +74,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -226,6 +227,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
                 modifyNewProposal(doc, newDoc, criteria);
 
+                addCreateDetails(newDoc);
+
                 getDocumentService().saveDocument(newDoc);
 
                 // Can't initialize authorization until a proposal is saved
@@ -327,7 +330,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         copyOverviewProperties(srcDoc, newDoc);
         
         copyRequiredProperties(srcDoc, newDoc);
-        
+
         // Set lead unit.
         setLeadUnit(newDoc, criteria.getLeadUnitNumber());
         
@@ -358,12 +361,18 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         destDevelopmentProposal.getApplicantOrganization().setSiteNumber(srcDevelopmentProposal.getApplicantOrganization().getSiteNumber());
         destDevelopmentProposal.getPerformingOrganization().setLocationName(srcDevelopmentProposal.getPerformingOrganization().getLocationName());
         destDevelopmentProposal.getPerformingOrganization().setSiteNumber(srcDevelopmentProposal.getPerformingOrganization().getSiteNumber());
-        
+
         if (isProposalTypeRenewalRevisionContinuation(srcDevelopmentProposal.getProposalTypeCode())) {
             destDevelopmentProposal.setSponsorProposalNumber(srcDevelopmentProposal.getSponsorProposalNumber());
         }
 
         copyCustomDataFromDocument(oldDoc, newDoc);
+
+    }
+
+    private void addCreateDetails(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        proposalDevelopmentDocument.getDevelopmentProposal().setCreateTimestamp(new Timestamp(System.currentTimeMillis()));
+        proposalDevelopmentDocument.getDevelopmentProposal().setCreateUser(getGlobalVariableService().getUserSession().getLoggedInUserPrincipalName());
     }
 
     /**
