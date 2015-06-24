@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  syncing DD with DB column sizes, allows symbols and whitespace for CommitteeScheduleMeetingDoc.minuteName and ScheduleAgenda.agendaName
+  * Travis Schneeberger on Fri, 19 Jun 2015 16:11:59 -0400 [View Commit](../../commit/9c04eeecee60aea69ac20c465de42bf7db526efd)
+
+##coeus-1506.59
 * do not validate newly added custom attributes when document is enroute
 
   * Discovered this in UA's local 5.2.1 implementation and confirmed still an issue in 6.0.1
