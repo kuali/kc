@@ -24,7 +24,7 @@
 	value="${DataDictionary.BudgetRate.attributes}" />
 <c:set var="action" value="budgetRates" />
 <div id="workarea"><c:forEach
-	items="${KualiForm.document.budget.rateClassTypes}" var="rates"
+	items="${krafn:copy(KualiForm.document.budget.rateClassTypes)}" var="rates"
 	varStatus="gps">
 	<bean:define id="rateClass" name="KualiForm"
 		property="document.budget.rateClassTypes[${gps.index}].description" />
