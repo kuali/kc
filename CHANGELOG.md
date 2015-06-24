@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* bring over award dates when award is copied
+
+  * 1. Create an Award, completing all required fields to submit the document
+  * 2. Enter valid Project Start and End Dates and valid Obligated Start and End Dates
+  * 3. On the Award Actions tab, click Submit
+  * 4. Use the Award Lookup to search for the Award
+  * 5. In the Award Lookup's search results, click the Copy action next to that Award
+  * 6. When the system displays the Hierarchy Actions panel, select New on the Award Copy subpanel and click the Copy action button on that panel
+  * 7. When the system displays the newly initiated Award, scroll down to view the Time & Money subpanel on the Details & Dates panel and observe the Project Start and End Dates and the Obligated Start and End Dates
+  * Actual Behavior: The Project Start Date, Project End Date, Obligated Start Date, and Obligated End Date are blank/null/empty. The system did not copy over the dates from the original Award.
+  * Expected Behavior: The system should display the same dates (Project Start, Project End, Obligated Start, and Obligated End) in the copied Award as entered in the submitted, finalized Award used to make the copy. The system should not display the date fields as blank/null/empty.
+  * Joe Williams on Wed, 24 Jun 2015 08:57:59 -0500 [View Commit](../../commit/5f21d76a4e4ef56b244aa4bb25a41ac1dc983863)
+
+##coeus-1506.57
 *  Fixing online review issue.
   * Not easily reproducible but getting this in both IRB and IACUC protocols at times on performing Protocol Actions or trying to access an online review: org.kuali.rice.core.api.exception.RiceRuntimeException: The workflow document is null. This indicates that the DocumentHeader has not been initialized properly. This can be caused by not retrieving a document using the DocumentService. at org.kuali.rice.krad.bo.DocumentHeader.getWorkflowDocument(DocumentHeader.java:75)
   * In res1-demo1, login as oblood, got to All My Reviews, and open IACUC Protocol #: 1506000154, go to Online Review tab and see that it doesn't render correctly, then go to Protocol Actions, and see the error.
