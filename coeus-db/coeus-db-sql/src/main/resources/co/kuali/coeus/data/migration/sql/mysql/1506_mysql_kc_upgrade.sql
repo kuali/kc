@@ -23,4 +23,5 @@
 \. ./kc/bootstrap/V1506_009__add_indexes.sql
 \. ./kc/bootstrap/V1506_011__RESOPS-211.sql
 \. ./kc/bootstrap/V1506_019__fix_indexname_to_match_oracle.sql
+\. ./kc/bootstrap/V1506_021__RESKC-486-createTimestamp.sql
 commit;

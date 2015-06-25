@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+*  Add create user and timestamp
+  * Create Timestamp and Create User are missing; proposal admin details is missing several of the "date submitted by" fields.
+  * Create time stamps are for auditing purposes and to show who updated records.
+  * Additionally, these data values are used in several reports to senior leadership.
+  * Gayathri Athreya on Wed, 24 Jun 2015 15:00:37 -0700 [View Commit](../../commit/2e3091f637e979b4e491bf50789782ed82e603aa)
+
+##coeus-1506.62
 * No Changes
 
 
