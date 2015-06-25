@@ -28,6 +28,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Gets all sequence numbers for the current award id.  See
@@ -38,10 +39,6 @@ import java.util.Map;
 public class AwardTransactionValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
     
     private AwardTransactionLookupService transactionLookupService;
-    
-    public AwardTransactionValuesFinder() {
-        transactionLookupService = KcServiceLocator.getService(AwardTransactionLookupService.class);
-    }
     
     /**
      * Grabs the current award from the current form and loops through all
@@ -55,17 +52,17 @@ public class AwardTransactionValuesFinder extends FormViewAwareUifKeyValuesFinde
     public List<KeyValue> getKeyValues() {
         AwardForm form = getAwardForm();
         
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        List<KeyValue> keyValues = new ArrayList<>();
         Integer usableSequence = form.getAwardPrintChangeReport().getAwardVersion();
         if (usableSequence == null) {
             usableSequence = form.getAwardDocument().getAward().getSequenceNumber();
         }
-        Map<Integer, String> transactionValues = transactionLookupService.getApplicableTransactionIds(form.getAwardDocument().getAward().getAwardNumber(), 
+        Map<Integer, String> transactionValues = getTransactionLookupService().getApplicableTransactionIds(form.getAwardDocument().getAward().getAwardNumber(),
                 usableSequence);
-        
-        for (Map.Entry<Integer, String> entry : transactionValues.entrySet()) {
-            keyValues.add(new ConcreteKeyValue(entry.getKey().toString(), entry.getValue()));
-        }
+
+        keyValues.addAll(transactionValues.entrySet().stream()
+                .map(entry -> new ConcreteKeyValue(entry.getKey().toString(), entry.getValue()))
+                .collect(Collectors.toList()));
 
         return keyValues;
     }
@@ -79,6 +76,14 @@ public class AwardTransactionValuesFinder extends FormViewAwareUifKeyValuesFinde
      */
     private AwardForm getAwardForm() {
         return (AwardForm) getFormOrView();
+    }
+
+    public AwardTransactionLookupService getTransactionLookupService() {
+        if (transactionLookupService == null) {
+            transactionLookupService = KcServiceLocator.getService(AwardTransactionLookupService.class);
+        }
+
+        return transactionLookupService;
     }
 
     public void setTransactionLookupService(AwardTransactionLookupService transactionLookupService) {

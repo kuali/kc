@@ -23,20 +23,22 @@ import org.kuali.kra.award.home.Award;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public interface AwardDao {
-    public String getAwardNumber(Long awardId);
+    String getAwardNumber(Long awardId);
 
     /**
      * Does a non-wildcarded yet still limited search of awards, retrieved by the given criteria
      * @param fieldValues the field values to set
      * @return a Collection of found awards
      */
-    public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues);
+    Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues);
     
-    public SearchResults<Award> retrieveActiveAwardsByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer pageNum, Integer numPerPage);
+    SearchResults<Award> retrieveActiveAwardsByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer pageNum, Integer numPerPage);
     
-    public SearchResults<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer page, Integer numberPerPage);
+    SearchResults<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer page, Integer numberPerPage);
 
+    List<Integer> getAwardSequenceNumbers(String awardNumber);
 }

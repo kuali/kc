@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.award.dao.ojb;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -26,13 +27,16 @@ import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.core.framework.persistence.platform.DatabasePlatform;
-import org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform;
-import org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.kuali.rice.krad.service.util.OjbCollectionAware;
 
+import javax.sql.DataSource;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, AwardDao {
@@ -42,17 +46,20 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
 	private static final String UPDATE_TIMESTAMP = "updateTimestamp";
 	private static final String AWARD_SEQUENCE_STATUS = "awardSequenceStatus";
 
+	private DataSource dataSource;
+
 	@Override
     public String getAwardNumber(Long awardId) {
-        Criteria crit = new Criteria();
+        final Criteria crit = new Criteria();
         crit.addEqualTo(AWARD_ID, awardId);
-        ReportQueryByCriteria q = QueryFactory.newReportQuery(Award.class, crit);
+        final ReportQueryByCriteria q = QueryFactory.newReportQuery(Award.class, crit);
         q.setAttributes(new String[] { AWARD_NUMBER });
-        Iterator<Object> resultsIter = getPersistenceBrokerTemplate().getIteratorByQuery(q);
+        @SuppressWarnings("unchecked")
+		final Iterator<String> resultsIter = getPersistenceBrokerTemplate().getIteratorByQuery(q);
         if (!resultsIter.hasNext()) {
             return null;
         }
-        final String awardNumber = (String)resultsIter.next();
+        final String awardNumber = resultsIter.next();
         while (resultsIter.hasNext()) {
             resultsIter.next(); // exhaust the iterator so the result set can be returned
         }
@@ -66,20 +73,17 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
      */
     @Override
     public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues) {
-        Criteria crit = new Criteria();
+        final Criteria crit = new Criteria();
 
-        // copy the criteria over; should we trust the criteria this much?
-        for (String key : fieldValues.keySet()) {
-            crit.addEqualTo(key, fieldValues.get(key));
-        }
+		// copy the criteria over; should we trust the criteria this much?
+		fieldValues.entrySet().forEach(entry -> crit.addEqualTo(entry.getKey(), entry.getValue()));
 
-        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Award.class);
+        final Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Award.class);
         if (searchResultsLimit != null) {
             LookupUtils.applySearchResultsLimit(Award.class, crit, getDbPlatform());
         }
 
-        Collection searchResults = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, crit));
-        return searchResults;
+        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, crit));
     }
 
 	@Override
@@ -87,20 +91,19 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
 			Map<String, Object> fieldValues, Date updatedSince, Integer page,
 			Integer numberPerPage) {
 		fieldValues.put(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
-		SearchResults<Award> result = retrieveAwardsByCriteria(fieldValues, updatedSince, page, numberPerPage);
-		return result;
+		return retrieveAwardsByCriteria(fieldValues, updatedSince, page, numberPerPage);
 	}
 
 	public SearchResults<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer page, Integer numberPerPage) {
-		SearchResults<Award> result = new SearchResults<>();
-		Criteria origCrit = getCollectionCriteriaFromMap(new Award(), fieldValues);
-		Criteria crit = new Criteria();
+		final SearchResults<Award> result = new SearchResults<>();
+		final Criteria origCrit = getCollectionCriteriaFromMap(new Award(), fieldValues);
+		final Criteria crit = new Criteria();
 		if (updatedSince != null) {
 			crit.addGreaterOrEqualThan(UPDATE_TIMESTAMP, new java.sql.Date(updatedSince.getTime()));
 		}
 		crit.addAndCriteria(origCrit);
-		crit.addOrderByDescending("awardId");
-		QueryByCriteria newCrit = QueryFactory.newQuery(Award.class, crit);
+		crit.addOrderByDescending(AWARD_ID);
+		final QueryByCriteria newCrit = QueryFactory.newQuery(Award.class, crit);
 		if (page != null && numberPerPage != -1) {
 			result.setTotalResults(getPersistenceBrokerTemplate().getCount(newCrit));
 			newCrit.setStartAtIndex((page-1)*numberPerPage);
@@ -112,5 +115,34 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
 			result.setTotalResults(result.getResults().size());
 		}
 		return result;
+	}
+
+	@Override
+	public List<Integer> getAwardSequenceNumbers(String awardNumber) {
+		if (StringUtils.isBlank(awardNumber)) {
+			return Collections.emptyList();
+		}
+
+		try (final Connection connection = getDataSource().getConnection();
+			 final PreparedStatement statement = connection.prepareStatement("SELECT SEQUENCE_NUMBER FROM AWARD WHERE AWARD_NUMBER = ? ORDER BY SEQUENCE_NUMBER DESC")) {
+			statement.setString(1, awardNumber);
+			try (ResultSet result = statement.executeQuery()) {
+				final List<Integer> sequenceNumbers = new ArrayList<>();
+				while (result.next()) {
+					sequenceNumbers.add(result.getInt(1));
+				}
+				return sequenceNumbers;
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 }
