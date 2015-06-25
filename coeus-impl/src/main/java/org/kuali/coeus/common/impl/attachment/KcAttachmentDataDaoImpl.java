@@ -158,12 +158,14 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
     
     protected void populateReferences(Connection conn) throws SQLException {
     	tableReferences = new HashSet<>();
-        String schema = null;
-        String catalog = conn.getCatalog();
-        if (conn.getMetaData().getSchemas().next()) {
-            schema = conn.getSchema();
-        } else {
-            schema = catalog;
+    	String catalog = conn.getCatalog();
+        String schema = catalog;
+        try {
+	        if (conn.getMetaData().getSchemas().next()) {
+	            schema = conn.getSchema();
+	        }
+        } catch (AbstractMethodError e) {
+        	LOG.info("Unable to retrieve schema, using catalog " + e.getMessage());
         }
         ResultSet rs = conn.getMetaData().getExportedKeys(catalog,schema,"file_data");
         while (rs.next()) {

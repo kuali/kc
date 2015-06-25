@@ -1,5 +1,26 @@
-UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
-'<?xml version="1.0" encoding="UTF-8"?>
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+--
+-- Copyright 2005-2015 Kuali, Inc.
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+--
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:n1="http://era.nih.gov/Projectmgmt/SBIR/CGAP/nihspecific.namespace" xmlns:n2="http://era.nih.gov/Projectmgmt/SBIR/CGAP/phs398.namespace" xmlns:n3="http://era.nih.gov/Projectmgmt/SBIR/CGAP/researchandrelated.namespace">
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
@@ -73,8 +94,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                         <fo:table-cell display-align="before" number-columns-spanned="4" number-rows-spanned="2" width="1.1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
                                                             <fo:block>
                                                                 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
-                                                                    <fo:block>
-                                                                        <fo:inline font-size="7pt">PROGRAM ANNOUNCEMENT/SOLICITATION NO/CLOSING DATE</fo:inline>
+                                                                    <fo:block>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                      <fo:inline font-size="7pt">PROGRAM ANNOUNCEMENT/SOLICITATION NO/CLOSING DATE</fo:inline>
                                                                     </fo:block>
                                                                 </fo:block>
                                                                 <xsl:for-each select="n1:ResearchAndRelatedProject">
@@ -148,8 +176,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                     <fo:block>
                                                                         <fo:inline font-size="8pt">DUNS # (Data Universal Numbering System)</fo:inline>
-                                                                    </fo:block>
-                                                                </fo:block>
+                                                                    </fo:block>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                </fo:block>
                                                                 <xsl:for-each select="n1:ResearchAndRelatedProject">
                                                                     <xsl:for-each select="n1:ResearchCoverPage">
                                                                         <xsl:for-each select="ApplicantOrganization">
@@ -223,8 +258,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                                                         <fo:inline white-space-collapse="false" font-family="ZapfDingbats" font-size="10pt" padding-start="1pt" padding-end="1pt">&#x2714;</fo:inline>
                                                                                                     </xsl:when>
                                                                                                     <xsl:otherwise>
-                                                                                                        <fo:inline text-decoration="underline" color="black">
-                                                                                                            <fo:leader leader-length="8pt" leader-pattern="rule" />
+                                                                                                        <fo:inline text-decoration="underline" color="black">';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                                                            <fo:leader leader-length="8pt" leader-pattern="rule" />
                                                                                                         </fo:inline>
                                                                                                     </xsl:otherwise>
                                                                                                 </xsl:choose>
@@ -297,8 +339,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                                                         </fo:inline>
                                                                                                     </xsl:otherwise>
                                                                                                 </xsl:choose>
-                                                                                            </fo:inline>
-                                                                                        </fo:inline>
+                                                                                            </fo:inline>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                                        </fo:inline>
                                                                                     </xsl:for-each>
                                                                                 </xsl:for-each>
                                                                             </xsl:for-each>
@@ -365,8 +414,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                 <xsl:for-each select="n1:ResearchAndRelatedProject">
                                                                     <xsl:for-each select="n1:ResearchCoverPage">
                                                                         <xsl:for-each select="ApplicantOrganization">
-                                                                            <xsl:for-each select="OrganizationName">
-                                                                                <fo:inline font-size="8pt">
+                                                                            <xsl:for-each select="OrganizationName">';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                                <fo:inline font-size="8pt">
                                                                                     <xsl:apply-templates />
                                                                                 </fo:inline>
                                                                             </xsl:for-each>
@@ -440,8 +496,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                             <fo:block>
                                                                 <fo:inline font-size="8pt">NAME OF PERFORMING ORGANIZATION, IF DIFFERENT FROM ABOVE</fo:inline>
                                                                 <xsl:for-each select="n1:ResearchAndRelatedProject">
-                                                                    <xsl:for-each select="n1:ResearchCoverPage">
-                                                                        <xsl:for-each select="PrimaryProjectSite">
+                                                                    <xsl:for-each select="n1:ResearchCoverPage">';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                        <xsl:for-each select="PrimaryProjectSite">
                                                                             <xsl:if test="OrganizationName != ../ApplicantOrganization/OrganizationName">
                                                                                 <xsl:for-each select="OrganizationName">
                                                                                     <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
@@ -552,8 +615,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                                         </xsl:when>
                                                                                         <xsl:otherwise>
                                                                                             <fo:inline text-decoration="underline" color="black">
-                                                                                                <fo:leader leader-length="8pt" leader-pattern="rule" />
-                                                                                            </fo:inline>
+                                                                                                <fo:leader leader-length="8pt" leader-pattern="rule" />';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                                           </fo:inline>
                                                                                         </xsl:otherwise>
                                                                                     </xsl:choose>
                                                                                 </fo:inline>
@@ -627,8 +697,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                                     <xsl:for-each select="ProjectDates">
                                                                                         <xsl:for-each select="ProjectStartDate">
                                                                                             <xsl:value-of select="format-number(substring(., 6, 2), ''00'')" />
-                                                                                            <xsl:text>/</xsl:text>
-                                                                                            <xsl:value-of select="format-number(substring(., 9, 2), ''00'')" />
+                                                                                            <xsl:text>/</xsl:text>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                                            <xsl:value-of select="format-number(substring(., 9, 2), ''00'')" />
                                                                                             <xsl:text>/</xsl:text>
                                                                                             <xsl:value-of select="format-number(substring(., 1, 4), ''0000'')" />
                                                                                         </xsl:for-each>
@@ -702,8 +779,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                                                             </xsl:for-each>
                                                                                                         </xsl:for-each>
                                                                                                     </xsl:for-each>
-                                                                                                </fo:inline>
-                                                                                            </xsl:for-each>
+                                                                                                </fo:inline>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                                            </xsl:for-each>
                                                                                             <fo:inline font-size="8pt">BEGINNING INVESTIGATOR (GPG I.A)</fo:inline>
                                                                                         </fo:block>
                                                                                     </fo:block>
@@ -777,8 +861,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                                                         <xsl:for-each select="n3:ProjectSurvey">
                                                                                                             <xsl:for-each select="G6Question">
                                                                                                                 <fo:inline padding-before="-3pt" padding-after="-2pt" text-decoration="underline" color="black">
-                                                                                                                    <fo:inline>
-                                                                                                                        <xsl:choose>
+                                                                                                                    <fo:inline>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                                                                        <xsl:choose>
                                                                                                                             <xsl:when test=".=''true''">
                                                                                                                                 <fo:inline white-space-collapse="false" font-family="ZapfDingbats" font-size="10pt" padding-start="1pt" padding-end="1pt">&#x2714;</fo:inline>
                                                                                                                             </xsl:when>
@@ -852,8 +943,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                                                                             <fo:leader leader-length="8pt" leader-pattern="rule" />
                                                                                                                         </fo:inline>
                                                                                                                     </xsl:otherwise>
-                                                                                                                </xsl:choose>
-                                                                                                            </fo:inline>
+                                                                                                                </xsl:choose>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                                                            </fo:inline>
                                                                                                         </fo:inline>
                                                                                                     </xsl:for-each>
                                                                                                 </xsl:for-each>
@@ -927,8 +1025,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                                                     </xsl:for-each>
                                                                                                 </xsl:for-each>
                                                                                             </xsl:for-each>
-                                                                                        </fo:block>
-                                                                                    </fo:block>
+                                                                                        </fo:block>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                                    </fo:block>
                                                                                     <xsl:for-each select="n1:ResearchAndRelatedProject">
                                                                                         <fo:inline font-size="7pt">
                                                                                             <xsl:for-each select="n1:ProjectDescription">
@@ -1002,8 +1107,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                 </xsl:for-each>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell display-align="before" number-columns-spanned="4" number-rows-spanned="2" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-                                                            <fo:block>
+                                                        <fo:table-cell display-align="before" number-columns-spanned="4" number-rows-spanned="2" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" text-align="start" border-style="solid" border-width="1pt" border-color="black">';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                            <fo:block>
                                                                 <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                                     <fo:block>
                                                                         <fo:inline font-size="8pt">PI/PD POSTAL ADDRESS</fo:inline>
@@ -1077,8 +1189,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                         </fo:table-cell>
                                                     </fo:table-row>
                                                     <fo:table-row>
-                                                        <fo:table-cell font-size="8pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="before" number-columns-spanned="5" width="2.75in" text-align="start" border-style="solid" border-width="1pt" border-color="black">
-                                                            <fo:block>
+                                                        <fo:table-cell font-size="8pt" padding-after="0pt" padding-before="0pt" padding-end="0pt" padding-start="0pt" display-align="before" number-columns-spanned="5" width="2.75in" text-align="start" border-style="solid" border-width="1pt" border-color="black">';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                            <fo:block>
                                                                 <xsl:for-each select="n1:ResearchAndRelatedProject">
                                                                     <xsl:for-each select="ProposalPerson" />
                                                                 </xsl:for-each>
@@ -1152,8 +1271,15 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
                                                                                             <xsl:if test="ProjectRole=&apos;PI/PD&apos; or ProjectRole=&apos;Co-PI/PD&apos;">
                                                                                                 <xsl:for-each select="GraduationYear">
                                                                                                     <xsl:apply-templates />
-                                                                                                </xsl:for-each>
-                                                                                            </xsl:if>
+                                                                                                </xsl:for-each>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
+
+DECLARE    data CLOB; buffer VARCHAR2(30000);  
+BEGIN
+SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE PAGE_DESCRIPTION = 'Cover Page' FOR UPDATE;
+buffer := '                                                                                            </xsl:if>
                                                                                         </fo:block>
                                                                                     </fo:table-cell>
                                                                                     <fo:table-cell border-after-style="none" font-size="8pt" width="1.25in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
@@ -1221,5 +1347,7 @@ UPDATE SPONSOR_FORM_TEMPLATES SET FORM_TEMPLATE =
             </fo:page-sequence>
         </fo:root>
     </xsl:template>
-</xsl:stylesheet>'
-WHERE PAGE_DESCRIPTION IN ('CoverPage','Cover Page');
+</xsl:stylesheet>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+end;
+/
