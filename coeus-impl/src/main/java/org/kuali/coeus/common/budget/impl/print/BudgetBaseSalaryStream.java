@@ -261,8 +261,8 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
 		salaryTypeVO.setCostElement(CALCULATED_AMOUNT_COST_ELEMENT_DESC);
 		salaryTypeVoList.add(salaryTypeVO);
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
+			for (BudgetLineItem budgetLineItem : new ArrayList<>(budgetPeriod
+					.getBudgetLineItems())) {
 				List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = budgetLineItem
 						.getBudgetLineItemCalculatedAmounts();
 				for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItemCalculatedAmounts) {
