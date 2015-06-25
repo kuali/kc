@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -577,13 +578,18 @@ public class ProposalDevelopmentSubmitController extends
     
     protected void persistProposalAdminDetails(String devProposalNumber, Long instProposalId) {
         ProposalAdminDetails proposalAdminDetails = new ProposalAdminDetails();
+        addCreateDetails(proposalAdminDetails);
         proposalAdminDetails.setDevProposalNumber(devProposalNumber);
         proposalAdminDetails.setInstProposalId(instProposalId);
         String loggedInUser = getGlobalVariableService().getUserSession().getPrincipalName();        
         proposalAdminDetails.setSignedBy(loggedInUser);
         getLegacyDataAdapter().save(proposalAdminDetails);
     }
-    
+
+    private void addCreateDetails(ProposalAdminDetails proposalAdminDetails) {
+        proposalAdminDetails.setCreateTimestamp(new Timestamp(System.currentTimeMillis()));
+        proposalAdminDetails.setCreateUser(getGlobalVariableService().getUserSession().getLoggedInUserPrincipalName());
+    }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=approve")
     public ModelAndView approve(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{

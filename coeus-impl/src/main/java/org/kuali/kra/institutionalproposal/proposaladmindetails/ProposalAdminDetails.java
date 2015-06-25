@@ -24,6 +24,7 @@ import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.instprop.api.admin.ProposalAdminDetailsContract;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class ProposalAdminDetails extends KcPersistableBusinessObjectBase implements ProposalAdminDetailsContract {
 
@@ -55,6 +56,9 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase implem
     private DevelopmentProposal developmentProposal;
 
     private InstitutionalProposal institutionalProposal;
+    private Timestamp createTimestamp;
+    private String createUser;
+
 
     @Override
     public Date getDateSubmittedByDept() {
@@ -172,5 +176,21 @@ public class ProposalAdminDetails extends KcPersistableBusinessObjectBase implem
 
     public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
         this.institutionalProposal = institutionalProposal;
+    }
+
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 }

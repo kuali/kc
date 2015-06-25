@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.basic;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -89,9 +90,10 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
-
        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
-       initialSave(proposalDevelopmentDocument);
+        addCreateDetails(proposalDevelopmentDocument);
+        initialSave(proposalDevelopmentDocument);
+
        // this is needed if the proposal is being created from an opportunity, in which case
        // the opportunity content needs to be generated before save
        generateOpportunity(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity());
@@ -108,6 +110,11 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
        generateForms(form.getDevelopmentProposal());
        return getModelAndViewService().getModelAndViewWithInit(form, PROPDEV_DEFAULT_VIEW_ID);
    }
+
+    private void addCreateDetails(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        proposalDevelopmentDocument.getDevelopmentProposal().setCreateTimestamp(new Timestamp(System.currentTimeMillis()));
+        proposalDevelopmentDocument.getDevelopmentProposal().setCreateUser(getGlobalVariableService().getUserSession().getLoggedInUserPrincipalName());
+    }
 
     protected void generateForms(DevelopmentProposal proposal) {
         if (ObjectUtils.isNotNull(proposal.getS2sOpportunity())) {
