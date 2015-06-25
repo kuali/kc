@@ -19,7 +19,6 @@
 package org.kuali.kra.award.lookup;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,65 +31,46 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AwardTransactionLookupServiceImpl implements AwardTransactionLookupService {
+
+    private static final String AWARD_NUMBER = "awardNumber";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
+    private static final String INITIAL = "Initial";
 
     private BusinessObjectService businessObjectService;
     private static final Log LOG = LogFactory.getLog(AwardTransactionLookupServiceImpl.class);
     
     @Override
-    @SuppressWarnings("unchecked")
     public Map<Integer, String> getApplicableTransactionIds(String awardNumber, Integer sequenceNumber) {
         if(isAuthorizedToAccess(awardNumber)){
             if (StringUtils.isNotBlank(awardNumber) && awardNumber.contains(Constants.COLON)) {
                 awardNumber = StringUtils.split(awardNumber, Constants.COLON)[0];
             }
-            List<Long> transactionIds = new ArrayList<Long>();
-            Map<String, String> awardValues = new HashMap<String, String>();
-            awardValues.put("awardNumber", awardNumber);
-            Collection<Award> awards = getBusinessObjectService().findMatchingOrderBy(Award.class, awardValues, "sequenceNumber", true);
-            List<Long> excludedTransactionIds = new ArrayList<Long>();
-            for (Award award : awards) {
-                if (award.getSequenceNumber() < sequenceNumber.intValue()) {
-                    for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
-                        if (amountInfo.getTransactionId() != null) {
-                            excludedTransactionIds.add(amountInfo.getTransactionId());
-                        }
-                    }
-                } else if (award.getSequenceNumber() == sequenceNumber.intValue()){
-                    for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
-                        if (amountInfo.getTransactionId() != null) {
-                            transactionIds.add(amountInfo.getTransactionId());
-                        }
-                    }
-                }
-            }
-            transactionIds.removeAll(excludedTransactionIds);
+            final List<Long> transactionIds = new ArrayList<>();
+            final Award award = getAwardVersion(awardNumber, sequenceNumber);
 
-            Award currentAward = getAwardVersion(awardNumber, sequenceNumber);
-            Map<Integer, String> retval = new TreeMap<Integer, String>(new Comparator<Integer>(){
-                public int compare(Integer o1, Integer o2) {
-                    //sort in descending order instead of ascending
-                    return o1.compareTo(o2) * -1;
-                }
-            });
-            for (Long id : transactionIds) {
-                if (id != null) {
-                    retval.put(getAwardAmountInfoIndex(currentAward, id), id.toString());
-                }
-            }
+            transactionIds.addAll(award.getAwardAmountInfos().stream()
+                    .filter(amountInfo -> amountInfo.getTransactionId() != null)
+                    .map(AwardAmountInfo::getTransactionId).collect(Collectors.toList()));
+
+            final Map<Integer, String> retval = new TreeMap<>(Comparator.<Integer>naturalOrder().reversed());
+            transactionIds.stream().filter(id -> id != null)
+                    .forEach(id -> retval.put(getAwardAmountInfoIndex(award, id), id.toString()));
+
             if (sequenceNumber == 1) {
-                retval.put(0, "Initial");
+                retval.put(0, INITIAL);
             }
             return retval;
         }
-        else
-            return new TreeMap<Integer, String>();
+
+        return Collections.emptyMap();
     }
     
     protected int getAwardAmountInfoIndex(Award award, Long transactionId) {
         for (int i = 0; i < award.getAwardAmountInfos().size(); i++) {
-            if (ObjectUtils.equals(award.getAwardAmountInfos().get(i).getTransactionId(), transactionId)) {
+            if (Objects.equals(award.getAwardAmountInfos().get(i).getTransactionId(), transactionId)) {
                 return i;
             }
         }
@@ -98,9 +78,9 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
     }
     
     protected Award getAwardVersion(String awardNumber, int sequenceNumber) {
-        Map<String, Object> values = new HashMap<String, Object>();
-        values.put("awardNumber", awardNumber);
-        values.put("sequenceNumber", sequenceNumber);
+        Map<String, Object> values = new HashMap<>();
+        values.put(AWARD_NUMBER, awardNumber);
+        values.put(SEQUENCE_NUMBER, sequenceNumber);
         Collection<Award> awards = businessObjectService.findMatching(Award.class, values);
         return awards.iterator().next();
     }
@@ -117,7 +97,6 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
      * a utility method to check if dwr/ajax call really has authorization
      * 'updateProtocolFundingSource' also accessed by non ajax call
      */
-    
     private boolean isAuthorizedToAccess(String awardNumber) {
         boolean isAuthorized = true;
         if(awardNumber.contains(Constants.COLON)){
@@ -133,6 +112,7 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
                     if (formObj == null || !(formObj instanceof AwardForm)) {
                         isAuthorized = false;
                     } else {
+                        @SuppressWarnings("unchecked")
                         Map<String, String> editModes = ((AwardForm)formObj).getEditingMode();
                         isAuthorized = BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
                         || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY));
