@@ -46,9 +46,11 @@
 <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 	
 <div align="right"><kul:help documentTypeName="TimeAndMoneyDocument" pageName="Time And Money" /></div>
+<div id="workarea">
 <kra-timeandmoney:actionSummary />
 <kra-timeandmoney:timeAndMoneyHistory />
 <kul:panelFooter />
+</div>
 
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];
@@ -60,7 +62,7 @@ var kualiElements = kualiForm.elements;
 	<c:set var="extraButtons" value="${KualiForm.extraButtons}" scope="request"/>
 </c:if>
 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="false"
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true"
 													extraButtons="${extraButtons}"
 													extraButtonSource="${extraButtonSource}" 
 													extraButtonProperty="${extraButtonProperty}"

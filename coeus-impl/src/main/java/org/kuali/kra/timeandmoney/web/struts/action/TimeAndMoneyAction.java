@@ -74,6 +74,8 @@ import java.util.Map.Entry;
 
 public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
 
+    private static final String TIME_AND_MONEY_SUMMARY_AND_HISTORY_MAPPING = "timeAndMoneySummaryAndHistory";
+	private static final String TIME_AND_MONEY_MAPPING = "timeAndMoney";
     private static final String OBLIGATED_START_COMMENT = "Obligated Start";
     private static final String OBLIGATED_END_COMMENT = "Obligated End";
     private static final String PROJECT_END_COMMENT = "Project End";
@@ -823,7 +825,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     	timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
     	getTimeAndMoneyActionSummaryService().populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), timeAndMoneyForm.getGoToAwardNumber());
 
-    	return mapping.findForward("timeAndMoneySummaryAndHistory");
+    	return mapping.findForward(TIME_AND_MONEY_SUMMARY_AND_HISTORY_MAPPING);
     }
 
     /*
@@ -908,7 +910,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(TIME_AND_MONEY_MAPPING);
     }
     
     /**
