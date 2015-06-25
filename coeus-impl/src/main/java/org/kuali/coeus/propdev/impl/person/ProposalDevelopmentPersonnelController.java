@@ -159,25 +159,25 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
         if (selectedCollectionPath.equals(PROPOSAL_PERSONS_PATH)) {
             Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
             Object deleteLine = ((List<Object>) collection).get(Integer.parseInt(selectedLine));
-            String personId = ((ProposalPerson)deleteLine).getPersonId();
 
-            deleteProposalPersonBios(form.getDevelopmentProposal(), (ProposalPerson) deleteLine, personId);
+            deleteProposalPersonBios(form.getDevelopmentProposal(), (ProposalPerson) deleteLine);
         }
 
         return getCollectionControllerService().deleteLine(form);
     }
 
-    private void deleteProposalPersonBios(DevelopmentProposal proposal, ProposalPerson deleteLine, String personId) {
+    private void deleteProposalPersonBios(DevelopmentProposal proposal, ProposalPerson deleteLine) {
         List<ProposalPersonBiography> tmpBios= new ArrayList<>();
+        String personIdOfDeletedLine = deleteLine.getPersonId();
         for (ProposalPersonBiography biography : proposal.getPropPersonBios()) {
-            if (personId == null) {
+            if (personIdOfDeletedLine == null) {
                 Integer rolodexId = deleteLine.getRolodexId();
-                if (rolodexId.compareTo(biography.getRolodexId()) != 0) {
+                if (biography.getRolodexId() == null || rolodexId.compareTo(biography.getRolodexId()) != 0) {
                     tmpBios.add(biography);
                 }
             }
             else {
-                if (!biography.getPersonId().equals(personId))
+                if (!biography.getPersonId().equals(personIdOfDeletedLine))
                     tmpBios.add(biography);
             }
         }
