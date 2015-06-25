@@ -18,11 +18,12 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="questionnaireTabTitle" required="true" %>
-<%@ attribute name="amendRenewIndex" required="true" %>
+<%@ attribute name="answerHeaders" required="true" type="java.util.List" %>
+
 
 <kul:innerTab tabTitle="${questionnaireTabTitle}" parentTab="" defaultOpen="false">
 	<div class="innerTab-container">
-	<c:forEach items="${KualiForm.actionHelper.amendmentSummaries[amendRenewIndex].answerHeaders}" var="answerHeader" varStatus="ansHeaderStatus">
+	<c:forEach items="${answerHeaders}" var="answerHeader" varStatus="ansHeaderStatus">
 		<c:set var="tabTitle" value="${KualiForm.questionnaireHelper.headerLabels[ansHeaderStatus.index]}" />
 		<kul:innerTab tabTitle="${tabTitle}" parentTab="${questionnaireTabTitle}" defaultOpen="false">
   			<div class="questionnaireContent">
