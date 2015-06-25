@@ -1,6 +1,61 @@
 
 
 ##CURRENT
+* Fix issues with adding/removing committee members from present/absentee list
+
+  * Edit an IRB or IACUC schedule
+  * In attendance:
+  * -set a member as Present Voting
+  * -then set the other member as Present Voting
+  * Save
+  * Members revert to Absent.
+
+  * Sometimes a member will not even move to Present after clicking Present Voting
+
+  * Mark a selected attendee as absent get:
+  * java.lang.IndexOutOfBoundsException: Index: 0, Size: 0 at java.util.ArrayList.rangeCheck(ArrayList.java:653) at java.util.ArrayList.get(ArrayList.java:429) at org.kuali.coeus.common.committee.impl.meeting.MeetingServiceImplBase.markAbsent(MeetingServiceImplBase.java:240)....
+
+  * Captured a video to show the various things going on.
+
+  * Full stack trace:
+  * java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+  * Joe Williams on Tue, 23 Jun 2015 12:42:06 -0500 [View Commit](../../commit/6034c20fe68a627e01d1bde2deaaebaaf472d8e8)
+* maintain reviewer section when send notificaiton button is clicked
+  * Joe Williams on Wed, 24 Jun 2015 16:25:22 -0500 [View Commit](../../commit/8cfbbd780fc80abcee8d60412635c5517288bec1)
+*  Fixing null pointer.
+  * Gayathri Athreya on Wed, 24 Jun 2015 16:25:23 -0700 [View Commit](../../commit/a7ab6c301e24f1b181af188852346148241e63af)
+* allow editing of proposal immediately after recall action
+
+  * confirming returned for revisions is not allowing all editable functionality of an In Progress proposal. Which in essence makes return for revisions useless.
+  * Joe Williams on Thu, 25 Jun 2015 08:23:44 -0500 [View Commit](../../commit/006ddc3a93c8efd675e975beba5fefb2b110cbdd)
+* display correct amount and final expiration date on subaward funding source
+
+  * PART ONE
+  * 1. Create and finalize an Award document with the following:
+  * a. Project Start Date = 10/29/2012
+  * b. Project End Date = 10/28/2015
+  * 2. Create and finalize a Time & Money document with the following:
+  * a. Anticipated Amounts = $300,000
+  * b. Obligated Amounts = $200,000
+  * c. Obligation Start Date = 10/29/2012
+  * d. Obligation End Date = 10/28/2013
+
+  * PART TWO
+  * 3. Create a Subaward document, completing all required fields to save and submit the document, including a contact
+  * 4. On the Funding Source panel of the Subaward, link it to the Award created in steps 1 and 2 above
+  * 5. On the Financial tab enter Effective Date 11/01/2013; Obligated Change $10,000; Anticipated Change $20,000
+  * 6. Click Add
+  * 7. Submit and finalize the Subaward document
+
+  * PART THREE
+  * 8. Open the Funding Source panel of the Subaward and view the Award Amount and Final End Date of the linked award.
+
+  * Actual Behavior: The system does not display the Award's Obligated Amount of $200,000 and final end date of 10/28/2015 from the linked Award in the Subaward edoc.
+
+  * Expected Behavior: The system should display the Award's Obligated Amount of $200,000 and final end date of 10/28/2015 from the linked Award in the Subward edoc.
+  * Joe Williams on Thu, 25 Jun 2015 09:15:25 -0500 [View Commit](../../commit/5c2fac5d8e98f4c2acde7271aef829f2c990a62e)
+
+##coeus-1506.60
 *  syncing DD with DB column sizes, allows symbols and whitespace for CommitteeScheduleMeetingDoc.minuteName and ScheduleAgenda.agendaName
   * Travis Schneeberger on Fri, 19 Jun 2015 16:11:59 -0400 [View Commit](../../commit/9c04eeecee60aea69ac20c465de42bf7db526efd)
 

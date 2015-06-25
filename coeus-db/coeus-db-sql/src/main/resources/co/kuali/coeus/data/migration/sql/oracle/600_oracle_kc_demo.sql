@@ -124,8 +124,6 @@ spool 600_oracle_kc_demo.sql.log
 @./kc/demo/V600_215__KC_DML_01_KRACOEUS-6121_0TSD.sql
 @./kc/demo/V600_216__KC_DML_01_KRACOEUS-6224_00SD.sql
 @./kc/demo/V600_217__KC_DML_01_KRACOEUS-6314_0TSD.sql
-@./kc/demo/V600_228__KC_DML_01_KRACOEUS-7120_BTSD.sql
-@./kc/demo/V600_229__KC_DML_01_KRACOEUS-7356_0TSD.sql
 @./kc/demo/V600_230__KC_DML_01_KRACOEUS-7659_00SD.sql
 @./kc/demo/V600_231__KC_DML_01_KRACOEUS-8741_000D.sql
 commit;

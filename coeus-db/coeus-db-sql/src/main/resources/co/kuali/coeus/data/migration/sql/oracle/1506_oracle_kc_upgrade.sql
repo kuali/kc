@@ -25,5 +25,4 @@ spool 1506_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1506_007__RESKC-365.sql
 @./kc/bootstrap/V1506_009__add_indexes.sql
 @./kc/bootstrap/V1506_011__RESOPS-211.sql
-@./kc/bootstrap/V1506_018__RESKC-55.sql
 commit;

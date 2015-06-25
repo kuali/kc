@@ -23,4 +23,5 @@
 \. ./kc/demo/V1506_014__fixLARateCalculationsBudgetSummaryPeriod3_00SD.sql
 \. ./kc/demo/V1506_015__fixLARateCalculationsBudgetSummaryPeriod4_00SD.sql
 \. ./kc/demo/V1506_016__fixLARateCalculationsBudgetSummaryPeriod5_00SD.sql
+\. ./kc/demo/V1506_018__RESKC-55.sql
 commit;
