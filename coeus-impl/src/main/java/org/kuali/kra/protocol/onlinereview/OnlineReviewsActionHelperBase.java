@@ -310,6 +310,9 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     }
 
     private void initReviewCommentsBeans() {
+    	if (documentHelperMap == null) {
+    		initDocumentHelperMap();
+    	}
         this.reviewCommentsBeans = new ArrayList<ReviewCommentsBeanBase>();
         for (ProtocolOnlineReviewDocumentBase pDoc : getProtocolOnlineReviewDocuments()) {
             Map<String, Object> pDocMap = documentHelperMap.get(pDoc.getDocumentNumber());
@@ -396,14 +399,20 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     }
 
     public ReviewCommentsBeanBase getReviewCommentsBeanFromHelperMap(String documentNumber) {
+    	if (this.reviewCommentsBeans == null) {
+    		initReviewCommentsBeans();
+    	}
         ReviewCommentsBeanBase bean = (ReviewCommentsBeanBase) getHelperMapByDocumentNumber(documentNumber).get(REVIEWER_COMMENTS_MAP_KEY);
         if (bean == null) {
-            throw new IllegalStateException(String.format("ReviewerCommentsBean for document %s was not stored in the helper map.", documentNumber));
+    		throw new IllegalStateException(String.format("ReviewerCommentsBean for document %s was not stored in the helper map.", documentNumber));
         }
         return bean;
     }
 
     public ReviewAttachmentsBeanBase getReviewAttachmentsBeanFromHelperMap(String documentNumber) {
+    	if (this.reviewAttachmentsBeans == null) {
+    		initReviewAttachmentsBeans();
+    	}
         ReviewAttachmentsBeanBase bean = (ReviewAttachmentsBeanBase) getHelperMapByDocumentNumber(documentNumber).get(REVIEWER_ATTACHMENTS_MAP_KEY);
         if (bean == null) {
             throw new IllegalStateException(String.format("ReviewAttachmentsBeanBase for document %s was not stored in the helper map.", documentNumber));
@@ -542,6 +551,9 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     }
 
     private void initReviewAttachmentsBeans() {
+    	if (documentHelperMap == null) {
+    		initDocumentHelperMap();
+    	}
         this.reviewAttachmentsBeans = new ArrayList<>();
         for (ProtocolOnlineReviewDocumentBase pDoc : getProtocolOnlineReviewDocuments()) {
             Map<String, Object> pDocMap = documentHelperMap.get(pDoc.getDocumentNumber());
