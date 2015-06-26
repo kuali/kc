@@ -31,6 +31,7 @@
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.ScheduleAgenda" altText="help"/> </span>
     </h3>
         <html:hidden property="meetingHelper.committeeSchedule.id"/>
+        <kul:errors displayRemaining="true" />
 
         <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
             <tr>

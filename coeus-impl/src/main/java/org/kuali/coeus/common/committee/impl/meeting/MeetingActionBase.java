@@ -87,11 +87,12 @@ public abstract class MeetingActionBase extends KualiAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        CommitteeScheduleBase committeeSchedule = ((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule();
-        if (isValidToSave(((MeetingFormBase) form).getMeetingHelper())) {
-            ((MeetingFormBase) form).getMeetingHelper().populateAttendancePreSave();
-            getMeetingService().saveMeetingDetails(committeeSchedule, ((MeetingFormBase) form).getMeetingHelper().getDeletedBos());
-            ((MeetingFormBase) form).getMeetingHelper().initDeletedList();
+        MeetingFormBase meetingFormBase = (MeetingFormBase) form;
+        CommitteeScheduleBase committeeSchedule = meetingFormBase.getMeetingHelper().getCommitteeSchedule();
+        if (isValidToSave(meetingFormBase.getMeetingHelper(), meetingFormBase.isReadOnly())) {
+            meetingFormBase.getMeetingHelper().populateAttendancePreSave();
+            getMeetingService().saveMeetingDetails(committeeSchedule, meetingFormBase.getMeetingHelper().getDeletedBos());
+            meetingFormBase.getMeetingHelper().initDeletedList();
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -100,7 +101,10 @@ public abstract class MeetingActionBase extends KualiAction {
     /*
      * validate required/format of the properties of bo. also validate business rules.
      */
-    private boolean isValidToSave(MeetingHelperBase meetingHelper) {
+    private boolean isValidToSave(MeetingHelperBase meetingHelper, boolean readOnly) {
+        if (readOnly) {
+            return false;
+        }
 
         GlobalVariables.getMessageMap().addToErrorPath(COMMITTEE_SCHEDULE_ERROR_PATH);
         getDictionaryValidationService().validateBusinessObject(meetingHelper.getCommitteeSchedule());
@@ -165,20 +169,21 @@ public abstract class MeetingActionBase extends KualiAction {
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        MeetingFormBase meetingForm = (MeetingFormBase) form;
+        MeetingFormBase meetingFormBase = (MeetingFormBase) form;
+        MeetingFormBase meetingForm = meetingFormBase;
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question == null && meetingForm.getMeetingHelper().canModifySchedule()) {
             return performQuestionWithoutInput(mapping, form, request, response, CLOSE_QUESTION_ID, CLOSE_QUESTION,
-                    KRADConstants.CONFIRMATION_QUESTION, ((MeetingFormBase) form).getMethodToCall(), "");
+                    KRADConstants.CONFIRMATION_QUESTION, meetingFormBase.getMethodToCall(), "");
         } else if (meetingForm.getMeetingHelper().canModifySchedule()) {
             Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if ((CLOSE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 CommitteeScheduleBase committeeSchedule = meetingForm.getMeetingHelper().getCommitteeSchedule();
-                if (isValidToSave(((MeetingFormBase) form).getMeetingHelper())) {
-                    ((MeetingFormBase) form).getMeetingHelper().populateAttendancePreSave();
+                if (isValidToSave(meetingFormBase.getMeetingHelper(), meetingFormBase.isReadOnly())) {
+                    meetingFormBase.getMeetingHelper().populateAttendancePreSave();
                     getMeetingService().saveMeetingDetails(committeeSchedule,
-                            ((MeetingFormBase) form).getMeetingHelper().getDeletedBos());
-                    ((MeetingFormBase) form).getMeetingHelper().initDeletedList();
+                            meetingFormBase.getMeetingHelper().getDeletedBos());
+                    meetingFormBase.getMeetingHelper().initDeletedList();
                 } else {
                     return mapping.findForward(Constants.MAPPING_BASIC);
 
