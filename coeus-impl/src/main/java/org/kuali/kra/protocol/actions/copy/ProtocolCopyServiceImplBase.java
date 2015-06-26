@@ -39,6 +39,7 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -87,7 +88,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
     private KcAuthorizationService kraAuthorizationService;
     private KcPersonService kcPersonService;
     private SequenceAccessorService sequenceAccessorService;
-
+    private RoleService roleService;
     /**
      * Set the Document Service.
      * @param documentService
@@ -307,7 +308,9 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
    
         List<Role> roles = systemAuthorizationService.getRoles(getProtocolRoleTypeHook());
         for (Role role : roles) {
-
+            if (getRoleService().isDerivedRole(role.getId())) {
+                continue;
+            }
             List<String> users = kraAuthorizationService.getPrincipalsInRole(role.getName(), srcDoc.getProtocol());
 
             final List<KcPerson> persons = new ArrayList<KcPerson>();
@@ -395,5 +398,13 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
 
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+
+    public RoleService getRoleService() {
+        return roleService;
+    }
+
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
     }
 }
