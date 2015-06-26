@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+*  Fixing attachment removal
+  * Application throws STE when attempting to copy proposal with personnel attachment.
+  * User is copying the proposal with budget, does not want to copy attachments.
+  * Got an STE and the exceptiojn in STE said constraint error on EPS_PROP_PERSON_BIO_ATTACH_FK1 - Child row exists. Looks like application is deleting rows from FILE_DATA for source proposal, this should not be happening.
+  * Disabled the constraint and copied the proposal, did not get the STE and copy was created.
+  * During this process, KC had actually deleted rows from file_data for source proposal and now the referential kep cannot be enabled.
+  * Gayathri Athreya on Thu, 25 Jun 2015 15:09:01 -0700 [View Commit](../../commit/31c360b35527116983a172ca8c9b3859cbe07a02)
+* Adding and clarifying project documentation.  Removing unused build logic such as the dev profile and maven jetty support.
+  * Travis Schneeberger on Thu, 25 Jun 2015 20:10:25 -0400 [View Commit](../../commit/7cd22b8fc19e1f6f6d1815a3e94de072eec5bc07)
+
+##coeus-1506.65
 * No Changes
 
 
