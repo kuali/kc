@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1506.66
 *  Fixing attachment removal
   * Application throws STE when attempting to copy proposal with personnel attachment.
   * User is copying the proposal with budget, does not want to copy attachments.
