@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* reevaluate canEditView on all workflow actions on proposal development
+  * Joe Williams on Thu, 25 Jun 2015 12:13:21 -0500 [View Commit](../../commit/d3e788d13841ec6e8bbebd0e02b12368560709d2)
+* RESKC-570 Roll back for RESKC-560 and RESKC-499, implementing a fix described in 499
+
+  * This will make meeting schedules session based again and will alert the user with an error if they have 2 schedules open at the same time because of a multitude of issues cropping up based on the assumption that some data that is missing in a variety of areas would be there
+  * bsmith83 on Thu, 25 Jun 2015 17:00:21 -0700 [View Commit](../../commit/99a26aae55836083a6a2413344ff6bd2036efcbb)
+
+##coeus-1506.63
 *  Add create user and timestamp
   * Create Timestamp and Create User are missing; proposal admin details is missing several of the "date submitted by" fields.
   * Create time stamps are for auditing purposes and to show who updated records.
