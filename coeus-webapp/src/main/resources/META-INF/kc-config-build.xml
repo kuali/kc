@@ -5,8 +5,5 @@ This config file only contains properties that are set by the maven build proces
 -->
 <config>
 	<param name="version">${build.version}</param>
-    <param name="rice.kr.additionalSpringFiles">${build.rice.kr.additionalSpringFiles}</param>
-    <param name="rice.krad.dev.mode">${build.rice.krad.dev.mode}</param>
-    <param name="rice.krad.script.cleanup">${build.rice.krad.script.cleanup}</param>
     <param name="spring.profiles.active" system="true">${build.spring.profiles.active}</param>
 </config>

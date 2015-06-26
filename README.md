@@ -12,7 +12,7 @@ Kuali Coeus (KC) for Research Administration is a comprehensive system to manage
 [Git 2.4.x][5]
 
 **Instructions**
-The Kuali Coeus application uses maven as it's build tool.  Inside of Kuali Coeus's maven configuration is a list of dependencies.  Some of these dependencies may not be available in a publicly available maven repository.  At the very least you will need to install the following projects into your maven repo.  These projects may have more than one submodule.
+The Kuali Coeus application uses Apache Maven as it's build tool.  Inside of Kuali Coeus's Maven configuration is a list of dependencies.  Some of these dependencies may not be available in a publicly available Maven repository.  At the very least you will need to install the following projects into your maven repo.  These projects may have more than one submodule.
 
 * [SchemaSpy](https://github.com/kuali/schemaspy)
 * [Kuali Coeus Rice](https://github.com/kuali/kc-rice)
@@ -49,15 +49,26 @@ Manually search the pom.xml file in the root directory of the Kuali Coeus projec
 
 Then check out the correct tag before installing.
 
-**Step 3: Build SchemaSpy**
-> **GRM Profile:** When building Kuali Coeus Projects you should turn the grm maven profile off.  You can do this by commenting out the activation section of the profile or sending the following system parameter grm.off on the command line. 
+**Cross Project Build Instructions**
+We provide several maven build profiles that may be useful.  Some of these profiles are specific to a project while others are available in all projects.
+When a project specific profile is available, it will be documented in the build step.  The following are a list of profiles available in all projects:
+
+> **GRM Profile:** When building Kuali Coeus Projects you should turn the grm maven profile off as it is on by default.  You can do this by commenting out the activation section of the profile or sending the following system parameter grm.off on the command line. 
 > 
 *mvn clean install -Dgrm.off=true*
+
+> **Error Prone:** When building Kuali Coeus Projects you can turn the error-prone profile on as it is off by default.  This will turn on the strict error prone compiler and fail the compile step if certain source code errors are detected. 
+> 
+*mvn clean install -Perror-prone*
+
+All Kuali Coeus projects use standard maven conventions to build and install artifacts.  The following documents how to install source, javadoc, and primary artifacts for each maven projects.
 
 > **Source and Javadoc jars:** When building Kuali Coeus Projects it may be helpful to also build source and javadoc jars.  These jars can be consumed by tools such as debuggers.  Note: due to changes in the javadoc tool in Java 8, you may need to execute the compile phase before attempting to create a javadoc jar. 
 >
 *mvn clean compile source:jar javadoc:jar install*
 
+
+**Step 3: Build SchemaSpy**
 Check out the correct schemaspy version and run maven clean install.
 ```
 cd schemaspy
@@ -102,6 +113,17 @@ Installing Kuali Coeus
 mvn clean install -Dgrm.off=true -Poracle
 ```
 
+> **Integration Tests:** This runs the integration tests.  This profile requires a properly configured integration test database and configuration.
+```
+mvn clean install -Dgrm.off=true -Pitests
+```
+
+> **Precompile jsps:** This precompiles the Kuali Coeus jsps for Tomcat 7.  This is useful to verify the absence of compile errors in jsps while the Kuali Coeus Application is being built.  Precompilation also helps the initial page load time for all jsps.
+```
+mvn clean install -Dgrm.off=true -Pprecompile-jsp-tomcat-7
+```
+
+
 Install without Oracle support
 ```
 cd ../kc
@@ -142,8 +164,18 @@ Kuali Coeus supports MySQL 5.6 and Oracle. We recommend MySQL though as that is 
 
 * [Database Installation Instructions](coeus-db/coeus-db-sql/src/main/resources/co/kuali/coeus/data/migration/sql/README.md)
 
+**Configuration Information**
 
+This section contains some useful information about configuring the Kuali Coeus Application.  This is not an exhaustive list of configuration options or a tutorial on configuration.  For more options see coeus-impl/src/main/resources/META-INF/kc-config-defaults.xml inside the Kuali Coeus Application source or the Kuali Rice public documentation.
+> **SchemaSpy:** The kc.schemaspy.enabled config param turns SchemaSpy on or off.  SchemaSpy is a great tool for visualizing the Kuali Coeus database and is generally useful on server instances.  It does create additional CPU upon application startup while gathering database information.  After information gathering is complete, CPU usage will go back to normal as all SchemaSpy information is cached as static content.  It is recommended to disable SchemaSpy on developer machines and during integration test runs. 
+```
+<param name="kc.schemaspy.enabled">false</param>
+```
 
+> **Monitoring** The kc.monitoring.enabled config param turns Monitoring on or off.  Monitoring is done through Java Melody and is great for learning about the runtime characteristics of the Kuali Coeus Application.  Java Melody has low overhead and in general can be left on.
+```
+<param name="kc.monitoring.enabled">false</param>
+```
 
   [1]: http://maven.apache.org/download.cgi
   [2]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
@@ -153,3 +185,4 @@ Kuali Coeus supports MySQL 5.6 and Oracle. We recommend MySQL though as that is 
   [6]: http://mvnrepository.com/artifact/org.springframework/spring-instrument-tomcat/3.2.13.RELEASE
   [7]: http://mvnrepository.com/artifact/org.springframework/spring-instrument/3.2.13.RELEASE
   [8]: http://www.graphviz.org/Download..php
+  [9]: https://github.com/google/error-prone
