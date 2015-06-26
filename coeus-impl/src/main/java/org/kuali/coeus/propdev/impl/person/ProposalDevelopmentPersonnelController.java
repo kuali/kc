@@ -31,6 +31,7 @@ import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotification
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -56,6 +57,7 @@ import java.util.*;
 public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentControllerBase {
 
     public static final String PROPOSAL_PERSONS_PATH = "document.developmentProposal.proposalPersons";
+    public static final String CERTIFICATION_UPDATE_FEATURE_FLAG = "CERTIFICATION_UPDATE_FEATURE_FLAG";
     @Autowired
     @Qualifier("wizardControllerService")
     private WizardControllerService wizardControllerService;
@@ -72,6 +74,42 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
             person.getQuestionnaireHelper().populateAnswers();
         }
         return super.navigate(form, result, request, response);
+    }
+
+
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=checkForNewerVersionOfCertification"})
+    public ModelAndView checkForNewerVersionOfCertification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        Boolean certificationUpdateFeatureFlag = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, CERTIFICATION_UPDATE_FEATURE_FLAG);
+        if (certificationUpdateFeatureFlag && isNewerVersionPublished(form)) {
+            return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_PERSONNEL_PAGE_UPDATE_CERTIFICATION_DIALOG,false,form);
+        }
+       return null;
+    }
+
+    protected boolean isNewerVersionPublished(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        for (ProposalPerson person : form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+            if (person.getQuestionnaireHelper().getAnswerHeaders().get(0).isNewerVersionPublished()) {
+               return true;
+            }
+        }
+        return false;
+    }
+
+    @Transactional
+    @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=updateCertification")
+    public ModelAndView updateCertification(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        for (ProposalPerson person : form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+            int index = 0;
+            for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
+                answerHeader.setUpdateOption(form.getUpdateAnswerHeader().getUpdateOption());
+                person.getQuestionnaireHelper().updateQuestionnaireAnswer(index);
+                index++;
+            }
+        }
+
+        form.setUpdateAnswerHeader(new AnswerHeader());
+        return super.save(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=prepareAddPersonDialog"})

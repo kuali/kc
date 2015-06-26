@@ -807,5 +807,37 @@
   
 	</bean>
 
+    <bean id="PropDev-PersonnelPage-UpdateCertification-Dialog" parent="PropDev-PersonnelPage-UpdateCertification-Dialog-parentBean"/>
+    <bean id="PropDev-PersonnelPage-UpdateCertification-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:header.headerText="Please make a selection."
+           >
+        <property name="header.upperGroup.items">
+            <list>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="A newer version of the proposal person certification questionnaire has been published.  An Update is required." p:order="10"/>
+                <bean parent="Uif-InputField" p:propertyName="updateAnswerHeader.updateOption" p:required="true" p:order="20">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0" p:value="Copy the answers from the old version of the questionnaire to the new one.  Only questions that have been changed in the new version will have to be answered." />
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Do not copy answers from previous version of the questionnaire.  Every question in the new version of the questionnaire will have to be answered." />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer.items">
+            <list>
+                <bean id="Uif-DialogConfirmButton" parent="Uif-PrimaryActionButton" p:actionLabel="Ok" p:order="10"
+                      p:dialogDismissOption="REQUEST" p:performClientSideValidation="true" p:methodToCall="updateCertification"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>
