@@ -147,7 +147,7 @@
 		<property name="menuItems">
 			<list>
 				<bean parent="Kc-MenuAction" p:navigateToPageId="PropDev-PersonnelPage"
-					p:actionLabel="Personnel" p:order="10" />
+					p:actionLabel="Personnel" p:order="10" p:successCallback="ajaxSubmitForm('checkForNewerVersionOfCertification');"/>
 				<bean parent="Kc-MenuAction" p:navigateToPageId="PropDev-CreditAllocationPage"
 					p:actionLabel="Credit Allocation" p:order="20" />
 			</list>
