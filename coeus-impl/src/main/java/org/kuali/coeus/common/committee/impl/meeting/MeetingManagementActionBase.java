@@ -65,7 +65,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         throws Exception {
         getMeetingService().markAbsent(((MeetingFormBase) form).getMeetingHelper().getMemberPresentBeans(),
                 ((MeetingFormBase) form).getMeetingHelper().getMemberAbsentBeans(), getLineToDelete(request));
-        return super.save(mapping, form, request, response);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -89,7 +89,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
             meetingHelper, memberAbsentBean, ErrorType.HARDERROR))) {
             getMeetingService().presentVoting(meetingHelper, getLineToDelete(request));
         }
-        return super.save(mapping,form,request,response);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -113,7 +113,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
             meetingHelper, memberAbsentBean, ErrorType.HARDERROR))) {
             getMeetingService().presentOther(meetingHelper, getLineToDelete(request));
         }
-        return super.save(mapping,form,request,response);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -133,7 +133,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
                 .getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR))) {
             getMeetingService().addOtherPresent(meetingHelper);
         }
-        return super.save(mapping, form, request, response);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -150,7 +150,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
     public ActionForward deleteOtherPresent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         getMeetingService().deleteOtherPresent(((MeetingFormBase) form).getMeetingHelper(), getLineToDelete(request));
-        return super.save(mapping, form, request, response);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
 

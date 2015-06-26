@@ -20,6 +20,8 @@ package org.kuali.coeus.common.committee.impl.meeting;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
@@ -33,6 +35,10 @@ import java.util.Map;
 
 public abstract class MeetingFormBase extends KualiForm {
     private static final long serialVersionUID = -7825455832928793712L;
+
+    private static final String ERROR_SCHEDULE_MULTIPLE_TABS = "error.schedule.multipleTabs";
+    private static final String SCHEDULE_ID = "meetingHelper.committeeSchedule.id";
+
     private MeetingHelperBase meetingHelper;
     // textarea needs formKey & document.  
     private String formKey;
@@ -93,10 +99,16 @@ public abstract class MeetingFormBase extends KualiForm {
 
     @Override
     public void populate(HttpServletRequest request) {
-        String scheduleId = request.getParameter("meetingHelper.committeeSchedule.id");
-        if (scheduleId != null) {
-            getMeetingControllerService().populateSchedule(this, request, scheduleId);
+        String sessionScheduleId;
+        if (this.getMeetingHelper() != null && this.getMeetingHelper().getCommitteeSchedule() != null && this.getMeetingHelper().getCommitteeSchedule().getId() != null) {
+            sessionScheduleId = Long.toString(this.getMeetingHelper().getCommitteeSchedule().getId());
+            String requestScheduleId = request.getParameter(SCHEDULE_ID);
+            if (requestScheduleId != null && !sessionScheduleId.equals(requestScheduleId)) {
+                getGlobalVariableService().getMessageMap().putError(SCHEDULE_ID, ERROR_SCHEDULE_MULTIPLE_TABS, "");
+                setReadOnly(true);
+            }
         }
+
         super.populate(request);
         populateFalseCheckboxes(request);
     }
@@ -123,6 +135,10 @@ public abstract class MeetingFormBase extends KualiForm {
                 }
             }
         }
+    }
+
+    protected GlobalVariableService getGlobalVariableService() {
+        return KcServiceLocator.getService(GlobalVariableService.class);
     }
 
     protected abstract MeetingControllerService getMeetingControllerService();
