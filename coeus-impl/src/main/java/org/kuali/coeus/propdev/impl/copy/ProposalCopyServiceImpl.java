@@ -304,10 +304,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
 
     protected void removeAttachments(ProposalDevelopmentDocument newDoc) {
-        newDoc.getDevelopmentProposal().setNarratives(new ArrayList<Narrative>());
-        newDoc.getDevelopmentProposal().setInstituteAttachments(new ArrayList<Narrative>());
-        newDoc.getDevelopmentProposal().setProposalAbstracts(new ArrayList<ProposalAbstract>());
-        newDoc.getDevelopmentProposal().setPropPersonBios(new ArrayList<ProposalPersonBiography>());
+        newDoc.getDevelopmentProposal().setNarratives(new ArrayList<>());
+        newDoc.getDevelopmentProposal().setInstituteAttachments(new ArrayList<>());
+        newDoc.getDevelopmentProposal().setProposalAbstracts(new ArrayList<>());
+        newDoc.getDevelopmentProposal().setPropPersonBios(new ArrayList<>());
     }
 
     /**
@@ -446,7 +446,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         fixNextValues(oldDoc, newDoc);
 
         DevelopmentProposal copy = (DevelopmentProposal) deepCopy(oldDoc.getDevelopmentProposal());
-        
+        // remove attachments since they cause issues in oracle while persisting. They
+        // are repopulated later at any rate.
+        removeBioAttachments(copy);
+
         copy.getBudgets().clear();
         copy.setFinalBudget(null);
 
@@ -454,6 +457,12 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
         copy.setProposalDocument(newDoc);
 
+    }
+
+    private void removeBioAttachments(DevelopmentProposal copy) {
+        for(ProposalPersonBiography bio : copy.getPropPersonBios()) {
+            bio.setPersonnelAttachment(null);
+        }
     }
 
     protected KcDataObject deepCopy(KcDataObject src) throws Exception {
@@ -642,7 +651,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     protected void copyAttachmentFiles(DevelopmentProposal oldProposal, DevelopmentProposal newProposal) {
         copyNarrativeAttachments(oldProposal.getNarratives(), newProposal.getNarratives());
         copyNarrativeAttachments(oldProposal.getInstituteAttachments(), newProposal.getInstituteAttachments());
-        copyPropPersonBiosAttachments(oldProposal.getPropPersonBios(),newProposal.getPropPersonBios());
+        copyPropPersonBiosAttachments(oldProposal.getPropPersonBios(), newProposal.getPropPersonBios());
     }
 
     protected void copyPropPersonBiosAttachments(List<ProposalPersonBiography> oldBiographies, List<ProposalPersonBiography> newBiographies) {

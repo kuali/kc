@@ -457,7 +457,7 @@ public class ProposalPersonBiography extends KcPersistableBusinessObjectBase imp
 
     @PostRemove
     public void removeData() {
-        if (getPersonnelAttachment().getFileDataId() != null) {
+        if (getPersonnelAttachment() != null && getPersonnelAttachment().getFileDataId() != null) {
             getKcAttachmentDao().removeData(getPersonnelAttachment().getFileDataId());
         }
     }
