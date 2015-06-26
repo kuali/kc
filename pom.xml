@@ -100,7 +100,6 @@
         <jetty.javax.servlet.version>${jetty9.javax.servlet.version}</jetty.javax.servlet.version>
         <jetty9.javax.servlet.jsp.version>2.2.0.v201112011158</jetty9.javax.servlet.jsp.version>
         <jetty.javax.servlet.jsp.version>${jetty9.javax.servlet.jsp.version}</jetty.javax.servlet.jsp.version>
-        <jetty8.version>8.1.14.v20131031</jetty8.version>
         <jetty9.version>9.0.7.v20131107</jetty9.version>
         <jetty.version>${jetty9.version}</jetty.version>
         <jmock.version>2.8.1</jmock.version>
@@ -148,10 +147,6 @@
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
-        <jetty-maven-plugin9.groupId>org.eclipse.jetty</jetty-maven-plugin9.groupId>
-        <jetty-maven-plugin.groupId>${jetty-maven-plugin9.groupId}</jetty-maven-plugin.groupId>
-        <jetty-maven-plugin.artifactId>jetty-maven-plugin</jetty-maven-plugin.artifactId>
-        <jetty-maven-plugin.version>${jetty.version}</jetty-maven-plugin.version>
         <jspc-maven-plugin.version>2.0.0</jspc-maven-plugin.version>
         <license-maven-plugin.version>1.6.4</license-maven-plugin.version>
         <maven-clean-plugin.version>2.6.1</maven-clean-plugin.version>
@@ -731,11 +726,6 @@
                             <version>${kuali-cm.version}</version>
                         </dependency>
                     </dependencies>
-                </plugin>
-            <plugin>
-                    <groupId>${jetty-maven-plugin.groupId}</groupId>
-                    <artifactId>${jetty-maven-plugin.artifactId}</artifactId>
-                    <version>${jetty-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -1878,47 +1868,6 @@
                     <exclusion>
                         <groupId>org.eclipse.persistence</groupId>
                         <artifactId>org.eclipse.persistence.oracle</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib-nodep</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.rice</groupId>
-                <artifactId>rice-krad-development-tools</artifactId>
-                <version>${rice.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-impl</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-core-impl</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-krad-app-framework</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-krad-web-framework</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>org.kuali.db.ojb</groupId>
-                        <artifactId>db-ojb</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>cglib</groupId>

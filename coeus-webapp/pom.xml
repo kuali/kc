@@ -38,16 +38,10 @@
     </prerequisites>
 
     <properties>
-        <build.rice.kr.additionalSpringFiles />
-        <build.rice.krad.dev.mode>false</build.rice.krad.dev.mode>
-        <build.rice.krad.script.cleanup>true</build.rice.krad.script.cleanup>
 
-        <!-- jetty & tomcat properties -->
+        <!-- tomcat properties -->
         <kc.context.path>/kc-${build.environment}</kc.context.path>
         <kc.port>8080</kc.port>
-        <jetty.context.file>${basedir}/src/main/webapp/WEB-INF/jetty-web.xml</jetty.context.file>
-	<jetty.memOpts>-Xmx1536m</jetty.memOpts>
-        <jetty.argLine>${jetty.memOpts} ${javaagent.arg}</jetty.argLine>
 
         <generated.web.sources>${project.build.directory}/generated-web-sources</generated.web.sources>
         <help.web.sources>${project.build.directory}/generated-web-sources/help-web-sources</help.web.sources>
@@ -247,42 +241,6 @@
                     <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>${jetty-maven-plugin.groupId}</groupId>
-                <artifactId>${jetty-maven-plugin.artifactId}</artifactId>
-                <version>${jetty-maven-plugin.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>${db.groupId}</groupId>
-                        <artifactId>${db.artifactId}</artifactId>
-                        <version>${db.version}</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <webAppConfig>
-                        <contextPath>${kc.context.path}</contextPath>
-                        <descriptor>${basedir}/src/main/webapp/WEB-INF/web.xml</descriptor>
-                        <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
-                            <resourcesAsCSV>src/main/webapp,${help.web.sources},${rice.web.sources}</resourcesAsCSV>
-                        </baseResource>
-                    </webAppConfig>
-                    <connectors>
-                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>${kc.port}</port>
-                            <maxIdleTime>60000</maxIdleTime>
-                        </connector>
-                    </connectors>
-                    <contextXml>${jetty.context.file}</contextXml>
-                    <systemProperties>
-                        <systemProperty>
-                            <name>metadata-complete</name>
-                            <value>true</value>
-                        </systemProperty>
-                    </systemProperties>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -290,7 +248,7 @@
         <!--
          This profile defines plugins for running a rice standalone server.
 
-         This profile is sort of a hack as the jetty & tomcat plugins are meant
+         This profile is sort of a hack as the tomcat plugins are meant
          for running "this" application and not an external application. The maven
          cargo plugin might be better suited for this kind of task if they would
          support embedded tomcat.
@@ -298,9 +256,9 @@
          Since this is not really the maven way to do things, once we have an alternate
          structure this will no longer be needed.  we will do the following:
          1) have a new child module called kc-rice-standalone.  It will be an empty overlay of rice-standalone.
-         2) configure all the jetty/tomcat stuff in a central place under pluginManagement
-         3) to run kc you go to the kc web module and invoke jetty or tomcat
-         4) to run rice you go to the kc-rice-standalone and invoke jetty or tomcat
+         2) configure all the tomcat stuff in a central place under pluginManagement
+         3) to run kc you go to the kc web module and invoke tomcat
+         4) to run rice you go to the kc-rice-standalone and invoke tomcat
          -->
         <profile>
             <id>rice-server</id>
@@ -311,47 +269,6 @@
             </properties>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>${jetty-maven-plugin.groupId}</groupId>
-                        <artifactId>${jetty-maven-plugin.artifactId}</artifactId>
-                        <version>${jetty-maven-plugin.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>${db.groupId}</groupId>
-                                <artifactId>${db.artifactId}</artifactId>
-                                <version>${db.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                        </dependencies>
-                        <configuration>
-                            <excludedGoals>
-                                <excludedGoal>deploy-war</excludedGoal>
-                                <excludedGoal>start</excludedGoal>
-                                <excludedGoal>stop</excludedGoal>
-                            </excludedGoals>
-                            <reload>manual</reload>
-                            <war>${rice.war.file}</war>
-                            <webXml>${rice.war.dir}/WEB-INF/web.xml</webXml>
-                            <webAppSourceDirectory>${rice.war.dir}</webAppSourceDirectory>
-                            <classesDirectory>${rice.war.dir}/WEB-INF/classes</classesDirectory>
-                            <contextXml>${jetty.context.file}</contextXml>
-                            <webApp>
-                                <contextPath>${rice.context.path}</contextPath>
-                            </webApp>
-                            <connectors>
-                                <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                                    <port>${rice.port}</port>
-                                    <maxIdleTime>60000</maxIdleTime>
-                                </connector>
-                            </connectors>
-                            <systemProperties>
-                                <systemProperty>
-                                    <name>metadata-complete</name>
-                                    <value>true</value>
-                                </systemProperty>
-                            </systemProperties>
-                        </configuration>
-                    </plugin>
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
                         <artifactId>tomcat7-maven-plugin</artifactId>
@@ -474,62 +391,13 @@
         </profile>
 
         <profile>
-            <id>precompile-jsp-jetty-9</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>${jetty-maven-plugin9.groupId}</groupId>
-                        <artifactId>jetty-jspc-maven-plugin</artifactId>
-                        <version>${jetty9.version}</version>
-                        <executions>
-                            <execution>
-                                <id>jspc</id>
-                                <goals>
-                                    <goal>jspc</goal>
-                                </goals>
-                                <configuration>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.slf4j</groupId>
-                                <artifactId>slf4j-api</artifactId>
-                                <version>${slf4j.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.slf4j</groupId>
-                                <artifactId>slf4j-simple</artifactId>
-                                <version>${slf4j.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
             <id>dev</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-            <properties>
-                <build.rice.kr.additionalSpringFiles>classpath:org/kuali/rice/krad/devtools/datadictionary/ReloadingDataDictionarySpringBeans.xml</build.rice.kr.additionalSpringFiles>
-                <build.rice.krad.dev.mode>true</build.rice.krad.dev.mode>
-                <build.rice.krad.script.cleanup>false</build.rice.krad.script.cleanup>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.kuali.rice</groupId>
-                    <artifactId>rice-development-tools</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.kuali.rice</groupId>
-                    <artifactId>rice-krad-development-tools</artifactId>
-                </dependency>
-            </dependencies>
+
+            <!--placeholder profile for development profile.  Currently does nothing. -->
+
         </profile>
 
         <profile>
