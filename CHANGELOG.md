@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1506.64
 * reevaluate canEditView on all workflow actions on proposal development
   * Joe Williams on Thu, 25 Jun 2015 12:13:21 -0500 [View Commit](../../commit/d3e788d13841ec6e8bbebd0e02b12368560709d2)
 * RESKC-570 Roll back for RESKC-560 and RESKC-499, implementing a fix described in 499
