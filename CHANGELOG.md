@@ -1,6 +1,54 @@
 
 
 ##CURRENT
+* add certification questions update mechanism
+
+  * User needs to be able to answer newly added certification questions rather than being forced to create a new proposal to answer new question
+
+steps to reproduce
+
+    start a new proposal document
+    add key personnel
+    close proposal
+    maintain questionnaire to edit the proposal person certification questionnaire
+    open the content section and use search lookup to add another question
+    return the new question
+    blanket approve document
+    open proposal again
+    navigate to proposal person certification
+
+  * Results: the new question does not appear
+  * Expected Results: the system should treat certification questions the same as all other questions and prompt user for update.
+
+  * Acceptance Criteria:
+  * As a user with the ModifyProposalDevelopmentDocument permission (ex Aggregator)
+
+  * 1 When there is a new version of a proposal person certification questionnaire
+  * Then:
+
+    The system should tell the user that a new version of the questionnaire has been published and an update is required.
+    Then:
+    The user should then be prompted to instruct the system how to update the questionnaire
+
+  * 2 When the user chooses to "copy the answers from the old version of questionnaire to the new one. Only questions that have been changed in the new version will have to be answered."
+  * Then:
+
+    The system will update questionnaire to show the newest questionnaire version and will retain answers to any questions that had previously been answered
+    The system will not delete any answers
+
+  * 3 When the user chooses the option "Do not copy answers from previous version of the questionnaire. Every question in the new version of the questionnaire will have to be answered."
+  * Then:
+
+    The system will update questionnaire to show the newest questionnaire version and all prior answers shall be cleared
+    The system shall not retain any previously answered questions.
+
+  * 4 When the user does not make a selection to the update prompt
+  * Then:
+
+    The system shall not allow any edits to the current questionnaire, the user must select an update option to be able to edit questionnaire
+  * Joe Williams on Fri, 26 Jun 2015 15:29:17 -0500 [View Commit](../../commit/484d43a9cd8d7d96524b9c7391540a6f4c0b2075)
+
+##coeus-1506.68
 * RESKC-252 Numeric text sort detection fix for datatables which contain numeric values
 
   * Fix to allow for automated sorting of columns within rich datatables which contain values that are considered numeric, this allows this type of sorting to be automated rather than specified per column, per table as was necessary previously since non-numeric sort is useless on values that are clearly should be considered numeric with these new checks.  This also automatically fixes sorting for currency, comma separated, and percentage numeric columns.
