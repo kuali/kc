@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* RESKC-252 Numeric text sort detection fix for datatables which contain numeric values
+
+  * Fix to allow for automated sorting of columns within rich datatables which contain values that are considered numeric, this allows this type of sorting to be automated rather than specified per column, per table as was necessary previously since non-numeric sort is useless on values that are clearly should be considered numeric with these new checks.  This also automatically fixes sorting for currency, comma separated, and percentage numeric columns.
+  * bsmith83 on Wed, 17 Jun 2015 17:08:02 -0700 [View Commit](../../commit/579b66bfe39983729593a78fc15c9d6107766bfd)
+
+##coeus-1506.67
 * No Changes
 
 
