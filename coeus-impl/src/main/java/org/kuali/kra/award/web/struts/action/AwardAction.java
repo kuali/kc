@@ -74,6 +74,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.kra.subaward.service.SubAwardService;
+import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.history.TransactionDetailType;
@@ -103,6 +104,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -268,29 +270,14 @@ public class AwardAction extends BudgetParentActionBase {
 
     protected void populateAwardHierarchy(ActionForm form) throws WorkflowException {
         AwardForm awardForm = (AwardForm)form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
 
         List<String> order = new ArrayList<String>();
         AwardHierarchyBean helperBean = awardForm.getAwardHierarchyBean();
         AwardHierarchy rootNode = helperBean.getRootNode();
-        Map<String, AwardHierarchy> awardHierarchyNodes = helperBean.getAwardHierarchy(rootNode, order);
+        Award currentAward = awardDocument.getAward();
         awardForm.setRootAwardNumber(rootNode.getRootAwardNumber());
-        StringBuilder sb1 = new StringBuilder();
-        StringBuilder sb2 = new StringBuilder();
-        for(String str:order){
-            AwardHierarchy tempAwardNode = awardHierarchyNodes.get(str);
-            sb1.append(tempAwardNode.getAwardNumber());
-            sb1.append(KRADConstants.BLANK_SPACE).append("%3A");
-            if (getVersionHistoryService().findActiveVersion(Award.class, tempAwardNode.getAwardNumber()) != null) {
-                sb2.append(tempAwardNode.getAwardNumber());
-                sb2.append(KRADConstants.BLANK_SPACE).append("%3A");
-            }
-        }
-        
-        for(int i = 0; i < helperBean.getMaxAwardNumber(); i++){
-            AwardHierarchyTempObject temp = awardForm.getAwardHierarchyTempObjects().get(i);
-            temp.setSelectBox1(sb1.toString());
-            temp.setSelectBox2(sb2.toString());
-        }
+        buildAwardHierarchySourceAndTargetList(awardForm, currentAward);
     }
     
 
@@ -409,12 +396,12 @@ public class AwardAction extends BudgetParentActionBase {
     
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward;
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AwardForm awardForm = (AwardForm) form;
 
         Award award = awardForm.getAwardDocument().getAward();
         checkAwardNumber(award);
-
+        
         if (award.getAwardApprovedSubawards() == null || award.getAwardApprovedSubawards().isEmpty()) {
             award.setSubContractIndicator(Constants.NO_FLAG);
         } else {
@@ -1620,5 +1607,38 @@ public class AwardAction extends BudgetParentActionBase {
 
 	public void setTimeAndMoneyVersionService(TimeAndMoneyVersionService timeAndMoneyVersionService) {
 		this.timeAndMoneyVersionService = timeAndMoneyVersionService;
+	}
+	
+	protected void buildAwardHierarchySourceAndTargetList(AwardForm awardForm, Award currentAward) {
+		List<String> order = new ArrayList<String>();
+		if (StringUtils.isBlank(awardForm.getAwardHierarchyTargetAwardNumber())) {
+			awardForm.setAwardHierarchyTargetAwardNumber(currentAward.getAwardNumber());
+		}
+	    Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
+	    Map<String,AwardHierarchy> awardHierarchyItems = 
+	    		awardForm.getAwardHierarchyBean().getAwardHierarchy(awardForm.getAwardHierarchyTargetAwardNumber(), order);
+	    getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
+	    StringBuilder sourceAwardStrList = new StringBuilder();
+	    StringBuilder targetAwardStrList = new StringBuilder();
+	    for(String str:order){
+	        sourceAwardStrList.append("'").append(str).append("',");
+	        if (awardHierarchyNodes.get(str).isAwardDocumentFinalStatus()) {
+	        	targetAwardStrList.append("'").append(str).append("',");
+	        }
+	    }
+	    if (sourceAwardStrList.length() > 1) {
+	    	awardForm.setAwardHierarchySourceAwardStrList(removeTrailingCommaIfExists(sourceAwardStrList.toString()));
+	    }
+	    if (targetAwardStrList.length() > 1) {
+	    	awardForm.setAwardHierarchyTargetAwardStrList(removeTrailingCommaIfExists(targetAwardStrList.toString()));
+	    }
+	}
+	
+	protected String removeTrailingCommaIfExists(final String listStr) {
+		String result = listStr;
+		if (result.endsWith(",")) {
+			result = result.substring(0, result.length()-1);
+		}
+		return result;
 	}
 }

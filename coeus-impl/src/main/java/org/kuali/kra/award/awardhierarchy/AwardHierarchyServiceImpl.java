@@ -589,9 +589,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         awardHierarchyNode.setParentAwardNumber(awardHierarchy.getParentAwardNumber());
         awardHierarchyNode.setRootAwardNumber(awardHierarchy.getRootAwardNumber());
 
-        VersionHistory pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, awardNumber);
         VersionHistory activeVersionHistory = versionHistoryService.findActiveVersion(Award.class, awardNumber);
-
 
         Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
         //KRACOEUS-5543: If an award is copied to another hierarchy, it does not retain it's own Award Document.  In this case there will not be a version history, so
@@ -624,7 +622,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         awardHierarchyNode.setHasChildren(!awardHierarchy.getChildren().isEmpty());
         
         //if there is not a pending version and there is an active version then the award document is final.
-        awardHierarchyNode.setAwardDocumentFinalStatus(pendingVersionHistory == null && activeVersionHistory != null);
+        awardHierarchyNode.setAwardDocumentFinalStatus(activeVersionHistory != null);
         return awardHierarchyNode;
 
     }

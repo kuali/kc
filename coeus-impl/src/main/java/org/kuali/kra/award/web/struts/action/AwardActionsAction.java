@@ -48,7 +48,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
-import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -62,6 +61,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.*;
 
 /**
@@ -554,52 +554,13 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
         AwardForm awardForm = (AwardForm)form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        int activeHierarchyObjectIndex = getActiveHierarchyObjectIndex(request);
-        int loopIndex = 0;
         Award currentAward = awardDocument.getAward();
-        
-        for(AwardHierarchyTempObject temp: awardForm.getAwardHierarchyTempObjects()){ 
-            List<String> order = new ArrayList<String>();
-            
-            if(loopIndex == activeHierarchyObjectIndex-1) {
-                temp.setAwardNumber2(null);
-                temp.setAwardNumber(null);
-            }
-            
-            if(StringUtils.isNotBlank(temp.getAwardNumber1())){
-                Map<String,AwardHierarchy> awardHierarchyItems = awardForm.getAwardHierarchyBean().getAwardHierarchy(temp.getAwardNumber1(), order);
-                StringBuilder sb = new StringBuilder();
-                for(String str:order){
-                    sb.append(awardHierarchyItems.get(str).getAwardNumber());
-                    sb.append(KRADConstants.BLANK_SPACE).append("%3A");
-                }
-                temp.setSelectBox1(sb.toString());
-                request.setAttribute("selectedAwardNumber", temp.getAwardNumber()); 
-            }
 
-            if(StringUtils.isNotBlank(temp.getAwardNumber2())){
-                order = new ArrayList<String>();
-                Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
-                Map<String,AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(temp.getAwardNumber2(), order);
-                getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
-                StringBuilder sb = new StringBuilder();
-                for(String str:order){
-                    AwardHierarchyNode tempAwardNode = awardHierarchyNodes.get(str);
-                    if(tempAwardNode.isAwardDocumentFinalStatus()) {
-                        sb.append(tempAwardNode.getAwardNumber());
-                        sb.append(KRADConstants.BLANK_SPACE).append("%3A");    
-                    }
-                }
-                temp.setSelectBox2(sb.toString());
-                request.setAttribute("selectedAwardNumber", temp.getAwardNumber()); 
-            }
-            loopIndex++;
-        }
-
+        buildAwardHierarchySourceAndTargetList(awardForm, currentAward);
         return super.refresh(mapping, form, request, response);
     }
 
-    private AwardHierarchy findTargetNode(HttpServletRequest request, AwardForm awardForm) {
+	private AwardHierarchy findTargetNode(HttpServletRequest request, AwardForm awardForm) {
         return awardForm.getAwardHierarchyBean().getRootNode().findNodeInHierarchy(getAwardNumber(request));
     }
 
