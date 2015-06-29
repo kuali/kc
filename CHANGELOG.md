@@ -1,6 +1,48 @@
 
 
 ##CURRENT
+* prevent users from being assigned derived roles on protocol copy
+
+  * Steps to add derived role to a principle.
+
+  * 1.) create protocol
+  * 2.) add PI that is not current user
+  * 3.) go protocol actions and copy protocol. (again be sure PI is not logged in user)
+
+  * After you copy the protocol the PI is assigned the PI derived role, and will show up on every protocol as a PI.
+  * Joe Williams on Fri, 26 Jun 2015 12:31:38 -0500 [View Commit](../../commit/1be730aacc797e9eb80a8bc3cb5b65ef403ba1e6)
+* display correcct obligated amount and end date immediately upon adding award to subward
+
+  * 1. Create and finalize an award.
+  * 2. Create and finalize a T&M document for $50,000 using the Transactions panel for entering the amount.
+  * 3. Edit T&M (which creates a new T&M document) and finalize it for $25,000 more using the Transactions panel for entering the amount.
+  * 4. Create and finalize a subaward document, linking the subaward to the award created in step 1.
+
+  * RESULT: The amount appearing in the Funding Source panel will show $50,000 in KC 5.0.1 and $0 in KC 5.1.
+
+  * EXPECTED RESULT: The amount appearing in the Funding Source panel should be $75,000.
+  * Joe Williams on Mon, 29 Jun 2015 08:34:33 -0500 [View Commit](../../commit/55a2efc019e2cf6c47e6f78122fa81d9d117814c)
+* display credit splits for award unit and persons home unit on award
+
+  * 1. Create an Award, completing all required fields to save the document, enter the following for Lead Unit ID: IN-IN
+  * 2. Click the Contacts tab
+  * 3. Enter the following for Employee User Name: oblood
+  * 4. Click Add to add OLBOOD as a Principal Investigator
+  * 5. Click Save
+  * 6. Observe the Unit Details and Combined Credit Split subpanels
+  * Actual Behavior: The system displays a Unit Details subpanel row for the Lead Unit defined on the Award tab (IN-IN). The system does not display any rows for the Primary Department Code defined for the Person in the Person record (BL-RCEN). The system displays a Combined Credit Split subpanel row for the one Unit defined on the Unit Details subpanel (which is the Lead Unit entered on the Award tab).
+  * Expected Behavior: The system should display a Unit Details subpanel row for the Lead Unit defined on the Award tab and a row for the Primary Department Code defined for the Person in the Person record. The system should display a Combined Credit Split subpanel row for each Unit defined on the Unit Details subpanel, one for the Lead Unit entered on the Award tab and one for the Primary Department Code defined for the person in the Person record.
+  * Joe Williams on Mon, 29 Jun 2015 09:34:46 -0500 [View Commit](../../commit/78155087a4f526f691625685f801d4597f84a0cb)
+* fix issue when copying proposal with manually entered sub award budgets
+
+  * Copying Proposals that has Subaward budgets uploaded in the budget throws STE. You can copy proposal if you choose not to copy the budget.
+
+  * At this point users cannot copy any proposals that has a subaward budget.
+
+  * Comments: User is having an issue copying a budget version. Has a Subaward manually entered, not file upload. Get incident report when trying to copy budget.
+  * Joe Williams on Mon, 29 Jun 2015 09:49:48 -0500 [View Commit](../../commit/237a8977a0de5b938038cd95a4c911417c6be333)
+
+##coeus-1506.69
 * add certification questions update mechanism
 
   * User needs to be able to answer newly added certification questions rather than being forced to create a new proposal to answer new question
