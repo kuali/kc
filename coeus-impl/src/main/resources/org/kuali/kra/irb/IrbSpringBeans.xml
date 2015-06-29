@@ -644,6 +644,7 @@
         <property name="systemAuthorizationService" ref="systemAuthorizationService" />
         <property name="kraAuthorizationService" ref="kcAuthorizationService" />
         <property name="protocolNumberService" ref="protocolNumberService" />
+        <property name="roleService" ref="roleService" />
         <property name="sequenceAccessorService">
             <ref bean="sequenceAccessorService" />
         </property>
