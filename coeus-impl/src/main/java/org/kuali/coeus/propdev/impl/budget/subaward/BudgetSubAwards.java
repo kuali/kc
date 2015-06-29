@@ -563,7 +563,8 @@ public class BudgetSubAwards extends KcPersistableBusinessObjectBase implements 
         }
         //if we didn't have a softreference, grab the data from the db
         byte[] newData = getKcAttachmentDao().getData(xmlDataId);
-        String newString = new String(newData);
+
+        String newString = newData != null ? new String(newData) : null;
         subAwardXmlFileData = new SoftReference<String>(newString);
         return newString;
     }
