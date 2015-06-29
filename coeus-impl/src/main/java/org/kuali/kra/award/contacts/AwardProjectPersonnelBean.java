@@ -65,25 +65,25 @@ public class AwardProjectPersonnelBean extends AwardContactsBean {
     public AwardPerson addProjectPerson() {
         AwardProjectPersonRuleAddEvent event = generateAddProjectPersonEvent();
         boolean success = new AwardProjectPersonAddRuleImpl().processAddAwardProjectPersonBusinessRules(event);
-        if(success){
+        if (success) {
             AwardPerson awardPerson = getNewProjectPerson();
             getAward().add(awardPerson);
             init();
-            if(awardPerson.isPrincipalInvestigator()) {
-            	addPersonUnitToPerson(awardPerson, new AwardPersonUnit(awardPerson, getAward().getLeadUnit(), true));
-            } else {
-                if(awardPerson.isEmployee() && !awardPerson.isKeyPerson()) {
-                    // no reason to add null unit, it just confuses things...
-                    if (awardPerson.getPerson().getUnit() != null) {
-                    	addPersonUnitToPerson(awardPerson, new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), false));
-                    }
+            if (awardPerson.isPrincipalInvestigator()) {
+                addPersonUnitToPerson(awardPerson, new AwardPersonUnit(awardPerson, getAward().getLeadUnit(), true));
+            }
+
+            if (awardPerson.isEmployee() && !awardPerson.isKeyPerson()) {
+                // no reason to add null unit, it just confuses things...
+                if (awardPerson.getPerson().getUnit() != null) {
+                    addPersonUnitToPerson(awardPerson, new AwardPersonUnit(awardPerson, awardPerson.getPerson().getUnit(), false));
                 }
-                else {
-                    if (!awardPerson.isEmployee()) {
-                    	addPersonUnitToPerson(awardPerson, new AwardPersonUnit(awardPerson,awardPerson.getRolodex().getUnit(),false));
-                    }                    
+            } else {
+                if (!awardPerson.isEmployee()) {
+                    addPersonUnitToPerson(awardPerson, new AwardPersonUnit(awardPerson, awardPerson.getRolodex().getUnit(), false));
                 }
             }
+
             return awardPerson;
         } else {
             return null;
