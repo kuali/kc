@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* fix proposal credit allocation totals issue
+
+  * Proposal Key Personnel Credit allocation calculations not accurate if one or more key personnel have three or four units assigned
+
+steps to reproduce
+
+    Create proposal
+    add key personnel
+    add two or three additional units for the person
+    navigate to credit allocation
+    add amounts to allocation and see that the figures to not sum correctly
+  * Joe Williams on Tue, 30 Jun 2015 09:45:00 -0500 [View Commit](../../commit/f5a647c6bbd022514b6b8611552a4f007f047bc8)
+
+##coeus-1506.70
 * prevent users from being assigned derived roles on protocol copy
 
   * Steps to add derived role to a principle.
