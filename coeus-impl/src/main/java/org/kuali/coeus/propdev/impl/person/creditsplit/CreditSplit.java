@@ -49,4 +49,6 @@ public interface CreditSplit {
      * @param argInvCreditTypeCode Value to assign to this.invCreditTypeCode
      */
     public void setInvCreditTypeCode(String argInvCreditTypeCode);
+
+    public void setCredit(ScaleTwoDecimal credit);
 }

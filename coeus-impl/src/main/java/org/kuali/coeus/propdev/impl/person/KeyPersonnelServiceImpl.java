@@ -19,7 +19,6 @@
 package org.kuali.coeus.propdev.impl.person;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
@@ -29,7 +28,6 @@ import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
 import org.kuali.coeus.common.framework.person.attr.PersonDegree;
 import org.kuali.coeus.common.framework.type.InvestigatorCreditType;
 import org.kuali.coeus.common.framework.unit.Unit;
-import org.kuali.coeus.common.framework.ynq.Ynq;
 import org.kuali.coeus.common.framework.ynq.YnqService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
@@ -49,6 +47,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -65,6 +64,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private static final Log LOG = LogFactory.getLog(KeyPersonnelServiceImpl.class);
 
     private static final String ROLODEX_PERSON = "Unknown";
+    public static final String INVESTIGATOR = "investigator";
+    public static final String UNIT = "unit";
+    public static final String UNIT_TOTAL = "Unit Total:";
+    public static final String UNIT_TOTAL_TYPE = "unit-total";
+    public static final String INVESTIGATOR_TOTAL = "Investigator Total:";
+    public static final String INVESTIGATOR_TOTAL_TYPE = "investigator-total";
 
     @Autowired
     @Qualifier("businessObjectService")
@@ -434,7 +439,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         	unit.setProposalPerson(person);
 
             person.addUnit(unit);
-            unit.refreshReferenceObject("unit");
+            unit.refreshReferenceObject(UNIT);
         }
     }
 
@@ -542,64 +547,76 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     @Override
     public List<ProposalCreditSplitListDto> createCreditSplitListItems(List<ProposalPerson> investigators) {
         List<ProposalCreditSplitListDto> creditSplitListItems = new ArrayList<ProposalCreditSplitListDto>();
-        Map<String,ProposalPersonCreditSplit> totalInvestigatorSplits = new HashMap<String,ProposalPersonCreditSplit>();
+        Map<String,CreditSplit> totalInvestigatorSplits = new HashMap<>();
         for (ProposalPerson investigator : investigators) {
-            ProposalCreditSplitListDto investigatorLine = new ProposalCreditSplitListDto();
-            investigatorLine.setDescription(investigator.getFullName());
-            investigatorLine.setLineType("investigator");
-            investigatorLine.getCreditSplits().addAll(investigator.getCreditSplits());
-            creditSplitListItems.add(investigatorLine);
-            for(ProposalPersonCreditSplit invesitgatorCreditSplit : investigator.getCreditSplits()){
-                if (totalInvestigatorSplits.containsKey(invesitgatorCreditSplit.getInvCreditTypeCode())) {
-                    ProposalPersonCreditSplit creditSplit = totalInvestigatorSplits.get(invesitgatorCreditSplit.getInvCreditTypeCode());
-                    creditSplit.setCredit(creditSplit.getCredit().add(invesitgatorCreditSplit.getCredit()));
-                } else {
-                    ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
-                    creditSplit.setCredit(invesitgatorCreditSplit.getCredit());
-                    totalInvestigatorSplits.put(invesitgatorCreditSplit.getInvCreditTypeCode(),creditSplit);
-                }
-            }
-
-            Map<String,ProposalUnitCreditSplit> totalUnitSplits = new HashMap<String,ProposalUnitCreditSplit>();
-            for(ProposalPersonUnit unit : investigator.getUnits()) {
-                ProposalCreditSplitListDto unitLine = new ProposalCreditSplitListDto();
-                unitLine.setDescription(unit.getUnitNumber() + " - " + unit.getUnit().getUnitName());
-                unitLine.getCreditSplits().addAll(unit.getCreditSplits());
-                unitLine.setLineType("unit");
-                creditSplitListItems.add(unitLine);
-                for(ProposalUnitCreditSplit unitCreditSplit : unit.getCreditSplits()){
-                    if (totalUnitSplits.containsKey(unitCreditSplit.getInvCreditTypeCode())) {
-                        ProposalUnitCreditSplit creditSplit = totalUnitSplits.get(unitCreditSplit.getInvCreditTypeCode());
-                        creditSplit.setCredit(creditSplit.getCredit().add(unitCreditSplit.getCredit()));
-                    } else {
-                        ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
-                        creditSplit.setCredit(unitCreditSplit.getCredit());
-                        totalUnitSplits.put(unitCreditSplit.getInvCreditTypeCode(),creditSplit);
-                    }
-                }
-            }
-
-            if (totalUnitSplits.size() > 0) {
-                ProposalCreditSplitListDto unitTotalLine = new ProposalCreditSplitListDto();
-                unitTotalLine.setDescription("Unit Total:");
-                unitTotalLine.setLineType("unit-total");
-                for (Map.Entry<String,ProposalUnitCreditSplit> entry : totalUnitSplits.entrySet()) {
-                    unitTotalLine.getCreditSplits().add(0,entry.getValue());
-                }
-                creditSplitListItems.add(unitTotalLine);
-            }
+            populateInvestigatorLineItems(creditSplitListItems, totalInvestigatorSplits, investigator);
+            populateUnitLineItems(creditSplitListItems, investigator, new HashMap<>());
         }
+        populateInvestigatorTotalLineItem(investigators, creditSplitListItems, totalInvestigatorSplits);
+        return creditSplitListItems;
+    }
 
+    protected void populateInvestigatorTotalLineItem(List<ProposalPerson> investigators, List<ProposalCreditSplitListDto> creditSplitListItems, Map<String, CreditSplit> totalInvestigatorSplits) {
         if (CollectionUtils.isNotEmpty(investigators)) {
-            ProposalCreditSplitListDto investigatorTotalLine = new ProposalCreditSplitListDto();
-            investigatorTotalLine.setDescription("Investigator Total:");
-            investigatorTotalLine.setLineType("investigator-total");
-            for (Map.Entry<String,ProposalPersonCreditSplit> entry : totalInvestigatorSplits.entrySet()) {
-                investigatorTotalLine.getCreditSplits().add(0,entry.getValue());
-            }
+            List<CreditSplit> totalInvestigatorCreditSplits = totalInvestigatorSplits.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+            ProposalCreditSplitListDto investigatorTotalLine = createProposalCreditSplitListDto(totalInvestigatorCreditSplits,INVESTIGATOR_TOTAL,INVESTIGATOR_TOTAL_TYPE);
             creditSplitListItems.add(investigatorTotalLine);
         }
-        return creditSplitListItems;
+    }
+
+    protected void populateUnitLineItems(List<ProposalCreditSplitListDto> creditSplitListItems, ProposalPerson investigator, Map<String, CreditSplit> totalUnitSplits) {
+        for(ProposalPersonUnit unit : investigator.getUnits()) {
+            List<CreditSplit> unitCreditSplits = new ArrayList<>();
+            unitCreditSplits.addAll(unit.getCreditSplits());
+            creditSplitListItems.add(createProposalCreditSplitListDto(unitCreditSplits,
+                    unit.getUnit().getUnitNumber() + " - " + unit.getUnit().getUnitName(),UNIT));
+            for(ProposalUnitCreditSplit unitCreditSplit : unit.getCreditSplits()){
+                populateTotalsMap(totalUnitSplits,unitCreditSplit);
+            }
+        }
+
+        if (totalUnitSplits.size() > 0) {
+            List<CreditSplit> totalUnitCreditSplits = totalUnitSplits.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+            ProposalCreditSplitListDto unitTotalLine =createProposalCreditSplitListDto(totalUnitCreditSplits,UNIT_TOTAL,UNIT_TOTAL_TYPE);
+            creditSplitListItems.add(unitTotalLine);
+        }
+    }
+
+    protected void populateInvestigatorLineItems(List<ProposalCreditSplitListDto> creditSplitListItems, Map<String, CreditSplit> totalInvestigatorSplits, ProposalPerson investigator) {
+        List<CreditSplit> creditSplits = new ArrayList<>();
+        creditSplits.addAll(investigator.getCreditSplits());
+        creditSplitListItems.add(createProposalCreditSplitListDto(creditSplits, investigator.getFullName(),INVESTIGATOR));
+        for(CreditSplit investigatorCreditSplit : creditSplits){
+            populateTotalsMap(totalInvestigatorSplits, investigatorCreditSplit);
+        }
+    }
+
+    protected void populateTotalsMap(Map<String, CreditSplit> totalsMap, CreditSplit creditSplitToAdd) {
+        if (totalsMap.containsKey(creditSplitToAdd.getInvCreditTypeCode())) {
+            CreditSplit creditSplit = totalsMap.get(creditSplitToAdd.getInvCreditTypeCode());
+            creditSplit.setCredit(creditSplit.getCredit().add(creditSplitToAdd.getCredit()));
+        } else {
+            CreditSplit creditSplit = new ProposalPersonCreditSplit();
+            creditSplit.setCredit(creditSplitToAdd.getCredit());
+            creditSplit.setInvCreditTypeCode(creditSplitToAdd.getInvCreditTypeCode());
+            totalsMap.put(creditSplitToAdd.getInvCreditTypeCode(),creditSplit);
+        }
+    }
+
+    protected ProposalCreditSplitListDto createProposalCreditSplitListDto(List<CreditSplit> creditSplits, String description, String lineType) {
+        ProposalCreditSplitListDto proposalCreditSplitListDto = new ProposalCreditSplitListDto();
+        proposalCreditSplitListDto.setDescription(description);
+        proposalCreditSplitListDto.setLineType(lineType);
+        Collections.sort(creditSplits, new CreditSplitComparator());
+        proposalCreditSplitListDto.getCreditSplits().addAll(creditSplits);
+        return proposalCreditSplitListDto;
+    }
+
+    private class CreditSplitComparator implements Comparator<CreditSplit> {
+        @Override
+        public int compare(CreditSplit o1, CreditSplit o2) {
+            return o1.getInvCreditTypeCode().compareTo(o2.getInvCreditTypeCode());
+        }
     }
 
     public DataObjectService getDataObjectService() {
