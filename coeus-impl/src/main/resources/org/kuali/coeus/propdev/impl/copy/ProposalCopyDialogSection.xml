@@ -97,13 +97,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
     <bean id="PropDev-CopyDialog-OwnedByUnitNumberField" parent="PropDev-CopyDialog-OwnedByUnitNumberField-parentBean" />
     <bean id="PropDev-CopyDialog-OwnedByUnitNumberField-parentBean"
-          abstract="true" parent="Uif-InputField" p:fieldLabel.renderColon="false" >
-        <property name="control">
-            <bean parent="Uif-DropdownControl"/>
-        </property>
-        <property name="optionsFinder">
-            <bean class="org.kuali.coeus.propdev.impl.basic.LeadUnitValuesFinder" p:addBlankOption="false"/>
-        </property>
+          abstract="true" parent="PropDev-DetailsPage-OwnedByUnitNumberField" p:fieldLabel.renderColon="false" >
     </bean>
 
     <bean id="PropDev-CopyDialog-BudgetSelection-parentBean"

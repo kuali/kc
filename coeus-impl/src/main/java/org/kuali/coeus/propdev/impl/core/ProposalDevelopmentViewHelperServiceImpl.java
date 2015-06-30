@@ -36,6 +36,7 @@ import org.kuali.coeus.common.framework.print.KcAttachmentDataSource;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchResult;
 import org.kuali.coeus.common.framework.sponsor.SponsorSearchService;
+import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.question.Question;
@@ -57,6 +58,7 @@ import org.kuali.coeus.sys.framework.controller.KcFileService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -446,6 +448,43 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         for (SponsorSearchResult sponsor : allSponsors) {
             result.add(new SponsorSuggestResult(sponsor));
         }
+        return result;
+    }
+
+    public static class UnitSuggestResult {
+        private Unit unit;
+        public UnitSuggestResult(Unit unit) {
+            this.unit = unit;
+        }
+        public String getValue() {
+            return unit.getUnitNumber();
+        }
+        public String getLabel() {
+            return unit.getUnitNumber() + " - " + unit.getUnitName();
+        }
+        public String getUnitName() {
+            return unit.getUnitName();
+        }
+    }
+
+    public List<UnitSuggestResult> performLeadUnitFieldSuggest(String unitSearchStr) {
+       if (StringUtils.isBlank(unitSearchStr)) {
+            return Collections.emptyList();
+        }
+
+        String userId = getGlobalVariableService().getUserSession().getPrincipalId();
+        List<Unit> userUnits = getProposalDevelopmentService().getUnitsForCreateProposal(userId);
+
+        unitSearchStr = unitSearchStr.toLowerCase();
+
+        List<UnitSuggestResult> result = new ArrayList<>();
+        for (Unit unit : userUnits) {
+            if (unit.getUnitNumber().toLowerCase().startsWith(unitSearchStr)
+                    || unit.getUnitName().toLowerCase().startsWith(unitSearchStr)) {
+                result.add(new UnitSuggestResult(unit));
+            }
+        }
+
         return result;
     }
 
