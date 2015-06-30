@@ -1,6 +1,11 @@
 
 
 ##CURRENT
+* RESKC-573
+
+  * Checking for both 'Y' and 'Yes' when matching on the descends units flag.  * tdurkin on Tue, 30 Jun 2015 11:16:41 -0400 [View Commit](../../commit/e335202b4ada74d12ac27c56887b3510f2508db5)
+
+##coeus-1506.71
 * fix proposal credit allocation totals issue
 
   * Proposal Key Personnel Credit allocation calculations not accurate if one or more key personnel have three or four units assigned
