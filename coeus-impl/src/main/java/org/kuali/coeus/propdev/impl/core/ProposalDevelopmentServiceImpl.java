@@ -305,7 +305,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             Unit unit = getUnitService().getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
             if (unit != null) {
                 units.add(unit);
-                if (qualifier.containsKey(KcKimAttributes.SUBUNITS) && StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS))) {
+                if (qualifier.containsKey(KcKimAttributes.SUBUNITS) && (StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS)) || StringUtils.equalsIgnoreCase("Yes", qualifier.get(KcKimAttributes.SUBUNITS)))) {
                     addDescendantUnits(unit, units);
                 }
             }
