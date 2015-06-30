@@ -24,11 +24,11 @@ import java.util.List;
 public class ProposalCreditSplitListDto {
     private String description;
     private String lineType;
-    private List<Object> creditSplits;
+    private List<CreditSplit> creditSplits;
 
     public ProposalCreditSplitListDto() {
         super();
-        creditSplits = new ArrayList<Object>();
+        creditSplits = new ArrayList<>();
     }
 
     public String getDescription() {
@@ -39,11 +39,11 @@ public class ProposalCreditSplitListDto {
         this.description = description;
     }
 
-    public List<Object> getCreditSplits() {
+    public List<CreditSplit> getCreditSplits() {
         return creditSplits;
     }
 
-    public void setCreditSplits(List<Object> creditSplits) {
+    public void setCreditSplits(List<CreditSplit> creditSplits) {
         this.creditSplits = creditSplits;
     }
 
