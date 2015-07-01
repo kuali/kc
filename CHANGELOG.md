@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* Display print actions on award budgets
+
+  * Customer updated from 5.2.1 to 6.0 asked for instructions on how to print Award Budget.
+  * 6.0 is missing the Actions > Print Forms panel!
+
+  * Award > Budget Versions(tab) > Open (budget) > Budget Actions (tab) > Print Forms (panel)
+  * Joe Williams on Wed, 1 Jul 2015 10:36:21 -0500 [View Commit](../../commit/e2e11ad64849dcf0b155be4b5d8e7db47bc9e07f)
+* RESKC-397 Rice update - people flow route log annotation fix
+  * bsmith83 on Wed, 1 Jul 2015 09:01:00 -0700 [View Commit](../../commit/f12e907ac0a8a4e0f63eebe661d2ec705a120baa)
+
+##coeus-1507.1
 * RESKC-344 Changed lead unit selection from dropdown to suggest field
 
   * Changes the lead unit field in proposal details and proposal copy to a suggestion based field that limits results based on what the user types
