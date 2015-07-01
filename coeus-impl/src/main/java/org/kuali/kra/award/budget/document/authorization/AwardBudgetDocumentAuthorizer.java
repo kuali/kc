@@ -163,10 +163,6 @@ public class AwardBudgetDocumentAuthorizer  extends KcTransactionalDocumentAutho
         if (canExecuteParentDocumentTask(userId, doc, TaskName.MODIFY_BUDGET)) {
             editModes.add("modifyProposalBudget");
         }
-        
-        if (isAuthorizedToPrintProposal(doc, user)) {
-            editModes.add("printProposal");
-        }
     }
     
     /**
@@ -189,21 +185,5 @@ public class AwardBudgetDocumentAuthorizer  extends KcTransactionalDocumentAutho
     @Override
     public boolean canFyi(Document document, Person user) {
         return false;
-    }
-
-    protected boolean isAuthorizedToPrintProposal(Document document, Person user) {
-        final BudgetParentDocument bpDocument = ((BudgetParentDocument) document);
-        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), bpDocument, PermissionConstants.PRINT_PROPOSAL);
-    }
-
-    public KcAuthorizationService getKcAuthorizationService() {
-        if (kcAuthorizationService == null) {
-            kcAuthorizationService = KcServiceLocator.getService(KcAuthorizationService.class);
-        }
-        return kcAuthorizationService;
-    }
-
-    public void setKcAuthorizationService(KcAuthorizationService kcAuthorizationService) {
-        this.kcAuthorizationService = kcAuthorizationService;
     }
 }
