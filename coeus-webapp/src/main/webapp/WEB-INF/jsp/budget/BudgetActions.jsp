@@ -32,26 +32,12 @@
   	
 	<div align="right"><kul:help parameterNamespace="KC-AB" parameterDetailType="Document" parameterName="awardBudgetActionsHelpUrl" altText="help"/></div>
 	<div align="center">
-		<c:choose>
-	       <c:when test="${KualiForm.editingMode['printProposal']}">
-		       <kra-b:budgetPrintForms />
-		       <kra-b:budgetJustification top="false" />
-		   </c:when>
-		   <c:otherwise>
-		       <kra-b:budgetJustification top="true" />
-		   </c:otherwise>
-	    </c:choose>
-	    
-	    <c:choose>
-	    	<c:when test="${KualiForm.editingMode['printProposal']}">
-	    		<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"  helpParameterNamespace="KC-B" helpParameterName="budgetActionsHelp" helpParameterDetailType="Document"/>
-	    	</c:when>
-	    	<c:otherwise>
-	    		<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"  helpParameterNamespace="KC-AB" helpParameterName="awardBudgetDataValidationHelpUrl" helpParameterDetailType="Document"/>
-	    	</c:otherwise>
-	    </c:choose>
-	    
-        <kul:adHocRecipients />
+
+		<kra-b:budgetPrintForms/>
+		<kra-b:budgetJustification top="false"/>
+		<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false" helpParameterNamespace="KC-AB"
+							helpParameterName="awardBudgetDataValidationHelpUrl" helpParameterDetailType="Document"/>
+		<kul:adHocRecipients />
         <kul:routeLog /> 
 		<kul:panelFooter />
 	</div>
