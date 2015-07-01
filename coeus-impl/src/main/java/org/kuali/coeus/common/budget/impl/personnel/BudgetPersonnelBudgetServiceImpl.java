@@ -97,7 +97,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
          */
         newBudgetPersonnelDetails.setPersonNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
         newBudgetPersonnelDetails.setPersonSequenceNumber(newBudgetPersonnelDetails.getPersonSequenceNumber());
-        newBudgetPersonnelDetails.setPersonId(newBudgetPersonnelDetails.getBudgetPerson().getPersonId());
+        newBudgetPersonnelDetails.setPersonId(newBudgetPersonnelDetails.getBudgetPerson().getPersonRolodexTbnId());
         newBudgetPersonnelDetails.setJobCode(newBudgetPersonnelDetails.getBudgetPerson().getJobCode());
         newBudgetPersonnelDetails.setSequenceNumber(budget.getNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
