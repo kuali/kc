@@ -697,7 +697,7 @@ public abstract class NotesAttachmentsHelperBase {
         setUpdateFields(notepad);
         // set notepad to be editable
         notepad.setEditable(true);
-        this.getProtocol().getNotepads().add(notepad);
+        this.getProtocol().getNotepads().add(0, notepad);
     }
     
     /**

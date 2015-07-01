@@ -800,7 +800,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
         if (this.notepads == null) {
             this.notepads = new ArrayList<ProtocolNotepadBase>();
         }
-        Collections.sort(notepads, Collections.reverseOrder());
+
         return this.notepads;
     }
     
