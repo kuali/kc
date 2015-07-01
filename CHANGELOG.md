@@ -1,6 +1,36 @@
 
 
 ##CURRENT
+* fix issue with adding award personnel details for rolodex and to be named
+
+  * Steps To Recreate:
+
+  * 1.) Create and Submit Award
+  * 2.) Create and Submit T&M Doc for Award
+  * 3.) Create Award Budget for Award
+  * 4.) Add To Be Named Person.
+  * 5.) Add Salary to To Be Named Person.
+  * 6.) Add Personnel Detail for To Be Named Person.
+  * 7.) Try To Save.
+  * 8.) get STE
+
+* SQLException during execution of sql-statement:
+* sql statement was 'INSERT INTO BUDGET_PERSONNEL_DETAILS (BUDGET_PERSONNEL_DETAILS_ID,BUDGET_DETAILS_ID,LINE_ITEM_NUMBER,PERSON_NUMBER,BUDGET_ID,BUDGET_PERIOD,ON_OFF_CAMPUS_FLAG,PERSON_SEQUENCE_NUMBER,PERSON_ID,JOB_CODE,END_DATE,START_DATE,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,APPLY_IN_RATE_FLAG,BUDGET_JUSTIFICATION,COST_SHARING_AMOUNT,COST_SHARING_PERCENT,LINE_ITEM_DESCRIPTION,PERCENT_CHARGED,PERCENT_EFFORT,PERIOD_TYPE,SALARY_REQUESTED,SEQUENCE_NUMBER,UNDERRECOVERY_AMOUNT,SUBMIT_COST_SHARING) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) '
+* Exception message is [Column 'PERSON_ID' cannot be null]
+* Vendor error code [1048]
+* SQL state code [23000=INTEGRITY CONSTRAINT VIOLATION]
+* Target class is 'org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails'
+* PK of the target object is [budgetPersonnelLineItemId=10]
+* Source object: org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt@28d9a5f8[serialVersionUID=4480947148039922420,budgetPersonnelLineItemId=10,budgetLineItemId=10,lineItemNumber=1,budgetId=1,budgetPeriod=1,onOffCampusFlag=true,budgetJustification=<null>,lineItemDescription=<null>,applyInRateFlag=true,personNumber=1,jobCode=AA000,periodTypeCode=3,personId=<null>,sequenceNumber=1,budgetPeriodId=1,personSequenceNumber=4,submitCostSharingFlag=true,costElement=400250,budgetCategoryCode=26,basedOnLineItem=0,quantity=0,lineItemSequence=1,groupName=,formulatedCostElementFlag=false,serialVersionUID=-6717116777934188909,serialVersionUID=8356817148151906918,updateUser=quickstart,updateUserSet=false,serialVersionUID=-3519927021539948875,serialVersionUID=1451642350593233282,versionNumber=0,objectId=1db3f017-cbbe-4d0b-a88a-29be036dcebb,newCollectionRecord=false,serialVersionUID=5563310175227245001,_persistence_shouldRefreshFetchGroup=false]
+* The root stack trace is -->
+* com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Column 'PERSON_ID' cannot be null
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:422)
+  * Joe Williams on Tue, 30 Jun 2015 17:04:18 -0500 [View Commit](../../commit/480b0e4c24b7f1750e766843da3cb98ba88ec038)
+
+##coeus-1506.72
 * RESKC-573
 
   * Checking for both 'Y' and 'Yes' when matching on the descends units flag.  * tdurkin on Tue, 30 Jun 2015 11:16:41 -0400 [View Commit](../../commit/e335202b4ada74d12ac27c56887b3510f2508db5)
