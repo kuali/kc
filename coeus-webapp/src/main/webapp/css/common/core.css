@@ -279,6 +279,11 @@ body#Uif-Application {
     border-radius: 0 !important;
 }
 
+/** fix for form controls inside input groups that were blocking hovering elements (ie suggestions) **/
+.input-group .form-control {
+    z-index: 1;
+}
+
 /** add bottom border for view header **/
 .uif-viewHeader-contentWrapper {
     border-bottom: 1px solid #ccc;

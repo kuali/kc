@@ -233,14 +233,24 @@
 
 	<bean id="PropDev-DetailsPage-OwnedByUnitNumberField" parent="PropDev-DetailsPage-OwnedByUnitNumberField-parentBean" />
 	<bean id="PropDev-DetailsPage-OwnedByUnitNumberField-parentBean"
-		abstract="true" parent="Uif-InputField" p:propertyName="ownedByUnitNumber" >
+		abstract="true" parent="Uif-InputField" p:propertyName="ownedByUnitNumber">
+		<property name="suggest">
+			<bean parent="Uif-Suggest" p:render="true">
+				<property name="templateOptions">
+					<map>
+						<entry key="minLength" value="1" />
+						<entry key="delay" value="0" />
+					</map>
+				</property>
+				<property name="suggestQuery">
+					<bean parent="Uif-AttributeQueryConfig" p:queryMethodInvokerConfig.targetObject="#{#getService('proposalDevelopmentViewHelperService')}" p:queryMethodToCall="performLeadUnitFieldSuggest" />
+				</property>
+			</bean>
+		</property>
 		<property name="control">
-			<bean parent="Uif-DropdownControl"/>
+			<bean parent="Uif-TextControl" p:watermarkText="Type a Unit number or name for suggestions..."/>
 		</property>
-		<property name="optionsFinder">
-			<bean class="org.kuali.coeus.propdev.impl.basic.LeadUnitValuesFinder" p:addBlankOption="false"/>
-		</property>
-        </bean>
+    </bean>
 
 	<bean id="PropDev-DetailsPage-ContinuedFromField" parent="PropDev-DetailsPage-ContinuedFromField-parentBean" />
 	<bean id="PropDev-DetailsPage-ContinuedFromField-parentBean"
