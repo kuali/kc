@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+* RESKC-344 Changed lead unit selection from dropdown to suggest field
+
+  * Changes the lead unit field in proposal details and proposal copy to a suggestion based field that limits results based on what the user types
+  * bsmith83 on Tue, 30 Jun 2015 09:25:30 -0700 [View Commit](../../commit/e38a69e8b2cc22cf57e217c19d3700305c79ff72)
+* RESKC-571 Fix to notes on protocols 'appearing' to overwrite eachother - tag file exception
+
+  * Fix to the getter method sorting the content of the notes  list  (in reverse order)  each time it was called causing concurrent modification exceptions when it was iterated over by the tag file.  Instead new notes are now inserted to the top of the list
+  * bsmith83 on Tue, 30 Jun 2015 18:11:30 -0700 [View Commit](../../commit/1e214160a9736b59a91f4ebef719648922d02d40)
+
+##coeus-1506.73
 * fix issue with adding award personnel details for rolodex and to be named
 
   * Steps To Recreate:
