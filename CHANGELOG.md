@@ -1,6 +1,57 @@
 
 
 ##CURRENT
+* fixes issues when adding coi role to an instituional proposal
+
+  * Steps:
+
+  * Create Proposal Log
+
+    Click on Central Admin
+    Click on + sign by Proposal Log
+    Enter Document description
+    Select Proposal Type (New)
+    Enter Title
+    Lookup PI and return value
+    Lookup Sponsor and return value (NIH)
+    Save and copy or write down Proposal Number
+    Submit
+
+  * Create IP
+
+    Click on Central Admin tab
+    Search for Institutional Proposal
+    Enter or paste Proposal Number from steps
+    Search for Proposal Log
+    Click on Proposal Number to open document
+    Enter Document description
+    Leave status as Pending
+    Verify Sponsor and Program info
+    Select NSF Science code (Medical - Life Sciences)
+    Goto Financial panel
+    Enter Requested Start and End dates
+    Enter Total Direct Costs and F&A
+    Click recalculate
+    Goto Contacts Tab
+    Search to Add Employee
+    Return value
+    Choose Project Role (CO-I , or Key Person)
+    Click to Add person
+
+  * Expected Behavior:
+
+  * You would see panels for Combined Credit Split and Unit Contacts
+  * You would see Action buttons on bottom of page to Save/Close etc
+
+  * Actual Behavior
+
+  * There is nothing below Project Personnel panel
+
+    Click on any tab to exit page
+    Get HTTP Status 500 error (see attached)
+  * Joe Williams on Tue, 30 Jun 2015 14:01:16 -0500 [View Commit](../../commit/dd5645ca605a59dbe79e6e3fae8bf3785941b2ac)
+
+##coeus-1507.3
 * return user to landing page when canceling/closing proposal log
 
   * Steps to Reproduce
