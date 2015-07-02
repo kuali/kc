@@ -82,17 +82,6 @@
 										attributeEntry="${institutionalProposalPersonAttributes.keyPersonRole}"/>		    
 		    </td>
 		   </c:when>
-		   <c:when test="${KualiForm.document.institutionalProposalList[0].projectPersons[institutionalProposalContactRowStatusIndex].contactRole.roleCode == coirole && KualiForm.document.institutionalProposalList[0].sponsorNihMultiplePi}">
-		    <th class="infoline">
-		    	<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${institutionalProposalPersonAttributes.multiplePi}" noColon="false" />
-				</div>
-		    </th> 
-		    <td>
-				<kul:htmlControlAttribute property="document.institutionalProposalList[0].projectPersons[${institutionalProposalContactRowStatusIndex}].multiplePi" 
-										attributeEntry="${institutionalProposalPersonAttributes.multiplePi}"/>		    
-		    </td>
-		   </c:when>		   
 		   <c:otherwise>
 			<th class="infoline">&nbsp;</th>
 			<td>&nbsp;</td>
