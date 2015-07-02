@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* return user to landing page when canceling/closing proposal log
+
+  * Steps to Reproduce
+  * 1. In the KRAD portal, Central Admin tab > Pre-Award > Proposal Log, create a proposal log,
+  * 2. Then cancel rather than submit/blanket approve.
+  * Result: User is returned to the System Admin Portal, and must select KRAD portal.
+
+  * Expected Result: User should be returned to the KRAD portal.
+  * Joe Williams on Thu, 2 Jul 2015 08:54:29 -0500 [View Commit](../../commit/04147d723be04e2c7de31618a73e1ce7b698c689)
+
+##coeus-1507.2
 * Display print actions on award budgets
 
   * Customer updated from 5.2.1 to 6.0 asked for instructions on how to print Award Budget.
