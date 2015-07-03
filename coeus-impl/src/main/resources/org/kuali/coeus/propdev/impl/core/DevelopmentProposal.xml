@@ -1188,8 +1188,18 @@
         <bean p:propertyName="proposalTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="proposalStateTypeCode" p:enableAutoQuickfinder="false" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="proposalPerson" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Proposal Person"/>
-        <bean p:propertyName="principalInvestigatorName" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="proposalPerson" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Proposal Person">
+			<property name="quickfinder">
+			   <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+					 p:fieldConversions="principalName:proposalPerson"/>
+		   </property>
+		</bean>
+        <bean p:propertyName="principalInvestigatorName" parent="Uif-LookupCriteriaInputField">
+			<property name="quickfinder">
+			   <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+					 p:fieldConversions="principalName:principalInvestigatorName"/>
+		   </property>
+		</bean>
         <bean p:propertyName="aggregator" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Aggregator">
             <property name="quickfinder">
                 <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"

@@ -103,7 +103,14 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         Map<String,String> modifiedSearchCriteria = new HashMap<String,String>();
         modifiedSearchCriteria.putAll(adjustedSearchCriteria);
         List<String> proposalNumbers = new ArrayList<String>();
-        if (StringUtils.isEmpty(adjustedSearchCriteria.get("proposalNumber"))) {
+        String proposalNumberCriteria = adjustedSearchCriteria.get("proposalNumber");
+        boolean proposalNumberWildcarded = false;
+
+        if (!StringUtils.isEmpty(proposalNumberCriteria) && proposalNumberCriteria.contains("*")) {
+            proposalNumberWildcarded = true;
+        }
+
+        if (StringUtils.isEmpty(proposalNumberCriteria) || proposalNumberWildcarded) {
             String principalInvestigatorName = adjustedSearchCriteria.get("principalInvestigatorName");
             String proposalPerson = adjustedSearchCriteria.get("proposalPerson");
             String aggregator = adjustedSearchCriteria.get("aggregator");
@@ -123,7 +130,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         if (searchResultsLimit != null) {
             query.setMaxResults(searchResultsLimit);
         }
-        if (StringUtils.isBlank(adjustedSearchCriteria.get("proposalNumber"))
+        if ((StringUtils.isBlank(proposalNumberCriteria) || proposalNumberWildcarded)
                 && proposalNumbers.size() > 0) {
             if (modifiedSearchCriteria.size() > 0){
                 List<Predicate> predicateList = new ArrayList(Arrays.asList(query.getPredicates()));
@@ -200,11 +207,15 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     private List<String> getPiProposalNumbers(String principalInvestigatorName) {
         List<String> piProposals = new ArrayList<String>();
         if (StringUtils.isNotEmpty(principalInvestigatorName)) {
-            Map<String,String> criteria = new HashMap<String,String>();
-            criteria.put("fullName",principalInvestigatorName);
-            criteria.put("proposalPersonRoleId", Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-            QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(ProposalPerson.class, criteria,
-                   new ArrayList<String>(), false);
+            QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(ProposalPerson.class, new HashMap<String,String>(),
+                               new ArrayList<String>(), false);
+
+            List<Predicate> andPredicates = new ArrayList<Predicate>();
+            andPredicates.add(buildProposalPersonOrPredicate(principalInvestigatorName));
+            andPredicates.add(PredicateFactory.equalIgnoreCase("proposalPersonRoleId", Constants.PRINCIPAL_INVESTIGATOR_ROLE));
+
+            query.setPredicates(PredicateFactory.and(andPredicates.toArray(new Predicate[andPredicates.size()])));
+
             List<ProposalPerson> principalInvestigators = getDataObjectService().findMatching(ProposalPerson.class, query.build()).getResults();
             for (ProposalPerson pi : principalInvestigators) {
                 piProposals.add(pi.getProposalNumber());
@@ -219,8 +230,11 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     private List<String> getPersonProposalNumbers(String proposalPerson) {
         List<String> personProposals = new ArrayList<String>();
         if (StringUtils.isNotEmpty(proposalPerson)) {
-            QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(ProposalPerson.class, Collections.singletonMap("fullName",proposalPerson),
+            QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(ProposalPerson.class, new HashMap<String, String>(),
                     new ArrayList<String>(), false);
+
+            query.setPredicates(buildProposalPersonOrPredicate(proposalPerson));
+
             List<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class,query.build()).getResults();
             for (ProposalPerson person : proposalPersons) {
                 personProposals.add(person.getProposalNumber());
@@ -252,6 +266,17 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             }
         }
         return aggregatorProposals;
+    }
+
+    private Predicate buildProposalPersonOrPredicate(String personValue) {
+        List<Predicate> orPredicates = new ArrayList<Predicate>();
+        orPredicates.add(PredicateFactory.likeIgnoreCase("fullName", personValue.replace(" ", "*")));
+        orPredicates.add(PredicateFactory.likeIgnoreCase("userName", personValue));
+        orPredicates.add(PredicateFactory.likeIgnoreCase("personId", personValue));
+        orPredicates.add(PredicateFactory.likeIgnoreCase("lastName", personValue));
+        Predicate orNamesPredicate = PredicateFactory.or(orPredicates.toArray(new Predicate[orPredicates.size()]));
+
+        return orNamesPredicate;
     }
 
     private List<String> getDocumentIds(String aggregator) {
