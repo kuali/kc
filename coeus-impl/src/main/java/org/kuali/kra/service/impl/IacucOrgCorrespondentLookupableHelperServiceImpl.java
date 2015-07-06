@@ -87,32 +87,4 @@ public class IacucOrgCorrespondentLookupableHelperServiceImpl extends KualiLooku
     public KcPersonService getKcPersonService() {
         return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }
-
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<OrganizationCorrespondent> searchResults = (List<OrganizationCorrespondent>)super.getSearchResults(fieldValues);
-        if (!searchResults.isEmpty()) {
-            if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
-                return filterSearchResults(searchResults, fieldValues.get("person.userName"));
-            }
-        }
-        return searchResults;
-    }
-
-    /*
-     * This method is primarily to match person username.
-     * kcperson is not in organizationCorrespondent table, so generic getsearchresults is not working properly.
-     */
-    protected List<OrganizationCorrespondent> filterSearchResults(List<OrganizationCorrespondent> searchResults, String userName) {
-        List<OrganizationCorrespondent> filteredList = new ArrayList<OrganizationCorrespondent>();
-        
-        String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";
-        for (OrganizationCorrespondent organizationCorrespondent : searchResults) {
-            if (organizationCorrespondent.getPerson().getUserName().toUpperCase().matches(regexp)) {
-                filteredList.add(organizationCorrespondent);
-            }
-        }
-        return filteredList;
-    }
-    
 }

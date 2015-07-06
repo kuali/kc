@@ -93,33 +93,6 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KcKualiLookupa
         return super.performLookup(lookupForm, resultTable, bounded);
     }
 
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<UnitAdministrator> searchResults = (List<UnitAdministrator>)super.getSearchResults(fieldValues);
-        if (!searchResults.isEmpty()) {
-            if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
-                return filterSearchResults(searchResults, fieldValues.get("person.userName"));
-            }
-        }
-        return searchResults;
-    }
-
-    /*
-     * This method is primarily to match person username.
-     * kcperson is not in unitadministrator table, so generic getsearchresults is not working properly.
-     */
-    protected List<UnitAdministrator> filterSearchResults(List<UnitAdministrator> searchResults, String userName) {
-        List<UnitAdministrator> filteredList = new ArrayList<UnitAdministrator>();
-        
-        String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";
-        for (UnitAdministrator unitAdministrator : searchResults) {
-            if (unitAdministrator.getPerson().getUserName().toUpperCase().matches(regexp)) {
-                filteredList.add(unitAdministrator);
-            }
-        }
-        return filteredList;
-    }
-
     public KcPersonService getKcPersonService() {
         return kcPersonService;
     }

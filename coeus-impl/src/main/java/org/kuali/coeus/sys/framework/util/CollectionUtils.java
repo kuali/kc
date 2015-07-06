@@ -18,9 +18,9 @@
  */
 package org.kuali.coeus.sys.framework.util;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+
+import java.util.*;
 
 /**
  * Yet another collection utility.  Contains methods that are not found in the apache util classes or the
@@ -89,4 +89,22 @@ public final class CollectionUtils {
         }
         return map;
     }
+
+    /**
+     * Takes a collection and creates a new CollectionIncomplete if needed based upon if CollectionIncomplete is passed in,
+     * else create a new Array List
+     *
+     * @param collection the original collection.
+     * @param <T> the list type
+     * @return the correct implementation for the collection passed in
+     */
+
+    public static <T> List<T> createCorrectImplementationForCollection(Collection<T> collection) {
+        if (collection instanceof CollectionIncomplete) {
+            return new CollectionIncomplete<>(new ArrayList<>(),((CollectionIncomplete) collection).getActualSizeIfTruncated());
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
 }

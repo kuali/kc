@@ -79,33 +79,6 @@ public class PersonSignatureLookupableHelperServiceImpl extends KcKualiLookupabl
         return super.performLookup(lookupForm, resultTable, bounded);
     }
 
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<PersonSignature> searchResults = (List<PersonSignature>)super.getSearchResults(fieldValues);
-        if (!searchResults.isEmpty()) {
-            if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
-                return filterSearchResults(searchResults, fieldValues.get("person.userName"));
-            }
-        }
-        return searchResults;
-    }
-
-    /*
-     * This method is primarily to match person username.
-     * kcperson is not in PersonSignature table, so generic getsearchresults is not working properly.
-     */
-    protected List<PersonSignature> filterSearchResults(List<PersonSignature> searchResults, String userName) {
-        List<PersonSignature> filteredList = new ArrayList<PersonSignature>();
-        
-        String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";
-        for (PersonSignature personSignature : searchResults) {
-            if (personSignature.getPerson().getUserName().toUpperCase().matches(regexp)) {
-                filteredList.add(personSignature);
-            }
-        }
-        return filteredList;
-    }
-
     public KcPersonService getKcPersonService() {
         return kcPersonService;
     }

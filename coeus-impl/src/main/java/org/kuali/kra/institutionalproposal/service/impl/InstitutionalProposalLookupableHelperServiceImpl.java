@@ -21,6 +21,7 @@ package org.kuali.kra.institutionalproposal.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.propdev.impl.state.ProposalState;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -130,11 +131,11 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     protected List<InstitutionalProposal> filterForPermissions(List<InstitutionalProposal> results) {
         Person user = GlobalVariables.getUserSession().getPerson();
         InstitutionalProposalDocumentAuthorizer authorizer = new InstitutionalProposalDocumentAuthorizer();
-        return results.stream()
-                .filter(institutionalProposal -> authorizer.canOpen(institutionalProposal.getInstitutionalProposalDocument(), user))
-                .collect(Collectors.toList());
+        List<InstitutionalProposal> filteredResults = CollectionUtils.createCorrectImplementationForCollection(results);
+        filteredResults.addAll(results.stream().filter(institutionalProposal -> authorizer.canOpen(institutionalProposal.getInstitutionalProposalDocument(), user)).collect(Collectors.toList()));
+
+        return filteredResults;
     }
-    
 
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {

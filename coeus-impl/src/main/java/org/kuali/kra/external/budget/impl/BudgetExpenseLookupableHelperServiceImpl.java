@@ -21,6 +21,7 @@ package org.kuali.kra.external.budget.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.ui.Column;
@@ -101,8 +102,6 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KcKualiLookupableH
         setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
         String budgetCategoryTypeCode = fieldValues.get("budgetCategoryTypeCode");
         fieldValues.remove("budgetCategoryTypeCode");
-        List searchResults;
-        List searchResultsReturn = new ArrayList();
         String categoryTypeName = null;
         // handle onoffcampusflag
         if (fieldValues.get(Constants.ON_OFF_CAMPUS_FLAG).equalsIgnoreCase("Y")) {
@@ -111,8 +110,8 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KcKualiLookupableH
             fieldValues.put(Constants.ON_OFF_CAMPUS_FLAG, "F");
        }
 
-        searchResults = super.getSearchResults(fieldValues);
-        
+        List<CostElement> searchResults = (List<CostElement>) super.getSearchResults(fieldValues);
+        List<CostElement> searchResultsReturn = CollectionUtils.createCorrectImplementationForCollection(searchResults);
         for (Iterator iterator = searchResults.iterator(); iterator.hasNext();) {
             CostElement costElement = (CostElement) iterator.next();
             costElement.refreshReferenceObject("budgetCategory");

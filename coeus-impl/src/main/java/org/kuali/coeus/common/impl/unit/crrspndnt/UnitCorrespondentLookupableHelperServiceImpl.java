@@ -93,33 +93,6 @@ public class UnitCorrespondentLookupableHelperServiceImpl extends KcKualiLookupa
         return super.performLookup(lookupForm, resultTable, bounded);
     }
 
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<UnitCorrespondent> searchResults = (List<UnitCorrespondent>)super.getSearchResults(fieldValues);
-        if (!searchResults.isEmpty()) {
-            if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
-                return filterSearchResults(searchResults, fieldValues.get("person.userName"));
-            }
-        }
-        return searchResults;
-    }
-
-    /*
-     * This method is primarily to match person username.
-     * kcperson is not in unitCorrespondent table, so generic getsearchresults is not working properly.
-     */
-    protected List<UnitCorrespondent> filterSearchResults(List<UnitCorrespondent> searchResults, String userName) {
-        List<UnitCorrespondent> filteredList = new ArrayList<UnitCorrespondent>();
-        
-        String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";
-        for (UnitCorrespondent unitCorrespondent : searchResults) {
-            if (unitCorrespondent.getPerson().getUserName().toUpperCase().matches(regexp)) {
-                filteredList.add(unitCorrespondent);
-            }
-        }
-        return filteredList;
-    }
-
     public KcPersonService getKcPersonService() {
         return kcPersonService;
     }

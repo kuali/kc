@@ -21,6 +21,7 @@ package org.kuali.kra.institutionalproposal.proposallog;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -39,6 +40,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Lookupable helper service used for proposal log lookup
@@ -90,7 +92,7 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
             }
             lookupForm.getFieldsForLookup().remove(USERNAME_FIELD);
         }
-        Collection results = super.performLookup(lookupForm, resultTable, bounded);
+        List<ProposalLog> results = (List<ProposalLog>) super.performLookup(lookupForm, resultTable, bounded);
         if (StringUtils.containsIgnoreCase(lookupForm.getBackLocation(), NEGOTIATION_NEGOTIATION)) {
             return cleanSearchResultsForNegotiationLookup(results);
         } else {
@@ -116,26 +118,18 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
     }
     
     protected List<ProposalLog> filterForPermissions(List<ProposalLog> results) {
-    	List<ProposalLog> proposalLogs = new ArrayList<ProposalLog>();
+    	List<ProposalLog> proposalLogs = CollectionUtils.createCorrectImplementationForCollection(results);
     	ProposalLogDocumentAuthorizer authorizer = new ProposalLogDocumentAuthorizer();
     	Person user = GlobalVariables.getUserSession().getPerson();
-    	for(ProposalLog proposalLog : results){
-            if(proposalLog.getProposalNumber() != null){
-	            if(authorizer.canOpen(proposalLog, user)){
-	                proposalLogs.add(proposalLog);
-	            }
-            }
-        }
+        proposalLogs.addAll(results.stream()
+                .filter(proposalLog -> proposalLog.getProposalNumber() != null).filter(proposalLog -> authorizer.canOpen(proposalLog, user)).collect(Collectors.toList()));
     	return proposalLogs;
     }
         
-    private List<ProposalLog> cleanSearchResultsForNegotiationLookup(Collection<ProposalLog> searchResults) {
-        List<ProposalLog> newResults = new ArrayList<ProposalLog>();
-        for (ProposalLog pl : searchResults) {
-            if (StringUtils.isBlank(pl.getInstProposalNumber())) {
-                newResults.add(pl);
-            }
-        }
+    private List<ProposalLog> cleanSearchResultsForNegotiationLookup(List<ProposalLog> searchResults) {
+        List<ProposalLog> newResults = CollectionUtils.createCorrectImplementationForCollection(searchResults);
+        newResults.addAll(searchResults.stream()
+                .filter(pl -> StringUtils.isBlank(pl.getInstProposalNumber())).collect(Collectors.toList()));
         return newResults;
     }
     
