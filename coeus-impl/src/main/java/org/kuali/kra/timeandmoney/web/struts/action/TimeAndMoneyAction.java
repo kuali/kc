@@ -592,19 +592,21 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
             throws Exception {
         ActionForward actionForward;
         save(mapping, form, request, response);
-        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
-        actionForward = super.route(mapping, form, request, response);  
-        // save report tracking items
+        actionForward = super.route(mapping, form, request, response);
+
+        return doRoutingTasks(mapping, (TimeAndMoneyForm) form, actionForward);
+    }
+
+    protected ActionForward doRoutingTasks(ActionMapping mapping, TimeAndMoneyForm timeAndMoneyForm, ActionForward actionForward) throws ParseException {
         saveReportTrackingItems(timeAndMoneyForm);
-        
         String routeHeaderId = timeAndMoneyForm.getDocument().getDocumentNumber();
+
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE, TIME_AND_MONEY_DOCUMENT);
-        
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, actionForward, holdingPageForward, returnLocation);
     }
-    
+
     protected void saveReportTrackingItems(TimeAndMoneyForm timeAndMoneyForm) throws ParseException {
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         Award award = timeAndMoneyDocument.getAward();
@@ -620,19 +622,13 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
             HttpServletResponse response) throws Exception {
         ActionForward actionForward;
         save(mapping, form, request, response);
-        actionForward = super.blanketApprove(mapping, form, request, response);      
-        
-        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
-        saveReportTrackingItems(timeAndMoneyForm);
+        actionForward = super.blanketApprove(mapping, form, request, response);
 
-        String routeHeaderId = timeAndMoneyForm.getDocument().getDocumentNumber();
-        
-        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE, TIME_AND_MONEY_DOCUMENT);
-        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, actionForward, holdingPageForward, returnLocation);
+        return doRoutingTasks(mapping, (TimeAndMoneyForm) form, actionForward);
     }
-    
+
+
+
     /**
      * must remove all award amount infos corresponding to this document.  Date changes create and add new Award Amount Info.  Pending Transactions
      * do not create new Award Amount Info until the document is routed or blanket approved.
