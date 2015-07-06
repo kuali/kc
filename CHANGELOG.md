@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1507.7
 * Changing unit back to a dropdown but using the advanced select box which includes a filter
 
   * This change will return the lead unit select to a drop down but using the advanced drop down currently in use by keywords and other places that also includes a filter such that a user can free-form type a partial number or name for the unit and have the displayed lists restricted by that value.
