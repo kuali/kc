@@ -66,7 +66,7 @@
     <bean id="DataValidationSection-Collection" parent="DataValidationSection-Collection-parentBean"/>
     <bean id="DataValidationSection-Collection-parentBean" parent="Uif-TableCollectionSection"
           p:collectionObjectClass="org.kuali.coeus.sys.impl.validation.DataValidationItem"
-          p:propertyName="dataValidationItems" p:layoutManager.richTable.render="false"
+          p:propertyName="dataValidationItems"
           p:renderAddLine="false" p:layoutManager.renderSequenceField="false" p:readOnly="false">
         <property name="items">
             <list>
@@ -84,6 +84,19 @@
                       p:successCallback="dismissDialog('DataValidationSection');jQuery(&quot;a[id$='@{#line.navigateToSectionId}_tab']&quot;).click()"
                       p:refreshId="@{#line.navigateToPageId}"/>
             </list>
+        </property>
+        <property name="layoutManager.groupingPropertyNames">
+            <list>
+                <value>severity</value>
+            </list>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="sDom" value="tip"/>
+                <entry key="bRetrieve" value="true"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+            </map>
         </property>
     </bean>
 

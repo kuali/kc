@@ -18,9 +18,7 @@
  */
 package org.kuali.coeus.common.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -64,6 +62,8 @@ public class KcViewHelperServiceImpl extends ViewHelperServiceImpl {
                 dataValidationItems.add(dataValidationItem);
             }
         }
+
+        Collections.sort(dataValidationItems, (o1, o2) -> o1.getArea().compareTo(o2.getArea()));
         return dataValidationItems;
     }
 
