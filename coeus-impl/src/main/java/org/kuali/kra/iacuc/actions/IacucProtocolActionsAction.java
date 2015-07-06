@@ -110,7 +110,7 @@ import java.util.List;
 import java.util.Map;
 
 public class IacucProtocolActionsAction extends IacucProtocolAction {
-    
+
     private static final Log LOG = LogFactory.getLog(IacucProtocolActionsAction.class);
     private static final String CONFIRM_NO_ACTION = "";
     private static final String CONFIRM_DELETE_ACTION_ATT = "confirmDeleteActionAttachment";
@@ -127,7 +127,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String SUBMISSION_ID = "submissionId";
     private static final String CORRESPONDENCE = "correspondence";
-    
+
 
     public ActionForward assignCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -921,7 +921,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         int selectedIndex = getSelectedLine(request);
         AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
         
-        if (attachmentSummary.getAttachmentType().startsWith("ProtocolBase: ")) {
+        if (attachmentSummary.getAttachmentType().startsWith(Constants.PROTOCOL_ATTACHMENT_PREFIX)) {
             IacucProtocolAttachmentProtocol attachment = getProtocolAttachmentService().getAttachment(IacucProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
             return printAttachmentProtocol(mapping, response, attachment, form);
         } 

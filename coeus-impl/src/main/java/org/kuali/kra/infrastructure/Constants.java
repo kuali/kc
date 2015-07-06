@@ -562,6 +562,7 @@ public interface Constants {
 
     public static final String PROTOCOL_CREATE_CONTINUATION_SUMMARY_KEY = "actionHelper.continuationSummary";
     public static final String PROTOCOL_CREATE_CONTINUATION_WITH_AMENDMENT_KEY = "actionHelper.protocolCreateContinuationWithAmendment";
+    String PROTOCOL_ATTACHMENT_PREFIX = "Protocol: ";
     
     // Protocol edit modes
     public static final String CAN_VIEW_REVIEW_COMMENTS = "viewReviewComments";

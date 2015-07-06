@@ -1469,7 +1469,7 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
                 attachmentSummary.setAttachmentId(attachment.getId());
                 attachmentSummary.setFileType(attachment.getFile().getType());
                 attachmentSummary.setFileName(attachment.getFile().getName());
-                attachmentSummary.setAttachmentType("Protocol: " + attachment.getType().getDescription());
+                attachmentSummary.setAttachmentType(Constants.PROTOCOL_ATTACHMENT_PREFIX + attachment.getType().getDescription());
                 attachmentSummary.setDescription(attachment.getDescription());
                 attachmentSummary.setDataLength(attachment.getFile().getData() == null ? 0 : attachment.getFile().getData().length);
                 attachmentSummary.setUpdateTimestamp(attachment.getUpdateTimestamp());
