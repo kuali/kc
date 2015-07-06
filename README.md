@@ -5,7 +5,7 @@ Kuali Coeus (KC) for Research Administration is a comprehensive system to manage
 ----------
 ##**Installation**
 **Prerequisites**
-[Maven 3.2.x][1]
+[Maven 3.3.x][1]
 [Java 1.8.x][2]
 [Tomcat 7.x][3]
 [MySQL 5.6.x][4]
