@@ -997,7 +997,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
         
         
-        if (attachmentSummary.getAttachmentType().startsWith("Protocol: ")) {
+        if (attachmentSummary.getAttachmentType().startsWith(Constants.PROTOCOL_ATTACHMENT_PREFIX)) {
             ProtocolAttachmentProtocol attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
             return printAttachmentProtocol(mapping, response, attachment, protocolForm);
         } 
