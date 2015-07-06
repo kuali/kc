@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Changing unit back to a dropdown but using the advanced select box which includes a filter
+
+  * This change will return the lead unit select to a drop down but using the advanced drop down currently in use by keywords and other places that also includes a filter such that a user can free-form type a partial number or name for the unit and have the displayed lists restricted by that value.
+  * blackcathacker on Mon, 6 Jul 2015 10:47:26 -0700 [View Commit](../../commit/908fbbc3cb3f89e622870414aa647f4126227072)
+
+##coeus-1507.6
 * Updating project docs to reflect supported Maven version
   * Travis Schneeberger on Mon, 6 Jul 2015 10:29:34 -0400 [View Commit](../../commit/016fb17106b439a5bde10c0b62ecdfe33def8db8)
 * display correct messaging on lookup resutls if the search is bounded
