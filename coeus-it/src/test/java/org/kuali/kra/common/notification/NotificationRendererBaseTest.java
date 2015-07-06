@@ -30,7 +30,7 @@ import static org.junit.Assert.*;
  */
 public class NotificationRendererBaseTest extends KcIntegrationTestBase {
     
-    private static final String USER_FULLNAME_VAL = "Geoff  McGregor";
+    private static final String USER_FULLNAME_VAL = "Geoff McGregor";
     
     @SuppressWarnings("serial")
     @Test
