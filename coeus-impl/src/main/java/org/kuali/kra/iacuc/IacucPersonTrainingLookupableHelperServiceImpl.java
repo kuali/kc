@@ -72,32 +72,5 @@ public class IacucPersonTrainingLookupableHelperServiceImpl extends KualiLookupa
     public KcPersonService getKcPersonService() {
         return (KcPersonService) KcServiceLocator.getService(KcPersonService.class);
     }
-
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<IacucPersonTraining> searchResults = (List<IacucPersonTraining>)super.getSearchResults(fieldValues);
-        if (!searchResults.isEmpty()) {
-            if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
-                return filterSearchResults(searchResults, fieldValues.get("person.userName"));
-            }
-        }
-        return searchResults;
-    }
-
-    /*
-     * This method is primarily to match person username.
-     * kcperson is not in person training table, so generic getsearchresults is not working properly.
-     */
-    protected List<IacucPersonTraining> filterSearchResults(List<IacucPersonTraining> searchResults, String userName) {
-        List<IacucPersonTraining> filteredList = new ArrayList<IacucPersonTraining>();
-        
-        String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";
-        for (IacucPersonTraining iacucPersonTraining : searchResults) {
-            if (iacucPersonTraining.getPerson().getUserName().toUpperCase().matches(regexp)) {
-                filteredList.add(iacucPersonTraining);
-            }
-        }
-        return filteredList;
-    }
     
 }

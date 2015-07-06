@@ -30,6 +30,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.entity.EntityContract;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -132,8 +133,10 @@ public class KcPersonServiceImpl implements KcPersonService {
     }
     
     public List<KcPerson> createKcPersonsFromPeople(List<Person> people) {
-        List<KcPerson> persons = new ArrayList<KcPerson>();
-        
+        List<KcPerson> persons = new ArrayList<>();
+        if (people instanceof CollectionIncomplete) {
+            persons = new CollectionIncomplete<>(new ArrayList<>(),((CollectionIncomplete) people).getActualSizeIfTruncated());
+        }
         for (Person person : people) {
             if (person.getEntityTypeCode().equals(KimConstants.EntityTypes.PERSON)) {
                 persons.add(KcPerson.fromPersonId(person.getPrincipalId()));

@@ -86,10 +86,10 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         isActive = fieldValues.get("isFinal");
         getQuestionnaireDocs();
-        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
+        List<Questionnaire> searchResults = (List<Questionnaire>) super.getSearchResults(fieldValues);
         if (CollectionUtils.isNotEmpty(searchResults)) {
-            Collections.sort((List<Questionnaire>) searchResults);
-            Collections.reverse((List<Questionnaire>) searchResults);
+            Collections.sort(searchResults);
+            Collections.reverse(searchResults);
         }
         return getCurrentVersionQuestionnaires(searchResults);
     }
@@ -97,8 +97,8 @@ public class QuestionnaireLookupableHelperServiceImpl extends KcKualiLookupableH
     /*
      * only get the current version for search results
      */
-    private List<? extends BusinessObject> getCurrentVersionQuestionnaires(List<? extends BusinessObject> searchResults) {
-        List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
+    private List<? extends BusinessObject> getCurrentVersionQuestionnaires(List<Questionnaire> searchResults) {
+        List<Questionnaire> questionnaires = org.kuali.coeus.sys.framework.util.CollectionUtils.createCorrectImplementationForCollection(searchResults);
         Integer questionnaireSeqId = 0;
         for (BusinessObject bo : searchResults) {
         	Questionnaire questionnaire = (Questionnaire) bo;

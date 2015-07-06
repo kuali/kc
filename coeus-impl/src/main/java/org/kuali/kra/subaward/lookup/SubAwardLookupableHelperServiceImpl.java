@@ -19,6 +19,7 @@
 package org.kuali.kra.subaward.lookup;
 
 import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.document.SubAwardDocument;
@@ -32,7 +33,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -159,7 +159,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
 
     protected List<SubAward> filterForRequisitionerUserName(List<SubAward> subAwards,
                                                             String requisitionerUserName) {
-        List<SubAward> filteredSubAwards = new ArrayList<>();
+        List<SubAward> filteredSubAwards = CollectionUtils.createCorrectImplementationForCollection(subAwards);
         if (requisitionerUserName != null && !requisitionerUserName.equalsIgnoreCase("")) {
             filteredSubAwards.addAll(subAwards.stream().filter(subAward ->
                     subAward.getRequisitionerUserName().matches(createSearchRegexFromString(requisitionerUserName))).collect(Collectors.toList()));

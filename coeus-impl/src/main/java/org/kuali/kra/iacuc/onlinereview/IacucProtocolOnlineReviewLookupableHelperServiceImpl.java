@@ -18,9 +18,10 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewLookupableHelperServiceImplBase;
@@ -54,16 +55,11 @@ public class IacucProtocolOnlineReviewLookupableHelperServiceImpl extends Protoc
     }
     
     protected List<ProtocolOnlineReviewBase> filterResults(List<ProtocolOnlineReviewBase> results) {
-        List<ProtocolOnlineReviewBase> onlineReviews = new ArrayList<ProtocolOnlineReviewBase>();
-        for (ProtocolOnlineReviewBase review : results) {           
-            if (review.getProtocolOnlineReviewDocument() != null) {
-                //ensure that only pending submission statuses are shown for online reviews, i.e. do not show reviews assigned but not completed for approved protocols.
-               if (!(review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionApprovedStatusCodeHook()) || 
-                     review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionAdminApprovedStatusCodeHook()))) {
-                   onlineReviews.add(review);
-               }
-            }
-        }
+        List<ProtocolOnlineReviewBase> onlineReviews = CollectionUtils.createCorrectImplementationForCollection(results);
+        //ensure that only pending submission statuses are shown for online reviews, i.e. do not show reviews assigned but not completed for approved protocols.
+        onlineReviews.addAll(results.stream().filter(review -> review.getProtocolOnlineReviewDocument() != null)
+                .filter(review -> !(review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionApprovedStatusCodeHook()) ||
+                review.getProtocolSubmission().getSubmissionStatusCode().equalsIgnoreCase(getProtocolSubmissionAdminApprovedStatusCodeHook()))).collect(Collectors.toList()));
         return onlineReviews;
     }
 }

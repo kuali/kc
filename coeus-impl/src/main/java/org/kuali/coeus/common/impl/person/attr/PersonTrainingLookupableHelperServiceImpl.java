@@ -79,33 +79,6 @@ public class PersonTrainingLookupableHelperServiceImpl extends KcKualiLookupable
         return super.performLookup(lookupForm, resultTable, bounded);
     }
 
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<PersonTraining> searchResults = (List<PersonTraining>)super.getSearchResults(fieldValues);
-        if (!searchResults.isEmpty()) {
-            if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
-                return filterSearchResults(searchResults, fieldValues.get("person.userName"));
-            }
-        }
-        return searchResults;
-    }
-
-    /*
-     * This method is primarily to match person username.
-     * kcperson is not in person training table, so generic getsearchresults is not working properly.
-     */
-    protected List<PersonTraining> filterSearchResults(List<PersonTraining> searchResults, String userName) {
-        List<PersonTraining> filteredList = new ArrayList<PersonTraining>();
-        
-        String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";
-        for (PersonTraining personTraining : searchResults) {
-            if (personTraining.getPerson().getUserName().toUpperCase().matches(regexp)) {
-                filteredList.add(personTraining);
-            }
-        }
-        return filteredList;
-    }
-
     public KcPersonService getKcPersonService() {
         return kcPersonService;
     }

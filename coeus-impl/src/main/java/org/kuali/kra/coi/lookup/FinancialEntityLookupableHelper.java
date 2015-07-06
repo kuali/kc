@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.coi.lookup;
 
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -27,10 +28,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class FinancialEntityLookupableHelper extends KraLookupableHelperServiceImpl{
 
@@ -43,13 +44,9 @@ public class FinancialEntityLookupableHelper extends KraLookupableHelperServiceI
         super.setBackLocationDocFormKey(fieldValues);
   
         List<PersonFinIntDisclosure> financialEntities = (List<PersonFinIntDisclosure>) super.getSearchResultsUnbounded(fieldValues);
-        List<PersonFinIntDisclosure> filtered = new ArrayList<PersonFinIntDisclosure>();
+        List<PersonFinIntDisclosure> filtered = CollectionUtils.createCorrectImplementationForCollection(financialEntities);
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        for (PersonFinIntDisclosure financialEntity : financialEntities) {
-            if (financialEntity.isCurrentFlag() && financialEntity.getPersonId().equals(principalId)) {
-                filtered.add(financialEntity);
-            }
-        }
+        filtered.addAll(financialEntities.stream().filter(financialEntity -> financialEntity.isCurrentFlag() && financialEntity.getPersonId().equals(principalId)).collect(Collectors.toList()));
         return filtered;
     }
    

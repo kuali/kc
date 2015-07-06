@@ -23,6 +23,7 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.lookup.KcKualiLookupableHelperServiceImpl;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.common.framework.multicampus.MultiCampusConstants;
@@ -43,6 +44,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Unit lookup that accounts for the extra parameter {@code campusCode} and filters the search results if it is defined.
@@ -114,15 +116,10 @@ public class UnitLookupableHelperServiceImpl extends KcKualiLookupableHelperServ
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String campusCode = fieldValues.remove(CAMPUS_CODE_FIELD);
-        List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
-        
-        List<Unit> filteredSearchResults = new ArrayList<Unit>();
-        for (BusinessObject searchResult : searchResults) {
-            Unit unit = (Unit) searchResult;
-            if (StringUtils.startsWith(unit.getUnitNumber(), campusCode)) {
-                filteredSearchResults.add(unit);
-            }
-        }
+        List<Unit> searchResults = (List<Unit>) super.getSearchResults(fieldValues);
+
+        List<Unit> filteredSearchResults = CollectionUtils.createCorrectImplementationForCollection(searchResults);
+        filteredSearchResults.addAll(searchResults.stream().filter(unit -> StringUtils.startsWith(unit.getUnitNumber(), campusCode)).collect(Collectors.toList()));
 
         return filteredSearchResults;
     }
