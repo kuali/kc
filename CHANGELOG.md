@@ -1,6 +1,47 @@
 
 
 ##CURRENT
+*  Adding confirmation dialog.
+  * PD Budget – Need a confirmation/warning prompt when user hits the Delete icon on Periods and Totals
+  * We have had multiple users report that they have mistakenly deleted Period 1 of their budget by clicking on the "trash can" icon under the Actions header in PD Budget > Periods and totals.
+  * There is no warning or confirmation message given to the user, and the deletion is immediate.
+  * Gayathri Athreya on Thu, 2 Jul 2015 11:41:03 -0700 [View Commit](../../commit/91dff255d9fa02474e77ab00d173611b6468cd84)
+*  Fixing proposal copy
+  * Tried to copy proposal (status Approved and Submitted) from search results Action link "Copy"
+  * (proposal had no subawards)
+
+  * In Copy modal:
+  * Selected same lead unit 264000
+  * Selected:
+  * Copy budget, final version
+  * Copy Attachments
+  * Copy Questionnaire.
+  * Clicked Copy. Got error message (see screenshot) and STE below.
+
+  * Tried again
+  * All same selections but did not select to include Attachments.
+  * Same errors & STE
+
+  * STE:
+
+  * Stacktrace (only in dev mode)
+
+  * java.lang.RuntimeException: An error occured while trying to copy the proposal development document.
+  * at org.kuali.coeus.propdev.impl.copy.ProposalCopyServiceImpl.copyProposal(ProposalCopyServiceImpl.java:239)
+  * at org.kuali.coeus.propdev.impl.copy.ProposalDevelopmentCopyController.copy(ProposalDevelopmentCopyController.java:62)
+  * Caused by: org.kuali.rice.krad.exception.ValidationException: business rule evaluation failed
+  * at org.kuali.rice.krad.document.DocumentBase.validateBusinessRules(DocumentBase.java:521)
+  * at org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase.validateBusinessRules(KcTransactionalDocumentBase.java:146)
+  * at org.kuali.rice.krad.service.impl.DocumentServiceImpl.validateAndPersistDocument(DocumentServiceImpl.java:876)
+  * at org.kuali.rice.krad.service.impl.DocumentServiceImpl.validateAndPersistDocumentAndSaveAdHocRoutingRecipients(DocumentServiceImpl.java:502)
+  * at org.kuali.rice.krad.service.impl.DocumentServiceImpl.saveDocument(DocumentServiceImpl.java:156)
+  * Gayathri Athreya on Thu, 2 Jul 2015 12:32:44 -0700 [View Commit](../../commit/50a08c95453104169de26d94960edfd8337fd22d)
+* RESKC-403 Fix to use id wildcards in combination with other properties for Proposal Lookup
+
+  * This was a bug in the lookupable code that would assume if id was entered it was the actual full id and would ignore some other properties entered, this corrects this and expands on the searches in a couple fields which use people by allowing username, person id, full name, and last name as valid search values for those fields.  It also corrects an error with bad values being inserted into the database that caused the fullName stored to have 2 spaces inbetween first and last names which previously caused Full Name searches to fail on the fields above.
+  * bsmith83 on Thu, 2 Jul 2015 18:19:02 -0700 [View Commit](../../commit/6597e9e0db5cdd8dcb737b4f7872f4dbe0c8b641)
+
+##coeus-1507.4
 * fixes issues when adding coi role to an instituional proposal
 
   * Steps:
