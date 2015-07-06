@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* Updating project docs to reflect supported Maven version
+  * Travis Schneeberger on Mon, 6 Jul 2015 10:29:34 -0400 [View Commit](../../commit/016fb17106b439a5bde10c0b62ecdfe33def8db8)
+* display correct messaging on lookup resutls if the search is bounded
+
+  * when some searches hit the upper limit for returned results, the system does not provide a message to user that not all results are displayed. 3 lookups found so far with no upper limit message:
+  * The SysAdmin->Person lookup in Training
+  * Unit lookup
+  * KCPersonExtendedAttributes lookup
+  * Joe Williams on Mon, 6 Jul 2015 09:40:31 -0500 [View Commit](../../commit/939a5fa9fbf635c6be6e70350f53e97f40c6bae2)
+
+##coeus-1507.5
 *  Adding confirmation dialog.
   * PD Budget – Need a confirmation/warning prompt when user hits the Delete icon on Periods and Totals
   * We have had multiple users report that they have mistakenly deleted Period 1 of their budget by clicking on the "trash can" icon under the Actions header in PD Budget > Periods and totals.
