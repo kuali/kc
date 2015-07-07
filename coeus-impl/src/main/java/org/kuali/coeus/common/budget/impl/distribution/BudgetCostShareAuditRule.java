@@ -124,7 +124,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
     public boolean processCostShareAuditRules(BudgetAuditRuleEvent event) {
         Budget budget = event.getBudget();
         boolean retval = true;
-        if (budget.isCostSharingApplicable()) {
+        if (budget.isCostSharingApplicable() && budget.isCostSharingEnforced()) {
             List<BudgetCostShare> costShares = budget.getBudgetCostShares();
             String[] params = { "Cost Sharing" };
             retval &= verifyCostSharingAllocation(budget, costShares, params);
@@ -174,7 +174,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
     protected boolean verifyCostSharingAllocation(Budget budget, List<BudgetCostShare> costShares, String[] params) {
         BudgetConstants.BudgetAuditRules budgetCostSharingRule = BudgetConstants.BudgetAuditRules.COST_SHARING;
         // Forces full allocation of cost sharing
-        if (budget.getUnallocatedCostSharing().isNonZero() && budget.isCostSharingEnforced()) {
+        if (budget.getUnallocatedCostSharing().isNonZero()) {
             if (costShares.isEmpty()) {
                 getAuditErrors(budgetCostSharingRule.getErrorKey(), budgetCostSharingRule.getLabel()).add(new AuditError("budget.budgetCostShare", 
                 		KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO, budgetCostSharingRule.getPageId(), params));
