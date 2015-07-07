@@ -192,7 +192,7 @@
                       		p:actionParameters="@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_PATH}:budget.budgetLineItems,
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_COLLECTION_ID}:PropBudget-NonPersonnelCosts-LineItemDetails,
                       		@{T(org.kuali.rice.krad.uif.UifParameters).SELECTED_LINE_INDEX}:@{addProjectBudgetLineItemHelper.editLineIndex}"
-							p:dialogDismissOption="REQUEST" p:render="@{!#parent.readOnly}"
+							  p:render="@{!#parent.readOnly}"
 							p:methodToCall="saveAndApplyToLaterPeriods" p:order="20" p:performClientSideValidation="true"/>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync To Period Direct Cost Limit"
 							p:refreshId="PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog" p:render="@{!#parent.readOnly}"
@@ -523,6 +523,9 @@
 
 	<bean id="PropBudget-NonPersonnelCosts-SyncToDirectCostLimit" parent="Uif-DialogGroup-YesNo" 
 	p:promptText="Period direct cost is greater than the direct cost limit for this period. Do you want to reduce this line item cost to make the period direct cost the same as the period direct cost limit?"/>
+
+	<bean id="PropBudget-NonPersonnelCosts-ApplyToLaterPeriods" parent="Uif-DialogGroup-YesNo"
+		  p:promptText="There is already a line item based on this line item in a later period. Do you want to apply changes to existing items on later periods?"/>
 
 </beans>
                     

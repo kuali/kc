@@ -134,7 +134,7 @@ public class KcCommonControllerServiceImpl implements KcCommonControllerService 
         } else {
             updateComponent = form.getView();
         }
-        String onReadyScript = ScriptUtils.appendScript(updateComponent.getOnDocumentReadyScript(), getCloseDialogScript(form.getUpdateComponentId()));
+        String onReadyScript = ScriptUtils.appendScript(updateComponent.getOnDocumentReadyScript(), getCloseDialogScript(dialogId));
         updateComponent.setOnDocumentReadyScript(onReadyScript);
         form.getRequest().setAttribute(UifParameters.Attributes.VIEW_LIFECYCLE_COMPLETE, "true");
         return modelAndView;
