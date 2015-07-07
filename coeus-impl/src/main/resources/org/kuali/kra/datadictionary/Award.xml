@@ -17,430 +17,446 @@
    - You should have received a copy of the GNU Affero General Public License
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
-  <bean id="Award" parent="Award-parentBean" />
-  <bean id="Award-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kra.award.home.Award" />
-		<property name="objectLabel" value="Award" />
-    <property name="inquiryDefinition" >
-      <ref bean="Award-inquiryDefinition" />
-    </property>
-    <property name="lookupDefinition" >
-      <ref bean="Award-lookupDefinition" />
-    </property>
-    <property name="titleAttribute" value="awardId" />
-    <property name="helpDefinition" >
-      <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardHelpUrl" p:parameterDetailType="Document"/>
-    </property>
-    <property name="attributes" >
-      <list>
-        <ref bean="Award-preAwardAuthorizedAmount" />
-        <ref bean="Award-preAwardEffectiveDate" />
-        <ref bean="Award-preAwardInstitutionalAuthorizedAmount" />
-        <ref bean="Award-preAwardInstitutionalEffectiveDate" />
-        <ref bean="Award-sequenceNumber" />
-        <ref bean="Award-specialEbRateOnCampus" />
-        <ref bean="Award-specialEbRateOffCampus" />
-        <ref bean="Award-subPlanFlag" />
-        <ref bean="Award-procurementPriorityCode" />
-        <ref bean="Award-basisOfPaymentCode" />
-        <ref bean="Award-methodOfPaymentCode" />
-        <ref bean="Award-documentFundingId" />
-        <ref bean="Award-activityTypeCode" />
-        <ref bean="Award-title" />
-        <ref bean="Award-statusCode" />
-        <ref bean="Award-statusDescription" />
-        <ref bean="Award-sponsorCode" />
-        <ref bean="Award-primeSponsorCode" />
-        <ref bean="Award-nsfCode" />
-		<ref bean="Award-awardNumber" />
-        <ref bean="Award-sponsorName" />
-        <ref bean="Award-awardId" />
-        <ref bean="Award-accountNumber" />
-        <ref bean="Award-sponsorAwardNumber" />
-        <ref bean="Award-modificationNumber" />
-        <ref bean="Award-cfdaNumber" />
-        <ref bean="Award-beginDate" />
-        <ref bean="Award-awardEffectiveDate" />
-        <ref bean="Award-projectEndDate" />
-        <ref bean="Award-awardExecutionDate" />
-        <ref bean="Award-accountTypeCode" />
-        <ref bean="Award-awardTypeCode" />
-        <ref bean="Award-obligatedTotal" />
-        <ref bean="Award-anticipatedTotal" />
-        <ref bean="Award-templateCode" />
-        <ref bean="Award-principalInvestigatorName" />
-        <ref bean="Award-leadUnit.unitName" />
-        <ref bean="Award-unitNumber" />
-        <ref bean="Award-ospAdministratorName" />
-        <ref bean="Award-archiveLocation" />
-        <ref bean="Award-closeoutDate" />
-        <ref bean="Award-awardTransactionTypeCode" />
-        <ref bean="Award-noticeDate" />
-        <ref bean="Award-updateTimestamp" />
-        <ref bean="Award-docIdStatus" />
-        <ref bean="Award-awardIdAccount" />        
-        <ref bean="Award-lookupOspAdministratorName" />  
-        <ref bean="Award-awardUnitContacts.awardContactId" /> 
-        <ref bean="Award-projectPersons.fullName" />     
-        <ref bean="Award-projectPersons.awardContactId" />    
-        <ref bean="Award-financialAccountDocumentNumber" /> 
-        <ref bean="Award-financialAccountCreationDate" />
-        <ref bean="Award-financialChartOfAccountsCode" />
-        <ref bean="Award-awardDocument.documentNumber" />
-        <ref bean="Award-awardStatus.description" /> 
-        <ref bean="Award-awardAmountInfo.obligationExpirationDate" />
-        <ref bean="Award-awardAmountInfo.amountObligatedToDate" />
-        <ref bean="Award-sponsor.sponsorName" />
-        <ref bean="Award-awardType.description" />
-        <ref bean="Award-activityType.description" />
-        <ref bean="Award-accountTypeDescription" />
-        <ref bean="Award-latestAwardAmountInfo.currentFundEffectiveDate" />
-        <ref bean="Award-latestAwardAmountInfo.finalExpirationDate" />
-        <ref bean="Award-latestAwardAmountInfo.obligationExpirationDate" />
-        <ref bean="Award-latestAwardAmountInfo.anticipatedTotalAmount" />
-        <ref bean="Award-latestAwardAmountInfo.amountObligatedToDate" />
-      </list>
-    </property>
-        <property name="collections">
-        	<list>
-				<bean parent="CollectionDefinition" p:name="awardUnitContacts" p:label="Unit Contacts" p:shortLabel="Unit Contacts" p:elementLabel="Unit Contact" />
-				<bean parent="CollectionDefinition" p:name="projectPersons" p:label="Project Persons" p:shortLabel="Project Persons" p:elementLabel="Project Person" />
-        	</list>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="Award" parent="Award-parentBean"/>
+    <bean id="Award-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.award.home.Award"/>
+        <property name="objectLabel" value="Award"/>
+        <property name="inquiryDefinition">
+            <ref bean="Award-inquiryDefinition"/>
         </property>
-  </bean>
-  
-  <bean id="Award-preAwardAuthorizedAmount" parent="Award-preAwardAuthorizedAmount-parentBean" />
-  <bean id="Award-preAwardAuthorizedAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="preAwardAuthorizedAmount" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="12"/>
-        <property name="scale" value="2"/>
-        <property name="allowNegative" value="true"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
-    </property>
-    <property name="summary" value="Pre Award Sponsor Authorized Amount" />
-    <property name="description" value="Pre Award Sponsor Authorized Amount" />
-  </bean>
-  
-  <bean id="Award-preAwardEffectiveDate" parent="Award-preAwardEffectiveDate-parentBean" />
+        <property name="lookupDefinition">
+            <ref bean="Award-lookupDefinition"/>
+        </property>
+        <property name="titleAttribute" value="awardId"/>
+        <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardHelpUrl"
+                  p:parameterDetailType="Document"/>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="Award-preAwardAuthorizedAmount"/>
+                <ref bean="Award-preAwardEffectiveDate"/>
+                <ref bean="Award-preAwardInstitutionalAuthorizedAmount"/>
+                <ref bean="Award-preAwardInstitutionalEffectiveDate"/>
+                <ref bean="Award-sequenceNumber"/>
+                <ref bean="Award-specialEbRateOnCampus"/>
+                <ref bean="Award-specialEbRateOffCampus"/>
+                <ref bean="Award-subPlanFlag"/>
+                <ref bean="Award-procurementPriorityCode"/>
+                <ref bean="Award-basisOfPaymentCode"/>
+                <ref bean="Award-methodOfPaymentCode"/>
+                <ref bean="Award-documentFundingId"/>
+                <ref bean="Award-activityTypeCode"/>
+                <ref bean="Award-title"/>
+                <ref bean="Award-statusCode"/>
+                <ref bean="Award-statusDescription"/>
+                <ref bean="Award-sponsorCode"/>
+                <ref bean="Award-primeSponsorCode"/>
+                <ref bean="Award-nsfCode"/>
+                <ref bean="Award-awardNumber"/>
+                <ref bean="Award-sponsorName"/>
+                <ref bean="Award-awardId"/>
+                <ref bean="Award-accountNumber"/>
+                <ref bean="Award-sponsorAwardNumber"/>
+                <ref bean="Award-modificationNumber"/>
+                <ref bean="Award-cfdaNumber"/>
+                <ref bean="Award-beginDate"/>
+                <ref bean="Award-awardEffectiveDate"/>
+                <ref bean="Award-projectEndDate"/>
+                <ref bean="Award-awardExecutionDate"/>
+                <ref bean="Award-accountTypeCode"/>
+                <ref bean="Award-awardTypeCode"/>
+                <ref bean="Award-obligatedTotal"/>
+                <ref bean="Award-anticipatedTotal"/>
+                <ref bean="Award-templateCode"/>
+                <ref bean="Award-principalInvestigatorName"/>
+                <ref bean="Award-leadUnit.unitName"/>
+                <ref bean="Award-leadUnit.unitAdministrators.person.userName"/>
+                <ref bean="Award-leadUnit.unitAdministrators.personId"/>
+                <ref bean="Award-unitNumber"/>
+                <ref bean="Award-ospAdministratorName"/>
+                <ref bean="Award-archiveLocation"/>
+                <ref bean="Award-closeoutDate"/>
+                <ref bean="Award-awardTransactionTypeCode"/>
+                <ref bean="Award-noticeDate"/>
+                <ref bean="Award-updateTimestamp"/>
+                <ref bean="Award-docIdStatus"/>
+                <ref bean="Award-awardIdAccount"/>
+                <ref bean="Award-lookupOspAdministratorName"/>
+                <ref bean="Award-awardUnitContacts.awardContactId"/>
+                <ref bean="Award-projectPersons.fullName"/>
+                <ref bean="Award-projectPersons.awardContactId"/>
+                <ref bean="Award-financialAccountDocumentNumber"/>
+                <ref bean="Award-financialAccountCreationDate"/>
+                <ref bean="Award-financialChartOfAccountsCode"/>
+                <ref bean="Award-awardDocument.documentNumber"/>
+                <ref bean="Award-awardStatus.description"/>
+                <ref bean="Award-awardAmountInfo.obligationExpirationDate"/>
+                <ref bean="Award-awardAmountInfo.amountObligatedToDate"/>
+                <ref bean="Award-sponsor.sponsorName"/>
+                <ref bean="Award-awardType.description"/>
+                <ref bean="Award-activityType.description"/>
+                <ref bean="Award-accountTypeDescription"/>
+                <ref bean="Award-latestAwardAmountInfo.currentFundEffectiveDate"/>
+                <ref bean="Award-latestAwardAmountInfo.finalExpirationDate"/>
+                <ref bean="Award-latestAwardAmountInfo.obligationExpirationDate"/>
+                <ref bean="Award-latestAwardAmountInfo.anticipatedTotalAmount"/>
+                <ref bean="Award-latestAwardAmountInfo.amountObligatedToDate"/>
+            </list>
+        </property>
+        <property name="collections">
+            <list>
+                <bean parent="CollectionDefinition" p:name="awardUnitContacts" p:label="Unit Contacts"
+                      p:shortLabel="Unit Contacts" p:elementLabel="Unit Contact"/>
+                <bean parent="CollectionDefinition" p:name="projectPersons" p:label="Project Persons"
+                      p:shortLabel="Project Persons" p:elementLabel="Project Person"/>
+            </list>
+        </property>
+    </bean>
 
-  <bean id="Award-preAwardEffectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
-    <property name="name" value="preAwardEffectiveDate" />
-    <property name="label" value="Pre Award Sponsor Effective Date" />
-    <property name="shortLabel" value="Pre Award Sponsor Effective Date" />
-    <property name="required" value="false" />
-    <property name="summary" value="Pre Award Sponsor Effective Date" />
-    <property name="description" value="Pre Award Sponsor Effective Date" />
-  </bean>
-  
-  <bean id="Award-preAwardInstitutionalAuthorizedAmount" parent="Award-preAwardInstitutionalAuthorizedAmount-parentBean" />
+    <bean id="Award-preAwardAuthorizedAmount" parent="Award-preAwardAuthorizedAmount-parentBean"/>
+    <bean id="Award-preAwardAuthorizedAmount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="preAwardAuthorizedAmount"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Amount"/>
+        <property name="shortLabel" value="Amount"/>
+        <property name="maxLength" value="12"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint">
+                <property name="precision" value="12"/>
+                <property name="scale" value="2"/>
+                <property name="allowNegative" value="true"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
+        </property>
+        <property name="summary" value="Pre Award Sponsor Authorized Amount"/>
+        <property name="description" value="Pre Award Sponsor Authorized Amount"/>
+    </bean>
 
-  <bean id="Award-preAwardInstitutionalAuthorizedAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="preAwardInstitutionalAuthorizedAmount" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Amount" />
-    <property name="shortLabel" value="Amount" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="12"/>
-        <property name="scale" value="2"/>
-        <property name="allowNegative" value="true"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
-    </property>
-    <property name="summary" value="Pre Award Institutional Authorized Amount" />
-    <property name="description" value="Pre Award Institutional Authorized Amount" />
-  </bean>
-  
-  <bean id="Award-preAwardInstitutionalEffectiveDate" parent="Award-preAwardInstitutionalEffectiveDate-parentBean" />
+    <bean id="Award-preAwardEffectiveDate" parent="Award-preAwardEffectiveDate-parentBean"/>
 
-  <bean id="Award-preAwardInstitutionalEffectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
-    <property name="name" value="preAwardInstitutionalEffectiveDate" />
-    <property name="label" value="Pre Award Institutional Effective Date" />
-    <property name="shortLabel" value="Pre Award Institutional Effective Date" />
-    <property name="required" value="false" />
-    <property name="summary" value="Pre Award Institutional Effective Date" />
-    <property name="description" value="Pre Award Institutional Effective Date" />
-  </bean>
-  
-  <bean id="Award-sequenceNumber" parent="Award-sequenceNumber-parentBean" />
-  <bean id="Award-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sequenceNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sequence Number" />
-    <property name="shortLabel" value="Sequence Number" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="4"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="4" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Sequence Number" />
-    <property name="description" value="Sequence Number" />
-  </bean>
-  
-  <bean id="Award-specialEbRateOnCampus" parent="Award-specialEbRateOnCampus-parentBean" />
+    <bean id="Award-preAwardEffectiveDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="preAwardEffectiveDate"/>
+        <property name="label" value="Pre Award Sponsor Effective Date"/>
+        <property name="shortLabel" value="Pre Award Sponsor Effective Date"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="Pre Award Sponsor Effective Date"/>
+        <property name="description" value="Pre Award Sponsor Effective Date"/>
+    </bean>
 
-  <bean id="Award-specialEbRateOnCampus-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="specialEbRateOnCampus" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Special EB Rate On CampusContract" />
-    <property name="shortLabel" value="Percentage" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Special EB Rate On CampusContract" />
-    <property name="description" value="Special EB Rate On CampusContract" />
-  </bean>
-  
-  <bean id="Award-specialEbRateOffCampus" parent="Award-specialEbRateOffCampus-parentBean" />
+    <bean id="Award-preAwardInstitutionalAuthorizedAmount"
+          parent="Award-preAwardInstitutionalAuthorizedAmount-parentBean"/>
 
-  <bean id="Award-specialEbRateOffCampus-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="specialEbRateOffCampus" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Special EB Rate Off CampusContract" />
-    <property name="shortLabel" value="Percentage" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Special EB Rate Off CampusContract" />
-    <property name="description" value="Special EB Rate Off CampusContract" />
-  </bean>
-  
-  <bean id="Award-procurementPriorityCode" parent="Award-procurementPriorityCode-parentBean" />
+    <bean id="Award-preAwardInstitutionalAuthorizedAmount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="preAwardInstitutionalAuthorizedAmount"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Amount"/>
+        <property name="shortLabel" value="Amount"/>
+        <property name="maxLength" value="12"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint">
+                <property name="precision" value="12"/>
+                <property name="scale" value="2"/>
+                <property name="allowNegative" value="true"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
+        </property>
+        <property name="summary" value="Pre Award Institutional Authorized Amount"/>
+        <property name="description" value="Pre Award Institutional Authorized Amount"/>
+    </bean>
 
-  <bean id="Award-procurementPriorityCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="procurementPriorityCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Procurement Priority Code" />
-    <property name="shortLabel" value="Type" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="6" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Competing Renewal" />
-    <property name="description" value="Competing Renewal" />
-  </bean>
-  
-  <bean id="Award-subPlanFlag" parent="Award-subPlanFlag-parentBean" />
-  <bean id="Award-subPlanFlag-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="subPlanFlag" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Small Business Subcontracting Plan" />
-    <property name="shortLabel" value="Small Business Subcontracting Plan" />
-    <property name="maxLength" value="1" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.SubPlanFlagValuesFinder"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.kra.award.lookup.keyvalue.SubPlanFlagValuesFinder"/>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    </property>
-    <property name="summary" value="Small Business Subcontracting Plan" />
-    <property name="description" value="Small Business Subcontracting Plan" />
-  </bean>
-  
-  <bean id="Award-basisOfPaymentCode" parent="Award-basisOfPaymentCode-parentBean" />
-  <bean id="Award-basisOfPaymentCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="basisOfPaymentCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Payment Basis" />
-    <property name="shortLabel" value="Payment Basis" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardBasisOfPayment" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="basisOfPaymentCode" p:labelAttribute="description"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardBasisOfPayment"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="basisOfPaymentCode"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    </property>
-    <property name="summary" value="Payment Basis" />
-    <property name="description" value="Payment Basis" />
-  </bean>
-  
-  <bean id="Award-methodOfPaymentCode" parent="Award-methodOfPaymentCode-parentBean" />
-  <bean id="Award-methodOfPaymentCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="methodOfPaymentCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Payment Method" />
-    <property name="shortLabel" value="Payment Method" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardMethodOfPayment" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="methodOfPaymentCode" p:labelAttribute="description"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardMethodOfPayment"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="methodOfPaymentCode"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    </property>
-    <property name="summary" value="Payment Method" />
-    <property name="description" value="Payment Method" />
-  </bean>
-   
-  <bean id="Award-documentFundingId" parent="Award-documentFundingId-parentBean" />
-  <bean id="Award-documentFundingId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="documentFundingId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Document Funding ID" />
-    <property name="shortLabel" value="Document Funding ID" />
-    <property name="maxLength" value="20" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="20" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Document Funding ID" />
-    <property name="description" value="Document Funding ID" />
-  </bean>
+    <bean id="Award-preAwardInstitutionalEffectiveDate" parent="Award-preAwardInstitutionalEffectiveDate-parentBean"/>
 
-<bean id="Award-awardNumber" parent="Award-awardNumber-parentBean" />
-  <bean id="Award-awardNumber-parentBean" abstract="true" parent="KraAttributeReferenceDummy-awardNumber">
-    <property name="name" value="awardNumber" />
-    <property name="label" value="Award ID" />
-    <property name="shortLabel" value="Award ID" />
-    <property name="required" value="false" />
-    <property name="summary" value="Award ID" />
-    <property name="description" value="Award ID" />
-  </bean>
+    <bean id="Award-preAwardInstitutionalEffectiveDate-parentBean" abstract="true"
+          parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="preAwardInstitutionalEffectiveDate"/>
+        <property name="label" value="Pre Award Institutional Effective Date"/>
+        <property name="shortLabel" value="Pre Award Institutional Effective Date"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="Pre Award Institutional Effective Date"/>
+        <property name="description" value="Pre Award Institutional Effective Date"/>
+    </bean>
 
-  <bean id="Award-awardId" parent="Award-awardId-parentBean" />
-  <bean id="Award-awardId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardId" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Award Id" />
-    <property name="shortLabel" value="Award Id" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="6" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Award Id" />
-    <property name="description" value="Award Id" />
-  </bean>
+    <bean id="Award-sequenceNumber" parent="Award-sequenceNumber-parentBean"/>
+    <bean id="Award-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sequenceNumber"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Sequence Number"/>
+        <property name="shortLabel" value="Sequence Number"/>
+        <property name="maxLength" value="4"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="4" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Sequence Number"/>
+        <property name="description" value="Sequence Number"/>
+    </bean>
 
-  <bean id="Award-activityTypeCode" parent="DevelopmentProposal-activityTypeCode-parentBean" />
+    <bean id="Award-specialEbRateOnCampus" parent="Award-specialEbRateOnCampus-parentBean"/>
 
-    <bean id="Award-title" parent="Award-title-parentBean" />
+    <bean id="Award-specialEbRateOnCampus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="specialEbRateOnCampus"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Special EB Rate On CampusContract"/>
+        <property name="shortLabel" value="Percentage"/>
+        <property name="maxLength" value="10"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Special EB Rate On CampusContract"/>
+        <property name="description" value="Special EB Rate On CampusContract"/>
+    </bean>
+
+    <bean id="Award-specialEbRateOffCampus" parent="Award-specialEbRateOffCampus-parentBean"/>
+
+    <bean id="Award-specialEbRateOffCampus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="specialEbRateOffCampus"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Special EB Rate Off CampusContract"/>
+        <property name="shortLabel" value="Percentage"/>
+        <property name="maxLength" value="10"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Special EB Rate Off CampusContract"/>
+        <property name="description" value="Special EB Rate Off CampusContract"/>
+    </bean>
+
+    <bean id="Award-procurementPriorityCode" parent="Award-procurementPriorityCode-parentBean"/>
+
+    <bean id="Award-procurementPriorityCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="procurementPriorityCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Procurement Priority Code"/>
+        <property name="shortLabel" value="Type"/>
+        <property name="maxLength" value="6"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="6"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="6" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Competing Renewal"/>
+        <property name="description" value="Competing Renewal"/>
+    </bean>
+
+    <bean id="Award-subPlanFlag" parent="Award-subPlanFlag-parentBean"/>
+    <bean id="Award-subPlanFlag-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="subPlanFlag"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Small Business Subcontracting Plan"/>
+        <property name="shortLabel" value="Small Business Subcontracting Plan"/>
+        <property name="maxLength" value="1"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.SubPlanFlagValuesFinder"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kra.award.lookup.keyvalue.SubPlanFlagValuesFinder"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="Small Business Subcontracting Plan"/>
+        <property name="description" value="Small Business Subcontracting Plan"/>
+    </bean>
+
+    <bean id="Award-basisOfPaymentCode" parent="Award-basisOfPaymentCode-parentBean"/>
+    <bean id="Award-basisOfPaymentCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="basisOfPaymentCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Payment Basis"/>
+        <property name="shortLabel" value="Payment Basis"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardBasisOfPayment"
+                  p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="basisOfPaymentCode"
+                  p:labelAttribute="description"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardBasisOfPayment"/>
+                <property name="includeKeyInDescription" value="false"/>
+                <property name="includeBlankRow" value="false"/>
+                <property name="keyAttributeName" value="basisOfPaymentCode"/>
+                <property name="labelAttributeName" value="description"/>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="Payment Basis"/>
+        <property name="description" value="Payment Basis"/>
+    </bean>
+
+    <bean id="Award-methodOfPaymentCode" parent="Award-methodOfPaymentCode-parentBean"/>
+    <bean id="Award-methodOfPaymentCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="methodOfPaymentCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Payment Method"/>
+        <property name="shortLabel" value="Payment Method"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardMethodOfPayment"
+                  p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="methodOfPaymentCode"
+                  p:labelAttribute="description"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardMethodOfPayment"/>
+                <property name="includeKeyInDescription" value="false"/>
+                <property name="includeBlankRow" value="false"/>
+                <property name="keyAttributeName" value="methodOfPaymentCode"/>
+                <property name="labelAttributeName" value="description"/>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="Payment Method"/>
+        <property name="description" value="Payment Method"/>
+    </bean>
+
+    <bean id="Award-documentFundingId" parent="Award-documentFundingId-parentBean"/>
+    <bean id="Award-documentFundingId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="documentFundingId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Document Funding ID"/>
+        <property name="shortLabel" value="Document Funding ID"/>
+        <property name="maxLength" value="20"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Document Funding ID"/>
+        <property name="description" value="Document Funding ID"/>
+    </bean>
+
+    <bean id="Award-awardNumber" parent="Award-awardNumber-parentBean"/>
+    <bean id="Award-awardNumber-parentBean" abstract="true" parent="KraAttributeReferenceDummy-awardNumber">
+        <property name="name" value="awardNumber"/>
+        <property name="label" value="Award ID"/>
+        <property name="shortLabel" value="Award ID"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="Award ID"/>
+        <property name="description" value="Award ID"/>
+    </bean>
+
+    <bean id="Award-awardId" parent="Award-awardId-parentBean"/>
+    <bean id="Award-awardId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="awardId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Award Id"/>
+        <property name="shortLabel" value="Award Id"/>
+        <property name="maxLength" value="12"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="6"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="6" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Award Id"/>
+        <property name="description" value="Award Id"/>
+    </bean>
+
+    <bean id="Award-activityTypeCode" parent="DevelopmentProposal-activityTypeCode-parentBean"/>
+
+    <bean id="Award-title" parent="Award-title-parentBean"/>
     <bean id="Award-title-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="title" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Award Title" />
-        <property name="shortLabel" value="Title" />
-        <property name="maxLength" value="200" />
-        <property name="required" value="true" />
-        <property name="validationPattern" >
+        <property name="name" value="title"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Award Title"/>
+        <property name="shortLabel" value="Title"/>
+        <property name="maxLength" value="200"/>
+        <property name="required" value="true"/>
+        <property name="validationPattern">
             <bean parent="UTF8AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
         <property name="validCharactersConstraint">
@@ -449,978 +465,1040 @@
             </bean>
         </property>
         <property name="control">
-            <bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
+            <bean parent="TextareaControlDefinition" p:rows="3" p:cols="80"/>
         </property>
         <property name="controlField">
             <bean p:rows="3" p:cols="80" parent="Uif-TextAreaControl"/>
         </property>
-        <property name="summary" value="The title of the propsal." />
-        <property name="description" value="The proposed title of the project." />
+        <property name="summary" value="The title of the propsal."/>
+        <property name="description" value="The proposed title of the project."/>
     </bean>
 
-  <bean id="Award-statusCode" parent="Award-statusCode-parentBean" />
-  <bean id="Award-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="statusCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Award Status" />
-    <property name="shortLabel" value="Award Status" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardStatus" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="statusCode" p:labelAttribute="description"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardStatus"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="statusCode"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    </property>
-    <property name="summary" value="Award Status" />
-    <property name="description" value="Award Status" />
-  </bean>
-  
-  <bean id="Award-sponsorCode" parent="Award-sponsorCode-parentBean" />
-  <bean id="Award-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sponsorCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sponsor ID" />
-    <property name="shortLabel" value="Sponsor" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint"/>
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="12" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Agency/Sponsor #" />
-    <property name="description" value="The identification number of the organization or agency that is providing support for the sponsored project." />
-  </bean>
-  
-  <bean id="Award-primeSponsorCode" parent="Award-sponsorCode-parentBean">
-  	<property name="name" value="primeSponsorCode" />
-  	<property name="label" value="Prime Sponsor" />
-  	<property name="required" value="false" />
-  </bean>
-  <bean id="Award-templateCode" parent="Award-templateCode-parentBean"/>
-  <bean id="Award-templateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="templateCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sponsor Template Code" />
-    <property name="shortLabel" value="Sponsor Template" />
-    <property name="maxLength" value="6" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="6"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="6" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Sponsor Template Code" />
-    <property name="description" value="Pre-defined Sponsor Template to sync" />
-  </bean>
-  
-  <bean id="Award-nsfCode" parent="Award-nsfCode-parentBean" />
-  <bean id="Award-nsfCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nsfCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="NSF Science Code" />
-    <property name="shortLabel" value="NSF Science Code" />
-    <property name="maxLength" value="15" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint"/>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.NsfCode" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="nsfCode" p:labelAttribute="description"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.NsfCode"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="nsfCode"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    </property>
-    <property name="summary" value="The NSF Science Code for this Proposal." />
-    <property name="description" value="A number used to indicate the type of research activity as defined by the National Science Foundation. NSF codes are not specific for NSF proposals and/or awards." />
-  </bean>
-  
-  <bean id="Award-accountNumber" parent="Award-accountNumber-parentBean" />
-  <bean id="Award-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Account ID" />
-    <property name="shortLabel" value="Account ID" />
-    <property name="maxLength" value="16" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="12" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Account ID" />
-    <property name="description" value="Account ID" />
-  </bean>
-  
-  <bean id="Award-sponsorAwardNumber" parent="Award-sponsorAwardNumber-parentBean" />
-  <bean id="Award-sponsorAwardNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sponsorAwardNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Sponsor Award ID" />
-    <property name="shortLabel" value="Sponsor Award ID" />
-    <property name="maxLength" value="70" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="20" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Sponsor Award ID" />
-    <property name="description" value="Sponsor Award ID" />
-  </bean>
-  
-  <bean id="Award-modificationNumber" parent="Award-modificationNumber-parentBean" />
-  <bean id="Award-modificationNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="modificationNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Modification ID" />
-    <property name="shortLabel" value="Modification ID" />
-    <property name="maxLength" value="50" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="20" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="Modification ID" />
-    <property name="description" value="Modification ID" />
-  </bean>
-  
-  <bean id="Award-cfdaNumber" parent="Award-cfdaNumber-parentBean" />
+    <bean id="Award-statusCode" parent="Award-statusCode-parentBean"/>
+    <bean id="Award-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="statusCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Award Status"/>
+        <property name="shortLabel" value="Award Status"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardStatus"
+                  p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="statusCode"
+                  p:labelAttribute="description"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardStatus"/>
+                <property name="includeKeyInDescription" value="false"/>
+                <property name="includeBlankRow" value="false"/>
+                <property name="keyAttributeName" value="statusCode"/>
+                <property name="labelAttributeName" value="description"/>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="Award Status"/>
+        <property name="description" value="Award Status"/>
+    </bean>
 
-  <bean id="Award-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cfdaNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="CFDA Number" />
-    <property name="shortLabel" value="CFDA Number" />
-    <property name="maxLength" value="7" />
-    <property name="validationPattern" >
-      <bean parent="RegexValidationPattern" p:pattern="[0-9]{2}\.[0-9]{3}([A-Za-z]{0,1})" p:validationErrorMessageKey="error.s2sopportunity.cfdaNumberInvalid"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="ValidCharactersConstraint">
-        <property name="value" value="[0-9]{2}\.[0-9]{3}([A-Za-z]{0,1})"/>
-        <property name="messageKey" value="error.s2sopportunity.cfdaNumberInvalid"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="20" parent="Uif-TextControl"/>
-    </property>
-    <property name="summary" value="The CFDA Number for this Award." />
-    <property name="description" value="A unique identifier for the sponsor and the funding opportunity announcement.  AKA &quot;Catalogue of Federal Domestic Assistance Number.&quot; The format for this CFDA Number is XX.XXX" />
-  </bean>
-  
-  <bean id="Award-beginDate" parent="Award-beginDate-parentBean" />
-  <bean id="Award-beginDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
-    <property name="name" value="beginDate" />
-    <property name="label" value="Modification Date" />
-    <property name="shortLabel" value="Modification Date" />
-    <property name="required" value="false" />
-    <property name="summary" value="Modification Date" />
-    <property name="description" value="Modification Date" />
-  </bean>
-  
-  <bean id="Award-awardEffectiveDate" parent="Award-awardEffectiveDate-parentBean" />
-  <bean id="Award-awardEffectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
-    <property name="name" value="awardEffectiveDate" />
-    <property name="label" value="Project Start Date" />
-    <property name="shortLabel" value="Project Start Date" />
-    <property name="required" value="false" />
-    <property name="summary" value="Project Start Date" />
-    <property name="description" value="Project Start Date" />
-  </bean>
-  
-  <bean id="Award-awardExecutionDate" parent="Award-awardExecutionDate-parentBean" />
+    <bean id="Award-sponsorCode" parent="Award-sponsorCode-parentBean"/>
+    <bean id="Award-sponsorCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sponsorCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Sponsor ID"/>
+        <property name="shortLabel" value="Sponsor"/>
+        <property name="maxLength" value="6"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="12" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Agency/Sponsor #"/>
+        <property name="description"
+                  value="The identification number of the organization or agency that is providing support for the sponsored project."/>
+    </bean>
 
-  <bean id="Award-awardExecutionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
-    <property name="name" value="awardExecutionDate" />
-    <property name="label" value="Execution Date" />
-    <property name="shortLabel" value="Execution Date" />
-    <property name="required" value="false" />
-    <property name="summary" value="The Execution Date of the Budget" />
-    <property name="description" value="The Execution Date of the Budget" />
-  </bean>
-  
-  <bean id="Award-accountTypeCode" parent="Award-accountTypeCode-parentBean" />
-  <bean id="Award-accountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountTypeCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Account Type" />
-    <property name="shortLabel" value="Account Type" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.AccountType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="accountTypeCode" p:labelAttribute="description"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.AccountType"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="accountTypeCode"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    </property>
-    <property name="summary" value="Account Type" />
-    <property name="description" value="Account Type" />
-  </bean>
-  
-  <bean id="Award-awardTypeCode" parent="Award-awardTypeCode-parentBean" />
-  <bean id="Award-awardTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="awardTypeCode" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Award Type" />
-    <property name="shortLabel" value="Award Type" />
-    <property name="maxLength" value="3" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="code" p:labelAttribute="description"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardType"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="code"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    </property>
-    <property name="summary" value="Award Type" />
-    <property name="description" value="Award Type" />
-  </bean>
-  
-  <bean id="Award-obligatedTotal" parent="Award-obligatedTotal-parentBean" />
+    <bean id="Award-primeSponsorCode" parent="Award-sponsorCode-parentBean">
+        <property name="name" value="primeSponsorCode"/>
+        <property name="label" value="Prime Sponsor"/>
+        <property name="required" value="false"/>
+    </bean>
+    <bean id="Award-templateCode" parent="Award-templateCode-parentBean"/>
+    <bean id="Award-templateCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="templateCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Sponsor Template Code"/>
+        <property name="shortLabel" value="Sponsor Template"/>
+        <property name="maxLength" value="6"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="6"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="6" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Sponsor Template Code"/>
+        <property name="description" value="Pre-defined Sponsor Template to sync"/>
+    </bean>
 
-  <bean id="Award-obligatedTotal-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="obligatedTotal" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Obligated Total" />
-    <property name="shortLabel" value="Obligated Total" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="12"/>
-        <property name="scale" value="2"/>
-        <property name="allowNegative" value="true"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
-    </property>
-    <property name="summary" value="Obligated Total" />
-    <property name="description" value="Obligated Total" />
-  </bean>
-  
-  <bean id="Award-anticipatedTotal" parent="Award-anticipatedTotal-parentBean" />
+    <bean id="Award-nsfCode" parent="Award-nsfCode-parentBean"/>
+    <bean id="Award-nsfCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="nsfCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="NSF Science Code"/>
+        <property name="shortLabel" value="NSF Science Code"/>
+        <property name="maxLength" value="15"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.NsfCode"
+                  p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="nsfCode"
+                  p:labelAttribute="description"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                <property name="businessObjectClass" value="org.kuali.kra.bo.NsfCode"/>
+                <property name="includeKeyInDescription" value="false"/>
+                <property name="includeBlankRow" value="false"/>
+                <property name="keyAttributeName" value="nsfCode"/>
+                <property name="labelAttributeName" value="description"/>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="The NSF Science Code for this Proposal."/>
+        <property name="description"
+                  value="A number used to indicate the type of research activity as defined by the National Science Foundation. NSF codes are not specific for NSF proposals and/or awards."/>
+    </bean>
 
-  <bean id="Award-anticipatedTotal-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="anticipatedTotal" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Anticipated Total" />
-    <property name="shortLabel" value="Anticipated Total" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="12"/>
-        <property name="scale" value="2"/>
-        <property name="allowNegative" value="true"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
-    </property>
-    <property name="summary" value="Anticipated Total" />
-    <property name="description" value="Anticipated Total" />
-  </bean>
-  
-  	<bean id="Award-principalInvestigatorName" parent="Award-principalInvestigatorName-parentBean" />
-	<bean id="Award-principalInvestigatorName-parentBean" abstract="true" parent="AttributeDefinition" >
-		<property name="name" value="principalInvestigatorName" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Investigator" />
-		<property name="shortLabel" value="Investigator" />
-		<property name="maxLength" value="60" />
-		<property name="validationPattern" >
-      		<bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-		<property name="control" >
-			<bean p:size="20" parent="TextControlDefinition" />
-		</property>
-    <property name="controlField">
-      <bean p:size="20" parent="Uif-TextControl"/>
-    </property>
-		<property name="summary" value="Investigator" />
-		<property name="description" value="Investigator" />
-	</bean>
-	
-	<bean id="Award-unitNumber" parent="Award-unitNumber-parentBean" />
-	<bean id="Award-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="unitNumber" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Lead Unit ID" />
-		<property name="shortLabel" value="Lead Unit ID" />
-		<property name="maxLength" value="150" />
-		<property name="validationPattern" >
-		  <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-		<property name="control" >
-      		<bean p:size="8" parent="TextControlDefinition" />
-    	</property>
-    <property name="controlField">
-      <bean p:size="8" parent="Uif-TextControl"/>
-    </property>
-        <property name="required" value="true" />
-		<property name="summary" value="The lead unit number for the Award." />
-		<property name="description" value="The lead unit number for the Award." />
-	</bean>
-  
-	<bean id="Award-leadUnit.unitName" parent="Award-leadUnit.unitName-parentBean" />
-	<bean id="Award-leadUnit.unitName-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="leadUnit.unitName" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Lead Unit" />
-		<property name="shortLabel" value="Lead Unit" />
-		<property name="maxLength" value="150" />
-		<property name="validationPattern" >
-		  <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-		<property name="control" >
-		  <bean p:size="60" parent="TextControlDefinition" />
-		</property>
-    <property name="controlField">
-      <bean p:size="60" parent="Uif-TextControl"/>
-    </property>
-		<property name="summary" value="The lead unit name for the Award." />
-		<property name="description" value="The lead unit name for the Award." />
-	</bean>
-	
-	<bean id="Award-ospAdministratorName" parent="Award-ospAdministratorName-parentBean" />
-	<bean id="Award-ospAdministratorName-parentBean" abstract="true" parent="AwardContact-fullName">
-		<property name="name" value="ospAdministratorName" />
-		<property name="label" value="OSP Administrator" />
-		<property name="shortLabel" value="OSP Administrator" />
-		<property name="summary" value="The lead unit OSP Administrator name for the Award." />
-		<property name="description" value="The lead unit OSP Administrator name for the Award." />
-	</bean>
-	
-	<bean id="Award-sponsorName" parent="Award-sponsorName-parentBean" />
-	<bean id="Award-sponsorName-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="sponsorName" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Sponsor Name" />
-		<property name="shortLabel" value="Sponsor Name" />
-		<property name="maxLength" value="150" />
-		<property name="validationPattern" >
-		  <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-		<property name="control" >
-		  <bean p:size="60" parent="TextControlDefinition" />
-		</property>
-    <property name="controlField">
-      <bean p:size="60" parent="Uif-TextControl"/>
-    </property>
-		<property name="summary" value="The sponsor name for the Award." />
-		<property name="description" value="The sponsor name for the Award." />
-	</bean>
-  
-	<bean id="Award-statusDescription" parent="Award-statusDescription-parentBean" />
-	<bean id="Award-statusDescription-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="statusDescription" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Award Status" />
-		<property name="shortLabel" value="Award Status" />
-		<property name="maxLength" value="150" />
-		<property name="validationPattern" >
-		  <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-		<property name="control" >
-		  <bean p:size="60" parent="TextControlDefinition" />
-		</property>
-    <property name="controlField">
-      <bean p:size="60" parent="Uif-TextControl"/>
-    </property>
-		<property name="summary" value="Award Status" />
-		<property name="description" value="Award Status" />
-	</bean>
-	
-	<bean id="Award-archiveLocation" parent="Award-archiveLocation-parentBean" />
-	<bean id="Award-archiveLocation-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="archiveLocation" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Archive Location" />
-		<property name="shortLabel" value="Archive Location" />
-		<property name="maxLength" value="500" />
-		<property name="validationPattern" >
-		  <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
-		</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="true"/>
-      </bean>
-    </property>
-		<property name="control" >
-		  <bean p:size="50" parent="TextControlDefinition" />
-		</property>
-    <property name="controlField">
-      <bean p:size="50" parent="Uif-TextControl"/>
-    </property>
-		<property name="summary" value="Archive Location" />
-		<property name="description" value="Archive Location" />
-	</bean>
-	
-	<bean id="Award-closeoutDate" parent="Award-closeoutDate-parentBean" />
-	<bean id="Award-closeoutDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
-	    <property name="name" value="closeoutDate" />
-	    <property name="label" value="Archive Date" />
-	    <property name="shortLabel" value="Archive Date" />
-	    <property name="required" value="false" />
-	    <property name="summary" value="Archive Date" />
-	    <property name="description" value="Archive Date" />
-  	</bean>
-  	
-  	<bean id="Award-awardTransactionTypeCode" parent="Award-awardTransactionTypeCode-parentBean" />
-  	<bean id="Award-awardTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    	<property name="name" value="awardTransactionTypeCode" />
-    	<property name="forceUppercase" value="false" />
-    	<property name="label" value="Transaction Type" />
-    	<property name="shortLabel" value="Transaction Type" />
-    	<property name="maxLength" value="3" />
-    	<property name="validationPattern" >
-      		<bean parent="AlphaNumericValidationPattern" />
-    	</property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
-    	<property name="required" value="true" />
-    	<property name="control" >
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.timeandmoney.transactions.AwardTransactionType" p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="awardTransactionTypeCode" p:labelAttribute="description"/>
-    </property>
-    <property name="optionsFinder">
-      <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
-        <property name="businessObjectClass" value="org.kuali.kra.timeandmoney.transactions.AwardTransactionType"/>
-        <property name="includeKeyInDescription" value="false"/>
-        <property name="includeBlankRow" value="false"/>
-        <property name="keyAttributeName" value="awardTransactionTypeCode"/>
-        <property name="labelAttributeName" value="description"/>
-      </bean>
-    </property>
-    <property name="controlField">
-      <bean parent="Uif-DropdownControl"/>
-    	</property>
-    	<property name="summary" value="Transaction Type" />
-    	<property name="description" value="Transaction Type" />
-  	</bean>
-  	
-  	<bean id="Award-noticeDate" parent="Award-noticeDate-parentBean" />
+    <bean id="Award-accountNumber" parent="Award-accountNumber-parentBean"/>
+    <bean id="Award-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="accountNumber"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Account ID"/>
+        <property name="shortLabel" value="Account ID"/>
+        <property name="maxLength" value="16"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="12" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Account ID"/>
+        <property name="description" value="Account ID"/>
+    </bean>
 
-  		<bean id="Award-noticeDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
-    		<property name="name" value="noticeDate" />
-    		<property name="label" value="Notice Date" />
-    		<property name="shortLabel" value="Notice Date" />
-    		<property name="required" value="false" />
-    		<property name="summary" value="Notice Date" />
-    		<property name="description" value="Notice Date" />
-  	</bean>
-  	
-	<bean id="Award-projectEndDate" parent="Award-projectEndDate-parentBean" />
-	<bean id="Award-projectEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
-	    <property name="name" value="projectEndDate" />
-	    <property name="label" value="Project End Date" />
-	    <property name="shortLabel" value="Project End Date" />
-	    <property name="required" value="false" />
-	    <property name="summary" value="Project End Date" />
-	    <property name="description" value="Project End Date" />
-  	</bean>
+    <bean id="Award-sponsorAwardNumber" parent="Award-sponsorAwardNumber-parentBean"/>
+    <bean id="Award-sponsorAwardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sponsorAwardNumber"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Sponsor Award ID"/>
+        <property name="shortLabel" value="Sponsor Award ID"/>
+        <property name="maxLength" value="70"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Sponsor Award ID"/>
+        <property name="description" value="Sponsor Award ID"/>
+    </bean>
 
-	<bean id="Award-updateTimestamp" parent="Award-updateTimestamp-parentBean" />
-	<bean id="Award-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
-		<property name="name" value="updateTimestamp" />
-		<property name="label" value="Last Update" />
-		<property name="shortLabel" value="Last Update" />
-	</bean>
+    <bean id="Award-modificationNumber" parent="Award-modificationNumber-parentBean"/>
+    <bean id="Award-modificationNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="modificationNumber"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Modification ID"/>
+        <property name="shortLabel" value="Modification ID"/>
+        <property name="maxLength" value="50"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Modification ID"/>
+        <property name="description" value="Modification ID"/>
+    </bean>
 
-	<bean id="Award-docIdStatus" parent="Award-docIdStatus-parentBean" />
-	<bean id="Award-docIdStatus-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="docIdStatus" />
-		<property name="label" value="Document ID:Status" />
-		<property name="shortLabel" value="Document ID:Status" />
-    <property name="maxLength" value="10" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-    </property>
-		<property name="summary" value="Document ID:Status" />
-		<property name="description" value="Document ID:Status" />
-	</bean>
-	
-	<bean id="Award-awardIdAccount" parent="Award-awardIdAccount-parentBean" />
-	<bean id="Award-awardIdAccount-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="awardIdAccount" />
-		<property name="label" value="Award ID: Account" />
-		<property name="shortLabel" value="Award ID: Account" />
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="10" parent="Uif-TextControl"/>
-    </property>
-		<property name="summary" value="Award ID: Account" />
-		<property name="description" value="Award ID: Account" />
-	</bean>
+    <bean id="Award-cfdaNumber" parent="Award-cfdaNumber-parentBean"/>
 
-	<bean id="Award-financialAccountCreationDate" parent="Award-financialAccountCreationDate-parentBean" />
-   	<bean id="Award-financialAccountCreationDate-parentBean" abstract="true"  parent="AttributeReferenceDummy-genericDate"> 
-  		<property name="name" value="financialAccountCreationDate" />
-  		<property name="forceUppercase" value="false" />
-  		<property name="label" value="Financial account creation date" />
-  		<property name="shortLabel" value="Financial account creation date" />
-    	<property name="maxLength" value="20" />
-    	<property name="required" value="false" />
-    	<property name="summary" value="Financial account creation date" />
-    	<property name="description" value="Financial account creation date." />
-  	</bean>
-  
-  	<bean id="Award-financialAccountDocumentNumber" parent="Award-financialAccountDocumentNumber-parentBean" /> 
-  	<bean id="Award-financialAccountDocumentNumber-parentBean" abstract="true"  parent="AttributeDefinition"> 
-  		<property name="name" value="financialAccountDocumentNumber" />
-  		<property name="forceUppercase" value="false" />
-  		<property name="label" value="Financial account document number" />
-  	 	<property name="shortLabel" value="financial account document number" />
-    	<property name="maxLength" value="20" />
-    	<property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="false"/>
-      </bean>
-    	</property>
-    	<property name="required" value="false" />
-    	<property name="control" >
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="20" parent="Uif-TextControl"/>
-    	</property>
-    	<property name="summary" value="Document number returned by financial service" />
-    	<property name="description" value="Document number returned by financial service when an account is created." />
-  	</bean>
-	
-	<bean id="Award-financialChartOfAccountsCode" parent="Award-financialChartOfAccountsCode-parentBean" /> 
-  	<bean id="Award-financialChartOfAccountsCode-parentBean" abstract="true"  parent="AttributeDefinition"> 
-  		<property name="name" value="financialChartOfAccountsCode" />
-  		<property name="forceUppercase" value="false" />
-  		<property name="label" value="Financial Chart Of Accounts Code" />
-  	 	<property name="shortLabel" value="Financial Chart Of Accounts Code" />
-    	<property name="maxLength" value="45" />
-    	<property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint">
-        <property name="allowWhitespace" value="false"/>
-      </bean>
-    	</property>
-    	<property name="required" value="false" />
-    	<property name="control" >
-      <bean parent="TextControlDefinition" p:size="12"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="12" parent="Uif-TextControl"/>
-    	</property>
-    	<property name="summary" value="Chart of accounts for a Financial Account" />
-    	<property name="description" value="Chart of accounts for a Financial Account." />
-  	</bean>
-  	
-    <bean id="Award-lookupOspAdministratorName" parent="Award-lookupOspAdministratorName-parentBean" />
+    <bean id="Award-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="cfdaNumber"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="CFDA Number"/>
+        <property name="shortLabel" value="CFDA Number"/>
+        <property name="maxLength" value="7"/>
+        <property name="validationPattern">
+            <bean parent="RegexValidationPattern" p:pattern="[0-9]{2}\.[0-9]{3}([A-Za-z]{0,1})"
+                  p:validationErrorMessageKey="error.s2sopportunity.cfdaNumberInvalid"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="ValidCharactersConstraint">
+                <property name="value" value="[0-9]{2}\.[0-9]{3}([A-Za-z]{0,1})"/>
+                <property name="messageKey" value="error.s2sopportunity.cfdaNumberInvalid"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="The CFDA Number for this Award."/>
+        <property name="description"
+                  value="A unique identifier for the sponsor and the funding opportunity announcement.  AKA &quot;Catalogue of Federal Domestic Assistance Number.&quot; The format for this CFDA Number is XX.XXX"/>
+    </bean>
+
+    <bean id="Award-beginDate" parent="Award-beginDate-parentBean"/>
+    <bean id="Award-beginDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="beginDate"/>
+        <property name="label" value="Modification Date"/>
+        <property name="shortLabel" value="Modification Date"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="Modification Date"/>
+        <property name="description" value="Modification Date"/>
+    </bean>
+
+    <bean id="Award-awardEffectiveDate" parent="Award-awardEffectiveDate-parentBean"/>
+    <bean id="Award-awardEffectiveDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="awardEffectiveDate"/>
+        <property name="label" value="Project Start Date"/>
+        <property name="shortLabel" value="Project Start Date"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="Project Start Date"/>
+        <property name="description" value="Project Start Date"/>
+    </bean>
+
+    <bean id="Award-awardExecutionDate" parent="Award-awardExecutionDate-parentBean"/>
+
+    <bean id="Award-awardExecutionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="awardExecutionDate"/>
+        <property name="label" value="Execution Date"/>
+        <property name="shortLabel" value="Execution Date"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="The Execution Date of the Budget"/>
+        <property name="description" value="The Execution Date of the Budget"/>
+    </bean>
+
+    <bean id="Award-accountTypeCode" parent="Award-accountTypeCode-parentBean"/>
+    <bean id="Award-accountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="accountTypeCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Account Type"/>
+        <property name="shortLabel" value="Account Type"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.bo.AccountType"
+                  p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="accountTypeCode"
+                  p:labelAttribute="description"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                <property name="businessObjectClass" value="org.kuali.kra.bo.AccountType"/>
+                <property name="includeKeyInDescription" value="false"/>
+                <property name="includeBlankRow" value="false"/>
+                <property name="keyAttributeName" value="accountTypeCode"/>
+                <property name="labelAttributeName" value="description"/>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="Account Type"/>
+        <property name="description" value="Account Type"/>
+    </bean>
+
+    <bean id="Award-awardTypeCode" parent="Award-awardTypeCode-parentBean"/>
+    <bean id="Award-awardTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="awardTypeCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Award Type"/>
+        <property name="shortLabel" value="Award Type"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.award.home.AwardType"
+                  p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="code"
+                  p:labelAttribute="description"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardType"/>
+                <property name="includeKeyInDescription" value="false"/>
+                <property name="includeBlankRow" value="false"/>
+                <property name="keyAttributeName" value="code"/>
+                <property name="labelAttributeName" value="description"/>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="Award Type"/>
+        <property name="description" value="Award Type"/>
+    </bean>
+
+    <bean id="Award-obligatedTotal" parent="Award-obligatedTotal-parentBean"/>
+
+    <bean id="Award-obligatedTotal-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="obligatedTotal"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Obligated Total"/>
+        <property name="shortLabel" value="Obligated Total"/>
+        <property name="maxLength" value="12"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint">
+                <property name="precision" value="12"/>
+                <property name="scale" value="2"/>
+                <property name="allowNegative" value="true"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
+        </property>
+        <property name="summary" value="Obligated Total"/>
+        <property name="description" value="Obligated Total"/>
+    </bean>
+
+    <bean id="Award-anticipatedTotal" parent="Award-anticipatedTotal-parentBean"/>
+
+    <bean id="Award-anticipatedTotal-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="anticipatedTotal"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Anticipated Total"/>
+        <property name="shortLabel" value="Anticipated Total"/>
+        <property name="maxLength" value="12"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2" p:allowNegative="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint">
+                <property name="precision" value="12"/>
+                <property name="scale" value="2"/>
+                <property name="allowNegative" value="true"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
+        </property>
+        <property name="summary" value="Anticipated Total"/>
+        <property name="description" value="Anticipated Total"/>
+    </bean>
+
+    <bean id="Award-principalInvestigatorName" parent="Award-principalInvestigatorName-parentBean"/>
+    <bean id="Award-principalInvestigatorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="principalInvestigatorName"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Investigator"/>
+        <property name="shortLabel" value="Investigator"/>
+        <property name="maxLength" value="60"/>
+        <property name="validationPattern">
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control">
+            <bean p:size="20" parent="TextControlDefinition"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Investigator"/>
+        <property name="description" value="Investigator"/>
+    </bean>
+
+    <bean id="Award-unitNumber" parent="Award-unitNumber-parentBean"/>
+    <bean id="Award-unitNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="unitNumber"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Lead Unit ID"/>
+        <property name="shortLabel" value="Lead Unit ID"/>
+        <property name="maxLength" value="150"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control">
+            <bean p:size="8" parent="TextControlDefinition"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="8" parent="Uif-TextControl"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="summary" value="The lead unit number for the Award."/>
+        <property name="description" value="The lead unit number for the Award."/>
+    </bean>
+
+    <bean id="Award-leadUnit.unitName" parent="Award-leadUnit.unitName-parentBean"/>
+    <bean id="Award-leadUnit.unitName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="leadUnit.unitName"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Lead Unit"/>
+        <property name="shortLabel" value="Lead Unit"/>
+        <property name="maxLength" value="150"/>
+        <property name="validationPattern">
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control">
+            <bean p:size="60" parent="TextControlDefinition"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="60" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="The lead unit name for the Award."/>
+        <property name="description" value="The lead unit name for the Award."/>
+    </bean>
+
+
+    <bean id="Award-leadUnit.unitAdministrators.person.userName"
+          parent="Award-leadUnit.unitAdministrators.person.userName-parentBean"/>
+    <bean id="Award-leadUnit.unitAdministrators.person.userName-parentBean" abstract="true"
+          parent="PersonImpl-principalName">
+        <property name="name" value="leadUnit.unitAdministrators.person.userName"/>
+        <property name="label" value="OSP Administrator Username"/>
+        <property name="shortLabel" value="OSP Administrator Username"/>
+        <property name="required" value="false"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="KualiUserControlDefinition"
+                  p:personNameAttributeName="leadUnit.unitAdministrators.person.fullName"
+                  p:universalIdAttributeName="leadUnit.unitAdministrators.personId"
+                  p:userIdAttributeName="leadUnit.unitAdministrators.person.userName"/>
+        </property>
+    </bean>
+
+    <bean id="Award-leadUnit.unitAdministrators.personId"
+          parent="Award-leadUnit.unitAdministrators.personId-parentBean"/>
+    <bean id="Award-leadUnit.unitAdministrators.personId-parentBean" abstract="true" parent="PersonImpl-principalId">
+        <property name="name" value="leadUnit.unitAdministrators.personId"/>
+        <property name="label" value="KC Person ID"/>
+        <property name="shortLabel" value="KC Person ID"/>
+        <property name="control">
+            <bean parent="HiddenControlDefinition"/>
+        </property>
+        <property name="displayLabelAttribute" value="person.userName"/>
+    </bean>
+
+
+    <bean id="Award-ospAdministratorName" parent="Award-ospAdministratorName-parentBean"/>
+    <bean id="Award-ospAdministratorName-parentBean" abstract="true" parent="AwardContact-fullName">
+        <property name="name" value="ospAdministratorName"/>
+        <property name="label" value="OSP Administrator"/>
+        <property name="shortLabel" value="OSP Administrator"/>
+        <property name="summary" value="The lead unit OSP Administrator name for the Award."/>
+        <property name="description" value="The lead unit OSP Administrator name for the Award."/>
+    </bean>
+
+    <bean id="Award-sponsorName" parent="Award-sponsorName-parentBean"/>
+    <bean id="Award-sponsorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sponsorName"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Sponsor Name"/>
+        <property name="shortLabel" value="Sponsor Name"/>
+        <property name="maxLength" value="150"/>
+        <property name="validationPattern">
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control">
+            <bean p:size="60" parent="TextControlDefinition"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="60" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="The sponsor name for the Award."/>
+        <property name="description" value="The sponsor name for the Award."/>
+    </bean>
+
+    <bean id="Award-statusDescription" parent="Award-statusDescription-parentBean"/>
+    <bean id="Award-statusDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="statusDescription"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Award Status"/>
+        <property name="shortLabel" value="Award Status"/>
+        <property name="maxLength" value="150"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control">
+            <bean p:size="60" parent="TextControlDefinition"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="60" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Award Status"/>
+        <property name="description" value="Award Status"/>
+    </bean>
+
+    <bean id="Award-archiveLocation" parent="Award-archiveLocation-parentBean"/>
+    <bean id="Award-archiveLocation-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="archiveLocation"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Archive Location"/>
+        <property name="shortLabel" value="Archive Location"/>
+        <property name="maxLength" value="500"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
+        <property name="control">
+            <bean p:size="50" parent="TextControlDefinition"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="50" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Archive Location"/>
+        <property name="description" value="Archive Location"/>
+    </bean>
+
+    <bean id="Award-closeoutDate" parent="Award-closeoutDate-parentBean"/>
+    <bean id="Award-closeoutDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="closeoutDate"/>
+        <property name="label" value="Archive Date"/>
+        <property name="shortLabel" value="Archive Date"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="Archive Date"/>
+        <property name="description" value="Archive Date"/>
+    </bean>
+
+    <bean id="Award-awardTransactionTypeCode" parent="Award-awardTransactionTypeCode-parentBean"/>
+    <bean id="Award-awardTransactionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="awardTransactionTypeCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Transaction Type"/>
+        <property name="shortLabel" value="Transaction Type"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:businessObjectClass="org.kuali.kra.timeandmoney.transactions.AwardTransactionType"
+                  p:valuesFinderClass="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false" p:includeBlankRow="false" p:keyAttribute="awardTransactionTypeCode"
+                  p:labelAttribute="description"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.coeus.sys.framework.keyvalue.ExtendedPersistableBusinessObjectValuesFinder">
+                <property name="businessObjectClass"
+                          value="org.kuali.kra.timeandmoney.transactions.AwardTransactionType"/>
+                <property name="includeKeyInDescription" value="false"/>
+                <property name="includeBlankRow" value="false"/>
+                <property name="keyAttributeName" value="awardTransactionTypeCode"/>
+                <property name="labelAttributeName" value="description"/>
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="summary" value="Transaction Type"/>
+        <property name="description" value="Transaction Type"/>
+    </bean>
+
+    <bean id="Award-noticeDate" parent="Award-noticeDate-parentBean"/>
+
+    <bean id="Award-noticeDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="noticeDate"/>
+        <property name="label" value="Notice Date"/>
+        <property name="shortLabel" value="Notice Date"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="Notice Date"/>
+        <property name="description" value="Notice Date"/>
+    </bean>
+
+    <bean id="Award-projectEndDate" parent="Award-projectEndDate-parentBean"/>
+    <bean id="Award-projectEndDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="projectEndDate"/>
+        <property name="label" value="Project End Date"/>
+        <property name="shortLabel" value="Project End Date"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="Project End Date"/>
+        <property name="description" value="Project End Date"/>
+    </bean>
+
+    <bean id="Award-updateTimestamp" parent="Award-updateTimestamp-parentBean"/>
+    <bean id="Award-updateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp">
+        <property name="name" value="updateTimestamp"/>
+        <property name="label" value="Last Update"/>
+        <property name="shortLabel" value="Last Update"/>
+    </bean>
+
+    <bean id="Award-docIdStatus" parent="Award-docIdStatus-parentBean"/>
+    <bean id="Award-docIdStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docIdStatus"/>
+        <property name="label" value="Document ID:Status"/>
+        <property name="shortLabel" value="Document ID:Status"/>
+        <property name="maxLength" value="10"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Document ID:Status"/>
+        <property name="description" value="Document ID:Status"/>
+    </bean>
+
+    <bean id="Award-awardIdAccount" parent="Award-awardIdAccount-parentBean"/>
+    <bean id="Award-awardIdAccount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="awardIdAccount"/>
+        <property name="label" value="Award ID: Account"/>
+        <property name="shortLabel" value="Award ID: Account"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Award ID: Account"/>
+        <property name="description" value="Award ID: Account"/>
+    </bean>
+
+    <bean id="Award-financialAccountCreationDate" parent="Award-financialAccountCreationDate-parentBean"/>
+    <bean id="Award-financialAccountCreationDate-parentBean" abstract="true"
+          parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="financialAccountCreationDate"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Financial account creation date"/>
+        <property name="shortLabel" value="Financial account creation date"/>
+        <property name="maxLength" value="20"/>
+        <property name="required" value="false"/>
+        <property name="summary" value="Financial account creation date"/>
+        <property name="description" value="Financial account creation date."/>
+    </bean>
+
+    <bean id="Award-financialAccountDocumentNumber" parent="Award-financialAccountDocumentNumber-parentBean"/>
+    <bean id="Award-financialAccountDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="financialAccountDocumentNumber"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Financial account document number"/>
+        <property name="shortLabel" value="financial account document number"/>
+        <property name="maxLength" value="20"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="20" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Document number returned by financial service"/>
+        <property name="description" value="Document number returned by financial service when an account is created."/>
+    </bean>
+
+    <bean id="Award-financialChartOfAccountsCode" parent="Award-financialChartOfAccountsCode-parentBean"/>
+    <bean id="Award-financialChartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="financialChartOfAccountsCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Financial Chart Of Accounts Code"/>
+        <property name="shortLabel" value="Financial Chart Of Accounts Code"/>
+        <property name="maxLength" value="45"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false"/>
+            </bean>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="12" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Chart of accounts for a Financial Account"/>
+        <property name="description" value="Chart of accounts for a Financial Account."/>
+    </bean>
+
+    <bean id="Award-lookupOspAdministratorName" parent="Award-lookupOspAdministratorName-parentBean"/>
     <bean id="Award-lookupOspAdministratorName-parentBean" abstract="true" parent="AwardContact-fullName">
-        <property name="name" value="lookupOspAdministratorName" />
-        <property name="label" value="OSP Administrator" />
-        <property name="shortLabel" value="OSP Admin" />
-        <property name="required" value="false" />    
+        <property name="name" value="lookupOspAdministratorName"/>
+        <property name="label" value="OSP Administrator"/>
+        <property name="shortLabel" value="OSP Admin"/>
+        <property name="required" value="false"/>
     </bean>
 
-    <bean id="Award-awardUnitContacts.awardContactId" parent="Award-awardUnitContacts.awardContactId-parentBean" />
+    <bean id="Award-awardUnitContacts.awardContactId" parent="Award-awardUnitContacts.awardContactId-parentBean"/>
     <bean id="Award-awardUnitContacts.awardContactId-parentBean" abstract="true" parent="AwardContact-awardContactId">
-        <property name="name" value="awardUnitContacts.awardContactId" />
-        <property name="label" value="Award Unit Contact" />
-        <property name="shortLabel" value="Award Unit Contact" />
+        <property name="name" value="awardUnitContacts.awardContactId"/>
+        <property name="label" value="Award Unit Contact"/>
+        <property name="shortLabel" value="Award Unit Contact"/>
     </bean>
 
-    <bean id="Award-projectPersons.fullName" parent="Award-projectPersons.fullName-parentBean" />
+    <bean id="Award-projectPersons.fullName" parent="Award-projectPersons.fullName-parentBean"/>
     <bean id="Award-projectPersons.fullName-parentBean" abstract="true" parent="AwardContact-fullName">
-        <property name="name" value="projectPersons.fullName" />
-        <property name="label" value="Investigator" />
-        <property name="shortLabel" value="Investigator" />
-        <property name="required" value="false" />    
+        <property name="name" value="projectPersons.fullName"/>
+        <property name="label" value="Investigator"/>
+        <property name="shortLabel" value="Investigator"/>
+        <property name="required" value="false"/>
     </bean>
 
-    <bean id="Award-projectPersons.awardContactId" parent="Award-projectPersons.awardContactId-parentBean" />
+    <bean id="Award-projectPersons.awardContactId" parent="Award-projectPersons.awardContactId-parentBean"/>
     <bean id="Award-projectPersons.awardContactId-parentBean" abstract="true" parent="AwardContact-awardContactId">
-        <property name="name" value="projectPersons.awardContactId" />
-        <property name="label" value="Investigator" />
-        <property name="shortLabel" value="Investigator" />
-        <property name="required" value="false" />    
+        <property name="name" value="projectPersons.awardContactId"/>
+        <property name="label" value="Investigator"/>
+        <property name="shortLabel" value="Investigator"/>
+        <property name="required" value="false"/>
     </bean>
 
-    <bean id="Award-awardDocument.documentNumber" parent="Award-awardDocument.documentNumber-parentBean" />
+    <bean id="Award-awardDocument.documentNumber" parent="Award-awardDocument.documentNumber-parentBean"/>
     <bean id="Award-awardDocument.documentNumber-parentBean" abstract="true" parent="AwardDocument-documentNumber">
-        <property name="name" value="awardDocument.documentNumber" />
-        <property name="label" value="Document Number" />
-        <property name="shortLabel" value="Document Number" />
+        <property name="name" value="awardDocument.documentNumber"/>
+        <property name="label" value="Document Number"/>
+        <property name="shortLabel" value="Document Number"/>
     </bean>
 
-    <bean id="Award-awardStatus.description" parent="Award-awardStatus.description-parentBean" />
+    <bean id="Award-awardStatus.description" parent="Award-awardStatus.description-parentBean"/>
     <bean id="Award-awardStatus.description-parentBean" abstract="true" parent="AwardStatus-description">
-        <property name="name" value="awardStatus.description" />
-        <property name="label" value="Description" />
-        <property name="shortLabel" value="Description" />
-        <property name="required" value="false" />    
+        <property name="name" value="awardStatus.description"/>
+        <property name="label" value="Description"/>
+        <property name="shortLabel" value="Description"/>
+        <property name="required" value="false"/>
     </bean>
-    
-    <bean id="Award-awardAmountInfo.obligationExpirationDate" parent="Award-awardAmountInfo.obligationExpirationDate-parentBean" />
-    <bean id="Award-awardAmountInfo.obligationExpirationDate-parentBean" abstract="true" parent="AwardAmountInfo-obligationExpirationDate">
-        <property name="name" value="awardAmountInfo.obligationExpirationDate" />
-        <property name="label" value="Obligation Expiration Date" />
-        <property name="shortLabel" value="Obligation Expiration Date" />
-        <property name="required" value="false" />    
+
+    <bean id="Award-awardAmountInfo.obligationExpirationDate"
+          parent="Award-awardAmountInfo.obligationExpirationDate-parentBean"/>
+    <bean id="Award-awardAmountInfo.obligationExpirationDate-parentBean" abstract="true"
+          parent="AwardAmountInfo-obligationExpirationDate">
+        <property name="name" value="awardAmountInfo.obligationExpirationDate"/>
+        <property name="label" value="Obligation Expiration Date"/>
+        <property name="shortLabel" value="Obligation Expiration Date"/>
+        <property name="required" value="false"/>
     </bean>
-    
-    <bean id="Award-awardAmountInfo.amountObligatedToDate" parent="Award-awardAmountInfo.amountObligatedToDate-parentBean" />
-    <bean id="Award-awardAmountInfo.amountObligatedToDate-parentBean" abstract="true" parent="AwardAmountInfo-amountObligatedToDate">
-        <property name="name" value="awardAmountInfo.amountObligatedToDate" />
-        <property name="label" value="Amount" />
-        <property name="shortLabel" value="Amount" />
-        <property name="required" value="false" />    
+
+    <bean id="Award-awardAmountInfo.amountObligatedToDate"
+          parent="Award-awardAmountInfo.amountObligatedToDate-parentBean"/>
+    <bean id="Award-awardAmountInfo.amountObligatedToDate-parentBean" abstract="true"
+          parent="AwardAmountInfo-amountObligatedToDate">
+        <property name="name" value="awardAmountInfo.amountObligatedToDate"/>
+        <property name="label" value="Amount"/>
+        <property name="shortLabel" value="Amount"/>
+        <property name="required" value="false"/>
     </bean>
-    
-    <bean id="Award-sponsor.sponsorName" parent="Award-sponsor.sponsorName-parentBean" />
+
+    <bean id="Award-sponsor.sponsorName" parent="Award-sponsor.sponsorName-parentBean"/>
     <bean id="Award-sponsor.sponsorName-parentBean" abstract="true" parent="Sponsor-sponsorName">
-        <property name="name" value="sponsor.sponsorName" />
-        <property name="label" value="Sponsor Name" />
-        <property name="shortLabel" value="Sponsor Name" />
-        <property name="required" value="false" />    
+        <property name="name" value="sponsor.sponsorName"/>
+        <property name="label" value="Sponsor Name"/>
+        <property name="shortLabel" value="Sponsor Name"/>
+        <property name="required" value="false"/>
     </bean>
 
     <bean id="Award-awardType.description" parent="AwardType-description-parentBean"
-          p:name="awardType.description" />
+          p:name="awardType.description"/>
 
     <bean id="Award-activityType.description" parent="ActivityType-description-parentBean"
-          p:name="activityType.description" />
+          p:name="activityType.description"/>
 
     <bean id="Award-accountTypeDescription" parent="Award-accountTypeCode" p:name="accountTypeDescription">
-    	<property name="maxLength" value="200" />
-	    <property name="validationPattern" >
-	      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
-	    </property>
-	    <property name="validCharactersConstraint">
-	      <bean parent="AnyCharacterPatternConstraint">
-	        <property name="allowWhitespace" value="true"/>
-	      </bean>
-	    </property>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
     </bean>
 
-    <bean id="Award-latestAwardAmountInfo.amountObligatedToDate" parent="AwardAmountInfo-amountObligatedToDate-parentBean"
-          p:name="latestAwardAmountInfo.amountObligatedToDate" />
+    <bean id="Award-latestAwardAmountInfo.amountObligatedToDate"
+          parent="AwardAmountInfo-amountObligatedToDate-parentBean"
+          p:name="latestAwardAmountInfo.amountObligatedToDate"/>
 
     <bean id="Award-latestAwardAmountInfo.currentFundEffectiveDate" parent="AwardAmountInfo-currentFundEffectiveDate"
-          p:name="latestAwardAmountInfo.currentFundEffectiveDate" />
+          p:name="latestAwardAmountInfo.currentFundEffectiveDate"/>
 
     <bean id="Award-latestAwardAmountInfo.finalExpirationDate" parent="AwardAmountInfo-finalExpirationDate"
-          p:name="latestAwardAmountInfo.finalExpirationDate" />
+          p:name="latestAwardAmountInfo.finalExpirationDate"/>
 
     <bean id="Award-latestAwardAmountInfo.obligationExpirationDate" parent="AwardAmountInfo-obligationExpirationDate"
-          p:name="latestAwardAmountInfo.obligationExpirationDate" />
+          p:name="latestAwardAmountInfo.obligationExpirationDate"/>
 
     <bean id="Award-latestAwardAmountInfo.anticipatedTotalAmount" parent="AwardAmountInfo-anticipatedTotalAmount"
-          p:name="latestAwardAmountInfo.anticipatedTotalAmount" />
+          p:name="latestAwardAmountInfo.anticipatedTotalAmount"/>
 
 
-	<!-- Business Object Inquiry Definition -->
-  <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean" />
-  <bean id="Award-InquiryView" parent="Award-InquiryView-parentBean"/>
-  <bean id="Award-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Award" />
-    <property name="inquirySections" >
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="title" value="Award" />
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+    <!-- Business Object Inquiry Definition -->
+    <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean"/>
+    <bean id="Award-InquiryView" parent="Award-InquiryView-parentBean"/>
+    <bean id="Award-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Award"/>
+        <property name="inquirySections">
             <list>
-			  	<bean p:attributeName="awardId" p:forceInquiry="true" parent="FieldDefinition" />
-			    <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
-			    <bean p:attributeName="awardNumber" parent="FieldDefinition" />
-			    <bean p:attributeName="accountNumber" parent="FieldDefinition" />
-			    <bean p:attributeName="statusCode" parent="FieldDefinition" />
-			    <bean p:attributeName="sponsorCode" parent="FieldDefinition" />
-			    <bean p:attributeName="title" parent="FieldDefinition" />
-			    <bean p:attributeName="projectPersons.fullName" parent="FieldDefinition" />
-			    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
-			    <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition" />
-			    <bean p:attributeName="ospAdministratorName" parent="FieldDefinition" />
-			    <bean p:attributeName="archiveLocation" parent="FieldDefinition" />
-			    <bean p:attributeName="closeoutDate" parent="FieldDefinition" />
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Award"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean p:attributeName="awardId" p:forceInquiry="true" parent="FieldDefinition"/>
+                            <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
+                            <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
+                            <bean p:attributeName="accountNumber" parent="FieldDefinition"/>
+                            <bean p:attributeName="statusCode" parent="FieldDefinition"/>
+                            <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
+                            <bean p:attributeName="title" parent="FieldDefinition"/>
+                            <bean p:attributeName="projectPersons.fullName" parent="FieldDefinition"/>
+                            <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
+                            <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition"/>
+                            <bean p:attributeName="ospAdministratorName" parent="FieldDefinition"/>
+                            <bean p:attributeName="archiveLocation" parent="FieldDefinition"/>
+                            <bean p:attributeName="closeoutDate" parent="FieldDefinition"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-    <property name="inquirableClass" value="org.kuali.kra.award.AwardInquirable" />
-  </bean>
-	
-  <bean id="Award-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
-    <property name="headerText" value="Award"/>
-    <property name="dataObjectClassName" value="org.kuali.kra.award.home.Award"/>
-    <property name="viewHelperServiceClass" value="org.kuali.kra.award.AwardInquirable"/>
-    <property name="items">
-      <list>
-        <bean parent="Uif-Disclosure-GridSection">
-          <property name="headerText" value="Award"/>
-          <property name="layoutManager.numberOfColumns" value="2"/>
-          <property name="items">
-            <list>
-              <bean p:propertyName="awardId" parent="Uif-DataField"/>
-              <bean p:propertyName="sponsorAwardNumber" parent="Uif-DataField"/>
-              <bean p:propertyName="awardNumber" parent="Uif-DataField"/>
-              <bean p:propertyName="accountNumber" parent="Uif-DataField"/>
-              <bean p:propertyName="statusCode" parent="Uif-DataField"/>
-              <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
-              <bean p:propertyName="title" parent="Uif-DataField"/>
-              <bean p:propertyName="projectPersons.fullName" parent="Uif-DataField"/>
-              <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
-              <bean p:propertyName="leadUnit.unitName" parent="Uif-DataField"/>
-              <bean p:propertyName="ospAdministratorName" parent="Uif-DataField"/>
-              <bean p:propertyName="archiveLocation" parent="Uif-DataField"/>
-              <bean p:propertyName="closeoutDate" parent="Uif-DataField"/>
-            </list>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
+        </property>
+        <property name="inquirableClass" value="org.kuali.kra.award.AwardInquirable"/>
+    </bean>
 
-  	<!-- Business Object Lookup Definition -->
-	<bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean" />
-  <bean id="Award-LookupView" parent="Award-LookupView-parentBean"/>
-  	<bean id="Award-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Award Lookup" />
-		<property name="lookupableID" value="awardLookupable" /><property name="defaultSort" >
-      <bean parent="SortDefinition"/>
-		</property>
-		<property name="lookupFields" >
-		  <list>
-            <bean p:attributeName="awardNumber" parent="FieldDefinition" />
-		  	<bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
-		    <bean p:attributeName="accountNumber" parent="FieldDefinition" />
-		    <bean p:attributeName="statusCode" parent="FieldDefinition" />
-		    <bean p:attributeName="sponsorCode" parent="FieldDefinition" />
-		    <bean p:attributeName="title" parent="FieldDefinition" />
-			<bean p:attributeName="projectPersons.fullName" parent="FieldDefinition" />
-		    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
-		    <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition" />
-		    <bean p:attributeName="lookupOspAdministratorName" parent="FieldDefinition" />
-		    <bean p:attributeName="awardUnitContacts.awardContactId" parent="FieldDefinition" p:hidden="true" />
-		    <bean p:attributeName="archiveLocation" parent="FieldDefinition" />
-		    <bean p:attributeName="closeoutDate" parent="FieldDefinition" />
-		  	<bean p:attributeName="projectPersons.awardContactId" parent="FieldDefinition" p:hidden="true"  />
-		  	<bean p:attributeName="subPlanFlag" parent="FieldDefinition" p:hidden="true"  />
-		  </list>
-		</property>
-		<property name="resultFields" >
-		  <list>
-		    <bean p:attributeName="awardNumber" parent="FieldDefinition" />
-		    <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
-		    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
-		    <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition" />
-		    <bean p:attributeName="accountNumber" parent="FieldDefinition" />
-			<bean p:attributeName="statusDescription" parent="FieldDefinition" />	    
-			<bean p:attributeName="title" parent="FieldDefinition" />
-			<bean p:attributeName="sponsorCode" parent="FieldDefinition" />
-			<bean p:attributeName="sponsorName" parent="FieldDefinition" />
-			<bean p:attributeName="principalInvestigatorName" parent="FieldDefinition" />
-			<bean p:attributeName="ospAdministratorName" parent="FieldDefinition" />
-			<bean p:attributeName="awardEffectiveDate"  parent="FieldDefinition" />
-			<bean p:attributeName="projectEndDate" parent="FieldDefinition" />
-			<bean p:attributeName="archiveLocation" parent="FieldDefinition" />
-		    <bean p:attributeName="closeoutDate" parent="FieldDefinition" />
-		  </list>
-		</property>
-	</bean>
-  
-  <bean id="Award-LookupView-parentBean" abstract="true" parent="Uif-LookupView" p:viewHelperServiceClass="org.kuali.kra.award.lookup.AwardLookupableKrad">
-    <property name="dataObjectClassName" value="org.kuali.kra.award.home.Award"/>
-    <property name="headerText" value="Award Lookup"/>
-    <property name="criteriaFields">
-      <list>
-        <bean p:propertyName="awardNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="sponsorAwardNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="accountNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="statusCode" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="projectPersons.fullName" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="unitNumber" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="leadUnit.unitName" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="lookupOspAdministratorName" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="awardUnitContacts.awardContactId" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="archiveLocation" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="closeoutDate" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="projectPersons.awardContactId" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="subPlanFlag" parent="Uif-LookupCriteriaInputField"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean p:propertyName="awardNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="sponsorAwardNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="leadUnit.unitName" parent="Uif-DataField"/>
-        <bean p:propertyName="accountNumber" parent="Uif-DataField"/>
-        <bean p:propertyName="statusDescription" parent="Uif-DataField"/>
-        <bean p:propertyName="title" parent="Uif-DataField"/>
-        <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
-        <bean p:propertyName="sponsorName" parent="Uif-DataField"/>
-        <bean p:propertyName="principalInvestigatorName" parent="Uif-DataField"/>
-        <bean p:propertyName="ospAdministratorName" parent="Uif-DataField"/>
-        <bean p:propertyName="awardEffectiveDate" parent="Uif-DataField"/>
-        <bean p:propertyName="projectEndDate" parent="Uif-DataField"/>
-        <bean p:propertyName="archiveLocation" parent="Uif-DataField"/>
-        <bean p:propertyName="closeoutDate" parent="Uif-DataField"/>
-      </list>
-    </property>
-  </bean>
+    <bean id="Award-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+        <property name="headerText" value="Award"/>
+        <property name="dataObjectClassName" value="org.kuali.kra.award.home.Award"/>
+        <property name="viewHelperServiceClass" value="org.kuali.kra.award.AwardInquirable"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-GridSection">
+                    <property name="headerText" value="Award"/>
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean p:propertyName="awardId" parent="Uif-DataField"/>
+                            <bean p:propertyName="sponsorAwardNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="awardNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="accountNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="statusCode" parent="Uif-DataField"/>
+                            <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+                            <bean p:propertyName="title" parent="Uif-DataField"/>
+                            <bean p:propertyName="projectPersons.fullName" parent="Uif-DataField"/>
+                            <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
+                            <bean p:propertyName="leadUnit.unitName" parent="Uif-DataField"/>
+                            <bean p:propertyName="ospAdministratorName" parent="Uif-DataField"/>
+                            <bean p:propertyName="archiveLocation" parent="Uif-DataField"/>
+                            <bean p:propertyName="closeoutDate" parent="Uif-DataField"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="Award-lookupDefinition" parent="Award-lookupDefinition-parentBean"/>
+    <bean id="Award-LookupView" parent="Award-LookupView-parentBean"/>
+    <bean id="Award-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Award Lookup"/>
+        <property name="lookupableID" value="awardLookupable"/>
+        <property name="defaultSort">
+            <bean parent="SortDefinition"/>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="accountNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="statusCode" parent="FieldDefinition"/>
+                <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
+                <bean p:attributeName="title" parent="FieldDefinition"/>
+                <bean p:attributeName="projectPersons.fullName" parent="FieldDefinition"/>
+                <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition"/>
+                <bean p:attributeName="leadUnit.unitAdministrators.person.userName" parent="FieldDefinition"/>
+                <bean p:attributeName="awardUnitContacts.awardContactId" parent="FieldDefinition" p:hidden="true"/>
+                <bean p:attributeName="archiveLocation" parent="FieldDefinition"/>
+                <bean p:attributeName="closeoutDate" parent="FieldDefinition"/>
+                <bean p:attributeName="projectPersons.awardContactId" parent="FieldDefinition" p:hidden="true"/>
+                <bean p:attributeName="subPlanFlag" parent="FieldDefinition" p:hidden="true"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean p:attributeName="awardNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="unitNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition"/>
+                <bean p:attributeName="accountNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="statusDescription" parent="FieldDefinition"/>
+                <bean p:attributeName="title" parent="FieldDefinition"/>
+                <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
+                <bean p:attributeName="sponsorName" parent="FieldDefinition"/>
+                <bean p:attributeName="principalInvestigatorName" parent="FieldDefinition"/>
+                <bean p:attributeName="ospAdministratorName" parent="FieldDefinition"/>
+                <bean p:attributeName="awardEffectiveDate" parent="FieldDefinition"/>
+                <bean p:attributeName="projectEndDate" parent="FieldDefinition"/>
+                <bean p:attributeName="archiveLocation" parent="FieldDefinition"/>
+                <bean p:attributeName="closeoutDate" parent="FieldDefinition"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Award-LookupView-parentBean" abstract="true" parent="Uif-LookupView"
+          p:viewHelperServiceClass="org.kuali.kra.award.lookup.AwardLookupableKrad">
+        <property name="dataObjectClassName" value="org.kuali.kra.award.home.Award"/>
+        <property name="headerText" value="Award Lookup"/>
+        <property name="criteriaFields">
+            <list>
+                <bean p:propertyName="awardNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="sponsorAwardNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="accountNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="statusCode" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="sponsorCode" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="projectPersons.fullName" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="unitNumber" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="leadUnit.unitName" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="lookupOspAdministratorName" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="awardUnitContacts.awardContactId" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="archiveLocation" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="closeoutDate" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="projectPersons.awardContactId" parent="Uif-LookupCriteriaInputField"/>
+                <bean p:propertyName="subPlanFlag" parent="Uif-LookupCriteriaInputField"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean p:propertyName="awardNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="sponsorAwardNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="unitNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="leadUnit.unitName" parent="Uif-DataField"/>
+                <bean p:propertyName="accountNumber" parent="Uif-DataField"/>
+                <bean p:propertyName="statusDescription" parent="Uif-DataField"/>
+                <bean p:propertyName="title" parent="Uif-DataField"/>
+                <bean p:propertyName="sponsorCode" parent="Uif-DataField"/>
+                <bean p:propertyName="sponsorName" parent="Uif-DataField"/>
+                <bean p:propertyName="principalInvestigatorName" parent="Uif-DataField"/>
+                <bean p:propertyName="ospAdministratorName" parent="Uif-DataField"/>
+                <bean p:propertyName="awardEffectiveDate" parent="Uif-DataField"/>
+                <bean p:propertyName="projectEndDate" parent="Uif-DataField"/>
+                <bean p:propertyName="archiveLocation" parent="Uif-DataField"/>
+                <bean p:propertyName="closeoutDate" parent="Uif-DataField"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>

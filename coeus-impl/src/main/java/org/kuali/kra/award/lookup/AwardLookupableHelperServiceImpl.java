@@ -24,7 +24,6 @@ import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
 import org.kuali.kra.award.home.Award;
@@ -49,14 +48,22 @@ import java.util.*;
  */
 public class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
+    private static final long serialVersionUID = 6304433555064511153L;
+
     static final String PERSON_ID = "personId";
     static final String ROLODEX_ID = "rolodexId";
     static final String UNIT_NUMBER = "unitNumber";
     static final String PI_NAME = "principalInvestigatorName";
     static final String OSP_ADMIN_NAME = "ospAdministratorName";
 
-    private static final long serialVersionUID = 6304433555064511153L;
-    
+    public static final String OSP_ADMIN_USERNAME_PATH = "leadUnit.unitAdministrators.person.userName";
+    public static final String OSP_ADMIN_PERSON_ID_PATH = "leadUnit.unitAdministrators.personId";
+    public static final String OSP_ADMIN_TYPE_CODE_PATH = "leadUnit.unitAdministrators.unitAdministratorTypeCode";
+    public static final String OSP_ADMIN_TYPE_CODE_VALUE = "2";
+    public static final String PRINCIPAL_ID = "principalId";
+    public static final String PRINCIPAL_NAME = "principalName";
+
+
     private transient KcPersonService kcPersonService;
     private AwardLookupDao awardLookupDao;
     @SuppressWarnings({ "deprecation", "unchecked" })
@@ -66,23 +73,14 @@ public class AwardLookupableHelperServiceImpl extends KraLookupableHelperService
 //            fieldValues.put("projectPersons.personId", ((String[]) this.getParameters().get(USER_ID))[0]);
 //        }
         Map<String, String> formProps = new HashMap<String, String>();
-        if (!StringUtils.isEmpty(fieldValues.get("lookupOspAdministratorName"))) {
-            formProps.put("fullName", fieldValues.get("lookupOspAdministratorName"));
-            formProps.put("unitAdministratorTypeCode", "2");
-        }
-        fieldValues.remove("lookupOspAdministratorName");
-        if (!formProps.isEmpty()) {
-            List<Long> ids = new ArrayList<Long>();
-            Collection<AwardUnitContact> persons = getLookupService().findCollectionBySearch(AwardUnitContact.class, formProps);
-            if (persons.isEmpty()) {
-                return new ArrayList<Award>();
+        if (!StringUtils.isEmpty(fieldValues.get(OSP_ADMIN_USERNAME_PATH))) {
+            KcPerson person = kcPersonService.getKcPersonByUserName(fieldValues.get(OSP_ADMIN_USERNAME_PATH));
+            if (person != null) {
+                fieldValues.put(OSP_ADMIN_PERSON_ID_PATH, person.getPersonId());
+                fieldValues.put(OSP_ADMIN_TYPE_CODE_PATH, OSP_ADMIN_TYPE_CODE_VALUE);
             }
-            for (AwardUnitContact person : persons) {
-                ids.add(person.getAwardContactId());
-            }
-            fieldValues.put("awardUnitContacts.awardContactId", StringUtils.join(ids, '|'));
         }
-        
+
         boolean usePrimaryKeys = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(Award.class, fieldValues);
         
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
@@ -145,6 +143,10 @@ public class AwardLookupableHelperServiceImpl extends KraLookupableHelperService
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals(PI_NAME)) {
                     super.updateLookupField(field, PI_NAME, AwardPerson.class.getName());
+                }
+                else if (field.getPropertyName().equals(OSP_ADMIN_USERNAME_PATH)) {
+                    field.setFieldConversions(PRINCIPAL_NAME + ":" + OSP_ADMIN_USERNAME_PATH
+                            + "," + PRINCIPAL_ID + ":" + OSP_ADMIN_PERSON_ID_PATH);
                 }
             }
         }
