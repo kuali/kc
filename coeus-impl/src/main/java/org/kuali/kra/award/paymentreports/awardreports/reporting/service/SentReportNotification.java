@@ -27,7 +27,8 @@ import java.util.Calendar;
 public class SentReportNotification extends KcPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 3646683642938736073L;
-    
+
+    private Long awardReportNotifSentId;
     private Long awardReportTermId;
     private String awardNumber;
     private Date dueDate;
@@ -45,7 +46,15 @@ public class SentReportNotification extends KcPersistableBusinessObjectBase {
         this.awardNumber = report.getAwardNumber();
         this.dueDate = report.getDueDate();
     }
-    
+
+    public Long getAwardReportNotifSentId() {
+        return awardReportNotifSentId;
+    }
+
+    public void setAwardReportNotifSentId(Long awardReportNotifSentId) {
+        this.awardReportNotifSentId = awardReportNotifSentId;
+    }
+
     public Long getAwardReportTermId() {
         return awardReportTermId;
     }
@@ -78,5 +87,4 @@ public class SentReportNotification extends KcPersistableBusinessObjectBase {
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
     }
-    
 }

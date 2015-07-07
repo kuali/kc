@@ -43,7 +43,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
 
     private static final String PENDING_STATUS_DESCRIPTION = "Pending";
     public static final String REPORT_CLASS = "reportClass";
-    public static final String OBJ_ID = "OBJ_ID";
+    private static final String AWARD_REPORT_TRACKING_ID = "awardReportTrackingId";
     public static final String REPORT_STATUS_CODE = "REPORT_STATUS_CODE";
     public static final String ROOT_AWARD_SUFFIX = "-00001";
     public static final String AWARD_NUMBER = "AWARD_NUMBER";
@@ -128,10 +128,8 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                 /**
                  * if the report tracking has been saved, and it's not in pending status, we need to check for updates.
                  */
-                if (rt.getObjectId() != null && !StringUtils.equals(rt.getStatusCode(), getPendingReportStatus().getReportStatusCode())) {
-                    Map params = new HashMap();
-                    params.put(OBJ_ID, rt.getObjectId());
-                    ReportTracking dbRt = this.getBusinessObjectService().findByPrimaryKey(ReportTracking.class, params);
+                if (rt.getAwardReportTrackingId() != null && !StringUtils.equals(rt.getStatusCode(), getPendingReportStatus().getReportStatusCode())) {
+                    ReportTracking dbRt = this.getBusinessObjectService().findByPrimaryKey(ReportTracking.class, Collections.singletonMap(AWARD_REPORT_TRACKING_ID, rt.getAwardReportTrackingId()));
                     if (rt.hasBeenUpdated(dbRt)) {
                         rt.setLastUpdateDate(new java.sql.Timestamp(new java.util.Date().getTime()));
                         rt.setLastUpdateUser(GlobalVariables.getUserSession().getPerson().getName());
