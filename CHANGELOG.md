@@ -1,6 +1,25 @@
 
 
 ##CURRENT
+* only run cost share and unrecovered audit rules if flag is turned on
+
+  * Changed parameter BudgetUnrecoveredFandAEnforcementFlag to N.
+  * (This should allow the user to mark a budget complete without distributing the unrecovered f&A.)
+  * Created a new proposal type = Research
+  * Created a budget version.
+  * Added a Non-Personnel Line Item (Other > Conference Expenses) for $10,000
+  * Edited the line item details and unchecked apply MTDC.
+  * Saved.
+  * Generated all periods
+  * Opened Commitments screen > Unrecovered F&A. Confirmed amounts exist.
+  * Clicked Complete: got validation errors that the UR must be distributed.
+
+  * Expected result: The budget should have been able to be completed because the enforcement flag was set to N prior to creating this proposal and budget.
+  * Joe Williams on Tue, 7 Jul 2015 12:25:26 -0500 [View Commit](../../commit/4fcb55b2b7ecd85d7f9466287356389d47993986)
+*  upgrading ojb to fix a concurrency issue under heavy load.
+  * Travis Schneeberger on Tue, 7 Jul 2015 14:11:26 -0400 [View Commit](../../commit/c6410385351fe187f79d5c1e88a4716f576bb56c)
+
+##coeus-1507.10
 *  Fix to search on OSP Administrator for awards
 
   * Previously the search was looking at the wrong table to pull out osp adminstrator ids for the search, this corrects this and searches within the object returned for the OSP administrator.  This also adds a quickfinder and changes the search to use username for OSP administrator.  Caveat: If there are multiple OSP administrators for a single award, the one you you search on may not be the one shown in the results as it only shows the first OSP Admin in the result rows.
