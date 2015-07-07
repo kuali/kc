@@ -1,6 +1,27 @@
 
 
 ##CURRENT
+* sort data validation screen
+
+  * Steps to Recreate
+  * 1 Create a New Proposal Development Document
+  * 2 Connect to S2S opportunity PA-C-F32
+  * 3 Turn on Validation
+  * When you do this there is a long series of validation errors, and apparent sort logic. There are also no sort options for this table.
+  * In KNS the Validation screen sorted out your errors from your warnings, from your Grants.gov errors and warnings.
+  * Can sort functions be built into this table? I don't think we need anything more involved then default behavior sort icons for the headings, but that would go a long way towards avoiding any regression from the KNS validation organization.
+  * Joe Williams on Mon, 6 Jul 2015 13:54:38 -0500 [View Commit](../../commit/19b54cfd919444f1714c65aa1e00eb991cd750a8)
+* fix view attachment from IACUC Summary and History
+
+  * In a new IACUC protocol add two attachments and navigate to IACUC Protocol Actions/Summary and History/Summary . Click "view" action for the two attachments displayed in Summary.
+  * Result: Clicking "view" does not perform any action. The files do not open.
+  * Joe Williams on Mon, 6 Jul 2015 14:31:54 -0500 [View Commit](../../commit/0f508705a49d5adfb981b8241563b8da68edd32f)
+*  Fixing update timestamp for award amount info
+  * Disrupts reporting.
+  * Subsequent routing of T&M docs in award, changes the update timestamp of previous award amount info entries in the table. While routing a T&M doc, only the update timestamp field of the award amount info entries for that doc should be updated.
+  * Gayathri Athreya on Mon, 6 Jul 2015 15:27:02 -0700 [View Commit](../../commit/6186a4a6fd21fe12b1abdb2ccfe0c6d46ec4b60e)
+
+##coeus-1507.8
 * No Changes
 
 
