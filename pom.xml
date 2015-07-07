@@ -80,7 +80,7 @@
         <commons-pool.version>1.6</commons-pool.version>
         <commons-validator.version>1.4.0</commons-validator.version>
         <cxf.version>2.7.12</cxf.version>
-        <db-ojb.version>1.0.4-patch8</db-ojb.version>
+        <db-ojb.version>1.0.4-patch9</db-ojb.version>
         <displaytag.version>1.2</displaytag.version>
         <drools.version>6.2.0.Final</drools.version>
         <dwr.version>3.0.RC2</dwr.version>
@@ -123,7 +123,7 @@
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.3.1507.2-kckualico</rice.version>
+        <rice.version>2.5.3.1507.3-kckualico</rice.version>
         <schemaspy.version>1505.5</schemaspy.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
