@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Fix to search on OSP Administrator for awards
+
+  * Previously the search was looking at the wrong table to pull out osp adminstrator ids for the search, this corrects this and searches within the object returned for the OSP administrator.  This also adds a quickfinder and changes the search to use username for OSP administrator.  Caveat: If there are multiple OSP administrators for a single award, the one you you search on may not be the one shown in the results as it only shows the first OSP Admin in the result rows.
+  * bsmith83 on Mon, 6 Jul 2015 18:39:28 -0700 [View Commit](../../commit/47323a7744291659a4940ec0d54f8e676e489ef3)
+
+##coeus-1507.9
 * sort data validation screen
 
   * Steps to Recreate
