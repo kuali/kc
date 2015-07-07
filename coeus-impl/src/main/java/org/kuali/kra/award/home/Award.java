@@ -2649,11 +2649,16 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
+
         if (isAllowUpdateTimestampToBeReset()) {
             super.setUpdateTimestamp(updateTimestamp);
         } else {
             setAllowUpdateTimestampToBeReset(true);
         }
+
+        // We want to retain the old update timestamps of old award infos and just change the latest one.
+        List<AwardAmountInfo> currentAwardAmountInfos = getAwardAmountInfos();
+        currentAwardAmountInfos.get(currentAwardAmountInfos.size() - 1).changeUpdateTimestamp(updateTimestamp);
     }
     
     public List<Award> getAwardVersions() {
@@ -2813,4 +2818,5 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 	public void setAllFundingProposals(List<AwardFundingProposal> allFundingProposals) {
 		this.allFundingProposals = allFundingProposals;
 	}
+
 }
