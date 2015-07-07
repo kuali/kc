@@ -152,7 +152,7 @@ public class BudgetUnrecoveredFandAAuditRule extends BudgetAuditRuleBase {
     	Budget budget = event.getBudget();
         boolean retval = true;
         List<BudgetUnrecoveredFandA> unrecoveredFandAs = budget.getBudgetUnrecoveredFandAs();
-        if (budget.isUnrecoveredFandAApplicable()) {
+        if (budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAEnforced()) {
         	retval &= verifyUnrecoveredFA(budget, unrecoveredFandAs);
         	retval &= verifySourceAccount(budget, unrecoveredFandAs);
         }
@@ -164,7 +164,7 @@ public class BudgetUnrecoveredFandAAuditRule extends BudgetAuditRuleBase {
         BudgetConstants.BudgetAuditRules budgetUnrecoveredFARule = BudgetConstants.BudgetAuditRules.UNRECOVERED_FA;
         
         // Forces full allocation of unrecovered f and a
-        if (budget.getUnallocatedUnrecoveredFandA().isGreaterThan(ScaleTwoDecimal.ZERO) && budget.isUnrecoveredFandAEnforced()) {
+        if (budget.getUnallocatedUnrecoveredFandA().isGreaterThan(ScaleTwoDecimal.ZERO)) {
             retval = false;
 			List<AuditError> auditErrors = getAuditErrors(budgetUnrecoveredFARule, false);
             if (unrecoveredFandAs.isEmpty()) {
@@ -189,7 +189,7 @@ public class BudgetUnrecoveredFandAAuditRule extends BudgetAuditRuleBase {
         boolean retval = true;
         String source = null;
         Integer fiscalYear = null;
-        
+
         int i=0;
         int j=0;
         BudgetParent budgetParent = budget.getBudgetParent();
@@ -204,7 +204,7 @@ public class BudgetUnrecoveredFandAAuditRule extends BudgetAuditRuleBase {
         for (BudgetUnrecoveredFandA unrecoveredFandA : unrecoveredFandAs) {
             source = unrecoveredFandA.getSourceAccount();
             fiscalYear = unrecoveredFandA.getFiscalYear();
-            
+
             if (StringUtils.isEmpty(source) || source.length() == 0) {
                 auditErrors.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
                                                     KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
@@ -217,25 +217,25 @@ public class BudgetUnrecoveredFandAAuditRule extends BudgetAuditRuleBase {
                                                     budgetUnrecoveredFARule.getPageId(), params));
                 retval = false;
            }
-            
+
             if (fiscalYear != null && (fiscalYear < projectStartDate.getYear() + YEAR_CONSTANT || fiscalYear > projectEndDate.getYear() + YEAR_CONSTANT)) {
-            	auditWarnings.add(new AuditError(budgetUnrecoveredFARule.getPageId(), 
-                                                      KeyConstants.AUDIT_WARNING_BUDGET_DISTRIBUTION_FISCALYEAR_INCONSISTENT, 
+            	auditWarnings.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
+                                                      KeyConstants.AUDIT_WARNING_BUDGET_DISTRIBUTION_FISCALYEAR_INCONSISTENT,
                                                       budgetUnrecoveredFARule.getPageId(), params));
                 retval = false;
             }
-            
+
             if(!duplicateEntryFound) {
                 j=0;
                 for (BudgetUnrecoveredFandA unrecoveredFandAForComparison : unrecoveredFandAs) {
-                    if(i != j && unrecoveredFandA.getFiscalYear() != null && unrecoveredFandAForComparison.getFiscalYear() != null && 
+                    if(i != j && unrecoveredFandA.getFiscalYear() != null && unrecoveredFandAForComparison.getFiscalYear() != null &&
                             unrecoveredFandA.getFiscalYear().intValue() == unrecoveredFandAForComparison.getFiscalYear().intValue() &&
-                            unrecoveredFandA.getApplicableRate().equals( unrecoveredFandAForComparison.getApplicableRate()) && 
-                            unrecoveredFandA.getOnCampusFlag().equalsIgnoreCase(unrecoveredFandAForComparison.getOnCampusFlag()) && 
+                            unrecoveredFandA.getApplicableRate().equals( unrecoveredFandAForComparison.getApplicableRate()) &&
+                            unrecoveredFandA.getOnCampusFlag().equalsIgnoreCase(unrecoveredFandAForComparison.getOnCampusFlag()) &&
                             StringUtils.equalsIgnoreCase(unrecoveredFandA.getSourceAccount(), unrecoveredFandAForComparison.getSourceAccount()) &&
                             unrecoveredFandA.getAmount().equals( unrecoveredFandAForComparison.getAmount())) {
                         auditErrors.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
-                                KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_DUPLICATE_UNRECOVERED_FA, 
+                                KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_DUPLICATE_UNRECOVERED_FA,
                                 budgetUnrecoveredFARule.getPageId(), params));
                         duplicateEntryFound = true;
                         retval = false;
