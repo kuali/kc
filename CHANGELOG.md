@@ -1,6 +1,25 @@
 
 
 ##CURRENT
+* add prompt to warn users before they apply line items to later periods
+
+  * If changes are made to a future year's existing expense via the Save and Apply to Other Periods, the user should confirm that change will impact future years, otherwise they may be surprised when data was unintentionally overwritten.
+  * (see screenshot)
+
+steps to reproduce
+  * Create a budget
+  * Add non-personnel expense
+  * Select Details to Save and Apply to Other Periods
+  * Open Details again, change the amount and choose Save and Apply to Other Periods,
+
+  * Current Result: following year expense is automatically updated to reflect change and any inflation.
+
+  * Expected Result: user should see message to confirm before change is made
+  * "There is already a line item on period 2 based on this line item. Do you want to apply changes to existing items on later periods? Yes or No"
+  * After user confirms, then the following year expense should update to reflect amount change including any inflation, if inflation was selected
+  * Joe Williams on Tue, 7 Jul 2015 10:06:20 -0500 [View Commit](../../commit/59fa4fe900c44a6c4e3efe7ed93fd54bde993a15)
+
+##coeus-1507.11
 * only run cost share and unrecovered audit rules if flag is turned on
 
   * Changed parameter BudgetUnrecoveredFandAEnforcementFlag to N.
