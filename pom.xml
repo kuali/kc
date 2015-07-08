@@ -2334,6 +2334,21 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+        	<id>dev</id>
+            <properties>
+                <p6spy.version>2.1.4</p6spy.version>
+            </properties>
+            <dependencyManagement>
+                <dependencies>
+    				<dependency>
+    					<groupId>p6spy</groupId>
+    					<artifactId>p6spy</artifactId>
+    					<version>${p6spy.version}</version>
+    				</dependency>
+            	</dependencies>
+            </dependencyManagement>
+        </profile>
     </profiles>
 
     <repositories>

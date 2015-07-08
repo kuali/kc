@@ -61,6 +61,10 @@ When a project specific profile is available, it will be documented in the build
 > 
 *mvn clean install -Perror-prone*
 
+> **Dev Profile:**When developing with KC there are some features that are useful only for development purposes. In order to enable these features you should enable the dev profile. Currently the dev profile only provides the p6spy dependency. See the section below on Configuration for how to use this feature.
+>
+*mvn clean install -Pdev*
+
 All Kuali Coeus projects use standard maven conventions to build and install artifacts.  The following documents how to install source, javadoc, and primary artifacts for each maven projects.
 
 > **Source and Javadoc jars:** When building Kuali Coeus Projects it may be helpful to also build source and javadoc jars.  These jars can be consumed by tools such as debuggers.  Note: due to changes in the javadoc tool in Java 8, you may need to execute the compile phase before attempting to create a javadoc jar. 
@@ -175,6 +179,12 @@ This section contains some useful information about configuring the Kuali Coeus 
 > **Monitoring** The kc.monitoring.enabled config param turns Monitoring on or off.  Monitoring is done through Java Melody and is great for learning about the runtime characteristics of the Kuali Coeus Application.  Java Melody has low overhead and in general can be left on.
 ```
 <param name="kc.monitoring.enabled">false</param>
+```
+
+> **P6Spy** P6Spy can be a useful tool during development that will allow you to view sql statements that are generated and executed against the database in real time. In order to use it in KC you will need to enable the dev profile mentioned above as well as reconfigure your database connection string and driver similar to the below sample. All other kc-config.xml options should remain the same. Additionally you will need to configure the spy.properties file found in *coeus-webapp/src/main/resources/* to specify the correct original driver and potentially the appender method if StdOut is not sufficient.
+```
+<param name="datasource.url">jdbc:p6spy:mysql://localhost:3306/kcdev</param>
+<param name="datasource.driver.name">com.p6spy.engine.spy.P6SpyDriver</param>
 ```
 
   [1]: http://maven.apache.org/download.cgi
