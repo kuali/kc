@@ -1,0 +1,121 @@
+--
+-- Kuali Coeus, a comprehensive research administration system for higher education.
+--
+-- Copyright 2005-2015 Kuali, Inc.
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License as
+-- published by the Free Software Foundation, either version 3 of the
+-- License, or (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+--
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
+
+CREATE TABLE SEQ_AWARD_REPORT_NOTIF_SENT_ID (
+  id bigint(19) not null auto_increment, primary key (id)
+);
+
+ALTER TABLE AWARD_REPORT_NOTIFICATION_SENT
+ADD AWARD_REPORT_NOTIF_SENT_ID DECIMAL(22,0);
+
+DELIMITER /
+
+DROP PROCEDURE IF EXISTS p
+/
+CREATE PROCEDURE p()
+  BEGIN
+    DECLARE DONE INT DEFAULT FALSE;
+    DECLARE O_ID VARCHAR(36);
+    DECLARE NEXT_ID bigint(19);
+
+    DECLARE CUR CURSOR FOR SELECT OBJ_ID FROM AWARD_REPORT_NOTIFICATION_SENT WHERE AWARD_REPORT_NOTIF_SENT_ID IS NULL;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET DONE = TRUE;
+
+    OPEN CUR;
+
+    read_loop: LOOP
+      FETCH CUR INTO O_ID;
+      IF DONE THEN
+        LEAVE read_loop;
+      END IF;
+
+      INSERT INTO SEQ_AWARD_REPORT_NOTIF_SENT_ID VALUES (null);
+      SELECT MAX(ID) + 1 INTO NEXT_ID FROM SEQ_AWARD_REPORT_NOTIF_SENT_ID;
+
+      UPDATE AWARD_REPORT_NOTIFICATION_SENT SET AWARD_REPORT_NOTIF_SENT_ID = NEXT_ID WHERE OBJ_ID = O_ID;
+    END LOOP;
+
+    CLOSE CUR;
+  END
+/
+CALL p()
+/
+DROP PROCEDURE IF EXISTS p
+/
+
+DELIMITER ;
+
+ALTER TABLE AWARD_REPORT_NOTIFICATION_SENT
+ADD CONSTRAINT PK_AWARD_REPORT_NOTIF_SENT
+PRIMARY KEY (AWARD_REPORT_NOTIF_SENT_ID);
+
+
+
+CREATE TABLE SEQ_AWARD_REPORT_TRACKING_ID (
+  id bigint(19) not null auto_increment, primary key (id)
+);
+
+ALTER TABLE AWARD_REPORT_TRACKING
+ADD AWARD_REPORT_TRACKING_ID DECIMAL(22,0);
+
+DELIMITER /
+
+DROP PROCEDURE IF EXISTS p
+/
+CREATE PROCEDURE p()
+  BEGIN
+    DECLARE DONE INT DEFAULT FALSE;
+    DECLARE O_ID VARCHAR(36);
+    DECLARE NEXT_ID bigint(19);
+
+    DECLARE CUR CURSOR FOR SELECT OBJ_ID FROM AWARD_REPORT_TRACKING WHERE AWARD_REPORT_TRACKING_ID IS NULL;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET DONE = TRUE;
+
+    OPEN CUR;
+
+    read_loop: LOOP
+      FETCH CUR INTO O_ID;
+      IF DONE THEN
+        LEAVE read_loop;
+      END IF;
+
+      INSERT INTO SEQ_AWARD_REPORT_TRACKING_ID VALUES (null);
+      SELECT MAX(ID) + 1 INTO NEXT_ID FROM SEQ_AWARD_REPORT_TRACKING_ID;
+
+      UPDATE AWARD_REPORT_TRACKING SET AWARD_REPORT_TRACKING_ID = NEXT_ID WHERE OBJ_ID = O_ID;
+    END LOOP;
+
+    CLOSE CUR;
+  END
+/
+CALL p()
+/
+DROP PROCEDURE IF EXISTS p
+/
+
+DELIMITER ;
+
+ALTER TABLE AWARD_REPORT_TRACKING
+ADD CONSTRAINT PK_AWARD_REPORT_TRACKING
+PRIMARY KEY (AWARD_REPORT_TRACKING_ID);
+
+
+ALTER TABLE VERSION_HISTORY
+ADD CONSTRAINT PK_VERSION_HISTORY
+PRIMARY KEY (VERSION_HISTORY_ID);

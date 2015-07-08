@@ -1523,7 +1523,8 @@
 	
     <!-- Award Report Tracking -->
     <class-descriptor class="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking" table="AWARD_REPORT_TRACKING">
-    	<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERM_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="awardReportTrackingId" column="AWARD_REPORT_TRACKING_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_REPORT_TRACKING_ID"/>
+		<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERM_ID" jdbc-type="BIGINT" />
     	<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
     	<field-descriptor name="piPersonId" column="PI_PERSON_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="piRolodexId" column="PI_ROLODEX_ID" jdbc-type="INTEGER" />
@@ -1550,8 +1551,7 @@
     	
     	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<!-- OBJ_ID isn't a database defined primary key, but it does have a unique constraint.  Primary Key set to true because OJB requires a field be set as primary -->
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" primarykey = "true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	
     	<reference-descriptor name="distribution" class-ref="org.kuali.kra.award.home.Distribution" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -1581,17 +1581,15 @@
     </class-descriptor>	
     
     <class-descriptor class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.SentReportNotification" table="AWARD_REPORT_NOTIFICATION_SENT">
-    	<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERM_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="awardReportNotifSentId" column="AWARD_REPORT_NOTIF_SENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_REPORT_NOTIF_SENT_ID"/>
+		<field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERM_ID" jdbc-type="BIGINT" />
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />    	
     	<field-descriptor name="dueDate" column="DUE_DATE" jdbc-type="DATE" />
     	<field-descriptor name="actionCode" column="ACTION_CODE" jdbc-type="VARCHAR" />
     	<field-descriptor name="dateSent" column="SENT_DATE" jdbc-type="DATE" />
-    	
-    	
     	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<!-- OBJ_ID isn't a database defined primary key, but it does have a unique constraint.  Primary Key set to true because OJB requires a field be set as primary -->
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" primarykey = "true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	
     </class-descriptor>

@@ -27,6 +27,7 @@
         </property>
         <property name="attributes" >
             <list>
+                <ref bean="ReportTracking-awardReportTrackingId" />
                 <ref bean="ReportTracking-awardReportTermId" />
                 <ref bean="ReportTracking-awardNumber" />
                 <ref bean="ReportTracking-piName" />
@@ -65,6 +66,15 @@
     </bean>
 
     <!-- Attribute Definitions -->
+    <bean id="ReportTracking-awardReportTrackingId" parent="ReportTracking-awardReportTrackingId-parentBean" />
+    <bean id="ReportTracking-awardReportTrackingId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
+        <property name="name" value="awardReportTrackingId" />
+        <property name="label" value="Award Report Tracking Id" />
+        <property name="shortLabel" value="Award Report Tracking Id" />
+        <property name="summary" value="Award Report Tracking Id" />
+        <property name="description" value="Award Report Tracking Id" />
+    </bean>
+
     <bean id="ReportTracking-awardReportTermId" parent="ReportTracking-awardReportTermId-parentBean" />
 	<bean id="ReportTracking-awardReportTermId-parentBean" abstract="true" parent="AwardReportTerm-awardReportTermId" />
     <bean id="ReportTracking-awardNumber" parent="ReportTracking-awardNumber-parentBean" />

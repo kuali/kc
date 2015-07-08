@@ -41,6 +41,9 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
 
 
     private static final long serialVersionUID = -7660491024739306314L;
+
+    private Long awardReportTrackingId;
+
     private Long awardReportTermId;
 
     private String awardNumber;
@@ -119,6 +122,13 @@ public class ReportTracking extends KcPersistableBusinessObjectBase implements C
     private transient BusinessObjectService businessObjectService;
     private boolean multiEditSelected;
 
+    public Long getAwardReportTrackingId() {
+        return awardReportTrackingId;
+    }
+
+    public void setAwardReportTrackingId(Long awardReportTrackingId) {
+        this.awardReportTrackingId = awardReportTrackingId;
+    }
 
     public Long getAwardReportTermId() {
         return awardReportTermId;

@@ -172,7 +172,7 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
      * @return
      */
     protected boolean hasSentNotification(ReportTracking report, ReportTrackingNotification notification) {
-        List<SentReportNotification> allSent = (List<SentReportNotification>) getBusinessObjectService().findAll(SentReportNotification.class);
+
         Map<String, Object> values = new HashMap<String, Object>();
         if (report.getAwardReportTermId() != null) {
             values.put("awardReportTermId", report.getAwardReportTermId());
