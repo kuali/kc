@@ -26,7 +26,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -197,7 +199,7 @@ public class SubAwardAttachmentFormBean implements Serializable {
         assert attachments != null : "the attachments was null";
         
         for (SubAwardAttachments attachment : attachments) {
-            if (SubAwardAttachmentFormBean.doesNewFileExist(attachment)) {
+            if (getKcAttachmentService().doesNewFileExist(attachment.getNewFile())) {
                 final AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
                 //setting the sequence number to the old file sequence number
                 if (attachment.getFile() != null) {
@@ -207,16 +209,7 @@ public class SubAwardAttachmentFormBean implements Serializable {
             }
         }
     }
-    /**
-     * Checks if a new file exists on an attachment
-     * 
-     * @param attachment the attachment
-     * @return true if new false if not
-     */
-    private static boolean doesNewFileExist(SubAwardAttachments attachment) {
-        return attachment.getNewFile() != null && StringUtils.isNotBlank(attachment.getNewFile().getFileName());
-    }
-    
+
     /** 
      * assigns a document id to all attachments in the passed in collection based on the passed in type to doc number map. 
      * 
@@ -252,11 +245,11 @@ public class SubAwardAttachmentFormBean implements Serializable {
         this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachment()));
         this.syncNewFiles(Collections.singletonList(this.getNewAttachment()));
         
-        this.assignDocumentId(Collections.singletonList(this.getNewAttachment()), 
+        this.assignDocumentId(Collections.singletonList(this.getNewAttachment()),
                 this.createTypeToMaxDocNumber(this.getSubAward().getSubAwardAttachments()));
         
-        this.newAttachment.setSubAwardId(this.getSubAward().getSubAwardId()); //OJB Hack.  Could not get the awardId to persist with anonymous access in repository file.
-        this.newAttachment.setDocumentStatusCode("A");
+        this.newAttachment.setSubAwardId(this.getSubAward().getSubAwardId());
+        this.newAttachment.setDocumentStatusCode(AttachmentDocumentStatus.ACTIVE.getCode());
         this.getSubAward().addAttachment(this.newAttachment);
         getBusinessObjectService().save(this.newAttachment);
         this.initNewAttachment();
@@ -277,6 +270,10 @@ public class SubAwardAttachmentFormBean implements Serializable {
     
     private BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    private KcAttachmentService getKcAttachmentService() {
+        return KcServiceLocator.getService(KcAttachmentService.class);
     }
 
 }

@@ -21,9 +21,10 @@ package org.kuali.kra.award.notesandattachments.attachments;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -95,11 +96,11 @@ public class AwardAttachmentFormBean implements Serializable{
         this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachment()));
         this.syncNewFiles(Collections.singletonList(this.getNewAttachment()));
         
-        this.assignDocumentId(Collections.singletonList(this.getNewAttachment()), 
+        this.assignDocumentId(Collections.singletonList(this.getNewAttachment()),
                 this.createTypeToMaxDocNumber(this.getAward().getAwardAttachments()));
         
         this.newAttachment.setAwardId(this.getAward().getAwardId()); //OJB Hack.  Could not get the awardId to persist with anonymous access in repository file.
-        this.newAttachment.setDocumentStatusCode("A");
+        this.newAttachment.setDocumentStatusCode(AttachmentDocumentStatus.ACTIVE.getCode());
         this.getAward().addAttachment(this.newAttachment);
         getBusinessObjectService().save(this.newAttachment);
 
@@ -160,9 +161,9 @@ public class AwardAttachmentFormBean implements Serializable{
 
     private void syncNewFiles(List<AwardAttachment> attachments) {
         assert attachments != null : "the attachments was null";
-        
+
         for (AwardAttachment attachment : attachments) {
-            if (AwardAttachmentFormBean.doesNewFileExist(attachment)) {
+            if (getKcAttachmentService().doesNewFileExist(attachment.getNewFile())) {
                 final AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
                 //setting the sequence number to the old file sequence number
                 if (attachment.getFile() != null) {
@@ -173,11 +174,12 @@ public class AwardAttachmentFormBean implements Serializable{
         }
     }
 
-    private static boolean doesNewFileExist(AwardAttachment attachment) {
-        return attachment.getNewFile() != null && StringUtils.isNotBlank(attachment.getNewFile().getFileName());
-    }
-
     private BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
     }
+
+    private KcAttachmentService getKcAttachmentService() {
+        return KcServiceLocator.getService(KcAttachmentService.class);
+    }
+
 }

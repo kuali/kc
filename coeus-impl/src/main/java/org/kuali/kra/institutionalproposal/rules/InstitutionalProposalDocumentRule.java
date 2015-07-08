@@ -25,7 +25,7 @@ import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachments;
+import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonAuditRule;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonSaveRuleEvent;
@@ -234,18 +234,12 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
     private boolean processInstitutionalProposalAttachmentsBusinessRules(Document document) {
         boolean valid = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
-        List<InstitutionalProposalAttachments> instProposalAttachments = institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments();
-        for(InstitutionalProposalAttachments instProposalAttachment:instProposalAttachments) {
+        List<InstitutionalProposalAttachment> instProposalAttachments = institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments();
+        for(InstitutionalProposalAttachment instProposalAttachment:instProposalAttachments) {
         InstitutionalProposalAddAttachmentRuleEvent event = new InstitutionalProposalAddAttachmentRuleEvent(INSTITUTIONAL_PROPOSAL,
                                                                institutionalProposalDocument,instProposalAttachment);
         valid &= new InstitutionalProposalAddAttachmentRuleImpl().processAddInstitutionalProposalAttachmentBusinessRules(event);
         }
-       if(valid) {
-    	   List <InstitutionalProposalAttachments> instProposalList = institutionalProposalDocument.getInstitutionalProposalList().get(0).getInstProposalAttachments();
-           for (InstitutionalProposalAttachments instProposal : instProposalList) {
-           	instProposal.setModifyAttachment(false); 
-           }
-       }
         return valid;
     }
 }

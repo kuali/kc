@@ -22,10 +22,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.AwardDocumentRule;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
@@ -39,7 +41,6 @@ import org.kuali.kra.award.rule.event.AddAwardAttachmentEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.award.service.impl.AwardCommentServiceImpl;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,8 +61,7 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
     
     private static final String CONFIRM_VOID_ATTACHMENT_KEY = "confirmVoidAttachmentKey";
     private static final String EMPTY_STRING = "";
-    public static final String VOID_ATTACHMENT_CODE = "V";
-    public static final String AWARD_ATTACHMENT_TYPE_CODE = "document.awardList[0].awardAttachments[%d].typeCode";
+    public static final String AWARD_ATTACHMENT_PREFIX = "document.awardList[0].awardAttachments[%d]";
 
     private AwardNotepadBean awardNotepadBean;
     
@@ -319,19 +319,16 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
         AwardDocument awardDocument = ((AwardForm) form).getAwardDocument();
         int selectedLineIndex = getSelectedLine(request);
         AwardAttachment editAwardAttachment = awardDocument.getAward().getAwardAttachments().get(selectedLineIndex);
-        if (editAwardAttachment.getTypeCode()== null) {
-            GlobalVariables.getMessageMap().putError(String.format(AWARD_ATTACHMENT_TYPE_CODE,selectedLineIndex), KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
-        }
-        else {
-        	editAwardAttachment.setModifyAttachment(false);
-            checkForModification(editAwardAttachment);
+        if (new AwardDocumentRule().processApplyModifiedAttachmentRule(new AddAwardAttachmentEvent("",
+                String.format(AWARD_ATTACHMENT_PREFIX,selectedLineIndex),awardDocument,editAwardAttachment))) {
+            editAwardAttachment.setModifyAttachment(false);
+            updateTimestampIfModified(editAwardAttachment);
             getBusinessObjectService().save(editAwardAttachment);
         }
-        	
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    protected void checkForModification(AwardAttachment editAwardAttachment) {
+    protected void updateTimestampIfModified(AwardAttachment editAwardAttachment) {
         if (hasAwardAttachmentBeenModified(editAwardAttachment)) {
             editAwardAttachment.setLastUpdateTimestamp(new Timestamp(new Date().getTime()));
             editAwardAttachment.setLastUpdateUser(getGlobalVariableService().getUserSession().getPrincipalName());
@@ -354,7 +351,7 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
             HttpServletResponse response) throws Exception {
         AwardDocument awardDocument = ((AwardForm) form).getAwardDocument();
         int selectedLineIndex = getSelectedLine(request);
-        awardDocument.getAward().getAwardAttachments().get(selectedLineIndex).setDocumentStatusCode(VOID_ATTACHMENT_CODE);
+        awardDocument.getAward().getAwardAttachments().get(selectedLineIndex).setDocumentStatusCode(AttachmentDocumentStatus.VOID.getCode());
     	getBusinessObjectService().save(awardDocument.getAward().getAwardAttachments().get(selectedLineIndex));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

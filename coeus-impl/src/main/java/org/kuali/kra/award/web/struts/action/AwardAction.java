@@ -214,17 +214,9 @@ public class AwardAction extends BudgetParentActionBase {
             handlePlaceHolderDocument(awardForm, awardDocument);
         }
 
-        handleAttachmentsDocument(((AwardForm) form).getAwardAttachmentFormBean());
+
        
         return forward;
-    }
-
-    protected void handleAttachmentsDocument(AwardAttachmentFormBean awardAttachmentForm) {
-        String currentUser = GlobalVariables.getUserSession().getPrincipalId();
-        if (awardAttachmentForm != null) {
-            awardAttachmentForm.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
-                    ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
-        }
     }
 
     private void handlePlaceHolderDocument(AwardForm form, AwardDocument awardDocument) {
@@ -1022,7 +1014,15 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm) form;
         awardForm.getAwardCommentBean().setAwardCommentScreenDisplayTypesOnForm();
         awardForm.getAwardCommentBean().setAwardCommentHistoryFlags();
+        setDisableAttachmentRemovalIndicator(((AwardForm) form).getAwardAttachmentFormBean());
         return mapping.findForward(Constants.MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE);
+    }
+
+    protected void setDisableAttachmentRemovalIndicator(AwardAttachmentFormBean awardAttachmentForm) {
+        if (awardAttachmentForm != null) {
+            awardAttachmentForm.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                    ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
+        }
     }
 
    public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -21,7 +21,7 @@ package org.kuali.kra.institutionalproposal.rules;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBase;
-import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachments;
+import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -31,28 +31,20 @@ public class InstitutionalProposalAddAttachmentRuleEvent extends KcDocumentEvent
     private static final Log LOG = LogFactory.getLog(InstitutionalProposalAddCostShareRuleEvent.class);
     private static final String INSTITUTIONAL_PROPOSAL = "Institutional Proposal";
 
-    private InstitutionalProposalAttachments institutionalProposalAttachment;
+    private InstitutionalProposalAttachment institutionalProposalAttachment;
 
     public InstitutionalProposalAddAttachmentRuleEvent(String errorPathPrefix, 
             InstitutionalProposalDocument institutionalProposalDocument,
-            InstitutionalProposalAttachments institutionalProposalAttachment) {
+            InstitutionalProposalAttachment institutionalProposalAttachment) {
         super(INSTITUTIONAL_PROPOSAL, errorPathPrefix, institutionalProposalDocument);
         this.institutionalProposalAttachment = institutionalProposalAttachment;
     }
-    
-    /**
-     * Convenience method to return an InstitutionalProposalDocument
-     * @return
-     */
+
     public InstitutionalProposalDocument getInstitutionalProposalDocument() {
         return (InstitutionalProposalDocument) getDocument();
     }
-    
-    /**
-     * This method returns the equipment item for validation
-     * @return
-     */
-    public InstitutionalProposalAttachments getInstitutionalProposalForValidation() {
+
+    public InstitutionalProposalAttachment getInstitutionalProposalAttachmentForValidation() {
         return institutionalProposalAttachment;
     }
     

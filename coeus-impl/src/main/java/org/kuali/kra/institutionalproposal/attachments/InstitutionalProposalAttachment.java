@@ -21,12 +21,7 @@ package org.kuali.kra.institutionalproposal.attachments;
 
 import java.lang.ref.WeakReference;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -35,13 +30,11 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalAttachmentType;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
-import javax.persistence.Column;
 import javax.persistence.PostRemove;
 
 
-public class InstitutionalProposalAttachments extends InstitutionalProposalAssociate  implements Comparable<InstitutionalProposalAttachments> {
+public class InstitutionalProposalAttachment extends InstitutionalProposalAssociate  implements Comparable<InstitutionalProposalAttachment> {
 
 	private static final long serialVersionUID = 502762283098287794L;
 
@@ -73,6 +66,7 @@ public class InstitutionalProposalAttachments extends InstitutionalProposalAssoc
 
     private transient FormFile newFile;
 
+
     private InstitutionalProposalAttachmentType type;
 
 	private transient WeakReference<byte[]> data;
@@ -83,11 +77,11 @@ public class InstitutionalProposalAttachments extends InstitutionalProposalAssoc
 
 	
 
-    public InstitutionalProposalAttachments() {
+    public InstitutionalProposalAttachment() {
         super();
     }
     
-    public InstitutionalProposalAttachments(final InstitutionalProposal proposal) {
+    public InstitutionalProposalAttachment(final InstitutionalProposal proposal) {
         this.setInstitutionalProposal(proposal);
     }
 
@@ -242,7 +236,15 @@ public class InstitutionalProposalAttachments extends InstitutionalProposalAssoc
     }
 
 	@Override
-	public int compareTo(InstitutionalProposalAttachments o) {
+	public void setInstitutionalProposal(InstitutionalProposal institutionalProposal) {
+		super.setInstitutionalProposal(institutionalProposal);
+		if (institutionalProposal != null) {
+			setProposalId(institutionalProposal.getProposalId());
+		}
+	}
+
+	@Override
+	public int compareTo(InstitutionalProposalAttachment o) {
 		return this.getFileDataId().compareTo(o.getFileDataId());
 	}
 

@@ -63,12 +63,12 @@ opacity:1;
 				</th>
 				<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${subAwardAttachmentAttributes.updateTimestamp}" noColon="false" />
+         				<kul:htmlAttributeLabel attributeEntry="${subAwardAttachmentAttributes.lastUpdateTimestamp}" noColon="false" />
          			</div>
          		</th>
          		<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${subAwardAttachmentAttributes.updateUser}" noColon="false" />
+         				<kul:htmlAttributeLabel attributeEntry="${subAwardAttachmentAttributes.lastUpdateUser}" noColon="false" />
          			</div>
          		</th>
          		<th>
@@ -111,12 +111,12 @@ opacity:1;
 					</td>
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="subAwardAttachmentFormBean.newAttachment.lastUpdateTimestamp" attributeEntry="${subAwardAttachmentAttributes.updateTimestamp}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="subAwardAttachmentFormBean.newAttachment.lastUpdateTimestamp" attributeEntry="${subAwardAttachmentAttributes.lastUpdateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
 	                <td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="subAwardAttachmentFormBean.newAttachment.lastUpdateUser" attributeEntry="${subAwardAttachmentAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="subAwardAttachmentFormBean.newAttachment.lastUpdateUser" attributeEntry="${subAwardAttachmentAttributes.lastUpdateUser}" readOnly="true"/>
 		            	</div>
 					</td> 
 					<td align="center" valign="middle" class="infoline">
@@ -135,14 +135,6 @@ opacity:1;
 			<c:forEach var="attachment" items="${KualiForm.document.subAwardList[0].subAwardAttachments}" varStatus="itrStatus">
 				<c:set var="count" value="${itrStatus.index}"/>
 			<c:set var="modify" value="${KualiForm.document.subAwardList[0].subAwardAttachments[count].modifyAttachment}"/>
-			<c:choose>
-			   <c:when test="${modify!=true}">
-	             <c:set var="activeModify" value="true"/>
-	           </c:when>
-		       <c:otherwise>
-		         <c:set var="activeModify" value="false"/>
-		       </c:otherwise>
-		    </c:choose>
 				<c:set var="voidShade" value="voidShadeDisable"/>
 		    <c:if test="${KualiForm.document.subAwardList[0].subAwardAttachments[itrStatus.index].documentStatusCode == 'V' && !modify}">
 		    <c:set var="voidShade" value="voidShadeEnable"/>
@@ -155,12 +147,12 @@ opacity:1;
 	         		</td>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAttachments[${itrStatus.index}].subAwardAttachmentTypeCode" attributeEntry="${subAwardAttachmentAttributes['subAwardAttachmentTypeCode']}" readOnly="${activeModify}" readOnlyAlternateDisplay ="${subAwardAttachments.typeAttachment.description}"/>
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAttachments[${itrStatus.index}].subAwardAttachmentTypeCode" attributeEntry="${subAwardAttachmentAttributes['subAwardAttachmentTypeCode']}" readOnly="${!modify}" readOnlyAlternateDisplay ="${subAwardAttachments.typeAttachment.description}"/>
 		            	</div>
 					</td>
 					<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAttachments[${itrStatus.index}].description" attributeEntry="${subAwardAttachmentAttributes.description}" readOnly="${activeModify}"/>
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAttachments[${itrStatus.index}].description" attributeEntry="${subAwardAttachmentAttributes.description}" readOnly="${!modify}"/>
 		            	</div>
 					</td>
 	       			<td align="left" valign="middle">
@@ -179,12 +171,12 @@ opacity:1;
 					</td>
 					<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAttachments[${itrStatus.index}].lastUpdateTimestamp" attributeEntry="${subAwardAttachmentAttributes.updateTimestamp}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAttachments[${itrStatus.index}].lastUpdateTimestamp" attributeEntry="${subAwardAttachmentAttributes.lastUpdateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAttachments[${itrStatus.index}].lastUpdateUserName" attributeEntry="${subAwardAttachmentAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.subAwardList[0].subAwardAttachments[${itrStatus.index}].lastUpdateUserName" attributeEntry="${subAwardAttachmentAttributes.lastUpdateUser}" readOnly="true"/>
 		            	</div>
 					</td>
 					<td align="center" valign="middle">
@@ -204,8 +196,6 @@ opacity:1;
 								alt="View Attachment" onclick="excludeSubmitRestriction = true;"/>
 						</c:otherwise>
 						</c:choose>
-						</c:if>
-
 						   <c:choose>
 						   <c:when test="${subAwardAttachmentFormBean.disableAttachmentRemovalIndicator == true}">
 								<c:if test="${!empty KualiForm.editingMode['fullEntry'] && !readOnly}">
@@ -237,7 +227,7 @@ opacity:1;
 												property="methodToCall.replaceNarrativeAttachment.line${itrStatus.index}.anchor${currentTabIndex};return false" />
 							</c:otherwise>    
 						   </c:choose>
-						   
+					   </c:if>
 					</div>
 					</td>
 	         	</tr>

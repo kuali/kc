@@ -48,7 +48,7 @@ import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
-import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachments;
+import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
@@ -190,7 +190,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private transient String lookupPersonNumber;
     private transient FiscalYearMonthService fiscalYearMonthService;
     
-    private List<InstitutionalProposalAttachments> instProposalAttachments;
+    private List<InstitutionalProposalAttachment> instProposalAttachments;
     
     private transient boolean allowUpdateTimestampToBeReset = true;
     private transient KcPersonService kcPersonService;
@@ -1242,7 +1242,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         super.postLoad();
     }
     
-    public List<InstitutionalProposalAttachments> getInstProposalAttachments() {
+    public List<InstitutionalProposalAttachment> getInstProposalAttachments() {
         if (this.instProposalAttachments == null) {
             this.instProposalAttachments = new ArrayList<>();
         }
@@ -1250,11 +1250,11 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         return this.instProposalAttachments;
     }
     
-    public InstitutionalProposalAttachments getInstProposalAttachment(int index) {
+    public InstitutionalProposalAttachment getInstProposalAttachment(int index) {
         return this.instProposalAttachments.get(index);
     }
 
-    public void addAttachment(InstitutionalProposalAttachments attachment) {
+    public void addAttachment(InstitutionalProposalAttachment attachment) {
         this.getInstProposalAttachments().add(attachment);
         attachment.setInstitutionalProposal(this);
     }

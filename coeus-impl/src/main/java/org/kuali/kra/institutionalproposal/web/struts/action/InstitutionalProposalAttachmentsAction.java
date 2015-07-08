@@ -22,13 +22,14 @@ package org.kuali.kra.institutionalproposal.web.struts.action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachments;
+import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddAttachmentRuleEvent;
 import org.kuali.kra.institutionalproposal.rules.InstitutionalProposalAddAttachmentRuleImpl;
@@ -60,7 +61,7 @@ public class InstitutionalProposalAttachmentsAction extends InstitutionalProposa
     public ActionForward addAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         InstitutionalProposalForm instProposalForm = ((InstitutionalProposalForm)form);
-        InstitutionalProposalAttachments instProposalAttachment = instProposalForm.getInstitutionalProposalAttachmentBean().getNewAttachment();
+        InstitutionalProposalAttachment instProposalAttachment = instProposalForm.getInstitutionalProposalAttachmentBean().getNewAttachment();
         InstitutionalProposalDocument instProposal = instProposalForm.getInstitutionalProposalDocument();
         InstitutionalProposalAddAttachmentRuleEvent event = new InstitutionalProposalAddAttachmentRuleEvent(INSTITUTIONAL_PROPOSAL, instProposal, instProposalAttachment);
         if(new InstitutionalProposalAddAttachmentRuleImpl().processAddInstitutionalProposalAttachmentBusinessRules(event)){
@@ -73,7 +74,7 @@ public class InstitutionalProposalAttachmentsAction extends InstitutionalProposa
             HttpServletResponse response) throws Exception {
         InstitutionalProposalForm InstitutionalProposalForm = (InstitutionalProposalForm) form;
         final int selection = this.getSelectedLine(request);
-        final InstitutionalProposalAttachments attachment = InstitutionalProposalForm.getInstitutionalProposalAttachmentBean().retrieveExistingAttachment(selection);
+        final InstitutionalProposalAttachment attachment = InstitutionalProposalForm.getInstitutionalProposalAttachmentBean().retrieveExistingAttachment(selection);
 
         if (attachment == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
@@ -96,12 +97,12 @@ public class InstitutionalProposalAttachmentsAction extends InstitutionalProposa
             HttpServletResponse response) throws Exception {
     	InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
-        int voidAttachment = getSelectedLine(request);
-        InstitutionalProposalAttachments instProposalAttachment = ((InstitutionalProposalForm) form).getInstitutionalProposalAttachmentBean().getNewAttachment();
+        int selectedLineIndex = getSelectedLine(request);
+        InstitutionalProposalAttachment instProposalAttachment = ((InstitutionalProposalForm) form).getInstitutionalProposalAttachmentBean().getNewAttachment();
     	String errorPath = INSTITUTIONAL_PROPOSAL;
         InstitutionalProposalAddAttachmentRuleEvent event = new InstitutionalProposalAddAttachmentRuleEvent(errorPath, institutionalProposalDocument, instProposalAttachment);
-        if(new InstitutionalProposalAddAttachmentRuleImpl().processAddInstitutionalProposalAttachment(event,voidAttachment)){
-            InstitutionalProposalAttachments editAttachment = institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments().get(voidAttachment);
+        if(new InstitutionalProposalAddAttachmentRuleImpl().processAddInstitutionalProposalAttachment(event,selectedLineIndex)){
+            InstitutionalProposalAttachment editAttachment = institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments().get(selectedLineIndex);
             editAttachment.setModifyAttachment(false);
             if (hasAttachmentBeenModified(editAttachment)) {
                 editAttachment.setLastUpdateTimestamp(new Timestamp(new Date().getTime()));
@@ -112,8 +113,8 @@ public class InstitutionalProposalAttachmentsAction extends InstitutionalProposa
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    private boolean hasAttachmentBeenModified(InstitutionalProposalAttachments attachment) {
-        InstitutionalProposalAttachments dbAttachment = getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposalAttachments.class,attachment.getProposalAttachmentId());
+    private boolean hasAttachmentBeenModified(InstitutionalProposalAttachment attachment) {
+        InstitutionalProposalAttachment dbAttachment = getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposalAttachment.class,attachment.getProposalAttachmentId());
         return !dbAttachment.getFileDataId().equals(attachment.getFileDataId()) ||
                 !dbAttachment.getAttachmentTypeCode().equals(attachment.getAttachmentTypeCode()) ||
                 !dbAttachment.getComments().equals(attachment.getComments()) ||
@@ -137,7 +138,7 @@ public class InstitutionalProposalAttachmentsAction extends InstitutionalProposa
             HttpServletRequest request, HttpServletResponse response, int deleteAttachment) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
-        InstitutionalProposalAttachments attachment = institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments().get(deleteAttachment);
+        InstitutionalProposalAttachment attachment = institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments().get(deleteAttachment);
 
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_ATTACHMENT_KEY,
                 KeyConstants.QUESTION_DELETE_ATTACHMENT, "Institutional Proposal Attachment", attachment.getAttachmentTitle());
@@ -163,9 +164,9 @@ public class InstitutionalProposalAttachmentsAction extends InstitutionalProposa
            HttpServletResponse response) throws Exception {
 	   InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
        InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
-       int voidAttachment = getSelectedLine(request);
-       institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments().get(voidAttachment).setDocumentStatusCode("V");
-       getBusinessObjectService().save(institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments().get(voidAttachment));
+       int selectedLineIndex = getSelectedLine(request);
+       institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments().get(selectedLineIndex).setDocumentStatusCode(AttachmentDocumentStatus.VOID.getCode());
+       getBusinessObjectService().save(institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments().get(selectedLineIndex));
        return mapping.findForward(Constants.MAPPING_BASIC);
    }
 }

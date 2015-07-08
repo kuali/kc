@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.framework.attachment;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.rice.krad.file.FileMeta;
 
@@ -71,4 +72,5 @@ public interface KcAttachmentService {
      */
     public boolean validPDFFile(FileMeta fileInQuestion, ErrorReporter errorReporterService, String errorPrefix);
 
+    boolean doesNewFileExist(FormFile file);
 }

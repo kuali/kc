@@ -24,6 +24,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -39,7 +41,6 @@ import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBas
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAttachmentType;
@@ -59,8 +60,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -118,17 +117,15 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
                             if(subAwardAttachments.getFileName() != null) {
                                 String printAttachmentTypeInclusion=KcServiceLocator.getService(ParameterService.class).getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, ParameterConstants.DOCUMENT_COMPONENT, Constants.PARAMETER_PRINT_ATTACHMENT_TYPE_INCLUSION);
                                 String[] attachmentTypeCode=printAttachmentTypeInclusion.split("\\,");
-                                for(int typeCode=0;typeCode<attachmentTypeCode.length;typeCode++) {
-                                  if(subAwardAttachments.getSubAwardAttachmentTypeCode() != null) {
-                                    if(subAwardAttachments.getSubAwardAttachmentTypeCode().equals(attachmentTypeCode[typeCode])) {
-                                        String[] fileNameSplit=subAwardAttachments.getFileName().toString().split("\\.pdf");
+                                for (int typeCode = 0; typeCode < attachmentTypeCode.length; typeCode++) {
+                                    if (StringUtils.equals(subAwardAttachments.getSubAwardAttachmentTypeCode(),attachmentTypeCode[typeCode])) {
+                                        String[] fileNameSplit = subAwardAttachments.getFileName().toString().split("\\.pdf");
                                         SubAwardPrintingService printService = KcServiceLocator.getService(SubAwardPrintingService.class);
-                                            if(printService.isPdf(subAwardAttachments.getAttachmentContent())) {
+                                        if (printService.isPdf(subAwardAttachments.getAttachmentContent())) {
                                             subAwardAttachments.setFileNameSplit(fileNameSplit[0]);
-                                            }
-                                     }
-                                  }
-                                 }
+                                        }
+                                    }
+                                }
                              }
                             SubAwardAttachmentType subAwardAttachmentTypeValue =  KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(SubAwardAttachmentType.class, subAwardAttachments.getSubAwardAttachmentTypeCode());
                             subAwardAttachments.setTypeAttachment(subAwardAttachmentTypeValue);
@@ -161,15 +158,8 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         subAwardForm.getSubAwardDocument().setSubAward(subAward);
 
 
-        handleAttachmentsDocument(((SubAwardForm) form).getSubAwardAttachmentFormBean());
-        return forward;
-    }
 
-    protected void handleAttachmentsDocument(SubAwardAttachmentFormBean subAwardAttachmentForm) {
-        if (subAwardAttachmentForm != null) {
-            subAwardAttachmentForm.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
-                    ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
-        }
+        return forward;
     }
 
     /**.
@@ -219,7 +209,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         getByDocumentHeaderId(docIdRequestParameter);
         subAwardForm.setDocument(retrievedDocument);
         request.setAttribute(KRADConstants.PARAMETER_DOC_ID,
-        		docIdRequestParameter);
+                docIdRequestParameter);
     }
 
     /**.
@@ -330,8 +320,16 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
    */
    public ActionForward templateInformation(ActionMapping mapping, ActionForm form,
            HttpServletRequest request, HttpServletResponse response) {
-
+        setDisableRemovalAttachmentIndicator(((SubAwardForm) form).getSubAwardAttachmentFormBean());
         return mapping.findForward(Constants.MAPPING_TEMPLATE_PAGE);
+    }
+
+
+    protected void setDisableRemovalAttachmentIndicator(SubAwardAttachmentFormBean subAwardAttachmentForm) {
+        if (subAwardAttachmentForm != null) {
+            subAwardAttachmentForm.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                    ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
+        }
     }
    /**
    *
@@ -511,7 +509,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
     } else {
         GlobalVariables.getMessageMap().clearErrorMessages();
         GlobalVariables.getMessageMap().
-        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[]{});
         subAwardForm.setAuditActivated(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
 
@@ -642,9 +640,4 @@ public ActionForward blanketApprove(ActionMapping mapping,
       
       return  mapping.findForward(Constants.MAPPING_BASIC);
   }
- 
- private PermissionService getPermissionService() {
-     return KimApiServiceLocator.getPermissionService();
- }
- 
 }

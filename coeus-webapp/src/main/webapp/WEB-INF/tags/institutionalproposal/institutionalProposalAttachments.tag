@@ -35,14 +35,12 @@ opacity:1;
 </style>
 
 <c:set var="attachments" value="${KualiForm.document.institutionalProposalList[0].instProposalAttachments}"/>
-<c:set var="instproposalAttachmentAttributes" value="${DataDictionary.InstitutionalProposalAttachments.attributes}" />
+<c:set var="instproposalAttachmentAttributes" value="${DataDictionary.InstitutionalProposalAttachment.attributes}" />
 <c:set var="institutionalProposalAttachmentBean" value="${KualiForm.institutionalProposalAttachmentBean}" />
 <c:set var="action" value="institutionalProposalAttachments"/>
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
-<c:set var="disableAttachmentRemovalIndicator" value="false"/>
-<c:if test="${institutionalProposalAttachmentBean.disableAttachmentRemovalIndicator == true}">
-<c:set var="disableAttachmentRemovalIndicator" value="true"/>
-</c:if>
+<c:set var="disableAttachmentRemovalIndicator" value="${institutionalProposalAttachmentBean.disableAttachmentRemovalIndicator}"/>
+
 <kul:tabTop tabTitle="Attachments" defaultOpen="true" tabErrorKey="document.*,institutionalProposalAttachmentBean.*">
 	<div class="tab-container" align="center">
    		<h3>
@@ -77,12 +75,12 @@ opacity:1;
 				</th>
 				<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${instproposalAttachmentAttributes.updateTimestamp}" noColon="false" />
+         				<kul:htmlAttributeLabel attributeEntry="${instproposalAttachmentAttributes.lastUpdateTimestamp}" noColon="false" />
          			</div>
          		</th>
          		<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${instproposalAttachmentAttributes.updateUser}" noColon="false" />
+         				<kul:htmlAttributeLabel attributeEntry="${instproposalAttachmentAttributes.lastUpdateUser}" noColon="false" />
          			</div>
          		</th>
          	
@@ -125,12 +123,12 @@ opacity:1;
 					</td> 
 					<td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="institutionalProposalAttachmentBean.newAttachment.updateTimestamp" attributeEntry="${instproposalAttachmentAttributes.updateTimestamp}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="institutionalProposalAttachmentBean.newAttachment.lastUpdateTimestamp" attributeEntry="${instproposalAttachmentAttributes.lastUpdateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
 	                <td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="institutionalProposalAttachmentBean.newAttachment.updateUser" attributeEntry="${instproposalAttachmentAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="institutionalProposalAttachmentBean.newAttachment.lastUpdateUser" attributeEntry="${instproposalAttachmentAttributes.lastUpdateUser}" readOnly="true"/>
 		            	</div>
 					</td> 
 					 
@@ -148,14 +146,6 @@ opacity:1;
 			
 			<c:set var="count" value="${itrStatus.index}"/>
 			<c:set var="modify" value="${KualiForm.document.institutionalProposalList[0].instProposalAttachments[count].modifyAttachment}"/>
-			<c:choose>
-			   <c:when test="${modify!=true}">
-	             <c:set var="activeModify" value="true"/>
-	           </c:when>
-		       <c:otherwise>
-		         <c:set var="activeModify" value="false"/>
-		       </c:otherwise>
-		    </c:choose>
 		    <c:set var="voidShade" value="voidShadeDisable"/>
 		    <c:if test="${KualiForm.document.institutionalProposalList[0].instProposalAttachments[itrStatus.index].documentStatusCode == 'V'  && !modify}">
 		    <c:set var="voidShade" value="voidShadeEnable"/>
@@ -173,12 +163,12 @@ opacity:1;
 					</td>
 					<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].instProposalAttachments[${itrStatus.index}].attachmentTitle" attributeEntry="${instproposalAttachmentAttributes.attachmentTitle}" readOnly="${activeModify}"/>
+	                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].instProposalAttachments[${itrStatus.index}].attachmentTitle" attributeEntry="${instproposalAttachmentAttributes.attachmentTitle}" readOnly="${!modify}"/>
 		            	</div>
 					</td>
 					<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].instProposalAttachments[${itrStatus.index}].comments" attributeEntry="${instproposalAttachmentAttributes.comments}" readOnly="${activeModify}"/>
+	                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].instProposalAttachments[${itrStatus.index}].comments" attributeEntry="${instproposalAttachmentAttributes.comments}" readOnly="${!modify}"/>
 		            	</div>
 					</td>
 					 <td align="left" valign="middle">
@@ -190,12 +180,12 @@ opacity:1;
 					</td> 
 					<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].instProposalAttachments[${itrStatus.index}].lastUpdateTimestamp" attributeEntry="${instproposalAttachmentAttributes.updateTimestamp}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].instProposalAttachments[${itrStatus.index}].lastUpdateTimestamp" attributeEntry="${instproposalAttachmentAttributes.lastUpdateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].instProposalAttachments[${itrStatus.index}].lastUpdateUserName" attributeEntry="${instproposalAttachmentAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.institutionalProposalList[0].instProposalAttachments[${itrStatus.index}].lastUpdateUserName" attributeEntry="${instproposalAttachmentAttributes.lastUpdateUser}" readOnly="true"/>
 		            	</div>
 					</td>
 					 <td align="center" valign="middle">
@@ -215,15 +205,12 @@ opacity:1;
 								alt="View Attachment" onclick="excludeSubmitRestriction = true;"/>
 						</c:otherwise>
 						</c:choose>
-						</c:if>
 						<c:if test="${!empty KualiForm.documentActions['CAN_MAINTAIN_IP_ATTACHMENTS']}">
 						<c:choose>
-							<c:when test="${institutionalProposalAttachmentBean.disableAttachmentRemovalIndicator == true}">
-								<c:if test="${KualiForm.document.institutionalProposalList[0].instProposalAttachments[itrStatus.index].documentStatusCode != 'V'}">
+							<c:when test="${institutionalProposalAttachmentBean.disableAttachmentRemovalIndicator == true }">
 								<html:image property="methodToCall.voidAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 									   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-void.gif' styleClass="tinybutton"
 									   alt="Void Attachment"/>
-							    </c:if>
 							    <c:choose>
 							    <c:when test="${!modify}">
 							    <html:image property="methodToCall.modifyAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
@@ -231,10 +218,8 @@ opacity:1;
 									   alt="Modify Attachment"/>
 							    </c:when>
 							    <c:otherwise>
-								  <%-- <c:if test="${!readOnly}"> --%>
             	                <html:image property="methodToCall.applyModifyAttachment.line${itrStatus.index}.anchor${currentTabIndex}"
 						         src="${ConfigProperties.kra.externalizable.images.url}tinybutton-apply.gif" styleClass="tinybutton"/>
-            	                  <%-- </c:if> --%>
             	                  </c:otherwise>
             	                  </c:choose>
 						   </c:when>
@@ -246,6 +231,7 @@ opacity:1;
 						   </c:choose>
 						   </c:if>
 						  </div>
+						 </c:if>
 					</td>  
 				</tr>
 			</c:forEach>

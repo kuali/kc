@@ -35,9 +35,7 @@ opacity:1;
 <c:set var="attachments" value="${KualiForm.document.awardList[0].awardAttachments}"/>
 <c:set var="disableAttachmentRemovalIndicator" value="false"/>
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
-<c:if test="${awardAttachmentFormBean.disableAttachmentRemovalIndicator == true}">
-<c:set var="disableAttachmentRemovalIndicator" value="true"/>
-</c:if>
+<c:set var="disableAttachmentRemovalIndicator" value="${awardAttachmentFormBean.disableAttachmentRemovalIndicator}"/>
 
 <kul:tab tabTitle="Attachments" tabItemCount="${fn:length(attachments)}" defaultOpen="false" tabErrorKey="awardAttachmentFormBean.newAttachment*,document.awardList[0].awardAttachments*" transparentBackground="false">
 	<div class="tab-container" align="center">
@@ -52,12 +50,12 @@ opacity:1;
          	    </th>
          		<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${awardAttachmentAttributes.updateTimestamp}" noColon="false" />
+         				<kul:htmlAttributeLabel attributeEntry="${awardAttachmentAttributes.lastUpdateTimestamp}" noColon="false" />
          			</div>
          		</th>
          		<th>
          			<div align="center">
-         				<kul:htmlAttributeLabel attributeEntry="${awardAttachmentAttributes.updateUser}" noColon="false" />
+         				<kul:htmlAttributeLabel attributeEntry="${awardAttachmentAttributes.lastUpdateUser}" noColon="false" />
          			</div>
          		</th>
          		<th>
@@ -92,12 +90,12 @@ opacity:1;
 					</td>
 	                <td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="awardAttachmentFormBean.newAttachment.lastUpdateTimestamp" attributeEntry="${awardAttachmentAttributes.updateTimestamp}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="awardAttachmentFormBean.newAttachment.lastUpdateTimestamp" attributeEntry="${awardAttachmentAttributes.lastUpdateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
 	                <td align="left" valign="middle" class="infoline">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="awardAttachmentFormBean.newAttachment.lastUpdateUser" attributeEntry="${awardAttachmentAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="awardAttachmentFormBean.newAttachment.lastUpdateUser" attributeEntry="${awardAttachmentAttributes.lastUpdateUser}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td class="infoline">
@@ -136,14 +134,6 @@ opacity:1;
 			<c:forEach var="attachment" items="${attachments}" varStatus="itrStatus">
 			<c:set var="count" value="${itrStatus.index}"/>
 			<c:set var="modify" value="${KualiForm.document.awardList[0].awardAttachments[count].modifyAttachment}"/>
-			<c:choose>
-			   <c:when test="${modify!=true}">
-	             <c:set var="activeModify"  value="true"/>
-	           </c:when>
-		       <c:otherwise>
-		         <c:set var="activeModify"  value="false"/>
-		       </c:otherwise>
-		    </c:choose>
 		    <c:set var="voidShade" value="voidShadeDisable"/>
 		    <c:if test="${KualiForm.document.awardList[0].awardAttachments[itrStatus.index].documentStatusCode == 'V' && !modify}"> 
 		    <c:set var="voidShade" value="voidShadeEnable"/>
@@ -156,22 +146,22 @@ opacity:1;
 	         		</td>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.awardList[0].awardAttachments[${itrStatus.index}].lastUpdateTimestamp" attributeEntry="${awardAttachmentAttributes.updateTimestamp}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.awardList[0].awardAttachments[${itrStatus.index}].lastUpdateTimestamp" attributeEntry="${awardAttachmentAttributes.lastUpdateTimestamp}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.awardList[0].awardAttachments[${itrStatus.index}].lastUpdateUserName" attributeEntry="${awardAttachmentAttributes.updateUser}" readOnly="true"/>
+	                		<kul:htmlControlAttribute property="document.awardList[0].awardAttachments[${itrStatus.index}].lastUpdateUserName" attributeEntry="${awardAttachmentAttributes.lastUpdateUser}" readOnly="true"/>
 		            	</div>
 					</td>
 	         		<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.awardList[0].awardAttachments[${itrStatus.index}].typeCode" attributeEntry="${awardAttachmentAttributes['typeCode']}" readOnly="${activeModify}" readOnlyAlternateDisplay ="${awardAttachment.type.description}"/>
+	                		<kul:htmlControlAttribute property="document.awardList[0].awardAttachments[${itrStatus.index}].typeCode" attributeEntry="${awardAttachmentAttributes['typeCode']}" readOnly="${!modify}" readOnlyAlternateDisplay ="${awardAttachment.type.description}"/>
 		            	</div>
 					</td>
 					<td align="left" valign="middle">
 	                	<div align="left">
-	                		<kul:htmlControlAttribute property="document.awardList[0].awardAttachments[${itrStatus.index}].description" attributeEntry="${awardAttachmentAttributes.description}" readOnly="${activeModify}"/>
+	                		<kul:htmlControlAttribute property="document.awardList[0].awardAttachments[${itrStatus.index}].description" attributeEntry="${awardAttachmentAttributes.description}" readOnly="${!modify}"/>
 		            	</div>
 					</td>
 	       			<td align="left" valign="middle">
@@ -198,7 +188,6 @@ opacity:1;
 								alt="View Attachment" onclick="excludeSubmitRestriction = true;"/>
 						</c:otherwise>
 						</c:choose>
-						</c:if>
 						<c:choose>
 							<c:when test="${awardAttachmentFormBean.disableAttachmentRemovalIndicator == true}">
 								
@@ -227,6 +216,7 @@ opacity:1;
 									   alt="Delete Attachment"/>
 						  </c:otherwise>
 						   </c:choose>
+						</c:if>
 						</div>
 					</td>
 	         	</tr>

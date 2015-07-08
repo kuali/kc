@@ -90,12 +90,7 @@
     <property name="summary" value="allowMultiple" />
     <property name="description" value="allowMultiple" />
     </bean>
-    
-    
 
-    <!-- <bean id="AwardAttachmentType-versionNumber" parent="AwardAttachmentType-versionNumber-parentBean" />
-    <bean id="AwardAttachmentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/> -->
-    <!-- Business Object Inquiry Definition -->
   <bean id="InstitutionalProposalAttachmentType-inquiryDefinition" parent="InstitutionalProposalAttachmentType-inquiryDefinition-parentBean" />
   <bean id="InstitutionalProposalAttachmentType-InquiryView" parent="InstitutionalProposalAttachmentType-InquiryView-parentBean"/>
     <bean id="InstitutionalProposalAttachmentType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">

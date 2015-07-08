@@ -270,10 +270,16 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
     
     public ActionForward attachments(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+        setDisableAttachmentRemovalIndicator(((InstitutionalProposalForm) form).getInstitutionalProposalAttachmentBean());
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ATTACHMENTS_PAGE);
     }
 
+    private void setDisableAttachmentRemovalIndicator(InstitutionalProposalAttachmentFormBean institutionalProposalAttachmentFormBean) {
+        if (institutionalProposalAttachmentFormBean != null) {
+            institutionalProposalAttachmentFormBean.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                    ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
+        }
+    }
     
     /**
      * 
@@ -353,17 +359,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
             forward = institutionalProposalActions(mapping, form, request, response);
         }
 
-        handleAttachmentsDocument(form);
-
         return forward;
-    }
-
-    private void handleAttachmentsDocument(ActionForm form) {
-        InstitutionalProposalAttachmentFormBean instProposalAttachmentForm = ((InstitutionalProposalForm) form).getInstitutionalProposalAttachmentBean();
-        if (instProposalAttachmentForm != null) {
-            instProposalAttachmentForm.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
-                    ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
-        }
     }
 
     @Override
@@ -401,7 +397,6 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
        institutionalProposalForm.getMedusaBean().setModuleName("IP");
        institutionalProposalForm.getMedusaBean().setModuleIdentifier(document.getInstitutionalProposal().getProposalId());
        institutionalProposalForm.getMedusaBean().generateParentNodes();
-       handleAttachmentsDocument(form);
        return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_MEDUSA_PAGE);
    }
    

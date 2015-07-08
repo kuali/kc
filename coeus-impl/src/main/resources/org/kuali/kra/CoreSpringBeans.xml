@@ -376,7 +376,7 @@
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/InstituteLaRate.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/InstituteRate.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposal.xml</value>
-                <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalAttachments.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalAttachment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalAttachmentType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalAdminDetails.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalComment.xml</value>

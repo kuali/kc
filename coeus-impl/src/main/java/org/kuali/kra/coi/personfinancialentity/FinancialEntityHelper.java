@@ -20,6 +20,7 @@ package org.kuali.kra.coi.personfinancialentity;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
@@ -383,7 +384,7 @@ public class FinancialEntityHelper implements Serializable {
     protected void syncNewFile(FinancialEntityAttachment attachment) {
         assert attachment != null : "the attachment is null";
 
-        if (doesNewFileExist(attachment)) {
+        if (getKcAttachmentService().doesNewFileExist(attachment.getNewFile())) {
             AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
             //setting the sequence number to the old file sequence number
             if (attachment.getAttachmentFile() != null) {
@@ -395,9 +396,8 @@ public class FinancialEntityHelper implements Serializable {
         }
     }
 
-    private static boolean doesNewFileExist(FinancialEntityAttachment attachment) {
-        assert attachment != null : "the attachment was null";
-        return attachment.getNewFile() != null && StringUtils.isNotBlank(attachment.getNewFile().getFileName());
+    private KcAttachmentService getKcAttachmentService() {
+        return KcServiceLocator.getService(KcAttachmentService.class);
     }
 
     public List<FinancialEntityAttachment> getFinEntityAttachmentList() {

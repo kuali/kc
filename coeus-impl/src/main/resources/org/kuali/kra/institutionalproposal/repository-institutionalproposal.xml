@@ -247,7 +247,7 @@
 		<collection-descriptor name="proposalComments" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		<collection-descriptor name="instProposalAttachments" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
+		<collection-descriptor name="instProposalAttachments" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
 			<inverse-foreignkey field-ref="proposalId"/>
 			<orderby name="proposalAttachmentId" sort="ASC" />
 		</collection-descriptor>
@@ -838,7 +838,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /> 
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachments" table="PROPOSAL_ATTACHMENTS">
+    <class-descriptor class="org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment" table="PROPOSAL_ATTACHMENTS">
 		<field-descriptor name="proposalAttachmentId" column="PROPOSAL_ATTACHMENTS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROPOSAL_ATTACHMENT_ID" autoincrement="true"/>
 		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT"  />
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR"  />

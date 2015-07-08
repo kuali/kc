@@ -20,9 +20,11 @@ package org.kuali.kra.institutionalproposal.rules;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachments;
+import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment;
 
 public class InstitutionalProposalAddAttachmentRuleImpl extends KcTransactionalDocumentRuleBase implements InstitutionalProposalAddAttachmentRule {
 
@@ -32,17 +34,14 @@ public class InstitutionalProposalAddAttachmentRuleImpl extends KcTransactionalD
 
     @Override
     public boolean processAddInstitutionalProposalAttachmentBusinessRules(InstitutionalProposalAddAttachmentRuleEvent institutionalProposalRuleEvent) {
-        InstitutionalProposalAttachments proposalAttachment = institutionalProposalRuleEvent.getInstitutionalProposalForValidation();
+        InstitutionalProposalAttachment proposalAttachment = institutionalProposalRuleEvent.getInstitutionalProposalAttachmentForValidation();
         boolean valid=true;
         if( proposalAttachment.getAttachmentTypeCode()  == null ) {
             valid = false;
-            if(!proposalAttachment.isModifyAttachment()) {
                 reportError(ATTACHMENT_TYPE_CODE, KeyConstants.INSTITUTIONAL_PROPOSAL_ATTACHMENT_TYPE_CODE_REQUIRED);
-            }
         }
         
-        if((proposalAttachment.getNewFile() != null && StringUtils.isEmpty(proposalAttachment.getNewFile().getFileName()) &&
-            proposalAttachment.getFileName() == null)) {
+        if(!getKcAttachmentService().doesNewFileExist(proposalAttachment.getNewFile())) {
             valid = false;
             reportError(NEW_FILE, KeyConstants.INSTITUTIONAL_PROPOSAL_ATTACHMENT_FILE_REQUIRED);
         }
@@ -51,13 +50,17 @@ public class InstitutionalProposalAddAttachmentRuleImpl extends KcTransactionalD
     
     @Override
     public boolean processAddInstitutionalProposalAttachment(InstitutionalProposalAddAttachmentRuleEvent institutionalProposalRuleEvent,int i) {
-        InstitutionalProposalAttachments proposalAttachment = institutionalProposalRuleEvent.getInstitutionalProposalDocument().getInstitutionalProposal().getInstProposalAttachment(i);
+        InstitutionalProposalAttachment proposalAttachment = institutionalProposalRuleEvent.getInstitutionalProposalDocument().getInstitutionalProposal().getInstProposalAttachment(i);
         boolean valid=true;
         if( proposalAttachment.getAttachmentTypeCode()  == null ) {
             valid = false;
             reportError(String.format(INDEXED_ATTACHMENT_TYPE_CODE,i), KeyConstants.INSTITUTIONAL_PROPOSAL_ATTACHMENT_TYPE_CODE_REQUIRED);
         }
          return valid;
+    }
+
+    private KcAttachmentService getKcAttachmentService() {
+        return KcServiceLocator.getService(KcAttachmentService.class);
     }
     
     

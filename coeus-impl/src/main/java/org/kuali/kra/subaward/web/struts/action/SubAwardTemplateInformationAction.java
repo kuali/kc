@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
@@ -46,7 +47,6 @@ import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class SubAwardTemplateInformationAction extends SubAwardAction {
 
@@ -56,10 +56,7 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
     private static final String CONFIRM_DELETE_ATTACHMENT = "confirmDeleteAttachment";
     private static final String CONFIRM_VOID_ATTACHMENT = "confirmVoidAttachment";
     private static final String CONFIRM_VOID_ATTACHMENT_KEY = "confirmVoidAttachmentKey";
-    public static final String SUB_AWARD_ATTACHMENT_CODE = "document.subAwardList[0].subAwardAttachments[%d].subAwardAttachmentTypeCode";
-    public static final String SUB_AWARD_ATTACHMENT_DESCRIPTION = "document.subAwardList[0].subAwardAttachments[%d].description";
-    public static final String VOID_ATTACHMENT_CODE = "V";
-
+    public static final String SUB_AWARD_ATTACHMENT_ERROR_PATH = "document.subAwardList[0].subAwardAttachments[%d]";
 
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -72,13 +69,18 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SubAwardForm subAwardForm = (SubAwardForm) form;
         SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
-        setModifyAttachments(subAward);
         ActionForward forward = super.save(mapping, form, request, response);
-            return forward;
+        setModifyAttachments(subAward);
+        return forward;
        
     }
 
-    
+    protected void setModifyAttachments(SubAward subAward) {
+        if (getGlobableVariableService().getMessageMap().getErrorMessages().isEmpty()) {
+            subAward.getSubAwardAttachments().stream().forEach(subAwardAttachments -> subAwardAttachments.setModifyAttachment(false));
+        }
+    }
+
     @Override
     protected KualiRuleService getKualiRuleService() {
         return KcServiceLocator.getService(KualiRuleService.class);
@@ -280,28 +282,18 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
                                                HttpServletResponse response) throws Exception {
         SubAwardDocument subAwardDocument = ((SubAwardForm) form).getSubAwardDocument();
         int selectedLineIndex = getSelectedLine(request);
-        boolean valid = true;
         SubAwardAttachments subAwardAttachments = subAwardDocument.getSubAward().getSubAwardAttachments().get(selectedLineIndex);
-        if (subAwardAttachments.getSubAwardAttachmentTypeCode() == null) {
-            GlobalVariables.getMessageMap().putError(String.format(SUB_AWARD_ATTACHMENT_CODE, selectedLineIndex), KeyConstants.SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
-            valid = false;
-        }
-        if (subAwardAttachments.getDescription() == null) {
-            GlobalVariables.getMessageMap().putError(String.format(SUB_AWARD_ATTACHMENT_DESCRIPTION, selectedLineIndex), KeyConstants.SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED);
-            valid = false;
-        }
-        if (!valid) {
-            super.save(mapping, form, request, response);
-        } else {
+        boolean valid = new SubAwardDocumentRule().processApplySubawardAttachmentModificationRule(new AddSubAwardAttachmentEvent(",", String.format(SUB_AWARD_ATTACHMENT_ERROR_PATH, selectedLineIndex), subAwardDocument, subAwardAttachments));
+        if (valid) {
             subAwardAttachments.setModifyAttachment(false);
-            checkforModifications(subAwardAttachments);
+            updateTimestampIfModified(subAwardAttachments);
             getBusinessObjectService().save(subAwardAttachments);
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    protected void checkforModifications(SubAwardAttachments subAwardAttachments) {
+    protected void updateTimestampIfModified(SubAwardAttachments subAwardAttachments) {
         if (hasSubAwardAttachmentBeenModified(subAwardAttachments)) {
             subAwardAttachments.setLastUpdateTimestamp(new Timestamp(new Date().getTime()));
             subAwardAttachments.setLastUpdateUser(getGlobableVariableService().getUserSession().getPrincipalName());
@@ -325,29 +317,9 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
                                                HttpServletResponse response) throws Exception {
         SubAwardDocument subAwardDocument = ((SubAwardForm) form).getSubAwardDocument();
         int selectedLineIndex = getSelectedLine(request);
-        subAwardDocument.getSubAward().getSubAwardAttachments().get(selectedLineIndex).setDocumentStatusCode(VOID_ATTACHMENT_CODE);
+        subAwardDocument.getSubAward().getSubAwardAttachments().get(selectedLineIndex).setDocumentStatusCode(AttachmentDocumentStatus.VOID.getCode());
         getBusinessObjectService().save(subAwardDocument.getSubAward().getSubAwardAttachments().get(selectedLineIndex));
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    public void setModifyAttachments(SubAward subAward) {
-        boolean valid = true;
-        List<SubAwardAttachments> subAwardAttachments = subAward.getSubAwardAttachments();
-        for (SubAwardAttachments subAwardAttachment : subAwardAttachments) {
-            if (StringUtils.isBlank(subAwardAttachment.getSubAwardAttachmentTypeCode())) {
-                valid = false;
-            }
-            if (StringUtils.isBlank(subAwardAttachment.getDescription())) {
-                valid = false;
-            }
-        }
-        if (valid) {
-            List<SubAwardAttachments> subAwardAttachmentsList = subAward.getSubAwardAttachments();
-            for (SubAwardAttachments subAwardAttachment : subAwardAttachmentsList) {
-                subAwardAttachment.setModifyAttachment(false);
-            }
-        }
-
     }
 
     protected GlobalVariableService getGlobableVariableService() {

@@ -18,6 +18,8 @@
  */
 package org.kuali.coeus.common.impl.attachment;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.Constants;
@@ -137,4 +139,8 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
         return true;
     }
 
+    @Override
+    public boolean doesNewFileExist(FormFile file){
+        return file != null && StringUtils.isNotBlank(file.getFileName());
+    }
 }

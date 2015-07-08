@@ -29,7 +29,6 @@ import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachmentFormBean;
-import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachments;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCentralAdminContactsBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProjectPersonnelBean;

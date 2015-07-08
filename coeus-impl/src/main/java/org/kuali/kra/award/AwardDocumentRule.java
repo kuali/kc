@@ -26,6 +26,7 @@ import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles;
 import org.kuali.coeus.common.permissions.impl.rule.PermissionsRule;
 import org.kuali.coeus.common.permissions.impl.web.bean.User;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -118,7 +119,8 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     private static final String AWARD_ERROR_PATH_PREFIX = "document.awardList[0].";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardDocumentRule.class);
-    
+    public static final String TYPE_CODE = ".typeCode";
+
     private ParameterService parameterService;
     private KcPersonService kcPersonService;
 
@@ -765,7 +767,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     @Override
     public boolean processsAddAttachmentRule(AddAwardAttachmentEvent event) {
         boolean valid = true;
-        
+
         if( StringUtils.isBlank(event.getAwardAttachment().getTypeCode() )) {
             valid = false;
             LOG.debug(AWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
@@ -781,6 +783,21 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         }
         
         return valid;
+    }
+
+    @Override
+    public boolean processApplyModifiedAttachmentRule( AddAwardAttachmentEvent event) {
+        if( StringUtils.isBlank(event.getAwardAttachment().getTypeCode() )) {
+            LOG.debug(AWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
+            reportError(event.getErrorPathPrefix() + TYPE_CODE, AWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
+            return false;
+
+        }
+        return true;
+    }
+
+    protected GlobalVariableService getGlobalVariableService() {
+        return KcServiceLocator.getService(GlobalVariableService.class);
     }
 
     protected ParameterService getParameterService() {

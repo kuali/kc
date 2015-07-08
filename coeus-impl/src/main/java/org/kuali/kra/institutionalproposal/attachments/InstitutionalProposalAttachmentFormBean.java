@@ -18,8 +18,8 @@
  */
 package org.kuali.kra.institutionalproposal.attachments;
 
-import org.apache.commons.lang3.StringUtils;
-
+import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import org.kuali.kra.infrastructure.Constants;
@@ -29,7 +29,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,7 +40,6 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
 
 
     private static final long serialVersionUID = 4184903707661244083L;
-    private static final String ACTIVE_DOCUMENT_STATUS_CODE = "A";
 
     private static final int MAX_FILE_NAME_LENGTH = 150;
 
@@ -49,7 +47,7 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
 
     private final InstitutionalProposalForm form;
     
-    private InstitutionalProposalAttachments newAttachment;
+    private InstitutionalProposalAttachment newAttachment;
     
     private boolean disableAttachmentRemovalIndicator=false;
 
@@ -57,7 +55,7 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
         this.form = form;
     }
 
-    public InstitutionalProposalAttachments getNewAttachment() {
+    public InstitutionalProposalAttachment getNewAttachment() {
     	if (this.newAttachment == null) {
             this.initAttachment();
         }
@@ -65,10 +63,10 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
     }
 
     private void initAttachment() {
-        this.setNewAttachment(new InstitutionalProposalAttachments(this.getInstitutionalProposal()));
+        this.setNewAttachment(new InstitutionalProposalAttachment(this.getInstitutionalProposal()));
     }
 
-    public void setNewAttachment(InstitutionalProposalAttachments newAttachment) {
+    public void setNewAttachment(InstitutionalProposalAttachment newAttachment) {
         this.newAttachment = newAttachment;
     }
 
@@ -94,11 +92,10 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
      * adding this method executes validation.  If the validation fails the attachment is not added.
      */
     public void addNewInstitutionalProposalAttachment() {
-         this.newAttachment.setProposalId(this.getInstitutionalProposal().getProposalId()); //OJB Hack.  Could not get the awardId to persist with anonymous access in repository file.
-         this.newAttachment.setDocumentStatusCode(ACTIVE_DOCUMENT_STATUS_CODE);
+         this.newAttachment.setDocumentStatusCode(AttachmentDocumentStatus.ACTIVE.getCode());
          Map<String, String> criteria = new HashMap<String, String>();
          criteria.put(Constants.PROPOSAL_NUMBER, this.getInstitutionalProposal().getProposalNumber());
-         Collection<InstitutionalProposalAttachments> allAttachments = getBusinessObjectService().findMatching(InstitutionalProposalAttachments.class, criteria);
+         Collection<InstitutionalProposalAttachment> allAttachments = getBusinessObjectService().findMatching(InstitutionalProposalAttachment.class, criteria);
          setAttachmentNumber(allAttachments);
          this.syncNewFiles(Collections.singletonList(this.getNewAttachment()));
          this.getInstitutionalProposal().addAttachment(this.newAttachment);
@@ -106,7 +103,7 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
          this.initNewAttachment();
     }
 
-    public InstitutionalProposalAttachments retrieveExistingAttachment(int attachmentNumber) {
+    public InstitutionalProposalAttachment retrieveExistingAttachment(int attachmentNumber) {
         if (!validIndexForList(attachmentNumber, this.getInstitutionalProposal().getInstProposalAttachments())) {
             return null;
         }
@@ -118,18 +115,13 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
     }
 
     private void initNewAttachment() {
-        this.setNewAttachment(new InstitutionalProposalAttachments(this.getInstitutionalProposal()));
+        this.setNewAttachment(new InstitutionalProposalAttachment(this.getInstitutionalProposal()));
     }
 
-
-    /**
-     * Syncs all new files for a given Collection of attachments on the award.
-     * @param attachments the attachments.
-     */
-    private void syncNewFiles(List<InstitutionalProposalAttachments> attachments) {
+    private void syncNewFiles(List<InstitutionalProposalAttachment> attachments) {
         assert attachments != null : "the attachments was null";
-        for (InstitutionalProposalAttachments attachment : attachments) {
-            if (InstitutionalProposalAttachmentFormBean.doesNewFileExist(attachment)) {
+        for (InstitutionalProposalAttachment attachment : attachments) {
+            if (getKcAttachmentService().doesNewFileExist(attachment.getNewFile())) {
                 try{
                     attachment.setFileName(removeFrontForLength(attachment.getNewFile().getFileName(), MAX_FILE_NAME_LENGTH));
                     attachment.setContentType(removeFrontForLength(attachment.getNewFile().getContentType(), MAX_FILE_TYPE_LENGTH));
@@ -141,7 +133,7 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
         }
     }
 
-    private static String removeFrontForLength(String aString, int aLength) {
+    private String removeFrontForLength(String aString, int aLength) {
         assert aString != null : "aString is null";
         assert aLength > 0 : "aLength is negative: " + aLength;
         if (aString.length() > aLength) {
@@ -152,35 +144,19 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
         return aString;
     }
 
-    /**
-     * Checks if a new file exists on an attachment
-     *
-     * @param attachment the attachment
-     * @return true if new false if not
-     */
-    private static boolean doesNewFileExist(InstitutionalProposalAttachments attachment) {
-        return attachment.getNewFile() != null && StringUtils.isNotBlank(attachment.getNewFile().getFileName());
-    }
-
-    /**
-     * Add attachment Number
-     *
-     * @param allAttachments the attachment
-     * @return attachmentNumber
-     */
-    private void setAttachmentNumber(Collection<InstitutionalProposalAttachments> allAttachments) {
+    private void setAttachmentNumber(Collection<InstitutionalProposalAttachment> allAttachments) {
     	if(allAttachments.isEmpty() || allAttachments == null) {
         	this.newAttachment.setAttachmentNumber(1);	
         } else {
-        	ArrayList<Integer> maxAttachmentNumber = new ArrayList<Integer>();
-    		for(InstitutionalProposalAttachments attachment: allAttachments) {
-        		if(attachment.getAttachmentNumber() != null) {
-        			maxAttachmentNumber.add(attachment.getAttachmentNumber());
+        	int maxAttachmentNumber = 0;
+    		for(InstitutionalProposalAttachment attachment: allAttachments) {
+        		if(attachment.getAttachmentNumber() != null &&
+                        attachment.getAttachmentNumber() > maxAttachmentNumber) {
+        			maxAttachmentNumber = attachment.getAttachmentNumber();
         		}
-        	} 
-        	    if(Collections.max(maxAttachmentNumber) != null) {
-        		this.newAttachment.setAttachmentNumber((Collections.max(maxAttachmentNumber)+1));
-        		}
+        	}
+
+            this.newAttachment.setAttachmentNumber(maxAttachmentNumber + 1);
         }
     }
 
@@ -195,5 +171,9 @@ public class InstitutionalProposalAttachmentFormBean implements Serializable{
 
 	private BusinessObjectService getBusinessObjectService() {
         return KcServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    private KcAttachmentService getKcAttachmentService() {
+        return KcServiceLocator.getService(KcAttachmentService.class);
     }
 }
