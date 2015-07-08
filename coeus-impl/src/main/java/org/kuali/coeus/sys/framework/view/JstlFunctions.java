@@ -26,6 +26,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +47,14 @@ public final class JstlFunctions {
     private static ConfigurationService CONFIGURATION_SERVICE;
 
     private JstlFunctions() {}
+
+    /**
+     * This function is used for iterating from a jsp with a getter that modifies a property such as calling sort.
+     * You should use this to wrap the call to the getter in the for loop.
+     */
+    public static <T> List<T> copy(List<T> list) {
+        return new ArrayList<>(list);
+    }
 
     public static boolean isGrm() {
         return getConfigurationService().getPropertyValueAsString("spring.profiles.active").contains("grm");

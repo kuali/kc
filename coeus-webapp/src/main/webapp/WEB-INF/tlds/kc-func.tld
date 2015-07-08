@@ -26,6 +26,14 @@
     <uri>http://www.kuali.org/jsp/jstl/functions</uri>
 
     <function>
+        <description>Copy a list to avoid a ConcurrentModificationException.</description>
+        <name>copy</name>
+        <function-class>org.kuali.coeus.sys.framework.view.JstlFunctions</function-class>
+        <function-signature>java.util.List copy(java.util.List)</function-signature>
+        <example>&lt;c:forEach items="${krafn:copy(list)}"&gt;></example>
+    </function>
+
+    <function>
         <description>Gets a List from a Values Finder</description>
         <name>getOptionList</name>
         <function-class>org.kuali.coeus.sys.framework.view.JstlFunctions</function-class>
