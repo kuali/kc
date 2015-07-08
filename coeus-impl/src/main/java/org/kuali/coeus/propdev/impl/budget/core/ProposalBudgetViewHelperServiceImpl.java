@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.core;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,6 +65,7 @@ import org.springframework.util.CollectionUtils;
 public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl {
 
     public static final String SINGLE_POINT_ENTRY_FLAG = "SINGLE_POINT_ENTRY_FLAG";
+    public static final String ERROR_BUDGET_PERIOD_MINIMUM = "error.budget.period.minimum";
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
@@ -165,6 +167,20 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
                                                   Object deleteLine) {
         if (deleteLine instanceof BudgetSubAwards) {
             getDataObjectService().delete(deleteLine);
+        }
+        else if (deleteLine instanceof BudgetPeriod) {
+            try {
+                Object periods = PropertyUtils.getProperty(model, collectionPath);
+
+                // Do not allow deletion of last budget period
+                if (periods != null && ((List<BudgetPeriod>) periods).size() == 1) {
+                    getGlobalVariableService().getMessageMap().putError(collectionPath, ERROR_BUDGET_PERIOD_MINIMUM);
+                    return false;
+                }
+            }
+            catch (InvocationTargetException|NoSuchMethodException|IllegalAccessException  e ) {
+                throw new RuntimeException("Problem reading the periods from Budget period collection", e);
+            }
         }
        return super.performDeleteLineValidation(model,collectionId,collectionPath,deleteLine);
     }
