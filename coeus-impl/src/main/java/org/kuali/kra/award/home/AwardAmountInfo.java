@@ -18,6 +18,9 @@
  */
 package org.kuali.kra.award.home;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
@@ -109,6 +112,8 @@ public class AwardAmountInfo extends AwardAssociate {
     }
 
     public void setAnticipatedTotalAmount(ScaleTwoDecimal anticipatedTotalAmount) {
+        changeUpdateElements(this.anticipatedTotalAmount, anticipatedTotalAmount);
+
         this.anticipatedTotalAmount = anticipatedTotalAmount;
         if (!(getAward() == null)) {
             if (getAward().getAwardAmountInfos().size() == 1 && getAward().getSequenceNumber() == 1) {
@@ -133,6 +138,7 @@ public class AwardAmountInfo extends AwardAssociate {
     }
 
     public void setFinalExpirationDate(Date finalExpirationDate) {
+        changeUpdateElements(finalExpirationDate, this.finalExpirationDate);
         this.finalExpirationDate = finalExpirationDate;
     }
 
@@ -152,6 +158,8 @@ public class AwardAmountInfo extends AwardAssociate {
     }
 
     public void setAmountObligatedToDate(ScaleTwoDecimal amountObligatedToDate) {
+        changeUpdateElements(amountObligatedToDate, this.amountObligatedToDate);
+
         this.amountObligatedToDate = amountObligatedToDate;
         if (!(getAward() == null)) {
             if (getAward().getAwardAmountInfos().size() == 1 && getAward().getSequenceNumber() == 1) {
@@ -176,7 +184,19 @@ public class AwardAmountInfo extends AwardAssociate {
     }
 
     public void setObligationExpirationDate(Date obligationExpirationDate) {
+        changeUpdateElements(obligationExpirationDate, this.obligationExpirationDate);
         this.obligationExpirationDate = obligationExpirationDate;
+    }
+
+    private void changeUpdateElements(Object obj1, Object obj2) {
+        if (!ObjectUtils.equals(obj1, obj2)) {
+            super.setUpdateTimestamp(new Timestamp(new java.util.Date().getTime()));
+            super.setUpdateUser(getGlobalVariableService().getUserSession().getPrincipalName());
+        }
+    }
+
+    private GlobalVariableService getGlobalVariableService() {
+        return KcServiceLocator.getService(GlobalVariableService.class);
     }
 
     public Long getTransactionId() {
@@ -375,14 +395,17 @@ public class AwardAmountInfo extends AwardAssociate {
         setAnticipatedChangeIndirect(new ScaleTwoDecimal(0));
     }
 
-    public void changeUpdateTimestamp(Timestamp updateTimestamp) {
-        super.setUpdateTimestamp(updateTimestamp);
-    }
-
    @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         if (this.getUpdateTimestamp() == null) {
             super.setUpdateTimestamp(updateTimestamp);
+        }
+    }
+
+    @Override
+    public void setUpdateUser(String updateUser) {
+        if (this.getUpdateUser() == null) {
+            super.setUpdateUser(updateUser);
         }
     }
 
