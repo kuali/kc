@@ -200,7 +200,7 @@ function updateBaseDateDisplay(selectBox) {
         </tbody>
         </c:if>      
         	                                            
-        <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTermItems}" varStatus="status">
+        <c:forEach var="awardReportTerm" items="${krafn:copy(KualiForm.document.award.awardReportTermItems)}" varStatus="status">
 	        <c:if test="${awardReportTerm.reportClassCode == reportClassKey }" >
 	        <c:set var="counterReport" value="${counterReport + 1}" />
 	    <tr>
