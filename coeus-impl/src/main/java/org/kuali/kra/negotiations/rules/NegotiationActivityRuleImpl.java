@@ -37,8 +37,17 @@ public class NegotiationActivityRuleImpl implements NegotiationActivityAddRule {
     
     private static final String START_DATE_PROPERTY = "startDate";
     private static final String END_DATE_PROPERTY = "endDate";
+    private static final String ACTIVITY_TYPE = "activityType";
+    private static final String ACTIVITY_TYPE_ID = "activityTypeId";
+    private static final String LOCATION = "location";
+    private static final String LOCATION_ID = "locationId";
+    private static final String DESCRIPTION = "description";
+    private static final String ACTIVITY_TYPE_DESC = "Activity Type (Activity Type)";
+    private static final String LOCATION_DESC = "Location (Location)";
+    private static final String ACTIVITY_START_DATE_DESC = "Activity Start Date (Activity Start Date)";
+    private static final String ACTIVITY_DESCRIPTION_DESC = "Activity Description (Activity Description)";
 
-    private final ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
+    private ErrorReporter errorReporter;
     
     @Override
     public boolean processAddNegotiationActivityRule(NegotiationActivityAddRuleEvent event) {
@@ -59,58 +68,56 @@ public class NegotiationActivityRuleImpl implements NegotiationActivityAddRule {
     /**
      * 
      * Call this to validate individual activities.
-     * @param activity
-     * @param negotiation
-     * @return
      */
     public boolean validateNegotiationActivity(NegotiationActivity activity, Negotiation negotiation) {
         boolean result = true;
-        activity.refreshReferenceObject("activityType");
+        activity.refreshReferenceObject(ACTIVITY_TYPE);
         if (activity.getActivityType() == null) {
             result = false;
-            errorReporter.reportError("activityTypeId", KeyConstants.ERROR_REQUIRED, "Activity Type (Activity Type)");
+            getErrorReporter().reportError(ACTIVITY_TYPE_ID, KeyConstants.ERROR_REQUIRED, ACTIVITY_TYPE_DESC);
         }
-        activity.refreshReferenceObject("location");
+        activity.refreshReferenceObject(LOCATION);
         if (activity.getLocation() == null) {
             result = false;
-            errorReporter.reportError("locationId", KeyConstants.ERROR_REQUIRED, "Location (Location)");
+            getErrorReporter().reportError(LOCATION_ID, KeyConstants.ERROR_REQUIRED, LOCATION_DESC);
         }
         if (activity.getStartDate() == null) {
             result = false;
-            errorReporter.reportError(START_DATE_PROPERTY, KeyConstants.ERROR_REQUIRED, "Activity Start Date (Activity Start Date)");
+            getErrorReporter().reportError(START_DATE_PROPERTY, KeyConstants.ERROR_REQUIRED, ACTIVITY_START_DATE_DESC);
         }
         if (StringUtils.isBlank(activity.getDescription())) {
             result = false;
-            errorReporter.reportError("description", KeyConstants.ERROR_REQUIRED, "Activity Description (Activity Description)");
+            getErrorReporter().reportError(DESCRIPTION, KeyConstants.ERROR_REQUIRED, ACTIVITY_DESCRIPTION_DESC);
         }
         if (activity.getStartDate() != null && negotiation.getNegotiationStartDate() != null 
                 && activity.getStartDate().compareTo(negotiation.getNegotiationStartDate()) < 0) {
             result = false;
-            errorReporter.reportError(START_DATE_PROPERTY, KeyConstants.NEGOTIATION_ACTIVITY_START_BEFORE_NEGOTIATION);
+            getErrorReporter().reportError(START_DATE_PROPERTY, KeyConstants.NEGOTIATION_ACTIVITY_START_BEFORE_NEGOTIATION);
         }
         if (activity.getStartDate() != null && activity.getEndDate() != null
                 && activity.getStartDate().compareTo(activity.getEndDate()) > 0) {
             result = false;
-            errorReporter.reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ACTIVITY_START_BEFORE_END);
+            getErrorReporter().reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ACTIVITY_START_BEFORE_END);
         }
         if (activity.getEndDate() != null && negotiation.getNegotiationEndDate() != null
                 && activity.getEndDate().compareTo(negotiation.getNegotiationEndDate()) > 0) {
             result = false;
-            errorReporter.reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ACTIVITY_END_AFTER_NEGOTIATION);
+            getErrorReporter().reportError(END_DATE_PROPERTY, KeyConstants.NEGOTIATION_ACTIVITY_END_AFTER_NEGOTIATION);
         }
-        if (activity.getFollowupDate() != null) {
-            //get today but without any time fields so compare is done strictly on the date.
-            Calendar today = Calendar.getInstance();
-            today.set(Calendar.HOUR_OF_DAY, 0);
-            today.set(Calendar.MINUTE, 0);
-            today.set(Calendar.SECOND, 0);
-            today.set(Calendar.MILLISECOND, 0);
-            if (activity.getFollowupDate().compareTo(today.getTime()) < 0) {
-                result = false;
-                errorReporter.reportError("followupDate", KeyConstants.NEGOTIATION_ACTIVITY_FOLLOWUP_BEFORE_TODAY);
-            }
-        }
+
         return result;
     }
 
+
+    public ErrorReporter getErrorReporter() {
+        if (errorReporter == null) {
+            errorReporter = KcServiceLocator.getService(ErrorReporter.class);
+        }
+
+        return errorReporter;
+    }
+
+    public void setErrorReporter(ErrorReporter errorReporter) {
+        this.errorReporter = errorReporter;
+    }
 }
