@@ -108,8 +108,7 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
     private transient List<ProtocolFundingSourceBase> deletedProtocolFundingSources;
  
     private boolean showNotificationEditor = false;  // yep, it's a hack
-    private boolean initialized = false;
-    
+
     public ProtocolFormBase() throws Exception {
         super();
         initialize();
@@ -123,7 +122,6 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
      * @throws Exception 
      */
     public void initialize() throws Exception {
-        if (!initialized) {
             setProtocolHelper(createNewProtocolHelperInstanceHook(this));
             setPersonnelHelper(createNewPersonnelHelperInstanceHook(this));
             setPermissionsHelper(createNewPermissionsHelperInstanceHook(this));
@@ -137,8 +135,6 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
             setOnlineReviewsActionHelper(createNewOnlineReviewsActionHelperInstanceHook(this));
             setNotificationHelper(getNotificationHelperHook());
             setMedusaBean(new MedusaBean());
-            initialized = true;
-        }
     }
        
   
