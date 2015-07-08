@@ -96,6 +96,8 @@
                 <entry key="bRetrieve" value="true"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bInfo" value="false"/>
+                <entry key="aoColumnDefs"
+                       value="[{'bSortable':false, 'aTargets' : [4]}]" />
             </map>
         </property>
     </bean>
