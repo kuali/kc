@@ -1,6 +1,24 @@
 
 
 ##CURRENT
+*  Adding missing primary key columns and constraints
+  * Travis Schneeberger on Tue, 7 Jul 2015 16:40:56 -0400 [View Commit](../../commit/eaf72e3e589d6bb08685f95c80d1f9f2a4666a76)
+* revert changes to ProtocolFormBase that were causing issues
+
+  * Create a protocol
+  * Submit and approve protocol
+  * On approved protocol, take create an amendment action (A001)
+  * Select section (like "General Info"), add comment, submit
+  * Close amendment A001
+  * Go to original, approved protocol
+  * Create another amendment (A002)
+
+  * Actual Result: User can select the same section as selected on A001. After submitting A002, the section is now editable in both A001 and A002 at the same.
+
+  * Expected Result: User cannot select the same section as selected on A001. The system should prevent the user from being able to amend the same section in more than one amendment in progress.
+  * Joe Williams on Wed, 8 Jul 2015 08:00:01 -0500 [View Commit](../../commit/f04f7e6bc1ee7862b6b507d38eadbb3901433c22)
+
+##coeus-1507.12
 * add prompt to warn users before they apply line items to later periods
 
   * If changes are made to a future year's existing expense via the Save and Apply to Other Periods, the user should confirm that change will impact future years, otherwise they may be surprised when data was unintentionally overwritten.

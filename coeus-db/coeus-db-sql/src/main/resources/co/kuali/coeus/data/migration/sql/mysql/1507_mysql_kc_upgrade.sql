@@ -19,4 +19,5 @@
 
 
 \. ./kc/bootstrap/V1507_002__RESKC-589.sql
+\. ./kc/bootstrap/V1507_003__RESKC-595.sql
 commit;
