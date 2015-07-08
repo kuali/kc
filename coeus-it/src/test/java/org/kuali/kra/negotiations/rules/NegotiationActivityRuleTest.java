@@ -68,15 +68,6 @@ public class NegotiationActivityRuleTest extends KcIntegrationTestBase {
     }
     
     @Test
-    public void testFollowupBefore() {
-        Calendar date = Calendar.getInstance();
-        date.add(Calendar.DAY_OF_YEAR, -1);
-        activity.setFollowupDate(new java.sql.Date(date.getTime().getTime()));
-        assertFalse(rule.validateNegotiationActivity(activity, negotiation));
-        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());        
-    }
-    
-    @Test
     public void testEndBeforeStart() {
         Calendar date = Calendar.getInstance();
         date.add(Calendar.DAY_OF_YEAR, -1);
