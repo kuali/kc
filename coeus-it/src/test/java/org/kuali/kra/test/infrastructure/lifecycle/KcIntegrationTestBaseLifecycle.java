@@ -48,6 +48,8 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
     private boolean perClassStarted;
     private boolean perSuiteStarted;
 
+    private boolean failed;
+
     /**
      * Hook to execute "per test" start logic.
      * 
@@ -92,6 +94,10 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
     
     @Override
     public void startPerTest(boolean transactional) {
+        if (this.failed) {
+            throw new IllegalStateException("lifecycle previously failed");
+        }
+
         if (this.perTestStarted) {
             throw new IllegalStateException("per test lifecycle already started");
         }
@@ -123,6 +129,10 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
 
     @Override
     public void stopPerTest() {
+        if (this.failed) {
+            throw new IllegalStateException("lifecycle previously failed");
+        }
+
         if (!this.perTestStarted) {
             throw new IllegalStateException("per test lifecycle already stopped");
         }
@@ -159,6 +169,10 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
 
     @Override
     public void startPerClass() {
+        if (this.failed) {
+            throw new IllegalStateException("lifecycle previously failed");
+        }
+
         if (this.perClassStarted) {
             throw new IllegalStateException("per class lifecycle already started");
         }
@@ -190,6 +204,10 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
 
     @Override
     public void stopPerClass() {
+        if (this.failed) {
+            throw new IllegalStateException("lifecycle previously failed");
+        }
+
         if (!this.perClassStarted) {
             throw new IllegalStateException("per class lifecycle already stopped");
         }
@@ -226,6 +244,10 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
 
     @Override
     public void startPerSuite() {
+        if (this.failed) {
+            throw new IllegalStateException("lifecycle previously failed");
+        }
+
         if (this.perSuiteStarted) {
             throw new IllegalStateException("per suite lifecycle already started");
         }
@@ -243,6 +265,7 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
         }
         catch (Throwable e) {
             perSuiteStarted = false;
+            failed = true;
             if (LOG.isErrorEnabled()) {
                 LOG.error("per suite lifecycle failed to start cleanly", e);
             }
@@ -257,6 +280,10 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
 
     @Override
     public void stopPerSuite() {
+        if (this.failed) {
+            throw new IllegalStateException("lifecycle previously failed");
+        }
+
         if (!this.perSuiteStarted) {
             throw new IllegalStateException("per suite lifecycle already stopped");
         }
@@ -274,6 +301,7 @@ public abstract class KcIntegrationTestBaseLifecycle implements KcIntegrationTes
         }
         catch (Throwable e) {
             perSuiteStarted = false;
+            failed = true;
             if (LOG.isErrorEnabled()) {
                 LOG.error("per suite lifecycle failed to stop cleanly", e);
             }
