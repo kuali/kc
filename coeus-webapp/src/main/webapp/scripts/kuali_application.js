@@ -92,8 +92,8 @@ window.hasFormAlreadyBeenSubmitted = function(){
  *          (true) or hidden (false)
  */
 function createLoading(showLoading) {
-	//var jq = jQuery.noConflict();
-    var processingMessage = '<h1><img src="' + "krad/images/" + 'loading.gif" alt="working..." />Page is being processed by the server....</h1>';
+
+    var processingMessage = '<h1><img src="' + getUrlWithContext() + '/krad/images/loading.gif" alt="working..." />Page is being processed by the server....</h1>';
     
         if (showLoading) {
             getContext().blockUI({message: processingMessage});
@@ -591,8 +591,7 @@ function openNewWindow(action,methodToCall,lineNumber,docFormKey, sessionDocumen
   if (sessionDocument == "true") {
       documentWebScope="session"
   }
-//function openNewWindow(action,methodToCall,lineNumber){
-//  window.open(extractUrlBase()+"/"+action+".do?methodToCall="+methodToCall+"&line="+lineNumber);
+
   window.open(extractUrlBase()+"/"+action+".do?methodToCall="+methodToCall+"&line="+lineNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope);
 }
 
@@ -2860,13 +2859,18 @@ function addErrorForItem(item, errorMsg) {
 	lastErrorMessage.after('<div style="display:list-item;margin-left:20px;" class="addedByRequireOnAdd">' + errorMsg + '</div>');
 }
 
+/** Gets the full url with context.  Ex: Http://127.0.0.1:8080/kc-dev */
+function getUrlWithContext() {
+	return document.URL.substr(0, document.URL.indexOf("/", document.URL.indexOf("/", document.URL.indexOf("//") + 2) + 1));
+}
+
 var WarningOnAddRow = (function($) {
 	return {
 		emptyValues: [' ', '0.00', '(new group)'],
 		inputs: '.addline input, .addline select, .addline textarea',
 		elementsToIgnore: ['input[name="multiSelectToReset"]', 'input[name="checkboxToReset"]', 'input[name^="document.budget.budgetCategoryType["]'],
-		asterisk: $('<img class="changedNotice changedAsterisk" src="static/images/asterisk_orange.png"/>'),
-		resetBtn: $('<img class="changedNotice changedResetBtn" src="static/images/tinybutton-reset1.gif"/>'),
+		asterisk: $('<img class="changedNotice changedAsterisk" src="' + getUrlWithContext() + '/static/images/asterisk_orange.png"/>'),
+		resetBtn: $('<img class="changedNotice changedResetBtn" src="' + getUrlWithContext() + '/static/images/tinybutton-reset1.gif"/>'),
 		pageNotice: $('<div class="changedNotice changedPageNotice">Unsaved changes will be lost.</div>'),
 		init: function() {
 			this.checkModification = this.checkModification.bind(this);
