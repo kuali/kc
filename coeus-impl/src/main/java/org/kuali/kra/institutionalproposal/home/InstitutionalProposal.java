@@ -48,6 +48,7 @@ import org.kuali.kra.bo.*;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
+import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonUnit;
@@ -188,6 +189,9 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private transient String lookupUnitNumber;
     private transient String lookupPersonNumber;
     private transient FiscalYearMonthService fiscalYearMonthService;
+    
+    private List<InstitutionalProposalAttachment> instProposalAttachments;
+    
     private transient boolean allowUpdateTimestampToBeReset = true;
     private transient KcPersonService kcPersonService;
 
@@ -1236,6 +1240,23 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     @Override
     protected void postLoad() {
         super.postLoad();
+    }
+    
+    public List<InstitutionalProposalAttachment> getInstProposalAttachments() {
+        if (this.instProposalAttachments == null) {
+            this.instProposalAttachments = new ArrayList<>();
+        }
+
+        return this.instProposalAttachments;
+    }
+    
+    public InstitutionalProposalAttachment getInstProposalAttachment(int index) {
+        return this.instProposalAttachments.get(index);
+    }
+
+    public void addAttachment(InstitutionalProposalAttachment attachment) {
+        this.getInstProposalAttachments().add(attachment);
+        attachment.setInstitutionalProposal(this);
     }
 
     protected void updateProposalIpReviewJoin() {

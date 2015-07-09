@@ -45,4 +45,6 @@ public final class PermissionableKeys {
     public static final String SPONSOR_HIREARCHY_KEY = "sponsorhirearchy";
 
     public static final String SUBAWARD_KEY = "SubAwardDocument";
+
+    public static final String INSTITUTIONAL_PROPOSAL_KEY = "institutionalProposal";
 }

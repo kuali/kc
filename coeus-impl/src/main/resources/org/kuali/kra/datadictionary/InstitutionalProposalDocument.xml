@@ -95,6 +95,15 @@
         <bean parent="HeaderNavigation">
         
           <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalAttachmentsHelpUrl" p:parameterDetailType="Document"/>
+          </property>
+        
+          <property name="headerTabDisplayName" value="Attachments"/>
+          <property name="headerTabNavigateTo" value="attachments"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+        
+          <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalActionsHelpUrl" p:parameterDetailType="Document"/>
           </property>
          

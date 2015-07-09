@@ -26,6 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -426,7 +427,7 @@ public class CoiNotesAndAttachmentsHelper {
         assert coiDisclosureAttachments != null : "the attachments was null";
 
         for (final CoiDisclosureAttachment attachment : coiDisclosureAttachments) {
-            if (CoiNotesAndAttachmentsHelper.doesNewFileExist(attachment)) {
+            if (getKcAttachmentService().doesNewFileExist(attachment.getNewFile())) {
                 final AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
                 //setting the sequence number to the old file sequence number
                 if (attachment.getFile() != null) {
@@ -440,9 +441,8 @@ public class CoiNotesAndAttachmentsHelper {
 
     }
 
-    private static boolean doesNewFileExist(CoiDisclosureAttachment attachment) {
-        assert attachment != null : "the attachment was null";
-        return attachment.getNewFile() != null && StringUtils.isNotBlank(attachment.getNewFile().getFileName());
+    private KcAttachmentService getKcAttachmentService() {
+        return KcServiceLocator.getService(KcAttachmentService.class);
     }
 
     private void refreshAttachmentReferences(List<CoiDisclosureAttachment> coiDisclosureAttachments) {

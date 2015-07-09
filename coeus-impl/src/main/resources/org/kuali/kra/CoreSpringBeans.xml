@@ -376,6 +376,8 @@
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/InstituteLaRate.xml</value>
                 <value>classpath:org/kuali/coeus/common/budget/impl/rate/InstituteRate.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposal.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalAttachment.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalAttachmentType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalAdminDetails.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalComment.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/InstitutionalProposalContact.xml</value>
@@ -844,6 +846,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/editable/ProposalColumnsToAlterMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/location/ProposalLocationTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/docs/ProposalLogMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/docs/InstitutionalProposalAttachmentTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/docs/ProposalLogStatusMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/kra/institutionalproposal/datadictionary/docs/ProposalLogTypeMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/docperm/ProposalRoleTemplateMaintenanceDocument.xml</value>

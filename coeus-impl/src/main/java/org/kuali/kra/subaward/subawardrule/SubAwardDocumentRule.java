@@ -82,6 +82,9 @@ SubAwardTemplateInfoRule {
     private static final String AWARD_NUMBER="newSubAwardFundingSource.award.awardNumber";
     private static final String AMOUNT_PERIOD_OF_PERFORMANCE_START_DATE = "newSubAwardAmountInfo.periodofPerformanceStartDate";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SubAwardDocumentRule.class);
+    public static final String DESCRIPTION = ".description";
+    public static final String SUB_AWARD_ATTACHMENT_TYPE_CODE = ".subAwardAttachmentTypeCode";
+
     /**.
      * This method is for AddSubAwardBusinessRules
      * @param subAward
@@ -350,6 +353,22 @@ SubAwardTemplateInfoRule {
             }
        return valid;
     }
+
+    public boolean processApplySubawardAttachmentModificationRule(AddSubAwardAttachmentEvent event) {
+        boolean valid = true;
+        if( StringUtils.isBlank(event.getSubAwardAttachments().getSubAwardAttachmentTypeCode())) {
+            valid = false;
+            LOG.debug(SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
+            reportError(event.getErrorPathPrefix() + SUB_AWARD_ATTACHMENT_TYPE_CODE, SUBAWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
+        }
+        if (StringUtils.isBlank(event.getSubAwardAttachments().getDescription()) ) {
+            valid = false;
+            LOG.debug(SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED);
+            reportError(event.getErrorPathPrefix() + DESCRIPTION, SUBAWARD_ATTACHMENT_DESCRIPTION_REQUIRED);
+        }
+        return valid;
+    }
+
     public boolean processsAddSubawardReportRule(SubAwardReports subAwardReports) {
         boolean valid = true;
         

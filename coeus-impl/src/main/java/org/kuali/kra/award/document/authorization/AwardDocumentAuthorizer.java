@@ -19,6 +19,7 @@
 package org.kuali.kra.award.document.authorization;
 
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -53,21 +54,27 @@ import java.util.*;
  * document actions for all award documents.
  */
 public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
-    
-    private AwardHierarchyService awardHierarchyService;
+
+    public static final String ADD_BUDGET = "addBudget";
+    public static final String OPEN_BUDGETS = "openBudgets";
+    public static final String MODIFY_AWARD_BUDGET = "modifyAwardBudget";
+    public static final String CREATE_AWARD_ACCOUNT = "createAwardAccount";
+    public static final String AWARD_SYNC = "awardSync";
+    public static final String CAN_MAINTAIN_AWARD_ATTACHMENTS = "CAN_MAINTAIN_AWARD_ATTACHMENTS";
+    public static final String CAN_VIEW_AWARD_ATTACHMENTS = "CAN_VIEW_AWARD_ATTACHMENTS";
     private static final String VIEW_ACCOUNT_ELEMENT = "viewAccountElement";
     private static final String VIEW_CHART_OF_ACCOUNTS_ELEMENT = "viewChartOfAccountsElement";
 
-
+    private AwardHierarchyService awardHierarchyService;
 
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<>();
-        
+
         AwardDocument awardDocument = (AwardDocument) document;
-        
+
         if (awardDocument.getAward().getAwardId() == null) {
             if (canCreateAward(user.getPrincipalId())) {
-                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);         
+                editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
                 if (canViewChartOfAccountsElement(awardDocument)) {
                     editModes.add(VIEW_CHART_OF_ACCOUNTS_ELEMENT);
                 }
@@ -81,7 +88,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         else {
             boolean isCanceled = awardDocument.isCanceled();
-            if (!awardDocument.isCanceled() && canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())) {  
+            if (!awardDocument.isCanceled() && canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
             else if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.VIEW_AWARD.getAwardTaskName())) {
@@ -90,45 +97,53 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
-            
+
             if (!isCanceled && canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.ADD_BUDGET)) {
-                editModes.add("addBudget");
+                editModes.add(ADD_BUDGET);
             }
-                    
+
             if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.OPEN_BUDGETS)) {
-                editModes.add("openBudgets");
+                editModes.add(OPEN_BUDGETS);
             }
-                    
+
             if (!isCanceled && canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.MODIFY_BUDGET)) {
-                editModes.add("modifyAwardBudget");
+                editModes.add(MODIFY_AWARD_BUDGET);
             }
-            
+
             if (canCreateAward(user.getPrincipalId())) {
                 editModes.add(Constants.CAN_CREATE_AWARD_KEY);
             }
-            
+
             if (canCreateAwardAccount(document)) {
-                editModes.add("createAwardAccount");
+                editModes.add(CREATE_AWARD_ACCOUNT);
             }
             if (awardHasHierarchyChildren(document)) {
-                editModes.add("awardSync");
-            }   
+                editModes.add(AWARD_SYNC);
+            }
             if (canViewChartOfAccountsElement(awardDocument)) {
-                editModes.add("viewChartOfAccountsElement");
+                editModes.add(VIEW_CHART_OF_ACCOUNTS_ELEMENT);
             }
             if (canViewAccountElement(awardDocument)) {
-                editModes.add("viewAccountElement");
+                editModes.add(VIEW_ACCOUNT_ELEMENT);
+            }
+            if (editModes.contains(AuthorizationConstants.EditMode.FULL_ENTRY) ||
+                    canMaintainAwardAttachments(awardDocument, user)) {
+                editModes.add(CAN_MAINTAIN_AWARD_ATTACHMENTS);
+            }
+            if (editModes.contains(CAN_MAINTAIN_AWARD_ATTACHMENTS) ||
+                    canViewAwardAttachments(awardDocument, user)) {
+                editModes.add(CAN_VIEW_AWARD_ATTACHMENTS);
             }
         }
-        
+
         return editModes;
     }
-    
+
     @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         return canCreateAward(user.getPrincipalId());
     }
-  
+
     /**
      * This method decides if a user has permissions to create a financial account.
      */
@@ -139,7 +154,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
         if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD) ||
             status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
-            
+
             if (isFinancialSystemIntegrationParameterOn()) {
                 hasPermission = hasCreateAccountPermission(awardDocument);
                 // only the OSP admin can create a financial account
@@ -147,23 +162,23 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                 if (award.getFinancialAccountDocumentNumber() != null) {
                     hasPermission = true;
                 }
-                
+
             }
         }
         return hasPermission;
     }
-    
+
     protected boolean isFinancialSystemIntegrationParameterOn() {
-        return getParameterService().getParameterValueAsBoolean (
-                                                                Constants.PARAMETER_MODULE_AWARD,
-                                                                ParameterConstants.DOCUMENT_COMPONENT,
-                                                                Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
     }
-    
-    public boolean hasCreateAccountPermission(AwardDocument document) {  
+
+    public boolean hasCreateAccountPermission(AwardDocument document) {
         return canExecuteAwardTask(GlobalVariables.getUserSession().getPrincipalId(), document, AwardTaskNames.CREATE_AWARD_ACCOUNT.getAwardTaskName());
     }
-    
+
     /*
      * This only appears when the integration is ON
      */
@@ -171,13 +186,13 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         return hasCreateAccountPermission(document) && isFinancialSystemIntegrationParameterOn();
     }
     /*
-     * This field appears even if the financial integration if OFF 
+     * This field appears even if the financial integration if OFF
      * but when it is ON, the user needs to have
      * the create account permission to view it.
      */
     public boolean canViewAccountElement(AwardDocument document) {
         boolean hasPermission = true;
-        if (isFinancialSystemIntegrationParameterOn()) { 
+        if (isFinancialSystemIntegrationParameterOn()) {
             if (!hasCreateAccountPermission(document)) {
                 hasPermission = false;
             }
@@ -192,7 +207,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         return canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.VIEW_AWARD.getAwardTaskName());
     }
-    
+
     @Override
     public boolean canEdit(Document document, Person user) {
         boolean isCanceled = ((AwardDocument)document).isCanceled();
@@ -215,12 +230,12 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
-  
+
     @Override
     public boolean canCopy(Document document, Person user) {
         return false;
     }
-    
+
     private boolean doesAwardHierarchyContainFinalChildren(AwardHierarchy currentAward,  Map<String, AwardHierarchyNode> awardHierarchyNodes) {
         for(AwardHierarchy child : currentAward.getChildren()) {
             AwardHierarchyNode childInfo = awardHierarchyNodes.get(child.getAwardNumber());
@@ -229,10 +244,10 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             }
             doesAwardHierarchyContainFinalChildren(childInfo, awardHierarchyNodes);
         }
-        
+
         return false;
     }
-    
+
     private boolean isCurrentAwardTheFirstVersion(Award currentAward) {
         return currentAward.getSequenceNumber() == 1;
     }
@@ -242,13 +257,13 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         if(!canEdit(document, user)) {
             return false;
         }
-        
+
         boolean canCancel = true;
-        
+
         DocumentHeader docHeader = document.getDocumentHeader();
         WorkflowDocument workflowDoc = docHeader.getWorkflowDocument();
-        if(workflowDoc.isSaved()) {  
-            //User cannot cancel if there are FINAL child awards and if this document is the first version 
+        if(workflowDoc.isSaved()) {
+            //User cannot cancel if there are FINAL child awards and if this document is the first version
             //which could possibly happen after an AH is copied
             AwardDocument awardDocument = (AwardDocument) document;
             AwardHierarchyService awardHierarchyService = KcServiceLocator.getService(AwardHierarchyService.class);
@@ -339,7 +354,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         AwardTask task = new AwardTask(taskName, doc.getAward());
         return getTaskAuthorizationService().isAuthorized(userId, task);
     }
-    
+
     protected boolean awardHasHierarchyChildren(Document document) {
         AwardDocument awardDocument = (AwardDocument) document;
         AwardHierarchy hierarchy = getAwardHierarchyService().loadAwardHierarchyBranch(awardDocument.getAward().getAwardNumber());
@@ -348,7 +363,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
 
     public AwardHierarchyService getAwardHierarchyService() {
         if (awardHierarchyService == null) {
-            awardHierarchyService = 
+            awardHierarchyService =
                     KcServiceLocator.getService(AwardHierarchyService.class);
         }
         return awardHierarchyService;
@@ -370,10 +385,23 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                         permService.hasPermission (user.getPrincipalId(), Constants.MODULE_NAMESPACE_AWARD, AwardPermissionConstants.SUBMIT_AWARD.getAwardPermission()));
     }
     @Override
-    public boolean canAcknowledge(Document document, Person user) {      
+    public boolean canAcknowledge(Document document, Person user) {
         return isProcessed (document) && super.canAcknowledge(document, user);
     }
-    
+
+    protected boolean canMaintainAwardAttachments(AwardDocument document, Person user) {
+                return getKcAuthorizationService().hasPermission(user.getPrincipalId(),document,AwardPermissionConstants.CREATE_AWARD.getAwardPermission()) ||
+                        getKcAuthorizationService().hasPermission(user.getPrincipalId(),document,AwardPermissionConstants.MAINTAIN_AWARD_ATTACHMENTS.getAwardPermission());
+    }
+
+    protected boolean canViewAwardAttachments(AwardDocument document, Person user) {
+        return getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, AwardPermissionConstants.VIEW_AWARD_ATTACHMENTS.getAwardPermission());
+    }
+
+    private KcAuthorizationService getKcAuthorizationService() {
+        return KcServiceLocator.getService(KcAuthorizationService.class);
+    }
+
     protected boolean isProcessed (Document document){
        boolean isProcessed = false;
        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();

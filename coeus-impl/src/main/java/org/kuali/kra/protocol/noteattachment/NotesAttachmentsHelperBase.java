@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
@@ -512,7 +513,7 @@ public abstract class NotesAttachmentsHelperBase {
         assert attachments != null : "the attachments was null";
         
         for (final ProtocolAttachmentBase attachment : attachments) {
-            if (NotesAttachmentsHelperBase.doesNewFileExist(attachment)) {
+            if (getKcAttachmentService().doesNewFileExist(attachment.getNewFile())) {
                 final AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
                 //setting the sequence number to the old file sequence number
                 if (attachment.getFile() != null) {
@@ -523,17 +524,6 @@ public abstract class NotesAttachmentsHelperBase {
                 attachment.setNewFile(null);
             }
         }
-    }
-    
-    /**
-     * Checks if a new file exists on an attachment
-     * 
-     * @param attachment the attachment
-     * @return true if new false if not
-     */
-    private static boolean doesNewFileExist(final ProtocolAttachmentBase attachment) {
-        assert attachment != null : "the attachment was null";
-        return attachment.getNewFile() != null && StringUtils.isNotBlank(attachment.getNewFile().getFileName());
     }
 
     public List<AttachmentFile> getFilesToDelete() {
@@ -755,4 +745,7 @@ public abstract class NotesAttachmentsHelperBase {
     
     protected abstract ProtocolNotepadBase createNewProtocolNotepadInstanceHook(ProtocolBase protocol);
 
+    private KcAttachmentService getKcAttachmentService() {
+        return KcServiceLocator.getService(KcAttachmentService.class);
+    }
 }

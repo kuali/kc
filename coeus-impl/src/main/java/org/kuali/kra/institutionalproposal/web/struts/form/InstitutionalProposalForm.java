@@ -28,6 +28,7 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachmentFormBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCentralAdminContactsBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalProjectPersonnelBean;
@@ -59,6 +60,8 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
 
     private static final long serialVersionUID = 4564236415580911082L;
     private static final String CUSTOM_DATA_NAV_TO = "customData";
+    public static final String INSTITUTIONAL_PROPOSAL_ATTACHMENTS_FLAG = "INSTITUTIONAL_PROPOSAL_ATTACHMENTS_FLAG";
+    public static final String ATTACHMENTS = "attachments";
 
     private boolean auditActivated;
     
@@ -75,6 +78,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     private InstitutionalProposalCreditSplitBean institutionalProposalCreditSplitBean;
     private InstitutionalProposalUnitContactsBean unitContactsBean;
     private InstitutionalProposalCentralAdminContactsBean centralAdminContactsBean;
+    private InstitutionalProposalAttachmentFormBean institutionalProposalAttachmentBean;
     private boolean cfdaLookupRequired;
     private MedusaBean medusaBean;
     private ReportHelperBean reportHelperBean;
@@ -116,6 +120,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         reportHelperBean = new ReportHelperBean(this);
         unitContactsBean = new InstitutionalProposalUnitContactsBean(this);
         centralAdminContactsBean = new InstitutionalProposalCentralAdminContactsBean(this);
+        institutionalProposalAttachmentBean = new InstitutionalProposalAttachmentFormBean(this);
         docOpenedFromIPSearch = false;
     }
     
@@ -210,6 +215,14 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     public void setInstitutionalProposalUnrecoveredFandABean(
             InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean) {
         this.institutionalProposalUnrecoveredFandABean = institutionalProposalUnrecoveredFandABean;
+    }
+    
+    public InstitutionalProposalAttachmentFormBean getInstitutionalProposalAttachmentBean() {
+        return institutionalProposalAttachmentBean;
+    }
+    
+    public void setInstitutionalProposalAttachmentBean(InstitutionalProposalAttachmentFormBean institutionalProposalAttachmentFormBean) {
+        this.institutionalProposalAttachmentBean=institutionalProposalAttachmentFormBean;
     }
 
     @Override
@@ -362,6 +375,10 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
                 if (isIPReviewTabEnabled()) {
                     resultList.add(nav);
                 }
+            } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(), ATTACHMENTS)) {
+                if (isIPAttachmentsEnabled()) {
+                    resultList.add(nav);
+                }
             }
             else {
                 resultList.add(nav);
@@ -376,6 +393,11 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     public boolean isIPReviewTabEnabled() {
         return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_IP_REVIEW_TAB_ENABLED);
+    }
+
+    private boolean isIPAttachmentsEnabled() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, INSTITUTIONAL_PROPOSAL_ATTACHMENTS_FLAG);
     }
 
     public List<ExtraButton> getExtraActionsButtons() {

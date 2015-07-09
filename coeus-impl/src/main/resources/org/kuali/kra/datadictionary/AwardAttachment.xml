@@ -43,6 +43,8 @@
 				<ref bean="AwardAttachment-versionNumber" />
 				<ref bean="AwardAttachment-updateUser" />
 				<ref bean="AwardAttachment-updateTimestamp" />
+				<ref bean="AwardAttachment-lastUpdateUser" />
+				<ref bean="AwardAttachment-lastUpdateTimestamp" />
 			</list>
 		</property>
   <!-- <property name="required" value="true" />-->
@@ -181,6 +183,20 @@
 		<property name="name" value="updateTimestamp" />
 		<property name="label" value="Posted Timestamp" />
 		<property name="shortLabel" value="Posted Timestamp" />
+	</bean>
+
+	<bean id="AwardAttachment-lastUpdateUser" parent="AwardAttachment-lastUpdateUser-parentBean" />
+	<bean id="AwardAttachment-lastUpdateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
+		<property name="name" value="lastUpdateUser" />
+		<property name="label" value="Update By" />
+		<property name="shortLabel" value="Updated By" />
+	</bean>
+
+	<bean id="AwardAttachment-lastUpdateTimestamp" parent="AwardAttachment-lastUpdateTimestamp-parentBean" />
+	<bean id="AwardAttachment-lastUpdateTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
+		<property name="name" value="lastUpdateTimestamp" />
+		<property name="label" value="Last Update" />
+		<property name="shortLabel" value="Last Update" />
 	</bean>
 
     <bean id="AwardAttachment-versionNumber" parent="AwardAttachment-versionNumber-parentBean" />

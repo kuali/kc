@@ -25,4 +25,6 @@ public interface AddSubAwardAttachmentRule extends BusinessRule {
 
     public boolean processsAddSubawardAttachmentRule( AddSubAwardAttachmentEvent event );
 
+    boolean processApplySubawardAttachmentModificationRule(AddSubAwardAttachmentEvent event);
+
 }

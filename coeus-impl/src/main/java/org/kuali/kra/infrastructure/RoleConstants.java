@@ -36,6 +36,7 @@ public interface RoleConstants {
     public static final String NEGOTIATION_ROLE_TYPE = Constants.MODULE_NAMESPACE_NEGOTIATION;
     public static final String COI_DISCLOSURE_ROLE_TYPE = Constants.MODULE_NAMESPACE_COIDISCLOSURE;
     public static final String IACUC_ROLE_TYPE = Constants.MODULE_NAMESPACE_IACUC;
+    public static final String INSTITUTIONAL_PROPOSAL_TYPE = Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL;
 
     // The names of the standard roles as used by KIM to identify a role.
     

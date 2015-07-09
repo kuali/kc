@@ -339,9 +339,12 @@
 		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="document" column="DOCUMENT" jdbc-type="BINARY" />
+		<field-descriptor name="documentStatusCode" column="DOCUMENT_STATUS_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="lastUpdateTimestamp" column="LAST_UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="lastUpdateUser" column="LAST_UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		

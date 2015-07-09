@@ -26,6 +26,7 @@ import org.kuali.coeus.common.permissions.impl.bo.PermissionsUser;
 import org.kuali.coeus.common.permissions.impl.bo.PermissionsUserEditRoles;
 import org.kuali.coeus.common.permissions.impl.rule.PermissionsRule;
 import org.kuali.coeus.common.permissions.impl.web.bean.User;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.rule.KcBusinessRule;
 import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
@@ -44,6 +45,7 @@ import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubawardRuleImpl;
 import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
+import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
 import org.kuali.kra.award.paymentreports.awardreports.*;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingBean;
@@ -117,7 +119,8 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     private static final String AWARD_ERROR_PATH_PREFIX = "document.awardList[0].";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardDocumentRule.class);
-    
+    public static final String TYPE_CODE = ".typeCode";
+
     private ParameterService parameterService;
     private KcPersonService kcPersonService;
 
@@ -281,6 +284,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         retval &= processAwardDetailsAndDatesSaveRules(document);
         retval &= processDateBusinessRule(errorMap, awardDocument);
         retval &=processKeywordBusinessRule(awardDocument);
+        retval &=processAwardAttachmentBusinessRule(awardDocument);
         
         return retval;
     }
@@ -323,17 +327,33 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         return success;
     }
     
+    private boolean processAwardAttachmentBusinessRule(AwardDocument awardDocument) {
+       boolean valid=true;
+       List<AwardAttachment> awardAttachments= awardDocument.getAwardList().get(0).getAwardAttachments();
+       for ( AwardAttachment awardAttachment : awardAttachments ) {
+           if (awardAttachment.getTypeCode() == null) {
+                   valid = false;
+           }
+      }
+       if(valid) {
+           for (AwardAttachment awardattachment : awardAttachments) {
+        	   awardattachment.setModifyAttachment(false); 
+           }
+       }
+        return valid;
+    }
+    
     private boolean processKeywordBusinessRule(AwardDocument awardDocument) {
         
        List<AwardScienceKeyword> keywords= awardDocument.getAward().getKeywords();
-        
+
        for ( AwardScienceKeyword keyword : keywords ) {
             for ( AwardScienceKeyword keyword2 : keywords ) {
                 if ( keyword == keyword2 ) {
                     continue;
                 } else if ( StringUtils.equalsIgnoreCase(keyword.getScienceKeywordCode(), keyword2.getScienceKeywordCode()) ) {
                     GlobalVariables.getMessageMap().putError("document.awardList[0].keywords", "error.proposalKeywords.duplicate");
-                   
+
                     return false;
                 }
             }
@@ -747,7 +767,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     @Override
     public boolean processsAddAttachmentRule(AddAwardAttachmentEvent event) {
         boolean valid = true;
-        
+
         if( StringUtils.isBlank(event.getAwardAttachment().getTypeCode() )) {
             valid = false;
             LOG.debug(AWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
@@ -763,6 +783,21 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         }
         
         return valid;
+    }
+
+    @Override
+    public boolean processApplyModifiedAttachmentRule( AddAwardAttachmentEvent event) {
+        if( StringUtils.isBlank(event.getAwardAttachment().getTypeCode() )) {
+            LOG.debug(AWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
+            reportError(event.getErrorPathPrefix() + TYPE_CODE, AWARD_ATTACHMENT_TYPE_CODE_REQUIRED);
+            return false;
+
+        }
+        return true;
+    }
+
+    protected GlobalVariableService getGlobalVariableService() {
+        return KcServiceLocator.getService(GlobalVariableService.class);
     }
 
     protected ParameterService getParameterService() {

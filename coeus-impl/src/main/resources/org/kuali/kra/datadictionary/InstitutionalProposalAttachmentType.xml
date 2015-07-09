@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   -
+   - Copyright 2005-2015 Kuali, Inc.
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="InstitutionalProposalAttachmentType" parent="InstitutionalProposalAttachmentType-parentBean" />
+    <bean id="InstitutionalProposalAttachmentType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAttachmentType" />
+		<property name="objectLabel" value="Institutional Proposal Attachment Type" />
+        <property name="inquiryDefinition" >
+            <ref bean="InstitutionalProposalAttachmentType-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="InstitutionalProposalAttachmentType-lookupDefinition" />
+        </property> 
+        <property name="titleAttribute" value="attachmentTypeCode" />
+        <property name="attributes" >
+            <list>
+                <ref bean="InstitutionalProposalAttachmentType-attachmentTypeCode" />
+                <ref bean="InstitutionalProposalAttachmentType-description" />
+                <ref bean="InstitutionalProposalAttachmentType-allowMultiple" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="InstitutionalProposalAttachmentType-attachmentTypeCode" parent="InstitutionalProposalAttachmentType-attachmentTypeCode-parentBean" />
+    <bean id="InstitutionalProposalAttachmentType-attachmentTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="attachmentTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Code" />
+        <property name="shortLabel" value="Attachment Type" />
+        <property name="maxLength" value="3" />
+    	<property name="validationPattern" >
+      		<bean parent="NumericValidationPattern" />
+    	</property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
+    	<property name="required" value="true" />
+    	<property name="control" >
+	      <bean parent="TextControlDefinition" p:size="3" />
+	    </property>
+    <property name="controlField">
+      <bean p:size="3" parent="Uif-TextControl"/>
+    </property>
+        <property name="summary" value="Code" />
+        <property name="description" value="Code" />
+    </bean>
+    
+    <bean id="InstitutionalProposalAttachmentType-description" parent="InstitutionalProposalAttachmentType-description-parentBean" />
+    <bean id="InstitutionalProposalAttachmentType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+    	<property name="required" value="true" />
+    </bean>
+    
+    <bean id="InstitutionalProposalAttachmentType-allowMultiple" parent="InstitutionalProposalAttachmentType-allowMultiple-parentBean" />
+    <bean id="InstitutionalProposalAttachmentType-allowMultiple-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="allowMultiple" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="allowMultiple" />
+        <property name="shortLabel" value="allowMultiple" />
+        <property name="maxLength" value="1" />
+        <property name="validationPattern" >
+         <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+         <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control" >
+        <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="controlField">
+        <bean parent="Uif-CheckboxControl"/>
+    </property>
+    <property name="summary" value="allowMultiple" />
+    <property name="description" value="allowMultiple" />
+    </bean>
+
+  <bean id="InstitutionalProposalAttachmentType-inquiryDefinition" parent="InstitutionalProposalAttachmentType-inquiryDefinition-parentBean" />
+  <bean id="InstitutionalProposalAttachmentType-InquiryView" parent="InstitutionalProposalAttachmentType-InquiryView-parentBean"/>
+    <bean id="InstitutionalProposalAttachmentType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="attachmentTypeCode" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Code" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+              <bean parent="FieldDefinition" p:attributeName="attachmentTypeCode" p:forceInquiry="true"/>
+              <bean parent="FieldDefinition" p:attributeName="description"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="InstitutionalProposalAttachmentType-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
+    <property name="headerText" value="attachmentTypeCode"/>
+    <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAttachmentType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Disclosure-GridSection">
+          <property name="headerText" value="Code"/>
+          <property name="layoutManager.numberOfColumns" value="2"/>
+          <property name="items">
+            <list>
+              <bean p:propertyName="attachmentTypeCode" parent="Uif-DataField"/>
+              <bean p:propertyName="description" parent="Uif-DataField"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+   <bean id="InstitutionalProposalAttachmentType-lookupDefinition" parent="InstitutionalProposalAttachmentType-lookupDefinition-parentBean" />
+  <bean id="InstitutionalProposalAttachmentType-LookupView" parent="InstitutionalProposalAttachmentType-LookupView-parentBean"/>
+    <bean id="InstitutionalProposalAttachmentType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Institutional Proposal Attachment Type Lookup" /><property name="defaultSort" >
+      <bean parent="SortDefinition"/>
+        </property>
+		<property name="helpDefinition" >
+      <bean parent="HelpDefinition" p:parameterNamespace="KC-M" p:parameterName="attachmentTypeMaintenanceHelp" p:parameterDetailType="Document"/>
+    	</property>            
+        <property name="lookupFields" >
+            <list>
+        <bean parent="FieldDefinition" p:attributeName="attachmentTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="allowMultiple"/>
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+        <bean parent="FieldDefinition" p:attributeName="attachmentTypeCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="allowMultiple"/>
+            </list>
+        </property>
+    </bean>
+
+  <bean id="InstitutionalProposalAttachmentType-LookupView-parentBean" abstract="true" parent="Uif-LookupView">
+    <property name="dataObjectClassName" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAttachmentType"/>
+    <property name="headerText" value="Institutional Proposal Type Lookup"/>
+    <property name="criteriaFields">
+      <list>
+        <bean p:propertyName="attachmentTypeCode" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="description" parent="Uif-LookupCriteriaInputField"/>
+        <bean p:propertyName="allowMultiple" parent="Uif-DataField"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean p:propertyName="attachmentTypeCode" parent="Uif-DataField"/>
+        <bean p:propertyName="description" parent="Uif-DataField"/>
+        <bean p:propertyName="allowMultiple" parent="Uif-DataField"/>
+      </list>
+    </property>
+  </bean> 
+
+</beans>

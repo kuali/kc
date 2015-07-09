@@ -20,18 +20,26 @@ package org.kuali.kra.subaward.web.struts.action;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAttachments;
 import org.kuali.kra.subaward.bo.SubAwardReports;
 import org.kuali.kra.subaward.document.SubAwardDocument;
@@ -41,13 +49,15 @@ import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.rice.krad.service.KualiRuleService;
 
 public class SubAwardTemplateInformationAction extends SubAwardAction {
-    
+
     private static final String EMPTY_STRING = "";
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String CONFIRM_DELETE_ATTACHMENT_KEY = "confirmDeleteAttachmentKey";
     private static final String CONFIRM_DELETE_ATTACHMENT = "confirmDeleteAttachment";
-    
-    
+    private static final String CONFIRM_VOID_ATTACHMENT = "confirmVoidAttachment";
+    private static final String CONFIRM_VOID_ATTACHMENT_KEY = "confirmVoidAttachmentKey";
+    public static final String SUB_AWARD_ATTACHMENT_ERROR_PATH = "document.subAwardList[0].subAwardAttachments[%d]";
+
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
@@ -55,6 +65,22 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
          return forward;
      }
     
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
+        ActionForward forward = super.save(mapping, form, request, response);
+        setModifyAttachments(subAward);
+        return forward;
+       
+    }
+
+    protected void setModifyAttachments(SubAward subAward) {
+        if (getGlobableVariableService().getMessageMap().getErrorMessages().isEmpty()) {
+            subAward.getSubAwardAttachments().stream().forEach(subAwardAttachments -> subAwardAttachments.setModifyAttachment(false));
+        }
+    }
+
     @Override
     protected KualiRuleService getKualiRuleService() {
         return KcServiceLocator.getService(KualiRuleService.class);
@@ -236,5 +262,68 @@ public class SubAwardTemplateInformationAction extends SubAwardAction {
           getSubAwardReportList().remove(selectedLineNumber);
           return mapping.findForward(Constants.MAPPING_BASIC);
       }
+
+    public ActionForward modifyAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                          HttpServletResponse response) throws Exception {
+        SubAwardDocument subAwardDocument = ((SubAwardForm) form).getSubAwardDocument();
+        int selectedLineIndex = getSelectedLine(request);
+        subAwardDocument.getSubAwardList().get(0).getSubAwardAttachments().get(selectedLineIndex).setModifyAttachment(true);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward voidAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                        HttpServletResponse response) throws Exception {
+
+        return confirm(buildVoidAttachmentConfirmationQuestion(mapping, form, request, response,
+                getSelectedLine(request)), CONFIRM_VOID_ATTACHMENT, "");
+    }
+
+    public ActionForward applyModifyAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                               HttpServletResponse response) throws Exception {
+        SubAwardDocument subAwardDocument = ((SubAwardForm) form).getSubAwardDocument();
+        int selectedLineIndex = getSelectedLine(request);
+        SubAwardAttachments subAwardAttachments = subAwardDocument.getSubAward().getSubAwardAttachments().get(selectedLineIndex);
+        boolean valid = new SubAwardDocumentRule().processApplySubawardAttachmentModificationRule(new AddSubAwardAttachmentEvent(",", String.format(SUB_AWARD_ATTACHMENT_ERROR_PATH, selectedLineIndex), subAwardDocument, subAwardAttachments));
+        if (valid) {
+            subAwardAttachments.setModifyAttachment(false);
+            updateTimestampIfModified(subAwardAttachments);
+            getBusinessObjectService().save(subAwardAttachments);
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    protected void updateTimestampIfModified(SubAwardAttachments subAwardAttachments) {
+        if (hasSubAwardAttachmentBeenModified(subAwardAttachments)) {
+            subAwardAttachments.setLastUpdateTimestamp(new Timestamp(new Date().getTime()));
+            subAwardAttachments.setLastUpdateUser(getGlobableVariableService().getUserSession().getPrincipalName());
+        }
+    }
+
+
+    private boolean hasSubAwardAttachmentBeenModified(SubAwardAttachments subAwardAttachments) {
+        SubAwardAttachments dbSubAwardAttachments = getBusinessObjectService().findBySinglePrimaryKey(SubAwardAttachments.class, subAwardAttachments.getAttachmentId());
+        return !dbSubAwardAttachments.getSubAwardAttachmentTypeCode().equals(subAwardAttachments.getSubAwardAttachmentTypeCode()) ||
+                !dbSubAwardAttachments.getDescription().equals(subAwardAttachments.getDescription());
+    }
+
+    private StrutsConfirmation buildVoidAttachmentConfirmationQuestion(ActionMapping mapping, ActionForm form,
+                                                                       HttpServletRequest request, HttpServletResponse response, int voidAttachment) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_VOID_ATTACHMENT_KEY,
+                KeyConstants.QUESTION_VOID_ATTACHMENT, "", "");
+    }
+
+    public ActionForward confirmVoidAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                               HttpServletResponse response) throws Exception {
+        SubAwardDocument subAwardDocument = ((SubAwardForm) form).getSubAwardDocument();
+        int selectedLineIndex = getSelectedLine(request);
+        subAwardDocument.getSubAward().getSubAwardAttachments().get(selectedLineIndex).setDocumentStatusCode(AttachmentDocumentStatus.VOID.getCode());
+        getBusinessObjectService().save(subAwardDocument.getSubAward().getSubAwardAttachments().get(selectedLineIndex));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    protected GlobalVariableService getGlobableVariableService() {
+        return KcServiceLocator.getService(GlobalVariableService.class);
+    }
 
 }

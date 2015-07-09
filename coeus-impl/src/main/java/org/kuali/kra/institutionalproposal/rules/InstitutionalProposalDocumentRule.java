@@ -25,6 +25,7 @@ import org.kuali.coeus.sys.framework.rule.KcDocumentEventBaseExtension;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.institutionalproposal.attachments.InstitutionalProposalAttachment;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonAuditRule;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonSaveRuleEvent;
@@ -48,7 +49,8 @@ import java.util.Map;
 public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRuleBase implements KcBusinessRule, DocumentAuditRule {
 
     public static final String DOCUMENT_ERROR_PATH = "document";
-    public static final String IP_ERROR_PATH = "institutionalProposal";
+    public static final String INSTITUTIONAL_PROPOSAL = "institutionalProposal";
+    public static final String IP_ERROR_PATH = INSTITUTIONAL_PROPOSAL;
 
 
     @Override
@@ -67,6 +69,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         retval &= processKeywordBusinessRule(document);
         retval &= processAccountIdBusinessRule(document);
         retval &= processCostShareRules(document);
+        retval &= processInstitutionalProposalAttachmentsBusinessRules(document);
 
         return retval;
     }
@@ -204,7 +207,7 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
     private boolean processInstitutionalProposalBusinessRules(Document document) {
 
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
-        String errorPath = "institutionalProposal";
+        String errorPath = INSTITUTIONAL_PROPOSAL;
         InstitutionalProposalRuleEvent event = new InstitutionalProposalRuleEvent(errorPath,
                                                                institutionalProposalDocument, institutionalProposalDocument.getInstitutionalProposal());
         return new InstitutionalProposalRuleImpl().processInstitutionalProposalRules(event);
@@ -217,13 +220,25 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
     private boolean processCostShareRules(Document document) {
         boolean valid = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
-        String errorPath = "institutionalProposal";
+        String errorPath = INSTITUTIONAL_PROPOSAL;
         int i = 0;
         List<InstitutionalProposalCostShare> costShares = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalCostShares();
         for (InstitutionalProposalCostShare costShare : costShares) {
             InstitutionalProposalAddCostShareRuleEvent event = new InstitutionalProposalAddCostShareRuleEvent(errorPath, institutionalProposalDocument, costShare);
             valid &= new InstitutionalProposalAddCostShareRuleImpl().processInstitutionalProposalCostShareBusinessRules(event, i);
             i++;
+        }
+        return valid;
+    }
+
+    private boolean processInstitutionalProposalAttachmentsBusinessRules(Document document) {
+        boolean valid = true;
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        List<InstitutionalProposalAttachment> instProposalAttachments = institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments();
+        for(InstitutionalProposalAttachment instProposalAttachment:instProposalAttachments) {
+        InstitutionalProposalAddAttachmentRuleEvent event = new InstitutionalProposalAddAttachmentRuleEvent(INSTITUTIONAL_PROPOSAL,
+                                                               institutionalProposalDocument,instProposalAttachment);
+        valid &= new InstitutionalProposalAddAttachmentRuleImpl().processAddInstitutionalProposalAttachmentBusinessRules(event);
         }
         return valid;
     }

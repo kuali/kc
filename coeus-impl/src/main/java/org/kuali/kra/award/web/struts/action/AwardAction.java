@@ -56,6 +56,7 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardComment;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward;
+import org.kuali.kra.award.notesandattachments.attachments.AwardAttachmentFormBean;
 import org.kuali.kra.award.paymentreports.ReportClass;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
@@ -145,6 +146,8 @@ public class AwardAction extends BudgetParentActionBase {
     public static final String CONFIRM_SYNC_ACTION = "confirmSyncAction";
     public static final String REFUSE_SYNC_ACTION = "refuseSyncAction";
 
+    public static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
+
     private enum SuperUserAction {
         SUPER_USER_APPROVE, TAKE_SUPER_USER_ACTIONS
     }
@@ -210,6 +213,9 @@ public class AwardAction extends BudgetParentActionBase {
             setSubAwardDetails(awardDocument.getAward());
             handlePlaceHolderDocument(awardForm, awardDocument);
         }
+
+
+       
         return forward;
     }
 
@@ -1008,7 +1014,15 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm) form;
         awardForm.getAwardCommentBean().setAwardCommentScreenDisplayTypesOnForm();
         awardForm.getAwardCommentBean().setAwardCommentHistoryFlags();
+        setDisableAttachmentRemovalIndicator(((AwardForm) form).getAwardAttachmentFormBean());
         return mapping.findForward(Constants.MAPPING_AWARD_NOTES_AND_ATTACHMENTS_PAGE);
+    }
+
+    protected void setDisableAttachmentRemovalIndicator(AwardAttachmentFormBean awardAttachmentForm) {
+        if (awardAttachmentForm != null) {
+            awardAttachmentForm.setDisableAttachmentRemovalIndicator(getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                    ParameterConstants.DOCUMENT_COMPONENT, DISABLE_ATTACHMENT_REMOVAL));
+        }
     }
 
    public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

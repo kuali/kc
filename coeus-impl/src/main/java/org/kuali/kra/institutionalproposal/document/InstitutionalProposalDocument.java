@@ -24,11 +24,14 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.coeus.common.permissions.impl.PermissionableKeys;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonCreditSplit;
@@ -59,7 +62,7 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
  */
 @NAMESPACE(namespace=InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class InstitutionalProposalDocument extends KcTransactionalDocumentBase implements KrmsRulesContext {
+public class InstitutionalProposalDocument extends KcTransactionalDocumentBase implements KrmsRulesContext, Permissionable {
     private static final Log LOG = LogFactory.getLog(InstitutionalProposalDocument.class);
 
     public static final String DOCUMENT_TYPE_CODE = "INPR";
@@ -229,8 +232,34 @@ public class InstitutionalProposalDocument extends KcTransactionalDocumentBase i
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
     }
-    
+
+    @Override
+    public String getDocumentNumberForPermission() {
+       return getInstitutionalProposal().getInstProposalNumber();
+    }
+
+    @Override
+    public String getDocumentKey() {
+        return PermissionableKeys.INSTITUTIONAL_PROPOSAL_KEY;
+    }
+
+    @Override
+    public List<String> getRoleNames() {
+        List<String> roleNames = new ArrayList<String>();
+        return roleNames;
+    }
+
+    @Override
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL;
+    }
+
     public String getLeadUnitNumber() {
         return getInstitutionalProposal().getLeadUnitNumber();
+    }
+
+    @Override
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.INSTITUTIONAL_PROPOSAL_TYPE;
     }
 }

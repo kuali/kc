@@ -22,8 +22,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.AwardDocumentRule;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
@@ -41,18 +45,24 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 
  * This class represents the Struts Action for Notes &amp; Attachments page(AwardNotesAndAttachments.jsp)
  */
-public class AwardNotesAndAttachmentsAction extends AwardAction {    
-   
+public class AwardNotesAndAttachmentsAction extends AwardAction {
+
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String CONFIRM_DELETE_ATTACHMENT = "confirmDeleteAttachment";
     private static final String CONFIRM_DELETE_ATTACHMENT_KEY = "confirmDeleteAttachmentKey";
-    private static final String EMPTY_STRING = "";
+    private static final String CONFIRM_VOID_ATTACHMENT = "confirmVoidAttachment";
     
+    private static final String CONFIRM_VOID_ATTACHMENT_KEY = "confirmVoidAttachmentKey";
+    private static final String EMPTY_STRING = "";
+    public static final String AWARD_ATTACHMENT_PREFIX = "document.awardList[0].awardAttachments[%d]";
+
     private AwardNotepadBean awardNotepadBean;
     
     private AwardCommentServiceImpl awardCommentServiceImpl;
@@ -190,7 +200,7 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
      * @param form
      * @param request
      * @param response
-     * @param deletePeriod
+     * @param deleteAttachment
      * @return
      * @throws Exception
      */
@@ -290,4 +300,63 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
                 new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, comment, "awardComments"));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }   
+    
+    public ActionForward modifyAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardDocument awardDocument = ((AwardForm) form).getAwardDocument();
+        awardDocument.getAwardList().get(0).getAwardAttachments().get(getSelectedLine(request)).setModifyAttachment(true);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward voidAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return confirm(buildVoidAttachmentConfirmationQuestion(mapping, form, request, response
+        ), CONFIRM_VOID_ATTACHMENT, "");
+    }
+    
+    public ActionForward applyModifyAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardDocument awardDocument = ((AwardForm) form).getAwardDocument();
+        int selectedLineIndex = getSelectedLine(request);
+        AwardAttachment editAwardAttachment = awardDocument.getAward().getAwardAttachments().get(selectedLineIndex);
+        if (new AwardDocumentRule().processApplyModifiedAttachmentRule(new AddAwardAttachmentEvent("",
+                String.format(AWARD_ATTACHMENT_PREFIX,selectedLineIndex),awardDocument,editAwardAttachment))) {
+            editAwardAttachment.setModifyAttachment(false);
+            updateTimestampIfModified(editAwardAttachment);
+            getBusinessObjectService().save(editAwardAttachment);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    protected void updateTimestampIfModified(AwardAttachment editAwardAttachment) {
+        if (hasAwardAttachmentBeenModified(editAwardAttachment)) {
+            editAwardAttachment.setLastUpdateTimestamp(new Timestamp(new Date().getTime()));
+            editAwardAttachment.setLastUpdateUser(getGlobalVariableService().getUserSession().getPrincipalName());
+        }
+    }
+
+    private boolean hasAwardAttachmentBeenModified(AwardAttachment awardAttachment) {
+       AwardAttachment dbAwardAttachment =  getBusinessObjectService().findBySinglePrimaryKey(AwardAttachment.class, awardAttachment.getAwardAttachmentId());
+        return !dbAwardAttachment.getTypeCode().equals(awardAttachment.getTypeCode()) ||
+                !dbAwardAttachment.getDescription().equals(awardAttachment.getDescription());
+    }
+
+    private StrutsConfirmation buildVoidAttachmentConfirmationQuestion(ActionMapping mapping, ActionForm form,
+                                                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+       return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_VOID_ATTACHMENT_KEY,
+               KeyConstants.QUESTION_VOID_ATTACHMENT,"","");
+   }
+    
+    public ActionForward confirmVoidAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        AwardDocument awardDocument = ((AwardForm) form).getAwardDocument();
+        int selectedLineIndex = getSelectedLine(request);
+        awardDocument.getAward().getAwardAttachments().get(selectedLineIndex).setDocumentStatusCode(AttachmentDocumentStatus.VOID.getCode());
+    	getBusinessObjectService().save(awardDocument.getAward().getAwardAttachments().get(selectedLineIndex));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    protected GlobalVariableService getGlobalVariableService() {
+        return KcServiceLocator.getService(GlobalVariableService.class);
+    }
 }

@@ -458,6 +458,7 @@ public interface Constants {
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_INTELLECTUAL_PROPERTY_REVIEW_PAGE = "intellectualPropertyReview";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_DISTRIBUTION_PAGE = "distribution";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE = "institutionalProposalActions";
+    public static final String MAPPING_INSTITUTIONAL_PROPOSAL_ATTACHMENTS_PAGE = "attachments";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_MEDUSA_PAGE = "medusa";
 
     public static final String INSTITUTIONAL_PROPOSAL_IP_PANEL_ANCHOR = "institutionalProposal";
@@ -904,5 +905,7 @@ public interface Constants {
     public static final String SPONSOR_HIERACHY_REQ_DIV_PROG_CODES = "SPONSOR_HIERACHY_REQ_DIV_PROG_CODES";
 
     public static final String MM_DD_YYYY_HH_MM_A_DATE_FORMAT = "MM/dd/yyyy hh:mm a";
+    String CAN_MAINTAIN_IP_ATTACHMENTS = "CAN_MAINTAIN_IP_ATTACHMENTS";
+    String CAN_VIEW_IP_ATTACHMENTS = "CAN_VIEW_IP_ATTACHMENTS";
 }
 

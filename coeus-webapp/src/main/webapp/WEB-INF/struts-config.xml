@@ -327,6 +327,7 @@
           <forward name="customData" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalCustomData.jsp" />
           <forward name="intellectualPropertyReview" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalIntellectualPropertyReview.jsp" />
           <forward name="distribution" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalDistribution.jsp" />
+          <forward name="attachments" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalAttachments.jsp" />
           <forward name="institutionalProposalActions" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalActions.jsp" />
           <forward name="medusa" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalMedusa.jsp" />                    
           <forward name="notificationEditor" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalNotificationEditor.jsp" />
