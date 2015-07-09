@@ -395,9 +395,12 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-
-            <!--placeholder profile for development profile.  Currently does nothing. -->
-
+            <dependencies>
+                <dependency>
+                    <groupId>p6spy</groupId>
+                    <artifactId>p6spy</artifactId>
+                </dependency>
+            </dependencies>
         </profile>
 
         <profile>
