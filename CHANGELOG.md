@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Using absolute urls in global kns javascript file to avoid 404s due to bad paths.  This fixes the broken loading image on the loading screen.
+  * Travis Schneeberger on Thu, 9 Jul 2015 08:51:30 -0400 [View Commit](../../commit/1edc6b767164af876cd820f3d6bc9c79fbdfa350)
+
+##coeus-1507.14
 *  Removing unused KRMS Validation Actions
   * Travis Schneeberger on Wed, 8 Jul 2015 09:48:11 -0400 [View Commit](../../commit/8ffbc9f18f479f4e4daf1b97ca8a5d9066179a7f)
 *  Remove Negotiation follow up date validation
