@@ -43,8 +43,7 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
     private static final String RELATIVE_HELP_WEB_ROOT = "coeus-webapp/target/generated-web-sources/help-web-sources";
     private static final String RELATIVE_RICE_WEB_ROOT = "coeus-webapp/target/generated-web-sources/rice-web-sources";
 
-    private static final Collection<String> WEB_ROOTS = new ArrayList<String>(){{
-        add(RELATIVE_KC_WEB_ROOT);
+    private static final Collection<String> EXTRA_WEB_RESOURCES = new ArrayList<String>(){{
         add(RELATIVE_HELP_WEB_ROOT);
         add(RELATIVE_RICE_WEB_ROOT);
     }};
@@ -52,7 +51,7 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
     private static final String DEFAULT_TRANSACTION_MANAGER_NAME = "transactionManager";
 
     private PlatformTransactionManager transactionManager;
-    private ApplicationServerLifecycle jetty;
+    private ApplicationServerLifecycle server;
     private TransactionStatus perTestTransactionStatus;
 
     @Override
@@ -90,14 +89,14 @@ public class KcIntegrationTestMainLifecycle extends KcIntegrationTestBaseLifecyc
             LOG.info("Loading Application Server...");
         }
 
-        jetty = new ApplicationServerLifecycle(Integer.parseInt(KcIntegrationTestBaseLifecycle.getPort()), "/" + PORTAL_ADDRESS,
-                WEB_ROOTS, ApplicationServerLifecycle.ConfigMode.MERGE);
-        jetty.start();
+        server = new ApplicationServerLifecycle(Integer.parseInt(KcIntegrationTestBaseLifecycle.getPort()), "/" + PORTAL_ADDRESS, RELATIVE_KC_WEB_ROOT,
+                EXTRA_WEB_RESOURCES);
+        server.start();
     }
 
     @Override
     protected void doPerSuiteStop() throws Throwable {
-        jetty.stop();
+        server.stop();
     }
 
     @Override
