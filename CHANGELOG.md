@@ -1,6 +1,59 @@
 
 
 ##CURRENT
+* Support p6spy through the dev maven profile
+  * blackcathacker on Wed, 8 Jul 2015 12:20:07 -0700 [View Commit](../../commit/e81a671cbb1d8729c866afd99ccb01a805923ac3)
+* allow sub award budget non-personnel lineitem rates to be edited
+
+  * User Story
+  * As a budget creator or aggregator preparing a Subaward Budget for my proposal, I need to be remove the application of F&A rates In the Rates tab of the Details modal for these line items so that I do not have to request F&A on the first $25k of a subaward in a proposal when it is not appropriate to do so (for example, if the request is for supplemental funding for an existing subaward or for continuation funding.) I would expect that to add unrecovered F&A, but that may well be appropriate depending on how the school tracks that.
+
+  * Steps to Reproduce
+
+    Create a proposal with the dates 07-01-2016 to 06-30-2020 or dates that correspond to your subaward file
+    Navigate to Budget and create a new budget version
+    Go to Subaward tab
+    Add a new subaward
+    Search for and select any subaward organization
+    Attach a subaward R&R file like the one attached here
+    Click Add Subaward
+    System will read dates and amounts and translate into non-personnel correctly
+    Navigate to Non-personnel and view amounts
+    The system should allow user to modify the F&A Rates inclusion, but currently subawards are not editable
+
+  * Background:
+  * FE issue: provided to MIT Coeus users in 4.5.1.P.2 as missed requirement for the subaward upload tool. (COEUSQA-4060)
+  * Allow the users to turn off OH calculation on these line items that are added by subaward extraction tool. Currently line items added by extraction tool does not allow users to override OH calc flag. The line item details for the lines inserted by the Subaward Budget Upload process needs to let the user to uncheck the F&A ("MTDC") the first $25K cost element line of the subaward costs even though they are normally subject to institutional F&A. As noted by users, there are times when it is not appropriate to request F&A on the first $25k of a subaward in a proposal, if the request is for supplemental funding for an existing subaward or for continuation funding.
+
+  * Acceptance Criteria
+  * Given a user is logged in with 'Modify Budget' Permission to add a new subaward budget R&R file to the budget subaward
+  * When the user Adds the subaward
+  * Then:
+
+    The system shows the direct and indirect costs of subaward as line item expenses in the non-personnel section of the budget (as it does now)
+
+  * When the system adds direct and indirect line items for the subaward
+  * Then:
+
+    The system allows the user to view details of each subaward line item, including the rates
+    The user may modify the apply rate option of the details modal to include or not include the application of a specific rate
+
+  * Given a user is logged in with 'Modify Budget' Permission to add a new subaward by entering direct and indirect costs to the budget subaward details modal
+  * When the user Saves the subaward details
+  * Then:
+
+    The system shows the direct and indirect costs of subaward as line item expenses in the non-personnel section of the budget (as it does now)
+
+  * When the system adds direct and indirect line items for the subaward
+  * Then:
+
+    The system allows the user to view details of each subaward line item, including the rates
+    The user may modify the apply rate option of the details modal to include or not include the application of a specific rate
+  * Joe Williams on Thu, 9 Jul 2015 08:50:58 -0500 [View Commit](../../commit/8c36c7ab04c48ceccdc073d494710131c2b3c2ef)
+* remove unused javascript.
+  * Travis Schneeberger on Thu, 9 Jul 2015 11:06:02 -0400 [View Commit](../../commit/f1fb451ffe48c976f412492c68069006140499e2)
+
+##coeus-1507.15
 * Using absolute urls in global kns javascript file to avoid 404s due to bad paths.  This fixes the broken loading image on the loading screen.
   * Travis Schneeberger on Thu, 9 Jul 2015 08:51:30 -0400 [View Commit](../../commit/1edc6b767164af876cd820f3d6bc9c79fbdfa350)
 
