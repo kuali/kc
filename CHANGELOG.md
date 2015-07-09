@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* Institutional Proposal Attachments
+  * Joe Williams on Tue, 16 Jun 2015 16:36:26 -0500 [View Commit](../../commit/bf8dba85cdddb19620515382dd560eaf5fc8ba9f)
+* Award Attachment Disable Removal Option
+  * Joe Williams on Wed, 17 Jun 2015 14:22:36 -0500 [View Commit](../../commit/9a40cea4bb867ae23d47380e9ff90f9355e396a5)
+* Sub Award Attachment Disable Removal Option
+  * Joe Williams on Wed, 17 Jun 2015 15:21:57 -0500 [View Commit](../../commit/8c32c5c677ebd953bc818b6284c1d0173ac378c4)
+* Move Permission Logic To Authorizers
+  * Joe Williams on Fri, 19 Jun 2015 12:53:16 -0500 [View Commit](../../commit/a25316d5381e6d63eff544970f3fc848697f86a7)
+* Institutional Proposal Clean Up
+  * Joe Williams on Wed, 8 Jul 2015 11:55:20 -0500 [View Commit](../../commit/0a48e026de25772ff928ef06ecf58d0c4f3b12e6)
+
+##coeus-1507.17
 * No Changes
 
 
