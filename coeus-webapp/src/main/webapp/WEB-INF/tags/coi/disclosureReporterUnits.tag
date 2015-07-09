@@ -66,7 +66,7 @@
                                             attributeEntry="${unitAttributes.unitNumber}" 
                                             onblur="ajaxLoad('getUnitName','disclosureHelper.newDisclosurePersonUnit.unitNumber', 'disclosureHelper.newDisclosurePersonUnit.unitName');" 
                                         />
-                                        <%--   onblur="loadUnitNameTo('disclosureHelper.newDisclosurePersonUnit.unitNumber','disclosureHelper.newDisclosurePersonUnit.unitName');" />  --%>
+
                                     </div>
                                     <span class="fineprint"></span> 
                                 </td>

@@ -378,17 +378,6 @@ function showTable(id) {
     }
 }
 
-function setComment() {
-  passData=document.location.search.substring(1);
-  var idx=passData.indexOf("&commentFieldName=")
-  var idx2=passData.indexOf("&commentFieldLabel=")
-  fieldName=passData.substring(idx+18,idx2)
-  text = window.opener.document.getElementById(fieldName).value;
-  document.getElementById(fieldName).value = text;
-  
-
-}
-
 /*
  * Load the Sponsor Name field based on the Sponsor Code passed in.
  */
@@ -485,37 +474,6 @@ function loadStartAndEndDates(fiscalYear,startDate,endDate){
 			}
 		};
 		AwardFandaRateService.getStartAndEndDatesBasedOnFiscalYear(fiscalYearValue,dwrReply);
-	}
-}
- 
-/*
- * Load the Unit Name field based on the Unit Number passed in.
- */
-function loadUnitName(unitNumberFieldName) {
-	var unitNumber = dwr.util.getValue( unitNumberFieldName );
-    var elPrefix = findElPrefix( unitNumberFieldName );
-	var unitNameFieldName = elPrefix + ".unitName";
-	if (unitNumber=='') {
-		clearRecipients( unitNameFieldName, "(select)" );
-	} else {
-		var dwrReply = {
-			callback:function(data) {
-				if ( data != null ) {
-					if ( unitNameFieldName != null && unitNameFieldName != "" ) {
-						setRecipientValue( unitNameFieldName, data );
-					}
-				} else {
-					if ( unitNameFieldName != null && unitNameFieldName != "" ) {
-						setRecipientValue(  unitNameFieldName, wrapError( "not found" ), true );
-					}
-				}
-			},
-			errorHandler:function( errorMessage ) {
-				window.status = errorMessage;
-				setRecipientValue( unitNameFieldName, wrapError( "not found" ), true );
-			}
-		};
-		UnitService.getUnitName(unitNumber,dwrReply);
 	}
 }
 
@@ -2360,7 +2318,7 @@ function nextPeriodSet() {
 
 function showAllPanels() {
 	var test = showTab(document, 'Summary');
-	expandAll('true', false); 
+	expandAll('true', false);
 }
 
 function selectAllFundedAwards(document) {
@@ -2846,17 +2804,6 @@ function loadUnitFormulatedCost(unitNumber, propertyFieldName ) {
 
 		BudgetRatesService.getUnitFormulatedCost(unitNumber, formulatesTypeCode ,dwrReply);
 	}
-}
-
-function addErrorForItem(item, errorMsg) {
-	var tab = jQuery(item).parents('div.tab-container').parent();
-	var lastErrorMessage = jQuery(tab).find('div.tab-container-error div.left-errmsg-tab div div').last();
-	if (lastErrorMessage.length == 0) {
-		var errorContainer = jQuery('<div class="tab-container-error addedByRequireOnAdd"/>').html('<div class="left-errmsg-tab"><div><img alt="error" src="kr/static/images/errormark.gif"><strong>Errors found in this Section:</strong></div></div>');
-		tab.children().first().before(errorContainer);
-		lastErrorMessage = errorContainer.find('strong');
-	}
-	lastErrorMessage.after('<div style="display:list-item;margin-left:20px;" class="addedByRequireOnAdd">' + errorMsg + '</div>');
 }
 
 /** Gets the full url with context.  Ex: Http://127.0.0.1:8080/kc-dev */
