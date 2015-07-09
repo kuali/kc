@@ -79,7 +79,6 @@
 			                    			attributeEntry="${unitAttributes.unitNumber}" 
 			                    		    onblur="ajaxLoad('getUnitName','personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber', 'personnelHelper.newProtocolPersonUnits[${personIndex}].unitName');" 
 			                    		/>
-			                    		<%--   onblur="loadUnitNameTo('personnelHelper.newProtocolPersonUnits[${personIndex}].unitNumber','personnelHelper.newProtocolPersonUnits[${personIndex}].unitName');" />  --%>
 			                      	</div>
 			                        <span class="fineprint"></span> 
 								</td>

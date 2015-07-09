@@ -71,7 +71,7 @@
                     	<kul:htmlControlAttribute property="financialEntityHelper.newFinancialEntityReporterUnit.unitNumber"
                                                   attributeEntry="${unitAttributes.unitNumber}" 
                                                   onblur="ajaxLoad('getUnitName','financialEntityHelper.newFinancialEntityReporterUnit.unitNumber', 'financialEntityHelper.newFinancialEntityReporterUnit.unitName');" />
-                        <%--   onblur="loadUnitNameTo('financialEntityHelper.newFinancialEntityReporterUnit.unitNumber','financialEntityHelper.newFinancialEntityReporterUnit.unitName');" />  --%>
+
                     </div>
                     <span class="fineprint"></span> 
                 </td>

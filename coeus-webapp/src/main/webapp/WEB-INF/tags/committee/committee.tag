@@ -72,7 +72,6 @@
                     	property="document.committeeList[0].homeUnitNumber" 
                     	attributeEntry="${committeeAttributes.homeUnitNumber}"
                     	onblur="ajaxLoad('getUnitName', 'document.committeeList[0].homeUnitNumber', 'document.committee.homeUnitName');"/>
-                    	<%--   onblur="loadUnitNameTo('document.committeeList[0].homeUnitNumber','document.committee.homeUnitName');" /> --%>
                     <c:choose>
                     <c:when test="${!readOnly}">
                         <kul:lookup boClassName="org.kuali.coeus.common.framework.unit.Unit" fieldConversions="unitNumber:document.committeeList[0].homeUnitNumber" />

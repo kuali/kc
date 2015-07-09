@@ -150,8 +150,7 @@
                     	<kul:htmlControlAttribute property="protocolHelper.leadUnitNumber" 
 						 attributeEntry="${protocolAttributes.leadUnitNumber}"  
 						 onblur="ajaxLoad('getUnitName','protocolHelper.leadUnitNumber', 'protocolHelper.leadUnitName');"/> 
-						<%--   onblur="loadUnitNameTo('protocolHelper.leadUnitNumber','protocolHelper.leadUnitName');"/> --%>
-				
+
 				</td>
                 <td width="40" valign="middle" style="border: medium none ;">
             	        <kul:checkErrors keyMatch="document.protocolList[0].leadUnitNumber" auditMatch="document.protocolList[0].leadUnitNumber"/>
