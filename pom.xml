@@ -2137,7 +2137,7 @@
 
                 <rsmart.cx.token.auth.version>1504.3</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1505.7</rsmart.hr.rest.version>
-                <kc-sql.version>1506.1</kc-sql.version>
+                <kc-sql.version>1507.1</kc-sql.version>
 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
