@@ -145,6 +145,7 @@ public interface Constants {
     //public static final String ABSTRACTS_AND_ATTACHMENTS_PAGE = "abstractsAttachments";
     public static final String PROPOSAL_PAGE = "proposal";
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
+    public static final String CERTIFICATION_PAGE = "PropDev-CertificationView-Page";
     public static final String QUESTIONS_PAGE = "PropDev-QuestionnairePage";
     public static final String PROP_DEV_PERMISSIONS_PAGE = "PropDev-PermissionsPage";
     public static final String PERMISSIONS_PAGE = "permissions";
