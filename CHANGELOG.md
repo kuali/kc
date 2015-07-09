@@ -1,6 +1,40 @@
 
 
 ##CURRENT
+*  Removing unused KRMS Validation Actions
+  * Travis Schneeberger on Wed, 8 Jul 2015 09:48:11 -0400 [View Commit](../../commit/8ffbc9f18f479f4e4daf1b97ca8a5d9066179a7f)
+*  Remove Negotiation follow up date validation
+  * Travis Schneeberger on Wed, 8 Jul 2015 09:59:31 -0400 [View Commit](../../commit/a604812980b3775ce6dab8517c24d3a7bb2a32a1)
+*  rule cleanup
+  * Travis Schneeberger on Wed, 8 Jul 2015 10:06:27 -0400 [View Commit](../../commit/7fa3a6fcc79a1c8a2d93cbb719ed61849bb933d0)
+*  Prevent the deletion of the last budget period
+
+  * This adds an error message with suggestions on what to do when the user attempts to delete the last budget period on a budget.  This prevents the budget/proposal from breaking from a 0 period budget.
+  * bsmith83 on Tue, 7 Jul 2015 18:14:35 -0700 [View Commit](../../commit/88a39689fd457acf7dd6390ed418da93e50583d2)
+* avoid concurrent modification exception in budget rates, create a new utility function to use in jsps & tags
+
+  * Due to budget rate types getter doing an inline sorting, Java 8 now reports a concurrent modification exception during JSP iteration and access.
+  * Travis Schneeberger on Wed, 24 Jun 2015 13:06:41 -0400 [View Commit](../../commit/ae9dd041143e5a65bd9f238910ad3a85a4e3f82f)
+* disable severity sorting since we are grouping by severity
+  * Joe Williams on Wed, 8 Jul 2015 15:40:44 -0500 [View Commit](../../commit/8604eac562232fb2929c0c5fef9fa2b8231f1fbe)
+* Avoid Java8 concurrency issue with sorting on Award Reporting
+
+  * Due to Java 8 handling of sorting and iterator concurrency modification you will recieve this error when payment terms have been added to the award
+  * ```
+  * java.util.ConcurrentModificationException
+        at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:901)
+        at java.util.ArrayList$Itr.next(ArrayList.java:851)
+        at org.apache.taglibs.standard.tag.common.core.ForEachSupport$SimpleForEachIterator.next(ForEachSupport.java:153)
+        at org.apache.taglibs.standard.tag.common.core.ForEachSupport.next(ForEachSupport.java:175)
+        at javax.servlet.jsp.jstl.core.LoopTagSupport.doAfterBody(LoopTagSupport.java:330)
+        at org.apache.jsp.tag.webaward.awardReportClasses_tag._jspx_meth_c_005fforEach_005f4(awardReportClasses_tag.java:2138)```
+  * blackcathacker on Wed, 8 Jul 2015 15:22:17 -0700 [View Commit](../../commit/9613562ad80b7494919234e707eabb8b0d2f83e0)
+* Remove dwr script that no longer exists.
+  * Travis Schneeberger on Wed, 8 Jul 2015 18:58:37 -0400 [View Commit](../../commit/40ed4ed219d88635ad9afc798654764c56522f47)
+* Remove integration test for removed logic
+  * blackcathacker on Wed, 8 Jul 2015 16:11:01 -0700 [View Commit](../../commit/065827b774f952078968db71670688fc6b6765e6)
+
+##coeus-1507.13
 *  Adding missing primary key columns and constraints
   * Travis Schneeberger on Tue, 7 Jul 2015 16:40:56 -0400 [View Commit](../../commit/eaf72e3e589d6bb08685f95c80d1f9f2a4666a76)
 * revert changes to ProtocolFormBase that were causing issues
