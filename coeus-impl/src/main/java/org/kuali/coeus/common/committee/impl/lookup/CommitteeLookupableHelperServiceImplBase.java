@@ -140,7 +140,8 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
 
         if (getKraAuthorizationService().hasPermission(getUserIdentifier(), (CMT) businessObject, getModifyCommitteePermissionNameHook())){
             final String editCommitteeDocId = latestFinalCommitteeMap.get(((CMT) businessObject).getCommitteeId());
-            if ((StringUtils.isBlank(editCommitteeDocId) || !editCommitteeDocId.equals(((CMT) businessObject).getCommitteeDocument().getDocumentNumber()))) {
+            if ((StringUtils.isBlank(editCommitteeDocId) ||
+                    (!editCommitteeDocId.equals(((CMT) businessObject).getCommitteeDocument().getDocumentNumber())) && !((CMT) businessObject).getCommitteeDocument().getDocStatusCode().equals(KewApiConstants.ROUTE_HEADER_CANCEL_CD))) {
                 final AnchorHtmlData resumeEdit = new AnchorHtmlData(getCustomResumeEditUrl(((CMT) businessObject).getCommitteeDocument().getDocumentNumber()),
                         KRADConstants.DOC_HANDLER_METHOD, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
                 resumeEdit.setDisplayText(RESUME_EDIT);
