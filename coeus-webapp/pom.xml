@@ -91,7 +91,7 @@
      1) overlay requires the packaging phase - tomcat plugin run goal does not work with overlays.
      2) overlayed resources are not placed in a directory (like generated code) making
      it difficult for developers to look at the overlayed resources
-     3) our unit test's jetty lifecycle assume all web content resides in directories (see point 3)
+     3) our unit test's application server lifecycle assume all web content resides in directories (see point 3)
      -->
     <build>
         <resources>

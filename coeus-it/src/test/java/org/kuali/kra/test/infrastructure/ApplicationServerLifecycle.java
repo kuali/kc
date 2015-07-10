@@ -34,31 +34,11 @@ import java.util.Collection;
 public class ApplicationServerLifecycle implements Lifecycle {
     private static final Log LOG = LogFactory.getLog(ApplicationServerLifecycle.class);
 
-    /**
-     * Enum for dealing with the webapp's Config
-     */
-    public static enum ConfigMode {
-        /**
-         * Do nothing
-         */
-        NONE,
-        /**
-         * Override the Config for the context class loader
-         */
-        OVERRIDE,
-        /**
-         * Merge the webapp's Config into the existing context class loader config
-         */
-        MERGE
-    }
-
     private boolean started;
-    private final ConfigMode configMode;
 	private final ApplicationServer server;
 
-	public ApplicationServerLifecycle(int port, String contextName, Collection<String> relativeWebappRoots, ConfigMode configMode) {
-        server = new ApplicationServer(port, contextName, relativeWebappRoots);
-        this.configMode = configMode;
+	public ApplicationServerLifecycle(int port, String contextName, String relativeWebappRoot, Collection<String> relativeExtraResourceDirs) {
+        server = new ApplicationServer(port, contextName, relativeWebappRoot, relativeExtraResourceDirs);
 	}
 
     @Override
@@ -77,15 +57,11 @@ public class ApplicationServerLifecycle implements Lifecycle {
         }
         GlobalResourceLoader.addResourceLoader(rl);
 	    final Config webappConfig = ConfigContext.getConfig(webappClassLoader);
-        if (ConfigMode.OVERRIDE == configMode) {
-            // this overrides the test harness classloader config with the webapp's config...
-            ConfigContext.overrideConfig(Thread.currentThread().getContextClassLoader(), webappConfig);
-        } else if (ConfigMode.MERGE == configMode) {
-            final Config curCtxConfig = ConfigContext.getCurrentContextConfig();
-            if (webappConfig != null) {
-                curCtxConfig.putProperties(webappConfig.getProperties());
-                curCtxConfig.putObjects(webappConfig.getObjects());
-            }
+
+        final Config curCtxConfig = ConfigContext.getCurrentContextConfig();
+        if (webappConfig != null) {
+            curCtxConfig.putProperties(webappConfig.getProperties());
+            curCtxConfig.putObjects(webappConfig.getObjects());
         }
 
         started = true;
@@ -99,7 +75,7 @@ public class ApplicationServerLifecycle implements Lifecycle {
                 server.stop();
             }
         } catch (Exception e) {
-	        LOG.error("Error shutting down Application Server " + server.getContextName() + " " + server.getRelativeWebappRoots(), e);
+	        LOG.error("Error shutting down Application Server " + server.getContextName(), e);
         }
         started = false;
     }
