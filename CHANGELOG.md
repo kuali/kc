@@ -1,6 +1,38 @@
 
 
 ##CURRENT
+* Caching getIndexOfAwardAmountInfoForDisplay
+  * blackcathacker on Mon, 22 Jun 2015 11:01:59 -0400 [View Commit](../../commit/6ec4620d6260aeb2a3d35427b7a92db485041c5f)
+* remove html commented out code to avoid possible server-side execution that is not rendered and therefore not needed.
+  * Travis Schneeberger on Mon, 22 Jun 2015 11:46:25 -0400 [View Commit](../../commit/7e418eaedd28367265274f84cde7b2f776bc2c3d)
+* Only check for the most recent valid aai
+  * blackcathacker on Mon, 22 Jun 2015 12:08:19 -0400 [View Commit](../../commit/6b30e9d0534a5b100cdc6373e4811c5ea4cc5717)
+* Fix error in streams modification
+  * blackcathacker on Mon, 22 Jun 2015 13:03:12 -0400 [View Commit](../../commit/fd89f9e1ed3ca414ca943b73ea805c73c05714df)
+* budget personnel perf improvements
+  * Travis Schneeberger on Mon, 22 Jun 2015 21:54:08 -0400 [View Commit](../../commit/f2db411a4e3673f14ec96a98969bccfa6e73001f)
+* irb go fast button to not execute values finder to retrieve ALL protocol persons
+  * Travis Schneeberger on Tue, 23 Jun 2015 15:31:27 -0400 [View Commit](../../commit/b95cf9409a8c97667cb15123153b2b0199e28e01)
+* avoid concurrent modification exception in meeting minutes tag
+  * Travis Schneeberger on Wed, 24 Jun 2015 14:35:45 -0400 [View Commit](../../commit/0411f2e9daab7466454e4db47852ed7bfa049d0c)
+* preventing rice from materializing minutes on validation by making them not updatable, fixing minute maintenance when a cancelled committee document exists.
+  * Travis Schneeberger on Wed, 24 Jun 2015 17:46:55 -0400 [View Commit](../../commit/2255bf3ce2781106d0c971916bee0bfda4d53dff)
+* using a criteria rather than findAll
+  * Travis Schneeberger on Thu, 25 Jun 2015 09:25:38 -0400 [View Commit](../../commit/4e003c318bbc837286a98d1746616b3aded05a52)
+* fix concurrent modification exception on print proposal budget
+  * Travis Schneeberger on Thu, 25 Jun 2015 11:02:43 -0400 [View Commit](../../commit/2d8e3dd0641abe1855d6720fdcf62901b874048d)
+* make transactionIds load faster on award actions tab
+  * Travis Schneeberger on Thu, 25 Jun 2015 11:03:32 -0400 [View Commit](../../commit/98abe6da08f754e768521b5659909a444ac50d2e)
+* make the protocol history tab load faster by removing extra doc service call
+  * Travis Schneeberger on Thu, 25 Jun 2015 17:31:56 -0400 [View Commit](../../commit/f58cb0c784b323a65aedbf561e738c2b56c8e555)
+* Fix cost_element being updated when adding personnel to PD budget
+
+  * When using some db analytics tools it was noticed that PD Budget would sometimes persist changes to a maint doc maintained code table. This was incorrect and can potentially contribute to database deadlocks.
+  * blackcathacker on Fri, 10 Jul 2015 11:36:57 -0700 [View Commit](../../commit/b6ce96f7bc0ae3e4d4b3ed14f546073e05f9ddfc)
+* make edit link show for committee for cancelled document
+  * Travis Schneeberger on Tue, 23 Jun 2015 20:41:42 -0400 [View Commit](../../commit/33e1b3ad9404b5aa7de55ef4698db8e1a43b23c1)
+
+##coeus-1507.20
 *  Fix reviewer selections on IACUC document.
 
   * To reproduce:
