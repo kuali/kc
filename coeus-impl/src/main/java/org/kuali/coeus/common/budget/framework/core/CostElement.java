@@ -20,6 +20,7 @@ package org.kuali.coeus.common.budget.framework.core;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -66,7 +67,7 @@ public class CostElement extends KcPersistableBusinessObjectBase implements Comp
     @Column(name = "FIN_OBJECT_CODE")
     private String financialObjectCode;
 
-    @OneToMany(mappedBy = "costElementBo")
+    @OneToMany(mappedBy = "costElementBo", fetch = FetchType.EAGER)
     @FilterGenerator(attributeName = "active", attributeValue = "true")
     private List<ValidCeRateType> validCeRateTypes;
 

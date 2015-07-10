@@ -550,7 +550,7 @@
 		<!--  <collection-descriptor name="costElementGroups" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.CostElementGroups" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="costElement"/>
 		</collection-descriptor>-->
-		<collection-descriptor name="validCeRateTypes" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none">
+		<collection-descriptor name="validCeRateTypes" proxy="true" element-class-ref="org.kuali.coeus.common.budget.framework.rate.ValidCeRateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<inverse-foreignkey field-ref="costElement"/>
 			<query-customizer
       			class="org.kuali.coeus.sys.framework.persistence.KcQueryCustomizerDefaultImpl">

@@ -48,7 +48,7 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -61,7 +61,7 @@ import java.util.*;
 public abstract class AbstractBudgetCalculator {
     private static final String PERSONNEL_UNDERRECOVERY_RATE_TYPE_CODE = "1";
     public static final String NON_PERSONNEL_UNDERRECOVERY_RATE_TYPE_CODE = "2";
-    private BusinessObjectService businessObjectService;
+    private LegacyDataAdapter legacyDataAdapter;
     private DateTimeService dateTimeService;
     protected Budget budget;
     protected BudgetLineItemBase budgetLineItem;
@@ -77,7 +77,7 @@ public abstract class AbstractBudgetCalculator {
     public AbstractBudgetCalculator(Budget budget, BudgetLineItemBase budgetLineItem) {
         this.budget = budget;
         this.budgetLineItem = budgetLineItem;
-        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        legacyDataAdapter = KcServiceLocator.getService(LegacyDataAdapter.class);
         dateTimeService = CoreApiServiceLocator.getDateTimeService();
         breakupIntervals = new ArrayList<BreakUpInterval>();
     }
@@ -425,7 +425,7 @@ public abstract class AbstractBudgetCalculator {
                     // form the rate not available message
                     // These two statements have to move to the populate method of calculatedAmount later.
                     if (budgetLineItemCalculatedAmount.getRateClass() == null && rateClassCode != null) {
-                    	budgetLineItemCalculatedAmount.setRateClass(getBusinessObjectService().findBySinglePrimaryKey(RateClass.class, rateClassCode));
+                    	budgetLineItemCalculatedAmount.setRateClass(getLegacyDataAdapter().findBySinglePrimaryKey(RateClass.class, rateClassCode));
                     }
                     rateClassType = budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode();
                     // end block to be moved
@@ -660,17 +660,10 @@ public abstract class AbstractBudgetCalculator {
         return KcServiceLocator.getService(BreakupIntervalService.class);
     }
     protected List<ValidCalcType> getValidCalcTypes() {
-        return (List<ValidCalcType>) businessObjectService.findAll(ValidCalcType.class);
+        return (List<ValidCalcType>) legacyDataAdapter.findAll(ValidCalcType.class);
     }
 
     protected abstract void populateCalculatedAmountLineItems();
-
-    private CostElement getCostElementForLineItem(BudgetLineItemBase lineItem) {
-        Map<String, String> costElementQMap = new HashMap<String, String>();
-        costElementQMap.put("costElement", lineItem.getCostElement());
-
-        return (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, costElementQMap);        
-    }
 
     private <T> QueryList<T> createQueryList(List<T> immutableList) {
         if (immutableList == null) {
@@ -783,7 +776,7 @@ public abstract class AbstractBudgetCalculator {
 
     }
     private String getAwardRateTypeDescription(String rateTypeCode) {
-        return getBusinessObjectService().findBySinglePrimaryKey(FandaRateType.class, rateTypeCode).getDescription();
+        return getLegacyDataAdapter().findBySinglePrimaryKey(FandaRateType.class, rateTypeCode).getDescription();
         
     }
     private Equals equalsEmployeeBenefitsRateClassType() {
@@ -826,16 +819,14 @@ public abstract class AbstractBudgetCalculator {
     }
     
     public final void setCalculatedAmounts(Budget budget, BudgetLineItemBase budgetLineItem) {
-        QueryEngine queryEngine = new QueryEngine();
-        BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
+        if (budgetLineItem.getCostElementBO() == null) {
+        	budgetLineItem.refreshReferenceObject("costElementBO");
+        }
 
-        budgetLineItem.setCostElementBO(getCostElementForLineItem(budgetLineItem));
+        if (budgetLineItem.getCostElementBO().getValidCeRateTypes().isEmpty()) {
+        	budgetLineItem.getCostElementBO().refreshReferenceObject("validCeRateTypes");
+        }
 
-        Map<String, String> validCeQMap = new HashMap<String, String>();
-        validCeQMap.put("costElement", budgetLineItem.getCostElement());
-        budgetLineItem.getCostElementBO().refreshReferenceObject("validCeRateTypes");
-
-        QueryList<ValidCeRateType> qValidCeRateTypes = createQueryList(budgetLineItem.getCostElementBO().getValidCeRateTypes());
         setInflationRateOnLineItem(budgetLineItem);
 
         setValidCeRateTypeCalculatedAmounts(budgetLineItem);
@@ -876,22 +867,13 @@ public abstract class AbstractBudgetCalculator {
     protected abstract AbstractBudgetCalculatedAmount getNewCalculatedAmountInstance();
     
     protected abstract void addCalculatedAmount(AbstractBudgetCalculatedAmount budgetCalculatedAmount);
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+
+    public LegacyDataAdapter getLegacyDataAdapter() {
+        return legacyDataAdapter;
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+    public void setLegacyDataAdapter(LegacyDataAdapter legacyDataAdapter) {
+        this.legacyDataAdapter = legacyDataAdapter;
     }
 
     protected List<BreakUpInterval> getBreakupIntervals() {
