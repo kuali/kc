@@ -65,7 +65,7 @@
 		<collection-descriptor name="committeeScheduleMinutes" proxy="true" element-class-ref="org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
-		<collection-descriptor name="minuteDocs" proxy="true" element-class-ref="org.kuali.kra.iacuc.committee.meeting.IacucCommScheduleMinuteDoc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="minuteDocs" proxy="true" element-class-ref="org.kuali.kra.iacuc.committee.meeting.IacucCommScheduleMinuteDoc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
 		<collection-descriptor name="scheduleAgendas" proxy="true" element-class-ref="org.kuali.kra.iacuc.committee.meeting.IacucScheduleAgenda" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
