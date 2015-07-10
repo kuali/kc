@@ -47,7 +47,6 @@
 		name="anchor" value="${QuestionLookupForm.anchor}"/>
 
 
- 		<!--  <label>Sponsor Code Search</label> -->
    		<label>
    		<%--
    			<input type="image" tabindex="1000000" name="methodToCall.performLookup.(!!org.kuali.coeus.common.questionnaire.framework.question.Question!!).(((id:newQuestionId,question:newQuestion))).((%true%)).anchor" id = "lookupBtn"

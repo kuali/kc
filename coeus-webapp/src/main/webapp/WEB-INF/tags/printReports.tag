@@ -34,8 +34,8 @@
                                     <kra:currentOrPendingReport title="Current Report" methodName="prepareCurrentReport" printPdfMethodName="printCurrentReportPdf" requestUri="${requestUri}" />
                                     <kra:currentOrPendingReport title="Pending Report" methodName="preparePendingReport" printPdfMethodName="printPendingReportPdf" requestUri="${requestUri}" />
 
-                                    <c:set var="showCurrentReport" value='${currentReportRows != null}'/><!-- && !empty currentReportRows}' />-->
-                                    <c:set var="showPendingReport" value='${pendingReportRows != null}'/><!-- && !empty pendingReportRows}' />-->
+                                    <c:set var="showCurrentReport" value='${currentReportRows != null}'/>
+                                    <c:set var="showPendingReport" value='${pendingReportRows != null}'/>
                                     
                                     <c:if test="${showCurrentReport || showPendingReport}">
                                         <tr>

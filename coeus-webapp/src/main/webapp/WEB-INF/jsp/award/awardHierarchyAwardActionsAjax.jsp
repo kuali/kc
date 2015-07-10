@@ -35,8 +35,7 @@ body {
 }
 </style>
 
-<!-- KRACOEUS-5477 - the engine can only be included once or it causes errors to the user -->
-<!-- <script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>  -->
+
 <script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/kuali_application.js"></script>
 <script type="text/javascript" src="scripts/researchareas_yui.js" ></script>

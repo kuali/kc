@@ -66,8 +66,6 @@
                                 <!-- this is where I would add different roles -->
                                 <td align="left" valign="middle" class="infoline">
                                     <div align="left">
-                                       <!--<kul:htmlControlAttribute property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].membershipRoleCode" 
-                                                                  attributeEntry="${membershipRoleAttributes.membershipRoleCode}" />-->
                                        <html:select property="committeeHelper.newCommitteeMembershipRoles[${memberIndex}].membershipRoleCode" style="width:180px" tabindex="0" disabled="${readOnly}">
 										<c:forEach items="${krafn:getOptionList(finderClassName, paramMap1)}" var="option">											
 											<option value="${option.key}">${option.value}</option>

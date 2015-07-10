@@ -126,5 +126,4 @@ var kualiElements = kualiForm.elements;
 </SCRIPT>
 
 <script language="javascript" src="dwr/interface/IacucProtocolFundingSourceService.js"></script>
-<!-- <script language="javascript" src="dwr/interface/UnitService.js"></script> -->
 </kul:documentPage>

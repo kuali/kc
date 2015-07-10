@@ -25,14 +25,7 @@
 <c:set var="protocolAttachmentFilterAttributes" value="${DataDictionary.IacucProtocolAttachmentFilter.attributes}" />
 <c:set var="protocolNotesAttributes" value="${DataDictionary.IacucProtocolNotepad.attributes}" />
 
-<script type="text/javascript" src="scripts/jquery/jquery.js"></script> 
-
-<!--
-"ATTP", "Attachment Type"
-"DESC", "Description"
-"LAUP", "Last Updated"
-"UPBY", "Last Updated By" 
- -->
+<script type="text/javascript" src="scripts/jquery/jquery.js"></script>
  
 <script type="text/javascript">
     var $j = jQuery.noConflict();

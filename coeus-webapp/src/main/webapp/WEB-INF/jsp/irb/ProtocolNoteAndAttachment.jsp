@@ -28,13 +28,6 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="noteAndAttachment">
-
-<!--
-"ATTP", "Attachment Type"
-"DESC", "Description"
-"LAUP", "Last Updated"
-"UPBY", "Last Updated By" 
- -->
  
 <script type="text/javascript">
     var $j = jQuery.noConflict();

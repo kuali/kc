@@ -231,16 +231,6 @@
                         </div>
                     </td>                    
                 </tr>
-                <!-- replaced by jquery/javascript functions 
-                <tr>
-                    <td colspan="4" class="infoline" style="border: none;">
-                        <div align="center">
-                            <html:image property="methodToCall.updateAttachmentFilter.anchor${tabKey}"
-                            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-filter.gif" styleClass="tinybutton"/>
-                        </div>
-                    </td>
-                </tr>
-                -->                
             </table>
         <table cellpadding="4" cellspacing="0" summary="" id="protocol-attachment-table">
         <tbody>

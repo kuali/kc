@@ -41,15 +41,6 @@
 <div id="workarea">
 
     <kul:tab tabTitle="Sponsor Hierarchy" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="newHierarchyName*">
-    
-    <!-- 
-        <div style="text-align:left;width: 98%;background-color: gray" > 
-     	<c:if test="${!empty  SponsorHierarchyForm.message}" >
-     			    <strong><c:out value="${SponsorHierarchyForm.message}" /> </strong><br/>
-        </c:if>
-        </div> 
-     -->
-    
 		    <div class="tab-container" align="center">
 		        <div class="h2-container">
 		            <span class="subhead-left"><h2>Sponsor Hierarchy</h2></span>

@@ -284,11 +284,9 @@
 
 
 <c:if test="${not( (KualiForm.document.coiDisclosureList[0].manualEvent) and (empty KualiForm.document.coiDisclosureList[0].coiDisclProjects) and (not KualiForm.document.coiDisclosureList[0].updateEvent))}" >
-  <!--  <c:if test="${not (KualiForm.document.coiDisclosureList[0].annualEvent and KualiForm.document.coiDisclosureList[0].annualUpdate)}" >  -->
 <kra-coi:disclosureQuestionnaire />
 <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
- <!--   </c:if> -->
-</c:if> 
+</c:if>
  
 <c:if test="${KualiForm.document.coiDisclosureList[0].awardEvent || KualiForm.document.coiDisclosureList[0].proposalEvent || KualiForm.document.coiDisclosureList[0].institutionalProposalEvent || KualiForm.document.coiDisclosureList[0].protocolEvent || KualiForm.document.coiDisclosureList[0].iacucProtocolEvent}" >
 	<kul:tab defaultOpen="false" tabTitle="Project & Financial Entity Relationships" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDisclEventProjects*" useRiceAuditMode="true"

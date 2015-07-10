@@ -19,7 +19,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
 <!-- KRACOEUS-5477 - the engine can only be included once or it causes errors to the user -->
-<!-- <script type='text/javascript' src='dwr/engine.js'></script> -->
 <script type='text/javascript' src='dwr/util.js'></script>
 
 <c:set var="subAwardContactAttributes" value="${DataDictionary.SubAwardContact.attributes}" />

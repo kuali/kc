@@ -77,10 +77,7 @@
                      After date
                 </option>
                 </c:if>
-<!--                 <option value="13">
-                     Rule Evaluation
-                </option>
- -->            </select>
+            </select>
             </td>
             <td style="text-align: center;" class="content_info">
                  Value:

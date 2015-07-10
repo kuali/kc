@@ -53,7 +53,6 @@
 	var kualiElements = kualiForm.elements;
 	</SCRIPT>
 	<script language="javascript" src="scripts/kuali_application.js"></script>
-	<!--   <script language="javascript" src="dwr/interface/UnitService.js"></script> -->
 
 	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" />
 </kul:documentPage>

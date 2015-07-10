@@ -247,7 +247,6 @@
         	<c:forEach var="committeeScheduleMinute" items="${krafn:copy(KualiForm.meetingHelper.committeeSchedule.committeeScheduleMinutes)}" varStatus="status">
 	            <tr>
 					<th class="infoline">
-						<!-- <c:out value="${status.index+1}" /> -->
 						&nbsp;
 					</th>
 	                <td align="left" valign="middle">

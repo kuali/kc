@@ -31,7 +31,7 @@
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="budgetVersionOverviewAttributes" value="${DataDictionary.BudgetVersionOverview.attributes}" />
-	<h3><span class="subhead-left">Proposal Summary - ${hierarchySummary.synced ? "Synced" : "Not synced"}</span><span class="subhead-right"><!-- "Open Proposal" button here? --></span></h3>
+	<h3><span class="subhead-left">Proposal Summary - ${hierarchySummary.synced ? "Synced" : "Not synced"}</span><span class="subhead-right"></span></h3>
 	<kul:innerTab parentTab="${parentTabTitle}" tabTitle="Overview" tabDescription="Overview" defaultOpen="false">
 		<div class="innerTab-container" align="left">
 			<table cellpadding=0 cellspacing=0 summary="">
@@ -94,7 +94,7 @@
 	</kul:innerTab>
 	<br />
 	<div id="budgetSummaries">
-	<h3><span class="subhead-left">Budget Summary</span><span class="subhead-right"><!-- "Open Budget" button here? --></span></h3>
+	<h3><span class="subhead-left">Budget Summary</span><span class="subhead-right"></span></h3>
 	
 
 
