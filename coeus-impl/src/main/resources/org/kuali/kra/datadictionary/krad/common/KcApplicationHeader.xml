@@ -265,6 +265,7 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
                       p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
                       p:actionUrl.viewId="AllDevelopmentProposals-LookupViewId"
                       p:actionUrl.methodToCall="search"
+                      p:actionUrl.requestParameters="lookupCriteria[initiator]:@{#userSession == null ? '' : #userSession.getPerson().getPrincipalName()},viewName:AllLookupableDevelopmentProposals-LookupViewName"
                       p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName,investigator=@{#userSession == null ? '' : #userSession.getPerson().getFirstName()+'*'+#userSession.getPerson().getLastName()}"
                       p:actionUrl.controllerMapping="/lookup" p:order="30"   />
                 <bean parent="Uif-MenuAction" p:actionLabel="Create Proposal For S2S Opportunity"
