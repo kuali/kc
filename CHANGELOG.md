@@ -1,6 +1,32 @@
 
 
 ##CURRENT
+*  Fix reviewer selections on IACUC document.
+
+  * To reproduce:
+  * Create IACUC protocol
+  * Submit for Review
+  * Modify Submission Request:
+  * -Assign to committee and schedule
+  * -Make a reviewer "Primary" and some "Secondary"
+  * Submit
+
+  * Result:  Reviewer selections revert back to "Committee"
+  * Travis Schneeberger on Wed, 8 Jul 2015 18:27:40 -0400 [View Commit](../../commit/22b673b29a4c70985671afc41e3f4842df49704e)
+* create unit hierarchy proposal creator and modify proposal roles
+  * Joe Williams on Thu, 9 Jul 2015 14:34:54 -0500 [View Commit](../../commit/9aa336a445b4ac86ba6c1515c04173b7b7c91df7)
+* Replaces Jetty with Tomcat for Integration Tests
+  * Travis Schneeberger on Thu, 9 Jul 2015 14:08:30 -0400 [View Commit](../../commit/f09bacdc513c2502313c9f546d04b86ea2b0a25e)
+* When integration tests fail to startup correctly avoid attempting a startup for each test.
+  * Travis Schneeberger on Thu, 9 Jul 2015 16:23:53 -0400 [View Commit](../../commit/078d8290ab83a4a35691813e649546e4920e6a0f)
+* Restore inprocess and page loading alerts
+  * blackcathacker on Thu, 9 Jul 2015 19:15:00 -0700 [View Commit](../../commit/dfdc8858f5a12a7e344931ec0c7e94cbde6b9494)
+*  Fix reviewer selections on IACUC document.
+
+  * Code Review Comments
+  * Travis Schneeberger on Fri, 10 Jul 2015 12:03:02 -0400 [View Commit](../../commit/7cb276d7eedf8397dae878a61cbb3d61a55c1f5b)
+
+##coeus-1507.19
 * No Changes
 
 
