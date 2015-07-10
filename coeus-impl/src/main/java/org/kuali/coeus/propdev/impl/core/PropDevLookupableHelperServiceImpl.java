@@ -95,7 +95,6 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Qualifier("unitService")
     private UnitService unitService;
 
-
     @Override
     protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria,
                                           List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
@@ -106,15 +105,15 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         if (StringUtils.isEmpty(adjustedSearchCriteria.get("proposalNumber"))) {
             String principalInvestigatorName = adjustedSearchCriteria.get("principalInvestigatorName");
             String proposalPerson = adjustedSearchCriteria.get("proposalPerson");
-            String aggregator = adjustedSearchCriteria.get("aggregator");
+            String initiator = adjustedSearchCriteria.get("initiator");
             List<String> piProposals = getPiProposalNumbers(principalInvestigatorName);
             List<String> personProposals = getPersonProposalNumbers(proposalPerson);
-            List<String> aggregatorProposals = getAggregatorProposalNumbers(aggregator);
-            proposalNumbers = combineProposalNumbers(piProposals,personProposals,aggregatorProposals);
+            List<String> initiatorProposals = getInitiatorProposalNumbers(initiator);
+            proposalNumbers = combineProposalNumbers(piProposals,personProposals,initiatorProposals);
 
         }
         modifiedSearchCriteria.remove("proposalPerson");
-        modifiedSearchCriteria.remove("aggregator");
+        modifiedSearchCriteria.remove("initiator");
         modifiedSearchCriteria.remove("principalInvestigatorName");
 
 
@@ -209,9 +208,6 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             for (ProposalPerson pi : principalInvestigators) {
                 piProposals.add(pi.getProposalNumber());
             }
-            if (CollectionUtils.isEmpty(piProposals)) {
-                piProposals.add("");
-            }
         }
         return piProposals;
     }
@@ -225,17 +221,14 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             for (ProposalPerson person : proposalPersons) {
                 personProposals.add(person.getProposalNumber());
             }
-            if (CollectionUtils.isEmpty(personProposals)) {
-                personProposals.add("");
-            }
         }
         return personProposals;
     }
 
-    private List<String> getAggregatorProposalNumbers(String aggregator) {
-        List<String> aggregatorProposals = new ArrayList<String>();
-        if (StringUtils.isNotEmpty(aggregator)) {
-            List<String> documentIds = getDocumentIds(aggregator);
+    private List<String> getInitiatorProposalNumbers(String initiator) {
+        List<String> initiatorProposals = new ArrayList<String>();
+        if (StringUtils.isNotEmpty(initiator)) {
+            List<String> documentIds = getProposalDocumentIdsForInitiator(initiator);
             if (CollectionUtils.isNotEmpty(documentIds)) {
                 QueryByCriteria queryByCriteria = QueryByCriteria.Builder.andAttributes(Collections.singletonMap("documentNumber",documentIds)).build();
 
@@ -243,22 +236,19 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
                 for (ProposalDevelopmentDocument document : documents) {
                     //there some rare cases of orphaned dev proposal records...
                     if (document.getDevelopmentProposal() != null) {
-                        aggregatorProposals.add(document.getDevelopmentProposal().getProposalNumber());
+                        initiatorProposals.add(document.getDevelopmentProposal().getProposalNumber());
                     }
                 }
             }
-             if (CollectionUtils.isEmpty(aggregatorProposals)){
-                aggregatorProposals.add("");
-            }
         }
-        return aggregatorProposals;
+        return initiatorProposals;
     }
 
-    private List<String> getDocumentIds(String aggregator) {
+    private List<String> getProposalDocumentIdsForInitiator(String initiator) {
         List<String> documentIds = new ArrayList<String>();
 
         DocumentSearchCriteria.Builder builder = DocumentSearchCriteria.Builder.create();
-        builder.setInitiatorPrincipalName(aggregator);
+        builder.setInitiatorPrincipalName(initiator);
         builder.setDocumentTypeName("ProposalDevelopmentDocument");
         DocumentSearchResults results = workflowDocumentService.documentSearch(globalVariableService.getUserSession().getPrincipalId(), builder.build());
 
@@ -268,7 +258,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
         return documentIds;
     }
 
-    private List<String> combineProposalNumbers(List<String> piProposals,List<String> personProposals ,List<String> aggregatorProposals) {
+    private List<String> combineProposalNumbers(List<String> piProposals,List<String> personProposals ,List<String> initiatorProposals) {
         List<String> proposalNumbers = new ArrayList<String>();
         List<String> tmpProposalNumbers = new ArrayList<String>();
         if (CollectionUtils.isNotEmpty(piProposals) && CollectionUtils.isNotEmpty(personProposals)) {
@@ -279,12 +269,12 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             tmpProposalNumbers = personProposals;
         }
 
-        if (CollectionUtils.isNotEmpty(tmpProposalNumbers) && CollectionUtils.isNotEmpty(aggregatorProposals)) {
-            proposalNumbers = (List<String>)CollectionUtils.intersection(piProposals, personProposals);
+        if (CollectionUtils.isNotEmpty(tmpProposalNumbers) && CollectionUtils.isNotEmpty(initiatorProposals)) {
+            proposalNumbers = (List<String>)CollectionUtils.intersection(tmpProposalNumbers, initiatorProposals);
         } else if (CollectionUtils.isNotEmpty(tmpProposalNumbers)) {
             proposalNumbers = tmpProposalNumbers;
-        } else if (CollectionUtils.isNotEmpty(aggregatorProposals)){
-            proposalNumbers = aggregatorProposals;
+        } else if (CollectionUtils.isNotEmpty(initiatorProposals)){
+            proposalNumbers = initiatorProposals;
         }
 
         return proposalNumbers;
