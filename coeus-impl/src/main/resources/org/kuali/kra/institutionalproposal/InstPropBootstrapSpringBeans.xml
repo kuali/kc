@@ -30,7 +30,9 @@
     <bean id="kcInstitutionalProposalConfigurer" class="org.kuali.coeus.sys.framework.config.KcConfigurer">
         <property name="moduleName" value="kc.ip"/>
         <property name="moduleTitle" value="KC Institutional Proposal"/>
+        <property name="dispatchServletName" value="kc-ip"/>
         <property name="bootstrapSpringFile" value="classpath:org/kuali/kra/institutionalproposal/InstPropComponentSpringBeans.xml"/>
+        <property name="enableSpringSecurity" value="true"/>
     </bean>
 
 </beans>

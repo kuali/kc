@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 
  * This class is for copy document.
- * currently, PD & protocol provide 'copy' function.
+ * currently, PD &amp; protocol provide 'copy' function.
  */
         
 public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectAction {

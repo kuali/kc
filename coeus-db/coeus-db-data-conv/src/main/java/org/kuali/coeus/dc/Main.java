@@ -38,7 +38,9 @@ import java.util.logging.Logger;
  *
  * Example arguments:
  *
+ * {@code
  * -debug -dbcoeuscon jdbc:mysql://localhost/kcbnd?user=kcbnd&password=bndpass -dbricecon jdbc:mysql://localhost/kcbnd?user=kcbnd&password=bndpass proposal
+ * }
  */
 public final class Main {
 
@@ -119,6 +121,10 @@ public final class Main {
                 System.out.println("IACUC Conversion not supported");
             }
 
+            if (options.containsQuestSeq()) {
+                factory.getQuestSeqDao().convertQuestSeqKrmsValues();
+            }
+
             if (options.containsDryRun()) {
                 coeusConnection.rollback();
                 riceConnection.rollback();
@@ -134,12 +140,9 @@ public final class Main {
     }
 
     private static void initLogging(String file) {
-        String fname = System.getProperty("java.util.logging.config.file");
-        if (fname == null) {
-            fname = Main.class.getResource(file).getFile();
-        }
+        final String fname = System.getProperty("java.util.logging.config.file");
 
-        try (InputStream in = new FileInputStream(fname); BufferedInputStream bin = new BufferedInputStream(in)) {
+        try (InputStream in = (fname != null ? new FileInputStream(fname) : Main.class.getResourceAsStream(file)); BufferedInputStream bin = new BufferedInputStream(in)) {
             LogManager.getLogManager().readConfiguration(bin);
         } catch (IOException e) {
             throw new RuntimeException(e);

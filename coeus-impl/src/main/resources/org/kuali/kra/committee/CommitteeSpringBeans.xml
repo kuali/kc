@@ -101,7 +101,7 @@
 	</bean>
 
 	<bean id="committeeXmlStream" class="org.kuali.kra.committee.print.CommitteeXmlStream"
-		parent="printBaseXmlStream">
+		parent="printBaseXmlStream" scope="prototype">
 		<property name="scheduleXmlStream">
 			<ref bean="scheduleXmlStream" />
 		</property>
@@ -110,7 +110,7 @@
 		</property>
 	</bean>
 	<bean id="scheduleXmlStream" class="org.kuali.kra.committee.print.ScheduleXmlStream"
-		parent="printBaseXmlStream">
+		parent="printBaseXmlStream" scope="prototype">
 		<property name="irbPrintXmlUtilService">
 			<ref bean="irbPrintXmlUtilService" />
 		</property>

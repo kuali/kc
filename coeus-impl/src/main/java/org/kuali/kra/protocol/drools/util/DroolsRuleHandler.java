@@ -20,25 +20,20 @@ package org.kuali.kra.protocol.drools.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.drools.compiler.rule.builder.dialect.java.JavaDialectConfiguration;
-import org.drools.core.RuleBase;
-import org.drools.core.RuleBaseFactory;
-import org.drools.core.RuntimeDroolsException;
-import org.drools.core.WorkingMemory;
-import org.kie.internal.builder.ResultSeverity;
-import org.drools.compiler.compiler.DroolsParserException;
-import org.drools.compiler.compiler.PackageBuilder;
-import org.drools.compiler.compiler.PackageBuilderConfiguration;
-import org.drools.core.rule.Package;
-
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieBuilder;
+import org.kie.api.builder.KieFileSystem;
+import org.kie.api.builder.Message;
+import org.kie.api.builder.Results;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+import org.kie.internal.io.ResourceFactory;
 import org.kuali.kra.protocol.drools.brms.FactBean;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
 /**
  * 
@@ -48,13 +43,11 @@ public class DroolsRuleHandler {
 
     private static final Log LOG = LogFactory.getLog(DroolsRuleHandler.class);
 
-    private RuleBase rules;
+    private KieContainer rules;
     
     /**
      * This method is to get get rule from rule file.  
      * So, this is the rule engine class.
-     * Constructs a DroolsRuleHandler.java.
-     * @param ruleFile
      */
     public DroolsRuleHandler(String ruleFile) {
         this.rules = getRuleBase(ruleFile);
@@ -63,55 +56,47 @@ public class DroolsRuleHandler {
     /*
      * This method is get rule from rule file and compile it.
      */
-    private RuleBase getRuleBase(String rulesFile) {
+    private KieContainer getRuleBase(String rulesFile) {
+        final DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
+        final Resource resource = resourceLoader.getResource(rulesFile);
         try {
-            DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
-            Resource resource = resourceLoader.getResource(rulesFile);
-            Reader source =  new InputStreamReader(resource.getInputStream());
+            final KieServices kieServices = KieServices.Factory.get();
+            final KieFileSystem kfs = kieServices.newKieFileSystem();
+            kfs.write(ResourceFactory.newUrlResource(resource.getURL()));
 
-            PackageBuilderConfiguration pkgBuilderCfg = new PackageBuilderConfiguration(this.getClass().getClassLoader());
-            JavaDialectConfiguration javaConf = (JavaDialectConfiguration)
-            pkgBuilderCfg.getDialectConfiguration( "java" );
-            javaConf.setCompiler( JavaDialectConfiguration.ECLIPSE );
-            PackageBuilder builder = new PackageBuilder( pkgBuilderCfg );
+            final KieBuilder kieBuilder = kieServices.newKieBuilder(kfs).buildAll();
 
-            // This will parse and compile in one step
-            builder.addPackageFromDrl(source);
-            if (builder.hasInfo()) {
-                LOG.info(builder.getProblems(ResultSeverity.INFO));
+            final Results results = kieBuilder.getResults();
+            if (results.hasMessages(Message.Level.INFO)) {
+                LOG.info(results.getMessages(Message.Level.INFO));
             }
-            if (builder.hasWarnings()) {
-                LOG.warn(builder.getProblems(ResultSeverity.WARNING));
+            if (results.hasMessages(Message.Level.WARNING)) {
+                LOG.warn(results.getMessages(Message.Level.WARNING));
             }
-            if (builder.hasErrors()) {
-                throw new RuntimeDroolsException(builder.getErrors().toString());
+            if (results.hasMessages(Message.Level.ERROR)) {
+                throw new RuntimeException(results.getMessages(Message.Level.ERROR).toString());
             }
 
-            // Get the compiled package
-            Package pkg = builder.getPackage();
-            
-            // Add the package to a rulebase (deploy the rule package).
-            rules = RuleBaseFactory.newRuleBase();
-            rules.addPackage(pkg);
-
-        } catch (DroolsParserException|IOException e) {
-            throw new RuntimeDroolsException(e);
+            return kieServices.newKieContainer(kieServices.getRepository().getDefaultReleaseId());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return rules;
     }
 
     /**
-     * this method executes the rules that were previously loaded in the class's constructor. 
-     * @param <T>
-     * @param fact
+     * this method executes the rules that were previously loaded in the class's constructor.
      */
     public <T extends FactBean> void executeRules(T fact) { 
-        /*
-         * Stateful sessions are not required in this scenario since the protocol rule base does
-         * not change once the rules are fired.
-         */
-        WorkingMemory workingMemory = rules.newStatefulSession(false);
-        workingMemory.insert(fact);
-        workingMemory.fireAllRules();
+
+        KieSession session = null;
+        try {
+            session = rules.newKieSession();
+            session.insert(fact);
+            session.fireAllRules();
+        } finally {
+            if (session != null) {
+                session.dispose();
+            }
+        }
     }
 }

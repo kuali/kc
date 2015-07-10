@@ -87,21 +87,21 @@
     <param name="resourceBundleNames">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources,${kc.resourceBundleNames}</param>
 
 	<!-- KC Client DB -->
-	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
-	<param name="datasource.username">KRADEV</param>
-	<param name="datasource.password">ask your team</param>
+	<param name="datasource.url" override="false">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
+	<param name="datasource.username" override="false">KRADEV</param>
+	<param name="datasource.password" override="false">ask your team</param>
 
 	<!-- overriding from rice's default - remove override once rice's changes their default -->
 	<param name="datasource.pool.maxSize">20</param>
 
 	<!-- Rice Server DB -->
 	<!-- Should be the same as KC Client DB when running bundled mode -->
-	<param name="server.datasource.url">${datasource.url}</param>
-	<param name="server.datasource.username">${datasource.username}</param>
-	<param name="server.datasource.password">${datasource.password}</param>
-	<param name="server.datasource.ojb.platform">${datasource.ojb.platform}</param>
-	<param name="server.datasource.platform">${datasource.platform}</param>
-	<param name="server.datasource.driver.name">${datasource.driver.name}</param>
+	<param name="server.datasource.url" override="false">${datasource.url}</param>
+	<param name="server.datasource.username" override="false">${datasource.username}</param>
+	<param name="server.datasource.password" override="false">${datasource.password}</param>
+	<param name="server.datasource.ojb.platform" override="false">${datasource.ojb.platform}</param>
+	<param name="server.datasource.platform" override="false">${datasource.platform}</param>
+	<param name="server.datasource.driver.name" override="false">${datasource.driver.name}</param>
 	<param name="server.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
 	<param name="server.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
 	<param name="server.datasource.pool.minSize">${datasource.pool.minSize}</param>
@@ -210,22 +210,27 @@
 	<param name="kc.config.verifier.hard.error">true</param>
 	
 	<!-- Flyway Properties -->
-    <param name="kc.flyway.applyDemoData">false</param>
-    <param name="kc.flyway.applyStagingData">false</param>
-    <param name="kc.flyway.grm">false</param>
-    <param name="kc.flyway.manageRiceServer">true</param>
-	<param name="kc.flyway.embeddedMode">false</param>
-	<param name="kc.flyway.enabled">true</param>
-    <param name="kc.flyway.sql.migration.path">co/kuali/coeus/data/migration/sql/mysql</param>
-    <param name="kc.flyway.java.migration.path">co/kuali/coeus/data/migration/custom/coeus</param>
+    <param name="kc.flyway.applyDemoData" override="false">false</param>
+    <param name="kc.flyway.applyStagingData" override="false">false</param>
+    <param name="kc.flyway.grm" override="false">true</param>
+    <param name="kc.flyway.manageRiceServer" override="false">true</param>
+	<param name="kc.flyway.embeddedMode" override="false">false</param>
+	<param name="kc.flyway.enabled" override="false">true</param>
+    <param name="kc.flyway.sql.migration.path" override="false">co/kuali/coeus/data/migration/sql/mysql</param>
+    <param name="kc.flyway.java.migration.path" override="false">co/kuali/coeus/data/migration/custom/coeus</param>
 
 	<!-- Auto-ingester properties -->
-	<param name="kc.kew.auto.ingestion.paths">org/kuali/coeus/rice-xml,org/kuali/coeus/coeus-xml</param>
-   	<param name="kc.kew.auto.ingestion.principalId">admin</param>
-   	<param name="kc.kew.auto.ingestion.enabled">true</param>
+	<param name="kc.kew.auto.ingestion.paths" override="false">org/kuali/coeus/rice-xml,org/kuali/coeus/coeus-xml</param>
+   	<param name="kc.kew.auto.ingestion.principalId" override="false">admin</param>
+   	<param name="kc.kew.auto.ingestion.enabled" override="false">true</param>
 
     <param name="feedback.link.url">https://jira.kuali.org/secure/CreateIssue.jspa?pid=10310&amp;issuetype=1</param>
     <param name="feedback.link.text">GET HELP</param>
 
     <param name="rsmart.report.shared.secret">SECRETKEYVALUE</param>
+
+    <param name="kc.schemaspy.enabled">true</param>
+    
+    <param name="kc.rest.admin.username" override="false"></param>
+    <param name="kc.rest.admin.password" override="false"></param>
 </config>

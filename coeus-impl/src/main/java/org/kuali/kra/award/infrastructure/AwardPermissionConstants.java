@@ -26,6 +26,7 @@ public enum AwardPermissionConstants {
         ,CREATE_AWARD("Create Award"),MAINTAIN_REPORTING_REQUIREMENTS("Maintain Reporting Requirements")
         ,MODIFY_AWARD("Modify Award"),VIEW_AWARD("View Award"),MAINTAIN_NOTEPAD_ENTRIES("Maintain Notepad Entries")
         ,MAINTAIN_AWARD_ATTACHMENTS("Maintain Award Attachments")
+        ,SUBMIT_AWARD("Submit Award")
         ,VIEW_AWARD_ATTACHMENTS("View Award Attachments"),VIEW_AWARDS_AT_UNIT("View Award At Unit"),VIEW_AWARD_TEMPLATE("View Award Template")
         ,MODIFY_AWARD_REPORT_TRACKING("Modify Award Report Tracking"),CREATE_AWARD_ACCOUNT("Create Award Account");
 

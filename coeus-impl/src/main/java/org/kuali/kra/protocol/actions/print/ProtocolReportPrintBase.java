@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.protocol.actions.print;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.print.AbstractPrint;
 import org.kuali.coeus.common.framework.print.util.PrintingUtils;
 import org.kuali.coeus.common.framework.print.watermark.Watermarkable;
@@ -51,7 +51,7 @@ public abstract class ProtocolReportPrintBase extends AbstractPrint {
      * @return {@link ArrayList} of {@link Source} XSLs
      */
     public List<Source> getXSLTemplates() {
-        if(StringUtils.isEmpty(getPrintHelper().getTemplate())) {
+        if(StringUtils.isBlank(getPrintHelper().getTemplate())) {
             throw new IllegalArgumentException(ERROR_MESSAGE);
         }
         ArrayList<Source> sourceList = PrintingUtils.getXSLTforReportTemplate(getPrintHelper().getTemplate());

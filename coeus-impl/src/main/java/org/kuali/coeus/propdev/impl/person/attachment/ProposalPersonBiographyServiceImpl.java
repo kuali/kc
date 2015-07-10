@@ -18,26 +18,18 @@
  */
 package org.kuali.coeus.propdev.impl.person.attachment;
 
-import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.attachment.AttachmentDao;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-
-import java.sql.Timestamp;
 import java.util.*;
 
 @Component("proposalPersonBiographyService")
@@ -46,14 +38,11 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
     public static final String OTHER_DOCUMENT_TYPE_DESCRIPTION = "Other";
 
     private static final String DOC_TYPE_DESCRIPTION = "description";
+    public static final String PROP_PER_DOC_TYPE = "propPerDocType";
 
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-
-    @Autowired
-    @Qualifier("attachmentDao")
-    private AttachmentDao attachmentDao;
 
     @Autowired
     @Qualifier("personService")
@@ -79,41 +68,14 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
             proposalPersonBiography.setRolodexId(proposalPerson.getRolodexId());
         }
         proposalPersonBiography.getPropPerDocType().setCode(proposalPersonBiography.getDocumentTypeCode());
-        FormFile personnelAttachmentFile = proposalPersonBiography.getPersonnelAttachmentFile();
-        if (personnelAttachmentFile != null) {
-            try {
-                byte[] fileData = personnelAttachmentFile.getFileData();
-                if (fileData.length > 0) {
-                    ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
-                    personnelAttachment.setName(personnelAttachmentFile.getFileName());
-                    personnelAttachment.setProposalNumber(proposalPersonBiography.getProposalNumber());
-                    personnelAttachment.setProposalPersonNumber(proposalPersonBiography.getProposalPersonNumber());
-                    personnelAttachment.setData(personnelAttachmentFile.getFileData());
-                    personnelAttachment.setType(personnelAttachmentFile.getContentType());
-                    proposalPersonBiography.setName(personnelAttachmentFile.getFileName());
-                    proposalPersonBiography.setType(personnelAttachmentFile.getContentType());
-
-                    proposalPersonBiography.setPersonnelAttachment(personnelAttachment);
-                    personnelAttachment.setProposalPersonBiography(proposalPersonBiography);
-                }
-            }
-            catch (Exception e) {
-                proposalPersonBiography.setPersonnelAttachment(null);
-            }
-        }
-        DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalueBo(Constants.PROP_PERSON_BIO_NUMBER);
-        getDataObjectService().save(documentNextvalue);
-        proposalPersonBiography = getDataObjectService().save(proposalPersonBiography);
-        proposalPersonBiography.setPersonnelAttachment(null);
         proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().add(proposalPersonBiography);
-
     }
 
     @Override
     public void prepareProposalPersonBiographyForSave(DevelopmentProposal developmentProposal, ProposalPersonBiography biography) {
         biography.setPropPerDocType(new PropPerDocType());
         biography.getPropPerDocType().setCode(biography.getDocumentTypeCode());
-        biography.refreshReferenceObject("propPerDocType");
+        biography.refreshReferenceObject(PROP_PER_DOC_TYPE);
 
 
         if (biography.getProposalPersonNumber() != null) {
@@ -153,14 +115,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         getDataObjectService().delete(proposalPersonBiography);
 
     }
-
-    /**
-     * 
-     * This method find the matched person in key person list
-     * @param developmentProposal
-     * @param proposalPersonNumber
-     * @return
-     */
+    
     protected ProposalPerson getPerson(DevelopmentProposal developmentProposal, Integer proposalPersonNumber) {
         for (ProposalPerson person : developmentProposal.getProposalPersons()) {
             if (proposalPersonNumber.equals(person.getProposalPersonNumber())) {
@@ -170,44 +125,11 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         return null;
     }
 
-    public DataObjectService getDataObjectService() {
-        return dataObjectService;
-    }
-
-    public void setDataObjectService(DataObjectService dataObjectService) {
-        this.dataObjectService = dataObjectService;
-    }
-    
-    @Override
-    public void setPersonnelBioTimeStampUser(List<ProposalPersonBiography> proposalPersonBios) {
-
-        for (ProposalPersonBiography proposalPersonBiography : proposalPersonBios) {
-            Iterator personBioAtt = attachmentDao.getPersonnelTimeStampAndUploadUser(proposalPersonBiography.getProposalPersonNumber(), proposalPersonBiography.getProposalNumber(), proposalPersonBiography.getBiographyNumber());
-            if (personBioAtt.hasNext()) {
-                Object[] item = (Object[])personBioAtt.next();
-                proposalPersonBiography.setUpdateTimestamp((Timestamp)item[0]);
-                proposalPersonBiography.setUpdateUser((String)item[1]);
-                //using PersonService as it will display the user's name the same as the notes panel does
-                Person person = personService.getPersonByPrincipalName(proposalPersonBiography.getUploadUserDisplay());
-                proposalPersonBiography.setUploadUserFullName(ObjectUtils.isNull(person) ? proposalPersonBiography.getUploadUserDisplay() + "(not found)" : person.getName());
-             }
-
-        }
-    }
-
     @Override
     public PropPerDocType findPropPerDocTypeForOther() {
         Map<String,String> narrativeTypeMap = new HashMap<String,String>();
         narrativeTypeMap.put(DOC_TYPE_DESCRIPTION, OTHER_DOCUMENT_TYPE_DESCRIPTION);
         return getDataObjectService().findMatching(PropPerDocType.class, QueryByCriteria.Builder.andAttributes(narrativeTypeMap).build()).getResults().get(0);
-    }
-
-    public AttachmentDao getAttachmentDao() {
-        return attachmentDao;
-    }
-
-    public void setAttachmentDao(AttachmentDao attachmentDao) {
-        this.attachmentDao = attachmentDao;
     }
 
     public PersonService getPersonService() {
@@ -216,6 +138,14 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
 
     public void setPersonService(PersonService personService) {
         this.personService = personService;
+    }
+
+    public DataObjectService getDataObjectService() {
+        return dataObjectService;
+    }
+
+    public void setDataObjectService(DataObjectService dataObjectService) {
+        this.dataObjectService = dataObjectService;
     }
 
 }

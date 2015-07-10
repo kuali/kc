@@ -16,6 +16,5 @@
 -- You should have received a copy of the GNU Affero General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
-INSERT INTO krcr_parm_t (APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, OBJ_ID) VALUES ('KC', 'KC-GEN', 'Document', 'FIN_SYSTEM_INTEGRATION_ON_SPONSOR', 1, 'CONFG', 'OFF', 'Parameter to set the financial system integration feature ON or OFF for Sponsor.', 'A', SYS_GUID())
-/
+INSERT INTO krcr_parm_t (APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, OBJ_ID) VALUES ('KC', 'KC-GEN', 'Document', 'FIN_SYSTEM_INTEGRATION_ON_SPONSOR', 1, 'CONFG', 'OFF', 'Parameter to set the financial system integration feature ON or OFF for Sponsor.', 'A', SYS_GUID());
 

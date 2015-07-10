@@ -82,15 +82,10 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Qualifier("personService")
     private PersonService personService;
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=save", "pageId=PropDev-AttachmentsPage"})
-    public ModelAndView saveAttachments(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-       return super.narrativePageSave(form,form.isCanEditView());
-    }
-
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addFileUploadLine")
     public ModelAndView addFileUploadLine(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
                                           MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
-        final String selectedCollectionPath = request.getParameter("bindingPath");
+        final String selectedCollectionPath = request.getParameter(ProposalDevelopmentConstants.KradConstants.BINDING_PATH);
 
         addEditableCollectionLine(form, selectedCollectionPath);
 
@@ -131,8 +126,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             if(object instanceof Narrative) {
             	Narrative narrative = (Narrative) object;
             	narrative.setModuleStatusCode(moduleStatusCode);
-            	narrative.setUpdated(true);
-                getDataObjectService().wrap(object).fetchRelationship("narrativeStatus");
+                getDataObjectService().wrap(object).fetchRelationship(ProposalDevelopmentConstants.KradConstants.NARRATIVE_STATUS);
             }
         }
         return getRefreshControllerService().refresh(form);
@@ -150,7 +144,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
            form.getProposalDevelopmentAttachmentHelper().setNarrative(tmpNarrative);
        }
 
-        return getModelAndViewService().showDialog("PropDev-AttachmentsPage-ProposalDetails",true,form);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PROPOSAL_DETAILS, true, form);
     }
 
 
@@ -166,7 +160,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getProposalDevelopmentAttachmentHelper().setBiography(tmpBiography);
         }
 
-        return getModelAndViewService().showDialog("PropDev-AttachmentsPage-PersonnelDetails", true, form);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS, true, form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareAbstract")
@@ -181,7 +175,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             form.getProposalDevelopmentAttachmentHelper().setProposalAbstract(tmpAbstract);
         }
 
-        return getModelAndViewService().showDialog("PropDev-AttachmentsPage-AbstractDetails", true, form);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_ABSTRACT_DETAILS, true, form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareInstituteAttachment")
@@ -192,11 +186,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         if (StringUtils.isNotEmpty(selectedLine)) {
             Narrative tmpNarrative = new Narrative();
             form.getProposalDevelopmentAttachmentHelper().setSelectedLineIndex(selectedLine);
-            PropertyUtils.copyProperties(tmpNarrative,form.getDevelopmentProposal().getInstituteAttachment(Integer.parseInt(selectedLine)));
+            PropertyUtils.copyProperties(tmpNarrative, form.getDevelopmentProposal().getInstituteAttachment(Integer.parseInt(selectedLine)));
             form.getProposalDevelopmentAttachmentHelper().setInstituteAttachment(tmpNarrative);
         }
 
-        return getModelAndViewService().showDialog("PropDev-AttachmentsPage-InternalDetails",true,form);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_INTERNAL_DETAILS, true, form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=prepareNote")
@@ -207,46 +201,74 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         if (StringUtils.isNotEmpty(selectedLine)) {
             Note tmpNote = new Note();
             form.getProposalDevelopmentAttachmentHelper().setSelectedLineIndex(selectedLine);
-            PropertyUtils.copyProperties(tmpNote,form.getProposalDevelopmentDocument().getNote(Integer.parseInt(selectedLine)));
+            PropertyUtils.copyProperties(tmpNote, form.getProposalDevelopmentDocument().getNote(Integer.parseInt(selectedLine)));
             form.getProposalDevelopmentAttachmentHelper().setNote(tmpNote);
         }
 
-        return getModelAndViewService().showDialog("PropDev-AttachmentsPage-NoteDetails", true, form);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_NOTE_DETAILS, true, form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addNarrative")
     public ModelAndView addNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
         initializeNarrative(narrative, form);
-        if ( getKualiRuleService().applyRules(new AddNarrativeEvent("proposalDevelopmentAttachmentHelper.narrative",form.getProposalDevelopmentDocument(),form.getProposalDevelopmentAttachmentHelper().getNarrative()))) {
+        if ( getKualiRuleService().applyRules(new AddNarrativeEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_NARRATIVE,form.getProposalDevelopmentDocument(),form.getProposalDevelopmentAttachmentHelper().getNarrative()))) {
             form.getDevelopmentProposal().getNarratives().add(0,narrative);
             form.getProposalDevelopmentAttachmentHelper().reset();
         } else {
-            form.setUpdateComponentId("PropDev-AttachmentsPage-ProposalDetails");
+            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PROPOSAL_DETAILS);
             form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
         return getRefreshControllerService().refresh(form);
 
     }
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addInstituteAttachment")
-    public ModelAndView addInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-        Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
-        initializeNarrative(narrative,form);
-        form.getDevelopmentProposal().getInstituteAttachments().add(0,narrative);
-        form.getProposalDevelopmentAttachmentHelper().reset();
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=checkForExistingNarratives")
+    public ModelAndView checkForExistingNarratives(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
+                                                   @RequestParam String currentValue,@RequestParam String previousValue,@RequestParam String propertyPath) throws Exception {
+        if (form.getDevelopmentProposal().isChild()) {
+            NarrativeType narrativeType = getDataObjectService().find(NarrativeType.class, currentValue);
+            DevelopmentProposal parentProposal = getDataObjectService().find(DevelopmentProposal.class,form.getDevelopmentProposal().getHierarchyParentProposalNumber());
+            if(!narrativeType.isAllowMultiple() && getLegacyNarrativeService().doesProposalHaveNarrativeType(parentProposal,narrativeType)) {
+                form.getProposalDevelopmentAttachmentHelper().setCurrentNarrativeTypeDescription(narrativeType.getDescription());
+                form.getProposalDevelopmentAttachmentHelper().setPreviousNarrativeTypeValue(previousValue);
+                form.getProposalDevelopmentAttachmentHelper().setNarrativeTypePropertyPath(propertyPath);
+                return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENT_PAGE_CONFIRM_ADD_ATTACHMENT_TO_CHILD, true, form);
+            }
+        }
+        return null;
+    }
 
-        return getRefreshControllerService().refresh(form);
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=revertToPreviousNarrativeType")
+    public ModelAndView revertToPreviousNarrativeType(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        String propertyPath = form.getProposalDevelopmentAttachmentHelper().getNarrativeTypePropertyPath();
+        String previousNarrativeTypeValue = form.getProposalDevelopmentAttachmentHelper().getPreviousNarrativeTypeValue();
+        ObjectPropertyUtils.setPropertyValue(form, propertyPath, previousNarrativeTypeValue);
+        if (StringUtils.startsWith(propertyPath, ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER)) {
+            form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PROPOSAL_DETAILS);
+        }
+        return getModelAndViewService().getModelAndView(form);
     }
 
     protected void initializeNarrative(Narrative narrative, ProposalDevelopmentDocumentForm form) {
-        getLegacyNarrativeService().prepareNarrative(form.getProposalDevelopmentDocument(),narrative);
+        getLegacyNarrativeService().prepareNarrative(form.getProposalDevelopmentDocument(), narrative);
         try {
             narrative.init(narrative.getMultipartFile());
             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
+    }
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addInstituteAttachment")
+    public ModelAndView addInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
+        initializeNarrative(narrative, form);
+        form.getDevelopmentProposal().getInstituteAttachments().add(0,narrative);
+        form.getProposalDevelopmentAttachmentHelper().reset();
+
+        return getRefreshControllerService().refresh(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=addBiography")
@@ -258,7 +280,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
                 .getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
         biography.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         biography.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
-        getDataObjectService().wrap(biography).fetchRelationship("propPerDocType");
+        getDataObjectService().wrap(biography).fetchRelationship(ProposalDevelopmentConstants.KradConstants.PROP_PER_DOC_TYPE);
         try {
             biography.init(biography.getMultipartFile());
             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(biography.getPersonnelAttachment());
@@ -266,11 +288,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             LOG.info("No File Attached");
         }
 
-        if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent("proposalDevelopmentAttachmentHelper.biography",document,biography))){
+        if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY, document, biography))){
             form.getDevelopmentProposal().getPropPersonBios().add(0,biography);
             form.getProposalDevelopmentAttachmentHelper().reset();
         } else {
-            form.setUpdateComponentId("PropDev-AttachmentsPage-PersonnelDetails");
+            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
             form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
         return getRefreshControllerService().refresh(form);
@@ -280,11 +302,8 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     public ModelAndView saveNarrative(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getNarrative();
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
-        if(narrative.getObjectId() != null) {
-        	narrative.setUpdated(true);
-        }
-        narrative.refreshReferenceObject("narrativeType");
-        narrative.refreshReferenceObject("narrativeStatus");
+        narrative.refreshReferenceObject(ProposalDevelopmentConstants.KradConstants.NARRATIVE_TYPE);
+        narrative.refreshReferenceObject(ProposalDevelopmentConstants.KradConstants.NARRATIVE_STATUS);
         try {
             narrative.init(narrative.getMultipartFile());
             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
@@ -292,11 +311,11 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
             LOG.info("No File Attached");
         }
 
-        if ( getKualiRuleService().applyRules(new AddNarrativeEvent("proposalDevelopmentAttachmentHelper.narrative",form.getProposalDevelopmentDocument(),form.getProposalDevelopmentAttachmentHelper().getNarrative()))) {
+        if ( getKualiRuleService().applyRules(new AddNarrativeEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_NARRATIVE,form.getProposalDevelopmentDocument(),form.getProposalDevelopmentAttachmentHelper().getNarrative()))) {
             form.getDevelopmentProposal().getNarratives().set(selectedLineIndex,narrative);
             form.getProposalDevelopmentAttachmentHelper().reset();
         } else {
-            form.setUpdateComponentId("PropDev-AttachmentsPage-ProposalDetails");
+            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PROPOSAL_DETAILS);
             form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
 
@@ -314,15 +333,15 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
                 getKcNotificationService().sendNotification(context);
             }
         }
-        return getRefreshControllerService().refresh(form);
+        return super.save(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendNarrativeChangeNotification")
     public ModelAndView sendNarrativeChangeNotification(ProposalDevelopmentDocumentForm proposalDevelopmentDocumentForm) {
         if (proposalDevelopmentDocumentForm.isSendNarrativeChangeNotification()) {
              final String step = proposalDevelopmentDocumentForm.getNotificationHelper().getNotificationRecipients().isEmpty() ? "0" : "2";
-                proposalDevelopmentDocumentForm.getActionParameters().put("Kc-SendNotification-Wizard.step", step);
-                return getModelAndViewService().showDialog("Kc-SendNotification-Wizard", true, proposalDevelopmentDocumentForm);
+                proposalDevelopmentDocumentForm.getActionParameters().put(ProposalDevelopmentConstants.KradConstants.KC_SEND_NOTIFICATION_WIZARD + ".step", step);
+                return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.KC_SEND_NOTIFICATION_WIZARD, true, proposalDevelopmentDocumentForm);
         }
         proposalDevelopmentDocumentForm.setSendNarrativeChangeNotification(false);
         return getModelAndViewService().getModelAndView(proposalDevelopmentDocumentForm);
@@ -331,37 +350,31 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveBiography")
     public ModelAndView saveBiography(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         ProposalPersonBiography biography = form.getProposalDevelopmentAttachmentHelper().getBiography();
-        if(biography.getObjectId() != null) {
-        	biography.setUpdated(true);
-        }
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
         biography.setUpdateUser(globalVariableService.getUserSession().getPrincipalName());
         biography.setUpdateTimestamp(getDateTimeService().getCurrentTimestamp());
-        getDataObjectService().wrap(biography).fetchRelationship("propPerDocType");
+        getDataObjectService().wrap(biography).fetchRelationship(ProposalDevelopmentConstants.KradConstants.PROP_PER_DOC_TYPE);
         try {
             biography.init(biography.getMultipartFile());
             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(biography.getPersonnelAttachment());
         } catch (Exception e) {
             LOG.info("No File Attached");
         }
-        if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent("proposalDevelopmentAttachmentHelper.biography",form.getProposalDevelopmentDocument(),biography))){
+        if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(ProposalDevelopmentConstants.KradConstants.PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY,form.getProposalDevelopmentDocument(),biography))){
             form.getDevelopmentProposal().getPropPersonBios().set(selectedLineIndex, biography);
             form.getProposalDevelopmentAttachmentHelper().reset();
         } else {
-            form.setUpdateComponentId("PropDev-AttachmentsPage-PersonnelDetails");
+            form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS);
             form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
         }
-        return getRefreshControllerService().refresh(form);
+        return super.save(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveInstituteAttachment")
     public ModelAndView saveInstituteAttachment(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
         Narrative narrative = form.getProposalDevelopmentAttachmentHelper().getInstituteAttachment();
-        if(narrative.getObjectId() != null) {
-        	narrative.setUpdated(true);
-        }
         int selectedLineIndex = Integer.parseInt(form.getProposalDevelopmentAttachmentHelper().getSelectedLineIndex());
-        getDataObjectService().wrap(narrative).fetchRelationship("narrativeType");
+        getDataObjectService().wrap(narrative).fetchRelationship(ProposalDevelopmentConstants.KradConstants.NARRATIVE_TYPE);
         try {
             narrative.init(narrative.getMultipartFile());
             ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).updateAttachmentInformation(narrative.getNarrativeAttachment());
@@ -370,8 +383,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
         }
         form.getDevelopmentProposal().getInstituteAttachments().set(selectedLineIndex,narrative);
         form.getProposalDevelopmentAttachmentHelper().reset();
-
-        return getRefreshControllerService().refresh(form);
+        return super.save(form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=saveAbstract")
@@ -451,8 +463,8 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
         form.setNarrativeUserRights(editableRights);
         form.setNarrativeUserRightsSelectedAttachment(selectedLine);
-        form.getActionParameters().put("attachmentType","proposalAttachment");
-        return getModelAndViewService().showDialog("PropDev-AttachmentPage-ViewEditRightDialog", true, form);
+        form.getActionParameters().put(ProposalDevelopmentConstants.KradConstants.ATTACHMENT_TYPE, ProposalDevelopmentConstants.KradConstants.PROPOSAL_ATTACHMENT);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENT_PAGE_VIEW_EDIT_RIGHT_DIALOG, true, form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=addInstituteAttachmentRights"})
@@ -484,8 +496,8 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
         form.setNarrativeUserRights(editableRights);
         form.setNarrativeUserRightsSelectedAttachment(selectedLine);
-        form.getActionParameters().put("attachmentType","instituteAttachment");
-        return getModelAndViewService().showDialog("PropDev-AttachmentPage-ViewEditRightDialog", true, form);
+        form.getActionParameters().put(ProposalDevelopmentConstants.KradConstants.ATTACHMENT_TYPE, ProposalDevelopmentConstants.KradConstants.INSTITUTE_ATTACHMENT);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_ATTACHMENT_PAGE_VIEW_EDIT_RIGHT_DIALOG, true, form);
     }
 
     public LegacyNarrativeService getLegacyNarrativeService() {
@@ -535,4 +547,5 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
+
 }

@@ -28,7 +28,11 @@ begin
 	set @dynamicSql = CONCAT('select t1.', idCol, ' + 1 into @dynamicSqlId from ', tableName, ' t1 where not exists (select null from ', tableName, ' t2 where t1.', idCol, ' + 1 = t2.', idCol, ') limit 1');
 	prepare stmt1 from @dynamicSql;
 	execute stmt1;
+	if (@dynamicSqlId is null) then
+	set newId = 1;
+	else
 	set newId = @dynamicSqlId;
+	end if;
 	deallocate prepare stmt1;
 end
 /

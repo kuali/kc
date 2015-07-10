@@ -18,16 +18,14 @@
  */
 package org.kuali.coeus.propdev.impl.state;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-/**
- * Proposal State Service Implementation.
- */
 
 @Component("proposalStateService")
 public class ProposalStateServiceImpl implements ProposalStateService {
@@ -35,46 +33,34 @@ public class ProposalStateServiceImpl implements ProposalStateService {
 	@Autowired
 	@Qualifier("proposalHierarchyService")
 	private ProposalHierarchyService proposalHierarchyService;
+
+    @Autowired
+    @Qualifier("kcWorkflowService")
+    private KcWorkflowService kcWorkflowService;
     
     @Override
-    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged, boolean isRejectAction ) {
-        String proposalStateTypeCode = null;
+    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRejectAction) {
         WorkflowDocument wd = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument();
         
         if (wd.isInitiated()) {
-            proposalStateTypeCode = computeProposalStateForInitiated(proposalDevelopmentDocument);
+            return ProposalState.IN_PROGRESS;
         } else if (wd.isSaved()) {
-            proposalStateTypeCode = computeProposalStateForSaved(proposalDevelopmentDocument);
+            return computeProposalStateForSaved(proposalDevelopmentDocument);
         } else if( isRejectAction && wd.isEnroute()  ) {
-            proposalStateTypeCode = computeProposalStateForRejected( proposalDevelopmentDocument );
+            return ProposalState.REVISIONS_REQUESTED;
         } else if (wd.isEnroute()) {
-            proposalStateTypeCode = computeProposalStateForEnRoute(proposalDevelopmentDocument);
+            return computeProposalStateForEnRoute(proposalDevelopmentDocument);
         } else if (wd.isApproved()) {
-            proposalStateTypeCode = computeProposalStateForApproved(proposalDevelopmentDocument, isRouteStatusChanged);
+            return computeProposalStateForApproved(proposalDevelopmentDocument);
         } else if (wd.isDisapproved()) {
-            proposalStateTypeCode = computeProposalStateForDisapproved(proposalDevelopmentDocument, isRouteStatusChanged);
+            return computeProposalStateForDisapproved(proposalDevelopmentDocument);
         } else if (wd.isCanceled()) {
-            proposalStateTypeCode = computeProposalStateForCanceled(proposalDevelopmentDocument);
+            return ProposalState.CANCELED;
         } else {
-            proposalStateTypeCode = computeProposalStateForException(proposalDevelopmentDocument);
+            return ProposalState.DOCUMENT_ERROR;
         }
-        return proposalStateTypeCode;
     }
-    
-    /**
-     * Compute the proposal state when the proposal is in the workflow INITIATED state.
-     * @param proposalDevelopmentDocument the proposal development document
-     * @return IN_PROGRESS
-     */
-    protected String computeProposalStateForInitiated(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        return ProposalState.IN_PROGRESS;
-    }
-    
-    /**
-     * Compute the proposal state when the proposal is in the workflow SAVED state.
-     * @param proposalDevelopmentDocument the proposal development document
-     * @return APPROVAL_NOT_INITIATED_SUBMITTED or IN_PROGRESS
-     */
+
     protected String computeProposalStateForSaved(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         if (isSubmitted(proposalDevelopmentDocument)) {
             return ProposalState.APPROVAL_NOT_INITIATED_SUBMITTED;
@@ -82,29 +68,29 @@ public class ProposalStateServiceImpl implements ProposalStateService {
             return ProposalState.IN_PROGRESS;
         }
     }
-    
-    /**
-     * Compute the proposal state when the proposal is in the workflow ENROUTE state.
-     * @param proposalDevelopmentDocument the proposal development document
-     * @return APPROVAL_PENDING_SUBMITTED or APPROVAL_PENDING
-     */
+
     protected String computeProposalStateForEnRoute(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        if (isSubmitted(proposalDevelopmentDocument)) {
+        String proposalStateTypeCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
+        if ((isSubmitted(proposalDevelopmentDocument) && !isFinalApproval(proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument())) ||
+                StringUtils.equals(proposalStateTypeCode,ProposalState.APPROVAL_PENDING_SUBMITTED)) {
             return ProposalState.APPROVAL_PENDING_SUBMITTED;
         } else {
             return ProposalState.APPROVAL_PENDING;
         }
     }
-    
-    /**
-     * Compute the proposal state when the proposal is in the workflow APPROVED state.
-     * @param proposalDevelopmentDocument the proposal development document
-     * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
-     * @return APPROVED_AND_SUBMITTED, APPROVED_POST_SUBMISSION, or APPROVAL_GRANTED
-     */
-    protected String computeProposalStateForApproved(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
+
+    protected boolean isFinalApproval(WorkflowDocument workflowDocument) {
+        if (StringUtils.isNotEmpty(workflowDocument.getDocumentId())) {
+            return getKcWorkflowService().isFinalApproval(workflowDocument);
+        }
+        return false;
+    }
+
+    protected String computeProposalStateForApproved(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        String proposalStateTypeCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
         if (isSubmitted(proposalDevelopmentDocument)) {
-            if (isRouteStatusChanged) {
+            if (StringUtils.equals(proposalStateTypeCode,ProposalState.APPROVAL_PENDING_SUBMITTED) ||
+                    StringUtils.equals(proposalStateTypeCode,ProposalState.APPROVED_POST_SUBMISSION)) {
                 return ProposalState.APPROVED_POST_SUBMISSION;
             } else {
                 return ProposalState.APPROVED_AND_SUBMITTED;
@@ -113,57 +99,15 @@ public class ProposalStateServiceImpl implements ProposalStateService {
             return ProposalState.APPROVAL_GRANTED;
         }
     }
-    
-    /**
-     * Compute the proposal state when the proposal is in the workflow DISAPPROVED state.
-     * @param proposalDevelopmentDocument the proposal development document
-     * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
-     * @return DISAPPROVED or DISAPPROVED_POST_SUBMISSION
-     */
-    protected String computeProposalStateForDisapproved(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
-        if (isSubmitted(proposalDevelopmentDocument) && isRouteStatusChanged) {
+
+    protected String computeProposalStateForDisapproved(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        if (isSubmitted(proposalDevelopmentDocument)) {
             return ProposalState.DISAPPROVED_POST_SUBMISSION;
         } else {
             return ProposalState.DISAPPROVED;
         }
     }
-   
-    /**
-     * Compute the proposal state when the proposal has been rejected ( sent to initial node ).
-     * @param proposalDevelopmentDocument the proposal development document
-     * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
-     * @return DISAPPROVED or DISAPPROVED_POST_SUBMISSION
-     */
-    protected String computeProposalStateForRejected(ProposalDevelopmentDocument proposalDevelopmentDocument ) {
-        return ProposalState.REVISIONS_REQUESTED;
-    }
-   
-    
-   
-    /**
-     * Compute the proposal state when the proposal is in the workflow CANCELED state.
-     * @param proposalDevelopmentDocument the proposal development document
-     * @return CANCELED
-     */
-    protected String computeProposalStateForCanceled(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        return ProposalState.CANCELED;
-    }
 
-    
-    /**
-     * Compute the proposal state when the proposal is in the workflow EXCEPTION state.
-     * @param proposalDevelopmentDocument the proposal development document
-     * @return DOCUMENT_ERROR
-     */
-    protected String computeProposalStateForException(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        return ProposalState.DOCUMENT_ERROR;
-    }
-    
-    /**
-     * Has the proposal been submitted to the sponsor?
-     * @param proposalDevelopmentDocument the proposal development document
-     * @return true if submitted to the sponsor; otherwise false
-     */
     protected boolean isSubmitted(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         return proposalDevelopmentDocument.getDevelopmentProposal().getSubmitFlag();
     }
@@ -174,6 +118,13 @@ public class ProposalStateServiceImpl implements ProposalStateService {
 
     public void setProposalHierarchyService(ProposalHierarchyService proposalHierarchyService) {
         this.proposalHierarchyService = proposalHierarchyService;
-    } 
-    
+    }
+
+    public KcWorkflowService getKcWorkflowService() {
+        return kcWorkflowService;
+    }
+
+    public void setKcWorkflowService(KcWorkflowService kcWorkflowService) {
+        this.kcWorkflowService = kcWorkflowService;
+    }
 }

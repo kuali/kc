@@ -18,11 +18,11 @@
  */
 package org.kuali.kra.award.dao;
 
+import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.krad.bo.BusinessObject;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Date;
 import java.util.Map;
 
 public interface AwardDao {
@@ -34,5 +34,7 @@ public interface AwardDao {
      * @return a Collection of found awards
      */
     public Collection<Award> retrieveAwardsByCriteria(Map<String, Object> fieldValues);
+    
+    public SearchResults<Award> retrievePopulatedAwardByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer pageNum, Integer numPerPage);
 
 }

@@ -123,7 +123,7 @@ public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnai
     }
     
     /**
-     * Creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
+     * Creates and adds the Audit Error to the <code>{@link List&lt;AuditError&gt;}</code> auditError.
      */
     protected void addErrorToAuditErrors(Integer answerHeaderIndex, QuestionnaireUsage usage, String errorKey, String messageKey) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -136,7 +136,7 @@ public abstract class ProtocolQuestionnaireAuditRuleBase extends BaseQuestionnai
     }
     
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
+     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List&lt;AuditError&gt;}</code>
      * to the auditErrorMap.
      * 
      * @return List of AuditError instances

@@ -778,7 +778,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     /*
-     * get printables for protocol & questionnaires.
+     * get printables for protocol &amp; questionnaires.
      * Protocol only has one printable and each questionnaire has its own printable.
      */
     private List<Printable> getPrintArtifacts(ActionForm form) {
@@ -867,7 +867,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     }
 
     /*
-     * This is to view Personnel attachment if attachment is selected in print & summary panel.
+     * This is to view Personnel attachment if attachment is selected in print &amp; summary panel.
      */
     private ActionForward printPersonnelAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,ProtocolForm form) throws Exception {
 

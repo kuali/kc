@@ -173,7 +173,7 @@
         <property name="xmlStream" ref="subawardXmlStream" />
     </bean>
     
-    <bean id="subawardXmlStream" class="org.kuali.kra.subaward.reporting.printing.xmlstream.SubawardXmlStream">
+    <bean id="subawardXmlStream" class="org.kuali.kra.subaward.reporting.printing.xmlstream.SubawardXmlStream" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
@@ -189,7 +189,7 @@
         <property name="xmlStream" ref="subAwardFDPPrintXmlStream" />
     </bean>
     
-    <bean id="subAwardFDPPrintXmlStream" class="org.kuali.kra.subawardReporting.printing.xmlstream.SubAwardFDPPrintXmlStream">
+    <bean id="subAwardFDPPrintXmlStream" class="org.kuali.kra.subawardReporting.printing.xmlstream.SubAwardFDPPrintXmlStream" scope="prototype">
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>

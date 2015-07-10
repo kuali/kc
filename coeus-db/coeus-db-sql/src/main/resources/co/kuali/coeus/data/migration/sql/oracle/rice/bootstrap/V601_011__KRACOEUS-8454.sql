@@ -17,6 +17,5 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-update notification_type_recipient set ROLE_NAME= 'KC-PD:Aggregator Document Level' where ROLE_NAME= 'KC-PD:Aggregator'
-/
+update notification_type_recipient set ROLE_NAME= 'KC-PD:Aggregator Document Level' where ROLE_NAME= 'KC-PD:Aggregator';
 

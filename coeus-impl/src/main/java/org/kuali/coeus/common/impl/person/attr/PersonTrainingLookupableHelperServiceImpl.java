@@ -52,20 +52,6 @@ public class PersonTrainingLookupableHelperServiceImpl extends KcKualiLookupable
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
 
-    @SuppressWarnings("unchecked")
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
-        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-        List<HtmlData> returnHtmlDataList = new ArrayList<HtmlData>();
-        for (HtmlData htmlData : htmlDataList) {
-            if(!(htmlData.getDisplayText().equals("copy") ||
-                    htmlData.getDisplayText().equals("edit"))) {
-                returnHtmlDataList.add(htmlData);
-            }
-        }
-        return returnHtmlDataList;
-    }
-
     @Override
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();

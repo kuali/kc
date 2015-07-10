@@ -30,7 +30,7 @@ import java.sql.Date;
 import java.util.List;
 
 /**
- * This class supports the AwardForm class and the Award Time & Money Action class
+ * This class supports the AwardForm class and the Award Time &amp; Money Action class
  */
 public class AwardDirectFandADistributionBean implements Serializable{
 

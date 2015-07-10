@@ -28,7 +28,7 @@
 		parent="Uif-TableCollectionSection" p:title="Budget"
 		p:headerText="Budgets" 
 		p:collectionObjectClass="org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt"
-		p:renderAddLine="false" p:renderLineActions="true" p:layoutManager.renderSequenceField="false">
+		p:renderAddLine="false" p:renderLineActions="false" p:layoutManager.renderSequenceField="false">
 		<property name="items">
 			<list>
 				<bean parent="Uif-SimpleFieldGroup" p:order="10" p:label="Name">
@@ -63,19 +63,25 @@
 						</list>
 					</property>
 				</bean>
-                <bean parent="Uif-DataField" p:label="Version" p:propertyName="budgetVersionNumber" p:order="20" />
-				<bean parent="Uif-DataField" p:label="Direct Cost" p:propertyName="totalDirectCost" p:order="30" />
-				<bean parent="Uif-DataField" p:label="F&amp;A" p:propertyName="totalIndirectCost" p:order="40" />
-				<bean parent="Uif-DataField" p:label="Total" p:propertyName="totalCost" p:order="50" />
+                <bean parent="Uif-DataField" p:label="Version" p:propertyName="budgetVersionNumber" p:order="20"/>
+				<bean parent="Uif-DataField" p:label="Direct Cost" p:propertyName="totalDirectCost" p:order="30" >
+					<property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+				</bean>
+				<bean parent="Uif-DataField" p:label="F&amp;A" p:propertyName="totalIndirectCost" p:order="40" >
+					<property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+				</bean>
+				<bean parent="Uif-DataField" p:label="Total" p:propertyName="totalCost" p:order="50" >
+					<property name="propertyEditor"><ref bean="Kc-ScaleTwoPercentageEditor"/></property>
+				</bean>
 				<bean parent="Uif-DataField" p:label="Start" p:propertyName="summaryPeriodStartDate" p:order="60" />
 				<bean parent="Uif-DataField" p:label="End" p:propertyName="summaryPeriodEndDate" p:order="70" />
 				<bean parent="Uif-DataField" p:label="Status" p:propertyName="budgetStatusDo.description" p:order="80"/>
 				<bean parent="Uif-DataField" p:propertyName="comments" p:order="90" />
-			</list>
-		</property>
-		<property name="lineActions">
-			<list>
-				<bean parent="PropDev-BudgetVersions-GenericActions" p:order="10"/>
+				<bean parent="Uif-FieldGroupBase" p:label="Actions" p:order="100">
+					<property name="group">
+						<bean parent="PropDev-BudgetVersions-GenericActions" p:order="10"/>
+					</property>
+				</bean>
 			</list>
 		</property>
 		<property name="header.rightGroup">
@@ -115,13 +121,13 @@
 		<property name="listPrototype.items">
 			<list>
 				<bean parent="Uif-ActionLink" p:actionLabel="View Summary" p:methodToCall="populateBudgetSummary" p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-eye-open" p:order="10"/>
-				<bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy" p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE)}"
+				<bean parent="Uif-ActionLink" p:actionLabel="Copy" p:iconClass="icon-copy" p:render="@{#view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE) and !viewOnly and canEditView}"
 					p:actionScript="showDialog('PropDev-BudgetPage-CopyBudgetDialog', {showHandler: function(e) {Kc.PropDev.Budget.copyBudget(@{#line.budgetId}, e)}})"
 					p:order="20"/>
 				<bean parent="Uif-ActionLink" p:actionLabel="Print" p:methodToCall="populatePrintForms" p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-print" p:order="30" />
                 <bean parent="Uif-ActionLink" p:actionLabel="Complete Budget" p:methodToCall="markBudgetVersionComplete"
                       p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-check"
-                      p:render="@{#lp.budgetStatusDo.description != 'Complete'}" p:order="35">
+                      p:render="@{#lp.budgetStatusDo.description != 'Complete' and !viewOnly and canEditView}" p:order="35">
                     <property name="confirmationDialog">
                         <bean id="PropDev-BudgetVersions-CompleteBudgetConfirm" parent="Uif-DialogGroup-OkCancel"
                               p:promptText="Are you sure you want to set this budget to complete?" />
@@ -129,7 +135,7 @@
                 </bean>
                 <bean parent="Uif-ActionLink" p:actionLabel="Mark Budget Incomplete" p:methodToCall="markBudgetVersionIncomplete"
                       p:additionalSubmitData="budgetId:@{#line.budgetId}" p:iconClass="icon-close"
-                      p:render="@{#lp.budgetStatusDo.description == 'Complete'}" p:order="37">
+                      p:render="@{#lp.budgetStatusDo.description == 'Complete' and !viewOnly and canEditView}" p:order="37">
                     <property name="confirmationDialog">
                         <bean id="PropDev-BudgetVersions-InCompleteBudgetConfirm" parent="Uif-DialogGroup-OkCancel"
                               p:promptText="Are you sure you want to set this budget to incomplete?" />

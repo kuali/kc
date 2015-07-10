@@ -122,4 +122,28 @@
         <property name="lookupableHelperService" ref="noEditLookupableHelperService" />
     </bean>
 
+    <bean id="schemaAnalyzer" class="net.sourceforge.schemaspy.SchemaAnalyzer"/>
+
+    <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator">
+        <property name="filter">
+            <bean class="co.kuali.coeus.sys.impl.persistence.SchemaSpyFilter">
+                <property name="schemaAnalyzer" ref="schemaAnalyzer"/>
+                <property name="configurationService" ref="kualiConfigurationService" />
+                <property name="globalVariableService" ref="globalVariableService" />
+                <property name="permissionService" ref="permissionService" />
+            </bean>
+        </property>
+        <property name="filterName" value="SchemaSpyFilter"/>
+        <property name="urlMapping">
+            <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator.Mapping">
+                <property name="matchAfter" value="true"/>
+                <property name="maps">
+                    <list>
+                        <value>/schemaspy/*</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
 </beans>

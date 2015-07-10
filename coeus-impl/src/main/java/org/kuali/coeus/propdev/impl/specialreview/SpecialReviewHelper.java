@@ -18,11 +18,9 @@
  */
 package org.kuali.coeus.propdev.impl.specialreview;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.compliance.core.SpecialReviewHelperBase;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 
@@ -39,17 +37,6 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     private ProposalDevelopmentSpecialReviewService proposalDevelopmentSpecialReviewService;
     private ProposalDevelopmentDocument proposalDevelopmentDocument;
     private boolean modifySpecialReviewPermission;
-    
-    /**
-     * Constructs a SpecialReviewHelper.
-     * @param form the container form
-     */
-    public SpecialReviewHelper(ProposalDevelopmentForm form) {
-        proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
-        modifySpecialReviewPermission = BooleanUtils.toBoolean((String) form.getEditingMode().get("modifyProposal"));
-        setNewSpecialReview(new ProposalSpecialReview());
-        setLinkedProtocolNumbers(new ArrayList<String>());
-    }
     
     public SpecialReviewHelper(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean modifySpecialReviewPermission) {
         this.proposalDevelopmentDocument = proposalDevelopmentDocument;

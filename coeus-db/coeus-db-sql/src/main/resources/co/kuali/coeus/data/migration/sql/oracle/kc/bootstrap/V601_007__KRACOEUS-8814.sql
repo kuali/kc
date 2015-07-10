@@ -18,5 +18,4 @@
 --
 
 
-alter table AWARD_CGB add BILL_FREQ_CD varchar2(4)
-/
+alter table AWARD_CGB add BILL_FREQ_CD varchar2(4);

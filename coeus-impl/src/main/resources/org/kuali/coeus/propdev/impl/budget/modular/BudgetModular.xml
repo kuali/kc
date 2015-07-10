@@ -64,82 +64,30 @@
   </bean>
 
   <bean id="BudgetModular-directCostLessConsortiumFna" parent="BudgetModular-directCostLessConsortiumFna-parentBean"/>
-  <bean id="BudgetModular-directCostLessConsortiumFna-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetModular-directCostLessConsortiumFna-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="directCostLessConsortiumFna" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Direct Cost Less Consortium FNA" />
     <property name="shortLabel" value="Dir Cost Less FNA" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="12"/>
-        <property name="scale" value="2"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
-    </property>
     <property name="summary" value="Direct Cost Less Consortium FNA" />
     <property name="description" value="Direct Cost Less Consortium FNA" />
   </bean>
 
   <bean id="BudgetModular-consortiumFna" parent="BudgetModular-consortiumFna-parentBean"/>
-  <bean id="BudgetModular-consortiumFna-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetModular-consortiumFna-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="consortiumFna" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Consortium FNA" />
     <property name="shortLabel" value="Consortium FNA" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="12"/>
-        <property name="scale" value="2"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
-    </property>
     <property name="summary" value="Consortium FNA" />
     <property name="description" value="Consortium FNA" />
   </bean>
 
   <bean id="BudgetModular-totalDirectCost" parent="BudgetModular-totalDirectCost-parentBean"/>
-  <bean id="BudgetModular-totalDirectCost-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetModular-totalDirectCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount">
     <property name="name" value="totalDirectCost" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Total Direct Cost" />
     <property name="shortLabel" value="TDC" />
-    <property name="maxLength" value="12" />
-    <property name="validationPattern" >
-      <bean parent="FixedPointValidationPattern" p:precision="12" p:scale="2"/>
-    </property>
-    <property name="validCharactersConstraint">
-      <bean parent="FixedPointPatternConstraint">
-        <property name="precision" value="12"/>
-        <property name="scale" value="2"/>
-      </bean>
-    </property>
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="22" p:size="16"/>
-    </property>
-    <property name="controlField">
-      <bean p:size="16" p:maxLength="22" parent="Uif-CurrencyTextControl"/>
-    </property>
     <property name="summary" value="Total Direct Cost" />
     <property name="description" value="Total Direct Cost" />
   </bean>

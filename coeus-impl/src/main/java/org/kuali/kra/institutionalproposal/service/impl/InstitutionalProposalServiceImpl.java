@@ -90,7 +90,16 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private static final String DECIMAL_FORMAT = "00000000";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    
+    public static final String PROPOSAL_ID = "proposalId";
+    public static final String ACTIVE = "active";
+    public static final String ACTIVE_VALUE = "Y";
+    public static final String INST_PROPOSAL_ID = "instProposalId";
+    public static final int DEFAULT_STATUS_CODE = 1;
+    public static final int WITHDRAWN_STATUS_CODE = 5;
+    public static final int DEFAULT_COST_SHARE_TYPE_CODE = 1;
+    public static final String VALID_FUNDING_PROPOSAL_STATUS_CODES = "validFundingProposalStatusCodes";
+    public static final String SEPARATOR = ",";
+
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private VersioningService versioningService;
@@ -108,7 +117,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     
     /**
      * Creates a new pending Institutional Proposal based on given development proposal and budget.
-     * 
+     *
      * @param developmentProposal DevelopmentProposal
      * @param budget Budget
      * @return String The new proposal number
@@ -206,11 +215,11 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * If the current Active version is already Funded, it will be left alone.
      * 
      * @param proposalNumbers The proposals to update.
-     * @return List<InstitutionalProposal> The new Funded versions.
+     * @return List&lt;InstitutionalProposal&gt; The new Funded versions.
      */
     public List<InstitutionalProposal> fundInstitutionalProposals(Set<String> proposalNumbers) {
 
-        List<InstitutionalProposal> updatedProposals = new ArrayList<InstitutionalProposal>();
+        List<InstitutionalProposal> updatedProposals = new ArrayList<>();
         
         try {
             for (String proposalNumber : proposalNumbers) {
@@ -222,7 +231,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     
                     InstitutionalProposal newVersion = versioningService.createNewVersion(activeVersion);
                     newVersion.setStatusCode(ProposalStatus.FUNDED);
-                    newVersion.setAwardFundingProposals(transferFundingProposals(activeVersion, newVersion));
+                    newVersion.setAwardFundingProposals(new ArrayList<AwardFundingProposal>());
                     
                     InstitutionalProposalDocument institutionalProposalDocument = 
                         (InstitutionalProposalDocument) documentService.getNewDocument(InstitutionalProposalDocument.class);
@@ -265,11 +274,11 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @param proposalNumbers The proposals to update.
      * @param awardNumber The Award that is de-funding the proposal.
      * @param awardSequence The sequence number of the Award.
-     * @return List<InstitutionalProposal> The new Pending versions.
+     * @return List&lt;InstitutionalProposal&gt; The new Pending versions.
      */
     public List<InstitutionalProposal> defundInstitutionalProposals(Set<String> proposalNumbers, String awardNumber, Integer awardSequence) {
 
-        List<InstitutionalProposal> updatedProposals = new ArrayList<InstitutionalProposal>();
+        List<InstitutionalProposal> updatedProposals = new ArrayList<>();
         
         try {
             for (String proposalNumber : proposalNumbers) {
@@ -312,20 +321,19 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
 
     public List<InstitutionalProposal> getProposalsForProposalNumber(String proposalNumber) {
-        List<InstitutionalProposal> results = new ArrayList<InstitutionalProposal>(businessObjectService.findMatchingOrderBy(InstitutionalProposal.class,
+        return new ArrayList<InstitutionalProposal>(businessObjectService.findMatchingOrderBy(InstitutionalProposal.class,
                 Collections.singletonMap(PROPOSAL_NUMBER, proposalNumber),
                                                                 SEQUENCE_NUMBER,
                                                                 true));
-        return results;    
     }
     
     @Override
     public List<DevelopmentProposal> getAllLinkedDevelopmentProposals(String proposalNumber) {
-        List<DevelopmentProposal> result = new ArrayList<DevelopmentProposal>();
+        List<DevelopmentProposal> result = new ArrayList<>();
         List<InstitutionalProposal> proposals = getProposalsForProposalNumber(proposalNumber);
         for (InstitutionalProposal curProposal : proposals) {
-            List<ProposalAdminDetails> details = new ArrayList<ProposalAdminDetails>(businessObjectService.findMatching(ProposalAdminDetails.class,
-                    Collections.singletonMap("instProposalId", curProposal.getProposalId())));
+            List<ProposalAdminDetails> details = new ArrayList<>(businessObjectService.findMatching(ProposalAdminDetails.class,
+                    Collections.singletonMap(INST_PROPOSAL_ID, curProposal.getProposalId())));
             for (ProposalAdminDetails detail : details) {
             	result.add(dataObjectService.find(DevelopmentProposal.class, detail.getDevProposalNumber()));
             }
@@ -336,21 +344,11 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     public String getNextInstitutionalProposalNumber() {
         Long nextProposalNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE, InstitutionalProposal.class);
         DecimalFormat formatter = new DecimalFormat(DECIMAL_FORMAT);
-        String nextProposalNumberAsString = formatter.format(nextProposalNumber);
-        return nextProposalNumberAsString;
+        return formatter.format(nextProposalNumber);
     }
-    
-    /* Local helper methods */
-    
-    /**
-     * Queries the persistence layer to find the InstitutionalProposal record for the given proposalNumber.
-     * 
-     * @param proposalNumber String
-     * @return InstitutionalProposal
-     */
-    @SuppressWarnings("unchecked")
+
     protected InstitutionalProposal getActiveInstitutionalProposal(String proposalNumber) {
-        Map<String, String> criteria = new HashMap<String, String>();
+        Map<String, String> criteria = new HashMap<>();
         criteria.put(InstitutionalProposal.PROPOSAL_NUMBER_PROPERTY_STRING, proposalNumber);
         criteria.put(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING, VersionStatus.ACTIVE.toString());
         Collection results = businessObjectService.findMatching(InstitutionalProposal.class, criteria);
@@ -370,8 +368,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         }
         ObjectUtils.materializeObjects(currentVersion.getInstitutionalProposalScienceKeywords());
         InstitutionalProposal newVersion = versioningService.createNewVersion(currentVersion);
-        InstitutionalProposalDocument newInstitutionalProposalDocument = mergeProposals(newVersion, developmentProposal, budget);
-        return newInstitutionalProposalDocument;
+        return mergeProposals(newVersion, developmentProposal, budget);
     }
     
     protected InstitutionalProposalDocument mergeProposals(InstitutionalProposal institutionalProposal, DevelopmentProposal developmentProposal, Budget budget)
@@ -454,6 +451,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         if (developmentProposal.getRolodex() != null) {
             institutionalProposal.setRolodexId(developmentProposal.getRolodex().getRolodexId());
         }
+        if (institutionalProposal.getAwardType() !=null && developmentProposal.getAnticipatedAwardType() !=null) {
+            institutionalProposal.getAwardType().setDescription(developmentProposal.getAnticipatedAwardType().getDescription());
+        }    
     }
     
     protected void doCustomAttributeDataFeed(InstitutionalProposalDocument institutionalProposalDocument, DevelopmentProposal developmentProposal) throws WorkflowException {
@@ -469,7 +469,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                 ipCustomData = new InstitutionalProposalCustomData();
                 ipCustomData.setCustomAttribute(new CustomAttribute());
                 ipCustomData.getCustomAttribute().setId(dpCustomAttributeDocument.getId());
-                ipCustomData.setCustomAttributeId((long) dpCustomAttributeDocument.getId());
+                ipCustomData.setCustomAttributeId(dpCustomAttributeDocument.getId());
                 ipCustomData.setInstitutionalProposal(institutionalProposalDocument.getInstitutionalProposal());
                 ipCustomData.setValue(getCustomAttributeValue(developmentProposal.getProposalDocument().getCustomDataList(),key));
                 ipCustomDataList.add(ipCustomData);
@@ -502,13 +502,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             ipPersonCreditSplit.setNewCollectionRecord(pdPersonCreditSplit.isNewCollectionRecord());
             ipPerson.add(ipPersonCreditSplit);
         }
-        //ipPerson.setEmailAddress(pdPerson.getEmailAddress());
         ipPerson.setFaculty(pdPerson.getFacultyFlag());
         ipPerson.setFullName(pdPerson.getFullName());
         ipPerson.setKeyPersonRole(pdPerson.getProjectRole());
         ipPerson.setNewCollectionRecord(pdPerson.isNewCollectionRecord());
-        //ipPerson.setPerson(pdPerson.getPerson());
-        //ipPerson.setPhoneNumber(pdPerson.getPhoneNumber());
         ipPerson.setRoleCode(pdPerson.getRole().getRoleCode());
         ipPerson.setTotalEffort(pdPerson.getPercentageEffort());
         ipPerson.setAcademicYearEffort(pdPerson.getAcademicYearEffort());
@@ -614,7 +611,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             InstitutionalProposalUnrecoveredFandA ipUfa = new InstitutionalProposalUnrecoveredFandA();
             ipUfa.setApplicableIndirectcostRate(new ScaleTwoDecimal(budgetUfa.getApplicableRate().bigDecimalValue()));
             ipUfa.setFiscalYear(budgetUfa.getFiscalYear().toString());
-            ipUfa.setOnCampusFlag("Y".equals(budgetUfa.getOnCampusFlag()) ? true : false);
+            ipUfa.setOnCampusFlag(ACTIVE_VALUE.equals(budgetUfa.getOnCampusFlag()));
             ipUfa.setSourceAccount(budgetUfa.getSourceAccount());
             ipUfa.setIndirectcostRateTypeCode(Integer.parseInt(budget.getOhRateClassCode()));
             ipUfa.setUnderrecoveryOfIndirectcost(new ScaleTwoDecimal(budgetUfa.getAmount().bigDecimalValue()));
@@ -626,15 +623,15 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
     
     protected Integer getDefaultStatusCode() {
-        return 1;
+        return DEFAULT_STATUS_CODE;
     }
     
     protected Integer getWithdrawnStatusCode() {
-        return 5;
+        return WITHDRAWN_STATUS_CODE;
     }
     
     protected Integer getDefaultCostShareTypeCode() {
-        return 1;
+        return DEFAULT_COST_SHARE_TYPE_CODE;
     }
     
     
@@ -647,7 +644,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         synchNewCustomAttributes(newVersion, currentInstitutionalProposal);
         
         newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
-        newVersion.setAwardFundingProposals(transferFundingProposals(currentInstitutionalProposal, newVersion));
+        newVersion.setAwardFundingProposals(null);
         InstitutionalProposalDocument newInstitutionalProposalDocument = 
             (InstitutionalProposalDocument) getDocumentService().getNewDocument(InstitutionalProposalDocument.class);
         newInstitutionalProposalDocument.getDocumentHeader().setDocumentDescription(currentInstitutionalProposalDocument.getDocumentHeader().getDocumentDescription());
@@ -660,11 +657,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * This method is to synch custom attributes. During version process only existing custom attributes
      * available in the old document is copied. We need to make sure we have all the latest custom attributes
      * tied to the new document.
-     * @param newInstitutionalProposal
-     * @param oldInstitutionalProposal
      */
     protected void synchNewCustomAttributes(InstitutionalProposal newInstitutionalProposal, InstitutionalProposal oldInstitutionalProposal) {
-        Set<Integer> availableCustomAttributes = new HashSet<Integer>();
+        Set<Integer> availableCustomAttributes = new HashSet<>();
         for(InstitutionalProposalCustomData customData : newInstitutionalProposal.getInstitutionalProposalCustomDataList()) {
             availableCustomAttributes.add(customData.getCustomAttributeId().intValue());
         }
@@ -675,7 +670,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                 CustomAttributeDocument customAttributeDocument = entry.getValue();
                 if(!availableCustomAttributes.contains(customAttributeDocument.getId().intValue())) {
                     InstitutionalProposalCustomData customData = new InstitutionalProposalCustomData();
-                    customData.setCustomAttributeId((long) customAttributeDocument.getId());
+                    customData.setCustomAttributeId(customAttributeDocument.getId());
                     customData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
                     customData.setValue("");
                     customData.setInstitutionalProposal(newInstitutionalProposal);
@@ -684,21 +679,10 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             }
         }
     }
-    
-    protected ArrayList<AwardFundingProposal> transferFundingProposals(InstitutionalProposal oldIP, InstitutionalProposal newIP) {
-        ArrayList<AwardFundingProposal> newFundingProposals = new ArrayList<AwardFundingProposal>();
-        for (AwardFundingProposal afpp:oldIP.getAwardFundingProposals()) {
-            newFundingProposals.add(new AwardFundingProposal(afpp.getAward(), newIP));
-            afpp.setActive(false);
-        }
-        getBusinessObjectService().save(oldIP.getAwardFundingProposals());
-        return newFundingProposals;
-    }
 
     /**
      * This function verifies that the indicator fields are set, and if they aren't sets them.
      * If an IP is being versioned and the home unit or cost shares allocations are changed, there may be problems with these fields.
-     * @param institutionalProposal
      */
     protected void setInstitutionalProposalIndicators(InstitutionalProposal institutionalProposal) {
     	if (!institutionalProposal.getInstitutionalProposalCostShares().isEmpty()) {
@@ -751,8 +735,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
 
     @Override
     public Collection<String> getValidFundingProposalStatusCodes() {
-        String value = getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, "validFundingProposalStatusCodes");
-        return Arrays.asList(value.split(","));
+        String value = getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, VALID_FUNDING_PROPOSAL_STATUS_CODES);
+        return Arrays.asList(value.split(SEPARATOR));
     }
 
     @Override

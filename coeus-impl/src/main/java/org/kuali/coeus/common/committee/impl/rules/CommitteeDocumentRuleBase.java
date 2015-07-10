@@ -219,18 +219,7 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
      * get a list of committeeIds that are in approved or saved committee docs.
      */
     private List<String> getCommitteeIds(String docNumber) {
-        /*
-        // TODO : committeeId & docStatusCode are added to committeedocumnet.  It should not need to retrieve from committee
-        //, but for existing data in kc-dly30; keep this till its data is wiped out; then we can remove the retrieval of CommitteeBase
-        List<CommitteeBase> committees = (List<CommitteeBase>) KcServiceLocator.getService(BusinessObjectService.class).findAll(
-                CommitteeBase.class);
-        List<String> result = new ArrayList<String>();
-        for (CommitteeBase committee : committees) {
-            if (!result.contains(committee.getCommitteeId())) {
-                result.add(committee.getCommitteeId());
-            }
-        }
-        */
+
         List<String> result = new ArrayList<String>();
         List<CommitteeDocumentBase> committeeDocss = (List<CommitteeDocumentBase>) KcServiceLocator.getService(BusinessObjectService.class).findAll(getCommitteeDocumentBOClassHook());
         for (CommitteeDocumentBase committeeDoc : committeeDocss) {
@@ -252,7 +241,6 @@ public abstract class CommitteeDocumentRuleBase extends KcTransactionalDocumentR
             
             committee = (CommitteeBase) getBusinessObjectFromXML(xmlDocumentContents, getCommitteeBOClassHook().getName());
             
-//                committee = (CommonCommittee) getBusinessObjectFromXML(xmlDocumentContents, CommonCommittee.class.getName());
         }
         return committee;
     }

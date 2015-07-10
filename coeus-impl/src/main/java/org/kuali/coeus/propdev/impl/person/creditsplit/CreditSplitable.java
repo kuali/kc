@@ -34,7 +34,7 @@ public interface CreditSplitable {
     /**
      * Get a <code>{@link List}</code> of credit splits
      *
-     * @return List<T>
+     * @return List&lt;T&gt;
      */ 
     public List<? extends CreditSplit> getCreditSplits();
   

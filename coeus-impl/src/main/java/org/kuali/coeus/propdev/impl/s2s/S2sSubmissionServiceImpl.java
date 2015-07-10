@@ -22,6 +22,7 @@ import gov.grants.apply.services.applicantwebservices_v2.GetApplicationListRespo
 import gov.grants.apply.services.applicantwebservices_v2.GetApplicationStatusDetailResponse;
 import gov.grants.apply.services.applicantwebservices_v2.GetOpportunitiesResponse;
 import gov.grants.apply.services.applicantwebservices_v2.SubmitApplicationResponse;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,7 +41,6 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.s2sgen.api.core.ConfigurationConstants;
-import org.kuali.coeus.s2sgen.api.core.S2SException;
 import org.kuali.coeus.s2sgen.api.generate.AttachmentData;
 import org.kuali.coeus.s2sgen.api.generate.FormGeneratorService;
 import org.kuali.rice.krad.data.DataObjectService;
@@ -105,56 +105,6 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-
-    @Override
-    public Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity) {
-        Long result = versionNumberForS2sOpportunity;
-
-        Boolean mandatoryFormNotAvailable = false;
-        if(s2sOpportunity.getCfdaNumber()!=null){
-            proposal.setCfdaNumber(s2sOpportunity.getCfdaNumber());
-        }
-        if(s2sOpportunity.getOpportunityId()!=null){
-            proposal.setProgramAnnouncementNumber(s2sOpportunity.getOpportunityId());
-        }
-        if(s2sOpportunity.getOpportunityTitle()!=null){
-            proposal.setProgramAnnouncementTitle(s2sOpportunity.getOpportunityTitle());
-        }
-        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
-        if(s2sOpportunity.getSchemaUrl()!=null){
-            try{
-                s2sOppForms = parseOpportunityForms(s2sOpportunity);
-            }catch(S2SException ex){
-                if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
-                    ex.setErrorMessage(s2sOpportunity.getOpportunityId());
-                }
-                if(ex.getTabErrorKey()!=null){
-                    globalVariableService.getMessageMap().putError(ex.getTabErrorKey(), ex.getErrorKey(),ex.getMessageWithParams());
-                }else{
-                    globalVariableService.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
-                }
-            }
-            List<String> mandatoryForms = new ArrayList<String>();
-            if(s2sOppForms!=null){
-                for(S2sOppForms s2sOppForm:s2sOppForms){
-                    if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
-                        mandatoryFormNotAvailable = true;
-                        mandatoryForms.add(s2sOppForm.getFormName());
-                    }
-                }
-            }
-            if(!mandatoryFormNotAvailable){
-                s2sOpportunity.setS2sOppForms(s2sOppForms);
-                s2sOpportunity.setVersionNumber(versionNumberForS2sOpportunity);
-                proposal.setS2sOpportunity(s2sOpportunity);
-                result = null;
-            }else{
-                globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(),mandatoryForms.toString());
-                proposal.setS2sOpportunity(new S2sOpportunity());
-            }
-        }
-        return result;
-    }
 
     /**
      *
@@ -423,11 +373,11 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
     }
 
     /**
-     * This method convert GetOpportunityListResponse to ArrayList<OpportunityInfo>
+     * This method convert GetOpportunityListResponse to ArrayList&lt;OpportunityInfo&gt;
      *
      * @param resList
      *            {GetOpportunityListResponse}
-     * @return ArrayList<OpportunityInfo> containing all form information
+     * @return ArrayList&lt;OpportunityInfo&gt; containing all form information
      */
 
     protected ArrayList<S2sOpportunity> convertToArrayList(String source,
@@ -489,7 +439,7 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      *            parameter for the opportunity.
      * @param competitionId
      *            parameter for the opportunity.
-     * @return List<S2sOpportunity> a list containing the available
+     * @return List&lt;S2sOpportunity&gt; a list containing the available
      *         opportunities for the corresponding parameters.
      * @throws S2sCommunicationException
      */
@@ -532,10 +482,41 @@ public class S2sSubmissionServiceImpl implements S2sSubmissionService {
      */
     @Override
     public List<S2sOppForms> parseOpportunityForms(S2sOpportunity opportunity) throws S2sCommunicationException{
-        String opportunityContent = getOpportunityContent(opportunity.getSchemaUrl());
-        opportunity.setOpportunity(opportunityContent);
+        setOpportunityContent(opportunity);
         return opportunitySchemaParserService.getForms(opportunity.getProposalNumber(),opportunity.getSchemaUrl());
     }
+
+    public List<String> setMandatoryForms(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity) {
+        List<String> missingMandatoryForms = new ArrayList<String>();
+        s2sOpportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, s2sOpportunity.getProviderCode()));
+        List<S2sOppForms> s2sOppForms = parseOpportunityForms(s2sOpportunity);
+        if (s2sOppForms != null) {
+            for (S2sOppForms s2sOppForm : s2sOppForms) {
+                if (s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()) {
+                    missingMandatoryForms.add(s2sOppForm.getFormName());
+                }
+            }
+        }
+        if (CollectionUtils.isEmpty(missingMandatoryForms)) {
+            Collections.sort(s2sOppForms, new Comparator<S2sOppForms>() {
+                public int compare(S2sOppForms arg0, S2sOppForms arg1) {
+                    int result = arg0.getMandatory().compareTo(arg1.getMandatory()) * -1;
+                    if (result == 0) {
+                        result = arg0.getFormName().compareTo(arg1.getFormName());
+                    }
+                    return result;
+                }
+            });
+            s2sOpportunity.setS2sOppForms(s2sOppForms);
+        }
+        return missingMandatoryForms;
+    }
+
+    public void setOpportunityContent(S2sOpportunity opportunity) {
+        String opportunityContent = getOpportunityContent(opportunity.getSchemaUrl());
+        opportunity.setOpportunity(opportunityContent);
+    }
+
     private String getOpportunityContent(String schemaUrl) throws S2sCommunicationException{
         String opportunity = "";
         InputStream is  = null;

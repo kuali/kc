@@ -30,7 +30,6 @@ import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
  * This class tests methods in Award.java class
  */
 public class AwardCommentFactoryTest extends KcIntegrationTestBase {
-    private static final int AWARD_COMMENT_ATTRIBUTES_COUNT = 7;
     
     private AwardCommentFactory awardCommentFactory;
     
@@ -51,17 +50,7 @@ public class AwardCommentFactoryTest extends KcIntegrationTestBase {
     public void tearDown() throws Exception {
         awardCommentFactory = null;
     }
-    
-    /**
-     * 
-     * This method tests that total attributes of Award Business Object 
-     * @throws Exception
-     */
-    @Test
-    public void testAwardBoAttributesCount() throws Exception {              
-        Assert.assertEquals(AWARD_COMMENT_ATTRIBUTES_COUNT, awardCommentFactory.createCostShareComment().getClass().getDeclaredFields().length);
-    }
-    
+
     /**
      * 
      * This method tests that createCostShareAwardComment creates an AwardComment object and that the

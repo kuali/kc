@@ -183,9 +183,10 @@
 						attributeEntry="${reportTrackingAttributes.comments}" readOnly="${reportTrackingReadOnly }"  />
 				</td>
 				<td>
-					${reportTracking.lastUpdateUser } : 
-					<fmt:formatDate value="${reportTracking.lastUpdateDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
-					
+					<c:if test="${not empty reportTracking.lastUpdateUser}" >
+						${reportTracking.lastUpdateUser } :
+						<fmt:formatDate value="${reportTracking.lastUpdateDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
+					</c:if>
 				</td>
 				<td>
 					<c:if test="${reportTracking.displayDeleteButton}">

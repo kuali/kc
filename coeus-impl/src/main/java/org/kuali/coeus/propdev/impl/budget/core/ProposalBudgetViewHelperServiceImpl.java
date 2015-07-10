@@ -40,17 +40,18 @@ import org.kuali.coeus.propdev.impl.budget.ProposalBudgetNavigationService;
 import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModular;
 import org.kuali.coeus.propdev.impl.budget.modular.BudgetModularIdc;
+import org.kuali.coeus.propdev.impl.budget.subaward.BudgetSubAwards;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -72,8 +73,6 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
-    @Qualifier("auditHelper")
-    private AuditHelper auditHelper;
 
     @Autowired
     @Qualifier("globalVariableService")
@@ -159,6 +158,15 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     	getDataObjectService().save(lineObject);
     }
 
+    @Override
+    protected boolean performDeleteLineValidation(ViewModel model, String collectionId, String collectionPath,
+                                                  Object deleteLine) {
+        if (deleteLine instanceof BudgetSubAwards) {
+            getDataObjectService().delete(deleteLine);
+        }
+       return super.performDeleteLineValidation(model,collectionId,collectionPath,deleteLine);
+    }
+
     public String getWizardMaxResults() {
         return getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE,
                 KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE,
@@ -199,7 +207,7 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     }
 
     public String getDateFromTimeStamp(Timestamp timestamp) {
-        return getDateTimeService().toDateString(new Date(timestamp.getTime()));
+        return ObjectUtils.isNull(timestamp)? "" : getDateTimeService().toDateString(new Date(timestamp.getTime()));
     }
 
     public DateTimeService getDateTimeService() {
@@ -260,6 +268,17 @@ public class ProposalBudgetViewHelperServiceImpl extends KcViewHelperServiceImpl
     private boolean isEmptyBudgetLineItemExists(Budget budget) {
         for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             if (CollectionUtils.isEmpty(budgetPeriod.getBudgetLineItems())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean budgetLineItemsExistInLaterPeriods(List<BudgetPeriod> budgetPeriods) {
+        for (BudgetPeriod budgetPeriod : budgetPeriods) {
+            if (budgetPeriod.getBudgetPeriod() == 1) {
+              continue;
+            } else if (!budgetPeriod.getBudgetLineItems().isEmpty()) {
                 return true;
             }
         }

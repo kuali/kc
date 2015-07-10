@@ -115,7 +115,7 @@
 					<div align="center">Obligated Amount:</div></th>
 					
 					<th>
-					<div align="center">Award Status:</div></th>
+					<div align="center">Subaward Status:</div></th>
 					
 					</tr>
                   	<c:forEach var="awardLinkedSubawards" items="${KualiForm.document.awardList[0].subAwardList}" varStatus="status">
@@ -123,13 +123,13 @@
                   					 <td width="8%" valign="middle"> 
 						    
 						    <a
-						href="${ConfigProperties.application.url}/subAwardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${awardLinkedSubawards.subAwardDocument.documentNumber}&medusaOpenedDoc=true&viewOnly=true"
+						href="${ConfigProperties.application.url}/subAwardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${awardLinkedSubawards.subAwardDocument.documentNumber}&medusaOpenedDoc=true"
 						target="_blank" class="medusaOpenLink">Open Subaward</a>
 						</td>
                  					<td>${awardLinkedSubawards.organizationName}&nbsp; </td>
                  					<td>${awardLinkedSubawards.subAwardCode}&nbsp; </td>
-                 					<td>${awardLinkedSubawards.totalObligatedAmount}&nbsp; </td>
-                 					<td>${KualiForm.document.awardList[0].awardStatus.description}&nbsp; </td>
+                 					<td>${awardLinkedSubawards.subAwardAmountInfoList[0].obligatedChange}&nbsp;</td>                 					
+                 					<td>${awardLinkedSubawards.subAwardStatus.description}</td>
                   	</tr>
         			</c:forEach>
         </table>

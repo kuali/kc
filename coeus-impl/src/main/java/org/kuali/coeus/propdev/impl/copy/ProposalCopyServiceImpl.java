@@ -624,14 +624,16 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             for (ProposalPersonBiography newBiography : newBiographies) {
                 if (oldBiography.getProposalPersonNumber().equals(newBiography.getProposalPersonNumber()) &&
                         oldBiography.getBiographyNumber().equals(newBiography.getBiographyNumber())) {
-                    ProposalPersonBiographyAttachment newBiographyAttachment = new ProposalPersonBiographyAttachment();
-                    newBiographyAttachment.setProposalPersonBiography(newBiography);
-                    newBiographyAttachment.setProposalPersonNumber(oldBiography.getProposalPersonNumber());
-                    newBiographyAttachment.setBiographyNumber(oldBiography.getBiographyNumber());
-                    newBiographyAttachment.setData(oldBiography.getPersonnelAttachment().getData());
-                    newBiographyAttachment.setName(oldBiography.getPersonnelAttachment().getName());
-                    newBiographyAttachment.setType(oldBiography.getPersonnelAttachment().getType());
-                    newBiography.setPersonnelAttachment(newBiographyAttachment);
+                    if (oldBiography.getPersonnelAttachment() != null) {
+                        ProposalPersonBiographyAttachment newBiographyAttachment = new ProposalPersonBiographyAttachment();
+                        newBiographyAttachment.setProposalPersonBiography(newBiography);
+                        newBiographyAttachment.setProposalPersonNumber(oldBiography.getProposalPersonNumber());
+                        newBiographyAttachment.setBiographyNumber(oldBiography.getBiographyNumber());
+                        newBiographyAttachment.setData(oldBiography.getPersonnelAttachment().getData());
+                        newBiographyAttachment.setName(oldBiography.getPersonnelAttachment().getName());
+                        newBiographyAttachment.setType(oldBiography.getPersonnelAttachment().getType());
+                        newBiography.setPersonnelAttachment(newBiographyAttachment);
+                    }
                 }
             }
         }
@@ -641,13 +643,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         for (Narrative oldNarrative : oldNarratives) {
             for (Narrative newNarrative : newNarratives) {
                 if (oldNarrative.getModuleNumber().equals(newNarrative.getModuleNumber())) {
-                    NarrativeAttachment newNarrativeAttachment = new NarrativeAttachment();
-                    newNarrativeAttachment.setNarrative(newNarrative);
-                    newNarrativeAttachment.setModuleNumber(oldNarrative.getModuleNumber());
-                    newNarrativeAttachment.setData(oldNarrative.getNarrativeAttachment().getData());
-                    newNarrativeAttachment.setName(oldNarrative.getNarrativeAttachment().getName());
-                    newNarrativeAttachment.setType(oldNarrative.getNarrativeAttachment().getType());
-                    newNarrative.setNarrativeAttachment(newNarrativeAttachment);
+                    if (oldNarrative.getNarrativeAttachment() != null) {
+                        NarrativeAttachment newNarrativeAttachment = new NarrativeAttachment();
+                        newNarrativeAttachment.setNarrative(newNarrative);
+                        newNarrativeAttachment.setModuleNumber(oldNarrative.getModuleNumber());
+                        newNarrativeAttachment.setData(oldNarrative.getNarrativeAttachment().getData());
+                        newNarrativeAttachment.setName(oldNarrative.getNarrativeAttachment().getName());
+                        newNarrativeAttachment.setType(oldNarrative.getNarrativeAttachment().getType());
+                        newNarrative.setNarrativeAttachment(newNarrativeAttachment);
+                    }
                 }
             }
         }
@@ -685,12 +689,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             String unitOrganizationId = ownedByUnit.getOrganizationId();
             for (ProposalSite proposalSite: developmentProposal.getProposalSites()) {
                 // set location name to default from Organization
-                proposalSite.setOrganizationId(unitOrganizationId);
-                proposalSite.refreshReferenceObject("organization");
-                proposalSite.setLocationName(proposalSite.getOrganization().getOrganizationName());
-                proposalSite.setRolodexId(proposalSite.getOrganization().getContactAddressId());
-                proposalSite.refreshReferenceObject("rolodex");
-                initializeCongressionalDistrict(proposalSite.getOrganizationId(), proposalSite);
+                if (proposalSite.getLocationTypeCode().equals(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION) ||
+                        proposalSite.getLocationTypeCode().equals(ProposalSite.PROPOSAL_SITE_PERFORMING_ORGANIZATION)) {
+                    proposalSite.setOrganizationId(unitOrganizationId);
+                    proposalSite.refreshReferenceObject("organization");
+                    proposalSite.setLocationName(proposalSite.getOrganization().getOrganizationName());
+                    proposalSite.setRolodexId(proposalSite.getOrganization().getContactAddressId());
+                    proposalSite.refreshReferenceObject("rolodex");
+                    initializeCongressionalDistrict(proposalSite.getOrganizationId(), proposalSite);
+                }
             }
         }
     }

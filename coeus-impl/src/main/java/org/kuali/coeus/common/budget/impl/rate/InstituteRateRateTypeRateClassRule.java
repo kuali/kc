@@ -21,10 +21,10 @@ package org.kuali.coeus.common.budget.impl.rate;
 import org.kuali.coeus.common.budget.framework.rate.AbstractInstituteRate;
 
 /**
-* This rule checks that an institute rate type & rate class are valid for the specific maintenance document.
+* This rule checks that an institute rate type &amp; rate class are valid for the specific maintenance document.
 * <p>
 * For example: if dealing with a LA rate maintenance document then that document can only contain an
-* <bold>LA</bold> rate type & <bold>LA</bold> rate class.
+* <strong>LA</strong> rate type &amp; <strong>LA</strong> rate class.
 * </p>
 */
 public interface InstituteRateRateTypeRateClassRule extends org.kuali.rice.krad.rules.rule.BusinessRule {

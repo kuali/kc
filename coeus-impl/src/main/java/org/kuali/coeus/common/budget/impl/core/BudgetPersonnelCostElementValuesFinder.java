@@ -37,7 +37,7 @@ public class BudgetPersonnelCostElementValuesFinder extends CostElementValuesFin
 	
     @Override
     public List<KeyValue> getKeyValues() {
-        return super.getKeyValues(getPersonnelBudgetCategoryTypeCode(), true);
+        return super.getKeyValues(getPersonnelBudgetCategoryTypeCode(), true, null);
     }
     
     private String getPersonnelBudgetCategoryTypeCode() {

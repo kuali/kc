@@ -35,11 +35,11 @@ public interface CommitteeScheduleServiceBase<CS extends CommitteeScheduleBase<C
     
     /**
      * This method implementer must check if passed CommitteeScheduleBase is deleteable.
-     * <br/>
+     *
      * Rule:
-     * <br/>
+     *
      * Any past schedule date must not be allowed to delete.
-     * <br/>
+     *
      * Allow delete if NO Protocol is assigned to CommitteeScheduleBase.
      * @param committeeSchedule
      * @return

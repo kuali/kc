@@ -110,7 +110,6 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
 	private static final String SPONSOR_DEADLINE_TYPE_RECEIPT = "R";
 	private static final String SPONSOR_DEADLINE_POSTMARK_DESCRIPTION = "(Postmark)";
 	private static final String SPONSOR_DEADLINE_TYPE_POSTMARK = "P";
-	private static final String SPONSOR_COST_WHEN_FINAL_VERSION_FLAG_FALSE = "*** No final budget ***";
 	private static final String STRING_SEPRATOR = "-";
 	private static final String BLANK_STRING = " ";
 	private static final String OPEN_BRACES = "(";

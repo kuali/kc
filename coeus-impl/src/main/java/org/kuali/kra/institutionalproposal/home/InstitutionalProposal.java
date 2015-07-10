@@ -79,6 +79,15 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private static final long serialVersionUID = 1L;
     private static final Integer PROPOSAL_PENDING_STATUS_CODE = 1;
     private static final Integer PROPOSAL_FUNDED_STATUS_CODE = 2;
+    public static final String PROPOSAL_STATUS = "proposalStatus";
+    public static final String PROPOSAL_TYPE = "proposalType";
+    public static final String SPONSOR = "sponsor";
+    public static final String PRIME_SPONSOR = "primeSponsor";
+    public static final String PROPOSAL_TYPE_CODE = "proposalTypeCode";
+    public static final String COMMENT_TYPE = "commentType";
+    public static final String ACTIVITY_TYPE = "activityType";
+    public static final String ACTIVITY_CODE = "code";
+    public static final String SELECT = "(select)";
 
     private InstitutionalProposalDocument institutionalProposalDocument;
     private Long proposalId;
@@ -148,15 +157,19 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private KcPerson ospAdministrator;
     private InstitutionalProposalScienceKeyword proposalScienceKeyword;
     private InstitutionalProposalCostShare proposalCostSharing;
-    // private AwardFundingProposals awardFundingProposals;
     private InstitutionalProposalPersonCreditSplit proposalPerCreditSplit;
     private ProposalUnitCreditSplit proposalUnitCreditSplit;
     private List<InstitutionalProposalComment> proposalComments;
     private IntellectualPropertyReview intellectualPropertyReview;
 
+    private static final String DEFAULT_VALUE = "0";
+    private static final int INITIAL_SEQUENCE_NUMBER = 1;
+    private static final String ACTIVE = "A";
+    private static final String INSTITUTIONAL_PROPOSAL_DOCUMENT = "institutionalProposalDocument";
+
     private List<ProposalIpReviewJoin> proposalIpReviewJoins;
     private List<InstitutionalProposalPerson> projectPersons;
-    private List<InstitutionalProposalUnitContact> institutionalProposalUnitContacts;
+    private List<InstitutionalProposalUnitContact> institutionalProposalUnitContacts = new ArrayList<>();
     private List<InstitutionalProposalCustomData> institutionalProposalCustomDataList;
     private List<InstitutionalProposalNotepad> institutionalProposalNotepads;
     private List<InstitutionalProposalSpecialReview> specialReviews;
@@ -165,6 +178,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs;
     @SkipVersioning
     private List<AwardFundingProposal> awardFundingProposals;
+    private List<AwardFundingProposal> allFundingProposals;
     private Map<String, InstitutionalProposalComment> commentMap;
     private boolean sponsorNihMultiplePi;
 
@@ -173,9 +187,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private transient String lookupUnitNumber;
     private transient String lookupPersonNumber;
     private transient FiscalYearMonthService fiscalYearMonthService;
-    
     private transient boolean allowUpdateTimestampToBeReset = true;
-
     private transient KcPersonService kcPersonService;
 
     public InstitutionalProposal() {
@@ -186,25 +198,23 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     /**
-     * 
-     * This method sets the default values for initial persistence as part of skeleton. As various panels are developed;
+     * This method sets the default values for initial persistence as
+     * part of skeleton. As various panels are developed;
      * corresponding field initializations should be removed from this method.
      */
     private void initializeInstitutionalProposalWithDefaultValues() {
-        setSequenceNumber(1);
-        // setSponsorCode("005852");
-        setCostSharingIndicator("0");
-        setIdcRateIndicator("0");
-        setSpecialReviewIndicator("0");
-        setScienceCodeIndicator("0");
-        ipReviewActivityIndicator = "A";
+        setSequenceNumber(INITIAL_SEQUENCE_NUMBER);
+        setCostSharingIndicator(DEFAULT_VALUE);
+        setIdcRateIndicator(DEFAULT_VALUE);
+        setSpecialReviewIndicator(DEFAULT_VALUE);
+        setScienceCodeIndicator(DEFAULT_VALUE);
+        ipReviewActivityIndicator = ACTIVE;
         Calendar cl = Calendar.getInstance();
         setCreateTimeStamp(new Date(cl.getTime().getTime()));
-        // setProposalNumber("1");
-        setTotalDirectCostInitial(new ScaleTwoDecimal(0));
-        setTotalDirectCostTotal(new ScaleTwoDecimal(0));
-        setTotalIndirectCostInitial(new ScaleTwoDecimal(0));
-        setTotalIndirectCostTotal(new ScaleTwoDecimal(0));
+        setTotalDirectCostInitial(ScaleTwoDecimal.ZERO);
+        setTotalDirectCostTotal(ScaleTwoDecimal.ZERO);
+        setTotalIndirectCostInitial(ScaleTwoDecimal.ZERO);
+        setTotalIndirectCostTotal(ScaleTwoDecimal.ZERO);
         newDescription = getDefaultNewDescription();
         setProposalSequenceStatus(VersionStatus.PENDING.toString());
         setStatusCode(1);// default value for all IP's
@@ -213,16 +223,16 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     protected void initializeCollections() {
-        institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
-        specialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
-        institutionalProposalScienceKeywords = new ArrayList<InstitutionalProposalScienceKeyword>();
-        institutionalProposalCostShares = new ArrayList<InstitutionalProposalCostShare>();
-        institutionalProposalUnrecoveredFandAs = new ArrayList<InstitutionalProposalUnrecoveredFandA>();
-        proposalIpReviewJoins = new ArrayList<ProposalIpReviewJoin>();
+        institutionalProposalCustomDataList = new ArrayList<>();
+        specialReviews = new ArrayList<>();
+        institutionalProposalScienceKeywords = new ArrayList<>();
+        institutionalProposalCostShares = new ArrayList<>();
+        institutionalProposalUnrecoveredFandAs = new ArrayList<>();
+        proposalIpReviewJoins = new ArrayList<>();
         proposalIpReviewJoins.add(new ProposalIpReviewJoin());
-        awardFundingProposals = new ArrayList<AwardFundingProposal>();
-        institutionalProposalUnitContacts = new ArrayList<InstitutionalProposalUnitContact>();
-        proposalComments = new ArrayList<InstitutionalProposalComment>();
+        awardFundingProposals = new ArrayList<>();
+        institutionalProposalUnitContacts = new ArrayList<>();
+        proposalComments = new ArrayList<>();
     }
 
     public void setDefaultInitialContractAdmin() {
@@ -258,9 +268,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     /**
      * Is this Proposal funded by the given Award number and version?
-     * @param awardNumber String
-     * @param awardSequence Integer
-     * @return boolean
      */
     public boolean isFundedByAward(String awardNumber, Integer awardSequence) {
         for (AwardFundingProposal awardFundingProposal : this.getAwardFundingProposals()) {
@@ -276,50 +283,28 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
      * This method calculates fiscal Month and fiscal Year fields. It also adds leading 0 to Month if needed.
      */
     private void calculateFiscalMonthAndYearFields() {
-        /*
-        Calendar cl = Calendar.getInstance();
-        cl.add(Calendar.MONTH, 6);
-        String monthString = Integer.toString(cl.get(Calendar.MONTH) + 1);
-        if (monthString.length() == 1) {
-            monthString = "0" + monthString;
-        }
-        setFiscalMonth(monthString);
-        setFiscalYear(Integer.toString(cl.get(Calendar.YEAR)));
-        */
         String monthString = this.getFiscalYearMonthService().getCurrentFiscalMonthForDisplay().toString();
         if (monthString.length() == 1) {
-            monthString = "0" + monthString;
+            monthString = DEFAULT_VALUE + monthString;
         }
         setFiscalMonth(monthString);
         setFiscalYear(this.getFiscalYearMonthService().getCurrentFiscalYear().toString());
     }
-    
-    /**
-     * Gets the institutionalProposalDocument attribute. 
-     * @return Returns the institutionalProposalDocument.
-     */
+
     public InstitutionalProposalDocument getInstitutionalProposalDocument() {
         if (institutionalProposalDocument == null) {
-            this.refreshReferenceObject("institutionalProposalDocument");
+            this.refreshReferenceObject(INSTITUTIONAL_PROPOSAL_DOCUMENT);
         }
         return institutionalProposalDocument;
     }
 
-    /**
-     * Sets the institutionalProposalDocument attribute value.
-     * @param institutionalProposalDocument The institutionalProposalDocument to set.
-     */
     public void setInstitutionalProposalDocument(InstitutionalProposalDocument institutionalProposalDocument) {
         this.institutionalProposalDocument = institutionalProposalDocument;
     }
 
     /**
-     * Add an AwardFundingProposal
-     * 
      * The Award "owns" the relationship, so this method should not be called directly. Instead, this method will be called when an
      * InstitutionalProposal is linked to an Award from Award maintenance.
-     * 
-     * @param afp
      */
     public void add(AwardFundingProposal afp) {
         awardFundingProposals.add(afp);
@@ -345,24 +330,15 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         institutionalProposalUnrecoveredFandAs.add(institutionalProposalUnrecoveredFandA);
     }
 
-    /**
-     * This method 
-     * @return
-     */
     public ScaleTwoDecimal getTotalInitialCost() {
-        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0);
+        ScaleTwoDecimal returnValue = ScaleTwoDecimal.ZERO;
         returnValue = returnValue.add(totalDirectCostInitial);
         returnValue = returnValue.add(totalIndirectCostInitial);
         return returnValue;
     }
 
-    /**
-     * This method
-     * 
-     * @return
-     */
     public ScaleTwoDecimal getTotalCost() {
-        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0);
+        ScaleTwoDecimal returnValue = ScaleTwoDecimal.ZERO;
         returnValue = returnValue.add(totalDirectCostTotal);
         returnValue = returnValue.add(totalIndirectCostTotal);
         return returnValue;
@@ -370,125 +346,66 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     /**
      * This method calculates the total value of a list of ValuableItems
-     * 
-     * @param valuableItems
-     * @return The total value
      */
     ScaleTwoDecimal getTotalAmount(List<? extends ValuableItem> valuableItems) {
-        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnVal = ScaleTwoDecimal.ZERO;
         for (ValuableItem item : valuableItems) {
-            ScaleTwoDecimal amount = item.getAmount() != null ? item.getAmount() : new ScaleTwoDecimal(0.00);
+            ScaleTwoDecimal amount = item.getAmount() != null ? item.getAmount() : ScaleTwoDecimal.ZERO;
             returnVal = returnVal.add(amount);
         }
         return returnVal;
     }
 
-    /**
-     * This method calls getTotalAmount to calculate the total of all Commitment Amounts.
-     * 
-     * @return
-     */
     public ScaleTwoDecimal getTotalCostShareAmount() {
         return getTotalAmount(institutionalProposalCostShares);
     }
 
-    /**
-     * This method calls getTotalAmount to calculate the total of all Unrecovered FandAs.
-     * 
-     * @return
-     */
     public ScaleTwoDecimal getTotalUnrecoveredFandAAmount() {
         return getTotalAmount(institutionalProposalUnrecoveredFandAs);
     }
 
-    /**
-     * Gets the specialReviews attribute.
-     * 
-     * @return Returns the specialReviews.
-     */
     public List<InstitutionalProposalSpecialReview> getSpecialReviews() {
         return specialReviews;
     }
 
-    /**
-     * Sets the specialReviews attribute value.
-     * 
-     * @param specialReviews The specialReviews to set.
-     */
     public void setSpecialReviews(List<InstitutionalProposalSpecialReview> specialReviews) {
         this.specialReviews = specialReviews;
     }
 
-    /**
-     * Gets the institutionalProposalCustomDataList attribute.
-     * 
-     * @return Returns the institutionalProposalCustomDataList.
-     */
     public List<InstitutionalProposalCustomData> getInstitutionalProposalCustomDataList() {
         return institutionalProposalCustomDataList;
     }
 
-
-    /**
-     * Gets the institutionalProposalNotepads attribute. 
-     * @return Returns the institutionalProposalNotepads.
-     */
     public List<InstitutionalProposalNotepad> getInstitutionalProposalNotepads() {
 
         if (institutionalProposalNotepads == null) {
-            institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
+            institutionalProposalNotepads = new ArrayList<>();
         }
         return institutionalProposalNotepads;
     }
 
-    /**
-     * Sets the institutionalProposalNotepads attribute value.
-     * @param institutionalProposalNotepads The institutionalProposalNotepads to set.
-     */
     public void setInstitutionalProposalNotepads(List<InstitutionalProposalNotepad> institutionalProposalNotepads) {
         this.institutionalProposalNotepads = institutionalProposalNotepads;
     }
 
-
-    /**
-     * Sets the institutionalProposalCustomDataList attribute value.
-     * @param institutionalProposalCustomDataList The institutionalProposalCustomDataList to set.
-     */
     public void setInstitutionalProposalCustomDataList(List<InstitutionalProposalCustomData> institutionalProposalCustomDataList) {
         this.institutionalProposalCustomDataList = institutionalProposalCustomDataList;
     }
 
-
-    /**
-     * Gets the institutionalProposalScienceKeywords attribute. 
-     * @return Returns the institutionalProposalScienceKeywords.
-     */
     public List<InstitutionalProposalScienceKeyword> getInstitutionalProposalScienceKeywords() {
         return institutionalProposalScienceKeywords;
     }
 
-    /**
-     * Sets the institutionalProposalScienceKeywords attribute value.
-     * @param institutionalProposalScienceKeywords The institutionalProposalScienceKeywords to set.
-     */
     public void setInstitutionalProposalScienceKeywords(
             List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords) {
         this.institutionalProposalScienceKeywords = institutionalProposalScienceKeywords;
     }
 
-    /**
-     * This method adds a Project Person to the institutionalProposal
-     * @param projectPerson
-     */
     public void add(InstitutionalProposalPerson projectPerson) {
         projectPersons.add(projectPerson);
         projectPerson.setInstitutionalProposal(this);
     }
 
-    /**
-     * Add an Institutional Proposal Unit or Central Administration contact
-     * @param awardUnitContact
-     */
     public void add(InstitutionalProposalUnitContact institutionalProposalUnitContact) {
         institutionalProposalUnitContacts.add(institutionalProposalUnitContact);
         institutionalProposalUnitContact.setInstitutionalProposal(this);
@@ -505,9 +422,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         return ospAdministrator;
     }
 
-    /**
-     * @param institutionalProposalUnitContacts
-     */
     public void setInstitutionalProposalUnitContacts(List<InstitutionalProposalUnitContact> institutionalProposalUnitContacts) {
         this.institutionalProposalUnitContacts = institutionalProposalUnitContacts;
     }
@@ -634,10 +548,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.activityTypeCode = activityTypeCode;
     }
 
-    /**
-     * Sets the leadUnit attribute value.
-     * @param leadUnit The leadUnit to set.
-     */
     public void setLeadUnit(Unit leadUnit) {
         this.leadUnit = leadUnit;
     }
@@ -786,19 +696,10 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.mailAccountNumber = mailAccountNumber;
     }
 
-
-    /**
-     * Gets the mailDescription attribute. 
-     * @return Returns the mailDescription.
-     */
     public String getMailDescription() {
         return mailDescription;
     }
 
-    /**
-     * Sets the mailDescription attribute value.
-     * @param mailDescription The mailDescription to set.
-     */
     public void setMailDescription(String mailDescription) {
         this.mailDescription = mailDescription;
     }
@@ -917,7 +818,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     public ProposalStatus getProposalStatus() {
         if (proposalStatus == null && statusCode != null) {
-            this.refreshReferenceObject("proposalStatus");
+            this.refreshReferenceObject(PROPOSAL_STATUS);
         }
         return proposalStatus;
     }
@@ -936,7 +837,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     public ProposalType getProposalType() {
         if (proposalType == null && proposalTypeCode != null) {
-            this.refreshReferenceObject("proposalType");
+            this.refreshReferenceObject(PROPOSAL_TYPE);
         }
         return proposalType;
     }
@@ -953,18 +854,9 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.rolodex = rolodex;
     }
 
-    /**
-     * This method violates our policy of not calling a service in a getter. This will only call the service once to set a sponsor
-     * when a sponsor code exists, but no sponsor was fetched
-     * 
-     * Seems like a persistence design issue to me. Why wouldn't Sponsor:Award be a 1:M relationship handled automagically by the
-     * persistence framework?
-     * 
-     * @return
-     */
     public Sponsor getSponsor() {
         if (outOfSync(sponsorCode, sponsor)) {
-            this.refreshReferenceObject("sponsor");
+            this.refreshReferenceObject(SPONSOR);
         }
         return sponsor;
     }
@@ -974,23 +866,18 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.sponsorCode = sponsor != null ? sponsor.getSponsorCode() : null;
     }
 
-    // Note: following the pattern of Sponsor, this getter indirectly calls a service.
-    // Is there a better way?
     public Sponsor getPrimeSponsor() {
         if (outOfSync(primeSponsorCode, primeSponsor)) {
-            this.refreshReferenceObject("primeSponsor");
+            this.refreshReferenceObject(PRIME_SPONSOR);
         }
         return primeSponsor;
     }
 
     /**
      * checks if a sponsor code needs refreshing.
-     * @param code the code
-     * @param spon the sponsor to refresh
-     * @return true if needs refreshing
      */
-    private static boolean outOfSync(String code, Sponsor spon) {
-        return spon == null && !StringUtils.isEmpty(code) || (spon != null && !StringUtils.equals(spon.getSponsorCode(), code))
+    private static boolean outOfSync(String code, Sponsor sponsor) {
+        return sponsor == null && !StringUtils.isEmpty(code) || (sponsor != null && !StringUtils.equals(sponsor.getSponsorCode(), code))
                 && !StringUtils.isEmpty(code);
     }
 
@@ -1021,7 +908,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     public ActivityType getActivityType() {
         if (activityType == null && activityTypeCode != null) {
-            this.refreshReferenceObject("activityType");
+            this.refreshReferenceObject(ACTIVITY_TYPE);
         }
         return activityType;
     }
@@ -1034,9 +921,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         return awardType;
     }
 
-    /**
-     * @return Returns the awards.
-     */
     public List<AwardFundingProposal> getAwardFundingProposals() {
         return awardFundingProposals;
     }
@@ -1049,12 +933,8 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         return getAwardFundingProposals().size() > 0;
     }
 
-    /**
-     * Get the list of only Active AwardFundingProposals.
-     * @return List<AwardFundingProposal> the list.
-     */
     public List<AwardFundingProposal> getActiveAwardFundingProposals() {
-        List<AwardFundingProposal> activeAfps = new ArrayList<AwardFundingProposal>();
+        List<AwardFundingProposal> activeAfps = new ArrayList<>();
         for (AwardFundingProposal awardFundingProposal : this.getAwardFundingProposals()) {
             if (awardFundingProposal.isActive()) {
                 activeAfps.add(awardFundingProposal);
@@ -1067,50 +947,26 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.awardType = awardType;
     }
 
-    /**
-     * Gets the fiscalMonth attribute. 
-     * @return Returns the fiscalMonth.
-     */
     public String getFiscalMonth() {
         return fiscalMonth;
     }
 
-    /**
-     * Sets the fiscalMonth attribute value.
-     * @param fiscalMonth The fiscalMonth to set.
-     */
     public void setFiscalMonth(String fiscalMonth) {
         this.fiscalMonth = fiscalMonth;
     }
 
-    /**
-     * Gets the fiscalYear attribute. 
-     * @return Returns the fiscalYear.
-     */
     public String getFiscalYear() {
         return fiscalYear;
     }
 
-    /**
-     * Sets the fiscalYear attribute value.
-     * @param fiscalYear The fiscalYear to set.
-     */
     public void setFiscalYear(String fiscalYear) {
         this.fiscalYear = fiscalYear;
     }
 
-    /**
-     * This method finds the lead unit number, if any
-     * @return
-     */
     public String getUnitNumber() {
         return unitNumber;
     }
 
-    /**
-     * Sets the unitNumber attribute value.
-     * @param unitNumber The unitNumber to set.
-     */
     public void setUnitNumber(String unitNumber) {
         this.unitNumber = unitNumber;
     }
@@ -1125,9 +981,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.unitNumber = unitNumber;
     }
 
-    /**
-     * @param awards The awards to set.
-     */
     public void setAwardFundingProposals(List<AwardFundingProposal> awardFundingProposals) {
         this.awardFundingProposals = awardFundingProposals;
     }
@@ -1148,60 +1001,40 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.proposalCostSharing = proposalCostSharing;
     }
 
-
-    /*
-     * public AwardFundingProposals getAwardFundingProposals() { return awardFundingProposals; }
-     * 
-     * public void setAwardFundingProposals(AwardFundingProposals awardFundingProposals) { this.awardFundingProposals =
-     * awardFundingProposals; }
-     */
-
-    /**
-     * Gets the projectPersons attribute. 
-     * @return Returns the projectPersons.
-     */
-    @SuppressWarnings("unchecked")
     public List<InstitutionalProposalPerson> getProjectPersons() 
     {   if(CollectionUtils.isNotEmpty(projectPersons)) {    
             Collections.sort(projectPersons, new ProjectPersonComparator());
         }
         return projectPersons; 
     }
-    
-    
-    @SuppressWarnings("rawtypes")
-    class ProjectPersonComparator implements Comparator 
+
+    class ProjectPersonComparator implements Comparator
     {
         
         public int compare(Object obj1, Object obj2) 
         {
             InstitutionalProposalPerson ipp1 = (InstitutionalProposalPerson) obj1;
             InstitutionalProposalPerson ipp2 = (InstitutionalProposalPerson) obj2;
-            String lastName1 = ipp1.getContact() != null ? ipp1.getContact().getLastName() != null ? ipp1.getContact().getLastName().toUpperCase() : "" : "";  
-            String lastName2 = ipp2.getContact() != null ? ipp2.getContact().getLastName() != null ? ipp2.getContact().getLastName().toUpperCase() : "" : "";  
-            String contactRoleCode1 = ipp1.getContactRole() != null ? ipp1.getContactRole().getRoleCode() : "";
-            String contactRoleCode2 = ipp2.getContactRole() != null ? ipp2.getContactRole().getRoleCode() : "";
+            String lastName1 = ipp1.getContact() != null ? ipp1.getContact().getLastName() != null ?
+                    ipp1.getContact().getLastName().toUpperCase() : StringUtils.EMPTY : StringUtils.EMPTY;
+            String lastName2 = ipp2.getContact() != null ? ipp2.getContact().getLastName() != null ?
+                    ipp2.getContact().getLastName().toUpperCase() : StringUtils.EMPTY : StringUtils.EMPTY;
+            String contactRoleCode1 = ipp1.getContactRole() != null ? ipp1.getContactRole().getRoleCode() : StringUtils.EMPTY;
+            String contactRoleCode2 = ipp2.getContactRole() != null ? ipp2.getContactRole().getRoleCode() : StringUtils.EMPTY;
                 
-            if (contactRoleCode1.equals(contactRoleCode2))
-            {
+            if (contactRoleCode1.equals(contactRoleCode2)) {
                 return lastName1.compareTo(lastName2);
             }
-            else 
-            {
-                if (contactRoleCode1.equals(ContactRole.PI_CODE))
-                {
+            else {
+                if (contactRoleCode1.equals(ContactRole.PI_CODE)) {
                     return -1;
                 }
-                if (contactRoleCode2.equals(ContactRole.PI_CODE))
-                {
+                if (contactRoleCode2.equals(ContactRole.PI_CODE)) {
                     return 1;
                 }
-                if (contactRoleCode1.equals(ContactRole.COI_CODE)) 
-                {
+                if (contactRoleCode1.equals(ContactRole.COI_CODE)) {
                     return -1;
-                }
-                else 
-                {
+                } else  {
                     return 1;
                 }              
             }
@@ -1209,11 +1042,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         
     }
 
-    
-    /**
-     * Sets the projectPersons attribute value.
-     * @param projectPersons The projectPersons to set.
-     */
     public void setProjectPersons(List<InstitutionalProposalPerson> projectPersons) {
         this.projectPersons = projectPersons;
     }
@@ -1259,7 +1087,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     public ProposalIpReviewJoin getProposalIpReviewJoin() {
-        if (ObjectUtils.isNotNull(this.proposalIpReviewJoins != null)) {
+        if (!CollectionUtils.isEmpty(this.proposalIpReviewJoins)) {
             return this.proposalIpReviewJoins.get(0);
         }
         return null;
@@ -1269,57 +1097,33 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.proposalIpReviewJoins.add(0, proposalIpReviewJoin);
     }
 
-    /**
-     * Gets the institutionalProposalCostShares attribute. 
-     * @return Returns the institutionalProposalCostShares.
-     */
     public List<InstitutionalProposalCostShare> getInstitutionalProposalCostShares() {
         return institutionalProposalCostShares;
     }
 
-    /**
-     * Sets the institutionalProposalCostShares attribute value.
-     * @param institutionalProposalCostShares The institutionalProposalCostShares to set.
-     */
     public void setInstitutionalProposalCostShares(List<InstitutionalProposalCostShare> institutionalProposalCostShares) {
         this.institutionalProposalCostShares = institutionalProposalCostShares;
     }
 
-    /**
-     * Gets the institutionalProposalUnrecoveredFandAs attribute. 
-     * @return Returns the institutionalProposalUnrecoveredFandAs.
-     */
     public List<InstitutionalProposalUnrecoveredFandA> getInstitutionalProposalUnrecoveredFandAs() {
         return institutionalProposalUnrecoveredFandAs;
     }
 
-    /**
-     * Sets the institutionalProposalUnrecoveredFandAs attribute value.
-     * @param institutionalProposalUnrecoveredFandAs The institutionalProposalUnrecoveredFandAs to set.
-     */
     public void setInstitutionalProposalUnrecoveredFandAs(
             List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs) {
         this.institutionalProposalUnrecoveredFandAs = institutionalProposalUnrecoveredFandAs;
     }
 
-    /**
-     * Gets the createTimeStamp attribute. 
-     * @return Returns the createTimeStamp.
-     */
     public Date getCreateTimeStamp() {
         return createTimeStamp;
     }
 
-    /**
-     * Sets the createTimeStamp attribute value.
-     * @param createTimeStamp The createTimeStamp to set.
-     */
     public void setCreateTimeStamp(Date createTimeStamp) {
         this.createTimeStamp = createTimeStamp;
     }
 
     public String getDefaultNewDescription() {
-        return "(select)";
+        return SELECT;
     }
 
     public String getNewDescription() {
@@ -1329,19 +1133,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     public void setNewDescription(String newDescription) {
         this.newDescription = newDescription;
     }
-
-    // public Timestamp getUpdateTimestamp() {
-    // return super.getUpdateTimestamp();
-    // }
-    // public void setUpdateTimestamp(Timestamp updateTimestamp) {
-    // super.setUpdateTimestamp(updateTimestamp);
-    // }//
-    // public String getUpdateUser() {
-    // return super.getUpdateUser();
-    // }
-    // public void setUpdateUser(String updateUser) {
-    // super.setUpdateUser(updateUser);
-    // }
 
     public String getProposalSequenceStatus() {
         return proposalSequenceStatus;
@@ -1361,37 +1152,21 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         return getSpecialReviews().get(index);
     }
 
-    /**
-     * Gets the keywords attribute. 
-     * @return Returns the keywords.
-     */
     @Override
     public List<InstitutionalProposalScienceKeyword> getKeywords() {
         return institutionalProposalScienceKeywords;
     }
 
-    /**
-     * Sets the keywords attribute value.
-     * @param keywords The keywords to set.
-     */
     public void setKeywords(List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords) {
         this.institutionalProposalScienceKeywords = institutionalProposalScienceKeywords;
     }
 
-    /**
-     * Add selected science keyword to award science keywords list.
-     * @see org.kuali.coeus.common.framework.keyword.KeywordsManager#addKeyword(org.kuali.coeus.common.framework.keyword.ScienceKeyword)
-     */
     public void addKeyword(ScienceKeyword scienceKeyword) {
         InstitutionalProposalScienceKeyword institutionalProposalScienceKeyword = new InstitutionalProposalScienceKeyword(this,
             scienceKeyword);
         getKeywords().add(institutionalProposalScienceKeyword);
     }
 
-    /**
-     * It returns the ScienceKeyword object from keywords list
-     * @see org.kuali.coeus.common.framework.keyword.KeywordsManager#getKeyword(int)
-     */
     public InstitutionalProposalScienceKeyword getKeyword(int index) {
         return getKeywords().get(index);
     }
@@ -1417,11 +1192,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     /**
-     * This method removes an AwardFundingProposal
-     * 
      * Since Award "owns" the relationship, this method should not be called except from Award
-     * 
-     * @param afp
      */
     public void remove(AwardFundingProposal afp) {
         awardFundingProposals.remove(afp);
@@ -1444,9 +1215,11 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         updateProposalIpReviewJoin();
         // This method links the institutional proposal with the merged proposal log
         if (proposalId != null && proposalNumber != null)
-        {
-            KcServiceLocator.getService(ProposalLogService.class).updateMergedInstProposal(proposalId, proposalNumber);
-        }
+            updateMergedInstitutionalProposal();
+    }
+
+    private void updateMergedInstitutionalProposal() {
+        KcServiceLocator.getService(ProposalLogService.class).updateMergedInstProposal(proposalId, proposalNumber);
     }
 
     @Override
@@ -1456,34 +1229,34 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     protected void updateProposalIpReviewJoin() {
         ProposalIpReviewJoin proposalIpReviewJoin = this.getProposalIpReviewJoin();
-        if (ObjectUtils.isNotNull(proposalIpReviewJoin.getProposalIpReviewJoinId())) {
-            if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
-                proposalIpReviewJoin.setProposalIpReviewJoinId(null);
+        if (proposalIpReviewJoin != null) {
+	        if (proposalIpReviewJoin.getProposalIpReviewJoinId() != null) {
+	            if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
+	                proposalIpReviewJoin.setProposalIpReviewJoinId(null);
+	        } else {
+	            IntellectualPropertyReview ipReview = new IntellectualPropertyReview();
+	            ipReview.setSequenceNumber(0);
+	            ipReview.setProposalNumber(this.getProposalNumber());
+	            ipReview.setIpReviewSequenceStatus(VersionStatus.ACTIVE.toString());
+	            getBusinessObjectService().save(ipReview);
+	            proposalIpReviewJoin = new ProposalIpReviewJoin();
+	            proposalIpReviewJoin.setIpReviewId(ipReview.getIpReviewId());
+	        }
+	        proposalIpReviewJoin.setProposalId(this.getProposalId());
+	        getBusinessObjectService().save(proposalIpReviewJoin);
+	        this.setProposalIpReviewJoin(proposalIpReviewJoin);
         }
-        else {
-            IntellectualPropertyReview ipReview = new IntellectualPropertyReview();
-            ipReview.setSequenceNumber(0);
-            ipReview.setProposalNumber(this.getProposalNumber());
-            ipReview.setIpReviewSequenceStatus(VersionStatus.ACTIVE.toString());
-            getBusinessObjectService().save(ipReview);
-            proposalIpReviewJoin = new ProposalIpReviewJoin();
-            proposalIpReviewJoin.setIpReviewId(ipReview.getIpReviewId());
-        }
-        proposalIpReviewJoin.setProposalId(this.getProposalId());
-        getBusinessObjectService().save(proposalIpReviewJoin);
-        this.setProposalIpReviewJoin(proposalIpReviewJoin);
     }
 
 
     /**
      * This method lazy inits ActivityType
-     * @return
      */
     public ActivityType getActivityTypeFromCode() {
         if (activityType == null) {
             if (activityTypeCode != null) {
-                Map<String, Object> identifiers = new HashMap<String, Object>();
-                identifiers.put("code", activityTypeCode);
+                Map<String, Object> identifiers = new HashMap<>();
+                identifiers.put(ACTIVITY_CODE, activityTypeCode);
                 activityType = (ActivityType) getBusinessObjectService().findByPrimaryKey(ActivityType.class, identifiers);
             }
         }
@@ -1492,13 +1265,12 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     /**
      * This method lazy inits ProposalType
-     * @return
      */
     public ProposalType getProposalTypeFromCode() {
         if (proposalType == null) {
             if (proposalTypeCode != null) {
-                Map<String, Object> identifiers = new HashMap<String, Object>();
-                identifiers.put("proposalTypeCode", proposalTypeCode);
+                Map<String, Object> identifiers = new HashMap<>();
+                identifiers.put(PROPOSAL_TYPE_CODE, proposalTypeCode);
                 proposalType = (ProposalType) getBusinessObjectService().findByPrimaryKey(ProposalType.class, identifiers);
             }
         }
@@ -1507,19 +1279,12 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     /**
      * Populate properties on this InstitutionalProposal with the respective properties from ProposalLog.
-     * 
-     * @param proposalLog ProposalLog
      */
     public void doProposalLogDataFeed(ProposalLog proposalLog) {
         this.setProposalNumber(proposalLog.getProposalNumber());
         this.setDeadlineDate(proposalLog.getDeadlineDate());
         this.setDeadlineTime(proposalLog.getDeadlineTime());
-        /**
-         * per KRACOEUS-4647 we don't want to pull the log's month/year, we want to calculate it fresh.
-         */
         this.calculateFiscalMonthAndYearFields();
-        //this.setFiscalMonth(proposalLog.getFiscalMonth().toString());
-        //this.setFiscalYear(proposalLog.getFiscalYear().toString());
         this.setProposalTypeCode(Integer.parseInt(proposalLog.getProposalTypeCode()));
         this.setStatusCode(1);
         this.setSponsorCode(proposalLog.getSponsorCode());
@@ -1576,7 +1341,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
                 return this.getKcPersonService().getKcPersonByPersonId(this.getInitialContractAdmin());
             }
             catch (Exception e) {
-                // TODO temp unit test fix
             }
         }
         return null;
@@ -1608,7 +1372,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         InstitutionalProposalComment ipComment = getCommentMap().get(commentTypeCode);
         if (ipComment == null && createNew) {
             ipComment = new InstitutionalProposalComment(commentTypeCode);
-            ipComment.refreshReferenceObject("commentType");
+            ipComment.refreshReferenceObject(COMMENT_TYPE);
             add(ipComment);
             commentMap.put(ipComment.getCommentType().getCommentTypeCode(), ipComment);
         }
@@ -1622,7 +1386,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     private Map<String, InstitutionalProposalComment> getCommentMap() {
         if (commentMap == null) {
-            commentMap = new HashMap<String, InstitutionalProposalComment>();
+            commentMap = new HashMap<>();
             for (InstitutionalProposalComment ipc : proposalComments) {
                 commentMap.put(ipc.getCommentType().getCommentTypeCode(), ipc);
             }
@@ -1671,7 +1435,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
     
     public String getInstProposalNumber(){
-        //retrieveInstProposalNumberFromDB()
         if(instProposalNumber == null){
             instProposalNumber = proposalNumber;
         }
@@ -1685,8 +1448,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     /**
      * This method returns the combined number of units for all project personnel.
-     * 
-     * @return
      */
     public int getTotalUnitCount() {
         int count = 0;
@@ -1705,8 +1466,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     @Override
     public String getLeadUnitName() {
-        String name = getLeadUnit() == null ? EMPTY_STRING : getLeadUnit().getUnitName();
-        return name;
+        return getLeadUnit() == null ? StringUtils.EMPTY : getLeadUnit().getUnitName();
     }
     
     @Override
@@ -1716,39 +1476,37 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     @Override
     public String getPiEmployeeName() {
-        String name = getPrincipalInvestigator() == null ? EMPTY_STRING : getPrincipalInvestigator().getFullName();
-        return name;
+        return getPrincipalInvestigator() == null ? StringUtils.EMPTY : getPrincipalInvestigator().getFullName();
     }
 
     @Override
     public String getPiNonEmployeeName() {
-        return EMPTY_STRING;
+        return StringUtils.EMPTY;
     }
 
     @Override
     public String getAdminPersonName() {
-        return EMPTY_STRING;
+        return StringUtils.EMPTY;
     }
 
     @Override
     public String getPrimeSponsorName() {
-        String name = getPrimeSponsor() == null ? EMPTY_STRING : getPrimeSponsor().getSponsorName();
-        return name;
+        return getPrimeSponsor() == null ? StringUtils.EMPTY : getPrimeSponsor().getSponsorName();
     }
 
     @Override
     public String getSponsorAwardNumber() {
-        return EMPTY_STRING;
+        return StringUtils.EMPTY;
     }
 
     @Override
     public String getSubAwardOrganizationName() {
-        return EMPTY_STRING;
+        return StringUtils.EMPTY;
     }
     
     @Override
     public List<NegotiationPersonDTO> getProjectPeople() {
-        List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
+        List<NegotiationPersonDTO> kcPeople = new ArrayList<>();
         for (InstitutionalProposalPerson person : getProjectPersons()) {
             kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getRoleCode()));
         }
@@ -1762,11 +1520,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     
     @Override
     public String getNegotiableProposalTypeCode() {
-        if (getProposalTypeCode() != null) {
-            return getProposalTypeCode().toString();
-        } else {
-            return EMPTY_STRING;
-        }
+        return getProposalTypeCode() != null ? getProposalTypeCode().toString() : StringUtils.EMPTY;
     }
 
     @Override
@@ -1776,22 +1530,22 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     @Override
     public String getSubAwardRequisitionerName() {
-        return EMPTY_STRING;
+        return StringUtils.EMPTY;
     }
 
     @Override
     public String getSubAwardRequisitionerUnitNumber() {
-        return EMPTY_STRING;
+        return StringUtils.EMPTY;
     }
 
     @Override
     public String getSubAwardRequisitionerUnitName() {
-        return EMPTY_STRING;
+        return StringUtils.EMPTY;
     }
 
     @Override
     public String getSubAwardRequisitionerId() {
-        return EMPTY_STRING;
+        return StringUtils.EMPTY;
     }
     
     public FiscalYearMonthService getFiscalYearMonthService() {
@@ -1807,8 +1561,8 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     
     /**
      * 
-     * Setting this value to false will prevent the update timestamp field from being upddate just once.  After that, the update timestamp field will update as regular.
-     * @param allowUpdateTimestampToBeReset
+     * Setting this value to false will prevent the update timestamp field from being upddate just once.
+     * After that, the update timestamp field will update as regular.
      */
     public void setAllowUpdateTimestampToBeReset(boolean allowUpdateTimestampToBeReset) {
         this.allowUpdateTimestampToBeReset = allowUpdateTimestampToBeReset;
@@ -1828,5 +1582,13 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
+    }
+
+    public List<AwardFundingProposal> getAllFundingProposals() {
+        return allFundingProposals;
+    }
+
+    public void setAllFundingProposals(List<AwardFundingProposal> allFundingProposals) {
+        this.allFundingProposals = allFundingProposals;
     }
 }

@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.protocol.onlinereview;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.protocol.onlinereview.lookup.ProtocolOnlineReviewLookupConstants;
@@ -104,7 +104,7 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
            if (key.toUpperCase().indexOf("DATE") > 0) {
                //we have a date, now we need to weed out the calculated params that have '..' or '>=' or '<='
                if(value.indexOf("..") == -1 && value.indexOf(">=") == -1 && value.indexOf("<=") == -1) {
-                   if( !StringUtils.isEmpty(value)) {
+                   if(StringUtils.isNotBlank(value)) {
                        validateDate(key, value);
                    }
                }
@@ -112,7 +112,7 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
        }
        
 
-       if (!StringUtils.isEmpty(fvalues.get(REVIEWER_NONEMPLOYEE)) && !StringUtils.isEmpty(fvalues.get(REVIEWER_EMPLOYEE))) {
+       if (StringUtils.isNotBlank(fvalues.get(REVIEWER_NONEMPLOYEE)) && StringUtils.isNotBlank(fvalues.get(REVIEWER_EMPLOYEE))) {
            //we can only search for one at a time.
            GlobalVariables.getMessageMap().putError(ProtocolOnlineReviewLookupConstants.Property.REVIEWER_NONEMPLOYEE, KeyConstants.ERROR_PROTOCOL_ONLINE_REVIEW_INVALID_ONE_PERSON_ONLY);
            
@@ -125,21 +125,21 @@ public abstract class ProtocolOnlineReviewLookupableHelperServiceImplBase extend
        validateSearchParameters(fieldValues);
        List<ProtocolOnlineReviewBase> results;
 
-       if (!StringUtils.isEmpty(fieldValues.get(REVIEWER_EMPLOYEE))) {
+       if (StringUtils.isNotBlank(fieldValues.get(REVIEWER_EMPLOYEE))) {
            fieldValues.put(OBJ_PROTOCOLREVIEWER_REVIEWER_EMPLOYEE, fieldValues.get(REVIEWER_EMPLOYEE));
-       } else if (!StringUtils.isEmpty(fieldValues.get(REVIEWER_NONEMPLOYEE))) {
+       } else if (StringUtils.isNotBlank(fieldValues.get(REVIEWER_NONEMPLOYEE))) {
            fieldValues.put(OBJ_PROTOCOLREVIEWER_NONEMPLOYEE, fieldValues.get(REVIEWER_NONEMPLOYEE));
        }
        
-       if (!StringUtils.isEmpty(fieldValues.get(PROTOCOL_REVIEW_DUE_DATE))) {
+       if (StringUtils.isNotBlank(fieldValues.get(PROTOCOL_REVIEW_DUE_DATE))) {
            fieldValues.put(OBJ_PROTOCOL_REVIEW_DUE_DATE, fieldValues.get(PROTOCOL_REVIEW_DUE_DATE));
        }
        
-       if (!StringUtils.isEmpty(fieldValues.get(PROTOCOL_NUMBER))) {
+       if (StringUtils.isNotBlank(fieldValues.get(PROTOCOL_NUMBER))) {
            fieldValues.put( OBJ_PROTOCOL_PROTOCOL_NUMBER, fieldValues.get(PROTOCOL_NUMBER));
        }
        
-       if (!StringUtils.isEmpty(fieldValues.get(LOOKUP_PROTOCOL_ONLINE_REVIEW_STATUS_CODES))) {
+       if (StringUtils.isNotBlank(fieldValues.get(LOOKUP_PROTOCOL_ONLINE_REVIEW_STATUS_CODES))) {
            fieldValues.put(OBJ_PROTOCOL_ONLINE_REVIEW_STATUS_CODE, fieldValues.get(LOOKUP_PROTOCOL_ONLINE_REVIEW_STATUS_CODES));
        }
        

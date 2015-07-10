@@ -30,7 +30,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
     private BusinessObjectService businessObjectService;
     
     @Override
-    public String getReportTypeForAjaxCall(String reportClassCode) throws Exception {
+    public String getReportTypeForAjaxCall(String reportClassCode)  {
         Collection reportTypes = getReportTypesUsingReportClassCode(reportClassCode);
         String attributeNames="";
         for (Object aReportCode : reportTypes) {
@@ -42,7 +42,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
         return attributeNames;
     }
     
-    public Collection getReportTypesUsingReportClassCode(String reportClassCode) throws Exception {
+    public Collection<String> getReportTypesUsingReportClassCode(String reportClassCode) {
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> classReportFreqParams = new HashMap<String, String>();
         classReportFreqParams.put("reportClassCode", reportClassCode);
@@ -57,7 +57,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
     }
     
     @Override
-    public String getFrequencyForAjaxCall(String reportCode, String reportClass) throws Exception {
+    public String getFrequencyForAjaxCall(String reportCode, String reportClass) {
         Collection frequencyCodes = getFrequencyUsingReportCodeAndClass(reportCode, reportClass);
         String attributeNames="";
         for (Object aFrequencyCode : frequencyCodes) {
@@ -69,7 +69,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
         return attributeNames;
     }
     
-    public Collection getFrequencyUsingReportCodeAndClass(String reportCode, String reportClass) throws Exception {
+    public Collection<String> getFrequencyUsingReportCodeAndClass(String reportCode, String reportClass) {
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> classReportFreqParams = new HashMap<String, String>();
         classReportFreqParams.put("reportCode", reportCode);
@@ -85,7 +85,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
     }
     
     @Override
-    public String getFrequencyBaseForAjaxCall(String frequencyCode) throws Exception {
+    public String getFrequencyBaseForAjaxCall(String frequencyCode) {
         Collection frequencyBaseCodes = getFrequencyBaseUsingFrequencyCode(frequencyCode);
         String attributeNames="";
         for (Object aFrequencyBaseCode : frequencyBaseCodes) {
@@ -97,7 +97,7 @@ public class AwardTemplateReportTermServiceImpl implements AwardTemplateReportTe
         return attributeNames;
     }
     
-    public Collection getFrequencyBaseUsingFrequencyCode(String frequencyCode) throws Exception {
+    public Collection<String> getFrequencyBaseUsingFrequencyCode(String frequencyCode) {
         businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> params = new HashMap<String, String>();
         params.put("frequencyCode", frequencyCode);

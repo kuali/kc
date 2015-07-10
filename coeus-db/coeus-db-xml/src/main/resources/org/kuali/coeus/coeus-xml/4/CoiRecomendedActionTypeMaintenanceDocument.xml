@@ -24,7 +24,7 @@
             <description>Create a Coi Recomended Action Type</description>
             <label>Coi Recomended Action Type Maintenance Document</label>
             <parent>KcSharedMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/coirecomendedactiontype.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/coirecommendedactiontype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    
 </data>

@@ -74,6 +74,7 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		s2sOppForms.setFormName("PHS_Fellowship_Supplemental_2_0");
 		s2sOppForms.setS2sOppFormsId(s2sOppFormsId);		
 		s2sOppForms.getS2sOppFormsId().setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+		s2sOppForms.setInclude(true);
 		S2sOppFormsList.add(s2sOppForms);
 		s2sOpportunity.setS2sOppForms(S2sOppFormsList);
 		document.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
@@ -422,5 +423,8 @@ public class PHS398FellowshipSupplementalV2_0GeneratorTest extends
 		answers.add(answer6);
 		answerHeader.setAnswers(answers);
 		businessObjectService.save(answerHeader);
+		for (Answer a : answers) {
+			a.refreshReferenceObject("question");
+		}
 	}
 }

@@ -19,8 +19,11 @@
 package org.kuali.kra.irb.protocol.participant;
 
 import org.junit.Before;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
@@ -42,6 +45,17 @@ public class ParticipantTypeValuesFinderTest extends ValuesFinderTestBase {
     @Override
     protected Class<ParticipantTypeValuesFinder> getTestClass() {
         return ParticipantTypeValuesFinder.class;
+    }
+    
+    @Override
+    protected ParticipantTypeValuesFinder getKeyValuesFinder() {
+    	return new ParticipantTypeValuesFinder() {
+    	    protected Document getDocument() {
+    	    	ProtocolDocument doc = new ProtocolDocument();
+    	    	doc.setProtocol(new Protocol());
+    	    	return doc;
+    	    }
+    	};
     }
 
     @Override

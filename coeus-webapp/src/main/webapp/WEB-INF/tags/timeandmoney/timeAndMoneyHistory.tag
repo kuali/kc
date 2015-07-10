@@ -169,7 +169,7 @@
 					</td>    
 				</tr>
 			</c:if>
-			<c:forEach var="timeAndMoneyDocumentHistory" items="${awardVersionHistory.timeAndMoneyDocumentHistoryList}" varStatus="status"> 
+			<c:forEach var="timeAndMoneyDocumentHistory" items="${awardVersionHistory.timeAndMoneyDocumentHistoryList}" varStatus="status">
 				<tr>
 				<td  align="left" valign="left" class="infoline" rowspan="1">
 		          	<div align="center">
@@ -189,28 +189,27 @@
                 	</div>
 				</td>
 				</tr>
-				<c:forEach var="awardAmountInfoHistory" items="${timeAndMoneyDocumentHistory.validAwardAmountInfoHistoryList}" varStatus="status"> 
+				<c:forEach var="awardAmountInfoHistory" items="${timeAndMoneyDocumentHistory.validAwardAmountInfoHistoryList}" varStatus="status">
 					<tr>
 						<td align="center" valign="middle" rowspan="2" >
 							<div align="center" >
 						        <c:choose>
 						        	<c:when test="${awardAmountInfoHistory.transactionType == 'MONEY'}">
-						      			<c:out value="Transaction ID: " />
-						        		<c:out value="${awardAmountInfoHistory.primaryDetail.transactionId}" />
+						      			Transaction ID: ${awardAmountInfoHistory.primaryDetail.transactionId}
 						        	</c:when>
 						        	<c:when test="${awardAmountInfoHistory.transactionType == 'DATE'}">
-						        		<c:out value="No Cost Extension" />
+										Transaction ID: ${awardAmountInfoHistory.dateDetail.transactionId}
 						        	</c:when>
 						        	<c:when test="${awardAmountInfoHistory.transactionType == 'SINGLENODEMONEYTRANSACTION'}">
-						        		<c:out value="Single Node Money Transaction" />
+										Transaction ID: ${awardAmountInfoHistory.primaryDetail.transactionId}
 						        	</c:when>
 						        	<c:otherwise>
-						        		<c:out value="Initial Transaction" />
+						        		Initial Transaction
 						        	</c:otherwise>
 						        </c:choose>
 						     </div>	
 						</td>
-						
+
 				<c:choose>
 	        		<c:when test="${KualiForm.directIndirectViewEnabled == '1'}">
 						<th>
@@ -387,7 +386,7 @@
 			        			</div>
 			        			</td>		
 		        			</tr>
-		        		</c:if>	
+		        		</c:if>
 				</c:forEach>
 			</c:forEach>
         </c:forEach> 

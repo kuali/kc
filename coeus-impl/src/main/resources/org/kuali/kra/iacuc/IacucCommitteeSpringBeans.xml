@@ -222,17 +222,17 @@
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
-    <bean id="printBaseXmlStream" class="org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream" abstract="true">
+    <bean id="printBaseXmlStream" class="org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream" abstract="true" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
-	<bean id="iacucCommitteeXmlStream" class="org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream" parent="printBaseXmlStream">
+	<bean id="iacucCommitteeXmlStream" class="org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream" parent="printBaseXmlStream" scope="prototype">
 		<property name="printXmlUtilService" ref="iacucPrintXmlUtilService" />
 		<property name="scheduleXmlStream" ref="iacucScheduleXmlStream" />
 	</bean>
 	
-	<bean id="iacucScheduleXmlStream" class="org.kuali.kra.iacuc.committee.print.IacucScheduleXmlStream" parent="printBaseXmlStream">
+	<bean id="iacucScheduleXmlStream" class="org.kuali.kra.iacuc.committee.print.IacucScheduleXmlStream" parent="printBaseXmlStream" scope="prototype">
 		<property name="printXmlUtilService" ref="iacucPrintXmlUtilService" />
 		<property name="committeeMembershipService" ref="iacucCommitteeMembershipService" />
 		<property name="kcPersonService" ref="kcPersonService" />

@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.irb.actions.notification;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 
@@ -65,7 +65,7 @@ public class NotifyCommitteeNotificationRenderer extends IRBNotificationRenderer
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
         params.put("{COMMITTEE_NAME}", getSafeMessage("{COMMITTEE_NAME}", getCommitteeName()));
-        params.put("{ACTION_COMMENTS}", (StringUtils.isEmpty(getActionComments()) ? "None" : getActionComments()));
+        params.put("{ACTION_COMMENTS}", (StringUtils.isBlank(getActionComments()) ? "None" : getActionComments()));
         params.put("{ACTION_DATE}", (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(getActionDate()));
         return params;
     }

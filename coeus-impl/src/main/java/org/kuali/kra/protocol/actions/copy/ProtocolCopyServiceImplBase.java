@@ -136,8 +136,8 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
      * properties necessary for the initial creation of the protocol.  This will
      * give us the protocol number to use when copying over the remainder of the
      * protocol.
-     * "Copy" may be a pure copy or copy for amendment & renewal creation.
-     * if for amendment/renewal, then notes & attachments will be copied.
+     * "Copy" may be a pure copy or copy for amendment &amp; renewal creation.
+     * if for amendment/renewal, then notes &amp; attachments will be copied.
      * @param srcDoc
      * @return
      * @throws Exception

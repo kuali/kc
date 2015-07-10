@@ -79,7 +79,7 @@ public class AwardTermsAuditRule implements DocumentAuditRule {
     }
     
     /**
-     * This method sets sponsor term types to List<KeyValue> argument.
+     * This method sets sponsor term types to List&lt;KeyValue&gt; argument.
      * @param sponsorTermTypes
      */
     protected void setSponsorTermTypes(List<KeyValue> sponsorTermTypes) {
@@ -104,7 +104,7 @@ public class AwardTermsAuditRule implements DocumentAuditRule {
     }
     
     /**
-     * This method creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
+     * This method creates and adds the Audit Error to the <code>{@link List&lt;AuditError&gt;}</code> auditError.
      * @param description
      */
     protected void addErrorToAuditErrors(String description) {

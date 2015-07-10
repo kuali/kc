@@ -86,8 +86,7 @@ public class IntellectualPropertyReviewMaintainableImpl extends KraMaintainableI
      * Set the new collection records back to true so they can be deleted (copy should act like new).
      * 
      * @param document MaintenanceDocument
-     * @param parameters Map<String, String[]>
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterCopy()
+     * @param parameters Map&lt;String, String[]&gt;
      */
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
     	/*

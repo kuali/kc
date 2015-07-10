@@ -29,23 +29,31 @@ import org.kuali.rice.core.framework.config.module.ModuleConfigurer;
 import org.kuali.rice.core.framework.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class KcConfigurer extends ModuleConfigurer {
 	
+	private static final String ADDITIONAL_SPRING_FILES = ".additionalSpringFiles";
+	private static final String KC_PREFIX = "kc.";
+	private static final String SPRING_SECURITY_FILTER_PROXY = ".springSecurityFilterProxy";
+	private static final String SPRING_SECURITY_FILTER_CHAIN = "springSecurityFilterChain";
+
 	protected final Log LOG = LogFactory.getLog(KcConfigurer.class);
     
     private String bootstrapSpringFile;
     private String dispatchServletName;
-    private List<String> filtersToMap;
+    private List<String> filtersToMap = new ArrayList<String>();
     private String moduleTitle;
+    private boolean enableSpringSecurity;
     
     private ResourceLoader rootResourceLoader;
 
@@ -65,7 +73,7 @@ public class KcConfigurer extends ModuleConfigurer {
 
     @Override
     public List<String> getAdditionalSpringFiles() {
-        final String files = ConfigContext.getCurrentContextConfig().getProperty("kc." + getModuleName() + ".additionalSpringFiles");
+        final String files = ConfigContext.getCurrentContextConfig().getProperty(KC_PREFIX + getModuleName() + ADDITIONAL_SPRING_FILES);
         return files == null ? Collections.<String>emptyList() : parseFileList(files);
     }
     
@@ -95,6 +103,11 @@ public class KcConfigurer extends ModuleConfigurer {
 	        for (String filterName : filtersToMap) {
 	            FilterRegistration filter = getServletContext().getFilterRegistration(filterName);
 	            filter.addMappingForServletNames(null, true, dispatchServletName);
+	        }
+	        if (enableSpringSecurity) {
+	        	DelegatingFilterProxy filterProxy = new DelegatingFilterProxy(SPRING_SECURITY_FILTER_CHAIN, (WebApplicationContext) ((SpringResourceLoader) rootResourceLoader.getResourceLoaders().get(0)).getContext());
+	        	FilterRegistration.Dynamic securityFilter = getServletContext().addFilter(KC_PREFIX + getModuleName() + SPRING_SECURITY_FILTER_PROXY, filterProxy);
+	        	securityFilter.addMappingForServletNames(null, true, dispatchServletName);
 	        }
     	}
     }
@@ -143,4 +156,12 @@ public class KcConfigurer extends ModuleConfigurer {
     public void setModuleTitle(String moduleTitle) {
         this.moduleTitle = moduleTitle;
     }
+
+	public boolean isEnableSpringSecurity() {
+		return enableSpringSecurity;
+	}
+
+	public void setEnableSpringSecurity(boolean enableSpringSecurity) {
+		this.enableSpringSecurity = enableSpringSecurity;
+	}
 }

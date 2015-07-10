@@ -21,13 +21,9 @@ package org.kuali.coeus.propdev.impl.core;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.coeus.propdev.impl.person.CoPiInfoDO;
-import org.kuali.coeus.propdev.impl.budget.CostShareInfoDO;
-import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ProposalDevelopmentService {
     
@@ -47,7 +43,7 @@ public interface ProposalDevelopmentService {
     public List<Unit> getDefaultModifyProposalUnitsForUser(String userId);
     
     public String populateBudgetEditableFieldMetaDataForAjaxCall(String proposalNumber, String documentNumber, String editableFieldDBColumn);
-    
+
     public Object getBudgetFieldValueFromDBColumnName(String documentNumber, String dbColumnName);
     
     public String getDataOverrideLookupDisplayReturnValue( String lookupClassName );
@@ -59,17 +55,8 @@ public interface ProposalDevelopmentService {
      * @return
      */
     public boolean isGrantsGovEnabledForProposal(DevelopmentProposal proposal);
-    
     /**
-     * On a sponsor change, will grants gov be enabled after the change
-     * @param proposalNumber
-     * @param sponsorCode
-     * @return
-     */
-    public boolean isGrantsGovEnabledOnSponsorChange(String proposalNumber, String sponsorCode);
-    
-    /**
-     * 
+     *
      * Deletes the proposal and any budgets associated with this document and then cancels document
      * @param proposalDocument
      * @throws WorkflowException
@@ -78,14 +65,11 @@ public interface ProposalDevelopmentService {
     
     public Budget getFinalBudget (DevelopmentProposal proposal);
     
-    public List<CoPiInfoDO> getCoPiPiInfo (DevelopmentProposal proposal);
-    
-    public List<CostShareInfoDO> getCostShareInfo (Budget budget);
+
 
     public InstitutionalProposal getInstitutionalProposal(String devProposalNumber);
     
-    public boolean canSaveProposalXml(ProposalDevelopmentDocument document);
-    
+
     public static final String PROPOSAL_NARRATIVE_TYPE_GROUP = "proposalNarrativeTypeGroup";
     public static final String DELIVERY_INFO_DISPLAY_INDICATOR = "deliveryInfoDisplayIndicator";
     public static final String PROPOSAL_SUMMARY_INDICATOR = "enableProposalSummaryPanel";
@@ -101,25 +85,6 @@ public interface ProposalDevelopmentService {
 
     public static final String SUMMARY_SPECIAL_REVIEW_LIST = "proposal.summary.validSpecialReviewCodes";
     public static final String PROPOSAL_NARRATIVE_TYPE_GROUP2 = "proposalNarrativeTypeGroup";
-
-    public Map<String, Parameter> getProposalDevelopmentParameters();
-       
-    public static enum ProposalLockingRegion {
-        GENERAL, BUDGET, ATTACHMENTS;
-    }
-    
-    public static final String PROPOSAL_ATTACHMENT_TYPE_GROUP_CODE = "P";
-    
-    public ProposalDevelopmentDocument updateProposalDocument(ProposalDevelopmentDocument pdDocument, ProposalLockingRegion region) throws Exception;
-    
-    /**
-     * 
-     * Called to load all necessary elements in the proposal development document
-     * @param document
-     */
-    public void loadDocument(ProposalDevelopmentDocument document);
-    
-    public void sortS2sForms(DevelopmentProposal proposal);
 
     /**
      * Get the units that the user has tht can create proposal.

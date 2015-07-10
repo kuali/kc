@@ -38,6 +38,14 @@ public class ProposalBudgetConstants {
         public static final String MODULAR_PAGE_ID = "PropBudget-ModularPage";
         public static final String NOTES_PAGE_ID = "PropBudget-NotesPage";
         public static final String COMPLETE_CONFIRMATION_DIALOG = "PropDev-CompleteBudgetConfirmationDialog";
+		public static final String EDIT_NONPERSONNEL_PERIOD_DIALOG_ID = "PropBudget-NonPersonnelCostsPage-EditNonPersonnel-Dialog";
+		public static final String EDIT_NONPERSONNEL_PARTICIPANT_DIALOG_ID = "PropBudget-NonPersonnelCostsPage-EditParticipantSupport-Dialog";
+		public static final String CONFIRM_PERIOD_CHANGES_DIALOG_ID = "PropBudget-ConfirmPeriodChangesDialog";
+		public static final String ADD_NONPERSONNEL_PERIOD_DIALOG_ID = "PropBudget-NonPersonnelCostsPage-AddNonPersonnel-Dialog";
+		public static final String CONFIRM_SYNC_TO_PERIOD_COST_LIMIT_DIALOG_ID = "PropBudget-NonPersonnelCosts-SyncToPeriodCostLimit";
+		public static final String CONFIRM_SYNC_TO_DIRECT_COST_LIMIT_DIALOG_ID = "PropBudget-NonPersonnelCosts-SyncToDirectCostLimit";
+		public static final String PROP_BUDGET_FORMULATED_COST_EDIT_DETAILS = "PropBudget-FormulatedCost-EditDetails";
+		public static final String PROP_BUDGET_FORMULATED_COST_DELETE_CONFIRM = "PropBudget-FormulatedCost-DeleteConfirm";
 	}
 	
 	public static class AuthConstants {

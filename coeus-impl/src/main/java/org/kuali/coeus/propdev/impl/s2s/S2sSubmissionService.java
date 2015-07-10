@@ -100,7 +100,7 @@ public interface S2sSubmissionService {
      *            parameter for the opportunity.
      * @param competitionId
      *            parameter for the opportunity.
-     * @return List<S2sOpportunity> a list containing the available
+     * @return List&lt;S2sOpportunity&gt; a list containing the available
      *         opportunities for the corresponding parameters.
      * @throws S2sCommunicationException
      */
@@ -122,5 +122,8 @@ public interface S2sSubmissionService {
     void populateAppSubmission(ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission,
                           GetApplicationListResponse.ApplicationInfo ggApplication);
 
-    Long createS2sOpportunityDetails(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity, Long versionNumberForS2sOpportunity);
+    public void setOpportunityContent(S2sOpportunity opportunity);
+
+
+    public List<String> setMandatoryForms(DevelopmentProposal proposal, S2sOpportunity s2sOpportunity);
 }

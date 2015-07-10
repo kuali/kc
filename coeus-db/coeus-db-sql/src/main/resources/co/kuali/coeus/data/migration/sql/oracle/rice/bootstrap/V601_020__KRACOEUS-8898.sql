@@ -17,7 +17,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 update KREW_DOC_TYP_T set DOC_HDLR_URL = '${kuali.docHandler.url.prefix}/kc-pd-krad/proposalDevelopment?methodToCall=docHandler' 
-	where DOC_HDLR_URL = '${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler'
-/
+	where DOC_HDLR_URL = '${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler';
 
 

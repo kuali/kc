@@ -54,10 +54,10 @@ public abstract class BoAttributeTestBase<T extends KcPersistableBusinessObjectB
     }
 
     /**
-     * Concrete implementer should return Map<String, Object>, using bo's field and value. Map should include all the fields used in
+     * Concrete implementer should return Map&lt;String, Object&gt;, using bo's field and value. Map should include all the fields used in
      * definition of toStringMapper().
      * 
-     * @return Map<String, Object> of bo's key & value.
+     * @return Map&lt;String, Object&gt; of bo's key &amp; value.
      */
     protected abstract Map<String, Object> getFieldMap();
 

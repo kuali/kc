@@ -48,8 +48,8 @@ public interface InstitutionalUnitService {
     /**
      * Lookup Units according to the given search criteria.
      * 
-     * @param searchCriteria Key-value pair map of search criteria.
-     * @return List<UnitDTO>
+     * @param criteria Key-value pair map of search criteria.
+     * @return List&lt;UnitDTO&gt;
      */
     List<UnitDTO> lookupUnits( @WebParam(name="searchCriteria") List<HashMapElement> criteria);
     
@@ -58,7 +58,7 @@ public interface InstitutionalUnitService {
      * the order of ancestry (parent at index 0, grandparent at index 1, etc).
      * 
      * @param unitNumber
-     * @return List<String>
+     * @return List&lt;String&gt;
      */
     List<String> getParentUnits( @WebParam(name="unitNumber") String unitNumber);
 }

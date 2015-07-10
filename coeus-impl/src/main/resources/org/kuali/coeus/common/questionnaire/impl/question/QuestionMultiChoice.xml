@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2015 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="QuestionMultiChoice" parent="QuestionMultiChoice-parentBean" />
+    <bean id="QuestionMultiChoice-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice" />
+		<property name="objectLabel" value="Question Multi-Choice" />
+        <property name="titleAttribute" value="id" />
+        <property name="attributes" >
+            <list>
+                <ref bean="QuestionMultiChoice-id" />
+                <ref bean="QuestionMultiChoice-questionId" />
+                <ref bean="QuestionMultiChoice-prompt" />
+                <ref bean="QuestionMultiChoice-description" />
+                <ref bean="QuestionMultiChoice-versionNumber" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="QuestionMultiChoice-id" parent="QuestionMultiChoice-id-parentBean" />
+    <bean id="QuestionMultiChoice-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Multi-Choice Id" />
+        <property name="shortLabel" value="Question Multi-Choice Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
+        <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Question Multi-Choice Id" />
+        <property name="description" value="Question Multi-Choice Id" />
+    </bean>
+
+    <bean id="QuestionMultiChoice-questionId" parent="QuestionMultiChoice-questionId-parentBean" />
+    <bean id="QuestionMultiChoice-questionId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="questionId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Question Ref Id" />
+        <property name="shortLabel" value="Question Ref Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
+        <property name="control" >
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="controlField">
+      <bean p:size="10" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Question Ref Id" />
+        <property name="description" value="Question Ref Id" />
+    </bean>
+
+    <bean id="QuestionMultiChoice-prompt" parent="QuestionMultiChoice-prompt-parentBean" />
+    <bean id="QuestionMultiChoice-prompt-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="prompt" />
+        <property name="required" value="true" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Prompt" />
+        <property name="shortLabel" value="Prompt" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="40" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Prompt" />
+        <property name="description" value="Prompt" />
+    </bean>
+
+    <bean id="QuestionMultiChoice-description" parent="QuestionMultiChoice-description-parentBean" />
+    <bean id="QuestionMultiChoice-description-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="description" />
+        <property name="required" value="true" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean p:size="40" parent="Uif-TextControl"/>
+        </property>
+        <property name="summary" value="Description" />
+        <property name="description" value="Description" />
+    </bean>
+    
+      <bean id="QuestionMultiChoice-versionNumber" parent="QuestionMultiChoice-versionNumber-parentBean" />
+      <bean id="QuestionMultiChoice-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
+</beans>

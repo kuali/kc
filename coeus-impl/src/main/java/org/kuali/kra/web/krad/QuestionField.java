@@ -21,10 +21,14 @@ package org.kuali.kra.web.krad;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.custom.arg.ArgValueLookup;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
+import org.kuali.coeus.common.framework.rolodex.RolodexConstants;
 import org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder;
 import org.kuali.coeus.common.questionnaire.framework.answer.Answer;
-import org.kuali.coeus.common.framework.rolodex.RolodexConstants;
+import org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice;
+import org.kuali.coeus.org.kuali.rice.krad.uif.control.QuestionCheckboxControl;
+import org.kuali.coeus.org.kuali.rice.krad.uif.control.QuestionRadioGroupControl;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.datadictionary.validation.constraint.NumericPatternConstraint;
 import org.kuali.rice.krad.uif.control.Control;
 import org.kuali.rice.krad.uif.control.TextControlBase;
@@ -32,8 +36,11 @@ import org.kuali.rice.krad.uif.field.InputFieldBase;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.uif.util.UifKeyValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class QuestionField extends InputFieldBase {
@@ -51,7 +58,12 @@ public class QuestionField extends InputFieldBase {
     public void performApplyModel(Object model, LifecycleElement parent) {
         Object myBo = ObjectPropertyUtils.getPropertyValue(model, KcBindingInfo.getParentBindingInfo(getBindingInfo()));
         Answer answer = (Answer) myBo;
-        setControl((Control) ComponentFactory.getNewComponentInstance(getControlMappings().get(answer.getQuestion().getQuestionTypeId().toString())));
+        if (!answer.getQuestion().getQuestionTypeId().equals(Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE)) {
+            setControl((Control) ComponentFactory.getNewComponentInstance(getControlMappings().get(answer.getQuestion().getQuestionTypeId().toString())));
+        }
+        else {
+            setupMultipleChoiceControl(answer);
+        }
         getControl().getCssClasses().add("answer");
 
         if (getControl() instanceof TextControlBase
@@ -88,6 +100,49 @@ public class QuestionField extends InputFieldBase {
             }
         }
         super.performApplyModel(model, parent);
+    }
+
+    protected void setupMultipleChoiceControl(Answer answer) {
+        if (answer.getQuestion().isRadioButton()) {
+            setupRadioGroupControl(answer);
+        } else {
+            setupCheckboxControl(answer);
+        }
+    }
+
+    private void setupCheckboxControl(Answer answer) {
+        final QuestionCheckboxControl checkboxControl = (QuestionCheckboxControl) ComponentFactory.getNewComponentInstance("Uif-QuestionCheckboxControl");
+        final List<QuestionMultiChoice> multiChoices = answer.getQuestion().getQuestionMultiChoices();
+        if (multiChoices != null && multiChoices.size() >= answer.getAnswerNumber()) {
+            final QuestionMultiChoice associatedChoice = multiChoices.get(answer.getAnswerNumber() - 1);
+            final String associatedPrompt = associatedChoice.getPrompt();
+            final boolean isChecked = StringUtils.equals(associatedPrompt, answer.getAnswer());
+            checkboxControl.setCheckboxLabel(associatedPrompt);
+            checkboxControl.setValue(associatedPrompt);
+            checkboxControl.setChecked(isChecked);
+
+            final String associatedDescription = associatedChoice.getDescription();
+            if (StringUtils.isNotBlank(associatedDescription)) {
+                checkboxControl.setDescription(associatedDescription);
+            }
+
+        }
+        setControl(checkboxControl);
+    }
+
+    private void setupRadioGroupControl(Answer answer) {
+        final QuestionRadioGroupControl radioControl = (QuestionRadioGroupControl) ComponentFactory.getNewComponentInstance("Uif-QuestionRadioControl");
+        final List<KeyValue> radioOptions = new ArrayList<>();
+        final List<String> radioDescriptions = new ArrayList<>();
+        for (int i = 0; i < answer.getQuestion().getQuestionMultiChoices().size(); i++) {
+            final QuestionMultiChoice choice = answer.getQuestion().getQuestionMultiChoices().get(i);
+            final String mcPrompt = choice.getPrompt();
+            radioOptions.add(new UifKeyValue(mcPrompt, mcPrompt));
+            radioDescriptions.add(StringUtils.isBlank(choice.getDescription()) ? null : choice.getDescription());
+        }
+        radioControl.setOptions(radioOptions);
+        radioControl.setOptionDescriptions(radioDescriptions);
+        setControl(radioControl);
     }
 
     @Override

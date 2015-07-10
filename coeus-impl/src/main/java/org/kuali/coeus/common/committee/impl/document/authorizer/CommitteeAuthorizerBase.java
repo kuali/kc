@@ -39,7 +39,7 @@ public abstract class CommitteeAuthorizerBase extends TaskAuthorizerBase {
 
     /**
      * Is the user authorized to execute the given committee task?
-     * @param username the user's unique username
+     * @param userId the user's unique username
      * @param task the committee task
      * @return true if the user is authorized; otherwise false
      */
@@ -55,7 +55,7 @@ public abstract class CommitteeAuthorizerBase extends TaskAuthorizerBase {
     
     /**
      * Does the given user has the permission for this committee?
-     * @param username the unique username of the user
+     * @param userId the unique username of the user
      * @param committee the committee
      * @param permissionName the name of the permission
      * @return true if the person has the permission; otherwise false

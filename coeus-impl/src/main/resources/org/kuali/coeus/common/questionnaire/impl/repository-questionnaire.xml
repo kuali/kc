@@ -46,11 +46,28 @@
         <reference-descriptor name="questionType" class-ref="org.kuali.coeus.common.questionnaire.framework.question.QuestionType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="questionTypeId"/>
         </reference-descriptor>
+        <collection-descriptor name="questionMultiChoices" element-class-ref="org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="questionId"/>
+        </collection-descriptor>
         <collection-descriptor name="questionExplanations" element-class-ref="org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
             <inverse-foreignkey field-ref="questionId"/>
         </collection-descriptor>
     </class-descriptor>
-    
+
+    <class-descriptor class="org.kuali.coeus.common.questionnaire.framework.question.QuestionMultiChoice" table="QUESTION_MULTI_CHOICE">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTION_MULTI_CHOICE_ID" autoincrement="true" />
+        <field-descriptor name="questionId" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT"/>
+        <field-descriptor name="prompt" column="PROMPT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="sequenceOwner" class-ref="org.kuali.coeus.common.questionnaire.framework.question.Question" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="questionId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
     <class-descriptor class="org.kuali.coeus.common.questionnaire.framework.question.QuestionExplanation" table="QUESTION_EXPLANATION">
         <field-descriptor name="id" column="QUESTION_EXPLANATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_QUESTIONNAIRE_REF_ID" autoincrement="true" />
         <field-descriptor name="questionId" column="QUESTION_REF_ID_FK" jdbc-type="BIGINT" />
@@ -60,6 +77,9 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="sequenceOwner" class-ref="org.kuali.coeus.common.questionnaire.framework.question.Question" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="questionId"/>
+        </reference-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.coeus.common.questionnaire.framework.question.QuestionCategory" table="GROUP_TYPES">

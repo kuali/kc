@@ -80,9 +80,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
 
-/**
- * This class represent Budget BO
- */
 @NAMESPACE(namespace = Constants.MODULE_NAMESPACE_BUDGET)
 @COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
 @Entity
@@ -103,14 +100,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
 	@Column(name = "PARENT_DOCUMENT_TYPE_CODE")
     private String parentDocumentTypeCode;
-
-    public String getParentDocumentTypeCode() {
-		return parentDocumentTypeCode;
-	}
-
-	public void setParentDocumentTypeCode(String parentDocumentTypeCode) {
-		this.parentDocumentTypeCode = parentDocumentTypeCode;
-	}
 
 	@Column(name = "BUDGET_JUSTIFICATION")
     @Lob
@@ -141,13 +130,11 @@ public class Budget extends AbstractBudget implements BudgetContract {
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("projectPeriod")
-    //@FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
     private List<BudgetCostShare> budgetCostShares;
 
     @OneToMany(orphanRemoval = true, cascade = { CascadeType.ALL })
     @JoinColumn(name = "BUDGET_ID", referencedColumnName = "BUDGET_ID")
     @OrderBy("fiscalYear")
-    //@FilterGenerator(attributeName = "hiddenInHierarchy", attributeValue = "false")
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
 
     @Column(name = "BUDGET_ADJUSTMENT_DOC_NBR")
@@ -258,29 +245,25 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
     public Budget() {
         super();
-        budgetCostShares = new ArrayList<BudgetCostShare>();
-        budgetProjectIncomes = new ArrayList<BudgetProjectIncome>();
-        budgetRates = new ArrayList<BudgetRate>();
-        budgetLaRates = new ArrayList<BudgetLaRate>();
-        budgetPeriods = new ArrayList<BudgetPeriod>();
-        budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
-        budgetUnrecoveredFandAs = new ArrayList<BudgetUnrecoveredFandA>();
-        instituteRates = new ArrayList<InstituteRate>();
-        instituteLaRates = new ArrayList<InstituteLaRate>();
-        rateClasses = new ArrayList<RateClass>();
-        rateClassTypes = new ArrayList<RateClassType>();
-        budgetPersons = new ArrayList<BudgetPerson>();
-        budgetCategoryTypeCodes = new ArrayList<KeyValue>();
-        budgetPrintForms = new ArrayList<BudgetPrintForm>();
-        budgetSubAwards = new ArrayList<BudgetSubAwards>();
-        budgetSummaryDetails = new ArrayList<Period>();
+        budgetProjectIncomes = new ArrayList<>();
+        budgetRates = new ArrayList<>();
+        budgetLaRates = new ArrayList<>();
+        budgetPeriods = new ArrayList<>();
+        budgetPersonnelDetailsList = new ArrayList<>();
+        budgetUnrecoveredFandAs = new ArrayList<>();
+        instituteRates = new ArrayList<>();
+        instituteLaRates = new ArrayList<>();
+        rateClasses = new ArrayList<>();
+        rateClassTypes = new ArrayList<>();
+        budgetPersons = new ArrayList<>();
+        budgetCategoryTypeCodes = new ArrayList<>();
+        budgetPrintForms = new ArrayList<>();
+        budgetSubAwards = new ArrayList<>();
+        budgetSummaryDetails = new ArrayList<>();
+        budgetCostShares = new ArrayList<>();
         setOnOffCampusFlag("D");
     }
 
-    /**
-     * Looks up and returns the ParameterService.
-     * @return the parameter service. 
-     */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
@@ -296,7 +279,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
      * is not handled by our O/R M solution; therefore, it is handled here, manually.
      */
     public void handlePeriodToProjectIncomeRelationship() {
-        final Collection<Long> periodIncomesToDelete = new ArrayList<Long>();
+        final Collection<Long> periodIncomesToDelete = new ArrayList<>();
         for (final BudgetPeriod persistedPeriod : this.getPersistedBudgetPeriods()) {
             if (!this.containsBudgetPeriod(persistedPeriod.getBudgetPeriodId())) {
                 periodIncomesToDelete.add(persistedPeriod.getBudgetPeriodId());
@@ -306,12 +289,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         this.deleteLocalProjectIncomes(periodIncomesToDelete);
     }
 
-    /**
-     * Checks if this budget document contains a budget period with a specific period id.
-     * 
-     * @param periodId the budget period id
-     * @return true if it contains the budget period with the matching id.
-     */
     private boolean containsBudgetPeriod(final Long periodId) {
         assert periodId != null : "the periodId is null";
         for (final BudgetPeriod localPeriod : getBudgetPeriods()) {
@@ -330,38 +307,25 @@ public class Budget extends AbstractBudget implements BudgetContract {
         this.budgetAdjustmentDocumentNumber = budgetAdjustmentDocumentNumber;
     }
 
-    /**
-     * Gets all persisted {@link BudgetPeriod BudgetPeriods} for the current proposal
-     * as an immutable collection.
-     * 
-     * @return {@link BudgetPeriod BudgetPeriods} if no periods are found this method returns
-     * an empty {@link Collection Collection}
-     */
     private Collection<BudgetPeriod> getPersistedBudgetPeriods() {
         final BusinessObjectService service = KcServiceLocator.getService(BusinessObjectService.class);
-        final Map<String, Object> matchCriteria = new HashMap<String, Object>();
+        final Map<String, Object> matchCriteria = new HashMap<>();
         matchCriteria.put("budgetId", this.getBudgetId());
         @SuppressWarnings("unchecked") final Collection<BudgetPeriod> periods = service.findMatching(BudgetPeriod.class, matchCriteria);
         return periods != null ? Collections.unmodifiableCollection(periods) : Collections.<BudgetPeriod>emptyList();
     }
 
-    /**
-     * Deletes the {@link BudgetProjectIncome BudgetProjectIncomes} matching the passed in period ids from the database.
-     */
     private void deletePersistedProjectIncomes(final Collection<Long> periodIds) {
         assert periodIds != null : "the periodIds are null";
         if (periodIds.isEmpty()) {
             return;
         }
         final BusinessObjectService service = KcServiceLocator.getService(BusinessObjectService.class);
-        final Map<String, Collection<Long>> matchCriteria = new HashMap<String, Collection<Long>>();
+        final Map<String, Collection<Long>> matchCriteria = new HashMap<>();
         matchCriteria.put("budgetPeriodId", periodIds);
         service.deleteMatching(BudgetProjectIncome.class, matchCriteria);
     }
 
-    /**
-     * Deletes the {@link BudgetProjectIncome BudgetProjectIncomes} matching the passed in period ids from local budget document.
-     */
     private void deleteLocalProjectIncomes(final Collection<Long> periodIds) {
         assert periodIds != null : "the periodIds are null";
         if (periodIds.isEmpty()) {
@@ -375,10 +339,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         }
     }
 
-    /**
-     * This method does what its name says
-     * @return List of project totals for each budget period, where budget period 1 total is stored in list's 0th element
-     */
     public List<ScaleTwoDecimal> getProjectIncomePeriodTotalsForEachBudgetPeriod() {
         Map<Integer, ScaleTwoDecimal> incomes = mapProjectIncomeTotalsToBudgetPeriodNumbers();
         return findProjectIncomeTotalsForBudgetPeriods(incomes);
@@ -394,26 +354,14 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return findCostShareTotalsForBudgetPeriods(budgetPeriodFiscalYears);
     }
 
-    /**
-     * This method reveals applicability of Cost Sharing to this budget
-     * @return
-     */
     public Boolean isCostSharingApplicable() {
         return loadCostSharingApplicability();
     }
 
-    /**
-     * This method reveals enforcement of Cost Sharing to this budget
-     * @return
-     */
     public Boolean isCostSharingEnforced() {
         return loadCostSharingEnforcement();
     }
 
-    /**
-     * This method reveals availability of Cost Sharing in this budget
-     * @return
-     */
     public boolean isCostSharingAvailable() {
         boolean costSharingAvailable = false;
         for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
@@ -505,15 +453,15 @@ public class Budget extends AbstractBudget implements BudgetContract {
         managedLists.add(getBudgetProjectIncomes());
         managedLists.add(getBudgetCostShares());
         managedLists.add(getBudgetUnrecoveredFandAs());
-        List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
-        List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
-        List<BudgetFormulatedCostDetail> budgetFormulatedCosts = new ArrayList<BudgetFormulatedCostDetail>();
-        List<BudgetRateAndBase> budgetRateAndBaseList = new ArrayList<BudgetRateAndBase>();
-        List<BudgetPersonnelDetails> bPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
-        List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
-        List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
-        List<BudgetModularIdc> budgetModularIdcs = new ArrayList<BudgetModularIdc>();
-        List<BudgetModular> budgetModular = new ArrayList<BudgetModular>();
+        List<BudgetLineItem> budgetLineItems = new ArrayList<>();
+        List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<>();
+        List<BudgetFormulatedCostDetail> budgetFormulatedCosts = new ArrayList<>();
+        List<BudgetRateAndBase> budgetRateAndBaseList = new ArrayList<>();
+        List<BudgetPersonnelDetails> bPersonnelDetailsList = new ArrayList<>();
+        List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = new ArrayList<>();
+        List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList = new ArrayList<>();
+        List<BudgetModularIdc> budgetModularIdcs = new ArrayList<>();
+        List<BudgetModular> budgetModular = new ArrayList<>();
         for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
             if (ObjectUtils.isNotNull(budgetPeriod.getBudgetModular())) {
                 budgetModularIdcs.addAll(budgetPeriod.getBudgetModular().getBudgetModularIdcs());
@@ -533,9 +481,9 @@ public class Budget extends AbstractBudget implements BudgetContract {
                 }
             }
         }
-        List<BudgetSubAwardFiles> subAwardFiles = new ArrayList<BudgetSubAwardFiles>();
-        List<BudgetSubAwardAttachment> subAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
-        List<BudgetSubAwardPeriodDetail> subAwardPeriodDetails = new ArrayList<BudgetSubAwardPeriodDetail>();
+        List<BudgetSubAwardFiles> subAwardFiles = new ArrayList<>();
+        List<BudgetSubAwardAttachment> subAwardAttachments = new ArrayList<>();
+        List<BudgetSubAwardPeriodDetail> subAwardPeriodDetails = new ArrayList<>();
         for (BudgetSubAwards budgetSubAward : getBudgetSubAwards()) {
             subAwardFiles.addAll(budgetSubAward.getBudgetSubAwardFiles());
             subAwardAttachments.addAll(budgetSubAward.getBudgetSubAwardAttachments());
@@ -577,12 +525,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return justificationFound;
     }
 
-    /**
-     * Gets index i from the budgetPeriods list.
-     * 
-     * @param index
-     * @return Budget Period at index i
-     */
     public BudgetPeriod getBudgetPeriod(int index) {
         while (getBudgetPeriods().size() <= index) {
             BudgetPeriod budgetPeriod = getNewBudgetPeriod();
@@ -627,7 +569,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     }
 
     public List<AbstractBudgetRate> getAllBudgetRates() {
-    	ArrayList<AbstractBudgetRate> result = new ArrayList<AbstractBudgetRate>();
+    	ArrayList<AbstractBudgetRate> result = new ArrayList<>();
     	result.addAll(getBudgetRates());
     	result.addAll(getBudgetLaRates());
     	return result;
@@ -759,10 +701,7 @@ public class Budget extends AbstractBudget implements BudgetContract {
     public boolean isProposalBudget() {
         return getBudgetParent().isProposalBudget();
     }
-	/**
-     * This method adds an item to its collection
-     * @param budgetProjectIncome
-     */
+
     public void add(BudgetProjectIncome budgetProjectIncome) {
 
         if (budgetProjectIncome != null) {
@@ -788,30 +727,18 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return null;
     }
 
-    /**
-     * This method adds an item to its collection
-     * @param budgetRate
-     */
     public void add(BudgetRate budgetRate) {
         if (budgetRate != null) {
             getBudgetRates().add(budgetRate);
         }
     }
 
-    /**
-     * This method adds an item to its collection
-     * @param budgetLaRate
-     */
     public void add(BudgetLaRate budgetLaRate) {
         if (budgetLaRate != null) {
             getBudgetLaRates().add(budgetLaRate);
         }
     }
 
-    /**
-     * This method adds an item to its collection
-     * @return
-     */
     public void add(BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         if (budgetUnrecoveredFandA != null) {
             budgetUnrecoveredFandA.setBudgetId(getBudgetId());
@@ -833,12 +760,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         this.budgetPersons = budgetPersons;
     }
 
-    /**
-     * Gets index i from the budgetPeriods list.
-     * 
-     * @param index
-     * @return Budget Period at index i
-     */
     public BudgetPerson getBudgetPerson(int index) {
         while (getBudgetPersons().size() <= index) {
             getBudgetPersons().add(new BudgetPerson());
@@ -851,37 +772,18 @@ public class Budget extends AbstractBudget implements BudgetContract {
         budgetPerson.setBudget(this);
     }
 
-    /**
-     * This method adds an item to its collection
-     * @return
-     */
     public void add(BudgetPeriod budgetPeriod) {
         getBudgetPeriods().add(budgetPeriod);
     }
 
-    /**
-     * This method does what its name says
-     * @param index
-     * @return Object reference that was deleted
-     */
     public BudgetCostShare removeBudgetCostShare(int index) {
         return getBudgetCostShares().remove(index);
     }
 
-    /**
-     * This method does what its name says
-     * @param index
-     * @return Object reference that was deleted
-     */
     public BudgetProjectIncome removeBudgetProjectIncome(int index) {
         return getBudgetProjectIncomes().remove(index);
     }
 
-    /**
-     * This method does what its name says
-     * @param index
-     * @return Object reference that was deleted
-     */
     public BudgetUnrecoveredFandA removeBudgetUnrecoveredFandA(int index) {
         return getBudgetUnrecoveredFandAs().remove(index);
     }
@@ -966,11 +868,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return availableUnrecoveredFandA;
     }
 
-    /**
-     * This method does what its name says
-     * @param fiscalYear
-     * @return
-     */
     public ScaleTwoDecimal findCostSharingForFiscalYear(Integer fiscalYear) {
         ScaleTwoDecimal costSharing = ScaleTwoDecimal.ZERO;
         List<FiscalYearSummary> costShareFiscalYears = findCostShareTotalsForBudgetPeriods(mapBudgetPeriodsToFiscalYears());
@@ -983,11 +880,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return costSharing;
     }
 
-    /**
-     * This method does what its name says
-     * @param fiscalYear
-     * @return
-     */
     public ScaleTwoDecimal findUnrecoveredFandAForFiscalYear(Integer fiscalYear) {
         ScaleTwoDecimal unrecoveredFandA = ScaleTwoDecimal.ZERO;
         List<FiscalYearSummary> fiscalYearSummaries = findCostShareTotalsForBudgetPeriods(mapBudgetPeriodsToFiscalYears());
@@ -1000,10 +892,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return unrecoveredFandA;
     }
 
-    /**
-     * This method loads the fiscal year start from the database. Protected to allow mocking out service call
-     * @return
-     */
     public Date loadFiscalYearStart() {
         return createDateFromString(getParameterService().getParameterValueAsString(Budget.class, Constants.BUDGET_CURRENT_FISCAL_YEAR));
     }
@@ -1012,44 +900,22 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return getParameterService().getParameterValueAsString(Budget.class, Constants.ENABLE_SALARY_INFLATION_ANNIV_DATE).equals(PARAM_VALUE_ENABLED);
     }
 
-    /**
-     * This method loads the cost sharing applicability flag from the database. Protected to allow mocking out service call
-     * @return
-     */
     protected Boolean loadCostSharingApplicability() {
         return getBooleanValue(Constants.BUDGET_COST_SHARING_APPLICABILITY_FLAG);
     }
 
-    /**
-     * This method loads the unrecovered F&A applicability flag from the database. Protected to allow mocking out service call
-     * @return
-     */
     protected Boolean loadUnrecoveredFandAApplicability() {
         return getBooleanValue(Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG);
     }
 
-    /**
-     * This method loads the cost sharing enforcement flag from the database. Protected to allow mocking out service call
-     * @return
-     */
     protected Boolean loadCostSharingEnforcement() {
         return getBooleanValue(Constants.BUDGET_COST_SHARING_ENFORCEMENT_FLAG);
     }
 
-    /**
-     * This method loads the unrecovered F&A enforcement flag from the database. Protected to allow mocking out service call
-     * @return
-     */
     protected Boolean loadUnrecoveredFandAEnforcement() {
         return getBooleanValue(Constants.BUDGET_UNRECOVERED_F_AND_A_ENFORCEMENT_FLAG);
     }
 
-    /**
-     * 
-     * This method should be in DateUtils, but wasn't found there
-     * @param budgetFiscalYearStart
-     * @return
-     */
     public Date createDateFromString(String budgetFiscalYearStart) {
         if (budgetFiscalYearStart == null) {
             return null;
@@ -1062,11 +928,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return new Date(calendar.getTimeInMillis());
     }
 
-    /**
-     * This method does what its name says
-     * @param fiscalYear
-     * @return
-     */
     private FiscalYearApplicableRate findApplicableRatesForFiscalYear(Integer fiscalYear) {
         String unrecoveredFandARateClassCode = getUrRateClassCode();
         if (unrecoveredFandARateClassCode == null || unrecoveredFandARateClassCode.trim().length() == 0) {
@@ -1078,13 +939,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         }
     }
 
-    /**
-     * This method does what its name says
-     * @param fiscalYear
-     * @param unrecoveredFandARateClassCode
-     * @param findOnCampusRate
-     * @return
-     */
     private ScaleThreeDecimal findApplicableRateForRateClassCode(Integer fiscalYear, String unrecoveredFandARateClassCode, boolean findOnCampusRate) {
         ScaleThreeDecimal applicableRate = ScaleThreeDecimal.ZERO;
         for (BudgetRate budgetRate : getBudgetRates()) {
@@ -1096,11 +950,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return applicableRate;
     }
 
-    /**
-     * This method does what its name says
-     * @param budgetPeriodFiscalYears
-     * @return
-     */
     private List<FiscalYearSummary> findCostShareTotalsForBudgetPeriods(Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears) {
         List<FiscalYearSummary> fiscalYearSummaries = new ArrayList<FiscalYearSummary>();
         for (Map.Entry<Integer, List<BudgetPeriod>> entry : budgetPeriodFiscalYears.entrySet()) {
@@ -1116,11 +965,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return fiscalYearSummaries;
     }
 
-    /**
-     * This method does what its name says
-     * @param incomes
-     * @return
-     */
     private List<ScaleTwoDecimal> findProjectIncomeTotalsForBudgetPeriods(Map<Integer, ScaleTwoDecimal> incomes) {
         List<ScaleTwoDecimal> periodIncomeTotals = new ArrayList<ScaleTwoDecimal>(budgetPeriods.size());
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
@@ -1133,30 +977,14 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return periodIncomeTotals;
     }
 
-    /**
-     * This method returns a collection if the collection is not null; otherwise, zero is returned 
-     * @param collection
-     * @return
-     */
-    @SuppressWarnings("unchecked")
     private int getCollectionSize(Collection collection) {
         return collection != null ? collection.size() : 0;
     }
 
-    /**
-     * This method returns the fiscalYearStart, loading it from the database if needed
-     *  
-     * @return
-     */
     private Date getFiscalYearStart() {
         return loadFiscalYearStart();
     }
 
-    /**
-     * This method looks up the applicability flag
-     * @param parmName
-     * @return
-     */
     protected Boolean getBooleanValue(String parmName) {
         String parmValue;
         if (!getParameterService().parameterExists(Budget.class, parmName)) {
@@ -1179,12 +1007,12 @@ public class Budget extends AbstractBudget implements BudgetContract {
     }
 
     private Map<Integer, List<BudgetPeriod>> mapBudgetPeriodsToFiscalYears() {
-        Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = new TreeMap<Integer, List<BudgetPeriod>>();
+        Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = new TreeMap<>();
         for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
             Integer fiscalYear = budgetPeriod.calculateFiscalYear(getFiscalYearStart());
             List<BudgetPeriod> budgetPeriodsInFiscalYear = budgetPeriodFiscalYears.get(fiscalYear);
             if (budgetPeriodsInFiscalYear == null) {
-                budgetPeriodsInFiscalYear = new ArrayList<BudgetPeriod>();
+                budgetPeriodsInFiscalYear = new ArrayList<>();
                 budgetPeriodFiscalYears.put(fiscalYear, budgetPeriodsInFiscalYear);
             }
             budgetPeriodsInFiscalYear.add(budgetPeriod);
@@ -1204,12 +1032,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
         private ScaleThreeDecimal offCampusApplicableRate;
 
-        /**
-         * Constructs a FiscalYearApplicableRate.java.
-         * @param fiscalYear
-         * @param onCampusApplicableRate
-         * @param offCampusApplicableRate
-         */
         public FiscalYearApplicableRate(Integer fiscalYear, ScaleThreeDecimal onCampusApplicableRate, ScaleThreeDecimal offCampusApplicableRate) {
             this.fiscalYear = fiscalYear;
             this.onCampusApplicableRate = onCampusApplicableRate;
@@ -1229,9 +1051,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         }
     }
 
-    /**
-     * This class wraps the fiscal year, assignedBudgetPeriod, fiscl year applicable rate, and the fiscal year totals for cost share and unrecovered
-     */
     public static class FiscalYearSummary {
 
         private int fiscalYear;
@@ -1244,15 +1063,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
 
         private FiscalYearApplicableRate fiscalYearRates;
 
-        /**
-         * 
-         * Constructs a FiscalYearSummary.
-         * @param assignedBudgetPeriod
-         * @param fiscalYear
-         * @param costShare
-         * @param unrecoveredFandA
-         * @param fiscalYearRates
-         */
         public FiscalYearSummary(BudgetPeriod assignedBudgetPeriod, int fiscalYear, ScaleTwoDecimal costShare, ScaleTwoDecimal unrecoveredFandA, FiscalYearApplicableRate fiscalYearRates) {
             super();
             this.assignedBudgetPeriod = assignedBudgetPeriod;
@@ -1312,34 +1122,18 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return getBudgetSummaryService().getOnOffCampusFlagDescription(getOnOffCampusFlag());
     }
 
-    /**
-    * Gets the budgetLineItemDeleted attribute. 
-    * @return Returns the budgetLineItemDeleted.
-    */
     public boolean isBudgetLineItemDeleted() {
         return budgetLineItemDeleted;
     }
 
-    /**
-     * Sets the budgetLineItemDeleted attribute value.
-     * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
-     */
     public void setBudgetLineItemDeleted(boolean budgetLineItemDeleted) {
         this.budgetLineItemDeleted = budgetLineItemDeleted;
     }
 
-    /**
-     * Gets the budgetPrintForms attribute. 
-     * @return Returns the budgetPrintForms.
-     */
     public List<BudgetPrintForm> getBudgetPrintForms() {
         return budgetPrintForms;
     }
 
-    /**
-     * Sets the budgetPrintForms attribute value.
-     * @param budgetPrintForms The budgetPrintForms to set.
-     */
     public void setBudgetPrintForms(List<BudgetPrintForm> budgetPrintForms) {
         this.budgetPrintForms = budgetPrintForms;
     }
@@ -1425,10 +1219,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         this.budgetSummaryTotals = budgetSummaryTotals;
     }
 
-    /**
-     * Gets the Underreovery Amount for all budget periods.
-     * @return the amount.
-     */
     public final ScaleTwoDecimal getSumUnderreoveryAmountFromPeriods() {
         ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
@@ -1437,10 +1227,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return amount;
     }
 
-    /**
-     * Gets the sum of the CostSharing Amount for all budget periods.
-     * @return the amount
-     */
     public final ScaleTwoDecimal getSumCostSharingAmountFromPeriods() {
         ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
@@ -1449,10 +1235,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return amount;
     }
 
-    /**
-     * Gets the sum of the Direct Cost Amount for all budget periods.
-     * @return the amount
-     */
     public ScaleTwoDecimal getSumDirectCostAmountFromPeriods() {
         ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
@@ -1461,10 +1243,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return amount;
     }
 
-    /**
-     * Gets the sum of the Indirect Cost Amount for all budget periods.
-     * @return the amount
-     */
     public final ScaleTwoDecimal getSumIndirectCostAmountFromPeriods() {
         ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
@@ -1473,10 +1251,6 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return amount;
     }
 
-    /**
-     * Gets the sum of the Total Cost Amount for all budget periods.
-     * @return the amount
-     */
     public final ScaleTwoDecimal getSumTotalCostAmountFromPeriods() {
         ScaleTwoDecimal amount = ScaleTwoDecimal.ZERO;
         for (final BudgetPeriod period : this.getBudgetPeriods()) {
@@ -1485,18 +1259,10 @@ public class Budget extends AbstractBudget implements BudgetContract {
         return amount;
     }
 
-    /**
-     * Gets the ohRatesNonEditable attribute. 
-     * @return Returns the ohRatesNonEditable.
-     */
     public boolean getOhRatesNonEditable() {
         return false;
     }
 
-    /**
-     * Gets the ebRatesNonEditable attribute. 
-     * @return Returns the ebRatesNonEditable.
-     */
     public boolean getEbRatesNonEditable() {
         return false;
     }
@@ -1832,4 +1598,13 @@ public class Budget extends AbstractBudget implements BudgetContract {
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
+
+    public String getParentDocumentTypeCode() {
+        return parentDocumentTypeCode;
+    }
+
+    public void setParentDocumentTypeCode(String parentDocumentTypeCode) {
+        this.parentDocumentTypeCode = parentDocumentTypeCode;
+    }
+
 }

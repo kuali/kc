@@ -25,6 +25,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 
 import java.util.List;
+
 import static org.junit.Assert.*;
 /**
  * This is a base class for ValuesFinder tests.
@@ -51,10 +52,14 @@ public abstract class ValuesFinderTestBase extends KcIntegrationTestBase {
      * @return Returns the testClass.
      */
     protected abstract Class<? extends KeyValuesFinder> getTestClass();
+    
+    protected KeyValuesFinder getKeyValuesFinder() throws InstantiationException, IllegalAccessException {
+    	return getTestClass().newInstance();
+    }
 
     @Test
-    public void testGetKeyValues() throws Exception {
-        final KeyValuesFinder keyValuesFinder = getTestClass().newInstance();
+    public void testGetKeyValues() throws InstantiationException, IllegalAccessException {
+        final KeyValuesFinder keyValuesFinder = getKeyValuesFinder();
         final List<KeyValue> keyValues = this.getKeyValues();
         
         assertEquals(keyValues.size(), keyValuesFinder.getKeyValues().size());

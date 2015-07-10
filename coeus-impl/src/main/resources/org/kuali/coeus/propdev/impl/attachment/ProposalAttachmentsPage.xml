@@ -122,11 +122,22 @@
             <list>
                 <bean parent="PropDev-AttachmentPage-LinkField" p:order="10"/>
                 <bean parent="Uif-InputField" p:propertyName="narrativeTypeCode" p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
-                      p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:width="5%" p:order="20" />
-				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="30" />
+                      p:onChangeScript="Kc.PropDev.Attachments.checkforExistingAttachmentsOnParent(this)"
+                      p:onClickScript="Kc.PropDev.Attachments.capturePreviousNarrativeType(this)"
+                      p:fieldLabel.labelText="Type" p:enableAutoQuickfinder="false" p:width="5%" p:order="20">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fluidInputField"/>
+                    </property>
+                </bean>
+				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="30"
+                          p:readOnly="@{(#parent.readOnly and !#editModes['replaceNarratives']) or pageId ne 'PropDev-AttachmentsPage'}"/>
                 <bean parent="Uif-InputField" p:propertyName="moduleTitle"
-                      p:order="40" />
-                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
+                      p:order="40">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:cssClasses="fluidInputField"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayFullName(#line.uploadUserDisplay)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
                       p:fieldLabel.labelText="Posted Timestamp"
                       p:readOnly="true" p:width="20%" p:order="60"/>
@@ -150,7 +161,10 @@
 	<bean id="PropDev-AttachmentPage-ModuleStatus-parentBean" abstract="true"
           parent="Uif-InputField" p:propertyName="moduleStatusCode"
                      p:readOnlyDisplayReplacementPropertyName="narrativeStatus.description"
-                     p:required="true" p:enableAutoQuickfinder="false" p:width="25%">
+                     p:required="true" p:enableAutoQuickfinder="false">
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fluidInputField"/>
+        </property>
 	</bean>
 
     <bean id="PropDev-AttachmentsPage-ProposalDetails" parent="PropDev-AttachmentsPage-ProposalDetails-parentBean"/>
@@ -159,9 +173,12 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="narrative.narrativeTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="narrative.narrativeType.description"
+                      p:onChangeScript="Kc.PropDev.Attachments.checkforExistingAttachmentsOnParent(this)"
+                      p:onClickScript="Kc.PropDev.Attachments.capturePreviousNarrativeType(this)"
                       p:enableAutoQuickfinder="false"
                       p:order="10" />
                 <bean parent="Uif-InputField" p:propertyName="narrative.moduleStatusCode"
+                      p:readOnly="@{#parent.readOnly and !#editModes['replaceNarratives']}"
                       p:readOnlyDisplayReplacementPropertyName="narrative.narrativeStatus.description"
                       p:enableAutoQuickfinder="false"
                       p:required="true" p:order="20" />
@@ -236,7 +253,7 @@
                       p:enableAutoQuickfinder="false" p:render="@{#empty(#line.versionNumber) and !#parent.readOnly}"
                       >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fluidInputField"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.coeus.propdev.impl.person.ProposalPersonValueFinder"/>
@@ -247,10 +264,17 @@
                 <bean parent="Uif-InputField" p:propertyName="documentTypeCode"
                       p:readOnlyDisplayReplacementPropertyName="propPerDocType.description"
                       p:fieldLabel.labelText="Type" p:order="60"
-                      p:enableAutoQuickfinder="false" p:readOnly="@{#parent.readOnly or !#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, document.developmentProposal)}"
-                      />
-                <bean parent="Uif-InputField" p:propertyName="description" p:order="70"/>
-                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="80" />
+                      p:enableAutoQuickfinder="false" p:readOnly="@{#parent.readOnly or !#ViewHelper.renderPersonnelEditForHierarchyProposal(#line.personId, document.developmentProposal)}">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fluidInputField"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="description" p:order="70">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:cssClasses="fluidInputField"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayFullName(#line.#line.uploadUserDisplay)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="80" />
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
                       p:fieldLabel.labelText="Posted Timestamp"
                       p:readOnly="true" p:width="20%" p:order="90"/>
@@ -345,7 +369,11 @@
                         <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:readOnly="false" p:order="20"/>
+                <bean parent="Uif-InputField" p:propertyName="abstractDetails" p:readOnly="false" p:order="20">
+                        <property name="control">
+                            <bean parent="Uif-TextAreaControl" p:cssClasses="abstractDetails"/>
+                        </property>
+                        </bean>
             </list>
         </property>
         <property name="lineActions">
@@ -379,7 +407,11 @@
                         <bean parent="Uif-Inquiry" p:render="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="proposalAbstract.abstractDetails" p:order="30"/>
+                <bean parent="Uif-InputField" p:propertyName="proposalAbstract.abstractDetails" p:order="30">
+                   <property name="control">
+                       <bean parent="Uif-TextAreaControl" p:cssClasses="abstractDetails"/>
+                   </property>
+                        </bean>
             </list>
         </property>
         <property name="footer.items">
@@ -433,10 +465,15 @@
         <property name="collection.items">
             <list merge="true">
                 <bean parent="PropDev-AttachmentsPage-Internal-NarrativeTypeCodeField" p:order="30" />
-				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="35" />
+				<bean parent="PropDev-AttachmentPage-ModuleStatus" p:order="35"
+                      p:readOnly="@{(#parent.readOnly and !#editModes['replaceNarratives']) or pageId ne 'PropDev-AttachmentsPage'}"/>
                 <bean parent="Uif-InputField" p:propertyName="moduleTitle"
-                      p:order="40" />
-                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayAttachmentFullName(#line)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
+                      p:order="40">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:cssClasses="fluidInputField"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.displayFullName(#line.uploadUserDisplay)}" p:fieldLabel.labelText="Uploaded By" p:width="20%" p:order="50" />
                 <bean parent="Uif-InputField" p:propertyName="timestampDisplay"
                       p:fieldLabel.labelText="Posted Timestamp"
                       p:readOnly="true" p:width="20%" p:order="60"/>
@@ -469,6 +506,7 @@
                     <property name="optionsFinder" value="#{#getService('instituteAttachmentTypeValuesFinder')}" />
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="instituteAttachment.moduleStatusCode"
+                      p:readOnly="@{#parent.readOnly and !#editModes['replaceNarratives']}"
                       p:readOnlyDisplayReplacementPropertyName="instituteAttachment.narrativeStatus.description"
                       p:enableAutoQuickfinder="false"
                       p:required="true" p:order="15" />
@@ -507,7 +545,11 @@
             p:readOnlyDisplayReplacementPropertyName="narrativeType.description"
             p:enableAutoQuickfinder="false"
             p:fieldLabel.labelText="Type"
-            p:optionsFinder="#{#getService('instituteAttachmentTypeValuesFinder')}"/>
+            p:optionsFinder="#{#getService('instituteAttachmentTypeValuesFinder')}">
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fluidInputField"/>
+        </property>
+            </bean>
 
 
     <bean id="PropDev-AttachmentsPage-NotesSection" parent="PropDev-AttachmentsPage-NotesSection-parentBean" />
@@ -587,10 +629,6 @@
           p:link.href="?methodToCall=getFileFromLine&amp;formKey=@{formKey}&amp;fileName=@{#line.name}&amp;propertyPath=@{#collectionGroup.bindingInfo.bindingPath}&amp;selectedLineIndex=@{#index}"
           p:order="10"/>
 
-    <bean id="PropDev-AttachmentPage-AddedByField" parent="PropDev-AttachmentPage-AddedByField-parentBean"/>
-    <bean id="PropDev-AttachmentPage-AddedByField-parentBean" abstract="true" parent="Uif-MessageField" p:label="Added By"
-           p:messageText="@{#line.updateUser} [color=grey](@{#ViewHelper.getDateUploadedFormatted(#line.updateTimestamp)})[/color]"/>
-
     <bean id="PropDev-AttachmentPage-MultiFileCollection" parent="PropDev-AttachmentPage-MultiFileCollection-parentBean"/>
     <bean id="PropDev-AttachmentPage-MultiFileCollection-parentBean" abstract="true" parent="Uif-MultiFileUploadCollection"
           p:collection.layoutManager.richTable.render="false" p:addFilesButtonText="Upload &amp; Add"
@@ -608,7 +646,6 @@
                         <bean parent="Uif-FileControl"/>
                     </property>
                 </bean>
-                <bean parent="PropDev-AttachmentPage-AddedByField" p:order="30"/>
             </list>
         </property>
         <property name="collection.layoutManager.libraryCssClasses">
@@ -636,7 +673,9 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="PropDev-AttachmentPage-AddedByField" p:fieldLabel.labelText="Author" p:order="10"/>
+                <bean parent="Uif-MessageField" p:label="Author"
+                	p:messageText="@{#line.uploadUserDisplay} [color=grey](@{#ViewHelper.getDateUploadedFormatted(#line.timestampDisplay)})[/color]"/>
+
             </list>
         </property>
         <property name="layoutManager.libraryCssClasses">
@@ -690,6 +729,27 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="accessType" p:fieldLabel.labelText="@{#line.personName}" p:order="10"/>
             </list>
+        </property>
+    </bean>
+
+    <bean id="PropDev-AttachmentPage-ConfirmAddAttachmentToChild" parent="Uif-DialogGroup-OkCancel"
+          p:promptText="The attachment type &quot;@{proposalDevelopmentAttachmentHelper.currentNarrativeTypeDescription}&quot; is already present in the hierarchy. Adding the attachment type &quot;@{proposalDevelopmentAttachmentHelper.currentNarrativeTypeDescription}&quot; will not be synced. Do you want to continue?">
+        <property name="footer.items">
+            <list>
+                <bean parent="Uif-DialogDismissButton" p:actionLabel="Cancel"
+                      p:dialogDismissOption="REQUEST" p:methodToCall="revertToPreviousNarrativeType"/>
+                <bean parent="Uif-DialogConfirmButton" p:actionLabel="OK"/>
+            </list>
+        </property>
+        <property name="header.upperGroup">
+            <bean parent="Uif-SimpleGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="&amp;times;"
+                              p:dialogDismissOption="REQUEST" p:methodToCall="revertToPreviousNarrativeType" p:libraryCssClasses="close" p:ariaAttributes="hidden:true"/>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 </beans>

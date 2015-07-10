@@ -25,13 +25,20 @@ Kc.Global = Kc.Global || {};
         $.validator.addMethod("kcValidateDate", function(value,element){
             return this.optional(element) || namespace.validateDate(value);
         },"Invalid Date");
+        $.validator.addMethod("kcValidateCurrency", function(value,element){
+            return this.optional(element) || namespace.validateCurrency(value);
+        },"Must be a number, with no more than 12 total digits and 2 digits to the right of the decimal point.");
         $(".uif-dateControl").each(function() {
             //make sure all date inputs check for valid dates, in case they are never focused
             $(this).rules("add",{kcValidateDate: true});
         });
         $(document).on("focus", ".uif-dateControl", function(){
             //if a date input is added after document ready event.
-                $(this).rules("add",{kcValidateDate: true});
+            $(this).rules("add",{kcValidateDate: true});
+        });
+        $(document).on("focus", ".uif-currencyControl", function(){
+            //if a date input is added after document ready event.
+            $(this).rules("add",{kcValidateCurrency: true});
         });
         $(window).on("resize",function(){
             namespace.makeApplicationFooterSticky();
@@ -81,7 +88,24 @@ Kc.Global = Kc.Global || {};
                 $(this).val(formattedDate);
             }
         });
+        $(document).on("blur", ".uif-currencyControl", function(){
+            var value = $(this).val()
+            value = value.replace(/,/g,"");
+
+            if (!namespace.validateCurrency(value)) {
+                return;
+            }
+            $(this).val(Kc.PropDev.Budget.formatMoney(new Number(value),2, '.', ','));
+        });
     });
+    namespace.validateCurrency = function(value) {
+        value = value.replace(/,/g,"");
+        var regex = /^-?([0-9]{0,10}\.[0-9]{1,2}|[0-9]{1,10})$/
+        if (regex.test(value)) {
+            return true;
+        }
+        return false
+    }
     namespace.validateDate = function(value) {
         var dateFormat = $.datepicker._defaults.dateFormat;
         var date = value.replace(/-/g, "/");
@@ -294,8 +318,8 @@ KradResponse.prototype.updatePageHandler = function (content, dataAttr) {
 
     // remove any already existing matching dialogs from the view
     jQuery('.modal', page).each(function () {
-            var existingComponent = jQuery('#' + this.id, jQuery("[data-role='View']"));
-            existingComponent.remove();
+        var existingComponent = jQuery('#' + this.id, jQuery("[data-role='View']"));
+        existingComponent.remove();
     });
 
     jQuery("." + kradVariables.CLASSES.PLACEHOLDER, page).each(function () {
@@ -358,7 +382,7 @@ KradResponse.prototype.updatePageHandler = function (content, dataAttr) {
 function validateFieldValue(fieldControl) {
     // skip validation for add line fields unless there is a value. The add button will handle validation
     if (jQuery(fieldControl).attr('id').match(new RegExp(kradVariables.ID_SUFFIX.ADD_LINE_INPUT_FIELD))
-            && !jQuery(fieldControl).val()) {
+        && !jQuery(fieldControl).val()) {
         return true;
     }
 

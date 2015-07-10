@@ -20,7 +20,7 @@ package org.kuali.coeus.common.committee.impl.bo;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.committee.impl.meeting.*;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.DayOfWeek;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
@@ -195,16 +195,18 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
 	 * @return
 	 */
 	public Timestamp getTime() {
+		if(this.time != null) {
 	    java.util.Date dt = new java.util.Date(this.time.getTime());
 	    dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
-	    if (viewTime != null) {
+	     if (viewTime != null) {
             dt = new java.util.Date(0); // 12/31/1969 19:00:00
             dt = DateUtils.round(dt, Calendar.DAY_OF_MONTH);
 	        dt = DateUtils.addMinutes(dt, viewTime.findMinutes()); // to set it to 1970-01-01
             //dt = DateUtils.addMinutes(dt, viewTime.findMinutes());
             //dt = DateUtils.addMinutes(dt, getViewTime().findMinutes());
 	        this.time = new Timestamp(dt.getTime());
-	    }
+	     }
+		}
 	    return time;
 	}
 
@@ -315,22 +317,9 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
 
 
     public abstract CMT getParentCommittee();
-    
-//    public CMT getCommittee() {
-//        if (committee == null && getCommitteeIdFk() == null) {
-//            committee = getNewCommitteeInstanceHook();
-//        }
-//        return committee;
-//	}
-
-//	protected abstract CMT getNewCommitteeInstanceHook();
 
 	
 	public abstract void setCommittee(CMT committee);
-	
-//    public void setCommittee(CMT committee) {
-//		this.committee = committee;
-//	}
 
     public ScheduleStatus getScheduleStatus() {
         return scheduleStatus;
@@ -495,7 +484,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
         for (PS submission : protocolSubmissions) {
             // gonna do something a little hacktacular here... in some cases, protocol and/or protocol number might not be set.
             // in that case, go ahead and pass submissions on to caller
-            if (submission.getProtocol() == null || StringUtils.isEmpty(submission.getProtocol().getProtocolNumber())) {
+            if (submission.getProtocol() == null || StringUtils.isBlank(submission.getProtocol().getProtocolNumber())) {
                 returnList.add(submission);
             } else {
                 String key = submission.getProtocol().getProtocolNumber();

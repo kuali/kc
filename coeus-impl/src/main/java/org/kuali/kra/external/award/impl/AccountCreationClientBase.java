@@ -107,7 +107,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
     }
     
     /**
-     * This method calls the web service on KFS to create a C&G account.
+     * This method calls the web service on KFS to create a C&amp;G account.
      * @see org.kuali.kra.external.award.AccountCreationClient#createAwardAccount(org.kuali.kra.award.home.Award)
      */
     public void createAwardAccount(Award award) throws DatatypeConfigurationException, WorkflowException {

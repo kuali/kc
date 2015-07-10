@@ -38,8 +38,8 @@ public class ProposalHierarchyErrorWarningDto {
     }
 
     /**
-     * Gets the errorKey attribute.
-     * @return Returns the errorKey.
+     * Gets the severe attribute.
+     * @return Returns the severe.
      */
     public boolean isSevere() {
         return severe;
@@ -47,9 +47,9 @@ public class ProposalHierarchyErrorWarningDto {
 
     /**
      * Sets the errorKey attribute value.
-     * @param errorKey The errorKey to set.
+     * @param severe The severe to set.
      */
-    public void setSevere(boolean errorKey) {
+    public void setSevere(boolean severe) {
         this.severe = severe;
     }
 

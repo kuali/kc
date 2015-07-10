@@ -43,12 +43,12 @@
                 <th>Actions</th>
             </c:if>
         </tr>
-        <c:forEach var="awardFundingProposal" items="${KualiForm.document.institutionalProposal.awardFundingProposals}" varStatus="status">
+        <c:forEach var="awardFundingProposal" items="${KualiForm.document.institutionalProposal.allFundingProposals}" varStatus="status">
             <tr>
-                <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.awardFundingProposal[${status.index}].award.awardNumber" attributeEntry="${awardAttributes.awardNumber}" readOnly="true"/></div></td>
-                <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.awardFundingProposal[${status.index}].award.sequenceNumber" attributeEntry="${awardAttributes.sequenceNumber}" readOnly="true"/></div></td>
-                <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.awardFundingProposal[${status.index}].proposal.sequenceNumber" attributeEntry="${institutionalProposalAttributes.proposalNumber}" readOnly="true"/></div></td>
-                <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.awardFundingProposal[${status.index}].award.accountNumber" attributeEntry="${awardAttributes.accountNumber}" readOnly="true"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.allFundingProposals[${status.index}].award.awardNumber" attributeEntry="${awardAttributes.awardNumber}" readOnly="true"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.allFundingProposals[${status.index}].award.sequenceNumber" attributeEntry="${awardAttributes.sequenceNumber}" readOnly="true"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.allFundingProposals[${status.index}].proposal.sequenceNumber" attributeEntry="${institutionalProposalAttributes.proposalNumber}" readOnly="true"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.allFundingProposals[${status.index}].award.accountNumber" attributeEntry="${awardAttributes.accountNumber}" readOnly="true"/></div></td>
                 <c:if test="${!readOnly}">
                     <td>
                         <div align="center">

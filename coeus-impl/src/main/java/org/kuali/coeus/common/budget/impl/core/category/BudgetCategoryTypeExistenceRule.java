@@ -59,7 +59,7 @@ public class BudgetCategoryTypeExistenceRule extends KcMaintenanceDocumentRuleBa
         BudgetCategory budgetCategory = (BudgetCategory) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         Map pkMap = new HashMap();
-        pkMap.put("budgetCategoryTypeCode", budgetCategory.getBudgetCategoryTypeCode());
+        pkMap.put("code", budgetCategory.getBudgetCategoryTypeCode());
         valid=checkExistenceFromTable(BudgetCategoryType.class,pkMap,"budgetCategoryTypeCode", "Budget Category Type");
 
 

@@ -441,7 +441,9 @@ public class ProposalBudgetHierarchyServiceImpl implements ProposalBudgetHierarc
 	        }
         }
         for (BudgetPeriod period : periodsToDelete) {
-            getDataObjectService().delete(period.getBudgetModular());
+            if (period.getBudgetModular() != null) {
+                getDataObjectService().delete(period.getBudgetModular());
+            }
         	parentBudget.getBudgetPeriods().remove(period);
         }
 

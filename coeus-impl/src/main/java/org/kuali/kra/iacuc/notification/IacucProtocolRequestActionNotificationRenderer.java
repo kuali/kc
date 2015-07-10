@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.iacuc.notification;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.protocol.notification.ProtocolReplacementParameters;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -43,7 +43,7 @@ public class IacucProtocolRequestActionNotificationRenderer extends IacucProtoco
 
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
-        params.put(ProtocolReplacementParameters.REASON, !StringUtils.isEmpty(reason) ? reason : CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(NO_REASON_GIVEN));
+        params.put(ProtocolReplacementParameters.REASON, StringUtils.isNotBlank(reason) ? reason : CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(NO_REASON_GIVEN));
         return params;
     }
 }

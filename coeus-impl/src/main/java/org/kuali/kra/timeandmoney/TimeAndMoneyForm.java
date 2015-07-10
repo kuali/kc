@@ -44,6 +44,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.util.AutoPopulatingList;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.text.ParseException;
 import java.util.*;
 
@@ -59,7 +60,6 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
     private String goToAwardNumber;
     private List<String> order;
-    private List<Integer> columnSpan;
     private List<String> obligationStartDates;
     private List<String> obligationExpirationDates;
     private List<String> finalExpirationDates;
@@ -113,8 +113,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
         transactionBean = new TransactionBean(this);
         awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         order = new ArrayList<String>();
-        columnSpan = new ArrayList<Integer>();
-        obligationStartDates = new AutoPopulatingList<String>(String.class);        
+        obligationStartDates = new AutoPopulatingList<String>(String.class);
         obligationExpirationDates = new AutoPopulatingList<String>(String.class);
         finalExpirationDates = new AutoPopulatingList<String>(String.class);
         awardHierarchyNodeItems = new AutoPopulatingList<AwardHierarchyNode>(AwardHierarchyNode.class);
@@ -148,7 +147,7 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      * Overriding populate method so that we can register editable properties in form base.  htmlControlAttribute registers
-     * these fields and the form base does validation on them.  We are using jQuery for Award Hierarchy view in Award and T&M, and
+     * these fields and the form base does validation on them.  We are using jQuery for Award Hierarchy view in Award and T&amp;M, and
      * we need to register these properties explicitly before we call populate.
      */
     @Override
@@ -246,24 +245,6 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     public void setOrder(List<String> order) {
         this.order = order;
     }
-
-    /**
-     * Gets the columnSpan attribute. 
-     * @return Returns the columnSpan.
-     */
-    public List<Integer> getColumnSpan() {
-        return columnSpan;
-    }
-
-    /**
-     * Sets the columnSpan attribute value.
-     * @param columnSpan The columnSpan to set.
-     */
-    public void setColumnSpan(List<Integer> columnSpan) {
-        this.columnSpan = columnSpan;
-    }    
-    
-    
 
     private AwardHierarchyUIService getAwardHierarchyUIService() {
         return KcServiceLocator.getService(AwardHierarchyUIService.class);
@@ -572,14 +553,9 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
     @Override
     @SuppressWarnings("unchecked")
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
-        // super.populateHeaderFields(workflowDocument);
 
         TimeAndMoneyDocument timeAndMoneyDocument = getTimeAndMoneyDocument();
         if(timeAndMoneyDocument.getAward() == null) {
-//            Map<String, String> map = new HashMap<String,String>();
-//            map.put("awardNumber", timeAndMoneyDocument.getRootAwardNumber());
-//            List<Award> awardList = (List<Award>) getBusinessObjectService().findMatching(Award.class, map);
-//            timeAndMoneyDocument.setAward(awardList.get(0)); 
                Award award = getAwardVersionService().getWorkingAwardVersion(timeAndMoneyDocument.getRootAwardNumber());
                timeAndMoneyDocument.setAward(award);
         }

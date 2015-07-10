@@ -31,6 +31,7 @@ import org.kuali.coeus.propdev.impl.state.ProposalStateService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParentDocument;
@@ -72,7 +73,6 @@ import org.kuali.rice.krad.workflow.DocumentInitiator;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.rice.krms.api.engine.Facts;
-import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -259,7 +259,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                     throw new RuntimeException(String.format("ProposalHierarchyException thrown while updating app doc status for document %s", getDocumentNumber()));
                 }
             }
-            bp.setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, true, false));
+            bp.setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, false));
             
         }
     }
@@ -287,7 +287,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 }
             }
             String pCode = getDevelopmentProposal().getProposalStateTypeCode();
-            getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, false, getKcDocumentRejectionService().isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument())));
+            getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(this, getKcDocumentRejectionService().isDocumentOnInitialNode(this.getDocumentHeader().getWorkflowDocument())));
             if (!StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode())) {
                 getDataObjectService().save(getDevelopmentProposal());
                 getDevelopmentProposal().refreshReferenceObject("proposalState");
@@ -619,5 +619,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     void setDocumentHeaderService(DocumentHeaderService documentHeaderService) {
         this.documentHeaderService = documentHeaderService;
+    }
+
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        return this.getDocumentBoNumber() + "-" + KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
     }
 }

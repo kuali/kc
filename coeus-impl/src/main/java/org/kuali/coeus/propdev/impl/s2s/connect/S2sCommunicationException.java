@@ -87,7 +87,7 @@ public class S2sCommunicationException extends RuntimeException {
     /**
      * Get Error Message
      *
-     * @returns String Error Message
+     * @return String Error Message
      */
 
     public String getMessage() {

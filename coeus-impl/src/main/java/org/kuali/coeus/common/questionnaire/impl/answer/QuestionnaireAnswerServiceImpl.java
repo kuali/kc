@@ -319,6 +319,19 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return isActive;               
     }
 
+    @Override
+    public boolean checkIfQuestionnaireIsMandatoryForModule(Integer questionniareSeqId, String moduleItemCode, String moduleSubItemCode) {
+        Questionnaire latestQnnrInstance = getLatestQuestionnaireVersion(questionniareSeqId);
+        if(null != latestQnnrInstance && latestQnnrInstance.isActive()) {
+            for (QuestionnaireUsage usage : latestQnnrInstance.getQuestionnaireUsages()) {
+                if (usage.isMandatory()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * 
      * @see org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService#copyAnswerToNewVersion(org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader,
@@ -379,7 +392,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             for (Answer answer : answerHeader.getAnswers()) {
                 if (answer.getQuestion().getMaxAnswers() != null && answer.getQuestion().getMaxAnswers() > 1
                         && answer.getAnswerNumber() == 1) {
-                    moveAnswer(answerHeader.getAnswers(), i);
+                    if(!Long.valueOf(Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE).equals(answer.getQuestion().getQuestionTypeId())) {
+                        moveAnswer(answerHeader.getAnswers(), i);
+                    }
                 }
                 i++;
             }
@@ -513,6 +528,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         if (questionnaireQuestion.getQuestion().getMaxAnswers() != null) {
             maxAnswers = questionnaireQuestion.getQuestion().getMaxAnswers();
         }
+        if (questionnaireQuestion.getQuestion().getDisplayedAnswers() != null && Long.valueOf(Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE).equals(questionnaireQuestion.getQuestion().getQuestionTypeId())) {
+            if(!questionnaireQuestion.getQuestion().isRadioButton()) {
+                maxAnswers = questionnaireQuestion.getQuestion().getDisplayedAnswers();
+            }
+        }
         for (int i = 0; i < maxAnswers; i++) {
             Answer answer = new Answer();
             answer.setQuestion(questionnaireQuestion.getQuestion());
@@ -627,13 +647,22 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * check if all the required answers are entered.
      */
     public boolean isQuestionnaireAnswerComplete(List<Answer> answers) {
-
+        final Map<Long, Boolean> questionIdsAnswered = new HashMap<>();
         boolean isComplete = true;
         for (Answer answer : answers) {
-            if (YES.equals(answer.getMatchedChild()) && StringUtils.isBlank(answer.getAnswer()) && answer.getAnswerNumber() == 1) {
-                isComplete = false;
-                break;
-            }
+            if (!Long.valueOf(Constants.QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE).equals(answer.getQuestion().getQuestionTypeId())) {
+                if (YES.equals(answer.getMatchedChild()) && StringUtils.isBlank(answer.getAnswer()) && answer.getAnswerNumber() == 1) {
+                    isComplete = false;
+                }
+            } else if (YES.equals(answer.getMatchedChild())) {
+                final Boolean questionHasAnswer = questionIdsAnswered.get(answer.getQuestionId());
+                if(questionHasAnswer == null || !questionHasAnswer.booleanValue()) {
+                    questionIdsAnswered.put(answer.getQuestionId(), answer.getAnswer() != null);
+                }
+           }
+        }
+        for(boolean answered : questionIdsAnswered.values()) {
+            isComplete &= answered;
         }
         return isComplete;
     }

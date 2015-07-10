@@ -18,7 +18,12 @@
  */
 package org.kuali.kra.institutionalproposal.dao;
 
+import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+
+import java.util.Date;
+import java.util.Map;
 
 /**
  * Data access for institutional proposals
@@ -30,4 +35,6 @@ public interface InstitutionalProposalDao {
      * @return the proposal id, or null if nothing can be found
      */
     public Long getProposalId(Award award);
+
+    public SearchResults<InstitutionalProposal> retrievePopulatedInstitutionalProposalByCriteria(Map<String, Object> fieldValues, Date updatedSince, Integer pageNum, Integer numPerPage);
 }

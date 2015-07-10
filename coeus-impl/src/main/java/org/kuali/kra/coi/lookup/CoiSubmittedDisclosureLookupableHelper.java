@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.infrastructure.TaskName;
@@ -63,7 +63,7 @@ public class CoiSubmittedDisclosureLookupableHelper extends CoiDisclosureLookupa
         if (rawDisclosure.getCoiDisclosureDocument() != null) {
             CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, rawDisclosure);
             if (getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task) && 
-                (StringUtils.isEmpty(researcherLeadUnit) || researcherLeadUnit.equals(rawDisclosure.getLeadUnitNumber()))) {
+                (StringUtils.isBlank(researcherLeadUnit) || researcherLeadUnit.equals(rawDisclosure.getLeadUnitNumber()))) {
                 
                 displayDisclosure = true;
             }

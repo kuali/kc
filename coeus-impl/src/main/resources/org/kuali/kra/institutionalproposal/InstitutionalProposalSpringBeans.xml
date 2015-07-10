@@ -37,6 +37,20 @@
 
     <context:component-scan base-package="org.kuali.coeus.instprop"/>
 
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
     </bean>
@@ -217,7 +231,7 @@
         <property name="xmlStream" ref="proposalLogXmlStream" />
     </bean>  
        
-    <bean id="proposalLogXmlStream" class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogXmlStream">
+    <bean id="proposalLogXmlStream" class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogXmlStream" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
@@ -307,7 +321,7 @@
         <property name="xmlStream" ref="institutionalProposalXmlStream" />
     </bean>
     
-    <bean id="institutionalProposalXmlStream" class="org.kuali.kra.institutionalproposal.printing.xmlstream.InstitutionalProposalXmlStream">
+    <bean id="institutionalProposalXmlStream" class="org.kuali.kra.institutionalproposal.printing.xmlstream.InstitutionalProposalXmlStream" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="institutionalProposalPersonService" ref="institutionalProposalPersonService" />
@@ -316,5 +330,10 @@
 	<bean id="institutionalProposalFactBuilderService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalFactBuilderServiceImpl">
 		  <property name="documentService" ref="documentService" />
 	</bean>
+
+
+    <bean id="kualiConfigurationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiConfigurationService" />
+    </bean>
 
 </beans>

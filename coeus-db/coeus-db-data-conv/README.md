@@ -40,6 +40,15 @@ from the system as they are no longer used.  The target table for this migration
 To look at the placement of this migration within a migration sequence see V600_084__PropAwardPersonRoleConversion in the
 coeus-db-sql module.
 
+KRMS Question & Questionnaire Sequence (questseq)
+
+This migration does the following:
+
+switches the name in the krms_term_rslvr_parm_spec_t to be Question Seq ID when the name is Question ID or Question Ref ID
+switches the name in the krms_term_rslvr_parm_spec_t to be Questionnaire Seq ID when the name is Questionnaire ID or Questionnaire Ref ID
+switches the name in the krms_term_parm_t to be Question Seq ID when the name is Question ID or Question Ref ID and populates the val to be the proper value from the question table.
+switches the name in the krms_term_parm_t to be Questionnaire Seq ID when the name is Questionnaire ID or Questionnaire Ref ID and populates the val to be the proper value from the questionnaire table.
+
 
 IRB (irb)
 

@@ -25,7 +25,7 @@ import java.util.List;
  * 
  * This class is a work around to access values of a sub list with EL.
  * e.g. the EL "replaceCorrespondenceTemplates[${status.index}].[${status2.index}].templateFile
- * does not work to access List<List<ProtocolCorrespondenceTemplateBase>> replaceCorrespondenceTemplates.
+ * does not work to access List&lt;List&lt;ProtocolCorrespondenceTemplateBase&gt;&gt; replaceCorrespondenceTemplates.
  * To solve this we added this intermediate class and use the following EL statement:
  * "replaceCorrespondenceTemplates[${status.index}].list[${status2.index}].templateFile"
  */

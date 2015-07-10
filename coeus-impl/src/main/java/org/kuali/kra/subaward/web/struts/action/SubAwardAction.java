@@ -107,7 +107,7 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
 
         if(subAwardForm.getSubAwardDocument().getSubAwardList() != null) {
             for(SubAward subAwardList:subAwardForm.getSubAwardDocument().getSubAwardList()) {
-                List<SubAwardAttachments> subAwardAttachmentsList = subAwardList.getSubAwardAttachments();//new ArrayList<SubAwardAttachments>();
+                List<SubAwardAttachments> subAwardAttachmentsList = subAwardList.getSubAwardAttachments();
                 if(subAwardAttachmentsList != null && !subAwardAttachmentsList.isEmpty()) {
                      for(SubAwardAttachments subAwardAttachments:subAwardAttachmentsList) {
                             if(subAwardAttachments.getFileName() != null) {
@@ -176,6 +176,9 @@ public class SubAwardAction extends KcTransactionalDocumentActionBase {
         } else if (Constants.MAPPING_SUBAWARD_ACTION_PAGE.equals(command)) {
             loadDocumentInForm(request, subAwardForm);
             forward = subAwardActions(mapping, subAwardForm, request, response);
+        } else if (Constants.MAPPING_FINANCIAL_PAGE.equals(command)) {
+            loadDocumentInForm(request, subAwardForm);
+            forward = mapping.findForward(Constants.MAPPING_FINANCIAL_PAGE);
         } else {
             forward = super.docHandler(mapping, form, request, response);
         }

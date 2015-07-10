@@ -235,9 +235,7 @@ public abstract class MeetingActionBase extends KualiAction {
         ProtocolSubmissionBase protocolSubmission = ((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule()
                 .getLatestProtocolSubmissions().get(Integer.parseInt(request.getParameter("line")));
         
-// TODO *********commented the code below during IACUC refactoring*********         
-//        response.sendRedirect("iacucProtocolActions.do?methodToCall=start&submissionId=" + protocolSubmission.getSubmissionId());
-        
+
         response.sendRedirect(getActionIdHook() + ".do?methodToCall=start&submissionId=" + protocolSubmission.getSubmissionId());
         return null;
     }

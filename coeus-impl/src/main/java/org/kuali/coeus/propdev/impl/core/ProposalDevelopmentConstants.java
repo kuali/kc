@@ -20,7 +20,7 @@ package org.kuali.coeus.propdev.impl.core;
 
 public class ProposalDevelopmentConstants {
 
-	public static class KradConstants {
+    public static class KradConstants {
         public static final String REJECT_DIALOG = "PropDev-SubmitPage-RejectDialog";
 		public static final String BUDGET_PAGE = "PropDev-BudgetPage";
         public static final String SUBMIT_PAGE = "PropDev-SubmitPage";
@@ -30,7 +30,41 @@ public class ProposalDevelopmentConstants {
         public static final String COMPLIANCE_ADD_DIALOG = "PropDev-CompliancePage_AddDialog";
 
         public static final String PERSONNEL_QUESTIONNAIRE = "personnelQuestionnaire";
-	}
+        public static final String PROP_DEV_ATTACHMENTS_PAGE_PROPOSAL_DETAILS = "PropDev-AttachmentsPage-ProposalDetails";
+        public static final String PROP_DEV_ATTACHMENTS_PAGE_PERSONNEL_DETAILS = "PropDev-AttachmentsPage-PersonnelDetails";
+        public static final String PROP_DEV_ATTACHMENTS_PAGE_ABSTRACT_DETAILS = "PropDev-AttachmentsPage-AbstractDetails";
+        public static final String PROP_DEV_ATTACHMENTS_PAGE_INTERNAL_DETAILS = "PropDev-AttachmentsPage-InternalDetails";
+        public static final String PROP_DEV_ATTACHMENTS_PAGE_NOTE_DETAILS = "PropDev-AttachmentsPage-NoteDetails";
+        public static final String PROP_DEV_ATTACHMENT_PAGE_VIEW_EDIT_RIGHT_DIALOG = "PropDev-AttachmentPage-ViewEditRightDialog";
+        public static final String PROP_DEV_ATTACHMENT_PAGE_CONFIRM_ADD_ATTACHMENT_TO_CHILD = "PropDev-AttachmentPage-ConfirmAddAttachmentToChild";
+        public static final String PROP_PER_DOC_TYPE = "propPerDocType";
+        public static final String NARRATIVE_TYPE = "narrativeType";
+        public static final String NARRATIVE_STATUS = "narrativeStatus";
+        public static final String KC_SEND_NOTIFICATION_WIZARD = "Kc-SendNotification-Wizard";
+        public static final String ATTACHMENT_TYPE = "attachmentType";
+        public static final String PROPOSAL_ATTACHMENT = "proposalAttachment";
+        public static final String INSTITUTE_ATTACHMENT = "instituteAttachment";
+        public static final String BINDING_PATH = "bindingPath";
+        public static final String PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_NARRATIVE = "proposalDevelopmentAttachmentHelper.narrative";
+        public static final String PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER_BIOGRAPHY = "proposalDevelopmentAttachmentHelper.biography";
+        public static final String PROPOSAL_DEVELOPMENT_ATTACHMENT_HELPER = "proposalDevelopmentAttachmentHelper";
+        public static final String DATA_VALIDATION_DIALOG_ID = "DataValidationSection";
+        public static final String DATA_VALIDATION_SECTION_WITH_SUBMIT = "DataValidationSection-WithSubmit";
+        public static final String PROP_DEV_INITIATE_VIEW = "PropDev-InitiateView";
+    }
+
+    public static class S2sConstants {
+
+        public static final String OPPORTUNITY_ID = "opportunityId";
+        public static final String COMPETETION_ID = "competetionId";
+        public static final String CLOSING_DATE = "closingDate";
+        public static final String OPENING_DATE = "openingDate";
+        public static final String OPPORTUNITY_TITLE = "opportunityTitle";
+        public static final String SCHEMA_URL = "schemaUrl";
+        public static final String INSTRUCTION_URL = "instructionUrl";
+        public static final String CFDA_NUMBER = "cfdaNumber";
+        public static final String PROVIDER_CODE = "providerCode" ;
+    }
 
     public static class Parameters {
         public static final String KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY = "KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY";
@@ -85,6 +119,7 @@ public class ProposalDevelopmentConstants {
 		public static final String VIEW_ONLY_PROPOSAL_EDIT_MODE = "viewProposal";
         public static final String MAINTAIN_HIERARCHY_EDIT_MODE = "maintainProposalHierarchy";
         public static final String CAN_SAVE_CERTIFICATION = "canSaveCertification";
+        public static final String MODIFY_S2S = "modifyS2s";
     }
     
     

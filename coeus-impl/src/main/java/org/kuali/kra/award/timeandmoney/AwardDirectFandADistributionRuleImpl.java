@@ -19,7 +19,7 @@
 package org.kuali.kra.award.timeandmoney;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardAmountInfoService;
@@ -53,17 +53,14 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
     transient AwardAmountInfoService awardAmountInfoService;
     private transient AwardFnaDistributionService awardFnaDistributionService;
-    /**
-     *  @see org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule#processAwardDirectFandADistributionRuleBusinessRules
-     * (org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent)
-     */
+
     public boolean processAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         this.awardDirectFandADistributions = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionsForValidation();
         boolean validExistingDateRanges = existingDirectFandADistributionsDatesDontOverlap(awardDirectFandADistributions);
         boolean validStartDate = true;
         boolean validEndDate = true;
         boolean validAmounts = existingAmountsAreValid(awardDirectFandADistributions);
-        boolean hasTimeAndMoneyBeenSaved = !StringUtils.isEmpty(awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getObjectId());
+        boolean hasTimeAndMoneyBeenSaved = StringUtils.isNotBlank(awardDirectFandADistributionRuleEvent.getTimeAndMoneyDocument().getObjectId());
         boolean validTotalAnticipated =  doTotalAnticipatedAmountValidOnExistingDistribution(awardDirectFandADistributions, hasTimeAndMoneyBeenSaved);
         boolean validConsecutiveDateRange = existingDirectFandADistributionsDatesNoBreak(awardDirectFandADistributions);
         if(awardDirectFandADistributions.size() > 0) {
@@ -74,12 +71,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
         }
         return validExistingDateRanges && validStartDate && validEndDate;
     }
-    
-    
-    /**
-     * @see org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRule#processAddAwardDirectFandADistributionRuleBusinessRules
-     * (org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleEvent)
-     */
+
     public boolean processAddAwardDirectFandADistributionBusinessRules(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         this.awardDirectFandADistribution = awardDirectFandADistributionRuleEvent.getAwardDirectFandADistributionForValidation();
         List<AwardDirectFandADistribution> thisAwardDirectFandADistributions = 
@@ -116,8 +108,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This method tests for overlapping dates in existing AwardDirectFandADistribution list on the Award.
-     * @param awardDirectFandADistributions
-     * @return
      */
     boolean existingDirectFandADistributionsDatesDontOverlap(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions) {
         boolean valid = true;
@@ -141,8 +131,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This method tests for break in date ranges of existing AwardDirectFandADistribution list on the Award.
-     * @param awardDirectFandADistributions
-     * @return
      */
     boolean existingDirectFandADistributionsDatesNoBreak(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions) {
         boolean valid = true;
@@ -162,10 +150,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This is a helper method for doExistingFandADistributionDatesOverlap.
-     * @param awardDirectFandADistribution
-     * @param awardDirectFandADistributions
-     * @param currentIndex
-     * @return
      */
     boolean targetOverlapsWithExistingPeriods(AwardDirectFandADistribution thisAwardDirectFandADistribution,
                                                         List<AwardDirectFandADistribution> thisAwardDirectFandADistributions, int currentIndex) {
@@ -194,7 +178,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
         
     /**
      * This method checks whether the user provided a start date
-     * @return
      */
     private boolean isStartDateEntered() {
         boolean valid = true;
@@ -208,7 +191,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This method checks whether the user provided a end date
-     * @return
      */
     private boolean isEndDateEntered() {
         boolean valid = true;
@@ -235,7 +217,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This method checks whether the user provided a valid Direct Cost amount
-     * @return
      */
     private boolean isDirectCostValidOnExistingDistribution(AwardDirectFandADistribution thisAwardDirectFandADistribution) {
         boolean valid = true;
@@ -299,7 +280,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     }
     /**
      * This method checks whether the user provided a valid Indirect Cost amount
-     * @return
      */
     private boolean isIndirectCostValidOnExistingDistribution(AwardDirectFandADistribution thisAwardDirectFandADistribution) {
         boolean valid = true;
@@ -319,7 +299,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This method checks whether the user provided a valid Direct Cost amount
-     * @return
      */
     private boolean isDirectCostValid() {
         boolean valid = true;
@@ -339,7 +318,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This method checks whether the user provided a valid Indirect Cost amount
-     * @return
      */
     private boolean isIndirectCostValid() {
         boolean valid = true;
@@ -359,7 +337,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This method tests that the period start date is prior to the period end date.
-     * @return
      */
     boolean isStartDatePriorToEndDate() {
         boolean valid = true;
@@ -373,8 +350,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This method tests that the target date range falls into an open date range.
-     * @param awardDirectFandADistributions
-     * @return
      */
    boolean doTargetDatesFallWithinOpenPeriod(List<AwardDirectFandADistribution> thisAwardDirectFandADistributions) {
         boolean valid = true;
@@ -389,10 +364,7 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     }
     
     /**
-     * This is a helper method for doTargetDatesFallWithinOpenPeriod.  
-     * @param testAwardDirectFandADistribution
-     * @param awardDirectFandADistribution
-     * @return
+     * This is a helper method for doTargetDatesFallWithinOpenPeriod.
      */
     boolean doDateRangesOverlap(AwardDirectFandADistribution testAwardDirectFandADistribution, 
                                                 AwardDirectFandADistribution thisAwardDirectFandADistribution) {
@@ -405,8 +377,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This method tests if target start date falls after project start date.
-     * @param awardDirectFandADistributions
-     * @return
      */
     boolean isTargetStartAfterProjectStartDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         Date targetStartDate = awardDirectFandADistribution.getStartDate();
@@ -424,8 +394,6 @@ public class AwardDirectFandADistributionRuleImpl extends KcTransactionalDocumen
     
     /**
      * This method tests if target end date falls before project end date.
-     * @param awardDirectFandADistributions
-     * @return
      */
     boolean isTargetEndDatePriorToProjectEndDate(AwardDirectFandADistributionRuleEvent awardDirectFandADistributionRuleEvent) {
         Date targetEndDate = awardDirectFandADistribution.getEndDate();

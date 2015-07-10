@@ -52,9 +52,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.data.DataObjectService;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -246,10 +244,8 @@ public abstract class ProposalDevelopmentControllerBase {
 
          preSave(proposalDevelopmentDocument);
 
-         proposalDevelopmentService.initializeUnitOrganizationLocation(
-                 proposalDevelopmentDocument);
-         proposalDevelopmentService.initializeProposalSiteNumbers(
-                 proposalDevelopmentDocument);
+         proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDevelopmentDocument);
+         proposalDevelopmentService.initializeProposalSiteNumbers(proposalDevelopmentDocument);
 
          for (ProposalPersonBiography biography : form.getDevelopmentProposal().getPropPersonBios()) {
              getProposalPersonBiographyService().prepareProposalPersonBiographyForSave(form.getDevelopmentProposal(),biography);
@@ -263,7 +259,7 @@ public abstract class ProposalDevelopmentControllerBase {
              getAuditHelper().auditConditionally(form);
          }
 
-         
+
          populateAdHocRecipients(form.getProposalDevelopmentDocument());
 
          if (StringUtils.equalsIgnoreCase(form.getPageId(), Constants.CREDIT_ALLOCATION_PAGE)) {
@@ -357,107 +353,24 @@ public abstract class ProposalDevelopmentControllerBase {
          }
          populateAdHocRecipients(form.getProposalDevelopmentDocument());
          String navigateToPageId = form.getActionParamaterValue(UifParameters.NAVIGATE_TO_PAGE_ID);
-         boolean canEdit = form.isCanEditView();
          if (isNavigateToDeliveryInfoPage(navigateToPageId)) {
              if (form.getDevelopmentProposal().getS2sOpportunity() != null) {
                  getGlobalVariableService().getMessageMap().putInfo(ProposalDevelopmentConstants.KradConstants.DELIVERY_INFO_PAGE, KeyConstants.DELIVERY_INFO_NOT_NEEDED);
              }
          }
-
-         if (isNavigateAwayFromAttachment(navigateToPageId, form.getPageId())) {
-             prepareLocks(form);
-             return narrativePageSave(form, canEdit);
-         } else if (isNavigateToAttachments(navigateToPageId) ||
-                  isNavigateAwayFromAccess(navigateToPageId,form.getPageId()) ||
-                  isNavigateToAccess(navigateToPageId)) {
-             prepareLocks(form);
+         if (form.isCanEditView()) {
+             return save(form);
+         } else {
+             return getNavigationControllerService().navigate(form);
          }
-         return proposalDevelopmentPageSave(form, canEdit);
+
      }
 
-    protected void prepareLocks(ProposalDevelopmentDocumentForm form) {
-        releasePessimisticLocks(form);
-        form.setEvaluateFlagsAndModes(true);
-        form.setCanEditView(null);
-    }
-
-    protected ModelAndView proposalDevelopmentPageSave(ProposalDevelopmentDocumentForm form, boolean canEdit) throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(form.getDocument().getDocumentNumber());
-        if (canEdit) {
-            //when saving on page in the proposal development locking region we don't want to over write attachments that
-            //may have been alter concurrently.  So we retrieve the latest proposal data from the db, and replace the attachment
-            //collections with the values from the db.
-            if (!StringUtils.equals(form.getPageId(),Constants.PROP_DEV_PERMISSIONS_PAGE)) {
-                form.getDevelopmentProposal().setNarratives(document.getDevelopmentProposal().getNarratives());
-                form.getDevelopmentProposal().setInstituteAttachments(document.getDevelopmentProposal().getInstituteAttachments());
-                form.getDevelopmentProposal().setPropPersonBios(document.getDevelopmentProposal().getPropPersonBios());
-                form.getDevelopmentProposal().setProposalAbstracts(document.getDevelopmentProposal().getProposalAbstracts());
-                form.getDocument().setNotes(document.getNotes());
-
-                form.getDocument().setDocumentHeader(document.getDocumentHeader());
-            }
-            return save(form);
-        } else {
-            form.setDocument(document);
-            return getNavigationControllerService().navigate(form);
-        }
-    }
-
-    protected ModelAndView narrativePageSave(ProposalDevelopmentDocumentForm form, boolean canEdit) throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(form.getDocument().getDocumentNumber());
-        if (canEdit) {
-            if ((new ProposalDevelopmentDocumentRule().processAttachmentRules(form.getProposalDevelopmentDocument()))
-                    && (new ProposalDevelopmentDocumentRule().processPersonnelAttachmentDuplicates(form.getProposalDevelopmentDocument()))) {
-            	form.getProposalDevelopmentAttachmentHelper().handleNarrativeUpdates(form, document);
-            	form.getProposalDevelopmentAttachmentHelper().handleInstAttachmentUpdates(form, document);
-            	form.getProposalDevelopmentAttachmentHelper().handlePersonBioUpdates(form, document);
-                document.getDevelopmentProposal().setProposalAbstracts(form.getDevelopmentProposal().getProposalAbstracts());
-                document.setNotes(form.getDocument().getNotes());
-                form.setDocument(document);
-                return save(form);
-            } else {
-                form.setCanEditView(canEdit);
-                return getModelAndViewService().getModelAndView(form);
-            }
-
-        } else {
-            form.setDocument(document);
-            return getNavigationControllerService().navigate(form);
-        }
-    }
-
-    protected boolean isNavigateToAttachments(String navigateToPageId) {
-        return StringUtils.equals(navigateToPageId,ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID);
-    }
-
-    protected boolean isNavigateToAccess(String navigateToPageId) {
-        return StringUtils.equals(navigateToPageId,Constants.PROP_DEV_PERMISSIONS_PAGE);
-    }
-
-    protected boolean isNavigateAwayFromAccess(String navigateToPageId, String pageId) {
-        return StringUtils.equals(pageId,Constants.PROP_DEV_PERMISSIONS_PAGE) &&
-                !StringUtils.equals(navigateToPageId,Constants.PROP_DEV_PERMISSIONS_PAGE);
-    }
-
-    protected boolean isNavigateAwayFromAttachment(String navigateToPageId, String pageId) {
-        return StringUtils.equals(pageId,ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID) &&
-                !StringUtils.equals(navigateToPageId,ProposalDevelopmentDataValidationConstants.ATTACHMENT_PAGE_ID);
-     }
 
     protected boolean isNavigateToDeliveryInfoPage(String navigateToPageId) {
         return StringUtils.equals(navigateToPageId, ProposalDevelopmentConstants.KradConstants.DELIVERY_INFO_PAGE);
     }
 
-    protected void releasePessimisticLocks(DocumentFormBase form) {
-        Document document = form.getDocument();
-
-        if (!document.getPessimisticLocks().isEmpty()) {
-            Person user = getGlobalVariableService().getUserSession().getPerson();
-            document.refreshPessimisticLocks();
-            getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(), user);
-        }
-    }
-    
     public void addEditableCollectionLine(ProposalDevelopmentDocumentForm form, String selectedCollectionPath){
         if(form.getEditableCollectionLines().containsKey(selectedCollectionPath)) {
             updateEditableCollectionLines(form, selectedCollectionPath);

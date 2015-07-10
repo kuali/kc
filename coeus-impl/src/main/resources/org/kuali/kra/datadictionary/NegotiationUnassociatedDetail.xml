@@ -178,12 +178,12 @@
   <bean id="NegotiationUnassociatedDetail-sponsorAwardNumber" parent="NegotiationUnassociatedDetail-sponsorAwardNumber-parentBean" />
   <bean id="NegotiationUnassociatedDetail-sponsorAwardNumber-parentBean" abstract="true" parent="Award-sponsorAwardNumber">
     <property name="name" value="sponsorAwardNumber" />
-    <property name="label" value="Sponsor Award" />
-    <property name="shortLabel" value="Sponsor Award" />
+    <property name="label" value="Sponsor Award ID" />
+    <property name="shortLabel" value="Sponsor Award ID" />
     <property name="required" value="false" />
     <property name="maxLength" value="70" />
-    <property name="summary" value="Sponsor Award" />
-    <property name="description" value="Sponsor Award" />
+    <property name="summary" value="Sponsor Award ID" />
+    <property name="description" value="Sponsor Award ID" />
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-contactAdminPersonId" parent="NegotiationUnassociatedDetail-contactAdminPersonId-parentBean" />
@@ -274,7 +274,7 @@
   <bean id="NegotiationUnassociatedDetail-inquiryDefinition" parent="NegotiationUnassociatedDetail-inquiryDefinition-parentBean" />
   <bean id="NegotiationUnassociatedDetail-InquiryView" parent="NegotiationUnassociatedDetail-InquiryView-parentBean"/>
   <bean id="NegotiationUnassociatedDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Award" />
+    <property name="title" value="Unassociated" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -301,7 +301,7 @@
   </bean>
   
   <bean id="NegotiationUnassociatedDetail-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
-    <property name="headerText" value="Award"/>
+    <property name="headerText" value="Unassociated"/>
     <property name="dataObjectClassName" value="org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail"/>
     <property name="items">
       <list>

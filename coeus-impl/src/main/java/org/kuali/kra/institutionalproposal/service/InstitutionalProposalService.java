@@ -21,6 +21,7 @@ package org.kuali.kra.institutionalproposal.service;
 import org.kuali.coeus.common.framework.version.VersionException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -93,7 +94,7 @@ public interface InstitutionalProposalService {
      * If the current Active version is already Funded, it will be left alone.
      * 
      * @param proposalNumbers The proposals to update.
-     * @return List<InstitutionalProposal> The new Funded versions.
+     * @return List&lt;InstitutionalProposal&gt; The new Funded versions.
      */
     List<InstitutionalProposal> fundInstitutionalProposals(Set<String> proposalNumbers);
     
@@ -109,7 +110,7 @@ public interface InstitutionalProposalService {
      * @param proposalNumbers The proposals to update.
      * @param awardNumber The Award that is de-funding the proposal.
      * @param awardSequence The sequence number of the Award.
-     * @return List<InstitutionalProposal> The new Pending versions.
+     * @return List&lt;InstitutionalProposal&gt; The new Pending versions.
      */
     List<InstitutionalProposal> defundInstitutionalProposals(Set<String> proposalNumbers, String awardNumber, Integer awardSequence);
     
@@ -147,10 +148,10 @@ public interface InstitutionalProposalService {
     InstitutionalProposalDocument createAndSaveNewVersion(InstitutionalProposal currentInstitutionalProposal, InstitutionalProposalDocument currentInstitutionalProposalDocument) throws VersionException, 
     WorkflowException, IOException;
 
-    /**
-     * Retrieves the proposal id for the given award
-     * @param award the award to find the proposal id for
-     * @return the proposal id, or null if nothing can be found
-     */
+        /**
+         * Retrieves the proposal id for the given award
+         * @param award the award to find the proposal id for
+         * @return the proposal id, or null if nothing can be found
+         */
     public Long getProposalId(Award award);
 }

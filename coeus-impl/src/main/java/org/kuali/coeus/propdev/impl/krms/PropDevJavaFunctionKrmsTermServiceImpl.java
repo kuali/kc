@@ -873,7 +873,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     }
 
     @Override
-    public String incompleteNarrativeRule(DevelopmentProposal developmentProposal) {
+    public String completeNarrativeRule(DevelopmentProposal developmentProposal) {
         for (Narrative narrative : developmentProposal.getNarratives()) {
             if (StringUtils.equals(narrative.getModuleStatusCode(), "I")) {
                 return FALSE;

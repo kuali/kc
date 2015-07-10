@@ -185,7 +185,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
      * 
      * @param sponsorCode
      *            code number of the sponsor.
-     * @return Collection<SponsorFormTemplateList> collection of
+     * @return Collection&lt;SponsorFormTemplateList&gt; collection of
      *         SponsorFormTemplateList for the given sponsor code.
      */
     protected Collection<SponsorFormTemplateList> getSponsorTemplatesList(

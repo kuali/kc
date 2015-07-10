@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.irb.actions.expeditedapprove;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveEvent;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveRule;
@@ -34,7 +34,7 @@ public class ProtocolExpeditedApproveRule extends ProtocolApproveRule {
     public boolean processRules(ProtocolApproveEvent event) {
         boolean isValid = super.processRules(event);
         ProtocolExpeditedApproveBean expeditedBean = (ProtocolExpeditedApproveBean)event.getProtocolApproveBean();
-        if (expeditedBean.isAssignToAgenda() && StringUtils.isEmpty(expeditedBean.getScheduleId())) {
+        if (expeditedBean.isAssignToAgenda() && StringUtils.isBlank(expeditedBean.getScheduleId())) {
             isValid = false;
             reportError(SCHEDULE_FIELD, KeyConstants.ERROR_PROTOCOL_SCHEDULE_NOT_SELECTED);
         }

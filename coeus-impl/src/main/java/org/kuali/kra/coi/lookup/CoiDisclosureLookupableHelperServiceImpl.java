@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.coi.lookup;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
@@ -67,7 +67,7 @@ public class CoiDisclosureLookupableHelperServiceImpl extends CoiDisclosureLooku
             if (key.toUpperCase().indexOf("DATE") > 0) {
                 //we have a date, now we need to weed out the calculated params that have '..' or '>=' or '<='
                 if (value.indexOf("..") == -1 && value.indexOf(">=") == -1 && value.indexOf("<=") == -1) {
-                    if (!StringUtils.isEmpty(value)) {
+                    if (StringUtils.isNotBlank(value)) {
                         validateDate(key, value);
                     }
                 }
@@ -92,7 +92,7 @@ public class CoiDisclosureLookupableHelperServiceImpl extends CoiDisclosureLooku
             if (disclosure.getCoiDisclosureDocument() != null) {
                 CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, disclosure);
                 if (getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task) && 
-                        (StringUtils.isEmpty(researcherLeadUnit) || researcherLeadUnit.equals(disclosure.getLeadUnitNumber()))) {
+                        (StringUtils.isBlank(researcherLeadUnit) || researcherLeadUnit.equals(disclosure.getLeadUnitNumber()))) {
                     //populate project id, title only for system generated and manual projects
                     if ( disclosure.isSystemEvent() || disclosure.isManualEvent())
                     {

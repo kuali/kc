@@ -33,7 +33,7 @@ public @interface AwardSyncableList  {
     /**
      * 
      * Set this property to the Class within a list.  This should be set to the destination class.
-     * For eg: for List<AwardComment> awardComments (in award ), it should be set to AwardComment.class
+     * For eg: for List&lt;AwardComment&gt; awardComments (in award ), it should be set to AwardComment.class
      *
      */
     Class    syncClass();
@@ -41,7 +41,7 @@ public @interface AwardSyncableList  {
     /**
      * 
      * Set this property to the Class within the source list.
-     * For eg: for List<AwardTemplateComment> in AwardTemplate, it should be set to AwardTemplateComment.class
+     * For eg: for List&lt;AwardTemplateComment&gt; in AwardTemplate, it should be set to AwardTemplateComment.class
      * It will default to Object.class.
      * 
      * This is used by the list sync methods to determine which isInScope method to call when syncing list objects.

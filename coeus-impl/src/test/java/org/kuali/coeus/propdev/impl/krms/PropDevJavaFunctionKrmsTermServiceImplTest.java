@@ -707,12 +707,12 @@ public class PropDevJavaFunctionKrmsTermServiceImplTest {
 	}
 
 	@Test
-	public void test_incompleteNarrativeRule() {
+	public void test_completeNarrativeRule() {
 		final DevelopmentProposal developmentProposal = createDevelopmentProposal();
 		developmentProposal.getNarratives().add(createNarrative());
-		assertEquals(FALSE, propDevJavaFunctionKrmsTermService.incompleteNarrativeRule(developmentProposal));
+		assertEquals(FALSE, propDevJavaFunctionKrmsTermService.completeNarrativeRule(developmentProposal));
 		developmentProposal.getNarrative(0).setModuleStatusCode("C");
-		assertEquals(TRUE, propDevJavaFunctionKrmsTermService.incompleteNarrativeRule(developmentProposal));
+		assertEquals(TRUE, propDevJavaFunctionKrmsTermService.completeNarrativeRule(developmentProposal));
 	}
 
 	@Test

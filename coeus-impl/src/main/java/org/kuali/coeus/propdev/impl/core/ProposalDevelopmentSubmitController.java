@@ -69,7 +69,6 @@ import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -204,9 +203,9 @@ public class ProposalDevelopmentSubmitController extends
        populateAdHocRecipients(form.getProposalDevelopmentDocument());
        AuditHelper.ValidationState severityLevel = getValidationState(form);
  	   if(severityLevel.equals(AuditHelper.ValidationState.ERROR)) {
-           return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+           return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
 	   } else if (severityLevel.equals(AuditHelper.ValidationState.WARNING)) {
-           return getModelAndViewService().showDialog("PropDev-DataValidationSection-WithSubmit", true, form);
+           return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_SECTION_WITH_SUBMIT, true, form);
 	   } else {
            return internalSubmit(form);
        }
@@ -227,11 +226,7 @@ public class ProposalDevelopmentSubmitController extends
         }
         form.setEvaluateFlagsAndModes(true);
         getTransactionalDocumentControllerService().route(form);
-        for (PessimisticLock lock : form.getProposalDevelopmentDocument().getPessimisticLocks()){
-            getDataObjectService().delete(lock);
-        }
-        form.getProposalDevelopmentDocument().refreshPessimisticLocks();
-
+        getPessimisticLockService().releaseWorkflowPessimisticLocking(form.getProposalDevelopmentDocument());
         return updateProposalState(form);
     }
 
@@ -256,7 +251,7 @@ public class ProposalDevelopmentSubmitController extends
             form.setEvaluateFlagsAndModes(true);
             return getTransactionalDocumentControllerService().blanketApprove(form);
         }
-        return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
     }
    
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=recall")
@@ -343,7 +338,7 @@ public class ProposalDevelopmentSubmitController extends
                 handleSubmissionToS2S(form);
                 return getModelAndViewService().getModelAndView(form,"PropDev-OpportunityPage");
             } else {
-    			return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+    			return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
     		}
         } else {
         	return getModelAndViewService().showDialog("PropDev-Resumbit-OptionsSection", true, form);
@@ -374,7 +369,8 @@ public class ProposalDevelopmentSubmitController extends
                 form.setDeferredMessages(getGlobalVariableService().getMessageMap());
                 return sendSubmitToSponsorNotification(form);
     		} else {
-                return getModelAndViewService().showDialog("PropDev-DataValidationSection", true, form);
+                form.setDataValidationItems(((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).populateDataValidation());
+                return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.DATA_VALIDATION_DIALOG_ID, true, form);
     		}
     	} else {
             return getModelAndViewService().showDialog("PropDev-Resumbit-OptionsSection", true, form);
@@ -429,11 +425,6 @@ public class ProposalDevelopmentSubmitController extends
     	return isValid;
     }
     
-    protected List<String> getUnitRulesMessages(ProposalDevelopmentDocument pdDoc) {
-        return getKrmsRulesExecutionService().processUnitValidations(pdDoc.getLeadUnitNumber(), pdDoc);
-    }
-    
-    
     public void submitApplication(ProposalDevelopmentDocumentForm proposalDevelopmentForm)throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
@@ -470,7 +461,7 @@ public class ProposalDevelopmentSubmitController extends
             if (ProposalState.APPROVED.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode())) {
                 proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED_AND_SUBMITTED);
             } else {
-                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false, false));
+                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false));
             }
         } else {
             if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
@@ -615,6 +606,7 @@ public class ProposalDevelopmentSubmitController extends
         }
 
         getTransactionalDocumentControllerService().performWorkflowAction(form, UifConstants.WorkflowAction.APPROVE);
+        getPessimisticLockService().releaseWorkflowPessimisticLocking(form.getProposalDevelopmentDocument());
         if (form.getActionFlags().containsKey("submitToSponsor")
                 && getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, "autoSubmitToSponsorOnFinalApproval")
                 && getKcWorkflowService().isFinalApproval(workflowDoc)) {
@@ -699,7 +691,7 @@ public class ProposalDevelopmentSubmitController extends
         getGlobalVariableService().getMessageMap().getInfoMessages().clear();
         getGlobalVariableService().getMessageMap().putInfoForSectionId(ProposalDevelopmentConstants.KradConstants.SUBMIT_PAGE, KeyConstants.APPROVAL_CYCLE_COMPLETE);
     } else {
-        form.getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(form.getProposalDevelopmentDocument(), true, false));
+        form.getDevelopmentProposal().setProposalStateTypeCode(getProposalStateService().getProposalStateTypeCode(form.getProposalDevelopmentDocument(), false));
     }
     getDataObjectService().wrap(form.getDevelopmentProposal()).fetchRelationship("proposalState");
     return getModelAndViewService().getModelAndView(form);

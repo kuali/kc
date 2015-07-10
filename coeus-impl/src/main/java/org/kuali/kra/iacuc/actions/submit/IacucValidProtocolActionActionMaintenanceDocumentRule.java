@@ -18,7 +18,7 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -53,13 +53,13 @@ public class IacucValidProtocolActionActionMaintenanceDocumentRule extends KcMai
     
     private boolean validatePromptUser(IacucValidProtocolActionAction validProtocolActionAction) {
         boolean result = true;
-        if (validProtocolActionAction.getUserPromptFlag() && StringUtils.isEmpty(validProtocolActionAction.getUserPrompt()) ) {
+        if (validProtocolActionAction.getUserPromptFlag() && StringUtils.isBlank(validProtocolActionAction.getUserPrompt()) ) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.userPrompt",
                     KeyConstants.ERROR_FOLLOWUP_USER_PROMPT_REQUIRED,
                     new String[] { });
             result = false;
 
-        } else if (!validProtocolActionAction.getUserPromptFlag() && !StringUtils.isEmpty(validProtocolActionAction.getUserPrompt())) {
+        } else if (!validProtocolActionAction.getUserPromptFlag() && StringUtils.isNotBlank(validProtocolActionAction.getUserPrompt())) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.userPrompt",
                     KeyConstants.ERROR_FOLLOWUP_USER_PROMPT_REQUIRED_EMPTY,
                     new String[] { });

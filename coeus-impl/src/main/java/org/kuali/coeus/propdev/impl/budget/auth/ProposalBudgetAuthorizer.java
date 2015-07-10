@@ -194,7 +194,8 @@ public class ProposalBudgetAuthorizer extends ViewAuthorizerBase {
     public boolean isAuthorizedToViewBudget(ProposalDevelopmentBudgetExt budget, Person user) {
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) budget.getBudgetParent().getDocument();
         return getKcAuthorizationService().hasPermission(user.getPrincipalId(), doc, PermissionConstants.VIEW_BUDGET)
-            || getKcAuthorizationService().hasPermission(user.getPrincipalId(), doc, PermissionConstants.MODIFY_BUDGET);
+            || getKcAuthorizationService().hasPermission(user.getPrincipalId(), doc, PermissionConstants.MODIFY_BUDGET)
+            || kcWorkflowService.hasWorkflowPermission(user.getPrincipalId(), doc);
     }
 
     protected boolean isAuthorizedToMaintainProposalHierarchy(Document document, Person user) {

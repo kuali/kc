@@ -175,7 +175,9 @@ public class RRSF424_2_0_V2GeneratorTest extends S2STestBase<RRSF424_2_0_V2Gener
 
 		answerHeader.setAnswers(answers);
 		businessObjectService.save(answerHeader);
-
+		for (Answer a : answers) {
+			a.refreshReferenceObject("question");
+		}
 		Organization organization = null;
 		developmentProposal
 				.setProgramAnnouncementTitle("programAnnouncementTitle");

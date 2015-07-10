@@ -79,12 +79,13 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
                 for (S2sOppForms oppForms : opp.getS2sOppForms()) {
                     if ((oppNameSpace == null || StringUtils.equals(oppForms.getS2sOppFormsId().getOppNameSpace(), oppNameSpace))
                             && (formName==null||StringUtils.equals(oppForms.getFormName(), formName))) {
-                        List<QuestionnaireUsage> usages = getQuestionnaireUsages(oppForms.getS2sOppFormsId().getOppNameSpace(),oppForms.getFormName(), developmentProposal);
-                        for (QuestionnaireUsage usage : usages) {
-                            if (header.getQuestionnaire().getQuestionnaireSeqId().equals(usage.getQuestionnaire().getQuestionnaireSeqId())) {
-                                results.add(header);
+                        if (oppForms.getInclude() == null ? Boolean.FALSE : oppForms.getInclude()) {
+                            List<QuestionnaireUsage> usages = getQuestionnaireUsages(oppForms.getS2sOppFormsId().getOppNameSpace(), oppForms.getFormName(), developmentProposal);
+                            for (QuestionnaireUsage usage : usages) {
+                                if (header.getQuestionnaire().getQuestionnaireSeqId().equals(usage.getQuestionnaire().getQuestionnaireSeqId())) {
+                                    results.add(header);
+                                }
                             }
-                    
                         }
                     }
                 }

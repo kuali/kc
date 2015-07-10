@@ -98,7 +98,6 @@
 		<create creator="spring" javascript="ProposalDevelopmentService">
 			<param name="beanName" value="proposalDevelopmentService" />
 			<include method="populateProposalEditableFieldMetaDataForAjaxCall" />
-			<include method="isGrantsGovEnabledOnSponsorChange" />
 			<include method="populateBudgetEditableFieldMetaDataForAjaxCall" />
 		</create>
 		<create creator="spring" javascript="JobCodeService">

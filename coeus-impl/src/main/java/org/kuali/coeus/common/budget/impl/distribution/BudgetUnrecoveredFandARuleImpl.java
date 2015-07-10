@@ -46,9 +46,7 @@ private static final String ADD_ERROR_KEY = "error.custom";
 
     /**
      * This method ensures that an added BudgetCostShare won't duplicate another. A duplicate record would have the same source account, share amount, 
-     * and fiscal year as another already in the list. 
-     * @param testBudgetUnrecoveredFandA
-     * @return
+     * and fiscal year as another already in the list.
      */
 	@KcEventMethod
     public boolean processAddBudgetUnrecoveredFandABusinessRules(AddBudgetUnrecoveredFandAEvent event) {
@@ -72,10 +70,7 @@ private static final String ADD_ERROR_KEY = "error.custom";
     }
     
     /** 
-     * This method checks if two BudgetCostShare objects are duplicates, meaning the fiscalYear, shareAmount, and sourceAccount are equal 
-     * @param testBudgetUnrecoveredFandA
-     * @param budgetUnrecoveredFandA
-     * @return
+     * This method checks if two BudgetCostShare objects are duplicates, meaning the fiscalYear, shareAmount, and sourceAccount are equal
      */
     private boolean checkForDuplicateFields(BudgetUnrecoveredFandA testBudgetUnrecoveredFandA, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         boolean duplicate = testBudgetUnrecoveredFandA.equals(budgetUnrecoveredFandA);

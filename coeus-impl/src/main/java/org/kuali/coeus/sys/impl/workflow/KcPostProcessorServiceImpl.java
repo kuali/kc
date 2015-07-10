@@ -21,6 +21,7 @@ package org.kuali.coeus.sys.impl.workflow;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
@@ -43,8 +44,6 @@ import java.util.concurrent.Callable;
 @Component("kcPostProcessorService")
 @Transactional
 public class KcPostProcessorServiceImpl implements PostProcessorService {
-
-    public static final String LAST_ACTION_PRINCIPAL_ID = "lastActionPrincipalId";
 
     private static final Log LOG = LogFactory.getLog(KcPostProcessorServiceImpl.class);
 
@@ -130,7 +129,7 @@ public class KcPostProcessorServiceImpl implements PostProcessorService {
         final ActionTaken lastActionTaken = findLastActionTaken(routeHeaderId);
 
         if (lastActionTaken != null) {
-            globalVariableService.getUserSession().addObject(LAST_ACTION_PRINCIPAL_ID, lastActionTaken.getPrincipalId());
+            globalVariableService.getUserSession().addObject(Constants.LAST_ACTION_PRINCIPAL_ID, lastActionTaken.getPrincipalId());
         }
     }
 

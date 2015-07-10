@@ -30,7 +30,10 @@ import java.util.List;
  * See {@link #getKeyValues()}.
  */
 public class SpecialReviewApprovalTypeValuesFinder extends DataObjectValuesFinder {
-    
+
+    public static final String DESCRIPTION = "description";
+    public static final String APPROVAL_TYPE_CODE = "approvalTypeCode";
+
     /**
      * Gets the keyvalue pair for {@link SpecialReviewApprovalType SpecialReviewApprovalType}.
      * The key is the specialReviewApprovalTypeCode and the value is the description.
@@ -40,14 +43,15 @@ public class SpecialReviewApprovalTypeValuesFinder extends DataObjectValuesFinde
     @Override
     public List<KeyValue> getKeyValues() {
     	setKeyValueAttributes();
+        setOrderByField(DESCRIPTION);
         final List<KeyValue> specialReviewApprovalTypes = super.getKeyValues();
         return specialReviewApprovalTypes;
     }
 
     protected void setKeyValueAttributes() {
         setDataObjectClass(SpecialReviewApprovalType.class);
-        setKeyAttributeName("approvalTypeCode");
-        setLabelAttributeName("description");
+        setKeyAttributeName(APPROVAL_TYPE_CODE);
+        setLabelAttributeName(DESCRIPTION);
     }
     
     public DataObjectService getDataObjectService() {

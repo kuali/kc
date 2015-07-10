@@ -185,7 +185,7 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
     }
 
     /**
-     * Non-generic subclass of Tree<Task>
+     * Non-generic subclass of Tree&lt;Task&gt;
      */
     public class RateClassInclusionTree extends Tree<RateClassBaseInclusion> {
         public RateClassInclusionTree() {

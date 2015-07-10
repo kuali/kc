@@ -26,7 +26,7 @@
             <description>Create/Edit an IACUC Protocol Person Role</description>
             <label>IACUC Protocol Person Role</label>
             <parent>KcSharedMaintenanceDocument</parent>
-            <helpDefinitionURL>default.htm?turl=Documents/protocolpersonrole.htm</helpDefinitionURL>
+            <helpDefinitionURL>default.htm?turl=Documents/iacucprotocolpersonrole.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>
 </data>

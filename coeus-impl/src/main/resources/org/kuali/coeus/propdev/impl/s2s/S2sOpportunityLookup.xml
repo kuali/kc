@@ -22,7 +22,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="S2sOpportunity-LookupView" parent="S2sOpportunity-LookupView-parentBean" />
+
+    <bean id="S2sOpportunity-LookupView" parent="S2sOpportunity-LookupView-parentBean" p:viewName="S2sOpportunity-LookupViewName"/>
 	<bean id="S2sOpportunity-LookupView-parentBean" abstract="true"
 		parent="Uif-LookupView" p:header.headerText="Opportunity Search"
 		p:dataObjectClassName="org.kuali.coeus.propdev.impl.s2s.S2sOpportunity"
@@ -79,6 +80,18 @@
 					p:order="80" />		
 			</list>
 		</property>
+
 	</bean>
+
+    <bean id="S2sOpportunity-CreateProposalLookupView" parent="S2sOpportunity-CreateProposalLookupView-parentBean" p:viewName="S2sOpportunity-CreateProposalLookupViewName" />
+    <bean id="S2sOpportunity-CreateProposalLookupView-parentBean" abstract="true" parent="S2sOpportunity-LookupView-parentBean">
+        <property name="resultsGroup.lineActions">
+            <list>
+                <bean parent="Uif-Link" p:linkText="Create Proposal"
+                      p:href="@{#ViewHelper.buildCreatePropActionHref(#line)}" p:order="10">
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 </beans>

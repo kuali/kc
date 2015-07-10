@@ -18,13 +18,16 @@
  */
 package org.kuali.coeus.common.framework.print;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentDataDao;
 import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 
 import javax.persistence.*;
+
 import java.lang.ref.WeakReference;
+import java.sql.Timestamp;
 
 /**
  * 
@@ -41,6 +44,12 @@ public abstract class KcAttachmentDataSource extends KcPersistableBusinessObject
 
     @Column(name = "FILE_DATA_ID")
     private String fileDataId;
+    
+    @Column(name = "UPLOAD_USER")
+    private String uploadUser;
+    
+    @Column(name = "UPLOAD_TIMESTAMP")
+    private Timestamp uploadTimestamp;
 
     @Transient
     private transient WeakReference<byte[]> data;
@@ -97,4 +106,33 @@ public abstract class KcAttachmentDataSource extends KcPersistableBusinessObject
         }
         this.data = new WeakReference<byte[]>(data);
     }
+
+	public String getUploadUser() {
+		return uploadUser;
+	}
+
+	public void setUploadUser(String uploadUser) {
+		this.uploadUser = uploadUser;
+	}
+
+	public Timestamp getUploadTimestamp() {
+		return uploadTimestamp;
+	}
+
+	public void setUploadTimestamp(Timestamp uploadTimestamp) {
+		this.uploadTimestamp = uploadTimestamp;
+	}
+	
+    @Override
+    protected void prePersist() {
+    	super.prePersist();
+    	if (StringUtils.isBlank(uploadUser)) {
+    		uploadUser = getUpdateUser();
+    	}
+    	if (uploadTimestamp == null) {
+    		uploadTimestamp = getUpdateTimestamp();
+    	}
+    }
+
+
 }

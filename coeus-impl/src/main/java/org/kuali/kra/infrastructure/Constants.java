@@ -457,7 +457,12 @@ public interface Constants {
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_DISTRIBUTION_PAGE = "distribution";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE = "institutionalProposalActions";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_MEDUSA_PAGE = "medusa";
-    
+
+    public static final String INSTITUTIONAL_PROPOSAL_IP_PANEL_ANCHOR = "institutionalProposal";
+
+
+    public static final String PARAMETER_IP_REVIEW_TAB_ENABLED = "IP_INTELLECTUAL_PROPERTY_REVIEW_TAB_ENABLED";
+
     public static final String INSTITUTIONAL_PROPSAL_PROPSAL_NUMBER_SEQUENCE = "SEQ_PROPOSAL_PROPOSAL_ID";
     
     public static final String COST_SHARE_COMMENT_TYPE_CODE = "9";
@@ -680,6 +685,7 @@ public interface Constants {
     public static final long QUESTION_RESPONSE_TYPE_DATE = 4L;
     public static final long QUESTION_RESPONSE_TYPE_TEXT = 5L;
     public static final long QUESTION_RESPONSE_TYPE_LOOKUP = 6L;
+    public static final long QUESTION_RESPONSE_TYPE_MULTIPLE_CHOICE = 100L;
     
     public static final String QUESTION_DOCUMENT_FIELD_QUESTION_TYPE_ID = "document.newMaintainableObject.businessObject.questionTypeId";
     public static final String QUESTION_DOCUMENT_FIELD_STATUS = "document.newMaintainableObject.businessObject.status";
@@ -894,6 +900,7 @@ public interface Constants {
 
     //Prop Dev Parameter
     public static final String SPONSOR_HIERACHY_REQ_DIV_PROG_CODES = "SPONSOR_HIERACHY_REQ_DIV_PROG_CODES";
-    
+
+    public static final String MM_DD_YYYY_HH_MM_A_DATE_FORMAT = "MM/dd/yyyy hh:mm a";
 }
 

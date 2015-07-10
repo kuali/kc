@@ -71,8 +71,6 @@ import java.util.Map;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStream {
 
-	private static final Log LOG = LogFactory
-			.getLog(ResearchAndRelatedXmlStream.class);
 	private static final String ORGANIZATION_QUESTION_ID_H5 = "H5";
 	private static final String ORGANIZATION_QUESTION_ID_I8 = "I8";
 	private static final String DEFAULT_VALUE_FOR_SSN = "XXXXXXXXX";

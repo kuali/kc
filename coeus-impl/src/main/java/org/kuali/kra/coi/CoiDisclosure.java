@@ -452,15 +452,6 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
     }
 
     
-    /*
-    public List<CoiDisclEventProject> getCoiDisclEventProjects() {
-        return coiDisclEventProjects;
-    }
-
-    public void setCoiDisclEventProjects(List<CoiDisclEventProject> coiDisclEventProjects) {
-        this.coiDisclEventProjects = coiDisclEventProjects;
-    }
-*/
     public String getSubmitThankyouStatement() {
         if (submitThankyouStatement == null) {
             ConfigurationService kualiConfiguration = CoreApiServiceLocator.getKualiConfigurationService();
@@ -748,12 +739,6 @@ public class CoiDisclosure extends KcPersistableBusinessObjectBase implements Se
     // permissionable related override
     @Override
     public List<String> getRoleNames() {
-//        List<String> roleNames = new ArrayList<String>();
-//
-
-//        roleNames.add(RoleConstants.COI_VIEWER);
-//
-//        return roleNames;
         return null;
     }
 

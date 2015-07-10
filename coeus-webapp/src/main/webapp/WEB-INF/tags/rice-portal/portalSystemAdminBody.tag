@@ -23,7 +23,7 @@
       <channel:systemAdminSystem />
       <channel:systemAdminBatch />
       <administrationChannel:configuration />
-      <administrationChannel:misc />   
+      <channel:misc />
 </td>
 <td class="content" valign="top">
       <administrationChannel:identity />

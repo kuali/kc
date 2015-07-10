@@ -123,31 +123,12 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
        try {
            if (s2sOpportunity != null && s2sOpportunity.getSchemaUrl() != null) {
-               List<String> missingMandatoryForms = new ArrayList<String>();
-               s2sOpportunity.setS2sProvider(getDataObjectService().find(S2sProvider.class, s2sOpportunity.getProviderCode()));
-               List<S2sOppForms> s2sOppForms = getS2sSubmissionService().parseOpportunityForms(s2sOpportunity);
-               if(s2sOppForms!=null){
-                   for(S2sOppForms s2sOppForm:s2sOppForms){
-                       if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
-                           missingMandatoryForms.add(s2sOppForm.getFormName());
-                       }
-                   }
-               }
-               if(CollectionUtils.isEmpty(missingMandatoryForms)){
-                   Collections.sort(s2sOppForms, new Comparator<S2sOppForms>() {
-                       public int compare(S2sOppForms arg0, S2sOppForms arg1) {
-                           int result = arg0.getMandatory().compareTo(arg1.getMandatory())*-1;
-                           if (result == 0) {
-                               result = arg0.getFormName().compareTo(arg1.getFormName());
-                           }
-                           return result;
-                       }
-                   });
-                   s2sOpportunity.setS2sOppForms(s2sOppForms);
-               }else{
-                   globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(),StringUtils.join(missingMandatoryForms,","));
+               List<String> missingMandatoryForms = s2sSubmissionService.setMandatoryForms(proposal, s2sOpportunity);
+
+               if (!CollectionUtils.isEmpty(missingMandatoryForms)) {
+                   globalVariableService.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,s2sOpportunity.getOpportunityId(), StringUtils.join(missingMandatoryForms, ","));
                    proposal.setS2sOpportunity(new S2sOpportunity());
-               }            
+               }
            }
        }catch(S2sCommunicationException ex){
            if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
@@ -159,8 +140,9 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
        super.save(form,result,request,response);
        return getRefreshControllerService().refresh(form);
    }
-   
-   @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=clearOpportunity"})
+
+
+    @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=clearOpportunity"})
    public ModelAndView clearOpportunity(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response)
            throws Exception {
        ((ProposalDevelopmentViewHelperServiceImpl)form.getViewHelperService()).clearOpportunity(form.getDevelopmentProposal());
@@ -193,12 +175,13 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
         setValidationErrorMessage(formPrintResult.getErrors());
         KcFile attachmentDataSource = formPrintResult.getFile();
-        if(attachmentDataSource==null || attachmentDataSource.getData()==null || attachmentDataSource.getData().length==0
-                || !formPrintResult.getErrors().isEmpty()){
+        if(((attachmentDataSource==null || attachmentDataSource.getData()==null || attachmentDataSource.getData().length==0) && !proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag())
+                || CollectionUtils.isNotEmpty(formPrintResult.getErrors())){
             boolean grantsGovErrorExists = copyAuditErrorsToPage(Constants.GRANTSGOV_ERRORS, "grantsGovFormValidationErrors");
             if(grantsGovErrorExists){
                 getGlobalVariableService().getMessageMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
             }
+            proposalDevelopmentDocument.getDevelopmentProposal().setGrantsGovSelectFlag(false);
             return getModelAndViewService().getModelAndView(form);
         }
         if (proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag()) {
@@ -218,26 +201,6 @@ public class ProposalDevelopmentS2SController extends ProposalDevelopmentControl
 
         ControllerFileUtils.streamToResponse(attachmentDataSource, response);
         return getModelAndViewService().getModelAndView(form);
-    }
-
-    /**
-     * Saves the form, and retrieves the document to update any reference objects before printing s2s forms.  Saves s2s forms
-     * selected to be printed, and selects them again after the document has been retrieved.
-     * @param form the form to save before retrieving new document
-     */
-    protected ProposalDevelopmentDocument getUpdatedDocument(ProposalDevelopmentDocumentForm form) throws Exception {
-        List<S2sOppForms> selectedS2sOppForms = form.getDevelopmentProposal().getSelectedS2sOppForms();
-
-        super.save(form);
-        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(form.getDocument().getDocumentNumber());
-        for (S2sOppForms s2sOppForm : proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getS2sOppForms()) {
-            for (S2sOppForms selectedS2sOppForm : selectedS2sOppForms ) {
-                if (s2sOppForm.getS2sOppFormsId().equals(selectedS2sOppForm.getS2sOppFormsId())) {
-                    s2sOppForm.setSelectToPrint(true);
-                }
-            }
-        }
-        return proposalDevelopmentDocument;
     }
 
     protected void setValidationErrorMessage(List<org.kuali.coeus.s2sgen.api.core.AuditError> errors) {

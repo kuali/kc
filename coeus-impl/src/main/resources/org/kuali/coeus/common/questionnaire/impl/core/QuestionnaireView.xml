@@ -101,6 +101,8 @@
 			<list>
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getQuestionMoreInfo(#lp.questionnaireQuestion.question)}"
                         p:hidden="true"/>
+				<bean parent="Uif-MessageField" p:messageText="Mandatory Question not complete." p:hidden="@{#ViewHelper.isAnsweredAnswer(#line) or not #ViewHelper.isQuestionnaireMandatory(#line.answerHeader)}"
+					  p:render="@{auditActivated}" p:additionalCssClasses="alert-danger"/>
 				<bean parent="Questionnaire-InputField" p:order="10" />
                 <bean parent="Uif-InputField" p:propertyName="question.lookupReturn" p:fieldLabel.render="false">
                     <property name="control">
@@ -174,4 +176,42 @@
     <bean id="Questionnaire-DateControl" parent="Questionnaire-DateControl-parentBean"/>
     <bean id="Questionnaire-DateControl-parentBean" abstract="true" parent="Uif-DateControlOnFocus"
           p:watermarkText="mm/dd/yyyy"/>
+
+	<bean id="Uif-QuestionCheckboxControl" parent="Uif-QuestionCheckboxControl-parentBean"/>
+	<bean id="Uif-QuestionCheckboxControl-parentBean" abstract="true"
+		  class="org.kuali.coeus.org.kuali.rice.krad.uif.control.QuestionCheckboxControl"
+		  scope="prototype" parent="Uif-CheckboxControl">
+		<property name="template" value="/WEB-INF/ftl/krad/coeus/control/question_checkboxControl.ftl"/>
+		<property name="templateName" value="uif_question_checkbox"/>
+		<property name="libraryCssClasses">
+			<null/>
+		</property>
+		<property name="cssClasses">
+			<list>
+				<value>uif-checkboxControl</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Uif-QuestionRadioControl" parent="Uif-QuestionRadioControl-parentBean"/>
+	<bean id="Uif-QuestionRadioControl-parentBean" abstract="true"
+		  class="org.kuali.coeus.org.kuali.rice.krad.uif.control.QuestionRadioGroupControl"
+		  scope="prototype" parent="Uif-VerticalRadioControl">
+		<property name="template" value="/WEB-INF/ftl/krad/coeus/control/question_radioGroup.ftl"/>
+		<property name="templateName" value="uif_question_radiobuttons"/>
+		<property name="libraryCssClasses">
+			<null/>
+		</property>
+		<property name="fieldsetClasses">
+			<list>
+				<value>uif-verticalRadioFieldset</value>
+			</list>
+		</property>
+		<property name="cssClasses">
+			<list>
+
+				<value>uif-verticalRadioControl</value>
+			</list>
+		</property>
+	</bean>
 </beans>

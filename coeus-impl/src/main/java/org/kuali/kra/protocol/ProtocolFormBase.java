@@ -264,10 +264,6 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
         this.specialReviewHelper = specialReviewHelper;
     }
 
-    /**
-     * Gets the Notes & Attachments Helper.
-     * @return Notes & Attachments Helper
-     */
     public NotesAttachmentsHelperBase getNotesAttachmentsHelper() {
         if (notesAttachmentsHelper == null) {
             notesAttachmentsHelper = createNewNotesAttachmentsHelperInstanceHook(this);
@@ -276,10 +272,6 @@ public abstract class ProtocolFormBase extends KcTransactionalDocumentFormBase i
         return notesAttachmentsHelper;
     }
 
-    /**
-     * Sets the Notes & Attachments Helper.
-     * @param notesAttachmentsHelper the Notes & Attachments Helper
-     */
     public void setNotesAttachmentsHelper(NotesAttachmentsHelperBase notesAttachmentsHelper) {
         this.notesAttachmentsHelper = notesAttachmentsHelper;
     }

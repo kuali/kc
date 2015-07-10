@@ -17,5 +17,4 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-alter table BUDGET_DETAILS MODIFY GROUP_NAME varchar2(80)
-/
+alter table BUDGET_DETAILS MODIFY GROUP_NAME varchar2(80);

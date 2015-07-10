@@ -18,18 +18,10 @@
  */
 package org.kuali.coeus.propdev.impl.attachment;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Predicate;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentForm;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
-import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.bo.Note;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +36,9 @@ public class ProposalDevelopmentAttachmentHelper {
     private String selectedLineIndex;
     private String proposalAttachmentModuleStatusCode;
     private String internalAttachmentModuleStatusCode;
+    private String previousNarrativeTypeValue;
+    private String currentNarrativeTypeDescription;
+    private String narrativeTypePropertyPath;
 
     private Map<String,List<String>> editableFileAttachments;
 
@@ -53,7 +48,7 @@ public class ProposalDevelopmentAttachmentHelper {
         biography = new ProposalPersonBiography();
         note = new Note();
         proposalAbstract = new ProposalAbstract();
-        editableFileAttachments = new HashMap<String,List<String>>();
+        editableFileAttachments = new HashMap<>();
     }
 
     public void reset() {
@@ -62,161 +57,13 @@ public class ProposalDevelopmentAttachmentHelper {
         biography = new ProposalPersonBiography();
         note = new Note();
         proposalAbstract = new ProposalAbstract();
-        editableFileAttachments = new HashMap<String,List<String>>();
+        editableFileAttachments = new HashMap<>();
         selectedLineIndex = null;
-    }
-    
-    public void handleNarrativeUpdates(ProposalDevelopmentDocumentForm form, ProposalDevelopmentDocument document) {
-    	
-    	// Delete Narratives which are not on the form - from document.
-    	removeDeletedNarrativesFromDocument(form.getDevelopmentProposal().getNarratives(),document.getDevelopmentProposal().getNarratives());
-    	// Handle newly added and updated Narratives
-    	addNewUpdateNarrativesOnDocument(form.getDevelopmentProposal().getNarratives(),document.getDevelopmentProposal().getNarratives());
-    	
+        previousNarrativeTypeValue = "";
+        currentNarrativeTypeDescription = "";
+        narrativeTypePropertyPath = "";
     }
 
-    public void handleInstAttachmentUpdates(ProposalDevelopmentDocumentForm form, ProposalDevelopmentDocument document) {
-    	
-    	// Delete Institute attachment which are not on the form - from document.
-    	removeDeletedNarrativesFromDocument(form.getDevelopmentProposal().getInstituteAttachments(),document.getDevelopmentProposal().getInstituteAttachments());
-    	// Handle newly added and updated Institute attachment
-    	addNewUpdateNarrativesOnDocument(form.getDevelopmentProposal().getInstituteAttachments(),document.getDevelopmentProposal().getInstituteAttachments());
-    	
-    }
-    
-    public void handlePersonBioUpdates(ProposalDevelopmentDocumentForm form, ProposalDevelopmentDocument document) {
-    	
-    	// Delete Person bios which are not on the form - from document.
-    	removeDeletedPersonBiosFromDocument(form.getDevelopmentProposal().getPropPersonBios(),document.getDevelopmentProposal().getPropPersonBios());
-    	// Handle newly added and updated person bios
-    	addNewUpdatePersonBiosOnDocument(form.getDevelopmentProposal().getPropPersonBios(),document.getDevelopmentProposal().getPropPersonBios());
-
-        //Extract the new document next values so they can be saved and not overwritten.
-        DocumentNextvalue formNextValue = null;
-        for (DocumentNextvalue documentNextValue : form.getProposalDevelopmentDocument().getDocumentNextvalues()) {
-            if (documentNextValue.getPropertyName().equalsIgnoreCase(Constants.PROP_PERSON_BIO_NUMBER)) {
-                formNextValue = documentNextValue;
-                break;
-            }
-        }
-        DocumentNextvalue docNextValue = null;
-        for (DocumentNextvalue documentNextValue : document.getDocumentNextvalues()) {
-            if (documentNextValue.getPropertyName().equalsIgnoreCase(Constants.PROP_PERSON_BIO_NUMBER)) {
-                docNextValue = documentNextValue;
-                break;
-            }
-        }
-        if (formNextValue != null
-                && docNextValue == null){
-            document.getDocumentNextvalues().add(formNextValue);
-        }
-        else if (formNextValue != null
-                && docNextValue != null){
-            if (formNextValue.getNextValue() > docNextValue.getNextValue()){
-                docNextValue.setNextValue(formNextValue.getNextValue());
-            }
-
-        }
-    }
-    
-    private void removeDeletedPersonBiosFromDocument( List<ProposalPersonBiography> formBios, List<ProposalPersonBiography> documentBios) {
-    	// Delete Narratives which are not on the form - from document.
-    	if(documentBios != null && documentBios.size() > 0) {
-    		List<ProposalPersonBiography> deletedBios = new ArrayList<ProposalPersonBiography>();
-    		for(ProposalPersonBiography documentBio : documentBios ) {
-    			if(findBioByPersonNumAndBioNum(formBios, documentBio) == null ) {
-    				deletedBios.add(documentBio);
-            	}
-    		}
-	   		if(deletedBios.size() > 0) {
-	   			documentBios.removeAll(deletedBios);
-	   		}
-    	}
-    }
-    
-    private void addNewUpdatePersonBiosOnDocument(List<ProposalPersonBiography> formBios, List<ProposalPersonBiography> documentBios) {
-	   	
-    	for(ProposalPersonBiography formBio :  formBios) {
-	   		if(formBio.getObjectId() == null) {
-	   			documentBios.add(formBio);
-	   			continue;
-	   		}
-	       	if(formBio.isUpdated()) {
-	       		ProposalPersonBiography updatedBio = findBioByPersonNumAndBioNum(documentBios,formBio);
-	       		documentBios.remove(documentBios.indexOf(updatedBio));
-	       		documentBios.add(formBio);
-	       	}
-	   	}
-    }
-    
-    private void addNewUpdateNarrativesOnDocument(List<Narrative> formNarratives, List<Narrative> documentNarratives) {
-	   	
-    	for(Narrative formNarrative :  formNarratives) {
-	   		if(formNarrative.getObjectId() == null) {
-	   			documentNarratives.add(formNarrative);
-	   			continue;
-	   		}
-	       	if(formNarrative.isUpdated()) {
-	       		Narrative updatedNarrative = findNarrativeByModuleNumber(documentNarratives,formNarrative.getModuleNumber());
-	       		documentNarratives.remove(documentNarratives.indexOf(updatedNarrative));
-	       		documentNarratives.add(formNarrative);
-	       	}
-	   	}
-    }
-    	
-    private void removeDeletedNarrativesFromDocument( List<Narrative> formNarratives, List<Narrative> documentNarratives) {
-    	// Delete Narratives which are not on the form - from document.
-    	if(documentNarratives != null && documentNarratives.size() > 0) {
-    		List<Narrative> deletedNarratives = new ArrayList<Narrative>();
-    		for(Narrative documentNarrative : documentNarratives ) {
-    			if(findNarrativeByModuleNumber(formNarratives, documentNarrative.getModuleNumber()) == null ) {
-            		deletedNarratives.add(documentNarrative);
-            	}
-    		}
-	   		if(deletedNarratives.size() > 0) {
-	   			documentNarratives.removeAll(deletedNarratives);
-	   		}
-    	}
-    }
-    
-    protected ProposalPersonBiography findBioByPersonNumAndBioNum(List<ProposalPersonBiography> origBios, final ProposalPersonBiography newBio) {
-    	
-    	ProposalPersonBiography dulicatedBio = CollectionUtils.find(origBios, new Predicate<ProposalPersonBiography>() {
-
-			@Override
-			public boolean evaluate(ProposalPersonBiography origBio) {
-				if(new EqualsBuilder().append(origBio.getProposalPersonNumber(), newBio.getProposalPersonNumber())
-						.append(origBio.getBiographyNumber(), newBio.getBiographyNumber()).isEquals()) {
-					return true;
-				}	
-				else {
-					return false;
-				}
-			}
-		});
-
-    	return dulicatedBio;
-    }
-    
-    
-    protected Narrative findNarrativeByModuleNumber(List<Narrative> origNarratives, final Integer moduleNumber) {
-    	
-    	Narrative updatedNarrative = CollectionUtils.find(origNarratives, new Predicate<Narrative>() {
-
-			@Override
-			public boolean evaluate(Narrative narrative) {
-				if(narrative.getModuleNumber().equals(moduleNumber)) {
-					return true;
-				}	
-				else {
-					return false;
-				}
-			}
-		});
-
-    	return updatedNarrative;
-    }
-    
     public ProposalPersonBiography getBiography() {
         return biography;
     }
@@ -288,4 +135,28 @@ public class ProposalDevelopmentAttachmentHelper {
 	public void setInternalAttachmentModuleStatusCode(String internalAttachmentModuleStatusCode) {
 		this.internalAttachmentModuleStatusCode = internalAttachmentModuleStatusCode;
 	}
+
+    public String getPreviousNarrativeTypeValue() {
+        return previousNarrativeTypeValue;
+    }
+
+    public void setPreviousNarrativeTypeValue(String previousNarrativeTypeValue) {
+        this.previousNarrativeTypeValue = previousNarrativeTypeValue;
+    }
+
+    public String getCurrentNarrativeTypeDescription() {
+        return currentNarrativeTypeDescription;
+    }
+
+    public void setCurrentNarrativeTypeDescription(String currentNarrativeTypeDescription) {
+        this.currentNarrativeTypeDescription = currentNarrativeTypeDescription;
+    }
+
+    public String getNarrativeTypePropertyPath() {
+        return narrativeTypePropertyPath;
+    }
+
+    public void setNarrativeTypePropertyPath(String narrativeTypePropertyPath) {
+        this.narrativeTypePropertyPath = narrativeTypePropertyPath;
+    }
 }

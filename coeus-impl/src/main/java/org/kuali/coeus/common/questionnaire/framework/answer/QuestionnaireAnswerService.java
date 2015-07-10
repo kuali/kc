@@ -124,14 +124,11 @@ public interface QuestionnaireAnswerService {
     /**
      * This method checks if the latest questionnaire instance associated with the given questionnaire ID is active and that it
      * has the given module and sub-module codes in one of its usages.
-     * 
-     * @param questionnaireId
-     * @param coeusModule
-     * @param coeusSubModule
-     * @return
      */
-    public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String coeusModuleCode, String coeusSubModuleCode);
-    
+    boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String coeusModuleCode, String coeusSubModuleCode);
+
+    boolean checkIfQuestionnaireIsMandatoryForModule(Integer questionnaireId, String coeusModuleCode, String coeusSubModuleCode);
+
     /**
      * Based on the data in the answer header, rebuild the module specific ModuleQuestionnaireBean. Assumes the document is in a final state.
      * @param answerHeader

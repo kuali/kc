@@ -49,9 +49,7 @@ import java.sql.Date;
 import java.util.*;
 
 import static org.junit.Assert.*;
-/**
- * This class 
- */
+
 public class AwardVersioningTest extends KcIntegrationTestBase {
     private static final Log LOG = LogFactory.getLog(AwardVersioningTest.class); 
     private static final double COST_SHARE_COMMIT_AMT = 1000.00;
@@ -261,10 +259,7 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
         awardVersion1.setProjectEndDate(date);
         awards.add(awardVersion1);
     }
-    
-    /**
-     * @throws WorkflowException
-     */
+
     private AwardDocument initializeNewDocument(Award award) throws WorkflowException {
         AwardDocument document = (AwardDocument) documentService.getNewDocument(AwardDocument.class);
         document.getDocumentHeader().setDocumentDescription(DOCUMENT_DESCRIPTION);
@@ -278,10 +273,6 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
         versioningService = KcServiceLocator.getService(VersioningService.class);
     }
 
-    /**
-     * @param award
-     * @param items
-     */
     private void saveAndVerifySequenceAssociateValues(Award award, List<? extends SequenceAssociate> items) {
         bos.save(award);
         Map<String,Object> keys = new HashMap<String, Object>();
@@ -293,13 +284,6 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
         }
     }
 
-    /**
-     * This method saves a document
-     * @param document
-     * @return
-     * @throws WorkflowException 
-     * @throws Exception
-     */
     private AwardDocument saveDocument(AwardDocument document) throws WorkflowException {
         try {
             document = (AwardDocument) documentService.saveDocument(document);
@@ -320,9 +304,7 @@ public class AwardVersioningTest extends KcIntegrationTestBase {
     }
     
     /**
-     * This method compares the sequence numbers of SequenceAssociates in one Award version with those in the subsequent Award version 
-     * @param awardVersion2
-     * @param awardVersion3
+     * This method compares the sequence numbers of SequenceAssociates in one Award version with those in the subsequent Award version
      */
     private void verifySequenceAssociatesAfterVersioning(List<? extends SequenceAssociate> sequenceAssociatesBeforeVersioning, List<? extends SequenceAssociate> sequenceAssociatesAfterVersioning) {
         assertEquals(sequenceAssociatesBeforeVersioning.size(), sequenceAssociatesAfterVersioning.size());

@@ -15,17 +15,16 @@
    - GNU Affero General Public License for more details.
    - 
    - You should have received a copy of the GNU Affero General Public License
-   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   - along with this program.  If not, see <http://www.gnu.org/licenses />.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.kuali.coeus</groupId>
         <artifactId>coeus</artifactId>
-        <version>6.0.1</version>
+        <version>1505.62-SNAPSHOT</version>
     </parent>
     <artifactId>coeus-it</artifactId>
     <packaging>jar</packaging>
@@ -66,6 +65,16 @@
     </build>
 
     <dependencies>
+        <!-- the coeus-it module depends on artifacts that exist in the coeus-webapp module in a weird way
+             adding this dependency to express this and force the proper build order -->
+        <dependency>
+            <groupId>org.kuali.coeus</groupId>
+            <artifactId>coeus-webapp</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.kuali.coeus</groupId>
             <artifactId>coeus-impl</artifactId>

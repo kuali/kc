@@ -91,10 +91,8 @@ public abstract class ProtocolSubmissionLookupableHelperServiceImplBase extends 
   
     /**
      * This method is for several fields that does not have inquiry created by lookup frame work.
-     * Also, disable inquiry link for protocol title & schedule date.
+     * Also, disable inquiry link for protocol title &amp; schedule date.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
-     *      java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -141,7 +139,7 @@ public abstract class ProtocolSubmissionLookupableHelperServiceImplBase extends 
     }
 
     /**
-     * To disable the search icon for 'title' & 'scheduleddate' fields.  These fields are referencing to reference objects' fields.
+     * To disable the search icon for 'title' &amp; 'scheduleddate' fields.  These fields are referencing to reference objects' fields.
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @Override

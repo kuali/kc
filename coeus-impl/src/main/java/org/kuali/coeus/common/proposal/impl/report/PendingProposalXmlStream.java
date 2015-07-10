@@ -29,7 +29,8 @@ import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAnd
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingReportCEColumnNames;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport;
 import org.kuali.kra.printing.schema.CurrentAndPendingSupportDocument.CurrentAndPendingSupport.PendingSupport.PendingReportCEColomnValues;
-
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -41,6 +42,7 @@ import java.util.*;
  * 
  */
 @Component("pendingProposalXmlStream")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PendingProposalXmlStream extends CurrentAndPendingBaseStream {
 	private ArrayList columsList;
     private static final String PROP_SEQ_STATUS = "ACTIVE";

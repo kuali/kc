@@ -89,7 +89,6 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/s2s/S2sOpportunityLookup.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/sponsor/ProposalSponsorProgramInfoPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/supplemental/ProposalSupplementalPage.xml</value>
-                <value>classpath:org/kuali/coeus/propdev/impl/core/ProposalDataValidationSection.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/person/creditsplit/ProposalCreditAllocationPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/copy/ProposalCopyDialogSection.xml</value>
 				<value>classpath:org/kuali/coeus/propdev/impl/core/ProposalHierarchyPage.xml</value>
@@ -186,10 +185,6 @@
         <property name="includeKeyInDescription" value="false"/>
         <property name="keyAttributeName" value="code"/>
         <property name="labelAttributeName" value="description"/>
-    </bean>
-
-    <bean id="legacyS2sOpportunityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-        <property name="lookupableHelperService" ref="s2sOpportunityLookupableHelperService"/>
     </bean>
 
     <bean id="grantsGovConnectorService"

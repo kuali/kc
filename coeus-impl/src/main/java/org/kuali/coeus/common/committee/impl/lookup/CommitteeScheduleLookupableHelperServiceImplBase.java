@@ -252,9 +252,6 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
     /**
      * This method is for committeeId that does not have inquiry created by lookup frame work. Also, disable inquiry link for
      * committee name.
-     * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
-     *      java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -291,9 +288,8 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
     }
 
     /**
-     * To disable search & inquiry icons for committee.committeeid & committee.committeename
+     * To disable search &amp; inquiry icons for committee.committeeid &amp; committee.committeename
      * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @Override
     public List<Row> getRows() {

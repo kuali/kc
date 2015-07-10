@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.Interval;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -35,6 +36,10 @@ import org.kuali.coeus.common.view.wizard.framework.WizardControllerService;
 import org.kuali.coeus.common.view.wizard.framework.WizardResultsDto;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.DialogResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +66,10 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	@Autowired
 	@Qualifier("budgetPersonnelBudgetService")
 	BudgetPersonnelBudgetService budgetPersonnelBudgetService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
 	private static final String EDIT_PROJECT_PERSONNEL_DIALOG_ID = "PropBudget-EditPersonnel-Section";
 	private static final String EDIT_PERSONNEL_PERIOD_DIALOG_ID = "PropBudget-EditPersonnelPeriod-Section";
@@ -142,7 +151,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	@Transactional @RequestMapping(params="methodToCall=prepareAddProjectPersonnel")
 	public ModelAndView prepareAddProjectPersonnel(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
         form.getAddProjectPersonnelHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
-        return getModelAndViewService().showDialog(ADD_PROJECT_PERSONNEL_DIALOG_ID,true,form);
+        return getModelAndViewService().showDialog(ADD_PROJECT_PERSONNEL_DIALOG_ID, true, form);
 	}
 	
 	@Transactional @RequestMapping(params="methodToCall=updatePersonDetails")
@@ -188,11 +197,16 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
         		setBudgetPeriodStartDateAndEndDateOnLineItems(form, budgetPeriod);
         		form.getAddProjectPersonnelHelper().getBudgetLineItem().setBudget(budget);
         		form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail().setBudget(budget);
+                form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail().setPeriodTypeCode(getDefualtPeriodTypeCode());
         		modelAndView = getModelAndViewService().showDialog(ADD_PERSONNEL_PERIOD_DIALOG_ID, true, form);
             }
         }
 		return modelAndView;
 	}
+
+    protected String getDefualtPeriodTypeCode() {
+        return getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET, ParameterConstants.DOCUMENT_COMPONENT,Constants.BUDGET_PERSON_DETAILS_DEFAULT_PERIODTYPE);
+    }
 	
 	private void setBudgetPeriodStartDateAndEndDateOnLineItems(ProposalBudgetForm form, BudgetPeriod budgetPeriod) {
 		form.getAddProjectPersonnelHelper().getBudgetLineItem().setStartDate(budgetPeriod.getStartDate());
@@ -273,8 +287,15 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     }
 	
     private void syncLineItemDates(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
-		budgetLineItem.setStartDate(budgetPersonnelDetails.getStartDate());
-		budgetLineItem.setEndDate(budgetPersonnelDetails.getEndDate());
+		long longestDuration = 0;
+		for (BudgetPersonnelDetails detail: budgetLineItem.getBudgetPersonnelDetailsList()) {
+			Interval interval = new Interval(detail.getStartDate().getTime(),detail.getEndDate().getTime());
+			if (interval.toDurationMillis() >= longestDuration) {
+				longestDuration = interval.toDurationMillis();
+				budgetLineItem.setStartDate(detail.getStartDate());
+				budgetLineItem.setEndDate(detail.getEndDate());
+			}
+		}
 	}
 	
 	private boolean isSaveRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail, int editLineIndex) {
@@ -396,13 +417,21 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     	return getModelAndViewService().showDialog(EDIT_LINE_ITEM_DETAILS_DIALOG_ID, true, form);
 	}
 
+    @Transactional @RequestMapping(params={"methodToCall=refresh", "refreshCaller=PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates"})
+    public ModelAndView refreshBudgetDetailsAndRates(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+        form.setUpdateComponentId("PropBudget-AssignPersonnelToPeriodsPage-DetailsAndRates");
+        getDataObjectService().wrap(form.getAddProjectBudgetLineItemHelper().getBudgetLineItem()).fetchRelationship("costElementBO");
+        return getRefreshControllerService().refresh(form);
+    }
+
 	@Transactional @RequestMapping(params="methodToCall=applyToLaterPeriods")
 	public ModelAndView applyToLaterPeriods(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 		Budget budget = form.getBudget();
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
 	    BudgetLineItem budgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
-	    getBudgetCalculationService().applyToLaterPeriods(budget,currentTabBudgetPeriod,budgetLineItem);
-		return getModelAndViewService().getModelAndView(form);
+	    getBudgetCalculationService().applyToLaterPeriods(budget, currentTabBudgetPeriod, budgetLineItem);
+		return super.save(form);
 	}
 
 	@Transactional @RequestMapping(params="methodToCall=deletePersonnelLineItem")
@@ -460,4 +489,11 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		this.budgetPersonnelBudgetService = budgetPersonnelBudgetService;
 	}
 
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 }

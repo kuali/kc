@@ -95,8 +95,6 @@ public class BudgetPersonnelPeriodRule {
      * User adding a new summary line
      * Condition matched (object code and group)
      * Error either summary line already exists or personnel line item exists
-     * @param budgetLineItem
-     * @param result
      */
     protected void addSummaryPersonnelLineItemErrorMessage(BudgetLineItem budgetLineItem, KcEventResult result) {
         //Summary is already added and user is attempting to add a second summary
@@ -114,10 +112,6 @@ public class BudgetPersonnelPeriodRule {
      * User adding a new personnel line
      * Condition matched (object code and group)
      * Error check whether summary line already exists or personnel line is duplicate
-     * @param budgetLineItem
-     * @param newBudgetLineItem
-     * @param newBudgetPersonnelDetails
-     * @param result
      */
     protected void verifyPersonnel(BudgetLineItem budgetLineItem, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, KcEventResult result) {
         if(budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
@@ -133,10 +127,6 @@ public class BudgetPersonnelPeriodRule {
      * Check for duplicate person while adding new personnel and in edit mode.
      * In new mode, person should not exist in the list with applicable unique key
      * In edit mode, allow update on same person and make sure the duplicate key is validated (change in start date).
-     * @param budgetLineItem
-     * @param newBudgetPersonnelDetails
-     * @param maxPersonnel
-     * @param result
      */
     protected void verifyDuplicatePerson(BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetails, List<BudgetPersonnelDetails> budgetPersonnelDetailsList, KcEventResult result) {
     	Set<String> uniquePersonDetails = new HashSet<String>();

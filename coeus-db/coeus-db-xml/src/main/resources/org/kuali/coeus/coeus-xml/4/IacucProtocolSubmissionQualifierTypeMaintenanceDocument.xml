@@ -24,7 +24,7 @@
 			<description>Create an IACUC Protocol Submission Qualifier Type</description>
 			<label>IACUC Protocol Submission Qualifier Type Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/protocolsubmissionqualifiertype.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/iacucsubmissiontypequalifier.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>

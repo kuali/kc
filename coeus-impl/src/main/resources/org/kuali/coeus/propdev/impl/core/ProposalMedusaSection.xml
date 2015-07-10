@@ -251,16 +251,16 @@
                 </bean>
 
                 <bean parent="Proposal-Award-Property" p:propertyName="awardNumber" p:order="10" />
-                <bean parent="Proposal-Award-Property" p:propertyName="awardType.description" p:order="20" />
+                <bean parent="Proposal-Award-Property" p:propertyName="awardType.description" p:label="Award Type" p:order="20" />
                 <bean parent="Proposal-Award-Property" p:propertyName="sponsorAwardNumber" p:order="30" />
-                <bean parent="Proposal-Award-Property" p:propertyName="activityType.description" p:order="40" />
+                <bean parent="Proposal-Award-Property" p:propertyName="activityType.description" p:label="Activity Type" p:order="40" />
                 <bean parent="Proposal-Award-Property" p:propertyName="accountNumber" p:order="50" />
                 <bean parent="Proposal-Award-Property" p:propertyName="accountTypeDescription" p:order="60" />
-                <bean parent="Proposal-Award-Property" p:propertyName="awardStatus.description" p:order="70" />
+                <bean parent="Proposal-Award-Property" p:propertyName="awardStatus.description" p:label="Award Status" p:order="70" />
                 <bean parent="Proposal-Award-Property" p:propertyName="title" p:order="80" />
 
 
-                <bean parent="Proposal-Award-Property" p:propertyName="sponsorName"
+                <bean parent="Proposal-Award-Property" p:propertyName="sponsorName" p:label="Award Sponsor"
                       p:forcedValue="@{#ViewHelper.getSponsorString(#np.awardDocument.award.sponsor)}" p:order="100" />
                 <bean parent="Proposal-Award-Property" p:propertyName="awardEffectiveDate" p:order="110" />
                 <bean parent="Proposal-Award-Property" p:propertyName="latestAwardAmountInfo.currentFundEffectiveDate" p:order="120" />

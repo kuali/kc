@@ -28,6 +28,9 @@
         <property name="lookupDefinition" >
             <ref bean="IacucProtoCorrespTempl-lookupDefinition" />
         </property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="irbCorrespondenceTemplateUrl" p:parameterDetailType="Document" />
+        </property>
         <property name="titleAttribute" value="protoCorrespTemplId" />
         <property name="attributes" >
             <list>

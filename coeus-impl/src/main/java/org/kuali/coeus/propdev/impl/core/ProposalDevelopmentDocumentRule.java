@@ -678,21 +678,7 @@ public class ProposalDevelopmentDocumentRule extends KcTransactionalDocumentRule
     public boolean processCustomDataRule(ProposalDevelopmentDocument document) {
         return new CustomDataRule().processRules(new SaveCustomDataEvent(document));
     }
-    
-    protected boolean processBudgetVersionsBusinessRule(
-            final DevelopmentProposal proposal) {
-        if (proposal == null) {
-            throw new NullPointerException("the parentDocument is null.");
-        }
 
-        if (proposal.getFinalBudget() != null && !proposal.getFinalBudget().isBudgetComplete()) {
-        	GlobalVariables.getMessageMap().putError("PropDev-BudgetPage",
-        			KeyConstants.ERROR_NO_FINAL_BUDGET);
-        	return false;
-        }
-        return true;
-
-    }    
 
     public boolean processRules(KcDocumentEventBaseExtension event) {
         boolean retVal = false;

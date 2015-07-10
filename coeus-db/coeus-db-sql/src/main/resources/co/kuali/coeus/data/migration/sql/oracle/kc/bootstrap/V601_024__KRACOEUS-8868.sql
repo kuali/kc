@@ -17,5 +17,4 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
-alter table SUBAWARD MODIFY REQUISITIONER_ID varchar2(40)
-/
+alter table SUBAWARD MODIFY REQUISITIONER_ID varchar2(40);

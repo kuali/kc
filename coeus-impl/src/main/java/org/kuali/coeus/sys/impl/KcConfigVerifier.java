@@ -26,6 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 @Component("kcConfigVerifier")
 public class KcConfigVerifier implements InitializingBean {
 
@@ -38,7 +41,10 @@ public class KcConfigVerifier implements InitializingBean {
     private static final String DATASOURCE_PLATFORM_CFG_NM = "datasource.platform";
     private static final String MISSING_LIB_MESSAGE_FOR_ORACLE = "Oracle platform detected but org.eclipse.persistence:org.eclipse.persistence.oracle:jar is not found on the classpath";
     private static final String INCLUDED_LIB_MESSAGE_FOR_NON_ORACLE = "Non-Oracle platform detected but org.eclipse.persistence:org.eclipse.persistence.oracle:jar is found on the classpath";
-
+    private static final String TOMCAT_SERVER_CLASS_NAME = "org.apache.catalina.Server";
+    private static final String TOMCAT_INSTRUMENTATION_CLASS_LOADER_CLASS_NAME = "org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader";
+    private static final String INSTRUMENTATION_AGENT_CLASS_NAME = "org.springframework.instrument.InstrumentationSavingAgent";
+    private static final String GET_INSTRUMENTATION_METHOD = "getInstrumentation";
 
     @Autowired
     @Qualifier("kualiConfigurationService")
@@ -47,6 +53,7 @@ public class KcConfigVerifier implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         verifyOracleConfiguration();
+        verifyInstrumentationConfiguration();
     }
 
     protected void verifyOracleConfiguration() {
@@ -58,6 +65,115 @@ public class KcConfigVerifier implements InitializingBean {
             }
         } else if (!oraclePlatform() && oracleJpaLibraryAvailable()) {
             LOG.warn(INCLUDED_LIB_MESSAGE_FOR_NON_ORACLE);
+        }
+    }
+
+    /**
+     * Verifies that the instrumentation configuration is set up correctly.  EclipseLink requires
+     * some form of instrumentation for features like lazy-loading.  Without proper instrumentation,
+     * subtle hard-to-detect errors may occur.
+     */
+    protected void verifyInstrumentationConfiguration() {
+
+        if (tomcatInstrumentingClassLoaderAvailable() && genericInstrumentationAgentAvailable()) {
+            LOG.warn("Both the Spring Tomcat Instrumenting ClassLoader and the Spring Instrumentation Agent are on the classpath but only one is needed.");
+        }
+
+        if (runningOnTomcat()) {
+            if (!tomcatInstrumentingClassLoaderAvailable() && !genericInstrumentationAgentAvailable()) {
+                if (hardError()) {
+                    throw new RuntimeException("Neither the Spring Tomcat Instrumenting ClassLoader or the Spring Instrumentation Agent are on the classpath and one is needed.");
+                }
+            } else if (tomcatInstrumentingClassLoaderAvailable() && !tomcatInstrumentingClassLoaderConfigured()) {
+                if (hardError()) {
+                    throw new RuntimeException("The Spring Tomcat Instrumenting ClassLoader is on the classpath but is not properly configured in the context.xml file.");
+                }
+            } else if (genericInstrumentationAgentAvailable() && !genericInstrumentationAgentConfigured()) {
+                if (hardError()) {
+                    throw new RuntimeException("The Spring Instrumentation Agent is on the classpath but is not properly configured as a jvm javaagent.");
+                }
+            }
+        } else {
+            if (tomcatInstrumentingClassLoaderAvailable()) {
+                LOG.warn("The Spring Tomcat Instrumenting ClassLoader is on the classpath but the Tomcat Application Server is not detected.");
+            }
+
+            if (!genericInstrumentationAgentAvailable()) {
+                if (hardError()) {
+                    throw new RuntimeException("The Spring Instrumentation Agent is not on the classpath but is needed.");
+                }
+            } else if (genericInstrumentationAgentAvailable() && !genericInstrumentationAgentConfigured()) {
+                if (hardError()) {
+                    throw new RuntimeException("The Spring Instrumentation Agent is on the classpath but is not properly configured as a jvm javaagent.");
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks for the tomcat server class which would only be available if running on tomcat.
+     */
+    protected boolean runningOnTomcat() {
+        try {
+            Class.forName(TOMCAT_SERVER_CLASS_NAME);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if the Spring Instrumenting ClassLoader for Tomcat is available on the classpath.
+     */
+    protected boolean tomcatInstrumentingClassLoaderAvailable() {
+        try {
+            Class.forName(TOMCAT_INSTRUMENTATION_CLASS_LOADER_CLASS_NAME);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if the Spring Instrumenting ClassLoader is in the ClassLoader chain. If so, this means
+     * that it is properly configured.
+     */
+    protected boolean tomcatInstrumentingClassLoaderConfigured() {
+        //generally this means that the tomcat context.xml file has tomcat ClassLoader configured.  If not then
+        //something really strange is going on
+        ClassLoader cl = this.getClass().getClassLoader();
+        while (cl != null) {
+            if (TOMCAT_INSTRUMENTATION_CLASS_LOADER_CLASS_NAME.equals(cl.getClass().getName())) {
+                return true;
+            }
+            cl = cl.getParent();
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the Spring Instrumentation Agent is available on the classpath.
+     */
+    protected boolean genericInstrumentationAgentAvailable() {
+        try {
+            Class.forName(INSTRUMENTATION_AGENT_CLASS_NAME);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if the Spring Instrumentation Agent has a non-null Instrumentation instance.  If so, this means
+     * that it is properly configured.
+     */
+    protected boolean genericInstrumentationAgentConfigured() {
+        try {
+            Class<?> instrumentationSavingAgentClass = Class.forName(INSTRUMENTATION_AGENT_CLASS_NAME);
+            Method getInstrumentation = instrumentationSavingAgentClass.getMethod(GET_INSTRUMENTATION_METHOD);
+            return getInstrumentation.invoke(instrumentationSavingAgentClass) != null;
+        } catch (ClassNotFoundException|InvocationTargetException|NoSuchMethodException|IllegalAccessException e) {
+            return false;
         }
     }
 

@@ -65,6 +65,7 @@ public final class KeyConstants {
     
     // Abstracts and Attachments errors
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_COMPLETE = "error.document.narrativestatuscode.not.complete";
+    public static final String ERROR_INTERNAL_ATTACHMENT_NOT_COMPLETE = "error.document.internalattachment.statuscode.not.complete";
     public static final String ERROR_PROPOSAL_ATTACHMENT_NOT_FOUND = "error.document.narrative.not.present";
     public static final String ERROR_PROPOSAL_MENTORINGPLAN_ATTACHMENT_NOT_FOUND = "error.document.mentoringplan.narrative.not.present";
 
@@ -194,8 +195,7 @@ public final class KeyConstants {
     public static final String QUESTION_DELETE_PROPOSAL_USER_CONFIRMATION = "document.question.deleteProposalUser.text";
     public static final String ERROR_UNKNOWN_USERNAME = "error.unknown.username";
     public static final String ERROR_DUPLICATE_PROPOSAL_USER = "error.duplicate.proposalUser";
-    public static final String ERROR_AGGREGATOR_INCLUSIVE = "error.aggregator.inclusive";
-    public static final String ERROR_LAST_AGGREGATOR = "error.last.aggregator"; 
+    public static final String ERROR_LAST_AGGREGATOR = "error.last.aggregator";
     public static final String ERROR_EMPTY_USERNAME = "error.empty.username";
     public static final String ERROR_PROP_DEV_PERM_INITIATOR = "error.propdev.perm.initiator";
     public static final String ERROR_UNFINISHED_PERMISSIONS = "error.unsaved.permissions";
@@ -753,7 +753,9 @@ public final class KeyConstants {
     public static final String ERROR_INVALID_PRIME_SPONSOR_CODE = "error.invalid.primeSponsorCode";
     public static final String ERROR_INVALID_AWARD_ID = "error.invalid.awardId";
     public static final String ERROR_INVALID_ROLODEX_ID = "error.invalid.rolodexId";
-    
+    public static final String WARNING_INSTITUTIONALPROPOSAL_INACTIVE_SPONSOR = "warning.institutionalproposal.inactive.sponsor";
+    public static final String WARNING_INSTITUTIONALPROPOSAL_INACTIVE_PRIMESPONSOR = "warning.institutionalproposal.inactive.primesponsor";
+
     //Institutional Proposal Financial Validation
     public static final String ERROR_FINANCIAL_DATES = "error.financial.dates";
     public static final String ERROR_FINANCIAL_COSTS = "error.financial.costs";
@@ -843,6 +845,7 @@ public final class KeyConstants {
     public static final String ERROR_QUESTION_ANSWER_MAX_LENGTH_VALUE_TOO_LARGE = "error.question.answer.max.length.value.too.large";
     public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_BOXES = "error.question.max.answers.invalid.answers.boxes";
     public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_AREAS = "error.question.max.answers.invalid.answers.areas";
+    public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_CHECKBOXES = "error.question.max.answers.invalid.answers.checkboxes";
     public static final String ERROR_QUESTION_MAX_ANSWERS_INVALID_RETURNS = "error.question.max.answers.invalid.returns";
     public static final String ERROR_QUESTION_LOOKUP_CLASS_NOT_SPECIFIED = "error.question.lookup.class.not.specified";
     public static final String ERROR_QUESTION_LOOKUP_RETURN_NOT_SPECIFIED = "error.question.lookup.return.not.specified";

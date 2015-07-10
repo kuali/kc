@@ -105,20 +105,6 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
                 }
             }
         }
-    }    
-
-    public int findIndexOfPageId(List<Action> actions) {
-        return findIndexOfPageId(actions, getPageId());
-    }
-    
-    public int findIndexOfPageId(List<Action> actions, String pageId) {
-        for (int i = 0, len = actions.size(); i < len; i++) {
-            Action action = actions.get(i);
-            if (StringUtils.equals(pageId, action.getNavigateToPageId())) {
-                return i;
-            }
-        }
-        return 0;
     }
     
 	public String getDefaultBudgetPeriodWarningMessage() {

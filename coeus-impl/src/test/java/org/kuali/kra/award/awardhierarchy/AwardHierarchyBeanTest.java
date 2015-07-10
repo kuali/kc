@@ -52,7 +52,12 @@ public class AwardHierarchyBeanTest {
 
     @Before
     public void setUp() throws Exception {
-        service = new AwardHierarchyServiceImpl();
+        service = new AwardHierarchyServiceImpl() {
+        	@Override
+        	AwardDocument createPlaceholderDocument() throws WorkflowException {
+        		return null;
+        	}
+        };
         service.setLegacyDataAdapter(getMockBusinessObjectService());
         service.setDocumentService(getMockDocumentService());
         rootAward = new Award();

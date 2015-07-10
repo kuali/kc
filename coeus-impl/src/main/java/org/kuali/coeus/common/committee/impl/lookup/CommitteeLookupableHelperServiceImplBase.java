@@ -83,11 +83,6 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     
     protected abstract String getCommitteeTypeCodeHook();
 
-
-    /**
-     * Specifically, for drop down.
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
-     */
     @Override
     public List<Row> getRows() {
         List<Row> rows =  super.getRows();
@@ -159,8 +154,6 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
                 htmlData.setDisplayText("resume edit");
             }
         }
-//        if (!isUnappprovedCommittee && getKraAuthorizationService().hasPermission(getUserIdentifier(), (CommonCommittee) businessObject,
-//                PermissionConstants.VIEW_IACUC_COMMITTEE)) {
         if (!isUnappprovedCommittee && getKraAuthorizationService().hasPermission(getUserIdentifier(), (CMT) businessObject, getViewCommitteePermissionNameHook())) {
             AnchorHtmlData htmlData = getViewLink(((CMT) businessObject).getCommitteeDocument());
             htmlData.setDisplayText("view active");

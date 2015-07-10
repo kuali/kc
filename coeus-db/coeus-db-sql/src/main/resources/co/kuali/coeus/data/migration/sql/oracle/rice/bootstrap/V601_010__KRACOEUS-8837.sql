@@ -19,6 +19,5 @@
 
 update krcr_parm_t set VAL =
   'Approval signifies that the proposed project fits within the academic framework and resources of the unit, requirements for new or renovated facilities/space have been discussed with the appropriate people, contributions listed will be met by the department/college unless otherwise approved, that Conflict of Interest requirements have been addressed, and that Sponsored Programs may process the proposal.'
-  where NMSPC_CD = 'KC-PD' and CMPNT_CD = 'Document' and PARM_NM = 'propSummaryDisclaimerText' and APPL_ID = 'KC'
-  /
+  where NMSPC_CD = 'KC-PD' and CMPNT_CD = 'Document' and PARM_NM = 'propSummaryDisclaimerText' and APPL_ID = 'KC';
 

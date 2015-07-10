@@ -76,7 +76,6 @@ public abstract class QuestionnaireHelperBase implements Serializable {
     protected String getQuestionnaireLabel(List<QuestionnaireUsage> usages, String moduleSubItemCode) {
         if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
             Collections.sort((List<QuestionnaireUsage>) usages);
-           // Collections.reverse((List<QuestionnaireUsage>) usages);
         }
         for (QuestionnaireUsage usage : usages) {
             if (getModuleCode().equals(usage.getModuleItemCode()) && moduleSubItemCode.equals(usage.getModuleSubItemCode())) {

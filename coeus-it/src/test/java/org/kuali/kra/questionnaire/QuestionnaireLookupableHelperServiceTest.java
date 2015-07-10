@@ -39,6 +39,7 @@ import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -79,15 +80,17 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument, null, null);
         
         // 2nd document
         maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 2"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test2", "desc 2"));
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument, null, null);
         List<Questionnaire> searchResults = (List<Questionnaire>) questionnaireLookupableHelperServiceImpl.getSearchResults(new HashMap());
-        assertEquals(18 , searchResults.size());
+        assertEquals(19 , searchResults.size());
         
         Questionnaire test1 = null;
         Questionnaire test2 = null;
@@ -132,6 +135,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument,null,null);
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
@@ -142,7 +146,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
         Assert.assertEquals(htmldata.size(), 1);
-        Assert.assertTrue(((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
+        Assert.assertEquals("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit" + "&id="+questionnaire.getId() + "&readOnly=true", ((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref());
     }
     
     /**
@@ -166,6 +170,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument,null,null);
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();
@@ -176,11 +181,11 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
   
         List<HtmlData> htmldata = questionnaireLookupableHelperServiceImpl.getCustomActionUrls(maintDocument.getNewMaintainableObject().getBusinessObject(), pkNames);        
         Assert.assertEquals(4, htmldata.size());
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit" + "&id="+questionnaire.getId());
-        Assert.assertTrue(((AnchorHtmlData)htmldata.get(1)).getHref(), ((AnchorHtmlData)htmldata.get(1)).getHref().contains("/kew/DocHandler.do?command=displayDocSearchView&readOnly=true&docId="+questionnaire.getDocumentNumber()));
-        Assert.assertEquals(((AnchorHtmlData)htmldata.get(2)).getHref(), ((AnchorHtmlData)htmldata.get(2)).getHref(), "../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() + "&methodToCall=copy" + "&id="+questionnaire.getId());
+        Assert.assertEquals("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit" + "&id="+questionnaire.getId(), ((AnchorHtmlData)htmldata.get(0)).getHref(), ((AnchorHtmlData)htmldata.get(0)).getHref());
+        Assert.assertEquals("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() +"&methodToCall=edit" + "&id="+questionnaire.getId() + "&readOnly=true", ((AnchorHtmlData)htmldata.get(1)).getHref(), ((AnchorHtmlData)htmldata.get(1)).getHref());
+        Assert.assertEquals("../maintenanceQn.do?businessObjectClassName=" + Questionnaire.class.getName() + "&methodToCall=copy" + "&id="+questionnaire.getId(), ((AnchorHtmlData)htmldata.get(2)).getHref(), ((AnchorHtmlData)htmldata.get(2)).getHref());
     }
-    
+
     /**
      * 
      * This method to test getCustomActionUrls for someone with no permission to modify/view questionnaire.
@@ -202,6 +207,7 @@ public class QuestionnaireLookupableHelperServiceTest extends KcIntegrationTestB
         MaintenanceDocumentBase maintDocument = (MaintenanceDocumentBase) documentService.getNewDocument(KcServiceLocator.getService(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Questionnaire.class));
         maintDocument.getDocumentHeader().setDocumentDescription("test 1"); 
         maintDocument.getNewMaintainableObject().setBusinessObject(createQuestionnaire("test1", "desc 1"));
+        maintDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         documentService.routeDocument(maintDocument,null,null);
         // not sure why it is not persisted in DB.  also need to do this save, so getcustomactionurls can retrieve it with bos
         Questionnaire questionnaire = (Questionnaire)maintDocument.getNewMaintainableObject().getDataObject();

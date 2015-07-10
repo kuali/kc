@@ -26,17 +26,17 @@ public interface JobCodeService {
      * This method provides the appropriate JobCode Title
      * for a particular jobCode string.
      * 
-     * @param JobCode
+     * @param jobCode
      * @return
      */
-    public String findJobCodeTitle(String JobCode);
+    public String findJobCodeTitle(String jobCode);
     
     /**
      * 
      * This method provides the appropriate JobCode object
      * for a particular jobCode string.
      * 
-     * @param JobCode
+     * @param jobCode
      * @return
      */
     public JobCode findJobCodeRef(String jobCode);

@@ -72,11 +72,13 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
     private QuestionType questionType;
 
     private List<QuestionExplanation> questionExplanations;
+    private List<QuestionMultiChoice> questionMultiChoices;
 
     public Question() {
         this.setSequenceNumber(1);
         this.setSequenceStatus(SEQUENCE_STATUS_CURRENT);
         this.setQuestionExplanations(new ArrayList<QuestionExplanation>());
+        this.setQuestionMultiChoices(new ArrayList<QuestionMultiChoice>());
     }
 
     public String getDocumentNumber() {
@@ -367,9 +369,9 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
      * The default comparator goes by the order of questionId, sequenceNumber.
      * @param argQuestion the Question to be compared.
      * @return the value 0 if this Question is equal to the argument Question;
-     *         a value less than 0 if this Question has a questionId & sequenceNumber pair that is less
+     *         a value less than 0 if this Question has a questionId &amp; sequenceNumber pair that is less
      *         than the argument Question;  and a value greater than 0 if this Question has a questionId
-     *         & sequenceNumber pair that is greater than the argument Question.
+     *         &amp; sequenceNumber pair that is greater than the argument Question.
      */
     public int compareTo(Question argQuestion) {
         if (ObjectUtils.equals(this.getQuestionSeqId(), argQuestion.getQuestionSeqId())) {
@@ -400,5 +402,17 @@ public class Question extends KcPersistableBusinessObjectBase implements Compara
 
     public void resetPersistenceState() {
         this.id = null;
+    }
+
+    public List<QuestionMultiChoice> getQuestionMultiChoices() {
+        return questionMultiChoices;
+    }
+
+    public void setQuestionMultiChoices(List<QuestionMultiChoice> questionMultiChoices) {
+        this.questionMultiChoices = questionMultiChoices;
+    }
+
+    public boolean isRadioButton() {
+        return getMaxAnswers() == 1 && getDisplayedAnswers() != 1;
     }
 }

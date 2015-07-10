@@ -20,17 +20,22 @@ package org.kuali.coeus.common.impl.person.attr;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.person.attr.KcPersonExtendedAttributes;
+import org.kuali.coeus.common.framework.person.attr.PersonBiosketch;
 import org.kuali.coeus.sys.framework.rule.KcMaintenanceDocumentRuleBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.ErrorReporter;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.common.framework.custom.SaveCustomDataEvent;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KcMaintenanceDocumentRuleBase {
@@ -57,7 +62,7 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KcMainten
                 kcPersonExtendedAttributes.getPersonCustomDataList(),
                 maintainableImpl.getCustomAttributeDocuments()));
         rulePassed &= checkEraCommonsUserName(kcPersonExtendedAttributes);
-        
+        rulePassed &= checkForAttachmentData(kcPersonExtendedAttributes.getAttachments());
         return rulePassed;
     }
     
@@ -95,6 +100,18 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KcMainten
         rulePassed &= new PersonCustomDataAuditRule().processRunAuditBusinessRules(maintenanceDocument);
 
         return rulePassed;
+    }
+
+    @Override
+    public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName,
+                                                         PersistableBusinessObject bo) {
+        if (bo instanceof PersonBiosketch) {
+            if (((PersonBiosketch)bo).getAttachmentFile() == null) {
+                reportMissingAttachment("document.newMaintainableObject.add.attachments.attachmentFile");
+                return false;
+            }
+        }
+        return super.processAddCollectionLineBusinessRules(document,collectionName,bo);
     }
     
      /**
@@ -143,6 +160,24 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KcMainten
                     RiceKeyConstants.ERROR_EXISTENCE, errorParam);
         }
         return success;
+    }
+
+    protected boolean checkForAttachmentData(List<PersonBiosketch> attachments) {
+        int index = 0;
+        for (PersonBiosketch biosketch : attachments) {
+            if (biosketch.getAttachmentFile() == null && biosketch.getAttachmentContent() == null) {
+                reportMissingAttachment("document.newMaintainableObject.attachments[" + index + "].attachmentFile");
+                return false;
+            }
+            index++;
+        }
+        return true;
+    }
+
+    private void reportMissingAttachment(String errorPath) {
+        ErrorReporter errorReporter = KcServiceLocator.getService(ErrorReporter.class);
+        errorReporter.reportError(errorPath, KeyConstants.ERROR_REQUIRED,
+                "Attachment File (Attachment File)");
     }
         
 }

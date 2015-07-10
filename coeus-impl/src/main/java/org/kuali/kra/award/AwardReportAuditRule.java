@@ -176,8 +176,7 @@ public class AwardReportAuditRule implements DocumentAuditRule {
     }
     
     /**
-     * This method creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
-     * @param description
+     * This method creates and adds the Audit Error to the <code>{@link List&lt;AuditError&gt;}</code> auditError.
      */
     protected void addErrorToAuditErrors(String errorKey,String[] params) {
         StringBuilder sb = new StringBuilder();

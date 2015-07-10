@@ -233,17 +233,6 @@ public class AwardTemplateMaintainableImpl extends KraMaintainableImpl {
     @SuppressWarnings("unchecked")
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
         super.refresh(refreshCaller, fieldValues, document);
-//        LOG.warn("refresh called.");
-//        // If a person has been selected, lead unit should default to the person's home unit.
-//        String referencesToRefresh = (String) fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH);
-//        
-//        if (referencesToRefresh != null && referencesToRefresh.contains(PERSON_OBJECT_REFERENCE)) {
-//            LOG.info( "*********" + referencesToRefresh );
-//            ProposalLog proposalLOG = (ProposalLog) this.getBusinessObject();
-//            if (proposalLog.getkcPerson() != null) {
-//                proposalLog.setLeadUnit(proposalLog.getkcPerson().getContactOrganizationName());
-//            }
-//        }
     }
     
     protected boolean isValid(AwardTemplateReportTerm reportTerm) {

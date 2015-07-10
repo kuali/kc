@@ -378,117 +378,6 @@ function showTable(id) {
     }
 }
 
-function selectAllGGForms(document) {
-    var j = 0;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {
-	  	if (e.name == 'document.developmentProposalList[0].s2sOpportunity.s2sOppForms[' + j + '].selectToPrint') {
- 		    if(e.disabled == false){
- 		    	e.checked = true;
- 		    }
-	  		j++; 
-	  	}
-	  }
-	}
-}
-
-function selectAllSponsorForms(document) {
-    var j = 0;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {
-	  	if (e.name == 'sponsorFormTemplates[' + j + '].selectToPrint') {
- 		    if(e.disabled == false){
- 		    	e.checked = true;
- 		    }
-	  		j++; 
-	  	}
-	  }
-	}
-}
-
-function unselectAllSponsorForms(document) {
-    var j = 0;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {
-	  	if (e.name == 'sponsorFormTemplates[' + j + '].selectToPrint') {
- 		    if(e.disabled == false){
- 		    	e.checked = false;
- 		    }
-	  		j++; 
-	  	}
-	  }
-	}
-}
-
-/**
- * This function walks through all elements, using the variable e.
- * It looks at the "initiallyIncluded" hidden variable and the checkboxes
- * in the "Include" table column to figure out which "Select to Print"
- * check boxes should be checked and which ones shouldn't.
- * 
- * For each table row, the e2 variable is set in the "Include" column,
- * and read in the "Select to Print" column. If e2 is true, "Select to Print"
- * is checked.
- * At the end of the row, e2 is reset to false.
- */
-function selectAllIncludedGGForms(document) {
-    var j = 0;
-    var e2 = false;
-    for (var i = 0; i < document.KualiForm.elements.length; i++) {
-        var e = document.KualiForm.elements[i];
-        /* the initiallyIncluded variable is set to true when the page is built. If it is true, the "Include" flag is set. */
-        if (e.name == 'document.developmentProposalList[0].s2sOpportunity.s2sOppForms[' + j + '].initiallyIncluded') {
-            if (e.value == 'true') {
-                e2 = true;
-            }
-        }
-        if(e.type == 'checkbox') {
-            if (e.name == 'document.developmentProposalList[0].s2sOpportunity.s2sOppForms[' + j + '].include') {
-                e2 = e.checked;
-            }
-            if (e.name == 'document.developmentProposalList[0].s2sOpportunity.s2sOppForms[' + j + '].selectToPrint') {
-                if(e.disabled == false && e2 == true){
-                    e.checked = true;
-                }
-                e2 = false;
-                j++; 
-            }
-        }
-    }
-}
-
-function unselectAllGGForms(document) {
-    var j = 0;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {
-	  	if (e.name == 'document.developmentProposalList[0].s2sOpportunity.s2sOppForms[' + j + '].selectToPrint') {
- 		    if(e.disabled == false){
- 		    	e.checked = false;
- 		    }
-	  		j++; 
-	  	}
-	  }
-	}
-}
-function selectAllKeywords(document, keywordsArray) {
-    var j = 0;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {
-	  	var name = keywordsArray + '[' + j + '].selectKeyword';
-	  	if (e.name == name) {
- 		    e.checked = true;
-	  		j++; 
-	  	}
-	  }
-	}
-}
-
-
 function setComment() {
   passData=document.location.search.substring(1);
   var idx=passData.indexOf("&commentFieldName=")
@@ -562,53 +451,6 @@ function populateSelect(methodToCall, firstSelectId, secondSelectId) {
 				alert("error is" + error);
 			}
 	);
-}
-
-function checkGrantsGovStatusOnSponsorChange(proposalNumber, sponsorCodeFieldName) {
-	var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
-	var dwrReply = {
-			callback:function(data) {
-				enableGrantsGov(data);
-			},
-			errorHandler:function( errorMessage ) {
-				window.status = errorMessage;
-				enableGrantsGov(false);
-			}
-	};
-	ProposalDevelopmentService.isGrantsGovEnabledOnSponsorChange(proposalNumber, sponsorCode, dwrReply);
-}
-function enableGrantsGov(enable) {
-	jq('input[name$="navigateTo.grantsGov"]').attr("disabled", !enable);
-}
-
-function showS2SAppSubmissionStatusDetails(proposalNumber,trackingId) {
-	//alert(proposalNumber);
-	var docFormKey = dwr.util.getValue( "docFormKey" );
-	var dwrReply = {
-			callback:function(data) {
-				//alert(data);
-				displayStatusDetails(data);
-			},
-			errorHandler:function( errorMessage ) {
-				//alert("da da da");
-				window.status = errorMessage;
-			},
-			cache : false,
-			async : false,
-			timeout : 1000
-	};
-	//alert(trackingId);
-    StatusDetailsAjaxService.getStatusDetails( trackingId, proposalNumber + ":" + docFormKey, dwrReply);
-}
-
-function displayStatusDetails(data){
-	//alert(data);
-	document.getElementById('s2s_status_detail').innerHTML=data;
-	changeObjectVisibility("s2s_status_popup","block");
-}
-function hideStatusDetails(){
-	//alert(data);
-	changeObjectVisibility("s2s_status_popup","none");
 }
 
 
@@ -736,36 +578,6 @@ function loadJobCodeTitle(jobCodeFieldName, jobCodeTitleFieldName ) {
 	}
 }
 
-var propAttRightWindow;
-function proposalAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
-  var documentWebScope
-  if (sessionDocument == "true") {
-      documentWebScope="session"
-  }
-
-  if (propAttRightWindow && propAttRightWindow.open && !propAttRightWindow.closed){
-  	propAttRightWindow.focus();
-  }else{
-    propAttRightWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getProposalAttachmentRights&line="+lineNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "mywindow", "width=800, height=300, scrollbars=yes");
-  }
-}  
-
-var propInstAttRightWindow;
-function proposalInstituteAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
-  var documentWebScope
-  if (sessionDocument == "true") {
-      documentWebScope="session"
-  }
-  if (propInstAttRightWindow && propInstAttRightWindow.open && !propInstAttRightWindow.closed){
-  	propInstAttRightWindow.focus();
-  }else{
-    propInstAttRightWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getInstituteAttachmentRights&line="+lineNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "instAttWindow", "width=800, height=300, scrollbars=yes");
-    if (window.focus) {
-         propInstAttRightWindow.focus()
-    }
-  }
-}
-
 function extractUrlBase(){
   url=window.location.href;
   pathname=window.location.pathname;
@@ -829,32 +641,6 @@ function changeObjectVisibility(objectId, newVisibility) {
     }
 }
 
-
-/**
- * Display the Edit Roles popup window.  This window allows users
- * to change the roles for a user within a proposal.
- */
-var propEditRolesWindow;
-
-function editRolesPop(lineNumber, docFormKey, sessionDocument) {
-
-    var documentWebScope = "";
-    if (sessionDocument == "true") {
-        documentWebScope="session"
-    }
-    
-	if (propEditRolesWindow != null) {
-	    propEditRolesWindow.close();
-	} 
-
-    propEditRolesWindow = window.open(extractUrlBase() +
-    	                               "/proposalDevelopmentPermissions.do?methodToCall=editRoles" +
-    	                               "&line=" + lineNumber +
-    	                               "&docFormKey=" + docFormKey + 
-    	                               "&documentWebScope=" + documentWebScope, 
-    	                               "permissionsEditRoles", 
-    	                               "width=800, height=350, scrollbars=yes, resizable=yes");
-}
 /**
  * Display the Proposal's set of Roles and their Rights.
  * The roles are Aggregator, Budget Creator, etc.
@@ -1713,146 +1499,6 @@ function dynamicDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, c
 	}	
 }
 
-function updateBudgetOtherFields(editableColumnNameField, proposalNumberFieldId, documentNumberFieldId, callbackFunction ) {
-	var proposalNumber = dwr.util.getValue( proposalNumberFieldId );
-	var documentNumber = dwr.util.getValue(documentNumberFieldId);
-	fieldPrefix = findElPrefix( editableColumnNameField.name );
-	oldDisplayValue =  fieldPrefix + ".oldDisplayValue" ;
-	displayValue =  fieldPrefix + ".displayValue" ;
-	dataType =  fieldPrefix + ".editableColumn.dataType" ;
-	hasLookup =  fieldPrefix + ".editableColumn.hasLookup" ;
-	lookupArgument =  fieldPrefix + ".editableColumn.lookupClass" ;
-	lookupReturn = fieldPrefix + ".editableColumn.lookupReturn" ;
-	lookupPkReturn = fieldPrefix + ".editableColumn.lookupPkReturn" ;
-	changedValue = fieldPrefix + ".changedValue" ;
-	comments = fieldPrefix + ".comments" ;
-	var editableColumnNameRef = fieldPrefix + ".editableColumn.columnName" ;
-	document.getElementById(editableColumnNameRef).value = editableColumnNameField.value; 
-	document.getElementById(changedValue).style.display="inline";
-	var editableColumnName = editableColumnNameField.value;
-	if (editableColumnName != "") {
-		var docFormKey = dwr.util.getValue( "docFormKey" );
-		var dwrReply = {				
-			callback:callbackFunction,
-			errorHandler:function( errorMessage ) { 
-				window.status = errorMessage;				
-			}
-		};
-		
-		
-		ProposalDevelopmentService.populateBudgetEditableFieldMetaDataForAjaxCall(proposalNumber + ":" + docFormKey,documentNumber, editableColumnName, dwrReply );
-		} else {
-			document.getElementById(oldDisplayValue).value = ""; 
-			document.getElementById(displayValue).value = ""; 
-			document.getElementById(dataType).value = "";
-			document.getElementById(hasLookup).value = "";
-			document.getElementById(lookupArgument).value = "";
-			document.getElementById(lookupReturn).value = "";
-			document.getElementById(lookupPkReturn).value = "";
-			document.getElementById(changedValue).value = "";
-			document.getElementById(changedValue).style.borderColor = "";
-			document.getElementById(comments).value = "";
-	}
-}
-
-function updateBudgetOtherFields_Callback( data ) {
-	var value_array = data.split(",");
-	var counter=0;	
-	//reset
-	document.getElementById(oldDisplayValue).value = ""; 
-	document.getElementById(displayValue).value = ""; 
-	document.getElementById(dataType).value = "";
-	document.getElementById(hasLookup).value = "";
-	document.getElementById(lookupArgument).value = "";
-	document.getElementById(lookupReturn).value = "";
-	document.getElementById(lookupPkReturn).value = "";
-	document.getElementById(changedValue).value = "";
-	document.getElementById(changedValue).style.borderColor = "";
-	document.getElementById(comments).value = "";
-	
-	
-	while (counter < value_array.length)
-	{
-		if(counter == 0) {
-			document.getElementById(lookupPkReturn).value = value_array[counter];
-		}
-
-		if(counter == 1) {
-			document.getElementById(lookupReturn).value = value_array[counter];
-		}
-		
-		if(counter == 2) {
-			document.getElementById(oldDisplayValue).value = value_array[counter];
-			document.getElementById(displayValue).value = value_array[counter];
-			document.getElementById(oldDisplayValue).disabled = true;
-			document.getElementById(displayValue).disabled = true;
-		}
-		
-		if(counter == 3) {
-			document.getElementById(dataType).value = value_array[counter];
-			
-		}
-		
-		if(counter == 4) {
-			document.getElementById(hasLookup).value = value_array[counter];
-		}
-		
-		if(counter == 5) {
-			document.getElementById(lookupArgument).value = value_array[counter];
-		}
-		
-		counter+=1;
-	}
-	
-	var displayValueField = document.getElementById(displayValue).name;	
-	var prefix = findElPrefix( document.getElementById(displayValue).name );
-	var imageUrl = document.getElementById("imageUrl").value;
-	var tabIndex = document.getElementById("tabIndex").value;
-	var lookupClass = document.getElementById(lookupArgument).value;
-	var lookupPkReturnValue = document.getElementById(lookupPkReturn).value;
-	var changedValueFieldName = document.getElementById(changedValue).name;	
-	var myDiv = document.getElementById('changedValueBudgetExtraBody');
-	var dataTypeValue = document.getElementById(dataType).value;	
-	var lookupReturnValue = document.getElementById(lookupReturn).value;
-	dynamicBudgetDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, changedValueFieldName, displayValueField, dataTypeValue);
-}
-
-function dynamicBudgetDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, changedValueFieldName, displayValueField, dataTypeValue) {
-   	var imageUrl = document.getElementById("imageUrl").value;
-   	var tabIndex = document.getElementById("tabIndex").value;
-	var myDiv = document.getElementById('changedValueBudgetExtraBody');
-	var innerDivContent = "";
-	if(lookupClass != "" && lookupPkReturnValue != "" && changedValueFieldName != "") {
-		innerDivContent = "<input type='image' tabindex='' ";
-		innerDivContent = innerDivContent + " name='methodToCall.performLookup.(!!" + lookupClass + "!!).(((" + lookupPkReturnValue + ":" + changedValueFieldName + "," + lookupReturnValue + ":" + displayValueField + "))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorBudgetDataOverride' ";
-		innerDivContent = innerDivContent + " src='" + imageUrl + "searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search' title='Search' /> ";
-	} 
-	
-	if(dataTypeValue != "" && (dataTypeValue == 'DATE' || dataTypeValue == 'date')) {
-		innerDivContent = innerDivContent + "<img src=\"" + imageUrl + "cal.gif\" id=\"newBudgetChangedData.changedValue_datepicker\" style=\"cursor: pointer;\"";
-		innerDivContent = innerDivContent + " title=\"Date selector\" alt=\"Date selector\" onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\" />";
-	}
-	
-	if(dataTypeValue!="" && (dataTypeValue == 'boolean' || dataTypeValue == 'Boolean')){
-		document.getElementById(changedValue).style.display="none";
-		document.getElementById(changedValue).value = "false";
-		innerDivContent = "<input type='checkbox' tabindex='' name ='submitCostShare' onchange = 'updateBudgetFlag()'/>"; 
-	}
-	
-	myDiv.innerHTML = innerDivContent;
-	
-	if(dataTypeValue != "" && (dataTypeValue == 'DATE' || dataTypeValue == 'date')) {
-		Calendar.setup(
-			{
-			  inputField : "newBudgetChangedData.changedValue", // ID of the input field
-			  ifFormat : "%m/%d/%Y", // the date format
-			  button : "newBudgetChangedData.changedValue_datepicker" // ID of the button
-		    }
-		);
-	}
-	
-}
-
 function updateBudgetFlag(){
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
 		 var e = document.KualiForm.elements[i];
@@ -1870,47 +1516,6 @@ function updateBudgetFlag(){
 	}
 }
 
-function enableBudgetStatus(document, index) {
-	var newFinalIndicator;
-	var newFinalStatus;
-	var newFinalStatusHidden;
-	var j = 0;
-	var cancelled = false;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {
-	  	var status = document.KualiForm.elements[i - 1];
-	  	var statusHidden = document.KualiForm.elements[i - 2];
-	  	if (e.checked && j != index) {
-	  		if (confirm("You are changing the final version.  Are you sure?")) {
-	  			e.checked = false;
-	  			statusHidden.value = status.value;
-	  			statusHidden.disabled = false;
-	  			status.disabled = true;
-	  		} else {
-	  			cancelled = true;	
-	  		}
-	  	} else if (e.checked && j == index) {
-	  		newFinalIndicator = e;
-	  		newFinalStatus = status;
-	  		newFinalStatusHidden = statusHidden;
-	  	} else {
-	  		statusHidden.value = status.value;
-	  		statusHidden.disabled = false;
-	  		status.disabled = true;
-	  	}
-	  	j++;
-	  }
-	}
-	if (!cancelled && newFinalStatus != null) {
-		newFinalStatus.disabled = false;
-		newFinalStatusHidden.disabled = true;
-	}
-	if (cancelled && newFinalIndicator != null) {
-		newFinalIndicator.checked = false;
-	}
-}
-
 function getIndex(what) {
     for (var i = 0; i < document.KualiForm.elements.length; i++) {
         if (what == document.KualiForm.elements[i]) {
@@ -1920,26 +1525,6 @@ function getIndex(what) {
        return -1;
        alert("leaveIndex");
 }
-
-
-function setupBudgetStatuses(document) {
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {
-	  	var status = document.KualiForm.elements[i - 1];
-	  	var statusHidden = document.KualiForm.elements[i - 2];
-	  	if (e.checked) {
-	  		statusHidden.disabled = true;
-	  		status.disabled = false;
-	  	} else {
-	  		statusHidden.disabled = false;
-	  		status.disabled = true;
-	  	}
-	  }
-	}
-}
-
-
 
 function setupBudgetStatusSummary(document) {
 	  var finalVersionFlag = document.getElementById('document.budget.finalVersionFlag');
@@ -1981,83 +1566,6 @@ function toggleFinalCheckboxSummary(document) {
 		finalVersionFlagHidden.disabled = true;
 		finalVersionFlagHidden.value = false;
 	}
-}
-					
-
-function toggleFinalCheckboxes(document) {
-	var completed = false;
-	var toggledElement;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'select-one' && e.value == '1') {
-	  	completed = true;
-	  	toggledElement = e;
-	  }
-	}
-	if (completed) {
-		for (var i = 0; i < document.KualiForm.elements.length; i++) {
-			var el = document.KualiForm.elements[i];
-			if (el.type == 'checkbox') {
-				var elStatus = document.KualiForm.elements[i - 1];
-				if (elStatus != toggledElement) {
-					el.disabled = true;
-				} else {
-					var elHidden = document.KualiForm.elements[i + 2];
-					elHidden.value = true;
-					elHidden.disabled = false;
-					el.disabled = true;
-				}
-			}
-		}
-	} else {
-		for (var i = 0; i < document.KualiForm.elements.length; i++) {
-			var el = document.KualiForm.elements[i];
-			var elHidden = document.KualiForm.elements[i + 2];
-			if (el.type == 'checkbox') {
-				elHidden.disabled = true;
-				el.disabled = false;
-			}
-		}
-	}
-	
-}
-
-function toggleFinalCheckboxesAndDisable(document) {
-	var completed = false;
-	var toggledElement;
-	for (var i = 0; i < document.KualiForm.elements.length; i++) {
-	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'select-one' && e.value == '1') {
-	  	completed = true;
-	  	toggledElement = e;
-	  }
-	}
-	if (completed) {
-		for (var i = 0; i < document.KualiForm.elements.length; i++) {
-			var el = document.KualiForm.elements[i];
-			if (el.type == 'checkbox') {
-				var elStatus = document.KualiForm.elements[i - 1];
-				if (elStatus != toggledElement) {
-					el.disabled = true;
-				} else {
-					var elHidden = document.KualiForm.elements[i + 2];
-					elHidden.value = true;
-					elHidden.disabled = true;
-					el.disabled = true;
-				}
-			}
-		}
-	} else {
-		for (var i = 0; i < document.KualiForm.elements.length; i++) {
-			var el = document.KualiForm.elements[i];
-			var elHidden = document.KualiForm.elements[i + 2];
-			if (el.type == 'checkbox') {
-				elHidden.disabled = true;
-				el.disabled = true;
-			}
-		}
-	}
-	
 }
 
 
@@ -3073,20 +2581,6 @@ function loadStandardReviewComment(protocolContingencyCodeFieldName, protocolCon
 }
 
 /*
- * Auto-fill the District Number field of a congressional district when the user chooses a "state" that
- * allows only one district number.
- */
-function fillCongressionalDistrictNumber(stateField, districtNumberField) {
-    var stateValue = document.getElementById(stateField).value;
-    if (stateValue == "US") {
-        document.getElementById(districtNumberField).value="all";
-    }
-    else if (stateValue == "00") {
-        document.getElementById(districtNumberField).value="000";
-    }
-}
-
-/*
  * For meeting page :
  * meeting minutes to hide/show 'standard review comment lookup'/'generate attendance check box'/'other business lookup' based on minute entry type
  */
@@ -3425,37 +2919,6 @@ function unselectAllPersonMassChangeCategory(prefix) {
 	}
 }
 
-var propDevPersonCertificationWindow;
-function proposalDevelopmentPersonCertificationPop(personIndex,docFormKey,sessionDocument) {
-	var documentWebScope
-	
-	if(sessionDocument == "true") {
-		documentWebScope = "session"
-	}
-	if(propDevPersonCertificationWindow && propDevPersonCertificationWindow.open && !propDevPersonCertificationWindow.closed){
-		
-		propDevPersonCertificationWindow.focus();
-	}else {
-		propDevPersonCertificationWindow = window.open(extractUrlBase()+ "/proposalDevelopment.do?methodToCall=getProposalPersonCertification&personIndex="+personIndex+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "mywindow", "width=900, height=500, scrollbars=yes");
-	}
-}
-
-var propDevCommentWindow;
-function proposalDevelopmentCommentPop(personIndex,docFormKey,sessionDocument,comments) {
-	var documentWebScope
-	
-	if(sessionDocument == "true") {
-		documentWebScope = "session"
-	}
-	if(propDevCommentWindow && propDevCommentWindow.open && !propDevCommentWindow.closed){
-		
-		propDevCommentWindow.focus();
-	}else {
-		propDevCommentWindow = window.open(extractUrlBase()+ "/proposalDevelopment.do?methodToCall=getProposalComment&personIndex="+personIndex+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope+"&comments="+comments, "mywindow", "width=800, height=300, scrollbars=yes");
-	}
-}
-
-
 var personSelectedIndex;
 function showBudgetPersonSalaryDetails(flag, personIndex, budgetId, personSequenceNumber, personId, callbackFunction) {
 	
@@ -3533,24 +2996,6 @@ function loadUnitFormulatedCost(unitNumber, propertyFieldName ) {
 
 		BudgetRatesService.getUnitFormulatedCost(unitNumber, formulatesTypeCode ,dwrReply);
 	}
-}
-
-//properties is a hash map of the form {id : description, ....}
-//for example {'newAttachment.fileName' : 'File Name'}
-//each property specified is checked to make sure the value is not null and if it is null,
-//the error icon is added as well as "Errors in this section" for it.
-function requirePropertiesOnAdd(properties) {
-	jQuery('.addedByRequireOnAdd').remove();
-	var success = true;
-	for (var id in properties) {
-		var item = jQuery(jq_escape(id));
-		if (item.val().length <= 0) {
-			item.after(jQuery('<img class="addedByRequireOnAdd" alt="error" src="kr/static/images/errormark.gif"/>'));
-			addErrorForItem(item, properties[id] + " is required");
-			success = false;
-		}
-	}
-	return success;
 }
 
 function addErrorForItem(item, errorMsg) {

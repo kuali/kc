@@ -28,7 +28,6 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
-import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentForm;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -60,7 +59,6 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
     private ProposalDevelopmentService proposalDevelopmentService;
     private DevelopmentProposal proposal;
     private ProposalPersonQuestionnaireHelper questionnaireHelper;
-    private ProposalDevelopmentForm form;
     
     private static final String q1 = "Can you certify that the information submitted within this application is true, complete and accurate to the best of your knowledge? That any false, fictitious, or fraudulent statements or claims may subject you, as the PI/Co-PI/Co-I to criminal, civil or administrative penalties? That you agree to accept responsibility for the scientific conduct of the project and to provide the required progress reports if an award is made as a result of this application.";
     private static final String q2 = "Is there any potential for a perceived or real conflict of interest as defined in MIT's Policies and Procedures with regard to this proposal?";
@@ -76,11 +74,7 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         questionnaireAnswerService = KcServiceLocator.getService(QuestionnaireAnswerService.class);
         documentService = KcServiceLocator.getService(DocumentService.class);
         proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
-        proposal = getDocument().getDevelopmentProposal();//throw this one away
         proposal = getDocument().getDevelopmentProposal();
-        form = new ProposalDevelopmentForm();
-        form.setDocument(proposal.getProposalDocument());
-        form.initialize();
         questionnaireHelper = new ProposalPersonQuestionnaireHelper(getPerson());
     }
 
@@ -93,7 +87,6 @@ public class ProposalPersonQuestionnaireTest extends KcIntegrationTestBase {
         proposalDevelopmentService = null;
         proposal = null;
         questionnaireHelper = null;
-        form = null;
     }
     
     private ProposalDevelopmentDocument getDocument() throws WorkflowException {

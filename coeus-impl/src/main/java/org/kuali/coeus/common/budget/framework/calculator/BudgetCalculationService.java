@@ -18,7 +18,6 @@
  */
 package org.kuali.coeus.common.budget.framework.calculator;
 
-import org.kuali.coeus.common.budget.framework.core.BudgetException;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -33,89 +32,66 @@ public interface BudgetCalculationService {
     /**
      * 
      * This method is for calculating the entire budget version and populate the appropriate values 
-     * to session (BudgetVersionOverView).
-     * @param proposalNumber
-     * @param budgetVersionNumber
+     * to session (Budget).
      */
     public void calculateBudget(Budget budget) ;
     /**
      * 
      * This method is for calculating the entire budget version and populate the appropriate values 
-     * to session (BudgetVersionOverView).
-     * @param proposalNumber
-     * @param budgetVersionNumber
+     * to session (Budget).
      */
     public void calculateBudgetPeriod(Budget budget,BudgetPeriod budgetPeriod) ;
     /**
      * 
      * This method for calculating non-personnel budget line item. This calculates all calculated amounts
      * and sum it up to cost of the the line item. It populates the appropriate values to session as well.
-     * (BudgetLineItemCalculatedAmount, BudgetLineItem) 
-     * @param budgetLineItem
-     * @throws BudgetException
+     * (BudgetLineItemCalculatedAmount, BudgetLineItem)
      */
     public void calculateBudgetLineItem(Budget budget,BudgetPersonnelDetails budgetPersonnelDetails);
     /**
      * 
      * This method for calculating non-personnel budget line item. This calculates all calculated amounts
      * and sum it up to cost of the the line item. It populates the appropriate values to session as well.
-     * (BudgetLineItemCalculatedAmount, BudgetLineItem) 
-     * @param budgetLineItem
-     * @throws BudgetException
+     * (BudgetLineItemCalculatedAmount, BudgetLineItem)
      */
     public void calculateBudgetLineItem(Budget budget,BudgetLineItem budgetLineItem);
     /**
      * 
      * This method is for calculating calculated amounts for each cost element. It looks at all
      * applicable rates for a cost element and calculate all direct and indirect costs.
-     * @param budgetLineItem
-     * @throws BudgetException
      */
     public void populateCalculatedAmount(Budget budget,BudgetLineItem budgetLineItem);
     /**
      * 
      * This method is for calculating calculated amounts for each cost element. It looks at all
      * applicable rates for a cost element and calculate all direct and indirect costs.
-     * @param budgetLineItem
-     * @throws BudgetException
      */
     public void rePopulateCalculatedAmount(Budget budget,BudgetLineItem budgetLineItem);
 
     /**
      * 
-     * This method is to calculate the budget totals for budget total page
-     * @param budget
+     * This method is to calculate the budget totals for budget total page.
      */
     public void calculateBudgetSummaryTotals(Budget budget);
 
     /**
-     * This method is to apply budgetlineitem details to all later periods
-     * @param budget
-     * @param budgetPeriod
-     * @param budgetLineItem
+     * This method is to apply budgetlineitem details to all later periods.
      */
     public void applyToLaterPeriods(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
     /**
-     * This method is to adjust the line item cost to total cost limit of a period
-     * @param budget
-     * @param budgetPeriod
-     * @param budgetLineItem
+     * This method is to adjust the line item cost to total cost limit of a period.
      */
     public boolean syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
     /**
      * 
      * This method is for calculating calculated amounts for each cost element. It looks at all
      * applicable rates for a cost element and calculate all direct and indirect costs.
-     * @param budgetLineItem
-     * @throws BudgetException
      */
     public void populateCalculatedAmount(Budget budget, BudgetPersonnelDetails newBudgetPersonnelDetails);
     /**
      * 
      * This method is for calculating calculated amounts for each cost element. It looks at all
      * applicable rates for a cost element and calculate all direct and indirect costs.
-     * @param budgetLineItem
-     * @throws BudgetException
      */
     public void rePopulateCalculatedAmount(Budget budget, BudgetPersonnelDetails newBudgetPersonnelDetails);
 
@@ -128,10 +104,7 @@ public interface BudgetCalculationService {
      */
     public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem);    
     /**
-     * This method is to adjust the line item cost to total direct cost limit of a period
-     * @param budget
-     * @param budgetPeriod
-     * @param budgetLineItem
+     * This method is to adjust the line item cost to total direct cost limit of a period.
      */
     public boolean syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
     

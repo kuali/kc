@@ -47,6 +47,10 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String SPONSOR_DIV_CODE_KEY = "document.developmentProposal.agencyDivisionCode";
     public static final String SPONSOR_PROGRAM_CODE_KEY = "document.developmentProposal.agencyProgramCode";
 
+    public static final String ORGANIZATION_PAGE_ID = "PropDev-OrganizationLocationsPage";
+    public static final String ORGANIZATION_PAGE_NAME = "Organizations & Locations";
+    public static final String APPLICANT_ORGANIZATION_SECTION_ID = "PropDev-ApplicantOrganizationPage-Section";
+    public static final String APPLICANT_ORGANIZATION_SECTION_NAME = "Applicant Organization";
     public static final String ORIGINAL_PROPOSAL_ID_KEY = "document.developmentProposal.continuedFrom";
 
     public static final String PERSONNEL_PAGE_ID = "PropDev-PersonnelPage";
@@ -63,8 +67,11 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String ATTACHMENT_PROPOSAL_SECTION_NAME = "Proposal Attachments";
     public static final String ATTACHMENT_PERSONNEL_SECTION_ID = "PropDev-AttachmentsPage-PersonnelSection";
     public static final String ATTACHMENT_PERSONNEL_SECTION_NAME = "Personnel Attachments";
+    public static final String ATTACHMENT_INTERNAL_SECTION_ID =  "PropDev-AttachmentsPage-InternalSection";
+    public static final String ATTACHMENT_INTERNAL_SECTION_NAME = "Internal Attachments";
     public static final String NARRATIVES_KEY = "document.developmentProposal.narratives";
     public static final String NARRATIVES_STATUS_KEY = "document.developmentProposal.narratives[%d].moduleStatusCode";
+    public static final String INSTITUTE_ATTACHMENTS_STATUS_KEY = "document.developmentProposal.instituteAttachments[%d].moduleStatusCode";
     public static final String BIOGRAPHIES_KEY = "document.developmentProposal.propPersonBios";
     public static final String BIOGRAPHY_TYPE_KEY = "document.developmentProposal.propPersonBios[%d].documentTypeCode";
     public static final String BIOGRAPHY_PERSON_KEY = "document.developmentProposal.propPersonBios[%d].proposalPersonNumberString";
@@ -79,6 +86,10 @@ public final class ProposalDevelopmentDataValidationConstants {
     public static final String SUPPLEMENTAL_PAGE_NAME = "Supplemental Information";
 
     public static final String GENERIC_ERROR="error.generic";
+    public static final String ABSTRACTS_ATTACHMENTS = "abstractsAttachments";
+    public static final String QUESTIONS = "questions";
+    public static final String KEY_PERSONNEL = "keyPersonnel";
+    public static final String PROPOSAL_ORGANIZATION_LOCATION = "proposal.Organization/Location";
 
     private ProposalDevelopmentDataValidationConstants() {
         throw new UnsupportedOperationException("do not call");

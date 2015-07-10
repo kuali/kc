@@ -38,7 +38,6 @@ public class InstitutionalProposalCreditSplitAuditError extends AuditError {
     /**
      * 
      * @param messageKey to be delegated to <code>{@link AuditError}</code> superclass
-     * @param params varargs array of parameters for the messagekey
      */
     public InstitutionalProposalCreditSplitAuditError(String messageKey) {
         this(messageKey, null);
@@ -72,7 +71,7 @@ public class InstitutionalProposalCreditSplitAuditError extends AuditError {
     }
     
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
+     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List&lt;AuditError&gt;}</code>
      * to the auditErrorMap.
      * 
      * @return List of AuditError instances
@@ -90,15 +89,11 @@ public class InstitutionalProposalCreditSplitAuditError extends AuditError {
     }
 
     /**
-     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.<br/>
-     * <br/>
-     * The <code>{@link AuditError}</code> that is added is.<br/>
+     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.
+     *
+     * The <code>{@link AuditError}</code> that is added is.
      * <code>CREDIT_SPLIT_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR</code>
      * 
-     * @param messageKey
-     * @see CreditSplitAuditError
-     * @see AuditError
-     * @see GlobalVariables.getAuditErrorMap()
      */
     public static void addAuditError(String messageKey, String ... params) {
         AuditError error = new InstitutionalProposalCreditSplitAuditError(messageKey, params);

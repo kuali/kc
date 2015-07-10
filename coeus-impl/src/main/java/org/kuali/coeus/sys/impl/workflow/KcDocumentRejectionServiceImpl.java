@@ -26,6 +26,9 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.doctype.RoutePath;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.InvalidActionTakenException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -36,6 +39,11 @@ import java.util.Collection;
 public class KcDocumentRejectionServiceImpl implements KcDocumentRejectionService {
 
     private static final Log LOG = LogFactory.getLog(KcDocumentRejectionServiceImpl.class);
+
+    @Autowired
+    @Qualifier("routeHeaderService")
+    private RouteHeaderService routeHeaderService;
+
 
     @Autowired
     @Qualifier("documentTypeService")
@@ -57,6 +65,13 @@ public class KcDocumentRejectionServiceImpl implements KcDocumentRejectionServic
         }
 
         document.returnToPreviousNode(reason, nodeName);
+        try {
+            DocumentRouteHeaderValue routeHeader = routeHeaderService.getRouteHeader(document.getDocumentId());
+            routeHeader.markDocumentSaved();
+            routeHeaderService.saveRouteHeader(routeHeader);
+        } catch (InvalidActionTakenException e) {
+           throw new RuntimeException(e);
+        }
         if (appDocStatus != null) {
             if( LOG.isDebugEnabled() ) {
                 LOG.debug( String.format( "Setting application document status of document %s to %s", document.getDocumentId(), appDocStatus));

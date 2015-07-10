@@ -970,13 +970,13 @@
 		p:localServiceName="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
 
-    <bean id="printBaseXmlStream" class="org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream" abstract="true">
+    <bean id="printBaseXmlStream" class="org.kuali.coeus.common.framework.print.stream.xml.PrintBaseXmlStream" abstract="true" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
     <bean id="iacucProtocolXmlStream"
-        class="org.kuali.kra.iacuc.actions.print.IacucProtocolXmlStream" parent="printBaseXmlStream">
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolXmlStream" parent="printBaseXmlStream" scope="prototype">
         <property name="printXmlUtilService">
             <ref bean="iacucPrintXmlUtilService" />
         </property>
@@ -992,14 +992,14 @@
     </bean>
     
     <bean id="iacucProtocolSummaryXmlStream"
-        class="org.kuali.kra.iacuc.actions.print.IacucProtocolSummaryXmlStream" parent="printBaseXmlStream">
+        class="org.kuali.kra.iacuc.actions.print.IacucProtocolSummaryXmlStream" parent="printBaseXmlStream" scope="prototype">
         <property name="iacucProtocolActionService" ref="iacucProtocolActionService" />
         <property name="printXmlUtilService" ref="iacucPrintXmlUtilService" />
         <property name="scheduleXmlStream" ref="iacucScheduleXmlStream" />
         <property name="committeeXmlStream" ref="iacucCommitteeXmlStream" />
     </bean>
     <bean id="iacucCorrespondenceXmlStream"
-            class="org.kuali.kra.iacuc.actions.print.IacucCorrespondenceXmlStream" parent="printBaseXmlStream">
+            class="org.kuali.kra.iacuc.actions.print.IacucCorrespondenceXmlStream" parent="printBaseXmlStream" scope="prototype">
             <property name="protocolXmlStream">
                 <ref bean="iacucProtocolXmlStream" />
             </property>
@@ -1219,7 +1219,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="iacucRenewalReminderStream" class="org.kuali.kra.iacuc.actions.print.IacucRenewalReminderStream" parent="printBaseXmlStream">
+    <bean id="iacucRenewalReminderStream" class="org.kuali.kra.iacuc.actions.print.IacucRenewalReminderStream" parent="printBaseXmlStream" scope="prototype">
          <property name="protocolXmlStream" ref="iacucProtocolXmlStream" />
          <property name="committeeXmlStream" ref="iacucCommitteeXmlStream" />
     </bean>

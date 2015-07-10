@@ -25,9 +25,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.service.AwardTemplateReportTermService;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -45,7 +43,7 @@ public class AwardTemplateReportTermServiceImplTest extends KcIntegrationTestBas
         awardTemplateReportTermService = null;
     }
     
-    @Test public void testGetReportTypesUsingReportClassCode() throws Exception {
+    @Test public void testGetReportTypesUsingReportClassCode() {
         List<String> properties = new ArrayList<String>();
         properties.add("1");
         properties.add("7");
@@ -53,62 +51,66 @@ public class AwardTemplateReportTermServiceImplTest extends KcIntegrationTestBas
         properties.add("40");
         properties.add("35");
         properties.add("39");
-        Collection reprotTypes = awardTemplateReportTermService.getReportTypesUsingReportClassCode("2");
+        Collection<String> reprotTypes = awardTemplateReportTermService.getReportTypesUsingReportClassCode("2");
         assertEquals(properties.size(), reprotTypes.size());
 
-        for(Object aReportType : reprotTypes) {
+        for(String aReportType : reprotTypes) {
             assertTrue(properties.contains(aReportType));
         }
     }
     
     @Test
-    public void testGetReportTypeForAjaxCall() throws Exception {
-        String properties = ",1;None,7;Progress/Status,5;Final,40;DD 1342,35;Form provided by sponsor,39;SF 1018";
-        String resultFields = awardTemplateReportTermService.getReportTypeForAjaxCall("2");
-        assertEquals(properties,resultFields);
+    public void testGetReportTypeForAjaxCall() {
+        List<String> expected = Arrays.asList(",1;None,7;Progress/Status,5;Final,40;DD 1342,35;Form provided by sponsor,39;SF 1018".split(","));
+        Collections.sort(expected);
+
+        List<String> resultFields = Arrays.asList(awardTemplateReportTermService.getReportTypeForAjaxCall("2").split(","));
+        Collections.sort(resultFields);
+
+        assertEquals(expected, resultFields);
     }
     
     @Test
-    public void testGetFrequencyUsingReportCodeAndClass() throws Exception {
+    public void testGetFrequencyUsingReportCodeAndClass() {
         List<String> properties = new ArrayList<String>();
         properties.add("1");
-        Collection frequencies = awardTemplateReportTermService.getFrequencyUsingReportCodeAndClass("1", "2");
+        Collection<String> frequencies = awardTemplateReportTermService.getFrequencyUsingReportCodeAndClass("1", "2");
         assertEquals(properties.size(), frequencies.size());
 
-        for(Object aFrequency : frequencies) {
+        for(String aFrequency : frequencies) {
             assertTrue(properties.contains(aFrequency));
         }
     }
     
     @Test
-    public void testGetFrequencyForAjaxCall() throws Exception {
+    public void testGetFrequencyForAjaxCall() {
         String properties = ",1;None";
         String resultFields = awardTemplateReportTermService.getFrequencyForAjaxCall("1", "2");
         assertEquals(properties,resultFields);
     }
     
     @Test
-    public void testGetFrequencyBaseUsingFrequencyCode() throws Exception {
+    public void testGetFrequencyBaseUsingFrequencyCode() {
         List<String> properties = new ArrayList<String>();
         properties.add("1");
         properties.add("2");
         properties.add("6");
-        Collection frequencyBases = awardTemplateReportTermService.getFrequencyBaseUsingFrequencyCode("2");
+        Collection<String> frequencyBases = awardTemplateReportTermService.getFrequencyBaseUsingFrequencyCode("2");
         assertEquals(properties.size(), frequencyBases.size());
 
-        for(Object aFrequencyBase : frequencyBases) {
+        for(String aFrequencyBase : frequencyBases) {
             assertTrue(properties.contains(aFrequencyBase));
         }
     }
     
     @Test
-    public void testGetFrequencyBaseForAjaxCall() throws Exception {
-        String properties = ",2;Project Start Date,1;Execution Date,6;As Required";
-        String resultFields = awardTemplateReportTermService.getFrequencyBaseForAjaxCall("2");
-        assertEquals(properties,resultFields);
+    public void testGetFrequencyBaseForAjaxCall() {
+        List<String> expected = Arrays.asList(",2;Project Start Date,1;Execution Date,6;As Required".split(","));
+        Collections.sort(expected);
+
+        List<String> resultFields = Arrays.asList(awardTemplateReportTermService.getFrequencyBaseForAjaxCall("2").split(","));
+        Collections.sort(resultFields);
+
+        assertEquals(expected,resultFields);
     }
-    
-    
-    
-    
 }

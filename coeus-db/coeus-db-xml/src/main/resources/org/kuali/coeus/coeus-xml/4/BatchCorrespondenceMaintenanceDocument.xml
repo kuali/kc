@@ -26,7 +26,7 @@
             <description>Create/Edit a Batch Correspondence</description>
             <label>Batch Correspondence</label>
             <parent>KcSharedMaintenanceDocument</parent>
-            <helpDefinitionURL>default.htm?turl=Documents/batchcorrespondence1.htm</helpDefinitionURL>
+            <helpDefinitionURL>default.htm?turl=Documents/batchcorrespondence3.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>
 </data>

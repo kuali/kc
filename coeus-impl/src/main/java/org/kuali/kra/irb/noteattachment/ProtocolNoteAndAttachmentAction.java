@@ -50,7 +50,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This class represents the Struts Action for Notes & Attachments page(ProtocolNoteAndAttachment.jsp).
+ * This class represents the Struts Action for Notes &amp; Attachments page(ProtocolNoteAndAttachment.jsp).
  */
 public class ProtocolNoteAndAttachmentAction extends ProtocolAction {    
 
@@ -253,7 +253,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      * @param form the form.
      * @param request the request.
      * @param response the response.
-     * @param attachmentType the attachment type.
      * @return an action forward.
      * @throws IllegalArgumentException if the attachmentType is not supported
      * @throws Exception if there is a problem executing the request.
@@ -292,9 +291,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     /**
      * 
      * This method for set the attachment with the watermark which selected  by the client .
-     * @param protocolForm form
-     * @param protocolAttachmentBase attachment
-     * @return attachment file
      */
     private byte[] getProtocolAttachmentFile(ProtocolForm form, ProtocolAttachmentProtocol attachment){
         
@@ -396,7 +392,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      * @param form the form.
      * @param request the request.
      * @param response the response.
-     * @param attachmentType the attachment type.
      * @return an action forward.
      * @throws IllegalArgumentException if the attachmentType is not supported
      * @throws Exception if there is a problem executing the request.
