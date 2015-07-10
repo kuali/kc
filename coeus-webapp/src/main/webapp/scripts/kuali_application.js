@@ -61,10 +61,7 @@ jq(document).ready(function() {
     createLoading(false);
 });
 
-
-var formHasAlreadyBeenSubmitted = false;
-var excludeSubmitRestriction = false;
-window.hasFormAlreadyBeenSubmitted = function(){
+function hasFormAlreadyBeenSubmitted() {
 	try {
 		// save the current scroll position
 		saveScrollPosition();
@@ -72,15 +69,27 @@ window.hasFormAlreadyBeenSubmitted = function(){
 		// do nothing - don't want to stop submit
 	}
 
-    createLoading(true);
-    if (excludeSubmitRestriction) {
-        timeout = setTimeout(function() {
- 	      excludeSubmitRestriction = false;
-          createLoading(false);
-        }, 500);
-    }
+	if ( document.getElementById( "formComplete" ) ) { 
+	    if (formHasAlreadyBeenSubmitted && !excludeSubmitRestriction) {
+	       alert("Page already being processed by the server.");
+	       return false;
+	    } else {
+	       createLoading(true);
+	       if (excludeSubmitRestriction) {
+	    	   timeout = setTimeout(function() {
+	    		   createLoading(false);
+	    	   }, 1000);
+	    	   excludeSubmitRestriction = false;
+	       } else {
+	    	   formHasAlreadyBeenSubmitted = true;
+	       }
+	       return true;
+	    }
+    } else {
+	       alert("Page has not finished loading.");
+	       return false;
+	} 
 }
-
 
 /**
  * Uses jQuery plug-in to show a loading notification for a page request. See
