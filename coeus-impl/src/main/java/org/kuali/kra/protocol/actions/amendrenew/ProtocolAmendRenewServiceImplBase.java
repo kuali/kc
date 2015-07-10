@@ -65,34 +65,19 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
 
     protected QuestionnaireAnswerService questionnaireAnswerService;
     protected BusinessObjectService businessObjectService;
-    /**
-     * Set the Document Service.
-     * @param documentService
-     */
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
-    /**
-     * Set the ProtocolBase Copy Service.
-     * @param protocolCopyService
-     */
+
     public void setProtocolCopyService(ProtocolCopyService protocolCopyService) {
         this.protocolCopyService = protocolCopyService;
     }
-    
-    /**
-     * Set the KRA Lookup DAO.
-     * @param kraLookupDao
-     */
+
     public void setKraLookupDao(KraLookupDao kraLookupDao) {
         this.kraLookupDao = kraLookupDao;
     }
-    
-    /**
-     * Set the KRA Lookup DAO.
-     * @param kraLookupDao
-     */
+
     public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
         this.protocolFinderDao = protocolFinderDao;
     }
@@ -126,7 +111,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     
     /**
      * This method marks all protocol attachment as finalized.
-     * @param attachmentProtocols
      */
     protected void markProtocolAttachmentsAsFinalized(List<ProtocolAttachmentProtocolBase> attachmentProtocols) {
         for (ProtocolAttachmentProtocolBase protocolAttachment : attachmentProtocols) {
@@ -195,11 +179,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         
         return createAmendment(protocolDocument, renewProtocolDocument, amendmentBean);
     }
-    
-    /**
-     * @throws WorkflowException 
-     * @see org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService#updateAmendmentRenewal(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean)
-     */
+
     public void updateAmendmentRenewal(ProtocolDocumentBase protocolDocument, ProtocolAmendmentBean amendmentBean) throws WorkflowException {
         protocolDocument.getProtocol().getProtocolAmendRenewal().setSummary(amendmentBean.getSummary());
         protocolDocument.getProtocol().getProtocolAmendRenewal().setModules(new ArrayList<ProtocolAmendRenewModuleBase>());
@@ -212,8 +192,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * @param protocolDocument the original protocol document to be amended
      * @param amendProtocolDocument the amended protocol document
      * @param amendmentBean the amendment bean info
-     * @return
-     * @throws WorkflowException 
      */
     protected String createAmendment(ProtocolDocumentBase protocolDocument, ProtocolDocumentBase amendProtocolDocument,
                                    ProtocolAmendmentBean amendmentBean) throws WorkflowException {
@@ -232,8 +210,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * an amendment is the original protocol's number appended with "Axxx" where
      * "xxx" is the next sequence number.  A protocol can have more than one
      * amendment.
-     * @param protocolDocument
-     * @return
      */
     protected String generateProtocolAmendmentNumber(ProtocolDocumentBase protocolDocument) {
         return generateProtocolNumber(protocolDocument, AMEND_ID, AMEND_NEXT_VALUE);
@@ -243,8 +219,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * Generate the protocol number for an renewal.  The protocol number for
      * an renewal is the original protocol's number appended with "Rxxx" where
      * "xxx" is the next sequence number.
-     * @param protocolDocument
-     * @return
      */
     protected String generateProtocolRenewalNumber(ProtocolDocumentBase protocolDocument) {
         return generateProtocolNumber(protocolDocument, RENEW_ID, RENEW_NEXT_VALUE);
@@ -252,8 +226,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     
     /**
      * Generate the protocol number for an amendment or renewal.
-     * @param protocolDocument
-     * @return
      */
     protected String generateProtocolNumber(ProtocolDocumentBase protocolDocument, String letter, String nextValueKey) {
         String protocolNumber = protocolDocument.getProtocol().getProtocolNumber();
@@ -270,8 +242,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * Create an Amendment Entry.
      * @param protocolDocument the original protocol document
      * @param amendProtocolDocument the amended protocol document
-     * @param amendmentBean the user form containing the summary and modules to be amended
-     * @return
+     * @param summary the summary to be amended
      */
     protected ProtocolAmendRenewalBase createAmendmentRenewal(ProtocolDocumentBase protocolDocument, ProtocolDocumentBase amendProtocolDocument, String summary) {
         ProtocolAmendRenewalBase protocolAmendRenewal = getNewProtocolAmendRenewalInstanceHook();
@@ -297,9 +268,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
 
     /**
      * Create a module entry.
-     * @param amendmentEntry
-     * @param moduleTypeCode
-     * @return
      */
     protected ProtocolAmendRenewModuleBase createModule(ProtocolAmendRenewalBase amendmentEntry, String moduleTypeCode) {
         ProtocolAmendRenewModuleBase module = getNewProtocolAmendRenewModuleInstanceHook();
@@ -313,7 +281,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     
     /**
      * Create a ProtocolBase Action indicating that an amendment has been created.
-     * @param protocol
      * @param protocolNumber protocol number of the amendment
      * @return a protocol action
      */
@@ -327,7 +294,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     
     /**
      * Create a ProtocolBase Action indicating that a renewal has been created.
-     * @param protocol
      * @param protocolNumber protocol number of the renewal
      * @return a protocol action
      */
@@ -339,7 +305,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
 
     /**
      * Create a ProtocolBase Action indicating that a renewal with amendment has been created.
-     * @param protocol
      * @param protocolNumber protocol number of the renewal
      * @return a protocol action
      */
@@ -359,24 +324,12 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     
     @SuppressWarnings("unchecked")
     public Collection<ProtocolBase> getAmendments(String protocolNumber) throws Exception {
-        List<ProtocolBase> amendments = new ArrayList<ProtocolBase>();
-        Collection<ProtocolBase> protocols = (Collection<ProtocolBase>) kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true);
-        for (ProtocolBase protocol : protocols) {
-            ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
-            amendments.add(protocolDocument.getProtocol());
-        }
-        return amendments;
+        return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + AMEND_ID + "%", true));
     }
 
     @SuppressWarnings("unchecked")
     public Collection<ProtocolBase> getRenewals(String protocolNumber) throws Exception {
-        List<ProtocolBase> renewals = new ArrayList<ProtocolBase>();
-        Collection<ProtocolBase> protocols = (Collection<ProtocolBase>) kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true);
-        for (ProtocolBase protocol : protocols) {
-            ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
-            renewals.add(protocolDocument.getProtocol());
-        }
-        return renewals;
+        return new ArrayList<>( kraLookupDao.findCollectionUsingWildCard(getProtocolBOClassHook(), PROTOCOL_NUMBER, protocolNumber + RENEW_ID + "%", true));
     }
   
     /**
@@ -409,8 +362,6 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
 
     /**
      * Has the amendment completed, e.g. been approved, disapproved, etc?
-     * @param protocol
-     * @return
      */
     protected boolean isAmendmentCompleted(ProtocolBase protocol) {
         WorkflowDocument workflowDocument = getWorkflowDocument(protocol.getProtocolDocument());
