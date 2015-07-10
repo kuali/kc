@@ -28,6 +28,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,22 +47,18 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
      * 1)the Award Amount Infos awardNumber and versionNumber must match the Award BO
      * 2)The Award Amount Infos timeAndMoneyDocumentNumber must be null or from a T&amp;M document that has been finalized
      * Users don't want this data to apply to Award until the T&amp;M document has been approved.
-     * @param award
-     * @return
-     * @throws WorkflowException 
-     * @throws WorkflowException 
      */
     @SuppressWarnings("unchecked")
     public AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) {
         
-        List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
-
-        for(AwardAmountInfo aai : award.getAwardAmountInfos()) {
+        List<AwardAmountInfo> awardAmountInfos = new ArrayList<>(award.getAwardAmountInfos());
+        Collections.reverse(awardAmountInfos);
+        return awardAmountInfos.stream().filter(aai -> {
             //the aai needs to be added if it is created on initialization, or in the case of a root node we add a new one for initial money transaction.
             //if an award has been versioned, the initial transaction will be the first index in list.
             if(aai.getTimeAndMoneyDocumentNumber() == null || (aai.getAwardNumber().endsWith("-00001") && 
                     award.getAwardAmountInfos().indexOf(aai) == 1)) {
-                validAwardAmountInfos.add(aai);
+                return true;
             }else {
                 Map<String, Object> fieldValues1 = new HashMap<String, Object>();
                 fieldValues1.put("documentNumber", aai.getTimeAndMoneyDocumentNumber());
@@ -72,17 +70,17 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
                         (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
                     if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
                         if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
-                            validAwardAmountInfos.add(aai);
+                            return true;
                         }
                     }
                     } catch (WorkflowException e) {
-                        LOG.error(e.getMessage(), e);
+                        throw new RuntimeException(e);
                     }
                 }
         
             }
-        }
-    return validAwardAmountInfos.get(validAwardAmountInfos.size() -1);
+			return false;
+        }).findFirst().get();
 }
     
     public AwardAmountInfo fetchLastAwardAmountInfoForDocNum(Award award, String docNum){
