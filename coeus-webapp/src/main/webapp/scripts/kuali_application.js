@@ -1918,6 +1918,8 @@ function setDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, proto
 	);
 }
 
+var REVIEWERS_ARRAY_ELEMENTS_PER_RECORD = 4;
+
 function setModifySubmissionDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, protocolId, beanName, protocolReviewTypeCode) {	
 	var reviewerBean = "actionHelper." + beanName + ".reviewer[";
 	var cmtId = dwr.util.getValue(committeeId); 
@@ -1932,7 +1934,7 @@ function setModifySubmissionDefaultReviewerTypeCode(methodToCall, committeeId, s
 				var reviewersArr = reviewersReturned.split(";");
 				
 				var defaultReviewTyper;
-   			var numberOfRevierwers = reviewersArr.length/4;
+   			var numberOfRevierwers = reviewersArr.length/REVIEWERS_ARRAY_ELEMENTS_PER_RECORD;
    			var dwrReply = {
    					callback:function(data) {
    						if ( data != null ) {	
@@ -1944,7 +1946,7 @@ function setModifySubmissionDefaultReviewerTypeCode(methodToCall, committeeId, s
    						for (i=0; i<numberOfRevierwers; i++) {
 					  		var selectField = document.getElementsByName(reviewerBean + i + '].reviewerTypeCode')[0];
 					  		if (selectField != null) {
-						  		var rt = reviewersArr[(i * 4) + 3];
+						  		var rt = reviewersArr[(i * REVIEWERS_ARRAY_ELEMENTS_PER_RECORD) + 3];
 								for (j=0; j<selectField.length; j++) {
 						  			if (rt) {
 										if (selectField.options[j].value == rt.trim()) {
@@ -2060,12 +2062,12 @@ function updateReviewerHtml(reviewerData, reviewerTypesData) {
 	document.getElementById("reviewers").style.display = '';
 	var reviewersArr = reviewerData.split(";");
 	var arrLength = reviewersArr.length;
-	var numReviewers = Math.floor(reviewersArr.length / 4);
+	var numReviewers = Math.floor(reviewersArr.length / REVIEWERS_ARRAY_ELEMENTS_PER_RECORD);
 	var numRows = Math.floor((numReviewers+1) / 2);
 	var reviewersTableLeft = document.getElementById("reviewersTableLeft");
 	var reviewersTableRight = document.getElementById("reviewersTableRight");
-	setReviewers(reviewersArr, 0, 4*numRows, reviewerTypes, reviewersTableLeft);
-	setReviewers(reviewersArr, 4*numRows, 4*numReviewers, reviewerTypes, reviewersTableRight);
+	setReviewers(reviewersArr, 0, REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numRows, reviewerTypes, reviewersTableLeft);
+	setReviewers(reviewersArr, REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numRows, REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numReviewers, reviewerTypes, reviewersTableRight);
 	//finally set the number of reviewers for proper trucation
 	document.getElementById("numberOfReviewers").value = numReviewers;
 }
@@ -2075,12 +2077,12 @@ function updateProtocolReviewerHtml(reviewerData, reviewerTypesData, beanName) {
 	document.getElementById("reviewers").style.display = '';
 	var reviewersArr = reviewerData.split(";");
 	var arrLength = reviewersArr.length;
-	var numReviewers = Math.floor(reviewersArr.length / 4);
+	var numReviewers = Math.floor(reviewersArr.length / REVIEWERS_ARRAY_ELEMENTS_PER_RECORD);
 	var numRows = Math.floor((numReviewers+1) / 2);
 	var reviewersTableLeft = document.getElementById("reviewersTableLeft");
 	var reviewersTableRight = document.getElementById("reviewersTableRight");
-	setProtocolReviewers(reviewersArr, 0, 4*numRows, reviewerTypes, reviewersTableLeft, beanName);
-	setProtocolReviewers(reviewersArr, 4*numRows, 4*numReviewers, reviewerTypes, reviewersTableRight, beanName);
+	setProtocolReviewers(reviewersArr, 0, REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numRows, reviewerTypes, reviewersTableLeft, beanName);
+	setProtocolReviewers(reviewersArr, REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numRows, REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numReviewers, reviewerTypes, reviewersTableRight, beanName);
 	//finally set the number of reviewers for proper trucation
 	document.getElementById("numberOfReviewers").value = numReviewers;
 }
@@ -2089,8 +2091,8 @@ function setProtocolReviewers(reviewers, beginIndex, endIndex, reviewerTypes, ht
 	removeAllChildren(htmlElement);
 	var reviewerBean = "actionHelper." + beanName + ".reviewer[";			
     var tbody = document.createElement('tbody');
-	for (var i = beginIndex; i < endIndex; i += 4) {
-		reviewerIndex = i/4;
+	for (var i = beginIndex; i < endIndex; i += REVIEWERS_ARRAY_ELEMENTS_PER_RECORD) {
+		reviewerIndex = i/REVIEWERS_ARRAY_ELEMENTS_PER_RECORD;
 		
 		var row = document.createElement('tr');
 		var data = document.createElement('td');
@@ -2145,8 +2147,8 @@ function setReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElemen
 	removeAllChildren(htmlElement);
 				
     var tbody = document.createElement('tbody');
-	for (var i = beginIndex; i < endIndex; i += 4) {
-		reviewerIndex = i/4;
+	for (var i = beginIndex; i < endIndex; i += REVIEWERS_ARRAY_ELEMENTS_PER_RECORD) {
+		reviewerIndex = i/REVIEWERS_ARRAY_ELEMENTS_PER_RECORD;
 		
 		var row = document.createElement('tr');
 		var data = document.createElement('td');
