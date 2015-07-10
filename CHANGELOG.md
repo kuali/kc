@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1507.21
 * Caching getIndexOfAwardAmountInfoForDisplay
   * blackcathacker on Mon, 22 Jun 2015 11:01:59 -0400 [View Commit](../../commit/6ec4620d6260aeb2a3d35427b7a92db485041c5f)
 * remove html commented out code to avoid possible server-side execution that is not rendered and therefore not needed.
