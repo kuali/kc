@@ -113,6 +113,7 @@
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/person/ProposalBudgetAssignPersonnelToPeriodsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/nonpersonnel/ProposalBudgetBudgetNotesPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/nonpersonnel/ProposalBudgetNonPersonnelCostsPage.xml</value>
+         		<value>classpath:org/kuali/coeus/propdev/impl/budget/singlepointentry/SinglePointEntryPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/nonpersonnel/ProposalBudgetLineItemShared.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/subaward/ProposalBudgetSubawardsPage.xml</value>
                 <value>classpath:org/kuali/coeus/propdev/impl/budget/modular/ProposalBudgetModularPage.xml</value>
@@ -369,6 +370,7 @@
 
     <bean id="s2SSchedulerStarter"
           class="org.kuali.coeus.propdev.impl.s2s.schedule.S2SSchedulerFactoryBean">
+        <property name="exposeSchedulerInRepository" value="true" />
         <property name="triggers">
             <list>
                 <ref bean="preValidationTrigger" />

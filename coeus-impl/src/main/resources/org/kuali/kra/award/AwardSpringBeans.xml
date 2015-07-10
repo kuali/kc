@@ -84,7 +84,11 @@
             </list>
         </property>
     </bean>
-    
+
+    <bean id="costShareService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="costShareService" />
+    </bean>
+
     <bean id="budgetSummaryService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="budgetSummaryService" />
     </bean>
@@ -237,6 +241,10 @@
         <property name="serviceName" value="kcBusinessRulesEngine" />
     </bean>
 
+    <bean id="sponsorHierarchyService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="sponsorHierarchyService" />
+    </bean>
+
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
@@ -256,6 +264,7 @@
         <property name="documentService" ref="documentService" />
         <property name="versioningService" ref="versioningService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
+        <property name="sponsorHierarchyService" ref="sponsorHierarchyService" />
         <property name="awardDao" ref="awardDao" />
     </bean>
     
@@ -503,6 +512,7 @@
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
+        <property name="costShareService" ref="costShareService" />
     </bean>
 
     <bean id="awardDeltaXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardDeltaXmlStream" parent="awardBaseStream" scope="prototype">
@@ -514,7 +524,6 @@
     </bean>
         
     <bean id="awardTemplateXmlStream" class="org.kuali.kra.award.printing.xmlstream.AwardTemplateXmlStream" scope="prototype">
-        <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
@@ -829,6 +838,7 @@
     </bean>
 
     <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="exposeSchedulerInRepository" value="true" />
         <property name="triggers">
             <list>
                 <ref local="cfdaTrigger"/>
@@ -1105,9 +1115,6 @@
 
 	<bean id="reportTrackingXmlStream"
 		class="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingXmlStream" scope="prototype">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>

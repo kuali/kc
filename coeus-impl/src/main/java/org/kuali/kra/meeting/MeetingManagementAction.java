@@ -83,4 +83,9 @@ public class MeetingManagementAction extends MeetingManagementActionBase {
     protected org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService<?> getReviewerCommentsService() {
         return KcServiceLocator.getService(ReviewCommentsService.class);
     }
+
+    @Override
+    protected MeetingControllerService getMeetingControllerService() {
+        return KcServiceLocator.getService("meetingControllerService");
+    }
 }

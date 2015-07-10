@@ -44,12 +44,16 @@
                     <property name="items">
                         <list>
                             <bean parent="PropDev-PersonnelPage-AddButton" p:order="10" p:render="@{!document.developmentProposal.isParent() and !#parent.readOnly}"/>
-                            <bean parent="Uif-PrimaryActionButton" p:order="20" p:actionLabel="Notify All" p:methodToCall="sendAllCertificationNotifications" p:cssClasses="pull-right"
+                            <bean parent="Uif-PrimaryActionButton" p:order="20" p:actionLabel="Notify All" p:actionScript="showDialog('PropDev-Personal-NotifyPersonsDialog')"  p:cssClasses="pull-right"
                                   p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}]
                                   and document.developmentProposal.proposalPersons.size() > 0
                                   and !#ViewHelper.areAllCertificationsComplete(document.developmentProposal.proposalPersons)
                                   and !document.developmentProposal.isChild()
                                   and !#parent.readOnly}"/>
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="COI Disclosure Status"
+                                               p:order="35"  p:actionScript="showDialog('PropDev-PersonnelPage-COIStatus-Dialog');"
+                                                p:render="@{#ViewHelper.displayCoiDisclosureStatus() and
+                                                document.developmentProposal.proposalPersons.size() > 0}"/>
                         </list>
                     </property>
                 </bean>
@@ -281,7 +285,8 @@
           p:layoutManager.summaryTitle="@{#lp.fullName}
 		                                (@{#lp.role.description}
                                             @{#lp.keyPerson eq true ? ': ' + #lp.projectRole : '' })
-		                                        (@{#lp.questionnairesCompleted eq true ? 'Certification Completed' : 'Certification Incomplete'})"
+                                            	@{#lp.certifiedBy == null and #ViewHelper.canViewCertificationTab(document,#line) ? '(Certification Incomplete)' : ' '}
+		                                        @{#lp.certifiedBy != null ? '(Certification Completed and Answered By '+ #lp.certifiedPersonName+' - ' + #lp.certifiedTimeStamp+')' : ''}"
 
           p:renderAddLine="false"
           p:renderInactiveToggleButton="false">
@@ -315,10 +320,11 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton-Mini" p:actionLabel="Notify @{#lp.fullName}" p:methodToCall="sendCertificationNotification"
-                                              p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}]
-                                                        and #lp.questionnairesCompleted ne true
-                                                        and !document.developmentProposal.isChild()
-                                                        and !#parent.readOnly}"
+                                              p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}] 
+                                              and !#empty(#lp.versionNumber) 
+                                              and #ViewHelper.canViewCertificationTab(document,#line) 
+                                              and !document.developmentProposal.isChild()
+                                              and !#parent.readOnly}"
                                               p:order="10"/>
                                         <bean parent="Uif-ActionLink" p:iconClass="icon-arrow-up" p:render="@{#line.moveUpAllowed}"
                                               p:actionLabel="" p:methodToCall="movePersonUp" p:order="20"/>
@@ -635,21 +641,17 @@
           p:headerText="@{(#line.questionnaireHelper.answerHeaders != null and #line.questionnaireHelper.answerHeaders.size() > 0 and #line.questionnaireHelper.answerHeaders[0].label != null) ? #line.questionnaireHelper.answerHeaders[0].label : 'None'}">
         <property name="items">
             <list>
-                <bean parent="PropDev-PersonnelPage-KeyPersonCertificationToggle"
-                      p:render="@{!#line.getRole().getCertificationRequired()}"
-                      p:order="10"/>
                 <bean parent="Uif-Message" p:messageText="[color=red]Proposal is a Child in Proposal Hierarchy. Certifications must take place in the Parent proposal.[/color]"
                       p:render="@{document.developmentProposal.isChild()}"
-                      p:order="20" />
+                      p:order="10" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="clearAnswers" p:actionLabel="Clear All Answers"
                       p:actionParameters="personNumber:@{(#line.proposalPersonNumber)}"
-                      p:render="@{!#parent.readOnly and #ViewHelper.renderQuestionnaire(#line) and !document.developmentProposal.isChild()}"
-                      p:order="30">
+                      p:render="@{!#ViewHelper.isCertQuestViewOnly(document,#line)  and !document.developmentProposal.isChild()}"
+                      p:order="20">
                     <property name="confirmationDialog">
                         <bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to clear all the answers?"/>
                     </property>
                 </bean>
-
                 <bean parent="Questionnaire-QuestionsGroup" p:propertyName="questionnaireHelper.answerHeaders[0].questions"
                       p:render="@{#ViewHelper.renderQuestionnaire(#line)}"
                       p:readOnly="@{document.developmentProposal.isChild() or (#parent.readOnly and !#editModes[#proposalAuthConsts.CAN_SAVE_CERTIFICATION])}"
@@ -657,22 +659,22 @@
             </list>
         </property>
     </bean>
-
-    <bean id="PropDev-PersonnelPage-KeyPersonCertificationToggle" parent="Uif-VerticalBoxGroup">
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="You have the option to @{#line.getOptInCertificationStatus()?'remove':'add'} Certification Questions for a @{#line.getRole().getDescription()}." p:order="10" />
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="certificationToggle" p:actionLabel="@{#line.getOptInCertificationStatus()?'Remove':'Include'} Certification Questions"
-                      p:actionParameters="personNumber:@{(#line.proposalPersonNumber)}"
-                      p:order="20"
-                      p:render="@{!#parent.readOnly}">
+    <bean id="proposalPersonQuestionnaire-SubCollection-parentBean" parent="Questionnaire-SubCollection-parentBean">
+		<property name="items">
+			<list>
+                <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getQuestionMoreInfo(#lp.questionnaireQuestion.question)}"
+                        p:hidden="true"/>
+				<bean id="proposalPersonQuestionnaire-InputField" parent="Questionnaire-InputField-parentBean" p:readOnly="@{document.developmentProposal.isChild() or document.getCerttifyViewOnly()}" p:order="10" />
+                <bean parent="Uif-InputField" p:propertyName="question.lookupReturn" p:fieldLabel.render="false">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl" />
+                    </property>
                 </bean>
-            </list>
-        </property>
-    </bean>
-
-
-    <bean id="PropDev-PersonnelPage-TrainingDetails" parent="PropDev-PersonnelPage-TrainingDetails-parentBean"/>
+			</list>
+		</property>
+	</bean> 
+	
+	<bean id="PropDev-PersonnelPage-TrainingDetails" parent="PropDev-PersonnelPage-TrainingDetails-parentBean"/>
     <bean id="PropDev-PersonnelPage-TrainingDetails-parentBean" abstract="true" parent="Uif-TableCollectionSection"
           p:headerText="Person Training Details"
           p:propertyName="personTrainings"
@@ -693,6 +695,52 @@
         </property>
     </bean>
 
+
+ <bean id="PropDev-Personal-NotifyPersonsDialog" parent="PropDev-Personal-NotifyPersonsDialog-parent" />
+	<bean id="PropDev-Personal-NotifyPersonsDialog-parent" abstract="true"
+		parent="Uif-DialogGroup" p:headerText="Notify All" p:dialogCssClass="modal-lg">
+		<property name="items">
+			<list>
+				<ref bean="PropDev-Personal-NotifyPersonsPage" />
+			</list>
+		</property>
+		</bean>    
+    <bean id="PropDev-Personal-NotifyPersonsPage" parent="PropDev-Personal-NotifyPersonsPage-parentBean"/>
+    <bean id="PropDev-Personal-NotifyPersonsPage-parentBean" abstract="true" parent="Uif-TableCollectionSection"
+      p:propertyName="document.developmentProposal.proposalPersons"   
+           p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
+           p:renderAddLine="false"
+		p:layoutManager.renderSequenceField="false"	
+		p:renderLineActions="false" p:layoutManager.richTable.render="false"
+		p:renderInactiveToggleButton="false" >
+        <property name="items">
+            <list>
+            	<bean parent="Uif-InputField" p:propertyName="selectedPerson" p:order="20">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:disabled="@{!#ViewHelper.canViewCertificationTab(document,#line) or #lp.questionnairesCompleted}"/>
+					</property>
+				</bean>
+                <bean parent="Uif-InputField" p:label="Name" p:propertyName="fullName" p:order="10" p:readOnly="true"/>
+          
+				<bean parent="Uif-InputField" p:label="Last Notification" p:propertyName="lastNotification" p:order="10" p:readOnly="true" />
+            </list>
+        </property>  
+          	<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-SecondaryActionButton" 
+							p:cssClasses="pull-right"
+							p:methodToCall="sendAllCertificationNotifications"
+							p:successCallback="dismissDialog('PropDev-Personal-NotifyPersonsDialog');"
+							p:refreshId="PropDev-Personal-NotifyPersonsDialog" p:actionLabel="Notify"
+							p:render="@{canEditView}"
+							p:order="10" />
+					</list>
+				</property>
+			</bean>
+		</property>
+    </bean>
     <bean id="PropDev-PersonnelPage-EditableInputField" parent="Uif-InputField"
           p:readOnly="@{#parent.readOnly or !#ViewHelper.isPersonFieldEditable(#component.propertyName)}"/>
 
@@ -700,4 +748,96 @@
     <bean id="PropDev-PersonnelPage-InputField-parentBean" abstract="true"
           parent="Uif-InputField" p:fieldLabel.renderColon="false"
           p:dictionaryObjectEntry="org.kuali.coeus.common.framework.person.KcPerson" />
+            <bean id="PropDev-PersonnelPage-COIStatus-Dialog" parent="PropDev-PersonnelPage-COIStatus-Dialog-parent" />
+			<bean id="PropDev-PersonnelPage-COIStatus-Dialog-parent" parent="Uif-DialogGroup"
+				p:headerText="COI Disclosure Status">
+				<property name="items">
+					<list>
+						<bean parent="PropDev-PersonnelPage-COIStatus-Collection1"
+							p:order="10" />
+					</list>
+				</property>
+				<property name="footer.items">
+					<list>
+						<bean parent="Uif-DialogDismissButton" p:actionLabel="Close"
+							p:order="20" />
+					</list>
+				</property>
+			</bean>
+                           
+          
+        <bean id="PropDev-PersonnelPage-COIStatus-Collection1" parent="PropDev-PersonnelPage-COIStatus-Collection1-parent" />
+        <bean id="PropDev-PersonnelPage-COIStatus-Collection1-parent" 
+         parent="Uif-TableCollectionSection" p:collectionObjectClass="org.kuali.coeus.propdev.impl.person.ProposalPerson"
+          p:propertyName="document.developmentProposal.proposalPersons" p:addWithDialog="false"
+		p:renderAddLine="false" p:layoutManager.renderSequenceField="false"
+		p:renderInactiveToggleButton="false" p:layoutManager.richTable.render="true" p:renderLineActions="false">
+		
+		<property name="layoutManager.richTable.templateOptions">
+			<map>
+				<entry key="sDom" value="tip" />
+				<entry key="bRetrieve" value="true" />
+				<entry key="bPaginate" value="false" />
+				<entry key="bInfo" value="false" />
+			</map>
+		</property>
+		
+		<property name="header.lowerGroup">
+		<bean parent="Uif-VerticalBoxGroup">
+			<property name="items">
+				<list>
+					<bean parent="Uif-Message"
+						p:messageText="Project:			@{#line.developmentProposal.proposalNumber}"
+						p:order="10" p:style="font-weight: bold; font-size: larger;" />
+					<bean parent="Uif-Message" p:messageText="Title:			@{#line.developmentProposal.title}"
+						p:order="20" p:style="font-weight: bold; font-size: larger;" />
+				</list>
+			</property>
+		</bean>
+		</property>
+		
+	    <property name="items">
+	    <list>
+			<bean parent="Uif-DataField" p:propertyName="fullName"/>
+			<bean parent="Uif-DataField" p:propertyName="proposalPersonRoleId"/>
+			<bean parent="Uif-MessageField" p:label="COI Disclosure Status"
+                    p:messageText="@{#ViewHelper.getProposalPersonCoiStatus(#line)}"/>
+	    </list>
+	    </property> 
+  
+	</bean>
+
+    <bean id="PropDev-PersonnelPage-UpdateCertification-Dialog" parent="PropDev-PersonnelPage-UpdateCertification-Dialog-parentBean"/>
+    <bean id="PropDev-PersonnelPage-UpdateCertification-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:header.headerText="Please make a selection."
+           >
+        <property name="header.upperGroup.items">
+            <list>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="A newer version of the proposal person certification questionnaire has been published.  An Update is required." p:order="10"/>
+                <bean parent="Uif-InputField" p:propertyName="updateAnswerHeader.updateOption" p:required="true" p:order="20">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0" p:value="Copy the answers from the old version of the questionnaire to the new one.  Only questions that have been changed in the new version will have to be answered." />
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Do not copy answers from previous version of the questionnaire.  Every question in the new version of the questionnaire will have to be answered." />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer.items">
+            <list>
+                <bean id="Uif-DialogConfirmButton" parent="Uif-PrimaryActionButton" p:actionLabel="Ok" p:order="10"
+                      p:dialogDismissOption="REQUEST" p:performClientSideValidation="true" p:methodToCall="updateCertification"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

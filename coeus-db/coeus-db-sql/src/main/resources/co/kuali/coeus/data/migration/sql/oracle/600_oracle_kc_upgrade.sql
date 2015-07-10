@@ -63,4 +63,6 @@ spool 600_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V600_081__KC_DML_02_KCINFR-979_B000.sql
 @./kc/bootstrap/V600_082__KC_DML_02_KRACOEUS-8602_B000.sql
 @./kc/bootstrap/V600_083__KC_FK1_BUDGET_SUB_AWARD_ATT.sql
+@./kc/bootstrap/V600_228__KC_DML_01_KRACOEUS-7120_BTSD.sql
+@./kc/bootstrap/V600_229__KC_DML_01_KRACOEUS-7356_0TSD.sql
 commit;

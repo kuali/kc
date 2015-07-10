@@ -20,17 +20,17 @@ package org.kuali.coeus.sys.framework.controller.interceptor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * Part of KRA's {@link FilterChain} that handles timing a {@link HttpServletRequest} and reporting on the state of 
+ * Part of KC's {@link FilterChain} that handles timing a {@link HttpServletRequest} and reporting on the state of
  * resource consumption. The following information gets logged from this {@link Filter} at the <b>INFO</b> log level.
  * <ul>
  *   <li>Request execution time</li>
@@ -43,21 +43,23 @@ import java.util.regex.Pattern;
 public class PerformanceLoggingFilter implements Filter {
     private static final Log LOG = LogFactory.getLog(PerformanceLoggingFilter.class);
     
-    private static final String IGNORED_URLS_PARAM = "ignored.urls";
-    
-    private List<Pattern> ignoredUrls = new ArrayList<>();
-    
+    private static final String IGNORED_URLS_PARAM = "kc.monitoring.exclude.pattern";
+
+	private Pattern urlExcludePattern;
+    private ConfigurationService configurationService;
+
+	@Override
+	public void init(FilterConfig config) throws ServletException {
+		if (getConfigurationService().getPropertyValueAsString(IGNORED_URLS_PARAM) != null) {
+			urlExcludePattern = Pattern.compile(getConfigurationService().getPropertyValueAsString(IGNORED_URLS_PARAM));
+		}
+	}
+
     @Override
-    public void destroy() {}
-    
-    @Override
-    public void init(FilterConfig config) throws ServletException {
-    	if (config.getInitParameter(IGNORED_URLS_PARAM) != null) {
-    		for (String urlPattern : config.getInitParameter(IGNORED_URLS_PARAM).split(",")) {
-    			ignoredUrls.add(Pattern.compile(urlPattern));
-    		}
-    	}
-    }
+    public void destroy() {
+		urlExcludePattern = null;
+		configurationService = null;
+	}
 
     /**
      * <p>Does the actual logging. The log4j.properties file already covers user and date/time logging for us, so the
@@ -73,27 +75,37 @@ public class PerformanceLoggingFilter implements Filter {
     public void doFilter(ServletRequest request, 
                          ServletResponse response, 
                          FilterChain chain) throws IOException, ServletException {
-    	if (isIgnoredRequest(((HttpServletRequest) request).getRequestURL().toString())) {
-    		chain.doFilter(request, response);
+    	if (isRequestExcluded((HttpServletRequest) request)) {
+			chain.doFilter(request, response);
     	} else {
-	        long start = System.currentTimeMillis();
+	        final long start = System.currentTimeMillis();
 	        chain.doFilter(request, response);
 	
-	        if (LOG.isInfoEnabled() ) {
-	            long elapsed = System.currentTimeMillis() - start;
-	            long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-	            LOG.info(((HttpServletRequest) request).getRequestURI() + " : " + elapsed + " ms");
-	            LOG.info(((HttpServletRequest) request).getRequestURI() + " : " + usedMemory + " memory used");
+	        if (LOG.isInfoEnabled()) {
+	            final long elapsed = System.currentTimeMillis() - start;
+	            final long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+				LOG.info(((HttpServletRequest) request).getRequestURI() + " : " + elapsed + "ms, " + usedMemory + "B memory used");
 	        }
     	}
     }
-    
-    public boolean isIgnoredRequest(String requestUrl) {
-    	for (Pattern pattern : ignoredUrls) {
-    		if (pattern.matcher(requestUrl).matches()) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
+
+	private boolean isRequestExcluded(HttpServletRequest httpRequest) {
+		return urlExcludePattern != null
+				&& urlExcludePattern.matcher(
+				httpRequest.getRequestURI()
+						.substring(httpRequest.getContextPath().length())).matches();
+	}
+
+	public ConfigurationService getConfigurationService() {
+		if (configurationService == null) {
+			configurationService = KcServiceLocator.getService(ConfigurationService.class);
+		}
+
+		return configurationService;
+	}
+
+	public void setConfigurationService(ConfigurationService configurationService) {
+		this.configurationService = configurationService;
+	}
 }

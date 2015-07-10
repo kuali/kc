@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -224,6 +225,7 @@ public class ProposalDevelopmentSubmitController extends
                 form.getWorkflowDocument().setDoNotReceiveFutureRequests();
             }
         }
+        form.setCanEditView(null);
         form.setEvaluateFlagsAndModes(true);
         getTransactionalDocumentControllerService().route(form);
         getPessimisticLockService().releaseWorkflowPessimisticLocking(form.getProposalDevelopmentDocument());
@@ -233,6 +235,7 @@ public class ProposalDevelopmentSubmitController extends
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params = "methodToCall=cancelProposal")
     public ModelAndView cancelProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+        form.setCanEditView(null);
         form.setEvaluateFlagsAndModes(true);
         form.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.CANCELED);
        return getTransactionalDocumentControllerService().cancel(form);
@@ -248,6 +251,7 @@ public class ProposalDevelopmentSubmitController extends
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=blanketApprove")
     public  ModelAndView blanketApprove(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
         if (!getValidationState(form).equals(AuditHelper.ValidationState.ERROR)){
+            form.setCanEditView(null);
             form.setEvaluateFlagsAndModes(true);
             return getTransactionalDocumentControllerService().blanketApprove(form);
         }
@@ -266,6 +270,7 @@ public class ProposalDevelopmentSubmitController extends
        if (successMessageKey != null) {
            getGlobalVariableService().getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, successMessageKey);
        }
+       form.setCanEditView(null);
        form.setEvaluateFlagsAndModes(true);
        return getModelAndViewService().getModelAndView(form);
   } 
@@ -274,6 +279,7 @@ public class ProposalDevelopmentSubmitController extends
    public  ModelAndView disapproveProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form)throws Exception {
 	   String applicationUrl = getConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
 	   form.setReturnLocation(applicationUrl);
+       form.setCanEditView(null);
        form.setEvaluateFlagsAndModes(true);
        return getTransactionalDocumentControllerService().disapprove(form);
    }
@@ -442,6 +448,7 @@ public class ProposalDevelopmentSubmitController extends
             setProposalStateType(generateIp, proposalDevelopmentDocument);
 
             String pCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
+            proposalDevelopmentForm.setCanEditView(null);
             proposalDevelopmentForm.setEvaluateFlagsAndModes(true);
             getTransactionalDocumentControllerService().save(proposalDevelopmentForm);
             if( !StringUtils.equals(pCode, proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode() )) {
@@ -576,13 +583,18 @@ public class ProposalDevelopmentSubmitController extends
     
     protected void persistProposalAdminDetails(String devProposalNumber, Long instProposalId) {
         ProposalAdminDetails proposalAdminDetails = new ProposalAdminDetails();
+        addCreateDetails(proposalAdminDetails);
         proposalAdminDetails.setDevProposalNumber(devProposalNumber);
         proposalAdminDetails.setInstProposalId(instProposalId);
         String loggedInUser = getGlobalVariableService().getUserSession().getPrincipalName();        
         proposalAdminDetails.setSignedBy(loggedInUser);
         getLegacyDataAdapter().save(proposalAdminDetails);
     }
-    
+
+    private void addCreateDetails(ProposalAdminDetails proposalAdminDetails) {
+        proposalAdminDetails.setCreateTimestamp(new Timestamp(System.currentTimeMillis()));
+        proposalAdminDetails.setCreateUser(getGlobalVariableService().getUserSession().getLoggedInUserPrincipalName());
+    }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=approve")
     public ModelAndView approve(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception{
@@ -612,7 +624,7 @@ public class ProposalDevelopmentSubmitController extends
                 && getKcWorkflowService().isFinalApproval(workflowDoc)) {
             return submitToSponsor(form);
         }
-
+        form.setCanEditView(null);
         form.setEvaluateFlagsAndModes(true);
         return updateProposalState(form);
     }
@@ -706,6 +718,7 @@ public class ProposalDevelopmentSubmitController extends
                 getGlobalVariableService().getUserSession().getPrincipalId(),bean.getRejectFile());
     }
 
+    form.setCanEditView(null);
     form.setEvaluateFlagsAndModes(true);
     return getTransactionalDocumentControllerService().reload(form);
     }
@@ -719,6 +732,7 @@ public class ProposalDevelopmentSubmitController extends
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=sendAdHocRequests")
     public ModelAndView sendAdHocRequests(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+        form.setCanEditView(null);
         form.setEvaluateFlagsAndModes(true);
         return getTransactionalDocumentControllerService().sendAdHocRequests(form);
     }

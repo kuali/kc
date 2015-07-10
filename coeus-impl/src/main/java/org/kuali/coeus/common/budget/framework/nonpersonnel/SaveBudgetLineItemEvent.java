@@ -16,33 +16,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.coeus.sys.framework.persistence;
+package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
-import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
-import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 
-import java.util.Calendar;
-import java.sql.Date;
+public class SaveBudgetLineItemEvent extends BudgetLineItemEventBase {
 
-public class OjbCalendarSqlDateConversion implements FieldConversion {
+	private BudgetPeriod budgetPeriod;
+	
+	public SaveBudgetLineItemEvent(Budget budget, String errorPath, BudgetLineItem budgetLineItem, BudgetPeriod budgetPeriod) {
+		super(budget, errorPath, budgetLineItem);
+		this.budgetPeriod = budgetPeriod;
+	}
 
-    @Override
-    public Date javaToSql(Object source) throws ConversionException {
-        if (source == null) {
-            return null;
-        }
+	public BudgetPeriod getBudgetPeriod() {
+		return budgetPeriod;
+	}
 
-        return new Date(((Calendar) source).getTime().getTime());
-    }
-
-    @Override
-    public Calendar sqlToJava(Object source) throws ConversionException {
-        if (source == null) {
-            return null;
-        }
-
-        final Calendar c = Calendar.getInstance();
-        c.setTime((Date) source);
-        return c;
-    }
+	public void setBudgetPeriod(BudgetPeriod budgetPeriod) {
+		this.budgetPeriod = budgetPeriod;
+	}
 }

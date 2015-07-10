@@ -32,6 +32,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -130,8 +131,9 @@ public class SchemaSpyFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        final UserSession session = getGlobalVariableService().getUserSession();
-        if (session == null || !getPermissionService().isAuthorizedByTemplate(getGlobalVariableService().getUserSession().getPrincipalId(),
+        final UserSession session = getGlobalVariableService().getUserSession() != null ?
+                getGlobalVariableService().getUserSession() : (UserSession) ((HttpServletRequest) request).getSession().getAttribute(KRADConstants.USER_SESSION_KEY);
+        if (session == null || !getPermissionService().isAuthorizedByTemplate(session.getPrincipalId(),
                 KRADConstants.KRAD_NAMESPACE,
                 KimConstants.PermissionTemplateNames.OPEN_VIEW,
                 Collections.singletonMap(KimConstants.AttributeConstants.VIEW_ID, KIM_SCHEMA_SPY_VIEW_ID),

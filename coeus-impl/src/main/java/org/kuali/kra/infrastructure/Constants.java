@@ -40,6 +40,7 @@ public interface Constants {
     public static final String KEY_PERSON_ROLE = "KP";
     public static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
     public static final String ALL_INVESTIGATORS = "Investigators";
+    public static final String PRINCIPAL_INVESTIGATOR = "Principle Investigator";
     public static final String MULTI_PI_ROLE ="MPI";
     public static final String CO_INVESTIGATOR_ROLE = "COI";
     public static final String MULTIPLE_VALUE = "multipleValues";
@@ -187,6 +188,7 @@ public interface Constants {
     /*Proposal notification constants*/
     public static final String DATA_OVERRIDE_NOTIFICATION_ACTION = "102";
     public static final String DATA_OVERRIDE_CONTEXT = "Proposal Data Override";
+    public static final String PROPOSAL_DATA_OVVERRIDE_ACTION_TYPE_CODE = "103";
    
     /* set values for ynq */
     public static final Integer ANSWER_YES_NO = 2;
@@ -563,8 +565,7 @@ public interface Constants {
     
     // Protocol edit modes
     public static final String CAN_VIEW_REVIEW_COMMENTS = "viewReviewComments";
-    public static final String CAN_EDIT_REVIEW_COMMENTS = "canEditReviewComments";
-    public static final String CAN_EDIT_REVIEW_ATTACHMENTS = "canEditReviewAttachments";
+
     // Risk Level
     public static final String PROTOCOL_UPDATE_RISK_LEVEL_KEY = "document.protocol.protocolRiskLevels";
     

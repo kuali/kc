@@ -39,7 +39,6 @@ import org.kuali.kra.printing.schema.ContactType;
 import org.kuali.kra.printing.schema.ReportTermDetailsType.MailCopies;
 import org.kuali.kra.printing.schema.TemplateDocument.Template;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
 import java.util.*;
@@ -55,7 +54,7 @@ public class AwardTemplateXmlStream implements XmlStream {
 	
 	private static final Log LOG = LogFactory.getLog(AwardTemplateXmlStream.class);
 	
-	private BusinessObjectService businessObjectService = null;
+
 	private DateTimeService dateTimeService = null;
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
 	private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
@@ -480,15 +479,6 @@ public class AwardTemplateXmlStream implements XmlStream {
 			schoolInfoType.setAcronym(schoolAcronym);
 		}
 		return schoolInfoType;
-	}
-
-	public BusinessObjectService getBusinessObjectService() {
-		return businessObjectService;
-	}
-
-	public void setBusinessObjectService(
-			BusinessObjectService businessObjectService) {
-		this.businessObjectService = businessObjectService;
 	}
 
 	public DateTimeService getDateTimeService() {

@@ -44,7 +44,9 @@ import java.util.*;
  */
 public class NegotiationServiceImpl implements NegotiationService {
     
-    private static final String PARAMETER_DELIMITER = ",";
+    static final String ZERO_DAYS_LONG_STRING = "0 Days";
+
+	private static final String PARAMETER_DELIMITER = ",";
     
     private ParameterService parameterService;
     private AwardBudgetService awardBudgetService;
@@ -288,13 +290,13 @@ public class NegotiationServiceImpl implements NegotiationService {
                 if (isDateBetween(bean.getStartDate(), previousStartDate, previousEndDate)
                         && isDateBetween(bean.getEndDate(), previousStartDate, previousEndDate)) {
                     //current date range lies within the previous date range
-                    setBeanStuff(bean, null, null, "0 Days");
+                    setBeanStuff(bean, null, null, ZERO_DAYS_LONG_STRING);
                     //leave previous alone
                 } else if (isDateBetween(bean.getStartDate(), previousStartDate, previousEndDate) 
-                        && bean.getEndDate().after(previousEndDate)) {
+                        && (bean.getEndDate() == null || bean.getEndDate().after(previousEndDate))) {
                     //current date range starts within the previous range, but finishes past it.
                     Date previousEndDatePlusOneDay = new Date(previousEndDate.getTime() + NegotiationActivity.MILLISECS_PER_DAY);                    
-                    previousEndDate = bean.getEndDate();
+                    previousEndDate = bean.getEndDate() != null ? bean.getEndDate() : new Date(Calendar.getInstance().getTimeInMillis());
                     setBeanStuff(bean, previousEndDatePlusOneDay, bean.getEndDate(), NegotiationActivity.getNumberOfDays(previousEndDatePlusOneDay, bean.getEndDate()));
                 } else {
                     //completely separate range.

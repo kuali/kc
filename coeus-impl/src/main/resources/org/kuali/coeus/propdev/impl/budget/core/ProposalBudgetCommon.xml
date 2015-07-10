@@ -50,7 +50,14 @@
 					p:performClientSideValidation="true" p:methodToCall="completeBudget"
 					p:actionLabel="Complete Budget" p:render="@{#view.editModes.containsKey(T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants).CHANGE_COMPLETE_STATUS) and !budget.isBudgetComplete() and !#parent.readOnly}"
 					p:order="40" />
+                <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true"
+                      p:methodToCall="closeBudget" p:actionLabel="Close" p:order="50" />
 			</list>
 		</property>
-	</bean>	      
+	</bean>
+
+
+    <bean id="PropDev-CloseBudget-Dialog" parent="PropDev-CloseBudget-Dialog-parentBean"/>
+    <bean id="PropDev-CloseBudget-Dialog-parentBean" abstract="true" parent="PropDev-Close-Dialog"
+          p:promptText="Would you like to save this budget before you close it?"/>
 </beans>

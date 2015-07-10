@@ -28,9 +28,7 @@ import java.util.Map;
 
 /**
  * This class is used for generating XML stream for report generation of any
- * document like {@link AwardDocument}, {@link BudgetDocument} etc
- * 
- * @author
+ * document.
  * 
  */
 public interface XmlStream {
@@ -48,32 +46,6 @@ public interface XmlStream {
 	 * @throws PrintingException
 	 *             in case of any errors occur during report generation
 	 */
-	public Map<String, XmlObject> generateXmlStream(
+	Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters);
-
-	/**
-	 * Getter for {@link BusinessObjectService}
-	 * 
-	 * @return {@link BusinessObjectService}
-	 */
-	public BusinessObjectService getBusinessObjectService();
-
-	/**
-	 * Setter for {@link BusinessObjectService}
-	 * 
-	 * @param businessObjectService
-	 */
-	public void setBusinessObjectService(
-			BusinessObjectService businessObjectService);
-
-	/**
-	 * @return the dateTimeService
-	 */
-	public DateTimeService getDateTimeService();
-
-	/**
-	 * @param dateTimeService
-	 *            the dateTimeService to set
-	 */
-	public void setDateTimeService(DateTimeService dateTimeService);
 }

@@ -127,7 +127,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
      * @return
      */
     public ActionForward addOtherPresent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) {
+            HttpServletResponse response) throws Exception{
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
         if (applyRules(new MeetingAddOtherEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
                 .getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR))) {

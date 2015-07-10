@@ -28,15 +28,13 @@ import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
-    protected List<String> requiredAttributes = new ArrayList<String>();
+    protected List<String> requiredAttributes = new ArrayList<>();
     {
         requiredAttributes.add(KcKimAttributes.PROTOCOL);
     }
@@ -46,18 +44,18 @@ public class IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends Derive
             Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
 
-        List<RoleMembership> members = new ArrayList<RoleMembership>();
+        List<RoleMembership> members = new ArrayList<>();
 
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);       
         IacucProtocol protocol = getProtocol(protocolNumber);
         
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
-            for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
-                if (StringUtils.equals(getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()), roleName) &&
-                    StringUtils.isNotBlank(person.getPerson().getPersonId())) {
-                    members.add(RoleMembership.Builder.create(null, null, person.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build());
-                }
-            }
+            members.addAll(protocol.getProtocolPersons().stream()
+                    .filter(person ->
+                            StringUtils.equals(getAffiliationType(person.getAffiliationTypeCode()), roleName) &&
+                                    StringUtils.isNotBlank(person.getPerson().getPersonId()))
+                    .map(person -> RoleMembership.Builder.create(null, null, person.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build())
+                    .collect(Collectors.toList()));
         }
         
         return members;
@@ -87,21 +85,17 @@ public class IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends Derive
     }
     
     private IacucProtocol getProtocol(String protocolNumber) {
-        Map<String,Object> keymap = new HashMap<String,Object>();
-        keymap.put("protocolNumber", protocolNumber);
-        return (IacucProtocol) getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, keymap);
+        return getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, Collections.singletonMap("protocolNumber", protocolNumber));
     }
 
     private String getAffiliationType(Integer affiliationTypeCode) {
         String result = null;
         
         if (affiliationTypeCode != null) {
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("affiliationTypeCode", affiliationTypeCode.toString());
-            List<IacucProtocolAffiliationType> affiliationTypes = 
-                (List<IacucProtocolAffiliationType>) getBusinessObjectService().findMatching(IacucProtocolAffiliationType.class, fieldValues);
+            Collection<IacucProtocolAffiliationType> affiliationTypes =
+                    getBusinessObjectService().findMatching(IacucProtocolAffiliationType.class, Collections.singletonMap("affiliationTypeCode", affiliationTypeCode.toString()));
             if (CollectionUtils.isNotEmpty(affiliationTypes)) {
-                result = affiliationTypes.get(0).getDescription();
+                result = affiliationTypes.iterator().next().getDescription();
             }
         }
         return result;        

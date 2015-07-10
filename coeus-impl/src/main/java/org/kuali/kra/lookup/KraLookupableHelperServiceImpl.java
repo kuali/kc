@@ -26,7 +26,6 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -44,41 +43,44 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        List<HtmlData> htmlDataList = new ArrayList<>();
         addEditHtmlData(htmlDataList, businessObject);
         return htmlDataList;
 
 }
     protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
+        htmlDataList.add(getEditLink(businessObject));
+    }
+
+    protected AnchorHtmlData getEditLink(BusinessObject businessObject) {
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
         parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put(getKeyFieldName(), ObjectUtils.getPropertyValue(businessObject, getKeyFieldName()).toString());
         String href = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
-        
-        AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, 
+
+        return new AnchorHtmlData(href,
                 KRADConstants.DOC_HANDLER_METHOD, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
-        htmlDataList.add(anchorHtmlData);
     }
 
-    protected AnchorHtmlData getViewLink(Document document) {
+    protected AnchorHtmlData getViewLink(String documentNumber) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText(VIEW);
-        Properties parameters = new Properties();
+        final Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
         parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
         parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", "true");
-        parameters.put("docId", document.getDocumentNumber());
+        parameters.put("docId", documentNumber);
         String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
         
         htmlData.setHref(href);
         return htmlData;
 
     }
-    
-    protected AnchorHtmlData getMedusaLink(Document document, Boolean readOnly) {
+
+    protected AnchorHtmlData getMedusaLink(String documentNumber, Boolean readOnly) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         htmlData.setDisplayText(MEDUSA);
         Properties parameters = new Properties();
@@ -86,40 +88,15 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
         parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
         parameters.put("viewDocument", readOnly.toString());
-        parameters.put("docId", document.getDocumentNumber());
+        parameters.put("docId", documentNumber);
         String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
-        
-        htmlData.setHref(href);
-        return htmlData;
-    }
-    
-    /**
-     * 
-     * @param document
-     * @param methodToCall method to call on action
-     * @param linkName 
-     * @param readOnly whether the document should be readOnly or not
-     * @return
-     */
-    protected AnchorHtmlData getCustomLink(Document document, String methodToCall, String linkName, Boolean readOnly) {
-        AnchorHtmlData htmlData = new AnchorHtmlData();
-        htmlData.setDisplayText(linkName);
-        Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
-        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
-        parameters.put("viewDocument", readOnly.toString());
-        parameters.put("docId", document.getDocumentNumber());
-        String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
-        
+
         htmlData.setHref(href);
         return htmlData;
     }
 
-    
     /**
      * To force to it to show action links, such as 'edit' if it is not 'lookup' to search of return value.
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.core.web.struts.form.LookupForm, java.util.Collection, boolean)
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
@@ -134,7 +111,6 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     /**
      * 
      * This method to set both fields if child class override getSearchResults
-     * @param fieldValues
      */
     protected void setBackLocationDocFormKey(Map<String, String> fieldValues) {
 
@@ -152,9 +128,6 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
      * 
      * This method is to set up field definitions for lookup fields.  
      * These fields does not have a reference object defined for it in repository &amp; bo.
-     * @param field
-     * @param keyName
-     * @param className
      */
     protected void updateLookupField(Field field, String keyName, String className) {
         if (StringUtils.isNotBlank(keyName) && StringUtils.isNotBlank(className)) {
@@ -166,7 +139,6 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
         
     }
 
-        
     /**
      * htmlaction for 'edit' link
      */
@@ -175,14 +147,12 @@ public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelp
     /**
      * 
      * This method to set document type of the lookup bo's document
-     * @return
      */
     protected abstract String getDocumentTypeName();
     
     /**
      * 
      * This method is set the key field to retrieve bo for editing.  May change to  a map if there are multiple fields.
-     * @return
      */
     protected abstract String getKeyFieldName();
 

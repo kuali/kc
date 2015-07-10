@@ -245,20 +245,34 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		BudgetPeriod currentTabBudgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
 		BudgetLineItem newBudgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
 		BudgetPersonnelDetails newBudgetPersonnelDetail = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
+		boolean success = addNewPersonnelLineItemToPeriod(form, budget, currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail, "addProjectPersonnelHelper.budgetPersonnelDetail.");
+		if(success) {
+			form.getAddProjectPersonnelHelper().reset();
+		}
+		return getModelAndViewService().getModelAndView(form);
+	}
+	
+	protected boolean addNewPersonnelLineItemToPeriod(ProposalBudgetForm form, Budget budget, BudgetPeriod currentTabBudgetPeriod, BudgetLineItem newBudgetLineItem, 
+			BudgetPersonnelDetails newBudgetPersonnelDetail, String errorPath) {
 		syncLineItemDates(newBudgetLineItem, newBudgetPersonnelDetail);
 		refreshBudgetLineItemReferences(newBudgetLineItem);
 		setBudgetLineItemGroupName(form, newBudgetLineItem);
 		if(!isSummaryPersonnel(newBudgetPersonnelDetail)) {
 			getBudgetPersonnelBudgetService().refreshBudgetPersonnelLineItemReferences(newBudgetPersonnelDetail);
 		}
-		boolean rulePassed = isAddRulePassed(budget, currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail);
+		boolean rulePassed = isAddBudgetPersonnelRulePassed(budget, currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail, errorPath);
 		if(rulePassed) {
 			getBudgetPersonnelBudgetService().addBudgetPersonnelToPeriod(currentTabBudgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail);
 		    getBudgetCalculationService().calculateBudgetPeriod(budget, currentTabBudgetPeriod);
 		    getDataObjectService().save(budget);
-			form.getAddProjectPersonnelHelper().reset();
+		    return true;
 		}
-		return getModelAndViewService().getModelAndView(form);
+		return false;
+	}
+
+	protected boolean isAddBudgetPersonnelRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail, String errorPath) {
+		return getKcBusinessRulesEngine().applyRules(new BudgetAddPersonnelPeriodEvent(budget, budgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail,
+				errorPath));
 	}
 
 	@Transactional @RequestMapping(params="methodToCall=refreshPageWithBudgetExpenseRules")
@@ -300,13 +314,8 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	
 	private boolean isSaveRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail, int editLineIndex) {
 		return getKcBusinessRulesEngine().applyRules(new BudgetSavePersonnelPeriodEvent(budget, budgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail, 
-				editLineIndex, "addProjectPersonnelHelper.budgetPersonnelDetail."));
+				editLineIndex, "addProjectPersonnelHelper.editBudgetPersonnelDetail."));
 	}
-
-    private boolean isAddRulePassed(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem newBudgetLineItem, BudgetPersonnelDetails newBudgetPersonnelDetail) {
-        return getKcBusinessRulesEngine().applyRules(new BudgetAddPersonnelPeriodEvent(budget, budgetPeriod, newBudgetLineItem, newBudgetPersonnelDetail,
-                "addProjectPersonnelHelper.budgetPersonnelDetail."));
-    }
 
     private boolean isProjectPersonnelDeleteRulePassed(Budget budget, BudgetPerson budgetPerson) {
         return getKcBusinessRulesEngine().applyRules(new DeleteBudgetPersonEvent(budget, budgetPerson, 
@@ -323,7 +332,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     		BudgetLineItem budgetLineItem = budgetPersonnelDetails.getBudgetLineItem();
     		form.getAddProjectPersonnelHelper().setEditLineIndex(selectedLine);
 		    form.getAddProjectPersonnelHelper().setBudgetLineItem(getDataObjectService().copyInstance(budgetLineItem));
-		    form.getAddProjectPersonnelHelper().setBudgetPersonnelDetail(getDataObjectService().copyInstance(budgetPersonnelDetails));
+		    form.getAddProjectPersonnelHelper().setEditBudgetPersonnelDetail(getDataObjectService().copyInstance(budgetPersonnelDetails));
 		    Long currentTabBudgetPeriodId = Long.parseLong(budgetPeriodId);
 		    BudgetPeriod budgetPeriod = getBudgetPeriod(currentTabBudgetPeriodId, budget);
 		    form.getAddProjectPersonnelHelper().setCurrentTabBudgetPeriod(budgetPeriod);
@@ -331,6 +340,27 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     	return getModelAndViewService().showDialog(EDIT_PERSONNEL_PERIOD_DIALOG_ID, true, form);
 	}
 
+    protected boolean isSummaryPersonChanged(BudgetLineItem budgetLineItem, BudgetPersonnelDetails editedBudgetPersonnelDetails) {
+    	if(!isSummaryPersonnel(editedBudgetPersonnelDetails) && !budgetLineItem.isPersonnelLineItem()) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    protected boolean isPersonnelChangeToSummaryPerson(BudgetLineItem budgetLineItem, BudgetPersonnelDetails editedBudgetPersonnelDetails) {
+    	if(isSummaryPersonnel(editedBudgetPersonnelDetails) && budgetLineItem.isPersonnelLineItem()) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+	@Transactional @RequestMapping(params="methodToCall=refreshEditBudgetLineItem")
+	public ModelAndView refreshEditBudgetLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		BudgetPersonnelDetails editBudgetPersonnel = form.getAddProjectPersonnelHelper().getEditBudgetPersonnelDetail();
+		getDataObjectService().wrap(editBudgetPersonnel).fetchRelationship("budgetPerson");
+		return getModelAndViewService().getModelAndView(form);
+	}
+    
 	@Transactional @RequestMapping(params="methodToCall=savePersonPeriodDetails")
 	public ModelAndView savePersonPeriodDetails(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
 	    Budget budget = form.getBudget();
@@ -339,25 +369,32 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 		BudgetLineItem budgetLineItem = budgetPersonnelDetails.getBudgetLineItem();
 	    int editLineIndex = budgetLineItem.getBudgetPersonnelDetailsList().indexOf(budgetPersonnelDetails);
 		BudgetPeriod budgetPeriod = form.getAddProjectPersonnelHelper().getCurrentTabBudgetPeriod();
-		BudgetPersonnelDetails editBudgetPersonnel = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
+		BudgetPersonnelDetails editBudgetPersonnel = form.getAddProjectPersonnelHelper().getEditBudgetPersonnelDetail();
 		BudgetLineItem editBudgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
 	    int budgetLineItemIndex = budgetPeriod.getBudgetLineItems().indexOf(budgetLineItem);
-		syncLineItemDates(editBudgetLineItem, editBudgetPersonnel);
-		if(!isSummaryPersonnel(editBudgetPersonnel)) {
-			getDataObjectService().wrap(editBudgetPersonnel).fetchRelationship("budgetPeriodType");
-		}
-		boolean rulePassed = isSaveRulePassed(budget, budgetPeriod, editBudgetLineItem, editBudgetPersonnel, editLineIndex);
-		if(rulePassed) {
-			calculatePersonnelLineItem(form, true);
-			if(isSummaryPersonnel(editBudgetPersonnel)) {
-				editBudgetLineItem.setLineItemCost(editBudgetPersonnel.getSalaryRequested());
-			}else {
-				editBudgetLineItem.getBudgetPersonnelDetailsList().set(editLineIndex, editBudgetPersonnel);
+	    if(isSummaryPersonChanged(editBudgetLineItem, editBudgetPersonnel)) {
+	    	addNewPersonnelLineItemToPeriod(form, budget, budgetPeriod, editBudgetLineItem, editBudgetPersonnel, "addProjectPersonnelHelper.editBudgetPersonnelDetail.");
+	    }else {
+			syncLineItemDates(editBudgetLineItem, editBudgetPersonnel);
+			if(!isSummaryPersonnel(editBudgetPersonnel)) {
+				getDataObjectService().wrap(editBudgetPersonnel).fetchRelationship("budgetPeriodType");
 			}
-			BudgetLineItem newBudgetLineItem = getDataObjectService().save(editBudgetLineItem);
-			budgetPeriod.getBudgetLineItems().set(budgetLineItemIndex, newBudgetLineItem);
-		    getBudgetCalculationService().calculateBudgetPeriod(budget, budgetPeriod);
-		}
+			boolean rulePassed = isSaveRulePassed(budget, budgetPeriod, editBudgetLineItem, editBudgetPersonnel, editLineIndex);
+			if(rulePassed) {
+				calculatePersonnelLineItem(form, true);
+				if(isSummaryPersonnel(editBudgetPersonnel)) {
+					editBudgetLineItem.setLineItemCost(editBudgetPersonnel.getSalaryRequested());
+				}else {
+					editBudgetLineItem.getBudgetPersonnelDetailsList().set(editLineIndex, editBudgetPersonnel);
+				}
+				if(isPersonnelChangeToSummaryPerson(editBudgetLineItem, editBudgetPersonnel)) {
+					editBudgetLineItem.getBudgetPersonnelDetailsList().clear();
+				}
+				BudgetLineItem newBudgetLineItem = getDataObjectService().save(editBudgetLineItem);
+				budgetPeriod.getBudgetLineItems().set(budgetLineItemIndex, newBudgetLineItem);
+			    getBudgetCalculationService().calculateBudgetPeriod(budget, budgetPeriod);
+			}
+	    }
 		return getModelAndViewService().getModelAndView(form);
 	}
 
@@ -367,6 +404,12 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
 	
 	@Transactional @RequestMapping(params="methodToCall=calculatePersonnelPeriodLineItem")
 	public ModelAndView calculatePersonnelPeriodLineItem(@ModelAttribute("KualiForm") ProposalBudgetForm form) throws Exception {
+		BudgetPersonnelDetails editBudgetPersonnelDetail = form.getAddProjectPersonnelHelper().getEditBudgetPersonnelDetail();
+		BudgetLineItem budgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
+		if(isSummaryPersonnel(editBudgetPersonnelDetail)) {
+			budgetLineItem.setLineItemCost(editBudgetPersonnelDetail.getSalaryRequested());
+			editBudgetPersonnelDetail.setBudgetLineItem(budgetLineItem);
+		}
 		calculatePersonnelLineItem(form, false);
 		return getModelAndViewService().getModelAndView(form);
 	}
@@ -378,7 +421,7 @@ public class ProposalBudgetProjectPersonnelController extends ProposalBudgetCont
     	BudgetPersonnelDetails budgetPersonnelDetails = form.getBudget().getBudgetPersonnelDetails().get(selectedLine);
 		BudgetLineItem budgetLineItem = budgetPersonnelDetails.getBudgetLineItem();
 	    int editLineIndex = budgetLineItem.getBudgetPersonnelDetailsList().indexOf(budgetPersonnelDetails);
-	    BudgetPersonnelDetails editBudgetPersonnel = form.getAddProjectPersonnelHelper().getBudgetPersonnelDetail();
+	    BudgetPersonnelDetails editBudgetPersonnel = form.getAddProjectPersonnelHelper().getEditBudgetPersonnelDetail();
         BudgetLineItem editBudgetLineItem = form.getAddProjectPersonnelHelper().getBudgetLineItem();
         syncLineItemDates(editBudgetLineItem, editBudgetPersonnel);
 		boolean rulePassed = ruleChecked ? ruleChecked : isSaveRulePassed(budget, budgetPeriod, editBudgetLineItem, editBudgetPersonnel, editLineIndex);

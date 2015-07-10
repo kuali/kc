@@ -80,8 +80,10 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
 
         if (biography.getProposalPersonNumber() != null) {
             ProposalPerson proposalPerson = getPerson(developmentProposal,biography.getProposalPersonNumber() );
-            biography.setPersonId(proposalPerson.getPersonId());
-            biography.setRolodexId(proposalPerson.getRolodexId());
+            if (proposalPerson != null) {
+                biography.setPersonId(proposalPerson.getPersonId());
+                biography.setRolodexId(proposalPerson.getRolodexId());
+            }
         }
     }
     /**

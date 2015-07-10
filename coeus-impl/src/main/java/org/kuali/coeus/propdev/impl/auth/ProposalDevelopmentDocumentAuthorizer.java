@@ -43,6 +43,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
+import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -76,6 +77,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     private KcDocumentRejectionService kcDocumentRejectionService;
 
     private ProposalHierarchyService proposalHierarchyService;
+
+    private ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService;
 
     @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
@@ -345,7 +348,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     
     @Override
     public boolean canApprove( Document document, Person user ) {
-        return super.canApprove(document,user) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
+        return super.canApprove(document, user) && isAuthorizedToHierarchyChildWorkflowAction(document, user);
     }
     
     @Override
@@ -398,23 +401,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         return isAuthorizedToRecallProposal(document, user);
     }
 
-    public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user, ProposalPerson proposalPerson){
-        final Boolean param = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, ProposalDevelopmentConstants.Parameters.KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY);
-
-        if (param != null && param) {
-
-            // null person indicates non employee and only people with proxy perms can certify for them so return false below
-            boolean isKeyPersonnel = proposalPerson.getPerson() != null && proposalPerson.getPerson().getPersonId().equals(user.getPrincipalId());
-            boolean canCertify = getKcAuthorizationService().hasPermission(user.getPrincipalId(), document, PermissionConstants.CERTIFY);
-
-            return isKeyPersonnel || canCertify;
-        }
-        return true;
+    
+    public boolean hasCertificationPermissions(ProposalDevelopmentDocument document, Person user,ProposalPerson proposalPerson){
+    	return getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, user, proposalPerson);
     }
-
+    
     protected boolean canSaveCertification(ProposalDevelopmentDocument document, Person user) {
         for(ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            if (hasCertificationPermissions(document, user, person) && document.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+            if (getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, user, person)) {
                 return true;
             }
         }
@@ -633,7 +627,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
         DocumentRequestAuthorizationCache.WorkflowDocumentInfo workflowDocumentInfo =
                 getDocumentRequestAuthorizationCache(document).getWorkflowDocumentInfo();
 
-        return (!workflowDocumentInfo.isCompletionRequested()) && (!getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument())) && (workflowDocumentInfo.isApprovalRequested()) && (workflowDocumentInfo.isEnroute());
+        return ((!workflowDocumentInfo.isCompletionRequested() && workflowDocumentInfo.isApprovalRequested()) || canReject(user)) &&
+                !getKcDocumentRejectionService().isDocumentOnInitialNode(pdDocument.getDocumentHeader().getWorkflowDocument())
+                && workflowDocumentInfo.isEnroute();
+    }
+
+    protected boolean canReject(Person user) {
+        return getPermissionService().hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                PermissionConstants.REJECT_PROPOSAL_DEVELOPMENT_DOCUMENT);
     }
 
     protected boolean isAuthorizedToSubmitToWorkflow(Document document, Person user) {
@@ -935,4 +936,16 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcKradTransactionalDo
     public void setProposalHierarchyService (ProposalHierarchyService proposalHierarchyService){
         this.proposalHierarchyService = proposalHierarchyService;
     }
+    
+    public ProposalDevelopmentPermissionsService getProposalDevelopmentPermissionsService() {
+    	if(proposalDevelopmentPermissionsService == null){
+    		proposalDevelopmentPermissionsService = KcServiceLocator.getService(ProposalDevelopmentPermissionsService.class);
+    	}
+		return proposalDevelopmentPermissionsService;
+	}
+
+	public void setProposalDevelopmentPermissionsService(
+			ProposalDevelopmentPermissionsService proposalDevelopmentPermissionsService) {
+		this.proposalDevelopmentPermissionsService = proposalDevelopmentPermissionsService;
+	}
 }

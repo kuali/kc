@@ -29,6 +29,7 @@ import org.kuali.kra.protocol.noteattachment.TypedAttachment;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
@@ -52,7 +53,6 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     private static final String EXPIRATION_DATE = "expirationDate";
     private static final String PROTOCOL_STATUS_CODE = "protocolStatusCode";
-    private static final String SUBMISSION_NUMBER = "submissionNumber";
     private static final String SUBMISSION_STATUS_CODE = "submissionStatusCode";
     private static final String PROTOCOL_SUBMISSIONS_COMMITTEE_ID = "protocolSubmissions.committeeId";
     private static final String PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER = "protocolSubmissions.submissionNumber";
@@ -61,12 +61,10 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
  
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
-    private List<String> investigatorRole = new ArrayList<String>();
-    private List<String> personRole = new ArrayList<String>();
-    private Map<String, String> baseLookupFieldValues;
-    private Map<String, CriteriaFieldHelper> collectionFieldValues;
-    private List<String> excludedFields = new ArrayList<String>();
-    protected List<String> collectionFieldNames = new ArrayList<String>();
+    private List<String> investigatorRole = new ArrayList<>();
+    private List<String> personRole = new ArrayList<>();
+    private List<String> excludedFields = new ArrayList<>();
+    protected List<String> collectionFieldNames = new ArrayList<>();
     
     public ProtocolDaoOjbBase() {
         super();
@@ -74,12 +72,11 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<GenericProtocol> getProtocols(Map<String, String> fieldValues) {
         Criteria crit = new Criteria();
-        baseLookupFieldValues = new HashMap<String, String>();
-        collectionFieldValues = new HashMap<String, CriteriaFieldHelper>();
-        setupCritMaps(fieldValues);
+        final Map<String, String> baseLookupFieldValues = new HashMap<>();
+        final Map<String, CriteriaFieldHelper> collectionFieldValues = new HashMap<>();
+        setupCritMaps(fieldValues, baseLookupFieldValues, collectionFieldValues);
         
         if (!baseLookupFieldValues.isEmpty()) {
             try {
@@ -100,6 +97,17 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
                 crit.addExists(getUnitReportQuery(entry));
             }
         }
+        
+        Long matchingResultsCount = null;
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(getProtocolBOClassHook());
+        if (searchResultsLimit != null) {
+        	matchingResultsCount = Long.valueOf(getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(getProtocolBOClassHook(), crit)));
+            LookupUtils.applySearchResultsLimit(getProtocolBOClassHook(), crit, getDbPlatform());
+        }
+        if ((matchingResultsCount == null) || (matchingResultsCount <= searchResultsLimit)) {
+            matchingResultsCount = new Long(0);
+        }
+        
         Query q = QueryFactory.newQuery(getProtocolBOClassHook(), crit, true);
         logQuery(q);
         
@@ -107,7 +115,6 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends ProtocolAttachmentBase & TypedAttachment> List<T> retrieveAttachmentVersions(T attachment, Class<T> type) {
         
         final List<T> attachments;
@@ -134,7 +141,6 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public List<GenericProtocol> getExpiringProtocols(String committeeId, Date startDate, Date endDate) {
         Criteria crit = new Criteria();
         crit.addEqualTo(PROTOCOL_SUBMISSIONS_COMMITTEE_ID, committeeId);
@@ -159,12 +165,9 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
 
     protected abstract Collection<String> getActiveProtocolStatusCodesHook();
 
-    @SuppressWarnings("unchecked")
     public List<ProtocolBase> getNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
         Criteria subCritProtocolAction = new Criteria();
         subCritProtocolAction.addEqualToField("protocolId", Criteria.PARENT_QUERY_PREFIX + "protocolId");
-       // subCritProtocolAction.addEqualToField(SEQUENCE_NUMBER, Criteria.PARENT_QUERY_PREFIX + SEQUENCE_NUMBER);
-       // subCritProtocolAction.addEqualToField(SUBMISSION_NUMBER, Criteria.PARENT_QUERY_PREFIX + SUBMISSION_NUMBER);
         subCritProtocolAction.addIn(PROTOCOL_ACTION_TYPE_CODE, getRevisionRequestedProtocolActionTypeCodesHook());
         if (startDate != null) {
             subCritProtocolAction.addGreaterOrEqualThan(ACTUAL_ACTION_DATE, startDate);
@@ -211,8 +214,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     
     /**
      * This method calculates the next day (i.e. adds one day to the date).
-     * 
-     * @param date
+     *
      * @return date the next day
      */
     private Date nextDay(Date date) {
@@ -312,17 +314,15 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     /*
      * filter excluded field.  Also group fields to base lookup and collection lookup fields.
      */
-    private void setupCritMaps(Map<String, String> fieldValues) {
+    private void setupCritMaps(Map<String, String> fieldValues, Map<String, String> baseLookupFieldValues, Map<String, CriteriaFieldHelper> collectionFieldValues) {
 
-        for (Entry<String, String> entry : fieldValues.entrySet()) {
-            if (!excludedFields.contains(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
-                if (collectionFieldNames.contains(entry.getKey())) {
-                    collectionFieldValues.put(entry.getKey(), getCriteria(entry));
-                } else if (!entry.getKey().startsWith(LEAD_UNIT)) {                
-                    baseLookupFieldValues.put(entry.getKey(), entry.getValue());
-                }
+        fieldValues.entrySet().stream().filter(entry -> !excludedFields.contains(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())).forEach(entry -> {
+            if (collectionFieldNames.contains(entry.getKey())) {
+                collectionFieldValues.put(entry.getKey(), getCriteria(entry));
+            } else if (!entry.getKey().startsWith(LEAD_UNIT)) {
+                baseLookupFieldValues.put(entry.getKey(), entry.getValue());
             }
-        }
+        });
     }
 
     /*
@@ -358,7 +358,7 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
         // unitnumber
         Criteria subCrit = new Criteria();
         String nameValue = entry.getValue().replace('*', '%');
-        String propertyName = "";
+        final String propertyName;
         if (entry.getKey().equals(ProtocolLookupConstants.Property.LEAD_UNIT_NUMBER)) {
             propertyName = getDbPlatform().getUpperCaseFunction() + "(unitNumber)";
         } else {
@@ -375,31 +375,23 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
 
     
     /**
-    /*
-     * 
      * Builds up criteria object based on the object and map.
      * This method is copied from lookdaoojb, but not published in lookupdao, so can't access it directly.
-     * @param businessObject
-     * @param formProps
-     * @return
      */
-    @SuppressWarnings("unchecked") 
     private Criteria getCollectionCriteriaFromMap(PersistableBusinessObject businessObject, Map formProps) {
         Criteria criteria = new Criteria();
-        Iterator propsIter = formProps.keySet().iterator();
-        while (propsIter.hasNext()) {
-            String propertyName = (String) propsIter.next();
+        for (Object o : formProps.keySet()) {
+            String propertyName = (String) o;
             if (formProps.get(propertyName) instanceof Collection) {
-                Iterator iter = ((Collection) formProps.get(propertyName)).iterator();
-                while (iter.hasNext()) {
-                    if (!lookupDao.createCriteria(businessObject, (String) iter.next(), propertyName, 
-                            isCaseSensitive(businessObject,  propertyName), false, criteria)) {
+                for (Object o1 : ((Collection) formProps.get(propertyName))) {
+                    if (!lookupDao.createCriteria(businessObject, (String) o1, propertyName,
+                            isCaseSensitive(businessObject, propertyName), false, criteria)) {
                         throw new RuntimeException("Invalid value in Collection");
                     }
                 }
             } else {
-                if (!lookupDao.createCriteria(businessObject, (String) formProps.get(propertyName), propertyName, 
-                        isCaseSensitive(businessObject,  propertyName), false, criteria)) {
+                if (!lookupDao.createCriteria(businessObject, (String) formProps.get(propertyName), propertyName,
+                        isCaseSensitive(businessObject, propertyName), false, criteria)) {
                     continue;
                 }
             }
@@ -431,19 +423,18 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     
     /**
      * select count(b.protocol_number)
-                into li_SubmissionCount
-                from osp$protocol b
-                    where b.protocol_number like as_protocol_number || '%'  and
-                    b.sequence_number = (select max(a.sequence_number) from osp$protocol a
-                                    where a.protocol_number = b.protocol_number) and
-                    b.protocol_status_code in (100, 101, 102, 103, 104, 105, 106);
-                   
-        Replaced above query with following query by removing sub-query and added java code to to get sub-query behaviour.
-    
-        select (b.protocol_number) from protocol b where b.protocol_number like '001%' and 
-        b.protocol_status_code in (100, 101, 102, 103, 104, 105, 106);
-
-     * @see org.kuali.kra.protocol.ProtocolDao#getProtocolSubmissionCount(java.lang.String)
+     *           into li_SubmissionCount
+     *           from osp$protocol b
+     *               where b.protocol_number like as_protocol_number || '%'  and
+     *               b.sequence_number = (select max(a.sequence_number) from osp$protocol a
+     *                               where a.protocol_number = b.protocol_number) and
+     *               b.protocol_status_code in (100, 101, 102, 103, 104, 105, 106);
+     *
+     *   Replaced above query with following query by removing sub-query and added java code to to get sub-query behaviour.
+     *
+     *   select (b.protocol_number) from protocol b where b.protocol_number like '001%' and
+     *   b.protocol_status_code in (100, 101, 102, 103, 104, 105, 106);
+     *
      */
     public boolean getProtocolSubmissionCountFromProtocol(String protocolNumber) {
         Criteria crit = new Criteria();

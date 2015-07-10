@@ -33,6 +33,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -64,10 +65,14 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
     @Autowired
     @Qualifier("legacyDataAdapter")
     private LegacyDataAdapter legacyDataAdapter;
-    
+
     @Autowired
     @Qualifier("proposalTypeService")
     private ProposalTypeService proposalTypeService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
 
 
     @Override
@@ -300,8 +305,7 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
         else {
             HashMap<String, String> valueMap = new HashMap<String, String>();
             valueMap.put("awardNumber", currentAwardNumber);
-            List<Award> awards = getDataObjectService().findMatching(Award.class,
-                    QueryByCriteria.Builder.andAttributes(valueMap).build()).getResults();
+            List<Award> awards = (List) getBusinessObjectService().findMatching(Award.class, valueMap);
             if (awards != null && !awards.isEmpty()) {
                 award = awards.get(0);
             }
@@ -356,4 +360,12 @@ public class SubmissionInfoServiceImpl implements SubmissionInfoService {
 	public void setProposalTypeService(ProposalTypeService proposalTypeService) {
 		this.proposalTypeService = proposalTypeService;
 	}
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

@@ -31,7 +31,6 @@ import org.kuali.coeus.common.budget.framework.query.operator.Equals;
 import org.kuali.coeus.common.budget.framework.query.operator.LesserThan;
 import org.kuali.coeus.common.budget.framework.query.operator.Or;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
@@ -46,9 +45,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component("budgetRatesService")
-public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRatesServiceImpl<T> {
+public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
     
     private static final String AWARD_EB_RATE_CLASS_CODE = "awardBudgetEbRateClassCode";
     private static final String AWARD_EB_RATE_TYPE_CODE = "awardBudgetEbRateTypeCode";
@@ -62,11 +62,11 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
 
     @Override
     protected Collection<InstituteRate> getInstituteRates(Budget budget){
-        Collection<InstituteRate> institueRates = super.getInstituteRates(budget);
+        Collection<InstituteRate> instituteRates = super.getInstituteRates(budget);
         if(isAwardBudget(budget)){
-            return syncRatesIfAward(budget,institueRates);
+            return syncRatesIfAward(budget,instituteRates);
         }else{
-            return institueRates;
+            return instituteRates;
         }
     }
 
@@ -77,12 +77,12 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     
     private Collection<InstituteRate> syncRatesIfAward(Budget budget, Collection<InstituteRate> institueRates) {
         Award award = (Award)budget.getBudgetParent();
-        return filterInstituteRatesForAward(budget,award,institueRates);
+        return filterInstituteRatesForAward(award,institueRates);
     }
 
-    private Collection<InstituteRate> filterInstituteRatesForAward(Budget budget,Award award, Collection<InstituteRate> instituteRates) {
+    private Collection<InstituteRate> filterInstituteRatesForAward(Award award, Collection<InstituteRate> instituteRates) {
         List<AwardFandaRate> awardFnARates = award.getAwardFandaRate();
-        Collection<InstituteRate> instituteRatesForAward = new ArrayList<InstituteRate>();  
+        Collection<InstituteRate> instituteRatesForAward = new ArrayList<>();
         List<InstituteRate> awardEbRates = createAwardEBInstituteRates(award);
         if(awardFnARates.isEmpty() && awardEbRates.isEmpty()) return instituteRates;
         
@@ -91,16 +91,14 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             instituteRatesForAward.add(awardRate);
         }
         if(!instituteRatesForAward.isEmpty()){
-            QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRatesForAward);
+            QueryList<InstituteRate> qlInstituteRates = new QueryList<>(instituteRatesForAward);
             qlInstituteRates.sort("startDate");
             InstituteRate firstRate = qlInstituteRates.get(0);
             if(firstRate.getStartDate().after(award.getRequestedStartDateInitial())){
                 firstRate.setStartDate(award.getRequestedStartDateInitial());
             }
         }
-        for (InstituteRate awardEBRate : awardEbRates) {
-            instituteRatesForAward.add(awardEBRate);
-        }
+        instituteRatesForAward.addAll(awardEbRates.stream().collect(Collectors.toList()));
         for (InstituteRate instituteRate : instituteRates) {
             if((!awardFnARates.isEmpty() && instituteRate.getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())) ||
                     (!awardEbRates.isEmpty() & instituteRate.getRateClassType().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType()))){
@@ -112,7 +110,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     }
 
     private List<InstituteRate> createAwardEBInstituteRates(Award award) {
-        List<InstituteRate> awardEBInstituteRates = new ArrayList<InstituteRate>();
+        List<InstituteRate> awardEBInstituteRates = new ArrayList<>();
         ScaleTwoDecimal specialEbRateOnCampus = award.getSpecialEbRateOnCampus();
         if(specialEbRateOnCampus!=null){
             awardEBInstituteRates.add(createEBInstituteRate(award,specialEbRateOnCampus,Boolean.TRUE));
@@ -165,11 +163,11 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         if (awardInstituteRate.getInstituteRate()==null) { 
             awardInstituteRate.setInstituteRate(applicableRate);
         }
-        String awardFnArateTypeCode = awardFnARate.getFandaRateTypeCode().toString();
+        String awardFnArateTypeCode = awardFnARate.getFandaRateTypeCode();
         awardInstituteRate.setRateTypeCode(awardFnArateTypeCode);
         awardInstituteRate.setRateType(awardFnARate.getFandaRateType());
         awardInstituteRate.setRateClassCode(awardFnARate.getFandaRateType().getRateClassCode());
-        Boolean onCampusFlag = new Boolean(awardFnARate.getOnCampusFlag().equals("N"));
+        Boolean onCampusFlag = awardFnARate.getOnCampusFlag().equals("N");
         awardInstituteRate.setOnOffCampusFlag(onCampusFlag);
         awardInstituteRate.setNonEditableRateFlag(true);
         awardInstituteRate.refreshReferenceObject("rateClass");
@@ -177,9 +175,9 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     }
 
     private InstituteRate filterInstituteRate(AwardFandaRate awardFnARate, Award award,Collection<InstituteRate> instituteRates) {
-        QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRates);
+        QueryList<InstituteRate> qlInstituteRates = new QueryList<>(instituteRates);
         Equals eqActivityType = new Equals("activityTypeCode",award.getActivityTypeCode());
-        Equals eqCampusFlag = new Equals("onOffCampusFlag",new Boolean(awardFnARate.getOnCampusFlag().equals("N")));
+        Equals eqCampusFlag = new Equals("onOffCampusFlag",awardFnARate.getOnCampusFlag().equals("N"));
         Equals eqRateClassCode = new Equals("rateClassCode",awardFnARate.getFandaRateType().getRateClassCode());
         Equals eqRateTypeCode = new Equals("rateTypeCode",awardFnARate.getFandaRateTypeCode());
         And campFlagAndActTypeAndUnitNum = new And(eqActivityType,eqCampusFlag);
@@ -204,6 +202,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         return rateType;
     }
 
+    @Override
     public void syncAllBudgetRates(Budget budget) {
         if(isAwardBudget(budget) ){
             if(isOutOfSyncAwardRates(budget)){
@@ -214,7 +213,8 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             super.syncAllBudgetRates(budget);
         }
     }
-    
+
+    @Override
     public void syncParentDocumentRates(Budget budget) {
         if (isAwardBudget(budget)) {
             if (!hasNoRatesFromParent(budget)
@@ -260,7 +260,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     
     private boolean isOutOfSyncAwardRates(Award award,Budget budget) {
         List<AwardFandaRate> fnaRates = award.getAwardFandaRate();
-        QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
+        QueryList<BudgetRate> budgetRates = new QueryList<>(budget.getBudgetRates());
         boolean ratesOutOfSync = false;
         if(!fnaRates.isEmpty()){
             Equals eqOhRateClassType = new Equals("rateClassType",RateClassType.OVERHEAD.getRateClassType());
@@ -315,34 +315,19 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     public boolean performSyncFlag(Budget budget) {
         return isAwardBudget(budget) && isOutOfSyncAwardRates(budget);
     }
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
+
     public ParameterService getParameterService() {
         return parameterService;
     }
 
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
-    /**
-     * Gets the budgetCalculationService attribute. 
-     * @return Returns the budgetCalculationService.
-     */
     public BudgetCalculationService getBudgetCalculationService() {
         return budgetCalculationService;
     }
 
-    /**
-     * Sets the budgetCalculationService attribute value.
-     * @param budgetCalculationService The budgetCalculationService to set.
-     */
     public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
     }

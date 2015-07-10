@@ -232,7 +232,6 @@
     </bean>  
        
     <bean id="proposalLogXmlStream" class="org.kuali.kra.institutionalproposal.proposallog.printing.ProposalLogXmlStream" scope="prototype">
-        <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 	
@@ -257,7 +256,6 @@
     <bean id="institutionalProposalLookupableHelperService" 
           class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
           scope="prototype">
-        <property name="documentService" ref="documentService" />
         <property name="institutionalProposalService" ref="institutionalProposalService" />
     </bean>
 

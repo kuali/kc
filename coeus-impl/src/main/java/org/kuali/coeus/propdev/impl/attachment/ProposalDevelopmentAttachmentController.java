@@ -225,7 +225,7 @@ public class ProposalDevelopmentAttachmentController extends ProposalDevelopment
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=checkForExistingNarratives")
     public ModelAndView checkForExistingNarratives(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form,
-                                                   @RequestParam String currentValue,@RequestParam String previousValue,@RequestParam String propertyPath) throws Exception {
+                                                   @RequestParam String currentValue,@RequestParam(required = false) String previousValue,@RequestParam String propertyPath) throws Exception {
         if (form.getDevelopmentProposal().isChild()) {
             NarrativeType narrativeType = getDataObjectService().find(NarrativeType.class, currentValue);
             DevelopmentProposal parentProposal = getDataObjectService().find(DevelopmentProposal.class,form.getDevelopmentProposal().getHierarchyParentProposalNumber());

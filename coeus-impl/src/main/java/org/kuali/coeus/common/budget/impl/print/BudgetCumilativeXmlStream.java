@@ -146,20 +146,6 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 	}
 
 	/*
-	 * This method gets array of ReportPageType for BudgetPeriod. Used to gets
-	 * ReportPageType from CumilativeBudgetRaportPageType and add it to
-	 * reportPageTypeList
-	 */
-	private ReportPageType[] getReportPageTypes() {
-		List<ReportPageType> reportPageTypeList = new ArrayList<ReportPageType>();
-		ReportPageType reportPageType = ReportPageType.Factory.newInstance();
-		reportPageType = getCumulativeBudgetReportPageType();
-		reportPageTypeList.add(reportPageType);
-		return (ReportPageType[]) reportPageTypeList
-				.toArray(new ReportPageType[0]);
-	}
-
-	/*
 	 * This method gets RaportPageType based on BudgetPeriod. Used to set
 	 * BusgetSummary, CalculationMethodology and period to reportPageType
 	 */

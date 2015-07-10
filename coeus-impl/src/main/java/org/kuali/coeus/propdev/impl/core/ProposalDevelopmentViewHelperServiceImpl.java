@@ -26,6 +26,7 @@ import java.util.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.coeus.common.api.sponsor.hierarchy.SponsorHierarchyService;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.custom.DocumentCustomData;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttribute;
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocValue;
@@ -47,11 +48,9 @@ import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValida
 import org.kuali.coeus.propdev.impl.hierarchy.ProposalHierarchyService;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
-import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
+import org.kuali.coeus.propdev.impl.person.*;
 import org.kuali.coeus.propdev.impl.s2s.S2sOpportunity;
 import org.kuali.coeus.propdev.impl.s2s.S2sRevisionTypeConstants;
-import org.kuali.coeus.propdev.impl.person.KeyPersonnelService;
 import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.s2s.question.ProposalDevelopmentS2sQuestionnaireHelper;
 import org.kuali.coeus.sys.framework.controller.KcFileService;
@@ -67,11 +66,11 @@ import org.kuali.coeus.propdev.impl.abstrct.ProposalAbstract;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.coeus.propdev.impl.attachment.Narrative;
 import org.kuali.coeus.propdev.impl.location.AddProposalCongressionalDistrictEvent;
 import org.kuali.coeus.propdev.impl.location.CongressionalDistrict;
 import org.kuali.coeus.propdev.impl.location.ProposalSite;
-import org.kuali.coeus.propdev.impl.person.ProposalPersonDegree;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.attachment.LegacyNarrativeService;
@@ -104,6 +103,8 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     private static final long serialVersionUID = -5122498699317873886L;
     private static final Logger LOG = Logger.getLogger(ProposalDevelopmentViewHelperServiceImpl.class);
     private static final String PARENT_PROPOSAL_TYPE_CODE = "PRDV";
+    public static final String PROP_PERSON_COI_STATUS_FLAG = "PROP_PERSON_COI_STATUS_FLAG";
+
     @Autowired
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
@@ -172,6 +173,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("budgetCalculationService")
     private BudgetCalculationService budgetCalculationService;
+    
+    @Autowired
+    @Qualifier("kcAuthorizationService")
+    private KcAuthorizationService kraAuthorizationService;
 
     @Autowired
     @Qualifier("kcPersonService")
@@ -180,6 +185,10 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     @Autowired
     @Qualifier("kcFileService")
     private KcFileService kcFileService;
+
+    @Autowired
+    @Qualifier("proposalPersonCoiIntegrationService")
+    ProposalPersonCoiIntegrationService proposalPersonCoiIntegrationService;
 
     @Override
     public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, final String collectionPath) {
@@ -746,8 +755,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     }
 
     public String displayFullName(String userName){
-        String name = getPersonService().getPersonByPrincipalName(userName).getName();
-        return name;
+        return ObjectUtils.isNull(userName) ? "" : getPersonService().getPersonByPrincipalName(userName).getName();
     }
 
     public String replaceLineBreaks(String string) {
@@ -861,7 +869,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         if (proposalPerson.getRole().getCertificationRequired()){
             return true;
         }
-        else if (proposalPerson.getOptInCertificationStatus()){
+       else if (proposalPerson.getRoleCode().equals(Constants.KEY_PERSON_ROLE)){
             return true;
         }
 
@@ -949,6 +957,48 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         }
         return true;
     }
+    public boolean canViewCertificationTab(ProposalDevelopmentDocument document,ProposalPerson proposalPerson){
+    	String currentUser=getGlobalVariableService().getUserSession().getPrincipalName();
+    	Person person = getPersonService().getPersonByPrincipalName(currentUser);
+    	return getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, person, proposalPerson);
+    }
+    public boolean displayCoiDisclosureStatus(){
+       return getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PROP_PERSON_COI_STATUS_FLAG);
+    }
+ 
+    public boolean isCertQuestViewOnly(ProposalDevelopmentDocument document ,ProposalPerson proposalPerson){
+    	 if(proposalPerson.getPerson()==null){
+      	   return false;
+         }
+    	 String currentUser=getGlobalVariableService().getUserSession().getPrincipalId();
+    	 boolean canViewCretification = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.VIEW_CERTIFICATION);
+    	 boolean canCertify = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.CERTIFY); 
+		    	if(canCertify){
+		    		document.setCerttifyViewOnly(false);
+		    		return false;	
+		    	}
+      	        if(canViewCretification){
+      	        	if(proposalPerson.getPersonId().equals(currentUser)){
+      	        		document.setCerttifyViewOnly(false);
+      	        		return false;	
+      	        	}else{
+      	        		document.setCerttifyViewOnly(true);
+      	        		return true;
+      	        	}      	        	
+      	        }else{
+      	        	document.setCerttifyViewOnly(false);
+      	        	return false;
+      	        }
+      	    }
+
+    public boolean isViewOnly(ProposalDevelopmentDocument document){
+    	return document.getCerttifyViewOnly();
+    }
+
+    public String getProposalPersonCoiStatus(ProposalPerson person) {
+        return getProposalPersonCoiIntegrationService().getProposalPersonCoiStatus(person);
+    }
+
     public String getWizardMaxResults() {
         return getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE,
                 KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE,
@@ -1005,7 +1055,7 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         form.setDefaultOpenTab("");
         return openTab;
     }
-
+  
     public String getPropPersonName(String personId) {
         if (StringUtils.isNotEmpty(personId)) {
             Person person= getPersonService().getPerson(personId);
@@ -1051,4 +1101,11 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         this.kcFileService = kcFileService;
     }
 
+    public ProposalPersonCoiIntegrationService getProposalPersonCoiIntegrationService() {
+        return proposalPersonCoiIntegrationService;
+    }
+
+    public void setProposalPersonCoiIntegrationService(ProposalPersonCoiIntegrationService proposalPersonCoiIntegrationService) {
+        this.proposalPersonCoiIntegrationService = proposalPersonCoiIntegrationService;
+    }
 }

@@ -44,7 +44,6 @@ import org.kuali.kra.printing.schema.AwardType.AwardTransferringSponsors;
 import org.kuali.kra.printing.schema.AwardType.AwardTransferringSponsors.TransferringSponsor;
 import org.kuali.kra.printing.schema.SpecialReviewType;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 
 import java.util.*;
@@ -54,14 +53,11 @@ import java.util.*;
  * Report. The data for XML is derived from {@link org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase} and
  * {@link Map} of details passed to the class.
  * 
- * @author
- * 
  */
 public class AwardDeltaXmlStream extends AwardBaseStream {
 
 	private static final String SEQUENCE_NUMBER = "sequenceNumber";
 	private VersionHistoryService versionHistoryService;
-	private TimeAndMoneyActionSummaryService actionSummaryService;
 
 	/**
 	 * This method generates XML for Award Delta Report. It uses data passed in
@@ -76,7 +72,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 */
 	public Map<String, XmlObject> generateXmlStream(
 			KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<>();
 		AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory
 				.newInstance();
 		initialize((Award) printableBusinessObject, reportParameters);
@@ -101,7 +97,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 			List<VersionHistory> awardSequenceHistoryList = versionHistoryService.loadVersionHistory(Award.class, awardNumber);
 			int sequenceNumber = 0;
 			int prevSequenceNumber = 0;
-			Long transactionId = new Long(0);
+			Long transactionId = 0L;
 			long prevTransactionId = 0;
 			if (reportParameters.get(SEQUENCE_NUMBER) != null) {
 				sequenceNumber = (Integer) reportParameters.get(SEQUENCE_NUMBER);
@@ -150,8 +146,8 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 */
 	private List<AwardAmountTransaction> getAwardAmountTransactions(
 			String awardNumber) {
-		List<AwardAmountTransaction> awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
-		Map<String, String> timeAndMoneyMap = new HashMap<String, String>();
+		List<AwardAmountTransaction> awardAmountTransactions = new ArrayList<>();
+		Map<String, String> timeAndMoneyMap = new HashMap<>();
 		timeAndMoneyMap.put(ROOT_AWARD_NUMBER_PARAMETER, awardNumber);
 		List<TimeAndMoneyDocument> timeAndMoneyList = (List<TimeAndMoneyDocument>) businessObjectService
 				.findMatching(TimeAndMoneyDocument.class, timeAndMoneyMap);
@@ -203,7 +199,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 			long transactionId) {
 		org.kuali.kra.award.home.AwardAmountInfo awardAmountInfo = null;
 		for (AwardAmountInfo awardAmount : award.getAwardAmountInfos()) {
-			if (awardAmount.getTransactionId()!=null && awardAmount.getTransactionId().longValue() == transactionId) {
+			if (awardAmount.getTransactionId()!=null && awardAmount.getTransactionId().equals(transactionId)) {
 				awardAmountInfo = awardAmount;
 				break;
 			}
@@ -217,7 +213,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	private Award getAwardForSeqenceNumber(String awardNumber,
 			long sequenceNumber) {
 		Award awardForSeqenceNumber = null;
-		Map<String, String> awardMap = new HashMap<String, String>();
+		Map<String, String> awardMap = new HashMap<>();
 		awardMap.put(AWARD_NUMBER_PARAMETER, awardNumber);
 		awardMap.put(SEQUENCE_NUMBER_PARAMETER, String.valueOf(sequenceNumber));
 		List<Award> awardList = (List<Award>) businessObjectService
@@ -249,7 +245,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 		AwardSpecialReviews awardSpecialReviews = AwardSpecialReviews.Factory
 				.newInstance();
 		String specialReviewIndicator = award.getSpecialReviewIndicator();
-		List<SpecialReviewType> specialReviewTypesList = new LinkedList<SpecialReviewType>();
+		List<SpecialReviewType> specialReviewTypesList = new LinkedList<>();
 		if (specialReviewIndicator != null
 				&& !specialReviewIndicator.equals(EMPTY_STRING)) {
 			specialReviewIndicator = specialReviewIndicator.length() == 1 ? specialReviewIndicator
@@ -257,7 +253,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 			if (specialReviewIndicator.equals(INDICATOR_CONSTANT)) {
 				List<AwardSpecialReview> specialReviewList = award
 						.getSpecialReviews();
-				SpecialReviewType specialReviewType = null;
+				SpecialReviewType specialReviewType;
 				for (AwardSpecialReview awardSpecialReview : specialReviewList) {
 					specialReviewType = getAwardSpecialReview(awardSpecialReview);
 					specialReviewTypesList.add(specialReviewType);
@@ -277,7 +273,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 		AwardPaymentSchedules awardPaymentSchedules = AwardPaymentSchedules.Factory
 				.newInstance();
 		String paymentScheduleIndicator = award.getPaymentScheduleIndicator();
-		List<PaymentSchedule> paymentSchedulesList = new LinkedList<PaymentSchedule>();
+		List<PaymentSchedule> paymentSchedulesList = new LinkedList<>();
 		if (paymentScheduleIndicator != null
 				&& !paymentScheduleIndicator.equals(EMPTY_STRING)) {
 			paymentScheduleIndicator = paymentScheduleIndicator.length() == 1 ? paymentScheduleIndicator
@@ -285,7 +281,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 			if (paymentScheduleIndicator.equals(INDICATOR_CONSTANT)) {
 				List<AwardPaymentSchedule> paymentScheduleItems = award
 						.getPaymentScheduleItems();
-				PaymentSchedule paymentSchedule = null;
+				PaymentSchedule paymentSchedule;
 				for (AwardPaymentSchedule awardPaymentSchedule : paymentScheduleItems) {
 					paymentSchedule = getAwardPaymentSchedule(awardPaymentSchedule);
 					paymentSchedulesList.add(paymentSchedule);
@@ -303,11 +299,11 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 */
 	private AwardTransferringSponsors getAwardTransferringSponsors() {
 		AwardTransferringSponsors transferringSponsors = AwardTransferringSponsors.Factory.newInstance();
-		List<TransferringSponsor> transferringSponsorList = new LinkedList<TransferringSponsor>();
+		List<TransferringSponsor> transferringSponsorList = new LinkedList<>();
 		List<AwardTransferringSponsor> awardTransferringSponsorList = award.getAwardTransferringSponsors();
-        List<AwardTransferringSponsor> prevTransferringSponsorList = prevAward == null?new ArrayList<AwardTransferringSponsor>():
+        List<AwardTransferringSponsor> prevTransferringSponsorList = prevAward == null?new ArrayList<>():
                                                                         prevAward.getAwardTransferringSponsors();
-		TransferringSponsor transferringSponsor = null;
+		TransferringSponsor transferringSponsor;
 		for (AwardTransferringSponsor awardTransferringSponsor : awardTransferringSponsorList) {
 		    if(checkSponsorCodeChange(awardTransferringSponsor, prevTransferringSponsorList)){
 		        transferringSponsor = getAwardTransferringSponsor(awardTransferringSponsor);
@@ -374,9 +370,10 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 		AwardOtherDatas awardOtherDatas = AwardOtherDatas.Factory.newInstance();
 		List<AwardCustomData> awardCustomDataList = award
 				.getAwardCustomDataList();
-		List<OtherData> otherDatas = new ArrayList<OtherData>();
+		List<OtherData> otherDatas = new ArrayList<>();
 		OtherData otherData = null;
-		for (AwardCustomData awardCustomData : awardCustomDataList) {
+		int count =0;
+        for (AwardCustomData awardCustomData : awardCustomDataList) {
 			otherData = OtherData.Factory.newInstance();
 			String columnValue = awardCustomData.getValue();
 			if (awardCustomData.getCustomAttribute() != null
@@ -385,14 +382,35 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 						.getName());
 			}
 			if (columnValue != null) {
-				otherData.setColumnValue(columnValue);
+				if (prevAward != null && !prevAward.getAwardCustomDataList().isEmpty()) {
+					String prevColumValue = prevAward.getAwardCustomDataList().get(count).getValue();
+					columnValue = getModColumValue(columnValue,
+							prevColumValue);
+				} 
+			otherData.setColumnValue(columnValue);
 			}
 			otherDatas.add(otherData);
+			count++;
 		}
 		awardOtherDatas.setOtherDataArray(otherDatas.toArray(new OtherData[0]));
 		return awardOtherDatas;
 	}
 
+	private String getModColumValue(String columnValue,
+			String prevColumValue) {
+		String columnValueMod = null;
+		if (columnValue != null) {
+			if (prevColumValue == null
+					|| !columnValue.equals(prevColumValue)) {
+				columnValueMod = new StringBuilder(START_ASTERISK_SPACE_INDICATOR).append(
+						columnValue).toString();
+
+			} else {
+				columnValueMod = columnValue;
+			}
+		}
+		return columnValueMod;
+	}
 	/*
 	 * This method sets the values to print requirement attributes and finally
 	 * returns the print requirement xml object
@@ -432,10 +450,9 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	 * required is true then 1 else 0
 	 */
 	private String getSignatureRequired(Map<String, Object> reportParameters) {
-		String signatureRequired = null;
+		String signatureRequired;
 		if (reportParameters.get(SIGNATURE_REQUIRED) != null
-				&& ((Boolean) reportParameters.get(SIGNATURE_REQUIRED))
-						.booleanValue()) {
+				&& ((Boolean) reportParameters.get(SIGNATURE_REQUIRED))) {
 			signatureRequired = REQUIRED;
 		} else {
 			signatureRequired = NOT_REQUIRED;
@@ -450,14 +467,5 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
 	public void setVersionHistoryService(
 			VersionHistoryService versionHistoryService) {
 		this.versionHistoryService = versionHistoryService;
-	}
-
-	public TimeAndMoneyActionSummaryService getActionSummaryService() {
-		return actionSummaryService;
-	}
-
-	public void setActionSummaryService(
-			TimeAndMoneyActionSummaryService actionSummaryService) {
-		this.actionSummaryService = actionSummaryService;
 	}
 }

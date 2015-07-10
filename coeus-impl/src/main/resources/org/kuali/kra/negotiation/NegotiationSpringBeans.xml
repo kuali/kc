@@ -250,7 +250,6 @@
     <bean id="negotiationActivityXmlStream" class="org.kuali.kra.negotiations.printing.xmlstream.NegotiationActivityXmlStream" scope="prototype">
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="documentService" ref="documentService" />           
     </bean>
     
     <!-- Negotiation Task Authorizers -->

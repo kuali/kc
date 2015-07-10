@@ -32,6 +32,8 @@
 
     <context:annotation-config />
 
+	<context:component-scan base-package="org.kuali.coeus.common.committee" />
+
 	<bean id="committeeModuleConfiguration" parent="committeeModuleConfiguration-parentBean" />
 
 	<bean id="committeeModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration"
@@ -297,8 +299,17 @@
 
 	<bean id="irbCommitteeIdByUnitValuesFinderService" class="org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinderServiceImpl" 
     	parent="committeeIdByUnitValuesFinderServiceParent" />
-   
-    
+
+	<bean id="meetingControllerService" class="org.kuali.coeus.common.committee.impl.meeting.MeetingControllerServiceImpl">
+		<property name="meetingService" ref="meetingService" />
+		<property name="reviewCommentsService" ref="reviewCommentsService" />
+		<property name="scheduleBusinessObjectClass" value="org.kuali.kra.committee.bo.CommitteeSchedule" />
+	</bean>
+	<bean id="iacucMeetingControllerService" class="org.kuali.coeus.common.committee.impl.meeting.MeetingControllerServiceImpl">
+		<property name="meetingService" ref="iacucMeetingService" />
+		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
+		<property name="scheduleBusinessObjectClass" value="org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule" />
+	</bean>
 </beans>
 
 

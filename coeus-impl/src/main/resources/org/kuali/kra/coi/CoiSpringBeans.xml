@@ -377,12 +377,6 @@
     </bean>
 
     <bean id="coiCertificationXmlStream" class="org.kuali.kra.coi.print.CoiCertificationXmlStream" scope="prototype">
-		<property name="businessObjectService">
-        	<ref bean="businessObjectService" />
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
         <property name="documentService">
             <ref bean="documentService" />
         </property>

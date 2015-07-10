@@ -190,12 +190,12 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
 
     public BudgetLineItem() {
         super();
-        budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
-        budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
-        budgetRateAndBaseList = new ArrayList<BudgetRateAndBase>();
+        budgetPersonnelDetailsList = new ArrayList<>();
+        budgetLineItemCalculatedAmounts = new ArrayList<>();
+        budgetRateAndBaseList = new ArrayList<>();
         displayTotalDetail = false;
         objectTotal = new ScaleTwoDecimal(0);
-        budgetFormulatedCosts = new ArrayList<BudgetFormulatedCostDetail>();
+        budgetFormulatedCosts = new ArrayList<>();
     }
     @Override
     public Long getBudgetLineItemId() {
@@ -415,12 +415,6 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
     }
 
-    /**
-     * Gets BudgetPersonnelDetails from BudgetPersonnelDetails list at index.
-     *
-     * @param index
-     * @return BudgetPersonnelDetails at index
-     */
     public BudgetPersonnelDetails getBudgetPersonnelDetails(int index) {
         while (getBudgetPersonnelDetailsList().size() <= index) {
             getBudgetPersonnelDetailsList().add(getNewBudgetPersonnelLineItem());
@@ -428,11 +422,6 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         return getBudgetPersonnelDetailsList().get(index);
     }
 
-    /**
-     *
-     * This method is to create new BudgetpersonnelDetails object
-     * @return
-     */
     public BudgetPersonnelDetails getNewBudgetPersonnelLineItem() {
         return new BudgetPersonnelDetails();
     }
@@ -447,7 +436,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     }
 
     @Override
-    public List getBudgetCalculatedAmounts() {
+    public List<BudgetLineItemCalculatedAmount> getBudgetCalculatedAmounts() {
         return getBudgetLineItemCalculatedAmounts();
     }
 
@@ -644,7 +633,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     }
 
 	public String getLineItemGroupDescription() {
-		StringBuffer personDetailGroup = new StringBuffer();
+		StringBuilder personDetailGroup = new StringBuilder();
 		personDetailGroup.append(getCostElementBO().getDescription());
 		if(StringUtils.isNoneBlank(getGroupName())) {
 			personDetailGroup.append(" (");

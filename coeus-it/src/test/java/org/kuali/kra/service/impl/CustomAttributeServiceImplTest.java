@@ -33,12 +33,15 @@ import org.kuali.kra.bo.CustomAttributeDocumentTestUtilities;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -48,40 +51,37 @@ import static org.junit.Assert.*;
  */
 public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
 
-
-    private Map<String, CustomAttributeDocument> testCustomAttributeDocuments;
-
     private DocumentService documentService = null;
     private CustomAttributeService customAttributeService = null;
     private ProposalDevelopmentService proposalDevelopmentService;
+    private BusinessObjectService businessObjectService;
     
     private static final String TEST_DOCUMENT_TYPE_CODE = "PRDV";
 
     @Before
     public void setUp() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        testCustomAttributeDocuments = CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments();
         documentService = KRADServiceLocatorWeb.getDocumentService();
         customAttributeService = KcServiceLocator.getService(CustomAttributeService.class);
         proposalDevelopmentService = KcServiceLocator.getService(ProposalDevelopmentService.class);
+        businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
     }
 
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        testCustomAttributeDocuments = null;
         documentService = null;
         customAttributeService = null;
     }
 
 
     @Test public void testGetDefaultCustomAttributesForDocumentType() throws Exception {
+    	Collection<CustomAttributeDocument> dbCustomDataDocuments = businessObjectService.findMatching(CustomAttributeDocument.class, Collections.singletonMap("documentTypeName", TEST_DOCUMENT_TYPE_CODE));
         Map<String, CustomAttributeDocument>customAttributeDocuments = customAttributeService.getDefaultCustomAttributeDocuments(TEST_DOCUMENT_TYPE_CODE, new ArrayList<CustomAttributeDocValue>());
         assertNotNull(customAttributeDocuments);
-        assertEquals(testCustomAttributeDocuments.size(), customAttributeDocuments.size());
+        assertEquals(dbCustomDataDocuments.size(), customAttributeDocuments.size());
 
-        for(Map.Entry<String, CustomAttributeDocument> testCustomAttributeDocumentEntry: testCustomAttributeDocuments.entrySet()) {
-            CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
+        for(CustomAttributeDocument testCustomAttributeDocument : dbCustomDataDocuments) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getId().toString());
             assertNotNull(customAttributeDocument);
             assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
@@ -101,13 +101,12 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
     }
 
     @Test public void testGetDefaultCustomAttributesForDocumentTypeNullDocument() throws Exception {
+    	Collection<CustomAttributeDocument> dbCustomDataDocuments = businessObjectService.findMatching(CustomAttributeDocument.class, Collections.singletonMap("documentTypeName", TEST_DOCUMENT_TYPE_CODE));
         Map<String, CustomAttributeDocument>customAttributeDocuments = customAttributeService.getDefaultCustomAttributeDocuments(TEST_DOCUMENT_TYPE_CODE, new ArrayList<CustomAttributeDocValue>());
         assertNotNull(customAttributeDocuments);
-        assertNotNull(testCustomAttributeDocuments);
-        assertEquals(testCustomAttributeDocuments.size(), customAttributeDocuments.size());
+        assertEquals(dbCustomDataDocuments.size(), customAttributeDocuments.size());
 
-        for(Map.Entry<String, CustomAttributeDocument> testCustomAttributeDocumentEntry: testCustomAttributeDocuments.entrySet()) {
-            CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
+        for(CustomAttributeDocument testCustomAttributeDocument : dbCustomDataDocuments) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getId().toString());
             assertNotNull(customAttributeDocument);
             assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
@@ -127,16 +126,15 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
     }
 
     @Test public void testGetDefaultCustomAttributesFromNewDocument() throws Exception {
+    	Collection<CustomAttributeDocument> dbCustomDataDocuments = businessObjectService.findMatching(CustomAttributeDocument.class, Collections.singletonMap("documentTypeName", TEST_DOCUMENT_TYPE_CODE));
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument(ProposalDevelopmentDocument.class);
         document.initialize();
 
         Map<String, CustomAttributeDocument>customAttributeDocuments = document.getCustomAttributeDocuments();
         assertNotNull(customAttributeDocuments);
-        assertNotNull(testCustomAttributeDocuments);
-        assertEquals(testCustomAttributeDocuments.size(), customAttributeDocuments.size());
+        assertEquals(dbCustomDataDocuments.size(), customAttributeDocuments.size());
 
-        for(Map.Entry<String, CustomAttributeDocument> testCustomAttributeDocumentEntry: testCustomAttributeDocuments.entrySet()) {
-            CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
+        for(CustomAttributeDocument testCustomAttributeDocument : dbCustomDataDocuments) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getId().toString());
             assertNotNull(customAttributeDocument);
             assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());
@@ -157,15 +155,14 @@ public class CustomAttributeServiceImplTest extends KcIntegrationTestBase {
 
 
     @Test public void testGetDefaultCustomAttributesFromSavedDocument() throws Exception {
+    	Collection<CustomAttributeDocument> dbCustomDataDocuments = businessObjectService.findMatching(CustomAttributeDocument.class, Collections.singletonMap("documentTypeName", TEST_DOCUMENT_TYPE_CODE));
         ProposalDevelopmentDocument document = getDocument();
 
         Map<String, CustomAttributeDocument>customAttributeDocuments = document.getCustomAttributeDocuments();
         assertNotNull(customAttributeDocuments);
-        assertNotNull(testCustomAttributeDocuments);
-        assertEquals(testCustomAttributeDocuments.size(), customAttributeDocuments.size());
+        assertEquals(dbCustomDataDocuments.size(), customAttributeDocuments.size());
 
-        for(Map.Entry<String, CustomAttributeDocument> testCustomAttributeDocumentEntry: testCustomAttributeDocuments.entrySet()) {
-            CustomAttributeDocument testCustomAttributeDocument = testCustomAttributeDocumentEntry.getValue();
+        for(CustomAttributeDocument testCustomAttributeDocument : dbCustomDataDocuments) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(testCustomAttributeDocument.getId().toString());
             assertNotNull(customAttributeDocument);
             assertEquals(testCustomAttributeDocument.getDocumentTypeName(), customAttributeDocument.getDocumentTypeName());

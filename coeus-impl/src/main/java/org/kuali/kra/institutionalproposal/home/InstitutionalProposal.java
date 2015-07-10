@@ -62,8 +62,9 @@ import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -282,7 +283,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     /**
      * This method calculates fiscal Month and fiscal Year fields. It also adds leading 0 to Month if needed.
      */
-    private void calculateFiscalMonthAndYearFields() {
+    protected void calculateFiscalMonthAndYearFields() {
         String monthString = this.getFiscalYearMonthService().getCurrentFiscalMonthForDisplay().toString();
         if (monthString.length() == 1) {
             monthString = DEFAULT_VALUE + monthString;
@@ -295,6 +296,12 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         if (institutionalProposalDocument == null) {
             this.refreshReferenceObject(INSTITUTIONAL_PROPOSAL_DOCUMENT);
         }
+
+        if (institutionalProposalDocument != null && institutionalProposalDocument.getDocumentHeader() != null 
+        		&& institutionalProposalDocument.getDocumentNumber() != null && !institutionalProposalDocument.getDocumentHeader().hasWorkflowDocument()) {
+            institutionalProposalDocument.getDocumentHeader().setWorkflowDocument(WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), institutionalProposalDocument.getDocumentNumber()));
+        }
+
         return institutionalProposalDocument;
     }
 
@@ -1001,20 +1008,24 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         this.proposalCostSharing = proposalCostSharing;
     }
 
-    public List<InstitutionalProposalPerson> getProjectPersons() 
-    {   if(CollectionUtils.isNotEmpty(projectPersons)) {    
-            Collections.sort(projectPersons, new ProjectPersonComparator());
-        }
+    public List<InstitutionalProposalPerson> getProjectPersons() {
         return projectPersons; 
     }
 
-    class ProjectPersonComparator implements Comparator
+    public List<InstitutionalProposalPerson> getSortedProjectPersons() {
+        if (CollectionUtils.isNotEmpty(getProjectPersons())) {
+            List<InstitutionalProposalPerson> copy = new ArrayList<>(getProjectPersons());
+            Collections.sort(copy, new ProjectPersonComparator());
+            return copy;
+        }
+        return Collections.emptyList();
+    }
+
+    static class ProjectPersonComparator implements Comparator<InstitutionalProposalPerson>
     {
         
-        public int compare(Object obj1, Object obj2) 
+        public int compare(InstitutionalProposalPerson ipp1, InstitutionalProposalPerson ipp2)
         {
-            InstitutionalProposalPerson ipp1 = (InstitutionalProposalPerson) obj1;
-            InstitutionalProposalPerson ipp2 = (InstitutionalProposalPerson) obj2;
             String lastName1 = ipp1.getContact() != null ? ipp1.getContact().getLastName() != null ?
                     ipp1.getContact().getLastName().toUpperCase() : StringUtils.EMPTY : StringUtils.EMPTY;
             String lastName2 = ipp2.getContact() != null ? ipp2.getContact().getLastName() != null ?

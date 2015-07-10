@@ -321,6 +321,13 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         }
     }
 
+    @Override
+    public void setUpdateUser(String updateUser) {
+        if (getUpdateUser() == null) {
+            super.setUpdateUser(updateUser);
+        }
+    }
+
     /**
      * Implements comparable based on the awardAttachmentId.
      * @see java.lang.Comparable#compareTo(java.lang.Object)

@@ -202,7 +202,6 @@ public class BudgetExpensesAuditRule extends BudgetAuditRuleBase {
             auditErrors.add(new AuditError(budgetNonPersonnelRule.getPageId(), 
             		KeyConstants.WARNING_UNRECOVERED_FA_NEGATIVE, budgetNonPersonnelRule.getPageId(), 
             		new String[]{additionalMessage}));
-            return false;
        }
         return true;
 	}

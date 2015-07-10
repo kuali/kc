@@ -33,7 +33,6 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -61,7 +60,6 @@ import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSp
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -74,6 +72,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class provides the default implementation of the InstitutionalProposalService.
@@ -90,7 +89,6 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private static final String DECIMAL_FORMAT = "00000000";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    public static final String PROPOSAL_ID = "proposalId";
     public static final String ACTIVE = "active";
     public static final String ACTIVE_VALUE = "Y";
     public static final String INST_PROPOSAL_ID = "instProposalId";
@@ -134,7 +132,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             
             InstitutionalProposalDocument institutionalProposalDocument = mergeProposals(institutionalProposal, developmentProposal, budget);
             setInstitutionalProposalIndicators(institutionalProposalDocument.getInstitutionalProposal());
-            documentService.routeDocument(institutionalProposalDocument, ROUTE_MESSAGE + developmentProposal.getProposalNumber(), new ArrayList<AdHocRouteRecipient>());
+            documentService.routeDocument(institutionalProposalDocument, ROUTE_MESSAGE + developmentProposal.getProposalNumber(), new ArrayList<>());
             return institutionalProposalDocument.getInstitutionalProposal().getProposalNumber();
         } catch (WorkflowException ex) {
             throw new InstitutionalProposalCreationException(WORKFLOW_EXCEPTION_MESSAGE, ex);
@@ -157,7 +155,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             InstitutionalProposalDocument newInstitutionalProposalDocument = versionProposal(proposalNumber, developmentProposal, budget);
             setInstitutionalProposalIndicators(newInstitutionalProposalDocument.getInstitutionalProposal());
             documentService.routeDocument(newInstitutionalProposalDocument, ROUTE_MESSAGE + developmentProposal.getProposalNumber(), 
-            		new ArrayList<AdHocRouteRecipient>());
+            		new ArrayList<>());
             institutionalProposalVersioningService.updateInstitutionalProposalVersionStatus(newInstitutionalProposalDocument.getInstitutionalProposal(), 
             		VersionStatus.ACTIVE);
             return newInstitutionalProposalDocument.getInstitutionalProposal().getSequenceNumber().toString();
@@ -174,9 +172,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#getInstitutionalProposal(String)
      */
     public InstitutionalProposal getInstitutionalProposal(String proposalId) {
-        Map<String, String> criteria = new HashMap<String, String>();
+        Map<String, String> criteria = new HashMap<>();
         criteria.put(InstitutionalProposal.PROPOSAL_ID_PROPERTY_STRING, proposalId);
-        return (InstitutionalProposal) businessObjectService.findByPrimaryKey(InstitutionalProposal.class, criteria);
+        return  businessObjectService.findByPrimaryKey(InstitutionalProposal.class, criteria);
     }
     
     /**
@@ -231,7 +229,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     
                     InstitutionalProposal newVersion = versioningService.createNewVersion(activeVersion);
                     newVersion.setStatusCode(ProposalStatus.FUNDED);
-                    newVersion.setAwardFundingProposals(new ArrayList<AwardFundingProposal>());
+                    newVersion.setAwardFundingProposals(new ArrayList<>());
                     
                     InstitutionalProposalDocument institutionalProposalDocument = 
                         (InstitutionalProposalDocument) documentService.getNewDocument(InstitutionalProposalDocument.class);
@@ -242,7 +240,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     institutionalProposalDocument.setInstitutionalProposal(newVersion);
                     setInstitutionalProposalIndicators(institutionalProposalDocument.getInstitutionalProposal());
                     documentService.routeDocument(institutionalProposalDocument, 
-                            "Update Proposal Status to Funded", new ArrayList<AdHocRouteRecipient>());
+                            "Update Proposal Status to Funded", new ArrayList<>());
                     
                     updatedProposals.add(newVersion);
                     
@@ -301,7 +299,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     institutionalProposalDocument.setInstitutionalProposal(newVersion);
                     setInstitutionalProposalIndicators(institutionalProposalDocument.getInstitutionalProposal());
                     documentService.routeDocument(institutionalProposalDocument, 
-                            "Update Proposal Status to Pending", new ArrayList<AdHocRouteRecipient>());
+                            "Update Proposal Status to Pending", new ArrayList<>());
                     
                     updatedProposals.add(newVersion);
                     
@@ -321,7 +319,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     }
 
     public List<InstitutionalProposal> getProposalsForProposalNumber(String proposalNumber) {
-        return new ArrayList<InstitutionalProposal>(businessObjectService.findMatchingOrderBy(InstitutionalProposal.class,
+        return new ArrayList<>(businessObjectService.findMatchingOrderBy(InstitutionalProposal.class,
                 Collections.singletonMap(PROPOSAL_NUMBER, proposalNumber),
                                                                 SEQUENCE_NUMBER,
                                                                 true));
@@ -451,9 +449,9 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         if (developmentProposal.getRolodex() != null) {
             institutionalProposal.setRolodexId(developmentProposal.getRolodex().getRolodexId());
         }
-        if (institutionalProposal.getAwardType() !=null && developmentProposal.getAnticipatedAwardType() !=null) {
-            institutionalProposal.getAwardType().setDescription(developmentProposal.getAnticipatedAwardType().getDescription());
-        }    
+        if(developmentProposal.getAnticipatedAwardType()!=null) {
+            institutionalProposal.setAwardTypeCode(developmentProposal.getAnticipatedAwardType().getCode());
+        }
     }
     
     protected void doCustomAttributeDataFeed(InstitutionalProposalDocument institutionalProposalDocument, DevelopmentProposal developmentProposal) throws WorkflowException {
@@ -640,7 +638,15 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             InstitutionalProposalDocument currentInstitutionalProposalDocument) throws VersionException, 
             WorkflowException, IOException{
         InstitutionalProposal newVersion = getVersioningService().createNewVersion(currentInstitutionalProposal);
-        
+        Map<String, String> fieldValues = new HashMap<>();
+		fieldValues.put("proposalNumber", currentInstitutionalProposal.getProposalNumber());
+    	List<InstitutionalProposal> instProp = (List<InstitutionalProposal>) businessObjectService.findMatchingOrderBy(InstitutionalProposal.class, fieldValues, "sequenceNumber", false);
+    	if (instProp != null && instProp.size() > 0) {
+    		for(InstitutionalProposal instProposal:instProp) {
+    	        if (instProposal.getSequenceNumber().equals(newVersion.getSequenceNumber()))
+    	        	newVersion.setSequenceNumber(instProp.get(0).getSequenceNumber()+1);
+    		}
+        }
         synchNewCustomAttributes(newVersion, currentInstitutionalProposal);
         
         newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
@@ -659,11 +665,8 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      * tied to the new document.
      */
     protected void synchNewCustomAttributes(InstitutionalProposal newInstitutionalProposal, InstitutionalProposal oldInstitutionalProposal) {
-        Set<Integer> availableCustomAttributes = new HashSet<>();
-        for(InstitutionalProposalCustomData customData : newInstitutionalProposal.getInstitutionalProposalCustomDataList()) {
-            availableCustomAttributes.add(customData.getCustomAttributeId().intValue());
-        }
-        
+        final Set<Integer> availableCustomAttributes = newInstitutionalProposal.getInstitutionalProposalCustomDataList().stream().map(customData -> customData.getCustomAttributeId().intValue()).collect(Collectors.toSet());
+
         if(oldInstitutionalProposal.getInstitutionalProposalDocument() != null) {
             Map<String, CustomAttributeDocument> customAttributeDocuments = oldInstitutionalProposal.getInstitutionalProposalDocument().getCustomAttributeDocuments();
             for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
@@ -707,8 +710,6 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         }
     }
 
-    /* Service injection getters and setters */
-    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -724,11 +725,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     public void setInstitutionalProposalVersioningService(InstitutionalProposalVersioningService institutionalProposalVersioningService) {
         this.institutionalProposalVersioningService = institutionalProposalVersioningService;
     }
-    
-    /**
-     * Set the Sequence Accessor Service.
-     * @param sequenceAccessorService the Sequence Accessor Service
-     */
+
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }

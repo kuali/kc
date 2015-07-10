@@ -47,6 +47,7 @@ import gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.SalariesAndWagesTy
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.*;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.KeyPersonType.KeyPersonFlag;
 import gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.OtherDirectCostsDocument.OtherDirectCosts;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
@@ -74,7 +75,6 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.kuali.coeus.propdev.impl.ynq.ProposalYnq;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.home.AwardService;
@@ -106,6 +106,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class generates XML that confirms with the RaR XSD related to Proposal
@@ -133,7 +134,6 @@ public class NIHResearchAndRelatedXmlStream extends
     private static final String FACILITIES_BLOCK_TYPE = "facilities";
     private static final String PROJECT_SUMMARY_BLOCK_TYPE = "summary";
     private static final String SPECIAL_REVIEW_CODE_1 = "1";
-    private static final String OTHER_PERSONNEL_CATEGORY_CODE = "30";
 
     private static final String APPROVAL_TYPE_EXEMPT = "4";
     protected static final String PROPOSAL_YNQ_QUESTION_16 = "16";
@@ -143,7 +143,6 @@ public class NIHResearchAndRelatedXmlStream extends
 
     private static final String PROJECT_ROLE_PI = "PI";
     private static final String PROJECT_ROLE_COI = "COI";
-    private static final String PROJECT_ROLE_KP = "KP";
 
     private static final Object PROPOSAL_YNQ_QUESTION_17 = "17";
 
@@ -155,6 +154,9 @@ public class NIHResearchAndRelatedXmlStream extends
 
     private static final String BUDGET_PERIOD_TYPE_3 = "3";
     private static final BigDecimal POINT_ZERO_ONE = new ScaleTwoDecimal(0.01).bigDecimalValue();
+    public static final String EB_ON_LA = "3";
+    public static final String VACATION_ON_LA = "2";
+    public static final String CATEGORY_PERSONNEL = "P";
 
     @Autowired
     @Qualifier("awardService")
@@ -175,6 +177,10 @@ public class NIHResearchAndRelatedXmlStream extends
     @Autowired
     @Qualifier("submissionInfoService")
     private SubmissionInfoService submissionInfoService;
+    
+    @Autowired
+    @Qualifier("unitService")
+    private UnitService unitService;
 
     private ScaleTwoDecimal cumulativeCalendarMonthsFunded = ScaleTwoDecimal.ZERO;
 
@@ -411,6 +417,7 @@ public class NIHResearchAndRelatedXmlStream extends
         .newInstance();
         String degree = getDegree(proposalPerson);
         proposalPersonType.setDegree(degree);
+        proposalPersonType.setGraduationYear(getGraduationYear(proposalPerson));
         proposalPersonType.setEmail(proposalPerson.getEmailAddress());
         proposalPersonType
         .setName(getProposalPersonFullNameType(proposalPerson));
@@ -463,13 +470,15 @@ public class NIHResearchAndRelatedXmlStream extends
 
 
     private String getDegree(ProposalPerson proposalPerson) {
-        List<ProposalPersonDegree> proposalPersonDegress = proposalPerson.getProposalPersonDegrees();
-        String degree = null;
-        for (ProposalPersonDegree proposalPersonDegree : proposalPersonDegress) {
-            degree = degree==null?proposalPersonDegree.getDegree():degree+","+proposalPersonDegree.getDegree(); 
-        }
-        return degree;
+        List<ProposalPersonDegree> proposalPersonDegrees = proposalPerson.getProposalPersonDegrees();
+        return proposalPersonDegrees.stream().map(p -> p.getDegree()).collect(Collectors.joining(","));
     }
+
+    private String getGraduationYear(ProposalPerson proposalPerson) {
+        List<ProposalPersonDegree> proposalPersonDegrees = proposalPerson.getProposalPersonDegrees();
+        return proposalPersonDegrees.stream().map(p -> p.getGraduationYear()).collect(Collectors.joining(","));
+    }
+
 
     private PersonFullNameType getProposalPersonFullNameType(
             ProposalPerson proposalPerson) {
@@ -566,14 +575,12 @@ public class NIHResearchAndRelatedXmlStream extends
     }
 
     private String getMajorSubDivision(String leadUnit) {
-        UnitService unitService = KcServiceLocator.getService(UnitService.class);
-        List<Unit> units = unitService.getAllSubUnits("000001");
-        for (Unit unit : units) {
-            if(unit.getUnitNumber().equals(leadUnit)){
-                return unit.getParentUnitNumber();
-            }
+        Unit unit = unitService.getUnit(leadUnit);
+        if (unit != null) {
+        	return unit.getParentUnitNumber();
+        } else {
+        	return leadUnit;
         }
-        return leadUnit;
     }
 
     private String getLeadUnit(DevelopmentProposal developmentProposal) {
@@ -776,8 +783,6 @@ public class NIHResearchAndRelatedXmlStream extends
                 budgetPeriodType.setEndDate(getDateTimeService().getCalendar(budgetPeriod.getEndDate()));
                 budgetPeriodType.setFee(new BigDecimal(0));
                 setSalaryAndWages(developmentProposal,budget,budgetPeriod,budgetPeriodType);
-                //				budgetPeriodType.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
-                //				budgetPeriodType.setSalariesAndWagesArray(getSalaryAndWages(developmentProposal,budget,budgetPeriod));
                 budgetPeriodType.setEquipmentTotal(getEquipmentTotal(budgetLineItems));
                 budgetPeriodType.setEquipmentCostsArray(getEquipmentCosts(budgetLineItems));
                 budgetPeriodType.setOtherDirectCostsArray(getOtherDirectCosts(developmentProposal,budgetLineItems));
@@ -969,17 +974,11 @@ public class NIHResearchAndRelatedXmlStream extends
         public void setFund(ScaleTwoDecimal fund) {
             this.fund = fund;
         }
-        /**
-         * Gets the count attribute. 
-         * @return Returns the count.
-         */
+
         public int getCount() {
             return count;
         }
-        /**
-         * Sets the count attribute value.
-         * @param count The count to set.
-         */
+
         public void setCount(int count) {
             this.count = count;
         }
@@ -990,27 +989,27 @@ public class NIHResearchAndRelatedXmlStream extends
         boolean isNih = getSponsorHierarchyService().isSponsorNihOsc(developmentProposal.getSponsorCode()) || getSponsorHierarchyService().isSponsorNihMultiplePi(developmentProposal.getSponsorCode());
         String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
 
-        OtherPersonInfo otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Secretarial");
+        OtherPersonInfo otherPersonInfo = getOtherPersonInfo(budgetPeriod,mappingName,"01-Secretarial");
         otherPersonnelType.setClericalCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setClericalFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Graduates");
+        otherPersonInfo = getOtherPersonInfo(budgetPeriod,mappingName,"01-Graduates");
         otherPersonnelType.setGradCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setGradFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Other Profs");
+        otherPersonInfo = getOtherPersonInfo(budgetPeriod,mappingName,"01-Other Profs");
         otherPersonnelType.setOtherProfCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setOtherProfFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Undergrads");
+        otherPersonInfo = getOtherPersonInfo(budgetPeriod,mappingName,"01-Undergrads");
         otherPersonnelType.setUnderGradCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setUnderGradFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Other");
+        otherPersonInfo = getOtherPersonInfo(budgetPeriod,mappingName,"01-Other");
         otherPersonnelType.setOtherCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setOtherFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-PostDocs");
+        otherPersonInfo = getOtherPersonInfo(budgetPeriod,mappingName,"01-PostDocs");
         otherPersonnelType.setPostDocCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setPostDocFunds(otherPersonInfo.getFund().bigDecimalValue());
 
@@ -1022,57 +1021,62 @@ public class NIHResearchAndRelatedXmlStream extends
         ScaleTwoDecimal laAmount = ScaleTwoDecimal.ZERO;
         List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (budgetLineItem.getBudgetCategoryCode().equals(OTHER_PERSONNEL_CATEGORY_CODE)) {
+            if (StringUtils.equalsIgnoreCase(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), CATEGORY_PERSONNEL)) {
             List<BudgetLineItemCalculatedAmount> calcAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
-            for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
-                budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
-                if(RateClassType.LA_SALARIES.getRateClassType().equals(budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode())){
-                    laAmount = laAmount.add(budgetLineItemCalculatedAmount.getCalculatedCost());
+                for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
+                    budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
+                    isEBorVacationOnLA(budgetLineItemCalculatedAmount);
+                    if(RateClassType.LA_SALARIES.getRateClassType().equals(budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode())
+                        || isEBorVacationOnLA(budgetLineItemCalculatedAmount)){
+                        laAmount = laAmount.add(budgetLineItemCalculatedAmount.getCalculatedCost());
+                    }
                 }
-            }
             }           
         }
         return laAmount.bigDecimalValue();
     }
 
-    private OtherPersonInfo getOtherPersonInfo(DevelopmentProposal developmentProposal,BudgetPeriod budgetPeriod, String categoryMappingName, String categoryCode) {
+    protected boolean isEBorVacationOnLA(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount) {
+        return ((RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode()) &&
+                budgetLineItemCalculatedAmount.getRateTypeCode().equalsIgnoreCase(EB_ON_LA)) ||
+                (RateClassType.VACATION.getRateClassType().equals(budgetLineItemCalculatedAmount.getRateClass().getRateClassTypeCode()) &&
+                        budgetLineItemCalculatedAmount.getRateTypeCode().equalsIgnoreCase(VACATION_ON_LA)));
+
+    }
+
+    private OtherPersonInfo getOtherPersonInfo(BudgetPeriod budgetPeriod, String categoryMappingName, String categoryCode) {
         Map<String, String> categoryMap = new HashMap<String, String>();
         categoryMap.put(KEY_TARGET_CATEGORY_CODE, categoryCode);
         categoryMap.put(KEY_MAPPING_NAME, categoryMappingName);
         List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
         OtherPersonInfo otherPersonInfo = new OtherPersonInfo();
-        for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
+        for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
+            for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             Integer quantity = 0;
-            boolean lineItemMatchesCategory = false;
-            for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
                 if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
-                    lineItemMatchesCategory = true;
+                    addOtherPersonInfo(otherPersonInfo, lineItem);
                     break;
-                }
-            }
-            if (lineItemMatchesCategory) {
-                List<BudgetPersonnelDetails> budgetPersonnelDetailsList = lineItem.getBudgetPersonnelDetailsList();
-                if(budgetPersonnelDetailsList.size()>0){
-                    for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetailsList) {
-                        if(!isPersonExistsInProposal(developmentProposal,budgetPersonnelDetails)){
-                            otherPersonInfo.setFund(otherPersonInfo.getFund().add(budgetPersonnelDetails.getSalaryRequested()));
-                            if (budgetPersonnelDetails.getQuantity()!=null){
-                                quantity = budgetPersonnelDetails.getQuantity(); 
-                            }
-                            otherPersonInfo.setCount(otherPersonInfo.getCount()+quantity.intValue());
-                        }
-                    }
-                }else{
-                    otherPersonInfo.setFund(otherPersonInfo.getFund().add(lineItem.getLineItemCost()));
-                    otherPersonInfo.setCount(otherPersonInfo.getCount()+lineItem.getQuantity().intValue());
                 }
             }
         }
         return otherPersonInfo;
     }
 
-    private boolean isPersonExistsInProposal(DevelopmentProposal developmentProposal, 
-            BudgetPersonnelDetails budgetPersonnelDetails) {
+    private void addOtherPersonInfo(OtherPersonInfo otherPersonInfo, BudgetLineItem lineItem) {
+        List<BudgetPersonnelDetails> budgetPersonnelDetailsList = lineItem.getBudgetPersonnelDetailsList();
+        if(!budgetPersonnelDetailsList.isEmpty()){
+            for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetailsList) {
+                    otherPersonInfo.setFund(otherPersonInfo.getFund().add(budgetPersonnelDetails.getSalaryRequested()));
+                    otherPersonInfo.setCount(otherPersonInfo.getCount() + 1);
+            }
+        } else {
+            otherPersonInfo.setFund(otherPersonInfo.getFund().add(lineItem.getLineItemCost()));
+            otherPersonInfo.setCount(otherPersonInfo.getCount() + 1);
+        }
+    }
+
+    private boolean personExistsInProposal(DevelopmentProposal developmentProposal,
+                                           BudgetPersonnelDetails budgetPersonnelDetails) {
         List<ProposalPerson> proposalPersons = developmentProposal.getProposalPersons();
         for (ProposalPerson proposalPerson : proposalPersons) {
             if(getBudgetPersonService().proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails))
@@ -1754,7 +1758,7 @@ public class NIHResearchAndRelatedXmlStream extends
     private BigDecimal calculateFundingMonths(DevelopmentProposal developmentProposal,
             BudgetPersonnelDetails budgetPersonnelDetails, String budgetPeriodType) {
         BigDecimal fundingMonths = ScaleTwoDecimal.ZERO.bigDecimalValue();
-        if (isPersonExistsInProposal(developmentProposal,budgetPersonnelDetails)
+        if (personExistsInProposal(developmentProposal, budgetPersonnelDetails)
                 && budgetPeriodType.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
             if (budgetPersonnelDetails != null) {
                 BigDecimal totalMonths = getMonthsBetweenDates(
@@ -1815,4 +1819,12 @@ public class NIHResearchAndRelatedXmlStream extends
     public void setSubmissionInfoService(SubmissionInfoService submissionInfoService) {
         this.submissionInfoService = submissionInfoService;
     }
+
+	public UnitService getUnitService() {
+		return unitService;
+	}
+
+	public void setUnitService(UnitService unitService) {
+		this.unitService = unitService;
+	}
 }

@@ -18,8 +18,10 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierTypeBase;
 
@@ -32,6 +34,12 @@ import java.util.List;
  */
 public class ProtocolSubmission extends ProtocolSubmissionBase {
 
+    //hiding the protocolbase inherited from the parent for lookups based on the protocol to work.
+    private Protocol protocol;
+
+    //hiding the committeeScheduleBase inherited from the parent for lookups based on the CommitteeSchedule to work.
+    @SkipVersioning
+    private transient CommitteeSchedule committeeSchedule;
 
     private static final long serialVersionUID = 2158830045312905591L;
     
@@ -83,6 +91,29 @@ public class ProtocolSubmission extends ProtocolSubmissionBase {
     
     @Override
     public CommitteeSchedule getCommitteeSchedule() {
-        return (CommitteeSchedule)super.getCommitteeSchedule();
+       if (committeeSchedule == null) {
+           committeeSchedule = (CommitteeSchedule) super.getCommitteeSchedule();
+       }
+        return committeeSchedule;
     }
+
+    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+        super.setCommitteeSchedule(committeeSchedule);
+        this.committeeSchedule = committeeSchedule;
+    }
+
+    @Override
+    public Protocol getProtocol() {
+        if (protocol == null) {
+            protocol = (Protocol) super.getProtocol();
+        }
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        super.setProtocol(protocol);
+        this.protocol = protocol;
+    }
+
+
 }

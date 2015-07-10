@@ -402,7 +402,10 @@ public final class KeyConstants {
     public static final String ERROR_OBLIGATION_EXPIRATION_DATE_TOTAL = "error.obligation.expiration.date.total";
     public static final String ERROR_INVALID_CFDA = "error.award.cfda.invalid";
     public static final String ERROR_AWARD_EFFECTIVE_DATE_TIME_AND_MONEY = "error.award.effective.date.timeAndMoney";
-    
+    public static final String ERROR_AWARD_SPONSOR_ID = "error.award.sponsorCode";
+    public static final String ERROR_AWARD_PRIME_SPONSOR_ID = "error.award.primeSponsorCode";
+
+
     public static final String ERROR_ANTICIPATED_AMOUNT_FROM_TRANSACTIONS = "error.anticipated.amount.from.transactions";
     public static final String ERROR_AWARD_OBLIGATED_NEGATIVE_FROM_TRANSACTIONS = "error.award.obligated.negative.from.transactions";
     public static final String ERROR_AWARD_ANTICIPATED_NEGATIVE_FROM_TRANSACTIONS = "error.award.anticipated.negative.from.transactions";
@@ -1118,6 +1121,8 @@ public final class KeyConstants {
     public static final String S2S_USER_ATTACHED_FORM_NOT_PDF = "error.s2s.userattachedform.not.pdf";
     public static final String ERROR_DELETION_BLOCKED = "error.deletion.blocked";
 
+    public static final String AUDIT_WARNING_PROPOSAL_WITHNO_BUDGET = "warning.proposal.withno.budget";
+    
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

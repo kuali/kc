@@ -66,6 +66,7 @@
 				<ref bean="PropBudget-ProjectPersonnelPage" />
 				<ref bean="PropBudget-AssignPersonnelToPeriodsPage" />
 				<ref bean="PropBudget-NonPersonnelCostsPage" />
+				<ref bean="PropBudget-SinglePointEntryPage" />
 				<ref bean="PropBudget-SubawardsPage" />
 				<ref bean="PropBudget-CostSharingPage" />
                 <ref bean="PropBudget-UnrecoveredFandAPage" />
@@ -90,6 +91,7 @@
 				<bean parent="PropBudget-NavigationMenu-Rates" p:order="20" p:render="@{!budget.developmentProposal.isParent()}"/>
 				<bean parent="PropBudget-NavigationMenu-PersonnelCosts" p:order="30" />
 				<bean parent="PropBudget-NavigationMenu-NonPersonnelCosts" p:order="40" />
+				<bean parent="PropBudget-NavigationMenu-SinglePointEntry" p:order="45" p:render="@{#ViewHelper.isSinglePointEntry()}" />
 				<bean parent="PropBudget-NavigationMenu-Subawards" p:order="50" />
 				<bean parent="PropBudget-NavigationMenu-InstitutionalCommitments" p:order="60" />
 				<bean parent="PropBudget-NavigationMenu-ProjectIncome" p:order="70" />
@@ -124,6 +126,13 @@
 	<bean id="PropBudget-NavigationMenu-NonPersonnelCosts-parentBean" abstract="true"
 		parent="Kc-MenuAction" p:navigateToPageId="PropBudget-NonPersonnelCostsPage"
 		p:actionLabel="Non-Personnel Costs" p:iconClass="icon-file" />
+		
+	<bean id="PropBudget-NavigationMenu-SinglePointEntry" parent="PropBudget-NavigationMenu-SinglePointEntry-parentBean" />
+	<bean id="PropBudget-NavigationMenu-SinglePointEntry-parentBean" abstract="true"
+		parent="Kc-MenuAction" p:navigateToPageId="PropBudget-SinglePointEntryPage"
+		p:actionLabel="Single Point Entry" p:iconClass="icon-bell2" />
+		
+		
 	<bean id="PropBudget-NavigationMenu-Subawards" parent="PropBudget-NavigationMenu-Subawards-parentBean" />
 	<bean id="PropBudget-NavigationMenu-Subawards-parentBean" abstract="true"
 		parent="Kc-MenuAction" p:navigateToPageId="PropBudget-SubawardsPage"
@@ -208,7 +217,7 @@
 						<bean parent="Uif-ActionLink" p:actionLabel="Budget Versions" p:actionScript="showDialog('PropBudget-BudgetVersions-Dialog');"
 							p:iconClass="icon-money" p:order="50" />
 						<bean parent="Uif-ActionLink" p:actionLabel="Autocalculate Periods" p:methodToCall="generateAllPeriods"
-							  p:render="@{!#ViewHelper.budgetLineItemsExistInLaterPeriods(budget.budgetPeriods)}"
+							  p:render="@{!#ViewHelper.budgetLineItemsExistInLaterPeriods(budget.budgetPeriods) and !viewOnly and canEditView}"
 							  p:iconClass="icon-stack" p:order="60">
 								<property name="confirmationDialog">
 									<bean parent="Uif-DialogGroup-YesNo"

@@ -64,12 +64,10 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
                     protocol.getProtocolPersons().add(newPrincipalInvestigator);
                 }
 
-                // Assign the PI the AGGREGATOR role if PI has a personId.
+                // Assign the PI the APPROVER role if PI has a personId (for doc cancel).
                 if (newPrincipalInvestigator.getPersonId() != null) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
                     KcAuthorizationService kraAuthService = KcServiceLocator.getService(KcAuthorizationService.class);
-                    kraAuthService.addDocumentLevelRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR,
-                            protocol);
                     kraAuthService.addDocumentLevelRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
                 }
                 else {

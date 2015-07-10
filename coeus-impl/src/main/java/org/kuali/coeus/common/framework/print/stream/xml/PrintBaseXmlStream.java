@@ -26,22 +26,21 @@ public abstract class PrintBaseXmlStream implements XmlStream {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    @Override
+
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
-    @Override
+
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
-    @Override
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    @Override
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }

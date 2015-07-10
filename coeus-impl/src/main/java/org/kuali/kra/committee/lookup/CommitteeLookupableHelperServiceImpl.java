@@ -31,7 +31,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
  * 
  * This class is for committee lookup.
  */
-public class CommitteeLookupableHelperServiceImpl extends CommitteeLookupableHelperServiceImplBase<Committee, CommitteeDocument> {
+public class CommitteeLookupableHelperServiceImpl extends CommitteeLookupableHelperServiceImplBase<Committee> {
 
     private static final String DOCHANDLER_LINK = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
 
@@ -72,11 +72,6 @@ public class CommitteeLookupableHelperServiceImpl extends CommitteeLookupableHel
     @Override
     protected String getModifyCommitteePermissionNameHook() {
         return PermissionConstants.MODIFY_COMMITTEE;
-    }
-
-    @Override
-    protected Class<CommitteeDocument> getCommitteeDocumentBOClassHook() {
-        return CommitteeDocument.class;
     }
 
     @Override

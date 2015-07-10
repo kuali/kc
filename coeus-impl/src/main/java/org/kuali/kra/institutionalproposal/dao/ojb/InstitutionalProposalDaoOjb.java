@@ -67,7 +67,7 @@ public class InstitutionalProposalDaoOjb extends LookupDaoOjb implements Institu
             Map<String, Object> fieldValues, Date updatedSince, Integer page,
             Integer numberPerPage) {
         SearchResults<InstitutionalProposal> result = new SearchResults<>();
-        Criteria origCrit = getCollectionCriteriaFromMap(new Award(), fieldValues);
+        Criteria origCrit = getCollectionCriteriaFromMap(new InstitutionalProposal(), fieldValues);
         Criteria crit = new Criteria();
         crit.addEqualTo(PROPOSAL_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
         if (updatedSince != null) {
@@ -89,7 +89,7 @@ public class InstitutionalProposalDaoOjb extends LookupDaoOjb implements Institu
     public String generatePagingSql(Integer page, Integer numberPerPage) {
         DatabasePlatform dbPlatform = getDbPlatform();
         // OJB includes this as an AND to the existing statement so need it to say 'AND 1 = 1 ..."
-        String result = " 1 = 1 ORDER BY AWARD_ID ";
+        String result = " 1 = 1 ORDER BY PROPOSAL_ID ";
         if (dbPlatform instanceof MySQLDatabasePlatform) {
             return result + " LIMIT " + ((page-1)*numberPerPage) + "," + numberPerPage;
         } else if (dbPlatform instanceof OracleDatabasePlatform) {

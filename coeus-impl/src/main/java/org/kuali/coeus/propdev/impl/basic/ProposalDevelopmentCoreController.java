@@ -23,11 +23,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.kuali.coeus.propdev.impl.core.*;
-import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
-import org.kuali.rice.krad.web.form.DialogResponse;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
@@ -43,7 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProposalDevelopmentCoreController extends ProposalDevelopmentControllerBase {
 
 
-    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
+	@Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=defaultMapping")
 	public ModelAndView defaultMapping(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
 		return getTransactionalDocumentControllerService().start(form);
@@ -191,25 +188,29 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 		if (!form.isCanEditView() || form.isViewOnly()) {
 			return closeWithoutSave(form);
 		}
-		DialogResponse dialogResponse = form.getDialogResponse("PropDev-Close-Dialog");
-        if(dialogResponse == null) {
-            return getModelAndViewService().showDialog("PropDev-Close-Dialog", true, form);
-        }else if (dialogResponse.getResponse().equals("yes")){
-            super.save(form);
-            return closeWithoutSave(form);
-        } else if (dialogResponse.getResponse().equals("no")) {
-            return closeWithoutSave(form);
-        }
-        return getModelAndViewService().getModelAndView(form);
+		return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_CLOSE_DIALOG, true, form);
     }
 
-    @Transactional @RequestMapping(value ="/proposalDevelopment", params = "methodToCall=closeWithoutSave")
-    public ModelAndView closeWithoutSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
-        if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
-            if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
-                getPessimisticLockService().releaseAllLocksForUser(form.getProposalDevelopmentDocument().getPessimisticLocks(), getGlobalVariableService().getUserSession().getPerson());
-            }
-        }
-        return getNavigationControllerService().returnToHub(form);
-    }
+	@Transactional
+	@RequestMapping(value ="/proposalDevelopment",params = "methodToCall=closeWithSave")
+	public ModelAndView closeWithSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		super.save(form);
+		releaseLocksForLoggedInUser(form);
+		return getNavigationControllerService().returnToHub(form);
+	}
+
+	@Transactional
+	@RequestMapping(value ="/proposalDevelopment",params = "methodToCall=closeWithoutSave")
+	public ModelAndView closeWithoutSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		releaseLocksForLoggedInUser(form);
+		return getNavigationControllerService().returnToHub(form);
+	}
+
+	protected void releaseLocksForLoggedInUser(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
+		if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
+			if (form.getProposalDevelopmentDocument().getPessimisticLocks() != null) {
+				getPessimisticLockService().releaseAllLocksForUser(form.getProposalDevelopmentDocument().getPessimisticLocks(), getGlobalVariableService().getUserSession().getPerson());
+			}
+		}
+	}
 }

@@ -30,11 +30,11 @@ Kc.PropDev.Budget = Kc.PropDev.Budget || {};
         return namespace.calculateTotalFromValues(values, $('#PropBudget-CostSharingPage-CollectionGroup').data('total_costsharing'));
     };
     namespace.calculateTotalFromValues = function (values, total) {
-        var calcTotal = total * 100;
+        var calcTotal = total.replace(/[$,]/g, '') * 100;
         for (var i = 0; i < values.length; i++) {
             calcTotal -= (values[i] * 100);
         }
-        return (calcTotal / 100).toFixed(2);
+        return Kc.PropDev.Budget.formatMoney(new Number(calcTotal/100),2, '.', ',')
     };
 	namespace.formatMoney = function(num, c, d, t){
 		var n = num, c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
@@ -55,6 +55,11 @@ Kc.PropDev.Budget = Kc.PropDev.Budget || {};
 			} else {
 				amountSpan.html(formattedTotal);
 			}
+		}
+	};
+	namespace.refreshAddPersonnelDialog = function() {
+		if ($("select[name='addProjectPersonnelHelper.lineType']").val() == "T") {
+			retrieveComponent('PropBudget-ProjectPersonnelPage-Wizard');
 		}
 	};
 })(Kc.PropDev.Budget, jQuery);

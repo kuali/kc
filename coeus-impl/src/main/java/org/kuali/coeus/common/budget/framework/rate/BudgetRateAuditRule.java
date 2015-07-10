@@ -40,7 +40,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @KcBusinessRule("budgetRateAuditRule")
 public class BudgetRateAuditRule extends BudgetAuditRuleBase{
 
-	@Autowired
+    public static final String RATE_CLASS_TYPES_MESSAGE = "Rate class types - ";
+    @Autowired
 	@Qualifier("budgetRatesService")
 	private BudgetRatesService budgetRatesService;
 	
@@ -67,11 +68,10 @@ public class BudgetRateAuditRule extends BudgetAuditRuleBase{
         if (!outOfSyncRates.isEmpty()) {
             BudgetConstants.BudgetAuditRules budgetRatesRule = BudgetConstants.BudgetAuditRules.RATES;
 			List<AuditError> auditErrors = getAuditErrors(budgetRatesRule, false);
-			String additionalMessage = "Rate class types - " + outOfSyncRates.toString();
+			String additionalMessage = RATE_CLASS_TYPES_MESSAGE + outOfSyncRates.toString();
             auditErrors.add(new AuditError(budgetRatesRule.getPageId(), 
                     KeyConstants.AUDIT_WARNING_RATE_OUT_OF_SYNC, budgetRatesRule.getPageId(),
                     new String[]{additionalMessage}));
-            return false;
         }
         return true;
     }

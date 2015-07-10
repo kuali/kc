@@ -424,3 +424,74 @@ function closeIframeDialog() {
     // Fix for persistent loading message in IE
     hideLoading();
 }
+
+/** below override to add numeric text sort detection **/
+
+/**
+ * retrieve column values for sorting a column marked with sSortDataType:dom-text in aoColumns
+ *
+ * @param oSettings - an object provided by datatables containing table information and configuration
+ * @param iColumn - the column whose values are to be retrieved
+ * @return an array of column values - extracted from any surrounding markup
+ */
+jQuery.fn.dataTableExt.afnSortData['dom-text'] = function (oSettings, iColumn, iVisColumn) {
+    var aData = [];
+    var numericColumn = true;
+
+    jQuery(oSettings.oApi._fnGetTrNodes(oSettings)).each(function () {
+        var td = jQuery('>td:eq(' + iVisColumn + '):first', this);
+        var input = jQuery(td).find('input:text');
+        var value = "";
+        if (input.length != 0) {
+            value = input.val();
+        } else {
+            // check for linkField
+            var linkField = jQuery(td).find('.uif-linkField');
+            if (linkField.length != 0) {
+                value = linkField.text().trim();
+            } else {
+                // find span for the data or input field and get its text
+                var inputField = jQuery(td).find('.uif-field');
+                if (inputField.length != 0) {
+                    value = jQuery.trim(inputField.text());
+                } else {
+                    // just use the text within the cell
+                    value = jQuery(td).text().trim();
+                }
+            }
+        }
+
+        // strip leading $, if present
+        if (value && typeof value === "string" && value.charAt(0) == '$') {
+            value = value.substring(1);
+        }
+
+        // strip trailing %, if present
+        if (value && typeof value === "string" && value.charAt(value.length - 1) == '%') {
+            value = value.substring(0, value.length - 1);
+        }
+
+        // if value is a comma separated number remove commas
+        if (/^([0-9]*,[0-9]*)*$/.test(value)) {
+           value = value.replace(/,/g, "");
+        }
+
+        // if the column still may be numeric, check to see if this value is not numeric
+        if (numericColumn && isNaN(value)) {
+            numericColumn = false;
+        }
+
+        var additionalDisplaySeparatorIndex = value.indexOf("*-*");
+        if (additionalDisplaySeparatorIndex != -1) {
+            value = value.substring(0, additionalDisplaySeparatorIndex).trim();
+        }
+        aData.push(value);
+    });
+
+    // force the column to sort numerically if all text values evaluated as numeric
+    if (numericColumn) {
+        oSettings.aoColumns[iColumn].sType = "numeric";
+    }
+
+    return aData;
+};

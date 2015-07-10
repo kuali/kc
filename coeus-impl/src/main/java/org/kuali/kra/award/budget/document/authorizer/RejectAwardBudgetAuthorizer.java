@@ -21,7 +21,6 @@ package org.kuali.kra.award.budget.document.authorizer;
 
 
 import org.kuali.coeus.common.framework.auth.task.Task;
-import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.budget.document.authorization.AwardBudgetTask;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -29,22 +28,19 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 /**
  * This authorizer determines if the user has the permission
  * to reject a proposal.  You can reject if:
- * 1) The document is not at route level 0. ( initiated )
+ * 1) The document does not have a completion requested.
  * 2) You have an approval pending on the document.
  * 3) The document state is enroute.
  * 
  * 
  */
 public class RejectAwardBudgetAuthorizer extends BudgetAuthorizer {
-    
-    private KcDocumentRejectionService kraDocumentRejectionService;
 
     public boolean isAuthorized(String username, Task task) {
     	if(task instanceof AwardBudgetTask) {
 	        AwardBudgetDocument doc = ((AwardBudgetTask) task).getAwardBudgetDocument();
 	        WorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
 	        return !workDoc.isCompletionRequested() 
-	            && !getKraDocumentRejectionService().isDocumentOnInitialNode(doc.getDocumentHeader().getWorkflowDocument())
 	            && workDoc.isApprovalRequested() 
 	            && workDoc.isEnroute();
     	}
@@ -52,13 +48,4 @@ public class RejectAwardBudgetAuthorizer extends BudgetAuthorizer {
     		return super.isAuthorized(username, task);
     	}
     }
-    
-    protected KcDocumentRejectionService getKraDocumentRejectionService() {
-        return kraDocumentRejectionService;
-    }
-    public void setKraDocumentRejectionService(KcDocumentRejectionService kraDocumentRejectionService) {
-        this.kraDocumentRejectionService = kraDocumentRejectionService;
-    }
-    
-    
 }

@@ -79,6 +79,10 @@
          <reference-descriptor name="subAwardCostType" class-ref="org.kuali.kra.subaward.bo.SubAwardCostType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="costType"/> 
         </reference-descriptor>
+        <reference-descriptor name="versionHistory" class-ref="org.kuali.coeus.common.framework.version.history.VersionHistorySearchBo" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="subAwardCode" />
+            <foreignkey field-ref="sequenceNumber" />
+        </reference-descriptor>
         
  	    <collection-descriptor name="subAwardFundingSourceList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardFundingSource" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="subAwardId"/>

@@ -33,6 +33,7 @@ public class ProposalBudgetConstants {
         public static final String RATES_PAGE_ID = "PropBudget-RatesPage";
         public static final String ASSIGN_PERSONNEL_PAGE_ID = "PropBudget-AssignPersonnelToPeriodsPage";
         public static final String NON_PERSONNEL_PAGE_ID = "PropBudget-NonPersonnelCostsPage";
+        public static final String SPE_PAGE_ID = "PropBudget-SinglePointEntryPage";
         public static final String SUBAWARD_PAGE_ID = "PropBudget-SubawardsPage";
         public static final String PROJECT_INCOME_PAGE_ID = "PropBudget-ProjectIncomePage";
         public static final String MODULAR_PAGE_ID = "PropBudget-ModularPage";
@@ -46,6 +47,11 @@ public class ProposalBudgetConstants {
 		public static final String CONFIRM_SYNC_TO_DIRECT_COST_LIMIT_DIALOG_ID = "PropBudget-NonPersonnelCosts-SyncToDirectCostLimit";
 		public static final String PROP_BUDGET_FORMULATED_COST_EDIT_DETAILS = "PropBudget-FormulatedCost-EditDetails";
 		public static final String PROP_BUDGET_FORMULATED_COST_DELETE_CONFIRM = "PropBudget-FormulatedCost-DeleteConfirm";
+		public static final String PROP_DEV_CLOSE_BUDGET_DIALOG = "PropDev-CloseBudget-Dialog";
+		static final String CONFIRM_RATE_CHANGES_DIALOG_ID = "PropBudget-BudgetSettings-ChangeRateDialog";
+		static final String BUDGET_SETTINGS_DIALOG_ID = "PropBudget-BudgetSettings-Dialog";
+		static final String ACTIVITY_RATE_CHANGE_DIALOG_ID = "PropBudget-ActivityTypeChanged-Dialog";
+		static final String NO_RATES_DIALOG_ID = "PropBudget-NoRates-Dialog";
 	}
 	
 	public static class AuthConstants {

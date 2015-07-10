@@ -40,21 +40,26 @@ import org.kuali.coeus.common.notification.impl.exception.UnknownRoleException;
 import org.kuali.coeus.common.notification.impl.service.impl.KcNotificationServiceImpl;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.ken.api.notification.Notification;
+import org.kuali.rice.ken.api.notification.NotificationRecipient;
 import org.kuali.rice.ken.api.service.SendNotificationService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
+import com.google.common.collect.Lists;
+
+import java.sql.Timestamp;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-public class KcNotificationServiceTest extends KcIntegrationTestBase {
+public class KcNotificationServiceTest {
     
-    private static final String MODULE_CODE_FIELD = "moduleCode";
+    private static final String PRINCIPAL_ID_VALUE_QUICKSTART = "10000000001";
+	private static final String MODULE_CODE_FIELD = "moduleCode";
     private static final String ACTION_CODE_FIELD = "actionCode";
     private static final String DOCUMENT_NUMBER_FIELD = "documentNumber";
     private static final String NOTIFICATION_TYPE_ID_FIELD = "notificationTypeId";
@@ -84,7 +89,34 @@ public class KcNotificationServiceTest extends KcIntegrationTestBase {
     
     @Before
     public void setUp() throws Exception {
-        service = new KcNotificationServiceImpl();
+        service = new KcNotificationServiceImpl() {
+        	@Override
+        	protected String getCreateUser() {
+        		return PRINCIPAL_NAME_VALUE_MAJORS;
+        	}
+        	@Override
+        	protected Timestamp getCreateTimestamp() {
+        		return new Timestamp(5000L);
+        	}
+        	@Override
+        	protected Collection<String> getRoleMemberPrincipalIds(String roleNamespace, String roleName, final Map<String, String> roleQualifiers) {
+        		return Lists.<String>newArrayList(PRINCIPAL_ID_VALUE_CHEW, PRINCIPAL_ID_VALUE_QUICKSTART);
+        	}
+        	@Override
+        	protected String getPersonUserName(String personId) {
+        		return PRINCIPAL_NAME_VALUE_JTESTER;
+        	}
+        	@Override
+        	protected Set<String> getRecipientEmailAddresses(NotificationRecipient.Builder recipient) {
+        		Set<String> addresses = new HashSet<>();
+        		addresses.add(EMAIL_ADDRESS_VALUE_JTESTER);
+        		return addresses;
+        	}
+        	@Override
+        	protected String getRolodexEmailAddress(final String rolodexId) {
+        		return EMAIL_ADDRESS_UNIVERSITY;
+        	}
+        };
     }
 
     @After
@@ -327,8 +359,7 @@ public class KcNotificationServiceTest extends KcIntegrationTestBase {
                 notificationType.setNotificationTypeRecipients(notificationTypeRecipients);
                 notificationTypes.add(notificationType);
             }
-            
-            allowing(service).findMatching(with(any(Class.class)), (Map<String, ?>) with(Matchers.anyOf(matcherArray)));
+            allowing(service).<BusinessObject>findMatching(with(any(Class.class)), with(Matchers.anyOf(matcherArray)));
             will(returnValue(notificationTypes));
             
             Map<String, String> fieldValues = new HashMap<String, String>();

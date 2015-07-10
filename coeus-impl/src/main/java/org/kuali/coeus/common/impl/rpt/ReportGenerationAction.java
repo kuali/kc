@@ -40,6 +40,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
@@ -59,7 +60,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
     public ActionForward getReportParametersFromDesign(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        
         ReportGenerationForm reportGenerationForm = (ReportGenerationForm) form;
-        ArrayList<BirtParameterBean> parameterList = new ArrayList<BirtParameterBean>();       
+        List<BirtParameterBean> parameterList = new ArrayList<BirtParameterBean>();
         if (request.getParameter("reportId") != null) {
             parameterList = KcServiceLocator.getService(BirtReportService.class).getInputParametersFromTemplateFile(
                     request.getParameter("reportId"));
@@ -106,7 +107,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         iReportRunnableDesign.setDesignHandle(designHandle);
         IRunAndRenderTask reportTask = BirtHelper.getEngine().createRunAndRenderTask(iReportRunnableDesign);
         HashMap<String, Object> parameters = new HashMap<>();
-        ArrayList<BirtParameterBean> parameterList = KcServiceLocator.getService(BirtReportService.class).getInputParametersFromTemplateFile(reportId);
+        List<BirtParameterBean> parameterList = KcServiceLocator.getService(BirtReportService.class).getInputParametersFromTemplateFile(reportId);
         CustReportDetails reportDetails = KcServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(
                 CustReportDetails.class, reportId);
         reportGenerationForm.setReportParameterList(parameterList);
@@ -138,7 +139,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
             (KcServiceLocator.getService(ErrorReporter.class)).reportError("reportParameterList[0].inputParameterText",
                     KeyConstants.ERROR_BIRT_REPORT_INPUT_MISSING, "select");
         } else {
-            RenderOption renderOption = null;
+            final RenderOption renderOption;
             final String printReportFormat;
             if (reportGenerationForm.getReportFormat().equalsIgnoreCase(Constants.REPORT_FORMAT_PDF)) {
                 renderOption = new PDFRenderOption();

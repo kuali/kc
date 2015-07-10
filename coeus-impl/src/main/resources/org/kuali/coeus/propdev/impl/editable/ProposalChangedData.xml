@@ -88,7 +88,7 @@
       </bean>
     </property>
     <property name="control">
-      <bean p:includeKeyInLabel="false" p:script="updateOtherFields(this, updateOtherFields_Callback)" p:valuesFinderClass="org.kuali.coeus.propdev.impl.editable.ProposalEditableColumnsValuesFinder" parent="SelectControlDefinition"/>
+      <bean p:includeKeyInLabel="false" p:valuesFinderClass="org.kuali.coeus.propdev.impl.editable.ProposalEditableColumnsValuesFinder" parent="SelectControlDefinition"/>
     </property>
     <property name="optionsFinder">
       <bean class="org.kuali.coeus.propdev.impl.editable.ProposalEditableColumnsValuesFinder"

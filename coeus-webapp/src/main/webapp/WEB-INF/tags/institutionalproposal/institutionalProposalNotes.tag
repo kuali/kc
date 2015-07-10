@@ -151,8 +151,10 @@
 							<html:image property="methodToCall.updateNotes.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/>
 							&nbsp;
-							<html:image property="methodToCall.deleteNote.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							<c:if test="${!readOnly}">
+								<html:image property="methodToCall.deleteNote.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+							</c:if>
 						</div>
 	                </td>
 	            </tr>

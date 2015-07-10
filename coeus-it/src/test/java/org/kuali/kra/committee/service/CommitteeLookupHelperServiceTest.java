@@ -37,7 +37,7 @@ import static org.junit.Assert.*;
 public class CommitteeLookupHelperServiceTest extends KcIntegrationTestBase {
     
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 9;
-    private static final String EDIT_URL = "../committeeCommittee.do?committeeId=100&docTypeName=CommitteeDocument&methodToCall=docHandler&command=initiate";
+    private static final String EDIT_URL = "DocHandler.do?command=displayDocSearchView&docId=101";
     
     private CommitteeLookupableHelperServiceImpl committeeLookupableHelperServiceImpl;
 
@@ -89,8 +89,7 @@ public class CommitteeLookupHelperServiceTest extends KcIntegrationTestBase {
         document.setDocumentNumber("101");
         committee.setCommitteeDocument(document);
         List<HtmlData> actionUrls = committeeLookupableHelperServiceImpl.getCustomActionUrls(committee,pkNames);
-        assertEquals(((HtmlData.AnchorHtmlData) actionUrls.get(0)).getHref(), EDIT_URL);                
-    
+        assertTrue(((HtmlData.AnchorHtmlData) actionUrls.get(0)).getHref().endsWith(EDIT_URL));
     }
 
     /*

@@ -31,7 +31,10 @@
             <span class="subhead-left"> Meeting Details </span>
             <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.coeus.common.committee.impl.bo.ScheduleStatus" altText="help"/> </span>
         </h3>
-                    
+
+        <html:hidden property="meetingHelper.committeeSchedule.id"/>
+        <kul:errors displayRemaining="true" />
+
         <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
             <tr>
                 <th align="right" valign="middle" width="115">
@@ -39,7 +42,7 @@
                 </th>
                 <td align="left" valign="middle">
                     <kul:htmlControlAttribute property="meetingHelper.committeeSchedule.committee.committeeId" 
-                                              attributeEntry="${committeeAttribute.committeeId}" readOnly="true" /> 
+                                              attributeEntry="${committeeAttribute.committeeId}" readOnly="true" />
                 </td>
                 <th align="right" valign="middle" width="115">
                     <kul:htmlAttributeLabel attributeEntry="${committeeAttribute.committeeName}" readOnly="true" />

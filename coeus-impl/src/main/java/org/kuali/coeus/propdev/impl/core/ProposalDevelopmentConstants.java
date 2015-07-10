@@ -51,6 +51,8 @@ public class ProposalDevelopmentConstants {
         public static final String DATA_VALIDATION_DIALOG_ID = "DataValidationSection";
         public static final String DATA_VALIDATION_SECTION_WITH_SUBMIT = "DataValidationSection-WithSubmit";
         public static final String PROP_DEV_INITIATE_VIEW = "PropDev-InitiateView";
+        public static final String PROP_DEV_CLOSE_DIALOG = "PropDev-Close-Dialog";
+        public static final String PROP_DEV_PERSONNEL_PAGE_UPDATE_CERTIFICATION_DIALOG = "PropDev-PersonnelPage-UpdateCertification-Dialog";
     }
 
     public static class S2sConstants {

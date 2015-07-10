@@ -4,16 +4,16 @@
  * Copyright 2005-2015 Kuali, Inc.
  * 
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
+ * it under the terms of the GNU Affero General License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
+ * GNU Affero General License for more details.
  * 
- * You should have received a copy of the GNU Affero General Public License
+ * You should have received a copy of the GNU Affero General License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.kuali.kra.award.budget;
@@ -35,64 +35,47 @@ import java.util.Map;
 
 public interface AwardBudgetService extends BudgetCommonService<Award> {
 
-    /**
-     * 
-     */
-    public void processSubmision(AwardBudgetDocument awardBudgetDocument);
-    
-    /**
-     * 
-     */
-    public void processApproval(AwardBudgetDocument awardBudgetDocument);
-    
-    /**
-     * 
-     */
-    public void processDisapproval(AwardBudgetDocument awardBudgetDocument);
-    
-    /**
-     * 
-     */
-    public void post(AwardBudgetDocument awardBudgetDocument);
 
-    /**
-     * 
-     */
-    public void toggleStatus(AwardBudgetDocument awardBudgetDocument);
+    void processSubmision(AwardBudgetDocument awardBudgetDocument);
+    
+
+    void processApproval(AwardBudgetDocument awardBudgetDocument);
+    
+
+    void processDisapproval(AwardBudgetDocument awardBudgetDocument);
+    
+
+    void post(AwardBudgetDocument awardBudgetDocument);
+
+
+    void toggleStatus(AwardBudgetDocument awardBudgetDocument);
  
-    /**
-     * 
-     */
-    public AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException;
+
+    AwardBudgetDocument rebudget(AwardDocument awardDocument,String documentDescription) throws WorkflowException;
 
     /**
      * 
      * Copies all line items from the BudgetPeriods included in rawValues into awardBudgetPeriod fixing
      * dates and making sure personnel referenced are also added to the awardBudget.
      * @param rawValues Collection of BudgetPeriods with line items to be copied to the awardBudgetPeriod
-     * @param awardBudgetPeriod
      */
-    public void copyLineItemsFromProposalPeriods(Collection rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException;
+    void copyLineItemsFromProposalPeriods(Collection<BudgetPeriod> rawValues, BudgetPeriod awardBudgetPeriod) throws WorkflowException;
     
     /**
      * Gets all budget periods from proposals that are funding this award.
-     * @param awardNumber
-     * @return
      */
-    public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber);
+    List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber);
     
     /**
      * Return a list of the award budget status codes that are considered inactive,
      * currently cancelled, rejected and do not post. This is used to determine
      * which budgets to display by default.
-     * @return
      */
-    public List<String> getInactiveBudgetStatus();
+    List<String> getInactiveBudgetStatus();
     
     /**
      * Populates the passed in limit summary given the award document. Will not overwrite or recalculate
      * previously stored budgets in the summary if they are the same budget as in the award document.
-     * @param limitSummary
      */
     void populateBudgetLimitSummary(BudgetLimitSummaryHelper limitSummary, Award award);
     
@@ -112,16 +95,14 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
     
     /**
      * Returns the active award or if none exist, the newest non-cancelled award.
-     * @param awardNumber
-     * @return
+
      */
     Award getActiveOrNewestAward(String awardNumber);
 
-//    public boolean isSummaryPeriodCalcAmountChanged(BudgetPeriod budgetPeriod);
+
     /**
      * Checks for budgets that have not been posted, cancelled or rejected.
      * @return true if any unfinalized budgets are found
-     * @throws WorkflowException
      */
     boolean checkForOutstandingBudgets(Award award);
     
@@ -129,15 +110,15 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * 
      * This method checks if Award rates changed, then display confirmation message on 'open' budget version.
      */
-    public boolean checkRateChange(Collection<BudgetRate> allPropRates,Award award);
+    boolean checkRateChange(Collection<BudgetRate> allPropRates,Award award);
     
-    public AwardBudgetDocument getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
+    AwardBudgetDocument getNewBudgetVersionDocument(BudgetParentDocument<Award> parentBudgetDocument, String documentDescription, Map<String, Object> options)
     	    throws WorkflowException;
     /**
      *
      * This method will clear the BudgetSumamryPeriodCalcAmounts
      */
-    public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod);
+    void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod);
 
-    public void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod);
+    void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod);
 }

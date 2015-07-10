@@ -81,6 +81,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.replace;
@@ -195,6 +196,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         setInitialPi(hierarchyDoc.getDevelopmentProposal(), initialChild);
         copyInitialAttachments(initialChild, hierarchyDoc.getDevelopmentProposal());
 
+        addCreateDetails(newDoc);
+
         LOG.info(String.format("***Initial Child (#%s) linked to Parent (#%s)", initialChild.getProposalNumber(), hierarchyDoc.getDevelopmentProposal().getProposalNumber()));
         
         finalizeHierarchySync(hierarchyDoc.getDevelopmentProposal());
@@ -202,6 +205,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         // return the parent id
         LOG.info(String.format("***Hierarchy creation (#%s) complete", hierarchyDoc.getDevelopmentProposal().getProposalNumber()));
         return hierarchyDoc.getDevelopmentProposal().getProposalNumber();
+    }
+
+    private void addCreateDetails(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        proposalDevelopmentDocument.getDevelopmentProposal().setCreateTimestamp(new Timestamp(System.currentTimeMillis()));
+        proposalDevelopmentDocument.getDevelopmentProposal().setCreateUser(getGlobalVariableService().getUserSession().getLoggedInUserPrincipalName());
     }
 
     protected ProposalDevelopmentDocument saveDocument(ProposalDevelopmentDocument newDoc) {

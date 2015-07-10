@@ -116,20 +116,13 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
         this.noteTopic = noteTopic;
     }
 
-    /**
-     * Gets the createTimeStamp attribute. 
-     * @return Returns the createTimeStamp.
-     */
+
     public Timestamp getCreateTimestamp() {
         return createTimestamp;
     }
 
-    /**
-     * Sets the createTimeStamp attribute value.
-     * @param createTimeStamp The createTimeStamp to set.
-     */
-    public void setCreateTimestamp(Timestamp pCreateTimestamp) {
-        this.createTimestamp = pCreateTimestamp;
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 
     public String getCreateUser() {
@@ -140,13 +133,6 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
         this.createUser = createUser;
     }
 
-    /**    public void setCreateUserFullNamtee(String createUserFullName) {
-        this.createUserFullName = createUserFullName;
-    }
-
-
-     * @see org.kuali.coeus.common.framework.version.sequence.Sequenceable#resetPersistenceState()
-     */
     public void resetPersistenceState() {
         this.awardNotepadId = null;
     }
@@ -192,5 +178,19 @@ public class AwardNotepad extends AwardAssociate implements KraNotepadInterface 
             this.kcPersonService = KcServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
+    }
+
+    @Override
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        if (getUpdateTimestamp() == null) {
+            super.setUpdateTimestamp(updateTimestamp);
+        }
+    }
+
+    @Override
+    public void setUpdateUser(String updateUser) {
+        if (getUpdateUser() == null) {
+            super.setUpdateUser(updateUser);
+        }
     }
 }

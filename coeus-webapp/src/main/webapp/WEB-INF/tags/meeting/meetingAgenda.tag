@@ -18,7 +18,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
+
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 <c:set var="notificationSentMessage" value="${KualiForm.meetingHelper.agendaSentMessage}" />
 
@@ -30,6 +30,9 @@
         <span class="subhead-left"> Generate Agenda </span>
         <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.meeting.ScheduleAgenda" altText="help"/> </span>
     </h3>
+        <html:hidden property="meetingHelper.committeeSchedule.id"/>
+        <kul:errors displayRemaining="true" />
+
         <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
             <tr>
                 <th align="right" valign="middle" width="145">

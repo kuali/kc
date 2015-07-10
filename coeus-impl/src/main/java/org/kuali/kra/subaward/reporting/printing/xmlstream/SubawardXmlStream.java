@@ -26,6 +26,7 @@ import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.sponsor.hierarchy.SponsorHierarchy;
+import org.kuali.coeus.common.framework.unit.UnitService;
 import org.kuali.coeus.common.framework.unit.admin.UnitAdministrator;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -44,7 +45,6 @@ import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractRepor
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ContractorType;
 import org.kuali.kra.printing.schema.SubcontractReportsDocument.SubcontractReports.ReportingPeriod;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
@@ -56,20 +56,13 @@ public class SubawardXmlStream implements XmlStream {
     private static final String ORGANIZATION_ID = "000001";
 
     private BusinessObjectService businessObjectService;
+    private UnitService unitService;
     private String awardNumber;
 
-    /**
-     * This method get's the businessObjectService
-     */
-    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
-    /**
-     * This method set's the businessObjectService
-     */
-    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -305,7 +298,7 @@ public class SubawardXmlStream implements XmlStream {
         AdministeringOfficial administeringOfficial = AdministeringOfficial.Factory.newInstance();
 
         Map<String, String> unitAdministratorMap = new HashMap<String, String>();
-        unitAdministratorMap.put("unitNumber", "000001");
+        unitAdministratorMap.put("unitNumber", unitService.getTopUnit().getUnitNumber());
         unitAdministratorMap.put("unitAdministratorTypeCode", "2");
         List<UnitAdministrator> unitAdministratorList = (List<UnitAdministrator>) businessObjectService.findMatching(
                 UnitAdministrator.class, unitAdministratorMap);
@@ -557,16 +550,11 @@ public class SubawardXmlStream implements XmlStream {
         return pct;
     }
 
-    @Override
-    public DateTimeService getDateTimeService() {
+	public UnitService getUnitService() {
+		return unitService;
+	}
 
-        return null;
-    }
-
-    @Override
-    public void setDateTimeService(DateTimeService dateTimeService) {
-
-
-    }
-
+	public void setUnitService(UnitService unitService) {
+		this.unitService = unitService;
+	}
 }

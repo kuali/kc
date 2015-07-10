@@ -28,6 +28,8 @@
 
     <context:annotation-config />
 
+    <import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
+    
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
     </bean>

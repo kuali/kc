@@ -82,8 +82,6 @@ public class CustomDataHelper extends CustomDataHelperBase<NegotiationCustomData
    
     @Override
     public boolean documentNotRouted() {
-        WorkflowDocument doc = negotiationForm.getNegotiationDocument().getDocumentHeader().getWorkflowDocument();
-        return doc.isSaved() || doc.isInitiated();
-
+       return true;
     }
 }

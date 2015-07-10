@@ -230,7 +230,11 @@
     <param name="rsmart.report.shared.secret">SECRETKEYVALUE</param>
 
     <param name="kc.schemaspy.enabled">true</param>
-    
+	<param name="kc.monitoring.enabled">true</param>
+	<param name="kc.monitoring.verbose.logging">false</param>
+	<param name="kc.monitoring.exclude.pattern">.*/static/.*|/healthCheck/.*|.*/css/.*|.*/images/.*|.*/help/.*|.*/plugins/.*|.*/themes/.*|.*/rice-contrib/.*|.*/scripts/.*|/schemaspy/.*</param>
+	<param name="rice.krad.jpa.global.jpa.vendor.adapter.class">co.kuali.coeus.sys.impl.monitor.MonitoringEclipseLinkJpaVendorAdapter</param>
+
     <param name="kc.rest.admin.username" override="false"></param>
     <param name="kc.rest.admin.password" override="false"></param>
 </config>

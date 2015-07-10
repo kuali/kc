@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.notification.impl.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -85,6 +86,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     private static final Log LOG = LogFactory.getLog(KcNotificationServiceImpl.class);
     private static final String KC_NOTIFICATION_DOC_TYPE_NAME = "KcNotificationDocumentTypeName";
     
+    private static final String KC_DEFAULT_EMAIL_RECIPIENT = "KC_DEFAULT_EMAIL_RECIPIENT";
+
     protected NotificationChannel kcNotificationChannel;
     protected NotificationProducer systemNotificationProducer;
     
@@ -136,12 +139,20 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             String instanceMessage = context.replaceContextVariables(notificationType.getMessage());
             notification.setMessage(instanceMessage);
             notification.setNotificationType(notificationType);
-            notification.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-            notification.setCreateTimestamp(KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+            notification.setCreateUser(getCreateUser());
+            notification.setCreateTimestamp(getCreateTimestamp());
         }
         
         return notification;
     }
+
+	protected Timestamp getCreateTimestamp() {
+		return KcServiceLocator.getService(DateTimeService.class).getCurrentTimestamp();
+	}
+
+	protected String getCreateUser() {
+		return GlobalVariables.getUserSession().getPrincipalName();
+	}
     
     @Override
     public void saveNotification(KcNotification notification) {
@@ -444,11 +455,11 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             String roleNamespace = StringUtils.substringBefore(roleRecipient.getRoleName(), Constants.COLON);
             String roleName = StringUtils.substringAfter(roleRecipient.getRoleName(), Constants.COLON);
     
-            Collection<String> roleMembers = roleManagementService.getRoleMemberPrincipalIds(roleNamespace, roleName, roleRecipient.getRoleQualifiers());
+            Collection<String> roleMembers = getRoleMemberPrincipalIds(roleNamespace, roleName, roleRecipient.getRoleQualifiers());
             for (String roleMember : roleMembers) {
                 NotificationRecipient.Builder recipient = NotificationRecipient.Builder.create();
                 try {
-                recipient.setRecipientId(getKcPersonService().getKcPersonByPersonId(roleMember).getUserName());
+                recipient.setRecipientId(getPersonUserName(roleMember));
                 recipient.setRecipientType(MemberType.PRINCIPAL.getCode());
                 recipients.add(recipient);
                 } catch (IllegalArgumentException e) {
@@ -460,6 +471,14 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         
         return recipients;
     }
+
+	protected String getPersonUserName(String personId) {
+		return getKcPersonService().getKcPersonByPersonId(personId).getUserName();
+	}
+
+	protected Collection<String> getRoleMemberPrincipalIds(String roleNamespace, String roleName, final Map<String, String> roleQualifiers) {
+		return roleManagementService.getRoleMemberPrincipalIds(roleNamespace, roleName, roleQualifiers);
+	}
     
     private List<NotificationRecipient.Builder> getPersonRecipients(List<NotificationTypeRecipient> notificationRecipients) {
         List<NotificationRecipient.Builder> recipients = new ArrayList<NotificationRecipient.Builder>();
@@ -468,7 +487,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             LOG.info("Processing recipient: " + notificationRecipient.getPersonId() + ".");
             
             NotificationRecipient.Builder recipient = NotificationRecipient.Builder.create();
-            recipient.setRecipientId(getKcPersonService().getKcPersonByPersonId(notificationRecipient.getPersonId()).getUserName());
+            recipient.setRecipientId(getPersonUserName(notificationRecipient.getPersonId()));
             recipient.setRecipientType(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE.getCode());
             recipients.add(recipient);
         }
@@ -481,15 +500,20 @@ public class KcNotificationServiceImpl implements KcNotificationService {
 
         for (NotificationTypeRecipient notificationRecipient : notificationRecipients) {
             LOG.info("Processing recipient: " + notificationRecipient.getRolodexId() + ".");
-            
-            RolodexContract rolodex = getRolodexService().getRolodex(Integer.parseInt(notificationRecipient.getRolodexId()));
-            if (StringUtils.isNotBlank(rolodex.getEmailAddress())) {
-                recipients.add(rolodex.getEmailAddress());
-            }
+            CollectionUtils.addIgnoreNull(recipients, getRolodexEmailAddress(notificationRecipient.getRolodexId()));
         }
         
         return recipients;
     }
+
+	protected String getRolodexEmailAddress(final String rolodexId) {
+		RolodexContract rolodex = getRolodexService().getRolodex(Integer.parseInt(rolodexId));
+		String emailAddress = null;
+		if (StringUtils.isNotBlank(rolodex.getEmailAddress())) {
+		    emailAddress = rolodex.getEmailAddress();
+		}
+		return emailAddress;
+	}
     
     private void sendEmailNotification(String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients, List<EmailAttachment> attachments) {
         if (isEmailEnabled()) {
@@ -511,35 +535,47 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         
         if (CollectionUtils.isNotEmpty(recipients)) {
             for (NotificationRecipient.Builder recipient : recipients) {
-                Entity entityInfo = null;
-                try {
-                  final String principalName = recipient.getRecipientId();
-                  if (principalName != null && principalName.length() > 0) {
-                    entityInfo = getIdentityService().getEntityByPrincipalName(recipient.getRecipientId());
-                  }
-                } catch (RiceIllegalArgumentException e) {
-                  LOG.info("getRecipientEmailAddresses: Principal cannot be found: " + recipient.getRecipientId());
-                }
-                if (entityInfo != null) {
-                List<EntityTypeContactInfo> entityTypes = entityInfo.getEntityTypeContactInfos();
-                if (CollectionUtils.isNotEmpty(entityTypes)) {
-                    for (EntityTypeContactInfo entityType : entityTypes) {
-                        if (StringUtils.equals(KimConstants.EntityTypes.PERSON, entityType.getEntityTypeCode())) {
-                            if (entityType.getDefaultEmailAddress() != null &&
-                                    StringUtils.isNotBlank(entityType.getDefaultEmailAddress().getEmailAddress())) {
-                                emailAddresses.add(entityType.getDefaultEmailAddress().getEmailAddress());
-                                LOG.info("Added recipient email: " + entityType.getDefaultEmailAddress().getEmailAddress() +
-                                         " for KIM user: " + recipient.getRecipientId());
-                            }
-                        }
-                    }
-                }
-            }
+            	emailAddresses.addAll(getRecipientEmailAddresses(recipient));
             }
         }
         
+        if(emailAddresses.isEmpty()){
+        	String defaultEmailRecipient = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,KC_DEFAULT_EMAIL_RECIPIENT);
+        	if(defaultEmailRecipient!=null){
+        		emailAddresses.add(defaultEmailRecipient);
+        	}
+        }
         return emailAddresses;
     }
+
+	protected Set<String> getRecipientEmailAddresses(NotificationRecipient.Builder recipient) {
+		Set<String> recipientEmailAddresses = new HashSet<String>();
+		Entity entityInfo = null;
+		try {
+		  final String principalName = recipient.getRecipientId();
+		  if (principalName != null && principalName.length() > 0) {
+		    entityInfo = getIdentityService().getEntityByPrincipalName(recipient.getRecipientId());
+		  }
+		} catch (RiceIllegalArgumentException e) {
+		  LOG.info("getRecipientEmailAddresses: Principal cannot be found: " + recipient.getRecipientId());
+		}
+		if (entityInfo != null) {
+		    List<EntityTypeContactInfo> entityTypes = entityInfo.getEntityTypeContactInfos();
+		    if (CollectionUtils.isNotEmpty(entityTypes)) {
+		        for (EntityTypeContactInfo entityType : entityTypes) {
+		            if (StringUtils.equals(KimConstants.EntityTypes.PERSON, entityType.getEntityTypeCode())) {
+		                if (entityType.getDefaultEmailAddress() != null &&
+		                        StringUtils.isNotBlank(entityType.getDefaultEmailAddress().getEmailAddress())) {
+		                	recipientEmailAddresses.add(entityType.getDefaultEmailAddress().getEmailAddress());
+		                    LOG.info("Added recipient email: " + entityType.getDefaultEmailAddress().getEmailAddress() +
+		                             " for KIM user: " + recipient.getRecipientId());
+		                }
+		            }
+		        }
+		    }
+		}
+		return recipientEmailAddresses;
+	}
     
     private boolean isEmailEnabled() {
         boolean emailEnabled = false;

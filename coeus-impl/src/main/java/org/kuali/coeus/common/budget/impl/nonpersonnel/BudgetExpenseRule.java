@@ -30,6 +30,7 @@ import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.ApplyToPeriodsBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.SaveBudgetLineItemEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.framework.ruleengine.KcBusinessRule;
 import org.kuali.coeus.common.framework.ruleengine.KcEventMethod;
@@ -48,8 +49,19 @@ public class BudgetExpenseRule {
     private static final String PERSONNEL_CATEGORY = "P";
     protected static final String BUDGET_NON_PERSONNEL_COST_DETAILS_ID = "PropBudget-NonPersonnelCosts-LineItemDetails";
     protected static final String BUDGET_PERSONNEL_COST_DETAILS_ID = "PropBudget-AssignPersonnelToPeriodsPage-PersonnelDetails";
+    public static final String COST_ELEMENT = ".costElement";
+    public static final String END_DATE = ".endDate";
+    public static final String START_DATE = ".startDate";
+    public static final String UNIT_COST = ".unitCost";
+    public static final String CALCULATED_EXPENSES = ".calculatedExpenses";
+    public static final String CAN_NOT_BE_AFTER = "can not be after";
+    public static final String CAN_NOT_BE_BEFORE = "can not be before";
+    public static final String LOWER_END_DATE = "end date";
+    public static final String LOWER_START_DATE = "start date";
+    public static final String UPPER_START_DATE = "Start Date";
+    public static final String UPPER_END_DATE = "End Date";
 
-    
+
     @Autowired
 	@Qualifier("globalVariableService")
 	private GlobalVariableService globalVariableService;
@@ -64,7 +76,7 @@ public class BudgetExpenseRule {
         MessageMap errorMap = getGlobalVariableService().getMessageMap();
         if (CollectionUtils.isNotEmpty(event.getBudgetLineItem().getBudgetPersonnelDetailsList())) {
             // just try to make sure key is on budget personnel tab
-            errorMap.putError(event.getErrorPath() + ".costElement", KeyConstants.ERROR_DELETE_LINE_ITEM);
+            errorMap.putError(event.getErrorPath() + COST_ELEMENT, KeyConstants.ERROR_DELETE_LINE_ITEM);
             valid = false;
         }
 
@@ -89,7 +101,7 @@ public class BudgetExpenseRule {
                     if (budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode().equals(PERSONNEL_CATEGORY)
                             && (!budgetLineItemToBeApplied.getBudgetPersonnelDetailsList().isEmpty() || !prevBudgetLineItem
                                     .getBudgetPersonnelDetailsList().isEmpty())) {
-                        errorMap.putError(event.getErrorPath() + ".costElement",
+                        errorMap.putError(event.getErrorPath() + COST_ELEMENT,
                                 KeyConstants.ERROR_APPLY_TO_LATER_PERIODS, budgetLineItemToBeApplied.getBudgetPeriod().toString());
                         return false;
                     }
@@ -99,7 +111,7 @@ public class BudgetExpenseRule {
                     // Additional Check for Personnel Source Line Item
                     if (StringUtils.equals(budgetLineItem.getCostElement(), budgetLineItemToBeApplied.getCostElement())
                             && StringUtils.equals(budgetLineItem.getGroupName(), budgetLineItemToBeApplied.getGroupName())) {
-                        errorMap.putError(event.getErrorPath() + ".costElement",
+                        errorMap.putError(event.getErrorPath() + COST_ELEMENT,
                                 KeyConstants.ERROR_PERSONNELLINEITEM_APPLY_TO_LATER_PERIODS, budgetLineItemToBeApplied
                                         .getBudgetPeriod().toString());
                         return false;
@@ -139,6 +151,11 @@ public class BudgetExpenseRule {
     	return processCheckLineItemDates(event.getBudgetPeriod(), event.getBudgetLineItem(), event.getErrorPath());
     }
 
+    @KcEventMethod
+    public boolean processCheckLineItemDates(SaveBudgetLineItemEvent event) {
+    	return processCheckLineItemDates(event.getBudgetPeriod(), event.getBudgetLineItem(), event.getErrorPath());
+    }
+    
     /**
      * This method is checks individual line item start and end dates for validity and proper ordering.
      * 
@@ -151,12 +168,12 @@ public class BudgetExpenseRule {
         MessageMap errorMap = getGlobalVariableService().getMessageMap();
 
         if (budgetLineItem.getEndDate() == null) {
-            errorMap.putError(errorPath + ".endDate", KeyConstants.ERROR_REQUIRED, "End Date");
+            errorMap.putError(errorPath + END_DATE, KeyConstants.ERROR_REQUIRED, UPPER_END_DATE);
             valid = false;
         }
 
         if (budgetLineItem.getStartDate() == null) {
-            errorMap.putError(errorPath + ".startDate", KeyConstants.ERROR_REQUIRED, "Start Date");
+            errorMap.putError(errorPath + START_DATE, KeyConstants.ERROR_REQUIRED, UPPER_START_DATE);
             valid = false;
         }
 
@@ -164,28 +181,28 @@ public class BudgetExpenseRule {
             return valid;
 
         if (budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) < 0) {
-            errorMap.putError(errorPath + ".endDate", KeyConstants.ERROR_LINE_ITEM_DATES);
+            errorMap.putError(errorPath + END_DATE, KeyConstants.ERROR_LINE_ITEM_DATES);
             valid = false;
         }
 
         if (currentBudgetPeriod.getEndDate().compareTo(budgetLineItem.getEndDate()) < 0) {
-            errorMap.putError(errorPath = ".endDate", KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[] { "can not be after",
-                    "end date" });
+            errorMap.putError(errorPath + END_DATE, KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[] {CAN_NOT_BE_AFTER,
+                    LOWER_END_DATE});
             valid = false;
         }
         if (currentBudgetPeriod.getStartDate().compareTo(budgetLineItem.getEndDate()) > 0) {
-            errorMap.putError(errorPath + ".endDate", KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[] { "can not be before",
-                    "start date" });
+            errorMap.putError(errorPath + END_DATE, KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[] {CAN_NOT_BE_BEFORE,
+                    LOWER_START_DATE});
             valid = false;
         }
         if (currentBudgetPeriod.getStartDate().compareTo(budgetLineItem.getStartDate()) > 0) {
-            errorMap.putError(errorPath + ".startDate", KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[] {
-                    "can not be before", "start date" });
+            errorMap.putError(errorPath + START_DATE, KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[] {
+                    CAN_NOT_BE_BEFORE, LOWER_START_DATE});
             valid = false;
         }
         if (currentBudgetPeriod.getEndDate().compareTo(budgetLineItem.getStartDate()) < 0) {
-            errorMap.putError(errorPath = ".startDate", KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[] { "can not be after",
-                    "end date" });
+            errorMap.putError(errorPath + START_DATE, KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[] {CAN_NOT_BE_AFTER,
+                    LOWER_END_DATE});
             valid = false;
         }
 
@@ -227,12 +244,12 @@ public class BudgetExpenseRule {
         BigDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
         if(new ScaleTwoDecimal(unitCost).isGreaterThan(new ScaleTwoDecimal(MAX_BUDGET_DECIMAL_VALUE))){
             valid = false;
-            errorMap.putError(errorKey+".unitCost", KeyConstants.ERROR_FORMULATED_UNIT_COST);
+            errorMap.putError(errorKey+ UNIT_COST, KeyConstants.ERROR_FORMULATED_UNIT_COST);
             
         }
         if(new ScaleTwoDecimal(calculatedExpense).isGreaterThan(new ScaleTwoDecimal(MAX_BUDGET_DECIMAL_VALUE))){
             valid = false;
-            errorMap.putError(errorKey+".calculatedExpenses", KeyConstants.ERROR_FORMULATED_CALCULATED_EXPENSES);
+            errorMap.putError(errorKey+ CALCULATED_EXPENSES, KeyConstants.ERROR_FORMULATED_CALCULATED_EXPENSES);
             
         }
         return valid;

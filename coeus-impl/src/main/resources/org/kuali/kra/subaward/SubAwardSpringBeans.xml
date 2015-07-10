@@ -133,6 +133,10 @@
     
     <bean id="subAwardNotificationRoleQualifierService" class="org.kuali.kra.subaward.notification.SubAwardNotificationRoleQualifierServiceImpl" scope="prototype" />
     
+    <bean id="unitService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+    	<property name="serviceName" value="unitService" />
+    </bean>
+    
     <bean id="unitAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="unitAuthorizationService" />
     </bean>
@@ -175,6 +179,7 @@
     
     <bean id="subawardXmlStream" class="org.kuali.kra.subaward.reporting.printing.xmlstream.SubawardXmlStream" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="unitService" ref="unitService" />
     </bean>
     
     <bean id="printingService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
@@ -209,7 +214,6 @@
 	
 	<bean id="subAwardLookupableHelperService" class="org.kuali.kra.subaward.lookup.SubAwardLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
 	      scope="prototype">
-		<property name="versionHistoryService" ref="versionHistoryService" />
   	</bean>
   	
   	<!-- SubAward Task Authorizers -->

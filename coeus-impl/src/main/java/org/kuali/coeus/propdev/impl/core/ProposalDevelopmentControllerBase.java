@@ -49,6 +49,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -179,6 +180,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("parameterService")
     private ParameterService parameterService;
+
+    @Autowired
+    @Qualifier("dateTimeService")
+    private DateTimeService dateTimeService;
 
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
@@ -453,6 +458,7 @@ public abstract class ProposalDevelopmentControllerBase {
 	public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm,String pageId) {
         boolean allCertificationsWereComplete = true;
         boolean allCertificationAreNowComplete = true;
+       
         if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE) ||
                 StringUtils.equalsIgnoreCase(pageId,"PropDev-CertificationView-Page")) {
             for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
@@ -465,6 +471,14 @@ public abstract class ProposalDevelopmentControllerBase {
                         person.getQuestionnaireHelper().populateAnswers();
                         boolean isComplete = person.getQuestionnaireHelper().getAnswerHeaders().get(0).isCompleted();
                         allCertificationAreNowComplete &= isComplete;
+                        if(isComplete && !wasComplete){
+                        	person.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
+                            person.setCertifiedTime(getDateTimeService().getCurrentTimestamp());
+
+                        }else if(wasComplete && !isComplete){
+                        	person.setCertifiedBy(null);
+                        	person.setCertifiedTime(null);
+                        }
                         checkForCertifiedByProxy(pdForm.getDevelopmentProposal(),person,isComplete && !wasComplete);
                     }
                 }
@@ -794,5 +808,13 @@ public abstract class ProposalDevelopmentControllerBase {
 
     public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
         this.pessimisticLockService = pessimisticLockService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

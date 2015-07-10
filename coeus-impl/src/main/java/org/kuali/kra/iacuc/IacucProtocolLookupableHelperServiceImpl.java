@@ -108,7 +108,7 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if (kraAuthorizationService.hasPermission(getUserIdentifier(), (ProtocolBase) businessObject, PermissionConstants.MODIFY_IACUC_PROTOCOL)) {
             // Change "edit" to edit same document, NOT initializing a new Doc
-            AnchorHtmlData editHtmlData = getViewLink(((ProtocolBase) businessObject).getProtocolDocument());
+            AnchorHtmlData editHtmlData = getViewLink(((ProtocolBase) businessObject).getProtocolDocument().getDocumentNumber());
             String href = editHtmlData.getHref();
             href = href.replace("viewDocument=true", "viewDocument=false");
             editHtmlData.setHref(href);
@@ -117,11 +117,11 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
             
             AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             IacucProtocolDocument document = ((IacucProtocol) businessObject).getIacucProtocolDocument();
-            copyHtmlData.setHref("../iacucProtocolActions.do?docId=" + document.getDocumentNumber() +"&doCopy=True");
+            copyHtmlData.setHref("../DocCopyHandler.do?docId=" + document.getDocumentNumber() + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName() + "&doCopy=True");
             htmlDataList.add(copyHtmlData);
         }
         if (kraAuthorizationService.hasPermission(getUserIdentifier(), (IacucProtocol) businessObject, PermissionConstants.VIEW_IACUC_PROTOCOL)) {
-            htmlDataList.add(getViewLink(((ProtocolBase) businessObject).getProtocolDocument()));
+            htmlDataList.add(getViewLink(((ProtocolBase) businessObject).getProtocolDocument().getDocumentNumber()));
         }
         return htmlDataList;
     }

@@ -60,7 +60,7 @@
             <input type="hidden" name="ruleReferenced" id ="ruleReferenced" value = "${bean.ruleReferenced}" />
         
             <c:set var="questionid" value="" />
-            <c:forEach items="${bean.answerHeaders[answerHeaderIndex].answers}" var="answer" varStatus="status">   
+            <c:forEach items="${bean.answerHeaders[answerHeaderIndex].answers}" var="answer" varStatus="status">
 
                 <c:if test="${questionid ne answer.questionNumber}" >
                 <%-- This 'if' block displays tab header for each question. if question has multiple answers
@@ -72,28 +72,28 @@
                             </tr>
                         </table>
                     </c:if>
-            
+
                     <c:set var="questionid" value="${answer.questionNumber}" />
                    	<c:set var="displayCondition" value="({ 'conditionFlag' : '${answer.questionnaireQuestion.conditionFlag}', 'condition': '${answer.questionnaireQuestion.condition}', 'conditionValue' : '${answer.questionnaireQuestion.conditionValue}'})"/>
                     <c:set var="ruleId" value="${answer.questionnaireQuestion.ruleId}"/>
                     <table class="content_table question" style="display: ${answer.matchedChild == 'Y' ? 'table' : 'none'}"
                     		data-kc-questionindex="${status.index}"
-                    		data-kc-questionid="${questionid}" 
+                    		data-kc-questionid="${questionid}"
                     		data-kc-question-matched="${answer.matchedChild}"
                     		data-kc-question-parentid="${answer.questionnaireQuestion.parentQuestionNumber}"
                     		data-kc-question-condition="${displayCondition}"
-                    		data-kc-question-ruleid="${ruleId}">  
+                    		data-kc-question-ruleid="${ruleId}">
                         <tr>
                             <td class="content_questionnaire">
                                 <div class="Qdiv" >
                                     <div class="Qquestiondiv">
                                         <span class="Qmoreinfocontrol">More Information...</span>
                                         <span class="Qquestion">${answer.question.question}</span>
-        
+
                                     </div>
                                     <kra-questionnaire:questionMoreInfo question="${answer.question}" />
                 </c:if>
-				
+
                 <c:choose>
                     <%-- decide whether it is readonly mode --%>
                     <c:when test = "${readOnly and not answerable}" >
@@ -110,7 +110,7 @@
                                       N/A
                                     </c:when>
                                     <c:otherwise>
-                                    
+
                                     </c:otherwise>
                                 </c:choose>
                             </c:when>
@@ -120,11 +120,11 @@
 		                        <c:forEach items="${krafn:getOptionList('org.kuali.coeus.common.impl.custom.arg.ArgValueLookupValuesFinder', paramMap)}" var="option">
 		        	                <c:if test="${answer.answer == option.key}">
 		        	                    ${option.value}
-		        	                </c:if>    
+		        	                </c:if>
 		                        </c:forEach>
                             </c:when>
                             <c:when test="${answer.question.questionTypeId == 5}">
-                                <html:textarea name="KualiForm" property="questionnaireHelper.answerHeaders[${answerHeaderIndex}].answers[${status.index}].answer" disabled="true" />
+                                <html:textarea name="KualiForm" property="${property}.answerHeaders[${answerHeaderIndex}].answers[${status.index}].answer" disabled="true" />
                             </c:when>
                             <c:when test="${answer.question.questionTypeId == 100}" >
                                <c:choose>

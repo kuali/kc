@@ -21,6 +21,8 @@ package org.kuali.coeus.propdev.impl.budget;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.summary.BudgetSummaryService;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,15 @@ import static org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.Kra
 @Component("proposalBudgetNavigationService")
 public class ProposalBudgetNavigationServiceImpl implements  ProposalBudgetNavigationService {
 
+    public static final String READY_GENERATE_PERIOD = "readyGeneratePeriod";
+    public static final String SINGLE_POINT_ENTRY_FLAG = "SINGLE_POINT_ENTRY_FLAG";
     @Autowired
     @Qualifier("budgetSummaryService")
     private BudgetSummaryService budgetSummaryService;
+
+    @Autowired
+    @Qualifier("parameterService")
+    private ParameterService parameterService;
 
     public void createNavigationLink(Action action, ProposalBudgetForm form, String direction) {
         String navigateToPageId = "";
@@ -59,8 +67,16 @@ public class ProposalBudgetNavigationServiceImpl implements  ProposalBudgetNavig
                 navigateToPageId = next?NON_PERSONNEL_PAGE_ID:PERSONNEL_PAGE_ID;
                 break;
             case NON_PERSONNEL_PAGE_ID :
-                navigateToPageId = next? canGeneratePeriods(form)?"":SUBAWARD_PAGE_ID:ASSIGN_PERSONNEL_PAGE_ID;
-                methodToCall = next && canGeneratePeriods(form)?"readyGeneratePeriod":"";
+                if (isSinglePointEntry()) {
+                    navigateToPageId = next?SPE_PAGE_ID:ASSIGN_PERSONNEL_PAGE_ID;
+                    break;
+                }
+                navigateToPageId = next? canGeneratePeriods(form)? "" :SUBAWARD_PAGE_ID:ASSIGN_PERSONNEL_PAGE_ID;
+                methodToCall = next && canGeneratePeriods(form)? READY_GENERATE_PERIOD :"";
+                break;
+            case SPE_PAGE_ID :
+                navigateToPageId = next? canGeneratePeriods(form)?"":SUBAWARD_PAGE_ID:NON_PERSONNEL_PAGE_ID;
+                methodToCall = next && canGeneratePeriods(form)? READY_GENERATE_PERIOD :"";
                 break;
             case SUBAWARD_PAGE_ID :
                 navigateToPageId = next?getSubawardNextPageId(form):getSubawardPreviousPageId(form);
@@ -152,7 +168,7 @@ public class ProposalBudgetNavigationServiceImpl implements  ProposalBudgetNavig
 
     protected String getSubawardPreviousPageId(ProposalBudgetForm form) {
         if (!form.getBudget().getBudgetLineItems().isEmpty()) {
-            return NON_PERSONNEL_PAGE_ID;
+            return isSinglePointEntry() ? SPE_PAGE_ID : NON_PERSONNEL_PAGE_ID;
         }
         return PERIODS_AND_TOTALS_PAGE_ID;
 
@@ -222,12 +238,24 @@ public class ProposalBudgetNavigationServiceImpl implements  ProposalBudgetNavig
 
     }
 
+    public boolean isSinglePointEntry() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT, SINGLE_POINT_ENTRY_FLAG);
+    }
+
     public BudgetSummaryService getBudgetSummaryService() {
         return budgetSummaryService;
     }
 
     public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
         this.budgetSummaryService = budgetSummaryService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }
 

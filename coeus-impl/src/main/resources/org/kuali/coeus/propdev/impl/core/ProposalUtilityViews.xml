@@ -174,14 +174,26 @@
             <bean id="PropDev-CertificationView-Page" parent="Uif-Page">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Print" p:order="10">
+                    <bean parent="Uif-MessageField" p:label="Proposal#" p:labelLeft="true"
+                              p:messageText="@{document.developmentProposal.proposalNumber}" p:order="10" />
+                        <bean parent="Uif-MessageField" p:label="Title" p:labelLeft="true"
+                              p:messageText="@{document.developmentProposal.title}" p:order="20" />  
+                        <bean parent="Uif-MessageField" p:label="PI" p:labelLeft="true"
+                              p:messageText="@{document.developmentProposal.principalInvestigatorName}" p:order="30" />
+                       <bean parent="Uif-MessageField" p:label="Lead Unit" p:labelLeft="true"
+                              p:messageText="@{document.developmentProposal.unitNumber}" p:order="40" />   
+                       <bean parent="Uif-MessageField" p:label="Sponsor" p:labelLeft="true"
+                              p:messageText="@{document.developmentProposal.sponsorName}" p:order="50" /> 
+                         <bean parent="Uif-MessageField" p:label="Deadline Date" p:labelLeft="true"
+                              p:messageText="@{document.developmentProposal.deadlineDate}" p:order="60" />
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Print" p:order="70">
                             <property name="actionUrl">
                                 <bean parent="Uif-Url"
                                       p:href="../kc-pd-krad/proposalDevelopment?methodToCall=printQuestionnaire&amp;formKey=@{formKey}&amp;helper=proposalPersonQuestionnaireHelper&amp;index=0"/>
                             </property>
                         </bean>
                         <bean parent="Questionnaire-QuestionsGroup" p:propertyName="proposalPersonQuestionnaireHelper.answerHeaders[0].questions"
-                              p:order="20" />
+                              p:order="80" />
                     </list>
                 </property>
                 <property name="footer">
@@ -202,8 +214,7 @@
     <bean id="PropDev-CertificationHeader" parent="PropDev-CertificationHeader-parentBean" />
     <bean id="PropDev-CertificationHeader-parentBean" abstract="true"
           parent="Uif-ViewHeader" p:headerText="Certification for @{proposalPersonQuestionnaireHelper.proposalPerson.fullName}"
-          p:areaTitleText="Proposal Development"
-          p:supportTitleText="[em]Proposal: #@{document.developmentProposal.proposalNumber}[/em]"
+          p:areaTitleText="Proposal Development"         
           p:onDocumentReadyScript="Kc.PropDev.setHeaderHeight();">
         <property name="rightGroup">
             <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="uif-documentInfo">

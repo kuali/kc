@@ -20,24 +20,23 @@ package org.kuali.kra.institutionalproposal.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.version.VersionStatus;
+import org.kuali.coeus.propdev.impl.state.ProposalState;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
+import org.kuali.rice.core.api.criteria.CountFlag;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -45,6 +44,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
 /**
  * This class is used to control behavior of Institutional Proposal lookups. Depending
@@ -58,107 +60,92 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     private static final String MERGE_PROPOSAL_LOG_ACTION = "mergeProposalLog.do";
     private static final String AWARD_HOME_ACTION = "awardHome.do";
     private static final String OPEN = "open";
-    
+    private static final String LOOKUP_UNIT_UNIT_NAME = "lookupUnit.unitName";
+    private static final String LOOKUP_UNIT_UNIT_NUMBER = "lookupUnit.unitNumber";
+    private static final String PROPOSAL_LOG_NUMBER = "proposalLogNumber";
+    private static final String INSTITUTIONAL_PROPOSAL_NUMBER = "institutionalProposalNumber";
+    private static final String MERGE_TO_INSTITUTIONAL_PROPOSAL = "mergeToInstitutionalProposal";
+    private static final String SELECT = "select";
+    private static final String PROPOSAL_NUMBER = "proposalNumber";
+    private static final String PROPOSAL_STATE_TYPE_CODE = "proposalStateTypeCode";
+    private static final String INST_PROPOSAL_ID = "instProposalId";
+    private static final String DEV_PROPOSAL_NUMBER = "devProposalNumber";
+    private static final String VIEW_DOCUMENT = "viewDocument";
+    private static final String TRUE = "true";
+    private static final String DOC_OPENED_FROM_IP_SEARCH = "docOpenedFromIPSearch";
+    private static final String DOC_ID = "docId";
+    private static final String INSTITUTIONAL_PROPOSAL_HOME_DO = "institutionalProposalHome.do";
+    private static final String INSTITUTIONAL_PROPOSAL_DOCUMENT = "InstitutionalProposalDocument";
+    private static final String PROJECT_PERSONS_UNITS_UNIT_UNIT_NAME = "projectPersons.units.unit.unitName";
+    private static final String PROJECT_PERSONS_UNITS_UNIT_NUMBER = "projectPersons.units.unitNumber";
+
     private boolean includeMainSearchCustomActionUrls;
     protected String proposalLogNumber;
     private boolean includeMergeCustomActionUrls;
-    private DocumentService documentService;
     private InstitutionalProposalService institutionalProposalService;
     
 	@Autowired
 	@Qualifier("dataObjectService")
 	private DataObjectService dataObjectService;
 
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
     /* 
      * Overriding this to only return the currently Active version of a proposal 
      */
     @Override
-    @SuppressWarnings("unchecked")
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<InstitutionalProposal> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocationDocFormKey(fieldValues);
         
         configureCustomActions(fieldValues);
         
         fieldValues.remove(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING);
         fieldValues.put(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING, VersionStatus.ACTIVE.toString());
-        
-        Map<String, String> formProps = new HashMap<String, String>();
-        if (!StringUtils.isEmpty(fieldValues.get("lookupUnit.unitName"))) {
-            formProps.put("units.unit.unitName", fieldValues.get("lookupUnit.unitName"));
+
+        final String unitName = fieldValues.get(LOOKUP_UNIT_UNIT_NAME);
+        if (StringUtils.isNotEmpty(unitName)) {
+            fieldValues.put(PROJECT_PERSONS_UNITS_UNIT_UNIT_NAME, unitName);
         }
-        if (!StringUtils.isEmpty(fieldValues.get("lookupUnit.unitNumber"))) {
-            formProps.put("units.unitNumber", fieldValues.get("lookupUnit.unitNumber"));
+        fieldValues.remove(LOOKUP_UNIT_UNIT_NAME);
+
+        final String unitNumber = fieldValues.get(LOOKUP_UNIT_UNIT_NUMBER);
+        if (StringUtils.isNotEmpty(unitNumber)) {
+            fieldValues.put(PROJECT_PERSONS_UNITS_UNIT_NUMBER, unitNumber);
         }
-        fieldValues.remove("lookupUnit.unitNumber");
-        fieldValues.remove("lookupUnit.unitName");
-        if (!formProps.isEmpty()) {
-            List<Long> ids = new ArrayList<Long>();
-            Collection<InstitutionalProposalPerson> persons = getLookupService().findCollectionBySearch(InstitutionalProposalPerson.class, formProps);
-            if (persons.isEmpty()) {
-                return new ArrayList<InstitutionalProposal>();
-            }
-            for (InstitutionalProposalPerson person : persons) {
-                ids.add(person.getInstitutionalProposalContactId());
-            }
-            fieldValues.put("projectPersons.institutionalProposalContactId", StringUtils.join(ids, '|'));
-        }
-        
-        List<InstitutionalProposal> searchResults = (List<InstitutionalProposal>) super.getSearchResults(fieldValues);
+        fieldValues.remove(LOOKUP_UNIT_UNIT_NUMBER);
+
+        @SuppressWarnings("unchecked")
+        final List<InstitutionalProposal> searchResults = (List<InstitutionalProposal>) super.getSearchResults(fieldValues);
       
         if (lookupIsFromAward(fieldValues)) {
-            filterAlreadyLinkedProposals(searchResults, fieldValues);
+            filterAlreadyLinkedProposals(searchResults);
             filterApprovedPendingSubmitProposals(searchResults);
             filterInvalidProposalStatus(searchResults);
         }
 
-        List<InstitutionalProposal> filteredResults = filterForPermissions(searchResults);
-
-        return filteredResults;
+        return filterForPermissions(searchResults);
     }
 
     /**
      * This method filters results so that the person doing the lookup only gets back the documents he can view.
-     * @param results
-     * @return
      */
     protected List<InstitutionalProposal> filterForPermissions(List<InstitutionalProposal> results) {
         Person user = GlobalVariables.getUserSession().getPerson();
         InstitutionalProposalDocumentAuthorizer authorizer = new InstitutionalProposalDocumentAuthorizer();
-        List<InstitutionalProposal> filteredResults = new ArrayList<InstitutionalProposal>();
-        
-        for (InstitutionalProposal institutionalProposal : results) {
-            
-            String documentNumber = institutionalProposal.getInstitutionalProposalDocument().getDocumentNumber();
-            try {
-                InstitutionalProposalDocument document = (InstitutionalProposalDocument) documentService.getByDocumentHeaderId(documentNumber);
-                
-                if (authorizer.canOpen(document, user)) {
-                    filteredResults.add(institutionalProposal);
-                }
-            } catch (WorkflowException e) {
-                LOG.warn("Cannot find Document with header id " + documentNumber);
-            }
-        }
-
-        
-        return filteredResults;
+        return results.stream()
+                .filter(institutionalProposal -> authorizer.canOpen(institutionalProposal.getInstitutionalProposalDocument(), user))
+                .collect(Collectors.toList());
     }
     
-    
-    @SuppressWarnings("unchecked")
+
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        List<HtmlData> htmlDataList = new ArrayList<>();
         if (includeMainSearchCustomActionUrls) {
             htmlDataList.add(getOpenLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument()));
         } 
         if (includeMergeCustomActionUrls) {
             htmlDataList.add(getSelectLink((InstitutionalProposal) businessObject));
         }
-        htmlDataList.add(getMedusaLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument(), false));
+        htmlDataList.add(getMedusaLink(((InstitutionalProposal) businessObject).getInstitutionalProposalDocument().getDocumentNumber(), false));
         return htmlDataList;
     }
     
@@ -169,9 +156,9 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
         parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
         parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, getDocumentTypeName());
-        parameters.put("viewDocument", "true");
-        parameters.put("docOpenedFromIPSearch", "true");
-        parameters.put("docId", document.getDocumentNumber());
+        parameters.put(VIEW_DOCUMENT, TRUE);
+        parameters.put(DOC_OPENED_FROM_IP_SEARCH, TRUE);
+        parameters.put(DOC_ID, document.getDocumentNumber());
         String href  = UrlFactory.parameterizeUrl("../"+getHtmlAction(), parameters);
         
         htmlData.setHref(href);
@@ -182,12 +169,12 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
 
     @Override
     protected String getHtmlAction() {
-        return "institutionalProposalHome.do";
+        return INSTITUTIONAL_PROPOSAL_HOME_DO;
     }
     
     @Override
     protected String getDocumentTypeName() {
-        return "InstitutionalProposalDocument";
+        return INSTITUTIONAL_PROPOSAL_DOCUMENT;
     }
     
     @Override
@@ -209,15 +196,18 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     /*
      * This method filters out IP's which are already linked to proposals
      */
-    @SuppressWarnings("unchecked")
-    protected void filterAlreadyLinkedProposals(List<? extends BusinessObject> searchResults, Map<String, String> fieldValues) {
-        List<Long> linkedProposals = (List<Long>) GlobalVariables.getUserSession().retrieveObject(Constants.LINKED_FUNDING_PROPOSALS_KEY);
-        if (linkedProposals == null) { return; }
+    protected void filterAlreadyLinkedProposals(List<InstitutionalProposal> searchResults) {
+        @SuppressWarnings("unchecked")
+        final List<Long> linkedProposals = (List<Long>) GlobalVariables.getUserSession().retrieveObject(Constants.LINKED_FUNDING_PROPOSALS_KEY);
+
+        if (linkedProposals == null) {
+            return;
+        }
+
         for (Long linkedProposalId : linkedProposals) {
-            for (int j = 0; j < searchResults.size(); j++) {
-                InstitutionalProposal institutionalProposal = (InstitutionalProposal) searchResults.get(j);
-                if (linkedProposalId.equals(institutionalProposal.getProposalId())) {
-                    institutionalProposal.setShowReturnLink(false);
+            for (InstitutionalProposal searchResult : searchResults) {
+                if (linkedProposalId.equals(searchResult.getProposalId())) {
+                    searchResult.setShowReturnLink(false);
                     break;
                 }
             }
@@ -227,61 +217,42 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     /*
      * This method filters out IP's which were generated from PD whose ProposeStateType is "Approval Pending Submitted"
      */
-    protected void filterApprovedPendingSubmitProposals(List<? extends BusinessObject> searchResults) {
-        for (int j = 0; j < searchResults.size(); j++) {
-            if (isDevelopmentProposalAppPendingSubmitted((InstitutionalProposal) searchResults.get(j))) {
-                ((InstitutionalProposal)searchResults.get(j)).setShowReturnLink(false);
-            }
-        }
+    protected void filterApprovedPendingSubmitProposals(List<InstitutionalProposal> searchResults) {
+        searchResults.stream()
+                .filter(this::isDevelopmentProposalAppPendingSubmitted)
+                .forEach(searchResult -> searchResult.setShowReturnLink(false));
     }
 
     /**
      * This method is to filter out IP's not having codes in the valid funding proposal status codes parameter.
      **/
-    protected void filterInvalidProposalStatus(List<? extends BusinessObject> searchResults) {
-        Collection<String> validCodes = getInstitutionalProposalService().getValidFundingProposalStatusCodes();           
-        for (int j = 0; j < searchResults.size(); j++) {
-            InstitutionalProposal result = (InstitutionalProposal) searchResults.get(j);
-            if (!validCodes.contains(result.getStatusCode().toString())) {
-                result.setShowReturnLink(false);
-            }
-        }
+    protected void filterInvalidProposalStatus(List<InstitutionalProposal> searchResults) {
+        Collection<String> validCodes = getInstitutionalProposalService().getValidFundingProposalStatusCodes();
+        searchResults.stream()
+                .filter(searchResult -> !validCodes.contains(searchResult.getStatusCode().toString()))
+                .forEach(searchResult -> searchResult.setShowReturnLink(false));
     }
 
     /**
      * Find if any proposal associate with this INSP has 'Approval Pending Submitted' proposal state type
      **/
     protected boolean isDevelopmentProposalAppPendingSubmitted(InstitutionalProposal ip) {
-        boolean isApprovePending = false;
-        Collection<DevelopmentProposal> devProposals = getDevelopmentProposals(ip);
-        for (DevelopmentProposal developmentProposal : devProposals) {
-            if ("5".equals(developmentProposal.getProposalStateTypeCode())) {
-                isApprovePending = true;
-                break;
-            }
-        }
-        return isApprovePending;
-    }
+        final List<ProposalAdminDetails> proposalAdminDetails = (List<ProposalAdminDetails>) businessObjectService.findMatchingOrderBy(ProposalAdminDetails.class,
+                getFieldValues(INST_PROPOSAL_ID, ip.getProposalId()), DEV_PROPOSAL_NUMBER, true);
+        if (!proposalAdminDetails.isEmpty()) {
+            final String latestDevelopmentProposalDocNumber = proposalAdminDetails.get(proposalAdminDetails.size() - 1).getDevProposalNumber();
 
-    /*
-     * find any version of IP that has PD with approve pending
-     */
-    @SuppressWarnings("unchecked")
-    protected Collection<DevelopmentProposal> getDevelopmentProposals(InstitutionalProposal instProposal) {
-        //find any dev prop linked to any version of this inst prop
-        Collection<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
-        List<ProposalAdminDetails> proposalAdminDetails = (List<ProposalAdminDetails>) businessObjectService.findMatchingOrderBy(ProposalAdminDetails.class, 
-                                                                getFieldValues("instProposalId", instProposal.getProposalId()), "devProposalNumber", true);
-        if(proposalAdminDetails.size() > 0) {
-            String latestDevelopmentProposalDocNumber = proposalAdminDetails.get(proposalAdminDetails.size() - 1).getDevProposalNumber();
-            DevelopmentProposal devProp = (DevelopmentProposal)dataObjectService.find(DevelopmentProposal.class, latestDevelopmentProposalDocNumber);
-            devProposals.add(devProp);
+            final QueryByCriteria criteria = QueryByCriteria.Builder.create().setPredicates(equal(PROPOSAL_NUMBER,
+                    latestDevelopmentProposalDocNumber), equal(PROPOSAL_STATE_TYPE_CODE, ProposalState.APPROVAL_PENDING_SUBMITTED)).setCountFlag(CountFlag.ONLY).build();
+
+            return dataObjectService.findMatching(DevelopmentProposal.class, criteria).getTotalRowCount() > 0;
         }
-        return devProposals;
+
+        return false;
     }
 
     protected Map<String, Object> getFieldValues(String key, Object value){
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        Map<String, Object> fieldValues = new HashMap<>();
         fieldValues.put(key, value);
         return fieldValues;
     }
@@ -298,7 +269,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
             } else if (returnLocation.contains(MERGE_PROPOSAL_LOG_ACTION)) {
                 includeMainSearchCustomActionUrls = false;
                 includeMergeCustomActionUrls = true;
-                setProposalLogNumber(fieldValues.get("proposalLogNumber"));
+                setProposalLogNumber(fieldValues.get(PROPOSAL_LOG_NUMBER));
             } else {
                 includeMainSearchCustomActionUrls = true;
                 includeMergeCustomActionUrls = false;
@@ -311,12 +282,12 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     
     protected AnchorHtmlData getSelectLink(InstitutionalProposal institutionalProposal) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        htmlData.setDisplayText("select");
+        htmlData.setDisplayText(SELECT);
         Properties parameters = new Properties();
-        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "mergeToInstitutionalProposal");
-        parameters.put("institutionalProposalNumber", institutionalProposal.getProposalNumber());
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, MERGE_TO_INSTITUTIONAL_PROPOSAL);
+        parameters.put(INSTITUTIONAL_PROPOSAL_NUMBER, institutionalProposal.getProposalNumber());
         if (getProposalLogNumber() != null) {
-            parameters.put("proposalLogNumber", getProposalLogNumber());
+            parameters.put(PROPOSAL_LOG_NUMBER, getProposalLogNumber());
         }
         String href  = UrlFactory.parameterizeUrl("../" + MERGE_PROPOSAL_LOG_ACTION, parameters);
         htmlData.setHref(href);

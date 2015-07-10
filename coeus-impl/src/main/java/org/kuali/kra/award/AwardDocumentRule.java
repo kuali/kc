@@ -77,15 +77,12 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.util.AuditCluster;
-import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.util.MessageMap;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
@@ -121,15 +118,8 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardDocumentRule.class);
     
-    private List<AuditError> auditErrors;
-    private List<AuditError> auditWarnings;
     private ParameterService parameterService;
     private KcPersonService kcPersonService;
-    
-    public AwardDocumentRule() {
-        auditErrors = new ArrayList<AuditError>();
-        auditWarnings = new ArrayList<AuditError>();
-    }
 
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
@@ -503,8 +493,7 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         retval &= new AwardSyncAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardSponsorContactAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardBudgetLimitsAuditRule().processRunAuditBusinessRules(document);
-        retval &= processDateBusinessRule(GlobalVariables.getMessageMap(), (AwardDocument)document);
-        reportAndCreateAuditCluster();
+        retval &= new AwardDetailsAndDatesAuditRule().processRunAuditBusinessRules(document);
         return retval;
         
         
@@ -739,19 +728,13 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
             success = AwardDateRulesHelper.validateProjectStartBeforeObligationEnd(errorMap, effStartDate, oblEndDate, fieldStarter+"].obligationExpirationDate", awardId) && success;
             success = AwardDateRulesHelper.validateObligationStartBeforeProjectEnd(errorMap, oblStartDate, effEndDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
             success = AwardDateRulesHelper.validateObligationEndBeforeProjectEnd(errorMap, oblEndDate, effEndDate, fieldStarter+"].obligationExpirationDate", awardId) && success;
-            if (effStartDate == null) {
-               String link = Constants.MAPPING_AWARD_HOME_PAGE + "." + Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_ANCHOR;
-               String messageKey = KeyConstants.WARNING_AWARD_PROJECT_START_DATE_NULL;
-               String errorKey = "document.awardList[0].awardEffectiveDate";
-               auditWarnings.add(new AuditError(errorKey, messageKey, link));
-            }
-    
+
             errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
             errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
             return success;
         }
     }
-    
+
 
 
     @Override
@@ -780,15 +763,6 @@ public class AwardDocumentRule extends KcTransactionalDocumentRuleBase implement
         }
         
         return valid;
-    }
-    
-    protected void reportAndCreateAuditCluster() {
-        if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("homePageAuditErrors", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditErrors, Constants.AUDIT_ERRORS));
-        }
-        if (auditWarnings.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("homePageAuditWarnings", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditWarnings, Constants.AUDIT_WARNINGS));            
-        }
     }
 
     protected ParameterService getParameterService() {

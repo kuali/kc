@@ -21,6 +21,7 @@ package org.kuali.coeus.common.impl.rpt;
 import org.kuali.coeus.common.impl.rpt.cust.CustReportDetails;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,6 @@ import java.util.Map;
 @Component("birtReportService")
 public class BirtReportServiceImpl implements BirtReportService{
 
-    public static final String PERMISSION_NAME = "RUN GLOBAL REPORTS";
-
     @Autowired
     @Qualifier("businessObjectService")
     private BusinessObjectService businessObjectService;
@@ -54,49 +53,39 @@ public class BirtReportServiceImpl implements BirtReportService{
     private BirtHelper birtHelper;
 
     /**
-     * Fetch input parameters from  template
-     * @param reportId
-     * @return List of BirtParameterBean instances
-     * @throws Exception
+     * Fetch input parameters from  template.
      */ 
-    public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String reportId) throws Exception {
+    public List<BirtParameterBean> getInputParametersFromTemplateFile(String reportId) throws Exception {
         
         birtHelper = new BirtHelper();
-        ArrayList<BirtParameterBean> parameterList = new ArrayList<BirtParameterBean>();
         InputStream reportDesignInputStream = getReportDesignFileStream(reportId);
-        parameterList =  birtHelper.getParameters(reportDesignInputStream);
-        return parameterList;
+        return birtHelper.getParameters(reportDesignInputStream);
     }
     
     /**
-     * Generate ReportDesignFileStream
-     * @param reportId
-     * @return InputStream     
+     * Generate ReportDesignFileStream.
      */
     public InputStream getReportDesignFileStream(String reportId){
         
         CustReportDetails custReportDetails;
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("reportId", reportId);
-        custReportDetails = (CustReportDetails) businessObjectService.findByPrimaryKey(CustReportDetails.class, primaryKeys);
-        InputStream reportDesignInputStream = new ByteArrayInputStream(custReportDetails.getAttachmentContent());
-        return reportDesignInputStream;
+        custReportDetails = businessObjectService.findByPrimaryKey(CustReportDetails.class, primaryKeys);
+        return new ByteArrayInputStream(custReportDetails.getAttachmentContent());
     }
     
     /**
-     * Fetch reports for which the user has permission
-     * @param 
-     * @return List of CustReportDetails instances
+     * Fetch reports for which the user has permission.
      */
     public List<CustReportDetails> getReports() {
 
         String principalId = globalVariableService.getUserSession().getPrincipalId();
         String departmentCode = globalVariableService.getUserSession().getPerson().getPrimaryDepartmentCode();
         List<CustReportDetails> custReportDetailsList = (List<CustReportDetails>) getBusinessObjectService().findAll(CustReportDetails.class);
-        List<CustReportDetails> custReportDetails = new ArrayList<CustReportDetails>();
+        List<CustReportDetails> custReportDetails = new ArrayList<>();
         for (CustReportDetails custReportDetail : custReportDetailsList) {
             if(custReportDetail.getPermissionName() != null) {
-                if(custReportDetail.getPermissionName().equalsIgnoreCase(PERMISSION_NAME)) {
+                if(custReportDetail.getPermissionName().equalsIgnoreCase(PermissionConstants.RUN_GLOBAL_REPORTS)) {
                     boolean hasPermission = getUnitAuthorizationService().hasPermission(principalId, departmentCode,
                             RoleConstants.DEPARTMENT_ROLE_TYPE, custReportDetail.getPermissionName());
                     if (hasPermission) {

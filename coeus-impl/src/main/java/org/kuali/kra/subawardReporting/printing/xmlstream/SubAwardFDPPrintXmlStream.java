@@ -48,7 +48,6 @@ import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.kra.subaward.bo.SubAwardReportType;
 import org.kuali.kra.subaward.bo.SubAwardReports;
 import org.kuali.kra.subaward.bo.SubAwardTemplateInfo;
-import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.reporting.printing.SubAwardPrintType;
 import org.kuali.kra.subaward.reporting.printing.service.SubAwardPrintingService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -80,10 +79,8 @@ import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContrac
 import org.kuali.kra.subaward.printing.schema.SubContractDataDocument.SubContractData.SubcontractTemplateInfo;
 
 public class SubAwardFDPPrintXmlStream implements XmlStream  {
-    private static final String SUB_AWARD_FDP_TEMPLATE  = "fdpAgreement";
     private BusinessObjectService businessObjectService;
     protected SubAward subaward = null;
-    protected SubAwardDocument subawarddoc = null;
     private String awardNumber;
     private String awardTitle;
     private String sponsorAwardNumber;

@@ -45,10 +45,10 @@ public class AwardVersionServiceImpl implements AwardVersionService {
         VersionHistory activeVersion = getActiveVersionHistory(versions);
         VersionHistory pendingVersion = getPendingVersionHistory(versions);
         VersionHistory workingVersion = null;
-        if(activeVersion != null) {
-            workingVersion = activeVersion;
-        } else if(pendingVersion != null) {
+        if(pendingVersion != null) {
             workingVersion = pendingVersion;
+        } else if(activeVersion != null) {
+            workingVersion = activeVersion;
         } else {
             return null;
         }

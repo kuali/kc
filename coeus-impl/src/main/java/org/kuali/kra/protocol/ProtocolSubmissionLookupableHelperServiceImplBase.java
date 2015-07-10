@@ -58,7 +58,7 @@ public abstract class ProtocolSubmissionLookupableHelperServiceImplBase extends 
      * create the view link url for protocolsubmission
      */
     protected AnchorHtmlData getViewLink(ProtocolSubmissionBase protocolSubmission) {
-        AnchorHtmlData viewHtmlData = super.getViewLink(protocolSubmission.getProtocol().getProtocolDocument());
+        AnchorHtmlData viewHtmlData = super.getViewLink(protocolSubmission.getProtocol().getProtocolDocument().getDocumentNumber());
         String submissionIdParam = "&submissionId=" + protocolSubmission.getSubmissionId();
         String href = viewHtmlData.getHref();
         href = href.replace(DOC_TYPE_NAME_PARAM, submissionIdParam + DOC_TYPE_NAME_PARAM);

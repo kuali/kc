@@ -44,7 +44,6 @@ public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends De
         if (StringUtils.equals(roleName, Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                 || StringUtils.equals(roleName, Constants.CO_INVESTIGATOR_ROLE)
                 || StringUtils.equals(roleName, Constants.KEY_PERSON_ROLE)) {
-
             for(AbstractProjectPerson person : persons) {
                 if (StringUtils.equals(person.getRoleCode(), roleName)) {
                     newPersons.add(person);
@@ -63,7 +62,7 @@ public abstract class AbstractProjectPersonDerivedRoleTypeServiceImpl extends De
         String subQualification = qualification.get(KcKimAttributes.SUB_QUALIFIER);
         
         if (projectPersons != null && !projectPersons.isEmpty()) {
-            if (!StringUtils.equals(roleName, Constants.ALL_INVESTIGATORS)) {
+            if (!StringUtils.equals(roleName, Constants.ALL_INVESTIGATORS) && !StringUtils.equals(roleName, Constants.PRINCIPAL_INVESTIGATOR)) {
                 projectPersons = filterListByRole(projectPersons, roleName);
             }
 

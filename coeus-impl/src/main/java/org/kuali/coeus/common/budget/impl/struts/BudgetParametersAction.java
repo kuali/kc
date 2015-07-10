@@ -160,8 +160,6 @@ public class BudgetParametersAction extends BudgetAction {
     
     /**
      * This method returns <CODE>true</CODE> if one of the two rate types has changed since the last save.
-     * @param budgetForm
-     * @return
      */
     private boolean isRateTypeChanged(BudgetForm budgetForm) {
         Budget budget = budgetForm.getBudget();
@@ -225,13 +223,7 @@ public class BudgetParametersAction extends BudgetAction {
 
     /**
      * This method is used to add a new Budget Period
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
+     *
      */
     public ActionForward addBudgetPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -248,13 +240,7 @@ public class BudgetParametersAction extends BudgetAction {
 
     /**
      * This method is used to delete an existing Budget Period
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
+     *
      */
     public ActionForward deleteBudgetPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -293,13 +279,7 @@ public class BudgetParametersAction extends BudgetAction {
 
     /**
      * This method is used to recalculate Budget Period data
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
+     *
      */
     public ActionForward recalculateBudgetPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -312,13 +292,7 @@ public class BudgetParametersAction extends BudgetAction {
 
     /**
      * This method is used to generate all Budget Period data
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
+     *
      */
     public ActionForward generateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -380,13 +354,7 @@ public class BudgetParametersAction extends BudgetAction {
 
     /**
      * This method is used to calculate all Budget Period data
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
+     *
      */
     public ActionForward calculateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -418,13 +386,7 @@ public class BudgetParametersAction extends BudgetAction {
     /**
      *
      * This method builds a Opportunity Delete Confirmation Question as part of the Questions Framework
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     *
      */
     private StrutsConfirmation buildRecalculateBudgetConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -440,8 +402,7 @@ public class BudgetParametersAction extends BudgetAction {
      * 
      * This method to set the DB version# for budget periods. To eliminate optimistic locking problem. newly adjusted period has no
      * version number set, but its period may exist in DB.
-     * 
-     * @param budget
+     *
      */
     private void updateBudgetPeriodDbVersion(Budget budget) {
         // set version number for saving
@@ -462,7 +423,6 @@ public class BudgetParametersAction extends BudgetAction {
     /**
      * 
      * This method period's total cost based on input from direct/indirect total cost.
-     * @param budget
      */
     private void updateTotalCost(Budget budget) {
         ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
@@ -507,8 +467,6 @@ public class BudgetParametersAction extends BudgetAction {
     /**
      * 
      * This method to check if the period duration has been changed.
-     * @param budget
-     * @return
      */
     private boolean isBudgetPeriodDateChanged(Budget budget) {
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
@@ -526,13 +484,6 @@ public class BudgetParametersAction extends BudgetAction {
     /**
      * 
      * This method is to build the confirmation mesasage if period duration changed and trying to save.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @param message
-     * @return
-     * @throws Exception
      */
     private StrutsConfirmation buildSaveBudgetSummaryConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
@@ -543,13 +494,6 @@ public class BudgetParametersAction extends BudgetAction {
     /**
      * 
      * This method is to build the confirmation on deleting period which has line items.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @param deletePeriod
-     * @return
-     * @throws Exception
      */
     private StrutsConfirmation buildDeleteBudgetPeriodConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response, int deletePeriod) throws Exception {
@@ -562,7 +506,6 @@ public class BudgetParametersAction extends BudgetAction {
      * This method is to check the error map to see if there is any error other than line item date error.
      * line item date date error should be resolved with adjustlineitem start/end date.
      * This is called after rule verification and before save.
-     * @return
      */
     private boolean isLineItemErrorOnly() {
         if (!GlobalVariables.getMessageMap().hasNoErrors()) {
@@ -584,12 +527,6 @@ public class BudgetParametersAction extends BudgetAction {
      * 
      * This method generate default budget periods (each one with 1 year span).
      * This is generally needed when project period is adjusted.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward defaultPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -633,13 +570,13 @@ public class BudgetParametersAction extends BudgetAction {
             @SuppressWarnings("unchecked")
             Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(budgetForm.getLookupResultsBOClassName());
             
-            Collection<BusinessObject> rawValues = KcServiceLocator.getService(LookupResultsService.class)
+            Collection<? extends BusinessObject> rawValues = KcServiceLocator.getService(LookupResultsService.class)
                 .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
                         GlobalVariables.getUserSession().getPerson().getPrincipalId());
             
             if (lookupResultsBOClass.isAssignableFrom(BudgetPeriod.class)) {
             	String budgetPeriod = budgetForm.getLookedUpCollectionName();
-                getAwardBudgetService().copyLineItemsFromProposalPeriods(rawValues, 
+                getAwardBudgetService().copyLineItemsFromProposalPeriods((Collection<BudgetPeriod>) rawValues,
                         budgetForm.getBudgetDocument().getBudget().getBudgetPeriod(Integer.parseInt(budgetPeriod)));
             }
         }

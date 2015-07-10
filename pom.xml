@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.coeus</groupId>
     <artifactId>coeus</artifactId>
-    <version>1505.62-SNAPSHOT</version>
+    <version>1506.70-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kuali Coeus</name>
     <description>
@@ -66,7 +66,7 @@
         <bouncycastle.version>1.51</bouncycastle.version>
         <cglib.version>3.1</cglib.version>
         <coeus-api-all.version>1505.3</coeus-api-all.version>
-        <coeus-s2sgen.version>1505.7</coeus-s2sgen.version>
+        <coeus-s2sgen.version>1506.2</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-codec.version>1.9</commons-codec.version>
         <commons-collections.version>3.2.1</commons-collections.version>
@@ -92,6 +92,7 @@
         <hamcrest.version>1.3</hamcrest.version>
         <itext.version>2.1.7</itext.version>
         <jackson.version>1.9.13</jackson.version>
+        <javamelody-core.version>1.56.0</javamelody-core.version>
         <javax.mail.version>1.5.2</javax.mail.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
@@ -99,7 +100,6 @@
         <jetty.javax.servlet.version>${jetty9.javax.servlet.version}</jetty.javax.servlet.version>
         <jetty9.javax.servlet.jsp.version>2.2.0.v201112011158</jetty9.javax.servlet.jsp.version>
         <jetty.javax.servlet.jsp.version>${jetty9.javax.servlet.jsp.version}</jetty.javax.servlet.jsp.version>
-        <jetty8.version>8.1.14.v20131031</jetty8.version>
         <jetty9.version>9.0.7.v20131107</jetty9.version>
         <jetty.version>${jetty9.version}</jetty.version>
         <jmock.version>2.8.1</jmock.version>
@@ -117,13 +117,13 @@
         <opencsv.version>2.3</opencsv.version>
         <opensaml.version>2.6.1</opensaml.version>
         <oracle.groupId>com.oracle</oracle.groupId>
-        <oracle.artifactId>ojdbc6</oracle.artifactId>
-        <oracle.version>10.2.0.3.0</oracle.version>
+        <oracle.artifactId>ojdbc7</oracle.artifactId>
+        <oracle.version>12.1.0.1</oracle.version>
         <org.eclipse.birt.runtime.version>4.4.0</org.eclipse.birt.runtime.version>
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.3.1505.13-kckualico</rice.version>
+        <rice.version>2.5.3.1506.3-kckualico</rice.version>
         <schemaspy.version>1505.5</schemaspy.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
@@ -147,10 +147,6 @@
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
-        <jetty-maven-plugin9.groupId>org.eclipse.jetty</jetty-maven-plugin9.groupId>
-        <jetty-maven-plugin.groupId>${jetty-maven-plugin9.groupId}</jetty-maven-plugin.groupId>
-        <jetty-maven-plugin.artifactId>jetty-maven-plugin</jetty-maven-plugin.artifactId>
-        <jetty-maven-plugin.version>${jetty.version}</jetty-maven-plugin.version>
         <jspc-maven-plugin.version>2.0.0</jspc-maven-plugin.version>
         <license-maven-plugin.version>1.6.4</license-maven-plugin.version>
         <maven-clean-plugin.version>2.6.1</maven-clean-plugin.version>
@@ -731,11 +727,6 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-            <plugin>
-                    <groupId>${jetty-maven-plugin.groupId}</groupId>
-                    <artifactId>${jetty-maven-plugin.artifactId}</artifactId>
-                    <version>${jetty-maven-plugin.version}</version>
-                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -1064,6 +1055,13 @@
                 <groupId>logkit</groupId>
                 <artifactId>logkit</artifactId>
                 <version>${logkit.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>net.bull.javamelody</groupId>
+                <artifactId>javamelody-core</artifactId>
+                <version>${javamelody-core.version}</version>
                 <scope>runtime</scope>
             </dependency>
 
@@ -1880,47 +1878,6 @@
 
             <dependency>
                 <groupId>org.kuali.rice</groupId>
-                <artifactId>rice-krad-development-tools</artifactId>
-                <version>${rice.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-impl</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-core-impl</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-krad-app-framework</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>org.kuali.rice</groupId>
-                        <artifactId>rice-krad-web-framework</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>org.kuali.db.ojb</groupId>
-                        <artifactId>db-ojb</artifactId>
-                    </exclusion>
-
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib-nodep</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-krms-impl</artifactId>
                 <version>${rice.version}</version>
                 <exclusions>
@@ -2180,8 +2137,8 @@
 
                 <rsmart.cx.token.auth.version>1504.3</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1505.7</rsmart.hr.rest.version>
-                <kc-sql.version>1505.2</kc-sql.version>
-                
+                <kc-sql.version>1506.1</kc-sql.version>
+
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
                 <scm.url>https://github.com/kualico/kc</scm.url>

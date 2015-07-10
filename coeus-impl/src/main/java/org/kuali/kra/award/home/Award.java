@@ -2234,21 +2234,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     /**
-     * This method gets the obligated, distributable amount for the Award.
-     * This may be replacable with the Award TimeAndMoney obligatedAmount value, but
-     * at the time of its creation, TimeAndMoney wasn't complete
-     * @return
-     */
-    public ScaleTwoDecimal calculateObligatedDistributedAmountTotal() {
-        ScaleTwoDecimal sum = ScaleTwoDecimal.ZERO;
-        for (AwardAmountInfo amountInfo : getAwardAmountInfos()) {
-            ScaleTwoDecimal obligatedDistributableAmount = amountInfo.getObliDistributableAmount();
-            sum = sum.add(obligatedDistributableAmount != null ? obligatedDistributableAmount : ScaleTwoDecimal.ZERO);
-        }
-        return sum;
-    }
-
-    /**
      * This method finds the latest final expiration date from the collection of AmnoutInfos
      * @return The latest final expiration date from the collection of AmnoutInfos. If there are no AmoutInfos, 1/1/1900 is returned
      */

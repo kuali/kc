@@ -1,6 +1,1090 @@
 
 
 ##CURRENT
+* add certification questions update mechanism
+
+  * User needs to be able to answer newly added certification questions rather than being forced to create a new proposal to answer new question
+
+steps to reproduce
+
+    start a new proposal document
+    add key personnel
+    close proposal
+    maintain questionnaire to edit the proposal person certification questionnaire
+    open the content section and use search lookup to add another question
+    return the new question
+    blanket approve document
+    open proposal again
+    navigate to proposal person certification
+
+  * Results: the new question does not appear
+  * Expected Results: the system should treat certification questions the same as all other questions and prompt user for update.
+
+  * Acceptance Criteria:
+  * As a user with the ModifyProposalDevelopmentDocument permission (ex Aggregator)
+
+  * 1 When there is a new version of a proposal person certification questionnaire
+  * Then:
+
+    The system should tell the user that a new version of the questionnaire has been published and an update is required.
+    Then:
+    The user should then be prompted to instruct the system how to update the questionnaire
+
+  * 2 When the user chooses to "copy the answers from the old version of questionnaire to the new one. Only questions that have been changed in the new version will have to be answered."
+  * Then:
+
+    The system will update questionnaire to show the newest questionnaire version and will retain answers to any questions that had previously been answered
+    The system will not delete any answers
+
+  * 3 When the user chooses the option "Do not copy answers from previous version of the questionnaire. Every question in the new version of the questionnaire will have to be answered."
+  * Then:
+
+    The system will update questionnaire to show the newest questionnaire version and all prior answers shall be cleared
+    The system shall not retain any previously answered questions.
+
+  * 4 When the user does not make a selection to the update prompt
+  * Then:
+
+    The system shall not allow any edits to the current questionnaire, the user must select an update option to be able to edit questionnaire
+  * Joe Williams on Fri, 26 Jun 2015 15:29:17 -0500 [View Commit](../../commit/484d43a9cd8d7d96524b9c7391540a6f4c0b2075)
+
+##coeus-1506.68
+* RESKC-252 Numeric text sort detection fix for datatables which contain numeric values
+
+  * Fix to allow for automated sorting of columns within rich datatables which contain values that are considered numeric, this allows this type of sorting to be automated rather than specified per column, per table as was necessary previously since non-numeric sort is useless on values that are clearly should be considered numeric with these new checks.  This also automatically fixes sorting for currency, comma separated, and percentage numeric columns.
+  * bsmith83 on Wed, 17 Jun 2015 17:08:02 -0700 [View Commit](../../commit/579b66bfe39983729593a78fc15c9d6107766bfd)
+
+##coeus-1506.67
+* No Changes
+
+
+##coeus-1506.66
+*  Fixing attachment removal
+  * Application throws STE when attempting to copy proposal with personnel attachment.
+  * User is copying the proposal with budget, does not want to copy attachments.
+  * Got an STE and the exceptiojn in STE said constraint error on EPS_PROP_PERSON_BIO_ATTACH_FK1 - Child row exists. Looks like application is deleting rows from FILE_DATA for source proposal, this should not be happening.
+  * Disabled the constraint and copied the proposal, did not get the STE and copy was created.
+  * During this process, KC had actually deleted rows from file_data for source proposal and now the referential kep cannot be enabled.
+  * Gayathri Athreya on Thu, 25 Jun 2015 15:09:01 -0700 [View Commit](../../commit/31c360b35527116983a172ca8c9b3859cbe07a02)
+* Adding and clarifying project documentation.  Removing unused build logic such as the dev profile and maven jetty support.
+  * Travis Schneeberger on Thu, 25 Jun 2015 20:10:25 -0400 [View Commit](../../commit/7cd22b8fc19e1f6f6d1815a3e94de072eec5bc07)
+
+##coeus-1506.65
+* No Changes
+
+
+##coeus-1506.64
+* reevaluate canEditView on all workflow actions on proposal development
+  * Joe Williams on Thu, 25 Jun 2015 12:13:21 -0500 [View Commit](../../commit/d3e788d13841ec6e8bbebd0e02b12368560709d2)
+* RESKC-570 Roll back for RESKC-560 and RESKC-499, implementing a fix described in 499
+
+  * This will make meeting schedules session based again and will alert the user with an error if they have 2 schedules open at the same time because of a multitude of issues cropping up based on the assumption that some data that is missing in a variety of areas would be there
+  * bsmith83 on Thu, 25 Jun 2015 17:00:21 -0700 [View Commit](../../commit/99a26aae55836083a6a2413344ff6bd2036efcbb)
+
+##coeus-1506.63
+*  Add create user and timestamp
+  * Create Timestamp and Create User are missing; proposal admin details is missing several of the "date submitted by" fields.
+  * Create time stamps are for auditing purposes and to show who updated records.
+  * Additionally, these data values are used in several reports to senior leadership.
+  * Gayathri Athreya on Wed, 24 Jun 2015 15:00:37 -0700 [View Commit](../../commit/2e3091f637e979b4e491bf50789782ed82e603aa)
+
+##coeus-1506.62
+* No Changes
+
+
+##coeus-1506.61
+* Fix issues with adding/removing committee members from present/absentee list
+
+  * Edit an IRB or IACUC schedule
+  * In attendance:
+  * -set a member as Present Voting
+  * -then set the other member as Present Voting
+  * Save
+  * Members revert to Absent.
+
+  * Sometimes a member will not even move to Present after clicking Present Voting
+
+  * Mark a selected attendee as absent get:
+  * java.lang.IndexOutOfBoundsException: Index: 0, Size: 0 at java.util.ArrayList.rangeCheck(ArrayList.java:653) at java.util.ArrayList.get(ArrayList.java:429) at org.kuali.coeus.common.committee.impl.meeting.MeetingServiceImplBase.markAbsent(MeetingServiceImplBase.java:240)....
+
+  * Captured a video to show the various things going on.
+
+  * Full stack trace:
+  * java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+  * Joe Williams on Tue, 23 Jun 2015 12:42:06 -0500 [View Commit](../../commit/6034c20fe68a627e01d1bde2deaaebaaf472d8e8)
+* maintain reviewer section when send notificaiton button is clicked
+  * Joe Williams on Wed, 24 Jun 2015 16:25:22 -0500 [View Commit](../../commit/8cfbbd780fc80abcee8d60412635c5517288bec1)
+*  Fixing null pointer.
+  * Gayathri Athreya on Wed, 24 Jun 2015 16:25:23 -0700 [View Commit](../../commit/a7ab6c301e24f1b181af188852346148241e63af)
+* allow editing of proposal immediately after recall action
+
+  * confirming returned for revisions is not allowing all editable functionality of an In Progress proposal. Which in essence makes return for revisions useless.
+  * Joe Williams on Thu, 25 Jun 2015 08:23:44 -0500 [View Commit](../../commit/006ddc3a93c8efd675e975beba5fefb2b110cbdd)
+* display correct amount and final expiration date on subaward funding source
+
+  * PART ONE
+  * 1. Create and finalize an Award document with the following:
+  * a. Project Start Date = 10/29/2012
+  * b. Project End Date = 10/28/2015
+  * 2. Create and finalize a Time & Money document with the following:
+  * a. Anticipated Amounts = $300,000
+  * b. Obligated Amounts = $200,000
+  * c. Obligation Start Date = 10/29/2012
+  * d. Obligation End Date = 10/28/2013
+
+  * PART TWO
+  * 3. Create a Subaward document, completing all required fields to save and submit the document, including a contact
+  * 4. On the Funding Source panel of the Subaward, link it to the Award created in steps 1 and 2 above
+  * 5. On the Financial tab enter Effective Date 11/01/2013; Obligated Change $10,000; Anticipated Change $20,000
+  * 6. Click Add
+  * 7. Submit and finalize the Subaward document
+
+  * PART THREE
+  * 8. Open the Funding Source panel of the Subaward and view the Award Amount and Final End Date of the linked award.
+
+  * Actual Behavior: The system does not display the Award's Obligated Amount of $200,000 and final end date of 10/28/2015 from the linked Award in the Subaward edoc.
+
+  * Expected Behavior: The system should display the Award's Obligated Amount of $200,000 and final end date of 10/28/2015 from the linked Award in the Subward edoc.
+  * Joe Williams on Thu, 25 Jun 2015 09:15:25 -0500 [View Commit](../../commit/5c2fac5d8e98f4c2acde7271aef829f2c990a62e)
+
+##coeus-1506.60
+*  syncing DD with DB column sizes, allows symbols and whitespace for CommitteeScheduleMeetingDoc.minuteName and ScheduleAgenda.agendaName
+  * Travis Schneeberger on Fri, 19 Jun 2015 16:11:59 -0400 [View Commit](../../commit/9c04eeecee60aea69ac20c465de42bf7db526efd)
+
+##coeus-1506.59
+* do not validate newly added custom attributes when document is enroute
+
+  * Discovered this in UA's local 5.2.1 implementation and confirmed still an issue in 6.0.1
+  * If a new Custom Data field is added for the Proposal module (and it is required) all enroute proposals will validate requiring the new field and be stuck in routing. However, if you return the document to the initiator (via 'return for edit' or superuser return to initiated) the newly added custom data field is not inserted into the document so the initiator can't fill it out even though it validates as required. The only way to update the proposal with the newly created Custom Data is for the initiator to 'recall' the document. However, typically on newly added Custom Data fields we want them to affect only new proposals not enroute proposals.
+  * STEPS TO REPRODUCE FOR PROPOSAL:
+  * 1. create proposal and submit into routing (notate document number).
+  * 2. on maintenance tab select custom attribute and create new custom data field.
+  * 3. add newly created custom data to proposal development module via the Custom Attribute Document table (make it required).
+  * 4. login as current workflow stop user
+  * 5. open the newly created enroute proposal.
+  * 6. on Proposal Actions tab run validations, see new requirement for Custom Data.
+  * 7. click 'return for edit' on proposal and fill out text box, click 'yes'
+  * 8. login as initiator of document
+  * 9. open doc and go to Custom Data, new custom data field not present
+  * 10. go to Proposal Actions tab and run validations, error still present
+  * 11. click 'recall' button
+  * 12. get back into document and go to Custom Data, now it's present and can be added/edited.
+  * Joe Williams on Wed, 24 Jun 2015 08:28:29 -0500 [View Commit](../../commit/064b6728ec9871cfef789d68e776bebbd39a3ba1)
+
+##coeus-1506.58
+* bring over award dates when award is copied
+
+  * 1. Create an Award, completing all required fields to submit the document
+  * 2. Enter valid Project Start and End Dates and valid Obligated Start and End Dates
+  * 3. On the Award Actions tab, click Submit
+  * 4. Use the Award Lookup to search for the Award
+  * 5. In the Award Lookup's search results, click the Copy action next to that Award
+  * 6. When the system displays the Hierarchy Actions panel, select New on the Award Copy subpanel and click the Copy action button on that panel
+  * 7. When the system displays the newly initiated Award, scroll down to view the Time & Money subpanel on the Details & Dates panel and observe the Project Start and End Dates and the Obligated Start and End Dates
+  * Actual Behavior: The Project Start Date, Project End Date, Obligated Start Date, and Obligated End Date are blank/null/empty. The system did not copy over the dates from the original Award.
+  * Expected Behavior: The system should display the same dates (Project Start, Project End, Obligated Start, and Obligated End) in the copied Award as entered in the submitted, finalized Award used to make the copy. The system should not display the date fields as blank/null/empty.
+  * Joe Williams on Wed, 24 Jun 2015 08:57:59 -0500 [View Commit](../../commit/5f21d76a4e4ef56b244aa4bb25a41ac1dc983863)
+
+##coeus-1506.57
+*  Fixing online review issue.
+  * Not easily reproducible but getting this in both IRB and IACUC protocols at times on performing Protocol Actions or trying to access an online review: org.kuali.rice.core.api.exception.RiceRuntimeException: The workflow document is null. This indicates that the DocumentHeader has not been initialized properly. This can be caused by not retrieving a document using the DocumentService. at org.kuali.rice.krad.bo.DocumentHeader.getWorkflowDocument(DocumentHeader.java:75)
+  * In res1-demo1, login as oblood, got to All My Reviews, and open IACUC Protocol #: 1506000154, go to Online Review tab and see that it doesn't render correctly, then go to Protocol Actions, and see the error.
+  * Gayathri Athreya on Tue, 23 Jun 2015 10:28:41 -0700 [View Commit](../../commit/a5dbfbe452b3bb36eccbad79edc0b2ea18462763)
+
+##coeus-1506.56
+* code clean up
+  * Joe Williams on Tue, 23 Jun 2015 15:20:19 -0500 [View Commit](../../commit/9f4d091488f99e2264b533db72217e2a5111fd70)
+* prevent award submission when krms errors are present
+
+  * Looks to be same issue as KRACOEUS-6343 and KRACOEUS-6502 but fixes not extended to all modules.
+  * built a Term Specification, Term, and Agenda to create a validation that would not allow sponsorCode = 000400. I then created an award and selected the sponsor of 000400 and then 'turned on validations' and the error displayed appropriately in the Unit Business Rules Errors' section. However, even though there was an error present upon validation I was able to submit the Award into routing. I tested the very same field and validation in Propdev and the system prevented the user from submitting into routing because of the error. See attached screenshot for further reference.
+  * Joe Williams on Tue, 23 Jun 2015 15:21:00 -0500 [View Commit](../../commit/1c6fb22fdcee3b99c34e53e6fa2978809cacf6d0)
+*  Do not create pessimistic locks in view mode.
+  * Steps:
+  * Open proposal from loolup in view mode. Without closing proposal, go to pessimistic locks lookup and search. See the proposal in the lookup.
+  * Gayathri Athreya on Tue, 23 Jun 2015 13:36:49 -0700 [View Commit](../../commit/0562a80508f7fd8783306267106fb7e93a3e9591)
+
+##coeus-1506.55
+* Always populate negotiation documents with most recent custom data attributes
+
+  * Steps to Recreate:
+  * 1 Create a Negotiation Document
+  * 2 Enter the necessary fields to save and save the negotiation
+  * 3 Create a New Custom Data field for Negotiation
+  * 4 Re-open your negotiation document
+  * When you take these steps only the custom data fields that were entered into the system at the time the Negotiation was created are populated. A similar problem happened with other document types. However, the correction is dependent on the document going through a versioning step. As Negotiation is never versioned this Jira did not correct this problem for the Negotiation module. Some negotiations will stay open for quite a while, and a change in needed data that happens in the middle of a given negotiation may still apply to them. So the issue that was solved for the other modules with KRACOEUS-6009 needs a Negotiation fix.
+  * Joe Williams on Tue, 23 Jun 2015 13:25:23 -0500 [View Commit](../../commit/d11c136c3a48188e4eb7eba519bd2470658b02b6)
+
+##coeus-1506.54
+* Fix Calculate Button On Summary Personnel Item Details
+
+  * Testing and documenting the use of Summary instead of project person in the budget.
+  * If I edit the entered Requested Salary field and click calculate, the screen does not refresh to display the revised Fringe amount. The user has to close the window and then the period screen refreshes to show the amount. The calculate works/refreshes fringe when a project person is used.
+  * The intent of using Summary is to enter an uncalculated salary value to meet a specific sponsor request - usually. So it is helpful to the user to be able to see the calc' fringe amount so they can revise the base salary, if needed. They have to close and re-open the window to see the change now.
+
+  * Steps to Reproduce
+
+    create a proposal and create a new budget
+    navigate to assign personnel to periods
+    assign personnel
+    select summary as the "person" to add
+    choose object code (like admin -on)
+    assign to period 1
+    open details modal
+    enter requested salary
+    click calculate button
+
+  * Result: Nothing happens
+  * Expected Result: The Calculated Fringe and Underrecovery F&A calculations should update if there are rates associated with those types for this proposal
+  * Joe Williams on Tue, 23 Jun 2015 09:46:35 -0500 [View Commit](../../commit/c6427fe8f7350b06f4522dd6e2b463dc5506a188)
+* Update README.md  * Gayathri Athreya on Tue, 23 Jun 2015 09:04:37 -0700 [View Commit](../../commit/89a2c48f9c9c1e85609db70e86a2afd45094e687)
+
+##coeus-1506.53
+* No Changes
+
+
+##coeus-1506.52
+* No Changes
+
+
+##coeus-1506.51
+*  Making "view active" committee open a committee with the highest sequence number that is also on a final document.
+  * Travis Schneeberger on Thu, 18 Jun 2015 14:45:47 -0400 [View Commit](../../commit/09acbe59aff89744e0411d52b932c1ee77305e97)
+*  Code cleanup, removing unnecessary document service call
+  * Travis Schneeberger on Thu, 18 Jun 2015 15:18:12 -0400 [View Commit](../../commit/e74843ed9c2af797585ac54305211e65a235581c)
+* Removing global state that is mutated in places other than bean initialization
+  * Travis Schneeberger on Fri, 19 Jun 2015 09:50:12 -0400 [View Commit](../../commit/5142a997dc91134321990cfbc03ccfe1c7388221)
+*  Removing unnecessary logic from committee lookup, cleanup other lookup logic
+  * Travis Schneeberger on Fri, 19 Jun 2015 15:17:18 -0400 [View Commit](../../commit/5de793e2c61c313ade118771caa85b9f4850619f)
+
+##coeus-1506.50
+* No Changes
+
+
+##coeus-1506.49
+* Display Graduation Year on Generic and NSF Cover Page Forms
+
+  * In Proposal Dev, the printing of the Cover Page for Generic Printing Forms and the NSF sponsor forms from Print > Sponsor From Packages > Cover Sheet does not populate the date of the PD/PI(S) graduation date(s)
+
+  * Tested this out in Trunk build-1c8ac214 (Dec-23-02:17) Oracle9i
+  * user=quickstart
+  * proposal #54
+  * PI = Opal blood.
+
+  * The NSF (non g.gov) coversheet print and the Generic print form coversheet both have:
+  * Degree populated from the Proposal Person > Degree > "Degree Description" field.
+  * Both leave "Graduation year" blank even when populated in Proposal Person > Degree > "Graduation Year".
+
+  * See screenshots.
+
+  * (Note: the mapping for G.gov forms is different.
+  * The Grants.gov RR Key Person Form print has:
+  * Degree populated from the
+
+  * The year is populated from the Proposal Person > Extended Details > Education > "Year Graduated" field.)
+  * Joe Williams on Thu, 18 Jun 2015 15:27:48 -0500 [View Commit](../../commit/84d71a8300eab3e098e47abcb54ef94a58ddb83a)
+
+##coeus-1506.48
+*  Removing unused parameters
+  * Travis Schneeberger on Thu, 18 Jun 2015 11:26:16 -0400 [View Commit](../../commit/b87d0dc978fc352bb8b4f6314082acf9c8e7accd)
+* Assign Iacuc PI correct roles
+
+  * Create an IACUC Protocol
+  * Use person without any IACUC roles as PI
+  * Save
+  * On Permission tab, person is added as PI and IACUC Protocol aggregator
+  * Go to the PIs person record, they have IACUC Protocol Aggregator (role 1582)
+  * They should just be given the PI derived role on the protocol not IACUC Protocol aggregator.
+  * This works as expected in IRB but not IACUC.
+  * Joe Williams on Thu, 18 Jun 2015 10:41:09 -0500 [View Commit](../../commit/f951fd9c3ab8967cc36db73c93a8cf029cb609b0)
+
+##coeus-1506.47
+* return to award document from time and money document if accessed from award
+
+  * 1. Create an Award, completing all required fields to save the document and create a Time & Money
+  * 2. Click Time & Money
+  * 3. Click Cancel (or Close)
+  * 4. Click Yes to the question asking the user to confirm whether or not to follow-through on canceling the Time & Money document (or click either Yes or No to saving upon clicking Close)
+  * Expected Behavior: If the Time & Money document was accessed through the Award document's Time & Money button, the system should return the user to the Award. The system should not return the user to the KC portal page.
+  * Actual Behavior: The system does not return the user to the Award. The system returns the user to the KC portal page (KC 5.2.1 / KC-DLY) or the KRAD portal page (KC 6.0 / KC-TRUNK).
+  * Joe Williams on Wed, 17 Jun 2015 15:53:18 -0500 [View Commit](../../commit/e7600be15e9adca39b28f5749fc73a56bb2a7aa6)
+* add close button to proposal budget
+
+  * User needs to be able to exit the entire proposal from the budget screens. Budget missing a close option from ALL budget screens.
+
+  * Acceptance criteria
+  * As a user logged in with the permission 'modify budget'
+
+    When user chooses to close the budget
+    Then user should see warning message such as "Would you like to save this document before you close it?"
+
+    When user does not intend to choose close budget,
+    Then they may return to the document
+
+    When a user does want to save the budget before closing
+    Then the most recent screen edits will be saved and the budget screen will close, sending user to the main KRAD portal screen
+
+    When a user does not want to save the budget before closing
+    Then the most recent screen edits will NOT be saved and the budget screen will close, sending user to the main KRAD portal screen
+
+  * Also fixes issue with dirty checking on closing
+  * Joe Williams on Thu, 18 Jun 2015 09:30:14 -0500 [View Commit](../../commit/b17f8606fb0ecd38c2714c2b83caa5f152f44e53)
+
+##coeus-1506.46
+*  person bio deletion issues.
+  * Tried to delete the Co-Investigator from the proposal and each time got Incident report. Then navigation within proposal was not possible and more incident reports resulted when selecting any tab from left menu.
+  * removing bio uploaded for person from db resolved issue.
+  * Associated Personnel attachments should be deleted when person is deleted as Coeus did.
+  * Step to reproduce:
+  * Add a rolodex add personnel attachments which insert records in eps_prop_person and eps_prop_person_bio tables.
+  * Delete the person, which delete the person record from eps_prop_person table, but not from eps_prop_person_bio table. So the error.
+  * Gayathri Athreya on Wed, 17 Jun 2015 12:55:22 -0700 [View Commit](../../commit/6942ff4c4b8e76d6e799a210d7bb35ed00aa360d)
+
+##coeus-1506.45
+* [RESKC-394] Double scrollbar fix for iframe views
+  * bsmith83 on Tue, 16 Jun 2015 19:11:50 -0700 [View Commit](../../commit/11aaaa3c7f1b0b09d099ca545eb413a4b9ef4d46)
+
+##coeus-1506.44
+*  Improve the performance of the ip lookup
+  * Travis Schneeberger on Mon, 15 Jun 2015 13:20:53 -0400 [View Commit](../../commit/7b597811463584c542079ccaf0e035d56f80b313)
+*  code cleanup
+  * Travis Schneeberger on Mon, 15 Jun 2015 13:52:54 -0400 [View Commit](../../commit/8695f890bcbde1ad2145ea83a3afcec6f92ed71b)
+* retain posted timestamp for award and IP notes and attachments
+
+  * As an Award Maintainer, or
+  * As an IP Maintainer, I need to update aspects of existing (Awards or ) Institutional Proposals.
+  * When editing these records, my ID and Time stamp should only be added to the document, and to any new items I maintain that add them.
+  * Currently, when I Edit an IP record or Award with existing Attachments, ALL those existing attachments update with MY user ID and the current time stamp.
+  * Those attachments should maintain the User ID and time stamp from when they were originally added or actually last maintained. NOT with the info from the current edit.
+  * Joe Williams on Thu, 11 Jun 2015 13:20:00 -0500 [View Commit](../../commit/49a65b7a5617cad0c55dea67ce5905c899134808)
+*  When canceling a saved committee document, rice refreshes all references on the BO.  This populates BOs which contains cycles.  When rice tries to serialize the document for the cancel action xstream gets stuck in the cycle between Organization & OrganizationYnq and causes a StackOverflow.  By adding workflow properties we specify which attributes to serialize avoiding the cycles.
+  * Travis Schneeberger on Tue, 16 Jun 2015 16:53:44 -0400 [View Commit](../../commit/4089f0f213f27956eca0ce953f4dde0185a83242)
+
+##coeus-1506.43
+* No Changes
+
+
+##coeus-1506.42
+*  Do not fail rules on warning
+  * Gayathri Athreya on Mon, 15 Jun 2015 13:47:02 -0700 [View Commit](../../commit/799e0aa4465d00bc667a92aff5b34fc3fe3bef05)
+*  Fixing funds requested calculations and allocations and LA calculation
+  * Gayathri Athreya on Wed, 10 Jun 2015 15:16:46 -0700 [View Commit](../../commit/0a961a18201c18c3cbf5a60a04fc634dbeaf4ec7)
+
+##coeus-1506.41
+* No Changes
+
+
+##coeus-1506.40
+* fix protocol submissions search when title and schedule date criterion are used
+
+  * Currently, the Protocol Submission search returns ALL submitted protocols, even with criteria entered in the search screen.
+  * User Story:
+  * As an IRB Protocol administrator, I want to search Protocol Submissions and use the filtering tools to adjust my search criteria to limit my results. For example, I would like to use a date range to only locate protocols submitted in a certain month.
+
+  * Steps to reproduce:
+  * As a user with IRB roles (or quickstart in Kualico)
+  * Navigate to Central Admin > Post-Submission Compliance > Protocol Submissions
+  * In the generated Look up screen, enter Submission Date From (1/1/2015) and Submission Date To (5/31/2015)
+  * Click Search
+  * Result: 28 records return.
+
+  * Clear search
+  * Try entering a partial title "JF" > click Search
+  * Result: 28 records return.
+
+  * Clear search
+  * Do not enter any variables in the lookup screen > click Search
+  * Result: 28 records return.
+
+  * Desired Results: Filters should work to limit the search results.
+  * Joe Williams on Fri, 12 Jun 2015 13:47:01 -0500 [View Commit](../../commit/9c89ae2f9ac6cb02ce8c0be086478787528a5361)
+* changes
+  * Joe Williams on Mon, 15 Jun 2015 11:19:32 -0500 [View Commit](../../commit/b7f8f13789177812981b7f10c5c440c316c057cc)
+
+##coeus-1506.39
+* Reverts back an MIT commit
+  * Joe Williams on Mon, 15 Jun 2015 08:56:09 -0500 [View Commit](../../commit/5e0c6629d8ea1d336bdd6a1fd4f68f244802d708)
+
+##coeus-1506.38
+* [RESKC-522] Protocol performance tweaks
+  * bsmith83 on Fri, 12 Jun 2015 19:12:49 -0700 [View Commit](../../commit/5cab2a8bbf2825b16d5f98808a8e1df43290d17c)
+
+##coeus-1506.37
+* No Changes
+
+
+##coeus-1506.36
+* update check specified narrative type krms function to check internal attachments
+
+  * KRMS rule built using any internal attachment type with the function "check specified narrative type" either always shows or never shows. If user configures validation to show message when attachment is missing, it is not possible for the proposal user to make a selection (by adding the missing attachment) to clear the data validation.
+
+  * Steps to reproduce
+
+    Create an Agenda
+    Add a rule to run when true
+    In the proposition add description
+    select function
+    find term "check specified narrative type"
+    use "=" comparison
+    value of "true"
+    add name
+    narrative type: use any internal attachment, such as 55 (for MIT Cost Sharing Distribution")
+    KC Validation
+    Action Warning
+    Message- any message
+    Area: Attachments
+    Section Name: Internal Attachments
+    Page ID: PropDev-AttachmentsPage
+    Section ID: PropDev-AttachmentsPage-InternalSection
+    Name: any name
+    Add rule
+    Blanket Approve Agenda
+  * Joe Williams on Fri, 12 Jun 2015 16:23:30 -0500 [View Commit](../../commit/72b53881f118b2c4954e6908090b1e612803325d)
+
+##coeus-1506.35
+*  Improve the performance of the protocol authorizers by removing edit mode logic that is not used.
+  * Travis Schneeberger on Fri, 12 Jun 2015 14:27:37 -0400 [View Commit](../../commit/38e23b44be4f947f66dc0819a922b95e350b99ed)
+
+##coeus-1506.34
+* No Changes
+
+
+##coeus-1506.33
+* Improve unit service
+
+  * Remove hard-coded usage of 000001. Add index and foreign key check on unit table to improve performance and safety. Refactor getTopUnit to simply query for record with null parent unit.
+  * blackcathacker on Thu, 11 Jun 2015 18:26:02 -0700 [View Commit](../../commit/9cf34d9a006a88e5a1eaba3a0bb2cab328cddd46)
+* Add certify user and timestamp to notification renderer
+  * Joe Williams on Fri, 12 Jun 2015 07:59:04 -0500 [View Commit](../../commit/34625af33a0a864e4d195b8de2645091e77a2072)
+
+##coeus-1506.32
+*  making log messages use one log statement (avoids interleave), make perf filter & monitoring filter use the same exclude configuration, make monitoring verbose logging configurable.
+  * Travis Schneeberger on Thu, 11 Jun 2015 11:21:04 -0400 [View Commit](../../commit/a21ce042d412b09fb9c8f88cc6090dc87449f5dc)
+
+##coeus-1506.31
+* No Changes
+
+
+##coeus-1506.30
+* iacuc copy link redirects user to the copy action on the protocol
+
+  * Login as user who can edit/copy IACUC protocols.
+  * From the Researcher portal, select Search IACUC Protocols
+  * Perform a search that you know will return results. (Or create a new IACUC protocol if needed to get results.)
+  * From the Results list, select Copy from one of the protocols.
+  * Result: User is taken to KC Landing Page.
+  * Expected Result: Protocol is opened and user is taken to the Copy option in Protocol Actions where they can copy the protocol.
+
+  * Workaround: From the Results list, select View or Edit instead of Copy. The protocol opens. Go to IACUC Protocol Actions, Copy to New Document.
+  * Joe Williams on Thu, 11 Jun 2015 14:16:59 -0500 [View Commit](../../commit/23d45eb4d3b0464d56561348183ac8848da5716f)
+
+##coeus-1506.29
+* No Changes
+
+
+##coeus-1506.28
+* No Changes
+
+
+##coeus-1506.27
+* No Changes
+
+
+##coeus-1506.26
+*  Fixing a hidden NPE when accessing a Protocol Amendment and the Protocol Person does not have an affiliation.
+  * Travis Schneeberger on Wed, 10 Jun 2015 14:58:44 -0400 [View Commit](../../commit/c6b573e15480da1fb8f95d33fe3f1cf22570d7d6)
+*  Fixing an index out of bounds exception which is swallowed and then becomes visible to the end user as a exception creating java.util.List
+  * Travis Schneeberger on Wed, 10 Jun 2015 15:00:45 -0400 [View Commit](../../commit/22091cc7fbc5360ef58a4139a346ee7d6b67e76f)
+* Budget Single Point Entry Enhancement
+  * Joe Williams on Tue, 9 Jun 2015 16:34:58 -0500 [View Commit](../../commit/ff64bd468921aab9d39bebf9bbc76a13ac3283fa)
+*  Code Cleanup
+  * Travis Schneeberger on Wed, 10 Jun 2015 15:06:03 -0400 [View Commit](../../commit/8759f8779c7c36714234a2ac6fb4f08aa0121ada)
+
+##coeus-1506.25
+*  Adding indexes to prevent deadlock and increase performance
+  * Travis Schneeberger on Wed, 10 Jun 2015 12:11:11 -0400 [View Commit](../../commit/f6264ba08d874cb7f713c740bb51a43e13fab2fa)
+
+##coeus-1506.24
+* [RESKC-499] Multiple browser windows/tabs open when editing Schedules will cause data to overwrite
+  * Travis Schneeberger on Wed, 10 Jun 2015 10:03:35 -0400 [View Commit](../../commit/09a463c4f471be4c9dc8776c1dabaabf21a97e4e)
+
+##coeus-1506.23
+* No Changes
+
+
+##coeus-1506.22
+* added coi hierarchy parameter
+  * Joe Williams on Tue, 9 Jun 2015 09:20:08 -0500 [View Commit](../../commit/ef589a6c01b4f7623880e53e6089620e9d23de93)
+*  Fixing non personnel underrecovery rate calculation.
+  * As a user I need to create a budget with a reduced MTDC rate of 10% 'de minimus' rate for an NSF submission. My institution needs to capture the under recovered F&A, so I must set the Budget F&A Rate Type to MTDC (and manually set the rate to 10% as the applied rate) and set the UR Rate Type to FUNSN (which will apply the 56% F&A rate on Salaries and 10% F&A rate on Materials and Services). This follows my institute policy of capturing the UR on the salary&applied eb/fringe/vacation.
+  * Steps to reproduce:
+  * Create a proposal in Unit 000001 (rates modified)
+  * activity type = research
+  * Create a budget
+  * Budget Settings:
+select F&A Rate type of MTDC
+  * Select UR Rate Type of FUNSN
+  * Rates Screen:
+  * Edit the Applied rate for MTDC to %10
+  * Review FUNSN rates 56% for Salaries; 10% for M&S
+  * Add a person to the Budget; enter a salary amount for the person; apply the person to the first budget period.
+  * Add a non-personnel line item, example Travel. for $10,000.
+  * Save.
+  * Expected Results:
+  * The Personnel salary will generate Under Recovered F&A
+  * (Difference of the full 56% FUNSN Salary rate less the 10% reduced MTDC rate).
+  * The Non-personnel line item will NOT generate UR, because the applied MTDC rate and the standard FUNSN M&S rate are equal.
+  * Current Result:
+  * Personnel calculate UR correctly.
+  * Non-Personnel do NOT calculate correctly and are generating UR.
+  * It appears that the first FUNSN rate for Salaries is being applied.
+  * Gayathri Athreya on Mon, 8 Jun 2015 14:08:42 -0700 [View Commit](../../commit/bea3df997cabcd6625e24e150c86e428885ec9c9)
+
+##coeus-1506.21
+* IRB protocol search limit fix
+  * Travis Schneberger on Tue, 2 Jun 2015 16:04:38 -0400 [View Commit](../../commit/32ad34ce3f9a8545a8f9a4200c2374091707c194)
+* code cleanup
+  * Travis Schneberger on Tue, 2 Jun 2015 16:20:54 -0400 [View Commit](../../commit/7e159c1eb5d59d0a8c500b33e9c8cae54dd9816e)
+
+##coeus-1506.20
+* avoiding a NPE when submitting an IACUC amendment.
+  * Travis Schneeberger on Mon, 8 Jun 2015 15:01:14 -0400 [View Commit](../../commit/df09356f3e3f64481c8ca2f3d335d55344557141)
+
+##coeus-1506.19
+* Organization Summary Service
+
+  * Includes additional tests for other summary services to validate Moo conversion
+  * blackcathacker on Fri, 5 Jun 2015 20:16:24 -0700 [View Commit](../../commit/5922725d9eacb8d3f0de482facdf337621736236)
+*  correctly display other degree type question
+
+  * Discovered in testing S2S questionnaire supporting the PHS Fellowship form:
+  * Users answering the s2s form supporting Fellowship questionnaires presented with 2 follow up (requirement based) questions when one of five (5) specific "Other" Degree types are selected from the argument value list. The 5 questions include the full text word "other" in the question text, so question ID 100 requirement = "OTH" presents when it should not.
+
+  * In the s2s form supporting Fellowship Questionnaire, there is a question branch with a series of questions that only present if the prior answer selected from an argument value list contains a certain text value. (for an “other” type of degree).
+  * The requirement in each question in the branch is if it contains the text value ( DDOT, DOTH, MDOT, MOTH, VDOT, and OTH).
+
+  * In KC, the Upper Case requirement is not being honored, so 5 of these questions are presenting both their specific match and the “OTH” question, because there is lower case text in each with the full word ‘other’ in lower case.
+  * Requirement in KC is picking up lowercase appearance of “other” in the question text:
+  * ID16 = MOTH
+  * ID 17 =DOTH
+  * ID18 = DDOT
+  * ID19 = VDOT
+  * ID 100 = OTH
+  * ID 21 = MDOT
+
+  * Only ID 100= OTH is working as anticipated: (OTH should only present when OTH is selected from the prior question.)
+  * Joe Williams on Mon, 8 Jun 2015 09:57:25 -0500 [View Commit](../../commit/aa251ab2796cc604024b024e4775cf834cd9baf2)
+*  Hide delete attachment button when institutional proposals are view only
+
+  * A user should be required to edit the IP document before the Notes and Attachments allow 'delete' therefore delete button should be hid in view mode.
+
+  * Steps to reproduce:
+  * 1. create or search for an Institutional Proposal
+  * 2. in edit mode, on the Institutional Proposal tab under Notes and Attachments, attach a file
+  * 3. fill out other required fields
+  * 4. save and blanket approve
+  * 5. re-open the IP
+  * 6. open Notes and Attachments
+
+  * Results- delete button appears next to the file.
+  * Expected Results- delete button should not appear when the IP is in view mode, user should be required to edit document first
+  * Joe Williams on Mon, 8 Jun 2015 10:13:45 -0500 [View Commit](../../commit/3b75f94e0d8d74301058cefb7a845004b2820ba0)
+
+##coeus-1506.18
+* only return active version of subawards on subaward lookup
+
+  * 1. Create & blanket approve a subaward document with Subrecipient #000040 "University of Maine". Note that this is Version 1.
+  * 2. Now edit & blanket approve the subaward from step 1, changing the Subrecipient to #000041 "University of Maryland". Note that this is Version 2.
+  * 3. Central Admin > Post-Award > Subawards > click on search icon (magnifying glass)
+  * 4. While in the Subaward Lookup, enter 000040 (University of Maine) in the Subrecipient field.
+  * 5. Click search.
+
+  * RESULT: The search returns the subaward where current value for Subrecipient is 000041: "University of Maryland" (version 2).
+
+  * EXPECTED RESULT: Search should only look for values from the maximum finalized subaward documents in the Subaward Lookup (most recent final value). In this example, the search in step 4 should have returned no values when searching for 000040 "University of Maine" since it was only present on Version 1 and had been replaced by version 2 with 000041 "University of Maryland".
+
+  * This is true for the following Subaward Lookup criteria: Subrecipient, Start Date From, Start Date To, End Date From, End Date To, Subaward Type, Purchase Order ID, Title, Account ID, Vendor ID, Requisitioner Unit, Archive Location, Closeout Date From.
+  * Joe Williams on Fri, 5 Jun 2015 09:37:57 -0500 [View Commit](../../commit/836420eced7243977843f5c546a187210d6bf261)
+
+##coeus-1506.17
+* Fix NPE that occurred with certain activity date combo
+
+  * When a Negotation has activities that are in the past in the same location such that the later activity starts before the previous activity ends and does not have an end date, building the history for the activities will cause an NPE to be thrown during JSP page rendering(not displayed to the user). Any further activity will produce an error similar to java.lang.RuntimeException: Error occured while trying to create a new instance for class interface java.util.List.
+
+  * The underlying NPE was occurring here. java.lang.NullPointerException
+        at org.kuali.kra.negotiations.service.NegotiationServiceImpl.getNegotiationActivityHistoryLineBeans(NegotiationServiceImpl.java:294)
+        at org.kuali.kra.negotiations.web.struts.form.NegotiationForm.getNegotiationActivityHistoryLineBeans(NegotiationForm.java:292)
+  * blackcathacker on Fri, 5 Jun 2015 17:16:08 -0700 [View Commit](../../commit/dc576524f2d67bfa87e0be0f8caef2c8c2c8bb80)
+
+##coeus-1506.16
+*  Make reject action permission based.
+  * Gayathri Athreya on Fri, 5 Jun 2015 08:36:11 -0700 [View Commit](../../commit/263dea90d8bc15669d9606e97a04d8fc8f4b0548)
+
+##coeus-1506.15
+*  ignoring url patterns for static content and healthcheck
+  * Travis Schneeberger on Fri, 5 Jun 2015 15:46:27 -0400 [View Commit](../../commit/1e9f9bd56ec096e1ef01a5e011d1fc9a6aad045a)
+
+##coeus-1506.14
+* Warning should not count as rules errors.
+  * In Kualico instance: Negative under recovered F&A generated in budget; values do not populate to Commitments> UR Distribution. Cannot resolve validation.
+
+  * Create a proposal type Research.
+  * Create a budget;
+  * in Settings: select Rate Type of TDC and select Unrecovered Rate Type of FUNSN
+  * in Rates screen: set TDC rate to 10%
+  * Add budget expenses and generate periods
+  * Review calculated Rate in budget item Details modal: TDC rate calculates correctly.
+  * Review the P&T screen: note negative UR amount in column
+  * Complete Budget action prompts Validation Error to clear audit.
+  * Open Commitments> Unrecovered F&A screen. System says no UR generated.
+  * Gayathri Athreya on Fri, 5 Jun 2015 12:12:43 -0700 [View Commit](../../commit/97c0fc0aeaf7fc96b3df8ba773d1be3c13c9c24c)
+
+##coeus-1506.13
+*  adding java melody jpa monitoring
+  * Travis Schneeberger on Thu, 4 Jun 2015 16:39:44 -0400 [View Commit](../../commit/2641c16aef2cea6b1ce8fda6d0863ec1a267d662)
+
+##coeus-1506.12
+* Proposal Person Certification Enhancements
+  * Joe Williams on Wed, 3 Jun 2015 14:06:23 -0500 [View Commit](../../commit/0f3bce441c0d94a98c081ea7f16a1737c915f2ad)
+
+##coeus-1506.11
+*  allow iacuc online review without a schedule
+
+  * Steps to reproduce:
+  * Create IACUC protocol
+  * Submit for Designated Member Review (DMR).
+  * Modify Submission details.
+  * Assign to a Committee
+  * Do not assign a schedule.
+  * Select a primary reviewer.
+  * Submit
+
+  * Result: Online Review tab does not appear in protocol. Usable Online Review documents are not created. Reviewer get notification in Action List and a review appears in their All My Reviews list but they cannot do anything with it.
+
+  * Expected Result: Online Review tab appears in protocol. Online Review documents are created and accessible/usable by reviewers. A schedule should not be needed for DMR.
+  * Joe Williams on Wed, 3 Jun 2015 16:54:56 -0500 [View Commit](../../commit/b55208952f2d315dddf5af1a34adb19e26a2e10b)
+
+##coeus-1506.10
+* fix STE on award navigation after submission
+
+  * Logged in as Admin to Res-Demo1
+  * Searched for existing award using account number 2533529
+  * Opened record > clicked edit button
+  * Maintained Description and Transaction Type on Award Tab.
+  * Clicked on another tab to make the award change; got an STE very much like the one listed below by Victor. (input string referenced my award -For input string: "000073-00001"
+
+  * This is a blocker issue in Award .
+
+  * I am getting STEs when I try to navigate to the Award tab after finalizing an Award, or when I try to finalize a Time and Money document.  This is happening in Demo1 and Demo2
+  * Joe Williams on Thu, 4 Jun 2015 08:14:15 -0500 [View Commit](../../commit/65e8bb75b88ed9d266daa1daa112ed994d9fe1c3)
+
+##coeus-1506.9
+*  fixing concurrent modification exception in Java 8 when sorting a collection in a getter without returning a copy.
+  * Travis Schneeberger on Wed, 3 Jun 2015 17:59:45 -0400 [View Commit](../../commit/2f08417736f01e63714b9b578d7aa6fd0edee92e)
+
+##coeus-1506.8
+* No Changes
+
+
+##coeus-1506.7
+* fix delete proposal, code cleanup, remove unused code
+  * Travis Schneberger on Tue, 2 Jun 2015 14:27:54 -0400 [View Commit](../../commit/6232384dccb99a8a2d7a193eaed3ec46acff4930)
+* add warning when no budget exists, code cleanup
+  * Travis Schneberger on Tue, 2 Jun 2015 14:42:01 -0400 [View Commit](../../commit/8535ecf3b817ddbca291d7719c0305772ecd1731)
+* increment sequence number of new Institutional Proposal
+  * Travis Schneberger on Tue, 2 Jun 2015 15:24:32 -0400 [View Commit](../../commit/9f64a0f1118e858e2fc2b302afadcfa7b9f44190)
+* code cleanup
+  * Travis Schneberger on Tue, 2 Jun 2015 15:24:53 -0400 [View Commit](../../commit/c349e5dfa9fc30be11f11ea6126bdec64d0ae3a1)
+* Update unit formulated Cost
+  * Travis Schneberger on Wed, 3 Jun 2015 09:35:54 -0400 [View Commit](../../commit/f1657abefdfd2a52509f4f1d35054994e00950b7)
+* code cleanup
+  * Travis Schneberger on Wed, 3 Jun 2015 10:36:22 -0400 [View Commit](../../commit/1f82d85d0fd7b5d0b6c3857e4e4aa35833c4404a)
+
+##coeus-1506.6
+* Making the absentee list populate correctly
+  * Travis Schneberger on Mon, 1 Jun 2015 11:32:44 -0400 [View Commit](../../commit/56f94cff610b7157e9d4cda08f30ee9e20557698)
+* Award Title and Status Modification Highlights Fixed in Delta, code cleanup
+  * Travis Schneberger on Mon, 1 Jun 2015 13:53:02 -0400 [View Commit](../../commit/95622c82f932340c43b98c976f315840baaf920d)
+
+##coeus-1506.5
+* No Changes
+
+
+##coeus-1506.4
+* Fixing Delta Report Formatting Issues, code cleanup
+  * Travis Schneberger on Mon, 1 Jun 2015 17:14:54 -0400 [View Commit](../../commit/59d2221de555d3629683c85a70d2fcd5eac687bb)
+
+##coeus-1506.3
+* No Changes
+
+
+##coeus-1506.2
+* Avoiding a NullPointerException with report tracking.
+  * Travis Schneberger on Mon, 1 Jun 2015 11:44:26 -0400 [View Commit](../../commit/5a8152afd64213bd8031ba45324a885d1e8ee640)
+* negotiation xml stream calendar fix, xml stream code cleanup
+  * Travis Schneberger on Mon, 1 Jun 2015 17:54:58 -0400 [View Commit](../../commit/13d66c82d7d08f2cbe18c16a3774679f805e6a96)
+* negotiation xml stream calendar formating fix and parameter name fix
+  * Travis Schneberger on Mon, 1 Jun 2015 17:59:49 -0400 [View Commit](../../commit/46194609e4b3a70939fc56e37dc25f382a2d7b52)
+
+##coeus-1506.1
+* Fix to Display Only Active Committee Members On Schedule Absentee List
+  * Joe Williams on Thu, 28 May 2015 11:51:04 -0500 [View Commit](../../commit/edbc42b86401affc92212a0e36583972b4ab894d)
+* added award audit rule to check for invalid sponsor codes
+
+  * 1. Create an award document filling in only the required fields.
+  * 2. For the Sponsor enter an invalid code such as '010002' which after it is entered will indicate in red "not found"
+  * 3. Submit to the award e-doc to final.
+  * RESULT: Document saves and finalizes even though the sponsor field (which is a required field) has an invalid code entered.
+  * EXPECTED RESULT: Document should not save or finalize with a sponsor code that is not found. An error should be displayed indicating the sponsor is invalid.
+
+  * The way this is described could cause some problems. If you create an award with a sponsor that later becomes inactive you wouldn't be able to maintain your document as the hard on save errors also prevent editing. This should probably be done via a validation error which would prevent submission. It should also apply to the prime sponsor field.
+  * Joe Williams on Fri, 29 May 2015 12:07:14 -0500 [View Commit](../../commit/4534d9a3a61c3efcc9b9de93bdc71d28e72f90df)
+* Fixed Cost Sharing and U/R screens display 'NAN' instead of total unallocated
+
+steps to reproduce
+  * Open an existing Proposal #564 in res-demo1
+  * Open the Budget version
+  * (see assigned person Rosemary Hanlon, or do the following:
+  * Add a Person; maintain their cost object and salary
+  * Assign the person to a budget period with their Effort% greater than Charge% (to generate cost sharing) save
+
+  * Edit the Details & Rates
+  * Click on the Rates tab
+  * Uncheck the "apply' box in the MTDC row (to generate under recovered f&a)
+  * Save
+  * Save proposal
+
+  * Click to Institutional Commitments
+  * >Click to Unrecovered F&A
+  * The "total Unallocated" field shows "NAN"
+
+  * >Click Cost Sharing
+  * The "total unallocated" field shows "NAN"
+
+  * Expected Result: should display a numeric value = to 0 until user starts allocating, and then the numeric value should update based on the maintained amounts in the table rows.
+  * Joe Williams on Fri, 29 May 2015 12:26:19 -0500 [View Commit](../../commit/93d1e02a83b7b2e4da1becc9272018adcd5d42ab)
+*  Hierarchy copy fixes
+  * "Award Copy + Copy as child of" and "New Child + based on copy from parent" and "selected award" are also copying the budget.
+  * Create an Award Hierarchy Structure
+  * Test 1: New Child section > click button to ‘copy from parent’, then click [create]
+  * 1.	Start with an existing Award with T&M doc. (Example: 000073-00001:2533529)
+  * (this root node award had an award budget)
+  * 2.	Award Actions > Show Hierarchy Actions panel
+  * 3.	Expand the node detail by clicking on the  beside the award-node number
+  * 4.	In the New Child section > click button to ‘copy from parent’, then click [create] at the end of the row; A new award in ‘initiated’ status will open in the screen. (my test = 000073-00002)
+  * 5.	Complete the required fields to submit:
+  * a.	Award tab –
+  * i.	Description
+  * ii.	Details & Dates section: Change title to make this easier to locate; otherwise all fields from parent are pre-filled.-save Award tab
+  * b.	Payments/Reports/Terms (BUG?) I had to add a report to get past the error validation. But often, we don’t want to have reporting requirements at the child nodes – so no types should be required. (separate JIRA after more testing.)
+  * c.	Award Actions Tab > submit
+  * Even prior to submit, I opened the Budget Versions tab and found that the budget version from the root node were copied into this -00002 child node.
+  * Test 2: Create new child node: Hierarchy Actions > New Child > Based on Selected Award = child node 2 (same as open award node w/award budget)
+  * 1.	Search and open award *73-00002 (this node has an award budget copied from the root node)
+  * 2.	Award Actions > Show Hierarchy Actions panel
+  * 3.	Click the green  beside the root node -0000001 to expand the award view
+  * 4.	Click the green  beside the child -00002 node to expand the copy options
+  * 5.	Click the button beside “selected award” and then click the drop-down to select the *73-00002 node (same as open) then [create]
+  * 6.	The new -00003 award node will present in the screen to be maintained.
+  * a.	At this point, you can click on Budget Versions and confirm that versions were copied from the selected node.
+  * 7.	Award Actions > Submit.
+  * 8.	Wait for processing to complete
+  * 9.	Click on Budget Versions screen.
+  * 10.	Click [open] on the rebudget version that is still in progress
+  * Gayathri on Fri, 29 May 2015 16:20:15 -0700 [View Commit](../../commit/5140c119bb88e8c1d154dc2f78b891d4abf1509e)
+*  fixing test related to java melody datasource monitoring, code cleanup
+  * Travis Schneberger on Sat, 30 May 2015 11:25:04 -0400 [View Commit](../../commit/13b95b7ba487bb43590988cf594bc7e6ece3743d)
+
+##coeus-1505.70
+* Disable Reset To Default Capabilities When Budget Is View Only
+  * Joe Williams on Fri, 29 May 2015 12:48:47 -0500 [View Commit](../../commit/18df6cb41cc4a4c6b5269a7913bf6d6df8f64cee)
+*  Rice upgrade for rice quartz job monitoring, ehcache statistics monitoring, kc quartz job monitoring, SQL monitoring.
+  * Travis Schneberger on Fri, 29 May 2015 17:19:03 -0400 [View Commit](../../commit/34fdc9dfad0dc9903e836f32e8075c0aca899b0f)
+* Fix Issue Where Multi Pis Are Removed From Award Upon Editing
+  * Joe Williams on Fri, 29 May 2015 14:44:06 -0500 [View Commit](../../commit/9169df3b0c6f0e1411083e74c10949fb1280cee8)
+
+##coeus-1505.69
+*  Suppress notification if business rule failure on data override
+  * In the Kualico instance, the system still presents the Data Override Notification even if entered item was invalid.The Notice should NOT be sent.
+  * Steps:
+  * In an enroute proposal; OSP admin uses Data Override. Example: Award ID:
+  * If user enters a value in the 'change' field that does not match the valid criteria (too few #/, too long, not a true Award ID) the system outlines the field in red and presents an error warning in the window; but the user can still click 'create override'; the window closes, and the Notification window still presents to alert Aggregator of override. But the override did NOT occur.
+  * The Notification window should NOT be generated if the override did not occur.
+  * In the MIT QA instance, the data override notification "prompt user' is NOT CHECKED. So these incorrect notices are being sent.
+  * The RESKC-485 case fixes the issue of the override validation error message not appearing on the proposal screen when the override modal window closes.
+  * This case is to fix the notice from being generated when the override action is not performed due to invalid/incomplete entry.
+  * Gayathri on Wed, 27 May 2015 14:45:39 -0700 [View Commit](../../commit/4e0173e80c4174eaaad4a369c519fd3647e13b3c)
+* fixes issue when adding fringe amounts the award budget sumary tab
+
+  * When adding fringe amounts in the award budget summary tab every time you navigate to the paramters tab, the fringe amount will increase
+  * Joe Williams on Tue, 26 May 2015 13:02:49 -0500 [View Commit](../../commit/038a9cfa54d76af45ac8e1c68844bfc242d154fc)
+*  Allow same person to be added under different roles.
+  * As an Award Maintainer, I need to set up new, and maintain existing Awards.
+  * When adding Unit and Sponsor Contacts, I sometimes need to add the person to multiple project roles. This usually occurs with small/independent industrial and foundation sponsors in the Sponsor Contacts; and with small internal departments in the Unit Contacts panel.
+  * Currently, the system will not let me add the same person to multiple roles. I get an error message on the top of the page, and a specific error above the panel identifying the person saying they are already added to contacts.
+
+  * Steps to reproduce:
+  * 1 Either create a new award, or open an existing award in Edit mode.
+  * 2 Select a Transaction type on the Award panel.
+  * 3 Click the Contacts tab to open
+  * 4 Expand the Sponsor Contacts panel.
+  * 5 Search for an address book person to add; select a project role; Add.
+  * 6 Search the address book again for the same id added in step 5; select a different project role. Add.
+  * Result: Error on page and above panel stating that the person already exists.
+  * Desired Result: Allow duplicates for all Award contacts; Sponsor, Unit, Central Admin.
+  * Gayathri on Thu, 28 May 2015 10:23:20 -0700 [View Commit](../../commit/887b8a0c110d14ca9f5cee73b8a2c4ccd51cf1e2)
+*  enable java melody
+  * Travis Schneberger on Fri, 29 May 2015 10:12:43 -0400 [View Commit](../../commit/b60cf41839c3e97992cee3027fd7d5cb461cb705)
+* Removing unused integration test initalization logic
+  * Travis Schneberger on Fri, 29 May 2015 10:13:08 -0400 [View Commit](../../commit/e06acb545eb6d1afe53730c9f60385699381e3eb)
+* Adding null check to avoid a NPE for an anticipated award type.
+ Code cleanup.
+  * Travis Schneberger on Fri, 29 May 2015 10:25:31 -0400 [View Commit](../../commit/ea974ef658ffebca00714d4a4771e6b5c2b79472)
+* Updating docs with supported infastructure
+  * Travis Schneberger on Fri, 29 May 2015 10:30:59 -0400 [View Commit](../../commit/ead3ae673109f6c72749a6dc473a0d42b9482977)
+
+##coeus-1505.68
+* Add Include Custom Action Urls On All My Protocols Search
+  * Joe Williams on Tue, 26 May 2015 10:59:04 -0500 [View Commit](../../commit/a1dade2b0085e1002a3386dd1daf5d9f38590dd6)
+
+##coeus-1505.67
+* New parameter for Default Email Recipient
+  * Joe Williams on Wed, 27 May 2015 15:55:29 -0500 [View Commit](../../commit/6ec322368d14c0ebe58b3876d94e8dc8353a430f)
+
+##coeus-1505.66
+* copy over modular budgets when proposal is copied
+
+  * As a proposal aggregator, I need to copy proposals & budgets. When I copy a proposal & budget with a modular budget filled with details that were either manually added or sync'd from the detailed budget, that screen is not being copied to the new proposal. If I am trying to quickly prepare a change/corrected s2s submission, this missing information will cause another error at the sponsor.
+
+  * Confirmed problem in res-demo1 1505.47 05-20-2015 10:49
+
+  * Steps to duplicate:
+  * Locate or create a proposal & budget with the Budget > Modular screen completed.
+  * Example: #553 in res-demo1.
+  * Copy the proposal> select to copy for submission budget (or version with modular complete)
+  * In the new proposal (example #554); notice the following:
+  * S2S opportunity >Forms > Optional Modular Budget form still checked to 'include'
+  * Budget > Budget Settings > Modular checkbox still checked
+  * Budget > Modular Budget screen > blank. No details copied.
+  * Joe Williams on Wed, 27 May 2015 13:37:12 -0500 [View Commit](../../commit/4e3eb00e3b8799efae7189d928a43c2c352e0fcd)
+*  Fixing report amounts for awards.
+steps to reproduce:
+  * 1: Central Admin >click link for Current & Pending to open window
+  * 2 click show. Print reports
+  * 3. click icon for Person Search in Current Report or Pending Report (result will populate both fields)
+  * 4. Enter search criteria, to locate a person with current awards (jtester in kualico)
+  * 5 click search
+  * 6. select the person from the list and click return value
+  * 7. click [initiate report] for Current - view results on screen
+  * Expected results:
+  * A single row for each award maintained as "current" displaying the obligated amount from the award.
+  * Actual result:
+  * Some awards are showing double the amount obligated. In Kualico, some other multiple of the current obligated is appearing.
+  * Gayathri on Wed, 27 May 2015 12:15:32 -0700 [View Commit](../../commit/e631f92ffd8a16f693eed90f1496cebf404f790f)
+
+##coeus-1505.65
+*  STE in dataoverride when using award id
+  * As an OSP Contract Administrator and proposal approver, I need to use data override to correct information on routing proposals (defined in the maintenance doc 'proposal dev editable columns).
+
+  * To duplicate;
+  * As Quickstart in res-demo1, open a proposal in approval pending status
+  * Open DataOverride from toolbar
+  * Select Award ID
+  * Enter the 12 digit award id
+  * When I enter a valid award id, it takes it. If I enter an invalid one, the modal shows an error but if I go ahead and submit, I either get a STE or screen goes blank.
+
+  * org.kuali.rice.core.api.exception.RiceRuntimeException: Exception trying to invoke action SAVE for document: 4690
+	at org.kuali.rice.krad.document.DocumentControllerServiceImpl.performWorkflowAction(DocumentControllerServiceImpl.java:892)
+	at org.kuali.rice.krad.document.DocumentControllerServiceImpl.save(DocumentControllerServiceImpl.java:285)
+	at org.kuali.rice.krad.document.DocumentControllerServiceImpl.save(DocumentControllerServiceImpl.java:266)
+	at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentControllerBase.save(ProposalDevelopmentControllerBase.java:257)
+	at org.kuali.coeus.propdev.impl.dataovveride.ProposalDevelopmentDataOverrideController.createOverride(ProposalDevelopmentDataOverrideController.java:115)
+	at org.kuali.coeus.propdev.impl.dataovveride.ProposalDevelopmentDataOverrideController$$FastClassBySpringCGLIB$$76e3085c.invoke(<generated>)
+
+  * Caused by: java.lang.RuntimeException: No PersistenceProvider handles type: class org.kuali.kra.award.home.Award
+	at org.kuali.rice.krad.data.provider.impl.ProviderBasedDataObjectService.persistenceProviderForType(ProviderBasedDataObjectService.java:266)
+	at org.kuali.rice.krad.data.provider.impl.ProviderBasedDataObjectService.findMatching(ProviderBasedDataObjectService.java:96)
+	at org.kuali.coeus.propdev.impl.core.SubmissionInfoServiceImpl.getProposalCurrentAwardVersion(SubmissionInfoServiceImpl.java:303)
+	at org.kuali.coeus.propdev.impl.core.SubmissionInfoServiceImpl.getProposalCurrentAwardSponsorAwardNumber(SubmissionInfoServiceImpl.java:169)
+	at org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocumentRule.processProposalRequiredFieldsBusinessRule(ProposalDevelopmentDocumentRule.java:319)
+	at
+  * Gayathri on Tue, 26 May 2015 16:18:27 -0700 [View Commit](../../commit/b62b0145f680376a40523f1c68343f995d476e83)
+
+##coeus-1505.64
+* disable autocalculate, and syns/recalculate modular budgets when in view only mode
+
+  * When proposal is opened in view mode, budget is also opened in view mode but user has access to generate all periods and sync, calculate buttons are enabled in modular budget.
+
+  * Case 1: Proposal is opened by someone with view access only
+  * Case 2: Proposal is opened with Search proposals: view link, regardless of user’s access
+  * Case 3: User with budget creator access opens a budget currently being edited by another user (locked for editing view status)
+  * In all cases, the sync to modular information is saved.
+  * In some cases, the institutional commitments reset to default button result is saved. (If only this button is clicked, results don’t save. If the viewer also clicks the sync button in modular section, the reset to default action is saved.)
+  * In all cases, the autocalculate function will run, but the results will not save on return to/close proposal action.
+
+  * Steps to reproduce:
+  * 1. As quickstart, create a proposal with NIH as sponsor. Add PI Nicolas Majors. Add users oblood and chew as Budget
+  * Creators Add user psmock as Viewer.
+  * 2. Save and close. Logout.
+
+  * For Case 1: Proposal is opened by someone with view access only
+  * 1. Login as oblood. Create budget version named < oblood version >. Add non‐personnel item, period 1 only. Save, return to proposal. Close (yes to save). Logout.
+  * 2. Login as psmock. Click Budget in left navigation bar. Click on oblood version to open. Navigate to modular section. Click ‘sync’. Budget information for Period 1 is synced. Click autocalculate periods link. Budget for all periods is generated (confirm by viewing Budget Summary). Click return to proposal. Close (btw: user is prompted for save, but this prompt shouldn’t happen in view mode).
+
+  * Case 2: Proposal is opened with Search proposals: view link, regardless of user’s access
+  * 1. Login as chew. Create budget version named < chew version >. Complete salary detail for Majors. Add personnel item for Majors with 10% effort, 5% charged. Add non‐personnel item Materials & Services $50,000. In Institutional Commitments, Cost Sharing section, Period 1: enter 100 for Percentage, < dept1 > for Source account. Save. Return to proposal. Close (yes to save). Logout.
+  * 2. Login as quickstart. Use Search Proposal link, enter proposal number, click ‘view’ from the results Actions options. Click Budget. Open chew version. Navigate to Institutional Commitments. Click reset to default button. Information for percentage and source is cleared. Navigate to Modular section. Click sync. Information for period 1 is synced.
+
+  * Case 3: User with budget creator access opens a budget currently being edited by another user (locked for editing view status)
+  * 1. Login as oblood. Open proposal. Create new budget version < oblood 2 >. Add non‐personnel item Materials & Services, $50,000. Save.
+  * 2. Open a new incognito or private browsing window. Login as chew. Open the same proposal. Open oblood 2 budget version. Navigate to Modular section. Click ‘sync’. Information syncs and saves. (Since proposal is locked for editing, sync button should not be active.) Click autocalculate all periods link. Budget information for all periods is generated (confirm by viewing Budget Summary).
+
+  * Results: Action buttons are available to user when budget is accessed in View Mode
+  * Expected Results: These action buttons should not appear, since action should only be available to users when editing.
+  * Joe Williams on Tue, 26 May 2015 16:59:48 -0500 [View Commit](../../commit/d2800edc293ad638e642955f08ecf5ed331e9a3d)
+
+##coeus-1505.63
+* Adds Parameters For Comment Type Codes
+  * Joe Williams on Tue, 26 May 2015 10:07:24 -0500 [View Commit](../../commit/b448141bf75a59eafbec9841f78423dc6a5b2519)
+* Fixes issues with awards with null fields on award funding proposal
+  * Joe Williams on Tue, 26 May 2015 13:10:14 -0500 [View Commit](../../commit/294d2f5a9792d921774c874213e8df8457a5f29f)
+* Adding Default Congressional District to Other
+  * Organizations
+  * rashikpolus on Mon, 1 Dec 2014 20:24:08 +0530 [View Commit](../../commit/00b50b0f3d1b5ba7cf86dc7bdcb45bc25eefaf9a)
+*  Fixing award copy
+  * 1. Created award with all required fields to submit.
+  * 2. Open T&M and add money, route.
+  * 3. Open award, create budget for the obligated amnt in award.
+  * 4. Route, approve and post budget.
+  * 5. Open award hierarchy actions, copy new.
+  * 6. Open new award, navigate to budget versions, notice the budget has been copied over
+  * Gayathri on Tue, 26 May 2015 13:03:37 -0700 [View Commit](../../commit/1dc3d17a33b45c5f7d96f58a5470a7c27f30b6f3)
+* Award Budget Approval Saving wrong FnA cost
+  * Joe Williams on Tue, 26 May 2015 15:42:11 -0500 [View Commit](../../commit/34bd531130ba5a546579cb3be63bd4b9807ca432)
+* RESKC-371
+  * This does not happen all the time but when it does, there's no way around it.
+
+  * 1. Add an opportunity to a proposal, PA-C-R01
+  * 2. Try to add narrative Budget Justification.
+
+  * Get STE
+
+  * org.springframework.web.bind.MissingServletRequestParameterException: Required String parameter 'previousValue' is not present at org.springframework.web.method.annotation.RequestParamMethodArgumentResolver.handleMissingValue(RequestParamMethodArgumentResolver.java:201) at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:92) at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:77) at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:157) at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:124) at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:104) at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandleMethod(RequestMappingHandlerAdapter.java:745) at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:685) at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:80) at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:919) at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:851) at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:953) at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:855) at javax.servlet.http.HttpServlet.service(HttpServlet.java:646) at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:829) at javax.servlet.http.HttpServlet.service(HttpServlet.java:727) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:303) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.kew.web.UserPreferencesFilter.doFilter(UserPreferencesFilter.java:78) at org.kuali.rice.kew.web.UserPreferencesFilter.doFilter(UserPreferencesFilter.java:62) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.krad.web.filter.UserLoginFilter.doFilter(UserLoginFilter.java:89) at org.kuali.rice.krad.web.filter.UserLoginFilter.doFilter(UserLoginFilter.java:77) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.krad.web.filter.BootstrapFilterChain.doFilter(BootstrapFilter.java:327) at org.kuali.rice.krad.web.filter.DummyLoginFilter.doFilter(DummyLoginFilter.java:82) at org.kuali.rice.krad.web.filter.DummyLoginFilter.doFilter(DummyLoginFilter.java:62) at org.kuali.rice.krad.web.filter.BootstrapFilterChain.doFilter(BootstrapFilter.java:320) at org.kuali.rice.krad.web.filter.BootstrapFilter.doFilter(BootstrapFilter.java:199) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.coeus.sys.framework.controller.interceptor.PerformanceLoggingFilter.doFilter(PerformanceLoggingFilter.java:80) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.coeus.sys.framework.controller.interceptor.SessionExpiredFilter.doFilter(SessionExpiredFilter.java:46) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.kuali.rice.krad.web.filter.HideWebInfFilter.doFilter(HideWebInfFilter.java:68) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.springframework.web.filter.AbstractRequestLoggingFilter.doFilterInternal(AbstractRequestLoggingFilter.java:214) at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:106) at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241) at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208) at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:220) at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:122) at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:170) at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103) at org.apache.catalina.valves.RemoteIpValve.invoke(RemoteIpValve.java:683) at org.apache.catalina.valves.CrawlerSessionManagerValve.invoke(CrawlerSessionManagerValve.java:180) at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:950) at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:116) at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:421) at org.apache.coyote.ajp.AjpAprProcessor.process(AjpAprProcessor.java:188) at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:611) at org.apache.tomcat.util.net.AprEndpoint$SocketWithOptionsProcessor.run(AprEndpoint.java:2403) at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) at java.lang.Thread.run(Thread.java:745)
+  * Gayathri on Tue, 26 May 2015 13:56:52 -0700 [View Commit](../../commit/e118ed16b6e4c9a0c99e82441af3e9fc28a2cf73)
+
+##coeus-1505.62
+* The reject button for the Award Document is missing when the document is on the initial node.
+  * Travis Schneberger on Fri, 22 May 2015 08:37:33 -0400 [View Commit](../../commit/4561b722f639bedd5c7ce2c4c0087cdcd408bb7d)
+* code cleanup in preparation for bugfix
+  * Travis Schneberger on Fri, 22 May 2015 09:12:00 -0400 [View Commit](../../commit/19e51dda6dc904ba00be227649f1e58f55d56fc5)
+* Award Budget causes an exception when adding personnel details.
+  * Travis Schneberger on Fri, 22 May 2015 09:12:41 -0400 [View Commit](../../commit/4ecc447a74cdc9de91464d66e625402b6dda7a54)
+* getting budget before reloading, fixing reload error.
+  * Travis Schneberger on Fri, 22 May 2015 09:18:48 -0400 [View Commit](../../commit/c1c476618b1bdc3b6e3934a3ca341325808dbfc9)
+* Institutional Proposal's award type not saving for an anticipated award type.
+  * Travis Schneberger on Fri, 22 May 2015 11:18:59 -0400 [View Commit](../../commit/f4b4b177b8ea1ddc2267358e12e27252f3d809cb)
+* display disaproved submitted protocols in meeting
+
+  * Amendment or Renewal with or without Amendment docs that are assigned to a Full Committee Meeting Agenda appear in the Protocol Submitted panel of the meeting document but disappear from that list after the recording of Disapprove decision on the amendment doc. This is the opposite of what is required.
+
+  * On further searching, it appears that the after taking the Disapprove action on an amendment or renewal, the entire amendment/renewal record disappears. If attached steps are followed for a renewal w/amendment, the record disappears after Disapprove. If a new renewal is created, KC will maintain sequence structure (so R002 will appear, if R001 was preceding), but R001 will not return from search results.
+
+  * Steps:
+
+    Login as quickstart
+    On Central Admin tab click on Lookup next to Human Participants
+    Select Protocol Status – Active – Open to Enrollment
+    Click search
+    Click edit in Actions column on result list and Protocol displays
+    Click on Protocol Actions tab
+    Click show on Request an Action panel
+    Click show on Create Renewal with Amendment
+    Enter something in Summary box and check all the Amend boxes
+    Click create button
+    Record the Protocol # for this amendment (1502000021R002)
+    Click cancel for Notification
+    Click on Protocol Actions tab
+    Click show on Data Validation panel
+    Click turn on validation – fix any errors and save
+    Click show on Request an Action panel
+    Click show on Submit for Review panel
+    Submission Type Continuing Review/Continuation with Amendment, Submission Review Type Full
+    Select Committee and Schedule Date (next available)
+    Select one primary reviewer
+    Record Schedule date
+    Click submit button
+    Click show on Request an Action
+    Click show on Assign to Agenda
+    Click submit
+    Click close button for protocol
+    On Central Admin tab click lookup on IRB Schedules
+    Enter the Schedule Date From and Schedule Date To that matches the Full Committee Schedule Date from above.
+    Committee Id – select from dropdown menu
+    Click search
+    Click edit on result list item
+    Click show on Protocol Submitted
+    Verify that the protocol Amendment for this scenario is listed as In Agenda
+    Click show on Attendance
+    Add 3 Voting Members as Present Voting (only if there are not at least 3 Voting Members Present)
+    Click close for the Meeting document – yes for “Would you like to save meeting data before close it?”
+    Lookup for Human Participants on Central Admin tab
+    Enter the Renewal with Amendment doc nbr in Protocol # field and search
+    Click edit on the result list item
+    Click on Protocol Actions tab
+    Click show on Request an Action
+    Click show on Record Committee Decision
+    For Motion Type select “Disapprove”
+    Enter No = 0 and Yes = 3
+    Show on Review Comments – type in a comment
+    Click final check box for the Comment
+    Click add
+    Click submit
+    On Disapprove panel click submit
+    Verify that Submission Status and Status are Disapproved
+    Click close
+    Click on Central Admin tab
+    Click on IRB Schedules on Central Admin tab
+    Enter the Schedule Date From and Schedule Date for this amendment
+    Click edit on result list item
+    Click show on Protocol Submitted
+    The Renewal with Amendment Protocol number for this scenario is no longer listed. Expectation is that it will still be listed as a Protocol Submitted.
+  * Joe Williams on Fri, 22 May 2015 10:59:53 -0500 [View Commit](../../commit/a15a9120600dc6bd1d6300ecf97c2ecc2d56ea30)
+* fix to display TBN table on add budget personnel
+
+  * Tried to add a TBA person to a budget; but the list does not appear and the modal window does not fully generate.
+  * I verified that there are 7 defined TBA persons in the maintenance document.
+
+  * Steps to duplicate:
+  * Locate an in-progress proposal or create a new one.
+  * Open or create a budget version
+  * On the Project Personnel screen, use the +Add Personnel button to open the modal
+  * Select TBA from the 'search for' list option
+
+  * Expected result: the list of maintained To Be Named persons should present with the ability to select how many to apply.
+
+  * Current result: the field updates to To Be Named, but the rest of the modal window does not generate. There is only a letter-box window containing this type field. User cannot add a TBA person to the budget.
+  * Joe Williams on Tue, 26 May 2015 09:50:22 -0500 [View Commit](../../commit/0d6467ccecdd72c6209a1ed2a4ce03910044d7aa)
+*  Do not show cancelled award docs in T&M history
+  * As an award administrator, I may need to cancel an award edit transaction instead of saving or submitting. The information may be incomplete, incorrect, or I may have selected the wrong award/node by mistake. I should be able to use the cancel button on the Actions panel to completely delete any updates or changes.
+
+  * Steps:
+
+  * Open existing award
+  * Go to time and money and check history, note current version number and update timestamp/user
+  * Return to award and click edit
+  * Go to award actions and click cancel
+  * Reopen award
+  * Go to time and money and check history: cancelled award version will now be listed
+
+  * Expected Result: all evidence of the cancelled document are removed from the Award, T&M, or Award Budget documents.
+  * Currently, any cancelled documents are appearing as a Version in the T&M History panel.
+  * Gayathri on Tue, 26 May 2015 10:41:02 -0700 [View Commit](../../commit/f84addc63df91c0afcbb4bcb4464345f469b9bb3)
+* Fixes Issues With Sorting of Budget Persons
+  * vineeth on Thu, 15 Jan 2015 16:49:20 -0500 [View Commit](../../commit/51fb5dc493e10c206496f3310234ac5eaae56058)
+* fix compiler error related to generics, fix compiler warnings
+  * Travis Schneberger on Tue, 26 May 2015 15:58:53 -0400 [View Commit](../../commit/ca0c90838bd55f4b683b9e17d6e1c7550b29e632)
+
+##coeus-1505.61
 * No Changes
 
 
