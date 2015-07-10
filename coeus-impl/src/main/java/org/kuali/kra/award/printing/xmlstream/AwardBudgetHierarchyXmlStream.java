@@ -89,23 +89,14 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
 		AwardAmountInfo awardAmountInfo = AwardAmountInfo.Factory.newInstance();
 		List<AmountInfoType> amountInfoTypes = new ArrayList<AmountInfoType>();
 		AwardHierarchy branchNode=award.getAwardHierarchyService().loadFullHierarchyFromAnyNode(award.getParentNumber());
-        org.kuali.kra.award.home.AwardAmountInfo awardAmount=award.getLastAwardAmountInfo();
         BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        Collection<Award> awards = businessObjectService.findAll(Award.class);
-        Award parentAward = null;
-        for(Award awardParent : awards){
-         if(awardParent.getAwardNumber().equals(branchNode.getAwardNumber())){
-         parentAward = awardParent;
-         break;
-        }
-      }
-      if(branchNode!=null){
-          
-			amountInfoType = setAwardAmountInfo(parentAward, parentAward.getLastAwardAmountInfo());
-			amountInfoTypes = recurseTree(branchNode,amountInfoTypes);
-			amountInfoTypes.add(0,amountInfoType);
-			awardAmountInfo.setAmountInfoArray(amountInfoTypes.toArray(new AmountInfoType[0]));
-		}
+        Collection<Award> awards = businessObjectService.findMatching(Award.class, Collections.singletonMap("awardNumber", branchNode.getAwardNumber()));
+        Award parentAward = (!awards.isEmpty()) ? awards.iterator().next() : null;
+
+		amountInfoType = setAwardAmountInfo(parentAward, parentAward.getLastAwardAmountInfo());
+		amountInfoTypes = recurseTree(branchNode,amountInfoTypes);
+		amountInfoTypes.add(0,amountInfoType);
+		awardAmountInfo.setAmountInfoArray(amountInfoTypes.toArray(new AmountInfoType[0]));
 		return awardAmountInfo;
 	}
 
