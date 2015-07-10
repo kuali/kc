@@ -134,32 +134,12 @@ public class SalaryCalculator {
 
     private QueryList<BudgetPerson> filterBudgetPersons() {
         QueryList<BudgetPerson> filteredPersons = new QueryList<BudgetPerson>();
-        List<BudgetPerson> savedBudgetPersons = new ArrayList<>(budget.getBudgetPersons());
 
-        if (savedBudgetPersons.isEmpty()){
+        if (budget.getBudgetPersons().isEmpty()){
         	return filteredPersons;
         }
 
-        int i = 0;
-        boolean personInDocument = false;
-        List<BudgetPerson> documentBudgetPersons = new ArrayList<BudgetPerson>();
-
-        for(BudgetPerson savedPerson : savedBudgetPersons) {
-            personInDocument = false;
-            for (BudgetPerson docPerson : budget.getBudgetPersons()) {
-                if (savedPerson.getPersonSequenceNumber().intValue() == docPerson.getPersonSequenceNumber().intValue()) {
-                    documentBudgetPersons.add(i, docPerson);
-                    personInDocument = true;
-                }
-            }
-
-            if (!personInDocument) {
-                documentBudgetPersons.add(i, savedPerson);
-            }
-            i++;
-        }
-
-        QueryList<BudgetPerson> budgetPersons = new QueryList<BudgetPerson>(documentBudgetPersons);
+        QueryList<BudgetPerson> budgetPersons = new QueryList<BudgetPerson>(budget.getBudgetPersons());
 
         Equals ePersonSeqNumber = new Equals("personSequenceNumber", personnelLineItem.getPersonSequenceNumber());
         QueryList<BudgetPerson> fltdBudgetPersonList = budgetPersons.filter(ePersonSeqNumber);
@@ -206,8 +186,8 @@ public class SalaryCalculator {
             LOG.debug("actual filtered persons list size is" + filteredPersons.size());
         }
         if (noCalcBase) {
-            StringBuffer warningMsg = new StringBuffer("Base salary information is not available for the person ");
-            StringBuffer errMsg = new StringBuffer("Error finding the calculation base for the person ");
+            StringBuilder warningMsg = new StringBuilder("Base salary information is not available for the person ");
+            StringBuilder errMsg = new StringBuilder("Error finding the calculation base for the person ");
             errMsg.append(this.personnelLineItem.getPersonId());
             errMsg.append(" with Job Code ");
             errMsg.append(this.personnelLineItem.getJobCode());

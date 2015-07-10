@@ -88,12 +88,10 @@ public class BudgetPersonnelRule {
 	@Autowired
 	@Qualifier("jobCodeService")
 	private JobCodeService jobCodeService;
-	
+
     /**
      * 
      * This method to check the 'selected' person to delete is not associate with budget personnel details
-     * @param budgetDocument
-     * @param budgetPerson
      * @return
      */
     @KcEventMethod
@@ -158,37 +156,41 @@ public class BudgetPersonnelRule {
     @KcEventMethod
     public boolean processBudgetPersonnelBusinessRules(BudgetSaveEvent event) {
         boolean valid = true;
-        
-        MessageMap messageMap = GlobalVariables.getMessageMap();
-        
+
         List<BudgetPerson> budgetPersons = event.getBudget().getBudgetPersons();
+
+        // not an error - ProposalHierarchy parents are allowed to have duplicate BudgetPersons
+        BudgetParent budgetParent = event.getBudget().getBudgetParent().getDocument().getBudgetParent();
+        if (budgetParent instanceof DevelopmentProposal && ((DevelopmentProposal)budgetParent).isParent()) {
+            KcEventResult result =  isNotDuplicateBudgetPersons(budgetPersons);
+            GlobalVariables.getMessageMap().merge(result.getMessageMap());
+        }
+        return valid;
+    }
+
+    protected KcEventResult isNotDuplicateBudgetPersons(List<BudgetPerson> budgetPersons) {
+        KcEventResult result = new KcEventResult();
+        MessageMap messages = new MessageMap();
+        result.setSuccess(true);
+
         for (int i = 0; i < budgetPersons.size(); i++) {
             BudgetPerson budgetPerson = budgetPersons.get(i);
             for (int j = i + 1; j < budgetPersons.size(); j++) {
                 BudgetPerson budgetPersonCompare = budgetPersons.get(j);
                 if (budgetPerson.isDuplicatePerson(budgetPersonCompare)) {
-                    BudgetParent budgetParent = event.getBudget().getBudgetParent().getDocument().getBudgetParent();
-                    if (budgetParent instanceof DevelopmentProposal && ((DevelopmentProposal)budgetParent).isParent()) {
-                        // not an error - ProposalHierarchy parents are allowed to have duplicate BudgetPersons
-                    }
-                    else {
-                        messageMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
-                        valid = false;
-                    }
+                    messages.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
+                    result.setSuccess(false);
                 }
-
             }
-            
         }
-        
-        return valid;
+
+        result.setMessageMap(messages);
+        return result;
     }
 
     /**
      * This method executes the job code change validation rules against the budget document
      * for a specific budget period.
-     * @param budgetDocument the budget document
-     * @param viewBudgetPeriod the budget period number.
      * @return true is valid false if not valid
      * @throws NullPointerException if the budgetDocument is null
      * @throws IllegalArgumentException if the viewBudgetPeriod < 1
@@ -269,7 +271,6 @@ public class BudgetPersonnelRule {
     
     /**
      * Validates if the job code is a valid change.
-     * @param personNumber the current person number
      * @param person the current person
      * @return true is valid false if not valid
      */
@@ -295,7 +296,6 @@ public class BudgetPersonnelRule {
     
     /**
      * Validates if the job code is a valid value.
-     * @param personNumber the current person number
      * @param person the current person
      * @return true is valid false if not valid
      */
