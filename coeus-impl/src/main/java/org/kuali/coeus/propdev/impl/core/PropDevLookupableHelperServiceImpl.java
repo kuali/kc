@@ -208,6 +208,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             for (ProposalPerson pi : principalInvestigators) {
                 piProposals.add(pi.getProposalNumber());
             }
+            // If no results then add empty string so we get an empty result set in final search
+            if (CollectionUtils.isEmpty(piProposals)){
+                piProposals.add("");
+            }
         }
         return piProposals;
     }
@@ -220,6 +224,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
             List<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class,query.build()).getResults();
             for (ProposalPerson person : proposalPersons) {
                 personProposals.add(person.getProposalNumber());
+            }
+            // If no results then add empty string so we get an empty result set in final search
+            if (CollectionUtils.isEmpty(personProposals)){
+                personProposals.add("");
             }
         }
         return personProposals;
@@ -239,6 +247,10 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
                         initiatorProposals.add(document.getDevelopmentProposal().getProposalNumber());
                     }
                 }
+            }
+            // If no results then add empty string so we get an empty result set in final search
+            if (CollectionUtils.isEmpty(initiatorProposals)){
+                initiatorProposals.add("");
             }
         }
         return initiatorProposals;
