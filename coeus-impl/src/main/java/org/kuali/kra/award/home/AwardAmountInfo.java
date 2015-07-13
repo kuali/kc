@@ -78,7 +78,8 @@ public class AwardAmountInfo extends AwardAssociate {
     private Integer transactionDetailItemsLength;
 
     private Integer originatingAwardVersion;
-    private GlobalVariableService globalVariableService;
+
+    private transient GlobalVariableService globalVariableService;
 
     public AwardAmountInfo() {
         anticipatedTotalAmount = new ScaleTwoDecimal(0.00);
