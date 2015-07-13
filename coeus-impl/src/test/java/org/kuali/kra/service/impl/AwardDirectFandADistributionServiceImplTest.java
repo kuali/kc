@@ -22,14 +22,22 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.service.impl.AwardAmountInfoSetUpTestBase;
 import org.kuali.kra.award.service.impl.AwardDirectFandADistributionServiceImpl;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.AuditCluster;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.web.form.UifFormManager;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * This class tests public methods in AwardDirectFandADistributionServiceImpl.
@@ -49,6 +57,10 @@ public class AwardDirectFandADistributionServiceImplTest extends AwardDirectFand
         awardDirectFandADistributionServiceImpl = new AwardDirectFandADistributionServiceImpl();
         awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
         award = new Award();
+        MockGlobalVariableService globalVariableService = new MockGlobalVariableService();
+        globalVariableService.setUserSession(new MockUserSession("quickstart"));
+        award.getAwardAmountInfos().get(0).setGlobalVariableService(globalVariableService);
+        
         Calendar calendar = Calendar.getInstance();
         award.setAwardEffectiveDate(new Date(calendar.getTime().getTime()));
         calendar.add(Calendar.YEAR, TWO);
@@ -67,5 +79,77 @@ public class AwardDirectFandADistributionServiceImplTest extends AwardDirectFand
     public final void testGenerateDefaultAwardDirectFandADistributionPeriods() {
         awardDirectFandADistributions = awardDirectFandADistributionServiceImpl.generateDefaultAwardDirectFandADistributionPeriods(award);
         Assert.assertTrue(awardDirectFandADistributions.size() == THREE);
+    }
+
+    public static class MockUserSession extends UserSession {
+
+        public MockUserSession(String principalName) {
+            super(principalName);
+        }
+
+        public String getPrincipalName() {
+            return "quickstart";
+        }
+
+        @Override
+        protected void initPerson(String principalName) {
+
+        }
+
+    }
+
+    public static class MockGlobalVariableService implements GlobalVariableService {
+
+        UserSession userSession;
+
+        @Override
+        public UserSession getUserSession() {
+            return userSession;
+        }
+
+        @Override
+        public void setUserSession(UserSession userSession) {
+            this.userSession = userSession;
+        }
+
+        @Override
+        public MessageMap getMessageMap() {
+            return null;
+        }
+
+        @Override
+        public void setMessageMap(MessageMap messageMap) {
+
+        }
+
+        @Override
+        public Map<String, AuditCluster> getAuditErrorMap() {
+            return null;
+        }
+
+        @Override
+        public void setAuditErrorMap(Map<String, AuditCluster> auditMap) {
+
+        }
+
+        @Override
+        public UifFormManager getUifFormManager() {
+            return null;
+        }
+
+        @Override
+        public void setUifFormManager(UifFormManager uifFormManager) {
+
+        }
+
+        @Override
+        public <T> T doInNewGlobalVariables(Callable<T> callable) {
+            return null;
+        }
+
+        @Override
+        public <T> T doInNewGlobalVariables(UserSession userSession, Callable<T> callable) {
+            return null;
+        }
     }
 }

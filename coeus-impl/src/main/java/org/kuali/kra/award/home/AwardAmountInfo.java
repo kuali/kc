@@ -78,6 +78,7 @@ public class AwardAmountInfo extends AwardAssociate {
     private Integer transactionDetailItemsLength;
 
     private Integer originatingAwardVersion;
+    private GlobalVariableService globalVariableService;
 
     public AwardAmountInfo() {
         anticipatedTotalAmount = new ScaleTwoDecimal(0.00);
@@ -195,8 +196,15 @@ public class AwardAmountInfo extends AwardAssociate {
         }
     }
 
-    private GlobalVariableService getGlobalVariableService() {
-        return KcServiceLocator.getService(GlobalVariableService.class);
+    public GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+
+    public void setGlobalVariableService(GlobalVariableService globalVariableService) {
+        this.globalVariableService = globalVariableService;
     }
 
     public Long getTransactionId() {
