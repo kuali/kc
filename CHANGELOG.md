@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* code cleanup
+  * Travis Schneeberger on Mon, 13 Jul 2015 09:23:56 -0400 [View Commit](../../commit/83bec91b4d909191207bf3a0e999077d971f6b54)
+
+##coeus-1507.22
 * No Changes
 
 
