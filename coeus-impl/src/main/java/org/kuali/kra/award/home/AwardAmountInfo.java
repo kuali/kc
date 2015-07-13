@@ -188,8 +188,8 @@ public class AwardAmountInfo extends AwardAssociate {
         this.obligationExpirationDate = obligationExpirationDate;
     }
 
-    private void changeUpdateElements(Object obj1, Object obj2) {
-        if (!ObjectUtils.equals(obj1, obj2)) {
+    private void changeUpdateElements(Object newObject, Object oldObject) {
+        if (!ObjectUtils.equals(newObject, oldObject)) {
             super.setUpdateTimestamp(new Timestamp(new java.util.Date().getTime()));
             super.setUpdateUser(getGlobalVariableService().getUserSession().getPrincipalName());
         }
