@@ -1190,14 +1190,14 @@
         <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="proposalPerson" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Proposal Person"/>
         <bean p:propertyName="principalInvestigatorName" parent="Uif-LookupCriteriaInputField"/>
-        <bean p:propertyName="aggregator" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Aggregator">
+        <bean p:propertyName="initiator" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Initiator">
             <property name="quickfinder">
                 <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
-                      p:fieldConversions="principalName:aggregator"/>
+                      p:fieldConversions="principalName:initiator"/>
             </property>
             <property name="inquiry">
                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
-                      p:inquiryParameters="aggregator:principalName"/>
+                      p:inquiryParameters="initiator:principalName"/>
             </property>
         </bean>
         <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"  p:ranged="true"/>
@@ -1322,10 +1322,10 @@
         <bean p:propertyName="title" parent="Uif-LookupCriteriaInputField"/>
         <bean p:propertyName="proposalPerson" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Proposal Person"/>
         <bean p:propertyName="principalInvestigatorName" parent="Uif-LookupCriteriaInputField"/>
-       <bean p:propertyName="aggregator" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Aggregator"  p:enableAutoDirectInquiry="false" p:defaultValue="@{#userSession == null ? '' : #userSession.getLoggedInUserPrincipalName()}">
+       <bean p:propertyName="initiator" parent="Uif-LookupCriteriaInputField" p:fieldLabel.labelText="Initiator"  p:enableAutoDirectInquiry="false" p:defaultValue="@{#userSession == null ? '' : #userSession.getLoggedInUserPrincipalName()}">
             <property name="inquiry" >
                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
-                      p:inquiryParameters="aggregator:principalName" />
+                      p:inquiryParameters="initiator:principalName" />
             </property>
         </bean>
         <bean p:propertyName="deadlineDate" parent="Uif-LookupCriteriaInputField"  p:ranged="true"/>
@@ -1354,6 +1354,7 @@
       </list>
     </property>
   </bean>
+
 
 <bean id="EnrouteDevelopmentProposals-LookupViewId" parent="EnrouteDevelopmentProposals-lookupView-parentBean"/>    
 <bean id="EnrouteDevelopmentProposals-lookupView-parentBean" abstract="true" parent="DevelopmentProposal-LookupView"     p:viewName="EnrouteLookupableDevelopmentProposals-LookupViewName" p:headerText="Enroute Development Proposals Lookup" 
