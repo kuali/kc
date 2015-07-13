@@ -1437,6 +1437,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         awardCgbList = new ArrayList<>();
 
         fundingProposals = new ArrayList<AwardFundingProposal>();
+        allFundingProposals = new ArrayList<AwardFundingProposal>();
         initializeAwardHierarchyTempObjects();
 
         syncChanges = new ArrayList<AwardSyncChange>();
