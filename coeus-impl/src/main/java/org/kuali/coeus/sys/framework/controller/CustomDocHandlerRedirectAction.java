@@ -55,7 +55,7 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
             docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, Constants.PROPOSAL_ACTIONS_PAGE);
         } else if (PROTOCOL_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME)) ||
                 IACUC_PROTOCOL_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME))) {
-            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, Constants.MAPPING_PROPOSAL_ACTIONS);
+            docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, Constants.MAPPING_PROTOCOL_ACTIONS);
         } else if (AWARD_DOCUMENT.equals(request.getParameter(DOCUMENT_TYPE_NAME))) {
             docHandler = docHandler.replace(KRADConstants.DOC_HANDLER_METHOD, Constants.MAPPING_AWARD_ACTIONS_PAGE);
         }
