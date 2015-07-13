@@ -37,7 +37,6 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.Frequency;
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.award.paymentreports.paymentschedule.FrequencyBaseConstants;
-import org.kuali.kra.award.service.impl.AwardScheduleGenerationServiceImpl;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
@@ -45,13 +44,9 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.util.*;
 
-/**
- * 
- * This class tests the helper methods in AwardScheduleGenerationServiceImpl
- */
 
 @RunWith(JMock.class)
-public class AwardScheduleGenerationServiceImplTest {
+public class AwardScheduleGenerationServiceImplTest extends AwardAmountInfoSetUpTestBase {
     
     private static final int START_DATE_YEAR_2009 = 2009;
     private static final int START_DATE_YEAR_2011 = 2011;
@@ -76,15 +71,18 @@ public class AwardScheduleGenerationServiceImplTest {
     
     @Before
     public void setUp() throws Exception {
-        award = new Award();        
-        frequency = new Frequency();        
+        award = new Award();
+        MockGlobalVariableService globalVariableService = new MockGlobalVariableService();
+        globalVariableService.setUserSession(new MockUserSession("quickstart"));
+        award.getAwardAmountInfos().get(0).setGlobalVariableService(globalVariableService);
+        frequency = new Frequency();
         newAwardReportTerm = new AwardReportTerm();
         awardScheduleGenerationServiceImpl = new AwardScheduleGenerationServiceImpl();
         awardScheduleGenerationServiceImpl.setAwardAmountInfoService(new AwardAmountInfoServiceImpl());
         calendar = new GregorianCalendar();
         calendar1 = new GregorianCalendar();
         setMapOfDatesOnAward(award);
-        mapOfDates = new HashMap<String, java.util.Date>();
+        mapOfDates = new HashMap<>();
         awardScheduleGenerationServiceImpl.initializeDatesForThisAward(award, mapOfDates);
         
     }
@@ -98,6 +96,8 @@ public class AwardScheduleGenerationServiceImplTest {
         calendar = null;
         calendar1 = null;
     }
+
+
     
     public void setMapOfDatesOnAward(Award award){
         calendar.clear();

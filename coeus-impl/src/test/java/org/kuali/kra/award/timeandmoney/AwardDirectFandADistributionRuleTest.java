@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.service.impl.AwardAmountInfoSetUpTestBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -35,7 +36,7 @@ import java.util.List;
 /**
  * This class tests the rule methods AwardDirectFandADistribution rules.
  */
-public class AwardDirectFandADistributionRuleTest {
+public class AwardDirectFandADistributionRuleTest extends AwardAmountInfoSetUpTestBase {
 
     
     private static final int TWO = 2;
@@ -57,6 +58,9 @@ public class AwardDirectFandADistributionRuleTest {
         awardDirectFandADistributionRuleImpl = new AwardDirectFandADistributionRuleImpl();
         awardDirectFandADistributionRuleImpl.setErrorReporter(new ErrorReporterImpl());
         award = new Award();
+        MockGlobalVariableService globalVariableService = new MockGlobalVariableService();
+        globalVariableService.setUserSession(new MockUserSession("quickstart"));
+        award.getAwardAmountInfos().get(0).setGlobalVariableService(globalVariableService);
         setAwardDatesToDefault();
         createAndSetDefaultDatesForAwardDirectFandADistributions();
         GlobalVariables.setMessageMap(new MessageMap());
