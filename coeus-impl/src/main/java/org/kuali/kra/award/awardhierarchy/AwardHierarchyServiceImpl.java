@@ -204,7 +204,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         
         newAward.setAwardNumber(targetNode.generateNextAwardNumberInSequence());
         AwardHierarchy newNode = new AwardHierarchy(targetNode.getRoot(), targetNode, newAward.getAwardNumber(), newAward.getAwardNumber());
-        //copyAwardAmountDateInfo(targetNode.getAward(), newAward);  
+
         copyAwardAmountDateInfoToNewChild(copyDateAward, newAward);
         newNode.setAward(newAward);
         targetNode.getChildren().add(newNode);
