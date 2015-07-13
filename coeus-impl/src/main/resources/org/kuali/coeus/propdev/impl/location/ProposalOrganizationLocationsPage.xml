@@ -189,8 +189,12 @@
                             p:inquiryParameters="organizationId:organizationId"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField"  p:order="30" p:propertyName="organization.address" />
-			</list>
+                <bean parent="Uif-DataField"  p:order="30" p:propertyName="organization.rolodex.addressLine1" />
+                <bean parent="Uif-DataField"  p:order="40" p:propertyName="organization.rolodex.addressLine2" />
+                <bean parent="Uif-DataField"  p:order="50" p:propertyName="organization.rolodex.addressLine3" />
+                <bean parent="Uif-DataField"  p:order="60" p:propertyName="organization.rolodex.city" />
+                <bean parent="Uif-DataField"  p:order="70" p:propertyName="organization.rolodex.countryCode" />
+            </list>
 		</property>
 		<property name="lineActions">
             <list>
