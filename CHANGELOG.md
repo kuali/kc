@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+*  Fixing update user and additional update timestamp issues.
+  * Gayathri Athreya on Wed, 8 Jul 2015 14:01:55 -0700 [View Commit](../../commit/46e70231a001d40fc66e4868e69d4675fa0c5b8d)
+* adding indexes to help performance
+  * Travis Schneeberger on Mon, 13 Jul 2015 09:54:34 -0400 [View Commit](../../commit/6aca467b73f81ecb32ab17aa2d96254561798643)
+* rename
+  * Gayathri Athreya on Mon, 13 Jul 2015 07:26:44 -0700 [View Commit](../../commit/cd147542980ea6b6e5a22bcd1d4412fb946c2cc9)
+*  Display contact address as opposed to prg address in other organizations panel.
+  * Gayathri Athreya on Mon, 13 Jul 2015 08:51:05 -0700 [View Commit](../../commit/6b3d97476bb9a1deea8becb7fdb78cdffc48482e)
+
+##coeus-1507.23
 * code cleanup
   * Travis Schneeberger on Mon, 13 Jul 2015 09:23:56 -0400 [View Commit](../../commit/83bec91b4d909191207bf3a0e999077d971f6b54)
 

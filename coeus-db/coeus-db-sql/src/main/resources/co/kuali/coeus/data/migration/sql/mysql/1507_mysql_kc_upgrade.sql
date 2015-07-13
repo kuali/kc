@@ -23,4 +23,5 @@
 \. ./kc/bootstrap/V1507_005__InstitutionalProposalAttachments.sql
 \. ./kc/bootstrap/V1507_008__SubAwardAttachments.sql
 \. ./kc/bootstrap/V1507_009__AwardAttachments.sql
+\. ./kc/bootstrap/V1507_011__add_indexes.sql
 commit;
