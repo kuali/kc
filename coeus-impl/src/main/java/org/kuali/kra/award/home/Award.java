@@ -2662,16 +2662,12 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         } else {
             setAllowUpdateTimestampToBeReset(true);
         }
-
-        // We want to retain the old update timestamps of old award infos and just change the latest one.
-        List<AwardAmountInfo> currentAwardAmountInfos = getAwardAmountInfos();
-        currentAwardAmountInfos.get(currentAwardAmountInfos.size() - 1).changeUpdateTimestamp(updateTimestamp);
     }
     
     public List<Award> getAwardVersions() {
         Map<String, String> fieldValues = new HashMap<String,String>();
         fieldValues.put("awardNumber", getAwardNumber());
-        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
         List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, fieldValues, "sequenceNumber", true);   
         return awards;
     }
