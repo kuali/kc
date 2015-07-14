@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  Fixing copy
+  * On trying to copy a protocol from the lookup results, I get the following STE.
+  * 2015-07-13 15:18:11,185 [http-bio-8080-exec-10] u:quickstart/d: ERROR org.apache.struts.actions.DispatchAction - Action[/protocolProtocol] does not contain method named 'actions'
+  * java.lang.NoSuchMethodException: org.kuali.kra.irb.protocol.ProtocolProtocolAction.actions(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+				 at java.lang.Class.getMethod(Class.java:1786)
+				 at org.apache.struts.actions.DispatchAction.getMethod(DispatchAction.java:348)
+				 at org.apache.struts.actions.DispatchAction.dispatchMethod(DispatchAction.java:252)
+				 at org.kuali.rice.kns.web.struts.action.KualiAction.dispatchMethod(KualiAction.java:173)
+				 at
+  * Gayathri Athreya on Mon, 13 Jul 2015 15:23:27 -0700 [View Commit](../../commit/ce269c9c35d23d063acf0d80d773ef636f4ae563)
+
+##coeus-1507.24
 *  Fixing update user and additional update timestamp issues.
   * Gayathri Athreya on Wed, 8 Jul 2015 14:01:55 -0700 [View Commit](../../commit/46e70231a001d40fc66e4868e69d4675fa0c5b8d)
 * adding indexes to help performance
