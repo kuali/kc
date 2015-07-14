@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* budget personnel perf improvements
+  * Travis Schneeberger on Tue, 23 Jun 2015 13:33:07 -0400 [View Commit](../../commit/ed5a84ae31f5835b0af50d53b148af31a1abfc92)
+*  Fixing validation constraint for principal investigtor id
+  * Gayathri Athreya on Tue, 14 Jul 2015 11:14:42 -0700 [View Commit](../../commit/da650712e7f302e5a582dab99cb20ff9744bc67b)
+
+##coeus-1507.26
 *  Fix for STE in PD if proposal person certification answered by a proposal person during aggregator's sesson
 
   * If a user tried to update a certification at the same time as another user, this used to error in a optimisticLockException.  This fix checks the versions of the AnswerHeaders being saved and if their exists a newer version of the answer header, shows an error message which explains what happened - and updates the view with the most current answers and certification status/time.
