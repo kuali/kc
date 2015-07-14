@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+*  Cannot save existing committees
+  * Steps to reproduce:
+  * 1. Create new IRB cmt doc.
+  * 2. Fill out required fields, save, close.
+  * 3. Reopen doc from doc search and save.
+  * 4. Business rules failure on all required fields even though these fields are populated.
+  * Gayathri Athreya on Tue, 14 Jul 2015 14:35:04 -0700 [View Commit](../../commit/e4e83eae94a18ce8b6603d46b2521da80d73b165)
+
+##coeus-1507.28
 *  Fix for invalid start and end date issues with proposal number
 
   * Previously, the first screen of Proposal Development would let a user through if there was a failing save business rule, and not give the new doc a proposal number which had the potential to cause strange behaviors because some functionality that was now clickable relied on it.  This fix insures that the document can pass the business rules it needs to before creation of the proposal document to avoid creating/assigning un-needed document numbers and creating proposals with incorrect information.  Now the user will be stopped on the first screen if they enter invalid data.
