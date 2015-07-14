@@ -346,7 +346,7 @@
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
     <property name="validCharactersConstraint">
-      <bean parent="NumericPatternConstraint"/>
+      <bean parent="AlphaNumericPatternConstraint"/>
     </property>
 		<property name="control" >
       <bean parent="TextControlDefinition" p:size="9"/>
