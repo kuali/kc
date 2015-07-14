@@ -61,6 +61,13 @@ public interface UnitService {
      * @return the list of immediate sub-units
      */
     public List<Unit> getSubUnits(String unitNumber);
+
+    /**
+     * Get the list of immediate active sub-units for the given unit.
+     * @param unitNumber the number of unit to find sub-units for
+     * @return the list of immediate sub-units
+     */
+    public List<Unit> getActiveSubUnits(String unitNumber);
     
     /**
      * Get the list of all of the sub-units for a given unit.
