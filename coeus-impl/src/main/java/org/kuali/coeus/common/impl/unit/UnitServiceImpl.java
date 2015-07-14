@@ -50,6 +50,8 @@ public class UnitServiceImpl implements UnitService {
     private static final String DASH = "-";
     private static final String UNIT_NUMBER = "unitNumber";
     private static final String PARENT_UNIT_NUMBER = "parentUnitNumber";
+    public static final String ACTIVE = "active";
+    public static final String ACTIVE_YES = "Y";
 
     @Autowired
     @Qualifier("unitLookupDao")
@@ -93,6 +95,16 @@ public class UnitServiceImpl implements UnitService {
     public List<Unit> getSubUnits(String unitNumber) {
         List<Unit> units = new ArrayList<>();
         Map<String, Object> fieldValues = new HashMap<>();
+        fieldValues.put(PARENT_UNIT_NUMBER, unitNumber);
+        units.addAll(getBusinessObjectService().findMatching(Unit.class, fieldValues));
+        return units;
+    }
+
+    @Override
+    public List<Unit> getActiveSubUnits(String unitNumber) {
+        List<Unit> units = new ArrayList<>();
+        Map<String, Object> fieldValues = new HashMap<>();
+        fieldValues.put(ACTIVE, ACTIVE_YES);
         fieldValues.put(PARENT_UNIT_NUMBER, unitNumber);
         units.addAll(getBusinessObjectService().findMatching(Unit.class, fieldValues));
         return units;

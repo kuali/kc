@@ -303,7 +303,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         for (Map<String,String> qualifier : qualifiers) {
             Unit unit = getUnitService().getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
-            if (unit != null) {
+            if (unit != null && unit.isActive()) {
                 units.add(unit);
                 if (qualifier.containsKey(KcKimAttributes.SUBUNITS) && (StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS)) || StringUtils.equalsIgnoreCase("Yes", qualifier.get(KcKimAttributes.SUBUNITS)))) {
                     addDescendantUnits(unit, units);
@@ -320,7 +320,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
     
     protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) {
-        List<Unit> subunits = getUnitService().getSubUnits(parentUnit.getUnitNumber());
+        List<Unit> subunits = getUnitService().getActiveSubUnits(parentUnit.getUnitNumber());
         if (CollectionUtils.isNotEmpty(subunits)) {
             units.addAll(subunits);
             for (Unit subunit : subunits) {
