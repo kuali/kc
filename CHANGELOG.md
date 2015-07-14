@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Fix for STE in PD if proposal person certification answered by a proposal person during aggregator's sesson
+
+  * If a user tried to update a certification at the same time as another user, this used to error in a optimisticLockException.  This fix checks the versions of the AnswerHeaders being saved and if their exists a newer version of the answer header, shows an error message which explains what happened - and updates the view with the most current answers and certification status/time.
+  * bsmith83 on Thu, 9 Jul 2015 13:18:43 -0700 [View Commit](../../commit/ede7284d462eae80d1fd58640428bcaf0384fd82)
+
+##coeus-1507.25
 *  Fixing copy
   * On trying to copy a protocol from the lookup results, I get the following STE.
   * 2015-07-13 15:18:11,185 [http-bio-8080-exec-10] u:quickstart/d: ERROR org.apache.struts.actions.DispatchAction - Action[/protocolProtocol] does not contain method named 'actions'
