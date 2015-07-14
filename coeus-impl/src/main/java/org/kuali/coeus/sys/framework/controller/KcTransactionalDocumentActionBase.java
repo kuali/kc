@@ -774,7 +774,8 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
         WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
         kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentTypeName());
         String content = KcServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getDocumentId()).getDocumentContent();
-        if (doc instanceof CommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
+        if (doc instanceof CommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)
+                && ((CommitteeDocument)doc).getCommitteeList().isEmpty()) {
             Committee committee = (Committee)populateCommitteeFromXmlDocumentContents(content);
             ((CommitteeDocument)doc).getCommitteeList().add(committee);
             committee.setCommitteeDocument((CommitteeDocument) doc);
