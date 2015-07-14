@@ -18,19 +18,10 @@
  */
 package org.kuali.coeus.propdev.impl.basic;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.persistence.EntityManager;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.propdev.impl.copy.ProposalCopyCriteria;
 import org.kuali.coeus.propdev.impl.core.*;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
@@ -43,8 +34,10 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -61,6 +54,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Properties;
 
 @Controller
 public class ProposalDevelopmentHomeController extends ProposalDevelopmentControllerBase {
@@ -85,12 +89,23 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
     @Qualifier("s2sSubmissionService")
     private S2sSubmissionService s2sSubmissionService;
 
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
+
 
     @MethodAccessible
    @Transactional @RequestMapping(value = "/proposalDevelopment", params="methodToCall=createProposal")
    public ModelAndView createProposal(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
            HttpServletRequest request, HttpServletResponse response) throws Exception {
        ProposalDevelopmentDocument proposalDevelopmentDocument = form.getProposalDevelopmentDocument();
+
+        // Check for valid info entered before creating a new document
+        boolean valid = getKualiRuleService().applyRules(new SaveDocumentEvent(proposalDevelopmentDocument));
+        if (!valid) {
+            return getModelAndViewService().getModelAndView(form);
+        }
+
         addCreateDetails(proposalDevelopmentDocument);
         initialSave(proposalDevelopmentDocument);
 
@@ -427,5 +442,13 @@ public class ProposalDevelopmentHomeController extends ProposalDevelopmentContro
 
     public void setOpportunitySchemaParserService(OpportunitySchemaParserService opportunitySchemaParserService) {
         this.opportunitySchemaParserService = opportunitySchemaParserService;
+    }
+
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
     }
 }
