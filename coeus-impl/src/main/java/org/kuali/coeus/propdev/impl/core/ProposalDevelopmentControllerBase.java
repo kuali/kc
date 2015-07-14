@@ -19,14 +19,16 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
+import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.notification.impl.bo.KcNotification;
 import org.kuali.coeus.common.notification.impl.bo.NotificationTypeRecipient;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
-import org.kuali.coeus.common.framework.person.PropAwardPersonRole;
 import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
+import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.propdev.impl.datavalidation.ProposalDevelopmentDataValidationConstants;
 import org.kuali.coeus.propdev.impl.docperm.ProposalRoleTemplateService;
 import org.kuali.coeus.propdev.impl.docperm.ProposalUserRoles;
@@ -34,21 +36,21 @@ import org.kuali.coeus.propdev.impl.keyword.PropScienceKeyword;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationContext;
 import org.kuali.coeus.propdev.impl.notification.ProposalDevelopmentNotificationRenderer;
 import org.kuali.coeus.propdev.impl.person.ProposalPerson;
-import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiographyService;
+import org.kuali.coeus.propdev.impl.questionnaire.ProposalDevelopmentQuestionnaireHelper;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReview;
 import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption;
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
-import org.kuali.coeus.propdev.impl.auth.perm.ProposalDevelopmentPermissionsService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.criteria.QueryResults;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -58,10 +60,7 @@ import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.document.TransactionalDocumentControllerService;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.DocumentEventBase;
-import org.kuali.rice.krad.service.DocumentAdHocService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.LegacyDataAdapter;
-import org.kuali.rice.krad.service.PessimisticLockService;
+import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -80,14 +79,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public abstract class ProposalDevelopmentControllerBase {
 
     protected static final String PROPDEV_DEFAULT_VIEW_ID = "PropDev-DefaultView";
+
+    public static final String ERROR_CERTIFICATION_PERSON_ALREADY_ANSWERED = "error.certification.person.alreadyAnswered";
+    public static final String ERROR_CERTIFICATION_ALREADY_ANSWERED = "error.certification.alreadyAnswered";
+    public static final String DEVELOPMENT_PROPOSAL_NUMBER = "developmentProposal.proposalNumber";
 
     @Autowired
     @Qualifier("uifExportControllerService")
@@ -152,6 +152,10 @@ public abstract class ProposalDevelopmentControllerBase {
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
+
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
     
     @Autowired
     @Qualifier("globalVariableService")
@@ -455,50 +459,127 @@ public abstract class ProposalDevelopmentControllerBase {
 		this.dataObjectService = dataObjectService;
 	}
 
-	public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm,String pageId) {
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void saveAnswerHeaders(ProposalDevelopmentDocumentForm pdForm, String pageId) {
+        if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE) ||
+                StringUtils.equalsIgnoreCase(pageId, Constants.CERTIFICATION_PAGE)) {
+            saveUpdatePersonAnswerHeaders(pdForm.getProposalDevelopmentDocument().getDevelopmentProposal(), pageId);
+        } else if (StringUtils.equalsIgnoreCase(pageId, Constants.QUESTIONS_PAGE)) {
+            saveUpdateQuestionnaireAnswerHeaders(pdForm.getQuestionnaireHelper(), pageId);
+            saveUpdateQuestionnaireAnswerHeaders(pdForm.getS2sQuestionnaireHelper(), pageId);
+        }
+    }
+
+    private void saveUpdatePersonAnswerHeaders(DevelopmentProposal developmentProposal, String pageId) {
         boolean allCertificationsWereComplete = true;
         boolean allCertificationAreNowComplete = true;
-       
-        if (StringUtils.equalsIgnoreCase(pageId, Constants.KEY_PERSONNEL_PAGE) ||
-                StringUtils.equalsIgnoreCase(pageId,"PropDev-CertificationView-Page")) {
-            for (ProposalPerson person : pdForm.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
-                if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null
-                        && !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
-                    for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
-                        boolean wasComplete = answerHeader.isCompleted();
-                        allCertificationsWereComplete &= wasComplete;
+
+        for (ProposalPerson person : developmentProposal.getProposalPersons()) {
+            if (person.getQuestionnaireHelper() != null && person.getQuestionnaireHelper().getAnswerHeaders() != null
+                    && !person.getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
+                boolean requiresUpdate = false;
+                for (AnswerHeader answerHeader : person.getQuestionnaireHelper().getAnswerHeaders()) {
+                    boolean wasComplete = answerHeader.isCompleted();
+                    allCertificationsWereComplete &= wasComplete;
+
+                    AnswerHeader currentAnswerHeader = retrieveCurrentAnswerHeader(answerHeader.getId());
+                    if (currentAnswerHeader != null
+                            && currentAnswerHeader.getVersionNumber() > answerHeader.getVersionNumber()) {
+                        // Show error message if a newer version than the one being saved exists
+                        getGlobalVariableService().getMessageMap().putError(pageId, ERROR_CERTIFICATION_PERSON_ALREADY_ANSWERED,
+                                answerHeader.getQuestionnaire().getName(), person.getFullName());
+                        updatePersonCertificationInfo(person, developmentProposal.getProjectId());
+                        requiresUpdate = true;
+                    } else {
                         getLegacyDataAdapter().save(answerHeader);
+
                         person.getQuestionnaireHelper().populateAnswers();
                         boolean isComplete = person.getQuestionnaireHelper().getAnswerHeaders().get(0).isCompleted();
                         allCertificationAreNowComplete &= isComplete;
-                        if(isComplete && !wasComplete){
-                        	person.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
+                        if (isComplete && !wasComplete) {
+                            person.setCertifiedBy(getGlobalVariableService().getUserSession().getPrincipalId());
                             person.setCertifiedTime(getDateTimeService().getCurrentTimestamp());
 
-                        }else if(wasComplete && !isComplete){
-                        	person.setCertifiedBy(null);
-                        	person.setCertifiedTime(null);
+                        } else if (wasComplete && !isComplete) {
+                            person.setCertifiedBy(null);
+                            person.setCertifiedTime(null);
                         }
-                        checkForCertifiedByProxy(pdForm.getDevelopmentProposal(),person,isComplete && !wasComplete);
+
+                        checkForCertifiedByProxy(developmentProposal, person, isComplete && !wasComplete);
                     }
                 }
+
+                // Update questionnaire with most up-to-date information if required - ie, questionnaire was modified
+                // by someone else
+                if (requiresUpdate) {
+                    person.getQuestionnaireHelper().populateAnswers();
+                }
             }
-        } else if (StringUtils.equalsIgnoreCase(pageId, Constants.QUESTIONS_PAGE)) {
-            for (AnswerHeader answerHeader : pdForm.getQuestionnaireHelper().getAnswerHeaders()) {
-                getLegacyDataAdapter().save(answerHeader);
+        }
+
+        boolean allowsSendCertificationCompleteNotification = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, ProposalDevelopmentConstants.Parameters.NOTIFY_ALL_CERTIFICATIONS_COMPLETE);
+        if (!allCertificationsWereComplete && allCertificationAreNowComplete && allowsSendCertificationCompleteNotification) {
+            ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(developmentProposal, "105", "All Proposal Persons Certification Completed");
+            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(developmentProposal);
+            getKcNotificationService().sendNotification(context);
+        }
+    }
+
+    private void saveUpdateQuestionnaireAnswerHeaders(ProposalDevelopmentQuestionnaireHelper questionnaireHelper, String pageId) {
+        boolean requiresUpdate = false;
+        for (AnswerHeader answerHeader : questionnaireHelper.getAnswerHeaders()) {
+            AnswerHeader currentAnswerHeader = retrieveCurrentAnswerHeader(answerHeader.getId());
+            if (currentAnswerHeader != null
+                    && currentAnswerHeader.getVersionNumber() > answerHeader.getVersionNumber()) {
+                // Show error message if a newer version than the one being saved exists
+                getGlobalVariableService().getMessageMap().putError(pageId, ERROR_CERTIFICATION_ALREADY_ANSWERED,
+                        answerHeader.getQuestionnaire().getName());
+
+                requiresUpdate = true;
             }
-            for (AnswerHeader answerHeader : pdForm.getS2sQuestionnaireHelper().getAnswerHeaders()) {
+            else {
                 getLegacyDataAdapter().save(answerHeader);
             }
         }
 
-        boolean allowsSendCertificationCompleteNotification = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT,ProposalDevelopmentConstants.Parameters.NOTIFY_ALL_CERTIFICATIONS_COMPLETE);
-        if (!allCertificationsWereComplete && allCertificationAreNowComplete && allowsSendCertificationCompleteNotification) {
-            ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(pdForm.getDevelopmentProposal(),"105","All Proposal Persons Certification Completed");
-            ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setDevelopmentProposal(pdForm.getDevelopmentProposal());
-            getKcNotificationService().sendNotification(context);
+        // Update questionnaire with most up-to-date information if required - ie, questionnaire was modified
+        // by someone else
+        if (requiresUpdate) {
+            questionnaireHelper.populateAnswers();
         }
-	}
+    }
+
+    private AnswerHeader retrieveCurrentAnswerHeader(Long id) {
+        if (id != null) {
+            Map<String, Object> criteria = new HashMap<>();
+            criteria.put("id", id);
+            AnswerHeader currentAnswerHeader = getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, criteria);
+            return currentAnswerHeader;
+        }
+
+        return null;
+    }
+
+    private void updatePersonCertificationInfo(ProposalPerson person, String proposalNumber) {
+        // Update certified by and certified time with current info
+        Map<String, Object> criteria = new HashMap<>();
+        criteria.put(DEVELOPMENT_PROPOSAL_NUMBER, proposalNumber);
+        QueryResults<ProposalPerson> currentPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.andAttributes(criteria).build());
+        for (ProposalPerson currentPerson : currentPersons.getResults()) {
+            if (currentPerson.getUniqueId().equals(person.getUniqueId())) {
+                person.setCertifiedBy(currentPerson.getCertifiedBy());
+                person.setCertifiedTime(currentPerson.getCertifiedTime());
+                break;
+            }
+        }
+    }
 
     public void checkForCertifiedByProxy(DevelopmentProposal developmentProposal, ProposalPerson person, boolean recentlyCompleted) {
         boolean selfCertifyOnly = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,Constants.PARAMETER_COMPONENT_DOCUMENT,ProposalDevelopmentConstants.Parameters.KEY_PERSON_CERTIFICATION_SELF_CERTIFY_ONLY);
