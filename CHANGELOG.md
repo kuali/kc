@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Fix for invalid start and end date issues with proposal number
+
+  * Previously, the first screen of Proposal Development would let a user through if there was a failing save business rule, and not give the new doc a proposal number which had the potential to cause strange behaviors because some functionality that was now clickable relied on it.  This fix insures that the document can pass the business rules it needs to before creation of the proposal document to avoid creating/assigning un-needed document numbers and creating proposals with incorrect information.  Now the user will be stopped on the first screen if they enter invalid data.
+  * bsmith83 on Mon, 13 Jul 2015 17:34:06 -0700 [View Commit](../../commit/a903cfc7565c01b6841cd71fdaf1ef3b463aef70)
+
+##coeus-1507.27
 * budget personnel perf improvements
   * Travis Schneeberger on Tue, 23 Jun 2015 13:33:07 -0400 [View Commit](../../commit/ed5a84ae31f5835b0af50d53b148af31a1abfc92)
 *  Fixing validation constraint for principal investigtor id
