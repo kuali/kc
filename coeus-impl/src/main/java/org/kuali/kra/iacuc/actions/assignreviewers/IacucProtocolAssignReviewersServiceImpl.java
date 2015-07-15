@@ -34,10 +34,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.sql.Date;
 import java.util.List;
 
-//import org.kuali.kra.protocol.actions.notification.AssignReviewerNotificationRenderer;
-//import org.kuali.kra.protocol.actions.notification.ProtocolNotificationRequestBean;
-//import org.kuali.kra.protocol.notification.IRBNotificationContext;
-
 public class IacucProtocolAssignReviewersServiceImpl implements IacucProtocolAssignReviewersService{
     private BusinessObjectService businessObjectService;
     private ProtocolOnlineReviewService protocolOnlineReviewService;
