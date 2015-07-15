@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Inactive Units Still Show up in Proposal Development Lead Unit Dropdown List
+
+  * Previously, the inactive units would be selectable as an option for new proposals, this fixes that issue.  Read-only unit values in existing proposals still display inactive units correctly.
+  * bsmith83 on Tue, 14 Jul 2015 15:01:17 -0700 [View Commit](../../commit/211e41a24589ee22a07ba71ef8272bc719ee8592)
+
+##coeus-1507.29
 *  Cannot save existing committees
   * Steps to reproduce:
   * 1. Create new IRB cmt doc.
