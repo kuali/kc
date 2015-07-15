@@ -61,39 +61,45 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
     }
     
     public String getReviewers(String protocolId, String committeeId, String scheduleId) {
-        StringBuffer ajaxList = new StringBuffer();
 
         /*
          * no reviewers should be assigned if schedule not chosen.
          */
         if (StringUtils.isNotBlank(scheduleId)) {
+            return getRevs(protocolId, committeeId, scheduleId);
+        }
+        return "";
+    }
 
-            final IacucProtocol protocol = getBusinessObjectService().findBySinglePrimaryKey(IacucProtocol.class, protocolId);
+    protected String getRevs(String protocolId, String committeeId, String scheduleId) {
+        StringBuffer ajaxList = new StringBuffer();
 
-            // filter out the protocol personnel; they cannot be reviewers on their own protocol
-            List<CommitteeMembershipBase> filteredMembers = protocol.filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
-            
-            for (CommitteeMembershipBase filteredMember : filteredMembers) {
-                if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
-                    ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
-                    final Optional<ProtocolOnlineReviewBase> review = protocol.getProtocolOnlineReviews().stream().filter(r -> filteredMember.getPersonId().equals(r.getProtocolReviewer().getPersonId())).findFirst();
-                    ajaxList.append((review.isPresent() ? review.get().getProtocolReviewer().getReviewerTypeCode() : "") + ";");
-                } else {
-                    ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
-                    final Optional<ProtocolOnlineReviewBase> review = protocol.getProtocolOnlineReviews().stream().filter(r -> filteredMember.getRolodexId().equals(r.getProtocolReviewer().getRolodexId())).findFirst();
-                    ajaxList.append((review.isPresent() ? review.get().getProtocolReviewer().getReviewerTypeCode() : "") + ";");
-                }
+        final IacucProtocol protocol = getBusinessObjectService().findBySinglePrimaryKey(IacucProtocol.class, protocolId);
+
+        // filter out the protocol personnel; they cannot be reviewers on their own protocol
+        List<CommitteeMembershipBase> filteredMembers = protocol.filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
+
+        for (CommitteeMembershipBase filteredMember : filteredMembers) {
+            if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
+                ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
+                final Optional<ProtocolOnlineReviewBase> review = protocol.getProtocolOnlineReviews().stream().filter(r -> filteredMember.getPersonId().equals(r.getProtocolReviewer().getPersonId())).findFirst();
+                ajaxList.append((review.isPresent() ? review.get().getProtocolReviewer().getReviewerTypeCode() : "") + ";");
+            } else {
+                ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
+                final Optional<ProtocolOnlineReviewBase> review = protocol.getProtocolOnlineReviews().stream().filter(r -> filteredMember.getRolodexId().equals(r.getProtocolReviewer().getRolodexId())).findFirst();
+                ajaxList.append((review.isPresent() ? review.get().getProtocolReviewer().getReviewerTypeCode() : "") + ";");
             }
         }
+
         return clipLastChar(ajaxList);
     }
 
     public String getModifySubmissionProtocolReviewers(String protocolId, String committeeId, String scheduleId, String protocolReviewTypeCode) {
-        if (!StringUtils.equals(protocolReviewTypeCode, IacucProtocolReviewType.FULL_COMMITTEE_REVIEW)){
+        if (StringUtils.isNotBlank(scheduleId) && !StringUtils.equals(protocolReviewTypeCode, IacucProtocolReviewType.FULL_COMMITTEE_REVIEW)){
             return "";
         }
 
-        return getReviewers(protocolId, committeeId, scheduleId);
+        return getRevs(protocolId, committeeId, scheduleId);
     }
 
 
