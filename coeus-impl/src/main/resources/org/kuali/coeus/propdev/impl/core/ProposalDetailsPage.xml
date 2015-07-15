@@ -234,7 +234,7 @@
 	<bean id="PropDev-DetailsPage-OwnedByUnitNumberField" parent="PropDev-DetailsPage-OwnedByUnitNumberField-parentBean" />
 	<bean id="PropDev-DetailsPage-OwnedByUnitNumberField-parentBean"
 		  abstract="true" parent="Uif-InputField" p:propertyName="ownedByUnitNumber"
-		  p:readOnlyDisplayReplacement="@{#fp.ownedByUnitNumber} - @{#fp.ownedByUnitName}">
+		  p:readOnlyDisplayReplacement="@{#fp.ownedByUnitNumber} - @{#fp.ownedByUnitName}@{#fp.ownedByUnit != null and #fp.ownedByUnit.active ? '' : ' (inactive)'}">
 		<property name="control">
 			<bean parent="Uif-AdvancedMultiSelectControl" p:multiple="false">
 				<property name="templateOptions">
