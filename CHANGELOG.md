@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  reviewers available for designated review
+  * Travis Schneeberger on Wed, 15 Jul 2015 11:49:19 -0400 [View Commit](../../commit/f52c42538e961fbf118c426dcf55aaf5862b5da4)
+
+##coeus-1507.31
 * short url service for quick access to specific records
 
   * As a user, I want a short URL that I can save that will always resolve/redirect to the correct record in the system.  If a document can be versioned, then the URL should resolve/redirect to the most current active version.
