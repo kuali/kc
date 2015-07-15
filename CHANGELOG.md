@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* short url service for quick access to specific records
+
+  * As a user, I want a short URL that I can save that will always resolve/redirect to the correct record in the system.  If a document can be versioned, then the URL should resolve/redirect to the most current active version.
+  * Joe Williams on Mon, 13 Jul 2015 10:12:48 -0500 [View Commit](../../commit/b6131bfbf2f21357aeb169cd9dec6da4405b8b9a)
+
+##coeus-1507.30
 *  Inactive Units Still Show up in Proposal Development Lead Unit Dropdown List
 
   * Previously, the inactive units would be selectable as an option for new proposals, this fixes that issue.  Read-only unit values in existing proposals still display inactive units correctly.
