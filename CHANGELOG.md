@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Fix bug with unit hierarchy maint expand all
+
+  * Code to ensure page has finished loading was broken on the unit hierarchy page. This fixes that by adding approriate span to allow script to determine if entire form has loaded.
+  * blackcathacker on Wed, 15 Jul 2015 14:12:06 -0700 [View Commit](../../commit/205ea78ad4e420a8513f69ef5027d23d95ecb031)
+*  Inactive indication on inactive units on in progress/old proposals
+  * bsmith83 on Wed, 15 Jul 2015 14:39:25 -0700 [View Commit](../../commit/fb7d691698459ed04963ded59f43acd7c514ae80)
+
+##coeus-1507.32
 *  reviewers available for designated review
   * Travis Schneeberger on Wed, 15 Jul 2015 11:49:19 -0400 [View Commit](../../commit/f52c42538e961fbf118c426dcf55aaf5862b5da4)
 
