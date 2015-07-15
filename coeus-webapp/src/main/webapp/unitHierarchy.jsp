@@ -132,5 +132,6 @@ body {
 <!--END SOURCE CODE =============================== -->
 
 </html:form>
+<span style="display:none;" id="formComplete"/>
 </body>
 </html>
