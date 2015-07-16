@@ -118,7 +118,7 @@ public class ProtocolReviewerBase extends KcPersistableBusinessObjectBase {
 
     public KcPerson getPerson() {
         if (kcPerson == null) {
-            kcPerson = getKcPersonService().getKcPersonByPersonId(this.personId);
+                kcPerson = getKcPersonService().getKcPersonByPersonId(this.personId);
         }
         return kcPerson;
     }
@@ -166,7 +166,8 @@ public class ProtocolReviewerBase extends KcPersistableBusinessObjectBase {
     }
 
     public String getFullName() {
-        if (nonEmployeeFlag && getRolodex() != null) {
+        if (nonEmployeeFlag && rolodexId != null) {
+            refreshReferenceObject("rolodex");
             return getRolodex().getFullName();
         } else if (getPerson() != null) {
             return getPerson().getFullName();
