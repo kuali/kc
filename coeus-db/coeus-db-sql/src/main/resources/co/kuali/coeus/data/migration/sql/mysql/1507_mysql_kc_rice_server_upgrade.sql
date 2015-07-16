@@ -22,4 +22,5 @@
 \. ./rice/bootstrap/V1507_004__RESKC-399.sql
 \. ./rice/bootstrap/V1507_006__InstitutionalProposalAttachments.sql
 \. ./rice/bootstrap/V1507_010__RESKC-607.sql
+\. ./rice/bootstrap/V1507_012__RESKC-633.sql
 commit;

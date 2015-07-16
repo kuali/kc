@@ -1,6 +1,41 @@
 
 
 ##CURRENT
+*  Online review not getting created for non-employee reviewer and then protocol cannot be approved
+  * Steps to reproduce:
+  * As IACUC Admin:
+  * Create new IACUC committee.
+  * Add a non-employee person as a voting member. Set dates and role so the person is active.
+  * Make sure there are enough members for the quorum not counting the non-employee member.
+  * Complete the rest of the Committee info and blanket approve.
+  * Create a new IACUC protocol and submit.
+  * Modify submission request and assign to committee just created. Set as Designated member review (don’t think the review type matters) .
+  * Make the non-employee reviewer an assigned reviewer (committee, secondary, or primary).
+  * Submit.
+  * Go to Online review tab.
+  * Results:
+  * The online review for the non-employee reviewer is not set up. There is an empty review without a reviewer instead of a review for that reviewer. See screenshot-1.
+  * If you attempt to create a new online review for that reviewer and submit, then you get:
+  * java.lang.IllegalArgumentException: the personId is null or empty
+  * Gayathri Athreya on Wed, 15 Jul 2015 17:19:59 -0700 [View Commit](../../commit/869410ee2afddc052d710409bb749ae93fd5f953)
+* added dialog to edit notification message and subject when sending certification notification for single users
+
+  * As a system Admin I set the 'Prompt User" option to "on" for the Maintenance Documents> Notification >Proposal Person Certification Request Notification)
+  * Currently: the Notification is not generating in proposals for the user to customize the message since the addition of RESKC-504 contribution.
+
+  * Steps:
+  * Create a proposal.
+  * Add several Persons to Key Personnel (PI, several Co-I's).
+  * Click the "Notify" option on a person row.
+*Result*: Notification is immediately sent.
+*Desired Result*: If Prompt User flag is set to On for this notification, a notification window should present to the user allowing the standard notification options.
+  * Joe Williams on Thu, 16 Jul 2015 13:05:46 -0500 [View Commit](../../commit/2d333bc46f2f84fb3018a2fcc7b430e7af1ecc71)
+*  restore valid krms actions to PD and budget contexts
+  * Joe Williams on Thu, 16 Jul 2015 14:06:29 -0500 [View Commit](../../commit/8b0ed453a48fe0f03bb09f4cb665eb171562ed55)
+* fix broken iacuc validation preventing submission
+  * Joe Williams on Thu, 16 Jul 2015 14:31:36 -0500 [View Commit](../../commit/b22d404797541ea63f320f00b4c291201fed146b)
+
+##coeus-1507.33
 * Fix bug with unit hierarchy maint expand all
 
   * Code to ensure page has finished loading was broken on the unit hierarchy page. This fixes that by adding approriate span to allow script to determine if entire form has loaded.
