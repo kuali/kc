@@ -127,6 +127,14 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String SUBMISSION_ID = "submissionId";
     private static final String CORRESPONDENCE = "correspondence";
+    public static final String ACTION_HELPER = "actionHelper.";
+    public static final String REVIEWER_ATTRIBUTE = ".reviewer[";
+    public static final String NUMBER_OF_REVIEWERS_ATTRIBUTE = ".numberOfReviewers";
+    public static final String REVIEWER_TYPE_CODE_ATTRIBUTE = "].reviewerTypeCode";
+    public static final String PERSON_ID_ATTRIBUTE = "].personId";
+    public static final String FULL_NAME_ATTRIBUTE = "].fullName";
+    public static final String NON_EMPLOYEE_FLAG_ATTRIBUTE = "].nonEmployeeFlag";
+    public static final String TRUE_FLAG = "Y";
 
 
     public ActionForward assignCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -347,7 +355,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private ActionForward submitForReviewAndRedirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
     throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        List<ProtocolReviewerBeanBase> reviewers = getReviewers(protocolForm, request, "iacucProtocolSubmitAction");
+        List<ProtocolReviewerBeanBase> reviewers = getReviewers(request, "iacucProtocolSubmitAction");
         super.route(mapping, protocolForm, request, response);
         getProtocolActionRequestService().submitForReview(protocolForm, reviewers);
         return routeProtocolToHoldingPage(mapping, protocolForm);
@@ -2419,7 +2427,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        List<ProtocolReviewerBeanBase> reviewers = getReviewers(protocolForm, request, "iacucProtocolModifySubmissionBean");
+        List<ProtocolReviewerBeanBase> reviewers = getReviewers(request, "iacucProtocolModifySubmissionBean");
         if(getProtocolActionRequestService().isModifySubmissionActionAuthorized(protocolForm, reviewers)) {
             String forwardTo = getProtocolActionRequestService().modifySubmissionAction(protocolForm, reviewers);
             GlobalVariables.getMessageMap().getWarningMessages().clear();
@@ -2428,22 +2436,25 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return forward;
     }
 
-    protected List<ProtocolReviewerBeanBase> getReviewers(ActionForm form, HttpServletRequest request, String beanName) {
-        String reviewerBean = "actionHelper." + beanName + ".reviewer[";           
-        String numberOfReviewersParam = "actionHelper." + beanName + ".numberOfReviewers";           
+    protected List<ProtocolReviewerBeanBase> getReviewers(HttpServletRequest request, String beanName) {
+        String reviewerBean = ACTION_HELPER + beanName + REVIEWER_ATTRIBUTE;
+        String numberOfReviewersParam = ACTION_HELPER + beanName + NUMBER_OF_REVIEWERS_ATTRIBUTE;
         int number = Integer.parseInt(request.getParameter(numberOfReviewersParam));
-        List<ProtocolReviewerBeanBase> beans = new ArrayList<ProtocolReviewerBeanBase>();
+        List<ProtocolReviewerBeanBase> beans = new ArrayList<>();
         
         for (int i= 0; i < number; i++) {
-            String reviewerTypeCode = request.getParameter(reviewerBean+i+"].reviewerTypeCode");
-            String personId = request.getParameter(reviewerBean + i + "].personId");
-            String fullName = request.getParameter(reviewerBean+i+"].fullName");
+            String reviewerTypeCode = request.getParameter(reviewerBean+i+ REVIEWER_TYPE_CODE_ATTRIBUTE);
+            String personId = request.getParameter(reviewerBean + i + PERSON_ID_ATTRIBUTE);
+            String fullName = request.getParameter(reviewerBean+i+ FULL_NAME_ATTRIBUTE);
+            String nonEmployeeFlag = request.getParameter(reviewerBean+i+ NON_EMPLOYEE_FLAG_ATTRIBUTE);
+
             if (ObjectUtils.isNotNull(personId)) {
                 IacucProtocolReviewerBean bean = new IacucProtocolReviewerBean();
                 bean.setFullName(fullName); 
                 bean.setPersonId(personId); 
                 bean.setReviewerTypeCode(reviewerTypeCode);
                 bean.setActionFlag(IacucProtocolReviewerBean.CREATE);
+                bean.setNonEmployeeFlag(nonEmployeeFlag.equalsIgnoreCase(TRUE_FLAG));
                 beans.add(bean);
             }
         }
