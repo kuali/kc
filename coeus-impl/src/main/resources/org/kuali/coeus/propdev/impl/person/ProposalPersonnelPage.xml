@@ -319,7 +319,7 @@
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-PrimaryActionButton-Mini" p:actionLabel="Notify @{#lp.fullName}" p:methodToCall="sendCertificationNotification"
+                                        <bean parent="Uif-PrimaryActionButton-Mini" p:actionLabel="Notify @{#lp.fullName}" p:methodToCall="prepareVerifyCertificationDialog"
                                               p:render="@{#actionFlags[#{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.PropDevDocumentActions).NOTIFY_PROPOSAL_PERSONS}] 
                                               and !#empty(#lp.versionNumber) 
                                               and #ViewHelper.canViewCertificationTab(document,#line) 
@@ -704,7 +704,7 @@
 				<ref bean="PropDev-Personal-NotifyPersonsPage" />
 			</list>
 		</property>
-		</bean>    
+		</bean>
     <bean id="PropDev-Personal-NotifyPersonsPage" parent="PropDev-Personal-NotifyPersonsPage-parentBean"/>
     <bean id="PropDev-Personal-NotifyPersonsPage-parentBean" abstract="true" parent="Uif-TableCollectionSection"
       p:propertyName="document.developmentProposal.proposalPersons"   
@@ -837,6 +837,41 @@
                 <bean id="Uif-DialogConfirmButton" parent="Uif-PrimaryActionButton" p:actionLabel="Ok" p:order="10"
                       p:dialogDismissOption="REQUEST" p:performClientSideValidation="true" p:methodToCall="updateCertification"/>
             </list>
+        </property>
+    </bean>
+
+
+    <bean id="PropDev-PersonnelPage-VerifyNotification-Dialog" parent="PropDev-PersonnelPage-VerifyNotification-Dialog-parentBean"/>
+    <bean id="PropDev-PersonnelPage-VerifyNotification-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:fieldBindingObjectPath="notificationHelper">
+        <property name="items">
+            <list>
+                <bean parent="Uif-FieldGroupBase" p:order="20">
+                    <property name="group">
+                        <bean parent="Uif-VerticalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Kc-SendNotification-Recipients" p:readOnly="true"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="notification.subject" p:order="30"/>
+                <bean parent="Uif-InputField" p:propertyName="notification.message" p:order="40"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-DialogFooter">
+                <property name="items">
+                    <list merge="true">
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Send Notifications" p:methodToCall="sendCertificationNotification"
+                              p:order="10" p:dialogDismissOption="REQUEST"/>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:libraryCssClasses="btn,btn-link" p:methodToCall="cancelNotifications"
+                              p:dialogDismissOption="REQUEST" p:dialogResponse="false" p:order="30" p:successCallback="dismissDialog('Kc-SendNotification-Wizard');"/>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 

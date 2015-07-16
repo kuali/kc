@@ -53,6 +53,8 @@ public class ProposalDevelopmentConstants {
         public static final String PROP_DEV_INITIATE_VIEW = "PropDev-InitiateView";
         public static final String PROP_DEV_CLOSE_DIALOG = "PropDev-Close-Dialog";
         public static final String PROP_DEV_PERSONNEL_PAGE_UPDATE_CERTIFICATION_DIALOG = "PropDev-PersonnelPage-UpdateCertification-Dialog";
+        public static final String PROP_DEV_PERSONNEL_PAGE_VERIFY_NOTIFICATION_DIALOG = "PropDev-PersonnelPage-VerifyNotification-Dialog";
+        public static final String PROP_DEV_PERSONNEL_PAGE_COLLECTION = "PropDev-PersonnelPage-Collection";
     }
 
     public static class S2sConstants {
