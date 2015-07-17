@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  creating lite bo for protocol submission to help committee maintenance performance
+  * Travis Schneeberger on Wed, 24 Jun 2015 14:51:54 -0400 [View Commit](../../commit/5440f35e53dcfeecebc01eb690dc619db46fe1e6)
+
+##coeus-1507.34
 *  Online review not getting created for non-employee reviewer and then protocol cannot be approved
   * Steps to reproduce:
   * As IACUC Admin:
