@@ -575,13 +575,13 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
         meetingService.setBusinessObjectService(businessObjectService);
 
         meetingService.populateFormHelper(meetingHelper, committeeSchedule, 1);
-        Assert.assertTrue(meetingHelper.getMemberAbsentBeans().size() == 2);
-        Assert.assertTrue(meetingHelper.getProtocolSubmittedBeans().size() == 2);
-        Assert.assertTrue(meetingHelper.getMemberPresentBeans().size() == 0);
-        Assert.assertTrue(meetingHelper.getOtherPresentBeans().size() == 0);
+        Assert.assertEquals(2, meetingHelper.getMemberAbsentBeans().size());
+        Assert.assertEquals(2, meetingHelper.getProtocolSubmittedBeans().size());
+        Assert.assertEquals(0, meetingHelper.getMemberPresentBeans().size());
+        Assert.assertEquals(0, meetingHelper.getOtherPresentBeans().size());
         Assert.assertEquals(meetingHelper.getTabLabel(), "Test Committee #1 Meeting " + dateFormat.format(SCHEDULE_DATE));
-        Assert.assertTrue(meetingHelper.getMinuteDocs().size() == 1);
-        Assert.assertTrue(meetingHelper.getCorrespondences().size() == 1);
+        Assert.assertEquals(1, meetingHelper.getMinuteDocs().size());
+        Assert.assertEquals(1, meetingHelper.getCorrespondences().size());
         Assert.assertEquals(meetingHelper.getMinuteDocs().get(0).getScheduleIdFk().toString(), "1");
         Assert.assertEquals(meetingHelper.getCorrespondences().get(0).getProtocolId().toString(), "1");
 
@@ -617,6 +617,7 @@ public class MeetingServiceTest extends KcIntegrationTestBase {
         };
         protocolSubmission.setSubmissionId(submissionId);
         protocolSubmission.setProtocolId(1L);
+        protocolSubmission.setProtocolActive(true);
         return protocolSubmission;
 
     }
