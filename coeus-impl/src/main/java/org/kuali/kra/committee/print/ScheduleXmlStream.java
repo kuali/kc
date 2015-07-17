@@ -112,8 +112,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         getIrbPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject("protocolSubmissions");
-        List<org.kuali.kra.irb.actions.submit.ProtocolSubmission> submissions = committeeSchedule.getLatestProtocolSubmissions();
-        for (org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission : submissions) {
+        List<org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite> submissions = committeeSchedule.getLatestProtocolSubmissions();
+        for (org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission : submissions) {
         	
             ProtocolSubmission protocolSubmissionType = schedule.addNewProtocolSubmission();            
             SubmissionDetails protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
@@ -121,9 +121,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 			ProtocolMasterData protocolMaster = protocolSummary.addNewProtocolMasterData();
 			String followUpAction = null;
 			String actionTypeCode = null;
-            Protocol protocol = (Protocol) protocolSubmission.getProtocol();
-            String submissionStatus=protocol.getProtocolSubmission().getSubmissionStatusCode();
-            List<ProtocolActionBase> protocolActions=protocolSubmission.getProtocol().getProtocolActions();
+            Protocol protocol = getBusinessObjectService().findByPrimaryKey(Protocol.class, Collections.singletonMap("protocolId", protocolSubmission.getProtocolId()));
+            List<ProtocolActionBase> protocolActions=protocol.getProtocolActions();
             
             for (ProtocolActionBase protocolAction : protocolActions){
             	actionTypeCode = protocolAction.getProtocolActionTypeCode();
@@ -220,13 +219,13 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             }
             protocolSubmissionDetail.setVotingComments(protocolSubmission.getVotingComments());
 
-            setProtocolSubmissionAction(protocolSubmission, protocolSubmissionDetail);
+            setProtocolSubmissionAction(protocolSubmission, protocol, protocolSubmissionDetail);
             if (protocolSubmission.getSubmissionDate() != null) {
                 protocolSubmissionDetail.setSubmissionDate(getDateTimeService().getCalendar(protocolSubmission.getSubmissionDate()));
             }
             setSubmissionCheckListinfo(protocolSubmission, protocolSubmissionDetail);
             setProtocolSubmissionReviewers(protocolSubmission, protocolSubmissionDetail);
-			List<ProtocolPersonBase> protocolPersons = protocolSubmission.getProtocol().getProtocolPersons();
+			List<ProtocolPersonBase> protocolPersons = protocol.getProtocolPersons();
             for (ProtocolPersonBase protocolPerson : protocolPersons) {
                 if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
                         || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
@@ -273,9 +272,9 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
      * @param protocolSubmission
      * @param protocolSubmissionDetail
      */
-    private void setProtocolSubmissionAction(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission,
+    private void setProtocolSubmissionAction(org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission, Protocol protocol,
             SubmissionDetails protocolSubmissionDetail) {
-        ProtocolAction protcolAction = findProtocolActionForSubmission(protocolSubmission);
+        ProtocolAction protcolAction = findProtocolActionForSubmission(protocolSubmission, protocol);
         if(protcolAction!=null){
             protcolAction.refreshNonUpdateableReferences();
             ActionType actionTypeInfo = protocolSubmissionDetail.addNewActionType();
@@ -324,9 +323,10 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
 
-    private void setProtocolSubmissionReviewers(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission,
+    private void setProtocolSubmissionReviewers(org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission,
             SubmissionDetails protocolSubmissionDetail) {
-        List<org.kuali.kra.protocol.actions.submit.ProtocolReviewer> vecReviewers = protocolSubmission.getProtocolReviewers();
+
+        Collection<ProtocolReviewer> vecReviewers = getBusinessObjectService().findMatching(ProtocolReviewer.class, Collections.singletonMap("submissionIdFk", protocolSubmission.getSubmissionId()));
         for (org.kuali.kra.protocol.actions.submit.ProtocolReviewer protocolReviewer : vecReviewers) {
             protocolReviewer.refreshNonUpdateableReferences();
             edu.mit.irb.irbnamespace.ProtocolReviewerDocument.ProtocolReviewer protocolReviewerType = protocolSubmissionDetail
@@ -355,12 +355,11 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
 
-    private void setSubmissionCheckListinfo(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission,
+    private void setSubmissionCheckListinfo(org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission,
             SubmissionDetails protocolSubmissionDetail) {
         SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
         String formattedCode = new String();
-
-        List<ProtocolExemptStudiesCheckListItem> protocolExemptCheckList = protocolSubmission.getExemptStudiesCheckList();
+        Collection<ProtocolExemptStudiesCheckListItem> protocolExemptCheckList = getBusinessObjectService().findMatching(ProtocolExemptStudiesCheckListItem.class, Collections.singletonMap("submissionIdFk", protocolSubmission.getSubmissionId()));
         for (ProtocolExemptStudiesCheckListItem protocolExemptStudiesCheckListBean : protocolExemptCheckList) {
             Checklists checkListItem = submissionChecklistInfo.addNewChecklists();
             checkListItem.setChecklistCode(protocolExemptStudiesCheckListBean.getExemptStudiesCheckListCode());
@@ -370,8 +369,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         if (formattedCode.length() > 0) {
             submissionChecklistInfo.setChecklistCodesFormatted(formattedCode); // this will have format (3) (7) like that...
         }
-
-        List<ProtocolExpeditedReviewCheckListItem> vecExpeditedCheckList = protocolSubmission.getExpeditedReviewCheckList();
+        Collection<ProtocolExpeditedReviewCheckListItem> vecExpeditedCheckList = getBusinessObjectService().findMatching(ProtocolExpeditedReviewCheckListItem.class, Collections.singletonMap("submissionIdFk", protocolSubmission.getSubmissionId()));
         for (ProtocolExpeditedReviewCheckListItem protocolReviewTypeCheckListBean : vecExpeditedCheckList) {
             Checklists checkListItem = submissionChecklistInfo.addNewChecklists();
             checkListItem.setChecklistCode(protocolReviewTypeCheckListBean.getExpeditedReviewCheckListCode());
@@ -385,8 +383,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
 
-    private ProtocolAction findProtocolActionForSubmission(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission) {
-        List<ProtocolActionBase> protocolActions = protocolSubmission.getProtocol().getProtocolActions();
+    private ProtocolAction findProtocolActionForSubmission(org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite protocolSubmission, Protocol protocol) {
+        List<ProtocolActionBase> protocolActions = protocol.getProtocolActions();
         for (ProtocolActionBase protocolAction : protocolActions) {
             if(protocolAction.getSubmissionNumber()!=null && protocolAction.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())){
                 return (ProtocolAction) protocolAction;

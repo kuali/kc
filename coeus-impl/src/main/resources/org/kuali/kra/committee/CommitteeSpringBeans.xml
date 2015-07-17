@@ -310,6 +310,8 @@
 		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
 		<property name="scheduleBusinessObjectClass" value="org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule" />
 	</bean>
+
+	<bean id="customCommitteeDao" parent="platformAwareDao" class="org.kuali.kra.committee.dao.ojb.CustomCommitteeDaoOjb" />
 </beans>
 
 

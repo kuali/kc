@@ -99,7 +99,6 @@
 			<%-- Existing data --%>
 			                        <c:set var="idx" value="1"/>
         	                        <c:forEach var="protocolSubmission" items="${KualiForm.meetingHelper.committeeSchedule.latestProtocolSubmissions}" varStatus="status">
-        	                          <c:if test = "${protocolSubmission.protocol.active || protocolSubmission.protocol.protocolStatus.description eq 'Disapproved'}" >
 	                                    <tr>
 					                       <th class="infoline" align="center">
 						                       <c:out value="${idx}" />
@@ -124,7 +123,7 @@
 	                	<%-- TODO : need to take care of rolodex_id  --%>
 	                                       </td>
 	                                       <td align="left" valign="middle">
-	                	                       <div align="left"> ${protocolSubmission.protocol.title}</div>
+	                	                       <div align="left"> ${protocolSubmission.protocolTitle}</div>
 	                                       </td>
 	                                       <td align="left" valign="middle">
 	                                           <div align="left"> ${protocolSubmission.protocolSubmissionType.description} </div>
@@ -151,7 +150,6 @@
                                           		</a>
 		                                    </td>
 	                                   </tr>
-	                                 </c:if>
         	                       </c:forEach>
 			<%-- Existing data --%>
                        </tbody>		

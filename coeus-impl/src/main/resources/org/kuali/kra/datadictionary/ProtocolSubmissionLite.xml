@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Kuali Coeus, a comprehensive research administration system for higher education.
+   - 
+   - Copyright 2005-2015 Kuali, Inc.
+   - 
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License as
+   - published by the Free Software Foundation, either version 3 of the
+   - License, or (at your option) any later version.
+   - 
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   - 
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="ProtocolSubmissionLite" parent="ProtocolSubmissionLite-parentBean" />
+    <bean id="ProtocolSubmissionLite-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite" />
+		<property name="objectLabel" value="Protocol Submission" />
+        <property name="inquiryDefinition" >
+            <ref bean="ProtocolSubmissionLite-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="ProtocolSubmissionLite-lookupDefinition" />
+        </property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-COMMITTEE" p:parameterName="meetingProtocolSubmittedHelpUrl" p:parameterDetailType="Document" />
+        </property>
+        <property name="titleAttribute" value="submissionNumber" />
+        <property name="attributes" >
+            <list>
+                <ref bean="ProtocolSubmissionLite-submissionNumber" />
+                <ref bean="ProtocolSubmissionLite-protocolNumber" />
+                <ref bean="ProtocolSubmissionLite-sequenceNumber" />
+                <ref bean="ProtocolSubmissionLite-scheduleId" />
+                <ref bean="ProtocolSubmissionLite-committeeId" />
+                <ref bean="ProtocolSubmissionLite-committeeIdFk" />
+                <ref bean="ProtocolSubmissionLite-submissionTypeCode" />
+                <ref bean="ProtocolSubmissionLite-submissionTypeQualifierCode" />
+                <ref bean="ProtocolSubmissionLite-protocolReviewTypeCode" />
+                <ref bean="ProtocolSubmissionLite-submissionStatusCode" />
+                <ref bean="ProtocolSubmissionLite-submissionDate" />
+                <ref bean="ProtocolSubmissionLite-comments" />
+                <ref bean="ProtocolSubmissionLite-committeeDecisionMotionTypeCode" />
+                <ref bean="ProtocolSubmissionLite-yesVoteCount" />
+                <ref bean="ProtocolSubmissionLite-noVoteCount" />
+                <ref bean="ProtocolSubmissionLite-abstainerCount" />
+                <ref bean="ProtocolSubmissionLite-votingComments" />
+                <ref bean="ProtocolSubmissionLite-versionNumber" />
+                <ref bean="ProtocolSubmissionLite-protocolTitle" />
+                <ref bean="ProtocolSubmissionLite-piName" />
+                <ref bean="ProtocolSubmissionLite-submissionStatus.description" />
+                <ref bean="ProtocolSubmissionLite-protocolSubmissionType.description" />
+                <ref bean="ProtocolSubmissionLite-protocolReviewType.description" />
+                <ref bean="ProtocolSubmissionLite-protocolSubmissionQualifierType.description" />
+                <ref bean="ProtocolSubmissionLite-isBillable" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="ProtocolSubmissionLite-submissionNumber" parent="ProtocolSubmissionLite-submissionNumber-parentBean" />
+    <bean id="ProtocolSubmissionLite-submissionNumber-parentBean" abstract="true" parent="ProtocolSubmission-submissionNumber" />
+
+    <bean id="ProtocolSubmissionLite-protocolNumber" parent="ProtocolSubmissionLite-protocolNumber-parentBean" />
+    <bean id="ProtocolSubmissionLite-protocolNumber-parentBean" abstract="true" parent="ProtocolSubmission-protocolNumber" />
+
+    <bean id="ProtocolSubmissionLite-sequenceNumber" parent="ProtocolSubmissionLite-sequenceNumber-parentBean" />
+    <bean id="ProtocolSubmissionLite-sequenceNumber-parentBean" abstract="true" parent="ProtocolSubmission-sequenceNumber" />
+
+    <bean id="ProtocolSubmissionLite-scheduleId" parent="ProtocolSubmissionLite-scheduleId-parentBean" />
+    <bean id="ProtocolSubmissionLite-scheduleId-parentBean" abstract="true" parent="ProtocolSubmission-scheduleId" />
+
+    <bean id="ProtocolSubmissionLite-committeeId" parent="ProtocolSubmissionLite-committeeId-parentBean" />
+    <bean id="ProtocolSubmissionLite-committeeId-parentBean" abstract="true" parent="ProtocolSubmission-committeeId" />
+
+    <bean id="ProtocolSubmissionLite-committeeIdFk" parent="ProtocolSubmissionLite-committeeIdFk-parentBean" />
+    <bean id="ProtocolSubmissionLite-committeeIdFk-parentBean" abstract="true" parent="ProtocolSubmission-committeeIdFk" />
+
+    <bean id="ProtocolSubmissionLite-submissionTypeCode" parent="ProtocolSubmissionLite-submissionTypeCode-parentBean" />
+    <bean id="ProtocolSubmissionLite-submissionTypeCode-parentBean" abstract="true" parent="ProtocolSubmission-submissionTypeCode" />
+
+    <bean id="ProtocolSubmissionLite-submissionTypeQualifierCode" parent="ProtocolSubmissionLite-submissionTypeQualifierCode-parentBean" />
+    <bean id="ProtocolSubmissionLite-submissionTypeQualifierCode-parentBean" abstract="true" parent="ProtocolSubmission-submissionTypeQualifierCode" />
+
+    <bean id="ProtocolSubmissionLite-protocolReviewTypeCode" parent="ProtocolSubmissionLite-protocolReviewTypeCode-parentBean" />
+    <bean id="ProtocolSubmissionLite-protocolReviewTypeCode-parentBean" abstract="true" parent="ProtocolSubmission-protocolReviewTypeCode" />
+
+    <bean id="ProtocolSubmissionLite-submissionStatusCode" parent="ProtocolSubmissionLite-submissionStatusCode-parentBean" />
+    <bean id="ProtocolSubmissionLite-submissionStatusCode-parentBean" abstract="true" parent="ProtocolSubmission-submissionStatusCode" />
+
+
+    <bean id="ProtocolSubmissionLite-submissionDate" parent="ProtocolSubmissionLite-submissionDate-parentBean" />
+    <bean id="ProtocolSubmissionLite-submissionDate-parentBean" abstract="true" parent="ProtocolSubmission-submissionDate" />
+
+
+    <bean id="ProtocolSubmissionLite-submissionFromDate" parent="ProtocolSubmissionLite-submissionFromDate-parentBean" />
+    <bean id="ProtocolSubmissionLite-submissionFromDate-parentBean" abstract="true" parent="ProtocolSubmission-submissionFromDate" />
+
+
+    <bean id="ProtocolSubmissionLite-submissionToDate" parent="ProtocolSubmissionLite-submissionToDate-parentBean" />
+    <bean id="ProtocolSubmissionLite-submissionToDate-parentBean" abstract="true" parent="ProtocolSubmission-submissionToDate" />
+
+    <bean id="ProtocolSubmissionLite-piName" parent="ProtocolSubmissionLite-piName-parentBean" />
+    <bean id="ProtocolSubmissionLite-piName-parentBean" abstract="true" parent="ProtocolSubmission-piName">
+		<property name="name" value="piPersonName" />
+    </bean>
+
+    <bean id="ProtocolSubmissionLite-protocolTitle" parent="ProtocolSubmissionLite-protocolTitle-parentBean" />
+    <bean id="ProtocolSubmissionLite-protocolTitle-parentBean" abstract="true" parent="ProtocolSubmission-protocolTitle" />
+
+    <bean id="ProtocolSubmissionLite-comments" parent="ProtocolSubmissionLite-comments-parentBean" />
+    <bean id="ProtocolSubmissionLite-comments-parentBean" abstract="true" parent="ProtocolSubmission-comments" />
+    
+    <bean id="ProtocolSubmissionLite-committeeDecisionMotionTypeCode" parent="ProtocolSubmissionLite-committeeDecisionMotionTypeCode-parentBean" />
+    <bean id="ProtocolSubmissionLite-committeeDecisionMotionTypeCode-parentBean" abstract="true" parent="ProtocolSubmission-committeeDecisionMotionTypeCode" />
+
+    <bean id="ProtocolSubmissionLite-yesVoteCount" parent="ProtocolSubmissionLite-yesVoteCount-parentBean" />
+    <bean id="ProtocolSubmissionLite-yesVoteCount-parentBean" abstract="true" parent="ProtocolSubmission-yesVoteCount" />
+
+    <bean id="ProtocolSubmissionLite-noVoteCount" parent="ProtocolSubmissionLite-noVoteCount-parentBean" />
+    <bean id="ProtocolSubmissionLite-noVoteCount-parentBean" abstract="true" parent="ProtocolSubmission-noVoteCount" />
+
+
+    <bean id="ProtocolSubmissionLite-abstainerCount" parent="ProtocolSubmissionLite-abstainerCount-parentBean" />
+    <bean id="ProtocolSubmissionLite-abstainerCount-parentBean" abstract="true" parent="ProtocolSubmission-abstainerCount" />
+
+
+    <bean id="ProtocolSubmissionLite-votingComments" parent="ProtocolSubmissionLite-votingComments-parentBean" />
+    <bean id="ProtocolSubmissionLite-votingComments-parentBean" abstract="true" parent="ProtocolSubmission-votingComments" />
+
+    <bean id="ProtocolSubmissionLite-versionNumber" parent="ProtocolSubmissionLite-versionNumber-parentBean" />
+    <bean id="ProtocolSubmissionLite-versionNumber-parentBean" abstract="true" parent="ProtocolSubmission-versionNumber"/>
+
+    <bean id="ProtocolSubmissionLite-protocolReviewType.description" parent="ProtocolSubmissionLite-protocolReviewType.description-parentBean" />
+    <bean id="ProtocolSubmissionLite-protocolReviewType.description-parentBean" abstract="true" parent="ProtocolSubmission-protocolReviewType.description"/>
+
+    <bean id="ProtocolSubmissionLite-submissionStatus.description" parent="ProtocolSubmissionLite-submissionStatus.description-parentBean" />
+    <bean id="ProtocolSubmissionLite-submissionStatus.description-parentBean" abstract="true" parent="ProtocolSubmission-submissionStatus.description"/>
+
+    <bean id="ProtocolSubmissionLite-protocolSubmissionQualifierType.description" parent="ProtocolSubmissionLite-protocolSubmissionQualifierType.description-parentBean" />
+    <bean id="ProtocolSubmissionLite-protocolSubmissionQualifierType.description-parentBean" abstract="true" parent="ProtocolSubmission-protocolSubmissionQualifierType.description"/>
+
+    <bean id="ProtocolSubmissionLite-protocolSubmissionType.description" parent="ProtocolSubmissionLite-protocolSubmissionType.description-parentBean" />
+    <bean id="ProtocolSubmissionLite-protocolSubmissionType.description-parentBean" abstract="true" parent="ProtocolSubmission-protocolSubmissionType.description"/>
+
+    <bean id="ProtocolSubmissionLite-isBillable" parent="ProtocolSubmissionLite-isBillable-parentBean" />
+    <bean id="ProtocolSubmissionLite-isBillable-parentBean" abstract="true" parent="ProtocolSubmission-isBillable" />
+
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="ProtocolSubmissionLite-inquiryDefinition" parent="ProtocolSubmissionLite-inquiryDefinition-parentBean" />
+    <bean id="ProtocolSubmissionLite-InquiryView" parent="ProtocolSubmissionLite-InquiryView-parentBean"/>
+    <bean id="ProtocolSubmissionLite-inquiryDefinition-parentBean" abstract="true" parent="ProtocolSubmission-inquiryDefinition-parentBean"/>
+
+
+  <bean id="ProtocolSubmissionLite-InquiryView-parentBean" abstract="true" parent="ProtocolSubmission-InquiryView-parentBean">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite"/>
+  </bean>
+
+    <!-- Business Object Lookup Definition -->
+    <bean id="ProtocolSubmissionLite-lookupDefinition" parent="ProtocolSubmissionLite-lookupDefinition-parentBean" />
+  <bean id="ProtocolSubmissionLite-LookupView" parent="ProtocolSubmissionLite-LookupView-parentBean"/>
+    <bean id="ProtocolSubmissionLite-lookupDefinition-parentBean" abstract="true" parent="ProtocolSubmission-lookupDefinition"/>
+
+  <bean id="ProtocolSubmissionLite-LookupView-parentBean" abstract="true" parent="ProtocolSubmission-LookupView-parentBean">
+    <property name="dataObjectClassName" value="org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite"/>
+  </bean>
+
+</beans>

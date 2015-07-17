@@ -26,7 +26,8 @@ import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.coeus.common.framework.version.VersioningService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ResearchAreaBase;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.committee.dao.CustomCommitteeDao;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -39,7 +40,7 @@ import java.util.*;
  */
 public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?, CS>, 
                                            CS extends CommitteeScheduleBase<CS, CMT, PS, CSM>,
-                                           PS extends ProtocolSubmissionBase,
+                                           PS extends ProtocolSubmissionLiteBase,
                                            CSM extends CommitteeScheduleMinuteBase<CSM, CS>> 
 
                                            implements CommitteeServiceBase<CMT, CS> {
@@ -49,7 +50,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
-
+    private CustomCommitteeDao customCommitteeDao;
 
     /**
      * Set the Business Object Service.
@@ -105,10 +106,6 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     protected abstract Class<CMT> getCommitteeBOClassHook();
 
-    /**
-     * @see org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase#addResearchAreas(org.kuali.coeus.common.committee.impl.bo.CMT,
-     *      java.util.Collection)
-     */
     public void addResearchAreas(CMT committee, Collection<ResearchAreaBase> researchAreas) {
         for (ResearchAreaBase researchArea : researchAreas) {
             if (!hasResearchArea(committee, researchArea)) {
@@ -380,14 +377,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     
     @Override
     public void updateCommitteeForProtocolSubmissions(CMT committee) {
-        // loop thru all the schedules for the committee and update each schedule's submissions if any
-        for(CS committeeSchedule : committee.getCommitteeSchedules()) {
-            for(PS protocolSubmission : committeeSchedule.getProtocolSubmissions()) {
-                protocolSubmission.setCommitteeIdFk(committee.getId());
-                protocolSubmission.setCommittee(committee);
-                getBusinessObjectService().save(protocolSubmission); 
-            }
-        }
+        getCustomCommitteeDao().updateSubmissionsToNewCommitteeVersion(committee, committee.getCommitteeSchedules());
     }
     
     
@@ -402,6 +392,15 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         }
         return getVersioningService().createNewVersion(committee);
     }
-    
 
+    public CustomCommitteeDao getCustomCommitteeDao() {
+        if(this.customCommitteeDao == null) {
+            this.customCommitteeDao = KcServiceLocator.getService(CustomCommitteeDao.class);
+        }
+        return customCommitteeDao;
+    }
+
+    public void setCustomCommitteeDao(CustomCommitteeDao customCommitteeDao) {
+        this.customCommitteeDao = customCommitteeDao;
+    }
 }

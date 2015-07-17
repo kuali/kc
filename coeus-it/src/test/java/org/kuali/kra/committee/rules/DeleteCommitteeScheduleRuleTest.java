@@ -39,7 +39,7 @@ import org.kuali.kra.committee.service.impl.CommitteeServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionLite;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -201,16 +201,15 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
         return committeeSchedules;
     }
     
-    private List<ProtocolSubmission> getProtocolSubmissions() {
-        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
+    private List<ProtocolSubmissionLite> getProtocolSubmissions() {
+        List<ProtocolSubmissionLite> submissions = new ArrayList<>();
         List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
         ProtocolOnlineReview review = new ProtocolOnlineReview();  
         ProtocolReviewer reviewer = new ProtocolReviewer();
         reviewer.setPersonId("100");
         review.setProtocolReviewer(reviewer);
         reviews.add(review);
-        ProtocolSubmission submission = new ProtocolSubmission();
-        submission.setProtocolOnlineReviews((List)reviews);
+        ProtocolSubmissionLite submission = new ProtocolSubmissionLite();
         submissions.add(submission);
         return submissions;
     }

@@ -357,6 +357,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/IacucProtocolStudyGroupBean.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/IacucProtocolStudyGroupLocation.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/IacucProtocolSubmission.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/IacucProtocolSubmissionLite.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/IacucProtocolSubmissionDoc.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/IacucProtocolSubmissionQualifierType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/IacucProtocolSubmissionStatus.xml</value>
@@ -560,6 +561,7 @@
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolSpecialReviewExemption.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolStatus.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolSubmission.xml</value>
+                <value>classpath:org/kuali/kra/datadictionary/ProtocolSubmissionLite.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolSubmissionDoc.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolSubmissionQualifierType.xml</value>
                 <value>classpath:org/kuali/kra/datadictionary/ProtocolSubmissionStatus.xml</value>

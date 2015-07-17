@@ -28,7 +28,7 @@ import org.kuali.coeus.common.committee.impl.meeting.MeetingEventBase.ErrorType;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -148,7 +148,7 @@ public abstract class MeetingActionBase extends KualiAction {
      */
     private ActionForward viewProtocolSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                                  HttpServletResponse response) throws Exception {
-        ProtocolSubmissionBase protocolSubmission = ((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule()
+        ProtocolSubmissionLiteBase protocolSubmission = ((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule()
                 .getLatestProtocolSubmissions().get(Integer.parseInt(request.getParameter("line")));
 
 

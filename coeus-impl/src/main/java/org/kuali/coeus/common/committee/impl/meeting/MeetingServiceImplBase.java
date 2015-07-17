@@ -25,9 +25,8 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipRole;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -112,7 +111,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
         List<Long> protocolIds = new ArrayList<>();
         List<ProtocolCorrespondence> correspondences = new ArrayList<>();
         // TODO : check if want to use criteria/dao to get the list or use this loop
-        for (ProtocolSubmissionBase submission : committeeSchedule.getLatestProtocolSubmissions()) {
+        for (ProtocolSubmissionLiteBase submission : committeeSchedule.getLatestProtocolSubmissions()) {
             if (!protocolIds.contains(submission.getProtocolId())) {
                 protocolIds.add(submission.getProtocolId());
                 fieldValues.put("protocolId", submission.getProtocolId());
@@ -665,12 +664,11 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      *      org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase, int)
      */
     public void populateFormHelper(MeetingHelperBase meetingHelper, CS commSchedule, int lineNumber) {
-        for (ProtocolSubmissionBase protocolSubmission : commSchedule.getLatestProtocolSubmissions()) {
+        for (ProtocolSubmissionLiteBase protocolSubmission : commSchedule.getLatestProtocolSubmissions()) {
             ProtocolSubmittedBean protocolSubmittedBean = new ProtocolSubmittedBean();
-            ProtocolPersonBase pi = protocolSubmission.getProtocol().getPrincipalInvestigator();
-            protocolSubmittedBean.setPersonId(pi.getPersonId());
-            protocolSubmittedBean.setPersonName(pi.getPersonName());
-            protocolSubmittedBean.setRolodexId(pi.getRolodexId());
+            protocolSubmittedBean.setPersonId(protocolSubmission.getPiPersonId());
+            protocolSubmittedBean.setPersonName(protocolSubmission.getPiPersonName());
+            protocolSubmittedBean.setRolodexId(protocolSubmission.getPiRolodexId());
             meetingHelper.getProtocolSubmittedBeans().add(protocolSubmittedBean);
         }
         if (commSchedule.getCommitteeScheduleAttendances().isEmpty()

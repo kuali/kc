@@ -19,10 +19,10 @@
 package org.kuali.kra.iacuc.committee.bo;
 
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionLite;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 
-public class IacucCommitteeSchedule extends CommitteeScheduleBase<IacucCommitteeSchedule, IacucCommittee, IacucProtocolSubmission, IacucCommitteeScheduleMinute> {
+public class IacucCommitteeSchedule extends CommitteeScheduleBase<IacucCommitteeSchedule, IacucCommittee, IacucProtocolSubmissionLite, IacucCommitteeScheduleMinute> {
 
 
     private static final long serialVersionUID = -579662475857490755L;
