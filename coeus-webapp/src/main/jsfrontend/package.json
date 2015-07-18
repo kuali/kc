@@ -1,0 +1,12 @@
+{
+  "name": "kualico-research-api",
+  "version": "1.0.0",
+  "description": "KualiCo Research API Documentation",
+  "author": "kualico",
+  "license": "AGPL",
+  "devDependencies": {
+    "aglio": "^2.0.0",
+    "gulp": "^3.9.0",
+    "gulp-aglio": "0.0.9"
+  }
+}
