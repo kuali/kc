@@ -747,10 +747,10 @@
                     <artifactId>tokenauth</artifactId>
                 </dependency>
 
-                <dependency>
+                <!--<dependency>
                     <groupId>com.rsmart.kuali</groupId>
                     <artifactId>kc_hr_rest</artifactId>
-                </dependency>
+                </dependency>-->
             </dependencies>
         </profile>
     </profiles>

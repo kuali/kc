@@ -66,8 +66,8 @@
         <bouncycastle.version>1.51</bouncycastle.version>
         <cas-client-core.version>3.3.3</cas-client-core.version>
         <cglib.version>3.1</cglib.version>
-        <coeus-api-all.version>1505.3</coeus-api-all.version>
-        <coeus-s2sgen.version>1506.2</coeus-s2sgen.version>
+        <coeus-api-all.version>1507.3</coeus-api-all.version>
+        <coeus-s2sgen.version>1507.2</coeus-s2sgen.version>
         <commons-beanutils.version>1.8.3-kuali-4</commons-beanutils.version>
         <commons-codec.version>1.9</commons-codec.version>
         <commons-collections.version>3.2.1</commons-collections.version>
@@ -121,8 +121,8 @@
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
         <quartz.version>1.8.4</quartz.version>
-        <rice.version>2.5.3.1507.4-kckualico</rice.version>
-        <schemaspy.version>1505.5</schemaspy.version>
+        <rice.version>2.5.3.1507.15-kckualico</rice.version>
+        <schemaspy.version>1507.2</schemaspy.version>
         <servlet.version>3.0.1</servlet.version>
         <slf4j.version>1.7.7</slf4j.version>
         <spring.version>3.2.13.RELEASE</spring.version>
@@ -143,7 +143,7 @@
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
         <jspc-maven-plugin.version>2.0.0</jspc-maven-plugin.version>
-        <license-maven-plugin.version>1.6.4</license-maven-plugin.version>
+        <license-maven-plugin.version>1.6.3</license-maven-plugin.version>
         <maven-clean-plugin.version>2.6.1</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
@@ -162,7 +162,6 @@
         <maven-war-plugin.version>2.6</maven-war-plugin.version>
         <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
         <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
-        <wagon.s3.version>1.2.1</wagon.s3.version>
         <xmlbeans-maven-plugin.version>2.3.3</xmlbeans-maven-plugin.version>
 
         <db.groupId>${mysql.groupId}</db.groupId>
@@ -222,7 +221,7 @@
 
         <maven.skip.packaging>false</maven.skip.packaging>
 
-        <error_prone_core.version>2.0.2</error_prone_core.version>
+        <error_prone_core.version>2.0.4</error_prone_core.version>
         <plexus-compiler-javac.version>2.5</plexus-compiler-javac.version>
         <plexus-compiler-javac-errorprone.version>2.5</plexus-compiler-javac-errorprone.version>
 
@@ -233,13 +232,13 @@
         <issueManagement.system>github</issueManagement.system>
         <issueManagement.url>https://github.com/kuali/kc/issues</issueManagement.url>
 
-        <dm.snapshotRepository.id>kuali.snapshot</dm.snapshotRepository.id>
-        <dm.snapshotRepository.name>Main Kuali Repository</dm.snapshotRepository.name>
-        <dm.snapshotRepository.url>scp://test.kuali.org:/opt/m2/repository</dm.snapshotRepository.url>
+        <dm.snapshotRepository.id>kualico.nexus.snapshots</dm.snapshotRepository.id>
+        <dm.snapshotRepository.name>KualiCo Nexus Snapshots Repository</dm.snapshotRepository.name>
+        <dm.snapshotRepository.url>https://nexus.kuali.co/nexus/content/repositories/snapshots</dm.snapshotRepository.url>
 
-        <dm.repository.id>kuali.snapshot</dm.repository.id>
-        <dm.repository.name>Kuali Snapshot Repository</dm.repository.name>
-        <dm.repository.url>s3://maven.kuali.org/snapshot</dm.repository.url>
+        <dm.repository.id>kualico.nexus.releases</dm.repository.id>
+        <dm.repository.name>KualiCo Nexus Releases Repository</dm.repository.name>
+        <dm.repository.url>https://nexus.kuali.co/nexus/content/repositories/releases</dm.repository.url>
     </properties>
 
     <build>
@@ -737,13 +736,6 @@
                 <artifactId>license-maven-plugin</artifactId>
             </plugin>
         </plugins>
-        <extensions>
-            <extension>
-                <groupId>org.kuali.maven.wagons</groupId>
-                <artifactId>maven-s3-wagon</artifactId>
-                <version>${wagon.s3.version}</version>
-            </extension>
-        </extensions>
     </build>
 
     <dependencyManagement>
@@ -2123,9 +2115,9 @@
             <properties>
                 <build.spring.profiles.active>grm</build.spring.profiles.active>
 
-                <rsmart.cx.token.auth.version>1504.3</rsmart.cx.token.auth.version>
+                <rsmart.cx.token.auth.version>1507.1</rsmart.cx.token.auth.version>
                 <rsmart.hr.rest.version>1505.7</rsmart.hr.rest.version>
-                <kc-sql.version>1507.1</kc-sql.version>
+                <kc-sql.version>1507.2</kc-sql.version>
 
                 <scm.connection>scm:git:git://github.com/kualico/kc.git</scm.connection>
                 <scm.developerConnection>scm:git:git@github.com:kualico/kc.git</scm.developerConnection>
@@ -2134,13 +2126,13 @@
                 <issueManagement.system>github</issueManagement.system>
                 <issueManagement.url>https://github.com/kualico/kc/issues</issueManagement.url>
 
-                <dm.snapshotRepository.id>rsmart.snapshot.repo</dm.snapshotRepository.id>
-                <dm.snapshotRepository.name>rsmart snapshot repository</dm.snapshotRepository.name>
-                <dm.snapshotRepository.url>s3://rsmart-dev/artifacts/maven/snapshot</dm.snapshotRepository.url>
+                <dm.snapshotRepository.id>kualico.nexus.research.snapshots</dm.snapshotRepository.id>
+                <dm.snapshotRepository.name>KualiCo Nexus Research Snapshots Repository</dm.snapshotRepository.name>
+                <dm.snapshotRepository.url>https://nexus.kuali.co/nexus/content/repositories/research-snapshots/</dm.snapshotRepository.url>
 
-                <dm.repository.id>rsmart.release.repo</dm.repository.id>
-                <dm.repository.name>rsmart release repository</dm.repository.name>
-                <dm.repository.url>s3://rsmart-dev/artifacts/maven/release</dm.repository.url>
+                <dm.repository.id>kualico.nexus.research.releases</dm.repository.id>
+                <dm.repository.name>KualiCo Nexus Research Releases Repository</dm.repository.name>
+                <dm.repository.url>https://nexus.kuali.co/nexus/content/repositories/research-releases/</dm.repository.url>
             </properties>
 
             <dependencyManagement>
@@ -2169,6 +2161,7 @@
                         <scope>runtime</scope>
                     </dependency>
 
+                    <!--
                     <dependency>
                         <groupId>com.rsmart.kuali</groupId>
                         <artifactId>kc_hr_rest</artifactId>
@@ -2192,15 +2185,15 @@
                                 <artifactId>jsr311-api</artifactId>
                             </exclusion>
                         </exclusions>
-                    </dependency>
+                    </dependency>-->
                 </dependencies>
             </dependencyManagement>
 
             <repositories>
                 <repository>
-                    <id>rsmart-dev</id>
-                    <name>rSmart Nexus Repository Manager</name>
-                    <url>https://nexus.rsmart.com/nexus/content/groups/public/</url>
+                    <id>kualico.nexus.research</id>
+                    <name>KualiCo Nexus Research Group</name>
+                    <url>https://nexus.kuali.co/nexus/content/groups/research-repos/</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
@@ -2212,15 +2205,15 @@
 
             <pluginRepositories>
                 <pluginRepository>
-                    <id>rsmart-dev</id>
-                    <name>rSmart Nexus Repository Manager</name>
-                    <url>https://nexus.rsmart.com/nexus/content/groups/public/</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
+                    <id>kualico.nexus.research</id>
+                    <name>KualiCo Nexus Research Group</name>
+                    <url>https://nexus.kuali.co/nexus/content/groups/research-repos/</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
                 </pluginRepository>
             </pluginRepositories>
         </profile>
@@ -2341,29 +2334,29 @@
 
     <repositories>
         <repository>
-            <id>kuali.nexus</id>
-            <name>Kuali Nexus Repository Manager</name>
-            <url>http://nexus.kuali.org/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
+            <id>kualico.nexus</id>
+            <name>KualiCo Nexus Group</name>
+            <url>https://nexus.kuali.co/nexus/content/groups/public/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
         </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
-            <id>kuali.nexus</id>
-            <name>Kuali Nexus Repository Manager</name>
-            <url>http://nexus.kuali.org/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
+            <id>kualico.nexus</id>
+            <name>KualiCo Nexus Group</name>
+            <url>https://nexus.kuali.co/nexus/content/groups/public/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
         </pluginRepository>
     </pluginRepositories>
 

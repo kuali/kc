@@ -33,7 +33,7 @@
                            http://www.springframework.org/schema/util/spring-util.xsd"
        profile="grm">
 
-    <import resource="classpath:com/rsmart/kuali/coeus/hr/JerseyBeans.xml"/>
+   <!-- <import resource="classpath:com/rsmart/kuali/coeus/hr/JerseyBeans.xml"/>
 
     <bean class="org.kuali.coeus.sys.framework.controller.interceptor.FilterRegistrator">
         <property name="filter">
@@ -67,5 +67,5 @@
                 <value>/hr-import/*</value>
             </list>
         </property>
-    </bean>
+    </bean> -->
 </beans>
