@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Fix for copy dialog STE on ownedByUnit readonly replacement
+
+  * Read-only replacement was causing an issue with the copy dialog because those fields dont exist on the object for the dialog copy object, copy is never read-only so this removes the replacement
+  * bsmith83 on Mon, 20 Jul 2015 11:48:55 -0700 [View Commit](../../commit/b0e85c6f63a7803023f1d391b37ebdaf19fa0ced)
+
+##coeus-1507.35
 *  creating lite bo for protocol submission to help committee maintenance performance
   * Travis Schneeberger on Wed, 24 Jun 2015 14:51:54 -0400 [View Commit](../../commit/5440f35e53dcfeecebc01eb690dc619db46fe1e6)
 
