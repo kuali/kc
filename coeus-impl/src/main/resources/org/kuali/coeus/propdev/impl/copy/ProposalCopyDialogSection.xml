@@ -66,7 +66,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                       p:order="20"/>
 
                 <bean parent="PropDev-CopyDialog-OwnedByUnitNumberField" p:propertyName="leadUnitNumber"
-                      p:enableAutoQuickfinder="false"
+                      p:enableAutoQuickfinder="false" p:readOnlyDisplayReplacement=""
                       p:order="30" p:readOnly="false"/>
 
                 <bean parent="Uif-InputField" p:propertyName="includeBudget" p:order="40" p:fieldLabel.renderColon="false" p:readOnly="false"
