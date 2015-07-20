@@ -43,6 +43,7 @@ public class KraAuthorizationConstants {
     public static final String KC_AWARD_NAMESPACE = "KC-AWARD";
     public static final String PERMISSION_MODIFY_AWARD = "Modify Award";
     public static final String QUALIFICATION_UNIT_NUMBER = "unitNumber";
+    public static final String CAN_MODIFY = "canModify";
 
     public static class ProposalEditMode {
         public static final String MODIFY_PROPOSAL = "modifyProposal";

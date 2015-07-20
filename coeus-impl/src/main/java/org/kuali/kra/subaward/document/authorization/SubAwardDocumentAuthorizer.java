@@ -24,14 +24,18 @@ import java.util.Set;
 
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
+
 /**
  * This class is using as SubAwardDocumentAuthorizer...
  */
@@ -114,17 +118,19 @@ extends KcTransactionalDocumentAuthorizerBase {
             return canCreateSubAward(user.getPrincipalId());
         }
         return canExecuteSubAwardTask(user.getPrincipalId(),
-        (SubAwardDocument) document, TaskName.VIEW_SUBAWARD);
+                (SubAwardDocument) document, TaskName.VIEW_SUBAWARD);
     }
 
     @Override
     public boolean canRoute(Document document, Person user) {
-        boolean canRoute = false;
         SubAwardDocument subawardDocument = (SubAwardDocument) document;
-        canRoute = 
-                (!(isFinal(document) || isProcessed (document)) && hasPermission(subawardDocument, user, 
-                                PermissionConstants.SUBMIT_SUBAWARD));
-        return canRoute;
+        return (!(isFinal(document) || isProcessed (document)) && !subawardDocument.isViewOnly()
+                        && hasPermission(subawardDocument, user, PermissionConstants.SUBMIT_SUBAWARD));
+    }
+
+    @Override
+    public boolean canBlanketApprove(Document document, Person user) {
+        return !((KcTransactionalDocumentBase)document).isViewOnly() && super.canBlanketApprove(document,user);
     }
     
     protected boolean isFinal(Document document) {

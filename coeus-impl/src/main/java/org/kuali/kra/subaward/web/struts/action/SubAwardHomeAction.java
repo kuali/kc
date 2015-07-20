@@ -51,9 +51,8 @@ import java.util.List;
  */
 public class SubAwardHomeAction extends SubAwardAction{
 
-private static final String DOC_HANDLER_URL_PATTERN =
-"%s/DocHandler.do?command=displayDocSearchView&docId=%s";
-private static final String SUBAWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.subaward.version.editpending.prompt";
+    private static final String SUBAWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.subaward.version.editpending.prompt";
+    private static final String PENDING = "PENDING";
 
     @Override
     public ActionForward execute(ActionMapping mapping,
@@ -124,7 +123,12 @@ private static final String SUBAWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.s
         SubAwardForm subAwardForm = ((SubAwardForm)form);
         SubAwardDocument subAwardDocument = subAwardForm.getSubAwardDocument();
         SubAward subaward = subAwardDocument.getSubAward();
-        ActionForward forward = null;
+        ActionForward forward;
+
+        if (subaward.getVersionHistory().getStatusForOjb().equals(PENDING)) {
+            response.sendRedirect(buildForwardUrl(subAwardForm.getDocId()));
+            return null;
+        }
 
         VersionHistory foundPending = findPendingVersion(subaward);
         if (foundPending != null) {
@@ -194,7 +198,7 @@ private static final String SUBAWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.s
             forward = mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);            
         } else {
             initializeFormWithSubAward(subAwardForm, (SubAward) foundPending.getSequenceOwner());
-            response.sendRedirect(makeDocumentOpenUrl(subAwardForm.getSubAwardDocument()));
+            response.sendRedirect(buildForwardUrl(subAwardForm.getDocId()));
             forward = null;
         }
         return forward;
@@ -229,13 +233,9 @@ private static final String SUBAWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.s
        getVersionHistoryService().updateVersionHistory(newSubAwardDocument.getSubAward(), VersionStatus.PENDING, 
                GlobalVariables.getUserSession().getPrincipalName());
         reinitializeSubAwardForm(subAwardForm, newSubAwardDocument);
-        return new ActionForward(makeDocumentOpenUrl(newSubAwardDocument), true);
+        return new ActionForward(buildForwardUrl(newSubAwardDocument.getDocumentNumber()), true);
     }
 
-    private String makeDocumentOpenUrl(SubAwardDocument newSubAwardDocument) {
-        String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
-        return String.format(DOC_HANDLER_URL_PATTERN, workflowUrl, newSubAwardDocument.getDocumentNumber());
-    }
     /**.
      * This method prepares the SubAwardForm with
      * the document found via the SubAward lookup

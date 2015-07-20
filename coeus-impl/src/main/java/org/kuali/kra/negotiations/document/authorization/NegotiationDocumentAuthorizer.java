@@ -56,7 +56,7 @@ public class NegotiationDocumentAuthorizer extends KcTransactionalDocumentAuthor
             }
         } else {
             if (canExecuteNegotiationTask(userId, negotiationDocument, TaskName.NEGOTIATION_MODIFIY_NEGOTIATION)
-                    || canExecuteNegotiationTask(userId, negotiationDocument, TaskName.NEGOTIATION_MODIFY_ACTIVITIES)) {  
+                    || canExecuteNegotiationTask(userId, negotiationDocument, TaskName.NEGOTIATION_MODIFY_ACTIVITIES)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             } else if (canExecuteNegotiationTask(userId, negotiationDocument, TaskName.NEGOTIATION_VIEW_NEGOTIATION)) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);

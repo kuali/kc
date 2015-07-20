@@ -22,6 +22,7 @@ import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeDocumentAuthorizerBase;
 import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 
@@ -43,4 +44,10 @@ public class CommitteeDocumentAuthorizer extends CommitteeDocumentAuthorizerBase
     protected CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee) {
         return new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, taskName, (Committee) committee) {};
     }
+
+    @Override
+    protected String getPermissionNameForModifyCommitteeHook() {
+        return PermissionConstants.MODIFY_COMMITTEE;
+    }
+
 }

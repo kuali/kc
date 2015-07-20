@@ -31,6 +31,7 @@ import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBa
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.WebAuthorizationService;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -82,6 +83,7 @@ import org.kuali.rice.krad.service.*;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -277,23 +279,24 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
      * @return String
      */
     protected String buildForwardUrl(String routeHeaderId) {
-        DocHandlerService researchDocumentService = KcServiceLocator.getService(DocHandlerService.class);
-        String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
-        forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
-        if (forward.indexOf("?") == -1) {
-            forward += "?";
-        }
-        else {
-            forward += "&";
-        }
-        forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + routeHeaderId;
-        forward += "&" + KewApiConstants.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+        String baseURL = getDocHandlerService().getDocHandlerUrl(routeHeaderId);
+        Properties parameters = new Properties();
+        parameters.put(KRADConstants.PARAMETER_DOC_ID, routeHeaderId);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KRADConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
         if (GlobalVariables.getUserSession().isBackdoorInUse()) {
-            forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
+            parameters.put(KewApiConstants.BACKDOOR_ID_PARAMETER, getGlobalVariableService().getUserSession().getPrincipalName());
         }
-        return forward;
+        return UrlFactory.parameterizeUrl(baseURL, parameters);
     }
-    
+
+    private GlobalVariableService getGlobalVariableService() {
+        return KcServiceLocator.getService(GlobalVariableService.class);
+    }
+
+    private DocHandlerService getDocHandlerService() {
+        return KcServiceLocator.getService(DocHandlerService.class);
+    }
+
     /**
      * Builds the forward URL for the given routeHeaderId.
      * 
@@ -1140,10 +1143,10 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
 
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
+        KcTransactionalDocumentFormBase docForm = (KcTransactionalDocumentFormBase) form;
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         String methodToCall = ((KualiForm) form).getMethodToCall();
-        if (canSave(docForm)) {
+        if (canSave(docForm) && !docForm.isViewOnly()) {
             Object question = getQuestion(request);
             if (question == null) {
                 return this.performQuestionWithoutInput(mapping, form, request, response, 

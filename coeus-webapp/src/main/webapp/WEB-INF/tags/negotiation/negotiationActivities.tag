@@ -20,7 +20,7 @@
 
 <c:set var="activityAttributes" value="${DataDictionary.NegotiationActivity.attributes}" />
 <c:set var="attachmentAttributes" value="${DataDictionary.NegotiationActivityAttachment.attributes}" />
-<c:set var="readOnly" value="${not KualiForm.editingMode['modify_activity']}"/>
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}"/>
 
 <script>
 function doFilterActivities() {

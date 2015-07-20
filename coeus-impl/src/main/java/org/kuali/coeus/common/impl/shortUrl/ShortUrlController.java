@@ -40,7 +40,6 @@ public class ShortUrlController {
     public static final String AWARD_NUMBER = "award_number";
     public static final String PROPOSAL = "proposal";
     public static final String SUBAWARD = "subaward";
-    public static final String SUBAWARD_ID = "subaward_id";
     public static final String NEGOTIATION = "negotiation";
     public static final String NEGOTIATION_ID = "negotiation_id";
     public static final String PROTOCOL = "protocol";
@@ -49,6 +48,7 @@ public class ShortUrlController {
     public static final String COMMITTEE = "committee";
     public static final String COMMITTEE_ID = "committee_id";
     public static final String UNABLE_TO_RETRIEVE_DOCUMENT_FOR_ID = "Unable to retrieve document for id %s";
+    public static final String SUBAWARD_CODE = "subaward_code";
 
     @Autowired
     @Qualifier("shortUrlService")
@@ -86,7 +86,7 @@ public class ShortUrlController {
     @Transactional
     @RequestMapping(value = "subawards/{subawardId}")
     public String subawardShortUrl(@PathVariable String subawardId, HttpServletResponse response) throws Exception {
-        return redirect((id, table, column) -> getShortUrlService().constructUrlByVersionHistory(id, table, column),subawardId, SUBAWARD, SUBAWARD_ID, response);
+        return redirect((id, table, column) -> getShortUrlService().constructUrlByVersionHistory(id, table, column),subawardId, SUBAWARD, SUBAWARD_CODE, response);
     }
 
     @Transactional
@@ -108,7 +108,7 @@ public class ShortUrlController {
     }
 
     @Transactional
-    @RequestMapping(value = "committees/{id}")
+    @RequestMapping(value = "committees/{committeeId}")
     public String committeeShortUrl(@PathVariable String committeeId, HttpServletResponse response) throws Exception {
         return redirect((id, table, column) -> getShortUrlService().constructUrlByMaxSequenceNumber(id, table, column), committeeId, COMMITTEE, COMMITTEE_ID, response);
     }

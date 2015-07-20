@@ -475,13 +475,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
      * 
      */
     public boolean getDisplayEditButton() {
-        boolean displayEditButton = !isViewOnly();
-        VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(SubAward.class, getSubAwardDocument().getSubAward().getSubAwardCode());
-        if (activeVersion != null) {
-            displayEditButton &= activeVersion.getSequenceOwnerSequenceNumber().equals(getSubAwardDocument().getSubAward().getSequenceNumber());
-        }
-        
-        return displayEditButton;
+        return !getSubAwardDocument().getDocumentHeader().getWorkflowDocument().isCanceled();
     }
     /**
      * This method disables the caching of drop down lists.  

@@ -21,7 +21,11 @@ package org.kuali.coeus.common.committee.impl.document.authorization;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.document.CommitteeDocumentBase;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -35,7 +39,7 @@ import java.util.Set;
  * document actions for all committee documents.
  */
 public abstract class CommitteeDocumentAuthorizerBase extends KcTransactionalDocumentAuthorizerBase {
-       
+
     @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -59,8 +63,14 @@ public abstract class CommitteeDocumentAuthorizerBase extends KcTransactionalDoc
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
+
+
         }
-        
+
+        if (canModify(committeeDocument, user)) {
+            editModes.add(KraAuthorizationConstants.CAN_MODIFY);
+        }
+
         return editModes;
     }
     
@@ -91,17 +101,20 @@ public abstract class CommitteeDocumentAuthorizerBase extends KcTransactionalDoc
     
     @Override
     public boolean canRoute(Document document, Person user) {
-        return !isFinal(document) && super.canRoute(document, user);
+        return !isFinal(document) && super.canRoute(document, user)
+                && !((CommitteeDocumentBase) document).isViewOnly();
     }
     
     @Override
     public boolean canBlanketApprove(Document document, Person user) {
-        return !isFinal(document) && super.canBlanketApprove(document, user);
+        return !isFinal(document) && super.canBlanketApprove(document, user)
+                && !((CommitteeDocumentBase) document).isViewOnly();
     }
     
     @Override
     public boolean canCancel(Document document, Person user) {
-        return !isFinal(document) && super.canCancel(document, user);
+        return !isFinal(document) && super.canCancel(document, user)
+                && !((CommitteeDocumentBase) document).isViewOnly();
     }
     
     @Override
@@ -156,6 +169,7 @@ public abstract class CommitteeDocumentAuthorizerBase extends KcTransactionalDoc
 
     protected abstract CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee);
 
+    protected abstract String getPermissionNameForModifyCommitteeHook();
     /*
     @Override
     public boolean canFyi(Document document, Person user) {
@@ -166,6 +180,18 @@ public abstract class CommitteeDocumentAuthorizerBase extends KcTransactionalDoc
     @Override
     public boolean canSendNoteFyi(Document document, Person user) {
         return false;
+    }
+
+    public boolean canModify(CommitteeDocumentBase document, Person user) {
+        return getAuthorizationService().hasPermission(user.getPrincipalId(), document.getCommittee(), getPermissionNameForModifyCommitteeHook());
+    }
+
+    protected KcWorkflowService getWorkFlowService() {
+        return KcServiceLocator.getService(KcWorkflowService.class);
+    }
+
+    protected KcAuthorizationService getAuthorizationService() {
+        return KcServiceLocator.getService(KcAuthorizationService.class);
     }
 
 }

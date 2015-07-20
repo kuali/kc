@@ -44,7 +44,7 @@ import java.util.ArrayList;
 public class NegotiationAction extends KcTransactionalDocumentActionBase {
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NegotiationAction.class);
-    
+
     private NegotiationService negotiationService;
     private SequenceAccessorService sequenceAccessorService;
     private NegotiationPrintingService negotiationPrintingService;
@@ -97,7 +97,12 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
         actionForward = super.save(mapping, form, request, response);
         return actionForward;
     }
-    
+
+    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.sendRedirect(buildForwardUrl(((NegotiationForm)form).getDocId()));
+        return null;
+    }
+
     protected final boolean applyRules(DocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
@@ -152,5 +157,5 @@ public class NegotiationAction extends KcTransactionalDocumentActionBase {
         }
         return kualiRuleService;
     }
-    
+
 }

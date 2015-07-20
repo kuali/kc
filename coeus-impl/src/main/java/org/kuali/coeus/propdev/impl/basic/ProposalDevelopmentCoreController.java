@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.coeus.propdev.impl.core.*;
+import org.kuali.coeus.sys.framework.controller.DocHandlerService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.uif.field.AttributeQueryResult;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -204,6 +206,13 @@ public class ProposalDevelopmentCoreController extends ProposalDevelopmentContro
 	public ModelAndView closeWithoutSave(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
 		releaseLocksForLoggedInUser(form);
 		return getNavigationControllerService().returnToHub(form);
+	}
+
+	@Transactional @RequestMapping(params="methodToCall=editProposal")
+	public ModelAndView editProposal(
+			@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) throws Exception {
+		return getModelAndViewService().performRedirect(form, KcServiceLocator.getService(DocHandlerService.class).getDocHandlerUrl(form.getDocId()) + "&command=displayDocSearchView&docId=" + form.getDocId());
+
 	}
 
 	protected void releaseLocksForLoggedInUser(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {

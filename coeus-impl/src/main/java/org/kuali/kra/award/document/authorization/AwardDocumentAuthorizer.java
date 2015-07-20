@@ -21,6 +21,7 @@ package org.kuali.kra.award.document.authorization;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
@@ -328,7 +329,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
 
     private boolean isInRightStateToApprove(Document document) {
-        return !(isFinal(document) || isProcessed (document));
+        return !(isFinal(document) || isProcessed (document)) && !((KcTransactionalDocumentBase)document).isViewOnly();
     }
 
     protected boolean hasPermissionToBlanketApprove(Document document, Person user) {
