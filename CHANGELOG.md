@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1507.36
 *  Fix for copy dialog STE on ownedByUnit readonly replacement
 
   * Read-only replacement was causing an issue with the copy dialog because those fields dont exist on the object for the dialog copy object, copy is never read-only so this removes the replacement
