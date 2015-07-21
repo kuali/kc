@@ -385,7 +385,7 @@
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
 		
 		<wsdl:operation name="GetOpportunities">
-			<soap:operation soapAction="http://ws.grants.gov:446/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetOpportunities" style="document" />
+			<soap:operation soapAction="http://ws.grants.gov:443/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetOpportunities" style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -399,7 +399,7 @@
 		</wsdl:operation>
 
 		<wsdl:operation name="SubmitApplication">
-			<soap:operation soapAction="http://ws.grants.gov:446/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/SubmitApplication" style="document" />
+			<soap:operation soapAction="http://ws.grants.gov:443/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/SubmitApplication" style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -412,7 +412,7 @@
 		</wsdl:operation>
 		
 		<wsdl:operation name="SubmitApplicationAsThirdParty">
-			<soap:operation soapAction="http://ws.grants.gov:446/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/SubmitApplicationAsThirdParty" style="document" />
+			<soap:operation soapAction="http://ws.grants.gov:443/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/SubmitApplicationAsThirdParty" style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -425,7 +425,7 @@
 		</wsdl:operation>
 
 		<wsdl:operation name="GetApplicationList">
-			<soap:operation soapAction="http://ws.grants.gov:446/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetApplicationList" style="document" />
+			<soap:operation soapAction="http://ws.grants.gov:443/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetApplicationList" style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -438,7 +438,7 @@
 		</wsdl:operation>
 		
 		<wsdl:operation name="GetApplicationListAsThirdParty">
-			<soap:operation soapAction="http://ws.grants.gov:446/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetApplicationListAsThirdParty" style="document" />
+			<soap:operation soapAction="http://ws.grants.gov:443/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetApplicationListAsThirdParty" style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -452,7 +452,7 @@
 		
 		<!-- GetApplicationStatusDetail Deprecated ... remove from next version of Applicant Web Services -->
 		<wsdl:operation name="GetApplicationStatusDetail">
-			<soap:operation soapAction="http://ws.grants.gov:446/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetApplicationStatusDetail" style="document" />
+			<soap:operation soapAction="http://ws.grants.gov:443/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetApplicationStatusDetail" style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -466,7 +466,7 @@
 		</wsdl:operation>
 
 		<wsdl:operation name="GetApplicationInfo">
-			<soap:operation soapAction="http://ws.grants.gov:446/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetApplicationInfo" style="document" />
+			<soap:operation soapAction="http://ws.grants.gov:443/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetApplicationInfo" style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -480,7 +480,7 @@
 		</wsdl:operation>
 		
 		<wsdl:operation name="GetApplicationInfoAsThirdParty">
-			<soap:operation soapAction="http://ws.grants.gov:446/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetApplicationInfoAsThirdParty" style="document" />
+			<soap:operation soapAction="http://ws.grants.gov:443/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/GetApplicationInfoAsThirdParty" style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -494,7 +494,7 @@
 		</wsdl:operation>
 		
 		<wsdl:operation name="AuthenticateAOR">
-			<soap:operation soapAction="http://ws.grants.gov:446/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/AuthenticateAOR" style="document" />
+			<soap:operation soapAction="http://ws.grants.gov:443/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/AuthenticateAOR" style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -513,7 +513,7 @@
 		<wsdl:port name="ApplicantWebServicesSoapPort"
 			binding="applicantws:ApplicantWebServicesSoapBinding">
 			<soap:address
-				location="http://ws.grants.gov:446/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/" />
+				location="http://ws.grants.gov:443/grantsws-applicant/services/v2/ApplicantWebServicesSoapPort/" />
 		</wsdl:port>
 	</wsdl:service>
 

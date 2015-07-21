@@ -158,9 +158,10 @@
 	<param name="s2s.keystore.password">keystore password</param>
 	<param name="s2s.truststore.location">path to truststore</param>
 	<param name="s2s.truststore.password">truststore password</param>
+	<param name="s2s.cert.algorithm">TLSv1.2</param>
 	
-	<param name="grants.gov.s2s.host.production">https://ws07.grants.gov:446/grantsws-applicant/services/v2/</param>
-	<param name="grants.gov.s2s.host.development">https://at07ws.grants.gov:446/grantsws-applicant/services/v2/</param>
+	<param name="grants.gov.s2s.host.production">https://ws07.grants.gov:443/grantsws-applicant/services/v2/</param>
+	<param name="grants.gov.s2s.host.development">https://at07ws.grants.gov:443/grantsws-applicant/services/v2/</param>
 	<param name="grants.gov.s2s.host">${grants.gov.s2s.host.development}</param>
 	<param name="grants.gov.s2s.port">ApplicantWebServicesSoapPort</param>
 
