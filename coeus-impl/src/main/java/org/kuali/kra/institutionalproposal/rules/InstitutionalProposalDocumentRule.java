@@ -235,10 +235,12 @@ public class InstitutionalProposalDocumentRule extends KcTransactionalDocumentRu
         boolean valid = true;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         List<InstitutionalProposalAttachment> instProposalAttachments = institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments();
+        int index = 0;
         for(InstitutionalProposalAttachment instProposalAttachment:instProposalAttachments) {
         InstitutionalProposalAddAttachmentRuleEvent event = new InstitutionalProposalAddAttachmentRuleEvent(INSTITUTIONAL_PROPOSAL,
                                                                institutionalProposalDocument,instProposalAttachment);
-        valid &= new InstitutionalProposalAddAttachmentRuleImpl().processAddInstitutionalProposalAttachmentBusinessRules(event);
+        valid &= new InstitutionalProposalAddAttachmentRuleImpl().processSaveInstitutionalProposalAttachment(event,index);
+        index++;
         }
         return valid;
     }

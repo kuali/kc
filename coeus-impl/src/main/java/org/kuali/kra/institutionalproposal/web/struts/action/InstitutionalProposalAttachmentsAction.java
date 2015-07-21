@@ -101,7 +101,7 @@ public class InstitutionalProposalAttachmentsAction extends InstitutionalProposa
         InstitutionalProposalAttachment instProposalAttachment = ((InstitutionalProposalForm) form).getInstitutionalProposalAttachmentBean().getNewAttachment();
     	String errorPath = INSTITUTIONAL_PROPOSAL;
         InstitutionalProposalAddAttachmentRuleEvent event = new InstitutionalProposalAddAttachmentRuleEvent(errorPath, institutionalProposalDocument, instProposalAttachment);
-        if(new InstitutionalProposalAddAttachmentRuleImpl().processAddInstitutionalProposalAttachment(event,selectedLineIndex)){
+        if(new InstitutionalProposalAddAttachmentRuleImpl().processSaveInstitutionalProposalAttachment(event, selectedLineIndex)){
             InstitutionalProposalAttachment editAttachment = institutionalProposalDocument.getInstitutionalProposal().getInstProposalAttachments().get(selectedLineIndex);
             editAttachment.setModifyAttachment(false);
             if (hasAttachmentBeenModified(editAttachment)) {
