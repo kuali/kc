@@ -26,4 +26,5 @@ spool 1507_oracle_kc_rice_server_upgrade.sql.log
 @./rice/bootstrap/V1507_006__InstitutionalProposalAttachments.sql
 @./rice/bootstrap/V1507_010__RESKC-607.sql
 @./rice/bootstrap/V1507_012__RESKC-633.sql
+@./rice/bootstrap/V1507_014__RESKC-637.sql
 commit;

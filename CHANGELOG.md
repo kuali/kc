@@ -1,6 +1,30 @@
 
 
 ##CURRENT
+* fix ip attachment validation
+
+  * When IP Attachment type is turned on (INSTITUTIONAL_PROPOSAL_ATTACHMENTS_FLAG) and user adds an attachment type to pending IP, If user accesses the IP via document search then an error message appears on screen without the ability to clear it.
+
+  * Steps to reproduce
+
+    create a proposal log
+    create an institute proposal from the proposal log
+    blanket approve
+    turn on IP attachments (INSTITUTIONAL_PROPOSAL_ATTACHMENTS_FLAG to Y)
+    for maintenance, add a type for IP Attachment type
+    find IP and edit
+    select the attachment type
+    add an attachment
+    remember IP document number
+    save and close IP
+    search Doc search for IP and open
+
+  * Error message appears on screen and does not allow user to navigate to other screens
+  * Joe Williams on Tue, 21 Jul 2015 08:23:05 -0500 [View Commit](../../commit/106de79aad859ce32b83a865f1fd23537ea6a2d3)
+* add create amendment permission to iacuc admin role
+  * Joe Williams on Wed, 22 Jul 2015 08:48:05 -0500 [View Commit](../../commit/6ab5d0f1c2b163f7d72853bdbde7e278718da6d4)
+
+##coeus-1507.41
 * switching to bitronix, removing xapool and jotm support
   * Travis Schneeberger on Tue, 21 Jul 2015 13:29:19 -0400 [View Commit](../../commit/4a237f351230842779994495a372bb328120d5e2)
 
