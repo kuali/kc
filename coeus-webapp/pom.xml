@@ -254,6 +254,7 @@
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>${frontend-maven-plugin.version}</version>
 			    <configuration>
+			    	<installDirectory>${jsfrontend.sources}</installDirectory>
 			        <workingDirectory>${jsfrontend.sources}</workingDirectory>
 			    </configuration>
                 <executions>
