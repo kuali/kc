@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  removal of the target tag
+  * Abraham Heward on Wed, 22 Jul 2015 13:30:47 -0700 [View Commit](../../commit/5e04fe7a37c7c393a7ab664c5b3d764cc783ce62)
+*  fix issue with budget line item group names displaying wrong
+
+  * When a budget line item group name is blank and not null extra parentheses are added to the groupname. These extra parentheses cause issues when opening the detail and rates modal.
+  * Joe Williams on Wed, 22 Jul 2015 16:41:03 -0500 [View Commit](../../commit/9bab1bf73efdeed2025b07001b270a7fe861715d)
+
+##coeus-1507.43
 * Summary service rest API documentation
   * blackcathacker on Fri, 17 Jul 2015 19:51:18 -0700 [View Commit](../../commit/4ec81dc72fe61e3cd01f4757d4815f69baad3358)
 *  Fixing underrecovery
