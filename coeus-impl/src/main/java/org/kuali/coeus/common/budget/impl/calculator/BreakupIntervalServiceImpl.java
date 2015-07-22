@@ -161,6 +161,7 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
         ScaleTwoDecimal underRecoveryCostShare = rateAndCost.getBaseCostSharingAmount().percentage(underRecoveryRate);
         rateAndCost.setUnderRecovery(underRecovery.add(underRecoveryCostShare));
     }
+
     private ScaleTwoDecimal filterInstituteRate(BreakUpInterval breakupInterval,RateAndCost rateAndCost) {
         Equals eqRateClassCode = new Equals("rateClassCode",rateAndCost.getRateClassCode());
         Equals eqRateTypeCode = new Equals("rateTypeCode",rateAndCost.getRateTypeCode());

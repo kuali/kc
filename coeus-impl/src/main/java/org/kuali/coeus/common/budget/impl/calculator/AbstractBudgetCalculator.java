@@ -35,11 +35,9 @@ import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.CostElement;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemBase;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
@@ -159,7 +157,7 @@ public abstract class AbstractBudgetCalculator {
                 }
             }
             // Add underrecovery rates
-            if(!isUndercoveryMatchesOverhead()){
+            if(!isUndercoveryMatchesOverhead()) {
                 Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
                 Equals equalsRT = new Equals("rateTypeCode", getUnderRecoveryRateTypeCode());
                 Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
@@ -167,9 +165,11 @@ public abstract class AbstractBudgetCalculator {
                 And RCRTandOnOff = new And(RCandRT, equalsOnOff);
                 budgetProposalRates.addAll(qlRates.filter(RCRTandOnOff));
             }
+
             Equals eActType = new Equals("activityTypeCode", activityTypeCode);
             budgetProposalRates = budgetProposalRates.filter(eActType);
         }
+
         if (budgetProposalRates != null && !budgetProposalRates.isEmpty()) {
             LesserThan lesserThan = new LesserThan("startDate", endDate);
             Equals equals = new Equals("startDate", endDate);
@@ -542,14 +542,11 @@ public abstract class AbstractBudgetCalculator {
                     breakUpInterval.setBudgetProposalLaRates(qlBreakupPropLARates);
                     breakupIntervals.add(breakUpInterval);
                 }
-                String underRecoveryRateTypeCode = getUnderRecoveryRateTypeCode();
                 // Set the URRates if required
-                if (!isUndercoveryMatchesOverhead() && hasValidUnderRecoveryRate(underRecoveryRateTypeCode)) {
+                if (!isUndercoveryMatchesOverhead() && hasValidUnderRecoveryRate()) {
                     Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
-                    Equals equalsRT = new Equals("rateTypeCode", underRecoveryRateTypeCode);
                     Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
-                    And RCandRT = new And(equalsRC, equalsRT);
-                    And RCRTandOnOff = new And(RCandRT, equalsOnOff);
+                    And RCRTandOnOff = new And(equalsRC, equalsOnOff);
                     QueryList<BudgetRate> qlUnderRecoveryRates = qlLineItemPropRates.filter(RCRTandOnOff);
                     if (qlUnderRecoveryRates != null && qlUnderRecoveryRates.size() > 0) {
                         LesserThan ltEndDate = new LesserThan("startDate", boundary.getEndDate());
@@ -574,14 +571,10 @@ public abstract class AbstractBudgetCalculator {
                 PERSONNEL_UNDERRECOVERY_RATE_TYPE_CODE : NON_PERSONNEL_UNDERRECOVERY_RATE_TYPE_CODE;
     }
 
-    private boolean hasValidUnderRecoveryRate(String underRecoveryRateTypeCode) {
+    private boolean hasValidUnderRecoveryRate() {
         Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
-
-
-        Equals equalsRT = new Equals("rateTypeCode", underRecoveryRateTypeCode);
         Equals equalsRCT = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
-        And RCandRT = new And(equalsRC, equalsRT);
-        And RCRTandRCT = new And(RCandRT, equalsRCT);
+        And RCRTandRCT = new And(equalsRC, equalsRCT);
         if(budgetLineItem.getCostElementBO()!=null && budgetLineItem.getCostElementBO().getValidCeRateTypes().isEmpty() ){
             budgetLineItem.getCostElementBO().refreshReferenceObject("validCeRateTypes");
         }
@@ -652,7 +645,6 @@ public abstract class AbstractBudgetCalculator {
         for (BreakUpInterval breakUpInterval : cvLIBreakupIntervals) {
             breakUpInterval.setRateNumber(rateNumber);
             getBreakupIntervalService().calculate(breakUpInterval);
-//            breakUpInterval.calculateBreakupInterval();
         }
     }
 
@@ -888,20 +880,10 @@ public abstract class AbstractBudgetCalculator {
         return dateTimeService;
     }
 
-    /**
-     * Gets the underrecoveryRates attribute.
-     * 
-     * @return Returns the underrecoveryRates.
-     */
     public QueryList<BudgetRate> getUnderrecoveryRates() {
         return underrecoveryRates;
     }
 
-    /**
-     * Sets the underrecoveryRates attribute value.
-     * 
-     * @param underrecoveryRates The underrecoveryRates to set.
-     */
     public void setUnderrecoveryRates(QueryList<BudgetRate> underrecoveryRates) {
         this.underrecoveryRates = underrecoveryRates;
     }
@@ -913,32 +895,19 @@ public abstract class AbstractBudgetCalculator {
     public void setInflationRates(QueryList<BudgetRate> inflationRates) {
         this.inflationRates = inflationRates;
     }
-    /**
-     * Gets the qlLineItemPropLaRates attribute. 
-     * @return Returns the qlLineItemPropLaRates.
-     */
+
     public QueryList<BudgetLaRate> getQlLineItemPropLaRates() {
         return lineItemPropLaRates;
     }
-    /**
-     * Sets the qlLineItemPropLaRates attribute value.
-     * @param qlLineItemPropLaRates The qlLineItemPropLaRates to set.
-     */
+
     public void setQlLineItemPropLaRates(QueryList<BudgetLaRate> qlLineItemPropLaRates) {
         this.lineItemPropLaRates = qlLineItemPropLaRates;
     }
 
-    /**
-     * Gets the qlLineItemPropRates attribute. 
-     * @return Returns the qlLineItemPropRates.
-     */
     public QueryList<BudgetRate> getQlLineItemPropRates() {
         return lineItemPropRates;
     }
-    /**
-     * Sets the qlLineItemPropRates attribute value.
-     * @param qlLineItemPropRates The qlLineItemPropRates to set.
-     */
+
     public void setQlLineItemPropRates(QueryList<BudgetRate> qlLineItemPropRates) {
         this.lineItemPropRates = qlLineItemPropRates;
     }
