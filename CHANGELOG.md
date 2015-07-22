@@ -1,6 +1,28 @@
 
 
 ##CURRENT
+* Summary service rest API documentation
+  * blackcathacker on Fri, 17 Jul 2015 19:51:18 -0700 [View Commit](../../commit/4ec81dc72fe61e3cd01f4757d4815f69baad3358)
+*  Fixing underrecovery
+  * Create a proposal type Research.
+  * Create a budget;
+  * in Settings: select Rate Type of TDC and select Unrecovered Rate Type of MTDC
+  * in Rates screen: set TDC rate to 10%
+  * Add budget non-personnel expenses and generate periods
+  * Review calculated Rate in budget item Details modal: TDC rate calculates correctly.
+  * But UR is negative value
+  * Review the P&T screen: note negative UR amount in column.
+  * Open Commitments> Unrecovered F&A screen. System says no UR generated.
+  * There SHOULD be UR because the TDC rate = 10% and the MTDC is 56%.
+  * Gayathri Athreya on Wed, 22 Jul 2015 10:04:44 -0700 [View Commit](../../commit/9a5773aa89f083a4d916b7c0988e892bbd134b34)
+*  Improvement to All My Proposals Search person fields
+
+  * This commit adds/fixes aggregator, participant, and initiator fields on proposal search.  Changes what All My Proposal retrieves to include aggregator and pi,coi,and mpi for proposals for the current user.Improves some of the logic around how these searches work - unfortunately it is still sub-optimal due to a bug in Rice, see jira https://jira.kuali.org/browse/KULRICE-14269.  Includes small performance improvements due to these changes and using server side paging.
+  * bsmith83 on Wed, 15 Jul 2015 10:09:43 -0700 [View Commit](../../commit/a2427487acb43ead29e54f3ef99ed033390b1f78)
+* Fix jenkins build by moving node install directory to working directory
+  * blackcathacker on Wed, 22 Jul 2015 12:48:33 -0700 [View Commit](../../commit/00c9a2866284141c5dc7fd32dffa4ac09ca8d9a5)
+
+##coeus-1507.42
 * fix ip attachment validation
 
   * When IP Attachment type is turned on (INSTITUTIONAL_PROPOSAL_ATTACHMENTS_FLAG) and user adds an attachment type to pending IP, If user accesses the IP via document search then an error message appears on screen without the ability to clear it.
