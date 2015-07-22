@@ -20,7 +20,6 @@ package org.kuali.coeus.sys.impl.service;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.KeyValue;
-import org.apache.commons.collections4.Predicate;
 import org.apache.commons.collections4.keyvalue.DefaultKeyValue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,6 +34,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsAbstractException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
@@ -78,9 +78,7 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
             return;
         }
         if (parent.getResourceLoaders() != null) {
-            for (ResourceLoader child : parent.getResourceLoaders()) {
-                processResourceLoader(child);
-            }
+            parent.getResourceLoaders().forEach(this::processResourceLoader);
         }
         if (parent instanceof SpringResourceLoader) {
             springResourceLoaders.add((SpringResourceLoader) parent);
@@ -95,12 +93,7 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
      */
     @Test
     public void test_all_spring_bean_retrieval() {
-        toEachSpringBean(new VoidFunction() {
-            @Override
-            public void r(ApplicationContext context, String name) {
-                context.getBean(name);
-            }
-        }, false);
+        toEachSpringBean(BeanFactory::getBean, false);
     }
 
     /**
@@ -133,7 +126,7 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
                             if (rlFailures == null) {
                                 rlFailures = new ArrayList<>();
                             }
-                            rlFailures.add(new DefaultKeyValue<String, Exception>(name, e));
+                            rlFailures.add(new DefaultKeyValue<>(name, e));
                             failedBeans.put(r.getName(), rlFailures);
                     }
                         }
@@ -219,20 +212,17 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
     public void test_beans_across_other_contexts_correct_scope() {
         final Set<String> prototypes = new HashSet<>();
         final Set<String> nonPrototypes = new HashSet<>();
-        toEachSpringBean(new VoidFunction() {
-            @Override
-            public void r(ApplicationContext context, String name) {
-                final Object o = context.getBean(name);
-                final Object o2 = context.getBean(name);
+        toEachSpringBean((context, name) -> {
+            final Object o = context.getBean(name);
+            final Object o2 = context.getBean(name);
 
-                if (o != o2) {
-                    //skip checking if a proxy
-                    if (!Proxy.isProxyClass(o.getClass())) {
-                        prototypes.add(name);
-                    }
-                } else {
-                    nonPrototypes.add(name);
+            if (o != o2) {
+                //skip checking if a proxy
+                if (!Proxy.isProxyClass(o.getClass())) {
+                    prototypes.add(name);
                 }
+            } else {
+                nonPrototypes.add(name);
             }
         }, true);
         final Collection<String> misConfigured = CollectionUtils.retainAll(nonPrototypes, prototypes);
@@ -246,9 +236,7 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
     @Test
     public void test_beans_across_other_contexts_name_conflict() {
         final HashMap<String, Set<Class<?>>> beans = new HashMap<>();
-        toEachSpringBean(new VoidFunction() {
-            @Override
-            public void r(ApplicationContext context, String name) {
+        toEachSpringBean((context, name) -> {
                 Object o = context.getBean(name);
                 if (o != null) {
                     Set<Class<?>> beanClasses = beans.get(name);
@@ -273,22 +261,17 @@ public class SpringBeanConfigurationTest extends KcIntegrationTestBase {
                     LOG.warn("bean " + name + " is null");
                 }
 
-            }
-        }, true);
+            }, true);
 
         final Set<Map.Entry<String, Set<Class<?>>>> entrySet = new HashSet<>(beans.entrySet());
-        CollectionUtils.filter(entrySet, new Predicate<Map.Entry<String, Set<Class<?>>>>() {
-            @Override
-            public boolean evaluate(Map.Entry<String, Set<Class<?>>> object) {
-                return object.getValue().size() > 1;
-            }
-        });
+        CollectionUtils.filter(entrySet, object -> object.getValue().size() > 1);
 
         Assert.assertTrue("The following bean names are duplicated in different contexts with different class names " + entrySet,
                 entrySet.isEmpty());
     }
 
-    private static interface VoidFunction {
+    @FunctionalInterface
+    private interface VoidFunction {
         void r(ApplicationContext context, String name);
     }
 }

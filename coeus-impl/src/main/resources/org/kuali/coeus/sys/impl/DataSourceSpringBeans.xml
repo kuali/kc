@@ -34,11 +34,8 @@
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
     </bean>
 
-    <bean id="transactionManagerXAPool" class="org.kuali.rice.core.impl.util.spring.RiceJotmFactoryBean">
-        <property name="defaultTimeout" value="${transaction.timeout}"/>
-    </bean>
-
     <bean id="btmConfig" factory-method="getConfiguration" class="bitronix.tm.TransactionManagerServices" lazy-init="true">
+        <property name="serverId" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}_TM_KC"/>
     </bean>
 
     <bean id="transactionManagerBitronix" class="bitronix.tm.TransactionManagerServices"
@@ -47,39 +44,16 @@
     <alias name="transactionManager${connection.pool.impl}" alias="jtaTransactionManager"/>
     <alias name="transactionManager${connection.pool.impl}" alias="jtaUserTransaction"/>
 
-	<bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource" lazy-init="true">
-		<property name="transactionManager" ref="transactionManagerXAPool" />
-		<property name="driverClassName" value="${server.datasource.driver.name}" />
-		<property name="url" value="${server.datasource.url}" />
-		<property name="maxSize" value="${server.datasource.pool.maxSize}" />
-		<property name="minSize" value="${server.datasource.pool.minSize}" />
-		<property name="maxWait" value="${server.datasource.pool.maxWait}" />
-		<property name="validationQuery" value="${server.datasource.pool.validationQuery}" />
-		<property name="username" value="${server.datasource.username}" />
-		<property name="password" value="${server.datasource.password}" />
-	</bean>
-
-	<bean id="dataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource" lazy-init="true">
-		<property name="transactionManager" ref="transactionManagerXAPool" />
-		<property name="driverClassName" value="${datasource.driver.name}" />
-		<property name="url" value="${datasource.url}" />
-		<property name="maxSize" value="${datasource.pool.maxSize}" />
-		<property name="minSize" value="${datasource.pool.minSize}" />
-		<property name="maxWait" value="${datasource.pool.maxWait}" />
-		<property name="validationQuery" value="${datasource.pool.validationQuery}" />
-		<property name="username" value="${datasource.username}" />
-		<property name="password" value="${datasource.password}" />
-	</bean>
-
   <bean id="riceDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
         destroy-method="close" lazy-init="true">
     <property name="className" value="${server.datasource.pool.class.non.xa}" />
-    <property name="uniqueName" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}" />
+    <property name="uniqueName" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}_KC_RICE" />
     <property name="minPoolSize" value="${server.datasource.pool.minSize}" />
     <property name="maxPoolSize" value="${server.datasource.pool.maxSize}" />
-    <property name="useTmJoin" value="true" />
-    <property name="testQuery" value="${server.datasource.pool.validationQuery}" />
+    <property name="enableJdbc4ConnectionTest" value="true" />
+    <property name="shareTransactionConnections" value="true" />
     <property name="allowLocalTransactions" value="true" />
+    <property name="deferConnectionRelease" value="true" />
     <property name="driverProperties">
       <props>
         <prop key="Url">${server.datasource.url}</prop>
@@ -93,12 +67,13 @@
   <bean id="dataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
         destroy-method="close" lazy-init="true">
     <property name="className" value="${datasource.pool.class.non.xa}" />
-    <property name="uniqueName" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}" />
+    <property name="uniqueName" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}_KC" />
     <property name="minPoolSize" value="${datasource.pool.minSize}" />
     <property name="maxPoolSize" value="${datasource.pool.maxSize}" />
-    <property name="useTmJoin" value="true" />
-    <property name="testQuery" value="${datasource.pool.validationQuery}" />
+    <property name="enableJdbc4ConnectionTest" value="true" />
+    <property name="shareTransactionConnections" value="true" />
     <property name="allowLocalTransactions" value="true" />
+    <property name="deferConnectionRelease" value="true" />
     <property name="driverProperties">
       <props>
         <prop key="Url">${datasource.url}</prop>
@@ -112,12 +87,13 @@
   <bean id="riceDataSourceBitronixXa" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
  	      destroy-method="close" lazy-init="true">
     <property name="className" value="${server.datasource.pool.class}" />
-    <property name="uniqueName" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}" />
+    <property name="uniqueName" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}_KC_RICE_XA" />
     <property name="minPoolSize" value="${server.datasource.pool.minSize}" />
     <property name="maxPoolSize" value="${server.datasource.pool.maxSize}" />
-    <property name="useTmJoin" value="true" />
-    <property name="testQuery" value="${server.datasource.pool.validationQuery}" />
+    <property name="enableJdbc4ConnectionTest" value="true" />
+    <property name="shareTransactionConnections" value="true" />
     <property name="allowLocalTransactions" value="true" />
+    <property name="deferConnectionRelease" value="true" />
     <property name="driverProperties">
       <props>
         <prop key="URL">${server.datasource.url}</prop>
@@ -130,12 +106,13 @@
   <bean id="dataSourceBitronixXa" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
  	      destroy-method="close" lazy-init="true">
     <property name="className" value="${datasource.pool.class}" />
-    <property name="uniqueName" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}" />
+    <property name="uniqueName" value="#{T(org.apache.commons.lang3.RandomStringUtils).randomAlphanumeric(20)}_KC_XA" />
     <property name="minPoolSize" value="${datasource.pool.minSize}" />
     <property name="maxPoolSize" value="${datasource.pool.maxSize}" />
-    <property name="useTmJoin" value="true" />
-    <property name="testQuery" value="${datasource.pool.validationQuery}" />
+    <property name="enableJdbc4ConnectionTest" value="true" />
+    <property name="shareTransactionConnections" value="true" />
     <property name="allowLocalTransactions" value="true" />
+    <property name="deferConnectionRelease" value="true" />
     <property name="driverProperties">
       <props>
         <prop key="URL">${datasource.url}</prop>

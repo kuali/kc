@@ -202,9 +202,8 @@
 	<param name="kew.ehcache.config.location" override="false">classpath:org/kuali/rice/kew/impl/config/kew.ehcache.xml</param>
 	<param name="core.ehcache.config.location" override="false">classpath:org/kuali/rice/core/config/core.ehcache.xml</param>
 	<param name="location.ehcache.config.location" override="false">classpath:org/kuali/rice/location/config/location.ehcache.xml</param>
-	
-	 <!-- XAPool is still the default in common-config-defaults. But that might change -->
-	<param name="connection.pool.impl">XAPool</param>
+
+	<param name="connection.pool.impl">Bitronix</param>
 	 
 	<param name="rice.portal.allowed.regex" override="false">^(${application.url}|${rice.server.url})(/.*|)</param>
 	<param name="kc.config.verifier.hard.error">true</param>

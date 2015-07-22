@@ -364,11 +364,6 @@
         </dependency>
 
         <dependency>
-            <groupId>logkit</groupId>
-            <artifactId>logkit</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>net.bull.javamelody</groupId>
             <artifactId>javamelody-core</artifactId>
         </dependency>
