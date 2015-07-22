@@ -49,7 +49,7 @@ public class InstitutionalProposalAddAttachmentRuleImpl extends KcTransactionalD
     }
     
     @Override
-    public boolean processAddInstitutionalProposalAttachment(InstitutionalProposalAddAttachmentRuleEvent institutionalProposalRuleEvent,int i) {
+    public boolean processSaveInstitutionalProposalAttachment(InstitutionalProposalAddAttachmentRuleEvent institutionalProposalRuleEvent, int i) {
         InstitutionalProposalAttachment proposalAttachment = institutionalProposalRuleEvent.getInstitutionalProposalDocument().getInstitutionalProposal().getInstProposalAttachment(i);
         boolean valid=true;
         if( proposalAttachment.getAttachmentTypeCode()  == null ) {

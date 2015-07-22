@@ -29,6 +29,6 @@ public interface InstitutionalProposalAddAttachmentRule extends BusinessRule {
      * @return true if valid, false otherwise
      */
     boolean processAddInstitutionalProposalAttachmentBusinessRules(InstitutionalProposalAddAttachmentRuleEvent institutionalProposalAddAttachmentRuleEvent);
-    boolean processAddInstitutionalProposalAttachment(InstitutionalProposalAddAttachmentRuleEvent institutionalProposalAttachment,int i);
+    boolean processSaveInstitutionalProposalAttachment(InstitutionalProposalAddAttachmentRuleEvent institutionalProposalAttachment, int i);
     
 }
