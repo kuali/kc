@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.common.budget.framework.personnel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.api.personnel.BudgetPersonnelDetailsContract;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
@@ -740,7 +741,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase implements Budget
 	public String getPersonDetailGroup() {
 		StringBuffer personDetailGroup = new StringBuffer();
 		personDetailGroup.append(getBudgetLineItem().getCostElementBO().getDescription());
-		if(getBudgetLineItem().getGroupName() != null) {
+		if(StringUtils.isNotEmpty(getBudgetLineItem().getGroupName())) {
 			personDetailGroup.append(" (");
 			personDetailGroup.append(getBudgetLineItem().getGroupName());
 			personDetailGroup.append(")");
