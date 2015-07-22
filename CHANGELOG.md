@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* switching to bitronix, removing xapool and jotm support
+  * Travis Schneeberger on Tue, 21 Jul 2015 13:29:19 -0400 [View Commit](../../commit/4a237f351230842779994495a372bb328120d5e2)
+
+##coeus-1507.40
 * No Changes
 
 
