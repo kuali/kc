@@ -18,12 +18,11 @@
  */
 package org.kuali.coeus.propdev.impl.core;
 
-import java.util.*;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.auth.docperm.DocumentAccess;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.common.framework.unit.UnitService;
@@ -31,6 +30,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -41,6 +41,8 @@ import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.lookup.LookupableImpl;
@@ -55,6 +57,10 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.*;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+
 
 @Component("propDevLookupableHelperService")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -62,6 +68,26 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
     private static final long serialVersionUID = 1L;
     private static final int SMALL_NUMBER_OF_RESULTS = 4;
+    private static final int IN_OP_LIMIT = 1000;
+
+    private static final String INITIATOR = "initiator";
+    private static final String PRINCIPAL_INVESTIGATOR_NAME = "principalInvestigatorName";
+    private static final String PROPOSAL_PERSON = "proposalPerson";
+    private static final String PROPOSAL_NUMBER = "proposalNumber";
+    private static final String AGGREGATOR = "aggregator";
+    private static final String PARTICIPANT = "participant";
+
+    private static final String PROPOSAL_DOCUMENT_DOCUMENT_NUMBER = "proposalDocument.documentNumber";
+    private static final String LAST_NAME = "lastName";
+    private static final String PERSON_ID = "personId";
+    private static final String USER_NAME = "userName";
+    private static final String PROPOSAL_PERSON_ROLE_ID = "proposalPersonRoleId";
+    private static final String PRINCIPAL_ID = "principalId";
+    private static final String NAMESPACE_CODE = "namespaceCode";
+    private static final String ROLE_NAME = "roleName";
+    private static final String PROPOSAL_DEVELOPMENT_DOCUMENT = "ProposalDevelopmentDocument";
+
+
 
     @Autowired
     @Qualifier("kcAuthorizationService") 
@@ -95,6 +121,9 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
     @Qualifier("unitService")
     private UnitService unitService;
 
+    @Autowired
+    @Qualifier("personService")
+    private PersonService personService;
 
     @Override
     protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria,
@@ -102,45 +131,61 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
         Map<String,String> modifiedSearchCriteria = new HashMap<String,String>();
         modifiedSearchCriteria.putAll(adjustedSearchCriteria);
-        List<String> proposalNumbers = new ArrayList<String>();
-        String proposalNumberCriteria = adjustedSearchCriteria.get("proposalNumber");
+
+        String proposalNumberCriteria = adjustedSearchCriteria.get(PROPOSAL_NUMBER);
         boolean proposalNumberWildcarded = false;
 
         if (!StringUtils.isEmpty(proposalNumberCriteria) && proposalNumberCriteria.contains("*")) {
             proposalNumberWildcarded = true;
         }
 
+        List<String> documentNumbers = new ArrayList<>();
+        // If a specific proposal is not targeted by the proposal primary key, collect the document numbers of any
+        // proposal documents which are associated with the various search person search fields and intersect them
         if (StringUtils.isEmpty(proposalNumberCriteria) || proposalNumberWildcarded) {
-            String principalInvestigatorName = adjustedSearchCriteria.get("principalInvestigatorName");
-            String proposalPerson = adjustedSearchCriteria.get("proposalPerson");
-            String aggregator = adjustedSearchCriteria.get("aggregator");
-            List<String> piProposals = getPiProposalNumbers(principalInvestigatorName);
-            List<String> personProposals = getPersonProposalNumbers(proposalPerson);
-            List<String> aggregatorProposals = getAggregatorProposalNumbers(aggregator);
-            proposalNumbers = combineProposalNumbers(piProposals,personProposals,aggregatorProposals);
+            String principalInvestigatorName = adjustedSearchCriteria.get(PRINCIPAL_INVESTIGATOR_NAME);
+            String proposalPerson = adjustedSearchCriteria.get(PROPOSAL_PERSON);
+            String initiator = adjustedSearchCriteria.get(INITIATOR);
+            String participant = adjustedSearchCriteria.get(PARTICIPANT);
+            String aggregator = adjustedSearchCriteria.get(AGGREGATOR);
 
+            Collection<String> piProposals = getPiDocumentNumbers(principalInvestigatorName);
+            Collection<String> personProposals = getProposalPersonDocumentNumbers(proposalPerson);
+            Collection<String> initiatorProposals = getInitiatorDocumentNumbers(initiator);
+            Collection<String> aggregatorProposals = getAggregatorDocumentNumbers(aggregator);
+            Collection<String> participantProposals = getParticipantDocumentNumbers(participant);
+
+            documentNumbers = intersectCollections(piProposals,personProposals,initiatorProposals,aggregatorProposals,participantProposals);
+
+            if (documentNumbers.size() > IN_OP_LIMIT) {
+                documentNumbers = documentNumbers.subList(0, IN_OP_LIMIT - 1);
+            }
         }
-        modifiedSearchCriteria.remove("proposalPerson");
-        modifiedSearchCriteria.remove("aggregator");
-        modifiedSearchCriteria.remove("principalInvestigatorName");
 
+        modifiedSearchCriteria.remove(PROPOSAL_PERSON);
+        modifiedSearchCriteria.remove(INITIATOR);
+        modifiedSearchCriteria.remove(PRINCIPAL_INVESTIGATOR_NAME);
+        modifiedSearchCriteria.remove(PARTICIPANT);
+        modifiedSearchCriteria.remove(AGGREGATOR);
 
         QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(DevelopmentProposal.class, modifiedSearchCriteria,
                 wildcardAsLiteralSearchCriteria, getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(DevelopmentProposal.class, modifiedSearchCriteria));
         if (searchResultsLimit != null) {
             query.setMaxResults(searchResultsLimit);
         }
+
         if ((StringUtils.isBlank(proposalNumberCriteria) || proposalNumberWildcarded)
-                && proposalNumbers.size() > 0) {
+                && documentNumbers.size() > 0) {
             if (modifiedSearchCriteria.size() > 0){
                 List<Predicate> predicateList = new ArrayList(Arrays.asList(query.getPredicates()));
-                predicateList.add(PredicateFactory.in("proposalNumber", proposalNumbers));
+                predicateList.add(PredicateFactory.in(PROPOSAL_DOCUMENT_DOCUMENT_NUMBER, documentNumbers));
                 query.setPredicates(PredicateFactory.and(predicateList.toArray(new Predicate[predicateList.size()])));
             }
             else{
-                query.setPredicates(PredicateFactory.in("proposalNumber", proposalNumbers));
+                query.setPredicates(PredicateFactory.in(PROPOSAL_DOCUMENT_DOCUMENT_NUMBER, documentNumbers));
             }
         }
+
         final List<DevelopmentProposal> proposals = getDataObjectService().findMatching(DevelopmentProposal.class, query.build()).getResults();
 
         boolean doNotFilter = false;
@@ -204,115 +249,194 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
                 || permissionService.isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,  PermissionConstants.VIEW_PROPOSAL, qualifiers);
     }
 
-    private List<String> getPiProposalNumbers(String principalInvestigatorName) {
-        List<String> piProposals = new ArrayList<String>();
-        if (StringUtils.isNotEmpty(principalInvestigatorName)) {
-            QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(ProposalPerson.class, new HashMap<String,String>(),
-                               new ArrayList<String>(), false);
-
-            List<Predicate> andPredicates = new ArrayList<Predicate>();
-            andPredicates.add(buildProposalPersonOrPredicate(principalInvestigatorName));
-            andPredicates.add(PredicateFactory.equalIgnoreCase("proposalPersonRoleId", Constants.PRINCIPAL_INVESTIGATOR_ROLE));
-
-            query.setPredicates(PredicateFactory.and(andPredicates.toArray(new Predicate[andPredicates.size()])));
-
-            List<ProposalPerson> principalInvestigators = getDataObjectService().findMatching(ProposalPerson.class, query.build()).getResults();
-            for (ProposalPerson pi : principalInvestigators) {
-                piProposals.add(pi.getProposalNumber());
-            }
-            if (CollectionUtils.isEmpty(piProposals)) {
-                piProposals.add("");
-            }
+    private List<String> getPiDocumentNumbers(String personSearchString) {
+        if (StringUtils.isEmpty(personSearchString)) {
+            return new ArrayList<>();
         }
+
+        List<String> piProposals = new ArrayList<String>();
+        Collection<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.fromPredicates(
+                PredicateFactory.equal(PROPOSAL_PERSON_ROLE_ID, Constants.PRINCIPAL_INVESTIGATOR_ROLE),
+                buildProposalPersonOrPredicate(personSearchString)
+        )).getResults();
+
+        for (ProposalPerson person : proposalPersons) {
+            piProposals.add(person.getDevelopmentProposal().getDocument().getDocumentNumber());
+        }
+
         return piProposals;
     }
 
-    private List<String> getPersonProposalNumbers(String proposalPerson) {
-        List<String> personProposals = new ArrayList<String>();
-        if (StringUtils.isNotEmpty(proposalPerson)) {
-            QueryByCriteria.Builder query = lookupCriteriaGenerator.generateCriteria(ProposalPerson.class, new HashMap<String, String>(),
-                    new ArrayList<String>(), false);
-
-            query.setPredicates(buildProposalPersonOrPredicate(proposalPerson));
-
-            List<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class,query.build()).getResults();
-            for (ProposalPerson person : proposalPersons) {
-                personProposals.add(person.getProposalNumber());
-            }
-            if (CollectionUtils.isEmpty(personProposals)) {
-                personProposals.add("");
-            }
+    /**
+     * Retrieves all proposal person associated document numbers
+     * with the personSearchString given (matches on lastName, principalName, and principalIds).
+     * The proposal persons matched can have any role.
+     */
+    private List<String> getProposalPersonDocumentNumbers(String personSearchString) {
+        if (StringUtils.isEmpty(personSearchString)) {
+            return new ArrayList<>();
         }
+
+        List<String> personProposals = new ArrayList<String>();
+        Collection<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.fromPredicates(
+                buildProposalPersonOrPredicate(personSearchString)
+        )).getResults();
+
+        for (ProposalPerson person : proposalPersons) {
+            personProposals.add(person.getDevelopmentProposal().getDocument().getDocumentNumber());
+        }
+
         return personProposals;
     }
 
-    private List<String> getAggregatorProposalNumbers(String aggregator) {
-        List<String> aggregatorProposals = new ArrayList<String>();
-        if (StringUtils.isNotEmpty(aggregator)) {
-            List<String> documentIds = getDocumentIds(aggregator);
-            if (CollectionUtils.isNotEmpty(documentIds)) {
-                QueryByCriteria queryByCriteria = QueryByCriteria.Builder.andAttributes(Collections.singletonMap("documentNumber",documentIds)).build();
-
-                List<ProposalDevelopmentDocument> documents = getDataObjectService().findMatching(ProposalDevelopmentDocument.class,queryByCriteria).getResults();
-                for (ProposalDevelopmentDocument document : documents) {
-                    //there some rare cases of orphaned dev proposal records...
-                    if (document.getDevelopmentProposal() != null) {
-                        aggregatorProposals.add(document.getDevelopmentProposal().getProposalNumber());
-                    }
-                }
-            }
-             if (CollectionUtils.isEmpty(aggregatorProposals)){
-                aggregatorProposals.add("");
-            }
+    /**
+     * Retrieves all "participants" associated document numbers
+     * with the personSearchString given (matches on lastName, principalName, and principalIds).
+     * ProposalDevelopment participants are aggregators or investigators the PI, COI, or MPI roles.
+     */
+    private Set<String> getParticipantDocumentNumbers(String personSearchString) {
+        if (StringUtils.isEmpty(personSearchString)) {
+            return new HashSet<>();
         }
-        return aggregatorProposals;
+
+        Set<String> participantProposals = new HashSet<>();
+
+        List<String> propRoles = new ArrayList<>();
+        propRoles.add(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+        propRoles.add(Constants.CO_INVESTIGATOR_ROLE);
+        propRoles.add(Constants.MULTI_PI_ROLE);
+
+        Set<String> principalIds = getMatchingPrincipalIds(personSearchString);
+
+        Collection<ProposalPerson> proposalPersons = getDataObjectService().findMatching(ProposalPerson.class, QueryByCriteria.Builder.fromPredicates(
+                PredicateFactory.in(PROPOSAL_PERSON_ROLE_ID, propRoles),
+                PredicateFactory.in(PERSON_ID, principalIds)
+        )).getResults();
+
+        for (ProposalPerson person : proposalPersons) {
+            participantProposals.add(person.getDevelopmentProposal().getDocument().getDocumentNumber());
+        }
+
+        List<String> aggregatorDocumentNumbers = getAggregatorDocumentNumbers(personSearchString, principalIds);
+        if (aggregatorDocumentNumbers != null) {
+            participantProposals.addAll(aggregatorDocumentNumbers);
+        }
+
+        return participantProposals;
     }
 
-    private Predicate buildProposalPersonOrPredicate(String personValue) {
+    private List<String> getAggregatorDocumentNumbers(String personSearchString) {
+        return getAggregatorDocumentNumbers(personSearchString, null);
+    }
+
+    /**
+     * Retrieves all aggregator associated document numbers
+     * with the personSearchString given (matches on lastName, principalName, and principalIds).
+     * Aggregators retrieved have the AGGREGATOR_DOCUMENT_LEVEL role and proposal development namepace.
+     */
+    private List<String> getAggregatorDocumentNumbers(String personSearchString, Collection<String> principalIds) {
+        if (StringUtils.isEmpty(personSearchString)) {
+            return new ArrayList<>();
+        }
+
+        if (CollectionUtils.isEmpty(principalIds)) {
+            principalIds = getMatchingPrincipalIds(personSearchString);
+        }
+
+        Collection<DocumentAccess> accesses = getDataObjectService().findMatching(DocumentAccess.class, QueryByCriteria.Builder.fromPredicates(
+                equal(ROLE_NAME, RoleConstants.AGGREGATOR_DOCUMENT_LEVEL),
+                equal(NAMESPACE_CODE, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT),
+                PredicateFactory.in(PRINCIPAL_ID, principalIds)
+        )).getResults();
+
+        List<String> documentNumbers = new ArrayList<>();
+        for (DocumentAccess access: accesses) {
+            documentNumbers.add(access.getDocumentNumber());
+        }
+
+        return documentNumbers;
+    }
+
+    /**
+     * Gets principal ids which match the search string by principalName, principalId, or lastName.
+     */
+    private Set<String> getMatchingPrincipalIds(String personSearchString) {
+        Set<String> principalIds = new HashSet<>();
+        Person person = getPersonService().getPersonByPrincipalName(personSearchString);
+        if (person != null) {
+            principalIds.add(person.getPrincipalId());
+        }
+
+        person = getPersonService().getPerson(personSearchString);
+        if (person != null) {
+            principalIds.add(person.getPrincipalId());
+        }
+
+        Map<String,String> criteria = new HashMap<>();
+        criteria.put(LAST_NAME, personSearchString);
+        List<Person> persons = getPersonService().findPeople(criteria);
+        for (Person p: persons) {
+            principalIds.add(p.getPrincipalId());
+        }
+
+        return principalIds;
+    }
+
+    private List<String> getInitiatorDocumentNumbers(String initiator) {
+        if (StringUtils.isEmpty(initiator)) {
+            return new ArrayList<>();
+        }
+
+        return getProposalDocumentIdsForInitiator(initiator);
+    }
+
+    /**
+     * Builds the or predicate used to find the person by userName, personId, and lastName for ProposalPerson objects.
+     */
+    private Predicate buildProposalPersonOrPredicate(String personSearchString) {
         List<Predicate> orPredicates = new ArrayList<Predicate>();
-        orPredicates.add(PredicateFactory.likeIgnoreCase("fullName", personValue.replace(" ", "*")));
-        orPredicates.add(PredicateFactory.likeIgnoreCase("userName", personValue));
-        orPredicates.add(PredicateFactory.likeIgnoreCase("personId", personValue));
-        orPredicates.add(PredicateFactory.likeIgnoreCase("lastName", personValue));
+        orPredicates.add(PredicateFactory.likeIgnoreCase(USER_NAME, personSearchString));
+        orPredicates.add(PredicateFactory.likeIgnoreCase(PERSON_ID, personSearchString));
+        orPredicates.add(PredicateFactory.likeIgnoreCase(LAST_NAME, personSearchString));
         Predicate orNamesPredicate = PredicateFactory.or(orPredicates.toArray(new Predicate[orPredicates.size()]));
 
         return orNamesPredicate;
     }
 
-    private List<String> getDocumentIds(String aggregator) {
+    /**
+     * Gets all initiator proposal development documents by principalName.
+     */
+    private List<String> getProposalDocumentIdsForInitiator(String initiator) {
         List<String> documentIds = new ArrayList<String>();
 
         DocumentSearchCriteria.Builder builder = DocumentSearchCriteria.Builder.create();
-        builder.setInitiatorPrincipalName(aggregator);
-        builder.setDocumentTypeName("ProposalDevelopmentDocument");
+        builder.setInitiatorPrincipalName(initiator);
+        builder.setDocumentTypeName(PROPOSAL_DEVELOPMENT_DOCUMENT);
         DocumentSearchResults results = workflowDocumentService.documentSearch(globalVariableService.getUserSession().getPrincipalId(), builder.build());
 
         for (DocumentSearchResult result : results.getSearchResults()) {
             documentIds.add(result.getDocument().getDocumentId());
         }
+
         return documentIds;
     }
 
-    private List<String> combineProposalNumbers(List<String> piProposals,List<String> personProposals ,List<String> aggregatorProposals) {
-        List<String> proposalNumbers = new ArrayList<String>();
-        List<String> tmpProposalNumbers = new ArrayList<String>();
-        if (CollectionUtils.isNotEmpty(piProposals) && CollectionUtils.isNotEmpty(personProposals)) {
-            tmpProposalNumbers = (List<String>)CollectionUtils.intersection(piProposals, personProposals);
-        } else if (CollectionUtils.isNotEmpty(piProposals)) {
-            tmpProposalNumbers = piProposals;
-        } else if (CollectionUtils.isNotEmpty(personProposals)){
-            tmpProposalNumbers = personProposals;
+    /**
+     * Intersects all non-empty, non-null collections provided to this method.
+     */
+    private List<String> intersectCollections(Collection<String>... collections) {
+        Collection<String> finalCollection = new ArrayList<>();
+        for(Collection collection: collections) {
+            if (CollectionUtils.isNotEmpty(collection) && CollectionUtils.isNotEmpty(finalCollection)) {
+                finalCollection = CollectionUtils.intersection(collection, finalCollection);
+            }
+            else if (CollectionUtils.isNotEmpty(collection)) {
+                // First non-empty/non-null collection starts the intersected collection
+                finalCollection = collection;
+            }
         }
 
-        if (CollectionUtils.isNotEmpty(tmpProposalNumbers) && CollectionUtils.isNotEmpty(aggregatorProposals)) {
-            proposalNumbers = (List<String>)CollectionUtils.intersection(piProposals, personProposals);
-        } else if (CollectionUtils.isNotEmpty(tmpProposalNumbers)) {
-            proposalNumbers = tmpProposalNumbers;
-        } else if (CollectionUtils.isNotEmpty(aggregatorProposals)){
-            proposalNumbers = aggregatorProposals;
-        }
-
-        return proposalNumbers;
+        return new ArrayList<>(finalCollection);
     }
 
     /**
@@ -325,7 +449,7 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 	public void buildPropDevViewActionLink(Link actionLink, Object model, String title) throws WorkflowException {
 		actionLink.setTitle(title);
 		actionLink.setLinkText(title);
-		actionLink.setHref(getDocumentTypeService().getDocumentTypeByName("ProposalDevelopmentDocument").getResolvedDocumentHandlerUrl()
+		actionLink.setHref(getDocumentTypeService().getDocumentTypeByName(PROPOSAL_DEVELOPMENT_DOCUMENT).getResolvedDocumentHandlerUrl()
                 + "&docId="
                 + actionLink.getHref()
                 + KRADConstants.DOCHANDLER_URL_CHUNK+"&viewDocument=true");
@@ -429,5 +553,13 @@ public class PropDevLookupableHelperServiceImpl extends LookupableImpl implement
 
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 }

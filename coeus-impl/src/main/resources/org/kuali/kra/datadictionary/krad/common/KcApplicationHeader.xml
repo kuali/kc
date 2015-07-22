@@ -273,7 +273,8 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
                       p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
                       p:actionUrl.viewId="AllDevelopmentProposals-LookupViewId"
                       p:actionUrl.methodToCall="search"
-                      p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName,investigator=@{#userSession == null ? '' : #userSession.getPerson().getFirstName()+'*'+#userSession.getPerson().getLastName()}"
+                      p:actionUrl.requestParameters="lookupCriteria[participant]:@{#userSession == null ? '' : #userSession.getPerson().getPrincipalName()}"
+                      p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName"
                       p:actionUrl.controllerMapping="/lookup" p:order="30"   />
                 <bean parent="Uif-MenuAction" p:actionLabel="Create Proposal For S2S Opportunity"
                       p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
@@ -785,8 +786,8 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                                   p:actionUrl.requestParameters="command:initiate" p:order="20"/>
                             <bean parent="Uif-MenuAction" p:iconClass="icon-search"
                                   p:actionUrl.baseUrl="@{#ConfigProperties['application.url']}/kr-krad"
-                                  p:actionUrl.viewId="AllDevelopmentProposals-LookupViewId"
-                                  p:actionParameters="viewName:AllLookupableDevelopmentProposals-LookupViewName"
+                                  p:actionUrl.viewId="DevelopmentProposals-LookupViewId"
+                                  p:actionParameters="viewName:DevelopmentProposals-LookupViewName"
                                   p:actionUrl.controllerMapping="/lookup" p:order="30"/>
 
                         </list>
