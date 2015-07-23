@@ -36,7 +36,7 @@
 </script>
 <script type="text/javascript" src="scripts/medusaView.js"></script>  	
   	
-<c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"/>
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}"/>
 <c:set var="medusaLink" value="${KualiForm.methodToCall eq 'medusa'}"/>
 <div align="right"><kul:help documentTypeName="NegotiationDocument" pageName="Negotiation" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
@@ -56,7 +56,13 @@
 </kul:tab>
 
 
+
 <kul:panelFooter />
+    <c:if test="${readOnly}">
+        <c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_edit_temp.gif"/>
+        <c:set var="extraButtonProperty" value="methodToCall.edit"/>
+        <c:set var="extraButtonAlt" value="Edit or Version"/>
+    </c:if>
 	<kul:documentControls 
 		transactionalDocument="true"
 		suppressRoutingControls="true"

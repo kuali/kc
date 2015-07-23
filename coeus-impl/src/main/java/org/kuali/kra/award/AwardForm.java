@@ -1230,17 +1230,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     }
     
     public boolean getDisplayEditButton() {
-        boolean displayEditButton = !isViewOnly() && !getAwardDocument().isCanceled();
-        if (isDocOpenedFromAwardSearch() || getAwardDocument().isPlaceHolderDocument()) {
-            displayEditButton = true;
-        }
-        
-        VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(Award.class, getAwardDocument().getAward().getAwardNumber());
-        if (activeVersion != null) {
-            displayEditButton &= activeVersion.getSequenceOwnerSequenceNumber().equals(getAwardDocument().getAward().getSequenceNumber());
-        }
-        
-        return displayEditButton;
+        return !getAwardDocument().isCanceled();
     }
     
     protected VersionHistoryService getVersionHistoryService() {

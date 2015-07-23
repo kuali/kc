@@ -19,6 +19,7 @@
 package org.kuali.kra.institutionalproposal.document.authorization;
 
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -79,6 +80,21 @@ public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocume
         } else {
             return super.canInitiate(documentTypeName, user);
         }
+    }
+
+    @Override
+    public boolean canBlanketApprove(Document document, Person user) {
+        return !((KcTransactionalDocumentBase)document).isViewOnly() && super.canBlanketApprove(document, user);
+    }
+
+    @Override
+    public boolean canRoute(Document document, Person user) {
+        return !((KcTransactionalDocumentBase)document).isViewOnly() && super.canRoute(document, user);
+    }
+
+    @Override
+    public boolean canCancel(Document document, Person user) {
+        return !((KcTransactionalDocumentBase)document).isViewOnly() && super.canCancel(document,user);
     }
 
     private boolean canViewInstitutionalProposalAttachments(Person user, InstitutionalProposalDocument document) {

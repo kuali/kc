@@ -65,6 +65,7 @@ import java.util.Map;
 
 public class InstitutionalProposalHomeAction extends InstitutionalProposalAction {
     private static final String VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
+    private static final String PENDING = "PENDING";
 
     private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     private KcAttachmentService kcAttachmentService;
@@ -271,6 +272,12 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
         InstitutionalProposal institutionalProposal = institutionalProposalDocument.getInstitutionalProposal();
+
+        if (institutionalProposal.getProposalSequenceStatus().equalsIgnoreCase(PENDING)) {
+            response.sendRedirect(buildForwardUrl(institutionalProposalForm.getDocId()));
+            return null;
+        }
+
         InstitutionalProposal pendingProposal = findPendingVersion(institutionalProposal.getProposalNumber());
 
         ActionForward forward;
@@ -358,7 +365,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         InstitutionalProposalDocument newInstitutionalProposalDocument = getInstitutionalProposalService().createAndSaveNewVersion(institutionalProposal, institutionalProposalDocument);
         reinitializeForm(institutionalProposalForm, newInstitutionalProposalDocument);
        
-        return new ActionRedirect(makeDocumentOpenUrl(newInstitutionalProposalDocument));
+        return new ActionRedirect(buildForwardUrl(newInstitutionalProposalDocument.getDocumentNumber()));
     }
     
     
@@ -384,13 +391,6 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         institutionalProposalForm.initialize();
     }
 
-    private String makeDocumentOpenUrl(InstitutionalProposalDocument newInstitutionalProposalDocument) {
-        String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
-        String url = String.format("%s/DocHandler.do?command=displayDocSearchView&docId=%s", 
-                workflowUrl, newInstitutionalProposalDocument.getDocumentNumber());
-        return url;
-    }
-    
     private ActionForward showPromptForEditingPendingVersion(ActionMapping mapping, InstitutionalProposalForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return this.performQuestionWithoutInput(mapping, form, request, response, "EDIT_OR_VERSION_QUESTION_ID", getResources(
@@ -407,7 +407,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         }
         else {
             initializeFormWithInstutitionalProposal(institutionalProposalForm, institutionalProposal);
-            response.sendRedirect(makeDocumentOpenUrl(institutionalProposalForm.getInstitutionalProposalDocument()));
+            response.sendRedirect(buildForwardUrl(institutionalProposalForm.getDocId()));
             forward = null;
         }
         return forward;

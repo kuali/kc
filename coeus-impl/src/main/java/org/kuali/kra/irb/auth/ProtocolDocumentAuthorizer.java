@@ -20,11 +20,15 @@ package org.kuali.kra.irb.auth;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
@@ -46,6 +50,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     
 
     private static final long serialVersionUID = -8742664470188406956L;
+    public static final String CAN_MODIFY = "canModify";
 
     @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
@@ -75,6 +80,10 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
 
             if (canViewReviewComments(protocolDocument, user)) {
                 editModes.add(Constants.CAN_VIEW_REVIEW_COMMENTS);
+            }
+
+            if (canModify(protocolDocument, user)) {
+                editModes.add(CAN_MODIFY);
             }
         }
         
@@ -190,5 +199,17 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument)document, TaskName.RECALL_PROTOCOL);
     }
 
-    
+    public boolean canModify(ProtocolDocument document, Person user) {
+        Protocol protocol = document.getProtocol();
+        return (!getWorkFlowService().isInWorkflow(document) || protocol.isCorrectionMode()) &&
+                getAuthorizationService().hasPermission(user.getPrincipalId(), protocol, PermissionConstants.MODIFY_PROTOCOL);
+    }
+
+    protected KcWorkflowService getWorkFlowService() {
+        return KcServiceLocator.getService(KcWorkflowService.class);
+    }
+
+    protected KcAuthorizationService getAuthorizationService() {
+        return KcServiceLocator.getService(KcAuthorizationService.class);
+    }
 }

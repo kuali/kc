@@ -61,10 +61,11 @@ import java.util.Map;
  * 
  * This class represents the Struts Action for Award page(AwardHome.jsp) 
  */
-public class AwardHomeAction extends AwardAction { 
-    
+public class AwardHomeAction extends AwardAction {
+
     private static final String AWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
-    private static final String DOC_HANDLER_URL_PATTERN = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
+    private static final String PENDING = "PENDING";
+
     private ApprovedSubawardActionHelper approvedSubawardActionHelper;
     private ParameterService parameterService;
     
@@ -448,6 +449,10 @@ public class AwardHomeAction extends AwardAction {
         }
         
         if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(award, awardForm.getAwardHierarchyBean().getRootNode().getAwardNumber())) {
+            if (award.getAwardSequenceStatus().equalsIgnoreCase(PENDING)) {
+                response.sendRedirect(buildForwardUrl(awardForm.getDocId()));
+                return null;
+            }
             VersionHistory foundPending = findPendingVersion(award);
             cleanUpUserSession();
             if(foundPending != null) {
@@ -473,7 +478,7 @@ public class AwardHomeAction extends AwardAction {
         getVersionHistoryService().updateVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
                 GlobalVariables.getUserSession().getPrincipalName());
         reinitializeAwardForm(awardForm, newAwardDocument);
-        return new ActionForward(makeDocumentOpenUrl(newAwardDocument), true);
+        return new ActionForward(buildForwardUrl(newAwardDocument.getDocumentNumber()), true);
     }
     
     /**
@@ -562,12 +567,7 @@ public class AwardHomeAction extends AwardAction {
         document.setDocumentSaveAfterAwardLookupEditOrVersion(true);
         awardForm.initialize();
     }
-    
-    private String makeDocumentOpenUrl(AwardDocument newAwardDocument) {
-        String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
-        return String.format(DOC_HANDLER_URL_PATTERN, workflowUrl, newAwardDocument.getDocumentNumber());
-    }
-    
+
     private VersionHistory findPendingVersion(Award award) {
         List<VersionHistory> histories = getVersionHistoryService().loadVersionHistory(Award.class, award.getAwardNumber());
         VersionHistory foundPending = null;
@@ -598,7 +598,7 @@ public class AwardHomeAction extends AwardAction {
             forward = mapping.findForward(Constants.MAPPING_BASIC);
         } else {
             initializeFormWithAward(awardForm, (Award) foundPending.getSequenceOwner());
-            response.sendRedirect(makeDocumentOpenUrl(awardForm.getAwardDocument()));
+            response.sendRedirect(buildForwardUrl(awardForm.getDocId()));
             forward = null;
         }
         return forward;

@@ -32,6 +32,9 @@
 		parent="Uif-FooterBase">
 		<property name="items">
 			<list>
+                <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
+                      p:methodToCall="editProposal" p:actionLabel="Edit" p:order="05"
+                      p:render="@{viewOnly and (#editModes[#proposalAuthConsts.MODIFY_PROPOSAL_EDIT_MODE] or #editModes[#proposalAuthConsts.MODIFY_BUDGET_EDIT_MODE])}"/>
 				<bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
 					p:performClientSideValidation="true" p:methodToCall="navigate" 
 					p:actionLabel="Back" p:finalizeMethodToCall="finalizeNavigationLinks"

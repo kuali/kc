@@ -671,8 +671,12 @@ public class ProtocolProtocolAction extends ProtocolAction {
             }
         }
     }
-    
-    
+
+    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.sendRedirect(buildForwardUrl(((ProtocolForm) form).getDocId()));
+        return null;
+    }
+
     private KcNotificationService getKcNotificationService() {
         return KcServiceLocator.getService(KcNotificationService.class);
     }

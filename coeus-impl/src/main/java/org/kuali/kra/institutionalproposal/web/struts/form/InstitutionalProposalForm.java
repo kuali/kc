@@ -319,15 +319,7 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
     }
     
     public boolean getDisplayEditButton() {
-        boolean displayEditButton;
-        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) getDocument();
-        if (isDocOpenedFromIPSearch()) {
-            displayEditButton = true;
-        }else {
-            displayEditButton = !isViewOnly();
-        }
-        displayEditButton &= getInstitutionalProposalDocument().getInstitutionalProposal().isActiveVersion();
-        return displayEditButton;
+        return !getDocument().getDocumentHeader().getWorkflowDocument().isCanceled();
       }
     
     public boolean isCfdaLookupRequired() {

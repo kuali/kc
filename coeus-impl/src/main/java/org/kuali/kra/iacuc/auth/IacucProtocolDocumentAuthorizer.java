@@ -20,12 +20,17 @@ package org.kuali.kra.iacuc.auth;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
@@ -44,7 +49,6 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
 
     private static final long serialVersionUID = -5078229085592345997L;
 
-    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<>();
         
@@ -72,6 +76,10 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
 
             if (canViewReviewComments(iacucProtocolDocument, user)) {
                 editModes.add(Constants.CAN_VIEW_REVIEW_COMMENTS);
+            }
+
+            if (canModify(iacucProtocolDocument,user)) {
+                editModes.add(KraAuthorizationConstants.CAN_MODIFY);
             }
            
         }
@@ -179,4 +187,19 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
     public boolean canFyi(Document document, Person user) {
         return false;
     }
+
+    public boolean canModify(IacucProtocolDocument document, Person user) {
+        IacucProtocol iacucProtocol = document.getIacucProtocol();
+        return (!getWorkFlowService().isInWorkflow(document) || iacucProtocol.isCorrectionMode()) &&
+        getAuthorizationService().hasPermission(user.getPrincipalId(), iacucProtocol, PermissionConstants.MODIFY_IACUC_PROTOCOL);
+    }
+
+    protected KcWorkflowService getWorkFlowService() {
+        return KcServiceLocator.getService(KcWorkflowService.class);
+    }
+
+    protected KcAuthorizationService getAuthorizationService() {
+        return KcServiceLocator.getService(KcAuthorizationService.class);
+    }
+
 }

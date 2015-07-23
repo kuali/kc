@@ -54,7 +54,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class IacucProtocolAction extends ProtocolActionBase {
-   
+
     public static final String IACUC_PROTOCOL_NAME_HOOK = "iacucProtocol";
     public static final String IACUC_PROTOCOL_QUESTIONNAIRE_HOOK = "iacucQuestionnaire";
     public static final String IACUC_PROTOCOL_PERSONNEL_HOOK = "iacucPersonnel";
@@ -241,5 +241,9 @@ public class IacucProtocolAction extends ProtocolActionBase {
             getProtocolActionRequestService().createProtocol(protocolForm);
         }
     }
-    
+
+    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.sendRedirect(buildForwardUrl(((IacucProtocolForm)form).getDocId()));
+        return null;
+    }
 }

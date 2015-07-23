@@ -22,7 +22,7 @@
 <c:set var="negotiationUnassociatedDetailAttributes" value="${DataDictionary.NegotiationUnassociatedDetail.attributes}" />
 <c:set var="action" value="negotiationNegotiation" />
 <c:set var="className" value="org.kuali.kra.negotiations.document.NegotiationDocument" />
-<c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"/>
+<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}"/>
 <c:set var="medusaLink" value="${KualiForm.methodToCall eq 'medusa'}"/>
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
 

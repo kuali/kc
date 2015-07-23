@@ -28,28 +28,33 @@ import org.kuali.coeus.common.committee.impl.document.authorization.CommitteeTas
 import org.kuali.coeus.common.committee.impl.rules.CommitteeDocumentRuleBase;
 import org.kuali.coeus.common.committee.impl.service.CommitteeServiceBase;
 import org.kuali.coeus.common.committee.impl.web.struts.form.CommitteeFormBase;
+import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.Properties;
 
 /**
  * The CommitteeCommitteeActionBase corresponds to the CommitteeBase tab (web page).  It is
  * responsible for handling all user requests from that tab (web page).
  */
 public abstract class CommitteeCommitteeActionBase extends CommitteeActionBase {
-    
+
     private static final String COMMITTEE_ID = "committeeId";
+    private static final String COMMITTEE_DOCUMENT = "CommitteeDocument";
 
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeCommitteeActionBase.class);
-    
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -112,13 +117,39 @@ public abstract class CommitteeCommitteeActionBase extends CommitteeActionBase {
     }
 
     protected abstract CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee);
-    
-    
-    
+
+
+
     private CommitteeServiceBase getCommitteeService() {
         return (CommitteeServiceBase) KcServiceLocator.getService(getCommitteeServiceBOClassHook());
     }
 
     protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceBOClassHook();
+
+    public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        CommitteeFormBase committeeFormBase = (CommitteeFormBase) form;
+        if (committeeFormBase.getWorkflowDocument().isFinal()) {
+            response.sendRedirect(makeMaintenaceUrl(committeeFormBase.getDocId(),
+                    (committeeFormBase.getCommitteeDocument().getCommitteeId())));
+            return null;
+        }
+            response.sendRedirect(buildForwardUrl(committeeFormBase.getDocId()));
+            return null;
+
+    }
+
+    protected String makeMaintenaceUrl(String docId, String committeeId) {
+        String baseURL = getDocHandlerService().getDocHandlerUrl(docId);
+        final Properties parameters = new Properties();
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, COMMITTEE_DOCUMENT);
+        parameters.put(COMMITTEE_ID, committeeId);
+        return UrlFactory.parameterizeUrl(baseURL, parameters);
+    }
+
+    private DocHandlerService getDocHandlerService() {
+        return KcServiceLocator.getService(DocHandlerService.class);
+    }
     
 }

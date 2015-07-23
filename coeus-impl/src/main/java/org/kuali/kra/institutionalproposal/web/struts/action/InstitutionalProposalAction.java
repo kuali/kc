@@ -34,6 +34,7 @@ import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.common.framework.auth.UnitAuthorizationService;
+import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -103,7 +104,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
             Set<String> editModes = new HashSet<String>();
             if (!documentAuthorizer.canOpen(document, user)) {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
-            } else if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT)) {
+            } else if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT) && !((KcTransactionalDocumentFormBase) formBase).isViewOnly()) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             } else {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
@@ -125,6 +126,9 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
             } else {
                 if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW)) {
                     documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
+                }
+                if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_SAVE)) {
+                    documentActions.remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
                 }
             }
             
