@@ -102,6 +102,10 @@ public class CliOptions {
     public boolean containsQuestSeq() {
         return contains("questseq");
     }
+    
+    public boolean containsTimeAndMoneyDocStatus() {
+    	return contains("tmdocstatus");
+    }
 
     private boolean contains(String name) {
         for (String arg : args) {
@@ -222,7 +226,7 @@ public class CliOptions {
                 + "\n"
                 + "If platform is not specified then the platform will be autodetected from the connection strings.\n"
                 + "\n"
-                + "The valid conversion targets are (proposal|irb|iacuc|pprole|questseq).\n"
+                + "The valid conversion targets are (proposal|irb|iacuc|pprole|questseq|tmdocstatus).\n"
                 + "\n"
                 + "The dryrun flag may still cause database sequences to increment.\n"
                 + "\n"

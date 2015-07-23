@@ -35,7 +35,15 @@ The kc_demo script should be run against KC and the rice_demo against Rice.
 For embedded mode databases that are being maintained and upgraded separately from this process, you should not need to run the rice_server_upgrade scripts at all. But you will still need to run the kc_rice_server_upgrade scripts against Rice and the rice_client_upgrade scripts against KC.
 
 ##Custom Java Database Conversion Process
-Finally KC has a few more complicated and cross KC->Rice database conversions included. These conversions could not be done through plain sql similarly to the rest of these conversions due to the complicated nature to trying to transfer data between KC and Rice databases for embedded mode instances. Information on running these scripts can be found in this [README.md](../../../../../../../../../../coeus-db-data-conv/README.md) file. These conversions can be applied at any time after the 6.0 scripts have been applied. Some were build to be run as part of the 6.0 upgrade, others afterwards and as part of the 1505 upgrade, but currently there should be no problem applying them all immediately after the 6.0 upgrade or after the most recent 1506 upgrade.
+Finally KC has a few more complicated and cross KC->Rice database conversions included. These conversions could not be done through plain sql similarly to the rest of these conversions due to the complicated nature to trying to transfer data between KC and Rice databases for embedded mode instances. Information on running these scripts can be found in this [README.md](../../../../../../../../../../coeus-db-data-conv/README.md) file.
+
+There are currently 4 custom conversion processes and they should be run as follows. Each conversion type supported by the database conversion process should only be run once when upgrading a database.
+
+* Proposal (proposal) after all 600* scripts are run
+* Proposal Person Role (pprole) after all 600* scripts are run
+* KRMS Question & Questionnaire Sequence (questseq) after the 1505* scripts are run
+* Time & Money Document Status (tmdocstatus) after the 1507* scripts are run
+
 
 ##Mysql Specifics
 When running these scripts with mysql, be aware that by default any errors will cause the script to stop at that point. If you want to override this behavior and proceed regardless of errors(not recommended) you can use the '-f' flag to mysql. Mysql will print out any errors onto stderr when running from the command line.
