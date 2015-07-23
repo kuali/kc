@@ -281,6 +281,9 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         filters.getInclude().add("SSL_RSA_WITH_RC4_128_MD5");
         filters.getInclude().add("SSL_RSA_WITH_RC4_128_SHA");
         filters.getInclude().add("SSL_RSA_WITH_3DES_EDE_CBC_SHA");
+        filters.getInclude().add("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA");
+        filters.getInclude().add("TLS_DHE_RSA_WITH_AES_128_CBC_SHA");
+        filters.getInclude().add("TLS_DHE_DSS_WITH_AES_128_CBC_SHA256");
         filters.getInclude().add(".*_EXPORT_.*");
         filters.getInclude().add(".*_EXPORT1024_.*");
         filters.getInclude().add(".*_WITH_DES_.*");
@@ -289,7 +292,13 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         filters.getInclude().add(".*_WITH_NULL_.*");
         filters.getInclude().add(".*_DH_anon_.*");
 
-        tlsConfig.setDisableCNCheck(true); 
+        tlsConfig.setDisableCNCheck(true);
+
+        String certAlgorithm = getS2SConfigurationService().getValueAsString("s2s.cert.algorithm");
+        if(certAlgorithm!=null){
+            tlsConfig.setSecureSocketProtocol(certAlgorithm);
+        }
+
         tlsConfig.setCipherSuitesFilter(filters);
     }
 
