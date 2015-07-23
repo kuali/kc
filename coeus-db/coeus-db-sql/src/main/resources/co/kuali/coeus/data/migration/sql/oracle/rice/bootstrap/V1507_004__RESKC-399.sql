@@ -18,4 +18,4 @@
 --
 
 delete from krms_cntxt_vld_actn_typ_t where cntxt_id in ('KC-BUDGET-CONTEXT', 'KC-PD-CONTEXT')
-                                            and actn_typ_id = (select actn_typ_id from krms_typ_t where nm = 'Validation Action');
+                                            and actn_typ_id = (select typ_id from krms_typ_t where nm = 'Validation Action');
