@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Fixed several issues with Data Conversion RoleMember -> document_access conversion.
+
+  * 1. after converting only the KRIM_ROLE_MBR_ATTR_DATA_T entries were removed leaving KRIM_ROLE_MBR_T entries with no attribute data. I altered to remove the role member from both tables.
+  * 2. the compare method used to filter duplicate document access role members was incorrect causing data loss. The compare was only comparing document number so for a given role if more than one principal was a member only one would get converted and the others would be lost. I corrected the compare to fix this issue while still removing true duplicates.
+  * 3. We found role member records in our database with null document id attribute. So I added a check to ignore these.
+  * Travis Schneeberger on Wed, 22 Jul 2015 14:22:04 -0400 [View Commit](../../commit/106ffc5c0ed22e9d637e9028a4fbdb4ac2f0d1cb)
+
+##coeus-1507.45
 * Update Grants.gov for SHA-2, port 443, TLS-1.1/1.2
 
   * Grants.gov needs to be updated. Details on certificate and port requirements:
