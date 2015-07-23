@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+* Update Grants.gov for SHA-2, port 443, TLS-1.1/1.2
+
+  * Grants.gov needs to be updated. Details on certificate and port requirements:
+  * Additionally, you must utilize Port 443 with the SHA-2 based digital signature. Please note that all intermediate certificates in the certificate chain must also be SHA-2 in order to work with port 443.
+  * Port 443 will only support:
+  * SHA-2 Certificates
+  * TLS v1.1 and TLS v1.2
+
+  * Port 446 will be discontinued soon. MIT has already moved to the new port/transport mechanisms. We can grab their code from Geo's repo.
+  * Joe Williams on Tue, 21 Jul 2015 13:25:33 -0500 [View Commit](../../commit/b0bc615492063caaac0f612c789663a9d312b705)
+* Add 'edit' buttons to read-only instances of Kuali Research Docs
+
+  * As a user I need to be able to begin editing a document that is entered via read-only mode. This already works for Inst Prop and Award. Needs to be added to Prop Dev and any compliance docs where applicable. Should only show up when user otherwise would have edit permissions.
+  * Joe Williams on Mon, 20 Jul 2015 17:02:52 -0500 [View Commit](../../commit/18cc0437c270003c345bb79bf4629bf4c18a4d0e)
+
+##coeus-1507.44
 *  removal of the target tag
   * Abraham Heward on Wed, 22 Jul 2015 13:30:47 -0700 [View Commit](../../commit/5e04fe7a37c7c393a7ab664c5b3d764cc783ce62)
 *  fix issue with budget line item group names displaying wrong
