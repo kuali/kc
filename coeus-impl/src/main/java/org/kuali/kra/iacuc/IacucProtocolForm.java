@@ -366,5 +366,9 @@ public class IacucProtocolForm extends ProtocolFormBase {
         retVal.add(Constants.IACUC_PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME);
         return retVal;
     }
-   
+
+    public String getShortUrl() {
+        return  getBaseShortUrl() + "/kc-common/iacuc-protocols/" + getIacucProtocolDocument().getProtocol().getProtocolNumber();
+    }
+
 }

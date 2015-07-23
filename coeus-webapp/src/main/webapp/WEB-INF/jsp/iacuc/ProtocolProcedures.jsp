@@ -28,7 +28,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="procedures">
 
-  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Procedures" /></div>
+  	<div align="right">
+        <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+        <kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Procedures" />
+    </div>
   	
 	<div id="workarea">
 		<kra-iacuc:protocolProcedureOverviewAndTimeline businessObjectClassName="org.kuali.kra.iacuc.IacucProtocol"/>

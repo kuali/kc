@@ -30,6 +30,7 @@
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
   	<div align="right">
+		<kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
   	    <kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardActionsHelpUrl" altText="help"/>    
 </div>
   	

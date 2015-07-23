@@ -262,6 +262,8 @@
                               p:render="@{#editModes['showAlterProposalData'] and #editModes['alterProposalData']}"
                               p:iconClass="icon-pencil2 @{!#emptyList(document.developmentProposal.proposalChangedDataList)?'dataOverride':''}"
                               p:order="80" />
+						<bean parent="Uif-ActionLink" p:actionScript="showDialog('PropDev-ShortUrl-Dialog')"
+							  p:iconClass="icon-link" p:actionLabel="Link" p:order="85"/>
                         <bean parent="PropDev-HelpMenu" p:order="90"/>
                     </list>
 				</property>

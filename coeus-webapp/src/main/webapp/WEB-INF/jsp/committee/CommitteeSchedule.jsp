@@ -29,7 +29,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="committeeSchedule">
 
-<div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Schedule" /></div>
+<div align="right">
+    <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+    <kul:help documentTypeName="CommitteeDocument" pageName="Schedule" />
+</div>
   	 	
 <kra-committee:committeeSchedule />
 

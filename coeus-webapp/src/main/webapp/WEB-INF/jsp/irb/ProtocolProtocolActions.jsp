@@ -49,7 +49,10 @@
    .compare td, .compare th { color:#666666; }
 </style>
   	
-<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol Actions" /></div>
+<div align="right">
+    <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+    <kul:help documentTypeName="ProtocolDocument" pageName="Protocol Actions" />
+</div>
 <kra-irb:protocolRequestAction />
 <c:if test="${showActions}" >
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false" helpParameterNamespace="KC-PROTOCOL" helpParameterName="protocolDataValidationHelp" helpParameterDetailType="Document"/>

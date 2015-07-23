@@ -18,12 +18,9 @@
 --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ attribute name="documentTypeName" required="true" %>
 <%@ attribute name="name" required="true" %>
 <%@ attribute name="modifyPermissions" required="true" %>
 <%@ attribute name="permissionsUserAttributes" required="true" type="java.util.Map" %>
-
-<div align="right"><kul:help documentTypeName="${documentTypeName}" pageName="Permissions" /></div>
 
 <kra-protocol:protocolAssignedRoles name="${name}" /> 
 <kra-protocol:protocolPermissionsUsers name="${name}" 

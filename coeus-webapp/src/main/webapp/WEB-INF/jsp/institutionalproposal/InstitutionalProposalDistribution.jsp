@@ -30,7 +30,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="distribution">
   	
-  	<div align="right"><kul:help documentTypeName="InstitutionalProposalDocument" pageName="Distribution" /></div>
+  	<div align="right">
+       <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+       <kul:help documentTypeName="InstitutionalProposalDocument" pageName="Distribution" />
+    </div>
 
 <kra-ip:institutionalProposalCostShare/>
 <kra-ip:institutionalProposalUnrecoveredFAndA />

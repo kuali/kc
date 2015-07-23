@@ -985,7 +985,10 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         
         return extraButtons;
     }
-    
+
+    public String getShortUrl() {
+        return getBaseShortUrl() + "/kc-common/awards/" + getAwardDocument().getAward().getAwardNumber();
+    }
 
     private ConfigurationService lookupKualiConfigurationService() {
         return CoreApiServiceLocator.getKualiConfigurationService();

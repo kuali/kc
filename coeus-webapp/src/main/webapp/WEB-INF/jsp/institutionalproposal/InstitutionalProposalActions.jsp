@@ -28,7 +28,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="actions">
   	
-  	<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Institutional Proposal Actions" /></div>
+  	<div align="right">
+        <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+        <kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Institutional Proposal Actions" />
+    </div>
 
 <c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
 <c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request" />

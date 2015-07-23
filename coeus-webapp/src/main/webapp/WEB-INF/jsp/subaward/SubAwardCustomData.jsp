@@ -34,7 +34,10 @@
   	
   	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
   	
-  	<div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardCustomDataHelpUrl" altText="help"/></div>
+  	<div align="right">
+		<kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+		<kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardCustomDataHelpUrl" altText="help"/>
+	</div>
 	
 	<kra-customdata:customDataTab/>	
 	<c:choose>

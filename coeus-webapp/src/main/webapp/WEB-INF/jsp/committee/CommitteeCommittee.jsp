@@ -35,9 +35,10 @@
 	var $j = jQuery.noConflict();
 </script>
 
-<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}"/>
-
-<div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee" /></div>
+<div align="right">
+	<kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+	<kul:help documentTypeName="CommitteeDocument" pageName="Committee" />
+</div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-committee:committee />
 <kra-committee:committeeResearchAreas researchAreaReference = "org.kuali.kra.irb.ResearchArea"/>

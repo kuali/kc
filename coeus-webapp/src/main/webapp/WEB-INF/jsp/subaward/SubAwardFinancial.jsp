@@ -28,7 +28,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="financial"> 	  	
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
-	<div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardFinancialHelpUrl" altText="help"/></div>
+	<div align="right">
+       <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+       <kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardFinancialHelpUrl" altText="help"/>
+    </div>
 
 <div id="workarea">
 <script language="javascript" src="scripts/kuali_application.js"></script>

@@ -31,7 +31,10 @@
   	
 
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
-<div align="right"><kul:help documentTypeName="SubAwardDocument" pageName="Subaward" /></div>
+<div align="right">
+	<kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+	<kul:help documentTypeName="SubAwardDocument" pageName="Subaward" />
+</div>
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 

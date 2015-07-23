@@ -235,5 +235,10 @@ public abstract class CommitteeFormBase extends KcTransactionalDocumentFormBase 
         
         return result;
     }
+
+    public String getShortUrl() {
+        return getBaseShortUrl() + "/kc-common/committees/" + getCommitteeDocument().getCommitteeId();
+    }
+
 }
 

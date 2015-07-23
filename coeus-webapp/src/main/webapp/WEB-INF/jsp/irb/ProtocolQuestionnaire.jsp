@@ -37,7 +37,10 @@
     <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
     <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
     
-  	<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Questionnaire" /></div>
+  	<div align="right">
+        <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+        <kul:help documentTypeName="ProtocolDocument" pageName="Questionnaire" />
+    </div>
 	<kra-irb:protocolQuestionnaireAnswers property = "questionnaireHelper" bean = "${KualiForm.questionnaireHelper}"/>
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
    	

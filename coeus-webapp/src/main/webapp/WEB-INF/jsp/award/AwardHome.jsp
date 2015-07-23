@@ -32,7 +32,10 @@
 <c:set var="displayKeywordPanel" value="true" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
-<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Award" /></div>
+<div align="right">
+   <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+   <kul:help documentTypeName="AwardDocument" pageName="Award" />
+</div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-a:awardFundingProposals />
 <kra-a:awardDetailsDates />

@@ -21,7 +21,6 @@ package org.kuali.kra.subaward;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.rolodex.Rolodex;
-import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
@@ -477,6 +476,11 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     public boolean getDisplayEditButton() {
         return !getSubAwardDocument().getDocumentHeader().getWorkflowDocument().isCanceled();
     }
+
+    public String getShortUrl() {
+        return getBaseShortUrl() + "/kc-common/subawards/" + getSubAward().getSubAwardCode();
+    }
+
     /**
      * This method disables the caching of drop down lists.  
      * Subaward Print has a drop down list whose value depends on another drop down list.  With caching enabled the

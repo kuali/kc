@@ -27,6 +27,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.coeus.common.questionnaire.framework.core.MultiQuestionableFormInterface;
 import org.kuali.coeus.common.questionnaire.framework.core.QuestionableFormInterface;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
@@ -379,5 +380,13 @@ public abstract class KcTransactionalDocumentFormBase extends KualiTransactional
             }
         }
         return messages;
+    }
+
+    protected String getBaseShortUrl() {
+        return getConfigurationService().getPropertyValueAsString("application.url");
+    }
+
+    protected ConfigurationService getConfigurationService() {
+        return KcServiceLocator.getService(ConfigurationService.class);
     }
 }

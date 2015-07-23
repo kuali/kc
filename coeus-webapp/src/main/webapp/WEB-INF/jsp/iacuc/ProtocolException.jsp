@@ -32,7 +32,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="protocolException">
 
-  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Protocol Exception" /></div>
+  	<div align="right">
+		<kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+		<kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Protocol Exception" />
+	</div>
   	
 	<div id="workarea">
 		<kra-iacuc:protocolException businessObjectClassName="org.kuali.kra.iacuc.species.exception.IacucProtocolException"

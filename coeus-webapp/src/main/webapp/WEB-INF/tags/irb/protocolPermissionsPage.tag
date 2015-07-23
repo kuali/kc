@@ -18,10 +18,7 @@
 --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ attribute name="documentTypeName" required="true" %>
 <%@ attribute name="name" required="true" %>
-
-<div align="right"><kul:help documentTypeName="${documentTypeName}" pageName="Permissions" /></div>
 
 <kra-irb:protocolAssignedRoles name="${name}" /> 
 <kra-irb:protocolPermissionsUsers name="${name}" />

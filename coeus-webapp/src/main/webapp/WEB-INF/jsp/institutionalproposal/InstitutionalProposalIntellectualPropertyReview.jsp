@@ -27,7 +27,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="intellectualPropertyReview">
   	
-  	<div align="right"><kul:help documentTypeName="InstitutionalProposalDocument" pageName="Intellectual Property Review" /></div>
+  	<div align="right">
+        <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+        <kul:help documentTypeName="InstitutionalProposalDocument" pageName="Intellectual Property Review" />
+    </div>
 
 <kra-ip:institutionalProposalReviewData />
 <kra-ip:institutionalProposalActivities />

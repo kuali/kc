@@ -35,7 +35,10 @@
   	headerTabActive="budgets"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
   	
-  	<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Budget Versions" /></div>
+  	<div align="right">
+		<kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+		<kul:help documentTypeName="AwardDocument" pageName="Budget Versions" />
+	</div>
 
 	<c:set var="awardBudgetPage" value="true" scope = "request"/>
   	<kul:tabTop tabTitle="Budget Overview (${KualiForm.document.award.awardIdAccount})" defaultOpen="true" tabErrorKey="budgetParameters*,document.budgetVersionOverview.totalCostLimit" auditCluster="budgetParametersOverviewWarnings,awardBudgetTypeAuditErrors" tabAuditKey="document.budgetVersionOverview.totalCostLimit,document.budget.comments">
