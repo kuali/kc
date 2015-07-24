@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  Time and money document status performance
+  * Brandon Nicholls on Mon, 22 Jun 2015 16:16:25 -0400 [View Commit](../../commit/7160ff88e64918afdebc52cb5cbb3b2668e3d8f7)
+* Data conversion to support new status column
+  * blackcathacker on Thu, 23 Jul 2015 12:34:07 -0700 [View Commit](../../commit/f69bdc3dd1f888ca7aa5b4a310016522c4231604)
+* Award and T&M Improvements
+  * blackcathacker on Tue, 23 Jun 2015 11:38:33 -0400 [View Commit](../../commit/21087b492d8d05f38482a08bc66601a2179ab683)
+
+##coeus-1507.50
 * No Changes
 
 
