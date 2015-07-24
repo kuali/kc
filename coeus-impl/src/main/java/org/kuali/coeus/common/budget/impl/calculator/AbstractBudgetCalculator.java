@@ -19,7 +19,6 @@
 package org.kuali.coeus.common.budget.impl.calculator;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.calculator.*;
 import org.kuali.coeus.common.budget.framework.query.*;
@@ -57,8 +56,10 @@ import java.util.*;
  * Base class for <code>LineItemCalculator</code> and <code>PersonnelLineItemCalculator</code>.
  */
 public abstract class AbstractBudgetCalculator {
-    private static final String PERSONNEL_UNDERRECOVERY_RATE_TYPE_CODE = "1";
-    public static final String NON_PERSONNEL_UNDERRECOVERY_RATE_TYPE_CODE = "2";
+    public static final String RATE_CLASS_CODE = "rateClassCode";
+    public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
+    public static final String RATE_TYPE_CODE = "rateTypeCode";
+    public static final String START_DATE = "startDate";
     private LegacyDataAdapter legacyDataAdapter;
     private DateTimeService dateTimeService;
     protected Budget budget;
@@ -127,9 +128,9 @@ public abstract class AbstractBudgetCalculator {
         for (AbstractBudgetCalculatedAmount calAmtsBean : lineItemCalcAmts) {
             String rateClassCode = calAmtsBean.getRateClassCode();
             String rateTypeCode = calAmtsBean.getRateTypeCode();
-            Equals equalsRC = new Equals("rateClassCode", rateClassCode);
-            Equals equalsRT = new Equals("rateTypeCode", rateTypeCode);
-            Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
+            Equals equalsRC = new Equals(RATE_CLASS_CODE, rateClassCode);
+            Equals equalsRT = new Equals(RATE_TYPE_CODE, rateTypeCode);
+            Equals equalsOnOff = new Equals(ON_OFF_CAMPUS_FLAG, budgetLineItem.getOnOffCampusFlag());
 
             And RCandRT = new And(equalsRC, equalsRT);
             And RCRTandOnOff = new And(RCandRT, equalsOnOff);
@@ -142,9 +143,9 @@ public abstract class AbstractBudgetCalculator {
             // Add inflation rates separately because, calculated amount list will not have inflation rates listed
             if (infltionValidCalcCeRates != null && !infltionValidCalcCeRates.isEmpty()) {
                 for (ValidCeRateType inflationValidceRate : infltionValidCalcCeRates) {
-                    Equals equalsRC = new Equals("rateClassCode", inflationValidceRate.getRateClassCode());
-                    Equals equalsRT = new Equals("rateTypeCode", inflationValidceRate.getRateTypeCode());
-                    Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
+                    Equals equalsRC = new Equals(RATE_CLASS_CODE, inflationValidceRate.getRateClassCode());
+                    Equals equalsRT = new Equals(RATE_TYPE_CODE, inflationValidceRate.getRateTypeCode());
+                    Equals equalsOnOff = new Equals(ON_OFF_CAMPUS_FLAG, budgetLineItem.getOnOffCampusFlag());
                     And RCandRT = new And(equalsRC, equalsRT);
                     And RCRTandOnOff = new And(RCandRT, equalsOnOff);
                     Equals eActType = new Equals("activityTypeCode", activityTypeCode);
@@ -158,11 +159,9 @@ public abstract class AbstractBudgetCalculator {
             }
             // Add underrecovery rates
             if(!isUndercoveryMatchesOverhead()) {
-                Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
-                Equals equalsRT = new Equals("rateTypeCode", getUnderRecoveryRateTypeCode());
-                Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
-                And RCandRT = new And(equalsRC, equalsRT);
-                And RCRTandOnOff = new And(RCandRT, equalsOnOff);
+                Equals equalsRC = new Equals(RATE_CLASS_CODE, budget.getUrRateClassCode());
+                Equals equalsOnOff = new Equals(ON_OFF_CAMPUS_FLAG, budgetLineItem.getOnOffCampusFlag());
+                And RCRTandOnOff = new And(equalsRC, equalsOnOff);
                 budgetProposalRates.addAll(qlRates.filter(RCRTandOnOff));
             }
 
@@ -171,8 +170,8 @@ public abstract class AbstractBudgetCalculator {
         }
 
         if (budgetProposalRates != null && !budgetProposalRates.isEmpty()) {
-            LesserThan lesserThan = new LesserThan("startDate", endDate);
-            Equals equals = new Equals("startDate", endDate);
+            LesserThan lesserThan = new LesserThan(START_DATE, endDate);
+            Equals equals = new Equals(START_DATE, endDate);
             Or or = new Or(lesserThan, equals);
             budgetProposalRates = budgetProposalRates.filter(or);
         }
@@ -258,8 +257,8 @@ public abstract class AbstractBudgetCalculator {
             for (AbstractBudgetCalculatedAmount calculatedAmount : lineItemCalcAmts) {
                 rateClassCode = calculatedAmount.getRateClassCode();
                 rateTypeCode = calculatedAmount.getRateTypeCode();
-                equalsRC = new Equals("rateClassCode", rateClassCode);
-                equalsRT = new Equals("rateTypeCode", rateTypeCode);
+                equalsRC = new Equals(RATE_CLASS_CODE, rateClassCode);
+                equalsRT = new Equals(RATE_TYPE_CODE, rateTypeCode);
                 RCandRT = new And(equalsRC, equalsRT);
                 totalCalculatedCost = cvCombinedAmtDetails.sumObjects("calculatedCost", RCandRT);
 
@@ -388,7 +387,7 @@ public abstract class AbstractBudgetCalculator {
         qlCombinedRates.addAll(qlLineItemPropRates);
         qlCombinedRates.addAll(qlLineItemPropLaRates);
 
-        qlCombinedRates.sort("startDate", true);
+        qlCombinedRates.sort(START_DATE, true);
         Date liStartDate = budgetLineItem.getStartDate();
         Date liEndDate = budgetLineItem.getEndDate();
         List<Boundary> boundaries = createBreakupBoundaries(qlCombinedRates, liStartDate, liEndDate);
@@ -449,12 +448,12 @@ public abstract class AbstractBudgetCalculator {
                     qlRateAndCosts.add(rateCost);
 
                     // filter & store the rates applicable for this rate class / rate type
-                    Equals equalsRC = new Equals("rateClassCode", rateClassCode);
-                    Equals equalsRT = new Equals("rateTypeCode", rateTypeCode);
-                    LesserThan ltEndDate = new LesserThan("startDate", boundary.getEndDate());
-                    Equals equalsEndDate = new Equals("startDate", boundary.getEndDate());
-                    GreaterThan gtStartDate = new GreaterThan("startDate", boundary.getStartDate());
-                    Equals equalsStartDate = new Equals("startDate", boundary.getStartDate());
+                    Equals equalsRC = new Equals(RATE_CLASS_CODE, rateClassCode);
+                    Equals equalsRT = new Equals(RATE_TYPE_CODE, rateTypeCode);
+                    LesserThan ltEndDate = new LesserThan(START_DATE, boundary.getEndDate());
+                    Equals equalsEndDate = new Equals(START_DATE, boundary.getEndDate());
+                    GreaterThan gtStartDate = new GreaterThan(START_DATE, boundary.getStartDate());
+                    Equals equalsStartDate = new Equals(START_DATE, boundary.getStartDate());
                     Or gtStartDateOrEqStartDate = new Or(gtStartDate, equalsStartDate);
                     Or ltEndDateOrEqEndDate = new Or(ltEndDate, equalsEndDate);
                     And gtOrEqStartDateAndltOrEqEndDate = new And(gtStartDateOrEqStartDate, ltEndDateOrEqEndDate);
@@ -484,7 +483,7 @@ public abstract class AbstractBudgetCalculator {
                                 /**
                                  * sort the rates in desc order and take the first rate which is the latest
                                  */
-                                qlTempRates.sort("startDate", false);
+                                qlTempRates.sort(START_DATE, false);
                                 BudgetLaRate tempPropLaRate = (BudgetLaRate) qlTempRates.get(0);
                                 qlBreakupPropLARates.add(tempPropLaRate);
                             }
@@ -521,7 +520,7 @@ public abstract class AbstractBudgetCalculator {
                                 /**
                                  * sort the rates in desc order and take the first rate which is the latest
                                  */
-                                qlTempRates.sort("startDate", false);
+                                qlTempRates.sort(START_DATE, false);
                                 qlBreakupPropRates.add((BudgetRate) qlTempRates.get(0));
                             }
                         }
@@ -542,22 +541,29 @@ public abstract class AbstractBudgetCalculator {
                     breakUpInterval.setBudgetProposalLaRates(qlBreakupPropLARates);
                     breakupIntervals.add(breakUpInterval);
                 }
-                // Set the URRates if required
-                if (!isUndercoveryMatchesOverhead() && hasValidUnderRecoveryRate()) {
-                    Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
-                    Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
-                    And RCRTandOnOff = new And(equalsRC, equalsOnOff);
+
+                QueryList<ValidCeRateType> underrecoveryRates = getRateMappedToCostElement();
+                // get the rate class, rate type from the cost element and use that.
+                if (!isUndercoveryMatchesOverhead() && !underrecoveryRates.isEmpty()) {
+                    // you cannot have more than one rate mapped to this cost element, so always use the first.
+                    // if there's more than one mapped, it is wrong.
+                    Equals equalsRC = new Equals(RATE_CLASS_CODE, underrecoveryRates.get(0).getRateClassCode());
+                    Equals equalsOnOff = new Equals(ON_OFF_CAMPUS_FLAG, budgetLineItem.getOnOffCampusFlag());
+                    Equals equalsRT = new Equals(RATE_TYPE_CODE, underrecoveryRates.get(0).getRateTypeCode());
+                    And RCandRT = new And(equalsRC, equalsRT);
+                    And RCRTandOnOff = new And(RCandRT, equalsOnOff);
+
                     QueryList<BudgetRate> qlUnderRecoveryRates = qlLineItemPropRates.filter(RCRTandOnOff);
                     if (qlUnderRecoveryRates != null && qlUnderRecoveryRates.size() > 0) {
-                        LesserThan ltEndDate = new LesserThan("startDate", boundary.getEndDate());
-                        Equals equalsEndDate = new Equals("startDate", boundary.getEndDate());
+                        LesserThan ltEndDate = new LesserThan(START_DATE, boundary.getEndDate());
+                        Equals equalsEndDate = new Equals(START_DATE, boundary.getEndDate());
                         Or ltEndDateOrEqEndDate = new Or(ltEndDate, equalsEndDate);
                         qlTempRates = qlUnderRecoveryRates.filter(ltEndDateOrEqEndDate);
                         if (qlTempRates != null && qlTempRates.size() > 0) {
                             /*
                              * sort the rates in desc order and take the first rate which is the latest
                              */
-                            qlTempRates.sort("startDate", false);
+                            qlTempRates.sort(START_DATE, false);
                             breakUpInterval.setURRatesBean((BudgetRate) qlTempRates.get(0));
                         }
                     }
@@ -566,20 +572,15 @@ public abstract class AbstractBudgetCalculator {
         }
     }
 
-    private String getUnderRecoveryRateTypeCode() {
-        return StringUtils.equalsIgnoreCase(getPersonnelBudgetCategoryTypeCode(), budgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode()) ?
-                PERSONNEL_UNDERRECOVERY_RATE_TYPE_CODE : NON_PERSONNEL_UNDERRECOVERY_RATE_TYPE_CODE;
-    }
-
-    private boolean hasValidUnderRecoveryRate() {
-        Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
+    private QueryList<ValidCeRateType> getRateMappedToCostElement() {
+        Equals equalsRC = new Equals(RATE_CLASS_CODE, budget.getUrRateClassCode());
         Equals equalsRCT = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
         And RCRTandRCT = new And(equalsRC, equalsRCT);
         if(budgetLineItem.getCostElementBO()!=null && budgetLineItem.getCostElementBO().getValidCeRateTypes().isEmpty() ){
             budgetLineItem.getCostElementBO().refreshReferenceObject("validCeRateTypes");
         }
-        QueryList<ValidCeRateType> validCeRateTypes = new QueryList<ValidCeRateType>(budgetLineItem.getCostElementBO().getValidCeRateTypes());
-        return !validCeRateTypes.filter(RCRTandRCT).isEmpty();
+        QueryList<ValidCeRateType> validCeRateTypes = new QueryList<>(budgetLineItem.getCostElementBO().getValidCeRateTypes());
+        return validCeRateTypes.filter(RCRTandRCT);
     }
 
     public String getPersonnelBudgetCategoryTypeCode() {
@@ -602,9 +603,9 @@ public abstract class AbstractBudgetCalculator {
             Date tempStartDate = liStartDate;
             Date tempEndDate = liEndDate;
             Date rateChangeDate;
-            GreaterThan greaterThan = new GreaterThan("startDate", liStartDate);
+            GreaterThan greaterThan = new GreaterThan(START_DATE, liStartDate);
             qlCombinedRates = qlCombinedRates.filter(greaterThan);
-            qlCombinedRates.sort("startDate", true);
+            qlCombinedRates.sort(START_DATE, true);
             for (AbstractBudgetRate laRate : qlCombinedRates) {
                 rateChangeDate = laRate.getStartDate();
                 if (rateChangeDate.after(tempStartDate)) {
@@ -691,7 +692,7 @@ public abstract class AbstractBudgetCalculator {
     }
 
     private Equals equalsOverHeadRateClassCode() {
-        return new Equals("rateClassCode", "" + budget.getOhRateClassCode());
+        return new Equals(RATE_CLASS_CODE, "" + budget.getOhRateClassCode());
     }
 
     private NotEquals notEqualsOverHeadRateClassType() {
@@ -742,7 +743,7 @@ public abstract class AbstractBudgetCalculator {
             RateType rateType, String rateClassType) {
         QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
         Equals eqOhRateClassType = new Equals("rateClassType",rateClassType);
-        Equals eqOhRateClassOnCampusFlag = new Equals("onOffCampusFlag",budgetLineItem.getOnOffCampusFlag());
+        Equals eqOhRateClassOnCampusFlag = new Equals(ON_OFF_CAMPUS_FLAG,budgetLineItem.getOnOffCampusFlag());
         And eqRateClassTypeAndOhCampusFlag = new And(eqOhRateClassType,eqOhRateClassOnCampusFlag);
         List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassTypeAndOhCampusFlag);
         if(!filteredBudgetRates.isEmpty()){
@@ -834,8 +835,8 @@ public abstract class AbstractBudgetCalculator {
         
         QueryList<BudgetRate> budgetRates = new QueryList<BudgetRate>(budget.getBudgetRates());
         QueryList<BudgetLaRate> qlBudgetLaRates = new QueryList<BudgetLaRate>(budget.getBudgetLaRates());
-        Equals eqValidRateClassCode = new Equals("rateClassCode",rateClassCode);
-        Equals eqValidRateTypeCode = new Equals("rateTypeCode",rateType.getRateTypeCode());
+        Equals eqValidRateClassCode = new Equals(RATE_CLASS_CODE,rateClassCode);
+        Equals eqValidRateTypeCode = new Equals(RATE_TYPE_CODE,rateType.getRateTypeCode());
         And eqRateClassCodeAndRateTypeCode = new And(eqValidRateClassCode,eqValidRateTypeCode);
         List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassCodeAndRateTypeCode);
         List<BudgetLaRate> filteredBudgetLaRates = qlBudgetLaRates.filter(eqRateClassCodeAndRateTypeCode);
