@@ -18,4 +18,4 @@
 --
 
 insert into krim_role_perm_t (role_perm_id,obj_id,ver_nbr,role_id,perm_id,actv_ind)
-  values (concat('KC',krim_role_perm_id_s.nextval),sys_guid(),1,(select role_id from krim_role_t where role_nm = 'IACUC Administrator '),(select perm_id from krim_perm_t where nm = 'Create IACUC Amendment'),'Y');
+  values (concat('KC',krim_role_perm_id_s.nextval),sys_guid(),1,(select role_id from krim_role_t where role_nm = 'IACUC Administrator'),(select perm_id from krim_perm_t where nm = 'Create IACUC Amendment'),'Y');
