@@ -150,4 +150,14 @@
             </bean>
         </property>
      </bean>
+
+    <bean id="PropDev-ShortUrl-Dialog" parent="PropDev-ShortUrl-Dialog-parentBean"/>
+    <bean id="PropDev-ShortUrl-Dialog-parentBean" abstract="true" parent="Uif-DialogGroup"
+          p:headerText="Short URL">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="shortUrl" p:readOnly="false"/>
+            </list>
+        </property>
+    </bean>
 </beans>

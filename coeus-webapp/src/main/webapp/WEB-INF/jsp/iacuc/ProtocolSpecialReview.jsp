@@ -28,7 +28,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="specialReview">
 
-<div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="Special Review" /></div>
+<div align="right">
+   <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+   <kul:help documentTypeName="IacucProtocolDocument" pageName="Special Review" />
+</div>
 
 <div id="workarea">
 	<kra-specialreview:specialReviewPage businessObjectClassName="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview"

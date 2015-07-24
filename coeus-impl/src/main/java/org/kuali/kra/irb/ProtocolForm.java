@@ -56,6 +56,7 @@ import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
 import org.kuali.coeus.common.questionnaire.framework.answer.ModuleQuestionnaireBean;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
@@ -401,6 +402,14 @@ public class ProtocolForm extends ProtocolFormBase {
 
     public void setReinitializeModifySubmissionFields(boolean reinitializeModifySubmissionFields) {
         this.reinitializeModifySubmissionFields = reinitializeModifySubmissionFields;
+    }
+
+    public String getShortUrl() {
+        return getBaseShortUrl() + "/kc-common/irb-protocols/" + getProtocolDocument().getProtocol().getProtocolNumber();
+    }
+
+    protected ConfigurationService getConfigurationService() {
+        return KcServiceLocator.getService(ConfigurationService.class);
     }
     
 }

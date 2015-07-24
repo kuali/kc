@@ -71,7 +71,10 @@
    });   
 </script>
 
-	<div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="The Three R's" /></div>
+	<div align="right">
+        <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+        <kul:help documentTypeName="IacucProtocolDocument" pageName="The Three R's" />
+    </div>
 
 <kra-iacuc:iacucProtocolPrinciples 
     protocolPrinciples="${protocolPrinciples}" />

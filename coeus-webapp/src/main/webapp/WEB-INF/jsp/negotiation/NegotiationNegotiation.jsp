@@ -38,7 +38,10 @@
   	
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}"/>
 <c:set var="medusaLink" value="${KualiForm.methodToCall eq 'medusa'}"/>
-<div align="right"><kul:help documentTypeName="NegotiationDocument" pageName="Negotiation" /></div>
+<div align="right">
+    <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+    <kul:help documentTypeName="NegotiationDocument" pageName="Negotiation" />
+</div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
  <kra-negotiation:negotiation />

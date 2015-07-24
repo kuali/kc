@@ -27,7 +27,12 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="permissions">
-  	
-  	<kra-irb:protocolPermissionsPage name="${KualiForm.actionName}" documentTypeName="${KualiForm.docTypeName}" />
+
+
+   <div align="right">
+      <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+      <kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Permissions" />
+   </div>
+  	<kra-irb:protocolPermissionsPage name="${KualiForm.actionName}" />
   	
 </kul:documentPage>

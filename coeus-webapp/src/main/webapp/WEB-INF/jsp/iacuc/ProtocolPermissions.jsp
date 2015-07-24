@@ -31,10 +31,13 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="permissions">
 
-	
+    <div align="right">
+        <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+        <kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Permissions" />
+    </div>
+
     <kra-protocol:protocolPermissionsPage 
            name="${KualiForm.actionName}" 
-           documentTypeName="${KualiForm.docTypeName}"
            modifyPermissions="${modifyPermissions}"
            permissionsUserAttributes="${permissionsUserAttributes}"
            />

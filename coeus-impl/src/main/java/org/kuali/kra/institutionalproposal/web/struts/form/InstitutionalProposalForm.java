@@ -404,4 +404,8 @@ public class InstitutionalProposalForm extends KcTransactionalDocumentFormBase i
         return extraButtons;
     }
 
+    public String getShortUrl() {
+        return getBaseShortUrl() + "/kc-common/proposals/" + getInstitutionalProposalDocument().getInstitutionalProposal().getInstProposalNumber();
+    }
+
 }

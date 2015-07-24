@@ -30,7 +30,10 @@
   	headerTabActive="templateInformation">
   	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
-<div align="right"><kul:help documentTypeName="SubAwardDocument" pageName="Template Information" /></div>
+<div align="right">
+   <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+   <kul:help documentTypeName="SubAwardDocument" pageName="Template Information" />
+</div>
 
 <div id="workarea"> 
 <kra-sub:subAwardTemplate/>

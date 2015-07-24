@@ -33,7 +33,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="personnel">
   	
-  	<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Personnel" /></div>
+  	<div align="right">
+		<kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+		<kul:help documentTypeName="ProtocolDocument" pageName="Personnel" />
+	</div>
 
 	<c:set var="viewOnly" value="${not KualiForm.personnelHelper.modifyPersonnel}" />
 	<kra-irb:protocolAddPersonnelSection/>

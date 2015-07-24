@@ -32,7 +32,10 @@
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
 <%-- modeled after ProposalDevelopmentKeyPersonnel.jsp --%>
-<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Contacts" /></div>
+<div align="right">
+    <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+    <kul:help documentTypeName="AwardDocument" pageName="Contacts" />
+</div>
 
 <div id="workarea">
 	<kra-a:awardProjectPersonnel />

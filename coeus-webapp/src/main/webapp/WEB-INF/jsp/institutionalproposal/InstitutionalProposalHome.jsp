@@ -30,7 +30,10 @@
 <c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
 <c:set var="canEdit" value="${KualiForm.editingMode['modifyIP'] && KualiForm.displayEditButton}" scope="request" />
 
-<div align="right"><kul:help documentTypeName="InstitutionalProposalDocument" pageName="Institutional Proposal" /></div>
+<div align="right">
+    <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+    <kul:help documentTypeName="InstitutionalProposalDocument" pageName="Institutional Proposal" />
+</div>
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-ip:institutionalProposalInstitutionalProposal />

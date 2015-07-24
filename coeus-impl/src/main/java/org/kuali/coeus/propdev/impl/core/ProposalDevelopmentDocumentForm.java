@@ -54,6 +54,7 @@ import org.kuali.coeus.sys.framework.validation.Auditable;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.data.util.Link;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
@@ -665,4 +666,13 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
 	public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
 		this.hierarchyProposalNumber = hierarchyProposalNumber;
 	}
+
+    public String getShortUrl() {
+        String host = getConfigurationService().getPropertyValueAsString("application.url");
+        return host + "/kc-common/development-proposals/" + getDevelopmentProposal().getProposalNumber();
+    }
+
+    protected ConfigurationService getConfigurationService() {
+        return KcServiceLocator.getService(ConfigurationService.class);
+    }
 }

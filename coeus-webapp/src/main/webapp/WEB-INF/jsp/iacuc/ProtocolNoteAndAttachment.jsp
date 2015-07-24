@@ -337,7 +337,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="noteAndAttachment">
   	
-<div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="Notes%20%26%20Attachments" /></div>
+<div align="right">
+    <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+    <kul:help documentTypeName="IacucProtocolDocument" pageName="Notes%20%26%20Attachments" />
+</div>
 <div id="workarea">
 <kra-protocol:protocolAttachmentProtocol 
     protocolAttachmentProtocolAttributes="${protocolAttachmentProtocolAttributes}"

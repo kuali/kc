@@ -30,7 +30,10 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="customData">
   	
-<div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Custom Data" /></div>
+<div align="right">
+   <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+   <kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Custom Data" />
+</div>
 
 <kra-customdata:customDataTab  />
  

@@ -62,7 +62,10 @@
 
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}"/>
   	
-<div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="Protocol" /></div>
+<div align="right">
+    <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+    <kul:help documentTypeName="IacucProtocolDocument" pageName="Protocol" />
+</div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-protocol:protocolRequiredFields

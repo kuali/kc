@@ -30,7 +30,10 @@
  	
  	<c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 
-<div align="right"><kul:help documentTypeName="AwardDocument" pageName="Payment%2C%20Reports%20%26%20Terms" /></div>
+<div align="right">
+	<kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+	<kul:help documentTypeName="AwardDocument" pageName="Payment%2C%20Reports%20%26%20Terms" />
+</div>
 
 <kra-a:awardPaymentAndInvoices />
 <kra-a:awardCgb />

@@ -29,7 +29,9 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="subAwardActions"> 	
   	
-  	<div align="right"><kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardActionsHelpUrl" altText="help"/></div>
+  	<div align="right">
+       <kra:shortUrl shortUrl="${KualiForm.shortUrl}"/>
+       <kul:help parameterNamespace="KC-SUBAWARD" parameterDetailType="Document" parameterName="subAwardActionsHelpUrl" altText="help"/></div>
   	
 <div id="workarea">
 <kra-sub:subAwardDataValidation /> 
