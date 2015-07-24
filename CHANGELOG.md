@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Adding a profile to cleanup node since these are generated artifacts of the build process.
+  * Travis Schneeberger on Fri, 24 Jul 2015 10:48:02 -0400 [View Commit](../../commit/15a13cd315fd821d33a433163b03939fd4359918)
+
+##coeus-1507.51
 *  Time and money document status performance
   * Brandon Nicholls on Mon, 22 Jun 2015 16:16:25 -0400 [View Commit](../../commit/7160ff88e64918afdebc52cb5cbb3b2668e3d8f7)
 * Data conversion to support new status column
