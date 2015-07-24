@@ -24,7 +24,7 @@ public class TimeAndMoneyDocumentStatusDaoImpl implements
 	private static final String CANCELED_STATUS = "CANCELED";
 	private static final String ACTIVE_STATUS = "ACTIVE";
 	private static final String MAX_ACTIVE_DOCUMENT_QUERY = "select max(DOCUMENT_NUMBER) from TIME_AND_MONEY_DOCUMENT where TIME_AND_MONEY_DOC_STATUS = '" +
-			ARCHIVED_STATUS + "' group by AWARD_NUMBER;";
+			ARCHIVED_STATUS + "' group by AWARD_NUMBER";
 	private static final String UPDATE_ACTIVE_TIME_AND_MONEY_DOC_STATUS = "update TIME_AND_MONEY_DOCUMENT doc set TIME_AND_MONEY_DOC_STATUS = '"
 			+ ACTIVE_STATUS + "' where DOCUMENT_NUMBER = ?";
 	private static final String UPDATE_TIME_AND_MONEY_DOC_STATUS = "update TIME_AND_MONEY_DOCUMENT set TIME_AND_MONEY_DOC_STATUS = ? where DOCUMENT_NUMBER = ?";
