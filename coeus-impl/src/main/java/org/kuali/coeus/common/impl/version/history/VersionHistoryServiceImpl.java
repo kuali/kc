@@ -98,14 +98,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     @Override
     @SuppressWarnings("unchecked")
     public VersionHistory findActiveVersion(Class<? extends SequenceOwner> klass, String versionName) {
-        List<VersionHistory> histories = new ArrayList<VersionHistory>(bos.findMatching(VersionHistory.class, buildFieldValueMapForActiveVersionHistory(klass, versionName)));
-        
-        /*
-         * For some reason, in the testcase the BOS doesn't bring back just the ACTIVE record, despite the VERSION_STATUS_FIELD being included.
-         * However, in the live run, this does bring back just one record. Just to be safe, I provide an alternative approach
-         * 
-         */
-//        VersionHistory activeVersionHistory = histories.size() == 1 ? histories.get(0) : null;        
+        List<VersionHistory> histories = new ArrayList<VersionHistory>(bos.findMatching(VersionHistory.class, buildFieldValueMapForActiveVersionHistory(klass, versionName)));       
         VersionHistory activeVersionHistory = findActiveVersionHistory(histories);        
         return activeVersionHistory;
     }

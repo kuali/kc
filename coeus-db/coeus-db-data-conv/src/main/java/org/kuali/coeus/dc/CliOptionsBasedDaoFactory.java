@@ -27,6 +27,10 @@ import org.kuali.coeus.dc.pprole.ProposalPersonRoleDao;
 import org.kuali.coeus.dc.pprole.ProposalPersonRoleDaoImpl;
 import org.kuali.coeus.dc.questseq.QuestSeqDao;
 import org.kuali.coeus.dc.questseq.QuestSeqDaoImpl;
+import org.kuali.coeus.dc.tm.KewDocHeaderDao;
+import org.kuali.coeus.dc.tm.KewDocHeaderDaoImpl;
+import org.kuali.coeus.dc.tm.TimeAndMoneyDocumentStatusDao;
+import org.kuali.coeus.dc.tm.TimeAndMoneyDocumentStatusDaoImpl;
 
 public final class CliOptionsBasedDaoFactory {
 
@@ -133,6 +137,19 @@ public final class CliOptionsBasedDaoFactory {
         QuestSeqDaoImpl qsd = new QuestSeqDaoImpl();
         qsd.setConnectionDaoService(getConnectionDaoService());
         return qsd;
+    }
+    
+    public KewDocHeaderDao getKewDocHeaderDao() {
+    	KewDocHeaderDaoImpl docHeaderDao = new KewDocHeaderDaoImpl();
+    	docHeaderDao.setConnectionDaoService(getConnectionDaoService());
+    	return docHeaderDao;
+    }
+    
+    public TimeAndMoneyDocumentStatusDao getTimeAndMoneyDocumentStatusDao() {
+    	TimeAndMoneyDocumentStatusDaoImpl dao = new TimeAndMoneyDocumentStatusDaoImpl();
+    	dao.setConnectionDaoService(getConnectionDaoService());
+    	dao.setKewDocHeaderDao(getKewDocHeaderDao());
+    	return dao;
     }
 
     public CliOptions getCliOptions() {

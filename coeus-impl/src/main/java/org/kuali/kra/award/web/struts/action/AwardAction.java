@@ -79,6 +79,7 @@ import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.history.TransactionDetailType;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyExistenceService;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyVersionService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -159,6 +160,7 @@ public class AwardAction extends BudgetParentActionBase {
     private transient KcNotificationService notificationService;
     private transient SubAwardService subAwardService;
     TimeAndMoneyAwardDateSaveRuleImpl timeAndMoneyAwardDateSaveRuleImpl;
+    private transient TimeAndMoneyVersionService timeAndMoneyVersionService;
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
     
@@ -706,35 +708,21 @@ public class AwardAction extends BudgetParentActionBase {
         
         
         if(GlobalVariables.getMessageMap().hasNoErrors()){
-            DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-            boolean firstTimeAndMoneyDocCreation = Boolean.TRUE;
-            TransactionDetail transactionDetail;
-    
+            DocumentService documentService = KcServiceLocator.getService(DocumentService.class);    
             populateAwardHierarchy(form);
     
             Award currentAward = awardDocument.getAward();
     
             Map<String, Object> fieldValues = new HashMap<>();
             String rootAwardNumber = awardForm.getAwardHierarchyNodes().get(currentAward.getAwardNumber()).getRootAwardNumber();
-            fieldValues.put(ROOT_AWARD_NUMBER, rootAwardNumber);
-
-            List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
-                (List<TimeAndMoneyDocument>)getBusinessObjectService().findMatching(TimeAndMoneyDocument.class, fieldValues);
-            Collections.sort(timeAndMoneyDocuments);
+            fieldValues.put(ROOT_AWARD_NUMBER, rootAwardNumber);            
+            String documentNumber = getTimeAndMoneyVersionService().getCurrentTimeAndMoneyDocumentNumber(rootAwardNumber);
             
             Award rootAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);   
-            // check for existing finalized T & M document before creating a new one.
-            TimeAndMoneyDocument timeAndMoneyDocument = getLastFinalTandMDocument(timeAndMoneyDocuments);
-            if(timeAndMoneyDocuments.size() > 0 && timeAndMoneyDocument != null) {
-                firstTimeAndMoneyDocCreation = Boolean.FALSE;
-            }
-    
-            if (timeAndMoneyDocument == null) {
+
+            if(documentNumber == null) {
                 generateDirectFandADistribution(currentAward);
-            }
-                
-            if(firstTimeAndMoneyDocCreation){
-                timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
+                TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getNewDocument(TimeAndMoneyDocument.class);
                 timeAndMoneyDocument.getDocumentHeader().setDocumentDescription(TIMEANDMONEY_DOCUMENT);
                 timeAndMoneyDocument.setRootAwardNumber(rootAwardNumber);
                 timeAndMoneyDocument.setAwardNumber(rootAward.getAwardNumber());
@@ -748,7 +736,7 @@ public class AwardAction extends BudgetParentActionBase {
                 }                
                 aat.setAwardNumber(rootAward.getAwardNumber());
                 //any code for initial transaction and history.
-                transactionDetail  = addTransactionDetails(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, rootAward.getAwardNumber(), rootAward.getSequenceNumber(),
+                TransactionDetail transactionDetail  = addTransactionDetails(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, rootAward.getAwardNumber(), rootAward.getSequenceNumber(),
                         timeAndMoneyDocument.getDocumentNumber(), INITIAL_TRANSACTION_COMMENT, rootAward);
                 //need this check so we don't add additional AAI object if Award has been copied and then creating first T&M doc.
                 if(rootAward.getAwardAmountInfos().size() < 2) {
@@ -760,33 +748,20 @@ public class AwardAction extends BudgetParentActionBase {
                 timeAndMoneyDocument.getAwardAmountTransactions().add(aat);
                 documentService.saveDocument(timeAndMoneyDocument);
                 getBusinessObjectService().save(transactionDetail);
+                documentNumber = timeAndMoneyDocument.getDocumentHeader().getDocumentNumber();
             }
-            String routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
+
+            String routeHeaderId = documentNumber;
             String backUrl = URLEncoder.encode(buildActionUrl(awardDocument.getDocumentNumber(), Constants.MAPPING_AWARD_HOME_PAGE, AWARD_DOCUMENT), StandardCharsets.UTF_8.name());
             String forward = buildForwardUrl(routeHeaderId) + BACK_LOCATION + backUrl;
             actionForward = new ActionForward(forward, true);
             //add this to session and leverage in T&M for return to award action.
-            GlobalVariables.getUserSession  ().addObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + timeAndMoneyDocument.getDocumentNumber(), awardDocument.getDocumentNumber());            
+            GlobalVariables.getUserSession  ().addObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + documentNumber, awardDocument.getDocumentNumber());            
         } else {
             actionForward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         return actionForward;
 
-    }
-        
-    protected TimeAndMoneyDocument getLastFinalTandMDocument(List<TimeAndMoneyDocument> timeAndMoneyDocuments) throws WorkflowException {
-        TimeAndMoneyDocument returnVal = null;
-        while(timeAndMoneyDocuments.size() > 0) {
-            TimeAndMoneyDocument docWithWorkFlowData = 
-                (TimeAndMoneyDocument) getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());
-            if(docWithWorkFlowData.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-                timeAndMoneyDocuments.remove(timeAndMoneyDocuments.size() - 1);
-            }else {
-                returnVal = docWithWorkFlowData;
-                break;
-            }
-        }
-        return returnVal;
     }
 
     protected TransactionDetail addTransactionDetails(String sourceAwardNumber, String destinationAwardNumber, Integer sequenceNumber, String documentNumber, 
@@ -1635,4 +1610,15 @@ public class AwardAction extends BudgetParentActionBase {
     public ActionForward takeSuperUserActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return superUserActionHelper(SuperUserAction.TAKE_SUPER_USER_ACTIONS, mapping, form, request, response);
     }
+
+    public TimeAndMoneyVersionService getTimeAndMoneyVersionService() {
+		if (timeAndMoneyVersionService == null) {
+			timeAndMoneyVersionService = KcServiceLocator.getService(TimeAndMoneyVersionService.class);
+		}
+		return timeAndMoneyVersionService;
+	}
+
+	public void setTimeAndMoneyVersionService(TimeAndMoneyVersionService timeAndMoneyVersionService) {
+		this.timeAndMoneyVersionService = timeAndMoneyVersionService;
+	}
 }

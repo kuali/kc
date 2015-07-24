@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.timeandmoney.service;
 
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -25,4 +26,7 @@ public interface TimeAndMoneyVersionService {
     
     public TimeAndMoneyDocument findOpenedTimeAndMoney(String awardNumber) throws WorkflowException;
 
+    public void updateDocumentStatus(TimeAndMoneyDocument document, VersionStatus status);
+    
+    public String getCurrentTimeAndMoneyDocumentNumber(String awardNumber);
 }

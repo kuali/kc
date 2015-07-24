@@ -124,6 +124,10 @@ public final class Main {
             if (options.containsQuestSeq()) {
                 factory.getQuestSeqDao().convertQuestSeqKrmsValues();
             }
+            
+            if (options.containsTimeAndMoneyDocStatus()) {
+            	factory.getTimeAndMoneyDocumentStatusDao().updateTimeAndMoneyDocumentStatusFromKew();
+            }
 
             if (options.containsDryRun()) {
                 coeusConnection.rollback();

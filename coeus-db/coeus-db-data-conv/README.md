@@ -49,6 +49,9 @@ switches the name in the krms_term_rslvr_parm_spec_t to be Questionnaire Seq ID 
 switches the name in the krms_term_parm_t to be Question Seq ID when the name is Question ID or Question Ref ID and populates the val to be the proper value from the question table.
 switches the name in the krms_term_parm_t to be Questionnaire Seq ID when the name is Questionnaire ID or Questionnaire Ref ID and populates the val to be the proper value from the questionnaire table.
 
+Time & Money Document Status (tmdocstatus)
+
+This migration supports adding a new column to the TIME_AND_MONEY_DOCUMENT table. The column should already be added via sql script, but this conversion updates that column based on the Rice KEW document header status. This ensures that the new document status column correctly reflects the status of the document for efficient queries.
 
 IRB (irb)
 

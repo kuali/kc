@@ -543,6 +543,8 @@
     <bean id="timeAndMoneyVersionService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyVersionServiceImpl" scope="prototype">
         <property name="awardVersionService" ref="awardVersionService" />
         <property name="documentService" ref="documentService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dataSource" ref="dataSource" />
     </bean>
 
 

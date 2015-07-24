@@ -23,6 +23,7 @@ import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
@@ -656,6 +657,8 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
             getBusinessObjectService().delete(deleteCollection);
             deleteCollection.clear();
         }
+        timeAndMoneyDocument.setDocumentStatus(VersionStatus.CANCELED.toString());
+        getBusinessObjectService().save(timeAndMoneyDocument);
         actionForward = super.cancel(mapping, form, request, response);   
         
         return actionForward;
