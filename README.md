@@ -65,6 +65,10 @@ When a project specific profile is available, it will be documented in the build
 >
 *mvn clean install -Pdev*
 
+> **Node Clean:**When building our api documentation, our build process will download node.js and various node dependencies.  By default, these artifacts are deleted on every mvn clean execution.  You can avoid this clean step by sending the following system parameter clean-jsfrontend-node.off on the command line.  This is useful to speed up project builds by avoiding the installation node.js on subsequent clean install iterations. 
+>
+*mvn clean install -Pdev*
+
 All Kuali Coeus projects use standard maven conventions to build and install artifacts.  The following documents how to install source, javadoc, and primary artifacts for each maven projects.
 
 > **Source and Javadoc jars:** When building Kuali Coeus Projects it may be helpful to also build source and javadoc jars.  These jars can be consumed by tools such as debuggers.  Note: due to changes in the javadoc tool in Java 8, you may need to execute the compile phase before attempting to create a javadoc jar. 

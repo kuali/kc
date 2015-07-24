@@ -294,6 +294,38 @@
         </plugins>
     </build>
     <profiles>
+        <profile>
+            <id>clean-jsfrontend-node</id>
+            <activation>
+                <property>
+                    <name>!clean-jsfrontend-node.off</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- this special clean step is required because the frontend-maven-plugin can't be configured to
+                         install node in the target dir. To avoid node from being downloaded after a mvn clean you can
+                         turn off this clean step -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>${jsfrontend.sources}</directory>
+                                    <includes>
+                                        <include>**/etc/**</include>
+                                        <include>**/node/**</include>
+                                        <include>**/node_modules/**</include>
+                                    </includes>
+                                    <followSymlinks>false</followSymlinks>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 
         <!--
          This profile defines plugins for running a rice standalone server.
