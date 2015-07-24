@@ -18,7 +18,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:if test="${fn:length(KualiForm.actionHelper.amendmentSummaries) > 0}">
+<c:set var="amendmentSummaries" value="${amendmentSummaries}"  />
+<c:if test="${fn:length(amendmentSummaries) > 0}">
 
 <kul:innerTab tabTitle="Amendment/Renewal History" parentTab="" defaultOpen="false" tabErrorKey="">
 
@@ -35,7 +36,7 @@
 	                <th>Status</th>
 	                <th>Created Date</th>
                 </tr>
-                <c:forEach items="${KualiForm.actionHelper.amendmentSummaries}" var="protocolSummary" varStatus="status">
+                <c:forEach items="${amendmentSummaries}" var="protocolSummary" varStatus="status">
             		<tr>
             		    <td>
             		        <nobr><u><a href="${protocolSummary.versionNumberUrl}" target="_blank" alt="Open this version in a separate tab">${protocolSummary.amendmentType}</a></u></nobr>
@@ -62,7 +63,7 @@
            			<tr>
            				<td>&nbsp;</td>
            			    <td class="infoline" colspan="5">
-							<c:set var="protocolNumber" value="${KualiForm.actionHelper.amendmentSummaries[status.index].amendRenewProtocol.protocolSummary.protocolNumber}" />
+							<c:set var="protocolNumber" value="${amendmentSummaries[status.index].amendRenewProtocol.protocolSummary.protocolNumber}" />
 							<c:set var="summaryTabTitle" value="${protocolSummary.amendmentType} Summary - ${protocolNumber}" />
 							<kul:innerTab tabTitle="${summaryTabTitle}" parentTab="" defaultOpen="false">
     							<div class="innerTab-container">
@@ -72,7 +73,7 @@
    											<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolSummaryHelp" altText="Help"/>
 										</span>
 							       </h3>
-					        		<kra-iacuc:protocolSummary prefix="protocolSummary.amendRenewProtocol.protocolSummary" protocolSummary="${KualiForm.actionHelper.amendmentSummaries[status.index].amendRenewProtocol.protocolSummary}" />
+					        		<kra-iacuc:protocolSummary prefix="protocolSummary.amendRenewProtocol.protocolSummary" protocolSummary="${amendmentSummaries[status.index].amendRenewProtocol.protocolSummary}" />
 					        	</div>
 					        </kul:innerTab>
 					    </td>
@@ -81,7 +82,7 @@
            				<td>&nbsp;</td>
            			    <td class="infoline" colspan="5">
 							<c:set var="questionnaireTabTitle" value="${protocolSummary.amendmentType} Questionnaires - ${protocolNumber}" />
-     						<kra-protocol:protocolViewAmendmentHistoryQuestionnaire questionnaireTabTitle = "${questionnaireTabTitle}" amendRenewIndex = "${status.index}"/>
+     						<kra-protocol:protocolViewAmendmentHistoryQuestionnaire questionnaireTabTitle = "${questionnaireTabTitle}" answerHeaders="${amendmentSummaries[status.index].answerHeaders}" />
 					    </td>
 					</tr>        
             	</c:forEach>
