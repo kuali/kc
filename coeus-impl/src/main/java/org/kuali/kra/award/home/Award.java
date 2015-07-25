@@ -2822,11 +2822,10 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 	public void setAllFundingProposals(List<AwardFundingProposal> allFundingProposals) {
 		this.allFundingProposals = allFundingProposals;
 	}
-		
+
 	public List<AwardFundingProposal> getAllFundingProposalsSortedBySequence() {
 		return getAllFundingProposals().stream()
-				.sorted((AwardFundingProposal fp1, AwardFundingProposal fp2) -> 
-					{ return fp1.getAward().getSequenceNumber().compareTo(fp2.getAward().getSequenceNumber()); })
+				.sorted(Comparator.comparing(AwardFundingProposal::getAwardSequenceNumber))
 				.collect(Collectors.toList());
 	}
 }

@@ -207,4 +207,8 @@ public class AwardFundingProposal extends KcPersistableBusinessObjectBase {
     	pbl.setActivityType(ip.getActivityType());
     	return pbl;
     }
+    
+    public Integer getAwardSequenceNumber() {
+    	return getAward().getSequenceNumber();
+    }
 }
