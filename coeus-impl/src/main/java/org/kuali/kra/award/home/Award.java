@@ -96,6 +96,7 @@ import org.springframework.util.AutoPopulatingList;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Award extends KcPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>, Permissionable,
         SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable, Disclosurable {
@@ -2822,4 +2823,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 		this.allFundingProposals = allFundingProposals;
 	}
 
+	public List<AwardFundingProposal> getAllFundingProposalsSortedBySequence() {
+		return getAllFundingProposals().stream()
+				.sorted(Comparator.comparing(AwardFundingProposal::getAwardSequenceNumber))
+				.collect(Collectors.toList());
+	}
 }

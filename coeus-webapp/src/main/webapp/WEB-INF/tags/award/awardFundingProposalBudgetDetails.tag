@@ -19,11 +19,7 @@
 
 <%@ include file="/WEB-INF/jsp/award/awardTldHeader.jsp" %>
 
-<%@ attribute name="awardRowIndex" required="true" %>
-<%@ attribute name="fundingProposalRowIndex" required="true" %>
-
-<c:set var="proposalExpr" value="fundingProposalBean.allAwardsForAwardNumber[${awardRowIndex}].fundingProposals[${fundingProposalRowIndex}]" />
-<c:set var="formProposalExpr" value="${KualiForm.fundingProposalBean.allAwardsForAwardNumber[awardRowIndex].fundingProposals[fundingProposalRowIndex].proposal}" />
+<%@ attribute name="fundingProposal" required="true" type="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" %>
 
 <c:set var="activityTypeAttributes" value="${DataDictionary.ActivityType.attributes}" />
 <c:set var="fundingProposalAttributes" value="${DataDictionary.InstitutionalProposal.attributes}" />
@@ -48,14 +44,12 @@
 			</th>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${proposalExpr}.proposal.requestedStartDateInitial" 
-											  attributeEntry="${fundingProposalAttributes.requestedStartDateInitial}" readOnly="true" />
+					<fmt:formatDate value="${fundingProposal.proposal.requestedStartDateInitial }" pattern="MM/dd/yyyy"/>
 				</div>
 			</td>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${proposalExpr}.proposal.requestedStartDateTotal" 
-											  attributeEntry="${fundingProposalAttributes.requestedStartDateTotal}" readOnly="true" />
+					<fmt:formatDate value="${fundingProposal.proposal.requestedStartDateTotal }" pattern="MM/dd/yyyy"/>
 				</div>
 			</td>
 			<td>&nbsp;</td>
@@ -66,14 +60,12 @@
 			</th>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${proposalExpr}.proposal.requestedEndDateInitial" 
-											  attributeEntry="${fundingProposalAttributes.requestedEndDateInitial}" readOnly="true" />
+					<fmt:formatDate value="${fundingProposal.proposal.requestedEndDateInitial }" pattern="MM/dd/yyyy"/>
 				</div>
 			</td>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${proposalExpr}.proposal.requestedEndDateTotal" 
-											  attributeEntry="${fundingProposalAttributes.requestedEndDateTotal}" readOnly="true" />
+					<fmt:formatDate value="${fundingProposal.proposal.requestedEndDateTotal }" pattern="MM/dd/yyyy"/>
 				</div>
 			</td>
  			<td>&nbsp;</td>
@@ -84,14 +76,12 @@
 			</th>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${proposalExpr}.proposal.totalDirectCostInitial" 
-											  attributeEntry="${fundingProposalAttributes.totalDirectCostInitial}" readOnly="true" />
+					<fmt:formatNumber value="${fundingProposal.proposal.totalDirectCostInitial }" type="currency" currencySymbol="$" maxFractionDigits="2"/>
 				</div>
 			</td>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${proposalExpr}.proposal.totalDirectCostTotal" 
-											  attributeEntry="${fundingProposalAttributes.totalDirectCostTotal}" readOnly="true" />
+					<fmt:formatNumber value="${fundingProposal.proposal.totalDirectCostTotal }" type="currency" currencySymbol="$" maxFractionDigits="2"/>
 				</div>
 			</td>
  			<td>&nbsp;</td>
@@ -102,14 +92,12 @@
 			</th>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${proposalExpr}.proposal.totalIndirectCostInitial" 
-											  attributeEntry="${fundingProposalAttributes.totalIndirectCostInitial}" readOnly="true" />
+					<fmt:formatNumber value="${fundingProposal.proposal.totalIndirectCostInitial }" type="currency" currencySymbol="$" maxFractionDigits="2"/>
 				</div>
 			</td>
 			<td>
 				<div align="right">
-					<kul:htmlControlAttribute property="${proposalExpr}.proposal.totalIndirectCostTotal" 
-											  attributeEntry="${fundingProposalAttributes.totalIndirectCostTotal}" readOnly="true" />
+					<fmt:formatNumber value="${fundingProposal.proposal.totalIndirectCostTotal }" type="currency" currencySymbol="$" maxFractionDigits="2"/>
 				</div>
 			</td>
  			<td>&nbsp;</td>
@@ -120,12 +108,12 @@
 			</th>
 			<td>
 				<div align="right">
-					<strong>$<fmt:formatNumber value="${formProposalExpr.totalInitialCost}" type="currency" currencySymbol="" maxFractionDigits="2" /></strong>
+					<strong><fmt:formatNumber value="${fundingProposal.proposal.totalInitialCost }" type="currency" currencySymbol="$" maxFractionDigits="2"/></strong>
 				</div>
 			</td>
 			<td>
 				<div align="right">
-					<strong>$<fmt:formatNumber value="${formProposalExpr.totalCost}" type="currency" currencySymbol="" maxFractionDigits="2" /></strong>
+					<strong><fmt:formatNumber value="${fundingProposal.proposal.totalCost }" type="currency" currencySymbol="$" maxFractionDigits="2"/></strong>
 				</div>
 			</td>
  			<td>&nbsp;</td>
