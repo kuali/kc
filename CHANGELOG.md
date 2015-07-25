@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  more UR fixes
+  * Gayathri Athreya on Fri, 24 Jul 2015 16:37:56 -0700 [View Commit](../../commit/6e5bbb939abdadd2dcd807d16d69c51b2344170b)
+* Use funding proposals instead of award versions
+  * blackcathacker on Tue, 23 Jun 2015 14:59:37 -0400 [View Commit](../../commit/ba66e750155171e37c718d80351dcb34f659d4f5)
+* Using Comparator.comparing and helper method
+  * blackcathacker on Fri, 24 Jul 2015 19:54:15 -0700 [View Commit](../../commit/143325aaa6c528d4a5bf63fcb80facf8be4d9cd7)
+
+##coeus-1507.54
 * add short url link
   * Joe Williams on Thu, 23 Jul 2015 10:13:19 -0500 [View Commit](../../commit/2e3e6d4a2d601a9439f7bd008eed0adbf30130e8)
 
