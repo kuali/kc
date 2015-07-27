@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Fix error in IP when trying to use Print Notice
+
+  * When trying to print the IP notice when a noticeOfOpportunity has been selected you get an exception
+  * blackcathacker on Mon, 27 Jul 2015 14:50:41 -0700 [View Commit](../../commit/a5591c00923645ebd6320ef8aaf3556ec4878433)
+
+##coeus-1507.56
 * Fix issue with award special review and missing next values
   * blackcathacker on Mon, 27 Jul 2015 10:55:32 -0700 [View Commit](../../commit/ff099349a33fede777902a0f9e64ce8fa454922c)
 * Time and Money improvements
