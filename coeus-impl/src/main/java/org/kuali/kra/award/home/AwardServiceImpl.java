@@ -34,6 +34,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AwardServiceImpl implements AwardService {
 
@@ -86,6 +87,8 @@ public class AwardServiceImpl implements AwardService {
         AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
         newAwardDocument.getDocumentHeader().setDocumentDescription(awardDocument.getDocumentHeader().getDocumentDescription());
         newAwardDocument.setAward(newVersion);
+        newAwardDocument.setDocumentNextvalues(awardDocument.getDocumentNextvalues());
+        newAwardDocument.getDocumentNextvalues().forEach((nextValue) -> { nextValue.setDocumentKey(newAwardDocument.getDocumentNumber()); });
         newVersion.setAwardDocument(newAwardDocument);
         newVersion.setAwardTransactionTypeCode(0);
         newVersion.getSyncChanges().clear();
