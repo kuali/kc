@@ -106,6 +106,12 @@
           p:authorizer="#{#getService('proposalDevelopmentDocumentViewAuthorizer')}"
           p:viewHelperService="#{#getService('proposalDevelopmentViewHelperService')}"
           p:readOnly="true">
+		<property name="context">
+			<map>
+				<entry key="budgetAuthConsts" value="@{T(org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetConstants.AuthConstants)}"/>
+                <entry key="proposalAuthConsts" value="@{T(org.kuali.coeus.propdev.impl.core.ProposalDevelopmentConstants.AuthConstants)}"/>
+			</map>
+		</property>	          
         <property name="stickyFooter" value="true"/>
         <property name="applicationHeader">
             <null/>
