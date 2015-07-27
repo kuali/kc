@@ -66,9 +66,6 @@ public class ProposalDevelopmentDocumentViewPresentationController extends Trans
 			documentActions.add(ProposalDevelopmentConstants.PropDevDocumentActions.SUBMIT_TO_SPONSOR);
 		}
 
-        if (((ProposalDevelopmentDocumentForm)model).isViewOnly()){
-          documentActions.clear();
-        }
 		return documentActions;
 	}
 	
