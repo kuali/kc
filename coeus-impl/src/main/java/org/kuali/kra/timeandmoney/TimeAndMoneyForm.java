@@ -52,7 +52,9 @@ import java.util.*;
 public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
 
 
-    public static final String COLUMN = ":";
+    private static final String DOCUMENT_STATUS = "documentStatus";
+	private static final String ROOT_AWARD_NUMBER = "rootAwardNumber";
+	public static final String COLUMN = ":";
     private static final int NUMBER_30 = 30;
     public static final String UPDATE_TIMESTAMP_DD_NAME = "DataDictionary.Award.attributes.updateTimestamp";
     public static final String SPONSOR_DD_NAME = "DataDictionary.Sponsor.attributes.sponsorName";
@@ -657,8 +659,8 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
 
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         String rootAwardNumber = getTimeAndMoneyDocument().getRootAwardNumber();
-        fieldValues.put("rootAwardNumber", rootAwardNumber);
-        fieldValues.put("documentStatus", VersionStatus.ACTIVE.toString());
+        fieldValues.put(ROOT_AWARD_NUMBER, rootAwardNumber);
+        fieldValues.put(DOCUMENT_STATUS, VersionStatus.ACTIVE.toString());
         TimeAndMoneyDocument activeTimeAndMoney = 
         		KcServiceLocator.getService(BusinessObjectService.class).findMatching(TimeAndMoneyDocument.class, fieldValues)
         		.stream().findFirst().orElse(null);
