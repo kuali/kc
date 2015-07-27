@@ -72,7 +72,7 @@ public class InstitutionalProposalXmlStream implements XmlStream {
 	private static final String SPECIAL_REVIEW_APPROVAL_CODE = "5";
 	private static final String SPONSOR_CODE = "sponsorCode";
 	private static final String NSF_CODE = "nsfCode";
-	private static final String NOTICE_OF_OPPORTUNITY_CODE = "noticeOfOpportunityCode";
+	private static final String NOTICE_OF_OPPORTUNITY_CODE = "code";
 	private static final String PROPOSAL_TYPE_CODE = "code";
 	private static final String PROPOSAL_STATUS_CODE = "proposalStatusCode";
 	private static final String SCHOOL_NAME = "SCHOOL_NAME";
