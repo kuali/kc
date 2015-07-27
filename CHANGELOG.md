@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Fix issue with award special review and missing next values
+  * blackcathacker on Mon, 27 Jul 2015 10:55:32 -0700 [View Commit](../../commit/ff099349a33fede777902a0f9e64ce8fa454922c)
+* Time and Money improvements
+  * blackcathacker on Tue, 23 Jun 2015 15:38:27 -0400 [View Commit](../../commit/22d9d79e8a106eab0ab54a5c26c8c30d0e77b2f0)
+
+##coeus-1507.55
 *  more UR fixes
   * Gayathri Athreya on Fri, 24 Jul 2015 16:37:56 -0700 [View Commit](../../commit/6e5bbb939abdadd2dcd807d16d69c51b2344170b)
 * Use funding proposals instead of award versions
