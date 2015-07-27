@@ -27,6 +27,9 @@
     	<collection-descriptor name="awardList" proxy="true" element-class-ref="org.kuali.kra.award.home.Award" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<inverse-foreignkey field-ref="documentNumber" />
     	</collection-descriptor>
+    	<collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="documentKey" /> 
+		</collection-descriptor>    	
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.award.cgb.AwardCgb" table="AWARD_CGB">

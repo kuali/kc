@@ -19,6 +19,7 @@
 package org.kuali.kra.timeandmoney;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcWorkflowService;
@@ -51,7 +52,9 @@ import java.util.*;
 public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
 
 
-    public static final String COLUMN = ":";
+    private static final String DOCUMENT_STATUS = "documentStatus";
+	private static final String ROOT_AWARD_NUMBER = "rootAwardNumber";
+	public static final String COLUMN = ":";
     private static final int NUMBER_30 = 30;
     public static final String UPDATE_TIMESTAMP_DD_NAME = "DataDictionary.Award.attributes.updateTimestamp";
     public static final String SPONSOR_DD_NAME = "DataDictionary.Sponsor.attributes.sponsorName";
@@ -656,45 +659,17 @@ public class TimeAndMoneyForm extends KcTransactionalDocumentFormBase {
 
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         String rootAwardNumber = getTimeAndMoneyDocument().getRootAwardNumber();
-        fieldValues.put("rootAwardNumber", rootAwardNumber);
-        //DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
+        fieldValues.put(ROOT_AWARD_NUMBER, rootAwardNumber);
+        fieldValues.put(DOCUMENT_STATUS, VersionStatus.ACTIVE.toString());
+        TimeAndMoneyDocument activeTimeAndMoney = 
+        		KcServiceLocator.getService(BusinessObjectService.class).findMatching(TimeAndMoneyDocument.class, fieldValues)
+        		.stream().findFirst().orElse(null);
 
-        List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
-            (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
-        Collections.sort(timeAndMoneyDocuments);
-        //BO service does not return workflow data, so we must call document service to retrieve the document to test if it is in workflow
-        //TimeAndMoneyDocument t = timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() -1);
         
-        TimeAndMoneyDocument lastFinalDoc = getLastFinalTandMDocument(timeAndMoneyDocuments);
-        if(lastFinalDoc != null) {
-            displayEditButton = (lastFinalDoc.getDocumentHeader().getWorkflowDocument().isFinal() && 
-                    lastFinalDoc.getDocumentNumber().equals(this.getTimeAndMoneyDocument().getDocumentNumber()));
+        if(activeTimeAndMoney != null) {
+            displayEditButton = (activeTimeAndMoney.getDocumentNumber().equals(this.getTimeAndMoneyDocument().getDocumentNumber()));
         }
-        //TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-//        displayEditButton = (timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal() ||
-//                            timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isCanceled()) && 
-//                            timeAndMoneyDocument.getDocumentNumber().equals(this.getTimeAndMoneyDocument().getDocumentNumber());
-//        if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
-//            displayEditButton = Boolean.FALSE;
-//        }
         return displayEditButton;
-    }
-    
-    protected TimeAndMoneyDocument getLastFinalTandMDocument(List<TimeAndMoneyDocument> timeAndMoneyDocuments) throws WorkflowException {
-        TimeAndMoneyDocument returnVal = null;
-        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-        while(timeAndMoneyDocuments.size() > 0) {
-            TimeAndMoneyDocument docWithWorkFlowData = 
-                (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());
-            if(docWithWorkFlowData.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-                timeAndMoneyDocuments.remove(timeAndMoneyDocuments.size() - 1);
-            }else {
-                returnVal = docWithWorkFlowData;
-                break;
-            }
-        }
-        return returnVal;
     }
     
     @Override
