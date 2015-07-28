@@ -2279,7 +2279,6 @@ public abstract class BudgetBaseStream implements XmlStream {
      */
     private ReportTypeVO getReportTypeVO(BudgetLineItem budgetLineItem, BudgetLineItemBase budgetDetails, AbstractBudgetRateAndBase rate) {
         ReportTypeVO reportTypeVO = new ReportTypeVO();
-        budgetDetails.refreshNonUpdateableReferences();
         reportTypeVO.setStartDate(rate.getStartDate());
         reportTypeVO.setEndDate(rate.getEndDate());
         reportTypeVO.setBudgetCategoryDesc(getBudgetCategoryDescForSalarySummary(budgetLineItem, budgetDetails, rate));
@@ -2336,7 +2335,6 @@ public abstract class BudgetBaseStream implements XmlStream {
             BudgetLineItem budgetLineItem,
             BudgetLineItemBase budgetDetails) {
         ReportTypeVO reportTypeVO = new ReportTypeVO();
-        budgetDetails.refreshNonUpdateableReferences();
         reportTypeVO.setStartDate(budgetDetails.getStartDate());
         reportTypeVO.setEndDate(budgetDetails.getEndDate());
         reportTypeVO.setBudgetCategoryDesc(getBudgetCategoryDescForSalarySummary(budgetLineItem, budgetDetails, null));
