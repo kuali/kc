@@ -264,7 +264,7 @@
                         <bean parent="PropDev-PersonnelPage-WizardButton-Continue"
                               p:actionParameters="PropDev-PersonnelPage-Wizard.step:2"
                               p:actionLabel="Add Person"
-                              p:methodToCall="addPerson" p:dialogDismissOption="REQUEST"
+                              p:methodToCall="addPerson"
                               p:order="10" />
                         <bean parent="PropDev-PersonnelPage-WizardButton-Back"
                               p:actionParameters="PropDev-PersonnelPage-Wizard.step:1" p:order="20" />

@@ -23,13 +23,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.framework.person.PersonRolodexComparator;
-import org.kuali.coeus.common.framework.rolodex.Rolodex;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalPersonCreditSplit;
 import org.kuali.coeus.propdev.impl.person.creditsplit.ProposalUnitCreditSplit;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.common.framework.person.attr.DegreeType;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.propdev.impl.person.creditsplit.CalculateCreditSplitRule;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -60,6 +60,8 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
 
     private static final int FIELD_ERA_COMMONS_USERNAME_MIN_LENGTH = 6;
+    private static final String ADD_KEY_PERSON_HELPER_PARAMETER_MAP_KEY_PERSON_PROJECT_ROLE = "addKeyPersonHelper.parameterMap['keyPersonProjectRole']";
+    private static final String KEY_PERSON_S_ROLE = "Key Person's Role";
     private KcPersonService kcPersonService;
     
     @Override
@@ -176,67 +178,12 @@ public class ProposalDevelopmentKeyPersonsRule extends KcTransactionalDocumentRu
      * @see org.kuali.coeus.propdev.impl.person.AddKeyPersonRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument,ProposalPerson)
      */
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
-        boolean retval = true;
-
-        LOG.debug("validating " + person);
-        LOG.info("Person role is " + person.getRole());
-
-        if (person.isPrincipalInvestigator() && document.getDevelopmentProposal().getPrincipalInvestigator() != null) {
-            LOG.debug("error.principalInvestigator.limit");
-            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND, document.getDevelopmentProposal().getPrincipalInvestigator().getRole().getDescription());
-            retval = false;
-        }
-        LOG.info("roleid is " + person.getProposalPersonRoleId());
-        LOG.info("role is " + person.getRole());
-        if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
-            LOG.debug("Tried to add person without role");
-            reportError("newProposalPerson", ERROR_MISSING_PERSON_ROLE);
-            retval = false;
+        if (Constants.KEY_PERSON_ROLE.equals(person.getProposalPersonRoleId()) && StringUtils.isEmpty(person.getProjectRole())) {
+            reportError(ADD_KEY_PERSON_HELPER_PARAMETER_MAP_KEY_PERSON_PROJECT_ROLE,RiceKeyConstants.ERROR_REQUIRED, KEY_PERSON_S_ROLE);
+            return false;
         }
 
-        LOG.debug("Does document contain a proposal person with PERSON_ID " + person.getPersonId() + "?");
-        LOG.debug(document.getDevelopmentProposal().getProposalPersons().contains(person) + "");
-        int firstIndex = document.getDevelopmentProposal().getProposalPersons().indexOf(person);
-        int lastIndex = document.getDevelopmentProposal().getProposalPersons().lastIndexOf(person);
-        if (firstIndex != -1) {
-            if (firstIndex == lastIndex) {
-                if (person.isKeyPerson() && document.getDevelopmentProposal().getProposalPersons().get(firstIndex).isKeyPerson()) {
-                    reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE, person.getFullName(), "Key Person");
-                    retval = false;
-                }
-                else if (person.isInvestigator() && document.getDevelopmentProposal().getProposalPersons().get(firstIndex).isInvestigator()) {
-                    reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE, person.getFullName(), "Investigator");
-                    retval = false;                    
-                }      
-            }
-            else {
-                reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS_WITH_ROLE, person.getFullName(), "both Investigator and Key Person");
-                retval = false;                
-            }
-        }
-        
-        if (isNotBlank(person.getProposalPersonRoleId())) {
-            if ((StringUtils.isNotBlank(person.getPersonId())
-                    && this.getKcPersonService().getKcPersonByPersonId(person.getPersonId()) == null)
-                    ||(person.getRolodexId() != null
-                            && isInvalid(Rolodex.class, keyValue("rolodexId", person.getRolodexId())))
-                    || (StringUtils.isBlank(person.getPersonId()) && person.getRolodexId() == null)) {
-                reportError("newProposalPerson", ERROR_MISSING_PERSON_ROLE, person.getFullName());
-                retval = false;
-            }
-        }
-        
-        if(person.isKeyPerson() && isBlank(person.getProjectRole())) {
-            reportError("newProposalPerson", RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
-            retval = false;
-        }
-        
-        if (document.getDevelopmentProposal().isParent()) {
-            reportError("newProposalPerson", "error.hierarchy.unexpected", "Cannot add Personnel to the Parent of a Hierarchy");
-            retval = false;
-        }
-        
-        return retval;
+        return true;
     }
 
     /**

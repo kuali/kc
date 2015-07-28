@@ -34,6 +34,7 @@ import org.kuali.coeus.propdev.impl.person.attachment.ProposalPersonBiography;
 import org.kuali.coeus.common.framework.person.PersonTypeConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -61,6 +62,8 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     public static final String CERTIFICATION_UPDATE_FEATURE_FLAG = "CERTIFICATION_UPDATE_FEATURE_FLAG";
     public static final String CERTIFICATION_ACTION_TYPE_CODE = "104";
     public static final String CERTIFY_NOTIFICATION = "Certify Notification";
+    public static final String KEY_PERSON_PROJECT_ROLE = "keyPersonProjectRole";
+    public static final String PERSON_ROLE = "personRole";
     @Autowired
     @Qualifier("wizardControllerService")
     private WizardControllerService wizardControllerService;
@@ -68,6 +71,10 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Autowired
     @Qualifier("keyPersonnelService")
 	private KeyPersonnelService keyPersonnelService;
+
+    @Autowired
+    @Qualifier("kualiRuleService")
+    private KualiRuleService kualiRuleService;
 
 	@Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-PersonnelPage"})
     public ModelAndView navigateToPersonnel(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -118,7 +125,7 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=prepareAddPersonDialog"})
     public ModelAndView prepareAddPersonDialog(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form) {
         form.getAddKeyPersonHelper().setLineType(PersonTypeConstants.EMPLOYEE.getCode());
-        return getModelAndViewService().showDialog("PropDev-PersonnelPage-Wizard", true, form);
+        return getModelAndViewService().showDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_PERSONNEL_PAGE_WIZARD, true, form);
     }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigateToPersonError"})
@@ -173,16 +180,27 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
            }
        }
 
-       newProposalPerson.setProposalPersonRoleId((String)form.getAddKeyPersonHelper().getParameter("personRole"));
-       if (form.getAddKeyPersonHelper().getParameterMap().containsKey("keyPersonProjectRole")) {
-        newProposalPerson.setProjectRole((String)form.getAddKeyPersonHelper().getParameter("keyPersonProjectRole"));
+       newProposalPerson.setProposalPersonRoleId((String) form.getAddKeyPersonHelper().getParameter(PERSON_ROLE));
+       if (form.getAddKeyPersonHelper().getParameterMap().containsKey(KEY_PERSON_PROJECT_ROLE)) {
+        newProposalPerson.setProjectRole((String) form.getAddKeyPersonHelper().getParameter(KEY_PERSON_PROJECT_ROLE));
+       }
+
+       if (!getKualiRuleService().applyRules(new AddKeyPersonEvent(form.getProposalDevelopmentDocument(),newProposalPerson))) {
+           return reportKeyPersonError(form);
        }
        getKeyPersonnelService().addProposalPerson(newProposalPerson, form.getProposalDevelopmentDocument());
        Collections.sort(form.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons(), new ProposalPersonRoleComparator());
        form.getAddKeyPersonHelper().reset();
        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATEPAGE.getKey());
-       return super.save(form);
+       super.save(form);
+       return getKcCommonControllerService().closeDialog(ProposalDevelopmentConstants.KradConstants.PROP_DEV_PERSONNEL_PAGE_WIZARD, form);
    }
+
+    protected ModelAndView reportKeyPersonError(ProposalDevelopmentDocumentForm form) {
+        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.UPDATECOMPONENT.getKey());
+        form.setUpdateComponentId(ProposalDevelopmentConstants.KradConstants.PROP_DEV_PERSONNEL_PAGE_WIZARD);
+        return getModelAndViewService().getModelAndView(form);
+    }
 
     @Transactional @RequestMapping(value = "/proposalDevelopment", params={"methodToCall=navigate", "actionParameters[navigateToPageId]=PropDev-CreditAllocationPage"})
     public ModelAndView navigateToCreditAllocation(@ModelAttribute("KualiForm") ProposalDevelopmentDocumentForm form, BindingResult result,
@@ -471,4 +489,12 @@ public class ProposalDevelopmentPersonnelController extends ProposalDevelopmentC
 			return retval;
 		}
 	}
+
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
 }
