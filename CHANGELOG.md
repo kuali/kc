@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+* Unable to submit to sponsor after blanket approve
+
+  * When blanket approving a PD you are sent back to the portal and then if you try to reopen the proposal to submit to s2s or submit to sponsor you are unable to because the only link available is edit. This allows users to still take document actions regardless of the document being in view only mode.
+  * blackcathacker on Mon, 27 Jul 2015 16:46:44 -0700 [View Commit](../../commit/8c3c8e7247f6d8553f78f1d813335cfa1de06121)
+* Fixing proposal summary view in action list
+
+  * When a budget exists the following error occurs
+  * java.lang.RuntimeException: Exception evaluating expression: #view.editModes.containsKey(#budgetAuthConsts.ADD_BUDGET_EDIT_MODE) and !viewOnly and canEditView
+  * blackcathacker on Mon, 27 Jul 2015 16:30:16 -0700 [View Commit](../../commit/0d44769e7675bb5e3bc6f2fb2433b73c0bc8face)
+
+##coeus-1507.57
 * Fix error in IP when trying to use Print Notice
 
   * When trying to print the IP notice when a noticeOfOpportunity has been selected you get an exception
