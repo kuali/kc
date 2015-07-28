@@ -675,4 +675,12 @@ public class ProposalDevelopmentDocumentForm extends TransactionalDocumentFormBa
     protected ConfigurationService getConfigurationService() {
         return KcServiceLocator.getService(ConfigurationService.class);
     }
+
+    @Override
+    public Boolean isCanEditView() {
+        if (canEditView == null) {
+           canEditView = false;
+        }
+        return canEditView;
+    }
 }
