@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* fixed error with expanding award note text
+  * Joe Williams on Tue, 28 Jul 2015 09:48:18 -0500 [View Commit](../../commit/910160fa8e6b60bd5ce6447d63da60eec1cdfef4)
+
+##coeus-1507.58
 * Unable to submit to sponsor after blanket approve
 
   * When blanket approving a PD you are sent back to the portal and then if you try to reopen the proposal to submit to s2s or submit to sponsor you are unable to because the only link available is edit. This allows users to still take document actions regardless of the document being in view only mode.
