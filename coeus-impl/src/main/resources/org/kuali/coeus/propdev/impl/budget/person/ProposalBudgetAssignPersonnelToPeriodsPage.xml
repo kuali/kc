@@ -84,8 +84,8 @@
 			<bean parent="Uif-HeaderRightGroup">
 				<property name="items">
 					<list>
-						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-CalculateCurrentPeriod" p:render="@{!viewOnly and canEditView }" p:order="10"/>
-						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-AssignPersonnel" p:render="@{!viewOnly and canEditView}" p:order="20"/>
+						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-CalculateCurrentPeriod" p:render="@{!viewOnly and canEdit }" p:order="10"/>
+						<bean parent="PropBudget-AssignPersonnelToPeriodsPage-AssignPersonnel" p:render="@{!viewOnly and canEdit}" p:order="20"/>
 					</list>
 				</property>
 			</bean>
@@ -121,7 +121,7 @@
 					</property>		
 				</bean>
 				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="20" p:methodToCall="deletePersonnelLineItem"
-					p:iconClass="icon-trash" p:render="@{!viewOnly and canEditView}">
+					p:iconClass="icon-trash" p:render="@{!viewOnly and canEdit}">
 					<property name="additionalSubmitData">
 						<map>
 							<entry key="budgetPeriodId" value="@{#budgetPeriodId}"/>

@@ -63,9 +63,9 @@
 				<property name="items">
 					<list>
 						<bean parent="PropBudget-ProjectPersonnelPage-AddButton"
-							  p:render="@{!viewOnly and canEditView}"/>
+							  p:render="@{!viewOnly and canEdit}"/>
 						<bean parent="Uif-SecondaryActionButton-Mini" p:actionLabel="Sync from Proposal"
-							p:methodToCall="syncFromProposal" p:render="@{!viewOnly and canEditView}"
+							p:methodToCall="syncFromProposal" p:render="@{!viewOnly and canEdit}"
 							p:order="20" />
 					</list>
 				</property>
@@ -99,7 +99,7 @@
 				<bean parent="Uif-SecondaryActionButton-Mini" p:methodToCall="editPersonDetails"
 					p:actionLabel="Details" p:refreshId="null" p:order="10" />
 				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="20" p:methodToCall="deleteProjectPersonnel"
-					p:iconClass="icon-trash" p:render="@{!viewOnly and canEditView}" p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup">
+					p:iconClass="icon-trash" p:render="@{!viewOnly and canEdit}" p:refreshId="PropBudget-ProjectPersonnelPage-CollectionGroup">
                     <property name="confirmationDialog">
                     	<bean parent="Uif-DialogGroup-OkCancel" p:promptText="Are you sure you want to delete @{#lp.personName}?"/>
                     </property>

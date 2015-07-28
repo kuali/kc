@@ -85,7 +85,7 @@
 				<property name="items">
 					<list>
 						<bean parent="PropBudget-NonPersonnelCostsPage-AssignNonPersonnel"
-							  p:render="@{!viewOnly and canEditView}" p:order="20"/>
+							  p:render="@{!viewOnly and canEdit}" p:order="20"/>
 					</list>
 				</property>
 			</bean>
@@ -113,7 +113,7 @@
 					</property>		
 				</bean>
 				<bean parent="Uif-DeleteLineAction-IconOnly" p:order="20" p:methodToCall="deleteBudgetLineItem"
-					p:iconClass="icon-trash" p:render="@{#empty(#line.subAwardNumber) and !viewOnly and canEditView}">
+					p:iconClass="icon-trash" p:render="@{#empty(#line.subAwardNumber) and !viewOnly and canEdit}">
 					<property name="additionalSubmitData">
 						<map>
 							<entry key="budgetPeriodId" value="@{#budgetPeriodId}"/>
