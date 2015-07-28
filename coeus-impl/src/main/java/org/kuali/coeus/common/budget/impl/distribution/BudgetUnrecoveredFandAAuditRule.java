@@ -222,7 +222,7 @@ public class BudgetUnrecoveredFandAAuditRule extends BudgetAuditRuleBase {
             	auditWarnings.add(new AuditError(budgetUnrecoveredFARule.getPageId(),
                                                       KeyConstants.AUDIT_WARNING_BUDGET_DISTRIBUTION_FISCALYEAR_INCONSISTENT,
                                                       budgetUnrecoveredFARule.getPageId(), params));
-                retval = false;
+                retval = true;
             }
 
             if(!duplicateEntryFound) {
