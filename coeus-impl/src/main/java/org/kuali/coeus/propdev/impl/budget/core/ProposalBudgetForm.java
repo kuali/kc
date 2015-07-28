@@ -254,4 +254,12 @@ public class ProposalBudgetForm extends UifFormBase implements BudgetContainer, 
     public GlobalVariableService getGlobalVariableService() {
         return KcServiceLocator.getService(GlobalVariableService.class);
     }
+
+    @Override
+    public Boolean isCanEditView() {
+        if (canEditView == null) {
+            canEditView = false;
+        }
+        return canEditView;
+    }
 }
