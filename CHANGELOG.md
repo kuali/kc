@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  Fixing error
+  * Steps to reproduce:
+  * 1.    Create a proposal with project dates 9/1/15 - 12/31/16 for example. Make sure the project end date is within one Calendar year but spans next fiscal year. In this example the project ends Calendar year 2016 but December 2016 falls into MIT’s F/Y 2017 which runs from 7/1/16 – 6/30/17.
+  * 2.    Create detailed budget with default periods.
+  * 3.    Add non-Personnel and Personnel expenses in each period.
+  * 4.    Go to rates screen and adjust applicable rate to less than rate maintained. Save.
+  * 5.    Go to Institutional Commitments U/R screen. Two Fiscal Years present. Add accounts and amounts. Save.
+  * 6.    At top of same U/R screen do Data Validations > turn on. Error message shows warning for “Unrecovered F&A - The Fiscal Year is outside of the project period.”
+  * This warning acts as error and prevents "Complete" budget which prevents routing.
+  * Gayathri Athreya on Tue, 28 Jul 2015 12:31:44 -0700 [View Commit](../../commit/dc57197592f7a238c782ab29ca27827a1b36c2fd)
+
+##coeus-1507.60
 * add validation on add proposal person to check for key person role
   * Joe Williams on Mon, 27 Jul 2015 13:59:13 -0500 [View Commit](../../commit/e8672434c80a4c99f1e23fa35fca2bceb810f88b)
 * fix STE when editing budget settings on hierarchy parent
