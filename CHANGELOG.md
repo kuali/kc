@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Budget print doesnt work after assigning a person to period fix
+
+  * This removes an update line that was causing some fields to become null.  The line appears to be unneeded and fixes the bug by removing it.
+  * bsmith83 on Tue, 28 Jul 2015 15:52:29 -0700 [View Commit](../../commit/45affb6fe7d235b65f83f8112edab9681d242e70)
+
+##coeus-1507.63
 * fixes issue where propdev documents are not editable
   * Joe Williams on Tue, 28 Jul 2015 16:54:05 -0500 [View Commit](../../commit/e1c7cc698212a8294887a518be3c09a1b6db358c)
 
