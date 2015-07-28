@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* fixes issue where propdev documents are not editable
+  * Joe Williams on Tue, 28 Jul 2015 16:54:05 -0500 [View Commit](../../commit/e1c7cc698212a8294887a518be3c09a1b6db358c)
+
+##coeus-1507.62
 * No Changes
 
 
