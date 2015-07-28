@@ -734,7 +734,7 @@
 							p:methodToCall="sendAllCertificationNotifications"
 							p:successCallback="dismissDialog('PropDev-Personal-NotifyPersonsDialog');"
 							p:refreshId="PropDev-Personal-NotifyPersonsDialog" p:actionLabel="Notify"
-							p:render="@{canEditView}"
+							p:render="@{canEdit}"
 							p:order="10" />
 					</list>
 				</property>
