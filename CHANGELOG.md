@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* add validation on add proposal person to check for key person role
+  * Joe Williams on Mon, 27 Jul 2015 13:59:13 -0500 [View Commit](../../commit/e8672434c80a4c99f1e23fa35fca2bceb810f88b)
+* fix STE when editing budget settings on hierarchy parent
+  * Joe Williams on Tue, 28 Jul 2015 12:55:42 -0500 [View Commit](../../commit/b023e869dfe3576e86095cc84491fd9e78bd86b9)
+* revert unwanted changed
+  * Joe Williams on Tue, 28 Jul 2015 13:29:47 -0500 [View Commit](../../commit/c93189ee4cf6b3b35e961a54800f124180eaaf63)
+
+##coeus-1507.59
 * fixed error with expanding award note text
   * Joe Williams on Tue, 28 Jul 2015 09:48:18 -0500 [View Commit](../../commit/910160fa8e6b60bd5ce6447d63da60eec1cdfef4)
 
