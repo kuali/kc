@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  adding missing primary key attribute to iacuc submission lite bo ojb mapping
+  * Travis Schneeberger on Wed, 29 Jul 2015 15:06:00 -0400 [View Commit](../../commit/9b07e4546212857e247de4bced114871e45071d4)
+
+##coeus-1507.66
 * allow modular budget actions from parent budgets in prop dev
 
   * As a proposal user, I need to build hierarchies to satisfy my multiple campus locations.
