@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Trying to fix award budget intermittent issues.
+  * Open an award budget document, navigate into any screen, aka Personnel.
+  * I had been able to create an AB, and Edit it, but eventually, I get the 'not finished loading' message and have to exit out by means of selecting a portal, leaving a lock on the document.
+  * Gayathri Athreya on Tue, 28 Jul 2015 16:05:32 -0700 [View Commit](../../commit/cc29147decd3a9ef49c13ccc7c8bdda32540a66a)
+
+##coeus-1507.64
 *  Budget print doesnt work after assigning a person to period fix
 
   * This removes an update line that was causing some fields to become null.  The line appears to be unneeded and fixes the bug by removing it.
