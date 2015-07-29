@@ -97,9 +97,7 @@ public class RateType extends KcPersistableBusinessObjectBase implements Compara
 
     @Override
     public int compareTo(RateType rateType) {
-        rateType.refreshReferenceObject("rateClass");
-        this.refreshReferenceObject("rateClass");
-        return this.rateClass.getCode().compareTo(rateType.rateClass.getCode());
+        return new CompareToBuilder().append(this.rateClassCode, rateType.rateClassCode).append(this.rateTypeCode, rateType.rateTypeCode).toComparison();
     }
 
     public static final class RateTypeId implements Serializable, Comparable<RateTypeId> {
