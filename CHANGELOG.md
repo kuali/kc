@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+* allow modular budget actions from parent budgets in prop dev
+
+  * As a proposal user, I need to build hierarchies to satisfy my multiple campus locations.
+  * Currently, when I need to prepare a modular budget with a hierarchy, I cannot populate the Modular Budget screen in the Parent proposal.
+  * The initiating child is designated as Modular, and populated the modular screen.
+  * Additional linked child proposal budgets were also modular, and successfully populate the modular screen.
+  * When I open the Parent proposal Budget > Modular Budget screen, I should be able to sync the detailed budget information to populate this screen, but the options are all grey - appearing in view only mode.
+  * Nor can I manually add any details to the modular screen.
+  * If the modular budget screen is not populated, then I cannot populate the NIH Modular Budget form. If my total budget is below $250,000 in direct costs, NIH requires that I submit a modular budget, else my submission will be rejected by eCommons. Some opportunities absolutely mandate use of modular budget types and I do not have the option to increase the dollar value of the budget to escape the restriction.
+  * Joe Williams on Wed, 29 Jul 2015 08:14:14 -0500 [View Commit](../../commit/6b5e9ce0ca35a7975038e47d390c3e5753da28f4)
+
+##coeus-1507.65
 *  Trying to fix award budget intermittent issues.
   * Open an award budget document, navigate into any screen, aka Personnel.
   * I had been able to create an AB, and Edit it, but eventually, I get the 'not finished loading' message and have to exit out by means of selecting a portal, leaving a lock on the document.
