@@ -24,7 +24,7 @@
 			<description>Create a Common Committee</description>
 			<label>Common Committee Document</label>
 			<parent>KC</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/commonCommitteeCommittee.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/iacucCommitteeCommittee.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/committee.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
