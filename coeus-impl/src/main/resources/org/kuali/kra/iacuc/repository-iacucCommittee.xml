@@ -51,7 +51,7 @@
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
 
-		<collection-descriptor name="protocolSubmissions" proxy="true" element-class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionLite" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="protocolSubmissions" proxy="true" element-class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionLite" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
         	<inverse-foreignkey field-ref="scheduleIdFk" />
     	</collection-descriptor>
 
