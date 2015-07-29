@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  fix doc handler url for iacuc committee document
+  * Travis Schneeberger on Wed, 29 Jul 2015 16:31:40 -0400 [View Commit](../../commit/fc7f4ddfd623283524194f8a8811b3eb43571d61)
+
+##coeus-1507.67
 *  adding missing primary key attribute to iacuc submission lite bo ojb mapping
   * Travis Schneeberger on Wed, 29 Jul 2015 15:06:00 -0400 [View Commit](../../commit/9b07e4546212857e247de4bced114871e45071d4)
 
