@@ -19,8 +19,11 @@
 package org.kuali.coeus.common.budget.impl.calculator;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.AbstractBudgetCalculatedAmount;
@@ -167,4 +170,19 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
         }
     }
 
+    @Override
+    protected List<BudgetRate> getBudgetRates() {
+        if (StringUtils.isNotEmpty(budgetPersonnelLineItem.getBudgetLineItem().getHierarchyProposalNumber())) {
+            return budgetPersonnelLineItem.getBudgetLineItem().getHierarchyProposal().getHierarchySummaryBudget().getBudgetRates();
+        }
+        return budget.getBudgetRates();
+    }
+
+    @Override
+    protected List<BudgetLaRate> getBudgetLaRates() {
+        if (StringUtils.isNotEmpty(budgetPersonnelLineItem.getBudgetLineItem().getHierarchyProposalNumber())) {
+            return budgetPersonnelLineItem.getBudgetLineItem().getHierarchyProposal().getHierarchySummaryBudget().getBudgetLaRates();
+        }
+        return budget.getBudgetLaRates();
+    }
 }

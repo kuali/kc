@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.budget.impl.calculator;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.calculator.*;
 import org.kuali.coeus.common.budget.framework.query.*;
@@ -352,12 +353,14 @@ public abstract class AbstractBudgetCalculator {
 
     protected void createAndCalculateBreakupIntervals() {
         populateCalculatedAmountLineItems();
-        setQlLineItemPropLaRates(filterRates(budget.getBudgetLaRates()));
-        setQlLineItemPropRates(filterRates(budget.getBudgetRates()));
+        setQlLineItemPropLaRates(filterRates(getBudgetLaRates()));
+        setQlLineItemPropRates(filterRates(getBudgetRates()));
         createBreakUpInterval();
         calculateBreakUpInterval();
     }
 
+    protected abstract List<BudgetRate> getBudgetRates();
+    protected abstract List<BudgetLaRate> getBudgetLaRates();
     /**
      * Combine the sorted Prop &amp; LA rates, which should be in sorted order(asc). Now create the breakup boundaries and use it to
      * create breakup intervals and set all the values required for calculation. Then call calculateBreakupInterval method for each

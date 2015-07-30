@@ -19,7 +19,10 @@
 package org.kuali.coeus.common.budget.impl.calculator;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
+import org.kuali.coeus.common.budget.framework.rate.BudgetLaRate;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -118,8 +121,8 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         }else{
             ScaleTwoDecimal lineItemCost = bli.getLineItemCost();
             ScaleTwoDecimal lineItemCostSharing = bli.getCostSharingAmount();
-            boundary.setApplicableCost(lineItemCost==null? ScaleTwoDecimal.ZERO:new ScaleTwoDecimal(lineItemCost.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
-            boundary.setApplicableCostSharing(lineItemCostSharing==null? ScaleTwoDecimal.ZERO:new ScaleTwoDecimal(lineItemCostSharing.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
+            boundary.setApplicableCost(lineItemCost == null ? ScaleTwoDecimal.ZERO : new ScaleTwoDecimal(lineItemCost.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays), 2, RoundingMode.HALF_UP)));
+            boundary.setApplicableCostSharing(lineItemCostSharing == null ? ScaleTwoDecimal.ZERO : new ScaleTwoDecimal(lineItemCostSharing.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays), 2, RoundingMode.HALF_UP)));
         }
     }
     @Override
@@ -173,5 +176,21 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
     @Override
     protected AbstractBudgetCalculatedAmount getNewCalculatedAmountInstance() {
         return bli.getNewBudgetLineItemCalculatedAmount();
+    }
+
+    @Override
+    protected List<BudgetRate> getBudgetRates() {
+        if (StringUtils.isNotEmpty(bli.getHierarchyProposalNumber())) {
+            return bli.getHierarchyProposal().getHierarchySummaryBudget().getBudgetRates();
+        }
+        return budget.getBudgetRates();
+    }
+
+    @Override
+    protected List<BudgetLaRate> getBudgetLaRates() {
+        if (StringUtils.isNotEmpty(bli.getHierarchyProposalNumber())) {
+            return bli.getHierarchyProposal().getHierarchySummaryBudget().getBudgetLaRates();
+        }
+        return budget.getBudgetLaRates();
     }
 }
