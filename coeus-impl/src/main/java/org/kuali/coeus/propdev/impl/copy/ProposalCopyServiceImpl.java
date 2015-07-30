@@ -739,7 +739,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
 
     protected void initializeCongressionalDistrict(String organizationId, ProposalSite proposalSite) {
         Organization organization = (Organization)getDataObjectService().find(Organization.class, organizationId);
-
         if (organization != null) {
             String defaultDistrict = organization.getCongressionalDistrict();
             if (!StringUtils.isEmpty(defaultDistrict)) {
