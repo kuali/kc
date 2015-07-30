@@ -1388,6 +1388,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         if (institutionalProposal != null) {
             AwardFundingProposal afp = new AwardFundingProposal(this, institutionalProposal);
             fundingProposals.add(afp);
+            allFundingProposals.add(afp);
             institutionalProposal.add(afp);
         }
     }

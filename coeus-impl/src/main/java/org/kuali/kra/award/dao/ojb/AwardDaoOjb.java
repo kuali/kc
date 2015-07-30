@@ -100,16 +100,14 @@ public class AwardDaoOjb extends LookupDaoOjb implements OjbCollectionAware, Awa
 		}
 		crit.addAndCriteria(origCrit);
 		crit.addOrderByDescending("awardId");
-		QueryByCriteria newCrit = QueryFactory.newQuery(Award.class, crit);QueryFactory.newQuery(Award.class, crit);
+		QueryByCriteria newCrit = QueryFactory.newQuery(Award.class, crit);
 		if (page != null && numberPerPage != -1) {
 			result.setTotalResults(getPersistenceBrokerTemplate().getCount(newCrit));
 			newCrit.setStartAtIndex((page-1)*numberPerPage);
 			newCrit.setEndAtIndex(page*numberPerPage);
 		}
 		
-		final Collection queryResults = getPersistenceBrokerTemplate().getCollectionByQuery(newCrit);
-		
-		result.setResults(queryResults);
+		result.setResults((Collection<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(newCrit));
 		if (page == null) {
 			result.setTotalResults(result.getResults().size());
 		}

@@ -1146,7 +1146,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     public List<Long> getLinkedProposals() {
         List<Long> linkedProposals = new ArrayList<Long>();
         if (this.getAwardDocument() != null && this.getAwardDocument().getAward() != null) {
-            for (AwardFundingProposal fundingProposal : this.getAwardDocument().getAward().getFundingProposals()) {
+            for (AwardFundingProposal fundingProposal : this.getAwardDocument().getAward().getAllFundingProposals()) {
                 linkedProposals.add(fundingProposal.getProposalId());
             }
         }
