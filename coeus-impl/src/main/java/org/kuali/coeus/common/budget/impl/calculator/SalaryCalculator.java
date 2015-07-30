@@ -87,12 +87,19 @@ public class SalaryCalculator {
                 return iInflationRCEquals && iInflationRTEquals && startDateLtEqualsEndDate && startDateGtEqualsStartDate && onOffCampusEquals;
             };
 
-            return new QueryList<>((getInflationRates() == null ? budget.getBudgetRates().stream().filter(dateAndRateAndOnOffCampusFlag)
+            return new QueryList<>((getInflationRates() == null ? getBudgetRates().stream().filter(dateAndRateAndOnOffCampusFlag)
                      : getInflationRates().stream().filter(dateAndRateAndOnOffCampusFlag)).collect(Collectors.toList()));
         } else {
             return new QueryList<>();
         }
 
+    }
+
+    private List<BudgetRate> getBudgetRates() {
+        if (StringUtils.isNotEmpty(personnelLineItem.getBudgetLineItem().getHierarchyProposalNumber())) {
+            return personnelLineItem.getBudgetLineItem().getHierarchyProposal().getHierarchySummaryBudget().getBudgetRates();
+        }
+        return budget.getBudgetRates();
     }
 
     private CostElement getCostElement(BudgetPersonnelDetails personnelLineItem) {
@@ -713,8 +720,8 @@ public class SalaryCalculator {
             QueryList<BudgetRate> inflationRatesList;
             QueryList<BudgetRate> prevInflationRatesList;
             if (getInflationRates() == null) {
-                inflationRatesList = new QueryList<BudgetRate>(budget.getBudgetRates()).filter(dateAndRateAndOnOffCampusFlag);
-                prevInflationRatesList = new QueryList<BudgetRate>(budget.getBudgetRates())
+                inflationRatesList = new QueryList<BudgetRate>(getBudgetRates()).filter(dateAndRateAndOnOffCampusFlag);
+                prevInflationRatesList = new QueryList<BudgetRate>(getBudgetRates())
                         .filter(ltStartDateAndRateAndOnOffCampusFlag);
             }
             else {
