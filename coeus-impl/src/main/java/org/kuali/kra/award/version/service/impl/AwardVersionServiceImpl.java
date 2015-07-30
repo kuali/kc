@@ -18,21 +18,43 @@
  */
 package org.kuali.kra.award.version.service.impl;
 
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Award Version Service implementation
  */
-public class AwardVersionServiceImpl implements AwardVersionService {
+@Transactional
+public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements AwardVersionService {
 
 
+	private static final String AWARD_AMOUNT_INFOS = "awardAmountInfos";
+	private static final String AWARD_SEQUENCE_STATUS = "awardSequenceStatus";
+	private static final String AWARD_NUMBER = "awardNumber";
+
+	@Autowired
+	@Qualifier("versionHistoryService")
     private VersionHistoryService versionHistoryService;
+    
+    @Autowired
+    @Qualifier("businessObjectService")
+    private BusinessObjectService businessObjectService;
     
     /**
      * This method returns the proper Award for displaying information in T&amp;M, Budget and Award documents.  Logic for canceled documents.
@@ -41,19 +63,25 @@ public class AwardVersionServiceImpl implements AwardVersionService {
      */
     @Override
     public Award getWorkingAwardVersion(String awardNumber) {
-        List<VersionHistory> versions = versionHistoryService.findVersionHistory(Award.class, awardNumber);
-        VersionHistory activeVersion = getActiveVersionHistory(versions);
-        VersionHistory pendingVersion = getPendingVersionHistory(versions);
-        VersionHistory workingVersion = null;
-        if(pendingVersion != null) {
-            workingVersion = pendingVersion;
-        } else if(activeVersion != null) {
-            workingVersion = activeVersion;
-        } else {
-            return null;
-        }
-        versionHistoryService.loadSequenceOwner(Award.class,workingVersion);
-        return (Award)workingVersion.getSequenceOwner();
+    	Map<String, Object> values = new HashMap<>();
+    	values.put(AWARD_NUMBER, awardNumber);
+    	values.put(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
+    	Award award = getBusinessObjectService().findMatching(Award.class, values).stream().findFirst().orElse(null);
+    	if (award == null) {
+    		values.put(AWARD_SEQUENCE_STATUS, VersionStatus.PENDING.toString());
+    		award = getBusinessObjectService().findMatching(Award.class, values).stream().findFirst().orElse(null);
+    	}
+    	return award;
+    }
+    
+    @Override
+    public List<Award> getAllActiveAwardsForHierarchy(String awardNumber) {
+    	Criteria crit = new Criteria();
+    	crit.addLike(AWARD_NUMBER, awardNumber.substring(0, 6) + "%");
+    	crit.addEqualTo(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
+    	QueryByCriteria queryCrit = QueryFactory.newQuery(Award.class, crit);
+    	queryCrit.addPrefetchedRelationship(AWARD_AMOUNT_INFOS);
+    	return new ArrayList<Award>(getPersistenceBrokerTemplate().getCollectionByQuery(queryCrit));
     }
     
     
@@ -96,14 +124,19 @@ public class AwardVersionServiceImpl implements AwardVersionService {
         return returnVal;
     }
 
-    
     public VersionHistoryService getVersionHistoryService() {
         return versionHistoryService;
     }
 
-
-
     public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
         this.versionHistoryService = versionHistoryService;
     }
+
+	public BusinessObjectService getBusinessObjectService() {
+		return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
 }

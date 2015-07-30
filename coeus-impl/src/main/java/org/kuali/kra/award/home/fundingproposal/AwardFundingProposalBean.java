@@ -115,16 +115,10 @@ public class AwardFundingProposalBean implements Serializable {
      * @return
      */
     public ScaleTwoDecimal getTotalCostOfFundingProposals() {
-        ScaleTwoDecimal total = new ScaleTwoDecimal(0.00);
-        for (Award award : getAllAwardsForAwardNumber()) {
-            for (AwardFundingProposal afp : award.getFundingProposals()) {
-                if (afp.isActive()) {
-                    total = total.add(new ScaleTwoDecimal(afp.getProposal().getTotalCost().doubleValue()));
-                }
-            }
+        return getAward().getAllFundingProposals().stream()
+        		.filter(AwardFundingProposal::isActive).map(afp -> {return afp.getProposal().getTotalCost();})
+        		.reduce(ScaleTwoDecimal.ZERO, (a, b) -> a.add(b));
         }
-        return total;
-    }
 
     private void replaceThisAwardInListOfFoundAwards(Award thisAward) {
         int lastIndex = allAwardsForAwardNumber.size() - 1; 

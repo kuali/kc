@@ -28,6 +28,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -70,6 +71,7 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     private AwardAmountTransaction newAwardAmountTransaction;
     private List<AwardVersionHistory> awardVersionHistoryList;
     private List<String> order;
+    private List<AwardAmountInfo> awardAmountInfos;
 
     private transient TimeAndMoneyVersionService timeAndMoneyVersionService;
 
@@ -421,4 +423,12 @@ public class TimeAndMoneyDocument extends KcTransactionalDocumentBase implements
     public void setTimeAndMoneyVersionService(TimeAndMoneyVersionService timeAndMoneyVersionService) {
         this.timeAndMoneyVersionService = timeAndMoneyVersionService;
     }
+
+	public List<AwardAmountInfo> getAwardAmountInfos() {
+		return awardAmountInfos;
+	}
+
+	public void setAwardAmountInfos(List<AwardAmountInfo> awardAmountInfos) {
+		this.awardAmountInfos = awardAmountInfos;
+	}
 }

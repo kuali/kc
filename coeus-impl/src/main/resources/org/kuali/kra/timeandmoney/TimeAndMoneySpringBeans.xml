@@ -84,6 +84,9 @@
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="docHandlerService" ref="docHandlerService" />
         <property name="globalVariableService" ref="globalVariableService" />
+        <property name="awardDao" ref="awardDao"/>
+        <property name="timeAndMoneyDao" ref="timeAndMoneyDao"/>
+        <property name="parameterService" ref="parameterService" />
     </bean>
     
     <bean id="awardFnaDistributionService" class="org.kuali.kra.timeandmoney.service.impl.AwardFnaDistributionServiceImpl">

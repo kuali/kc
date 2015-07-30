@@ -49,7 +49,7 @@ public class AwardSummaryController {
 	}
 
 	SearchResults<Award> getAwards(Date updatedSince, Integer page, Integer numberPerPage) {
-		return getAwardDao().retrievePopulatedAwardByCriteria(new HashMap<String, Object>(), updatedSince, page, numberPerPage);
+		return getAwardDao().retrieveActiveAwardsByCriteria(new HashMap<String, Object>(), updatedSince, page, numberPerPage);
 	}
 	
 	public AwardDao getAwardDao() {

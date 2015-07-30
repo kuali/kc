@@ -26,12 +26,17 @@ import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.framework.controller.DocHandlerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.dao.AwardDao;
+import org.kuali.kra.award.dao.ojb.AwardDaoOjb;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.timeandmoney.AwardAmountInfoHistory;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
 import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
+import org.kuali.kra.timeandmoney.dao.TimeAndMoneyDao;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.history.TransactionDetailType;
@@ -39,6 +44,8 @@ import org.kuali.kra.timeandmoney.history.TransactionType;
 import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -46,9 +53,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryService {
 
+	private static final String AWARD_VERSIONS_TO_DISPLAY_PARM = "AWARD_VERSIONS_TO_DISPLAY_FOR_TIME_AND_MONEY_HISTORY";
 	private static final String TIME_AND_MONEY_DOCUMENT_NUMBER = "timeAndMoneyDocumentNumber";
 	private static final String ROOT_AWARD_NUMBER = "rootAwardNumber";
 	private static final String SOURCE_AWARD_NUMBER = "sourceAwardNumber";
@@ -60,7 +69,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	private static final String DASH = "-";
 	private static final String DEFAULT_TAB = "Versions";
 	private static final String ALTERNATE_OPEN_TAB = "Parameters";
-	private static final String SEQUENCE_NUMBER = "sequenceNumber";
 	private static final String DOCUMENT_NUMBER = "documentNumber";
 	private static final String NONE = "None";
 	private static final String AWARD_NUMBER = "awardNumber";
@@ -73,19 +81,15 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	private DocHandlerService docHandlerService;
 	private DateTimeService dateTimeService;
 	private GlobalVariableService globalVariableService;
+	private AwardDao awardDao;
+	private TimeAndMoneyDao timeAndMoneyDao;
+	private ParameterService parameterService;
 
 	@Override
-	public List<AwardVersionHistory> buildTimeAndMoneyHistoryObjects(String awardNumber) throws WorkflowException {
-		List<Award> awardVersionList = (List<Award>) businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(awardNumber), SEQUENCE_NUMBER, true);
-		// we want the list in reverse chronological order.
-		Collections.reverse(awardVersionList);
-
-		Map<String, Object> fieldValues1 = new HashMap<>();
-		// get the root award number.
-		fieldValues1.put(ROOT_AWARD_NUMBER, getRootAwardNumberForDocumentSearch(awardVersionList.get(0).getAwardNumber()));
-		List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, DOCUMENT_NUMBER, true);
-		// we don't want canceled docs to show in history.
-		removeCanceledDocs(docs);
+	public List<AwardVersionHistory> buildTimeAndMoneyHistoryObjects(String awardNumber, boolean bounded) throws WorkflowException {
+		Integer maxAwards = new Integer(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_TIME_AND_MONEY, ParameterConstants.DOCUMENT_COMPONENT, AWARD_VERSIONS_TO_DISPLAY_PARM));
+		List<Award> awardVersionList = new ArrayList<>(awardDao.retrieveAwardsByCriteria(Collections.singletonMap(AWARD_NUMBER, awardNumber), null, 1, bounded ? maxAwards : -1).getResults());
+		List<TimeAndMoneyDocument> docs = getTimeAndMoneyDao().getTimeAndMoneyDocumentForAwards(awardVersionList.stream().map((Award award) -> award.getAwardId()).collect(Collectors.toList()));
 		return buildAwardVersionHistoryList(awardVersionList, docs);
 	}
 
@@ -301,7 +305,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         return doc.getDocumentHeader().hasWorkflowDocument() && doc.getDocumentHeader().getWorkflowDocument().isCanceled();
     }
 
-    public List<TimeAndMoneyDocument> buildTimeAndMoneyListForAwardDisplay(Award award) throws WorkflowException {
+    public List<TimeAndMoneyDocument> buildTimeAndMoneyListForAwardDisplay(Award award, boolean bounded) throws WorkflowException {
 		Map<String, Object> fieldValues1 = new HashMap<>();
 		// get the award number.
 		fieldValues1.put(ROOT_AWARD_NUMBER, award.getAwardNumber());
@@ -418,5 +422,29 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 
 	public void setDateTimeService(DateTimeService dateTimeService) {
 		this.dateTimeService = dateTimeService;
+	}
+
+	public AwardDao getAwardDao() {
+		return awardDao;
+	}
+
+	public void setAwardDao(AwardDao awardDao) {
+		this.awardDao = awardDao;
+	}
+
+	public TimeAndMoneyDao getTimeAndMoneyDao() {
+		return timeAndMoneyDao;
+	}
+
+	public void setTimeAndMoneyDao(TimeAndMoneyDao timeAndMoneyDao) {
+		this.timeAndMoneyDao = timeAndMoneyDao;
+	}
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
 	}
 }

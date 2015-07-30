@@ -25,16 +25,7 @@ function RequestTracker(liNode, callback) {
 
 var DEBUG = false;
 function debugLog(str) {
-	if (DEBUG) {
-		jQuery('#debugLog').show();
-		if (jQuery('#debugLog').find('div').length > 1000) {
-			jQuery('#debugLog').find('div').first().remove();
-		}
-		if (str.length > 180) {
-			str = str.substring(0, 180) + "...";
-		}
-		jQuery('#debugLog').append('<span style="text-align: left; float: left; width: 100%; border: 1px yellow solid;">' + str + '</span>');
-	}
+	console.log(str);
 }
 
 jQuery(document).ready(function(){
@@ -109,8 +100,11 @@ function finishLoading(requestTracker) {
     if (pendingRequests.length > 0 && activeRequest == null) {
     	activeRequest = pendingRequests.shift() 
     	loadChildren(activeRequest);
-    } else if (activeRequest == null && !forceLoadingMessage) {
-    	jQuery('#loading').hide();
+    } else if (activeRequest == null) {
+    	if(!forceLoadingMessage) {
+    		jQuery('#loading').hide();
+    	}
+    	fixDatePickers();	
 	}
 }
 function forceLoading() {
@@ -134,7 +128,7 @@ function queueToggle(liNode, callback) {
 	}
 }
          
-function fixDatePickers() {
+function fixDatePickers(listItem) {
     //when loading children, we must remove all of the previous images and scripts.  Otherwise, there will be multiple
     //datepickers added to each cell depending on how deep we dig into the hierarchy and how many times we toggle.
 	jQuery('.datepickerImage').remove();
@@ -191,7 +185,8 @@ function fixDatePickers() {
 	        	  debugLog(json);
 	        	  var hierarchyArray = eval(json);
 	        	  jQuery(hierarchyArray).each(function(){
-	            	  newChildren.push(addAwardToHierarchy(this, ulNode));
+	        		  var newChild = addAwardToHierarchy(this, ulNode);
+	            	  newChildren.push(newChild);
 	              });
 	              if (liNode != null) {
 	            	  jQuery(liNode).addClass('loaded');
@@ -203,10 +198,9 @@ function fixDatePickers() {
                 	  jQuery(liNode).find('div.collapsable-hitarea:first').click();
                   }  
         	  }
-        	  fixDatePickers();
-              finishLoading(requestTracker);
+        	  finishLoading(requestTracker);
            }
-          });    
+          });
       } else {
     	  requestTracker.children = jQuery(liNode).find('li.awardhierarchy').toArray();
     	  finishLoading(requestTracker);

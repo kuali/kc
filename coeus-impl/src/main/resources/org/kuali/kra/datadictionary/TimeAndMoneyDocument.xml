@@ -43,6 +43,13 @@
           <property name="headerTabDisplayName" value="Time And Money"/>
           <property name="headerTabNavigateTo" value="timeAndMoney"/>
         </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-T" p:parameterName="timeAndMoneyHelp" p:parameterDetailType="Document"/>
+          </property>
+          <property name="headerTabDisplayName" value="Action Summary and History"/>
+          <property name="headerTabNavigateTo" value="timeAndMoneySummaryAndHistory"/>
+        </bean>
       </list>
     </property>
     <property name="workflowProperties">

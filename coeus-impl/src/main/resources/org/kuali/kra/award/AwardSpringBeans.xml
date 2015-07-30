@@ -466,9 +466,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
-    <bean id="awardVersionService" class="org.kuali.kra.award.version.service.impl.AwardVersionServiceImpl" scope="prototype">
-        <property name="versionHistoryService" ref="versionHistoryService" />
-    </bean>
+    <bean id="awardVersionService" parent="platformAwareDao" class="org.kuali.kra.award.version.service.impl.AwardVersionServiceImpl" />
 
     <!-- Award Printing Services -->
     

@@ -20,8 +20,12 @@ package org.kuali.kra.timeandmoney.dao.impl;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.accesslayer.LookupException;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kra.timeandmoney.dao.TimeAndMoneyDao;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
+import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -29,12 +33,16 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeAndMoneyDao {
 
-    public void runScripts(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems, String awardNumber) throws LookupException, SQLException{
+    private static final String DOCUMENT_STATUS = "documentStatus";
+	private static final String AWARD_AMOUNT_INFOS_AWARD_ID = "awardAmountInfos.awardId";
+
+	public void buildTimeAndMoneyActionSummaryForAward(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems, String awardNumber) throws LookupException, SQLException{
         Statement stmt = null;
         PersistenceBroker pbInstance = getPersistenceBroker(true);
         TimeAndMoneyActionSummary timeAndMoneyActionSummary;
@@ -74,6 +82,18 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
             throw e;
         }
         Collections.reverse(timeAndMoneyActionSummaryItems);
+    }
+   
+    @Override
+    public List<TimeAndMoneyDocument> getTimeAndMoneyDocumentForAwards(List<Long> awardIds) {
+    	Criteria crit = new Criteria();
+    	crit.addIn(AWARD_AMOUNT_INFOS_AWARD_ID, awardIds);
+    	crit.addNotEqualTo(DOCUMENT_STATUS, VersionStatus.CANCELED.toString()) ;
+    	
+    	QueryByCriteria criteria = new QueryByCriteria(TimeAndMoneyDocument.class, crit);
+    	
+    	List<TimeAndMoneyDocument> docs = new ArrayList<>(getPersistenceBrokerTemplate().getCollectionByQuery(criteria));
+    	return docs;
     }
  
 }

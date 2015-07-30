@@ -53,41 +53,16 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
      */
     public TimeAndMoneyDocument findOpenedTimeAndMoney(String rootAwardNumber) throws WorkflowException {
         TimeAndMoneyDocument result = null;
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("rootAwardNumber", rootAwardNumber);
-        BusinessObjectService businessObjectService =  KcServiceLocator.getService(BusinessObjectService.class);
-
-        List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
-            (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, criteria);
-        Collections.sort(timeAndMoneyDocuments);
-        
-        // check for existing non-finalized T &amp; M document before versioning the existing one.
-        TimeAndMoneyDocument timeAndMoneyDocument = getLastNonCanceledTandMDocument(timeAndMoneyDocuments);
-        if(timeAndMoneyDocument == null || timeAndMoneyDocuments.size() == 0) {
+        TimeAndMoneyDocument timeAndMoneyDocument = getBusinessObjectService().findBySinglePrimaryKey(TimeAndMoneyDocument.class, 
+        		this.getCurrentTimeAndMoneyDocumentNumber(rootAwardNumber));
+        if (timeAndMoneyDocument == null) {
             throw new WorkflowException("Missing Time and Money Document");
         } else {
-            if (!timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isInitiated() &&
-                !timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isSaved()) {
+            if (!VersionStatus.PENDING.toString().equals(timeAndMoneyDocument.getDocumentStatus())) {
                 timeAndMoneyDocument = editOrVersionTandMDocument(rootAwardNumber);
             }
         }
         return timeAndMoneyDocument;
-    }
-
-    private TimeAndMoneyDocument getLastNonCanceledTandMDocument(List<TimeAndMoneyDocument> timeAndMoneyDocuments) throws WorkflowException {
-        TimeAndMoneyDocument returnVal = null;
-        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-        while(timeAndMoneyDocuments.size() > 0) {
-            TimeAndMoneyDocument docWithWorkFlowData = 
-                (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());
-            if(docWithWorkFlowData.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-                timeAndMoneyDocuments.remove(timeAndMoneyDocuments.size() - 1);
-            }else {
-                returnVal = docWithWorkFlowData;
-                break;
-            }
-        }
-        return returnVal;
     }
 
     private TimeAndMoneyDocument editOrVersionTandMDocument(String rootAwardNumber) throws WorkflowException {

@@ -66,6 +66,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.sql.Date;
@@ -74,6 +75,10 @@ import java.util.Map.Entry;
 
 public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
 
+    private static final String INVALID_AWARD_NUMBER_ERROR = "error.timeandmoney.invalidawardnumber";
+	private static final String GO_TO_AWARD_NUMBER_FIELD_NAME = "goToAwardNumber";
+	private static final String TIME_AND_MONEY_SUMMARY_AND_HISTORY_MAPPING = "timeAndMoneySummaryAndHistory";
+	private static final String TIME_AND_MONEY_MAPPING = "timeAndMoney";
     private static final String OBLIGATED_START_COMMENT = "Obligated Start";
     private static final String OBLIGATED_END_COMMENT = "Obligated End";
     private static final String PROJECT_END_COMMENT = "Project End";
@@ -301,6 +306,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     private void captureDateChangeTransactions(ActionForm form) throws WorkflowException {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
+        final List<AwardHierarchyNode> awardHierarchyNodeItems = timeAndMoneyForm.getAwardHierarchyNodeItems();
         //save rules have not been applied yet so there needs to be a null check on transaction type code before testing the value.
         boolean isNoCostExtension;
         if (timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
@@ -808,6 +814,28 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward timeAndMoneySummaryAndHistory(ActionMapping mapping, ActionForm form , HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
+    	TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
+    	String awardNumber = null;
+    	if (StringUtils.isBlank(timeAndMoneyForm.getGoToAwardNumber())) {
+    		awardNumber = timeAndMoneyDocument.getAwardNumber();
+    	} else {
+    		Award award = getAwardVersionService().getWorkingAwardVersion(timeAndMoneyForm.getGoToAwardNumber());
+	        if (award == null) {
+	            GlobalVariables.getMessageMap().putError(GO_TO_AWARD_NUMBER_FIELD_NAME, INVALID_AWARD_NUMBER_ERROR, timeAndMoneyForm.getGoToAwardNumber());
+	            return mapping.findForward(Constants.MAPPING_BASIC);
+	        }
+	        awardNumber = award.getAwardNumber();
+    	}
+
+        timeAndMoneyDocument.setAwardVersionHistoryList(getTimeAndMoneyHistoryService().buildTimeAndMoneyHistoryObjects(awardNumber, true));
+        timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
+        getTimeAndMoneyActionSummaryService().populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), awardNumber);
+
+    	return mapping.findForward(TIME_AND_MONEY_SUMMARY_AND_HISTORY_MAPPING);
+    }
 
     /*
      * This method populates Summary, Action Summary and History panels for selected award.
@@ -816,18 +844,12 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
             throws LookupException, SQLException, WorkflowException {
         Award award = getAwardVersionService().getWorkingAwardVersion(goToAwardNumber);
         if (award == null) {
-            GlobalVariables.getMessageMap().putError("goToAwardNumber", "error.timeandmoney.invalidawardnumber", goToAwardNumber);
+            GlobalVariables.getMessageMap().putError(GO_TO_AWARD_NUMBER_FIELD_NAME, INVALID_AWARD_NUMBER_ERROR, goToAwardNumber);
             return;
         }
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
         timeAndMoneyDocument.setAward(award);
-
-        timeAndMoneyDocument.getAwardVersionHistoryList().clear();
-        timeAndMoneyDocument.setAwardVersionHistoryList(getTimeAndMoneyHistoryService().buildTimeAndMoneyHistoryObjects(award.getAwardNumber()));
-        timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
-        getTimeAndMoneyActionSummaryService().populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), goToAwardNumber);
-        
         timeAndMoneyDocument.setNewAwardAmountTransaction(newAwardAmountTransaction);
     }
     
@@ -897,7 +919,7 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(TIME_AND_MONEY_MAPPING);
     }
     
     /**

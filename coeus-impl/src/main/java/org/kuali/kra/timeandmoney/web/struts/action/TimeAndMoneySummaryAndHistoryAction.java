@@ -16,29 +16,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kuali.kra.award.version.service;
+package org.kuali.kra.timeandmoney.web.struts.action;
 
-import java.util.List;
-
-import org.kuali.kra.award.home.Award;
-
-/**
- * The Award Version Service
- */
-public interface AwardVersionService {
-    
-    /**
-     * This method returns the proper Award for displaying information in T&amp;M and Award documents.  Logic for canceled documents.
-     * @param awardNumber
-     * @return
-     */
-    public Award getWorkingAwardVersion(String awardNumber);
-
-    public Award getActiveAwardVersion(String awardNumber);
-
-    public Award getPendingAwardVersion(String awardNumber);
-    
-    public List<Award> getAllActiveAwardsForHierarchy(String awardNumber);
-    
+public class TimeAndMoneySummaryAndHistoryAction extends TimeAndMoneyAction {
 
 }

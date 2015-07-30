@@ -73,6 +73,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 @Transactional
 public class AwardHierarchyServiceImpl implements AwardHierarchyService {
@@ -639,17 +640,18 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber, TimeAndMoneyDocument timeAndMoneyDocument) {
         AwardHierarchyNode awardHierarchyNode;
         String tmpAwardNumber = null;
-        
-        for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()){
+        Map<String, Award> activeAwardsInHierarchy = awardVersionService.getAllActiveAwardsForHierarchy(currentAwardNumber).stream().collect(Collectors.toMap(Award::getAwardNumber, award -> award));
+        for(Entry<String, AwardHierarchy> awardHierarchy:awardHierarchyItems.entrySet()) {
             tmpAwardNumber = awardHierarchy.getValue().getAwardNumber();
             awardHierarchyNode = new AwardHierarchyNode();
             awardHierarchyNode.setAwardNumber(tmpAwardNumber);
             awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
             awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
-            
-            VersionHistory pendingVersionHistory = versionHistoryService.findPendingVersion(Award.class, tmpAwardNumber);
-            VersionHistory activeVersionHistory = versionHistoryService.findActiveVersion(Award.class, tmpAwardNumber);
-            Award award = awardVersionService.getWorkingAwardVersion(tmpAwardNumber);
+
+            Award award = activeAwardsInHierarchy.get(tmpAwardNumber);
+            if (award == null) {
+            	award = awardVersionService.getPendingAwardVersion(tmpAwardNumber);
+            }
 
             AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchLastAwardAmountInfoForDocNum(award, timeAndMoneyDocument.getDocumentNumber());            
             
@@ -688,9 +690,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setProjectStartDate(award.getAwardEffectiveDate());
             awardHierarchyNode.setTitle(award.getTitle());
             awardHierarchyNode.setAwardId(award.getAwardId());
-
-            //if there is not a pending version and there is an active version then the award document is final.
-            awardHierarchyNode.setAwardDocumentFinalStatus(pendingVersionHistory == null && activeVersionHistory != null);
+            awardHierarchyNode.setAwardDocumentFinalStatus(VersionStatus.ACTIVE.toString().equals(award.getAwardSequenceStatus()));
             awardHierarchyNodes.put(awardHierarchyNode.getAwardNumber(), awardHierarchyNode);
         }  
     }
@@ -703,10 +703,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public void createNodeMapsOnFormForSummaryPanel(Map<String, AwardHierarchyNode> awardHierarchyNodes, Map<String, String> previousNodeMap, Map<String, String> nextNodeMap) {
         List <AwardHierarchy> sortedList = new ArrayList<AwardHierarchy>();
         AwardHierarchy rootNode = loadFullHierarchyFromAnyNode(getRootNode(awardHierarchyNodes).getAwardNumber());
-        //AwardHierarchy rootNode = (AwardHierarchy) getRootNode(awardHierarchyNodes);
         sortedList.add(rootNode);
-        //create sorted list with a depth first search through hierarchy tree adding node to sorted list as we visit each node.
-        //add all first level children and tear through children recursively creating top down sorted list.
         for(AwardHierarchy ah : rootNode.getChildren()) {
             sortedList.add(ah);
             addChildrenToSortedList(ah, sortedList);
