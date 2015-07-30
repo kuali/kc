@@ -160,6 +160,11 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
     	tableReferences = new HashSet<>();
     	String catalog = conn.getCatalog();
         String schema = catalog;
+
+        // this indicates a non-mysql db, so try oracle.
+        if (catalog == null) {
+            schema = conn.getSchema();
+        }
         try {
 	        if (conn.getMetaData().getSchemas().next()) {
 	            schema = conn.getSchema();
@@ -167,7 +172,11 @@ public class KcAttachmentDataDaoImpl implements KcAttachmentDataDao {
         } catch (AbstractMethodError e) {
         	LOG.info("Unable to retrieve schema, using catalog " + e.getMessage());
         }
-        ResultSet rs = conn.getMetaData().getExportedKeys(catalog,schema,"file_data");
+
+        // The Oracle database stores its table names as Upper-Case,
+        // if you pass a table name in lowercase characters, it will not work.
+        // MySQL does not care.
+        ResultSet rs = conn.getMetaData().getExportedKeys(catalog,schema,"FILE_DATA");
         while (rs.next()) {
             tableReferences.add(new TableReference(rs.getString("FKTABLE_NAME"), rs.getString("FKCOLUMN_NAME")));
         }

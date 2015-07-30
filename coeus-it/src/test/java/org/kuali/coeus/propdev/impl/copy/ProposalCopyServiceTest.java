@@ -152,14 +152,12 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
             }
         }
         if(!mandatoryFormNotAvailable) {
-            Collections.sort(s2sOppForms, new Comparator<S2sOppForms>() {
-                public int compare(S2sOppForms arg0, S2sOppForms arg1) {
-                    int result = arg0.getMandatory().compareTo(arg1.getMandatory()) * -1;
-                    if (result == 0) {
-                        result = arg0.getFormName().compareTo(arg1.getFormName());
-                    }
-                    return result;
+            Collections.sort(s2sOppForms, (arg0, arg1) -> {
+                int result = arg0.getMandatory().compareTo(arg1.getMandatory()) * -1;
+                if (result == 0) {
+                    result = arg0.getFormName().compareTo(arg1.getFormName());
                 }
+                return result;
             });
             opportunity.setS2sOppForms(s2sOppForms);
         }
@@ -245,9 +243,10 @@ public class ProposalCopyServiceTest extends ProposalDevelopmentRuleTestBase {
         assertEquals(copiedSites.get(0).getOrganization().getOrganizationId(), "000001");
         assertEquals(copiedSites.get(1).getOrganization().getOrganizationId(), "000001");
 
-        // test cong district
-        assertEquals(copiedSites.get(0).getDefaultCongressionalDistrict().getCongressionalDistrict(), "AZ-002");
+        Organization organization = (Organization)getDataObjectService().find(Organization.class, copiedSites.get(0).getOrganization().getOrganizationId());
 
+        // test cong district
+        assertEquals(copiedSites.get(0).getDefaultCongressionalDistrict().getCongressionalDistrict(), organization.getCongressionalDistrict());
         assertTrue(copiedDocument.getDevelopmentProposal().getNarratives().size() == 0);
 
         assertTrue(copiedDocument.getDevelopmentProposal().getS2sOpportunity() != null);
