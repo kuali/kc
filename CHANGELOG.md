@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1507.70
+* No Changes
+
+
 ##coeus-1507.69
 *  fix irb committee submission when there is a protocol submission using the committee.  Rice will attempt to validate a large object graph and cause the committee to go into exception routing.  Fix irb and iacuc committee submission when there is a protocol submission where routing to final will attempt to save protocol submission lite bo which are mapped to views.
   * Travis Schneeberger on Wed, 29 Jul 2015 17:20:13 -0400 [View Commit](../../commit/b426e1a655a5cfa2fe65c23855b42a937af66c8a)
