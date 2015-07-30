@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Award Time and Money Improvements
+  * blackcathacker on Wed, 24 Jun 2015 17:56:08 -0400 [View Commit](../../commit/ee71818851e2f92960a9b95c92599e4ff5f4274b)
+* Fixes to the summary and history tab
+  * blackcathacker on Thu, 25 Jun 2015 15:51:30 -0400 [View Commit](../../commit/a9f3efb2ba6c26a23f027076b256d2f08cb4ebdf)
+* Fix T&M summary for single node hierarchies
+  * blackcathacker on Fri, 26 Jun 2015 14:40:23 -0400 [View Commit](../../commit/90abff1f46e7e1fa39245a0349f23176278c8522)
+
+##coeus-1507.71
 * No Changes
 
 

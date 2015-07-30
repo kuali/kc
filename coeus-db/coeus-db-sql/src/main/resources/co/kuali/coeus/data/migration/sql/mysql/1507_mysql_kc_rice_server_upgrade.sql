@@ -24,4 +24,5 @@
 \. ./rice/bootstrap/V1507_010__RESKC-607.sql
 \. ./rice/bootstrap/V1507_012__RESKC-633.sql
 \. ./rice/bootstrap/V1507_014__RESKC-637.sql
+\. ./rice/bootstrap/V1507_019__RESKC-561.sql
 commit;
