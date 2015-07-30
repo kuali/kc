@@ -57,6 +57,7 @@ import java.util.stream.Collectors;
 
 public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryService {
 
+	private static final String AWARD_VERSIONS_TO_DISPLAY_PARM = "AWARD_VERSIONS_TO_DISPLAY_FOR_TIME_AND_MONEY_HISTORY";
 	private static final String TIME_AND_MONEY_DOCUMENT_NUMBER = "timeAndMoneyDocumentNumber";
 	private static final String ROOT_AWARD_NUMBER = "rootAwardNumber";
 	private static final String SOURCE_AWARD_NUMBER = "sourceAwardNumber";
@@ -68,7 +69,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 	private static final String DASH = "-";
 	private static final String DEFAULT_TAB = "Versions";
 	private static final String ALTERNATE_OPEN_TAB = "Parameters";
-	private static final String SEQUENCE_NUMBER = "sequenceNumber";
 	private static final String DOCUMENT_NUMBER = "documentNumber";
 	private static final String NONE = "None";
 	private static final String AWARD_NUMBER = "awardNumber";
@@ -87,8 +87,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 
 	@Override
 	public List<AwardVersionHistory> buildTimeAndMoneyHistoryObjects(String awardNumber, boolean bounded) throws WorkflowException {
-		Integer maxAwards = new Integer(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_TIME_AND_MONEY, ParameterConstants.DOCUMENT_COMPONENT, "AWARD_VERSIONS_TO_DISPLAY_FOR_TIME_AND_MONEY_HISTORY"));
-		List<Award> awardVersionList = new ArrayList<>(awardDao.retrieveAwardsByCriteria(Collections.singletonMap("awardNumber", awardNumber), null, 1, bounded ? maxAwards : -1).getResults());
+		Integer maxAwards = new Integer(getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_TIME_AND_MONEY, ParameterConstants.DOCUMENT_COMPONENT, AWARD_VERSIONS_TO_DISPLAY_PARM));
+		List<Award> awardVersionList = new ArrayList<>(awardDao.retrieveAwardsByCriteria(Collections.singletonMap(AWARD_NUMBER, awardNumber), null, 1, bounded ? maxAwards : -1).getResults());
 		List<TimeAndMoneyDocument> docs = getTimeAndMoneyDao().getTimeAndMoneyDocumentForAwards(awardVersionList.stream().map((Award award) -> award.getAwardId()).collect(Collectors.toList()));
 		return buildAwardVersionHistoryList(awardVersionList, docs);
 	}

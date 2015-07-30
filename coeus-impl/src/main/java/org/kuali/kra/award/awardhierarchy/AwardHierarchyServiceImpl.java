@@ -648,7 +648,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setParentAwardNumber(awardHierarchy.getValue().getParentAwardNumber());
             awardHierarchyNode.setRootAwardNumber(awardHierarchy.getValue().getRootAwardNumber());
 
-            //Award award = awardVersionService.getWorkingAwardVersion(tmpAwardNumber);
             Award award = activeAwardsInHierarchy.get(tmpAwardNumber);
             if (award == null) {
             	award = awardVersionService.getPendingAwardVersion(tmpAwardNumber);
@@ -704,10 +703,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public void createNodeMapsOnFormForSummaryPanel(Map<String, AwardHierarchyNode> awardHierarchyNodes, Map<String, String> previousNodeMap, Map<String, String> nextNodeMap) {
         List <AwardHierarchy> sortedList = new ArrayList<AwardHierarchy>();
         AwardHierarchy rootNode = loadFullHierarchyFromAnyNode(getRootNode(awardHierarchyNodes).getAwardNumber());
-        //AwardHierarchy rootNode = (AwardHierarchy) getRootNode(awardHierarchyNodes);
         sortedList.add(rootNode);
-        //create sorted list with a depth first search through hierarchy tree adding node to sorted list as we visit each node.
-        //add all first level children and tear through children recursively creating top down sorted list.
         for(AwardHierarchy ah : rootNode.getChildren()) {
             sortedList.add(ah);
             addChildrenToSortedList(ah, sortedList);

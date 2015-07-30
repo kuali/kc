@@ -39,7 +39,10 @@ import java.util.List;
 
 public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeAndMoneyDao {
 
-    public void buildTimeAndMoneyActionSummaryForAward(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems, String awardNumber) throws LookupException, SQLException{
+    private static final String DOCUMENT_STATUS = "documentStatus";
+	private static final String AWARD_AMOUNT_INFOS_AWARD_ID = "awardAmountInfos.awardId";
+
+	public void buildTimeAndMoneyActionSummaryForAward(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems, String awardNumber) throws LookupException, SQLException{
         Statement stmt = null;
         PersistenceBroker pbInstance = getPersistenceBroker(true);
         TimeAndMoneyActionSummary timeAndMoneyActionSummary;
@@ -84,8 +87,8 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
     @Override
     public List<TimeAndMoneyDocument> getTimeAndMoneyDocumentForAwards(List<Long> awardIds) {
     	Criteria crit = new Criteria();
-    	crit.addIn("awardAmountInfos.awardId", awardIds);
-    	crit.addNotEqualTo("documentStatus", VersionStatus.CANCELED.toString()) ;
+    	crit.addIn(AWARD_AMOUNT_INFOS_AWARD_ID, awardIds);
+    	crit.addNotEqualTo(DOCUMENT_STATUS, VersionStatus.CANCELED.toString()) ;
     	
     	QueryByCriteria criteria = new QueryByCriteria(TimeAndMoneyDocument.class, crit);
     	

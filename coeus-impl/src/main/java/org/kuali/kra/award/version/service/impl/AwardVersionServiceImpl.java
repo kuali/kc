@@ -44,6 +44,10 @@ import java.util.Map;
 public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements AwardVersionService {
 
 
+	private static final String AWARD_AMOUNT_INFOS = "awardAmountInfos";
+	private static final String AWARD_SEQUENCE_STATUS = "awardSequenceStatus";
+	private static final String AWARD_NUMBER = "awardNumber";
+
 	@Autowired
 	@Qualifier("versionHistoryService")
     private VersionHistoryService versionHistoryService;
@@ -60,11 +64,11 @@ public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements 
     @Override
     public Award getWorkingAwardVersion(String awardNumber) {
     	Map<String, Object> values = new HashMap<>();
-    	values.put("awardNumber", awardNumber);
-    	values.put("awardSequenceStatus", VersionStatus.ACTIVE.toString());
+    	values.put(AWARD_NUMBER, awardNumber);
+    	values.put(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
     	Award award = getBusinessObjectService().findMatching(Award.class, values).stream().findFirst().orElse(null);
     	if (award == null) {
-    		values.put("awardSequenceStatus", VersionStatus.PENDING.toString());
+    		values.put(AWARD_SEQUENCE_STATUS, VersionStatus.PENDING.toString());
     		award = getBusinessObjectService().findMatching(Award.class, values).stream().findFirst().orElse(null);
     	}
     	return award;
@@ -73,10 +77,10 @@ public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements 
     @Override
     public List<Award> getAllActiveAwardsForHierarchy(String awardNumber) {
     	Criteria crit = new Criteria();
-    	crit.addLike("awardNumber", awardNumber.substring(0, 6) + "%");
-    	crit.addEqualTo("awardSequenceStatus", VersionStatus.ACTIVE.toString());
+    	crit.addLike(AWARD_NUMBER, awardNumber.substring(0, 6) + "%");
+    	crit.addEqualTo(AWARD_SEQUENCE_STATUS, VersionStatus.ACTIVE.toString());
     	QueryByCriteria queryCrit = QueryFactory.newQuery(Award.class, crit);
-    	queryCrit.addPrefetchedRelationship("awardAmountInfos");
+    	queryCrit.addPrefetchedRelationship(AWARD_AMOUNT_INFOS);
     	return new ArrayList<Award>(getPersistenceBrokerTemplate().getCollectionByQuery(queryCrit));
     }
     
@@ -120,24 +124,17 @@ public class AwardVersionServiceImpl extends PlatformAwareDaoBaseOjb implements 
         return returnVal;
     }
 
-    
     public VersionHistoryService getVersionHistoryService() {
         return versionHistoryService;
     }
-
-
 
     public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
         this.versionHistoryService = versionHistoryService;
     }
 
-
-
 	public BusinessObjectService getBusinessObjectService() {
 		return businessObjectService;
 	}
-
-
 
 	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
 		this.businessObjectService = businessObjectService;

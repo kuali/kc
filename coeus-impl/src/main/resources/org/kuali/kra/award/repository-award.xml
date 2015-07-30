@@ -248,7 +248,7 @@
        		 <orderby name="organizationName" sort="ASC" />
        	 	<inverse-foreignkey field-ref="awardId" />
 		</collection-descriptor>
-         <reference-descriptor name="versionHistory" class-ref="org.kuali.coeus.common.framework.version.history.VersionHistorySearchBo" auto-retrieve="false" auto-update="none" auto-delete="none">
+         <reference-descriptor name="versionHistory" class-ref="org.kuali.coeus.common.framework.version.history.VersionHistorySearchBo" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-id-ref="1" />
             <foreignkey field-id-ref="2" />
         </reference-descriptor>
