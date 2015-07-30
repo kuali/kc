@@ -1,6 +1,48 @@
 
 
 ##CURRENT
+* apply inflation rates from child budget when calculating line items on parent budget
+
+  * In a Proposal Hierarchy, when you have one child proposal budget that applies inflation to a particular Cost Category and then in another Child Proposal, you set the Inflation Rate for that Cost Category to '0'. When synced to the Parent Proposal, the Parent budget will apply inflation to the Cost, even if the Cost in the child proposal did not have inflation applied. This is causing the Parent budget numbers to be different from the child budget numbers.
+  * Desired Behavior: The Parent Budget should not make any changes/recalculations to the numbers that are brought from the Child Proposal Budgets.
+  * Steps to Reproduce:
+  * 1. Create a Proposal (with minimum info to save) - one year project period is enough. Also, add a PI
+  * 2. Create a Detailed Budget
+  * a) In the Project Personnel, add any person, for example TBA-PostDoc and update the Details with the Base Salary (e.g. 12,000)
+  * b) Go to Assign Personnel To Periods, and click the Assign Personnel Button.
+  * c) In the Add Personnel to Period window, select:
+  * TBA-Post-Doc from the Person drop-down
+  * Form Object Code, select Post-Doctoral Staff-On
+  * Enter 100 in Effort % and Charged %
+  * Click the Assign to Period 1 button
+  * d) Save your budget and click the Return to proposal button
+  * 3. In the Proposal, click the Hierarchy link in the toolbar. In the Hierarchy window select:
+  * a) Hierarchy Budget Type: Sub Budget
+  * b) Click the Create Hierarchy button
+  * c) Note the Parent Proposal number generated
+  * 4. Close out of your proposal
+  * 5. Create another proposal (make sure it has the same project period as the first proposal you created). Also add a PI
+  * 6. Create a Detailed Budget in the second proposal
+  * a) In the Project Personnel, add any person, for example TBA-PostDoc and update the Details with the Base Salary (e.g. 12,000) and also change the Job Code (e.g. enter 1 in the Job Code field just so this TBA has a different Job Code then the TBA we have in the first budget we created)
+  * b) Go to the Rates --> Inflation, and change the Inflation Rate for Post-Doctoral Staff to '0'
+  * c) Go to Assign Personnel To Periods, and click the Assign Personnel Button.
+  * d) In the Add Personnel to Period window, select:
+  * TBA-Post-Doc from the Person drop-down
+  * Form Object Code, select Post-Doctoral Staff-On
+  * Enter 100 in Effort % and Charged %
+  * Click the Assign to Period 1 button (you should notice that the salary requested is not inflated)
+  * e) Save your budget and click the Return to proposal button
+  * 7. In the Proposal, click the Hierarchy link in the toolbar. In the Hierarchy window:
+  * a) Enter your Parent Proposal Number in the Link Proposal field
+  * b) Form the Hierarchy Budget Type select Sub Budget
+  * c) Click the Link this Child to a Parent button
+  * 8. Close out of your proposal
+  * 9. Go to the Parent Proposal and navigate to the Budget
+  * 10. In the Budget go to Project Personnel - Assign Personnel to Periods section
+  * 11. You will see that the Requested Salary for the Post Docs is inflated for both Post-Docs, even though one of them had the salary not inflated in the child proposal
+  * Joe Williams on Thu, 30 Jul 2015 12:49:27 -0500 [View Commit](../../commit/7ce30372b4a05e2bf6974d2d9b0c0e54a3eecb98)
+
+##coeus-1507.72
 * Award Time and Money Improvements
   * blackcathacker on Wed, 24 Jun 2015 17:56:08 -0400 [View Commit](../../commit/ee71818851e2f92960a9b95c92599e4ff5f4274b)
 * Fixes to the summary and history tab
