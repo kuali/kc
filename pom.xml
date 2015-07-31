@@ -115,7 +115,7 @@
         <opensaml.version>2.6.1</opensaml.version>
         <oracle.groupId>com.oracle</oracle.groupId>
         <oracle.artifactId>ojdbc7</oracle.artifactId>
-        <oracle.version>12.1.0.1</oracle.version>
+        <oracle.version>12.1.0.2</oracle.version>
         <org.eclipse.birt.runtime.version>4.4.0</org.eclipse.birt.runtime.version>
         <org.eclipse.persistence.version>2.6.0</org.eclipse.persistence.version>
         <pdfbox.version>1.8.6</pdfbox.version>
