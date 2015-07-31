@@ -158,6 +158,9 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     private AwardFundingProposalBean fundingProposalBean;
     private String awardHierarchy;
     private String awardNumber;
+    private String awardHierarchyTargetAwardNumber;
+    private String awardHierarchySourceAwardStrList;
+    private String awardHierarchyTargetAwardStrList;
     private String addRA;    
     private String deletedRas;
     private String rootAwardNumber;
@@ -1451,4 +1454,28 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         Collections.reverse(results);
         return results;
     }
+
+	public String getAwardHierarchyTargetAwardNumber() {
+		return awardHierarchyTargetAwardNumber;
+	}
+
+	public void setAwardHierarchyTargetAwardNumber(String awardHierarchyTargetAwardNumber) {
+		this.awardHierarchyTargetAwardNumber = awardHierarchyTargetAwardNumber;
+	}
+
+	public String getAwardHierarchySourceAwardStrList() {
+		return awardHierarchySourceAwardStrList;
+	}
+
+	public void setAwardHierarchySourceAwardStrList(String awardHierarchySourceAwardStrList) {
+		this.awardHierarchySourceAwardStrList = awardHierarchySourceAwardStrList;
+	}
+
+	public String getAwardHierarchyTargetAwardStrList() {
+		return awardHierarchyTargetAwardStrList;
+	}
+
+	public void setAwardHierarchyTargetAwardStrList(String awardHierarchyTargetAwardStrList) {
+		this.awardHierarchyTargetAwardStrList = awardHierarchyTargetAwardStrList;
+	}
 }

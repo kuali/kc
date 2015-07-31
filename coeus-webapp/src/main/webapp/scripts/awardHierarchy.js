@@ -207,21 +207,19 @@ function openSelectedAward(requestTracker) {
 	    subTdTag2.html('child of');
 	    radio2.appendTo(subTdTag2);
 	    
-	    var lookupField = jQuery('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject["+indexForHiddenField+"].awardNumber2))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
-	    var selectBoxText = jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox2").attr("value");
+	    var lookupField = jQuery('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name", awardLookupMethodToCall);
+	    var selectBoxText = awardHierarchyTargetAwards;
 	    var selectTag = jQuery('<select />').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].copyAwardPanelTargetAward").attr("id","awardHierarchyTempObject"+indexForHiddenField+"_copyAwardPanelTargetAward");   
 	    var optionTag = jQuery("<option> select: </option>").attr("value","0");
 	    optionTag.appendTo(selectTag);
-	    while(selectBoxText.length>1){
-	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();	    	
-	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("%3A")+3, selectBoxText.length).trim();
-	    	if(jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber2").attr("value") == optionValue){
-	    		var optionTag = jQuery("<option>"+optionValue+"</option>").attr("value",optionValue).attr("selected",true);
-	    	}else{
-	    		var optionTag = jQuery("<option>"+optionValue+"</option>").attr("value",optionValue);
+	    selectBoxText.forEach(function(award) {
+	    	var option = jQuery("<option>"+award+"</option>").attr("value", award);
+	    	if (award == awardHierarchyTargetAwardNumber) {
+	    		option.attr("selected", true);
 	    	}
-	    	optionTag.appendTo(selectTag);	    	
-	    }
+	    	option.appendTo(selectTag);
+
+	    });
 	    
 	    selectTag.appendTo(subTdTag3)
 
@@ -319,21 +317,18 @@ function openSelectedAward(requestTracker) {
 	    subTdTag3.html('selected award');
 	    radio3.appendTo(subTdTag3);	
 
-	    var lookupField = jQuery('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name","methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject["+indexForHiddenField+"].awardNumber1))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
-	    var selectBoxText = jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox1").attr("value");
+	    var lookupField = jQuery('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name", awardLookupMethodToCall);
+	    var selectBoxText = awardHierarchySourceAwards;
 	    var selectTag = jQuery('<select />').attr("name","awardHierarchyTempObject["+indexForHiddenField+"].newChildPanelTargetAward").attr("id","awardHierarchyTempObject"+indexForHiddenField+"_newChildPanelTargetAward");   
 	    var optionTag = jQuery("<option> select: </option>").attr("value","0");
 	    optionTag.appendTo(selectTag);
-	    while(selectBoxText.length>1){
-	    	var optionValue = selectBoxText.substring(0,selectBoxText.indexOf("%3A")).trim();
-	    	selectBoxText = selectBoxText.substring(selectBoxText.indexOf("%3A")+3, selectBoxText.length).trim();
-	    	if(jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber1").attr("value") == optionValue){
-	    		var optionTag = jQuery("<option>"+optionValue+"</option>").attr("value",optionValue).attr("selected",true);	    
-	    	}else{
-	    		var optionTag = jQuery("<option>"+optionValue+"</option>").attr("value",optionValue);
+	    selectBoxText.forEach(function(award) {
+	    	var option = jQuery("<option>"+award+"</option>").attr("value", award);
+	    	if (award == awardHierarchyTargetAwardNumber) {
+	    		option.attr("selected", true);
 	    	}
-	    	optionTag.appendTo(selectTag);	    	
-	    } 
+	    	option.appendTo(selectTag);
+	    });
 	    jQuery("#awardHierarchyTempObject" +indexForHiddenField+ "_newChildPanelTargetAward").live("change", function() {	    	 
 	    	jQuery('input:radio[@name="awardHierarchyTempObject['+indexForHiddenField+'].createNewChildRadio"]').filter('[value="c"]').attr('checked', 'checked');
 	 	   	

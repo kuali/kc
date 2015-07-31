@@ -62,7 +62,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     
     @Override
     public void refreshReportTracking(Award award) throws ParseException {
-        List<AwardReportTerm> awardReportTermItems = award.getAwardReportTermItems();      
+        List<AwardReportTerm> awardReportTermItems = new ArrayList<>(award.getAwardReportTermItems());      
         for (AwardReportTerm awardTerm : awardReportTermItems) {
             List<AwardReportTerm> awardReportTerms = new ArrayList<>();
             awardReportTerms.add(awardTerm);
