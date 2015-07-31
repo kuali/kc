@@ -1,6 +1,34 @@
 
 
 ##CURRENT
+* fix calculated fringe and calculated direct cost display on proposal budget
+
+  * As a proposal user, I am trying to verify that salaries and  employee benefits are being calculated correctly.
+  * When I add a person to a proposal in a unit with Lab Allocation rates, the value displayed in the "Calculated Fringe" field is not correct.
+  * The field should only contain any calculated employee benefit rates for the identified person (which may include EB, Vacation, or any other defined personnel EB type rate).
+
+  * Currently, the Calculated Fringe includes field is displaying
+  * EB + EB ON LA (Incorrect)
+  * (missing vacation)
+
+  * Additionally:
+  * Calculated direct costs includes:
+  * Vacation (Incorrect)
+  * Vacation on LA
+  * (Missing EB on LA)
+
+  * The correct display should include/display the following:
+
+  * Calculated Fringe for a personnel entry SHOULD include individuals';
+  * EB
+  * Vacation
+
+  * Calculated direct costs SHOULD include:
+  * EB ON LA
+  * Vacation on LA
+  * Joe Williams on Wed, 29 Jul 2015 15:34:31 -0500 [View Commit](../../commit/caeb8c6c307a6a6cf22a89ec8e71d5224daa85c5)
+
+##coeus-1507.73
 * apply inflation rates from child budget when calculating line items on parent budget
 
   * In a Proposal Hierarchy, when you have one child proposal budget that applies inflation to a particular Cost Category and then in another Child Proposal, you set the Inflation Rate for that Cost Category to '0'. When synced to the Parent Proposal, the Parent budget will apply inflation to the Cost, even if the Cost in the child proposal did not have inflation applied. This is causing the Parent budget numbers to be different from the child budget numbers.
