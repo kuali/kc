@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+* make the award sequence number values finder more efficient to make the print section load faster
+  * Travis Schneeberger on Thu, 25 Jun 2015 14:34:30 -0400 [View Commit](../../commit/2f6b1b4bc8ba46ccf84bd9026b4bb87e0c9d601c)
+* Fix award hierarchy/award actions for very large hierarchies
+  * blackcathacker on Fri, 26 Jun 2015 23:23:40 -0400 [View Commit](../../commit/13fbdc2018597ffcaa2e8b8d0b5b953db64c9cb0)
+* prevent error when optional parameter doesn't exist
+
+  * When this optional parameter hasn't been added the following error occurs
+  * ```
+  * when-present<#else>when-missing. (These only cover the last step of the expression; to cover the whole expression, use parenthessis: (myOptionVar.foo)!myDefault, (myOptionVar.foo)?? The failing instruction (FTL stack trace): ---------- ==> ${request.contextPath} [in template "krad/WEB-INF/ftl/lib/html.ftl" in macro "html" at line 51, column 25] #else [in template "krad/WEB-INF/ftl/lib/html.ftl" in macro "html" at line 50, column 9] @krad.html view=view [in template "krad/WEB-INF/ftl/fullView.ftl" at line 18, column 1] #include "fullView.ftl" [in template "krad/WEB-INF/ftl/uifRender.ftl" at line 69, column 9] #else [in template "krad/WEB-INF/ftl/uifRender.ftl" at line 68, column 5] ---------- Java stack trace (for programmers): ---------- freemarker.core.InvalidReferenceException: [... Exception message was already printed; see it above ...] at freemarker.core.InvalidReferenceException.getInstance(InvalidReferenceExcept
+  * ```
+  * blackcathacker on Fri, 31 Jul 2015 10:40:53 -0700 [View Commit](../../commit/750e2766552f759917b67af13da9a4b62184fc75)
+
+##coeus-1507.74
 * fix calculated fringe and calculated direct cost display on proposal budget
 
   * As a proposal user, I am trying to verify that salaries and  employee benefits are being calculated correctly.
