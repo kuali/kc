@@ -31,7 +31,6 @@ insert into valid_narr_forms (VALID_NARR_FORMS_ID,FORM_NAME,NARRATIVE_TYPE_CODE,
 values (SEQ_VALID_NARR_FORMS_ID.NEXTVAL, 'NSF_CoverPage_1_6-V1.6', '147', 'Y', 'admin', sysdate, sys_guid());
 
 -- questionnaire
----------------
 Insert into QUESTIONNAIRE (QUESTIONNAIRE_REF_ID,QUESTIONNAIRE_ID,SEQUENCE_NUMBER,NAME,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,IS_FINAL,VER_NBR,OBJ_ID,FILE_NAME) values (SEQ_QUESTIONNAIRE_REF_ID.NEXTVAL,SEQ_QUESTIONNAIRE_ID.NEXTVAL,1,'NSF cover page 1-6 supporting questions','These questions support  NSF Coverpage 1-6 Grants.gov forms.',sysdate, 'admin','Y',1,sys_guid(),null);
 
 -- 52
