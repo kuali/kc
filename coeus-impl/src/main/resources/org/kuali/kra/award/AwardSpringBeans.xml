@@ -281,7 +281,9 @@
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
 
-    <bean id="awardDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardDaoOjb"/>
+    <bean id="awardDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardDaoOjb">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
 
     <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.award.dao.ojb.AwardLookupDaoOjb">
     	<property name="versionHistoryLookupDao" ref="versionHistoryLookupDao" /> 

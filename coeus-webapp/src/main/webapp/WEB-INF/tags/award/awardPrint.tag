@@ -43,7 +43,6 @@
 </style>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="awardPrintAttributes" value="${DataDictionary.AwardPrint.attributes}" />
 <c:set var="awardPrintNoticeAttributes" value="${DataDictionary.AwardPrintNotice.attributes}" />
 <c:set var="awardTransactionSelectorAttributes" value="${DataDictionary.AwardTransactionSelectorBean.attributes}" />
 <c:set var="award" value="${KualiForm.document.award}" />

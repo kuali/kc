@@ -20,13 +20,13 @@ package org.kuali.kra.award.lookup.keyvalue;
 
 import org.kuali.coeus.sys.framework.keyvalue.FormViewAwareUifKeyValuesFinderBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.award.dao.AwardDao;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.home.Award;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.service.KeyValuesService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Gets all sequence numbers for the current award id.  See
@@ -35,7 +35,9 @@ import java.util.*;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class AwardSequenceNumberValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
-    
+
+    private AwardDao awardDao;
+
     /**
      * Searches for all awards with the same award id and grabs all sequence numbers
      * for that award returning the sequence number as both the key and the value for
@@ -46,21 +48,26 @@ public class AwardSequenceNumberValuesFinder extends FormViewAwareUifKeyValuesFi
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        AwardDocument doc = (AwardDocument) getDocument();
-        String awardNumber = doc.getAward().getAwardNumber();
-        KeyValuesService keyValuesService = (KeyValuesService) KcServiceLocator.getService("keyValuesService");
-        Map<String, Object> idMatch = new HashMap<String, Object>();
-        idMatch.put("awardNumber", awardNumber);
-        Collection<Award> awards = keyValuesService.findMatching(Award.class, idMatch);
-        List<Integer> sortedList = new ArrayList<Integer>();
-        for (Award award : awards ) {
-            sortedList.add(award.getSequenceNumber());
+        final AwardDocument doc = (AwardDocument) getDocument();
+        if (doc == null) {
+            return Collections.emptyList();
         }
-        Collections.sort(sortedList, Collections.reverseOrder());
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for (Integer num : sortedList) {
-                keyValues.add(new ConcreteKeyValue(num.toString(), num.toString()));
+
+        final String awardNumber = doc.getAward().getAwardNumber();
+
+        return getAwardDao().getAwardSequenceNumbers(awardNumber).stream()
+                .map(num -> new ConcreteKeyValue(num.toString(), num.toString()))
+                .collect(Collectors.toList());
+    }
+
+    public AwardDao getAwardDao() {
+        if (awardDao == null) {
+            awardDao = KcServiceLocator.getService("awardDao");
         }
-        return keyValues;
+        return awardDao;
+    }
+
+    public void setAwardDao(AwardDao awardDao) {
+        this.awardDao = awardDao;
     }
 }
