@@ -26,10 +26,10 @@ update krew_rte_node_t set TYP = 'org.kuali.coeus.sys.framework.workflow.SimpleB
 update krew_rule_attr_t set CLS_NM = 'org.kuali.coeus.common.framework.unit.admin.UnitAdministratorRoleAttribute' where CLS_NM = 'org.kuali.kra.workflow.UnitAdministratorRoleAttribute';
 update krew_rule_attr_t set CLS_NM = 'org.kuali.coeus.common.framework.unit.crrspndnt.UnitCorrespondentRoleAttribute' where CLS_NM = 'org.kuali.kra.workflow.UnitCorrespondentRoleAttribute';
 update krew_rule_attr_t set CLS_NM = 'org.kuali.coeus.common.impl.org.crrspndnt.OrganizationCorrespondentRoleAttribute' where CLS_NM = 'org.kuali.kra.workflow.OrganizationCorrespondentRoleAttribute';
-update krew_rule_attr_t set XML = REAPLCE(XML, 'org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal', 'org.kuali.coeus.propdev.impl.core.DevelopmentProposal') where XML like '%org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal%';
-update krew_rule_attr_t set XML = REAPLCE(XML, 'org.kuali.kra.budget.versions.BudgetVersionOverview', 'org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview') where XML like '%org.kuali.kra.budget.versions.BudgetVersionOverview%';
-update krew_rule_attr_t set XML = REAPLCE(XML, 'org.kuali.kra.bo.KcPerson', 'org.kuali.coeus.common.framework.person.KcPerson') where XML like '%org.kuali.kra.bo.KcPerson%';
-update krew_rule_attr_t set XML = REAPLCE(XML, 'org.kuali.kra.bo.Unit', 'org.kuali.coeus.common.framework.unit.Unit') where XML like '%org.kuali.kra.bo.Unit%';
-update krew_rule_attr_t set XML = REAPLCE(XML, 'org.kuali.kra.bo.Sponsor', 'org.kuali.coeus.common.framework.sponsor.Sponsor') where XML like '%org.kuali.kra.bo.Sponsor%';
-update krew_rule_attr_t set XML = REAPLCE(XML, 'org.kuali.kra.bo.Unit', 'org.kuali.coeus.common.framework.unit.Unit') where XML like '%org.kuali.kra.bo.Unit%';
+update krew_rule_attr_t set XML = REPLACE(XML, 'org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal', 'org.kuali.coeus.propdev.impl.core.DevelopmentProposal') where XML like '%org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal%';
+update krew_rule_attr_t set XML = REPLACE(XML, 'org.kuali.kra.budget.versions.BudgetVersionOverview', 'org.kuali.coeus.common.budget.framework.version.BudgetVersionOverview') where XML like '%org.kuali.kra.budget.versions.BudgetVersionOverview%';
+update krew_rule_attr_t set XML = REPLACE(XML, 'org.kuali.kra.bo.KcPerson', 'org.kuali.coeus.common.framework.person.KcPerson') where XML like '%org.kuali.kra.bo.KcPerson%';
+update krew_rule_attr_t set XML = REPLACE(XML, 'org.kuali.kra.bo.Unit', 'org.kuali.coeus.common.framework.unit.Unit') where XML like '%org.kuali.kra.bo.Unit%';
+update krew_rule_attr_t set XML = REPLACE(XML, 'org.kuali.kra.bo.Sponsor', 'org.kuali.coeus.common.framework.sponsor.Sponsor') where XML like '%org.kuali.kra.bo.Sponsor%';
+update krew_rule_attr_t set XML = REPLACE(XML, 'org.kuali.kra.bo.Unit', 'org.kuali.coeus.common.framework.unit.Unit') where XML like '%org.kuali.kra.bo.Unit%';
 update krew_rule_rsp_t set NM = 'org.kuali.coeus.common.framework.unit.admin.UnitAdministratorRoleAttribute!UnitAdministratorRoleAttribute!UnitAdministrator' where NM = 'org.kuali.kra.workflow.UnitAdministratorRoleAttribute!UnitAdministratorRoleAttribute!UnitAdministrator';
