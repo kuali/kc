@@ -78,4 +78,14 @@ public interface BudgetRatesService {
      * This method checks if activity type changed, then display confirmation message on 'open' budget version.
      */
     boolean checkActivityTypeChange(Collection<BudgetRate> allPropRates, String proposalActivityTypeCode);
+
+    boolean isVacation(String rateClassTypeCode);
+
+    boolean isEmployeeBenefit(String rateClassTypeCode);
+
+    boolean isLabAllocationSalary(String rateClassTypeCode);
+
+    boolean isVacationOnLabAllocation(String rateClassCode, String rateTypeCode);
+
+    boolean isEmployeeBenefitOnLabAllocation(String rateClassCode, String rateTypeCode);
 }

@@ -20,20 +20,21 @@ package org.kuali.coeus.common.budget.framework.nonpersonnel;
 
 import javax.persistence.*;
 
-import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.api.nonpersonnel.AbstractBudgetCalculatedAmountContract;
-import org.kuali.coeus.common.budget.api.rate.RateClassType;
+import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
 import org.kuali.coeus.common.budget.framework.rate.RateClass;
 import org.kuali.coeus.common.budget.framework.rate.RateType;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.krad.data.jpa.converters.BooleanYNConverter;
 
 @MappedSuperclass
 public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusinessObjectBase implements AbstractBudgetCalculatedAmountContract {
 
     private static final long serialVersionUID = 4346953317701218299L;
+
 
     @Column(name = "BUDGET_ID")
     private Long budgetId;
@@ -196,12 +197,17 @@ public abstract class AbstractBudgetCalculatedAmount extends KcPersistableBusine
     }
 
     public boolean getAddToFringeRate() {
-        //employee benefits, research rate (not EB on LA)  
-        boolean isEmployee = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassTypeCode(), RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-        return isEmployee;
+        return !(getBudgetRatesService().isEmployeeBenefitOnLabAllocation(getRateClassCode(), getRateTypeCode())
+                || getBudgetRatesService().isVacationOnLabAllocation(getRateClassCode(), getRateTypeCode())
+                || getBudgetRatesService().isLabAllocationSalary(getRateClass().getRateClassTypeCode()))
+                && (getBudgetRatesService().isEmployeeBenefit(getRateClass().getRateClassTypeCode()) || getBudgetRatesService().isVacation(getRateClass().getRateClassTypeCode()));
     }
 
-	public RateType getRateType() {
+    private BudgetRatesService getBudgetRatesService() {
+        return KcServiceLocator.getService(BudgetRatesService.class);
+    }
+
+    public RateType getRateType() {
 		return rateType;
 	}
 
