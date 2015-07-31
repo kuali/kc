@@ -30,4 +30,5 @@ spool 1507_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1507_013__protocol_submission_views.sql
 @./kc/bootstrap/V1507_016__RESKC-561.sql
 @./kc/bootstrap/V1507_018__InstitutionalAttachmentFix.sql
+@./kc/bootstrap/V1507_020__fix_repackaging.sql
 commit;

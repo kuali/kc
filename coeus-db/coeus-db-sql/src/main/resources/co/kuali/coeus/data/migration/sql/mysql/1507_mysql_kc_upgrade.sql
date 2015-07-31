@@ -27,4 +27,5 @@
 \. ./kc/bootstrap/V1507_013__protocol_submission_views.sql
 \. ./kc/bootstrap/V1507_015__RESKC-595.sql
 \. ./kc/bootstrap/V1507_016__RESKC-561.sql
+\. ./kc/bootstrap/V1507_020__fix_repackaging.sql
 commit;

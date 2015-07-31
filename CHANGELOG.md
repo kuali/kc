@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Fix minor oracle issues
+
+  * Including a problem with KcPerson lookup related to repackaging causing an error in demo data when navigating to custom attributes
+  * blackcathacker on Fri, 31 Jul 2015 12:40:35 -0700 [View Commit](../../commit/3cfe96a38c15a98ed8bbc102830ab3a08ee79664)
+
+##coeus-1507.76
 * No Changes
 
 
