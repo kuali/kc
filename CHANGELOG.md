@@ -4,6 +4,10 @@
 * No Changes
 
 
+##coeus-1508.2
+* No Changes
+
+
 ##coeus-1508.1
 * Fix to resolving repackaging scripts.
   * blackcathacker on Fri, 31 Jul 2015 15:53:15 -0700 [View Commit](../../commit/5ebb5aca6fde30fe05092dd1e2c0e9abcad5a923)
