@@ -598,7 +598,7 @@ public class AwardHomeAction extends AwardAction {
             forward = mapping.findForward(Constants.MAPPING_BASIC);
         } else {
             initializeFormWithAward(awardForm, (Award) foundPending.getSequenceOwner());
-            response.sendRedirect(buildForwardUrl(awardForm.getDocId()));
+            response.sendRedirect(buildForwardUrl(awardForm.getAwardDocument().getDocumentNumber()));
             forward = null;
         }
         return forward;
