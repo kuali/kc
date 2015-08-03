@@ -961,11 +961,9 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
             AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
             ScaleTwoDecimal periodFringeTotal = getPeriodFringeTotal(budgetPeriod, budget);
-            ScaleTwoDecimal prevPeriodFringeTotal = budgetPeriod.getPrevTotalFringeAmount();
             ScaleTwoDecimal totalFringeAmount = budgetPeriod.getTotalFringeAmount();
-            ScaleTwoDecimal fringeAmountDiff = totalFringeAmount.subtract(prevPeriodFringeTotal);
+            ScaleTwoDecimal fringeAmountDiff = totalFringeAmount.subtract(periodFringeTotal);
         	ScaleTwoDecimal totalDirect = budgetPeriod.getTotalDirectCost().add(fringeAmountDiff);
-        	budgetPeriod.setPrevTotalFringeAmount(totalFringeAmount);
 			if(!totalDirect.equals(budgetPeriod.getTotalDirectCost())){
 				budgetPeriod.setTotalDirectCost(totalDirect);
 			}
