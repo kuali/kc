@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* sync question id seq table with question table
+  * Joe Williams on Fri, 31 Jul 2015 13:23:04 -0500 [View Commit](../../commit/586be857622bfc7c6b520be454be4d11dc678561)
+
+##coeus-1508.4
 *  fix issue with edit button not opening pending award
   * Joe Williams on Mon, 3 Aug 2015 12:25:13 -0500 [View Commit](../../commit/d63c0eec06b9b7fb3c876543dd4534e8e0a59377)
 
