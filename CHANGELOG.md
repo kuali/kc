@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  fix issue with edit button not opening pending award
+  * Joe Williams on Mon, 3 Aug 2015 12:25:13 -0500 [View Commit](../../commit/d63c0eec06b9b7fb3c876543dd4534e8e0a59377)
+
+##coeus-1508.3
 * No Changes
 
 
