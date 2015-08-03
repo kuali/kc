@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+* fixes issues with differences in total direct cost between award summary and award parameters
+
+  * Edited an award node to add funds; submitted.
+  * Edited the T&M doc to fund the node; submitted.
+  * On Budget Versions tab: added a new budget > opened.
+  * Linked P1 of the proposal budget (details did not come forward).
+  * Manually added personnel and non-personnel to get close to the limit.
+  * On the Summary screen, edited the F&A OH override field to meet the obligated total for this budget & saved.
+  * On Award Budget Actions > tried to submit.
+  * Results: got an error that the direct cost was exceeded.
+  * On Parameter screen> the direct cost amount did not reflect the details of the budget.
+
+  * Desired result: the values on the parameter screen should update to reflect the amounts in the detailed budget.
+  * Joe Williams on Mon, 3 Aug 2015 16:42:02 -0500 [View Commit](../../commit/3b294a9654f62d920decb27a1572e540b4a5534b)
+
+##coeus-1508.5
 * sync question id seq table with question table
   * Joe Williams on Fri, 31 Jul 2015 13:23:04 -0500 [View Commit](../../commit/586be857622bfc7c6b520be454be4d11dc678561)
 
