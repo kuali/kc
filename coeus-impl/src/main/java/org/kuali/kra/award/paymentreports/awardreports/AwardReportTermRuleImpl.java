@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,8 @@ public class AwardReportTermRuleImpl extends KcTransactionalDocumentRuleBase
         String fieldStarter = "document.awardList[0].awardReportTermItems[";
         String fieldEnder = "].";
         int counter = 0;
-        for (AwardReportTerm awardReportTermItem : event.getAward().getAwardReportTermItems()) {
+        List<AwardReportTerm> awardReportTerms = new ArrayList<>(event.getAward().getAwardReportTermItems());
+        for (AwardReportTerm awardReportTermItem : awardReportTerms) {
             validFields = validateRequiredFields(awardReportTermItem, fieldStarter + counter + fieldEnder) 
                 && isUnique(event.getAward().getAwardReportTermItems(), awardReportTermItem) && validFields;
             counter++;
