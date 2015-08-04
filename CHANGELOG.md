@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  changing lookup helper service to prototype scope so that custom data lookups or "data to alter" lookups do not throw an exception related to unknown properties.  Fixing our integration test to now confirm that lookup helper services are always prototype scope.
+  * Travis Schneeberger on Tue, 4 Aug 2015 16:01:47 -0400 [View Commit](../../commit/bd0b2d0da6869930dd6420d96e647a4a399652c7)
+
+##coeus-1508.7
 *  Fixing STE
   * Gayathri Athreya on Thu, 30 Jul 2015 18:39:21 -0700 [View Commit](../../commit/a496543b9f08e8b15d7d9912d81d0d277e909d73)
 
