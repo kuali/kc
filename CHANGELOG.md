@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Fixing STE
+  * Gayathri Athreya on Thu, 30 Jul 2015 18:39:21 -0700 [View Commit](../../commit/a496543b9f08e8b15d7d9912d81d0d277e909d73)
+
+##coeus-1508.6
 * fixes issues with differences in total direct cost between award summary and award parameters
 
   * Edited an award node to add funds; submitted.
