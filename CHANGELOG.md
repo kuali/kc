@@ -1,6 +1,17 @@
 
 
 ##CURRENT
+*  Fixing index out of bounds on funding proposal delete on award document.
+  * Travis Schneeberger on Wed, 5 Aug 2015 11:39:43 -0400 [View Commit](../../commit/002728e7a968f362b0e16c25cf8bca2e6beaed97)
+* Remove duplicate T&M Docs when retreiving based on aai
+
+  * When doing query by criteria searches referencing a collection, it appears to return duplicate T&M results. This removes the duplication before returning from the dao.
+  * Additionally when hitting reload on the new T&M History tab the necessary data to render the page was not being populated on the BO.
+  * blackcathacker on Wed, 5 Aug 2015 12:01:45 -0700 [View Commit](../../commit/db357854318392c4448c267cdc81851494dd6b1b)
+*  making sure the index handling logic is working with the correct collection.
+  * Travis Schneeberger on Wed, 5 Aug 2015 16:20:32 -0400 [View Commit](../../commit/c4c14df29e7242ad2cfd1fb471659798e1382e7e)
+
+##coeus-1508.8
 *  changing lookup helper service to prototype scope so that custom data lookups or "data to alter" lookups do not throw an exception related to unknown properties.  Fixing our integration test to now confirm that lookup helper services are always prototype scope.
   * Travis Schneeberger on Tue, 4 Aug 2015 16:01:47 -0400 [View Commit](../../commit/bd0b2d0da6869930dd6420d96e647a4a399652c7)
 
