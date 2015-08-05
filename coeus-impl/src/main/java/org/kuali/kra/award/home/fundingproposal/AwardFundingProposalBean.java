@@ -93,7 +93,7 @@ public class AwardFundingProposalBean implements Serializable {
      * This method deletes a Funding proposal for the specified index
      */
     public void deleteAwardFundingProposal(int index) {
-        if(CollectionUtils.validIndexForList(index, getAward().getFundingProposals())) {
+        if(CollectionUtils.validIndexForList(index, getAward().getAllFundingProposalsSortedBySequence())) {
             getAward().removeFundingProposal(index);
         }
     }

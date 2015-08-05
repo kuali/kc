@@ -2010,8 +2010,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      *
      */
     public AwardFundingProposal removeFundingProposal(int index) {
-        final AwardFundingProposal afp = (index >= 0) ? fundingProposals.remove(index) : null;
+        final AwardFundingProposal afp = (index >= 0) ? getAllFundingProposalsSortedBySequence().get(index) : null;
         if (afp != null) {
+            fundingProposals.remove(afp);
             allFundingProposals.remove(afp);
             afp.getProposalId();
             final InstitutionalProposal proposal = getInstitutionalProposalService().getInstitutionalProposal(afp.getProposalId().toString());
