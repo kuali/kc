@@ -36,6 +36,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeAndMoneyDao {
 
@@ -92,7 +93,8 @@ public class TimeAndMoneyDaoOjb extends PlatformAwareDaoBaseOjb implements TimeA
     	
     	QueryByCriteria criteria = new QueryByCriteria(TimeAndMoneyDocument.class, crit);
     	
-    	List<TimeAndMoneyDocument> docs = new ArrayList<>(getPersistenceBrokerTemplate().getCollectionByQuery(criteria));
+    	@SuppressWarnings("unchecked")
+		List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(criteria).stream().distinct().collect(Collectors.toList());
     	return docs;
     }
  

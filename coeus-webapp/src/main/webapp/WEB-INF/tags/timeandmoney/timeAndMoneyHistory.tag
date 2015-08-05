@@ -355,7 +355,7 @@
 	        		
         			</c:otherwise>
 	        	</c:choose>
-	        			<c:if test="${awardAmountInfoHistory.transactionType == 'MONEY'}">
+	        			<c:if test="${awardAmountInfoHistory.transactionType == 'MONEY' || awardAmountInfoHistory.transactionType == 'SINGLENODEMONEYTRANSACTION'}">
 		        			<tr>
 		        			<c:choose>
 				        		<c:when test="${KualiForm.directIndirectViewEnabled == '1'}">
@@ -371,22 +371,6 @@
 			        			</td>		
 		        			</tr>
 		        		</c:if>	
-		        		<c:if test="${awardAmountInfoHistory.transactionType == 'SINGLENODEMONEYTRANSACTION'}">
-		        			<tr>
-		        			<c:choose>
-				        		<c:when test="${KualiForm.directIndirectViewEnabled == '1'}">
-			          				<td colspan="14">
-			          			</c:when>
-								<c:otherwise>
-									<td colspan="10">
-								</c:otherwise>
-							 </c:choose>
-			        			<div>
-			        				<kra-timeandmoney:transactionDetails awardAmountInfoHistory="${awardAmountInfoHistory}" />
-			        			</div>
-			        			</td>		
-		        			</tr>
-		        		</c:if>
 				</c:forEach>
 			</c:forEach>
         </c:forEach> 
