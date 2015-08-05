@@ -123,11 +123,26 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     /*
      * Used by Current Report to determine if award in Active, Pending, or Hold state.
      */
-    private static String REPORT_STATUSES = "1 3 6";
+    private static final String REPORT_STATUSES = "1 3 6";
 
 
     private static final long serialVersionUID = 3797220122448310165L;
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Award.class);
+    private static final String AWARD_DOCUMENT = "awardDocument";
+    private static final String AWARD_STATUS = "awardStatus";
+    private static final String SPONSOR = "sponsor";
+    private static final String PRIME_SPONSOR = "primeSponsor";
+    private static final String AWARD_NUMBER = "awardNumber";
+    private static final String DOCUMENT_NUMBER = "documentNumber";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
+    private static final String AWARD = "Award";
+    private static final String CG_2 = "CG2";
+    private static final String CG_1 = "CG1";
+    private static final String CG_3 = "CG3";
+    private static final String AWARD_AMOUNT_INFOS = "awardAmountInfos";
+    private static final String ACCOUNT_TYPE_CODE = "accountTypeCode";
+    private static final String UNIT_NUMBER = "unitNumber";
+    private static final String COLON = ":";
     private Long awardId;
     private AwardDocument awardDocument;
     private String awardNumber;
@@ -249,10 +264,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private String unitNumber;
 
     private KcPerson ospAdministrator;
-    private String ospAdministratorName;
     private String principalInvestigatorName;
-    private String statusDescription;
-    private String sponsorName;
 
     // For award-account integration
     private String icrRateCode;
@@ -268,9 +280,14 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     private transient String docIdStatus;
 
     private transient String lookupOspAdministratorName;
-    transient AwardAmountInfoService awardAmountInfoService;
-    transient TimeAndMoneyHistoryService timeAndMoneyHistoryService;
+    private transient AwardAmountInfoService awardAmountInfoService;
+    private transient TimeAndMoneyHistoryService timeAndMoneyHistoryService;
     private transient AwardHierarchyService awardHierarchyService;
+    private transient SystemAuthorizationService systemAuthorizationService;
+    private transient AwardBudgetService awardBudgetService;
+    private transient InstitutionalProposalService institutionalProposalService;
+    private transient BusinessObjectService businessObjectService;
+    private transient UnitService unitService;
 
     private transient List<AwardUnitContact> centralAdminContacts;
     private List<SubAward> subAwardList;
@@ -381,7 +398,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         int returnVal = 0;
         int index = 0;
         if (aai.getAwardAmountInfoId() != null && this.isAwardInMultipleNodeHierarchy()) {
-            this.refreshReferenceObject("awardAmountInfos");
+            this.refreshReferenceObject(AWARD_AMOUNT_INFOS);
         }
         if (isAwardInitialCopy()) {
             // if it's copied, on initialization we want to return index of last AwardAmountInfo in collection.
@@ -406,7 +423,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         int returnVal = 0;
         int index = 0;
         if (aai.getAwardAmountInfoId() != null && this.isAwardInMultipleNodeHierarchy()) {
-            this.refreshReferenceObject("awardAmountInfos");
+            this.refreshReferenceObject(AWARD_AMOUNT_INFOS);
         }
         if (isAwardInitialCopy()) {
             // if it's copied, on initialization we want to return index of last AwardAmountInfo in collection.
@@ -429,7 +446,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * If the Award is copied then initially the AwardAmountInfos will
      * have two entries without AwardAmountInfoId's.  We need to recognize this
      * so we can display the correct data on initialization.
-     * @return
      */
     public boolean isAwardInitialCopy() {
         boolean returnValue = true;
@@ -478,9 +494,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public String getAccountTypeDescription() {
-        AccountType accountType = 
-            (AccountType) getBusinessObjectService().findByPrimaryKey
-            (AccountType.class, Collections.singletonMap("accountTypeCode", getAccountTypeCode()));
+        AccountType accountType = getBusinessObjectService().findByPrimaryKey
+            (AccountType.class, Collections.singletonMap(ACCOUNT_TYPE_CODE, getAccountTypeCode()));
         if (accountType == null) {
             return "None Selected";
         }else {
@@ -550,7 +565,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
 
     public List<AwardPerson> getProjectPersonsSorted() {
-        List<AwardPerson> aList = new ArrayList<AwardPerson>();
+        List<AwardPerson> aList = new ArrayList<>();
         if (this.getPrincipalInvestigator() != null) {
             aList.add(this.getPrincipalInvestigator());
         }
@@ -561,49 +576,22 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public List<AwardPerson> getInvestigators() {
-        List<AwardPerson> investigators = new ArrayList<AwardPerson>();
-        for (AwardPerson person : projectPersons) {
-            if (person.isPrincipalInvestigator() || person.isCoInvestigator()) {
-                investigators.add(person);
-            }
-        }
-        Collections.sort(investigators);
-        return investigators;
+        return projectPersons.stream().filter(person -> person.isPrincipalInvestigator() || person.isCoInvestigator()).sorted().collect(Collectors.toList());
     }
 
     public List<AwardPerson> getCoInvestigators() {
-        List<AwardPerson> coInvestigators = new ArrayList<AwardPerson>();
-        for (AwardPerson person : projectPersons) {
-            if (person.isCoInvestigator()) {
-                coInvestigators.add(person);
-            }
-        }
-        Collections.sort(coInvestigators);
-        return coInvestigators;
+        return projectPersons.stream().filter(AwardPerson::isCoInvestigator).sorted().collect(Collectors.toList());
     }
 
     public List<AwardPerson> getMultiplePis() {
-        List<AwardPerson> multiplePis = new ArrayList<AwardPerson>();
         if (isSponsorNihMultiplePi()) {
-            for (AwardPerson person : projectPersons) {
-                if (person.isMultiplePi()) {
-                    multiplePis.add(person);
-                }
-            }
-            Collections.sort(multiplePis);
+            return projectPersons.stream().filter(AwardPerson::isMultiplePi).sorted().collect(Collectors.toList());
         }
-        return multiplePis;
+        return new ArrayList<>();
     }
 
     public List<AwardPerson> getKeyPersons() {
-        List<AwardPerson> keyPersons = new ArrayList<AwardPerson>();
-        for (AwardPerson person : projectPersons) {
-            if (person.isKeyPerson()) {
-                keyPersons.add(person);
-            }
-        }
-        Collections.sort(keyPersons);
-        return keyPersons;
+        return projectPersons.stream().filter(AwardPerson::isKeyPerson).sorted().collect(Collectors.toList());
     }
 
     public int getTotalUnitCount() {
@@ -633,16 +621,10 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return approvedForeignTravelTrips;
     }
 
-    /**
-     * @param awardUnitContacts
-     */
     public void setAwardUnitContacts(List<AwardUnitContact> awardUnitContacts) {
         this.awardUnitContacts = awardUnitContacts;
     }
 
-    /**
-     * 
-     */
     public void setApprovedEquipmentItems(List<AwardApprovedEquipment> awardApprovedEquipmentItems) {
         this.approvedEquipmentItems = awardApprovedEquipmentItems;
     }
@@ -754,7 +736,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * 
      * For ease of use in JSP and tag files; the setter method uses acronym instead of full meaning.
      * idcIndicator is an acronym. Its full meaning is Indirect Cost Indicator
-     * @param indirectCostIndicator
      */
     public void setIdcIndicator(String indirectCostIndicator) {
         this.indirectCostIndicator = indirectCostIndicator;
@@ -872,7 +853,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     /**
      * 
      * cfdaNumber is an acronym. Its full meaning is Catalog of Federal Domestic Assistance
-     * @return
      */
     public String getCfdaNumber() {
         return cfdaNumber;
@@ -881,7 +861,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     /**
      * 
      * cfdaNumber is an acronym. Its full meaning is Catalog of Federal Domestic Assistance
-     * @param cfdaNumber
      */
     public void setCfdaNumber(String cfdaNumber) {
         this.cfdaNumber = cfdaNumber;
@@ -910,8 +889,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public String getOspAdministratorName() {
         KcPerson ospAdministrator = getOspAdministrator();
-        ospAdministratorName = ospAdministrator != null ? ospAdministrator.getFullName() : null;
-        return ospAdministratorName;
+        return ospAdministrator != null ? ospAdministrator.getFullName() : null;
     }
 
 
@@ -921,7 +899,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     /**
      * For negative values, this method makes the number positive by dropping the negative sign.
-     * @param preAwardAuthorizedAmount
      */
     public void setPreAwardAuthorizedAmount(ScaleTwoDecimal preAwardAuthorizedAmount) {
         if (preAwardAuthorizedAmount != null && preAwardAuthorizedAmount.isNegative()) {
@@ -1081,7 +1058,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public AwardDocument getAwardDocument() {
         if (awardDocument == null) {
-            this.refreshReferenceObject("awardDocument");
+            this.refreshReferenceObject(AWARD_DOCUMENT);
         }
         return awardDocument;
     }
@@ -1190,7 +1167,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(awardCommentTypeCode);
         if ((awardComment == null && createNew)) {
-            awardComment = awardCommentFactory.createAwardComment(awardCommentTypeCode, (checklistPrintFlag == null ? false : checklistPrintFlag.booleanValue()));
+            awardComment = awardCommentFactory.createAwardComment(awardCommentTypeCode, (checklistPrintFlag != null && checklistPrintFlag));
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1218,22 +1195,22 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public ScaleTwoDecimal getTotalCostShareMetAmount() {
-        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnVal = ScaleTwoDecimal.ZERO;
         for (AwardCostShare awardCostShare : awardCostShares) {
-             ScaleTwoDecimal amount = awardCostShare.getCostShareMet() != null ? awardCostShare.getCostShareMet() : new ScaleTwoDecimal(0.00);
+             ScaleTwoDecimal amount = awardCostShare.getCostShareMet() != null ? awardCostShare.getCostShareMet() : ScaleTwoDecimal.ZERO;
             returnVal = returnVal.add(amount);
         }
         return returnVal;
     }
 
     public ScaleTwoDecimal getTotalDirectFandADistributionDirectCostAmount() {
-        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnVal = ScaleTwoDecimal.ZERO;
         for (AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
             ScaleTwoDecimal amount;
             if (awardDirectFandADistribution.getDirectCost() != null) {
                 amount = awardDirectFandADistribution.getDirectCost();
              }else {
-                amount = new ScaleTwoDecimal(0.00);
+                amount = ScaleTwoDecimal.ZERO;
             }
             returnVal = returnVal.add(amount);
         }
@@ -1241,13 +1218,13 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public ScaleTwoDecimal getTotalDirectFandADistributionIndirectCostAmount() {
-        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnVal = ScaleTwoDecimal.ZERO;
         for (AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
             ScaleTwoDecimal amount;
             if (awardDirectFandADistribution.getIndirectCost() != null) {
                 amount = awardDirectFandADistribution.getIndirectCost();
              }else {
-                amount = new ScaleTwoDecimal(0.00);
+                amount = ScaleTwoDecimal.ZERO;
             }
             returnVal = returnVal.add(amount);
         }
@@ -1255,7 +1232,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public ScaleTwoDecimal getTotalDirectFandADistributionAnticipatedCostAmount() {
-        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnVal = ScaleTwoDecimal.ZERO;
         returnVal = returnVal.add(getTotalDirectFandADistributionDirectCostAmount());
         returnVal = returnVal.add(getTotalDirectFandADistributionIndirectCostAmount());
         return returnVal;
@@ -1359,17 +1336,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         }
         awardCloseoutItems.removeAll(awardCloseoutNewItems);
         awardCloseoutNewItems.add(awardCloseoutItem);
-        Collections.sort(awardCloseoutNewItems, new Comparator(){
-            public int compare(Object o1, Object o2) {
-                if(o1 instanceof AwardCloseout && o2 instanceof AwardCloseout) {
-                    AwardCloseout awardCloseout1 = (AwardCloseout)o1;
-                    AwardCloseout awardCloseout2 = (AwardCloseout)o2;
-                   
-                    return awardCloseout1.getCloseoutReportName().compareTo(awardCloseout2.getCloseoutReportName());
-                }
-                return 0;
-              }});
-
+        Collections.sort(awardCloseoutNewItems, Comparator.comparing(AwardCloseout::getCloseoutReportName));
         awardCloseoutItems.addAll(awardCloseoutNewItems);
         awardCloseoutItem.setAward(this);
     }
@@ -1414,42 +1381,42 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     protected void initializeCollections() {
-        setAwardCostShares(new ArrayList<AwardCostShare>());
-        setAwardComments(new ArrayList<AwardComment>());
-        awardApprovedSubawards = new ArrayList<AwardApprovedSubaward>();
-        setAwardFandaRate(new ArrayList<AwardFandaRate>());
-        setAwardReportTermItems(new ArrayList<AwardReportTerm>());
-        keywords = new ArrayList<AwardScienceKeyword>();
-        specialReviews = new ArrayList<AwardSpecialReview>();
-        approvedEquipmentItems = new ArrayList<AwardApprovedEquipment>();
-        approvedForeignTravelTrips = new ArrayList<AwardApprovedForeignTravel>();
-        setAwardSponsorTerms(new ArrayList<AwardSponsorTerm>());
-        paymentScheduleItems = new ArrayList<AwardPaymentSchedule>();
-        awardTransferringSponsors = new ArrayList<AwardTransferringSponsor>();
-        awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
-        awardCustomDataList = new ArrayList<AwardCustomData>();
-        awardCloseoutItems = new ArrayList<AwardCloseout>();
-        awardCloseoutNewItems = new ArrayList<AwardCloseout>();
-        awardNotepads = new ArrayList<AwardNotepad>();
+        setAwardCostShares(new ArrayList<>());
+        setAwardComments(new ArrayList<>());
+        awardApprovedSubawards = new ArrayList<>();
+        setAwardFandaRate(new ArrayList<>());
+        setAwardReportTermItems(new ArrayList<>());
+        keywords = new ArrayList<>();
+        specialReviews = new ArrayList<>();
+        approvedEquipmentItems = new ArrayList<>();
+        approvedForeignTravelTrips = new ArrayList<>();
+        setAwardSponsorTerms(new ArrayList<>());
+        paymentScheduleItems = new ArrayList<>();
+        awardTransferringSponsors = new ArrayList<>();
+        awardDirectFandADistributions = new ArrayList<>();
+        awardCustomDataList = new ArrayList<>();
+        awardCloseoutItems = new ArrayList<>();
+        awardCloseoutNewItems = new ArrayList<>();
+        awardNotepads = new ArrayList<>();
         initializeAwardAmountInfoObjects();
-        projectPersons = new ArrayList<AwardPerson>();
-        awardUnitContacts = new ArrayList<AwardUnitContact>();
-        sponsorContacts = new ArrayList<AwardSponsorContact>();
-        awardBudgetLimits = new ArrayList<AwardBudgetLimit>();
+        projectPersons = new ArrayList<>();
+        awardUnitContacts = new ArrayList<>();
+        sponsorContacts = new ArrayList<>();
+        awardBudgetLimits = new ArrayList<>();
         awardCgbList = new ArrayList<>();
 
-        fundingProposals = new ArrayList<AwardFundingProposal>();
-        allFundingProposals = new ArrayList<AwardFundingProposal>();
+        fundingProposals = new ArrayList<>();
+        allFundingProposals = new ArrayList<>();
         initializeAwardHierarchyTempObjects();
 
-        syncChanges = new ArrayList<AwardSyncChange>();
-        syncStatuses = new ArrayList<AwardSyncStatus>();
-        subAwardList = new ArrayList<SubAward>();
-        currentVersionBudgets = new ArrayList<AwardBudgetExt>();
+        syncChanges = new ArrayList<>();
+        syncStatuses = new ArrayList<>();
+        subAwardList = new ArrayList<>();
+        currentVersionBudgets = new ArrayList<>();
     }
 
     public void initializeAwardAmountInfoObjects() {
-        awardAmountInfos = new ArrayList<AwardAmountInfo>();
+        awardAmountInfos = new ArrayList<>();
         AwardAmountInfo awardAmountInfo = new AwardAmountInfo();
         awardAmountInfo.setAward(this);
         awardAmountInfo.setOriginatingAwardVersion(1);
@@ -1457,7 +1424,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public void initializeAwardHierarchyTempObjects() {
-        awardHierarchyTempObjects = new AutoPopulatingList<AwardHierarchyTempObject>(AwardHierarchyTempObject.class);
+        awardHierarchyTempObjects = new AutoPopulatingList<>(AwardHierarchyTempObject.class);
     }
 
     public ScaleTwoDecimal getPreAwardInstitutionalAuthorizedAmount() {
@@ -1466,7 +1433,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     /**
      * For negative values, this method makes the number positive by dropping the negative sign.
-     * @param preAwardInstitutionalAuthorizedAmount
      */
     public void setPreAwardInstitutionalAuthorizedAmount(ScaleTwoDecimal preAwardInstitutionalAuthorizedAmount) {
         // if preAwardInstitutionalAuthorizedAmount is negative, make it positive
@@ -1523,10 +1489,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public void addTemplateTerms(List<AwardTemplateTerm> awardTemplateTerms) {
-        List<AwardSponsorTerm> tempAwardSponsorTerms = new ArrayList<AwardSponsorTerm>();
-        for (AwardTemplateTerm awardTemplateTerm : awardTemplateTerms) {
-            tempAwardSponsorTerms.add(new AwardSponsorTerm(awardTemplateTerm.getSponsorTermId(), awardTemplateTerm.getSponsorTerm()));
-        }
+        List<AwardSponsorTerm> tempAwardSponsorTerms = awardTemplateTerms.stream().map(awardTemplateTerm -> new AwardSponsorTerm(awardTemplateTerm.getSponsorTermId(), awardTemplateTerm.getSponsorTerm())).collect(Collectors.toList());
         setAwardSponsorTerms(tempAwardSponsorTerms);
     }
 
@@ -1557,9 +1520,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     ScaleTwoDecimal getTotalAmount(List<? extends ValuableItem> valuableItems) {
-        ScaleTwoDecimal returnVal = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnVal = ScaleTwoDecimal.ZERO;
         for (ValuableItem item : valuableItems) {
-            ScaleTwoDecimal amount = item.getAmount() != null ? item.getAmount() : new ScaleTwoDecimal(0.00);
+            ScaleTwoDecimal amount = item.getAmount() != null ? item.getAmount() : ScaleTwoDecimal.ZERO;
             returnVal = returnVal.add(amount);
         }
         return returnVal;
@@ -1572,7 +1535,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public AwardStatus getAwardStatus() {
         if (awardStatus == null && statusCode != null) {
-            refreshReferenceObject("awardStatus");
+            refreshReferenceObject(AWARD_STATUS);
         }
         return awardStatus;
     }
@@ -1588,13 +1551,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * 
      * Seems like a persistence design issue to me. Why wouldn't Sponsor:Award be a 1:M 
      * relationship handled automagically by the persistence framework? 
-     * 
-     * @return
+     *
      */
-
     public Sponsor getSponsor() {
         if (!StringUtils.isEmpty(sponsorCode)) {
-            this.refreshReferenceObject("sponsor");
+            this.refreshReferenceObject(SPONSOR);
         }
         return sponsor;
     }
@@ -1616,8 +1577,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public String getSponsorName() {
         Sponsor sponsor = getSponsor();
-        sponsorName = sponsor != null ? sponsor.getSponsorName() : null;
-        return sponsorName;
+        return sponsor != null ? sponsor.getSponsorName() : null;
     }
     
     public String getIcrRateCode() {
@@ -1653,7 +1613,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public Sponsor getPrimeSponsor() {
         if (!StringUtils.isEmpty(getPrimeSponsorCode())) {
-            this.refreshReferenceObject("primeSponsor");
+            this.refreshReferenceObject(PRIME_SPONSOR);
         }
         return primeSponsor;
     }
@@ -1666,9 +1626,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return awardTransferringSponsors;
     }
 
-    /**
-     * @param awardStatus
-     */
     public void setAwardStatus(AwardStatus awardStatus) {
         this.awardStatus = awardStatus;
     }
@@ -1705,7 +1662,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public ScaleTwoDecimal getObligatedTotal() {
-        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnValue = ScaleTwoDecimal.ZERO;
         if (getLastAwardAmountInfo().getAmountObligatedToDate() != null) {
             returnValue = returnValue.add(getLastAwardAmountInfo().getAmountObligatedToDate());
         }
@@ -1723,7 +1680,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     /**
      * Returns the obligated distributable total or the total cost limit
      * whichever is less.
-     * @return
      */
     public ScaleTwoDecimal getBudgetTotalCostLimit() {
         ScaleTwoDecimal limit = getTotalCostBudgetLimit();
@@ -1736,7 +1692,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public ScaleTwoDecimal getObligatedTotalDirect() {
-        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnValue = ScaleTwoDecimal.ZERO;
 
         if (getLastAwardAmountInfo().getObligatedTotalDirect() != null) {
             returnValue = returnValue.add(getLastAwardAmountInfo().getObligatedTotalDirect());
@@ -1745,7 +1701,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public ScaleTwoDecimal getObligatedTotalIndirect() {
-        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnValue = ScaleTwoDecimal.ZERO;
 
         if (getLastAwardAmountInfo().getObligatedTotalIndirect() != null) {
             returnValue = returnValue.add(getLastAwardAmountInfo().getObligatedTotalIndirect());
@@ -1754,7 +1710,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public ScaleTwoDecimal getAnticipatedTotal() {
-        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnValue = ScaleTwoDecimal.ZERO;
 
         if (getLastAwardAmountInfo().getAnticipatedTotalAmount() != null) {
             returnValue = returnValue.add(getLastAwardAmountInfo().getAnticipatedTotalAmount());
@@ -1763,7 +1719,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public ScaleTwoDecimal getAnticipatedTotalDirect() {
-        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnValue = ScaleTwoDecimal.ZERO;
         if (getLastAwardAmountInfo().getAnticipatedTotalDirect() != null) {
             returnValue = returnValue.add(getLastAwardAmountInfo().getAnticipatedTotalDirect());
         }
@@ -1771,7 +1727,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public ScaleTwoDecimal getAnticipatedTotalIndirect() {
-        ScaleTwoDecimal returnValue = new ScaleTwoDecimal(0.00);
+        ScaleTwoDecimal returnValue = ScaleTwoDecimal.ZERO;
 
         if (getLastAwardAmountInfo().getAnticipatedTotalIndirect() != null) {
             returnValue = returnValue.add(getLastAwardAmountInfo().getAnticipatedTotalIndirect());
@@ -1791,15 +1747,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     @Override
     public List<String> getRoleNames() {
-        List<String> roles = new ArrayList<String>();
-
-        SystemAuthorizationService systemAuthorizationService = KcServiceLocator.getService("systemAuthorizationService");
-        List<Role> roleBOs = systemAuthorizationService.getRoles(Constants.MODULE_NAMESPACE_AWARD);
-        for(Role role : roleBOs) {
-            roles.add(role.getName());
-        }
- 
-        return roles;
+        return getSystemAuthorizationService().getRoles(Constants.MODULE_NAMESPACE_AWARD).stream().map(Role::getName).collect(Collectors.toList());
     }
 
     public List<AwardAmountInfo> getAwardAmountInfos() {
@@ -1829,15 +1777,15 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return awardId == null;
     }
 
-    class ARTComparator implements Comparator 
+    static class ARTComparator implements Comparator<AwardReportTerm>
     {
         
-        public int compare(Object art1, Object art2) 
+        public int compare(AwardReportTerm art1, AwardReportTerm art2)
         {
             try
             {
-                String art1Desc = ((AwardReportTerm) art1).getReport().getDescription();    
-                String art2Desc = ((AwardReportTerm) art2).getReport().getDescription();
+                String art1Desc = art1.getReport().getDescription();
+                String art2Desc = art2.getReport().getDescription();
                 if (art1Desc == null)
                 {
                     art1Desc = "";
@@ -1911,8 +1859,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public String getStatusDescription() {
         AwardStatus status = getAwardStatus();
-        statusDescription = status != null ? status.getDescription() : null;
-        return statusDescription;
+        return status != null ? status.getDescription() : null;
     }
 
     /**
@@ -1952,16 +1899,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
             for (int i = awardCloseoutItems.size();i > TOTAL_STATIC_REPORTS; i--) {
                 awardCloseoutItems.remove(i - 1);
             }
-            Collections.sort(awardCloseoutNewItems, new Comparator(){
-              public int compare(Object o1, Object o2) {
-                  if(o1 instanceof AwardCloseout && o2 instanceof AwardCloseout) {
-                      AwardCloseout awardCloseout1 = (AwardCloseout)o1;
-                      AwardCloseout awardCloseout2 = (AwardCloseout)o2;
-                     
-                      return awardCloseout1.getCloseoutReportName().compareTo(awardCloseout2.getCloseoutReportName());
-                  }
-                  return 0;
-                }});
+            Collections.sort(awardCloseoutNewItems, Comparator.comparing(AwardCloseout::getCloseoutReportName));
             awardCloseoutItems.addAll(TOTAL_STATIC_REPORTS, awardCloseoutNewItems);
         }
         this.awardCloseoutItems = awardCloseoutItems;
@@ -2054,7 +1992,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     @Override
     public String getVersionNameField() {
-        return "awardNumber";
+        return AWARD_NUMBER;
     }
 
     public ActivityType getActivityType() {
@@ -2070,7 +2008,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      *
      * It also removes the AwardFundingProposal from the InstitutionalProposal
      *
-     * @param index
      */
     public AwardFundingProposal removeFundingProposal(int index) {
         final AwardFundingProposal afp = (index >= 0) ? fundingProposals.remove(index) : null;
@@ -2085,14 +2022,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
         return afp;
     }
-    private InstitutionalProposalService getInstitutionalProposalService() {
-        return KcServiceLocator.getService(InstitutionalProposalService.class);
-    }
-
 
     /**
      * Given an AwardComment as a template, try to find an existing AwardComment of that type
-     * @param template
      * @return The found awardComment of a specific type. If an existing comment is not found, return null
      */
     public AwardComment findCommentOfSpecifiedType(AwardComment template) {
@@ -2102,7 +2034,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     /**
      * For a given type code, this method returns the award comment, or null if none exists.
      * @param commentTypeCode One of the ..._COMMENT_TYPE_CODE values in org.kuali.kra.infrastructure.Constants
-     * @return
      */
     public AwardComment findCommentOfSpecifiedType(String commentTypeCode) {
         AwardComment comment = null;
@@ -2120,7 +2051,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         return BUDGET_STATUS;
     }
 
-    public List getPersonRolodexList() {
+    @Override
+    public List<AwardPerson> getPersonRolodexList() {
         return getProjectPersons();
     }
 
@@ -2145,7 +2077,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public ContactRole getProposalEmployeeRole(String personId) {
         if (getProposalEmployee(personId) != null) {
-            return ((AwardPerson) getProposalEmployee(personId)).getContactRole();
+            return (getProposalEmployee(personId)).getContactRole();
         } else {
             return null;
         }
@@ -2163,7 +2095,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public ContactRole getProposalNonEmployeeRole(Integer rolodexId) {
         if (getProposalNonEmployee(rolodexId) != null) {
-            return ((AwardPerson) getProposalNonEmployee(rolodexId)).getContactRole();
+            return (getProposalNonEmployee(rolodexId)).getContactRole();
         } else {
             return null;
         }
@@ -2191,7 +2123,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public List<AwardAttachment> getAwardAttachments() {
         if (this.awardAttachments == null) {
-            this.awardAttachments = new ArrayList<AwardAttachment>();
+            this.awardAttachments = new ArrayList<>();
         }
 
         return this.awardAttachments;
@@ -2227,7 +2159,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     protected void loadLeadUnit() {
-        leadUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", getUnitNumber()));
+        leadUnit = getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap(UNIT_NUMBER, getUnitNumber()));
     }
 
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
@@ -2235,15 +2167,11 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
          * when we check to see if the logged in user can create an award account, this function is called, but awardDocument is null at that time.
          */
         String documentNumber = getAwardDocument() != null ? getAwardDocument().getDocumentNumber() : "";
-        qualifiedRoleAttributes.put("documentNumber", documentNumber);
-    }
-
-    protected BusinessObjectService getBusinessObjectService() {
-        return KcServiceLocator.getService(BusinessObjectService.class);
+        qualifiedRoleAttributes.put(DOCUMENT_NUMBER, documentNumber);
     }
 
     public String getHierarchyStatus() {
-        return "N";
+        return Constants.NO_FLAG;
     }
 
     /**
@@ -2303,9 +2231,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     public String getAwardIdAccount() {
             if (StringUtils.isNotBlank(getAccountNumber())) {
-                return getAwardNumber() + ":" + getAccountNumber();
+                return getAwardNumber() + COLON + getAccountNumber();
             } else {
-                return getAwardNumber() + ":";
+                return getAwardNumber() + COLON;
             }
     }
 
@@ -2331,9 +2259,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * 
      */
     public void initCentralAdminContacts() {
-        centralAdminContacts = new ArrayList<AwardUnitContact>();
+        centralAdminContacts = new ArrayList<>();
         List<UnitAdministrator> unitAdministrators = 
-            KcServiceLocator.getService(UnitService.class).retrieveUnitAdministratorsByUnitNumber(getUnitNumber());
+            getUnitService().retrieveUnitAdministratorsByUnitNumber(getUnitNumber());
         for (UnitAdministrator unitAdministrator : unitAdministrators) {
             if(unitAdministrator.getUnitAdministratorType().getDefaultGroupFlag().equals(DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS)) {
                 KcPerson person = null;
@@ -2400,7 +2328,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
 
     public boolean isActiveVersion() {
-        return (REPORT_STATUSES.indexOf(getAwardStatus().getStatusCode()) != -1);
+        return (REPORT_STATUSES.contains(getAwardStatus().getStatusCode()));
     }
 
     public List<AwardBudgetLimit> getAwardBudgetLimits() {
@@ -2443,7 +2371,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     public void orderStaticCloseOutReportItems(List<AwardCloseout> awardCloseoutItems) {
         if(awardCloseoutItems != null && awardCloseoutItems.size() == TOTAL_STATIC_REPORTS){
             awardCloseoutNewItems.clear();
-            List<AwardCloseout> staticCloseoutItems = new ArrayList<AwardCloseout>();
+            List<AwardCloseout> staticCloseoutItems = new ArrayList<>();
             for(int i = 0; i < TOTAL_STATIC_REPORTS ; i++){
                 staticCloseoutItems.add(awardCloseoutItems.get(i));
                 awardCloseoutNewItems.add(awardCloseoutItems.get(i));
@@ -2474,8 +2402,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     @Override
     public String getLeadUnitName() {
-        String name = getLeadUnit() == null ? EMPTY_STRING : getLeadUnit().getUnitName();
-        return name;
+        return getLeadUnit() == null ? EMPTY_STRING : getLeadUnit().getUnitName();
     }
     
     @Override
@@ -2500,8 +2427,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
     @Override
     public String getPrimeSponsorName() {
-        String name = getPrimeSponsor() == null ? EMPTY_STRING : getPrimeSponsor().getSponsorName();
-        return name;
+        return getPrimeSponsor() == null ? EMPTY_STRING : getPrimeSponsor().getSponsorName();
     }
 
     @Override
@@ -2511,11 +2437,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     
     @Override
     public List<NegotiationPersonDTO> getProjectPeople() {
-        List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
-        for (AwardPerson person : getProjectPersons()) {
-            kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getContactRoleCode()));
-        }
-        return kcPeople;
+        return getProjectPersons().stream().map(person -> new NegotiationPersonDTO(person.getPerson(), person.getContactRoleCode())).collect(Collectors.toList());
     }
     
     public String getNegotiableProposalTypeCode() {
@@ -2552,7 +2474,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
             if (aPerson.getPersonId() != null
                     && aPerson.getPersonId().equals(personId)
                     || aPerson.getRolodexId() != null
-                    && aPerson.getRolodexId().equals(personId)) {
+                    && aPerson.getRolodexId().toString().equals(personId)) {
                 flag = 2;
                 if (aPerson.isPrincipalInvestigator()) {
                     flag = 1;
@@ -2587,7 +2509,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
     
     public String getParentTypeName(){
-        return "Award";
+        return AWARD;
     }
 
     @Override
@@ -2654,7 +2576,6 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     /**
      * 
      * Setting this value to false will prevent the update timestamp field from being upddate just once.  After that, the update timestamp field will update as regular.
-     * @param allowUpdateTimestampToBeReset
      */
     public void setAllowUpdateTimestampToBeReset(boolean allowUpdateTimestampToBeReset) {
         this.allowUpdateTimestampToBeReset = allowUpdateTimestampToBeReset;
@@ -2671,11 +2592,9 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
     }
     
     public List<Award> getAwardVersions() {
-        Map<String, String> fieldValues = new HashMap<String,String>();
-        fieldValues.put("awardNumber", getAwardNumber());
-        BusinessObjectService businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
-        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, fieldValues, "sequenceNumber", true);   
-        return awards;
+        Map<String, String> fieldValues = new HashMap<>();
+        fieldValues.put(AWARD_NUMBER, getAwardNumber());
+        return (List<Award>)getBusinessObjectService().findMatchingOrderBy(Award.class, fieldValues, SEQUENCE_NUMBER, true);
     }
 
     public String getAwardDescriptionLine() {
@@ -2711,9 +2630,8 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
  
     public List<TimeAndMoneyDocumentHistory>getTimeAndMoneyDocumentHistoryList() throws WorkflowException {  
         List<TimeAndMoneyDocument> tnmDocs = getTimeAndMoneyHistoryService().buildTimeAndMoneyListForAwardDisplay(this, true);
-        List<TimeAndMoneyDocumentHistory> timeAndMoneyHistoryList = 
+        return
             getTimeAndMoneyHistoryService().getDocHistoryAndValidInfosAssociatedWithAwardVersion(tnmDocs,getAwardAmountInfos(), this);
-        return timeAndMoneyHistoryList;
     }
 
     public VersionHistorySearchBo getVersionHistory() {
@@ -2739,7 +2657,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * Needed to convert to KualiDecimal to avoid rounding issues.
      */
     public ScaleTwoDecimal getFandATotals() {
-        ScaleTwoDecimal total = new ScaleTwoDecimal(0);
+        ScaleTwoDecimal total = ScaleTwoDecimal.ZERO;
         for (AwardFandaRate currentRate : getAwardFandaRate()) {
             if (currentRate.getUnderrecoveryOfIndirectCost() != null) {
                 total = total.add(new ScaleTwoDecimal(currentRate.getUnderrecoveryOfIndirectCost().bigDecimalValue()));
@@ -2772,7 +2690,7 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 
 	public List<AwardBudgetExt> getBudgets() {
 		if (budgets == null || budgets.isEmpty()) {
-			budgets = KcServiceLocator.getService(AwardBudgetService.class).getAllBudgetsForAward(this);
+			budgets = getAwardBudgetService().getAllBudgetsForAward(this);
 		}
 		return budgets;
 	}
@@ -2790,15 +2708,15 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 	}
 
     public AwardComment getAdditionalFormsDescriptionComment() {
-        return getAwardCommentByType("CG2", false, true);
+        return getAwardCommentByType(CG_2, false, true);
     }
 
     public AwardComment getStopWorkReasonComment() {
-        return getAwardCommentByType("CG1", false, true);
+        return getAwardCommentByType(CG_1, false, true);
     }
 
     public AwardComment getSuspendInvoicingComment() {
-        return getAwardCommentByType("CG3", false, true);
+        return getAwardCommentByType(CG_3, false, true);
     }
 
     public AwardCgb getAwardCgb() {
@@ -2833,4 +2751,63 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
 				.sorted(Comparator.comparing(AwardFundingProposal::getAwardSequenceNumber))
 				.collect(Collectors.toList());
 	}
+
+    public SystemAuthorizationService getSystemAuthorizationService() {
+        if (systemAuthorizationService == null) {
+            systemAuthorizationService = KcServiceLocator.getService(SystemAuthorizationService.class);
+        }
+        return systemAuthorizationService;
+    }
+
+    public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
+        this.systemAuthorizationService = systemAuthorizationService;
+    }
+
+    public AwardBudgetService getAwardBudgetService() {
+        if (awardBudgetService == null) {
+            awardBudgetService = KcServiceLocator.getService(AwardBudgetService.class);
+        }
+
+        return awardBudgetService;
+    }
+
+    public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
+        this.awardBudgetService = awardBudgetService;
+    }
+
+    public InstitutionalProposalService getInstitutionalProposalService() {
+        if (this.institutionalProposalService == null) {
+            this.institutionalProposalService = KcServiceLocator.getService(InstitutionalProposalService.class);
+        }
+
+        return this.institutionalProposalService;
+    }
+
+    public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
+        this.institutionalProposalService = institutionalProposalService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public UnitService getUnitService() {
+        if (unitService == null) {
+            unitService = KcServiceLocator.getService(UnitService.class);
+        }
+
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
+    }
 }
