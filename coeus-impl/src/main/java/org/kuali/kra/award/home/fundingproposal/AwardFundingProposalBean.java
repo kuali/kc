@@ -20,6 +20,7 @@ package org.kuali.kra.award.home.fundingproposal;
 
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
@@ -85,10 +86,9 @@ public class AwardFundingProposalBean implements Serializable {
 
     /**
      * This method deletes a Funding proposal for the specified index
-     * @param index
      */
     public void deleteAwardFundingProposal(int index) {
-        if(index >= 0) {
+        if(CollectionUtils.validIndexForList(index, getAward().getFundingProposals())) {
             getAward().removeFundingProposal(index);
         }
     }

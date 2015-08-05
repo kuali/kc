@@ -2073,12 +2073,16 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
      * @param index
      */
     public AwardFundingProposal removeFundingProposal(int index) {
-        AwardFundingProposal afp = (index >= 0) ? fundingProposals.remove(index) : null;
-        afp.getProposalId();
-        InstitutionalProposal proposal = getInstitutionalProposalService().getInstitutionalProposal(afp.getProposalId().toString());
-        if (proposal != null) {
-            proposal.remove(afp);
+        final AwardFundingProposal afp = (index >= 0) ? fundingProposals.remove(index) : null;
+        if (afp != null) {
+            allFundingProposals.remove(afp);
+            afp.getProposalId();
+            final InstitutionalProposal proposal = getInstitutionalProposalService().getInstitutionalProposal(afp.getProposalId().toString());
+            if (proposal != null) {
+                proposal.remove(afp);
+            }
         }
+
         return afp;
     }
     private InstitutionalProposalService getInstitutionalProposalService() {
