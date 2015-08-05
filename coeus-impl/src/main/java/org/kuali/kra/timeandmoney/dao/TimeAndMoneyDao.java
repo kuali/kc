@@ -18,16 +18,14 @@
  */
 package org.kuali.kra.timeandmoney.dao;
 
-import org.apache.ojb.broker.accesslayer.LookupException;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface TimeAndMoneyDao {
     
-    public void buildTimeAndMoneyActionSummaryForAward(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems, String awardNumber) throws LookupException, SQLException;
+    public List<TimeAndMoneyActionSummary> buildTimeAndMoneyActionSummaryForAward(String awardNumber);
     
     public List<TimeAndMoneyDocument> getTimeAndMoneyDocumentForAwards(List<Long> awardIds);
 

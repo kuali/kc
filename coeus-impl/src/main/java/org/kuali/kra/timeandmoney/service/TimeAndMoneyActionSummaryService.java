@@ -18,14 +18,12 @@
  */
 package org.kuali.kra.timeandmoney.service;
 
-import org.apache.ojb.broker.accesslayer.LookupException;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface TimeAndMoneyActionSummaryService {
     
-    void populateActionSummary(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems, String awardNumber) throws LookupException, SQLException;
+	List<TimeAndMoneyActionSummary> populateActionSummary(String awardNumber);
 
 }

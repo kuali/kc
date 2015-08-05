@@ -33,9 +33,8 @@ public class TimeAndMoneyActionSummaryServiceImpl extends PlatformAwareDaoBaseOj
     private BusinessObjectService businessObjectService;
     private TimeAndMoneyDao timeAndMoneyDao;
 
-    public void populateActionSummary(List<TimeAndMoneyActionSummary> timeAndMoneyActionSummaryItems, String awardNumber) throws LookupException, SQLException {
-        
-        timeAndMoneyDao.buildTimeAndMoneyActionSummaryForAward(timeAndMoneyActionSummaryItems, awardNumber);
+    public List<TimeAndMoneyActionSummary> populateActionSummary(String awardNumber) {
+        return timeAndMoneyDao.buildTimeAndMoneyActionSummaryForAward(awardNumber);
         
     }
 
