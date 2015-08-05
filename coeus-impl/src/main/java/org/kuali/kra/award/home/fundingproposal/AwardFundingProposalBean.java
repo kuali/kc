@@ -19,7 +19,9 @@
 package org.kuali.kra.award.home.fundingproposal;
 
 import org.kuali.coeus.common.framework.custom.attr.CustomAttributeDocument;
+import org.kuali.coeus.sys.api.model.AbstractDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
@@ -57,7 +59,11 @@ public class AwardFundingProposalBean implements Serializable {
     
     private List<Award> allAwardsForAwardNumber;
     
-    private DataObjectService dataObjectService;
+    private transient DataObjectService dataObjectService;
+    private transient BusinessObjectService businessObjectService;
+    private transient AwardService awardService;
+    private transient InstitutionalProposalService institutionalProposalService;
+    private transient PermissionService permissionService;
     
     public AwardFundingProposalBean(AwardForm awardForm) {
         this.awardForm = awardForm;
@@ -85,17 +91,15 @@ public class AwardFundingProposalBean implements Serializable {
 
     /**
      * This method deletes a Funding proposal for the specified index
-     * @param index
      */
     public void deleteAwardFundingProposal(int index) {
-        if(index >= 0) {
+        if(CollectionUtils.validIndexForList(index, getAward().getAllFundingProposalsSortedBySequence())) {
             getAward().removeFundingProposal(index);
         }
     }
 
     /**
      * This method returns all Award versions for the awardNumber of the Award associated found from the AwardDocument on the associated AwardForm.
-     * @return
      */
     public List<Award> getAllAwardsForAwardNumber() {
         if(allAwardsForAwardNumber == null) {
@@ -112,12 +116,11 @@ public class AwardFundingProposalBean implements Serializable {
     
     /**
      * This method calculates the total cost of all funding proposals
-     * @return
      */
     public ScaleTwoDecimal getTotalCostOfFundingProposals() {
         return getAward().getAllFundingProposals().stream()
-        		.filter(AwardFundingProposal::isActive).map(afp -> {return afp.getProposal().getTotalCost();})
-        		.reduce(ScaleTwoDecimal.ZERO, (a, b) -> a.add(b));
+        		.filter(AwardFundingProposal::isActive).map(afp -> afp.getProposal().getTotalCost())
+        		.reduce(ScaleTwoDecimal.ZERO, AbstractDecimal::add);
         }
 
     private void replaceThisAwardInListOfFoundAwards(Award thisAward) {
@@ -138,8 +141,7 @@ public class AwardFundingProposalBean implements Serializable {
     }
     
     /**
-     * This method returns the size of the allAwardsForAwardNumber collection 
-     * @return
+     * This method returns the size of the allAwardsForAwardNumber collection
      */
     public int getAllAwardsForAwardNumberSize() {
         return getAllAwardsForAwardNumber().size();
@@ -176,15 +178,6 @@ public class AwardFundingProposalBean implements Serializable {
 
     public void setMergeType(FundingProposalMergeType mergeType) {
         mergeTypeCode = mergeType.getKey();
-    }    
-
-
-    BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);
-    }
-    
-    AwardService getAwardService() {
-        return (AwardService) KcServiceLocator.getService(AwardService.class);
     }
     
     private void createNewFundingProposal() {
@@ -204,7 +197,7 @@ public class AwardFundingProposalBean implements Serializable {
         InstitutionalProposal foundProposal = null;
         if (proposalId != null) {
             foundProposal = findProposalById(proposalId);
-        } else if (proposalNumber != null && proposalId == null) {
+        } else if (proposalNumber != null) {
             foundProposal = findProposalByProposalNumber(proposalNumber);
         }
         if (foundProposal != null) {
@@ -213,9 +206,9 @@ public class AwardFundingProposalBean implements Serializable {
     }
 
     private InstitutionalProposal findProposalById(Long proposalId) {
-        Map<String, Object> identifiers = new HashMap<String, Object>();
+        Map<String, Object> identifiers = new HashMap<>();
         identifiers.put("proposalId", proposalId);
-        return (InstitutionalProposal) getBusinessObjectService().findByPrimaryKey(InstitutionalProposal.class, identifiers);
+        return getBusinessObjectService().findByPrimaryKey(InstitutionalProposal.class, identifiers);
     }
     
     private InstitutionalProposal findProposalByProposalNumber(String proposalNumber) {
@@ -309,19 +302,19 @@ public class AwardFundingProposalBean implements Serializable {
     @SuppressWarnings("unchecked")
     protected Collection<DevelopmentProposal> getDevelopmentProposals(InstitutionalProposal instProposal) {
         //find any dev prop linked to any version of this inst prop
-        Collection<DevelopmentProposal> devProposals = new ArrayList<DevelopmentProposal>();
+        Collection<DevelopmentProposal> devProposals = new ArrayList<>();
         List<ProposalAdminDetails> proposalAdminDetails = (List<ProposalAdminDetails>) getBusinessObjectService().findMatchingOrderBy(ProposalAdminDetails.class, 
                                                                 getFieldValues("instProposalId", instProposal.getProposalId()), "devProposalNumber", true);
         if(proposalAdminDetails.size() > 0) {
             String latestDevelopmentProposalDocNumber = proposalAdminDetails.get(proposalAdminDetails.size() - 1).getDevProposalNumber();
-            DevelopmentProposal devProp = (DevelopmentProposal)getDataObjectService().find(DevelopmentProposal.class, latestDevelopmentProposalDocNumber);
+            DevelopmentProposal devProp = getDataObjectService().find(DevelopmentProposal.class, latestDevelopmentProposalDocNumber);
             devProposals.add(devProp);
         }
         return devProposals;
     }
     
     protected Map<String, Object> getFieldValues(String key, Object value){
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        Map<String, Object> fieldValues = new HashMap<>();
         fieldValues.put(key, value);
         return fieldValues;
     }
@@ -341,20 +334,17 @@ public class AwardFundingProposalBean implements Serializable {
     }
 
     private boolean proposalAlreadyAdded() {
-        String proposalNumber = newFundingProposal.getProposalNumber();
         Long proposalId = newFundingProposal.getProposalId();
         
         List<Award> awardVersions = awardForm.getFundingProposalBean().getAllAwardsForAwardNumber();
         for (Award currentAward : awardVersions) {
             List<AwardFundingProposal> fundingProposals= currentAward.getFundingProposals();
-            ListIterator itr= fundingProposals.listIterator();
-            
-            while(itr.hasNext()) {
-                AwardFundingProposal currentFundingProposal= (AwardFundingProposal) itr.next();
-                Long id= currentFundingProposal.getProposalId();
-                
-                if(id.equals(proposalId)) {
-                   return true;
+
+            for (AwardFundingProposal currentFundingProposal : fundingProposals) {
+                Long id = currentFundingProposal.getProposalId();
+
+                if (id.equals(proposalId)) {
+                    return true;
                 }
             }
         }
@@ -367,7 +357,7 @@ public class AwardFundingProposalBean implements Serializable {
             for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = entry.getValue();
                 AwardCustomData awardCustomData = new AwardCustomData();
-                awardCustomData.setCustomAttributeId((long) customAttributeDocument.getId());
+                awardCustomData.setCustomAttributeId(customAttributeDocument.getId());
                 awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
                 awardCustomData.setValue("");
                 awardCustomData.setAward(award);
@@ -377,27 +367,15 @@ public class AwardFundingProposalBean implements Serializable {
     }
     
     private boolean userCanCreateProposal() {
-        Map<String,String> permissionDetails =new HashMap<String,String>();
-        permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
-        return getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
-                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
+        return getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(),
+                InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE,
                 PermissionConstants.CREATE_INSTITUTIONAL_PROPOSAL);
     }
     
     private boolean userCanSubmitProposal() {
-        Map<String,String> permissionDetails =new HashMap<String,String>();
-        permissionDetails.put(PermissionConstants.DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER, InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_DOCUMENT_NAME);
         return getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
                 PermissionConstants.SUBMIT_INSTITUTIONAL_PROPOSAL);
-    }
-    
-    protected InstitutionalProposalService getInstitutionalProposalService() {
-        return KcServiceLocator.getService(InstitutionalProposalService.class);
-    }
-    
-    protected PermissionService getPermissionService() {
-        return KcServiceLocator.getService(PermissionService.class);
     }
 
 	protected DataObjectService getDataObjectService() {
@@ -409,5 +387,53 @@ public class AwardFundingProposalBean implements Serializable {
 
 	public void setDataObjectService(DataObjectService dataObjectService) {
 		this.dataObjectService = dataObjectService;
-	}    
+	}
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public AwardService getAwardService() {
+        if (awardService == null) {
+            awardService = KcServiceLocator.getService(AwardService.class);
+        }
+
+        return awardService;
+    }
+
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
+    }
+
+    public InstitutionalProposalService getInstitutionalProposalService() {
+        if (institutionalProposalService == null) {
+            institutionalProposalService = KcServiceLocator.getService(InstitutionalProposalService.class);
+        }
+
+        return institutionalProposalService;
+    }
+
+    public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
+        this.institutionalProposalService = institutionalProposalService;
+    }
+
+    public PermissionService getPermissionService() {
+        if (permissionService == null) {
+            permissionService = KcServiceLocator.getService(PermissionService.class);
+        }
+
+        return permissionService;
+    }
+
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
 }

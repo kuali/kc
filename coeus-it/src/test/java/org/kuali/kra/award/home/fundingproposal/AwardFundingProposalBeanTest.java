@@ -71,7 +71,7 @@ public class AwardFundingProposalBeanTest extends KcIntegrationTestBase {
             Award getAward() {
                 return award3;
             }
-            AwardService getAwardService() {
+            public AwardService getAwardService() {
                 return awardService;
             }
         };        

@@ -7,12 +7,12 @@
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,34 +28,34 @@ import java.util.List;
 
 
 public interface BudgetParent {
-    public String getBudgetStatus();
-    public void setBudgetStatus(String budgetStatus);
-    public String getActivityTypeCode();
-    public Date getRequestedStartDateInitial();
-    public Date getRequestedEndDateInitial();
-    public ActivityType getActivityType();
-    public String getUnitNumber();
-    public Unit getUnit();
-    public List<PersonRolodex> getPersonRolodexList();
-    public ContactRole getProposalNonEmployeeRole(Integer rolodexId);
-    public PersonRolodex getProposalEmployee(String personId);
-    public PersonRolodex getProposalNonEmployee(Integer rolodexId);
-    public ContactRole getProposalEmployeeRole(String personId);
-    public String getHierarchyStatus();
-    public String getDefaultBudgetStatusParameter();
-    public boolean isParentInHierarchyComplete();
+    String getBudgetStatus();
+    void setBudgetStatus(String budgetStatus);
+    String getActivityTypeCode();
+    Date getRequestedStartDateInitial();
+    Date getRequestedEndDateInitial();
+    ActivityType getActivityType();
+    String getUnitNumber();
+    Unit getUnit();
+    List<? extends PersonRolodex> getPersonRolodexList();
+    ContactRole getProposalNonEmployeeRole(Integer rolodexId);
+    PersonRolodex getProposalEmployee(String personId);
+    PersonRolodex getProposalNonEmployee(Integer rolodexId);
+    ContactRole getProposalEmployeeRole(String personId);
+    String getHierarchyStatus();
+    String getDefaultBudgetStatusParameter();
+    boolean isParentInHierarchyComplete();
     
-    public String getParentNumber();
-    public String getParentTitle();
-    public String getParentPIName();
-    public String getIsOwnedByUnit();
-    public Integer getParentInvestigatorFlag(String personId, Integer flag);
-    public String  getParentTypeName();
-	public boolean isProposalBudget();
+    String getParentNumber();
+    String getParentTitle();
+    String getParentPIName();
+    String getIsOwnedByUnit();
+    Integer getParentInvestigatorFlag(String personId, Integer flag);
+    String  getParentTypeName();
+	boolean isProposalBudget();
 	
-	public BudgetParentDocument<? extends BudgetParent> getDocument();
-	public List<? extends Budget> getBudgets();
-	public Budget getNewBudget();
-	public Integer getNextBudgetVersionNumber();
+	BudgetParentDocument<? extends BudgetParent> getDocument();
+	List<? extends Budget> getBudgets();
+	Budget getNewBudget();
+	Integer getNextBudgetVersionNumber();
 	
 }
