@@ -132,7 +132,9 @@
     <bean id="kcAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kcAuthorizationService" />
     </bean>
-    
+
+    <bean id="kcEntityManager" parent="grlImporter" p:serviceName="kcEntityManager" />
+
     <bean id="kraLookupDao" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kraLookupDao" />
     </bean>

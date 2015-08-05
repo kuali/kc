@@ -19,11 +19,11 @@
 package org.kuali.coeus.instprop.impl.summary;
 
 import com.codiform.moo.annotation.CollectionProperty;
-import org.kuali.coeus.sys.framework.summary.SummaryResults;
+import org.kuali.coeus.sys.framework.Rest.ResponseResults;
 
 import java.util.Collection;
 
-public class InstitutionalProposalResults extends SummaryResults{
+public class InstitutionalProposalResults extends ResponseResults {
     @CollectionProperty(source="results", itemClass=InstitutionalProposalSummaryDto.class)
     private Collection<InstitutionalProposalSummaryDto> institutionalProposals;
 

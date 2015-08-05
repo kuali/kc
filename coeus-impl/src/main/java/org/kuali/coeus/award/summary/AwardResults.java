@@ -20,11 +20,11 @@ package org.kuali.coeus.award.summary;
 
 import java.util.Collection;
 
-import org.kuali.coeus.sys.framework.summary.SummaryResults;
+import org.kuali.coeus.sys.framework.Rest.ResponseResults;
 
 import com.codiform.moo.annotation.CollectionProperty;
 
-public class AwardResults extends SummaryResults {
+public class AwardResults extends ResponseResults {
 
 
 	@CollectionProperty(source="results", itemClass=AwardSummaryDto.class)

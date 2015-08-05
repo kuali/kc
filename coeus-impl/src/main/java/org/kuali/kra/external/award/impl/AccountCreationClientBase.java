@@ -224,15 +224,13 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         //Principal id
         accountParameters.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
 
-        // get the current FandaRate
         AwardFandaRate currentFandaRate = award.getCurrentFandaRate();
         
         String rateClassCode = currentFandaRate.getFandaRateType().getRateClassCode();
         String rateTypeCode = currentFandaRate.getFandaRateType().getRateTypeCode();
         String icrTypeCode = getIndirectCostTypeCode(rateClassCode, rateTypeCode);
-        //campus on/off indicator
-        accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag()); 
-        //indirect cost rate
+        accountParameters.setOffCampusIndicator(!currentFandaRate.getOnOffCampusFlag());
+
         String icrRateCode = award.getIcrRateCode();
         if (Award.ICR_RATE_CODE_NONE.equals(icrRateCode)) {
             accountParameters.setIndirectCostRate("");
@@ -240,10 +238,8 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
             accountParameters.setIndirectCostRate(icrRateCode);
         }
         
-        // indirect cost type code
         accountParameters.setIndirectCostTypeCode(icrTypeCode + "");
         
-        //higher education function code
         accountParameters.setHigherEdFunctionCode(award.getActivityType().getHigherEducationFunctionCode());
         
         return accountParameters;
@@ -254,7 +250,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         Map <String, Object> criteria = new HashMap<String, Object>();
         criteria.put("rateClassCode", rateClassCode);
         criteria.put("rateTypeCode", rateTypeCode);
-        FinancialIndirectCostRecoveryTypeCode icrCostTypeCode= (FinancialIndirectCostRecoveryTypeCode) businessObjectService.findByPrimaryKey(FinancialIndirectCostRecoveryTypeCode.class, criteria);
+        FinancialIndirectCostRecoveryTypeCode icrCostTypeCode= businessObjectService.findByPrimaryKey(FinancialIndirectCostRecoveryTypeCode.class, criteria);
         return ObjectUtils.isNotNull(icrCostTypeCode)? icrCostTypeCode.getIcrTypeCode() : "";
     }
 

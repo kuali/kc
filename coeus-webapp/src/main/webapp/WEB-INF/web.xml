@@ -365,6 +365,7 @@
     <!-- Notification System Spring MVC UI -->
     <servlet>
         <servlet-name>notification</servlet-name>
+
         <servlet-class>org.kuali.coeus.sys.framework.controller.ConditionalInitDispatcherServlet</servlet-class>
         <init-param>
             <param-name>initConfigPropertyName</param-name>
