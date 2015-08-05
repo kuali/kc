@@ -18,6 +18,17 @@
  */
 package org.kuali.kra.timeandmoney.web.struts.action;
 
-public class TimeAndMoneySummaryAndHistoryAction extends TimeAndMoneyAction {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
+public class TimeAndMoneySummaryAndHistoryAction extends TimeAndMoneyAction {
+	public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward forward = super.reload(mapping, form, request, response);
+		timeAndMoneySummaryAndHistory(mapping, form, request, response);
+		return forward;
+	}
 }
