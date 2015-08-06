@@ -1,6 +1,35 @@
 
 
 ##CURRENT
+*  Attempting to fix OJB issue.
+  * Unable to open award budget.
+  * Steps to reproduce:
+  * 1. Create an award with all required fields, including amounts.
+  * 2. Create a budget, route it and post it.
+  * 3. Route the award to final.
+  * 4. Click edit on the finalized award.
+  * 5. SAVE.
+  * 6. Navigate to the budget tab, see STE.
+  * org.apache.ojb.broker.OJBRuntimeException: Incorrect or not found field reference name 'awardId' in descriptor org.apache.ojb.broker.metadata.CollectionDescriptor@1edf2759[cascade_retrieve=true,cascade_store=object,cascade_delete=object,is_lazy=true,class_of_Items=class org.kuali.kra.award.budget.AwardBudgetExt] for class-descriptor 'org.kuali.coeus.common.budget.framework.core.Budget'
+  * at org.apache.ojb.broker.metadata.ObjectReferenceDescriptor.getForeignKeyFieldDescriptors(Unknown Source)
+  * at org.apache.ojb.broker.metadata.ObjectReferenceDescriptor.getForeignKeyValues(Unknown Source)
+  * at org.apache.ojb.broker.accesslayer.CollectionPrefetcher.associateBatched(Unknown Source)
+  * at org.apache.ojb.broker.accesslayer.BasePrefetcher.prefetchRelationship(Unknown Source)
+  * at org.apache.ojb.broker.core.QueryReferenceBroker$PBPrefetchingListener.prefetch(Unknown Source)
+  * at org.apache.ojb.broker.core.QueryReferenceBroker$PBCollectionProxyListener.beforeLoading(Unknown Source)
+  * at org.apache.ojb.broker.core.proxy.CollectionProxyDefaultImpl.beforeLoading(Unknown Source)
+  * at org.apache.ojb.broker.core.proxy.CollectionProxyDefaultImpl.getData(Unknown Source)
+  * at org.apache.ojb.broker.core.proxy.CollectionProxyDefaultImpl.iterator(Unknown Source)
+  * at java.util.AbstractCollection.addAll(AbstractCollection.java:343)
+  * at org.kuali.kra.award.budget.AwardBudgetServiceImpl.getAllBudgetsForAward(AwardBudgetServiceImpl.java:897)
+  * at org.kuali.kra.award.home.Award.getBudgets(Award.java:2771)
+  * at org.kuali.kra.award.budget.AwardBudgetExt.getPrevBudget(AwardBudgetExt.java:222)
+  * at org.kuali.kra.award.budget.calculator.AwardBudgetCalculationServiceImpl.calculateBudgetSummaryTotals(AwardBudgetCalculationServiceImpl.java:41)
+  * at org.kuali.kra.award.budget.AwardBudgetServiceImpl.populateBudgetLimitSummary(AwardBudgetServiceImpl.java:855)
+  * at org.kuali.kra.award.web.struts.action.AwardAction.budgets(AwardAction.java:1023)
+  * Gayathri Athreya on Wed, 5 Aug 2015 17:18:23 -0700 [View Commit](../../commit/9f7797c1204a5dd1435a7b5a207cb3523b309bc7)
+
+##coeus-1508.9
 *  Fixing index out of bounds on funding proposal delete on award document.
   * Travis Schneeberger on Wed, 5 Aug 2015 11:39:43 -0400 [View Commit](../../commit/002728e7a968f362b0e16c25cf8bca2e6beaed97)
 * Remove duplicate T&M Docs when retreiving based on aai
