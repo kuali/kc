@@ -47,6 +47,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     private static final String COMMITTEE_ID = "committeeId";
     private static final String NO_PLACE = "[no location]";
+    private static final int SCHEDULED = 1;
 
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
@@ -166,17 +167,12 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     /**
      * Is it OK to schedule a review for the given committee and schedule?
-     * @param committee
-     * @param schedule
-     * @return
      */
     protected boolean isOkayToScheduleReview(CMT committee, CS schedule) {
-        Calendar now = getCalendar(new Date());
-        Calendar scheduleCalendar = getCalendar(schedule.getScheduledDate());
-       // now.add(Calendar.DAY_OF_MONTH, committee.getAdvancedSubmissionDaysRequired());
-        boolean dateRangeOK = now.compareTo(getCalendar(schedule.getProtocolSubDeadline())) <= 0;
-        schedule.refreshReferenceObject("scheduleStatus");
-        boolean statusOK = "Scheduled".equals(schedule.getScheduleStatus().getDescription());
+        final Calendar now = getCalendar(new Date());
+        final boolean dateRangeOK = now.compareTo(getCalendar(schedule.getProtocolSubDeadline())) <= 0;
+
+        final boolean statusOK = Integer.valueOf(SCHEDULED).equals(schedule.getScheduleStatusCode());
         return dateRangeOK && statusOK;
     }
     
