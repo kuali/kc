@@ -150,6 +150,7 @@ public class AwardAction extends BudgetParentActionBase {
     public static final String REFUSE_SYNC_ACTION = "refuseSyncAction";
 
     public static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
+    public static final String CURRENT_VERSION_BUDGETS = "currentVersionBudgets";
 
     private enum SuperUserAction {
         SUPER_USER_APPROVE, TAKE_SUPER_USER_ACTIONS
@@ -1020,6 +1021,11 @@ public class AwardAction extends BudgetParentActionBase {
     public ActionForward budgets(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
         AwardForm awardForm = (AwardForm) form;
+        String awardNumber = awardForm.getAwardDocument().getAward().getAwardNumber();
+        // OJB sometimes erroneously returns a Budget instead of a AwardBudExt. The following line will
+        // force OJB to load the AwardBudgetExt first making it return the right object in all subsequent
+        // retrievals.
+        getAwardService().findAwardsForAwardNumber(awardNumber).stream().forEach(award -> {award.refreshReferenceObject(CURRENT_VERSION_BUDGETS);});
         getAwardBudgetService().populateBudgetLimitSummary(awardForm.getBudgetLimitSummary(), awardForm.getAwardDocument().getAward());
         return mapping.findForward(Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE);
     }
