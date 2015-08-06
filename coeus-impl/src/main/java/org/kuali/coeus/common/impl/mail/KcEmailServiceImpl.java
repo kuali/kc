@@ -39,6 +39,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Component("kcEmailService")
 public class KcEmailServiceImpl implements KcEmailService {
@@ -57,6 +59,8 @@ public class KcEmailServiceImpl implements KcEmailService {
     @Autowired
     @Qualifier("kualiConfigurationService")
     private ConfigurationService configurationService;
+
+    private ExecutorService executorService = Executors.newCachedThreadPool();
 
     public void sendEmail(String from, Set<String> toAddresses, String subject, Set<String> ccAddresses,
                           Set<String> bccAddresses, String body, boolean htmlMessage) {
@@ -133,13 +137,10 @@ public class KcEmailServiceImpl implements KcEmailService {
                         }
                     }
                 }
-                
-                mailSender.send(message);
-                
+                executorService.execute(() -> mailSender.send(message));
+
             } catch (MessagingException ex) {
                 LOG.error("Failed to create mime message helper.", ex);
-            } catch (Exception e) {
-                LOG.error("Failed to send email.", e);
             }
         } else {
             LOG.info("Failed to send email due to inability to obtain valid email mailSender, please check your configuration.");
