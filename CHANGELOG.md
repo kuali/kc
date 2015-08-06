@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  prevent schedule status fetch from being executed for every available schedule date.  Also, using the schedule status code value rather than description.
+  * Travis Schneeberger on Thu, 6 Aug 2015 16:51:13 -0400 [View Commit](../../commit/2dd1f047e3a93b2c1c54afcdd58d6ad710df0a0f)
+*  adding index to prevent full table scan
+  * Travis Schneeberger on Thu, 6 Aug 2015 16:54:22 -0400 [View Commit](../../commit/f96070f502c04c1688b681c85890e116bf7e3e67)
+
+##coeus-1508.11
 * No Changes
 
 
