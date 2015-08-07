@@ -1,6 +1,16 @@
 
 
 ##CURRENT
+*  removing search that's not working.
+  * Gayathri Athreya on Fri, 7 Aug 2015 11:00:55 -0700 [View Commit](../../commit/580bf0c9df9779d6881c65594507c9ff1487de5a)
+*  reducing the amount of find protocol calls to improve performance
+  * Travis Schneeberger on Fri, 7 Aug 2015 16:05:44 -0400 [View Commit](../../commit/0f0b69f63b0ce8d95f8a58d073cc13f1a9547b76)
+*  not getting the total protcol submissions in a getter but using a previously retrieved value to increase performance
+  * Travis Schneeberger on Fri, 7 Aug 2015 16:29:33 -0400 [View Commit](../../commit/96b501554ebe0d2337d077e1833ba37a26b92724)
+*  adding missing indexes and foreign keys for iacuc and irb
+  * Travis Schneeberger on Fri, 7 Aug 2015 17:37:43 -0400 [View Commit](../../commit/ccbd09fd5f3b5a293bfdae6d4aa1f241d1f8ca88)
+
+##coeus-1508.13
 *  making email and notification asynchronous rather than blocking.  This will help performance where these features are used.
   * Travis Schneeberger on Thu, 6 Aug 2015 18:10:07 -0400 [View Commit](../../commit/5fd79136a405c012bdcaa974c856720fc1a4771e)
 
