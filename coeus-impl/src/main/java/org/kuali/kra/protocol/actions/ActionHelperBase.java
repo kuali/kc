@@ -904,8 +904,7 @@ public abstract class ActionHelperBase implements Serializable {
         Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
         // if the schedule has not yet been selected, then use the review comment service to get the reviews, 
         if(scheduleIdFk == null) {
-            int lastSubmissionNumber = getTotalSubmissions();
-            minutes = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), lastSubmissionNumber);
+            minutes = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber);
             // sort the minutes by entry number, so that all review comments beans show the same ordered listing
             Collections.sort(minutes, new Comparator<CommitteeScheduleMinuteBase>() {
 
