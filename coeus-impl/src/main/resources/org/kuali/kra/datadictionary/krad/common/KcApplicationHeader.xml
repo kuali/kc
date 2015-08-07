@@ -1023,17 +1023,7 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
                         </map>
                     </property>
                 </bean>
-              
-                <bean parent="Kc-Header-IframeMenuAction"
-                      p:actionUrl.viewId="Kc-Header-IframeView" p:actionLabel="Person Search"
-                      p:order="70">
-                    <property name="actionUrl.requestParameters">
-                        <map>
-                            <entry key="href"
-                                   value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=start&amp;businessObjectClassName=org.kuali.coeus.common.framework.person.KcPerson&amp;docFormKey=88888888&amp;includeCustomActionUrls=false&amp;returnLocation=@{#ConfigProperties['application.url']}%2Fkc-krad%2FlandingPage%3FviewId%3DKc-LandingPage-RedirectView&amp;hideReturnLink=false&amp;showMaintenanceLinks=false&amp;refreshCaller=CoiDisclosurePersonSearch"/>
-                        </map>
-                    </property>
-                </bean>
+
                 <bean parent="Uif-SimpleHeaderFour" p:headerText="Protocols" p:order="80"/>
 
 
