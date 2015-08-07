@@ -53,6 +53,7 @@ import com.google.common.collect.Lists;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -217,7 +218,7 @@ public class KcNotificationServiceTest {
         NotificationContext notificationContext = getMockNotificationContext();
         
         service.sendNotification(notificationContext);
-        
+        TimeUnit.SECONDS.sleep(5);
         context.assertIsSatisfied();
     }
     
@@ -253,7 +254,8 @@ public class KcNotificationServiceTest {
         notificationTypeRecipients.add(rolodex);
         
         service.sendNotification(notificationContext, notification, notificationTypeRecipients);
-        
+        TimeUnit.SECONDS.sleep(5);
+
         context.assertIsSatisfied();
     }
     
@@ -273,7 +275,8 @@ public class KcNotificationServiceTest {
         principalIds.add(PRINCIPAL_NAME_VALUE_MAJORS);
         
         service.sendNotification(CONTEXT_NAME_VALUE, SUBJECT_VALUE, MESSAGE_VALUE, principalIds);
-        
+        TimeUnit.SECONDS.sleep(5);
+
         context.assertIsSatisfied();
     }
     
@@ -293,7 +296,8 @@ public class KcNotificationServiceTest {
         NotificationContext notificationContext = getMockNotificationContext();
                 
         service.sendEmailNotification(notificationContext);
-        
+        TimeUnit.SECONDS.sleep(5);
+
         context.assertIsSatisfied();
     }
     
