@@ -49,73 +49,75 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     @Override
     protected void addModules(ProtocolBase protocol, ProtocolAmendmentBean amendmentBean) {
         ProtocolAmendRenewalBase amendmentEntry = protocol.getProtocolAmendRenewal();
+        final ProtocolBase currentProtocolByNumber = protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber());
+
         if (amendmentBean.getGeneralInfo()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.GENERAL_INFO));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.GENERAL_INFO);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.GENERAL_INFO);
             amendmentEntry.removeModule(IacucProtocolModule.GENERAL_INFO);
         }
         
         if (amendmentBean.getAddModifyAttachments()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.ADD_MODIFY_ATTACHMENTS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.ADD_MODIFY_ATTACHMENTS);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.ADD_MODIFY_ATTACHMENTS);
             amendmentEntry.removeModule(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS);
         }
         
         if (amendmentBean.getAreasOfResearch()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.AREAS_OF_RESEARCH));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.AREAS_OF_RESEARCH);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.AREAS_OF_RESEARCH);
             amendmentEntry.removeModule(IacucProtocolModule.AREAS_OF_RESEARCH);
         }
         
         if (amendmentBean.getFundingSource()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.FUNDING_SOURCE));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.FUNDING_SOURCE);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.FUNDING_SOURCE);
             amendmentEntry.removeModule(IacucProtocolModule.FUNDING_SOURCE);
         }
         
         if (amendmentBean.getProtocolOrganizations()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_ORGANIZATIONS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROTOCOL_ORGANIZATIONS);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.PROTOCOL_ORGANIZATIONS);
             amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_ORGANIZATIONS);
         }
         
         if (amendmentBean.getProtocolReferencesAndOtherIdentifiers()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_REFERENCES));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROTOCOL_REFERENCES);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.PROTOCOL_REFERENCES);
             amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_REFERENCES);
         }
         
         if (amendmentBean.getSubjects()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.SUBJECTS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.SUBJECTS);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.SUBJECTS);
             amendmentEntry.removeModule(IacucProtocolModule.SUBJECTS);
         }
         
         if (amendmentBean.getSpecialReview()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.SPECIAL_REVIEW));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.SPECIAL_REVIEW);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.SPECIAL_REVIEW);
             amendmentEntry.removeModule(IacucProtocolModule.SPECIAL_REVIEW);
         }
         
         if (amendmentBean.getOthers()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.OTHERS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.OTHERS);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.OTHERS);
             amendmentEntry.removeModule(IacucProtocolModule.OTHERS);
         }
         
         if (amendmentBean.getProtocolPermissions()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_PERMISSIONS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROTOCOL_PERMISSIONS);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.PROTOCOL_PERMISSIONS);
             amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_PERMISSIONS);
         }
         if (amendmentBean.getQuestionnaire()) {
@@ -127,32 +129,32 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
         if (((IacucProtocolAmendmentBean)amendmentBean).getThreers()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.THREE_RS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.THREE_RS);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.THREE_RS);
             amendmentEntry.removeModule(IacucProtocolModule.THREE_RS);
         }
         if (((IacucProtocolAmendmentBean)amendmentBean).getSpeciesAndGroups()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.SPECIES_GROUPS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.SPECIES_GROUPS);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.SPECIES_GROUPS);
             amendmentEntry.removeModule(IacucProtocolModule.SPECIES_GROUPS);
         }
         if (((IacucProtocolAmendmentBean)amendmentBean).getProcedures()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROCEDURES));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROCEDURES);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.PROCEDURES);
             amendmentEntry.removeModule(IacucProtocolModule.PROCEDURES);
         }
         if (((IacucProtocolAmendmentBean)amendmentBean).getProtocolExceptions()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.EXCEPTIONS));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.EXCEPTIONS);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.EXCEPTIONS);
             amendmentEntry.removeModule(IacucProtocolModule.EXCEPTIONS);
         }
         
         if (amendmentBean.getProtocolPersonnel()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.PROTOCOL_PERSONNEL));
         } else {
-            protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()), IacucProtocolModule.PROTOCOL_PERSONNEL);
+            protocol.merge(currentProtocolByNumber, IacucProtocolModule.PROTOCOL_PERSONNEL);
             amendmentEntry.removeModule(IacucProtocolModule.PROTOCOL_PERSONNEL);
         }
     }
