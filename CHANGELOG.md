@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  making email and notification asynchronous rather than blocking.  This will help performance where these features are used.
+  * Travis Schneeberger on Thu, 6 Aug 2015 18:10:07 -0400 [View Commit](../../commit/5fd79136a405c012bdcaa974c856720fc1a4771e)
+
+##coeus-1508.12
 *  prevent schedule status fetch from being executed for every available schedule date.  Also, using the schedule status code value rather than description.
   * Travis Schneeberger on Thu, 6 Aug 2015 16:51:13 -0400 [View Commit](../../commit/2dd1f047e3a93b2c1c54afcdd58d6ad710df0a0f)
 *  adding index to prevent full table scan
