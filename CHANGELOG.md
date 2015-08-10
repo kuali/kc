@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  allowing whitespace in attachment names
+  * Travis Schneeberger on Mon, 10 Aug 2015 15:18:44 -0400 [View Commit](../../commit/21e02df9ac57ee33a54805bd7b3ccd557f8f9c8d)
+*  allowing the attachment tab to load with an attachment and in read only mode
+  * Travis Schneeberger on Mon, 10 Aug 2015 15:26:26 -0400 [View Commit](../../commit/c7d9ddfff7f0b2497a50d27008f366b8028d75ad)
+
+##coeus-1508.15
 * No Changes
 
 
