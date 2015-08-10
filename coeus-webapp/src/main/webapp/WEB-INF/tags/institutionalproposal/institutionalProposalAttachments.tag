@@ -173,7 +173,7 @@ opacity:1;
 					</td>
 					 <td align="left" valign="middle">
 	           			<div align="left" id="attachmentFileName${itrStatus.index}">
-	           			<c:if test="${!readOnly || attachment.filename!=null}">
+	           			<c:if test="${!readOnly || attachment.fileName!=null}">
 							<img src="${krafn:getIconPath(attachment.type)}" height="16" width="16" alt="${attachment.type}" title="${attachment.type}"/>${attachment.fileName}
 	              	   </c:if>
 	           			</div>
