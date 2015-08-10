@@ -202,11 +202,13 @@
         <property name="shortLabel" value="File Name" />
         <property name="maxLength" value="300" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
         </property>
-    <property name="validCharactersConstraint">
-      <bean parent="AlphaNumericPatternConstraint"/>
-    </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true"/>
+            </bean>
+        </property>
         <property name="control" >
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
