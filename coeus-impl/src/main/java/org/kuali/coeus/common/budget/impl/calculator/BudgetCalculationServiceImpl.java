@@ -24,6 +24,7 @@ import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.calculator.*;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
+import org.kuali.coeus.common.budget.framework.rate.ValidCeRateType;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.query.operator.And;
@@ -855,8 +856,16 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
     @Override
     public void applyToLaterPeriods(Budget budget, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
+
+        for (ValidCeRateType validCeRateType : budgetLineItem.getCostElementBO().getValidCeRateTypes()) {
+            validCeRateType.getRateType().getDescription();
+            validCeRateType.getRateClass().getCode();
+            validCeRateType.getCostElementBo().getDescription();
+        }
+
         BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
         periodCalculator.applyToLaterPeriods(budget, budgetPeriod, budgetLineItem);
+
         List<String> errors = periodCalculator.getErrorMessages();
         if(!errors.isEmpty()){
             MessageMap errorMap = globalVariableService.getMessageMap();

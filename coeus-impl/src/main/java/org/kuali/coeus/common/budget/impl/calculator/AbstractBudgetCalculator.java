@@ -729,7 +729,6 @@ public abstract class AbstractBudgetCalculator {
         }
 
         for (ValidCeRateType validCeRateType : rateTypes) {
-            validCeRateType.refreshNonUpdateableReferences();
             String rateClassType = validCeRateType.getRateClass().getRateClassTypeCode();
             if(rateClassType.equals(RateClassType.OVERHEAD.getRateClassType()) && 
                     !budget.getBudgetParent().isProposalBudget()){
@@ -819,9 +818,9 @@ public abstract class AbstractBudgetCalculator {
         	budgetLineItem.refreshReferenceObject("costElementBO");
         }
 
-        if (budgetLineItem.getCostElementBO().getValidCeRateTypes().isEmpty()) {
+       if (budgetLineItem.getCostElementBO().getValidCeRateTypes().isEmpty()) {
         	budgetLineItem.getCostElementBO().refreshReferenceObject("validCeRateTypes");
-        }
+       }
 
         setInflationRateOnLineItem(budgetLineItem);
 
