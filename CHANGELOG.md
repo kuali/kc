@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* IRB - Create Amendment - Duplicate persons
+
+  * When creating an IRB protocol, the document is saved multiple times and the personnel are copied and merged multiple times and it appears that the deletion aware lists don't work properly within the same transaction. Removing the unnecessary saves clears that up.
+  * blackcathacker on Mon, 10 Aug 2015 20:35:02 -0700 [View Commit](../../commit/c0f1206ced5ad63b6886ae41cd4028896fcdd7c1)
+
+##coeus-1508.17
 *  Trying to fix lazy loading elements in rates
   * Gayathri Athreya on Mon, 10 Aug 2015 15:50:31 -0700 [View Commit](../../commit/50c482315d450786628caad21deea283e046da3b)
 
