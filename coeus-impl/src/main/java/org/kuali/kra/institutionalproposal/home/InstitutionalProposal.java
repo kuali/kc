@@ -78,8 +78,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable, Negotiable {
 
     public static final String PROPOSAL_ID_PROPERTY_STRING = "proposalId";
-    private static final String PROPOSAL_NUMBER = "proposalNumber";
-    public static final String PROPOSAL_NUMBER_PROPERTY_STRING = PROPOSAL_NUMBER;
+    public static final String PROPOSAL_NUMBER_PROPERTY_STRING = "proposalNumber";
     public static final String PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING = "proposalSequenceStatus";
     public static final String PROPOSAL_NUMBER_TEST_DEFAULT_STRING = "1234";
     private static final long serialVersionUID = 1L;
@@ -1213,7 +1212,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     @Override
     public String getVersionNameField() {
-        return PROPOSAL_NUMBER;
+        return PROPOSAL_NUMBER_PROPERTY_STRING;
     }
 
     @Override
