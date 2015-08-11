@@ -20,6 +20,8 @@ package org.kuali.kra.institutionalproposal.home;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.coeus.common.framework.fiscalyear.FiscalYearMonthService;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
@@ -70,12 +72,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InstitutionalProposal extends KcPersistableBusinessObjectBase implements
         KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable, Negotiable {
 
     public static final String PROPOSAL_ID_PROPERTY_STRING = "proposalId";
-    public static final String PROPOSAL_NUMBER_PROPERTY_STRING = "proposalNumber";
+    private static final String PROPOSAL_NUMBER = "proposalNumber";
+    public static final String PROPOSAL_NUMBER_PROPERTY_STRING = PROPOSAL_NUMBER;
     public static final String PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING = "proposalSequenceStatus";
     public static final String PROPOSAL_NUMBER_TEST_DEFAULT_STRING = "1234";
     private static final long serialVersionUID = 1L;
@@ -90,6 +94,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     public static final String ACTIVITY_TYPE = "activityType";
     public static final String ACTIVITY_CODE = "code";
     public static final String SELECT = "(select)";
+    private static final Log LOG = LogFactory.getLog(InstitutionalProposal.class);
 
     private InstitutionalProposalDocument institutionalProposalDocument;
     private Long proposalId;
@@ -151,7 +156,6 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private Rolodex rolodex;
     private Sponsor sponsor;
     private Sponsor primeSponsor;
-    private String sponsorName;
     private ActivityType activityType;
     private AwardType awardType;
     private ProposalStatus proposalStatus;
@@ -190,6 +194,9 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private transient String lookupUnitNumber;
     private transient String lookupPersonNumber;
     private transient FiscalYearMonthService fiscalYearMonthService;
+    private transient ProposalLogService proposalLogService;
+    private transient BusinessObjectService businessObjectService;
+    private transient UnitService unitService;
     
     private List<InstitutionalProposalAttachment> instProposalAttachments;
     
@@ -224,7 +231,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         newDescription = getDefaultNewDescription();
         setProposalSequenceStatus(VersionStatus.PENDING.toString());
         setStatusCode(1);// default value for all IP's
-        projectPersons = new ArrayList<InstitutionalProposalPerson>();
+        projectPersons = new ArrayList<>();
         showReturnLink = true; // we usually show proposal in lookup
     }
 
@@ -244,24 +251,20 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     public void setDefaultInitialContractAdmin() {
         if (!StringUtils.isBlank(getUnitNumber())) {
             List<UnitAdministrator> unitAdministrators = getUnitService().retrieveUnitAdministratorsByUnitNumber(getUnitNumber());
-            for (UnitAdministrator unitAdministrator : unitAdministrators) {
-                if (UnitAdministratorType.OSP_ADMINISTRATOR_TYPE_CODE.equals(unitAdministrator.getUnitAdministratorTypeCode())) {
-                    this.setInitialContractAdmin(unitAdministrator.getPersonId());
-                }
-            }
+            unitAdministrators.stream()
+                    .filter(unitAdministrator -> UnitAdministratorType.OSP_ADMINISTRATOR_TYPE_CODE.equals(unitAdministrator.getUnitAdministratorTypeCode()))
+                    .forEach(unitAdministrator -> {
+                        this.setInitialContractAdmin(unitAdministrator.getPersonId());
+                    });
         }
     }
 
     public void deactivateFundingProposals() {
-        for (AwardFundingProposal fundingProposal : this.getAwardFundingProposals()) {
-            fundingProposal.setActive(false);
-        }
+        this.getAwardFundingProposals().forEach(fundingProposal -> fundingProposal.setActive(false));
     }
 
     public void activateFundingProposals() {
-        for (AwardFundingProposal fundingProposal : this.getAwardFundingProposals()) {
-            fundingProposal.setActive(true);
-        }
+        this.getAwardFundingProposals().forEach(fundingProposal -> fundingProposal.setActive(true));
     }
 
     public boolean isActiveVersion() {
@@ -899,12 +902,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     public InstitutionalProposalPerson getPrincipalInvestigator() {
-        for (InstitutionalProposalPerson proposalPerson : this.getProjectPersons()) {
-            if (proposalPerson.isPrincipalInvestigator()) {
-                return proposalPerson;
-            }
-        }
-        return null;
+        return this.getProjectPersons().stream().filter(InstitutionalProposalPerson::isPrincipalInvestigator).findFirst().orElse(null);
     }
 
     public void setPrincipalInvestigator(InstitutionalProposalPerson proposalPerson) {
@@ -914,8 +912,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     public String getSponsorName() {
         Sponsor tempSponsor = getSponsor();
-        sponsorName = tempSponsor != null ? tempSponsor.getSponsorName() : null;
-        return sponsorName;
+        return tempSponsor != null ? tempSponsor.getSponsorName() : null;
     }
 
     public ActivityType getActivityType() {
@@ -946,13 +943,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     public List<AwardFundingProposal> getActiveAwardFundingProposals() {
-        List<AwardFundingProposal> activeAfps = new ArrayList<>();
-        for (AwardFundingProposal awardFundingProposal : this.getAwardFundingProposals()) {
-            if (awardFundingProposal.isActive()) {
-                activeAfps.add(awardFundingProposal);
-            }
-        }
-        return activeAfps;
+        return this.getAwardFundingProposals().stream().filter(AwardFundingProposal::isActive).collect(Collectors.toList());
     }
 
     public void setAwardType(AwardType awardType) {
@@ -1222,7 +1213,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
 
     @Override
     public String getVersionNameField() {
-        return "proposalNumber";
+        return PROPOSAL_NUMBER;
     }
 
     @Override
@@ -1235,7 +1226,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     private void updateMergedInstitutionalProposal() {
-        KcServiceLocator.getService(ProposalLogService.class).updateMergedInstProposal(proposalId, proposalNumber);
+        getProposalLogService().updateMergedInstProposal(proposalId, proposalNumber);
     }
 
     @Override
@@ -1290,7 +1281,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
             if (activityTypeCode != null) {
                 Map<String, Object> identifiers = new HashMap<>();
                 identifiers.put(ACTIVITY_CODE, activityTypeCode);
-                activityType = (ActivityType) getBusinessObjectService().findByPrimaryKey(ActivityType.class, identifiers);
+                activityType = getBusinessObjectService().findByPrimaryKey(ActivityType.class, identifiers);
             }
         }
         return activityType;
@@ -1304,7 +1295,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
             if (proposalTypeCode != null) {
                 Map<String, Object> identifiers = new HashMap<>();
                 identifiers.put(PROPOSAL_TYPE_CODE, proposalTypeCode);
-                proposalType = (ProposalType) getBusinessObjectService().findByPrimaryKey(ProposalType.class, identifiers);
+                proposalType = getBusinessObjectService().findByPrimaryKey(ProposalType.class, identifiers);
             }
         }
         return proposalType;
@@ -1349,11 +1340,25 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     }
 
     public UnitService getUnitService() {
-        return (UnitService) KcServiceLocator.getService(UnitService.class);
+        if(unitService == null) {
+            unitService = KcServiceLocator.getService(UnitService.class);
+        }
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
     }
 
     protected BusinessObjectService getBusinessObjectService() {
-        return (BusinessObjectService) KcServiceLocator.getService(BusinessObjectService.class);
+        if (businessObjectService == null){
+            businessObjectService = KcServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     private void updateFundingStatus() {
@@ -1372,8 +1377,8 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         if (!StringUtils.isBlank(this.getInitialContractAdmin())) {
             try {
                 return this.getKcPersonService().getKcPersonByPersonId(this.getInitialContractAdmin());
-            }
-            catch (Exception e) {
+            } catch (RuntimeException e) {
+                LOG.warn(e.getMessage(), e);
             }
         }
         return null;
@@ -1539,11 +1544,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     
     @Override
     public List<NegotiationPersonDTO> getProjectPeople() {
-        List<NegotiationPersonDTO> kcPeople = new ArrayList<>();
-        for (InstitutionalProposalPerson person : getProjectPersons()) {
-            kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getRoleCode()));
-        }
-        return kcPeople;
+        return getProjectPersons().stream().map(person -> new NegotiationPersonDTO(person.getPerson(), person.getRoleCode())).collect(Collectors.toList());
     }
 
     @Override
@@ -1617,11 +1618,27 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         return this.kcPersonService;
     }
 
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
+
     public List<AwardFundingProposal> getAllFundingProposals() {
         return allFundingProposals;
     }
 
     public void setAllFundingProposals(List<AwardFundingProposal> allFundingProposals) {
         this.allFundingProposals = allFundingProposals;
+    }
+
+    public ProposalLogService getProposalLogService() {
+        if (proposalLogService == null) {
+            proposalLogService = KcServiceLocator.getService(ProposalLogService.class);
+        }
+
+        return proposalLogService;
+    }
+
+    public void setProposalLogService(ProposalLogService proposalLogService) {
+        this.proposalLogService = proposalLogService;
     }
 }

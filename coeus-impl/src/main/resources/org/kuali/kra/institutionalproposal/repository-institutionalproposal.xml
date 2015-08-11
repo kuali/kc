@@ -157,12 +157,6 @@
 		<field-descriptor name="unitNumber" column="LEAD_UNIT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		
-		<!-- 
-		<reference-descriptor name="intellectualPropertyReview" class-ref="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="proposalId"/>
-        </reference-descriptor>
-         -->
         <reference-descriptor name="institutionalProposalDocument" class-ref="org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
@@ -190,12 +184,6 @@
         <reference-descriptor name="proposalStatus" class-ref="org.kuali.kra.institutionalproposal.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="statusCode"/>
         </reference-descriptor>
-        <!-- 
-        <reference-descriptor name="awardType" class-ref="org.kuali.kra.bo.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="awardTypeCode"/>
-        </reference-descriptor>
-        -->
-         
         <collection-descriptor name="awardFundingProposals" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
@@ -225,22 +213,9 @@
 		<collection-descriptor name="institutionalProposalScienceKeywords" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		<collection-descriptor name="awardFundingProposals" proxy="true" element-class-ref="org.kuali.kra.award.home.fundingproposal.AwardFundingProposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="proposalId"/>
-		</collection-descriptor>
 		<collection-descriptor name="specialReviews" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		<!--
-		<collection-descriptor name="proposalPerCreditSplit" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalPerCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="proposalId"/>
-		</collection-descriptor>
-		-->
-		<!--
-		<collection-descriptor name="proposalUnitCreditSplit" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnitCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="proposalId"/>
-		</collection-descriptor>
-		-->
 		<collection-descriptor name="projectPersons" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="proposalId"/>
         </collection-descriptor>
