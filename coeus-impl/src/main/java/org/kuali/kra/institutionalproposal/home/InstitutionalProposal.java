@@ -180,6 +180,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
     private List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs;
     @SkipVersioning
     private List<AwardFundingProposal> awardFundingProposals;
+    @SkipVersioning
     private List<AwardFundingProposal> allFundingProposals;
     private Map<String, InstitutionalProposalComment> commentMap;
     private boolean sponsorNihMultiplePi;

@@ -363,6 +363,8 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                                                                                                          IOException {
 
         InstitutionalProposalDocument newInstitutionalProposalDocument = getInstitutionalProposalService().createAndSaveNewVersion(institutionalProposal, institutionalProposalDocument);
+        newInstitutionalProposalDocument.getInstitutionalProposal().setAllFundingProposals(transferFundingProposals(institutionalProposal, newInstitutionalProposalDocument.getInstitutionalProposal()));
+        getBusinessObjectService().save(newInstitutionalProposalDocument.getInstitutionalProposal().getAllFundingProposals());
         reinitializeForm(institutionalProposalForm, newInstitutionalProposalDocument);
        
         return new ActionRedirect(buildForwardUrl(newInstitutionalProposalDocument.getDocumentNumber()));

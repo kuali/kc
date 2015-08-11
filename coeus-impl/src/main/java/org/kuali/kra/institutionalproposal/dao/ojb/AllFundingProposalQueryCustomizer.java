@@ -18,7 +18,8 @@
  */
 package org.kuali.kra.institutionalproposal.dao.ojb;
 
-import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl;
@@ -32,16 +33,16 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 public class AllFundingProposalQueryCustomizer extends QueryCustomizerDefaultImpl {
     private static final String ACTIVE = "active";
 	private static final String PROPOSAL_SEQUENCE_STATUS = "proposal.proposalSequenceStatus";
-    private static final String PROPOSAL_NUMBER = "proposalNumber";
+    private static final String PROPOSAL_NUMBER = "proposal.proposalNumber";
 
 
     @Override
     public Query customizeQuery(Object anObject,
             PersistenceBroker aBroker,
             CollectionDescriptor aCod, QueryByCriteria aQuery){
-    	Criteria crit = new Criteria();
+    	final Criteria crit = new Criteria();
     	crit.addEqualTo(PROPOSAL_NUMBER, ((InstitutionalProposal) anObject).getProposalNumber());
-     	crit.addIn(PROPOSAL_SEQUENCE_STATUS, Arrays.asList(new String[]{VersionStatus.ACTIVE.toString(), VersionStatus.PENDING.toString(), VersionStatus.ARCHIVED.toString()}));
+     	crit.addIn(PROPOSAL_SEQUENCE_STATUS, Stream.of(VersionStatus.ACTIVE.toString(), VersionStatus.PENDING.toString(), VersionStatus.ARCHIVED.toString()).collect(Collectors.toList()));
     	crit.addEqualTo(ACTIVE, Boolean.TRUE);
         aQuery.setCriteria(crit);
         return aQuery;
