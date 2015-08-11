@@ -69,7 +69,10 @@
     
     //This function extracts the attachment type from the div within the current row.
     function getAttachmentType(index) {
-    	var attachmentType = $j("#attachment-type-" +index).html();
+        var attachmentType = $j("#attachment-type-" +index+" option:selected").text();
+        if (!attachmentType) {
+            attachmentType = $j("#attachment-type-" +index).html();
+        }
     	return $j.trim(attachmentType);
     }
     
@@ -284,6 +287,8 @@
             rowEl = $j("#" + rowList[i]).detach();
             $j("#protocol-attachment-table > tbody").append(rowEl);
     	}
+        rowEl = $j("#protocol-attachment-download-all").detach();
+        $j("#protocol-attachment-table > tbody").append(rowEl);
     }
     
     function getDescription(index) {
@@ -312,11 +317,25 @@
         }
         
         alert (str);
-    }    
-    
+    }
+
+    function createAttachmentCheckboxes() {
+        $j("tr[id^=protocol-attachment-row-]").each(function (index) {
+            var rownum = this.getAttribute("id").replace("protocol-attachment-row-","");
+            var checkboxHtml = "<input class='attachmentCheckbox' type='checkbox' name='document.protocolList[0].attachmentProtocols["+rownum+"].selected' value='on'/>";
+            $j(this).children("td").children("div[class=innerTab-head],div[class=innerTab-new-attachment],div[class=innerTab-incomplete-attachment]").prepend(checkboxHtml);
+        });
+    }
+
+    function selectAllCheckboxes(onOrOff) {
+        $j("input.attachmentCheckbox:visible").prop("checked",onOrOff);
+    }
+
     $j(document).ready(function() {
     	filterTableByCriteria(document.getElementById("notesAttachmentsHelper.newAttachmentFilter.filterBy"));
     	sortTableByCriteria(document.getElementById("notesAttachmentsHelper.newAttachmentFilter.sortBy"));
+        createAttachmentCheckboxes();
+        $j("#protocol-attachment-table select[name$='typeCode'] option[value='']").remove();
     });
 </script>
 

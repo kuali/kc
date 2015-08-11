@@ -21,6 +21,7 @@ package org.kuali.kra.protocol.noteattachment;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.struts.upload.FormFile;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
@@ -29,6 +30,7 @@ import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -76,6 +78,8 @@ public abstract class NotesAttachmentsHelperBase {
     protected boolean viewRestricted;
     
     protected boolean manageNotesOpen;
+
+    private FormFile zipUpload;
 
     /**
      * Constructs a helper.
@@ -737,7 +741,23 @@ public abstract class NotesAttachmentsHelperBase {
     public void addNewProtocolAttachmentFilter() {
         this.getProtocol().setProtocolAttachmentFilter(getNewAttachmentFilter());
     }
-    
+
+    public FormFile getZipUpload() {
+        return zipUpload;
+    }
+
+    public void setZipUpload(FormFile zipUpload) {
+        this.zipUpload = zipUpload;
+    }
+
+    public void addIncompleteAttachment(ProtocolAttachmentProtocol attachment) {
+        if (this.versioningUtil.versioningRequired() && attachment.supportsVersioning()) {
+            this.versioningUtil.versionNewAttachment(attachment);
+        } else {
+            this.getProtocol().addAttachmentsByType(attachment);
+        }
+    }
+
     public abstract Class<? extends ProtocolAttachmentProtocolBase> getProtocolAttachmentProtocolClassHook();
     public abstract Class<? extends ProtocolAttachmentPersonnelBase> getProtocolAttachmentPersonnelClassHook();
     public abstract Class<? extends ProtocolNotepadBase> getProtocolNotepadClassHook();

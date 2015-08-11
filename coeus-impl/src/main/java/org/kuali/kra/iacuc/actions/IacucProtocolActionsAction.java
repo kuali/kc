@@ -818,43 +818,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     /**
-     * 
-     * This method for applying the selected watermark to the attachment 
-     * @param protocolForm form
-     * @param protocolAttachmentBase attachment
-     * @return attachment file
-     */
-    private byte[] getProtocolAttachmentFile(ProtocolFormBase form,ProtocolAttachmentProtocolBase attachment) {
-        
-        byte[] attachmentFile =null;
-        final AttachmentFile file = attachment.getFile();
-        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-        ProtocolBase protocolCurrent = form.getProtocolDocument().getProtocol();
-        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
-        try {
-            if(printableArtifacts.isWatermarkEnabled()){
-                int currentAttachmentSequence=attachment.getSequenceNumber();
-                String docStatusCode=attachment.getDocumentStatusCode();
-                String statusCode=attachment.getStatusCode();
-                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
-                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-                    if (ProtocolAttachmentProtocolBase.COMPLETE_STATUS_CODE.equals(statusCode)) {
-                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                    }
-                }else{
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
-                }
-            }
-        }catch (Exception e) {
-            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
-        }        
-        return attachmentFile;
-    }
-    
-    
-    
-    /**
      * Filters the actions shown in the History sub-panel, first validating the dates before filtering and refreshing the page.
      * 
      * @param mapping
@@ -1551,10 +1514,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    private IacucProtocolPrintingService getProtocolPrintingService() {
-        return KcServiceLocator.getService(IacucProtocolPrintingService.class);
-    }
-    
     /**
      * Adds a review comment to the bean indicated by the task name in the request.
      * 
@@ -1729,10 +1688,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private boolean hasPermission(String taskName, IacucProtocol protocol) {
         IacucProtocolTask task = new IacucProtocolTask(taskName, protocol);
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
-    }
-    
-    private IacucProtocolAttachmentService getProtocolAttachmentService() {
-        return KcServiceLocator.getService(IacucProtocolAttachmentService.class);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -2013,13 +1968,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     private IacucFollowupActionService getFollowupActionService() {
         return KcServiceLocator.getService(IacucFollowupActionService.class);
-    }
-    
-    /**
-     * This method is to get Watermark Service. 
-     */
-    private WatermarkService getWatermarkService() {
-        return  KcServiceLocator.getService(WatermarkService.class);
     }
 
     /**

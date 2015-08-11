@@ -26,12 +26,17 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
-import org.kuali.coeus.sys.api.model.KcFile;
+import org.apache.struts.upload.FormFile;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.auth.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.coeus.common.framework.auth.task.Task;
 import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
 import org.kuali.coeus.common.framework.auth.task.WebAuthorizationService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.common.framework.custom.CustomDataDocumentForm;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.PrintableAttachment;
+import org.kuali.coeus.sys.api.model.KcFile;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentBase;
 import org.kuali.coeus.sys.framework.model.KcTransactionalDocumentFormBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -51,7 +56,6 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
-import org.kuali.coeus.common.framework.custom.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -79,14 +83,19 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.UnknownDocumentIdException;
-import org.kuali.rice.krad.service.*;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.mail.internet.HeaderTokenizer;
 import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
@@ -94,10 +103,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.replace;
@@ -114,6 +127,10 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
     private static final String ONE_ADHOC_REQUIRED_ERROR_KEY = "error.adhoc.oneAdHocRequired";
     private static final String DOCUMENT_RELOAD_QUESTION="DocReload";
     public static final String KRAD_PORTAL_URL = "/kc-krad/landingPage?viewId=Kc-LandingPage-RedirectView";
+
+    private static final int MAX_ZIP_ENTRY_FILE_SIZE = 0x6400000; // Max entry size = 100MB
+    private static final int MAX_ZIP_ENTRIES = 300;// No more than 300 entries
+    private static final int BUFFER = 512;
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -1192,6 +1209,123 @@ public class KcTransactionalDocumentActionBase extends KualiTransactionalDocumen
             return forward;
         }
     }
-    
+
+    public static void downloadAllAttachments(List <AttachmentDataSource> attachments, HttpServletResponse response, String outputFileName) throws Exception {
+        HashMap<String, Integer> duplicateFileNameMap = new HashMap<String, Integer>();
+        ZipOutputStream zipOutput = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream();
+            zipOutput = new ZipOutputStream(baos);
+            for(AttachmentDataSource attachment : attachments) {
+                // Check for duplicate file names, since this will cause a ZipException
+                Integer duplicateFileNumber = duplicateFileNameMap.get(attachment.getName());
+                String zipEntryName = attachment.getName();
+                if(duplicateFileNumber != null) {
+                    duplicateFileNumber++;
+                    if(zipEntryName.contains(".")) {
+                        int fileExtIndex = zipEntryName.lastIndexOf(".");
+                        zipEntryName = zipEntryName.substring(0, fileExtIndex) + "-" + duplicateFileNumber + zipEntryName.substring(fileExtIndex);
+                    }
+                    else {
+                        zipEntryName = zipEntryName + "-" + duplicateFileNumber;
+                    }
+                }
+                else {
+                    duplicateFileNumber = 1;
+                }
+                duplicateFileNameMap.put(attachment.getName(), duplicateFileNumber);
+                zipOutput.putNextEntry(new ZipEntry(zipEntryName));
+
+                try {
+                    zipOutput.write(attachment.getData());
+                    zipOutput.closeEntry();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    zipOutput.closeEntry();
+                }
+            }
+
+            zipOutput.finish();
+            KRADUtils.addAttachmentToResponse(response, new ByteArrayInputStream(baos.toByteArray()), "application/zip", outputFileName, baos.size());
+            response.flushBuffer();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if(baos != null) {
+                baos.close();
+                baos = null;
+            }
+        }
+    }
+
+    public List <AttachmentDataSource> getZipFiles(FormFile zipFileFromForm) throws Exception {
+        AttachmentFile zipFile = null;
+        List<AttachmentDataSource> unzippedFiles = new ArrayList<AttachmentDataSource>();
+
+        if (zipFileFromForm != null) {
+            zipFile = AttachmentFile.createFromFormFile(zipFileFromForm);
+        }
+
+        if (zipFile != null && zipFile.getData() != null) {
+            ByteArrayInputStream bais = new ByteArrayInputStream(zipFile.getData());
+            ZipInputStream zipReader = new ZipInputStream(bais);
+            try {
+                ZipEntry entry = null;
+                int numEntries = 0;
+                byte[] data = new byte[BUFFER];
+                while ((entry = zipReader.getNextEntry()) != null && numEntries < MAX_ZIP_ENTRIES) {
+                    // Ignore the __MACOSX folder that Mac OS X always includes in zip files for some reason
+                    // Also ignore any desktop.ini files that Windows creates to determine how directories display
+                    if (entry.getName().startsWith("__MACOSX") || entry.getName().endsWith(".DS_Store") || entry.getName().endsWith("desktop.ini") || entry.isDirectory()) {
+                        continue;
+                    }
+                    if (entry.getSize() > MAX_ZIP_ENTRY_FILE_SIZE) {
+                        // TODO: Should do some error handling here to let user know their file is too big
+                        continue;
+                    }
+                    ByteArrayOutputStream  baos = new ByteArrayOutputStream();
+                    try {
+                        for (int byteCount = zipReader.read(data, 0, BUFFER); byteCount != -1; byteCount = zipReader.read(data, 0, BUFFER)) {
+                            baos.write(data, 0, byteCount);
+                        }
+                        String fileType = new MimetypesFileTypeMap().getContentType(entry.getName());
+                        AttachmentDataSource fileEntry = new PrintableAttachment();
+                        fileEntry.setName(removeIntermediateDirectories(entry.getName()));
+                        fileEntry.setType(fileType);
+                        fileEntry.setData(baos.toByteArray());
+                        unzippedFiles.add(fileEntry);
+                        baos.flush();
+                    }
+                    finally {
+                        baos.close();
+                        zipReader.closeEntry();
+                        numEntries++;
+                    }
+                }
+            }
+            catch (Exception e) {
+                LOG.error(e);
+            }
+            finally {
+                zipReader.close();
+            }
+        }
+
+        return unzippedFiles;
+    }
+
+    protected String removeIntermediateDirectories(String fileName) {
+        if (fileName.endsWith("/")) {
+            fileName = fileName.substring(0, fileName.length() - 1);
+        }
+        if (fileName.contains("/")) {
+            return fileName.substring(fileName.lastIndexOf("/") + 1);
+        }
+        return fileName;
+    }
 
 }

@@ -398,8 +398,8 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
         protocolForm.getNotesAttachmentsHelper().setFilesToDelete(filesToDelete);
     }
 
-    
-    private ProtocolAttachmentService getProtocolAttachmentService() {
+    @Override
+    protected ProtocolAttachmentService getProtocolAttachmentService() {
         if (protocolAttachmentService == null) {
             protocolAttachmentService = KcServiceLocator.getService("iacucProtocolAttachmentService");
         }

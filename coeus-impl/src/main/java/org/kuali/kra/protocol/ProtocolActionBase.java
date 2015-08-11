@@ -21,38 +21,46 @@ package org.kuali.kra.protocol;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
+import org.kuali.coeus.common.framework.attachment.AttachmentFile;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.auth.perm.Permissionable;
-import org.kuali.coeus.sys.framework.validation.AuditHelper;
+import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.watermark.WatermarkService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
+import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
+import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerEvent;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
+import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase;
+import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
 import org.kuali.coeus.sys.framework.controller.KcTransactionalDocumentActionBase;
 import org.kuali.coeus.sys.framework.controller.NonCancellingRecallQuestion;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.coeus.common.framework.krms.KrmsRulesExecutionService;
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintingService;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.auth.UnitAclLoadService;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.protocol.questionnaire.SaveProtocolQuestionnaireEvent;
-import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireConstants;
-import org.kuali.coeus.common.questionnaire.framework.core.QuestionnaireHelperBase;
-import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
-import org.kuali.coeus.common.questionnaire.framework.answer.SaveQuestionnaireAnswerEvent;
-import org.kuali.coeus.common.questionnaire.framework.print.QuestionnairePrintingService;
-import org.kuali.kra.protocol.auth.UnitAclLoadService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.Note;
@@ -60,6 +68,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.DocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 
@@ -76,6 +85,8 @@ import java.util.Map;
  * all user requests for that particular tab (web page).
  */
 public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBase {
+
+    private static final Log LOG = LogFactory.getLog(ProtocolActionBase.class);
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -751,11 +762,43 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         
         return forward;
     }
-    
-    
-    
-    
-    
+
+    protected byte[] getProtocolAttachmentFile(ProtocolFormBase form,ProtocolAttachmentProtocolBase attachment) {
+        byte[] attachmentFile =null;
+        final AttachmentFile file = attachment.getFile();
+        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
+        ProtocolBase protocolCurrent = form.getProtocolDocument().getProtocol();
+        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
+        try {
+            if(printableArtifacts.isWatermarkEnabled()){
+                int currentAttachmentSequence=attachment.getSequenceNumber();
+                String docStatusCode=attachment.getDocumentStatusCode();
+                String statusCode=attachment.getStatusCode();
+                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
+                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
+                    if (ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(statusCode)) {
+                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                    }
+                }else{
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
+                }
+            }
+        }catch (Exception e) {
+            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);
+        }
+        return attachmentFile;
+    }
+
+    protected abstract ProtocolPrintingService getProtocolPrintingService();
+
+    protected abstract ProtocolAttachmentService getProtocolAttachmentService();
+
+    protected WatermarkService getWatermarkService() {
+        return KcServiceLocator.getService(WatermarkService.class);
+    }
+
+    protected static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
     
     protected boolean applyRules(ProtocolFormBase protocolForm, DocumentEvent event) {
         return applyRules(event) & !protocolForm.isUnitRulesErrorsExist();

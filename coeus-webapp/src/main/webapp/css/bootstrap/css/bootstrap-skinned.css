@@ -7750,6 +7750,21 @@ div.innerTab-head {
   background-color: #EFEFEF;
   color: #333;
 }
+div.innerTab-incomplete-attachment {
+  height: 24px;
+  border: none;
+}
+#workarea div.innerTab-incomplete-attachment {
+  font-size: 18px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+#workarea .upload-file-container {
+  top: 3px;
+}
 input[type=text] {
   height: 26px;
 }

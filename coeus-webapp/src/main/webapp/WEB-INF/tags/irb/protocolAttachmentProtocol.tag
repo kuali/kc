@@ -184,9 +184,13 @@
 	         	</tr>
 	         	<tr>
 	         		<td colspan="4" class="infoline">
-						<div align="center">
-							<html:image property="methodToCall.addAttachmentProtocol.anchor${tabKey}"
-							src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton addButton"/>
+						<div align="center" />
+							<html:image property="methodToCall.addAttachmentProtocol.anchor${tabKey}" style="display:inline-block; border-spacing: 0px;"
+										src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
+							${kfunc:registerEditableProperty(KualiForm, "methodToCall.uploadZip")}
+							<div class="upload-file-container" style="background: url(${ConfigProperties.kra.externalizable.images.url}tinybutton-uploadzip.gif) no-repeat; display:inline-block; *zoom:1; *display:inline;">
+								<html:file property="notesAttachmentsHelper.zipUpload" style="cursor: pointer;" onchange="submitFormToMethod('kualiForm', 'uploadZip');"/>
+							</div>
 						</div>
 					</td>
 	         	</tr>
@@ -231,7 +235,6 @@
         <table cellpadding="4" cellspacing="0" summary="" id="protocol-attachment-table">
         <tbody>
 		<c:forEach var="attachmentProtocol" items="${filteredAttachmentProtocols}" varStatus="itrStatus">
-        
           <!--  Display logic to show the correct attribute being sorted on in the attachment header -->
           <c:set var="descDisplay" >
               <c:choose>
@@ -251,9 +254,21 @@
 		  <c:choose>
 		    <c:when test="${attachmentProtocol.active}">
 		      <tr id="protocol-attachment-row-${itrStatus.index}" class="fake-class-level-1">
+				<c:set var="selectedPropertyName" value="document.protocolList[0].attachmentProtocols[${itrStatus.index}].selected" />
+				${kfunc:registerEditableProperty(KualiForm, selectedPropertyName)}
 		        <td>
-		             <c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyAttachments and attachmentProtocol.documentStatusCode != '3' and (not KualiForm.document.protocolList[0].renewalWithoutAmendment or attachmentProtocol.documentStatusCode != '2')}" />
-		    			<kul:innerTab tabTitle="${attachmentProtocol.type.description} - ${descDisplay} - ${updateUserDisplay} (${lastUpdateDisplay})" parentTab="Protocol Attachments(${size})" defaultOpen="false" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
+		        <c:set var="modify" value="${KualiForm.notesAttachmentsHelper.modifyAttachments and attachmentProtocol.documentStatusCode != '3' and (not KualiForm.document.protocolList[0].renewalWithoutAmendment or attachmentProtocol.documentStatusCode != '2')}" />
+				<c:choose >
+					<c:when test="${attachmentProtocol.type != null}" >
+						<c:set var="titleDisplay" value="${attachmentProtocol.type.description} - ${descDisplay}" />
+						<c:set var="cssOverride" value="" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="titleDisplay" value="* PLEASE COMPLETE ATTACHMENT *" />
+						<c:set var="cssOverride" value="innerTab-incomplete-attachment" />
+					</c:otherwise>
+				</c:choose>
+				<kul:innerTab tabTitle="${titleDisplay} - ${updateUserDisplay} (${lastUpdateDisplay})" parentTab="Protocol Attachments(${size})" defaultOpen="${expandTab}" tabErrorKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*,document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.protocolList[0].attachmentProtocols[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors" overrideDivClass="${cssOverride}" >
 				<div class="innerTab-container" align="left">
             		<table class=tab cellpadding=0 cellspacing="0" summary="">
 						<tr>
@@ -264,7 +279,7 @@
 			         		</th>
 			         		<td align="left" valign="middle" colspan="3">
 			                	<div align="left" id="attachment-type-${itrStatus.index}">
-			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].typeCode" attributeEntry="${protocolAttachmentProtocolAttributes['typeCode']}" readOnly="true" readOnlyAlternateDisplay ="${attachmentProtocol.type.description}" />
+			                		<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${itrStatus.index}].typeCode" attributeEntry="${protocolAttachmentProtocolAttributes['typeCode']}" readOnly="${!modify}" readOnlyAlternateDisplay ="${attachmentProtocol.type.description}" />
 				            	</div>
 							</td>
 			         	</tr>
@@ -463,6 +478,19 @@
 		    </c:otherwise>
 		  </c:choose>
 		</c:forEach>
+		<tr id="protocol-attachment-download-all">
+			<td colspan="4" class="infoline">
+				<div align="center">
+					<html:image property="methodToCall.downloadSelectedAttachments" styleId="selected-attachments-button"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-download-selected.gif' styleClass="tinybutton"
+								alt="Download Selected Protocol Attachments" onclick="excludeSubmitRestriction = true;" />
+					<img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-selectall.gif" styleClass="tinybutton"
+						 style="cursor: pointer;" alt="Select All Attachments for Download" onclick="selectAllCheckboxes(true)" />
+					<img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-deselectall.gif" styleClass="tinybutton"
+						 style="cursor: pointer;" alt="Select All Attachments for Download" onclick="selectAllCheckboxes(false)" />
+				</div>
+			</td>
+		</tr>
 		</tbody>
 		</table>
 		</c:if>

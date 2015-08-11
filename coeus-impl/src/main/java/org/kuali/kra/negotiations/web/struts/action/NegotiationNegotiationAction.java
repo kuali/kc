@@ -23,6 +23,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.PrintableAttachment;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -32,7 +34,6 @@ import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationCont
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -40,10 +41,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
@@ -426,6 +424,26 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                 .get(getAttachmentIndex(request));
         final AttachmentFile file = attachment.getFile();
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
+
+        return null;
+    }
+
+    public ActionForward downloadAllNegotiationAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                                           HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        List<NegotiationActivityAttachment> attachments = negotiationForm.getNegotiationActivityHelper().getAllAttachments();
+        List <AttachmentDataSource> genericAtts = new ArrayList <AttachmentDataSource>();
+
+        for(NegotiationActivityAttachment attachment: attachments) {
+            AttachmentFile attachmentfile = attachment.getFile();
+
+            AttachmentDataSource newADS = new PrintableAttachment();
+            newADS.setData(attachmentfile.getData());
+            newADS.setType(attachmentfile.getType());
+            newADS.setName(attachmentfile.getName());
+            genericAtts.add(newADS);
+        }
+        downloadAllAttachments(genericAtts, response, negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationId() + "-Attachments.zip");
 
         return null;
     }

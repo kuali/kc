@@ -100,3 +100,33 @@ input.align-right {
 .changedResetBtn:hover {
 	cursor: pointer;
 }
+
+div.innerTab-incomplete-attachment {
+	background-color:#c11b1e;
+	border-bottom:1px solid #B2B2B2;
+	border-left:0px solid #999999;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-size: 100%;
+	height:18px;
+	padding-left:10px;
+	text-align:left;
+}
+
+.upload-file-container {
+	position: relative;
+	width: 61px;
+	height: 15px;
+	overflow: hidden;
+}
+
+.upload-file-container input {
+	filter: alpha(opacity=0);
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	font-size: 100px;
+	margin: 0;
+	padding: 0;
+	border: none;
+}

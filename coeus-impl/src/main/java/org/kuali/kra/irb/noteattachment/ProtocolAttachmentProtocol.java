@@ -31,8 +31,10 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentProtocolBase {
     private static final String GROUP_CODE = "1";
 
     public static final String INCOMPLETE_STATUS_CODE = "1";
-    public static final String COMPLETE_STATUS_CODE = "2";    
-    
+    public static final String COMPLETE_STATUS_CODE = "2";
+
+    private boolean selected;
+
     /**
      * empty ctor to satisfy JavaBean convention.
      */
@@ -85,5 +87,13 @@ public class ProtocolAttachmentProtocol extends ProtocolAttachmentProtocolBase {
     
     public void setDeleted() {
         documentStatusCode = ProtocolAttachmentStatus.DELETED;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

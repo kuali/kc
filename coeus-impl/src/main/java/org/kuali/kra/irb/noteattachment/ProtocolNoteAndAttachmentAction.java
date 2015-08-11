@@ -18,24 +18,21 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
-import org.kuali.coeus.common.framework.print.Printable;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.PrintableAttachment;
 import org.kuali.coeus.common.framework.print.watermark.WatermarkConstants;
-import org.kuali.coeus.common.framework.print.watermark.WatermarkService;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
-import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.sys.framework.util.CollectionUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
@@ -48,6 +45,8 @@ import javax.mail.internet.HeaderTokenizer;
 import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the Struts Action for Notes &amp; Attachments page(ProtocolNoteAndAttachment.jsp).
@@ -101,7 +100,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Method called when viewing an attachment protocol.
      * 
@@ -116,7 +115,72 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             HttpServletResponse response) throws Exception {
         return this.viewAttachment(mapping, (ProtocolForm) form, request, response);
     }
-    
+
+    public ActionForward downloadSelectedAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm pForm = (ProtocolForm) form;
+        List<ProtocolAttachmentProtocolBase> downloadAttachments = new ArrayList<ProtocolAttachmentProtocolBase>();
+        for (ProtocolAttachmentProtocolBase attachmentBase : pForm.getProtocolDocument().getProtocol().getAttachmentProtocols()) {
+            ProtocolAttachmentProtocol attachment = (ProtocolAttachmentProtocol) attachmentBase;
+            if (attachment.isSelected()) {
+                downloadAttachments.add(attachment);
+            }
+            attachment.setSelected(false);
+        }
+        return this.downloadAttachments(downloadAttachments, mapping, pForm, response);
+    }
+
+    public ActionForward downloadAllAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm pForm = (ProtocolForm) form;
+        return this.downloadAttachments(pForm.getProtocolDocument().getProtocol().getAttachmentProtocols(), mapping, pForm, response);
+    }
+
+    public ActionForward downloadAttachments(List<ProtocolAttachmentProtocolBase> attachments, ActionMapping mapping, ProtocolForm form, HttpServletResponse response) throws Exception {
+        List<AttachmentDataSource> attachmentList = new ArrayList<AttachmentDataSource>();
+        for (ProtocolAttachmentProtocolBase attachment : attachments) {
+            if (attachment.isActive()) {
+                AttachmentDataSource genAtt = new PrintableAttachment();
+                genAtt.setName(attachment.getFile().getName());
+                genAtt.setType(attachment.getFile().getType());
+                genAtt.setData(attachment.getFile().getData());
+                if (attachment.getFile().getData() != null) {
+                    byte[] watermarkData = getProtocolAttachmentFile(form, ((ProtocolAttachmentProtocol) attachment));
+                    if (watermarkData != null) {
+                        genAtt.setData(watermarkData);
+                    }
+                }
+                attachmentList.add(genAtt);
+            }
+        }
+
+        if (CollectionUtils.isNotEmpty(attachmentList)) {
+            String zipName = form.getProtocolDocument().getProtocol().getProtocolNumber() + "-Attachments.zip";
+            super.downloadAllAttachments(attachmentList, response, zipName);
+            return RESPONSE_ALREADY_HANDLED;
+        }
+        return mapping.findForward("basic");
+    }
+
+    public ActionForward uploadZip(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProtocolForm pForm = (ProtocolForm) form;
+        NotesAttachmentsHelper attachmentHelper = pForm.getNotesAttachmentsHelper();
+        List<AttachmentDataSource> zipEntries = null;
+
+        if (attachmentHelper.getZipUpload() != null) {
+            zipEntries = super.getZipFiles(attachmentHelper.getZipUpload());
+        }
+
+        for (AttachmentDataSource zipEntry : zipEntries) {
+            AttachmentFile unzippedFile = new AttachmentFile(zipEntry.getName(), zipEntry.getType(), zipEntry.getData());
+            ProtocolAttachmentProtocol newAttachment = new ProtocolAttachmentProtocol(pForm.getProtocolDocument().getProtocol());
+            newAttachment.setVersions(new ArrayList<ProtocolAttachmentProtocolBase>());
+            newAttachment.refresh();
+            newAttachment.setFile(unzippedFile);
+            pForm.getNotesAttachmentsHelper().addIncompleteAttachment(newAttachment);
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
     /**
      * Method called when deleting an attachment protocol.
      * 
@@ -145,7 +209,9 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     private boolean isValidContactData(org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase attachment, String errorPath) {
         MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.addToErrorPath(errorPath);
-        getDictionaryValidationService().validateBusinessObject(attachment);
+        if (attachment.getId() != null) {
+            getDictionaryValidationService().validateBusinessObject(attachment);
+        }
         errorMap.removeFromErrorPath(errorPath);
         return errorMap.hasNoErrors();
     
@@ -261,7 +327,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             HttpServletResponse response) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        ProtocolAttachmentProtocol attachment = (ProtocolAttachmentProtocol) CollectionUtils.getFromList(selection, form.getProtocolDocument().getProtocol().getAttachmentProtocols());
+        ProtocolAttachmentProtocol attachment = (ProtocolAttachmentProtocol) CollectionUtils.get(form.getProtocolDocument().getProtocol().getAttachmentProtocols(), selection);
                
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
@@ -287,40 +353,6 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         
         return RESPONSE_ALREADY_HANDLED;
     }
-    
-    /**
-     * 
-     * This method for set the attachment with the watermark which selected  by the client .
-     */
-    private byte[] getProtocolAttachmentFile(ProtocolForm form, ProtocolAttachmentProtocol attachment){
-        
-        byte[] attachmentFile =null;
-        final AttachmentFile file = attachment.getFile();
-        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-        Protocol protocolCurrent = (Protocol) form.getProtocolDocument().getProtocol();
-        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
-        try {
-            if(printableArtifacts.isWatermarkEnabled()){
-                int currentAttachmentSequence=attachment.getSequenceNumber();
-                String docStatusCode=attachment.getDocumentStatusCode();
-                String statusCode=attachment.getStatusCode();
-                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
-                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-                    if (ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(statusCode)) {
-                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                    }
-                }else{
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
-                }
-            }
-        }
-        catch (Exception e) {
-            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
-        }        
-        return attachmentFile;
-    }
-    
     
     /**
      * Quotes a string that follows RFC 822 and is valid to include in an http header.
@@ -449,27 +481,5 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
-    
-    /**
-     * This method is to get protocol printing service.
-     * 
-     */
-    private ProtocolPrintingService getProtocolPrintingService() {
-        return KcServiceLocator.getService(ProtocolPrintingService.class);
-    }
-    
-    /**
-     * 
-     * This method is to get Protocol Attachment Service.
-     */    
-    private ProtocolAttachmentService getProtocolAttachmentService() {
-        return KcServiceLocator.getService(ProtocolAttachmentService.class);
-    }
-    
-    /**
-     * This method is to get Watermark Service. 
-     */
-    private WatermarkService getWatermarkService() {
-        return  KcServiceLocator.getService(WatermarkService.class);
-    }
+
 }

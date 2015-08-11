@@ -24,6 +24,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.common.framework.attachment.AttachmentDocumentStatus;
 import org.kuali.coeus.common.framework.attachment.AttachmentFile;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
+import org.kuali.coeus.common.framework.print.PrintableAttachment;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
@@ -38,15 +40,17 @@ import org.kuali.kra.award.notesandattachments.notes.AwardNoteAddEvent;
 import org.kuali.kra.award.notesandattachments.notes.AwardNoteEventBase.ErrorType;
 import org.kuali.kra.award.notesandattachments.notes.AwardNotepadBean;
 import org.kuali.kra.award.rule.event.AddAwardAttachmentEvent;
+import org.kuali.kra.award.service.impl.AwardCommentServiceImpl;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.award.service.impl.AwardCommentServiceImpl;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -173,7 +177,28 @@ public class AwardNotesAndAttachmentsAction extends AwardAction {
         
         return RESPONSE_ALREADY_HANDLED;
     }
-    
+
+    public ActionForward downloadAllAwardAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                                     HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDoc = awardForm.getAwardDocument();
+        List<AwardAttachment> attachments = awardDoc.getAward().getAwardAttachments();
+        List <AttachmentDataSource> genericAtts = new ArrayList<AttachmentDataSource>();
+
+        for(AwardAttachment attachment: attachments) {
+            AttachmentFile attachmentfile = attachment.getFile();
+
+            AttachmentDataSource newADS = new PrintableAttachment();
+            newADS.setData(attachmentfile.getData());
+            newADS.setType(attachmentfile.getType());
+            newADS.setName(attachmentfile.getName());
+            genericAtts.add(newADS);
+        }
+        downloadAllAttachments(genericAtts, response, awardDoc.getAward().getAwardNumber() + "-Attachments.zip");
+
+        return RESPONSE_ALREADY_HANDLED;
+    }
+
     /**
      * Method called when deleting an attachment personnel.
      * 

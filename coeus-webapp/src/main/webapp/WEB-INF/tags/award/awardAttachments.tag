@@ -221,6 +221,15 @@ opacity:1;
 					</td>
 	         	</tr>
 			</c:forEach>
-		</table>
+		   	<tr id="award-attachment-download-all">
+			   <td colspan="7" class="infoline">
+				   <div align="center">
+					   <html:image property="methodToCall.downloadAllAwardAttachments"
+								   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-save-all.gif' styleClass="tinybutton"
+								   alt="Save All Award Attachments" onclick="excludeSubmitRestriction = true;" />
+				   </div>
+			   </td>
+		   	</tr>
+	   </table>
      </div>		
 </kul:tab>

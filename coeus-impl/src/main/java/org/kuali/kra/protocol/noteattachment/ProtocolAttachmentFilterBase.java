@@ -88,7 +88,9 @@ class ProtocolAttachmentComparatorFactory {
     {
     
         public int compare(ProtocolAttachmentProtocolBase o1, ProtocolAttachmentProtocolBase o2) {
-            return o1.getType().getDescription().compareTo(o2.getType().getDescription());
+            String o1Desc = o1.getType() == null ? "" : o1.getType().getDescription();
+            String o2Desc = o2.getType() == null ? "" : o2.getType().getDescription();
+            return o1Desc.compareTo(o2Desc);
         }
         
     }

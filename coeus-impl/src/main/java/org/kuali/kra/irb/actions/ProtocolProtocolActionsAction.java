@@ -874,42 +874,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
         return RESPONSE_ALREADY_HANDLED;
     }
-    /**
-     * 
-     * This method for set the attachment with the watermark which selected  by the client .
-     * @param form form
-     * @param attachment attachment
-     * @return attachment file
-     */
-    private byte[] getProtocolAttachmentFile(ProtocolForm form,ProtocolAttachmentProtocol attachment) {
-        
-        byte[] attachmentFile =null;
-        final AttachmentFile file = attachment.getFile();
-        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-        Protocol protocolCurrent = form.getProtocolDocument().getProtocol();
-        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
-        try {
-            if(printableArtifacts.isWatermarkEnabled()){
-                int currentAttachmentSequence=attachment.getSequenceNumber();
-                String docStatusCode=attachment.getDocumentStatusCode();
-                String statusCode=attachment.getStatusCode();
-                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
-                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-                    if (ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(statusCode)) {
-                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                    }
-                }else{
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
-                }
-            }
-        }catch (Exception e) {
-            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
-        }        
-        return attachmentFile;
-    }
-    
-    
     
     /**
      * Filters the actions shown in the History sub-panel, first validating the dates before filtering and refreshing the page.
@@ -1840,10 +1804,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return printable;
     }
 
-    private ProtocolPrintingService getProtocolPrintingService() {
-        return KcServiceLocator.getService(ProtocolPrintingService.class);
-    }
-
     /**
      * Adds a risk level to the bean indicated by the task name in the request.
      * 
@@ -2096,10 +2056,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private boolean hasPermission(String taskName, Protocol protocol) {
         ProtocolTask task = new ProtocolTask(taskName, protocol);
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
-    }
-    
-    private ProtocolAttachmentService getProtocolAttachmentService() {
-        return KcServiceLocator.getService(ProtocolAttachmentService.class);
     }
     
     private TaskAuthorizationService getTaskAuthorizationService() {
@@ -2584,12 +2540,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     private FollowupActionService getFollowupActionService() {
         return KcServiceLocator.getService(FollowupActionService.class);
-    }
-    /**
-     * This method is to get Watermark Service. 
-     */
-    private WatermarkService getWatermarkService() {
-        return  KcServiceLocator.getService(WatermarkService.class);
     }
 
     /**

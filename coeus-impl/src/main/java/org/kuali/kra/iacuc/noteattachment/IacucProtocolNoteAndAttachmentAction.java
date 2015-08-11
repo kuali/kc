@@ -308,42 +308,6 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
         
         return confirm(confirm, confirmMethod, CONFIRM_NO_DELETE);
     }
-
-    /**
-     * 
-     * This method for set the attachment with the watermark which selected  by the client .
-     * @param protocolForm form
-     * @param protocolAttachmentBase attachment
-     * @return attachment file
-     */
-    private byte[] getProtocolAttachmentFile(ProtocolFormBase form, ProtocolAttachmentProtocolBase attachment){
-        
-        byte[] attachmentFile =null;
-        final AttachmentFile file = attachment.getFile();
-        Printable printableArtifacts = getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-        ProtocolBase protocolCurrent = form.getProtocolDocument().getProtocol();
-        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
-        try {
-            if(printableArtifacts.isWatermarkEnabled()){
-                int currentAttachmentSequence=attachment.getSequenceNumber();
-                String docStatusCode=attachment.getDocumentStatusCode();
-                String statusCode=attachment.getStatusCode();
-                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
-                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-                    if (ProtocolAttachmentProtocolBase.COMPLETE_STATUS_CODE.equals(statusCode)) {
-                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                    }
-                }else{
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
-                }
-            }
-        }
-        catch (Exception e) {
-            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
-        }        
-        return attachmentFile;
-    }
     
     /**
      * Methods called when adding/editing/deleting notes.
@@ -450,28 +414,6 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
     
     protected DictionaryValidationService getDictionaryValidationService() {
         return KNSServiceLocator.getKNSDictionaryValidationService();
-    }  
-    
-    /**
-     * This method is to get Watermark Service. 
-     */
-    private WatermarkService getWatermarkService() {
-        return  KcServiceLocator.getService(WatermarkService.class);
     }
-    
-    /**
-     * This method is to get protocol printing service.
-     * 
-     */
-    private IacucProtocolPrintingService getProtocolPrintingService() {
-        return KcServiceLocator.getService(IacucProtocolPrintingService.class);
-    }
-    
-    /**
-     * 
-     * This method is to get ProtocolBase Attachment Service.
-     */    
-    private ProtocolAttachmentService getProtocolAttachmentService() {
-        return KcServiceLocator.getService("iacucProtocolAttachmentService");
-    }    
+
 }
