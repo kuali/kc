@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Fix award budget data issue
+  * Gayathri Athreya on Tue, 11 Aug 2015 14:14:31 -0700 [View Commit](../../commit/385e3473f65bb238cbf5e242d62ea0c095c6398c)
+
+##coeus-1508.19
 * Fix award budget issues related to foreign keys
 
   * and budget calculation and line item deletion.
