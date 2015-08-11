@@ -34,6 +34,7 @@ import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.workflow.KcDocumentRejectionService;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetPeriodExt;
+import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
@@ -85,6 +86,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -242,7 +244,7 @@ public class BudgetAction extends BudgetActionBase {
     }
 
     private BudgetCalculationService getBudgetCalculationService() {
-		return KcServiceLocator.getService(BudgetCalculationService.class);
+		return KcServiceLocator.getService(AwardBudgetCalculationService.class);
 	}
 
 	protected BudgetSummaryService getBudgetSummaryService() {

@@ -58,7 +58,6 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="budgetSummaryService" ref="budgetSummaryService" />
-        <property name="budgetCalculationService" ref="budgetCalculationService" />
         <property name="awardBudgetCalculationService" ref="awardBudgetCalculationService" />
         <property name="versionHistoryService" ref="versionHistoryService" />
         <property name="awardService" ref="awardService" />

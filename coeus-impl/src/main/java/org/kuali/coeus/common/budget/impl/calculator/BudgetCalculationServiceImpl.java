@@ -150,19 +150,26 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         final boolean isLineItemsEmpty = budgetPeriod.getBudgetLineItems().isEmpty();
         
         if(isLineItemsEmpty && !budgetLineItemDeleted){
-            final Map<String, Object> fieldValues = new HashMap<>();
-
-            fieldValues.put("budgetId", budgetPeriod.getBudgetId());
-            fieldValues.put("budgetPeriod", budgetPeriod.getBudgetPeriod());
-            
-
-            final Collection<BudgetLineItem> deletedLineItems
-                = this.dataObjectService.findMatching(BudgetLineItem.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
+            final Collection<? extends BudgetLineItem> deletedLineItems = getLineItemsFromDatabase(budgetPeriod);
             return !deletedLineItems.isEmpty();
         }
             
         return true;
     }
+	
+    protected Collection<? extends BudgetLineItem> getLineItemsFromDatabase(
+			final BudgetPeriod budgetPeriod) {
+		final Map<String, Object> fieldValues = new HashMap<>();
+
+		fieldValues.put("budgetId", budgetPeriod.getBudgetId());
+		fieldValues.put("budgetPeriod", budgetPeriod.getBudgetPeriod());
+		
+
+		final Collection<? extends BudgetLineItem> deletedLineItems
+		    = this.dataObjectService.findMatching(BudgetLineItem.class, QueryByCriteria.Builder.andAttributes(fieldValues).build()).getResults();
+		return deletedLineItems;
+	}
+	
     protected void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
     	budgetPersonnelDetails.setBudget(budgetLineItem.getBudget());
         budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());

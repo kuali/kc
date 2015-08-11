@@ -121,4 +121,6 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
     void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod);
 
     void populateSummaryCalcAmounts(Budget budget,BudgetPeriod budgetPeriod);
+    
+    AwardBudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException;
 }
