@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Trying to fix lazy loading elements in rates
+  * Gayathri Athreya on Mon, 10 Aug 2015 15:50:31 -0700 [View Commit](../../commit/50c482315d450786628caad21deea283e046da3b)
+
+##coeus-1508.16
 *  allowing whitespace in attachment names
   * Travis Schneeberger on Mon, 10 Aug 2015 15:18:44 -0400 [View Commit](../../commit/21e02df9ac57ee33a54805bd7b3ccd557f8f9c8d)
 *  allowing the attachment tab to load with an attachment and in read only mode
