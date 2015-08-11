@@ -120,13 +120,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
     
     @Override
     public GenericProtocolDocument copyProtocol(GenericProtocolDocument srcDoc, String protocolNumber, boolean isAmendmentRenewal) throws Exception {
-        GenericProtocolDocument newDoc = createNewProtocol(srcDoc, protocolNumber, isAmendmentRenewal);
-        
-        documentService.saveDocument(newDoc);
-            
-        // Can't initialize authorization until a protocol is saved
-        // and we have a new protocol number.
-            
+        GenericProtocolDocument newDoc = createNewProtocol(srcDoc, protocolNumber, isAmendmentRenewal);        
         initializeAuthorization(srcDoc, newDoc);
 
         return newDoc;
@@ -163,7 +157,6 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
             removeDeletedAttachment(newDoc.getProtocol());
             
         }
-        newDoc.getProtocol().setProtocolNumber(protocolNumber);
         copyCustomDataAttributeValues(srcDoc, newDoc);
         
         org.kuali.kra.protocol.actions.ProtocolActionBase protocolAction = getProtocolActionNewInstanceHook(newDoc.getProtocol(), null, getProtocolActionProtocolCreatedCodeHook());
@@ -181,10 +174,6 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
             }
         } else {
             initPersonAttachments(newDoc.getProtocol());
-        }
-        documentService.saveDocument(newDoc); 
-        if (isAmendmentRenewal) {
-            refreshAttachmentsPersonnels(newDoc.getProtocol());
         }
         
         return newDoc;
