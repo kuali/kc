@@ -36,7 +36,10 @@ import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.coeus.common.budget.framework.core.AbstractBudget;
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetCommonService;
+import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.core.BudgetService;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRate;
 import org.kuali.coeus.common.budget.framework.rate.BudgetRatesService;
@@ -51,6 +54,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -315,7 +319,15 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDoc = awardForm.getAwardDocument();
         Budget budgetToCopy = getSelectedVersion(awardForm, request);
-        copyBudget(awardDoc.getBudgetParent(), budgetToCopy, copyPeriodOneOnly);
+        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
+		AwardBudgetDocument budgetDocToCopy = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
+		
+		AwardBudgetDocument newBudget = getAwardBudgetService().copyBudgetVersion(budgetDocToCopy, copyPeriodOneOnly);
+		awardDoc.getAward().getBudgets().add(newBudget.getAwardBudget());
+		awardDoc.getAward().getCurrentVersionBudgets().add(newBudget.getAwardBudget());
+        newBudget.getBudget().setNameUpdatable(true);
+        newBudget.getBudget().setName(budgetToCopy.getName() + " " 
+                                                + budgetToCopy.getBudgetVersionNumber() + " copy");
     }
     
     private StrutsConfirmation syncBudgetRateConfirmationQuestion(ActionMapping mapping, ActionForm form,

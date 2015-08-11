@@ -117,7 +117,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     private DocumentService documentService;
     private BudgetSummaryService budgetSummaryService;
-    private BudgetCalculationService budgetCalculationService;
     private AwardBudgetCalculationService awardBudgetCalculationService;
     private VersionHistoryService versionHistoryService;
     private AwardService awardService;
@@ -129,12 +128,8 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         processStatusChange(awardBudgetDocument, KeyConstants.AWARD_BUDGET_STATUS_POSTED);
         saveDocument(awardBudgetDocument);
     }
-    
-    /**
-     * Need to move this to AwardBudgetService service
-     */
-    
-    protected AwardBudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
+
+    public AwardBudgetDocument copyBudgetVersion(AwardBudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
         AwardDocument awardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
 		String parentDocumentNumber = awardDocument.getDocumentNumber();
         budgetDocument.toCopy();
@@ -147,6 +142,11 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         AwardBudgetExt copiedBudget = (AwardBudgetExt) copyBudgetVersion(budget,onlyOnePeriod);
         budgetDocument.getBudgets().add(copiedBudget);
         budgetDocument = (AwardBudgetDocument) documentService.saveDocument(budgetDocument);
+        
+        Map<String, Object> objectMap = new HashMap<>();
+        fixProperty(budget, "setBudgetId", Long.class, budgetDocument.getBudget().getBudgetId(), objectMap);
+        objectMap.clear();
+        
         budgetDocument = saveBudgetDocument(budgetDocument, false);
         AwardDocument savedAwardDocument = (AwardDocument)budgetDocument.getBudget().getBudgetParent().getDocument();
         savedAwardDocument.refreshBudgetDocumentVersions();
@@ -946,17 +946,17 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
         for (BudgetPeriod budgetPeriod : awardBudgetPeriods) {
             removeBudgetSummaryPeriodCalcAmounts(budgetPeriod);
         }
-        budgetCalculationService.calculateBudget(budget);
-        budgetCalculationService.calculateBudgetSummaryTotals(budget);
+        awardBudgetCalculationService.calculateBudget(budget);
+        awardBudgetCalculationService.calculateBudgetSummaryTotals(budget);
     }
     public void recalculateBudgetPeriod(Budget budget,BudgetPeriod budgetPeriod) {
         removeBudgetSummaryPeriodCalcAmounts(budgetPeriod);
-        budgetCalculationService.calculateBudgetPeriod(budget, budgetPeriod);
+        awardBudgetCalculationService.calculateBudgetPeriod(budget, budgetPeriod);
     }
 
     public void calculateBudgetOnSave(Budget budget) {
-        budgetCalculationService.calculateBudget(budget);
-        budgetCalculationService.calculateBudgetSummaryTotals(budget);
+    	awardBudgetCalculationService.calculateBudget(budget);
+    	awardBudgetCalculationService.calculateBudgetSummaryTotals(budget);
         List<BudgetPeriod> awardBudgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod awardBudgetPeriod : awardBudgetPeriods) {
             AwardBudgetPeriodExt budgetPeriod = (AwardBudgetPeriodExt)awardBudgetPeriod;
@@ -1181,14 +1181,6 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
 
     public void setAwardBudgetCalculationService(AwardBudgetCalculationService awardBudgetCalculationService) {
         this.awardBudgetCalculationService = awardBudgetCalculationService;
-    }
-
-    protected BudgetCalculationService getBudgetCalculationService() {
-        return budgetCalculationService;
-    }
-
-    public void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
-        this.budgetCalculationService = budgetCalculationService;
     }
 
     protected AwardService getAwardService() {

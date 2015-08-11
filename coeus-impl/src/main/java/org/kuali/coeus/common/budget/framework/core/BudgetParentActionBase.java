@@ -42,30 +42,6 @@ public class BudgetParentActionBase extends KcTransactionalDocumentActionBase {
     private BudgetService budgetService;
     private BudgetRatesService budgetRatesService;
     
-    /**
-     * Copy the given budget version and add it to the given proposal.
-     *
-     * @param copyPeriodOneOnly if only the first budget period is to be copied
-     */
-    @SuppressWarnings("unchecked")
-    protected void copyBudget(BudgetParent budgetParent, Budget budgetToCopy, boolean copyPeriodOneOnly)
-    throws WorkflowException {
-        DocumentService documentService = KcServiceLocator.getService(DocumentService.class);
-        AwardBudgetDocument budgetDocToCopy = (AwardBudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
-        Budget budget = budgetDocToCopy.getBudget();
-
-        BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParent);
-        Budget newBudget = budgetService.copyBudgetVersion(budget, copyPeriodOneOnly);
-        List<? extends AbstractBudget> budgetVersions = budgetParent.getBudgets();
-        for (AbstractBudget versionOverview : budgetVersions) {
-            if(versionOverview.getBudgetVersionNumber().intValue()==budget.getBudgetVersionNumber().intValue()){
-                versionOverview.setNameUpdatable(true);
-                versionOverview.setName(budgetToCopy.getName() + " " 
-                                                        + budgetToCopy.getBudgetVersionNumber() + " copy");
-            }
-        }
-    }
-
     private BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParent parentBudget) {
         return BudgetCommonServiceFactory.createInstance(parentBudget);
     }
