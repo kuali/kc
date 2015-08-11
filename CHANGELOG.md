@@ -1,6 +1,22 @@
 
 
 ##CURRENT
+* Fix award budget issues related to foreign keys
+
+  * and budget calculation and line item deletion.
+
+  * Caused by: java.lang.NullPointerException
+	at org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpensesAuditRule.processRunAuditBusinessRules(BudgetExpensesAuditRule.java:130)
+	... 102 more
+
+  * and
+
+  * Caused by: javax.persistence.PersistenceException: Exception [EclipseLink-43] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DescriptorException
+  * Exception Description: Missing class for indicator field value [AWRD] of type [class java.lang.String].
+  * Descriptor: RelationalDescriptor(org.kuali.coeus.common.budget.framework.core.Budget --> [DatabaseTable(BUDGET)])
+  * blackcathacker on Tue, 11 Aug 2015 12:24:15 -0700 [View Commit](../../commit/d4eb56ca2f7f18560afb30f4d762aff72ad57c00)
+
+##coeus-1508.18
 * IRB - Create Amendment - Duplicate persons
 
   * When creating an IRB protocol, the document is saved multiple times and the personnel are copied and merged multiple times and it appears that the deletion aware lists don't work properly within the same transaction. Removing the unnecessary saves clears that up.
