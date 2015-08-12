@@ -39,7 +39,7 @@
             <th>Award Version</th>
             <th>Proposal Version</th>
             <th><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" noColon="true" /></th>
-            <c:if test="${!readOnly}">
+            <c:if test="${!readOnly && KualiForm.document.institutionalProposal.awardFundingProposalsExist}">
                 <th>Actions</th>
             </c:if>
         </tr>
@@ -49,7 +49,7 @@
                 <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.allFundingProposals[${status.index}].award.sequenceNumber" attributeEntry="${awardAttributes.sequenceNumber}" readOnly="true"/></div></td>
                 <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.allFundingProposals[${status.index}].proposal.sequenceNumber" attributeEntry="${institutionalProposalAttributes.proposalNumber}" readOnly="true"/></div></td>
                 <td><div align="center"><kul:htmlControlAttribute property="document.institutionalProposal.allFundingProposals[${status.index}].award.accountNumber" attributeEntry="${awardAttributes.accountNumber}" readOnly="true"/></div></td>
-                <c:if test="${!readOnly}">
+                <c:if test="${!readOnly && KualiForm.document.institutionalProposal.awardFundingProposalsExist}">
                     <td>
                         <div align="center">
                             <html:multibox property="selectedAwardFundingProposals" value="${status.index}" />

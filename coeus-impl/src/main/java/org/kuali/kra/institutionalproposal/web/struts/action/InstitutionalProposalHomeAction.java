@@ -28,7 +28,6 @@ import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.keyword.KeywordsService;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -57,7 +56,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -313,8 +311,6 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
                                                                                                          IOException {
 
         InstitutionalProposalDocument newInstitutionalProposalDocument = getInstitutionalProposalService().createAndSaveNewVersion(institutionalProposal, institutionalProposalDocument);
-        newInstitutionalProposalDocument.getInstitutionalProposal().setAllFundingProposals(transferFundingProposals(institutionalProposal, newInstitutionalProposalDocument.getInstitutionalProposal()));
-        getBusinessObjectService().save(newInstitutionalProposalDocument.getInstitutionalProposal().getAllFundingProposals());
         reinitializeForm(institutionalProposalForm, newInstitutionalProposalDocument);
        
         return new ActionRedirect(buildForwardUrl(newInstitutionalProposalDocument.getDocumentNumber()));
@@ -372,6 +368,34 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         document.setInstitutionalProposal(institutionalProposal);
         return document;
     }
+
+    @Override
+    public ActionForward downloadBOAttachment(ActionMapping mapping,
+                                              ActionForm form, HttpServletRequest request,
+                                              HttpServletResponse response) throws Exception {
+        int attachmentIndex = selectedAttachmentIndex(request);
+        InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
+        InstitutionalProposalDocument institutionalProposalDocument = ipForm.getInstitutionalProposalDocument();
+        if (!WebUtils.canViewNoteAttachment(institutionalProposalDocument, null)) {
+            throw new AuthenticationException("Unable to view attachment.");
+        }
+        List<InstitutionalProposalNotepad> notepads = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalNotepads();
+
+        InstitutionalProposalNotepad noteParent = notepads.get(attachmentIndex);
+
+
+        if (attachmentIndex >= 0) {
+            Attachment attachment = noteParent.getAttachments().get(0).getAttachment();
+            // since we're downloading a file, all of the editable properties from the previous request will continue to be editable.
+            KualiDocumentFormBase documentForm = (KualiDocumentFormBase) form;
+            documentForm.copyPopulateEditablePropertiesToActionEditableProperties();
+
+            WebUtils.saveMimeInputStreamAsFile(response, attachment.getAttachmentMimeTypeCode(), attachment.getAttachmentContents(), attachment.getAttachmentFileName(), attachment.getAttachmentFileSize().intValue());
+            return null;
+        }
+
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
     
     protected VersioningService getVersioningService() {
         if (versioningService == null) {
@@ -417,46 +441,5 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
-    }
-    
-    @Override
-    public ActionForward downloadBOAttachment(ActionMapping mapping,
-            ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        int attachmentIndex = selectedAttachmentIndex(request);
-        InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
-        InstitutionalProposalDocument institutionalProposalDocument = ipForm.getInstitutionalProposalDocument();
-        if (!WebUtils.canViewNoteAttachment(institutionalProposalDocument, null)) {
-            throw new AuthenticationException("Unable to view attachment.");
-        }
-        List<InstitutionalProposalNotepad> notepads = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalNotepads();
-        
-        InstitutionalProposalNotepad noteParent = notepads.get(attachmentIndex);
-
-
-        if (attachmentIndex >= 0) {
-            Attachment attachment = noteParent.getAttachments().get(0).getAttachment();
-            // since we're downloading a file, all of the editable properties from the previous request will continue to be editable.
-            KualiDocumentFormBase documentForm = (KualiDocumentFormBase) form;
-            documentForm.copyPopulateEditablePropertiesToActionEditableProperties();
-            
-            WebUtils.saveMimeInputStreamAsFile(response, attachment.getAttachmentMimeTypeCode(), attachment.getAttachmentContents(), attachment.getAttachmentFileName(), attachment.getAttachmentFileSize().intValue());
-            return null;
-        }
-        
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);    
-    }
-
-    /*
-     * copy AwardFundingProposal objects from old IP to new one, deactivating old ones in the process.
-     */
-    private List<AwardFundingProposal> transferFundingProposals(InstitutionalProposal oldIP, InstitutionalProposal newIP) {
-        final List<AwardFundingProposal> newFundingProposals = new ArrayList<>();
-        oldIP.getAwardFundingProposals().forEach(afpp -> {
-            newFundingProposals.add(new AwardFundingProposal(afpp.getAward(), newIP));
-            afpp.setActive(false);
-        });
-        getBusinessObjectService().save(oldIP.getAwardFundingProposals());
-        return newFundingProposals;
     }
 }

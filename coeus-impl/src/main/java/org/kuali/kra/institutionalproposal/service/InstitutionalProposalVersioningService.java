@@ -25,8 +25,6 @@ import org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview;
 
 public interface InstitutionalProposalVersioningService {
     
-    // InstitutionalProposal createNewInstitutionalProposalVersion(InstitutionalProposal currentProposalVersion) throws VersionException;
-    
     IntellectualPropertyReview createNewIntellectualPropertyReviewVersion(IntellectualPropertyReview intellectualPropertyReview) throws VersionException;
 
     void updateInstitutionalProposalVersionStatus(InstitutionalProposal proposalToUpdate, VersionStatus versionStatus);

@@ -37,12 +37,14 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
     
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
-    
+
+    @Override
     public IntellectualPropertyReview createNewIntellectualPropertyReviewVersion(IntellectualPropertyReview intellectualPropertyReview)
     throws VersionException {
         return versioningService.createNewVersion(intellectualPropertyReview);
     }
-    
+
+    @Override
     public void updateInstitutionalProposalVersionStatus(InstitutionalProposal proposalToUpdate, VersionStatus versionStatus) {
         if (versionStatus.equals(VersionStatus.ACTIVE)) {
             archiveCurrentActiveProposal(proposalToUpdate.getProposalNumber());
@@ -51,7 +53,8 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
         proposalToUpdate.setProposalSequenceStatus(versionStatus.toString());
         businessObjectService.save(proposalToUpdate);
     }
-    
+
+    @Override
     public InstitutionalProposal getPendingInstitutionalProposalVersion(String proposalNumber) {
         List<InstitutionalProposal> results = findProposalsByStatus(proposalNumber, VersionStatus.PENDING);
         if (!results.isEmpty()) {
@@ -60,7 +63,8 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
         }
         return null;
     }
-    
+
+    @Override
     public InstitutionalProposal getActiveInstitutionalProposalVersion(String proposalNumber) {
         List<InstitutionalProposal> results = findProposalsByStatus(proposalNumber, VersionStatus.ACTIVE);
         if (!results.isEmpty()) {
@@ -76,20 +80,17 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
             // There should only be one active version at a time
             InstitutionalProposal proposalToArchive = results.get(0);
             proposalToArchive.setProposalSequenceStatus(VersionStatus.ARCHIVED.toString());
-            proposalToArchive.deactivateFundingProposals();
             proposalToArchive.setAllowUpdateTimestampToBeReset(false);
             businessObjectService.save(proposalToArchive);
         }
     }
-    
-    @SuppressWarnings("unchecked")
+
     protected List<InstitutionalProposal> findProposalsByStatus(String proposalNumber, VersionStatus versionStatus) {
-        Map<String, String> criteria = new HashMap<String, String>();
+        Map<String, String> criteria = new HashMap<>();
         criteria.put(InstitutionalProposal.PROPOSAL_NUMBER_PROPERTY_STRING, proposalNumber);
         criteria.put(InstitutionalProposal.PROPOSAL_SEQUENCE_STATUS_PROPERTY_STRING, versionStatus.toString());
-        List<InstitutionalProposal> results = new ArrayList<InstitutionalProposal>(
+        return new ArrayList<>(
                 businessObjectService.findMatching(InstitutionalProposal.class, criteria));
-        return results;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
