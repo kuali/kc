@@ -67,7 +67,7 @@ When a project specific profile is available, it will be documented in the build
 
 > **Node Clean:**When building our api documentation, our build process will download node.js and various node dependencies.  By default, these artifacts are deleted on every mvn clean execution.  You can avoid this clean step by sending the following system parameter clean-jsfrontend-node.off on the command line.  This is useful to speed up project builds by avoiding the installation node.js on subsequent clean install iterations. 
 >
-*mvn clean install -Pclean-jsfrontend-node.off*
+*mvn clean install -Dclean-jsfrontend-node.off*
 
 All Kuali Coeus projects use standard maven conventions to build and install artifacts.  The following documents how to install source, javadoc, and primary artifacts for each maven projects.
 
