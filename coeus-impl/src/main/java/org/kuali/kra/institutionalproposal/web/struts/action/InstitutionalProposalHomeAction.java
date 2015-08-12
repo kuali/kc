@@ -28,7 +28,6 @@ import org.kuali.coeus.common.framework.attachment.KcAttachmentService;
 import org.kuali.coeus.common.framework.keyword.KeywordsService;
 import org.kuali.coeus.common.framework.auth.task.ApplicationTask;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -57,7 +56,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,26 +65,21 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     private static final String VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
     private static final String PENDING = "PENDING";
 
-    private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     private KcAttachmentService kcAttachmentService;
     private ParameterService parameterService;
     private InstitutionalProposalService institutionalProposalService;
     private InstitutionalProposalNoteAttachmentService institutionalProposalNoteAttachmentService;
-
+    private KeywordsService keywordsService;
+    private NegotiationService negotiationService;
+    private VersioningService versioningService;
+    private InstitutionalProposalVersioningService institutionalProposalVersioningService;
+    private ProposalLogService proposalLogService;
 
     public InstitutionalProposalHomeAction() {
-        institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean();
     }
 
     /**
      * This method is used to add a new Award Cost Share.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
      */
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -103,14 +96,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     }
 
     /**
-     * This method is used to update notedPad values
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
+     * This method is used to update notedPad values.
      */
     public ActionForward updateNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -119,14 +105,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     }
     
     /**
-     * This method is used to delete an existing note/attachment
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
+     * This method is used to delete an existing note/attachment.
      */
     public ActionForward deleteNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ApplicationTask task = new ApplicationTask(TaskName.ADD_IACUC_PROTOCOL_NOTES);
@@ -140,13 +119,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
 
     /**
      * 
-     * This method is for selecting all keywords if javascript is disabled on a browser. 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return Basic ActionForward
-     * @throws Exception
+     * This method is for selecting all keywords if javascript is disabled on a browser.
      */
     public ActionForward selectAllScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -154,42 +127,25 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
         List<InstitutionalProposalScienceKeyword> keywords = institutionalProposalDocument.getInstitutionalProposal().getKeywords();
-        for (InstitutionalProposalScienceKeyword institutionalProposalScienceKeyword : keywords) {
-            institutionalProposalScienceKeyword.setSelectKeyword(true);
-        }
+        keywords.stream().forEach(institutionalProposalScienceKeyword -> institutionalProposalScienceKeyword.setSelectKeyword(true));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
      * 
      * This method is to delete selected keywords from the keywords list. 
-     * It uses {@link KeywordsService} to process the request 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * It uses {@link KeywordsService} to process the request
      */
-    @SuppressWarnings("unchecked")
     public ActionForward deleteSelectedScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument institutionalProposalDocument = institutionalProposalForm.getInstitutionalProposalDocument();
-        KeywordsService keywordsService = KcServiceLocator.getService(KeywordsService.class);
-        keywordsService.deleteKeyword(institutionalProposalDocument.getInstitutionalProposal()); 
+        getKeywordService().deleteKeyword(institutionalProposalDocument.getInstitutionalProposal());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
      * This method is used to recalculate the totals on Financial panel.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return mapping forward
-     * @throws Exception
      */
     public ActionForward recalculateTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -199,12 +155,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
 
     /**
      * This takes care of populating the ScienceKeywords in keywords list after the selected Keywords returns from <code>multilookup</code>
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, 
-     *                                                                          org.apache.struts.action.ActionForm, 
-     *                                                                          javax.servlet.http.HttpServletRequest, 
-     *                                                                          javax.servlet.http.HttpServletResponse)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -226,21 +177,21 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     }
 
 
-    @SuppressWarnings("unchecked")
     protected KeywordsService getKeywordService(){
-        return KcServiceLocator.getService(KeywordsService.class);
+        if (keywordsService == null){
+            keywordsService = KcServiceLocator.getService(KeywordsService.class);
+        }
+
+        return keywordsService;
+    }
+
+    public void setKeywordsService(KeywordsService keywordsService) {
+        this.keywordsService = keywordsService;
     }
 
     /**
      * 
      * Clears the Mailing Name and Address selected from Delivery info panel.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
      */
     public ActionForward clearMailingNameAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -257,14 +208,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
      * This method is used to handle the edit button action on an ACTIVE Institutional Proposal. If no Pending version exists for the same
      * proposalNumber, a new IP version is created. If a Pending version exists, the user is prompted as to whether she would
      * like to edit the Pending version. Answering Yes results in that Pending version InstitutionalProposalDocument to be opened. Answering No 
-     * simply returns the user to the ACTIVE document screen 
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * simply returns the user to the ACTIVE document screen
      */
     public ActionForward editOrVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                         HttpServletResponse response) throws Exception {
@@ -315,10 +259,8 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         ipCmt.getInstitutionalProposal().setProposalNumber(proposalLog.getProposalNumber());
         ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().add(ipCmt);
         ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().setProposalNumber(proposalLog.getProposalNumber());
-        if (proposalLog != null) {
-            ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
-            // getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
-        }
+        ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
+
     }
 
 
@@ -335,7 +277,6 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         ActionForward forward = super.save(mapping, form, request, response);
         ProposalLog proposalLog = retrieveProposalLog(ipForm.getProposalNumber());
         if (proposalLog != null && !proposalLog.getLogStatus().equals(ProposalLogUtils.getProposalLogSubmittedStatusCode())) {
-            //  ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().doProposalLogDataFeed(proposalLog);
             getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
             this.getNegotationService().promoteProposalLogNegotiation(proposalLog.getProposalNumber(), ip.getProposalNumber());
         }
@@ -343,14 +284,21 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return forward;
     }   
     
-    private NegotiationService getNegotationService() {
-        return KcServiceLocator.getService(NegotiationService.class);
+    public NegotiationService getNegotationService() {
+        if (negotiationService == null) {
+            negotiationService = KcServiceLocator.getService(NegotiationService.class);
+        }
+        return negotiationService;
+    }
+
+    public void setNegotiationService(NegotiationService negotiationService) {
+        this.negotiationService = negotiationService;
     }
 
     private ProposalLog retrieveProposalLog(String proposalNumber) {
-        Map<String, String> criteria = new HashMap<String, String>();
+        Map<String, String> criteria = new HashMap<>();
         criteria.put("proposalNumber", proposalNumber);
-        return (ProposalLog) getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
+        return getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
     }
     
     private InstitutionalProposal findPendingVersion(String proposalNumber) {
@@ -381,13 +329,10 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
     /**
      * This method prepares the AwardForm with the document found via the Award lookup
      * Because the helper beans may have preserved a different AwardForm, we need to reset these too
-     * @param awardForm
-     * @param document
      */
     private void reinitializeForm(InstitutionalProposalForm institutionalProposalForm, InstitutionalProposalDocument document) throws WorkflowException {
         institutionalProposalForm.populateHeaderFields(document.getDocumentHeader().getWorkflowDocument());
         institutionalProposalForm.setDocument(document);
-        // document.setDocumentSaveAfterAwardLookupEditOrVersion(true);
         institutionalProposalForm.initialize();
     }
 
@@ -423,17 +368,58 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         document.setInstitutionalProposal(institutionalProposal);
         return document;
     }
+
+    @Override
+    public ActionForward downloadBOAttachment(ActionMapping mapping,
+                                              ActionForm form, HttpServletRequest request,
+                                              HttpServletResponse response) throws Exception {
+        int attachmentIndex = selectedAttachmentIndex(request);
+        InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
+        InstitutionalProposalDocument institutionalProposalDocument = ipForm.getInstitutionalProposalDocument();
+        if (!WebUtils.canViewNoteAttachment(institutionalProposalDocument, null)) {
+            throw new AuthenticationException("Unable to view attachment.");
+        }
+        List<InstitutionalProposalNotepad> notepads = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalNotepads();
+
+        InstitutionalProposalNotepad noteParent = notepads.get(attachmentIndex);
+
+
+        if (attachmentIndex >= 0) {
+            Attachment attachment = noteParent.getAttachments().get(0).getAttachment();
+            // since we're downloading a file, all of the editable properties from the previous request will continue to be editable.
+            KualiDocumentFormBase documentForm = (KualiDocumentFormBase) form;
+            documentForm.copyPopulateEditablePropertiesToActionEditableProperties();
+
+            WebUtils.saveMimeInputStreamAsFile(response, attachment.getAttachmentMimeTypeCode(), attachment.getAttachmentContents(), attachment.getAttachmentFileName(), attachment.getAttachmentFileSize().intValue());
+            return null;
+        }
+
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
     
     protected VersioningService getVersioningService() {
-        return KcServiceLocator.getService(VersioningService.class);
+        if (versioningService == null) {
+            versioningService = KcServiceLocator.getService(VersioningService.class);
+        }
+        return versioningService;
     }
     
     protected InstitutionalProposalVersioningService getInstitutionalProposalVersioningService() {
-        return KcServiceLocator.getService(InstitutionalProposalVersioningService.class);
+        if (institutionalProposalVersioningService == null){
+            institutionalProposalVersioningService = KcServiceLocator.getService(InstitutionalProposalVersioningService.class);
+        }
+        return institutionalProposalVersioningService;
     }
-    
+
+    public void setInstitutionalProposalVersioningService(InstitutionalProposalVersioningService institutionalProposalVersioningService) {
+        this.institutionalProposalVersioningService = institutionalProposalVersioningService;
+    }
+
     protected ProposalLogService getProposalLogService() {
-        return KcServiceLocator.getService(ProposalLogService.class);
+        if (proposalLogService == null) {
+            proposalLogService = KcServiceLocator.getService(ProposalLogService.class);
+        }
+        return proposalLogService;
     }
     
     public InstitutionalProposalNoteAttachmentService getInstitutionalProposalNoteAttachmentService() {
@@ -443,65 +429,17 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return institutionalProposalNoteAttachmentService;
     }
 
-    /**
-     * This method gets the attachment service
-     * @return
-     */
     protected KcAttachmentService getKcAttachmentService() {
         if(this.kcAttachmentService == null) {
             this.kcAttachmentService = KcServiceLocator.getService(KcAttachmentService.class);
         }
         return this.kcAttachmentService;
     }
-    /**
-     * Gets the parameter service.
-     * @see org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase#getParameterService()
-     */
+
     protected ParameterService getParameterService() {
         if (this.parameterService == null ) {
             this.parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
-    }
-    
-    @Override
-    public ActionForward downloadBOAttachment(ActionMapping mapping,
-            ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        int attachmentIndex = selectedAttachmentIndex(request);
-        InstitutionalProposalForm ipForm = (InstitutionalProposalForm) form;
-        InstitutionalProposalDocument institutionalProposalDocument = ipForm.getInstitutionalProposalDocument();
-        if (!WebUtils.canViewNoteAttachment(institutionalProposalDocument, null)) {
-            throw new AuthenticationException("Unable to view attachment.");
-        }
-        List<InstitutionalProposalNotepad> notepads = institutionalProposalDocument.getInstitutionalProposal().getInstitutionalProposalNotepads();
-        
-        InstitutionalProposalNotepad noteParent = notepads.get(attachmentIndex);
-
-
-        if (attachmentIndex >= 0) {
-            Attachment attachment = noteParent.getAttachments().get(0).getAttachment();
-            // since we're downloading a file, all of the editable properties from the previous request will continue to be editable.
-            KualiDocumentFormBase documentForm = (KualiDocumentFormBase) form;
-            documentForm.copyPopulateEditablePropertiesToActionEditableProperties();
-            
-            WebUtils.saveMimeInputStreamAsFile(response, attachment.getAttachmentMimeTypeCode(), attachment.getAttachmentContents(), attachment.getAttachmentFileName(), attachment.getAttachmentFileSize().intValue());
-            return null;
-        }
-        
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);    
-    }
-
-    /*
-     * copy AwardFundingProposal objects from old IP to new one, deactivating old ones in the process.
-     */
-    private ArrayList<AwardFundingProposal> transferFundingProposals(InstitutionalProposal oldIP, InstitutionalProposal newIP) {
-        ArrayList<AwardFundingProposal> newFundingProposals = new ArrayList<AwardFundingProposal>();
-        for (AwardFundingProposal afpp:oldIP.getAwardFundingProposals()) {
-            newFundingProposals.add(new AwardFundingProposal(afpp.getAward(), newIP));
-            afpp.setActive(false);
-        }
-        getBusinessObjectService().save(oldIP.getAwardFundingProposals());
-        return newFundingProposals;
     }
 }
