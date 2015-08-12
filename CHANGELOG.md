@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  Fixing award funding proposal versioning where the funding proposals were not versioned when an institutional proposal was versioned.
+  * Travis Schneeberger on Tue, 11 Aug 2015 14:22:35 -0400 [View Commit](../../commit/3dfa1507d5c406efe09f7947735563903ef32a8e)
+*  code cleanup
+  * Travis Schneeberger on Tue, 11 Aug 2015 15:20:42 -0400 [View Commit](../../commit/ffc59ab901e0922fea260969bad97de99cc04d94)
+*  as per code review no longer versioning award funding proposals
+  * Travis Schneeberger on Wed, 12 Aug 2015 09:31:58 -0400 [View Commit](../../commit/591f3c1fd9ca695bf47db0cdd7aa15b5da8a6e5a)
+* Update readme to include information about node and npm dependencies
+  * blackcathacker on Wed, 12 Aug 2015 12:19:19 -0700 [View Commit](../../commit/65d2cb20e65896aa9d0aacf259a80672d47b5c3e)
+* When returning from posting a budget the page fails to fully load
+  * blackcathacker on Tue, 11 Aug 2015 15:33:34 -0700 [View Commit](../../commit/629bf4712ff7fc670b3fb68f080f846036e5e7dc)
+
+##coeus-1508.20
 *  Fix award budget data issue
   * Gayathri Athreya on Tue, 11 Aug 2015 14:14:31 -0700 [View Commit](../../commit/385e3473f65bb238cbf5e242d62ea0c095c6398c)
 
