@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Validate correct budget line item when validating sync to period limit
+
+  * When attempting to sync to period cost limit on a non-personnel line item, when a personnel line item does exist in the budget the following erroneous error is sometimes reported. "Cannot perform this operation on a line item with personnel budget details."
+  * blackcathacker on Wed, 12 Aug 2015 17:17:48 -0700 [View Commit](../../commit/5b565883f776f2d147ea8f205c75aae45dd8171f)
+
+##coeus-1508.21
 *  Fixing award funding proposal versioning where the funding proposals were not versioned when an institutional proposal was versioned.
   * Travis Schneeberger on Tue, 11 Aug 2015 14:22:35 -0400 [View Commit](../../commit/3dfa1507d5c406efe09f7947735563903ef32a8e)
 *  code cleanup
