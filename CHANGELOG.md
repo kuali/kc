@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Add back in feature to replace Versions.do with Parameters.do
+
+  * A regression was introduced that removed a replacement in the forwardUrl that replaced Versions.do with Parameters.do. This adds this feature back in such that navigating from award to budget will open the parameters page instead of the versions.
+  * blackcathacker on Wed, 12 Aug 2015 19:03:15 -0700 [View Commit](../../commit/63a1568129fea78ba95aa5ed45813066972edf04)
+
+##coeus-1508.22
 * Validate correct budget line item when validating sync to period limit
 
   * When attempting to sync to period cost limit on a non-personnel line item, when a personnel line item does exist in the budget the following erroneous error is sometimes reported. "Cannot perform this operation on a line item with personnel budget details."
