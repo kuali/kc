@@ -399,7 +399,7 @@ public class BudgetExpensesAction extends BudgetAction {
         int sltdLineItem = getSelectedLine(request);
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
-        BudgetLineItem budgetLineItem = budgetPeriod.getBudgetLineItem(sltdBudgetPeriod);
+        BudgetLineItem budgetLineItem = budgetPeriod.getBudgetLineItem(sltdLineItem);
         String errorPath = "document.budgetPeriod[" + sltdBudgetPeriod + "].budgetLineItem[" + sltdLineItem + "]";
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(new ApplyToPeriodsBudgetEvent(budget, errorPath, 
         		budgetLineItem, budgetPeriod));
@@ -429,7 +429,7 @@ public class BudgetExpensesAction extends BudgetAction {
         int sltdLineItem = getSelectedLine(request);
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
-        BudgetLineItem budgetLineItem = budgetPeriod.getBudgetLineItem(sltdBudgetPeriod);
+        BudgetLineItem budgetLineItem = budgetPeriod.getBudgetLineItem(sltdLineItem);
         String errorPath = "document.budgetPeriod[" + sltdBudgetPeriod + "].budgetLineItem[" + sltdLineItem + "]";
         boolean rulePassed = getKcBusinessRulesEngine().applyRules(new ApplyToPeriodsBudgetEvent(budget, errorPath, budgetLineItem, budgetPeriod));
     	rulePassed &= getKcBusinessRulesEngine().applyRules(new BudgetDirectCostLimitEvent(budget, budgetPeriod, budgetLineItem, errorPath));
@@ -487,7 +487,7 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetPeriod budgetPeriod = budget.getBudgetPeriod(sltdBudgetPeriod);
         if (getKcBusinessRulesEngine().applyRules(new ApplyToPeriodsBudgetEvent(budget, 
         		"document.budgetPeriod[" + sltdBudgetPeriod + "].budgetLineItem[" + sltdLineItem + "]", 
-        		budgetPeriod.getBudgetLineItem(sltdBudgetPeriod), budgetPeriod))) {
+        		budgetPeriod.getBudgetLineItem(sltdLineItem), budgetPeriod))) {
             getCalculationService().applyToLaterPeriods(budget, budget.getBudgetPeriod(sltdBudgetPeriod), budget.getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItem(sltdLineItem));
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
