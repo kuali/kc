@@ -19,6 +19,7 @@
 package org.kuali.kra.institutionalproposal.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.coeus.common.framework.version.VersionStatus;
@@ -26,9 +27,6 @@ import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.institutionalproposal.dao.InstitutionalProposalDao;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.rice.core.framework.persistence.platform.DatabasePlatform;
-import org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform;
-import org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 
 import java.util.*;
@@ -74,28 +72,17 @@ public class InstitutionalProposalDaoOjb extends LookupDaoOjb implements Institu
             crit.addGreaterOrEqualThan(UPDATE_TIMESTAMP, new java.sql.Date(updatedSince.getTime()));
         }
         crit.addAndCriteria(origCrit);
+        final QueryByCriteria newCrit = QueryFactory.newQuery(InstitutionalProposal.class, crit);
         if (page != null) {
-            result.setTotalResults(getPersistenceBrokerTemplate().getCount(QueryFactory.newQuery(InstitutionalProposal.class, crit)));
-            crit.addSql(generatePagingSql(page, numberPerPage == null ? 20 : numberPerPage));
+            result.setTotalResults(getPersistenceBrokerTemplate().getCount(newCrit));
+			newCrit.setStartAtIndex((page-1)*numberPerPage);
+			newCrit.setEndAtIndex(page*numberPerPage);
         }
 
-        result.setResults(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(InstitutionalProposal.class, crit)));
+        result.setResults(getPersistenceBrokerTemplate().getCollectionByQuery(newCrit));
         if (page == null) {
             result.setTotalResults(result.getResults().size());
         }
         return result;
-    }
-
-    public String generatePagingSql(Integer page, Integer numberPerPage) {
-        DatabasePlatform dbPlatform = getDbPlatform();
-        // OJB includes this as an AND to the existing statement so need it to say 'AND 1 = 1 ..."
-        String result = " 1 = 1 ORDER BY PROPOSAL_ID ";
-        if (dbPlatform instanceof MySQLDatabasePlatform) {
-            return result + " LIMIT " + ((page-1)*numberPerPage) + "," + numberPerPage;
-        } else if (dbPlatform instanceof OracleDatabasePlatform) {
-            return result + " ROWNUM >= " + ((page-1)*numberPerPage) + " AND ROWNUM < " + (page*numberPerPage);
-        } else {
-            throw new UnsupportedOperationException("Unsupported database detected");
-        }
     }
 }

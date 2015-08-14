@@ -39,7 +39,6 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
-import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.query.operator.And;
@@ -84,8 +83,9 @@ import java.util.*;
  * This class is to process all basic services required for AwardBudget
  */
 public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> implements AwardBudgetService {
-    private static final Log LOG = LogFactory.getLog(AwardBudgetServiceImpl.class);
+	private static final Log LOG = LogFactory.getLog(AwardBudgetServiceImpl.class);
     private final static String BUDGET_VERSION_ERROR_PREFIX = "document.parentDocument.budgetDocumentVersion";
+    private static final String INST_PROPOSAL_ID = "instProposalId";
     public static final String AWARD_BUDGET_STATUS_CODE = "awardBudgetStatusCode";
     public static final String BUDGET_VERSION_NUMBER = "budgetVersionNumber";
     public static final String BUDGET_ID = "budgetId";
@@ -782,22 +782,26 @@ public class AwardBudgetServiceImpl extends AbstractBudgetService<Award> impleme
     
     @Override
     public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber) {
+    	return findBudgetPeriodsFromLinkedProposal(awardService.getActiveOrNewestAward(awardNumber));
+    }
+    
+    public List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(Award award) {
+    	Set<Long> budgetIdsAdded = new HashSet<>();
         List<BudgetPeriod> budgetPeriods = new ArrayList<>();
-        List<Award> awardVersions = findMatching(Award.class, AWARD_NUMBER, awardNumber);
-        for (Award award : awardVersions) {
-            List<AwardFundingProposal> fundingProposals = findMatching(AwardFundingProposal.class, AWARD_ID, award.getAwardId());
-            for (AwardFundingProposal fundingProposal : fundingProposals) {
-                if (fundingProposal.isActive()) {
-                    List<InstitutionalProposal> instProposals = 
-                        findMatching(InstitutionalProposal.class, PROPOSAL_NUMBER, fundingProposal.getProposal().getProposalNumber());
-                    for (InstitutionalProposal instProp : instProposals) {
-                        List<ProposalAdminDetails> proposalAdminDetails = findMatching(ProposalAdminDetails.class,
-                                "instProposalId", instProp.getProposalId());
-                        for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
-                            String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
-                            DevelopmentProposal proposalDevelopment = 
-                            		getDataObjectService().find(DevelopmentProposal.class, developmentProposalNumber);
-                            ProposalDevelopmentBudgetExt budget = proposalDevelopment.getFinalBudget();
+        for (AwardFundingProposal fundingProposal : award.getAllFundingProposals()) {
+            if (fundingProposal.isActive()) {
+                List<InstitutionalProposal> instProposals = 
+                    findMatching(InstitutionalProposal.class, PROPOSAL_NUMBER, fundingProposal.getProposal().getProposalNumber());
+                for (InstitutionalProposal instProp : instProposals) {
+                    List<ProposalAdminDetails> proposalAdminDetails = findMatching(ProposalAdminDetails.class,
+                            INST_PROPOSAL_ID, instProp.getProposalId());
+                    for (ProposalAdminDetails proposalAdminDetail : proposalAdminDetails) {
+                        String developmentProposalNumber = proposalAdminDetail.getDevProposalNumber();
+                        DevelopmentProposal proposalDevelopment = 
+                        		getDataObjectService().find(DevelopmentProposal.class, developmentProposalNumber);
+                        ProposalDevelopmentBudgetExt budget = proposalDevelopment.getFinalBudget();
+                        if (!budgetIdsAdded.contains(budget.getBudgetId())) { 
+                        	budgetIdsAdded.add(budget.getBudgetId());
                             //if this result set is being used by @see org.kuali.kra.lookup.BudgetPeriodLookupableHelperServiceImpl
                             //we need to populate these additional fields so always populate them.
                             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
