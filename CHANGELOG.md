@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Sponsor Forms not including non-final budget amounts in printouts
+
+  * Instead of using a null budget in the case that a final budget does not exist, we will use the newest budget added to the proposal.
+  * blackcathacker on Fri, 14 Aug 2015 10:18:11 -0700 [View Commit](../../commit/f2422d1d9d93bc126a5f4dfb0bbed893cfdcb501)
+
+##coeus-1508.24
 * No Changes
 
 
