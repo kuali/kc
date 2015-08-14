@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -33,13 +34,13 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
-import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.data.DataObjectService;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.Assert.*;
-public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
+public class AwardBudgetServiceImplTest {
 
 	protected Mockery context;
     protected AwardBudgetService awardBudgetService;
@@ -80,33 +81,53 @@ public class AwardBudgetServiceImplTest extends KcIntegrationTestBase {
         }});
         ((AwardBudgetServiceImpl)awardBudgetService).setDataObjectService(doService);
         
+        Award tempAward = new Award() {
+        	@Override
+        	public List<AwardFundingProposal> getAllFundingProposals() {
+        		return getTestAwardFundingProposals();
+        	}
+        };
+        tempAward.setAwardId(awardId);
+        final AwardService awardService = context.mock(AwardService.class);
+        context.checking(new Expectations() {{
+        	one(awardService).getActiveOrNewestAward(testAwardNumber);
+        	will(returnValue(tempAward));
+        }});
+        ((AwardBudgetServiceImpl) awardBudgetService).setAwardService(awardService);
+        
         List<BudgetPeriod> periods = awardBudgetService.findBudgetPeriodsFromLinkedProposal(testAwardNumber);
         assertTrue(periods.size() == 2);
         assertEquals(proposalNumber, periods.get(0).getInstitutionalProposalNumber());
     }
     
+    protected List<AwardFundingProposal> getTestAwardFundingProposals() {
+    	List<AwardFundingProposal> result = new ArrayList<>();
+	    AwardFundingProposal temp = new AwardFundingProposal();
+	    temp.setActive(true);
+	    InstitutionalProposalBoLite proposal = new InstitutionalProposalBoLite();
+	    proposal.setProposalNumber(proposalNumber);
+	    temp.setProposal(proposal);
+	    result.add(temp);
+	    temp = new AwardFundingProposal();
+	    temp.setActive(false);
+	    result.add(temp);
+	    return result;
+    }
+    
     @SuppressWarnings("unchecked")
     protected List mockedFindObjectsWithSingleKey(Class clazz, String key, Object value) {
-        List result = new ArrayList();
-        if (clazz == Award.class) {
-            assertEquals(testAwardNumber, value);
-            Award temp = new Award();
-            temp.setAwardId(awardId);
-            result.add(temp);
-        } else if (clazz == AwardFundingProposal.class) {
+    	List result = new ArrayList();
+    	if (clazz == AwardFundingProposal.class) {
             assertEquals(awardId, value);
-            AwardFundingProposal temp = new AwardFundingProposal();
-            temp.setActive(true);
-            InstitutionalProposalBoLite proposal = new InstitutionalProposalBoLite();
-            proposal.setProposalNumber(proposalNumber);
-            temp.setProposal(proposal);
-            result.add(temp);
-            temp = new AwardFundingProposal();
-            temp.setActive(false);
-            result.add(temp);
+
         } else if (clazz == InstitutionalProposal.class) {
             assertEquals(proposalNumber, value);
-            InstitutionalProposal temp = new InstitutionalProposal();
+            InstitutionalProposal temp = new InstitutionalProposal() {
+            	@Override
+            	protected void calculateFiscalMonthAndYearFields() {
+            		
+            	}
+            };
             temp.setProposalId(proposalId);
             temp.setProposalNumber(proposalNumber);
             temp.setSequenceNumber(1);
