@@ -97,10 +97,10 @@ public class ProposalDevelopmentPrintingServiceImplTest extends KcIntegrationTes
 		sponsorFormTemplate.setSponsorFormTemplateId(1L);
 		Map<String, Object> reportParameters = new HashMap<String, Object>();
 		printCertificationPrint.setPrintableBusinessObject(developmentProposal);
-		printCertificationPrint.setXmlStream(new ProposalDevelopmentXmlStream());
+		printCertificationPrint.setXmlStream(KcServiceLocator.getService(ProposalDevelopmentXmlStream.class));
 		proposalSponsorFormsPrint.setPrintableBusinessObject(developmentProposal);
-		proposalSponsorFormsPrint.setXmlStream(new ProposalDevelopmentXmlStream());
-		proposalSponsorFormsPrint.setProposalDevelopmentXmlStream(new ProposalDevelopmentXmlStream());
+		proposalSponsorFormsPrint.setXmlStream(KcServiceLocator.getService(ProposalDevelopmentXmlStream.class));
+		proposalSponsorFormsPrint.setProposalDevelopmentXmlStream(KcServiceLocator.getService(ProposalDevelopmentXmlStream.class));
         proposalDevelopmentPrintingServiceImpl.setPrintCertificationPrint(printCertificationPrint);
         proposalDevelopmentPrintingServiceImpl.setProposalSponsorFormsPrint(proposalSponsorFormsPrint);
         proposalDevelopmentPrintingServiceImpl.setPrintingService(printingService);
