@@ -20,6 +20,7 @@ package org.kuali.coeus.propdev.impl.print;
 
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.propdev.impl.budget.ProposalBudgetService;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -47,6 +48,10 @@ public abstract class ProposalBaseStream implements XmlStream {
     @Autowired
     @Qualifier("businessObjectService")
 	private BusinessObjectService businessObjectService;
+    
+    @Autowired
+    @Qualifier("proposalBudgetService")
+    private ProposalBudgetService proposalBudgetService;
 
 	/**
 	 * This method fetches the final/latest Budget associated with the given
@@ -57,7 +62,7 @@ public abstract class ProposalBaseStream implements XmlStream {
 	 */
 	protected Budget getBudget(
 			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		return proposalDevelopmentDocument.getDevelopmentProposal().getFinalBudget();
+		return proposalBudgetService.getFinalBudgetVersion(proposalDevelopmentDocument);
 	}
 
 
@@ -144,5 +149,17 @@ public abstract class ProposalBaseStream implements XmlStream {
 	public void setBusinessObjectService(
 			BusinessObjectService businessObjectService) {
 		this.businessObjectService = businessObjectService;
+	}
+
+
+
+	public ProposalBudgetService getProposalBudgetService() {
+		return proposalBudgetService;
+	}
+
+
+
+	public void setProposalBudgetService(ProposalBudgetService proposalBudgetService) {
+		this.proposalBudgetService = proposalBudgetService;
 	}
 }
