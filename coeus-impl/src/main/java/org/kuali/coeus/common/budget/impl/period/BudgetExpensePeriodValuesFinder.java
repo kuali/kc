@@ -68,7 +68,7 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
         } else if (formOrView instanceof MultipleValueLookupForm) {
             try {
                 AwardBudgetDocument doc = (AwardBudgetDocument) getDocumentService().getByDocumentHeaderId(((MultipleValueLookupForm) formOrView).getDocNum());
-                List<BudgetPeriod> budgetPeriods = getAwardBudgetService().findBudgetPeriodsFromLinkedProposal(((Award) doc.getBudget().getBudgetParent()).getAwardNumber());
+                List<BudgetPeriod> budgetPeriods = getAwardBudgetService().findBudgetPeriodsFromLinkedProposal((Award) doc.getBudget().getBudgetParent());
                 if (budgetPeriods.size() > 0) {
                     KeyValues = buildKeyValuesForPeriodSearch(budgetPeriods);
                 }

@@ -65,6 +65,7 @@ public interface AwardBudgetService extends BudgetCommonService<Award> {
      * Gets all budget periods from proposals that are funding this award.
      */
     List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(String awardNumber);
+    List<BudgetPeriod> findBudgetPeriodsFromLinkedProposal(Award award);
     
     /**
      * Return a list of the award budget status codes that are considered inactive,
