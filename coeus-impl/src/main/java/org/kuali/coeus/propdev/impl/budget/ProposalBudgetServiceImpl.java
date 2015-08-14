@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
@@ -165,17 +166,15 @@ public class ProposalBudgetServiceImpl extends AbstractBudgetService<Development
     }
 
     @Override
-    public ProposalDevelopmentBudgetExt getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument) throws WorkflowException {
+    public ProposalDevelopmentBudgetExt getFinalBudgetVersion(ProposalDevelopmentDocument parentDocument) {
         ProposalDevelopmentBudgetExt finalBudget = parentDocument.getDevelopmentProposal().getFinalBudget();
         if (finalBudget == null) {
-	        final List<ProposalDevelopmentBudgetExt> budgetVersions = parentDocument.getDevelopmentProposal().getBudgets();
-	        if (budgetVersions != null && !budgetVersions.isEmpty()) {
-	            QueryList<ProposalDevelopmentBudgetExt> budgetVersionsQuery = new QueryList<ProposalDevelopmentBudgetExt>();
-	            budgetVersionsQuery.sort(BUDGET_VERSION_NUMBER, false);
-	            finalBudget = budgetVersionsQuery.get(0);
-	        }
+        	return parentDocument.getDevelopmentProposal().getBudgets().stream()
+        		.sorted((b1, b2) -> {return ObjectUtils.compare(b1.getBudgetVersionNumber(), b2.getBudgetVersionNumber()) * -1;})
+        		.findFirst().orElse(null);
+        } else {
+        	return finalBudget;
         }
-        return finalBudget;
     }  
 
     public boolean isRateOverridden(BudgetPeriod budgetPeriod){
