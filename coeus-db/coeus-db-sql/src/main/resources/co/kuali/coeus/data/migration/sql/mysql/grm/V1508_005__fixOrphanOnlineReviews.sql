@@ -17,5 +17,4 @@
 -- along with this program.  If not, see <http://www.gnu.org/lincenses/>.
 --
 
-delete from IACUC_PROTOCOL_ONLN_RVWS where submission_id_fk not in (select IACUC_PROTOCOL_SUBMISSION_ID from iacuc_protocol_submission) and
-update_timestamp = '2014-04-29';
+delete from IACUC_PROTOCOL_ONLN_RVWS where submission_id_fk not in (select IACUC_PROTOCOL_SUBMISSION_ID from iacuc_protocol_submission);
