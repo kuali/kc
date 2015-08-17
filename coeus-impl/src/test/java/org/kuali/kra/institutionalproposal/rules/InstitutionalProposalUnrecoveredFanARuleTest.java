@@ -28,10 +28,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.sys.impl.validation.ErrorReporterImpl;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -79,7 +82,7 @@ public class InstitutionalProposalUnrecoveredFanARuleTest {
     }
     
     /**
-     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#processCommonValidations
+     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule
      * (org.kuali.kra.award.commitments.AwardCostShare)}.
      */
     @Test
@@ -90,12 +93,21 @@ public class InstitutionalProposalUnrecoveredFanARuleTest {
             one(MOCKED_BUSINESS_OBJECT_SERVICE).countMatching(IndirectcostRateType.class, queryMap); 
             will(returnValue(1));
         }});
+        final ParameterService MOCKED_PARAMETER_SERVICE;
+        MOCKED_PARAMETER_SERVICE = context.mock(ParameterService.class);
+        context.checking(new Expectations() {{
+            one(MOCKED_PARAMETER_SERVICE).getParameterValueAsBoolean(Budget.class, Constants.BUDGET_UNRECOVERED_F_AND_A_ENFORCEMENT_FLAG);
+            will(returnValue(true));
+            one(MOCKED_PARAMETER_SERVICE).getParameterValueAsBoolean(Budget.class, Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG);
+            will(returnValue(true));
+        }});
         institutionalProposalUnrecoveredFandARuleImpl.setBusinessObjectService(MOCKED_BUSINESS_OBJECT_SERVICE);
+        institutionalProposalUnrecoveredFandARuleImpl.setParameterService(MOCKED_PARAMETER_SERVICE);
         Assert.assertTrue(institutionalProposalUnrecoveredFandARuleImpl.processCommonValidations(institutionalProposalUnrecoveredFandA, new ArrayList<InstitutionalProposalUnrecoveredFandA>()));
     }
     
     /**
-     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule#validateCostShareFiscalYearRange
+     * Test method for {@link org.kuali.kra.award.commitments.AwardCostShareRule
      * (org.kuali.kra.award.commitments.AwardCostShare)}.
      */
     @Test

@@ -46,6 +46,7 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
     private static final String COST_SHARE_PERCENTAGE_PROP = ".costSharePercentage";
     private static final String SOURCE_ACCOUNT_PROP = ".sourceAccount";
     private static final String INDIRECTCOST_RATE_TYPE_CODE = "indirectcostRateTypeCode";
+    private ParameterService parameterService;
 
     @Override
     public boolean processAddInstitutionalProposalUnrecoveredFandABusinessRules(
@@ -157,7 +158,14 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
     }
 
     protected ParameterService getParameterService() {
-        return KcServiceLocator.getService(ParameterService.class);
+        if (parameterService == null) {
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
+    }
+
+    protected void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     private boolean validateAmount(ScaleTwoDecimal amount) {
