@@ -156,7 +156,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends KcTransacti
                                         && developmentProposal.getS2sOpportunity() != null) {
                 boolean attachmentNotExists = true;            
                 try {
-                String budgetCostElement = getParameterService().getParameterValueAsString("KC-GEN","A","POST_DOCTORAL_COSTELEMENT");                        
+                String budgetCostElement = getParameterService().getParameterValueAsString("KC-GEN","All","POST_DOCTORAL_COSTELEMENT");
                     Budget budget = getProposalBudgetService().getFinalBudgetVersion(proposalDevelopmentDocument); 
                     if(budget != null && budget.getBudgetPeriods() != null){
                         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()){                   
