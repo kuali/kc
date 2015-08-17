@@ -242,7 +242,6 @@
     </bean>
 
     <bean id="InstitutionalProposalUnrecoveredFandA-sourceAccount" parent="KraAttributeReferenceDummy-sourceAccount" >
-    	<property name="required" value="true" />
     </bean>
 
     <bean id="InstitutionalProposalUnrecoveredFandA-versionNumber" parent="InstitutionalProposalUnrecoveredFandA-versionNumber-parentBean" />

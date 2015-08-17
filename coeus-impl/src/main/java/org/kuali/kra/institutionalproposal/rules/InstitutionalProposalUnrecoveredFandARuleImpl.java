@@ -20,12 +20,15 @@ package org.kuali.kra.institutionalproposal.rules;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.IndirectcostRateType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalUnrecoveredFandA;
 import org.kuali.coeus.sys.framework.rule.KcTransactionalDocumentRuleBase;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.Collections;
 import java.util.List;
@@ -136,11 +139,25 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
     
     private boolean validateSourceAccount(String a) {
         boolean isValid = true;
-        if (StringUtils.isBlank(a)) {
-            isValid = false;
-            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + SOURCE_ACCOUNT_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_SOURCE_ACCOUNT_REQUIRED);
+        if (isUnrecoveredFandAApplicable() && isUnrecoveredFandAEnforced()) {
+            if (StringUtils.isBlank(a)) {
+                isValid = false;
+                this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + SOURCE_ACCOUNT_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_SOURCE_ACCOUNT_REQUIRED);
+            }
         }
         return isValid;
+    }
+
+    public Boolean isUnrecoveredFandAEnforced() {
+        return getParameterService().getParameterValueAsBoolean(Budget.class, Constants.BUDGET_UNRECOVERED_F_AND_A_ENFORCEMENT_FLAG);
+    }
+
+    public Boolean isUnrecoveredFandAApplicable() {
+        return getParameterService().getParameterValueAsBoolean(Budget.class, Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG);
+    }
+
+    protected ParameterService getParameterService() {
+        return KcServiceLocator.getService(ParameterService.class);
     }
 
     private boolean validateAmount(ScaleTwoDecimal amount) {
