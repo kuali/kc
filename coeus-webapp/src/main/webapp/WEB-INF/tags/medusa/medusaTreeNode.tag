@@ -60,7 +60,7 @@
       <c:set var="hideOpen" value="hideOpen"/>
       <c:set var="currentDoc" value="true"/>
     </c:if>
-    <span class="medusaNode"><a name="${node.type}-${node.bo.subAwardId}" class="${hideOpen}"><img src="static/images/sponsor12.gif"/>Subaward ${node.bo.subAwardId}</a></span><a></a>    
+    <span class="medusaNode"><a name="${node.type}-${node.bo.subAwardCode}" class="${hideOpen}"><img src="static/images/sponsor12.gif"/>Subaward ${node.bo.subAwardCode}</a></span><a></a>
   </c:when>
    <c:when test="${node.type == 'irb'}">
     <c:if test="${KualiForm.medusaBean.moduleName == node.type && KualiForm.medusaBean.moduleIdentifier == node.bo.protocolId}">
