@@ -7,6 +7,19 @@
   * blackcathacker on Fri, 14 Aug 2015 10:18:11 -0700 [View Commit](../../commit/f2422d1d9d93bc126a5f4dfb0bbed893cfdcb501)
 * Duplicate rows when importing budget details in award budget
   * blackcathacker on Fri, 14 Aug 2015 10:23:56 -0700 [View Commit](../../commit/7acffb09aa3c4bb4b09dc9e09994923dabce6a2d)
+*  Fixing F&A validations
+  * When creating a proposal with underrecovery, when you omit the Unverrecovery Account, the data validation allows the proposal to be submitted into routing and passes all the validations, but does not allow the proposal to be submitted to sponsor.
+  * (I think this error is the result of a fix to allow the proposal to be entered with no underrecovery account)
+  * 1. create a proposal that has UR
+  * 2. certify proposal
+  * 3. complete budget and mark budget for submission
+  * 4. navigate to Superuser actions
+  * 5. approve proposal
+  * 6. click submit to sponsor (incident report appears )
+  * Source Account is a required field.
+
+  * There is no way to correct this error since the proposal "approval granted" as the document is not accessible.
+  * Gayathri Athreya on Mon, 17 Aug 2015 14:13:18 -0700 [View Commit](../../commit/32e504f1625bb1a8fc6f945ecc5071119b675ed6)
 
 ##coeus-1508.24
 * No Changes
@@ -183,6 +196,10 @@
 ##coeus-1508.1
 * No Changes
 
+
+##coeus-1508.0002
+* Duplicate rows when importing budget details in award budget
+  * blackcathacker on Fri, 14 Aug 2015 10:23:56 -0700 [View Commit](../../commit/7acffb09aa3c4bb4b09dc9e09994923dabce6a2d)
 
 ##coeus-1508.0001
 *  Fixing STE
