@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1508.25
 * Sponsor Forms not including non-final budget amounts in printouts
 
   * Instead of using a null budget in the case that a final budget does not exist, we will use the newest budget added to the proposal.
@@ -200,138 +204,10 @@
 
 
 ##coeus-1508.1
-* No Changes
-
-
-##coeus-1508.0002
-* Duplicate rows when importing budget details in award budget
-  * blackcathacker on Fri, 14 Aug 2015 10:23:56 -0700 [View Commit](../../commit/7acffb09aa3c4bb4b09dc9e09994923dabce6a2d)
-
-##coeus-1508.0001
-*  Fixing STE
-  * Gayathri Athreya on Thu, 30 Jul 2015 18:39:21 -0700 [View Commit](../../commit/a496543b9f08e8b15d7d9912d81d0d277e909d73)
 * Fix to resolving repackaging scripts.
   * blackcathacker on Fri, 31 Jul 2015 15:53:15 -0700 [View Commit](../../commit/5ebb5aca6fde30fe05092dd1e2c0e9abcad5a923)
 * Update V1507_021__Resolve_repackaging.sql  * Douglas Pace on Fri, 31 Jul 2015 16:01:04 -0700 [View Commit](../../commit/5be60706d38f70c6cf3f2f96d41101d6fd377d35)
 * Update V1507_021__Resolve_repackaging.sql  * Douglas Pace on Fri, 31 Jul 2015 16:01:21 -0700 [View Commit](../../commit/afcc8e9b2df0822a352c4052b1e96fbd3f53b4a2)
-* sync question id seq table with question table
-  * Joe Williams on Fri, 31 Jul 2015 13:23:04 -0500 [View Commit](../../commit/586be857622bfc7c6b520be454be4d11dc678561)
-*  fix issue with edit button not opening pending award
-  * Joe Williams on Mon, 3 Aug 2015 12:25:13 -0500 [View Commit](../../commit/d63c0eec06b9b7fb3c876543dd4534e8e0a59377)
-* fixes issues with differences in total direct cost between award summary and award parameters
-
-  * Edited an award node to add funds; submitted.
-  * Edited the T&M doc to fund the node; submitted.
-  * On Budget Versions tab: added a new budget > opened.
-  * Linked P1 of the proposal budget (details did not come forward).
-  * Manually added personnel and non-personnel to get close to the limit.
-  * On the Summary screen, edited the F&A OH override field to meet the obligated total for this budget & saved.
-  * On Award Budget Actions > tried to submit.
-  * Results: got an error that the direct cost was exceeded.
-  * On Parameter screen> the direct cost amount did not reflect the details of the budget.
-
-  * Desired result: the values on the parameter screen should update to reflect the amounts in the detailed budget.
-  * Joe Williams on Mon, 3 Aug 2015 16:42:02 -0500 [View Commit](../../commit/3b294a9654f62d920decb27a1572e540b4a5534b)
-*  changing lookup helper service to prototype scope so that custom data lookups or "data to alter" lookups do not throw an exception related to unknown properties.  Fixing our integration test to now confirm that lookup helper services are always prototype scope.
-  * Travis Schneeberger on Tue, 4 Aug 2015 16:01:47 -0400 [View Commit](../../commit/bd0b2d0da6869930dd6420d96e647a4a399652c7)
-*  Fixing index out of bounds on funding proposal delete on award document.
-  * Travis Schneeberger on Wed, 5 Aug 2015 11:39:43 -0400 [View Commit](../../commit/002728e7a968f362b0e16c25cf8bca2e6beaed97)
-* Remove duplicate T&M Docs when retreiving based on aai
-
-  * When doing query by criteria searches referencing a collection, it appears to return duplicate T&M results. This removes the duplication before returning from the dao.
-  * Additionally when hitting reload on the new T&M History tab the necessary data to render the page was not being populated on the BO.
-  * blackcathacker on Wed, 5 Aug 2015 12:01:45 -0700 [View Commit](../../commit/db357854318392c4448c267cdc81851494dd6b1b)
-*  making sure the index handling logic is working with the correct collection.
-  * Travis Schneeberger on Wed, 5 Aug 2015 16:20:32 -0400 [View Commit](../../commit/c4c14df29e7242ad2cfd1fb471659798e1382e7e)
-*  Attempting to fix OJB issue.
-  * Unable to open award budget.
-  * Steps to reproduce:
-  * 1. Create an award with all required fields, including amounts.
-  * 2. Create a budget, route it and post it.
-  * 3. Route the award to final.
-  * 4. Click edit on the finalized award.
-  * 5. SAVE.
-  * 6. Navigate to the budget tab, see STE.
-  * org.apache.ojb.broker.OJBRuntimeException: Incorrect or not found field reference name 'awardId' in descriptor org.apache.ojb.broker.metadata.CollectionDescriptor@1edf2759[cascade_retrieve=true,cascade_store=object,cascade_delete=object,is_lazy=true,class_of_Items=class org.kuali.kra.award.budget.AwardBudgetExt] for class-descriptor 'org.kuali.coeus.common.budget.framework.core.Budget'
-  * at org.apache.ojb.broker.metadata.ObjectReferenceDescriptor.getForeignKeyFieldDescriptors(Unknown Source)
-  * at org.apache.ojb.broker.metadata.ObjectReferenceDescriptor.getForeignKeyValues(Unknown Source)
-  * at org.apache.ojb.broker.accesslayer.CollectionPrefetcher.associateBatched(Unknown Source)
-  * at org.apache.ojb.broker.accesslayer.BasePrefetcher.prefetchRelationship(Unknown Source)
-  * at org.apache.ojb.broker.core.QueryReferenceBroker$PBPrefetchingListener.prefetch(Unknown Source)
-  * at org.apache.ojb.broker.core.QueryReferenceBroker$PBCollectionProxyListener.beforeLoading(Unknown Source)
-  * at org.apache.ojb.broker.core.proxy.CollectionProxyDefaultImpl.beforeLoading(Unknown Source)
-  * at org.apache.ojb.broker.core.proxy.CollectionProxyDefaultImpl.getData(Unknown Source)
-  * at org.apache.ojb.broker.core.proxy.CollectionProxyDefaultImpl.iterator(Unknown Source)
-  * at java.util.AbstractCollection.addAll(AbstractCollection.java:343)
-  * at org.kuali.kra.award.budget.AwardBudgetServiceImpl.getAllBudgetsForAward(AwardBudgetServiceImpl.java:897)
-  * at org.kuali.kra.award.home.Award.getBudgets(Award.java:2771)
-  * at org.kuali.kra.award.budget.AwardBudgetExt.getPrevBudget(AwardBudgetExt.java:222)
-  * at org.kuali.kra.award.budget.calculator.AwardBudgetCalculationServiceImpl.calculateBudgetSummaryTotals(AwardBudgetCalculationServiceImpl.java:41)
-  * at org.kuali.kra.award.budget.AwardBudgetServiceImpl.populateBudgetLimitSummary(AwardBudgetServiceImpl.java:855)
-  * at org.kuali.kra.award.web.struts.action.AwardAction.budgets(AwardAction.java:1023)
-  * Gayathri Athreya on Wed, 5 Aug 2015 17:18:23 -0700 [View Commit](../../commit/9f7797c1204a5dd1435a7b5a207cb3523b309bc7)
-*  prevent schedule status fetch from being executed for every available schedule date.  Also, using the schedule status code value rather than description.
-  * Travis Schneeberger on Thu, 6 Aug 2015 16:51:13 -0400 [View Commit](../../commit/2dd1f047e3a93b2c1c54afcdd58d6ad710df0a0f)
-*  adding index to prevent full table scan
-  * Travis Schneeberger on Thu, 6 Aug 2015 16:54:22 -0400 [View Commit](../../commit/f96070f502c04c1688b681c85890e116bf7e3e67)
-*  making email and notification asynchronous rather than blocking.  This will help performance where these features are used.
-  * Travis Schneeberger on Thu, 6 Aug 2015 18:10:07 -0400 [View Commit](../../commit/5fd79136a405c012bdcaa974c856720fc1a4771e)
-*  removing search that's not working.
-  * Gayathri Athreya on Fri, 7 Aug 2015 11:00:55 -0700 [View Commit](../../commit/580bf0c9df9779d6881c65594507c9ff1487de5a)
-*  reducing the amount of find protocol calls to improve performance
-  * Travis Schneeberger on Fri, 7 Aug 2015 16:05:44 -0400 [View Commit](../../commit/0f0b69f63b0ce8d95f8a58d073cc13f1a9547b76)
-*  not getting the total protcol submissions in a getter but using a previously retrieved value to increase performance
-  * Travis Schneeberger on Fri, 7 Aug 2015 16:29:33 -0400 [View Commit](../../commit/96b501554ebe0d2337d077e1833ba37a26b92724)
-*  adding missing indexes and foreign keys for iacuc and irb
-  * Travis Schneeberger on Fri, 7 Aug 2015 17:37:43 -0400 [View Commit](../../commit/ccbd09fd5f3b5a293bfdae6d4aa1f241d1f8ca88)
-*  allowing whitespace in attachment names
-  * Travis Schneeberger on Mon, 10 Aug 2015 15:18:44 -0400 [View Commit](../../commit/21e02df9ac57ee33a54805bd7b3ccd557f8f9c8d)
-*  allowing the attachment tab to load with an attachment and in read only mode
-  * Travis Schneeberger on Mon, 10 Aug 2015 15:26:26 -0400 [View Commit](../../commit/c7d9ddfff7f0b2497a50d27008f366b8028d75ad)
-*  Trying to fix lazy loading elements in rates
-  * Gayathri Athreya on Mon, 10 Aug 2015 15:50:31 -0700 [View Commit](../../commit/50c482315d450786628caad21deea283e046da3b)
-* IRB - Create Amendment - Duplicate persons
-
-  * When creating an IRB protocol, the document is saved multiple times and the personnel are copied and merged multiple times and it appears that the deletion aware lists don't work properly within the same transaction. Removing the unnecessary saves clears that up.
-  * blackcathacker on Mon, 10 Aug 2015 20:35:02 -0700 [View Commit](../../commit/c0f1206ced5ad63b6886ae41cd4028896fcdd7c1)
-*  Fixing award funding proposal versioning where the funding proposals were not versioned when an institutional proposal was versioned.
-  * Travis Schneeberger on Tue, 11 Aug 2015 14:22:35 -0400 [View Commit](../../commit/3dfa1507d5c406efe09f7947735563903ef32a8e)
-*  code cleanup
-  * Travis Schneeberger on Tue, 11 Aug 2015 15:20:42 -0400 [View Commit](../../commit/ffc59ab901e0922fea260969bad97de99cc04d94)
-* Fix award budget issues related to foreign keys
-
-  * and budget calculation and line item deletion.
-
-  * Caused by: java.lang.NullPointerException
-	at org.kuali.coeus.common.budget.impl.nonpersonnel.BudgetExpensesAuditRule.processRunAuditBusinessRules(BudgetExpensesAuditRule.java:130)
-	... 102 more
-
-  * and
-
-  * Caused by: javax.persistence.PersistenceException: Exception [EclipseLink-43] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DescriptorException
-  * Exception Description: Missing class for indicator field value [AWRD] of type [class java.lang.String].
-  * Descriptor: RelationalDescriptor(org.kuali.coeus.common.budget.framework.core.Budget --> [DatabaseTable(BUDGET)])
-  * blackcathacker on Tue, 11 Aug 2015 12:24:15 -0700 [View Commit](../../commit/d4eb56ca2f7f18560afb30f4d762aff72ad57c00)
-*  Fix award budget data issue
-  * Gayathri Athreya on Tue, 11 Aug 2015 14:14:31 -0700 [View Commit](../../commit/385e3473f65bb238cbf5e242d62ea0c095c6398c)
-*  as per code review no longer versioning award funding proposals
-  * Travis Schneeberger on Wed, 12 Aug 2015 09:31:58 -0400 [View Commit](../../commit/591f3c1fd9ca695bf47db0cdd7aa15b5da8a6e5a)
-* Update readme to include information about node and npm dependencies
-  * blackcathacker on Wed, 12 Aug 2015 12:19:19 -0700 [View Commit](../../commit/65d2cb20e65896aa9d0aacf259a80672d47b5c3e)
-* When returning from posting a budget the page fails to fully load
-  * blackcathacker on Tue, 11 Aug 2015 15:33:34 -0700 [View Commit](../../commit/629bf4712ff7fc670b3fb68f080f846036e5e7dc)
-* Validate correct budget line item when validating sync to period limit
-
-  * When attempting to sync to period cost limit on a non-personnel line item, when a personnel line item does exist in the budget the following erroneous error is sometimes reported. "Cannot perform this operation on a line item with personnel budget details."
-  * blackcathacker on Wed, 12 Aug 2015 17:17:48 -0700 [View Commit](../../commit/5b565883f776f2d147ea8f205c75aae45dd8171f)
-* Add back in feature to replace Versions.do with Parameters.do
-
-  * A regression was introduced that removed a replacement in the forwardUrl that replaced Versions.do with Parameters.do. This adds this feature back in such that navigating from award to budget will open the parameters page instead of the versions.
-  * blackcathacker on Wed, 12 Aug 2015 19:03:15 -0700 [View Commit](../../commit/63a1568129fea78ba95aa5ed45813066972edf04)
-* Sponsor Forms not including non-final budget amounts in printouts
-
-  * Instead of using a null budget in the case that a final budget does not exist, we will use the newest budget added to the proposal.
-  * blackcathacker on Fri, 14 Aug 2015 10:18:11 -0700 [View Commit](../../commit/f2422d1d9d93bc126a5f4dfb0bbed893cfdcb501)
 
 ##coeus-1507.77
 * Fix minor oracle issues
