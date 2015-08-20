@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* Multiple award budget versions cause incorrect olbigated amounts
+
+  * Once there are more than 2 award budget versions, obligated amounts begin to not match correct values due to a bad conflict between some budget summary code and other logic expectations. This change creates new properties used to store the total costs of the current and all previous award budgets to resolve this issue such that the total cost is maintained on the budget.
+  * blackcathacker on Wed, 19 Aug 2015 17:51:01 -0700 [View Commit](../../commit/55ce7461d89faa491f88221a05ace6f9547f3d3e)
+
+##coeus-1508.27
 * No Changes
 
 
