@@ -162,7 +162,7 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${awardBudgetAttributes.description}" /></div></th>
                 <td colspan="3">
-                	<kul:htmlControlAttribute property="document.budget.description" attributeEntry="${awardBudgetAttributes.description}" readOnly="${readOnly or KualiForm.document.budget.rebudgetFlag}"/>
+                	<kul:htmlControlAttribute property="document.budget.description" attributeEntry="${awardBudgetAttributes.description}" readOnly="${readOnly or KualiForm.document.budget.rebudget}"/>
                 </td>
         	</tr>
         	<tr>

@@ -185,9 +185,9 @@
            			</td>
            			<td class="tab-subhead"><kul:htmlControlAttribute property="${version}.name" attributeEntry="${budgetAttributes.name}" readOnly="${!descriptionUpdatable}"/></td>
 	            	<td class="tab-subhead"><div align="center">${budgetVersion.budgetVersionNumber}</div></td>
-		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCost" attributeEntry="${budgetAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
-		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCost" attributeEntry="${budgetAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
-		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCost" attributeEntry="${budgetAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCostInclPrev" attributeEntry="${budgetAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCostInclPrev" attributeEntry="${budgetAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCostInclPrev" attributeEntry="${budgetAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
 		            <td class="tab-subhead">
 		            	<div align="center">
 		            		<kul:htmlControlAttribute property="${version}.awardBudgetStatusCode" attributeEntry="${awardBudgetAttributes.awardBudgetStatusCode}" disabled="true"/>

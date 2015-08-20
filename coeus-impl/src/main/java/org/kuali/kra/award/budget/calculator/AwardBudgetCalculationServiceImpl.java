@@ -100,9 +100,6 @@ public class AwardBudgetCalculationServiceImpl extends BudgetCalculationServiceI
                 prevBudget.getPersonnelCalculatedExpenseBudgetTotals()));
         budget.setNonPersonnelCalculatedExpenseBudgetTotals((SortedMap<RateType, ScaleTwoDecimal>) mergeMaps(budget.getNonPersonnelCalculatedExpenseBudgetTotals(),
                 prevBudget.getNonPersonnelCalculatedExpenseBudgetTotals()));
-        budget.setTotalDirectCost(budget.getTotalDirectCost().add(prevBudget.getTotalDirectCost()));
-        budget.setTotalIndirectCost(budget.getTotalIndirectCost().add(prevBudget.getTotalIndirectCost()));
-        budget.setTotalCost(budget.getTotalCost().add(prevBudget.getTotalCost())); 
     }
     
     /**
