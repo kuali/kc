@@ -1,6 +1,20 @@
 
 
 ##CURRENT
+* display the correct award project end date on lookups
+
+  * Issue: Award lookup not displaying correct Project End Date
+
+  * Steps:
+
+  * 1.) Create and submit an award with a project end date of 08/31/2016
+  * 2.) Create a time and money document change obligated and final end date to to 09/30/2016
+  * 3.) do a look up that award, and notice the lookup displays the first end date.
+
+  * Expected Results: award lookup displays end date from the latest time and money document.
+  * Joe Williams on Thu, 20 Aug 2015 09:40:16 -0500 [View Commit](../../commit/df37dda1ae5e21182b454b7e1b2aa724def79e46)
+
+##coeus-1508.28
 * Multiple award budget versions cause incorrect olbigated amounts
 
   * Once there are more than 2 award budget versions, obligated amounts begin to not match correct values due to a bad conflict between some budget summary code and other logic expectations. This change creates new properties used to store the total costs of the current and all previous award budgets to resolve this issue such that the total cost is maintained on the budget.
