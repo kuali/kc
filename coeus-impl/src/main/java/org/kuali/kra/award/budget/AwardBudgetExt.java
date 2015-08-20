@@ -18,6 +18,7 @@
  */
 package org.kuali.kra.award.budget;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
@@ -81,6 +82,10 @@ public class AwardBudgetExt extends Budget {
     private SortedMap<RateType, ScaleTwoDecimal> nonPersonnelCalculatedExpenseBudgetTotals;
     
     private AwardBudgetDocument awardBudgetDocument;
+    
+    private ScaleTwoDecimal totalDirectCostInclPrev;
+    private ScaleTwoDecimal totalIndirectCostInclPrev;
+    private ScaleTwoDecimal totalCostInclPrev;
 
     public AwardBudgetExt() {
         super();
@@ -287,10 +292,9 @@ public class AwardBudgetExt extends Budget {
         totals.add(this.getCostSharingAmount().add(getPrevBudget().getCostSharingAmount()));
         this.setBudgetsTotals(totals);
     }
-
-    public String getRebudgetFlag() {
-        String rebudgetTypeCode = getParameterValue(KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
-        return Boolean.toString(getAwardBudgetTypeCode().equals(rebudgetTypeCode));
+    
+    public boolean isRebudget() {
+    	return StringUtils.equals(getAwardBudgetTypeCode(), getParameterValue(KeyConstants.AWARD_BUDGET_TYPE_REBUDGET));
     }
     
     private String getParameterValue(String parameter) {
@@ -431,5 +435,53 @@ public class AwardBudgetExt extends Budget {
     
     public void add(NextValue nextValue) {
     	getBudgetDocument().getDocumentNextvalues().add((DocumentNextvalue) nextValue);
-    }	
+    }
+
+    public void initInclPreviousTotals() {
+    	AwardBudgetExt prevBudget = getPrevBudget();
+    	if (prevBudget != null) {
+    		prevBudget.initInclPreviousTotals();
+			setTotalCostInclPrev(getTotalCost().add(prevBudget.getTotalCostInclPrev()));
+			setTotalDirectCostInclPrev(getTotalDirectCost().add(prevBudget.getTotalDirectCostInclPrev()));
+			setTotalIndirectCostInclPrev(getTotalIndirectCost().add(prevBudget.getTotalIndirectCostInclPrev()));
+		} else {
+			setTotalCostInclPrev(getTotalCost());
+			setTotalDirectCostInclPrev(getTotalDirectCost());
+			setTotalIndirectCostInclPrev(getTotalIndirectCost());			
+		}
+    }
+    
+	public ScaleTwoDecimal getTotalDirectCostInclPrev() {
+		if (totalDirectCostInclPrev == null) {
+			initInclPreviousTotals();
+		}
+		return totalDirectCostInclPrev;
+	}
+
+	public void setTotalDirectCostInclPrev(ScaleTwoDecimal totalDirectCostInclPrev) {
+		this.totalDirectCostInclPrev = totalDirectCostInclPrev;
+	}
+
+	public ScaleTwoDecimal getTotalIndirectCostInclPrev() {
+		if (totalIndirectCostInclPrev == null) {
+			initInclPreviousTotals();
+		}
+		return totalIndirectCostInclPrev;
+	}
+
+	public void setTotalIndirectCostInclPrev(
+			ScaleTwoDecimal totalIndirectCostInclPrev) {
+		this.totalIndirectCostInclPrev = totalIndirectCostInclPrev;
+	}
+
+	public ScaleTwoDecimal getTotalCostInclPrev() {
+		if (totalCostInclPrev == null) {
+			initInclPreviousTotals();
+		}
+		return totalCostInclPrev;
+	}
+
+	public void setTotalCostInclPrev(ScaleTwoDecimal totalCostInclPrev) {
+		this.totalCostInclPrev = totalCostInclPrev;
+	}
 }
