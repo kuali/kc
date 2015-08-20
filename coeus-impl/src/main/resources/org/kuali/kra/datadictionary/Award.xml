@@ -1450,7 +1450,7 @@
                 <bean p:attributeName="principalInvestigatorName" parent="FieldDefinition"/>
                 <bean p:attributeName="ospAdministratorName" parent="FieldDefinition"/>
                 <bean p:attributeName="awardEffectiveDate" parent="FieldDefinition"/>
-                <bean p:attributeName="projectEndDate" parent="FieldDefinition"/>
+                <bean p:attributeName="latestAwardAmountInfo.finalExpirationDate" parent="FieldDefinition"/>
                 <bean p:attributeName="archiveLocation" parent="FieldDefinition"/>
                 <bean p:attributeName="closeoutDate" parent="FieldDefinition"/>
             </list>
@@ -1494,7 +1494,7 @@
                 <bean p:propertyName="principalInvestigatorName" parent="Uif-DataField"/>
                 <bean p:propertyName="ospAdministratorName" parent="Uif-DataField"/>
                 <bean p:propertyName="awardEffectiveDate" parent="Uif-DataField"/>
-                <bean p:propertyName="projectEndDate" parent="Uif-DataField"/>
+                <bean p:propertyName="latestAwardAmountInfo.finalExpirationDate" parent="Uif-DataField"/>
                 <bean p:propertyName="archiveLocation" parent="Uif-DataField"/>
                 <bean p:propertyName="closeoutDate" parent="Uif-DataField"/>
             </list>
