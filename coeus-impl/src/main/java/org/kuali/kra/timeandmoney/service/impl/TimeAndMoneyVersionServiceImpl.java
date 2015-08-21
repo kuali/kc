@@ -105,7 +105,7 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
     		try (PreparedStatement stmt = connection.prepareStatement("select * from " +
     				"(select document_number, " +
     				" case TIME_AND_MONEY_DOC_STATUS when 'PENDING' then 1 when 'ACTIVE' then 2 else 3 end as STATUS_ORDER " + 
-    				" from TIME_AND_MONEY_DOCUMENT where award_number = ? order by STATUS_ORDER, DOCUMENT_NUMBER) sorted_tm " 
+    				" from TIME_AND_MONEY_DOCUMENT where award_number = ? and TIME_AND_MONEY_DOC_STATUS != 'CANCELED' order by STATUS_ORDER, DOCUMENT_NUMBER) sorted_tm "
     				+ getLimitSql(connection, 1))) {
     			stmt.setString(1, awardNumber);
     			stmt.setMaxRows(1);
