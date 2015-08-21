@@ -206,6 +206,11 @@
                         <artifactId>xercesImpl</artifactId>
                         <version>${xercesImpl.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-validator</artifactId>
+                        <version>5.2.1.Final</version>
+                    </dependency>
                 </dependencies>
             </plugin>
 

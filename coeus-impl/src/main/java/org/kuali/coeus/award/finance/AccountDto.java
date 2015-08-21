@@ -2,16 +2,28 @@ package org.kuali.coeus.award.finance;
 
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class AccountDto {
 
     private Long id;
     private String accountNumber;
+    @Digits(integer = 22, fraction=0)
     private Long createdByAwardId;
+    @Size(min = 1, max = 15)
+    @Pattern(regexp = "[a-zA-Z]")
     private String status;
+    @Digits(integer = 12, fraction = 2)
     private ScaleTwoDecimal budgeted;
+    @Digits(integer = 12, fraction = 2)
     private ScaleTwoDecimal pending;
+    @Digits(integer = 12, fraction = 2)
     private ScaleTwoDecimal income;
+    @Digits(integer = 12, fraction = 2)
     private ScaleTwoDecimal expense;
+    @Digits(integer = 12, fraction = 2)
     private ScaleTwoDecimal available;
 
     public Long getId() {

@@ -4,6 +4,7 @@ import com.codiform.moo.Moo;
 import com.codiform.moo.curry.Translate;
 
 import org.kuali.coeus.award.finance.dao.AccountDao;
+import org.kuali.coeus.sys.framework.controller.rest.RestController;
 import org.kuali.coeus.sys.framework.summary.SearchResults;
 import org.kuali.kra.award.home.Award;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Controller("awardAccountController")
-public class AwardAccountController {
+public class AwardAccountController extends RestController {
 
     public static final String NO_SUCH_ACCOUNT = "No such account.";
     public static final String NO_SUCH_AWARD = "No such award.";
@@ -43,7 +45,7 @@ public class AwardAccountController {
     @RequestMapping(method=RequestMethod.PUT, value="v1/accounts/{accountNumber}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     public
-    void updateAccount(@RequestBody AccountDto account, @PathVariable String accountNumber, HttpServletResponse response) throws Exception {
+    void updateAccount(@Valid @RequestBody AccountDto account, @PathVariable String accountNumber, HttpServletResponse response) throws Exception {
         AwardAccount currentAccount = accountDao.getAccount(accountNumber);
         if(Objects.isNull(currentAccount)) {
             sendErrorResponse(response, NO_SUCH_ACCOUNT);
