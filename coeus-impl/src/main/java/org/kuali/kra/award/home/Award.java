@@ -19,6 +19,7 @@
 package org.kuali.kra.award.home;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.award.finance.AwardAccount;
 import org.kuali.coeus.common.framework.keyword.KeywordsManager;
 import org.kuali.coeus.common.framework.keyword.ScienceKeyword;
 import org.kuali.coeus.common.framework.person.KcPerson;
@@ -88,8 +89,12 @@ import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.core.api.criteria.CountFlag;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.util.AutoPopulatingList;
 
@@ -2491,21 +2496,14 @@ public class Award extends KcPersistableBusinessObjectBase implements KeywordsMa
         Calendar calendar = Calendar.getInstance();
         int currentYear = calendar.get(Calendar.YEAR);
         
-        AwardFandaRate currentFandaRate;
-
         // when both On and Off campus rates are in, send the higher one.
         // Ideally only one should be there
         // the single rate validation parameter needs to be set on award
-        ScaleTwoDecimal currentRateValue = new ScaleTwoDecimal(0.0);
-        currentFandaRate = rates.get(0);
-        for (AwardFandaRate rate : rates) {
-            if (Integer.parseInt(rate.getFiscalYear()) == currentYear) {
-                if (rate.getApplicableFandaRate().isGreaterThan(currentRateValue)) {
-                    currentFandaRate = rate;
-                    currentRateValue = rate.getApplicableFandaRate();
-                }
-            }      
-        }
+        AwardFandaRate currentFandaRate = rates.stream()
+                .filter(rate -> Integer.parseInt(rate.getFiscalYear()) == currentYear)
+                .max(Comparator.comparing(AwardFandaRate::getApplicableFandaRate))
+                .orElseGet(null);
+
         return currentFandaRate;
     }
     

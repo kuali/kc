@@ -156,7 +156,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD) ||
             status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
 
-            if (isFinancialSystemIntegrationParameterOn()) {
+            if (isFinancialsystemIntegrationOn() || isFinancialRestApiEnabled()) {
                 hasPermission = hasCreateAccountPermission(awardDocument);
                 // only the OSP admin can create a financial account
                 // if account has already been created, anyone can see it
@@ -169,7 +169,14 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         return hasPermission;
     }
 
-    protected boolean isFinancialSystemIntegrationParameterOn() {
+    protected boolean isFinancialRestApiEnabled() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.FINANCIAL_REST_API_ENABLED);
+    }
+
+    protected boolean isFinancialsystemIntegrationOn() {
         return getParameterService().getParameterValueAsBoolean(
                 Constants.PARAMETER_MODULE_AWARD,
                 ParameterConstants.DOCUMENT_COMPONENT,
@@ -184,7 +191,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      * This only appears when the integration is ON
      */
     public boolean canViewChartOfAccountsElement(AwardDocument document) {
-        return hasCreateAccountPermission(document) && isFinancialSystemIntegrationParameterOn();
+        return hasCreateAccountPermission(document) && isFinancialsystemIntegrationOn();
     }
     /*
      * This field appears even if the financial integration if OFF
@@ -193,7 +200,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      */
     public boolean canViewAccountElement(AwardDocument document) {
         boolean hasPermission = true;
-        if (isFinancialSystemIntegrationParameterOn()) {
+        if (isFinancialsystemIntegrationOn()) {
             if (!hasCreateAccountPermission(document)) {
                 hasPermission = false;
             }

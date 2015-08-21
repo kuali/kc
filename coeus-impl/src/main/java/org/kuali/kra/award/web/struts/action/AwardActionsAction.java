@@ -22,13 +22,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.award.finance.AccountStatus;
+import org.kuali.coeus.award.finance.AwardAccount;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.AwardNumberService;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
@@ -49,18 +51,21 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.datatype.DatatypeConfigurationException;
 
 import java.util.*;
 
@@ -82,7 +87,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public static final String NEW_CHILD_NEW_OPTION = "a";
     public static final String AWARD_COPY_NEW_OPTION = "a";
     public static final String AWARD_COPY_CHILD_OF_OPTION = "d";
-    
+    private transient DataObjectService dataObjectService;
+
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) throws Exception { 
@@ -626,7 +632,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * account creation web service.
      */
     public ActionForward createAccount(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = new ActionForward();
+        ActionForward forward;
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         Award award = awardDocument.getAward();
@@ -635,28 +641,13 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             AwardAccountValidationService accountValidationService = getAwardAccountValidationService();
             boolean rulePassed = accountValidationService.validateAwardAccountDetails(award);
             if (rulePassed) {
-                AccountCreationClient client = getAccountCreationClient();
-                /*
-                 * If account hasn't already been created, create it or
-                 * display an error
-                 */
-                if (award.getFinancialAccountDocumentNumber() == null) {
-                    
-                    // Determine the ICR Rate Code to send - may require user interaction
-                    if (StringUtils.isBlank(award.getIcrRateCode())) {
-                        List<ValidRates> validRates = awardForm.getAccountCreationHelper().getMatchingValidRates(award.getCurrentFandaRate());
-                        if (validRates.size() > 1) {
-                            awardForm.getAccountCreationHelper().setValidRateCandidates(validRates);
-                            return mapping.findForward(Constants.MAPPING_ICR_RATE_CODE_PROMPT);
-                        } else if (validRates.size() == 1) {
-                            award.setIcrRateCode(validRates.get(0).getIcrRateCode());
-                        } else {
-                            award.setIcrRateCode(Award.ICR_RATE_CODE_NONE);
-                        }
+                if (isFinancialSystemIntegrationParameterOn()) {
+                    if (!createAccount(awardForm, award)) {
+                        return mapping.findForward(Constants.MAPPING_ICR_RATE_CODE_PROMPT);
                     }
-                    client.createAwardAccount(award);
-                } else {
-                    GlobalVariables.getMessageMap().putError(ACCOUNT_ALREADY_CREATED, KeyConstants.ACCOUNT_ALREADY_CREATED);
+                } else if (isFinancialRestApiEnabled()) {
+                    addToAccountQueue(award);
+                    getDocumentService().saveDocument(awardDocument);
                 }
             }
         }
@@ -667,7 +658,71 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
        
         return forward; 
     }
-    
+
+    protected boolean createAccount(AwardForm awardForm, Award award) throws DatatypeConfigurationException, WorkflowException {
+        AccountCreationClient client = getAccountCreationClient();
+        if (award.getFinancialAccountDocumentNumber() == null) {
+
+            // Determine the ICR Rate Code to send - may require user interaction
+            if (determineIndirectCostRateCode(awardForm, award)) {
+                return false;
+            }
+            client.createAwardAccount(award);
+        } else {
+            GlobalVariables.getMessageMap().putError(ACCOUNT_ALREADY_CREATED, KeyConstants.ACCOUNT_ALREADY_CREATED);
+        }
+        return true;
+    }
+
+    protected boolean isFinancialRestApiEnabled() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.FINANCIAL_REST_API_ENABLED);
+    }
+
+    protected boolean isFinancialSystemIntegrationParameterOn() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
+    }
+
+    protected void addToAccountQueue(Award award) {
+        AwardAccount awardAccount = new AwardAccount();
+        awardAccount.setCreatedByAwardId(award.getAwardId());
+        awardAccount.setAccountNumber(award.getAccountNumber());
+        awardAccount.setStatus(AccountStatus.AVAILABLE.name());
+        awardAccount.setExpense(ScaleTwoDecimal.ZERO);
+        awardAccount.setAvailable(ScaleTwoDecimal.ZERO);
+        awardAccount.setBudgeted(ScaleTwoDecimal.ZERO);
+        awardAccount.setPending(ScaleTwoDecimal.ZERO);
+        awardAccount.setIncome(ScaleTwoDecimal.ZERO);
+        getDataObjectService().save(awardAccount);
+    }
+
+    public DataObjectService getDataObjectService() {
+        if (dataObjectService == null ) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+        return dataObjectService;
+    }
+
+    protected boolean determineIndirectCostRateCode(AwardForm awardForm, Award award) {
+        if (StringUtils.isBlank(award.getIcrRateCode())) {
+            List<ValidRates> validRates = awardForm.getAccountCreationHelper().getMatchingValidRates(award.getCurrentFandaRate());
+            if (validRates.size() > 1) {
+                awardForm.getAccountCreationHelper().setValidRateCandidates(validRates);
+                return true;
+            } else if (validRates.size() == 1) {
+                award.setIcrRateCode(validRates.get(0).getIcrRateCode());
+            } else {
+                award.setIcrRateCode(Award.ICR_RATE_CODE_NONE);
+            }
+        }
+        return false;
+    }
+
     protected AccountCreationClient getAccountCreationClient() {
         return KcServiceLocator.getService("accountCreationClient");
     }

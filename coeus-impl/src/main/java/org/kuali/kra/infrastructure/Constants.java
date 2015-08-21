@@ -450,8 +450,12 @@ public interface Constants {
     public static final String AWARD_SYNC_HAS_SYNC_NODE_NAME = "hasSync";
     public static final String AWARD_SYNC_VALIDATION_NODE_NAME = "SyncValidationApproval";
     public static final String AWARD_SYNC_NOT_APPLICABLE = "Not applicable";
-    
-  //Institutional Proposal
+
+    // Award financial rest api constants
+    public static final String FINANCIAL_REST_API_ENABLED = "ENABLE_FINANCIAL_REST_API";
+    public static final String DISPLAY_ACCOUNT_BALANCES = "DISPLAY_ACCOUNT_BALANCES";
+
+    //Institutional Proposal
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_HOME_PAGE = "home";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_CONTACTS_PAGE = "contacts";
     public static final String MAPPING_INSTITUTIONAL_PROPOSAL_SPECIAL_REVIEW_PAGE = "specialReview";

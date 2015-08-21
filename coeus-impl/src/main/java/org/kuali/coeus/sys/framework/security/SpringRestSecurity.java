@@ -51,7 +51,8 @@ public class SpringRestSecurity extends WebSecurityConfigurerAdapter {
  
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	  http.authorizeRequests().regexMatchers(V1_REST_SERVICES_REGEX).hasRole(ADMIN_ROLE).and().httpBasic();
+        http.csrf().disable();
+	    http.authorizeRequests().regexMatchers(V1_REST_SERVICES_REGEX).hasRole(ADMIN_ROLE).and().httpBasic();
 	}
 
 	public ConfigurationService getConfigurationService() {

@@ -22,7 +22,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.coeus.common.framework.version.history.VersionHistory;
+import org.kuali.coeus.award.AccountInformationBean;
+import org.kuali.coeus.award.finance.AwardAccount;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
 import org.kuali.coeus.common.notification.impl.NotificationHelper;
 import org.kuali.coeus.common.permissions.impl.web.struts.form.PermissionsForm;
@@ -73,6 +74,8 @@ import org.kuali.coeus.common.budget.framework.core.BudgetVersionFormBase;
 import org.kuali.coeus.common.framework.custom.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.criteria.CountFlag;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -83,6 +86,7 @@ import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.krad.data.DataObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import java.text.ParseException;
@@ -104,6 +108,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     public static final String UPDATE_TIMESTAMP_DD_NAME = "DataDictionary.Award.attributes.updateTimestamp";
     public static final String SPONSOR_DD_NAME = "DataDictionary.Sponsor.attributes.sponsorName";
     private static final Log LOG = LogFactory.getLog(AwardForm.class);
+    public static final String ACCOUNT_NUMBER = "accountNumber";
     private final String AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX = "awardHierarchyTempObject[";
     private final int AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH = AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX.length();
     
@@ -133,7 +138,6 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     private SponsorTermFormHelper sponsorTermFormHelper;
     private ApprovedSubawardFormHelper approvedSubawardFormHelper;
     private DetailsAndDatesFormHelper detailsAndDatesFormHelper;
-    //private AwardDirectFandADistributionBean awardDirectFandADistributionBean;
     private AwardCloseoutBean awardCloseoutBean;
     
     private ReportClass reportClassForPaymentsAndInvoices;
@@ -147,14 +151,13 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     private AwardBudgetLimitsBean awardBudgetLimitsBean;
     
     private boolean auditActivated;
-    //private boolean awardInMultipleNodeHierarchy;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private PermissionsHelper permissionsHelper;
     private SpecialReviewHelper specialReviewHelper;
     private NotificationHelper<AwardNotificationContext> notificationHelper;
     private AwardCreditSplitBean awardCreditSplitBean;
     private Map<String, AwardHierarchy> awardHierarchyNodes;
-    private String awardNumberInputTemp;//This is temporary till the GUI mock is ready for award hierarchy
+    private String awardNumberInputTemp;
     private AwardFundingProposalBean fundingProposalBean;
     private String awardHierarchy;
     private String awardNumber;
@@ -198,14 +201,15 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     private transient ParameterService parameterService;
     private transient AwardHierarchyUIService awardHierarchyUIService;
     private transient ReportTrackingService reportTrackingService;
-    
+    private transient DataObjectService dataObjectService;
+
     private List<ReportTrackingBean> reportTrackingBeans;
-    
+
+    private AccountInformationBean accountInformationBean;
     private AccountCreationPresentationHelper accountCreationHelper;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by tests outside of Struts
-     * @param document
      */
     public AwardForm() {
         super();
@@ -250,6 +254,7 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         awardPrintChangeReport = new AwardTransactionSelectorBean();
         buildReportTrackingBeans();
         awardHierarchyBean = new AwardHierarchyBean(this);
+        initializeAccountBean();
         medusaBean = new MedusaBean();
         //sync
         syncRequiresConfirmationMap = null;
@@ -430,6 +435,83 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         return reportClasses;
     }
 
+
+    public boolean isAccountCreated() {
+        if (getAwardDocument().getAward().getAccountNumber() != null) {
+            if (getAwardDocument().getAward().getFinancialAccountDocumentNumber() != null) {
+                return true;
+            }
+            if (isFinancialSystemIntegrationOn()) {
+                return getAwardDocument().getAward().getFinancialAccountDocumentNumber() != null;
+            }
+            if (isFinancialRestApiEnabled()) {
+                return accountExistsInQueue();
+            }
+        }
+        return false;
+    }
+
+    protected boolean accountExistsInQueue() {
+        Map<String, String> accountsMap = new HashMap<String, String>();
+        accountsMap.put(ACCOUNT_NUMBER, getAwardDocument().getAward().getAccountNumber());
+        int count = getDataObjectService().findMatching(AwardAccount.class,
+                QueryByCriteria.Builder.andAttributes(accountsMap).setCountFlag(CountFlag.ONLY).build()).getTotalRowCount();
+        return count != 0;
+    }
+
+    private void initializeAccountBean() {
+        accountInformationBean = new AccountInformationBean();
+        if (getAwardDocument().getAward().getAccountNumber() != null && isFinancialRestApiEnabled()) {
+            AwardAccount account = getAccountFromQueue();
+            if (Objects.nonNull(account)) {
+                accountInformationBean.setIncome(account.getIncome());
+                accountInformationBean.setBudgeted(account.getBudgeted());
+                accountInformationBean.setAvailable(account.getAvailable());
+                accountInformationBean.setExpense(account.getExpense());
+                accountInformationBean.setPending(account.getPending());
+            }
+        }
+    }
+
+    protected AwardAccount getAccountFromQueue() {
+        Map<String, String> accountsMap = new HashMap<String, String>();
+        accountsMap.put(ACCOUNT_NUMBER, getAwardDocument().getAward().getAccountNumber());
+        List<AwardAccount> accounts = getDataObjectService().findMatching(AwardAccount.class,
+                QueryByCriteria.Builder.andAttributes(accountsMap).build()).getResults();
+        return accounts.isEmpty() ? null : accounts.get(0);
+    }
+
+    public boolean isDisplayAccountBalances() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.DISPLAY_ACCOUNT_BALANCES
+        );
+    }
+
+    protected DataObjectService getDataObjectService() {
+        if (dataObjectService == null) {
+            dataObjectService = KcServiceLocator.getService(DataObjectService.class);
+        }
+        return dataObjectService;
+    }
+
+    protected boolean isFinancialRestApiEnabled() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.ALL_COMPONENT,
+                Constants.FINANCIAL_REST_API_ENABLED
+        );
+    }
+
+    protected boolean isFinancialSystemIntegrationOn() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.PARAMETER_MODULE_AWARD,
+                ParameterConstants.DOCUMENT_COMPONENT,
+                Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER
+        );
+    }
+
     public void setReportClasses(List<ConcreteKeyValue> reportClasses) {
         this.reportClasses = reportClasses;
     }
@@ -530,14 +612,6 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
         return getAwardDocument().getAward().isAwardHasAssociatedTandMOrIsVersioned();
     }
 
-//    /**
-//     * Sets the awardInMultipleNodeHierarchy attribute value.
-//     * @param awardInMultipleNodeHierarchy The awardInMultipleNodeHierarchy to set.
-//     */
-//    public void setAwardInMultipleNodeHierarchy(boolean awardInMultipleNodeHierarchy) {
-//        this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
-//    }
-    
     /**
      * Gets the indexOfAwardAmountInfoWithHighestTransactionId attribute. 
      * @return Returns the indexOfAwardAmountInfoWithHighestTransactionId.
@@ -597,7 +671,6 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
 
     /**
      * Sets the awardPermissionsHelper attribute value.
-     * @param permissionsHelper The permissionsHelper to set.
      */
     public void setPermissionsHelper(PermissionsHelper awardPermissionsHelper) {
         this.permissionsHelper = awardPermissionsHelper;
@@ -641,22 +714,6 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
     public AwardCreditSplitBean getAwardCreditSplitBean() {
         return awardCreditSplitBean;
     }
-    
-//    /**
-//     * Gets the awardDirectFandADistributionBean attribute. 
-//     * @return Returns the awardDirectFandADistributionBean.
-//     */
-//    public AwardDirectFandADistributionBean getAwardDirectFandADistributionBean() {
-//        return awardDirectFandADistributionBean;
-//    }
-//
-//    /**
-//     * Sets the awardDirectFandADistributionBean attribute value.
-//     * @param awardDirectFandADistributionBean The awardDirectFandADistributionBean to set.
-//     */
-//    public void setAwardDirectFandADistributionBean(AwardDirectFandADistributionBean awardDirectFandADistributionBean) {
-//        this.awardDirectFandADistributionBean = awardDirectFandADistributionBean;
-//    }
 
     /**
      * @param awardCreditSplitBean
@@ -1478,4 +1535,12 @@ public class AwardForm extends BudgetVersionFormBase implements MultiLookupForm,
 	public void setAwardHierarchyTargetAwardStrList(String awardHierarchyTargetAwardStrList) {
 		this.awardHierarchyTargetAwardStrList = awardHierarchyTargetAwardStrList;
 	}
+
+    public AccountInformationBean getAccountInformationBean() {
+        return accountInformationBean;
+    }
+
+    public void setAccountInformationBean(AccountInformationBean accountInformationBean) {
+        this.accountInformationBean = accountInformationBean;
+    }
 }

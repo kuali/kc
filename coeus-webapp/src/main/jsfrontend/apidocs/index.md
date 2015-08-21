@@ -16,3 +16,7 @@ Current APIs have been designed to be accessed via admin only username and passw
 <!-- include(ip/institutionalProposalSummary.md) -->
 
 <!-- include(organization/organizationSummary.md) -->
+
+# Group Financial Services
+
+<!-- include(award/awardAccount.md) -->
