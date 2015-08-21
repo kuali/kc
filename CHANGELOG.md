@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* RESKC-677-validations: Adding input validations.
+  * Gayathri Athreya on Fri, 21 Aug 2015 14:26:57 -0700 [View Commit](../../commit/539e96153bf82dcc78b843b804955559b2a5b864)
+
+##coeus-1508.31
 *  return saved adhoc recipient when saving document to avoid sql exception
 
   * Steps to reproduce:
