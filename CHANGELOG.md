@@ -1,6 +1,27 @@
 
 
 ##CURRENT
+*  return saved adhoc recipient when saving document to avoid sql exception
+
+  * Steps to reproduce:
+  * 1. Create an Award or edit an existing award, complete required fields and submit.
+  * 2. Click "Time & Money"
+  * 3. Click on "edit"
+  * 3.a: maintain required fields and entries
+  * 4. Add an adhoc recipient (FYI or approve)
+  * 5. Click on "submit"
+
+  * Alternate scenario:
+  * After adding transaction type, transaction details, and ad hoc recipient, click on the Action Summary and History tab, then return to the T&M tab; > STE occurs.
+
+  * Errors:
+  * The system has encountered an error and is unable to complete your request at this time. Please provide more information regarding this error by completing this Incident Report.
+  * Error Details: java.lang.RuntimeException: post processor caught exception while handling do action taken change: OJB operation failed; nested exception is org.apache.ojb.broker.PersistenceBrokerException: org.springframework.orm.jpa.JpaSystemException: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.0.v20150309-bf26070): org.eclipse.persistence.exceptions.DatabaseException Internal Exception: java.sql.SQLException: ORA-01407: cannot update ("MG1505"."KRNS_ADHOC_RTE_ACTN_RECIP_T"."OBJ_ID") to NULL Error Code: 1407 Call: UPDATE KRNS_ADHOC_RTE_ACTN_RECIP_T SET OBJ_ID = ? WHERE ((((ACTN_RQST_CD = ?) AND (DOC_HDR_ID = ?)) AND (ACTN_RQST_RECIP_ID = ?)) AND (RECIP_TYP_CD = ?)) bind => [5
+  * Joe Williams on Wed, 19 Aug 2015 08:45:30 -0500 [View Commit](../../commit/ad637d710121c2c8d32dab7717f78adaa8fbe852)
+*  Financial account REST api
+  * Gayathri Athreya on Wed, 5 Aug 2015 12:12:02 -0700 [View Commit](../../commit/1e77bb650c34fe27348ac2942979b8b9467d555e)
+
+##coeus-1508.30
 * No Changes
 
 

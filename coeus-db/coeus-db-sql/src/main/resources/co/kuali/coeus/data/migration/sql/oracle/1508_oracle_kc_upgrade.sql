@@ -25,4 +25,5 @@ spool 1508_oracle_kc_upgrade.sql.log
 @./kc/bootstrap/V1508_002__add_index.sql
 @./kc/bootstrap/V1508_004__FixAwardBudgetData.sql
 @./kc/bootstrap/V1508_006__add_index.sql
+@./kc/bootstrap/V1508_008__financial_rest_apis.sql
 commit;
