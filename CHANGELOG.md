@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  Documentation and minor added functionality of getting awards linked to an account.
+  * Gayathri Athreya on Fri, 21 Aug 2015 17:12:01 -0700 [View Commit](../../commit/a88b09110bfbd3e136e4dc7e7fd4fe0d6eba7caa)
+*  fixing budget period lookup in award budget when a modular budget exists.
+  * Travis Schneeberger on Mon, 24 Aug 2015 16:04:07 -0400 [View Commit](../../commit/a8562fa5e5f4d04b07ac8ed33c5f0f555fca5867)
+*  extra documentation
+  * Gayathri Athreya on Mon, 24 Aug 2015 13:36:12 -0700 [View Commit](../../commit/c4a5b3e484f2f59512d54f36f02cc1e598d65f1a)
+
+##coeus-1508.33
 * correctly set faculty flag on institutional proposal persons
 
   * Issue: Proposal Summary printout inaccurate Affiliation Type for PI
