@@ -64,6 +64,7 @@ public class InstitutionalProposalProjectPersonnelBean extends InstitutionalProp
         boolean success = new InstitutionalProposalProjectPersonAddRuleImpl().processAddInstitutionalProposalProjectPersonBusinessRules(event);
         if(success){
         InstitutionalProposalPerson institutionalProposalPerson = getNewProjectPerson();
+            institutionalProposalPerson.setFaculty(institutionalProposalPerson.getPerson().getFacultyFlag());
             getInstitutionalProposal().add(institutionalProposalPerson);
             init();
             if(institutionalProposalPerson.isPrincipalInvestigator()) {

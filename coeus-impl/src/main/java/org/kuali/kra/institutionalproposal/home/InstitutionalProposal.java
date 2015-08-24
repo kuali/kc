@@ -1318,6 +1318,7 @@ public class InstitutionalProposal extends KcPersistableBusinessObjectBase imple
         InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
         if (StringUtils.isNotBlank(proposalLog.getPiId()) && proposalLog.getPerson() != null) {
             ipPerson.setPerson(proposalLog.getPerson());
+            ipPerson.setFaculty(proposalLog.getPerson().getFacultyFlag());
         }
         else if (proposalLog.getRolodexId() != null && proposalLog.getRolodex() != null) {
             ipPerson.setRolodex(proposalLog.getRolodex());
