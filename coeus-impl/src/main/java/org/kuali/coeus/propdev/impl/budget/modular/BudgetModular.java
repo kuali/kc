@@ -32,6 +32,9 @@ import org.kuali.coeus.sys.framework.persistence.ScaleTwoDecimalConverter;
 @Table(name = "BUDGET_MODULAR")
 public class BudgetModular extends KcPersistableBusinessObjectBase implements BudgetModularContract {
 
+    @Column(name = "BUDGET_PERIOD_NUMBER", insertable = false, updatable = false)
+    private Long budgetPeriodId;
+
     @Id
     @OneToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "BUDGET_PERIOD_NUMBER", referencedColumnName = "BUDGET_PERIOD_NUMBER", insertable = true, updatable = true)
@@ -222,10 +225,11 @@ public class BudgetModular extends KcPersistableBusinessObjectBase implements Bu
 
     @Override
     public Long getBudgetPeriodId() {
-        if (budgetPeriodObj != null) {
-            return budgetPeriodObj.getBudgetPeriodId();
-        }
-        return null;
+        return budgetPeriodId;
+    }
+
+    public void setBudgetPeriodId(Long budgetPeriodId) {
+        this.budgetPeriodId = budgetPeriodId;
     }
 
     public BudgetPeriod getBudgetPeriodObj() {
@@ -233,6 +237,12 @@ public class BudgetModular extends KcPersistableBusinessObjectBase implements Bu
     }
 
     public void setBudgetPeriodObj(BudgetPeriod budgetPeriodObj) {
+        if (budgetPeriodObj != null) {
+            setBudgetPeriodId(budgetPeriodObj.getBudgetPeriodId());
+        } else {
+            setBudgetPeriodId(null);
+        }
+
         this.budgetPeriodObj = budgetPeriodObj;
     }
 }
