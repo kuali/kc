@@ -89,6 +89,15 @@ Set various fields on an account. Fields not provided will not be updated.
 
             {"available":5.5, "budgeted":6.688, "pending":7.7, "expense":8.8, "income":999.99, "status":"CLOSED"}
 
+
+    + Attributes
+      + available (number) - available amount (max integral digits = 12, max fractional digits = 2)
+      + budgeted (number) - budgeted amount (max integral digits = 12, max fractional digits = 2)
+      + pending (number) - pending amount (max integral digits = 12, max fractional digits = 2)
+      + expense (number) - expense amount (max integral digits = 12, max fractional digits = 2)
+      + income (number) - income amount (max integral digits = 12, max fractional digits = 2)
+      + status (string) - status (min size = 1, max size = 15], pattern [a-zA-Z]+)
+
 + Response 200
     + Headers
 
