@@ -126,7 +126,19 @@
                                             	</td>
                                         	</tr>
                                         </c:if>
-                                        
+                                            <tr>
+                                             <th class="infoline" align="right" width="20%">
+                                                Risk Levels:
+                                            </th>
+                                                <td align="left" valign="middle" width="80%">
+                                                    <div align="left">
+                                                        <c:forEach var="protocolRiskLevel" items="${KualiForm.document.protocol.protocolRiskLevels}" varStatus="loop">
+                                                            <c:out value="${protocolRiskLevel.riskLevel.description}" />
+                                                            ${!loop.last ? ', ' : ''}
+                                                        </c:forEach>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                     </tbody>
                                 </table>
                               </div>         
