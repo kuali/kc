@@ -1,6 +1,24 @@
 
 
 ##CURRENT
+* correctly set faculty flag on institutional proposal persons
+
+  * Issue: Proposal Summary printout inaccurate Affiliation Type for PI
+
+  * Steps:
+
+  * 1.) create a proposal log with a PI that has a faculty affiliation
+  * 2.) create IP from proposal log.
+  * 3.) navigate to action page and print notice.
+
+  * also occurs if you delete and add a PI with a faculty affiliation.
+
+  * Expect result: Faculty label printout says 'Yes'
+
+  * Actual result: Faculty label in printout says 'No'
+  * Joe Williams on Mon, 24 Aug 2015 09:56:02 -0500 [View Commit](../../commit/b27828b3ed636d01cf00c7539ee4aa19788d601a)
+
+##coeus-1508.32
 * RESKC-677-validations: Adding input validations.
   * Gayathri Athreya on Fri, 21 Aug 2015 14:26:57 -0700 [View Commit](../../commit/539e96153bf82dcc78b843b804955559b2a5b864)
 
