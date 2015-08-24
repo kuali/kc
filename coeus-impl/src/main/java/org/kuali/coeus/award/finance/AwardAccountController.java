@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller("awardAccountController")
 public class AwardAccountController extends RestController {
@@ -39,7 +40,7 @@ public class AwardAccountController extends RestController {
     AccountResults getAccounts(@RequestParam(value = "startIndex", required = false) Integer startIndex,
                                      @RequestParam(value = "size", required = false) Integer size) {
         Moo moo = new Moo();
-        return Translate.to(AccountResults.class).from(transformSearchResults(getAccountDao().getAccounts(startIndex, size)));
+        return Translate.to(AccountResults.class).from(transformSearchResults(getAccountDao().getAccounts(startIndex, size), new ArrayList<>()));
     }
 
     @RequestMapping(method=RequestMethod.PUT, value="v1/accounts/{accountNumber}", consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -65,16 +66,23 @@ public class AwardAccountController extends RestController {
     @RequestMapping(method=RequestMethod.GET, value="v1/accounts/{accountNumber}")
     public @ResponseBody
     AccountResults getAccount(@PathVariable String accountNumber,
+                              @RequestParam(value = "showAwards", required = false) boolean showAwards,
                               HttpServletResponse response) throws Exception {
         AwardAccount account = accountDao.getAccount(accountNumber);
         ArrayList<AwardAccount> accounts = new ArrayList<>();
         accounts.add(account);
+        List<Long> awardIds = new ArrayList<>();
         if(Objects.isNull(account)) {
             sendErrorResponse(response, NO_SUCH_ACCOUNT);
         }
         Moo moo = new Moo();
+        if (showAwards) {
+            List<Award> awards = accountDao.getLinkedAwards(accountNumber);
+            awardIds = awards.stream().map(Award::getAwardId)
+                    .collect(Collectors.toList());
 
-        return Translate.to(AccountResults.class).from(transformSearchResults(accounts));
+        }
+        return Translate.to(AccountResults.class).from(transformSearchResults(accounts, awardIds));
     }
 
     @RequestMapping(method=RequestMethod.GET, value="v1/accounts/awards/{awardId}")
@@ -102,10 +110,11 @@ public class AwardAccountController extends RestController {
         return result;
     }
 
-    SearchResults<AwardAccount> transformSearchResults(List<AwardAccount> accounts) {
-        SearchResults<AwardAccount> result = new SearchResults<>();
+    AccountSearchResults<AwardAccount> transformSearchResults(List<AwardAccount> accounts, List<Long> awardIds) {
+        AccountSearchResults<AwardAccount> result = new AccountSearchResults<>();
         result.setResults(accounts);
         result.setTotalResults(accounts.size());
+        result.setAwards(awardIds);
         return result;
     }
 

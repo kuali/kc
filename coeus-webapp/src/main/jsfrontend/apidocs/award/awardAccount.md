@@ -1,9 +1,9 @@
-##  GET /kc-dev/kc-award/v1/accounts?startIndex=2&size=5
+##  GET /kc-dev/kc-award/v1/accounts?startIndex=0&size=5
 
 Get all accounts that are available for use
 
 + Parameters
-  	+ startIndex: `2` (number, optional) - Starting index of the results to be returned. If not included, all available accounts are returned.
+  	+ startIndex: `0` (number, optional) - Starting index of the results to be returned. If not included, all available accounts are returned.
   	+ size: `5` (number, optional) - Size of the results to be returned. If not included, all available accounts are returned.
 
 + Request
@@ -23,13 +23,14 @@ Get all accounts that are available for use
 
     + Body
 
-            173
-            {"totalFound":5,"count":5,"accounts":[{"id":3,"accountNumber":"876777","awardId":2697,"available":true},{"id":4,"accountNumber":"3223333","awardId":2731,"available":true},{"id":5,"accountNumber":"123456","awardId":2731,"available":true},{"id":6,"accountNumber":"3847747","awardId":2731,"available":true},{"id":7,"accountNumber":"433333","awardId":2768,"available":true}]}
-            0
+             {"totalFound":2,"count":2,"accounts":[{"id":8,"accountNumber":"123456455","createdByAwardId":2670,"status":"CLOSED","budgeted":6.69,"pending":7.70,"income":9.90,"expense":8.80,"available":5.50},{"id":9,"accountNumber":"55555","createdByAwardId":2742,"status":"CLOSED","budgeted":6.69,"pending":7.70,"income":999.99,"expense":8.80,"available":5.50}],"awards":[]}
 
-## GET /kc-dev/kc-award/v1/accounts/878787
+## GET /kc-dev/kc-award/v1/accounts/55555?showAwards=true
 
 Get information on a particular account
+
++ Parameters
+  	+ showAwards: `true` (boolean, optional) - Flag to indicate if award ids linked to account should be returned.
 
 + Request
     + Headers
@@ -49,11 +50,9 @@ Get information on a particular account
 
     + Body
 
-            6a
-            {"totalFound":1,"count":1,"accounts":[{"id":1,"accountNumber":"878787","awardId":2524,"available":false}]}
-            0
+            {"totalFound":1,"count":1,"accounts":[{"id":9,"accountNumber":"55555","createdByAwardId":2742,"status":"CLOSED","budgeted":6.69,"pending":7.70,"income":999.99,"expense":8.80,"available":5.50}],"awards":[2742,2778]}
 
-## GET /kc-dev/kc-award/v1/accounts/awards/2524
+## GET /kc-dev/kc-award/v1/accounts/awards/2742
 
 Get award details required to create an account using award id
 
@@ -74,13 +73,11 @@ Get award details required to create an account using award id
 
      + Body
 
-             2f6
-             {"totalFound":1,"count":1,"accounts":[{"accountName":"NIH-McGregorGeoff","accountNumber":"878787","adminContactAddressCityName":null,"adminContactAddressStateCode":null,"adminContactAddressStreetAddress":null,"adminContactAddressZipCode":null,"cfdaNumber":null,"defaultAddressCityName":"Coeus","defaultAddressStateCode":"MA","defaultAddressStreetAddress":"1118 Kuali Drive","defaultAddressZipCode":"53421","effectiveDate":"2015-08-01","expenseGuidelineText":"000021-00001","expirationDate":"2015-08-31","higherEdFunctionCode":"IPR","incomeGuidelineText":"Cost reimbursement Established ACH mechanism for sponsor","indirectCostRate":"090","indirectCostTypeCode":"","offCampusIndicator":false,"principalId":"10000000001","purposeText":"test","unit":"000001"}]}
-             0
+             {"totalFound":1,"count":1,"accounts":[{"accountName":"NIH-McGregorGeoff","accountNumber":"55555","adminContactAddressCityName":null,"adminContactAddressStateCode":null,"adminContactAddressStreetAddress":null,"adminContactAddressZipCode":null,"cfdaNumber":null,"defaultAddressCityName":"Coeus","defaultAddressStateCode":"MA","defaultAddressStreetAddress":"1118 Kuali Drive","defaultAddressZipCode":"53421","effectiveDate":"2015-08-01","expenseGuidelineText":"000022-00001","expirationDate":"2015-08-31","higherEdFunctionCode":"IPR","incomeGuidelineText":"Cost reimbursement Established ACH mechanism for sponsor","indirectCostRate":"","indirectCostTypeCode":"","offCampusIndicator":false,"principalId":"10000000001","purposeText":"test","unit":"000001"}]}
 
 ## PUT /kc-dev/kc-award/v1/accounts/878787
 
-Set an account as available or unavailable
+Set various fields on an account. Fields not provided will not be updated.
 
 + Request
     + Headers
@@ -90,7 +87,7 @@ Set an account as available or unavailable
 
     + Body
 
-            {"isAvailable":false}
+            {"available":5.5, "budgeted":6.688, "pending":7.7, "expense":8.8, "income":999.99, "status":"CLOSED"}
 
 + Response 200
     + Headers

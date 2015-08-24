@@ -13,7 +13,7 @@ public class AccountDto {
     @Digits(integer = 22, fraction=0)
     private Long createdByAwardId;
     @Size(min = 1, max = 15)
-    @Pattern(regexp = "[a-zA-Z]")
+    @Pattern(regexp = "[a-zA-Z]+")
     private String status;
     @Digits(integer = 12, fraction = 2)
     private ScaleTwoDecimal budgeted;
