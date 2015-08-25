@@ -24,8 +24,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.coeus.award.finance.AccountStatus;
 import org.kuali.coeus.award.finance.AwardAccount;
+import org.kuali.coeus.common.framework.auth.task.TaskAuthorizationService;
+import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.coeus.common.framework.version.history.VersionHistoryService;
+import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.award.AwardForm;
@@ -34,12 +38,16 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
-import org.kuali.kra.award.contacts.AwardSponsorContactAuditRule;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.document.authorization.AwardTask;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
+import org.kuali.kra.award.infrastructure.AwardTaskNames;
+import org.kuali.kra.award.notification.AwardNoticeNotificationRenderer;
+import org.kuali.kra.award.notification.AwardNoticePrintout;
 import org.kuali.kra.award.notification.AwardNotificationContext;
+import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
@@ -49,16 +57,17 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.coeus.common.framework.print.AttachmentDataSource;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.AuditError;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -67,6 +76,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.datatype.DatatypeConfigurationException;
 
+import java.io.ByteArrayOutputStream;
 import java.util.*;
 
 /**
@@ -74,20 +84,33 @@ import java.util.*;
  * This class represents the Struts Action for Award Actions page(AwardActions.jsp)
  */
 public class AwardActionsAction extends AwardAction implements AuditModeAction {
-    
+
     private static final String ZERO = "0";
     private static final String NEW_CHILD_SELECTED_AWARD_OPTION = "c";
     private static final String NEW_CHILD_COPY_FROM_PARENT_OPTION = "b";
-    private static final String AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY = "document.awardList[0].sponsorContact";
-    private static final String ERROR_INVALID_COUNTRY_CODE = "error.invalid.countryCode";
     private static final String ERROR_CANCEL_PENDING_PROPOSALS = "error.cancel.fundingproposal.pendingVersion";
     private static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
     private static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
     private static final String CONTACTS_AUDIT_ERRORS = "contactsAuditErrors";
-    public static final String NEW_CHILD_NEW_OPTION = "a";
-    public static final String AWARD_COPY_NEW_OPTION = "a";
-    public static final String AWARD_COPY_CHILD_OF_OPTION = "d";
+    private static final String AWARD_NOTICE_ID = "awardNoticeId";
+    private static final String NEW_CHILD_NEW_OPTION = "a";
+    private static final String AWARD_COPY_NEW_OPTION = "a";
+    private static final String AWARD_COPY_CHILD_OF_OPTION = "d";
+    private static final String AWARD_NOTICE_ACTION_CODE = "556";
+    private static final String AWARD_NOTICE = "Award Notice";
+    private static final String PRINT = "print";
+    private static final String AWARD_NOTICE_REPORT = "_Award_Notice_Report";
+    private static final String NOTIFICATION_EDITOR = "notificationEditor";
+
     private transient DataObjectService dataObjectService;
+
+    private transient GlobalVariableService globalVariableService;
+
+    private transient KcNotificationService notificationService;
+
+    private transient AwardPrintingService awardPrintingService;
+
+    private transient TaskAuthorizationService taskAuthorizationService;
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
@@ -269,7 +292,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         AwardHierarchy targetNode = findTargetNode(request, awardForm);
         AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewChildAwardBasedOnAnotherAwardInHierarchy(awardNumberOfNodeToCopyFrom,
-                                                                                                                            targetNode.getAwardNumber());
+                targetNode.getAwardNumber());
         return prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);
     }
 
@@ -366,86 +389,153 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     	return false;
     }    
 
-    public ActionForward printNotice(final ActionMapping mapping, final ActionForm form,
-            final HttpServletRequest request, final HttpServletResponse response)
+    public ActionForward printNotice(ActionMapping mapping, ActionForm form,
+             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        final AwardForm awardForm = (AwardForm) form;
+        AwardForm awardForm = (AwardForm) form;
 
-        if (!new AwardSponsorContactAuditRule().processRunAuditBusinessRules(awardForm.getDocument())
-            && auditErrorExists(AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY)) {            
-            GlobalVariables.getMessageMap().putError(AWARD_SPONSOR_CONTACT_LIST_ERROR_KEY,
-                                                     ERROR_INVALID_COUNTRY_CODE);
-            return mapping.findForward("contacts"); // Switch to the contacts tab and show the error.
-        }
-
-
-        final Map<String, Object> reportParameters = new HashMap<String, Object>();
-        reportParameters.put(AwardPrintParameters.ADDRESS_LIST
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getSponsorContacts());
-        reportParameters.put(AwardPrintParameters.FOREIGN_TRAVEL
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getForeignTravel());
-        reportParameters.put(AwardPrintParameters.REPORTING
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getReports());
-        reportParameters.put(AwardPrintParameters.CLOSEOUT
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getCloseout());
-        reportParameters.put(AwardPrintParameters.FUNDING_SUMMARY
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getFundingSummary());
-        reportParameters.put(AwardPrintParameters.SPECIAL_REVIEW
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getSpecialReview());
-        reportParameters.put(AwardPrintParameters.COMMENTS
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getComments());
-        reportParameters.put(AwardPrintParameters.HIERARCHY_INFO
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getHierarchy());
-        reportParameters.put(AwardPrintParameters.SUBCONTRACT
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getSubAward());
-        reportParameters.put(AwardPrintParameters.COST_SHARING
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getCostShare());
-        reportParameters.put(AwardPrintParameters.KEYWORDS
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getKeywords());
-        reportParameters.put(AwardPrintParameters.TECHNICAL_REPORTING
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getTechnicalReports());
-        reportParameters.put(AwardPrintParameters.EQUIPMENT
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getEquipment());
-        reportParameters.put(AwardPrintParameters.OTHER_DATA
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getOtherData());
-        reportParameters.put(AwardPrintParameters.TERMS
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getTerms());
-        reportParameters.put(AwardPrintParameters.FA_COST
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getFaRates());
-        reportParameters.put(AwardPrintParameters.PAYMENT
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getPayment());
-        reportParameters.put(AwardPrintParameters.FLOW_THRU
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getFlowThru());
-        reportParameters.put(AwardPrintParameters.PROPOSAL_DUE
-                .getAwardPrintParameter(), false);
-
-        reportParameters.put(AwardPrintParameters.SIGNATURE_REQUIRED
-                .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
-                .getRequireSignature());
-        AwardPrintingService awardPrintService = KcServiceLocator
-                .getService(AwardPrintingService.class);
-        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                awardForm.getAwardDocument().getAward(),AwardPrintType.AWARD_NOTICE_REPORT,reportParameters);
+        AttachmentDataSource dataStream = getAwardPrintingService().printAwardReport(
+                awardForm.getAwardDocument().getAward(), AwardPrintType.AWARD_NOTICE_REPORT,
+                populateResponseParametersForNotice(awardForm.getAwardPrintNotice()));
         streamToResponse(dataStream, response);
         return null;
+    }
+
+    public ActionForward printNoticeFromNotification(ActionMapping mapping, ActionForm form,
+                                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String awardNoticeId = request.getParameter(AWARD_NOTICE_ID);
+        AwardNoticePrintout printout = getAwardNoticePrintout(awardNoticeId);
+
+        Award award = getAwardService().getAward(printout.getAwardId());
+
+        // Check if the user can view this Award-- if so then they can print the Notice
+        AwardTask viewTask = new AwardTask(AwardTaskNames.VIEW_AWARD.getAwardTaskName(), award);
+
+        if (!getTaskAuthorizationService().isAuthorized(getGlobalVariableService().getUserSession().getPrincipalId(), viewTask)) {
+            String principalName = getGlobalVariableService().getUserSession().getPerson().getPrincipalName();
+            String authMessage = String.format("User '%s' is not authorized to print Award Notice for Award %s",
+                    principalName, award.getAwardNumber());
+            throw new AuthorizationException(principalName, PRINT, AWARD_NOTICE, authMessage, new HashMap<>());
+        }
+
+        try(ByteArrayOutputStream noticeOutputStream = new ByteArrayOutputStream()) {
+            noticeOutputStream.write(printout.getPdfContent());
+
+            WebUtils.saveMimeOutputStreamAsFile(response, Constants.PDF_REPORT_CONTENT_TYPE,
+                    noticeOutputStream, printout.getAwardNumber() + AWARD_NOTICE_REPORT + Constants.PDF_FILE_EXTENSION);
+        }
+
+        return null;
+    }
+
+    protected AwardNoticePrintout getAwardNoticePrintout(String awardNoticeId) {
+        Map<String, Long> printoutKeyMap = new HashMap<>();
+        printoutKeyMap.put(AWARD_NOTICE_ID, Long.valueOf(awardNoticeId));
+        AwardNoticePrintout printout = getBusinessObjectService().findByPrimaryKey(AwardNoticePrintout.class, printoutKeyMap);
+
+        if (printout == null) {
+            String authMessage = String.format("No Award Notice with an ID of %s exists", awardNoticeId);
+            throw new AuthorizationException(getGlobalVariableService().getUserSession().getPerson().getPrincipalName(),
+                    PRINT, AWARD_NOTICE, authMessage, new HashMap<>());
+        }
+        return printout;
+    }
+
+    protected GlobalVariableService getGlobalVariableService() {
+        if (globalVariableService == null) {
+            globalVariableService = KcServiceLocator.getService(GlobalVariableService.class);
+        }
+        return globalVariableService;
+    }
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        if (taskAuthorizationService == null) {
+            taskAuthorizationService = KcServiceLocator.getService(TaskAuthorizationService.class);
+        }
+        return taskAuthorizationService;
+    }
+
+    public ActionForward sendNotice(ActionMapping mapping, ActionForm form,
+                                    HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        Award award = awardForm.getAwardDocument().getAward();
+
+        AwardNoticePrintout awardPrintout = createAwardNoticePrintout(award, awardForm.getAwardPrintNotice());
+
+        AwardNoticeNotificationRenderer noticeRenderer = new AwardNoticeNotificationRenderer(awardPrintout.getAwardNoticeId(), award.getAwardNumber());
+        AwardNotificationContext noticeContext = new AwardNotificationContext(award, AWARD_NOTICE_ACTION_CODE,
+                AWARD_NOTICE, noticeRenderer, Constants.MAPPING_AWARD_ACTIONS_PAGE);
+
+        awardForm.getNotificationHelper().initializeDefaultValues(noticeContext);
+        if (awardForm.getNotificationHelper().getPromptUserForNotificationEditor(noticeContext)) {
+            return mapping.findForward(NOTIFICATION_EDITOR);
+        }
+        else {
+            getNotificationService().sendNotification(noticeContext);
+        }
+
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+
+    protected AwardNoticePrintout createAwardNoticePrintout(Award award, AwardPrintNotice awardPrintNotice) {
+        AttachmentDataSource dataStream = getAwardPrintingService().printAwardReport(
+                award, AwardPrintType.AWARD_NOTICE_REPORT, populateResponseParametersForNotice(awardPrintNotice));
+
+        AwardNoticePrintout awardPrintout = new AwardNoticePrintout(award.getAwardId(), award.getAwardNumber(), award.getUnitNumber());
+        awardPrintout.setPdfContent(dataStream.getData());
+        return getBusinessObjectService().save(awardPrintout);
+    }
+
+    protected Map<String, Object> populateResponseParametersForNotice(AwardPrintNotice awardPrintNotice) {
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        reportParameters.put(AwardPrintParameters.ADDRESS_LIST
+                .getAwardPrintParameter(), awardPrintNotice.getSponsorContacts());
+        reportParameters.put(AwardPrintParameters.FOREIGN_TRAVEL
+                .getAwardPrintParameter(), awardPrintNotice.getForeignTravel());
+        reportParameters.put(AwardPrintParameters.REPORTING
+                .getAwardPrintParameter(), awardPrintNotice.getReports());
+        reportParameters.put(AwardPrintParameters.CLOSEOUT
+                .getAwardPrintParameter(), awardPrintNotice.getCloseout());
+        reportParameters.put(AwardPrintParameters.FUNDING_SUMMARY
+                .getAwardPrintParameter(), awardPrintNotice.getFundingSummary());
+        reportParameters.put(AwardPrintParameters.SPECIAL_REVIEW
+                .getAwardPrintParameter(), awardPrintNotice.getSpecialReview());
+        reportParameters.put(AwardPrintParameters.COMMENTS
+                .getAwardPrintParameter(), awardPrintNotice.getComments());
+        reportParameters.put(AwardPrintParameters.HIERARCHY_INFO
+                .getAwardPrintParameter(), awardPrintNotice.getHierarchy());
+        reportParameters.put(AwardPrintParameters.SUBCONTRACT
+                .getAwardPrintParameter(), awardPrintNotice.getSubAward());
+        reportParameters.put(AwardPrintParameters.COST_SHARING
+                .getAwardPrintParameter(), awardPrintNotice.getCostShare());
+        reportParameters.put(AwardPrintParameters.KEYWORDS
+                .getAwardPrintParameter(), awardPrintNotice.getKeywords());
+        reportParameters.put(AwardPrintParameters.TECHNICAL_REPORTING
+                .getAwardPrintParameter(), awardPrintNotice.getTechnicalReports());
+        reportParameters.put(AwardPrintParameters.EQUIPMENT
+                .getAwardPrintParameter(), awardPrintNotice.getEquipment());
+        reportParameters.put(AwardPrintParameters.OTHER_DATA
+                .getAwardPrintParameter(), awardPrintNotice.getOtherData());
+        reportParameters.put(AwardPrintParameters.TERMS
+                .getAwardPrintParameter(), awardPrintNotice.getTerms());
+        reportParameters.put(AwardPrintParameters.FA_COST
+                .getAwardPrintParameter(), awardPrintNotice.getFaRates());
+        reportParameters.put(AwardPrintParameters.PAYMENT
+                .getAwardPrintParameter(), awardPrintNotice.getPayment());
+        reportParameters.put(AwardPrintParameters.FLOW_THRU
+                .getAwardPrintParameter(), awardPrintNotice.getFlowThru());
+        reportParameters.put(AwardPrintParameters.PROPOSAL_DUE
+                .getAwardPrintParameter(), false);
+        reportParameters.put(AwardPrintParameters.SIGNATURE_REQUIRED
+                .getAwardPrintParameter(), awardPrintNotice.getRequireSignature());
+       return reportParameters;
+    }
+
+    protected KcNotificationService getNotificationService() {
+        if (notificationService == null) {
+            notificationService = KcServiceLocator.getService(KcNotificationService.class);
+        }
+        return notificationService;
     }
 
     public ActionForward printChangeReport(ActionMapping mapping,
@@ -462,9 +552,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         reportParameters.put(AwardPrintParameters.TRANSACTION_ID_INDEX
                 .getAwardPrintParameter(), awardForm
                 .getAwardPrintChangeReport().getAmountInfoIndex());
-        AwardPrintingService awardPrintService = KcServiceLocator
-                .getService(AwardPrintingService.class);
-        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+        AttachmentDataSource dataStream = getAwardPrintingService().printAwardReport(
                 awardForm.getAwardDocument().getAward(), AwardPrintType.AWARD_DELTA_REPORT,
                 reportParameters);
         streamToResponse(dataStream, response);
@@ -474,11 +562,9 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward printHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        AwardPrintingService awardPrintService = KcServiceLocator
-                .getService(AwardPrintingService.class);
-        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+        AttachmentDataSource dataStream = getAwardPrintingService().printAwardReport(
                 awardForm.getAwardDocument().getAward(),
-                AwardPrintType.AWARD_BUDGET_HIERARCHY,reportParameters);
+                AwardPrintType.AWARD_BUDGET_HIERARCHY, reportParameters);
         streamToResponse(dataStream, response);
         return null;
     }
@@ -495,11 +581,9 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward printTimeMoneyHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        AwardPrintingService awardPrintService = KcServiceLocator
-                .getService(AwardPrintingService.class);
-        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+        AttachmentDataSource dataStream = getAwardPrintingService().printAwardReport(
                 awardForm.getAwardDocument().getAward(),
-                AwardPrintType.MONEY_AND_END_DATES_HISTORY,reportParameters);
+                AwardPrintType.MONEY_AND_END_DATES_HISTORY, reportParameters);
         streamToResponse(dataStream, response);
         return null;
     }
@@ -517,13 +601,18 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 .getAwardTimeAndMoneyTransactionReport().getAwardVersion());
         reportParameters.put(AwardPrintParameters.TRANSACTION_ID_INDEX
                 .getAwardPrintParameter(), awardForm.getAwardTimeAndMoneyTransactionReport().getAmountInfoIndex());
-        AwardPrintingService awardPrintService = KcServiceLocator
-                .getService(AwardPrintingService.class);
-        AttachmentDataSource dataStream = awardPrintService.printAwardReport(
+        AttachmentDataSource dataStream = getAwardPrintingService().printAwardReport(
                 awardForm.getAwardDocument().getAward(),
                 AwardPrintType.AWARD_BUDGET_HISTORY_TRANSACTION, reportParameters);
         streamToResponse(dataStream, response);
         return null;
+    }
+
+    protected AwardPrintingService getAwardPrintingService() {
+        if(awardPrintingService == null) {
+            awardPrintingService = KcServiceLocator.getService(AwardPrintingService.class);
+        }
+        return awardPrintingService;
     }
 
     public AwardNumberService getAwardNumberService(){
@@ -899,7 +988,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         
         awardForm.getNotificationHelper().initializeDefaultValues(context);
         
-        return mapping.findForward("notificationEditor");
+        return mapping.findForward(NOTIFICATION_EDITOR);
     }
     
 }

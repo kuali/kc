@@ -43,7 +43,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     public static final String APPLICATION_URL_PARM = "application.url";
 
     private transient KcPersonService kcPersonService;
-    private ConfigurationService kualiConfigurationService;
+    private transient ConfigurationService kualiConfigurationService;
     
     @Override
     public String render(String text) {
@@ -112,7 +112,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
         return retVal;
     }
 
-    private ConfigurationService getKualiConfigurationService() {
+    protected ConfigurationService getKualiConfigurationService() {
         if (kualiConfigurationService == null) {
             kualiConfigurationService = CoreApiServiceLocator.getKualiConfigurationService();
         }

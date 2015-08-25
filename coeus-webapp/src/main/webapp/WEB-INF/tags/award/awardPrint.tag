@@ -149,9 +149,15 @@
       			  </div>  
       			 </div>
 				</td>
-				<td class="infoline" style="text-align:center;"><html:image property="methodToCall.printNotice"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif' 
-						alt="Print Award Notice" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></td>
+				<td class="infoline" style="text-align:center;">
+					<div><html:image property="methodToCall.printNotice"
+									 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif'
+									 alt="Print Award Summary" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></div>
+					<div style="padding-top: 10px;">
+						<html:image property="methodToCall.sendNotice"
+									src='${ConfigProperties.kr.externalizable.images.url}tinybutton-send.gif'
+									alt="Send Award Summary" styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/></div>
+				</td>
 			</tr><tr> 
 				<th scope="row" style="width:150px; text-align: left;">Award Modification</th>
 				 <td style="padding: 5px;">
