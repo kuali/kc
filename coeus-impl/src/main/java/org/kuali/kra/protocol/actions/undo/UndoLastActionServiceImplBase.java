@@ -194,13 +194,11 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
                 ProtocolOnlineReviewBase copiedReview = (ProtocolOnlineReviewBase) ObjectUtils.deepCopy(onlineReview);
                 ProtocolReviewer reviewer = getReviewer(onlineReview, protocol);
                 setNewOnlnReview(copiedReview, reviewer, protocol);
-
                 ProtocolOnlineReviewDocumentBase document = protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(
                         protocolSubmission, reviewer, oldDoc.getDocumentHeader().getDocumentDescription(), oldDoc
                                 .getDocumentHeader().getExplanation(), oldDoc.getDocumentHeader().getOrganizationDocumentNumber(),
                         routeAnnotation, initialApproval, dateRequested, dateDue, sessionPrincipalId);
                 copiedReview.setProtocolOnlineReviewDocument(document);
-                document.setProtocolOnlineReview(copiedReview);
                 if (isAsyncComplete(document.getDocumentNumber())) {
                     documentService.saveDocument(document);
                 }
@@ -209,6 +207,31 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
             }
         }
 
+    }
+
+    /*
+   * copy old onlnreview, and reset key &amp; fk fields.
+   */
+    protected void setNewOnlnReview(ProtocolOnlineReviewBase copiedReview, ProtocolReviewer reviewer, ProtocolBase protocol) {
+        ProtocolSubmissionBase protocolSubmission = protocol.getProtocolSubmission();
+        copiedReview.setProtocolReviewer(reviewer);
+        copiedReview.setProtocolReviewerId(reviewer.getProtocolReviewerId());
+        copiedReview.setProtocolOnlineReviewId(null);
+        copiedReview.setSubmissionIdFk(protocolSubmission.getSubmissionId());
+        copiedReview.setProtocolId(protocol.getProtocolId());
+        if (CollectionUtils.isNotEmpty(copiedReview.getCommitteeScheduleMinutes())) {
+            for (CommitteeScheduleMinuteBase comment : copiedReview.getCommitteeScheduleMinutes()) {
+                comment.setProtocolIdFk(protocol.getProtocolId());
+                comment.setProtocolOnlineReviewIdFk(null);
+            }
+        }
+        if (CollectionUtils.isNotEmpty(copiedReview.getReviewAttachments())) {
+            for (ProtocolReviewAttachmentBase reviewAttachment : copiedReview.getReviewAttachments()) {
+                reviewAttachment.setProtocolIdFk(protocol.getProtocolId());
+                reviewAttachment.setProtocolOnlineReviewIdFk(null);
+                reviewAttachment.setSubmissionIdFk(protocolSubmission.getSubmissionId());
+            }
+        }
     }
 
     /*
@@ -270,31 +293,6 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
         businessObjectService.save(reviewer);
         return reviewer;
 
-    }
-    
-    /*
-     * copy old onlnreview, and reset key &amp; fk fields.
-     */
-    protected void setNewOnlnReview(ProtocolOnlineReviewBase copiedReview, ProtocolReviewer reviewer, ProtocolBase protocol) {
-        ProtocolSubmissionBase protocolSubmission = protocol.getProtocolSubmission();
-        copiedReview.setProtocolReviewer(reviewer);
-        copiedReview.setProtocolReviewerId(reviewer.getProtocolReviewerId());
-        copiedReview.setProtocolOnlineReviewId(null);
-        copiedReview.setSubmissionIdFk(protocolSubmission.getSubmissionId());
-        copiedReview.setProtocolId(protocol.getProtocolId());
-        if (CollectionUtils.isNotEmpty(copiedReview.getCommitteeScheduleMinutes())) {
-            for (CommitteeScheduleMinuteBase comment : copiedReview.getCommitteeScheduleMinutes()) {
-                comment.setProtocolIdFk(protocol.getProtocolId());
-                comment.setProtocolOnlineReviewIdFk(null);
-            }
-        }       
-        if (CollectionUtils.isNotEmpty(copiedReview.getReviewAttachments())) {
-            for (ProtocolReviewAttachmentBase reviewAttachment : copiedReview.getReviewAttachments()) {
-                reviewAttachment.setProtocolIdFk(protocol.getProtocolId());
-                reviewAttachment.setProtocolOnlineReviewIdFk(null);
-                reviewAttachment.setSubmissionIdFk(protocolSubmission.getSubmissionId());
-            }
-        }       
     }
     
     /*
