@@ -19,12 +19,15 @@
 package org.kuali.kra.institutionalproposal.rules;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.bo.CostShareType;
 import org.kuali.coeus.common.framework.costshare.CostShareRuleResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalCostShare;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;
@@ -36,7 +39,8 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
     private InstitutionalProposalCostShare institutionalProposalCostShare;
     private String fieldStarter = "";
     private boolean displayNullFieldErrors = true;
-    
+    private ParameterService parameterService;
+
     @Override
     public boolean processAddInstitutionalProposalCostShareBusinessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent) {
         this.fieldStarter = "institutionalProposalCostShareBean.newInstitutionalProposalCostShare";
@@ -53,26 +57,35 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
     
     private boolean proccessRules(InstitutionalProposalAddCostShareRuleEvent institutionalProposalAddCostShareRuleEvent) {
         this.institutionalProposalCostShare = institutionalProposalAddCostShareRuleEvent.getCostShareForValidation();
-        
-        boolean isValid = processCommonValidations(institutionalProposalCostShare);
-        
-        // test if percentage is valid
-        isValid &= validatePercentage(institutionalProposalCostShare.getCostSharePercentage());
-        
-        // test if type is selected and valid
-        isValid &= validateCostShareType(institutionalProposalCostShare.getCostShareTypeCode());
-        
-        // test if commitment amount is entered and valid
-        isValid &= validateAmount(institutionalProposalCostShare.getAmount());
-        
-        isValid &= validateSourceAccount(institutionalProposalCostShare.getSourceAccount());
+        boolean isValid = true;
+        if (isCostSharingApplicable() && isCostSharingEnforced()) {
+            isValid = processCommonValidations(institutionalProposalCostShare);
+            isValid &= validatePercentage(institutionalProposalCostShare.getCostSharePercentage());
+            isValid &= validateCostShareType(institutionalProposalCostShare.getCostShareTypeCode());
+            isValid &= validateAmount(institutionalProposalCostShare.getAmount());
+            isValid &= validateSourceAccount(institutionalProposalCostShare.getSourceAccount());
+        }
         
         return isValid;
     }
-    
+
+    public Boolean isCostSharingEnforced() {
+        return getParameterService().getParameterValueAsBoolean(Budget.class, Constants.BUDGET_COST_SHARING_ENFORCEMENT_FLAG);
+    }
+
+    public Boolean isCostSharingApplicable() {
+        return getParameterService().getParameterValueAsBoolean(Budget.class, Constants.BUDGET_COST_SHARING_APPLICABILITY_FLAG);
+    }
+
+    protected ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = KcServiceLocator.getService(ParameterService.class);
+        }
+        return parameterService;
+    }
+
     /**
      * This method processes common validations for business rules
-     * @param event
      * @return
      */
     public boolean processCommonValidations(InstitutionalProposalCostShare institutionalProposalCostShare) {
@@ -84,7 +97,6 @@ public class InstitutionalProposalAddCostShareRuleImpl extends CostShareRuleRese
    /**
     *
     * Test fiscal year for valid range.
-    * @param AwardCostShare, ErrorMap
     * @return Boolean
     */
     public boolean validateCostShareFiscalYearRange(InstitutionalProposalCostShare institutionalProposalCostShare){

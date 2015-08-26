@@ -66,24 +66,16 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
      * This method processes common validations for business rules
      */
     public boolean processCommonValidations(InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA, List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs) {
-        boolean validFiscalYearRange = validateUnrecoveredFandAFiscalYearRange(institutionalProposalUnrecoveredFandA);
-        
-     // test if percentage is valid
-        boolean validPercentage = validatePercentage(institutionalProposalUnrecoveredFandA.getApplicableIndirectcostRate());
-        
-        // test if type is selected and valid
-        boolean validRateType = validateRateType(institutionalProposalUnrecoveredFandA.getIndirectcostRateTypeCode());
-        
-        // test if source account is valid
-        boolean validSourceAccount = validateSourceAccount(institutionalProposalUnrecoveredFandA.getSourceAccount());
-        
-        // test if amount is entered and valid
-        boolean validAmount = validateAmount(institutionalProposalUnrecoveredFandA.getAmount());
-        
-        // test if row is a duplicate
-        boolean validRows = checkNoDuplicates(institutionalProposalUnrecoveredFandA, institutionalProposalUnrecoveredFandAs);
- 
-        return validFiscalYearRange && validPercentage && validRateType && validSourceAccount && validAmount  && validRows;
+        if (isUnrecoveredFandAApplicable() && isUnrecoveredFandAEnforced()) {
+            boolean validFiscalYearRange = validateUnrecoveredFandAFiscalYearRange(institutionalProposalUnrecoveredFandA);
+            boolean validPercentage = validatePercentage(institutionalProposalUnrecoveredFandA.getApplicableIndirectcostRate());
+            boolean validRateType = validateRateType(institutionalProposalUnrecoveredFandA.getIndirectcostRateTypeCode());
+            boolean validSourceAccount = validateSourceAccount(institutionalProposalUnrecoveredFandA.getSourceAccount());
+            boolean validAmount = validateAmount(institutionalProposalUnrecoveredFandA.getAmount());
+            boolean validRows = checkNoDuplicates(institutionalProposalUnrecoveredFandA, institutionalProposalUnrecoveredFandAs);
+            return validFiscalYearRange && validPercentage && validRateType && validSourceAccount && validAmount && validRows;
+        }
+        return true;
     }
     
     /**
@@ -140,11 +132,9 @@ public class InstitutionalProposalUnrecoveredFandARuleImpl extends KcTransaction
     
     private boolean validateSourceAccount(String a) {
         boolean isValid = true;
-        if (isUnrecoveredFandAApplicable() && isUnrecoveredFandAEnforced()) {
-            if (StringUtils.isBlank(a)) {
-                isValid = false;
-                this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + SOURCE_ACCOUNT_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_SOURCE_ACCOUNT_REQUIRED);
-            }
+        if (StringUtils.isBlank(a)) {
+            isValid = false;
+            this.reportError(Constants.IP_UNRECOVERED_FNA_ACTION_PROPERTY_KEY + SOURCE_ACCOUNT_PROP, KeyConstants.ERROR_PROPOSAL_UFNA_SOURCE_ACCOUNT_REQUIRED);
         }
         return isValid;
     }
