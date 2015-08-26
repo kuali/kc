@@ -1,8 +1,21 @@
 
 
 ##CURRENT
-* No Changes
-
+* when there is a pending and active award when a time and money document is submitted add award amount info to both versions of the award
+  * Joe Williams on Fri, 21 Aug 2015 14:26:35 -0500 [View Commit](../../commit/5457c4d191f3b1c375b5b51e355cd32227b60ddf)
+*  Fix undo last action.
+  * Create protocol
+  * Submit Protocol
+  * -Assign committee
+  * -Assign schedule
+  * -Expedited review
+  * -checklist
+  * -Assign reviewer
+  * Return for Specific Minor Revisions or Substantial Revisions Required
+  * Undo Last Action
+  * Get:
+  * org.springframework.dao.DataIntegrityViolationException: OJB operation; SQL []; Duplicate entry '2012-2023-2024' for key 'UQ1_PROTOCOL_ONLN_RVWS'; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '2012-2023-2024' for key 'UQ1_PROTOCOL_ONLN_RVWS'
+  * Gayathri Athreya on Tue, 25 Aug 2015 12:21:03 -0700 [View Commit](../../commit/026d30a0798d928684fce33218dbb290a926d899)
 
 ##coeus-1508.36
 *  Making All My Reviews link under the IRB section link to IRB Online Reviews not IACUC Online Reviews
@@ -295,6 +308,10 @@
 
 
 ##coeus-1508.1
+* No Changes
+
+
+##coeus-1508.0005
 * No Changes
 
 
