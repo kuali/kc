@@ -16,6 +16,24 @@
   * Get:
   * org.springframework.dao.DataIntegrityViolationException: OJB operation; SQL []; Duplicate entry '2012-2023-2024' for key 'UQ1_PROTOCOL_ONLN_RVWS'; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '2012-2023-2024' for key 'UQ1_PROTOCOL_ONLN_RVWS'
   * Gayathri Athreya on Tue, 25 Aug 2015 12:21:03 -0700 [View Commit](../../commit/026d30a0798d928684fce33218dbb290a926d899)
+*  Reverting previous performance fixes that caused a bunch of bugs and fixing current issue with final flag.
+  * Create IACUC protocol
+  * Submit
+  * Modify submission to assign, committee, and reviewers. (Use DMR review type in testing.)
+  * Scenario 1:
+  * As reviewer in online review document, enter or select comment and add.
+  * Save.
+  * -Expected: Comment is saved and still editable.
+  * -Actual: Comment is read only.
+  * Scenario 2:
+  * As IACUC admin go to Online review and enter or select comment on behalf of reviewer, mark final and add.
+  * -Expected: . Final flag is still checked.
+  * -Actual: Comment is marked not Final.
+  * Mark comment final.
+  * Save
+  * -Expected: Comment is still editable and marked Final.
+  * -Actual: Comment is marked final but is now read only
+  * Gayathri Athreya on Wed, 26 Aug 2015 09:13:57 -0700 [View Commit](../../commit/29f23db878e465737c499f0e7671458cd2698d43)
 
 ##coeus-1508.36
 *  Making All My Reviews link under the IRB section link to IRB Online Reviews not IACUC Online Reviews
@@ -308,6 +326,10 @@
 
 
 ##coeus-1508.1
+* No Changes
+
+
+##coeus-1508.0007
 * No Changes
 
 
