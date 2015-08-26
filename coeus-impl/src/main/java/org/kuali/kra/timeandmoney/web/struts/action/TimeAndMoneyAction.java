@@ -983,6 +983,8 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
         String rootAwardNumber = doc.getRootAwardNumber();
         TimeAndMoneyDocument finalTandM = getTimeAndMoneyVersionService().findOpenedTimeAndMoney(rootAwardNumber);
         String routeHeaderId = finalTandM.getDocumentHeader().getWorkflowDocument().getDocumentId();
+        String returnAwardDocId = (String) GlobalVariables.getUserSession().retrieveObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + doc.getDocumentNumber());
+        GlobalVariables.getUserSession().addObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + routeHeaderId, returnAwardDocId);
         String forwardString = buildForwardUrl(routeHeaderId);
         return new ActionForward(forwardString, true);
     }
