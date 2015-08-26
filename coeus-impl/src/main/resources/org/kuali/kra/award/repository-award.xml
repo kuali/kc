@@ -1599,8 +1599,14 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	
     </class-descriptor>
-    
-	
+
+	<class-descriptor class="org.kuali.kra.award.notification.AwardNoticePrintout" table="AWARD_NOTICE">
+		<field-descriptor name="awardNoticeId" column="AWARD_NOTICE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_NOTICE_ID" />
+		<field-descriptor name="awardId" column="AWARD_ID" jdbc_type="BIGINT"/>
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc_type="VARCHAR"/>
+		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc_type="VARCHAR"/>
+		<field-descriptor name="pdfContent" column="PDF_CONTENT" jdbc_type="CLOB"/>
+	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingBudgetedGoals" table="SUBCONTRACTING_BUD">
 		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
