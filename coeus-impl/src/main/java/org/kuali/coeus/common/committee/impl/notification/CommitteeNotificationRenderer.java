@@ -103,10 +103,5 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
 
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
-    }
-
-    private ConfigurationService getKualiConfigurationService() {
-        return CoreApiServiceLocator.getKualiConfigurationService();
-    }
-    
+    }    
 }
