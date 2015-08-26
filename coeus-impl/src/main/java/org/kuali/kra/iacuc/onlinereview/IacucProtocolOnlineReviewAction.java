@@ -151,7 +151,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             CommitteeScheduleMinuteBase newReviewComment = reviewCommentsBean.getNewReviewComment();
             List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
             List<CommitteeScheduleMinuteBase> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
-            if (protocolForm.getEditingMode().get(TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS) == null) {
+            if (protocolForm.getEditingMode().get(TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS) == null) {
                 newReviewComment.setPrivateCommentFlag(true);
                 newReviewComment.setFinalFlag(false);
             }

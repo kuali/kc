@@ -77,7 +77,6 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
         
         IacucProtocolDocument iacucProtocolDocument = (IacucProtocolDocument) protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocol().getProtocolDocument();
         boolean canAdministerCommitteeScheduleMinutes = canExecuteIacucProtocolTask(userId,iacucProtocolDocument,TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS);
-        boolean canEdit = editModes.contains(CAN_SAVE);
         /**
          * The service returns all the minutes for the assoicated Iacuc protocol, however, the permissions described above are only for the specific review being iterated 
          * at this time.  So, we set the minute's read only for the minutes associated with this online review.
@@ -87,7 +86,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
             Long onlineReviewId = protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolOnlineReviewId();
             if (ObjectUtils.equals(minuteOnlineReviewId, onlineReviewId)) {
                 boolean isCreator = StringUtils.equalsIgnoreCase(minute.getCreateUser(), GlobalVariables.getUserSession().getPrincipalName());
-                minute.setReadOnly(!(canEdit && (canAdministerCommitteeScheduleMinutes || isCreator)));
+                minute.setReadOnly(!(editModes.contains(CAN_SAVE) && (canAdministerCommitteeScheduleMinutes || isCreator)));
             }
             
         }
