@@ -161,49 +161,6 @@
                         </configuration>
                     </execution>
 
-                    <!--
-                        these executions places the dependant rice war in the target directory to make it easier to
-                        launch a standalone server
-                    -->
-                    <execution>
-                        <id>copy-rice-war</id>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.kuali.rice</groupId>
-                                    <artifactId>rice-standalone</artifactId>
-                                    <version>${rice.version}</version>
-                                    <type>war</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${rice.output.dir}</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                            <stripVersion>true</stripVersion>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>copy-rice-war-unpack</id>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.kuali.rice</groupId>
-                                    <artifactId>rice-standalone</artifactId>
-                                    <version>${rice.version}</version>
-                                    <type>war</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${rice.war.dir}</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-
                 </executions>
             </plugin>
 
@@ -309,6 +266,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-clean-plugin</artifactId>
+                        <version>${maven-clean-plugin.version}</version>
                         <configuration>
                             <filesets>
                                 <fileset>
@@ -326,66 +284,10 @@
             </build>
         </profile>
 
-        <!--
-         This profile defines plugins for running a rice standalone server.
-
-         This profile is sort of a hack as the tomcat plugins are meant
-         for running "this" application and not an external application. The maven
-         cargo plugin might be better suited for this kind of task if they would
-         support embedded tomcat.
-
-         Since this is not really the maven way to do things, once we have an alternate
-         structure this will no longer be needed.  we will do the following:
-         1) have a new child module called kc-rice-standalone.  It will be an empty overlay of rice-standalone.
-         2) configure all the tomcat stuff in a central place under pluginManagement
-         3) to run kc you go to the kc web module and invoke tomcat
-         4) to run rice you go to the kc-rice-standalone and invoke tomcat
-         -->
-        <profile>
-            <id>rice-server</id>
-            <properties>
-                <enforcer.phase>none</enforcer.phase>
-                <rice.context.path>/kr-${build.environment}</rice.context.path>
-                <rice.port>8090</rice.port>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.tomcat.maven</groupId>
-                        <artifactId>tomcat7-maven-plugin</artifactId>
-                        <version>${tomcat7-maven-plugin.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>${db.groupId}</groupId>
-                                <artifactId>${db.artifactId}</artifactId>
-                                <version>${db.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.springframework</groupId>
-                                <artifactId>spring-instrument-tomcat</artifactId>
-                                <version>${spring.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                        </dependencies>
-                        <configuration>
-                            <classLoaderClass>
-                                org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader
-                            </classLoaderClass>
-                            <port>${rice.port}</port>
-                            <path>${rice.context.path}</path>
-                            <warDirectory>${rice.war.file}</warDirectory>
-                            <warSourceDirectory>${rice.war.dir}</warSourceDirectory>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
         <profile>
             <id>precompile-jsp-tomcat-7</id>
             <properties>
-                <tomcat.version>7.0.59</tomcat.version>
+                <tomcat.version>7.0.64</tomcat.version>
             </properties>
             <build>
                 <plugins>

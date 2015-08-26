@@ -152,7 +152,7 @@
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
         <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
-        <maven-release-plugin.version>2.5.1</maven-release-plugin.version>
+        <maven-release-plugin.version>2.5.2</maven-release-plugin.version>
         <maven-resources-plugin.version>2.7</maven-resources-plugin.version>
         <maven-scm-provider-gitexe.version>1.9.4</maven-scm-provider-gitexe.version>
         <maven-site-plugin.version>3.4</maven-site-plugin.version>
@@ -196,7 +196,7 @@
 
         <enforcer.phase>validate</enforcer.phase>
 
-        <require.maven.version>3.0</require.maven.version>
+        <require.maven.version>3.3</require.maven.version>
 
         <project.encoding>UTF-8</project.encoding>
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
