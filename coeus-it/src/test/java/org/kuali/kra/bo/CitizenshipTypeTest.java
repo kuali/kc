@@ -20,11 +20,13 @@ package org.kuali.kra.bo;
 
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.coeus.common.api.person.attr.CitizenshipTypeService;
 import org.kuali.coeus.common.framework.person.attr.CitizenshipType;
-import org.kuali.coeus.s2sgen.impl.citizenship.CitizenshipTypeService;
+import org.kuali.coeus.propdev.impl.person.ProposalPerson;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -83,44 +85,12 @@ public class CitizenshipTypeTest extends KcIntegrationTestBase {
     }
     
     @Test
-    public void testGetEnumValueOfCitizenshipType1() throws Exception {
-        Map arguments = new HashMap();
-        arguments.put("CITIZENSHIP_TYPE_CODE", "1");
-        CitizenshipType ct = (CitizenshipType)businessObjectService.findByPrimaryKey(CitizenshipType.class, arguments); 
-        Enum result = citizenshipService.getEnumValueOfCitizenshipType(ct);
-        assertEquals(CitizenshipDataType.INT_U_S_CITIZEN_OR_NONCITIZEN_NATIONAL, result.intValue());
-    }
-       
-    @Test
-    public void testGetEnumValueOfCitizenshipType2() throws Exception {
-        Map arguments = new HashMap();
-        arguments.put("CITIZENSHIP_TYPE_CODE", "2");
-        CitizenshipType ct = (CitizenshipType)businessObjectService.findByPrimaryKey(CitizenshipType.class, arguments); 
-        Enum result = citizenshipService.getEnumValueOfCitizenshipType(ct);
-        assertEquals(CitizenshipDataType.INT_PERMANENT_RESIDENT_OF_U_S, result.intValue());
-    }
-    
-    @Test
-    public void testGetEnumValueOfCitizenshipType3() throws Exception {
-        Map arguments = new HashMap();
-        arguments.put("CITIZENSHIP_TYPE_CODE", "3");
-        CitizenshipType ct = (CitizenshipType)businessObjectService.findByPrimaryKey(CitizenshipType.class, arguments);
-        Enum result = citizenshipService.getEnumValueOfCitizenshipType(ct);
-        assertEquals(CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA, result.intValue());
-    }
-    
-    @Test
-    public void testGetEnumValueOfCitizenshipType4() throws Exception {
-        CitizenshipType testType = new CitizenshipType();
-        testType.setCode(-101);
-        testType.setDescription("super awesome cool description");
-        try {
-            Enum result = citizenshipService.getEnumValueOfCitizenshipType(testType);
-        } catch (IllegalArgumentException iae) {
-            assertEquals("Invalid citizenship type provided", iae.getMessage());
-            return;
-        }
-        //the getEnumValue function should throw an exception, if not, it accepted an invalid citisenship type
-        assertTrue(false);
+    public void testGetPersonCitizenshipType() {
+    	CitizenshipType type = new CitizenshipType();
+    	type.setCode(1);
+    	ProposalPerson testPerson = new ProposalPerson();
+    	testPerson.setPersonId("10000000001");
+    	testPerson.setCitizenshipType(type);
+    	assertEquals(org.kuali.coeus.common.api.person.attr.CitizenshipType.US_CITIZEN_OR_NONCITIZEN_NATIONAL, citizenshipService.getPersonCitizenshipType(testPerson));
     }
 }
