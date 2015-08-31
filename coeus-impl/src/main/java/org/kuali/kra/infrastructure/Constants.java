@@ -141,8 +141,6 @@ public interface Constants {
     public static final String KNS_AUDIT_ERRORS = AUDIT_ERRORS;
     
     public static final String CURRENT_PENDING_REPORT_GROUP_NAME = "CURRENT_PENDING_REPORT_GROUP_NAME";
-    //public static final String PROPOSAL_ACTIONS_PAGE = "proposalActions";
-    //public static final String ABSTRACTS_AND_ATTACHMENTS_PAGE = "abstractsAttachments";
     public static final String PROPOSAL_PAGE = "proposal";
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String CERTIFICATION_PAGE = "PropDev-CertificationView-Page";
