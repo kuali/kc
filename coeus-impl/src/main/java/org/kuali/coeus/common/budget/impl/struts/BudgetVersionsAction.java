@@ -120,8 +120,8 @@ public class BudgetVersionsAction extends BudgetAction {
                 return confirm(
                         syncAwardBudgetRateConfirmationQuestion(mapping, form, request, response,
 	                    KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_AWARD_RATES, NO_SYNCH_AWARD_RATES);
-	        	 }
-	        	 }
+            }
+        }
         if (budgetService.checkActivityTypeChange(allPropRates, budgetParent.getActivityTypeCode())) {
             //Rates-Refresh Scenario-2
             budget.setRateClassTypesReloaded(true);
