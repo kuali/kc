@@ -85,7 +85,7 @@ public class ReportForwardAction extends KualiDocumentActionBase {
         String clientId = getClientId(request);
         String reportId = request.getParameter("reportId");
         
-        if (!getUnitAuthorizationService().hasPermission(currentUserId, getUnitService().getTopUnit().getUnitNumber(), RoleConstants.DEPARTMENT_ROLE_TYPE, PermissionConstants.RUN_GLOBAL_REPORTS)) {
+        if (!getUnitAuthorizationService().hasPermission(currentUserId, RoleConstants.DEPARTMENT_ROLE_TYPE, PermissionConstants.RUN_GLOBAL_REPORTS)) {
         	throw new AuthorizationException(currentUserName, "Run", "Reports");
         }
 
