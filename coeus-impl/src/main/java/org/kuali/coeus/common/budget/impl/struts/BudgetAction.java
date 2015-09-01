@@ -163,9 +163,12 @@ public class BudgetAction extends BudgetActionBase {
         AwardBudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         String routeHeaderId = budgetDoc.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
+        forward = forward.replace(Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION);
+
         if (confirm) {
-            forward = forward.replace("awardBudgetParameters.do?", "awardBudgetParameters.do?syncBudgetRate=Y&");
+            forward = forward.replace(Constants.AWARD_BUDGET_PARAMETERS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + "syncBudgetRate=Y&");
          }
+
         return new ActionForward(forward, true);
     }
     

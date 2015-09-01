@@ -908,7 +908,11 @@ public interface Constants {
     public static final String SPONSOR_HIERACHY_REQ_DIV_PROG_CODES = "SPONSOR_HIERACHY_REQ_DIV_PROG_CODES";
 
     public static final String MM_DD_YYYY_HH_MM_A_DATE_FORMAT = "MM/dd/yyyy hh:mm a";
-    String CAN_MAINTAIN_IP_ATTACHMENTS = "CAN_MAINTAIN_IP_ATTACHMENTS";
-    String CAN_VIEW_IP_ATTACHMENTS = "CAN_VIEW_IP_ATTACHMENTS";
+    public static final String CAN_MAINTAIN_IP_ATTACHMENTS = "CAN_MAINTAIN_IP_ATTACHMENTS";
+    public static final String CAN_VIEW_IP_ATTACHMENTS = "CAN_VIEW_IP_ATTACHMENTS";
+
+    // award actions
+    public static final String AWARD_BUDGET_PARAMETERS_ACTION = "awardBudgetParameters.do?";
+    public static final String AWARD_BUDGET_VERSIONS_ACTION = "awardBudgetVersions.do?";
 }
 
