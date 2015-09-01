@@ -1,6 +1,31 @@
 
 
 ##CURRENT
+*  Trying to fix budget rates button.
+  * 1. Copy IP or Dev Proposal with budget
+  * 2. Created the Award
+  * 3. Created time and money and obligated the first year funding
+  * 4. Finalized time and money
+  * 5. Finalized the Award
+  * 6. open the budget tab keyed in a new budget name
+  * 7. tried to open the new budget to select the proposal budget
+  * I get this message and cannot get out of it with yes or no. This is a NEW ISSUE when creating a new award budget.
+  * Gayathri Athreya on Mon, 31 Aug 2015 16:47:33 -0700 [View Commit](../../commit/48aa9e5808478df446256dd91e69743bc09278ba)
+*  Fix correspondence redirection after SMR or SRR.
+  * With Correspondence set up (as not Final) for SMR and SRR.
+  * Create protocol
+  * Submit Protocol
+  * -Assign committee
+  * -Assign schedule
+  * -Expedited review
+  * -checklist
+  * -Assign reviewer
+  * Return for Specific Minor Revisions or Substantial Revisions Required
+  * Result: User is taken to the main Protocol tab upon completion of the action. Letter is generated but the user has to go to Protocol history to view/update the correspondence.
+  * Expected: The Correspondence panel is displayed with the newly generated correspondence for the SMR or SRR action.
+  * Gayathri Athreya on Mon, 31 Aug 2015 09:52:13 -0700 [View Commit](../../commit/e94049afd446d2776f4da4562bee90b24f9d8e05)
+
+##coeus-1508.47
 * No Changes
 
 
