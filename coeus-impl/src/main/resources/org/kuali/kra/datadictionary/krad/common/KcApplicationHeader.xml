@@ -121,7 +121,6 @@ Portions of Kuali are copyrighted by other parties as described in the [link='@{
                       p:order="40" p:render="@{(#getParamAsBoolean('KC-GEN','All','JASPER_REPORTS_ENABLED') == null ? false : #getParamAsBoolean('KC-GEN','All','JASPER_REPORTS_ENABLED'))
                        	and #userSession != null 
                       	and #getService('unitAuthorizationService').hasPermission(#userSession.getPrincipalId(), 
-                      		#getService('unitService').getTopUnit().getUnitNumber(), 
                       		T(org.kuali.kra.infrastructure.RoleConstants).DEPARTMENT_ROLE_TYPE, 
                       		T(org.kuali.kra.infrastructure.PermissionConstants).RUN_GLOBAL_REPORTS)}">
                     <property name="wrapperCssClasses">
@@ -1448,24 +1447,28 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
 		<property name="items">
 			<list>
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=ACTIVE_AWARDS_REPORT___CURRENT"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=ACTIVE_AWARDS_REPORT___010"
 					p:target="reportWindow" p:linkText="Active Awards" p:order="10" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_PRINCIPAL_INVESTIGATOR_REPORT___CURRENT"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_PI_REPORT___010"
 					p:target="reportWindow" p:linkText="Awards by PI" p:order="20" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_SPONSOR_REPORT___CURRENT"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_SPONSOR_REPORT___010"
 					p:target="reportWindow" p:linkText="Awards by Sponsor" p:order="30" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_SPONSOR_TYPE_REPORT___CURRENT"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_SPONSOR_TYPE_REPORT___010"
 					p:target="reportWindow" p:linkText="Awards by Sponsor Type"
 					p:order="40" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_AWARD_TYPE_REPORT___CURRENT"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_AWARD_TYPE_REPORT___010"
 					p:target="reportWindow" p:linkText="Awards by Award Type" p:order="50" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_NOTICE_DATA"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_AWARD_NOTICE_DATE_RANGE___010"
 					p:target="reportWindow" p:linkText="Awards by Notice Date" p:order="60" />
+				<bean parent="Uif-Link"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=AWARDS_BY_LEAD_UNIT_REPORT___010"
+					p:target="reportWindow" p:linkText="Awards by Lead Unit" p:order="70" />
+					
 
 			</list>
 		</property>
@@ -1476,21 +1479,25 @@ value="@{#ConfigProperties['application.url']}/kr/lookup.do?methodToCall=search&
 		<property name="items">
 			<list>
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=INSTITUTIONAL_PROPOSALS_BY_SPONSOR_REPORT___CURRENT"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=INSTITUTIONAL_PROPOSALS_BY_SPONSOR_REPORT___010"
 					p:target="reportWindow" p:linkText="Institutional Proposals by Sponsor"
 					p:order="10" />
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=PROPOSALS_BY_PROPOSAL_TYPE_REPORT___CURRENT"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=INSTITUTIONAL_PROPOSALS_BY_SPONSOR_TYPE_REPORT___010"
+					p:target="reportWindow" p:linkText="Institutional Proposals by Sponsor Type"
+					p:order="20" />					
+				<bean parent="Uif-Link"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=INSTITUTIONAL_PROPOSALS_BY_PROPOSAL_TYPE_REPORT___010"
 					p:target="reportWindow" p:linkText="Institutional Proposals by Proposal Type"
-					p:order="20" />	
+					p:order="30" />	
 				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=PROPOSALS_BY_PI_REPORT___CURRENT"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=INSTITUTIONAL_PROPOSALS_BY_PI_REPORT___010"
 					p:target="reportWindow" p:linkText="Investigator Proposal History"
-					p:order="30" />
-				<bean parent="Uif-Link"
-					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=PROPOSALS_BY_LEAD_UNIT_REPORT"
-					p:target="reportWindow" p:linkText="Institutional Proposals By Lead Unit"
 					p:order="40" />
+				<bean parent="Uif-Link"
+					p:href="@{#ConfigProperties['application.url']}/displayExternalReport.do?reportId=INSTITUTIONAL_PROPOSALS_BY_LEAD_UNIT_REPORT___010"
+					p:target="reportWindow" p:linkText="Institutional Proposals By Lead Unit"
+					p:order="50" />
 			</list>
 		</property>
 	</bean>
