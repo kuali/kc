@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Changes to support external citizenship sources better
+  * blackcathacker on Mon, 31 Aug 2015 14:47:02 -0700 [View Commit](../../commit/cfa96829fc79c802b0843b346abbadab242d3f42)
+
+##coeus-1509.1
 *  Trying to fix budget rates button.
   * 1. Copy IP or Dev Proposal with budget
   * 2. Created the Award
