@@ -189,7 +189,7 @@ public class BudgetRateServiceDecorator extends BudgetRatesServiceImpl {
         Or ltOrEqStartDate = new Or(eqStartDate,ltStartDate);
         qlfilteredList = qlfilteredList.filter(ltOrEqStartDate);
         qlfilteredList.sort("startDate",false);
-        return qlfilteredList.isEmpty()?new InstituteRate():qlfilteredList.get(0);
+        return qlfilteredList.isEmpty() ? new InstituteRate() : qlfilteredList.get(0);
     }
 
 

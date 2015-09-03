@@ -60,29 +60,16 @@ public abstract class RelationalOperator implements Operator {
         int compareValue = 0;
 
         if(dataClass == null || !dataClass.equals(baseBean.getClass())){
-            
             dataClass = baseBean.getClass();
-            
-            try{
+            try {
                 field = dataClass.getDeclaredField(fieldName);
                 if(! field.isAccessible()) {
                     throw new NoSuchFieldException();
                 }
-            }catch (NoSuchFieldException noSuchFieldException) {
-                try{
-                    String methodName="";
-                    
-                    if(isBoolean) {
-                        methodName = "is" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
-                    }else{
-                        methodName = "get" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
-                    }
-                    method = dataClass.getMethod(methodName, null);
-                }catch (NoSuchMethodException noSuchMethodException) {
-                    LOG.error(noSuchMethodException.getMessage(), noSuchMethodException);
-                }
+            } catch (NoSuchFieldException noSuchFieldException) {
+                tryAccessingWithGetters();
             }
-        }//End if field==null && method==null
+        }
         
         try{
             if(field != null && field.isAccessible()) {
@@ -139,7 +126,31 @@ public abstract class RelationalOperator implements Operator {
         }
         return compareValue;
     }
-    
+
+    protected void tryAccessingWithGetters() {
+        String methodName;
+        try {
+            if(isBoolean) {
+                methodName = "is" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
+            } else {
+                methodName = "get" + (fieldName.charAt(0)+"").toUpperCase()+ fieldName.substring(1);
+            }
+            method = dataClass.getMethod(methodName, null);
+        } catch (NoSuchMethodException noSuchMethodException) {
+            tryAccessingBooleanWithGet();
+        }
+    }
+
+    protected void tryAccessingBooleanWithGet() {
+        String methodName;
+        try {
+            methodName = "get" + (fieldName.charAt(0) + "").toUpperCase() + fieldName.substring(1);
+            method = dataClass.getMethod(methodName, null);
+        } catch(NoSuchMethodException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
 
     public And and(Operator relatesTo) {
         return new And(this, relatesTo);
