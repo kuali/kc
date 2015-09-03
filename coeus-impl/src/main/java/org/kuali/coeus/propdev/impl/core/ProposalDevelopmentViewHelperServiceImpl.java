@@ -103,7 +103,6 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
     private static final long serialVersionUID = -5122498699317873886L;
     private static final Logger LOG = Logger.getLogger(ProposalDevelopmentViewHelperServiceImpl.class);
     private static final String PARENT_PROPOSAL_TYPE_CODE = "PRDV";
-    public static final String PROP_PERSON_COI_STATUS_FLAG = "PROP_PERSON_COI_STATUS_FLAG";
 
     @Autowired
     @Qualifier("dateTimeService")
@@ -869,9 +868,14 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         if (proposalPerson.getRole().getCertificationRequired()){
             return true;
         }
-       else if (proposalPerson.getRoleCode().equals(Constants.KEY_PERSON_ROLE)){
-            return true;
-        }
+
+       if (displayCoiDisclosureStatus()) {
+           return proposalPerson.getRoleCode().equals(Constants.KEY_PERSON_ROLE);
+       }
+
+       if (proposalPerson.getOptInCertificationStatus()) {
+           return true;
+       }
 
         return false;
     }
@@ -957,42 +961,45 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
         }
         return true;
     }
-    public boolean canViewCertificationTab(ProposalDevelopmentDocument document,ProposalPerson proposalPerson){
-    	String currentUser=getGlobalVariableService().getUserSession().getPrincipalName();
+    public boolean canViewCertificationTab(ProposalDevelopmentDocument document,ProposalPerson proposalPerson) {
+    	String currentUser = getGlobalVariableService().getUserSession().getPrincipalName();
     	Person person = getPersonService().getPersonByPrincipalName(currentUser);
     	return getProposalDevelopmentPermissionsService().hasCertificationPermissions(document, person, proposalPerson);
     }
-    public boolean displayCoiDisclosureStatus(){
-       return getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, PROP_PERSON_COI_STATUS_FLAG);
+
+    public boolean displayCoiDisclosureStatus() {
+       return getParameterService().getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PROP_PERSON_COI_STATUS_FLAG);
     }
  
     public boolean isCertQuestViewOnly(ProposalDevelopmentDocument document ,ProposalPerson proposalPerson){
-    	 if(proposalPerson.getPerson()==null){
+    	 if (proposalPerson.getPerson() == null) {
       	   return false;
          }
-    	 String currentUser=getGlobalVariableService().getUserSession().getPrincipalId();
-    	 boolean canViewCretification = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.VIEW_CERTIFICATION);
-    	 boolean canCertify = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.CERTIFY); 
-		    	if(canCertify){
-		    		document.setCerttifyViewOnly(false);
-		    		return false;	
-		    	}
-      	        if(canViewCretification){
-      	        	if(proposalPerson.getPersonId().equals(currentUser)){
-      	        		document.setCerttifyViewOnly(false);
-      	        		return false;	
-      	        	}else{
-      	        		document.setCerttifyViewOnly(true);
-      	        		return true;
-      	        	}      	        	
-      	        }else{
-      	        	document.setCerttifyViewOnly(false);
-      	        	return false;
-      	        }
-      	    }
+    	 String currentUser = getGlobalVariableService().getUserSession().getPrincipalId();
+    	 boolean canViewCertification = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.VIEW_CERTIFICATION);
+    	 boolean canCertify = kraAuthorizationService.hasPermission(currentUser, document, PermissionConstants.CERTIFY);
+         boolean renderQuestionnaire = renderQuestionnaire(proposalPerson);
+
+        if (canCertify) {
+            document.setCertifyViewOnly(false);
+            return !renderQuestionnaire;
+        }
+        if (canViewCertification) {
+            if (proposalPerson.getPersonId().equals(currentUser)){
+                document.setCertifyViewOnly(false);
+                return !renderQuestionnaire;
+            } else {
+                document.setCertifyViewOnly(true);
+                return true;
+            }
+        } else {
+            document.setCertifyViewOnly(false);
+            return !renderQuestionnaire;
+        }
+    }
 
     public boolean isViewOnly(ProposalDevelopmentDocument document){
-    	return document.getCerttifyViewOnly();
+    	return document.getCertifyViewOnly();
     }
 
     public String getProposalPersonCoiStatus(ProposalPerson person) {

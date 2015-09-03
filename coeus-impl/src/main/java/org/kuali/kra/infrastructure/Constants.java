@@ -905,8 +905,10 @@ public interface Constants {
     
     public static final String PD_INITIATED_ROUTE_NODE_NAME = "Initiated";
 
-    //Prop Dev Parameter
+    //Prop Dev Parameters
     public static final String SPONSOR_HIERACHY_REQ_DIV_PROG_CODES = "SPONSOR_HIERACHY_REQ_DIV_PROG_CODES";
+    public static final String PROP_PERSON_COI_STATUS_FLAG = "PROP_PERSON_COI_STATUS_FLAG";
+
 
     public static final String MM_DD_YYYY_HH_MM_A_DATE_FORMAT = "MM/dd/yyyy hh:mm a";
     public static final String CAN_MAINTAIN_IP_ATTACHMENTS = "CAN_MAINTAIN_IP_ATTACHMENTS";
