@@ -981,25 +981,25 @@ public class ProposalDevelopmentViewHelperServiceImpl extends KcViewHelperServic
          boolean renderQuestionnaire = renderQuestionnaire(proposalPerson);
 
         if (canCertify) {
-            document.setCerttifyViewOnly(false);
+            document.setCertifyViewOnly(false);
             return !renderQuestionnaire;
         }
         if (canViewCertification) {
             if (proposalPerson.getPersonId().equals(currentUser)){
-                document.setCerttifyViewOnly(false);
+                document.setCertifyViewOnly(false);
                 return !renderQuestionnaire;
             } else {
-                document.setCerttifyViewOnly(true);
+                document.setCertifyViewOnly(true);
                 return true;
             }
         } else {
-            document.setCerttifyViewOnly(false);
+            document.setCertifyViewOnly(false);
             return !renderQuestionnaire;
         }
     }
 
     public boolean isViewOnly(ProposalDevelopmentDocument document){
-    	return document.getCerttifyViewOnly();
+    	return document.getCertifyViewOnly();
     }
 
     public String getProposalPersonCoiStatus(ProposalPerson person) {

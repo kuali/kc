@@ -680,7 +680,7 @@
 			<list>
                 <bean parent="Uif-MessageField" p:messageText="@{#ViewHelper.getQuestionMoreInfo(#lp.questionnaireQuestion.question)}"
                         p:hidden="true"/>
-				<bean id="proposalPersonQuestionnaire-InputField" parent="Questionnaire-InputField-parentBean" p:readOnly="@{document.developmentProposal.isChild() or document.getCerttifyViewOnly()}" p:order="10" />
+				<bean id="proposalPersonQuestionnaire-InputField" parent="Questionnaire-InputField-parentBean" p:readOnly="@{document.developmentProposal.isChild() or document.getCertifyViewOnly()}" p:order="10" />
                 <bean parent="Uif-InputField" p:propertyName="question.lookupReturn" p:fieldLabel.render="false">
                     <property name="control">
                         <bean parent="Uif-HiddenControl" />
