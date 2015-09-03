@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  Fix spelling.
+  * Gayathri Athreya on Thu, 3 Sep 2015 14:29:40 -0700 [View Commit](../../commit/cefe6d013009ab215b7561f1aa4cf3cadf9cf185)
+*  Fixing budget rates button and award institute rates.
+  * Gayathri Athreya on Thu, 3 Sep 2015 13:56:37 -0700 [View Commit](../../commit/18fa853f0e2c18b838f578d108d5bdd8a8af8d56)
+*  Restoring key person certification functionality.
+  * Somewhere between the Foundation 6.0 release and the current Kuali.co environments, the out of the box ability to 'include certification questions' for Key Persons has been lost.
+  * The MIT contribution for COI Disclosure Status provided an automated way to add the proposal person certification for key persons, but that feature is enabled via a parameter.
+  * Current 5.2.1 users undergoing upgrade review noted the feature is missing.
+  * Related jira for the missing option to 'include credit allocation' for key persons.
+  * Gayathri Athreya on Tue, 1 Sep 2015 17:10:53 -0700 [View Commit](../../commit/d8f724bc8d228b542456583ecb69929351062d51)
+
+##coeus-1509.2
 * Changes to support external citizenship sources better
   * blackcathacker on Mon, 31 Aug 2015 14:47:02 -0700 [View Commit](../../commit/cfa96829fc79c802b0843b346abbadab242d3f42)
 
