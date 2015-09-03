@@ -182,7 +182,6 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         Collection<BudgetRate> allBudgetRates = budgetService.getSavedProposalRates(budgetToOpen);
         Award newestAward = getAwardBudgetService().getActiveOrNewestAward(awardDocument.getAward().getAwardNumber());
         newestAward.refreshReferenceObject("awardFandaRate");
-        List<AwardFandaRate> fandaRates = newestAward.getAwardFandaRate();
         List ebRates =new ArrayList();
         if(newestAward.getSpecialEbRateOffCampus()!=null)
         	ebRates.add(newestAward.getSpecialEbRateOffCampus());
@@ -191,11 +190,12 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         if(newestAward.getRequestedStartDateInitial()==null || newestAward.getRequestedEndDateInitial()==null){
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        
-        if(awardBudgetService.checkRateChange(allBudgetRates, newestAward)){
+
+        if (awardBudgetService.checkRateChange(allBudgetRates, newestAward)) {
         	return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_AWARD_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        	 }
+        }
+
         if (budgetRatesService.checkActivityTypeChange(allBudgetRates, newestAward.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
@@ -245,9 +245,9 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             Budget budget = awardBudgetDocument.getBudget();
           
           budget.setRateClassTypesReloaded(false);
-          forward = forward.replace(Constants.AWARD_BUDGET_PARAMETERS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + "syncBudgetRate=Y" + AMPERSTAND);
+          forward = forward.replace(Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + "syncBudgetRate=Y" + AMPERSTAND);
         }
-        forward = StringUtils.replace(forward, Constants.AWARD_BUDGET_PARAMETERS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + AUDIT_ACTIVATED_URL_PARAM + awardForm.isAuditActivated() + AMPERSTAND);
+        forward = StringUtils.replace(forward, Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + AUDIT_ACTIVATED_URL_PARAM + awardForm.isAuditActivated() + AMPERSTAND);
         return new ActionForward(forward, true);
     }
 

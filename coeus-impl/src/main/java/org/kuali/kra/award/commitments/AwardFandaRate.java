@@ -61,10 +61,6 @@ public class AwardFandaRate extends AwardAssociate {
 
     private Date endDate;
 
-
-    public AwardFandaRate() {
-    }
-
     public Long getAwardFandaRateId() {
         return awardFandaRateId;
     }

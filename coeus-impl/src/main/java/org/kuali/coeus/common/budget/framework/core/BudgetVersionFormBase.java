@@ -41,7 +41,6 @@ public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormB
     private String activePanelName;
     private boolean saveAfterCopy;
     private boolean showAllBudgetVersions;
-
     private String proposalHierarchyIndirectObjectCode;
 
     
@@ -202,5 +201,4 @@ public abstract class BudgetVersionFormBase extends KcTransactionalDocumentFormB
         return KcServiceLocator.getService(AwardBudgetService.class).getInactiveBudgetStatus();
     }
 
-    
 }

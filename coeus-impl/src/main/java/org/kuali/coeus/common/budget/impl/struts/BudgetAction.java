@@ -110,6 +110,8 @@ public class BudgetAction extends BudgetActionBase {
     public static final String PROPOSAL_HIERARCHY_SUB_PROJECT_INDIRECT_COST_ELEMENT = "proposalHierarchySubProjectIndirectCostElement";
     public static final String SUMMARY_TOTALS = "summaryTotals";
     public static final String ROUTE = "route";
+    public static final String SYNC_QUESTION_ASKED = "syncQuestionAsked";
+
 
     private ProposalHierarcyActionHelper hierarchyHelper;
     @Override
@@ -152,22 +154,26 @@ public class BudgetAction extends BudgetActionBase {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_AWARD_RATES,
                 message, "");
     }
+
     public ActionForward confirmSynchAwardRates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return synchAwardBudgetRate(mapping, form, request, response, true);
+        return synchAwardBudgetRate(form, true);
     }
+
     public ActionForward noSynchAwardRates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return synchAwardBudgetRate(mapping, form, request, response, false);
+        return synchAwardBudgetRate(form, false);
     }
-    private ActionForward synchAwardBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
+
+    private ActionForward synchAwardBudgetRate(ActionForm form, boolean confirm) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         AwardBudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         String routeHeaderId = budgetDoc.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
-        forward = forward.replace(Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION);
 
         if (confirm) {
-            forward = forward.replace(Constants.AWARD_BUDGET_PARAMETERS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + "syncBudgetRate=Y&");
-         }
+            forward = forward.replace(Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + "syncBudgetRate=Y&");
+         } else {
+            forward = forward.replace(Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_VERSIONS_ACTION + SYNC_QUESTION_ASKED + "=Y&");
+        }
 
         return new ActionForward(forward, true);
     }

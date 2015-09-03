@@ -78,7 +78,6 @@ public class BudgetParametersAction extends BudgetAction {
             getBudgetRatesService().syncAllBudgetRates(budget);
             budget.setRateSynced(true);
             budgetForm.setSyncBudgetRate("");
-            // jira-1848 : force to calc budget after sync
             getBudgetSummaryService().calculateBudget(budget);
         }
         return forward;
@@ -108,7 +107,6 @@ public class BudgetParametersAction extends BudgetAction {
                                CONFIRM_SAVE_BUDGET_KEY, DO_NOTHING);
             }
         } else {
-            // This whole else block is mostly the same as saveAfterQuestion, so why not use saveAfterQuestion here?
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
                 GlobalVariables.setMessageMap(new MessageMap());
                 return confirm(buildSaveBudgetSummaryConfirmationQuestion(mapping, form, request, response,
