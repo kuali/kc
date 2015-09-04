@@ -143,19 +143,21 @@ public class ReportForwardAction extends KualiDocumentActionBase {
 
 	    Set<Map<String,String>> qualifiers = new HashSet<>(getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(userId, new ArrayList<>(roleIds), qualification));
 	
-	    Map<String, String> unitPerms = new HashMap<>();
-	    qualifiers.stream().forEach(qualifier -> {
+	    return qualifiers.stream().collect(Collectors.toMap(qualifier -> {
 	    	if (qualifier.containsKey(KcKimAttributes.UNIT_NUMBER)) {
-	    		if (qualifier.containsKey(KcKimAttributes.SUBUNITS)) {
-	    			unitPerms.put(qualifier.get(KcKimAttributes.UNIT_NUMBER), qualifier.get(KcKimAttributes.SUBUNITS).substring(0, 1).toUpperCase());
-	    		} else {
-	    			unitPerms.put(qualifier.get(KcKimAttributes.UNIT_NUMBER), N);
-	    		}
+	    		return qualifier.get(KcKimAttributes.UNIT_NUMBER);
 	    	} else {
-	    		unitPerms.put(getUnitService().getTopUnit().getUnitNumber(), Y);
+	    		return getUnitService().getTopUnit().getUnitNumber();
 	    	}
-	    });
-	    return unitPerms;
+	    }, qualifier -> {
+	    	if (qualifier.containsKey(KcKimAttributes.UNIT_NUMBER) && qualifier.containsKey(KcKimAttributes.SUBUNITS)) {
+	    		return qualifier.get(KcKimAttributes.SUBUNITS).substring(0, 1).toUpperCase();
+	    	} else if (qualifier.containsKey(KcKimAttributes.UNIT_NUMBER)) {
+	    		return N;
+	    	} else {
+	    		return Y;
+	    	}
+	    }));
     }
     
     public DataObjectService getDataObjectService() {
