@@ -310,6 +310,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 					Date endDate = budgetRateAndBase.getEndDate();
 					String key = new StringBuilder(startDate.toString())
 							.append(endDate.toString()).toString();
+                    if (laRateBaseMap.containsKey(key)) {
+                        continue;
+                    }
 					calculatedCost = calculatedCost.add(budgetRateAndBase
 							.getCalculatedCost());
 					laRateBaseMap.put(key, budgetRateAndBase);
