@@ -72,6 +72,8 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
     private static final String SHOW_ALL_BUDGET_VERSIONS_URL_PARAM = "showAllBudgetVersions=";
 	private static final String AUDIT_ACTIVATED_URL_PARAM = "auditActivated=";
 	private static final String AMPERSTAND = "&";
+    public static final String SYNC_QUESTION_ASKED = "syncQuestionAsked";
+
 
     /**
      * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
@@ -247,7 +249,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
           budget.setRateClassTypesReloaded(false);
           forward = forward.replace(Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + "syncBudgetRate=Y" + AMPERSTAND);
         }
-        forward = StringUtils.replace(forward, Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_PARAMETERS_ACTION + AUDIT_ACTIVATED_URL_PARAM + awardForm.isAuditActivated() + AMPERSTAND);
+        forward = StringUtils.replace(forward, Constants.AWARD_BUDGET_VERSIONS_ACTION, Constants.AWARD_BUDGET_VERSIONS_ACTION + AUDIT_ACTIVATED_URL_PARAM + awardForm.isAuditActivated() + AMPERSTAND + SYNC_QUESTION_ASKED + "=Y" + AMPERSTAND);
         return new ActionForward(forward, true);
     }
 
