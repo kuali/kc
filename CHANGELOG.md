@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  Fixing budget print summary LA calculations.
+  * Gayathri Athreya on Fri, 4 Sep 2015 15:02:17 -0700 [View Commit](../../commit/9eb77869ba865b4f738bb6bf62566bff90765b48)
+*  another button fix
+  * Gayathri Athreya on Fri, 4 Sep 2015 09:16:39 -0700 [View Commit](../../commit/78758e16d25d5dfdf5a3ce7a588f562a8bdcb663)
+
+##coeus-1509.7
 * No Changes
 
 
