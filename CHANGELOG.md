@@ -1,6 +1,24 @@
 
 
 ##CURRENT
+*  Cannot Sync a hierarchy proposal with attachments from the child or the parent.
+
+  * As a user, I need to create and maintain a hierarchy proposal. I wish to maintain the narrative attachments in the child proposal in case I need to copy and resubmit.
+  * Steps to reproduce:
+  * Create a new proposal with the minimal requirements to easily locate and to create a hierarchy:
+  * 1 Enter Basic proposal data to save.
+  * 2. Add the S2S Opportunity to enable a full attachment listing for later use (ex. PA-C-R01)
+  * 3 Add a PI
+  * 4 Create a budget version (no data required, just mark it as for submission for hierarchy create)
+  * 5 Create the parent proposal
+  * 6 Upload a few narratives to the child proposal
+  * 7. Sync to parent
+  * NOTE: this error also happens if you try to Sync from PARENT.
+  * Expected result: successful sync to parent message in child proposal, and the parent proposal is updated with the narratives.
+  * Actual result: STE.
+  * Travis Schneeberger on Tue, 8 Sep 2015 09:40:46 -0400 [View Commit](../../commit/207454a5fad5ab52b755a632273e3f69292ce0ab)
+
+##coeus-1509.11
 *  Fix Protocol copy.
 
   * Attempt to copy an IRB or IACUC protocol. Tested on newly created protocol and older ones.
