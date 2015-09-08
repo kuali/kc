@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  Fix Protocol copy.
+
+  * Attempt to copy an IRB or IACUC protocol. Tested on newly created protocol and older ones.
+  * Get:
+  * org.kuali.rice.krad.exception.UnknownDocumentIdException: Document no longer exists. It may have been cancelled before being saved.
+  * Travis Schneeberger on Tue, 8 Sep 2015 10:13:28 -0400 [View Commit](../../commit/3b6648a7bb3591c454cd5f7dd6abc1e4b3b5cc0a)
+
+##coeus-1509.10
 * No Changes
 
 
