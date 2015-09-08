@@ -200,12 +200,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);
         if (isAuthorized(task)) {
-            String newDocId = getProtocolCopyService().copyProtocol(protocolForm.getProtocolDocument()).getDocumentNumber();
+            final ProtocolDocument copy = (ProtocolDocument) getDocumentService().saveDocument(getProtocolCopyService().copyProtocol(protocolForm.getProtocolDocument()));
 
             // Switch over to the new protocol document and
             // go to the Protocol tab web page.
 
-            protocolForm.setDocId(newDocId);
+            protocolForm.setDocId(copy.getDocumentNumber());
             protocolForm.setViewOnly(false);
             loadDocument(protocolForm);
             protocolForm.getProtocolDocument().setViewOnly(protocolForm.isViewOnly());
