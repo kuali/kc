@@ -301,21 +301,12 @@ public abstract class BudgetBaseStream implements XmlStream {
 	protected ScaleTwoDecimal getCalculatedCostForBudgetExclusionsSortId1() {
 		ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			Map<String, BudgetRateAndBase> laRateBaseMap = new HashMap<String, BudgetRateAndBase>();
 			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
 					.getBudgetRateAndBaseList()) {
 				if (budgetRateAndBase.getCalculatedCost() != null
 						&& isRateAndBaseOfRateClassTypeLAwithEBVA(budgetRateAndBase)) {
-					Date startDate = budgetRateAndBase.getStartDate();
-					Date endDate = budgetRateAndBase.getEndDate();
-					String key = new StringBuilder(startDate.toString())
-							.append(endDate.toString()).toString();
-                    if (laRateBaseMap.containsKey(key)) {
-                        continue;
-                    }
 					calculatedCost = calculatedCost.add(budgetRateAndBase
 							.getCalculatedCost());
-					laRateBaseMap.put(key, budgetRateAndBase);
 				}
 			}
 		}
@@ -484,21 +475,12 @@ public abstract class BudgetBaseStream implements XmlStream {
 			List<ReportType> reportTypeList) {
 		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			Map<String, BudgetRateAndBase> laRateBaseMap = new HashMap<String, BudgetRateAndBase>();
 			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
 					.getBudgetRateAndBaseList()) {
 				if (isRateAndBaseOfRateClassTypeLAwithEBVA(budgetRateAndBase)) {
-					Date startDate = budgetRateAndBase.getStartDate();
-					Date endDate = budgetRateAndBase.getEndDate();
-					String key = new StringBuilder(startDate.toString())
-							.append(endDate.toString()).toString();
-					if (laRateBaseMap.containsKey(key)) {
-						continue;
-					}
 					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetLASalaryForRateBase(
 							budgetLineItem, budgetRateAndBase);
 					reportTypeVOList.add(reportTypeVO);
-					laRateBaseMap.put(key, budgetRateAndBase);
 				}
 			}
 		}
