@@ -1,6 +1,23 @@
 
 
 ##CURRENT
+*  Fix budget calculation print.
+  * See proposal # 789 in res-demo-1.
+  * Steps to duplicate:
+  * Create a proposal in a unit with lab allocations (ex. 000001)
+  * Create a budget
+  * Add at least 4 people to the budget and enter a salary for each of them.
+  * Assign 2 people to the same cost element > Faculty Salaries Tenured - On
+  * Assign 2 people to the same cost element >Faculty Salaries Tenured - On, but create a group for the first person and use the same group for the 2nd person.
+  * autocalculate periods.
+  * Using the toolbar > Budget Periods > select the Action menu for this budget version > Print.
+  * Select #4 Budget Summary Report and generate the PDF.
+  * Result:
+  * Review the values in the row for Allocated Admin Support > Faculty Salaries Tenured On: the Salaries and Wages field is not 10% of the Total Senior Personnel S&W of the above section. It is only the aggregate of the first person in each group. Due to this incorrect value, the following rows in the report are incorrect: (the Total Lab Allocation, TOTAL SALARIES & WAGES, and TOTAL SALARIES & WAGES & FRINGE BENEFITS)
+  * Expected Result: The value for the above mentioned S&W field should be the sum of the Salary Allocation rate times the ALL personnel salaries, and the resulting totals should be correct. (The correct value appears in the Calculation Methodology section.)
+  * Gayathri Athreya on Tue, 8 Sep 2015 14:52:57 -0700 [View Commit](../../commit/8eb2b74301f9e05a3ee599e004ec3d77ab8290d5)
+
+##coeus-1509.12
 *  Cannot Sync a hierarchy proposal with attachments from the child or the parent.
 
   * As a user, I need to create and maintain a hierarchy proposal. I wish to maintain the narrative attachments in the child proposal in case I need to copy and resubmit.
