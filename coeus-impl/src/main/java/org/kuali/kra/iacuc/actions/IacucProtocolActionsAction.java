@@ -202,12 +202,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_IACUC_PROTOCOL);
         if (isAuthorized(task)) {
-            String newDocId = getIacucProtocolCopyService().copyProtocol(protocolForm.getIacucProtocolDocument()).getDocumentNumber();
+            final IacucProtocolDocument copy = (IacucProtocolDocument) getDocumentService().saveDocument(getIacucProtocolCopyService().copyProtocol(protocolForm.getIacucProtocolDocument()));
 
             // Switch over to the new protocol document and
             // go to the ProtocolBase tab web page.
 
-            protocolForm.setDocId(newDocId);
+            protocolForm.setDocId(copy.getDocumentNumber());
             protocolForm.setViewOnly(false);
             loadDocument(protocolForm);
             protocolForm.getIacucProtocolDocument().setViewOnly(protocolForm.isViewOnly());
