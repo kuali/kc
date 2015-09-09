@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Create basic integration tests
+  * Travis Schneeberger on Wed, 9 Sep 2015 09:42:03 -0400 [View Commit](../../commit/38175ecd195f9b41323ecb29c88a05c74e2f8830)
+
+##coeus-1509.15
 *  Fix printing issues
   * Budget Print Report: "2 Budget Cumulative Report"
   * Issue 1: When more than one person is detailed in a group, only the salary of the first person is published, making the remaining sums on the form incorrect.
