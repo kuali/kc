@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+* Clicking doc link in TM History causes STE.
+
+  * When using Award or T&M History clicking on a document link for a T&M doc would cause a stack trace due to a small bug in the generation of the URL.
+  * ```java.lang.NoSuchMethodException: Action[/timeAndMoney] does not contain specified method (check logs)
+	at org.apache.struts.actions.DispatchAction.dispatchMethod(DispatchAction.java:261)```
+  * blackcathacker on Tue, 8 Sep 2015 17:42:25 -0700 [View Commit](../../commit/f0fe260d997e1d2c7a9e397bd73cf232f43abdb7)
+
+##coeus-1509.13
 *  Fix budget calculation print.
   * See proposal # 789 in res-demo-1.
   * Steps to duplicate:
