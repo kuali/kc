@@ -242,52 +242,26 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		return subReportType;
 	}
 
+    protected void setBudgetLASalaryForBudgetRateAndBaseForCumulativeReport(List<ReportType> reportTypeList) {
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+                this.budgetPeriod = budgetPeriod;
+                setBudgetLASalaryForBudgetRateAndBase(reportTypeList);
+
+        }
+    }
+
 	/*
 	 * This method sets reportType For CumulativeBudgetSalary in reportTypeList
 	 * for a BudgetPeriod based on RateClassCode and RateTypeCode
 	 */
-	private void setReportTypeForCumulativeBudgetSalary(
-			List<ReportType> reportTypeList) {
+    protected void setReportTypeForCumulativeBudgetSalary (List<ReportType> reportTypeList) {
 
 		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
 		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
 		    reportTypeVOList.addAll(getReportTypeVOList(budgetPeriod));
-		}
-		setReportTypeListFromReportTypeVoListForCumulativeBudgetSalary(
+        }
+        setReportTypeListFromReportTypeVoListForCumulativeBudgetSalary(
 				reportTypeList, reportTypeVOList);
-	}
-
-	/*
-	 * This method sets reportTypeVO and add it to reportTypeVOList from list of
-	 * BudgetPeriods, BudgetLineItem and iterate through BudgetRateAndBase for
-	 * BudgetLASalary based on RateClassType OTHER
-	 */
-	private void setBudgetLASalaryForBudgetRateAndBaseForCumulativeReport(
-			List<ReportType> reportTypeList) {
-		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
-		for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
-			for (BudgetLineItem budgetLineItem : budgetPeriod
-					.getBudgetLineItems()) {
-				Map<String, BudgetRateAndBase> laRateBaseMap = new HashMap<String, BudgetRateAndBase>();
-				for (BudgetRateAndBase budgetRateAndBase : budgetLineItem
-						.getBudgetRateAndBaseList()) {
-					if (isRateAndBaseOfRateClassTypeLAwithEBVA(budgetRateAndBase)) {
-						Date startDate = budgetRateAndBase.getStartDate();
-						Date endDate = budgetRateAndBase.getEndDate();
-						String key = new StringBuilder(startDate.toString())
-								.append(endDate.toString()).toString();
-						if (laRateBaseMap.containsKey(key)) {
-							continue;
-						}
-						ReportTypeVO reportTypeVO = getReportTypeVOForBudgetLASalaryForRateBase(
-								budgetLineItem, budgetRateAndBase);
-						reportTypeVOList.add(reportTypeVO);
-						laRateBaseMap.put(key, budgetRateAndBase);
-					}
-				}
-			}
-		}
-		setReportTypeBudgetLASalary(reportTypeList, reportTypeVOList);
 	}
 
 	/*
@@ -534,7 +508,6 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			calculatedCost = getCalculatedCostForBudgetExclusionsSortId4ForCumulativeReport();
 			ReportType reportTypeForSortId4 = getReportTypeForExclusions(
 					sortId, categoryDesc, calculatedCost);
-			reportTypeList.add(reportTypeForSortId4);
 			if(calculatedCost.doubleValue()>0.0d){
 	             reportTypeList.add(reportTypeForSortId4);
 			}
@@ -836,4 +809,5 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		return subReportType;
 
 	}
+
 }

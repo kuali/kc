@@ -471,7 +471,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 * 
 	 * @param reportTypeList
 	 */
-	protected void setBudgetLASalaryForBudgetRateAndBase(
+	protected void setBudgetLASalaryForBudgetRateAndBase (
 			List<ReportType> reportTypeList) {
 		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
