@@ -24,12 +24,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.budget.framework.core.*;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
-import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
-import org.kuali.coeus.common.budget.framework.core.BudgetService;
-import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.ApplyToPeriodsBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetDirectCostLimitEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetExpenseService;
@@ -38,7 +35,6 @@ import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetPeriodCostLimi
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.print.BudgetPrintType;
-import org.kuali.coeus.common.budget.framework.core.BudgetForm;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -504,7 +500,7 @@ public class BudgetExpensesAction extends BudgetAction {
                 calculateAndUpdateFormulatedCost(budgetLineItem);
             }
         }
-        if (getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget))) {
+        if (getKcBusinessRulesEngine().applyRules(new AwardBudgetSaveEvent(budget))) {
             if(forceCalculation){
                 recalculateBudgetPeriod(budgetForm, budget, budgetPeriod);
             }else{

@@ -18,9 +18,9 @@
  */
 package org.kuali.coeus.common.budget.framework.core;
 
-public class SaveBudgetEvent extends BudgetEventBase {
+public class AwardBudgetSaveEvent extends BudgetEventBase {
 	
-	public SaveBudgetEvent(Budget budget) {
+	public AwardBudgetSaveEvent(Budget budget) {
 		super(budget);
 	}
 
