@@ -1,6 +1,14 @@
 
 
 ##CURRENT
+*  Fix printing issues
+  * Budget Print Report: "2 Budget Cumulative Report"
+  * Issue 1: When more than one person is detailed in a group, only the salary of the first person is published, making the remaining sums on the form incorrect.
+  * Issue 2: Calculation Methodology > F&A Exclusions duplicates Allocated Lab Expense row and thus doubles the total of exclusions from the F&A Base in the published total. This is a display issue on the form; that incorrect value is not being used in the actual F&A calculation. (Note: this duplicate row always appears and is not related to the salary group issue.)
+  * Issue 3: When salary group issue exists, the Allocated Administrative Support and Lab Expense Rates and Base section of the calculation methodology page(s) contains the incorrect Base and Rate values. When no groups are used, or each person has their own group, this issue resolves.
+  * Gayathri Athreya on Wed, 9 Sep 2015 08:06:02 -0700 [View Commit](../../commit/029ad74682ffee447ca7277c34f908af02b10757)
+
+##coeus-1509.14
 * Clicking doc link in TM History causes STE.
 
   * When using Award or T&M History clicking on a document link for a T&M doc would cause a stack trace due to a small bug in the generation of the URL.
