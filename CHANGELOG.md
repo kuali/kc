@@ -1,6 +1,19 @@
 
 
 ##CURRENT
+*  Fix award budget error message
+  * If an award end date is changed to an earlier date after an award budget version was created with the original end date, user is unable to create a budget version with new end dates.
+  * To reproduce:
+  * 1. locate an existing Award with an Award Budget in Posted status:
+  * production issue: original project end date was 3/31/16, award budget with this end date was posted
+  * 2. Edit Award and T&M document > revise project end date changed to 6/19/15, deobligate funds by amount -40,099
+  * 3. Attempt to revise award budget: new award budget version created
+  * Result:
+  * 4. user can't navigate from parameters screen without changing period end dates, gets error "Period 2 end date cannot exceed project end date"
+  * 5. when period two end date is adjusted, user cannot proceed because they are given the error "Line item end date can not be after budget period end date" (because line items exist with the original end date - however user can't adjust line item end dates because of error in step 4.
+  * Gayathri Athreya on Wed, 9 Sep 2015 14:49:11 -0700 [View Commit](../../commit/4c149363afc8f41d4662d7b01c63c3d8c441d4c4)
+
+##coeus-1509.17
 * No Changes
 
 
