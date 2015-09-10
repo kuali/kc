@@ -1,6 +1,13 @@
 
 
 ##CURRENT
+* set created user and timestamp
+  * rmancher on Thu, 10 Sep 2015 11:30:47 -0400 [View Commit](../../commit/6fd5ad46376a00b64fa81dfaeef11822a25eda8f)
+* Correspondence sort issue
+  * Fix protocol batch correspondence panel not loading
+  * rmancher on Thu, 10 Sep 2015 10:52:21 -0400 [View Commit](../../commit/b8515f383d8595fc5e8c2f936994f09e2404489c)
+
+##coeus-1509.19
 * No Changes
 
 
