@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* No Changes
+
+
+##coeus-1509.18
 *  Fix award budget error message
   * If an award end date is changed to an earlier date after an award budget version was created with the original end date, user is unable to create a budget version with new end dates.
   * To reproduce:
