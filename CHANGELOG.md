@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Fix failing test
+  * rmancher on Thu, 10 Sep 2015 15:16:21 -0400 [View Commit](../../commit/5bfee0fc1145d9f9182c27c16c288f5b0d5fa933)
+
+##coeus-1509.21
 * set created user and timestamp
   * rmancher on Thu, 10 Sep 2015 11:30:47 -0400 [View Commit](../../commit/6fd5ad46376a00b64fa81dfaeef11822a25eda8f)
 * Correspondence sort issue
