@@ -34,7 +34,6 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -149,8 +148,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     public void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail) {
-        edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
-        String formattedCode = new String();
+        protocolSubmissionDetail.addNewSubmissionChecklistInfo();
     }
 
     public void setMinutes(CommitteeScheduleBase scheduleDetailsBean, ScheduleType schedule) {
@@ -211,7 +209,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
     }
 
     public void setProcotolMinutes(CommitteeScheduleBase committeeSchedule,
-            org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {       
+            org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
             ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
@@ -231,23 +229,6 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
         }
     }
 
-    public void setProcotolSubmissionMinutes(CommitteeScheduleBase committeeSchedule,
-            ProtocolSubmissionBase protocolSubmission, Submissions submissionsType) {      
-        List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
-        for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
-            ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
-            if (protocol != null && protocol.getProtocolNumber() != null) {
-                if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
-                      && protocol.getProtocolSubmission() != null
-                        && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
-                        addMinute(committeeSchedule, minuteEntryInfoBean, submissionsType.addNewMinutes());
-                    }
-                    
-                }
-            }  
-        }
-    }
     /**
      * 
      * This method for set the review minute in correspondence Letter.

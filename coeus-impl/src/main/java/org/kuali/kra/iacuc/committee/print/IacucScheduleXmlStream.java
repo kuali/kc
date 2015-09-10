@@ -21,11 +21,9 @@ package org.kuali.kra.iacuc.committee.print;
 import edu.mit.coeus.xml.iacuc.*;
 import edu.mit.coeus.xml.iacuc.ScheduleType.Attendents;
 import edu.mit.coeus.xml.iacuc.ScheduleType.OtherBusiness;
-import edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.coeus.common.committee.impl.bo.CommitteeBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeMembershipBase;
 import org.kuali.coeus.common.committee.impl.bo.CommitteeScheduleBase;
 import org.kuali.coeus.common.committee.impl.meeting.CommScheduleActItemBase;
@@ -39,10 +37,11 @@ import org.kuali.coeus.common.framework.sponsor.Sponsor;
 import org.kuali.coeus.common.framework.unit.Unit;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
@@ -75,19 +74,6 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         return xmlObjectList;
     }
 
-
-    private CommitteeScheduleBase findCommitteeSchedule(
-	CommitteeBase committee, String scheduleId) {
-        List<CommitteeScheduleBase> committeeSchedules =
-	committee.getCommitteeSchedules();
-        for (CommitteeScheduleBase committeeSchedule : committeeSchedules) {
-            if(committeeSchedule.getScheduleId().equals(scheduleId)){
-                return committeeSchedule;
-            }
-        }
-        return null;
-    }
-
     public ScheduleType getSchedule(CommitteeScheduleBase committeeSchedule) {
         ScheduleType schedule = ScheduleType.Factory.newInstance();
         setScheduleMasterData(committeeSchedule, schedule.addNewScheduleMasterData());
@@ -104,9 +90,9 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         getPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject("protocolSubmissions");
-        List<org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase> submissions
+        List<org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase> submissions
         = committeeSchedule.getLatestProtocolSubmissions();
-        for (org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission : submissions) {
+        for (org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase protocolSubmission : submissions) {
             ProtocolSubmissionType protocolSubmissionType =
             	schedule.addNewProtocolSubmission();
             
@@ -116,9 +102,8 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 			ProtocolMasterDataType protocolMaster = protocolSummary.addNewProtocolMasterData();
 			String followUpAction = null;
 			String actionTypeCode = null;
-            ProtocolBase protocol = protocolSubmission.getProtocol();
-            String submissionStatus=protocol.getProtocolSubmission().getSubmissionStatusCode();
-            List<ProtocolActionBase> protocolActions=protocolSubmission.getProtocol().getProtocolActions();
+            IacucProtocol protocol = getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, Collections.singletonMap("protocolId", protocolSubmission.getProtocolId()));;
+            List<ProtocolActionBase> protocolActions=protocol.getProtocolActions();
             
             for (ProtocolActionBase protocolAction : protocolActions){
             	actionTypeCode = protocolAction.getProtocolActionTypeCode();
@@ -224,14 +209,14 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             }
             protocolSubmissionDetail.setVotingComments(protocolSubmission.getVotingComments());
 
-            setProtocolSubmissionAction(protocolSubmission, protocolSubmissionDetail);
+            setProtocolSubmissionAction(protocolSubmission, protocol, protocolSubmissionDetail);
             if (protocolSubmission.getSubmissionDate() != null) {
                 protocolSubmissionDetail
                         .setSubmissionDate(getDateTimeService().getCalendar(protocolSubmission.getSubmissionDate()));
             }
             setSubmissionCheckListinfo(protocolSubmission, protocolSubmissionDetail);
             setProtocolSubmissionReviewers(protocolSubmission, protocolSubmissionDetail);
-			List<ProtocolPersonBase> protocolPersons = protocolSubmission.getProtocol().getProtocolPersons();
+			List<ProtocolPersonBase> protocolPersons = protocol.getProtocolPersons();
             for (ProtocolPersonBase protocolPerson : protocolPersons) {
                 if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)
                         || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CO_INVESTIGATOR)) {
@@ -275,9 +260,9 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
      * @param protocolSubmission
      * @param protocolSubmissionDetail
      */
-    private void setProtocolSubmissionAction(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
+    private void setProtocolSubmissionAction(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase protocolSubmission, IacucProtocol protocol,
             SubmissionDetailsType protocolSubmissionDetail) {
-        ProtocolActionBase protcolAction = findProtocolActionForSubmission(protocolSubmission);
+        ProtocolActionBase protcolAction = findProtocolActionForSubmission(protocolSubmission, protocol);
         if(protcolAction!=null){
             protcolAction.refreshNonUpdateableReferences();
            edu.mit.coeus.xml.iacuc.SubmissionDetailsType.ActionType actionTypeInfo = protocolSubmissionDetail.addNewActionType();
@@ -326,9 +311,11 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     }
 
 
-    private void setProtocolSubmissionReviewers(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
+    private void setProtocolSubmissionReviewers(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail) {
-        List<ProtocolReviewer> vecReviewers = protocolSubmission.getProtocolReviewers();
+
+
+        Collection<IacucProtocolReviewer> vecReviewers = getBusinessObjectService().findMatching(IacucProtocolReviewer.class, Collections.singletonMap("submissionIdFk", protocolSubmission.getSubmissionId()));
         List<ProtocolReviewerType> protocolReviewerTypeList = new ArrayList<ProtocolReviewerType>();
         for (ProtocolReviewer protocolReviewer : vecReviewers) {
             protocolReviewer.refreshNonUpdateableReferences();
@@ -359,15 +346,14 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     }
 
 
-    private void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
+    private void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail) {
-        SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
-        String formattedCode = new String();
+        protocolSubmissionDetail.addNewSubmissionChecklistInfo();
     }
 
 
-    private ProtocolActionBase findProtocolActionForSubmission(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission) {
-        List<ProtocolActionBase> protocolActions = protocolSubmission.getProtocol().getProtocolActions();
+    private ProtocolActionBase findProtocolActionForSubmission(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionLiteBase protocolSubmission, IacucProtocol protocol) {
+        List<ProtocolActionBase> protocolActions = protocol.getProtocolActions();
         for (ProtocolActionBase protocolAction : protocolActions) {
             if(protocolAction.getSubmissionNumber()!=null && protocolAction.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())){
                 return protocolAction;
