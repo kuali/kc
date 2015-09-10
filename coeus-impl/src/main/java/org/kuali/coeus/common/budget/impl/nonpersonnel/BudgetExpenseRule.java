@@ -20,13 +20,13 @@ package org.kuali.coeus.common.budget.impl.nonpersonnel;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.common.budget.framework.core.AwardBudgetSaveEvent;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.common.budget.framework.query.QueryList;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetConstants;
 import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
-import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.ApplyToPeriodsBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
@@ -132,15 +132,17 @@ public class BudgetExpenseRule {
      * @return true if the dates are valid, false otherwise
      */
     @KcEventMethod
-    public boolean processCheckLineItemDates(SaveBudgetEvent event) {
+    public boolean processCheckLineItemDates(AwardBudgetSaveEvent event) {
         boolean valid = true;
         List<BudgetPeriod> budgetPeriods = event.getBudget().getBudgetPeriods();
         int numLineItems = 0;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            numLineItems = budgetPeriod.getBudgetLineItems().size();
-            for (int i = 0; i < numLineItems; i++) {
-                valid &= processCheckLineItemDates(budgetPeriod, budgetPeriod.getBudgetLineItem(i), 
-                		"document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem[" + i + "]");
+            if (!budgetPeriod.isReadOnly()) {
+                numLineItems = budgetPeriod.getBudgetLineItems().size();
+                for (int i = 0; i < numLineItems; i++) {
+                    valid &= processCheckLineItemDates(budgetPeriod, budgetPeriod.getBudgetLineItem(i),
+                            "document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem[" + i + "]");
+                }
             }
         }
         return valid;

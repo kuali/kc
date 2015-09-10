@@ -22,11 +22,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.common.budget.framework.core.AwardBudgetSaveEvent;
 import org.kuali.coeus.sys.framework.controller.StrutsConfirmation;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.core.Budget;
-import org.kuali.coeus.common.budget.framework.core.SaveBudgetEvent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.AddBudgetPeriodEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
@@ -89,7 +89,7 @@ public class BudgetSummaryAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
 
-        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new AwardBudgetSaveEvent(budget));
         if (!StringUtils.equalsIgnoreCase(budget.getOhRateClassCode(), budgetForm.getOhRateClassCodePrevValue())
                 || !StringUtils.equalsIgnoreCase(budget.getUrRateClassCode(), budgetForm.getUrRateClassCodePrevValue())) {
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
@@ -129,7 +129,7 @@ public class BudgetSummaryAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
         
-        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new AwardBudgetSaveEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
@@ -148,7 +148,7 @@ public class BudgetSummaryAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudget();
         budget.getBudgetSummaryService().adjustStartEndDatesForLineItems(budget);
-        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new SaveBudgetEvent(budget));
+        boolean rulePassed = getKcBusinessRulesEngine().applyRules(new AwardBudgetSaveEvent(budget));
         if (rulePassed) {
             // update campus flag if budget level flag is changed
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag())
