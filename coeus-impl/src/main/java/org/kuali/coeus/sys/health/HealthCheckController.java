@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller("healthCheckController")
 public class HealthCheckController {
 	
-	protected static final String DEFAULT_HEALTH_QUERY = "select 1 from dual;";
+	protected static final String DEFAULT_HEALTH_QUERY = "select 1 from dual";
 	
 	protected final Log LOG = LogFactory.getLog(HealthCheckController.class);
 
