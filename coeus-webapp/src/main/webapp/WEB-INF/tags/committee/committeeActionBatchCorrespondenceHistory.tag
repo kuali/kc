@@ -119,7 +119,7 @@
         <div id="historyDetails">  
     
         <table cellpadding=0 cellspacing=0 border=0>
-            <c:forEach items="${KualiForm.committeeHelper.batchCorrespondenceHistory}" var="batchCorrespondenceHistory" varStatus="status">
+            <c:forEach items="${krafn:copy(KualiForm.committeeHelper.batchCorrespondenceHistory)}" var="batchCorrespondenceHistory" varStatus="status">
                 <tr>
                     <td class="infoline" colspan="2">
                         <kra-committee:committeeActionBatchCorrespondenceRun committeeBatchCorrespondence="${batchCorrespondenceHistory}" committeeBatchCorrespondenceProperty="committeeHelper.batchCorrespondenceHistory[${status.index}]" />
