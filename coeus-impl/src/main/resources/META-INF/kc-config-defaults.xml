@@ -237,4 +237,7 @@
 
     <param name="kc.rest.admin.username" override="false"></param>
     <param name="kc.rest.admin.password" override="false"></param>
+
+	<param name="tm.btm.logPart1Filename" override="false">btm1.tlog</param>
+	<param name="tm.btm.logPart2Filename" override="false">btm2.tlog</param>
 </config>
