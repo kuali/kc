@@ -241,6 +241,7 @@
 	<bean id="iacucPrintXmlUtilService" class="org.kuali.kra.iacuc.committee.print.service.impl.IacucPrintXmlUtilServiceImpl">
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
+		<property name="protocolAmendRenewService" ref="iacucProtocolAmendRenewService" />
 	</bean>
 	
 	

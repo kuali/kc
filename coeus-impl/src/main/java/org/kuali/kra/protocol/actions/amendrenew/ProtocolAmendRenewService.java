@@ -103,4 +103,10 @@ public interface ProtocolAmendRenewService {
      * @throws Exception 
      */
     public List<String> getAvailableModules(String protocolNumber) throws Exception;
+    
+    /**
+     * This method is to get the actual protocol number when it is amendment or renewal.
+     */
+    public String getAmendedOrRenewalProtocolNumber(String protocolNumber);
+    
 }
