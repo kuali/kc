@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* allowing btm log location configuration
+  * Travis Schneeberger on Fri, 11 Sep 2015 16:55:57 -0400 [View Commit](../../commit/8f57ef9d485fa32a673fc55ca7ece2975b52be9b)
+
+##coeus-1509.27
 *  Fixing budget base calculations
   * When a budget groups personnel (automatically by cost object or manually by created groups), and the unit has Lab Allocation rates, the printed budget report is not correctly publishing the correct Salaries & Wages amount for the Allocated Admin Support > personnel row because it only displays the calculated amount for the FIRST PERSON in each Group.
   * The Fringe Benefits field is correctly calculating against the correct value of ALL persons.
