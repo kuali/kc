@@ -26,7 +26,6 @@ import org.kuali.coeus.common.budget.api.rate.RateClassType;
 import org.kuali.coeus.common.budget.framework.core.Budget;
 import org.kuali.coeus.common.budget.framework.core.BudgetParent;
 import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
-import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetRateAndBase;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.kra.printing.schema.*;
 import org.kuali.kra.printing.schema.BudgetSummaryReportDocument.BudgetSummaryReport;
@@ -36,7 +35,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
 import java.util.*;
 
 /**
@@ -261,7 +259,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		    reportTypeVOList.addAll(getReportTypeVOList(budgetPeriod));
         }
         setReportTypeListFromReportTypeVoListForCumulativeBudgetSalary(
-				reportTypeList, reportTypeVOList);
+                reportTypeList, reportTypeVOList);
 	}
 
 	/*
@@ -673,7 +671,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			for (BudgetLineItem budgetLineItem : budgetPeriod
 					.getBudgetLineItems()) {
 				setBudgetPersRateAndBaseListForBudgetOHRateAndBase(
-						tempReportTypeVOList, budgetLineItem, rateClassType);
+						tempReportTypeVOList, budgetLineItem);
 				if (!isBudgetCategoryPersonnel(budgetLineItem)) {
 					setBudgetRateAndBaseListForBudgetOHRateAndBase(
 							tempReportTypeVOList, budgetLineItem, rateClassType);
@@ -702,10 +700,10 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			for (BudgetLineItem budgetLineItem : budgetPeriod
 					.getBudgetLineItems()) {
 				setBudgetPersRateAndBaseListForBudgetEBRateAndBase(
-						tempReportTypeVOList, budgetLineItem, rateClassType);
+						tempReportTypeVOList, budgetLineItem);
 				if (!isBudgetCategoryPersonnel(budgetLineItem)) {
 					setBudgetRateAndBaseListForBudgetEBRateAndBase(
-							tempReportTypeVOList, budgetLineItem, rateClassType);
+							tempReportTypeVOList, budgetLineItem);
 				}
 			}
 		}
@@ -731,13 +729,12 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			for (BudgetLineItem budgetLineItem : budgetPeriod
 					.getBudgetLineItems()) {
 				setBudgetPersRateAndBaseListForBudgetLARateAndBase(
-						tempReportTypeVOList, budgetLineItem, rateClassType,
-						RateClassType.LA_SALARIES.getRateClassType());
+						tempReportTypeVOList, budgetLineItem
+                );
 				if (!isBudgetCategoryPersonnel(budgetLineItem)) {
 					setBudgetRateAndBaseListForBudgetLARateAndBase(
-							tempReportTypeVOList, budgetLineItem,
-							rateClassType, RateClassType.LA_SALARIES
-									.getRateClassType());
+							tempReportTypeVOList, budgetLineItem
+                    );
 				}
 			}
 		}
@@ -792,10 +789,10 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			for (BudgetLineItem budgetLineItem : budgetPeriod
 					.getBudgetLineItems()) {
 				setBudgetPersRateAndBaseListForBudgetOtherRateAndBase(
-						tempReportTypeVOList, budgetLineItem, rateClassType);
+						tempReportTypeVOList, budgetLineItem);
 				if (!isBudgetCategoryPersonnel(budgetLineItem)) {
 					setBudgetRateAndBaseListForBudgetOtherRateAndBase(
-							tempReportTypeVOList, budgetLineItem, rateClassType);
+							tempReportTypeVOList, budgetLineItem);
 				}
 			}
 		}
