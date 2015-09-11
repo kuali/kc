@@ -27,6 +27,7 @@ import org.kuali.coeus.common.committee.impl.meeting.CommitteeScheduleMinuteBase
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
@@ -49,6 +50,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     private DateTimeService dateTimeService;
     private ReviewCommentsService reviewCommentsService;
+    private IacucProtocolAmendRenewService protocolAmendRenewService;
     
     public void setPersonXml(KcPerson person, PersonType personType) {
         personType.setPersonID(person.getPersonId());
@@ -214,7 +216,8 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
             ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
-                if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
+            	String minutesProtocolNumber = getProtocolAmendRenewService().getAmendedOrRenewalProtocolNumber(protocol.getProtocolNumber());
+                if (minutesProtocolNumber.equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
@@ -305,6 +308,15 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
      */
     public DateTimeService getDateTimeService() {
         return dateTimeService;
-    }    
+    }
+
+	public IacucProtocolAmendRenewService getProtocolAmendRenewService() {
+		return protocolAmendRenewService;
+	}
+
+	public void setProtocolAmendRenewService(
+			IacucProtocolAmendRenewService protocolAmendRenewService) {
+		this.protocolAmendRenewService = protocolAmendRenewService;
+	}    
     
 }
