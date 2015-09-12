@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Making bitronix journal files and default transaction timeout configurable via a rice upgrade
+  * Travis Schneeberger on Fri, 11 Sep 2015 21:44:26 -0400 [View Commit](../../commit/01b4b74127b32778ae380730055464bb8e7d4acd)
+
+##coeus-1509.28
 * allowing btm log location configuration
   * Travis Schneeberger on Fri, 11 Sep 2015 16:55:57 -0400 [View Commit](../../commit/8f57ef9d485fa32a673fc55ca7ece2975b52be9b)
 
@@ -35,6 +39,10 @@
 
 
 ##coeus-1509.24
+* No Changes
+
+
+##coeus-1509.23-mit.6
 * No Changes
 
 
