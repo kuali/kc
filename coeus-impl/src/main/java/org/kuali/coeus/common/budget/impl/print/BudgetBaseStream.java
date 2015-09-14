@@ -19,6 +19,7 @@
 package org.kuali.coeus.common.budget.impl.print;
 
 import org.kuali.coeus.common.budget.framework.nonpersonnel.*;
+import org.kuali.coeus.sys.api.model.AbstractDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.kra.printing.schema.GroupsType;
@@ -48,10 +49,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class BudgetBaseStream implements XmlStream {
 
@@ -102,7 +101,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	@Autowired
 	@Qualifier("dataObjectService")
 	protected DataObjectService dataObjectService;
-    
+
 	protected ReportHeaderType getReportHeaderTypeForCumulativeReport(BudgetParent budgetParent) {
 		ReportHeaderType reportHeaderType = ReportHeaderType.Factory.newInstance();
 		if (budgetParent != null) {
@@ -282,6 +281,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 			ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 			ScaleTwoDecimal calculatedCostSharing = ScaleTwoDecimal.ZERO;
 			ScaleTwoDecimal salary = ScaleTwoDecimal.ZERO;
+
 			for (ReportTypeVO tempReportTypeVO : reportTypeVOList) {
 				String budgetLASalaryTempKey = tempReportTypeVO.getCostElementDesc();
 				if (budgetLASalaryTempKey.equals(budgetLASalaryKey)) {
@@ -295,7 +295,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 					calculatedCost = calculatedCost.add(tempReportTypeVO.getCalculatedCost());
 					calculatedCostSharing = calculatedCostSharing.add(tempReportTypeVO.getCostSharingAmount());
 					salary = salary.add(tempReportTypeVO.getSalaryRequested());
-				}
+                }
 			}
 			ReportType reportType = getReportTypeForLASalary(fringe, salary, calculatedCost, calculatedCostSharing, reportTypeVO, startDate, endDate);
 			reportTypeList.add(reportType);
@@ -344,7 +344,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		reportTypeVO.setSalaryRequested(budgetRateAndBase.getCalculatedCost());
 		reportTypeVO.setCostSharingAmount(budgetRateAndBase.getCalculatedCostSharing());
 		reportTypeVO.setFringe(getFringeForLASalaryForRateAndBase(budgetLineItem, startDate, endDate));
-		reportTypeVO.setCalculatedCost(getFringeCostSharingLASalaryRateAndBase(budgetLineItem, startDate, endDate));
+        reportTypeVO.setCalculatedCost(getFringeCostSharingLASalaryRateAndBase(budgetLineItem, startDate, endDate));
 		return reportTypeVO;
 	}
 
@@ -399,8 +399,8 @@ public abstract class BudgetBaseStream implements XmlStream {
 
 	private void addReportTypeToGroupType(GroupsType groupsType, ReportType reportType) {
 		List<ReportType> reportTypeList = new ArrayList<ReportType>();
-		reportTypeList.add(reportType);
-		groupsType.setDetailsArray(reportTypeList.toArray(new ReportType[0]));
+        reportTypeList.add(reportType);
+        groupsType.setDetailsArray(reportTypeList.toArray(new ReportType[0]));
 	}
 
 	protected GroupsType[] getGroupsType(List<ReportType> reportTypeList) {
@@ -433,10 +433,10 @@ public abstract class BudgetBaseStream implements XmlStream {
 					groupsType.setDescription(getFieldValue(groupBy[0], reportType).toString());
 				}
 				groupTypeList.add(groupsType);
-				lastGroup = presentGroup;
+                lastGroup = presentGroup;
 			}
-			reportTypeListForGroup.add(reportType);
-			groupsType.setDetailsArray(reportTypeListForGroup.toArray(new ReportType[0]));
+            reportTypeListForGroup.add(reportType);
+            groupsType.setDetailsArray(reportTypeListForGroup.toArray(new ReportType[0]));
 		}
 		return groupTypeList.toArray(new GroupsType[0]);
 	}
@@ -513,7 +513,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		calculationMethodology.setBudgetVacRateBaseForPeriod(subReportType);
 
 		subReportType = getBudgetOtherRateBaseForPeriod();
-		calculationMethodology.setBudgetOtherRateBaseForPeriod(subReportType);
+        calculationMethodology.setBudgetOtherRateBaseForPeriod(subReportType);
 
 		return calculationMethodology;
 	}
@@ -591,7 +591,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	protected void setReportTypeOHExclusionForSortId(List<ReportType> reportTypeList, int sortId) {
 		List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
 		setReportTypeVOListForOHExclusionSortId(tempReportTypeVOList);
-		setReportTypeListOHExclusionForSortId(reportTypeList, sortId, tempReportTypeVOList);
+        setReportTypeListOHExclusionForSortId(reportTypeList, sortId, tempReportTypeVOList);
 	}
 
 	protected void setReportTypeVOListForOHExclusionSortId(List<ReportTypeVO> tempReportTypeVOList) {
@@ -751,9 +751,9 @@ public abstract class BudgetBaseStream implements XmlStream {
 			setBudgetPersRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetLineItem);
 			if (!isBudgetCategoryPersonnel(budgetLineItem)) {
 				setBudgetRateAndBaseListForBudgetLARateAndBase(tempReportTypeVOList, budgetLineItem);
-			}
-		}
-		setReportTypeMapFromReportTypeVOList(tempReportTypeVOList, reportTypeMap);
+            }
+        }
+        setReportTypeMapFromReportTypeVOList(tempReportTypeVOList, reportTypeMap);
         List<ReportType> reportTypeList = new ArrayList<>(reportTypeMap.values());
 		return reportTypeList;
 	}
@@ -826,7 +826,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 		SubReportType subReportType = SubReportType.Factory.newInstance();
 		List<ReportType> reportTypeList;
 		reportTypeList = getReportTypeListForBudgetOtherRateAndBase();
-		subReportType.setGroupArray(getGroupsType(reportTypeList, rateClassRateType));
+        subReportType.setGroupArray(getGroupsType(reportTypeList, rateClassRateType));
 		return subReportType;
 
 	}
@@ -852,13 +852,13 @@ public abstract class BudgetBaseStream implements XmlStream {
 		List<ReportType> reportTypeList;
 		Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetLineItem);
+            setBudgetPersRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetLineItem);
 			if (!isBudgetCategoryPersonnel(budgetLineItem)) {
-				setBudgetRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetLineItem);
-			}
-		}
+                setBudgetRateAndBaseListForBudgetOHRateAndBase(tempReportTypeVOList, budgetLineItem);
+            }
+        }
 
-		setReportTypeMapForBudgetOHRateAndBase(tempReportTypeVOList, reportTypeMap);
+        setReportTypeMapForBudgetOHRateAndBase(tempReportTypeVOList, reportTypeMap);
 		reportTypeList = new ArrayList<>(reportTypeMap.values());
 		return reportTypeList;
 	}
@@ -912,7 +912,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	}
 
 	private String getKeyForBudgetOHRateBase(ReportTypeVO reportTypeVO) {
-		StringBuilder key = new StringBuilder();
+        StringBuilder key = new StringBuilder();
 		key.append(reportTypeVO.getOnOffCampusFlag().toString()).append(reportTypeVO.getAppliedRate().toString())
                 .append(reportTypeVO.getRateClassDesc());
 		return key.toString();
@@ -1142,16 +1142,15 @@ public abstract class BudgetBaseStream implements XmlStream {
 	}
 
 	private ScaleTwoDecimal getFringeForLASalaryForRateAndBase(BudgetLineItem budgetLineItem, Date startDate, Date endDate) {
-		ScaleTwoDecimal fringe = ScaleTwoDecimal.ZERO;
-		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
-			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
-			if (budgetRateAndBase.getStartDate().equals(startDate) && budgetRateAndBase.getEndDate().equals(endDate)
-                    && budgetRateAndBase.getCalculatedCost() != null) {
-				if (isRateAndBaseEBonLA(budgetRateAndBase) || isRateAndBaseVAonLA(budgetRateAndBase)) {
-					fringe = fringe.add(budgetRateAndBase.getCalculatedCost());
-				}
-			}
-		}
+        ScaleTwoDecimal fringe = budgetLineItem.getBudgetRateAndBaseList().stream()
+                .filter(budgetRateAndBase -> budgetRateAndBase.getCalculatedCost() != null)
+                .filter(budgetRateAndBase -> budgetRateAndBase.getStartDate().equals(startDate) && budgetRateAndBase.getEndDate().equals(endDate))
+                .filter(budgetRateAndBase -> isRateAndBaseEBonLA(budgetRateAndBase) || isRateAndBaseVAonLA(budgetRateAndBase))
+                .collect(Collectors.toMap(budgetRateAndBase -> budgetRateAndBase.getRateClass().getCode() + budgetRateAndBase.getRateTypeCode(),
+                        BudgetRateAndBase::getCalculatedCost, (key1, key2) -> key1))
+                .values().stream()
+                .reduce(ScaleTwoDecimal.ZERO, AbstractDecimal::add);
+
 		return fringe;
 	}
 
