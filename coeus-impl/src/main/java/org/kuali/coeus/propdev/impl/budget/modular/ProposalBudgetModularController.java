@@ -21,6 +21,7 @@ package org.kuali.coeus.propdev.impl.budget.modular;
 
 
 import org.kuali.coeus.common.budget.framework.core.Budget;
+import org.kuali.coeus.common.budget.framework.core.BudgetSaveEvent;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetControllerBase;
 import org.kuali.coeus.propdev.impl.budget.core.ProposalBudgetForm;
@@ -40,7 +41,7 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
             if (budgetPeriod.getBudgetModular() == null)
                 getBudgetModularService().generateModularPeriod(budgetPeriod);
         }
-        form.setBudgetModularSummary(getBudgetModularService().generateModularSummary(budget));
+        form.setBudgetModularSummary(getBudgetModularService().processModularSummary(budget,true));
         return super.navigate(form);
     }
 
@@ -49,8 +50,7 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
             throws Exception{
         Budget budget = form.getBudget();
         getBudgetModularService().synchModularBudget(budget);
-        getBudgetModularService().generateModularSummary(budget);
-        form.setBudgetModularSummary(getBudgetModularService().generateModularSummary(budget));
+        form.setBudgetModularSummary(getBudgetModularService().processModularSummary(budget,true));
         super.saveBudget(form);
         return getRefreshControllerService().refresh(form);
     }
@@ -62,8 +62,8 @@ public class ProposalBudgetModularController extends ProposalBudgetControllerBas
         for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()){
                 getBudgetModularService().generateModularPeriod(budgetPeriod);
         }
-        getBudgetModularService().generateModularSummary(budget);
-        form.setBudgetModularSummary(getBudgetModularService().generateModularSummary(budget));
+        form.setBudgetModularSummary(getBudgetModularService().processModularSummary(budget,false));
         return getRefreshControllerService().refresh(form);
     }
+    
 }

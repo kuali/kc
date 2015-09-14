@@ -166,7 +166,7 @@ public abstract class ProposalBudgetControllerBase {
         } else {
             getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
             getBudgetSummaryService().setupOldStartEndDate(form.getBudget(), false);
-            form.setBudgetModularSummary(budgetModularService.generateModularSummary(form.getBudget()));
+            form.setBudgetModularSummary(budgetModularService.processModularSummary(form.getBudget(),true));
             validateBudgetExpenses(form);
         }
 
@@ -190,7 +190,7 @@ public abstract class ProposalBudgetControllerBase {
             getBudgetCalculationService().populateBudgetSummaryTotals(form.getBudget());
             getBudgetJustificationService().preSave(form.getBudget(), form.getBudgetJustificationWrapper());
             getBudgetSummaryService().setupOldStartEndDate(form.getBudget(), false);
-            form.setBudgetModularSummary(budgetModularService.generateModularSummary(form.getBudget()));
+            form.setBudgetModularSummary(budgetModularService.processModularSummary(form.getBudget(),true));
             validateBudgetExpenses(form);
     	}
     }

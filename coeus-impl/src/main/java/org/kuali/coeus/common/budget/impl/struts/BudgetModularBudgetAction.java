@@ -124,7 +124,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
             BudgetForm budgetForm = (BudgetForm) form;
             Budget budget = budgetForm.getBudgetDocument().getBudget();        
             budgetModularService.synchModularBudget(budget);
-            budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budget));
+            budgetForm.setBudgetModularSummary(budgetModularService.processModularSummary(budget,false));
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -138,13 +138,13 @@ public class BudgetModularBudgetAction extends BudgetAction {
         Budget budget = budgetForm.getBudgetDocument().getBudget();        
         BudgetModularService budgetModularService = KcServiceLocator.getService(BudgetModularService.class);
         if (budgetForm.getModularSelectedPeriod().equals(0)) {
-            budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budget));
+            budgetForm.setBudgetModularSummary(budgetModularService.processModularSummary(budget,false));
             return;
         }
         BudgetPeriod budgetPeriod = budget.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1);
         budgetModularService.generateModularPeriod(budgetPeriod);
         // Also update project totals
-        budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budget));
+        budgetForm.setBudgetModularSummary(budgetModularService.processModularSummary(budget,false));
     }
     
     /**

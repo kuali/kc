@@ -18,6 +18,7 @@
  */
 package org.kuali.coeus.propdev.impl.budget.modular;
 
+import org.kuali.coeus.sys.api.model.AbstractDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.budget.framework.calculator.BudgetCalculationService;
 import org.kuali.coeus.common.budget.framework.core.Budget;
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Component("budgetModularService")
 public class BudgetModularServiceImpl implements BudgetModularService {
@@ -61,38 +63,55 @@ public class BudgetModularServiceImpl implements BudgetModularService {
         budgetPeriod.getBudgetModular().calculateAllTotals();
     }
     
-    public BudgetModularSummary generateModularSummary(Budget budget) {
-        BudgetModularSummary modularSummary = new BudgetModularSummary();
-        ScaleTwoDecimal directCostLessConsortiumFna = new ScaleTwoDecimal(0);
-        ScaleTwoDecimal consortiumFna = new ScaleTwoDecimal(0);
-        ScaleTwoDecimal totalDirectCost = new ScaleTwoDecimal(0);
-        ScaleTwoDecimal totalFnaRequested = new ScaleTwoDecimal(0);
-        ScaleTwoDecimal totalRequestedCost = new ScaleTwoDecimal(0);
-        List<BudgetModularIdc> budgetModularIdcs = new ArrayList<BudgetModularIdc>();
-        
-        for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
-            BudgetModular budgetModular = budgetPeriod.getBudgetModular();
-            if (!ObjectUtils.isNull(budgetModular)) {
-                budgetModular.calculateAllTotals();
-                directCostLessConsortiumFna = directCostLessConsortiumFna.add(budgetModular.getDirectCostLessConsortiumFna());
-                consortiumFna = consortiumFna.add(budgetModular.getConsortiumFna());
-                totalDirectCost = totalDirectCost.add(budgetModular.getTotalDirectCost());
-                totalFnaRequested = totalFnaRequested.add(budgetModular.getTotalFnaRequested());
-                totalRequestedCost = totalRequestedCost.add(budgetModular.getTotalRequestedCost());
-                budgetModularIdcs.addAll(budgetModular.getBudgetModularIdcs());
-            }
-        }
-        
-        modularSummary.setDirectCostLessConsortiumFna(directCostLessConsortiumFna);
-        modularSummary.setConsortiumFna(consortiumFna);
-        modularSummary.setTotalDirectCost(totalDirectCost);
-        modularSummary.setTotalFnaRequested(totalFnaRequested);
-        modularSummary.setTotalRequestedCost(totalRequestedCost);
-        modularSummary.setBudgetModularIdcs(budgetModularIdcs);
-        
-        return modularSummary;
+    @Override 
+    public BudgetModularSummary processModularSummary(Budget budget, boolean synchModular) {
+    	 BudgetModularSummary modularSummary = new BudgetModularSummary();
+         ScaleTwoDecimal directCostLessConsortiumFna = ScaleTwoDecimal.ZERO;
+         ScaleTwoDecimal consortiumFna = ScaleTwoDecimal.ZERO;
+         ScaleTwoDecimal totalDirectCost = ScaleTwoDecimal.ZERO;
+         ScaleTwoDecimal totalFnaRequested = ScaleTwoDecimal.ZERO;
+         ScaleTwoDecimal totalRequestedCost = ScaleTwoDecimal.ZERO;
+         List<BudgetModularIdc> budgetModularIdcs = new ArrayList();
+         
+         for (BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
+             BudgetModular budgetModular = budgetPeriod.getBudgetModular();
+             if (!ObjectUtils.isNull(budgetModular)) {
+            	 if (synchModular) {
+            		 calculateAllTotalsAfterSync(budgetModular);
+            	 } else {
+            		 budgetModular.calculateAllTotals();
+            	 }
+                 directCostLessConsortiumFna = directCostLessConsortiumFna.add(budgetModular.getDirectCostLessConsortiumFna());
+                 consortiumFna = consortiumFna.add(budgetModular.getConsortiumFna());
+                 totalDirectCost = totalDirectCost.add(budgetModular.getTotalDirectCost());
+                 totalFnaRequested = totalFnaRequested.add(budgetModular.getTotalFnaRequested());
+                 totalRequestedCost = totalRequestedCost.add(budgetModular.getTotalRequestedCost());
+                 budgetModularIdcs.addAll(budgetModular.getBudgetModularIdcs());
+             }
+         }
+         
+         modularSummary.setDirectCostLessConsortiumFna(directCostLessConsortiumFna);
+         modularSummary.setConsortiumFna(consortiumFna);
+         modularSummary.setTotalDirectCost(totalDirectCost);
+         modularSummary.setTotalFnaRequested(totalFnaRequested);
+         modularSummary.setTotalRequestedCost(totalRequestedCost);
+         modularSummary.setBudgetModularIdcs(budgetModularIdcs);
+         
+         return modularSummary;
     }
 
+    private void calculateAllTotalsAfterSync(BudgetModular budgetModular) {
+    	budgetModular.calculateTotalDirectCost();
+        budgetModular.calculateTotalRequestedCost();
+               
+        final ScaleTwoDecimal fnaRequested = budgetModular.getBudgetModularIdcs().stream()
+                .map(BudgetModularIdc::getFundsRequested)
+                .filter(Objects::nonNull)
+                .reduce(ScaleTwoDecimal.ZERO, AbstractDecimal::add);
+
+        budgetModular.setTotalFnaRequested(fnaRequested);
+    }
+    
     public void synchModularBudget(Budget budget) {
         
         if (budget == null) {
@@ -158,7 +177,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             }
             budgetModular.setDirectCostLessConsortiumFna(modularTdc);
             budgetModular.setConsortiumFna(consortiumFna);
-            budgetModular.calculateAllTotals();
+   		 	calculateAllTotalsAfterSync(budgetModular);
         }
     }
 
