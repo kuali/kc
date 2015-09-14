@@ -25,8 +25,8 @@ public interface BudgetModularService {
     
     public void generateModularPeriod(BudgetPeriod budgetPeriod);
     
-    public BudgetModularSummary generateModularSummary(Budget budget);
-    
     public void synchModularBudget(Budget budget);
+    
+    public BudgetModularSummary processModularSummary(Budget budget, boolean synchModular);
 
 }

@@ -401,7 +401,7 @@ public class BudgetAction extends BudgetActionBase {
     public ActionForward modularBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetModularService budgetModularService = KcServiceLocator.getService(BudgetModularService.class);
-        budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getBudgetDocument().getBudget()));
+        budgetForm.setBudgetModularSummary(budgetModularService.processModularSummary(budgetForm.getBudgetDocument().getBudget(),false));
         return mapping.findForward(Constants.BUDGET_MODULAR_PAGE);
     }
 
