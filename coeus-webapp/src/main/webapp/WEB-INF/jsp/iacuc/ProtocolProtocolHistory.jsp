@@ -17,15 +17,23 @@
    - along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<kul:documentPage
+	showDocumentInfo="true"
+	htmlFormAction="iacucProtocolActions"
+	documentTypeName="IacucProtocolDocument"
+	renderMultipart="true"
+	showTabButtons="true"
+	auditCount="0"
+  	headerDispatch="${KualiForm.headerDispatch}"
+  	headerTabActive="protocolHistory">
+  	
+	<script type="text/javascript">
+   		var $j = jQuery.noConflict();
+   	</script>
 
-<kul:tab tabTitle="Summary & History" defaultOpen="false" tabErrorKey="">
-	<div class="tab-container" align="left">
-		<h3>
-   			<span class="subhead-left">Summary</span>
-   			<span class="subhead-right">
-   				<kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="protocolSummaryAndHistoryHelp" altText="Help"/>
-			</span>
-       </h3>
-		<kra-iacuc:protocolSummaryPanel />
-    </div>	    
-</kul:tab>
+	<div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="IACUC Protocol Actions" /></div>
+	<kra-iacuc:protocolSubmissionAndHistoryViewPrint/>
+	<kul:panelFooter />
+	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" />
+ 
+</kul:documentPage>

@@ -56,6 +56,7 @@ public interface Constants {
     public static final String MAPPING_CUSTOM_DATA = "customData";
     public static final String MAPPING_PROPOSAL_ACTIONS = "actions";
     public static final String MAPPING_PROTOCOL_ACTIONS = "protocolActions";
+    public static final String MAPPING_PROTOCOL_HISTORY = "protocolHistory";
     public static final String MAPPING_PROTOCOL_ONLINE_REVIEW = "onlineReview";
     public static final String MAPPING_PROPOSAL_MEDUSA_PAGE = "proposalMedusa";
     public static final String MAPPING_PROPOSAL_APPROVER_PAGE = "approverView";
@@ -823,7 +824,8 @@ public interface Constants {
     // Iacuc - exceptionDescription length
     public static final Integer IACUC_PROTOCOL_EXCEPTION_DESC_LENGTH = 40;
     public static final String MAPPING_IACUC_PROTOCOL_ACTIONS = "iacucProtocolActions";
-    
+    public static final String MAPPING_IACUC_PROTOCOL_HISTORY = "iacucProtocolHistory";
+ 
     public static final String IACUC_PROCEDURE_PERSON_RESPONSIBLE_DELIMITER = "|";
 
     public static final int IACUC_PROCEDURE_CUSTOM_DATA_SMALL_STRING_MAX_LENGTH = 1000;
@@ -917,5 +919,8 @@ public interface Constants {
     // award actions
     public static final String AWARD_BUDGET_PARAMETERS_ACTION = "awardBudgetParameters.do?";
     public static final String AWARD_BUDGET_VERSIONS_ACTION = "awardBudgetVersions.do?";
+    
+    public static final int PROTOCOL_DEFAULT_SUBMISSION_NUMBER = -1;
+
 }
 

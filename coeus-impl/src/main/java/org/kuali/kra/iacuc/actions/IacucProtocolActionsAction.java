@@ -1001,7 +1001,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         actionHelper.setCurrentSubmissionNumber(actionHelper.getPrevSubmissionNumber());
         actionHelper.setAmendmentDetails();
         protocolForm.getActionHelper().initSubmissionDetails();
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_IACUC_PROTOCOL_HISTORY);
     }
     
     /**
@@ -1022,7 +1022,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         actionHelper.setCurrentSubmissionNumber(actionHelper.getNextSubmissionNumber());
         actionHelper.setAmendmentDetails();
         protocolForm.getActionHelper().initSubmissionDetails();
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_IACUC_PROTOCOL_HISTORY);
     }
 
     /**

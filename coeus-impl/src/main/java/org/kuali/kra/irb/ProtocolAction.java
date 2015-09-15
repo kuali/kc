@@ -84,6 +84,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     public static final String PROTOCOL_PERMISSIONS_HOOK = "permissions";
     public static final String PROTOCOL_CUSTOM_DATA_HOOK = "customData";
     public static final String PROTOCOL_MEDUSA = "medusa";
+    public static final String PROTOCOL_HISTORY_HOOK = "protocolHistory";
 
     private static final Log LOG = LogFactory.getLog(ProtocolAction.class);
     private static final String PROTOCOL_NUMBER = "protocolNumber";
@@ -165,10 +166,17 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         if (Constants.MAPPING_PROTOCOL_ONLINE_REVIEW.equals(command)) {
             forward = onlineReview(mapping, protocolForm, request, response);
         }
+        if (Constants.MAPPING_PROTOCOL_HISTORY.equals(command)) {
+            forward = protocolHistory(mapping, protocolForm, request, response);
+        }
         
         return forward;
     }
 
+    protected String getProtocolHistoryForwardNameHook() {
+        return PROTOCOL_HISTORY_HOOK;
+    }
+    
     /**
      * This method is to get protocol personnel training service
      * @return ProtocolPersonTrainingService

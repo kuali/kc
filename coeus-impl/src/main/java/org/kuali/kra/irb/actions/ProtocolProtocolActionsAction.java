@@ -1067,7 +1067,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         actionHelper.setAmendmentDetails();
         actionHelper.initAmendmentBeans(true);
         protocolForm.getActionHelper().initSubmissionDetails();
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_PROTOCOL_HISTORY);
     }
     
     /**
@@ -1089,7 +1089,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         actionHelper.setAmendmentDetails();
         actionHelper.initAmendmentBeans(true);
         protocolForm.getActionHelper().initSubmissionDetails();
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(Constants.MAPPING_PROTOCOL_HISTORY);
     }
 
     /**

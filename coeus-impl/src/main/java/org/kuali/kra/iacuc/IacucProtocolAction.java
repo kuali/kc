@@ -69,6 +69,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
     public static final String IACUC_PROTOCOL_EXCEPTION = "iacucProtocolException";
     public static final String IACUC_PROTOCOL_MEDUSA = "medusa";
     public static final String IACUC_PROTOCOL_PROCEDURES = "iacucProtocolProcedures";
+    public static final String IACUC_PROTOCOL_HISTORY_HOOK = "iacucProtocolHistory";
 
     public ActionForward threeRs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return branchToPanelOrNotificationEditor(mapping, (ProtocolFormBase)form, IACUC_PROTOCOL_THREE_RS);
@@ -109,6 +110,10 @@ public class IacucProtocolAction extends ProtocolActionBase {
         return branchToPanelOrNotificationEditor(mapping, protocolForm, IACUC_PROTOCOL_PROCEDURES);
     }
 
+    protected String getProtocolHistoryForwardNameHook() {
+        return IACUC_PROTOCOL_HISTORY_HOOK;
+    }
+    
     protected String getProtocolForwardNameHook() {
         return  IACUC_PROTOCOL_NAME_HOOK;
     }

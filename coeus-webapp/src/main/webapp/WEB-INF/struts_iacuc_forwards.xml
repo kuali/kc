@@ -25,6 +25,7 @@
 <forward name="iacucProtocolNoteAndAttachment" path="/WEB-INF/jsp/iacuc/ProtocolNoteAndAttachment.jsp" />
 <forward name="iacucProtocolOnlineReview" path = "/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp"/>
 <forward name="iacucProtocolActions" path="/WEB-INF/jsp/iacuc/ProtocolProtocolActions.jsp" />
+<forward name="iacucProtocolHistory" path="/WEB-INF/jsp/iacuc/ProtocolProtocolHistory.jsp" />
 <forward name="iacucCustomData" path="/WEB-INF/jsp/iacuc/ProtocolCustomData.jsp" />
 <forward name="iacucSpecialReview" path="/WEB-INF/jsp/iacuc/ProtocolSpecialReview.jsp" />
 <forward name="iacucCheckListItemDescription" path="/WEB-INF/jsp/iacuc/ProtocolCheckListItemDescription.jsp" />
