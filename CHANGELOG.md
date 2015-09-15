@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* IRB - Admin Correction don't allow to delete personnel issue
+  * fixed  * vineeth on Tue, 15 Sep 2015 11:15:00 -0400 [View Commit](../../commit/717b670ac72c8bb85663015af8916c7bbfc10b5b)
+
+##coeus-1509.34
 * No Changes
 
 
