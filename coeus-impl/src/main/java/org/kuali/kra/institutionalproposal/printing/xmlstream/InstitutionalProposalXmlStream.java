@@ -215,40 +215,38 @@ public class InstitutionalProposalXmlStream implements XmlStream {
 		List<KeyPersonType> keyPersonTypes = new ArrayList<KeyPersonType>();
 		IPKeyPersonType keyPersonType = null;
 		for (InstitutionalProposalPerson proposalPerson : institutionalProposal.getProjectPersons()) {
-			if (proposalPerson.isPrincipalInvestigator() || proposalPerson.isCoInvestigator() || proposalPerson.isKeyPerson()) {
-				keyPersonType = IPKeyPersonType.Factory.newInstance();
-				if (institutionalProposal.getProposalNumber() != null) {
-					keyPersonType.setProposalNumber(institutionalProposal
-							.getProposalNumber());
+			keyPersonType = IPKeyPersonType.Factory.newInstance();
+			if (institutionalProposal.getProposalNumber() != null) {
+				keyPersonType.setProposalNumber(institutionalProposal
+						.getProposalNumber());
+			}
+			if (proposalPerson.getPersonId() != null) {
+				keyPersonType.setPersonId(proposalPerson.getPersonId());
+			}
+			KcPerson person = proposalPerson.getPerson();
+			if (person != null && person.getFullName() != null) {
+				keyPersonType.setPersonName(person.getFullName());
+			}
+			ContactRole role = proposalPerson.getContactRole();
+			if (role != null && role.getRoleDescription() != null) {
+				keyPersonType.setRoleName(role.getRoleDescription());
+			}
+			if (proposalPerson.getPerson() != null) {
+				if (proposalPerson.getPerson().getAddressLine1() != null) {
+					keyPersonType.setPersonAddress(proposalPerson.getPerson().getAddressLine1());
 				}
-				if (proposalPerson.getPersonId() != null) {
-					keyPersonType.setPersonId(proposalPerson.getPersonId());
+			} else if (proposalPerson.getRolodex() != null) {
+				if (proposalPerson.getRolodex().getAddressLine1() != null) {
+					keyPersonType.setPersonAddress(proposalPerson.getRolodex().getAddressLine1());
 				}
-				KcPerson person = proposalPerson.getPerson();
-				if (person != null && person.getFullName() != null) {
-					keyPersonType.setPersonName(person.getFullName());
-				}
-				ContactRole role = proposalPerson.getContactRole();
-				if (role != null && role.getRoleDescription() != null) {
-					keyPersonType.setRoleName(role.getRoleDescription());
-				}
-				if (proposalPerson.getPerson() != null) {
-	                if (proposalPerson.getPerson().getAddressLine1() != null) {
-					    keyPersonType.setPersonAddress(proposalPerson.getPerson().getAddressLine1());
-	                }
-				} else if (proposalPerson.getRolodex() != null) {
-                    if (proposalPerson.getRolodex().getAddressLine1() != null) {
-                        keyPersonType.setPersonAddress(proposalPerson.getRolodex().getAddressLine1());
-                    }
-				}
-				if (proposalPerson.getTotalEffort() != null) {
-					keyPersonType.setPercentEffort(proposalPerson
-							.getTotalEffort().bigDecimalValue());
-				}
-					keyPersonType.setFaculty(proposalPerson.isFaculty());
-				if (proposalPerson.getRolodexId() != null) {
-					keyPersonType.setNonEmployee(true);
-				}
+			}
+			if (proposalPerson.getTotalEffort() != null) {
+				keyPersonType.setPercentEffort(proposalPerson
+						.getTotalEffort().bigDecimalValue());
+			}
+			keyPersonType.setFaculty(proposalPerson.isFaculty());
+			if (proposalPerson.getRolodexId() != null) {
+				keyPersonType.setNonEmployee(true);
 			}
 		}
 		return keyPersonTypes.toArray(new IPKeyPersonType[0]);
@@ -266,81 +264,79 @@ public class InstitutionalProposalXmlStream implements XmlStream {
 		List<InvestigatorType2> investigatorTypesList = new ArrayList<InvestigatorType2>();
 		InvestigatorType2 investigatorType = null;
 		for (InstitutionalProposalPerson proposalPerson : institutionalProposal.getProjectPersons()) {
-			if (proposalPerson.isPrincipalInvestigator() || proposalPerson.isCoInvestigator() || proposalPerson.isKeyPerson()) {
-				investigatorType = InvestigatorType2.Factory.newInstance();
-				PersonType personType = PersonType.Factory.newInstance();
-                KcPerson person = proposalPerson.getPerson();
-                if (person != null) {
-                    if (person.getAddressLine1() != null) {
-                        personType.setAddress(person.getAddressLine1());
-                    }
-                    if (person.getCity() != null) {
-                        personType.setCity(person.getCity());
-                    }
-                    if (person.getFirstName() != null) {
-                        personType.setFirstName(person.getFirstName());
-                    }
-                    if (proposalPerson.getFullName() != null) {
-                        personType.setFullName(proposalPerson.getFullName());
-                    }
-                    if (person.getLastName() != null) {
-                        personType.setLastName(person.getLastName());
-                    }
-                    if (person.getMiddleName() != null) {
-                        personType.setMiddleName(person.getMiddleName());
-                    }
-                    if (proposalPerson.getPhoneNumber() != null) {
-                        personType.setPhone(proposalPerson.getPhoneNumber());
-                    }
-                    if (person.getState() != null) {
-                        personType.setState(person.getState());
-                    }
-                    if (person.getPostalCode() != null) {
-                        personType.setZip(person.getPostalCode());
-                    }
-                } else {
-                    NonOrganizationalRolodex rolodex = proposalPerson.getRolodex();
-                    if (rolodex != null) {
-                        if (rolodex.getAddressLine1() != null) {
-                            personType.setAddress(rolodex.getAddressLine1());
-                        }
-                        if (rolodex.getCity() != null) {
-                            personType.setCity(rolodex.getCity());
-                        }
-                        if (rolodex.getFirstName() != null) {
-                            personType.setFirstName(rolodex.getFirstName());
-                        }
-                        if (proposalPerson.getFullName() != null) {
-                            personType.setFullName(proposalPerson.getFullName());
-                        }
-                        if (rolodex.getLastName() != null) {
-                            personType.setLastName(rolodex.getLastName());
-                        }
-                        if (rolodex.getMiddleName() != null) {
-                            personType.setMiddleName(rolodex.getMiddleName());
-                        }
-                        if (proposalPerson.getPhoneNumber() != null) {
-                            personType.setPhone(proposalPerson.getPhoneNumber());
-                        }
-                        if (rolodex.getState() != null) {
-                            personType.setState(rolodex.getState());
-                        }
-                        if (rolodex.getPostalCode() != null) {
-                            personType.setZip(rolodex.getPostalCode());
-                        }
+			investigatorType = InvestigatorType2.Factory.newInstance();
+			PersonType personType = PersonType.Factory.newInstance();
+			KcPerson person = proposalPerson.getPerson();
+			if (person != null) {
+				if (person.getAddressLine1() != null) {
+					personType.setAddress(person.getAddressLine1());
+				}
+				if (person.getCity() != null) {
+					personType.setCity(person.getCity());
+				}
+				if (person.getFirstName() != null) {
+					personType.setFirstName(person.getFirstName());
+				}
+				if (proposalPerson.getFullName() != null) {
+					personType.setFullName(proposalPerson.getFullName());
+				}
+				if (person.getLastName() != null) {
+					personType.setLastName(person.getLastName());
+				}
+				if (person.getMiddleName() != null) {
+					personType.setMiddleName(person.getMiddleName());
+				}
+				if (proposalPerson.getPhoneNumber() != null) {
+					personType.setPhone(proposalPerson.getPhoneNumber());
+				}
+				if (person.getState() != null) {
+					personType.setState(person.getState());
+				}
+				if (person.getPostalCode() != null) {
+					personType.setZip(person.getPostalCode());
+				}
+			} else {
+				NonOrganizationalRolodex rolodex = proposalPerson.getRolodex();
+				if (rolodex != null) {
+					if (rolodex.getAddressLine1() != null) {
+						personType.setAddress(rolodex.getAddressLine1());
+					}
+					if (rolodex.getCity() != null) {
+						personType.setCity(rolodex.getCity());
+					}
+					if (rolodex.getFirstName() != null) {
+						personType.setFirstName(rolodex.getFirstName());
+					}
+					if (proposalPerson.getFullName() != null) {
+						personType.setFullName(proposalPerson.getFullName());
+					}
+					if (rolodex.getLastName() != null) {
+						personType.setLastName(rolodex.getLastName());
+					}
+					if (rolodex.getMiddleName() != null) {
+						personType.setMiddleName(rolodex.getMiddleName());
+					}
+					if (proposalPerson.getPhoneNumber() != null) {
+						personType.setPhone(proposalPerson.getPhoneNumber());
+					}
+					if (rolodex.getState() != null) {
+						personType.setState(rolodex.getState());
+					}
+					if (rolodex.getPostalCode() != null) {
+						personType.setZip(rolodex.getPostalCode());
+					}
 
-                    }
-                }
-				investigatorType.setPIName(personType);
-				investigatorType.setFacultyFlag(proposalPerson
-						.isFaculty());
-				investigatorType.setPrincipalInvFlag(proposalPerson
-						.isPrincipalInvestigator());
-				List<UnitType> unitTypes = getUnitTypes(proposalPerson);
-				investigatorType.setUnitArray(unitTypes
-						.toArray(new UnitType[0]));
-				investigatorTypesList.add(investigatorType);
+				}
 			}
+			investigatorType.setPIName(personType);
+			investigatorType.setFacultyFlag(proposalPerson
+					.isFaculty());
+			investigatorType.setPrincipalInvFlag(proposalPerson
+					.isPrincipalInvestigator());
+			List<UnitType> unitTypes = getUnitTypes(proposalPerson);
+			investigatorType.setUnitArray(unitTypes
+					.toArray(new UnitType[0]));
+			investigatorTypesList.add(investigatorType);
 		}
 		return investigatorTypesList.toArray(new InvestigatorType2[0]);
 	}
