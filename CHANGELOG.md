@@ -1,6 +1,34 @@
 
 
 ##CURRENT
+* PI/Multiple on Institutional Proposal does not carry over
+  * -issue fix  * vineeth on Tue, 15 Sep 2015 10:15:06 -0400 [View Commit](../../commit/d4925347d0b93d7852b87073745cff2f07edccff)
+*  Fix fringe calculations.
+  * When a budget groups personnel (automatically by cost object or manually by created groups), and the unit has Lab Allocation rates, the printed budget report is not correctly publishing the correct Salaries & Wages amount for the Allocated Admin Support > personnel row because it only displays the calculated amount for the FIRST PERSON in each Group.
+  * The Fringe Benefits field is correctly calculating against the correct value of ALL persons.
+  * The incorrect value for LA > Salaries causes the remaining S&W totals in the section to be incorrect in this report and inconsistent with the "Calculation Methodology" section.
+  * Also, subsequent values in the Allocated Administrative Support and Lab Expense Rates and Base for "Base" and "Calculated Costs" are also wrong WHEN PERSONNEL GROUP issue is in budget.
+  * I created another test proposal where each person with same cost object was in a unique group (#791 v1); in that proposal the Base calculated correctly.
+  * See proposal # 789 in res-demo-1.
+  * Steps to duplicate:
+  * Create a proposal in a unit with lab allocations (ex. 000001)
+  * Create a budget
+  * Add at least 4 people to the budget and enter a salary for each of them.
+  * Assign 2 people to the same cost element > Faculty Salaries Tenured - On
+  * Assign 2 people to the same cost element >Faculty Salaries Tenured - On, but create a group for the first person and use the same group for the 2nd person.
+  * autocalculate periods.
+  * Using the toolbar > Budget Periods > select the Action menu for this budget version > Print.
+  * Select #4 Budget Summary Report and generate the PDF.
+  * Result:
+  * Review the values in the row for Allocated Admin Support > Faculty Salaries Tenured On: the Salaries and Wages field is not 10% of the Total Senior Personnel S&W of the above section. It is only the aggregate of the first person in each group. Due to this incorrect value, the following rows in the report are incorrect: (the Total Lab Allocation, TOTAL SALARIES & WAGES, and TOTAL SALARIES & WAGES & FRINGE BENEFITS)
+  * Expected Result: The value for the above mentioned S&W field should be the sum of the Salary Allocation rate times the ALL personnel salaries, and the resulting totals should be correct. (The correct value appears in the Calculation Methodology section.)
+
+  * ref
+  * Gayathri Athreya on Mon, 14 Sep 2015 12:40:18 -0700 [View Commit](../../commit/e4139d2cd744979761ed6a5b33fd0e9febcb8d26)
+*  Code cleanup
+  * Gayathri Athreya on Fri, 11 Sep 2015 14:52:10 -0700 [View Commit](../../commit/bc1ec5f37c7fba3c85e36dd6e8a7fb0577312f20)
+
+##coeus-1509.32
 * No Changes
 
 
@@ -16,6 +44,10 @@
   * Travis Schneeberger on Thu, 10 Sep 2015 10:59:06 -0400 [View Commit](../../commit/fefd030ed8e072f116900529bd953b10514f6d7e)
 
 ##coeus-1509.29
+* No Changes
+
+
+##coeus-1509.28-mit.2
 * No Changes
 
 
