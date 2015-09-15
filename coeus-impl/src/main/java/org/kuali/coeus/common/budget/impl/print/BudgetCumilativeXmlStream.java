@@ -674,7 +674,7 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 						tempReportTypeVOList, budgetLineItem);
 				if (!isBudgetCategoryPersonnel(budgetLineItem)) {
 					setBudgetRateAndBaseListForBudgetOHRateAndBase(
-							tempReportTypeVOList, budgetLineItem, rateClassType);
+							tempReportTypeVOList, budgetLineItem);
 				}
 			}
 		}
@@ -760,10 +760,10 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 			for (BudgetLineItem budgetLineItem : budgetPeriod
 					.getBudgetLineItems()) {
 				setBudgetPersRateAndBaseListForBudgetVacRateAndBase(
-						tempReportTypeVOList, budgetLineItem, rateClassType);
+						tempReportTypeVOList, budgetLineItem);
 				if (!isBudgetCategoryPersonnel(budgetLineItem)) {
 					setBudgetRateAndBaseListForBudgetVacRateAndBase(
-							tempReportTypeVOList, budgetLineItem, rateClassType);
+							tempReportTypeVOList, budgetLineItem);
 				}
 			}
 		}
