@@ -22,7 +22,7 @@
 <div id="workarea">
 <c:forEach items="${KualiForm.document.protocolList[0].protocolPersons}" var="person" varStatus="status">
     <c:set var="protocolPersonProperty" value="document.protocolList[0].protocolPersons[${status.index}]" />
-    <c:if test="${not KualiForm.personnelHelper.protocolFinal}">
+    <c:if test="${not KualiForm.personnelHelper.protocolFinal || KualiForm.document.protocolList[0].correctionMode}">
         <c:set var="leftSideHtmlProperty" value="${protocolPersonProperty}.delete" />
     </c:if>
     <c:set var="personUnitRequired" value="${person.protocolPersonRole.unitDetailsRequired}" />
