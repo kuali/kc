@@ -157,7 +157,7 @@ public class ReportForwardAction extends KualiDocumentActionBase {
 	    	} else {
 	    		return Y;
 	    	}
-	    }));
+	    }, (v1, v2) -> v2));
     }
     
     public DataObjectService getDataObjectService() {
