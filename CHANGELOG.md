@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+* Budget Line Item Details > On/Off campus flag re-sets to ON
+  * with certain actions when it should not-issue fixed  * vineeth on Wed, 16 Sep 2015 11:22:47 -0400 [View Commit](../../commit/030118d513b8d3d8318f92bc40a85441cb5519ae)
+
+##coeus-1509.36
 *  adding a merge function
   * Travis Schneeberger on Wed, 16 Sep 2015 15:27:01 -0400 [View Commit](../../commit/258884c1a372f3b8a4b69d2b640332c71701f0a6)
 *  Fix STE
