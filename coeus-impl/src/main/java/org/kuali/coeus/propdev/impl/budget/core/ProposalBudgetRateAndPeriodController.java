@@ -87,7 +87,6 @@ public class ProposalBudgetRateAndPeriodController extends ProposalBudgetControl
     @Transactional @RequestMapping(params="methodToCall=recalculateBudgetWithChanges")
     public ModelAndView recalculateBudgetWithChanges(@ModelAttribute("KualiForm") ProposalBudgetForm form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentBudgetExt budget = form.getBudget();
-    	getBudgetSummaryService().updateOnOffCampusFlag(budget, budget.getOnOffCampusFlag());
     	getBudgetSummaryService().calculateBudget(budget);
         return getModelAndViewService().getModelAndView(form);
     }    
