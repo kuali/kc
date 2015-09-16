@@ -295,4 +295,14 @@
         </property>
     </bean>
 
+    <bean id="activeMqMessageLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService" ref="activeMqMessageLookupableHelperService" />
+    </bean>
+
+    <bean id="genericJmsOperations" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="xaJmsConnectionFactory" />
+        <property name="deliveryPersistent" value="true" />
+        <property name="sessionTransacted" value="true" />
+    </bean>
+
 </beans>

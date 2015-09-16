@@ -1543,5 +1543,16 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>		
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.coeus.sys.impl.mq.ActiveMqMessage" table="KC_ACTIVEMQ_MSGS">
+		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" />
+		<field-descriptor name="container" column="CONTAINER" jdbc-type="VARCHAR" />
+		<field-descriptor name="messageIdProducer" column="MSGID_PROD" jdbc-type="VARCHAR" />
+		<field-descriptor name="messageIdSequence" column="MSGID_SEQ" jdbc-type="BIGINT" />
+		<field-descriptor name="expiration" column="EXPIRATION" jdbc-type="BIGINT" />
+		<field-descriptor name="message" column="MSG" jdbc-type="BLOB" />
+		<field-descriptor name="priority" column="PRIORITY" jdbc-type="BIGINT" />
+		<field-descriptor name="xid" column="XID" jdbc-type="VARCHAR" />
+	</class-descriptor>
 </descriptor-repository>
