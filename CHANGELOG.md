@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+*  adding a merge function
+  * Travis Schneeberger on Wed, 16 Sep 2015 15:27:01 -0400 [View Commit](../../commit/258884c1a372f3b8a4b69d2b640332c71701f0a6)
+*  Fix STE
+  * Gayathri Athreya on Wed, 16 Sep 2015 08:25:10 -0700 [View Commit](../../commit/a72a3bcb3735efbf0c69cf303bca7e4c43a0d4a1)
+
+##coeus-1509.35
 * IRB - Admin Correction don't allow to delete personnel issue
   * fixed  * vineeth on Tue, 15 Sep 2015 11:15:00 -0400 [View Commit](../../commit/717b670ac72c8bb85663015af8916c7bbfc10b5b)
 
@@ -52,6 +58,10 @@
   * Travis Schneeberger on Thu, 10 Sep 2015 10:59:06 -0400 [View Commit](../../commit/fefd030ed8e072f116900529bd953b10514f6d7e)
 
 ##coeus-1509.29
+* No Changes
+
+
+##coeus-1509.28-mit.3
 * No Changes
 
 
