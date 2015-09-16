@@ -1191,15 +1191,18 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
     @SuppressWarnings("unchecked")
     protected void mergeProtocolSubmission(ProtocolBase amendment) {
         List<ProtocolSubmissionBase> submissions = (List<ProtocolSubmissionBase>) deepCopy(amendment.getProtocolSubmissions());  
-        for (ProtocolSubmissionBase submission : submissions) {
+        setNewSubmissionReferences(submissions);
+    }
+    
+    protected void setNewSubmissionReferences(List<ProtocolSubmissionBase> submissions) {
+    	submissions.forEach(submission -> {
             submission.setProtocolNumber(this.getProtocolNumber());
             submission.setSubmissionId(null);
             submission.setSequenceNumber(sequenceNumber);
             submission.setProtocolId(this.getProtocolId());
             this.getProtocolSubmissions().add(submission);
-        }
+        });
     }
-    
     
     protected abstract void mergeProtocolAction(ProtocolBase amendment);    
     
