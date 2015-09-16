@@ -1143,6 +1143,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 
 	private ScaleTwoDecimal getFringeForLASalaryForRateAndBase(BudgetLineItem budgetLineItem, Date startDate, Date endDate) {
         ScaleTwoDecimal fringe = budgetLineItem.getBudgetRateAndBaseList().stream()
+                .peek(budgetRateAndBase -> budgetRateAndBase.refreshReferenceObject(RATE_CLASS))
                 .filter(budgetRateAndBase -> budgetRateAndBase.getCalculatedCost() != null)
                 .filter(budgetRateAndBase -> budgetRateAndBase.getStartDate().equals(startDate) && budgetRateAndBase.getEndDate().equals(endDate))
                 .filter(budgetRateAndBase -> isRateAndBaseEBonLA(budgetRateAndBase) || isRateAndBaseVAonLA(budgetRateAndBase))
