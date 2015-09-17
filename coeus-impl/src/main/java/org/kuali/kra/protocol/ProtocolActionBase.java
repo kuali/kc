@@ -105,6 +105,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
     protected abstract String getSpecialReviewForwardNameHook();
     protected abstract String getCustomDataForwardNameHook();
     protected abstract ProtocolNotification getProtocolNotificationHook();
+    protected abstract String getProtocolHistoryForwardNameHook();
     
     public ActionForward protocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProtocolFormBase protocolForm = (ProtocolFormBase)form;
@@ -191,7 +192,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
             request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
        }
        // make sure current submission is displayed when navigate to action page.
-       protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+       protocolForm.getActionHelper().setCurrentSubmissionNumber(Constants.PROTOCOL_DEFAULT_SUBMISSION_NUMBER);
        protocolForm.getActionHelper().prepareView();
        protocolForm.getActionHelper().prepareCommentsView();
  
@@ -212,6 +213,12 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
        return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolActionsForwardNameHook());
     }
     
+    public ActionForward protocolHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
+        protocolForm.getActionHelper().setCurrentSubmissionNumber(Constants.PROTOCOL_DEFAULT_SUBMISSION_NUMBER);
+        protocolForm.getActionHelper().initSubmissionDetails();
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolHistoryForwardNameHook());
+    }
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProtocolFormBase protocolForm = (ProtocolFormBase)form;

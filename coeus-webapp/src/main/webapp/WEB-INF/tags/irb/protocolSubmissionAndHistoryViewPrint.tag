@@ -18,14 +18,17 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tab tabTitle="Summary & History" defaultOpen="false" tabErrorKey="">
+<kul:tabTop tabTitle="Submission & History" defaultOpen="false" tabErrorKey="">
+
 	<div class="tab-container" align="left">
 		<h3>
-   			<span class="subhead-left">Summary</span>
+   			<span class="subhead-left">Submission &amp; History</span>
    			<span class="subhead-right">
-   				<kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="protocolSummaryAndHistoryHelp" altText="Help"/>
+   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolSummaryAndHistoryHelp" altText="Help"/>
 			</span>
        </h3>
-		<kra-iacuc:protocolSummaryPanel />
+		<kra-irb:protocolSubmissionDetailsPanel />
+		<kra-irb:protocolViewHistory />
+ 		<kra-irb:protocolViewAmendmentHistory />
     </div>	    
-</kul:tab>
+</kul:tabTop>
