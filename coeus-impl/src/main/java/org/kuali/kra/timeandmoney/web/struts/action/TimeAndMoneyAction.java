@@ -907,7 +907,9 @@ public class TimeAndMoneyAction extends KcTransactionalDocumentActionBase {
             HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         captureDateChangeTransactions(form);
+        AwardDirectFandADistribution awardDirectFandADistribution = timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions().get(getLineToDelete(request));
         timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions().remove(getLineToDelete(request));
+        getBusinessObjectService().delete(awardDirectFandADistribution);
         timeAndMoneyForm.getAwardDirectFandADistributionBean().updateBudgetPeriodsAfterDelete(timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
