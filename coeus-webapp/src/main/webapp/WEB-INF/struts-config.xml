@@ -708,6 +708,10 @@
       <action path="/displayExternalReport" name="ReportForm" type="co.kuali.coeus.reporting.web.struts.action.ReportForwardAction">
         <forward name="basic" path="/reportRedirect.jsp"/>
       </action>
+
+        <action path="/activeMqMessageMaintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" type="org.kuali.coeus.sys.impl.mq.ActiveMqMessageMaintenanceDocumentAction">
+            <forward name="basic" path="/kr/WEB-INF/jsp/KualiMaintenanceDocument.jsp" />
+        </action>
     </action-mappings>
 
 
