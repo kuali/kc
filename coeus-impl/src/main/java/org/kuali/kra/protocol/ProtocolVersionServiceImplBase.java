@@ -111,11 +111,18 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
 
     protected abstract ProtocolBase createProtocolNewVersionHook(ProtocolBase protocol) throws Exception;
     
+    protected ProtocolBase getNewProtocolVersion(ProtocolDocumentBase protocolDocument) throws Exception {
+        ProtocolBase newProtocol = createProtocolNewVersionHook(protocolDocument.getProtocol());
+        if(newProtocol.getProtocolId() == null) {
+            setNewProtocolId(newProtocol);
+        }
+        return newProtocol;
+    }
+    
     @Override
     public ProtocolDocumentBase versionProtocolDocument(ProtocolDocumentBase protocolDocument) throws Exception {
-     
         materializeCollections(protocolDocument.getProtocol());
-        ProtocolBase newProtocol = createProtocolNewVersionHook(protocolDocument.getProtocol());
+        ProtocolBase newProtocol = getNewProtocolVersion(protocolDocument);
         removeDeletedAttachment(newProtocol);
         ProtocolDocumentBase newProtocolDocument = getNewProtocolDocument();
         newProtocolDocument.getDocumentHeader().setDocumentDescription(protocolDocument.getDocumentHeader().getDocumentDescription());
@@ -124,9 +131,6 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         fixNextValues(protocolDocument, newProtocolDocument);
         fixActionSequenceNumbers(protocolDocument.getProtocol(), newProtocol);
         
-        if(newProtocol.getProtocolId() == null) {
-            setNewProtocolId(newProtocol);
-        }
         
         for (ProtocolPersonBase person : newProtocol.getProtocolPersons()) {
             for (ProtocolAttachmentPersonnelBase attachment : person.getAttachmentPersonnels()) {

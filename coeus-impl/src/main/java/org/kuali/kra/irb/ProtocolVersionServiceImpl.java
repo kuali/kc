@@ -18,10 +18,16 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.List;
+
+import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
+import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolVersionServiceImplBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 
 
@@ -61,4 +67,27 @@ public class ProtocolVersionServiceImpl extends ProtocolVersionServiceImplBase i
     protected ProtocolModuleQuestionnaireBeanBase getNewInstanceProtocolModuleQuestionnaireBeanHook(ProtocolBase protocol) {
         return new ProtocolModuleQuestionnaireBean((Protocol) protocol);
     }
+
+    @Override
+    protected ProtocolBase getNewProtocolVersion(ProtocolDocumentBase protocolDocument) throws Exception {
+    	Protocol newProtocol = (Protocol)super.getNewProtocolVersion(protocolDocument);
+    	setExpeditedAndExemptCheckListReferences(newProtocol.getProtocolSubmissions(), newProtocol);
+    	return newProtocol;
+    }
+    
+    public void setExpeditedAndExemptCheckListReferences(List<ProtocolSubmissionBase> protocolSubmissions, ProtocolBase newProtocol) {
+    	protocolSubmissions.forEach(protocolSubmissionBase -> {
+    		ProtocolSubmission protocolSubmission = (ProtocolSubmission)protocolSubmissionBase;
+    		protocolSubmission.getExpeditedReviewCheckList().forEach(expeditedCheckList -> {
+    			expeditedCheckList.resetPersistenceState();
+    			expeditedCheckList.setProtocolId(newProtocol.getProtocolId());
+            });
+    		protocolSubmission.getExemptStudiesCheckList().forEach(exemptCheckList -> {
+    			exemptCheckList.resetPersistenceState();
+    			exemptCheckList.setProtocolId(newProtocol.getProtocolId());
+            });
+        });
+        
+    }
+    	  
 }

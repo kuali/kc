@@ -18,10 +18,17 @@
  */
 package org.kuali.kra.irb;
 
+import java.util.List;
+
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+
 
 /**
  * The Protocol Version Service.
  */
 public interface ProtocolVersionService extends org.kuali.kra.protocol.ProtocolVersionService {
 
+	public void setExpeditedAndExemptCheckListReferences(List<ProtocolSubmissionBase> protocolSubmissions, ProtocolBase newProtocol);
+	
 }

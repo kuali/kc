@@ -21,25 +21,19 @@ package org.kuali.kra.irb.actions.submit;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 @SuppressWarnings("serial")
-public class ProtocolExemptStudiesCheckListItem extends KcPersistableBusinessObjectBase {
+public class ProtocolExemptStudiesCheckListItem extends ProtocolAssociateBase {
 
     private Long protocolExemptCheckListId;
 
-    private Long protocolId;
-
     private Long submissionIdFk;
-
-    private String protocolNumber;
-
-    private Integer sequenceNumber;
 
     private Integer submissionNumber;
 
     private String exemptStudiesCheckListCode;
 
-    private Protocol protocol;
 
     private ProtocolSubmission protocolSubmission;
 
@@ -56,36 +50,12 @@ public class ProtocolExemptStudiesCheckListItem extends KcPersistableBusinessObj
         this.protocolExemptCheckListId = protocolExemptCheckListId;
     }
 
-    public Long getProtocolId() {
-        return protocolId;
-    }
-
-    public void setProtocolId(Long protocolId) {
-        this.protocolId = protocolId;
-    }
-
     public Long getSubmissionIdFk() {
         return submissionIdFk;
     }
 
     public void setSubmissionIdFk(Long submissionIdFk) {
         this.submissionIdFk = submissionIdFk;
-    }
-
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
     }
 
     public Integer getSubmissionNumber() {
@@ -102,14 +72,6 @@ public class ProtocolExemptStudiesCheckListItem extends KcPersistableBusinessObj
 
     public void setExemptStudiesCheckListCode(String exemptStudiesCheckListCode) {
         this.exemptStudiesCheckListCode = exemptStudiesCheckListCode;
-    }
-
-    public Protocol getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
     }
 
     public ProtocolSubmission getProtocolSubmission() {
@@ -130,4 +92,10 @@ public class ProtocolExemptStudiesCheckListItem extends KcPersistableBusinessObj
         }
         return exemptStudiesCheckListItem;
     }
+
+    @Override
+    public void resetPersistenceState() {
+    	protocolExemptCheckListId = null;
+    }
+
 }
