@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.iacuc.test.IacucProtocolFactory;;
+import org.kuali.kra.iacuc.test.IacucProtocolFactory;
 import org.kuali.kra.test.infrastructure.KcIntegrationTestBase;
 import org.kuali.rice.krad.service.DocumentService;
 

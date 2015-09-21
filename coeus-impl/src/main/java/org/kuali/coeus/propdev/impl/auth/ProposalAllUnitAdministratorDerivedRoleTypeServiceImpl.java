@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component("proposalAllUnitAdministratorDerivedRoleTypeService")
 public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends AbstractUnitAdministratorDerivedRoleTypeService
@@ -49,7 +51,7 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
     @Autowired
     @Qualifier("dataObjectService")
     private DataObjectService dataObjectService;
-
+    
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
     }
@@ -72,20 +74,27 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
         List<UnitAdministrator> result = new ArrayList<UnitAdministrator>();
         if (proposalNumber != null) {
             DevelopmentProposal proposal = getDataObjectService().find(DevelopmentProposal.class,proposalNumber);
-            HashSet<String> units = new HashSet<String>();
-            for (ProposalPerson person : proposal.getProposalPersons()) {
-                for (ProposalPersonUnit unit : person.getUnits()) {
-                    units.add(unit.getUnitNumber());
-                }
-            }
-        
+            Set<String> units = getApplicableUnits(proposal);
             for (String unit : units) {
                 if (StringUtils.isNotBlank(unit)) {
                     result.addAll(unitService.retrieveUnitAdministratorsByUnitNumber(unit));
                 }
             }
-        }   
+        }
         return result;
     }
+
+	protected Set<String> getApplicableUnits(DevelopmentProposal proposal) {
+		Set<String> units = new HashSet<String>();
+		proposal.getProposalPersons().stream().forEach(person -> {
+			units.addAll(person.getUnits().stream().map(unit -> getUnitNumberForPersonUnit(unit))
+					.filter(unitNumber -> unitNumber != null).collect(Collectors.toSet()));
+		});
+		return units;
+	}
+
+	protected String getUnitNumberForPersonUnit(ProposalPersonUnit unit) {
+		return unit.getUnitNumber();
+	}
 
 }

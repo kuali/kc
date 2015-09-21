@@ -155,6 +155,21 @@
           p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 
+    <bean id="departmentLevelUnitHeadDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="departmentLevelUnitHeadDerivedRoleTypeService"
+          p:localServiceName="departmentLevelUnitHeadDerivedRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+
+    <bean id="collegeLevelUnitHeadDerivedRoleTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="collegeLevelUnitHeadDerivedRoleTypeService"
+          p:localServiceName="collegeLevelUnitHeadDerivedRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+          
+    <bean id= "proposalPeopleFlowTypeServiceCallback" parent="kcCoreCallbackService"
+          p:callbackService-ref="proposalPeopleFlowTypeService"
+          p:localServiceName="proposalPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
     <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
