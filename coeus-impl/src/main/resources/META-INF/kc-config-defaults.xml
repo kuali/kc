@@ -249,4 +249,5 @@
 
 	<param name="mq.datasource.minPoolSize">1</param>
 	<param name="mq.datasource.maxPoolSize">20</param>
+	<param name="mq.broker.dataDirectory">activemq-data</param>
 </config>

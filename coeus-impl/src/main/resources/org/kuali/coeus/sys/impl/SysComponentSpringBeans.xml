@@ -214,7 +214,7 @@
     </bean>
 
     <!-- Embedded ActiveMQ Broker -->
-    <amq:broker id="embeddedBroker" useJmx="false" persistent="true" schedulerSupport="true">
+    <amq:broker id="embeddedBroker" useJmx="false" persistent="true" schedulerSupport="true" dataDirectory="${mq.broker.dataDirectory}">
         <amq:transportConnectors>
             <amq:transportConnector uri="tcp://localhost:0" />
         </amq:transportConnectors>
