@@ -20,4 +20,5 @@
 
 \. ./kc/bootstrap/V1509_001__RESKC-715-createUser.sql
 \. ./kc/bootstrap/V1509_002__activemq.sql
+\. ./kc/bootstrap/V1509_003__RESKC-793.sql
 commit;
