@@ -41,12 +41,7 @@ body {
 
 </head>
 <body>
-<html:form styleId="kualiForm" method="post"
-    action="/awardHierarchyAwardActionsAjax.do" enctype=""
-    onsubmit="return hasFormAlreadyBeenSubmitted();"> 
-<!--  initial data here -->
-<%-- <input type="text" id = "researchAreas" name="researchAreas"   value="${ResearchAreasForm.researchAreas}"/> --%>
-
+<html:form styleId="kualiForm" method="post" action="/awardHierarchyAwardActionsAjax.do" enctype="" onsubmit="return hasFormAlreadyBeenSubmitted();">
 <div id="json">
 ${KualiForm.awardHierarchy}
 </div>
