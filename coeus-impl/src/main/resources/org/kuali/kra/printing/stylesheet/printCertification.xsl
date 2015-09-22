@@ -1066,7 +1066,8 @@
 														</fo:inline>
 														<fo:block/>
 														<fo:inline>
-															<xsl:text>Further, as a Principal Investigator/Co-Principal Investigator/Co-Investigator I certify that:</xsl:text>
+															<xsl:text>Further, as a Principal Investigator/Co-Principal Investigator/Co-Investigator I certify that:
+</xsl:text>
 														</fo:inline>
 													</fo:block>
 												</fo:table-cell>

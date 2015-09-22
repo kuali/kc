@@ -102,7 +102,10 @@
 																						<fo:table-cell border-bottom-style="none" padding-bottom="0" number-columns-spanned="2" border="solid 1pt gray" padding="2pt" text-align="left" display-align="center">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>Public reporting burden for this collection of information is estimated to average 16.2 hours per response, including the time for reviewing instructions,searching existing data sources, gathering and maintaining the data needed, and completing and reviewing the collection of information. Sendcomments regarding this burden estimate or any other aspect of this collection of information, including suggestions for reducing this burden, to theFAR Secretariat (VIR), Regulatory and Federal Assistance Division, GSA, Washington, DC 20405.</xsl:text>
+																									<xsl:text>Public reporting burden for this collection of information is estimated to average 16.2 hours per response, including the time for reviewing instructions,
+searching existing data sources, gathering and maintaining the data needed, and completing and reviewing the collection of information. Send
+comments regarding this burden estimate or any other aspect of this collection of information, including suggestions for reducing this burden, to the
+FAR Secretariat (VIR), Regulatory and Federal Assistance Division, GSA, Washington, DC 20405.</xsl:text>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>
@@ -1081,7 +1084,10 @@
 																						<fo:table-cell number-rows-spanned="3" border="solid 1pt gray" padding="2pt" display-align="center">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>IF PLAN IS A COMMERCIAL PLAN, SPECIFY THEPERCENTAGE OF THE DOLLARS ON THIS REPORTATTRIBUTABLE TO THIS AGENCY.&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
+																									<xsl:text>IF PLAN IS A COMMERCIAL PLAN, SPECIFY THE
+PERCENTAGE OF THE DOLLARS ON THIS REPORT
+ATTRIBUTABLE TO THIS AGENCY.
+&#160;&#160;&#160;&#160;&#160;&#160; </xsl:text>
 																								</fo:inline>
 																								<fo:inline font-weight="bold">
 																									<xsl:text>&#160;</xsl:text>
@@ -1308,7 +1314,10 @@
 																						<fo:table-cell border-left-style="none" padding-left="0" border="solid 1pt gray" padding="2pt" display-align="center">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>SMALL BUSINESS CONCERNS (Include SDB, WOSB,HBCU/MI, HUBZone SB, and VOSB (IncludingService-Disabled VOSB)) (Dollar Amount and Percentof 10c)</xsl:text>
+																									<xsl:text>SMALL BUSINESS CONCERNS (Include SDB, WOSB,
+HBCU/MI, HUBZone SB, and VOSB (Including
+Service-Disabled VOSB)) (Dollar Amount and Percent
+of 10c)</xsl:text>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>
@@ -1360,7 +1369,9 @@
 																						<fo:table-cell border-left-style="none" padding-left="0" border="solid 1pt gray" padding="2pt" display-align="center">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>LARGE BUSINESS CONCERNS (Dollar Amount andPercent of 10c.)</xsl:text>
+																									<xsl:text>LARGE BUSINESS CONCERNS (Dollar Amount and
+Percent of 10c.)
+</xsl:text>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>
@@ -1418,7 +1429,8 @@
 																						</fo:table-cell>
 																						<fo:table-cell border="solid 1pt gray" padding="2pt" text-align="right" display-align="center">
 																							<fo:block>
-																								<xsl:if test="VendorType/ActualAmount[ ../TypeOfVendor =&apos;SMALL BUSINESS&apos;] !=0 and  VendorType/ActualAmount[../TypeOfVendor =&apos;LARGE BUSINESS&apos;]  != 0">
+																								<xsl:if test="VendorType/ActualAmount[ ../TypeOfVendor =&apos;SMALL BUSINESS&apos;] !=0 and  
+VendorType/ActualAmount[../TypeOfVendor =&apos;LARGE BUSINESS&apos;]  != 0">
 																									<fo:inline>
 																										<xsl:text>$</xsl:text>
 																									</fo:inline>
@@ -1447,7 +1459,9 @@
 																						<fo:table-cell border-left-style="none" padding-left="0" border="solid 1pt gray" padding="2pt" display-align="center">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>SMALL DISADVANTAGED BUSINESS (SDB) CONCERNS(Include HBCU/MI) (Dollar Amount and Percent of 10c.)</xsl:text>
+																									<xsl:text>SMALL DISADVANTAGED BUSINESS (SDB) CONCERNS
+(Include HBCU/MI) (Dollar Amount and Percent of 10c.)
+</xsl:text>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>
@@ -1499,7 +1513,9 @@
 																						<fo:table-cell border-left-style="none" padding-left="0" border="solid 1pt gray" padding="2pt" display-align="center">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>WOMEN-OWNED SMALL BUSINESS (WOSB) CONCERNS(Dollar Amount and Percent of 10c.)</xsl:text>
+																									<xsl:text>WOMEN-OWNED SMALL BUSINESS (WOSB) CONCERNS
+(Dollar Amount and Percent of 10c.)
+</xsl:text>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>
@@ -1551,7 +1567,10 @@
 																						<fo:table-cell border-left-style="none" padding-left="0" border="solid 1pt gray" padding="2pt" display-align="center">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>HISTORICALLY BLACK COLLEGES AND UNIVERSITIES(HBCU) AND MINORITY INSTITUTIONS (MI) (If applicable)(Dollar Amount and Percent of 10c.)</xsl:text>
+																									<xsl:text>HISTORICALLY BLACK COLLEGES AND UNIVERSITIES
+(HBCU) AND MINORITY INSTITUTIONS (MI) (If applicable)
+(Dollar Amount and Percent of 10c.)
+</xsl:text>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>
@@ -1603,7 +1622,9 @@
 																						<fo:table-cell border-left-style="none" padding-left="0" border="solid 1pt gray" padding="2pt" display-align="center">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>HUBZone SMALL BUSINESS (HUBZone SB) CONCERNS(Dollar Amount and Percent of 10c.</xsl:text>
+																									<xsl:text>HUBZone SMALL BUSINESS (HUBZone SB) CONCERNS
+(Dollar Amount and Percent of 10c.
+</xsl:text>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>
@@ -1655,7 +1676,10 @@
 																						<fo:table-cell border-left-style="none" padding-left="0" border="solid 1pt gray" padding="2pt" height="5" display-align="before">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>VETERAN-OWNED SMALL BUSINESS CONCERNS(Includng Service-Disabled Veteran-Owned SB Concerns)(Dollar Amount and Percent of 10c.)</xsl:text>
+																									<xsl:text>VETERAN-OWNED SMALL BUSINESS CONCERNS
+(Includng Service-Disabled Veteran-Owned SB Concerns)
+(Dollar Amount and Percent of 10c.)
+</xsl:text>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>
@@ -1707,7 +1731,10 @@
 																						<fo:table-cell border-left-style="none" padding-left="0" border="solid 1pt gray" padding="2pt" display-align="center">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>SERVICE-DISABLED VETERAN-OWNED SMALLBUSINESS CONCERNS (Dollar Amount and Percentof10c.)</xsl:text>
+																									<xsl:text>SERVICE-DISABLED VETERAN-OWNED SMALL
+BUSINESS CONCERNS (Dollar Amount and Percent
+of10c.)
+</xsl:text>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>
@@ -1781,7 +1808,8 @@
 																						<fo:table-cell border-left-style="none" padding-left="0" border="solid 1pt gray" padding="2pt" display-align="center">
 																							<fo:block>
 																								<fo:inline>
-																									<xsl:text>ALASKA NATIVE CORPORATIONS (ANCs) AND INDIAN TRIBES THAT ARE NOT SMALL BUSINESSES (Dollar Amount)</xsl:text>
+																									<xsl:text>ALASKA NATIVE CORPORATIONS (ANCs) AND INDIAN TRIBES THAT ARE NOT SMALL BUSINESSES (Dollar Amount)
+</xsl:text>
 																								</fo:inline>
 																							</fo:block>
 																						</fo:table-cell>
