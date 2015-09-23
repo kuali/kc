@@ -23,4 +23,5 @@
 \. ./kc/bootstrap/V1509_003__RESKC-793.sql
 \. ./kc/bootstrap/V1509_004__RESKC-852.sql
 \. ./kc/bootstrap/V1509_005__RESKC-753.sql
+\. ./kc/bootstrap/V1509_006__RESKC-836.sql
 commit;
