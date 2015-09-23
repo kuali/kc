@@ -22,4 +22,5 @@
 \. ./kc/bootstrap/V1509_002__activemq.sql
 \. ./kc/bootstrap/V1509_003__RESKC-793.sql
 \. ./kc/bootstrap/V1509_004__RESKC-852.sql
+\. ./kc/bootstrap/V1509_005__RESKC-753.sql
 commit;
