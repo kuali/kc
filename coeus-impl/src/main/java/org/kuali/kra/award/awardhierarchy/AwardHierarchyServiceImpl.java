@@ -62,6 +62,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -287,9 +288,15 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 
     @Override
     public AwardDocument loadPlaceholderDocument() {
-        DocumentHeader header = findPlaceholderDocumentHeader();
+        final Collection<DocumentHeader> headers = findPlaceholderDocumentHeaders();
         try {
-            return header != null ? (AwardDocument) documentService.getByDocumentHeaderId(header.getDocumentNumber()) : createPlaceholderDocument();
+            for (DocumentHeader header : headers) {
+                final Document document = documentService.getByDocumentHeaderId(header.getDocumentNumber());
+                if (document != null && (document instanceof AwardDocument)) {
+                    return (AwardDocument) document;
+                }
+            }
+            return createPlaceholderDocument();
         } catch(WorkflowException e) {
             throw uncheckedException(e);
         }
@@ -509,13 +516,12 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     }
 
     /**
-     * This method finds the placeholder document header
-     * @return
+     * This method finds the placeholder document headers.
      */
-    DocumentHeader findPlaceholderDocumentHeader() {
+    Collection<DocumentHeader> findPlaceholderDocumentHeaders() {
         @SuppressWarnings("unchecked")
-        Collection c = legacyDataAdapter.findMatching(DocumentHeader.class, getDocumentDescriptionCriteriaMap());
-        return !c.isEmpty() ? (DocumentHeader) c.iterator().next() : null;
+        final Collection c = legacyDataAdapter.findMatching(DocumentHeader.class, getDocumentDescriptionCriteriaMap());
+        return c;
     }
 
     AwardHierarchy loadSingleAwardHierarchyNode(String awardNumber) {
