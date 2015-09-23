@@ -49,17 +49,25 @@ public abstract class AbstractUnitAdministratorDerivedRoleTypeService extends De
     public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         List<RoleMembership> members = new ArrayList<RoleMembership>();
 
-        String subQualifier = qualification.get(KcKimAttributes.SUB_QUALIFIER);
+        String unitAdminTypeCode = getUnitAdministratorTypeCode(qualification);
         List<? extends AbstractUnitAdministrator> unitAdministrators = getUnitAdministrators(qualification);
         for (AbstractUnitAdministrator unitAdministrator : unitAdministrators) {
             if ( StringUtils.isNotBlank(unitAdministrator.getPersonId()) &&
-                    (StringUtils.isBlank(subQualifier) || StringUtils.equals(unitAdministrator.getUnitAdministratorTypeCode(), subQualifier))) {
+                    (StringUtils.isBlank(unitAdminTypeCode) || StringUtils.equals(unitAdministrator.getUnitAdministratorTypeCode(), unitAdminTypeCode))) {
                 members.add( RoleMembership.Builder.create(null, null, unitAdministrator.getPersonId(), MemberType.PRINCIPAL, null).build() );
             }
         }
             
         return members;
     }
+
+    /**
+     * Default implementation takes a qualifications map and returns the sub qualifier from the qualifications
+     * @return can return null if none is configured. In this case it will be assumed all unit admins should be returned for the given units
+     */
+	protected String getUnitAdministratorTypeCode(Map<String, String> qualifications) {
+		return qualifications.get(KcKimAttributes.SUB_QUALIFIER);
+	}
     
     @Override
     public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
