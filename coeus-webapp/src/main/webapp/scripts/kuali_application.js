@@ -2620,8 +2620,7 @@ function updateStateFromCountry() {
 		callback:function(data) {
 			if ( data != null ) {
 				dwr.util.removeAllOptions( 'document.newMaintainableObject.state' );
-				$('document.newMaintainableObject.state').options[0] = new Option('', '');
-				dwr.util.addOptions( 'document.newMaintainableObject.state', data, 'postalStateCode', 'postalStateName' );
+				dwr.util.addOptions( 'document.newMaintainableObject.state', data, 'code', 'name' );
 			} 
 		},
 		errorHandler:function( errorMessage ) {
@@ -2629,7 +2628,7 @@ function updateStateFromCountry() {
 		}
 	};
 
-	StateService.findAllStatesByAltCountryCode(countryCode, dwrReply);
+	StateService.findAllStatesInCountryByAltCode(countryCode, dwrReply);
 }
 
 

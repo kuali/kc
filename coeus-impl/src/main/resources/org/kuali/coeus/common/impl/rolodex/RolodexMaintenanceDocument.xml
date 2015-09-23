@@ -94,6 +94,7 @@
         <property name="additionalScriptFiles">
             <list>
                 <value>scripts/common/dialog.js</value>
+                <value>../dwr/interface/StateService.js</value>
             </list>
         </property>
         <property name="items">
