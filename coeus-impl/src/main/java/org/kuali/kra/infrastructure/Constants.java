@@ -922,5 +922,6 @@ public interface Constants {
     
     public static final int PROTOCOL_DEFAULT_SUBMISSION_NUMBER = -1;
 
+    public static final String MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE = "MAKE_AWD_CUM_ANTICIPATED_OBL_EDITABLE";
 }
 

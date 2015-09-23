@@ -248,17 +248,6 @@
 		<a href="#" title="Expand the entire tree below">Expand All</a>
 		</span>				
 		</td>
-		<%--<c:if test="${KualiForm.controlForAwardHierarchyView == 0}" >
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1100px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-			Oblg. Start
-			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1212px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-			Oblg. End
-			</td>
-			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; position: absolute; left: 1324px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
-			Project End
-			</td>
-		</c:if>--%>
 		
 		<c:if test="${KualiForm.controlForAwardHierarchyView == 0}" >
 			<td style="border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px;  align: right; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);">
@@ -348,10 +337,7 @@
 	</tbody></table></div>
 	</div>
 	     
-  <ul id="awardhierarchy" class="filetree stripeli treeview"  >
-        <%-- <li><span class="folder">00000</span>
-        </li> --%>
-    </ul>
+  <ul id="awardhierarchy" class="filetree stripeli treeview"  ></ul>
    </div> 
     </div>  
     
