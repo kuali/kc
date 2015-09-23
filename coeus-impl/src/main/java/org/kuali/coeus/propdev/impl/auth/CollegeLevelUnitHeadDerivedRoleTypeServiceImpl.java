@@ -22,8 +22,7 @@ import org.kuali.coeus.propdev.impl.person.ProposalPersonUnit;
 import org.springframework.stereotype.Component;
 
 @Component("collegeLevelUnitHeadDerivedRoleTypeService")
-public class CollegeLevelUnitHeadDerivedRoleTypeServiceImpl extends
-		DepartmentLevelUnitHeadDerivedRoleTypeServiceImpl {
+public class CollegeLevelUnitHeadDerivedRoleTypeServiceImpl extends DepartmentLevelUnitHeadDerivedRoleTypeServiceImpl {
 
 	@Override
 	protected String getUnitNumberForPersonUnit(ProposalPersonUnit unit) {

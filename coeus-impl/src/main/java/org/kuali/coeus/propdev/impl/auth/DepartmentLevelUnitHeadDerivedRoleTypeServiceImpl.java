@@ -26,7 +26,9 @@ import org.springframework.stereotype.Component;
 @Component("departmentLevelUnitHeadDerivedRoleTypeService")
 public class DepartmentLevelUnitHeadDerivedRoleTypeServiceImpl extends ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl {
 
-	@Value("3") //UNIT_HEAD
+	private static final String UNIT_HEAD_ADMIN_TYPE_CODE = "3";
+	
+	@Value(UNIT_HEAD_ADMIN_TYPE_CODE)
 	private String unitAdministratorTypeCode;
 	
 	@Override

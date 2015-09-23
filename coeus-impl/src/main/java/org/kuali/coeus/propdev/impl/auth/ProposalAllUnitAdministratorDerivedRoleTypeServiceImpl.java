@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -85,12 +86,11 @@ public class ProposalAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abst
     }
 
 	protected Set<String> getApplicableUnits(DevelopmentProposal proposal) {
-		Set<String> units = new HashSet<String>();
-		proposal.getProposalPersons().stream().forEach(person -> {
-			units.addAll(person.getUnits().stream().map(unit -> getUnitNumberForPersonUnit(unit))
-					.filter(unitNumber -> unitNumber != null).collect(Collectors.toSet()));
-		});
-		return units;
+		return proposal.getProposalPersons().stream()
+				  .flatMap(person -> person.getUnits().stream())
+				  .map(unit -> getUnitNumberForPersonUnit(unit))
+				  .filter(Objects::nonNull)
+				  .collect(Collectors.toSet());
 	}
 
 	protected String getUnitNumberForPersonUnit(ProposalPersonUnit unit) {

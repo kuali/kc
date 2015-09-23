@@ -40,7 +40,7 @@ insert into KREW_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR)
 insert into KREW_PPL_FLW_S VALUES(NULL);
 insert into KREW_PPL_FLW_T (PPL_FLW_ID, NM, NMSPC_CD, TYP_ID, ACTV, VER_NBR, DESC_TXT) 
 	values (CONCAT('KC', (select max(ID) from KREW_PPL_FLW_S)), 'Proposal Development Standard Workflow', 'KC-PD', 
-		CONCAT('KC', (select max(ID) from KREW_TYP_S)), 'Y', 1, 'Proposal Development Standard Workflow that includes Investigators, OSP Approvers, Department and College level Department Heads');
+		CONCAT('KC', (select max(ID) from KREW_TYP_S)), 'Y', 1, 'Proposal Development Standard Workflow that includes Investigators, OSP Approvers, Department and College-Level Department Heads');
 
 insert into KREW_PPL_FLW_MBR_S VALUES(NULL);
 insert into KREW_RSP_S VALUES(NULL);

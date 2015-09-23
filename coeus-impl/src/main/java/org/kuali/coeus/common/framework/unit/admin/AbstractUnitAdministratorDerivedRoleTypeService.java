@@ -63,8 +63,7 @@ public abstract class AbstractUnitAdministratorDerivedRoleTypeService extends De
 
     /**
      * Default implementation takes a qualifications map and returns the sub qualifier from the qualifications
-     * @param qualification
-     * @return
+     * @return can return null if none is configured. In this case it will be assumed all unit admins should be returned for the given units
      */
 	protected String getUnitAdministratorTypeCode(Map<String, String> qualifications) {
 		return qualifications.get(KcKimAttributes.SUB_QUALIFIER);

@@ -34,7 +34,7 @@ insert into KREW_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR)
 
 insert into KREW_PPL_FLW_T (PPL_FLW_ID, NM, NMSPC_CD, TYP_ID, ACTV, VER_NBR, DESC_TXT) 
 	values ('KC' || KREW_PPL_FLW_S.nextval, 'Proposal Development Standard Workflow', 'KC-PD', 
-		'KC' || KREW_TYP_S.currval, 'Y', 1, 'Proposal Development Standard Workflow that includes Investigators, OSP Approvers, Department and College level Department Heads');
+		'KC' || KREW_TYP_S.currval, 'Y', 1, 'Proposal Development Standard Workflow that includes Investigators, OSP Approvers, Department and College-Level Department Heads');
 
 insert into KREW_PPL_FLW_MBR_T (PPL_FLW_MBR_ID, PPL_FLW_ID, MBR_TYP_CD, MBR_ID, PRIO, VER_NBR, ACTN_RQST_PLCY_CD, RSP_ID, FRC_ACTN)
  	values ('KC' || KREW_PPL_FLW_MBR_S.nextval, 'KC' || KREW_PPL_FLW_S.currval, 'R', 
