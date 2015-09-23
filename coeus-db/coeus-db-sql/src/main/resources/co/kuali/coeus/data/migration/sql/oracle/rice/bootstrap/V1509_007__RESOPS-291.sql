@@ -38,11 +38,11 @@ insert into KREW_PPL_FLW_T (PPL_FLW_ID, NM, NMSPC_CD, TYP_ID, ACTV, VER_NBR, DES
 
 insert into KREW_PPL_FLW_MBR_T (PPL_FLW_MBR_ID, PPL_FLW_ID, MBR_TYP_CD, MBR_ID, PRIO, VER_NBR, ACTN_RQST_PLCY_CD, RSP_ID, FRC_ACTN)
  	values ('KC' || KREW_PPL_FLW_MBR_S.nextval, 'KC' || KREW_PPL_FLW_S.currval, 'R', 
- 		(select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'Investigators' and NMSPC_CD = 'KC-PD'), 100, 1, 'A', KREW_RSP_S.nextval, 1);
- 		
+ 		(select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'OSPApprover' and NMSPC_CD = 'KC-WKFLW'), 100, 1, 'F', KREW_RSP_S.nextval, 1);
+
 insert into KREW_PPL_FLW_MBR_T (PPL_FLW_MBR_ID, PPL_FLW_ID, MBR_TYP_CD, MBR_ID, PRIO, VER_NBR, ACTN_RQST_PLCY_CD, RSP_ID, FRC_ACTN)
  	values ('KC' || KREW_PPL_FLW_MBR_S.nextval, 'KC' || KREW_PPL_FLW_S.currval, 'R', 
- 		(select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'OSPApprover' and NMSPC_CD = 'KC-WKFLW'), 200, 1, 'F', KREW_RSP_S.nextval, 1);
+ 		(select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'Investigators' and NMSPC_CD = 'KC-PD'), 200, 1, 'A', KREW_RSP_S.nextval, 1);
 
 insert into KREW_PPL_FLW_MBR_T (PPL_FLW_MBR_ID, PPL_FLW_ID, MBR_TYP_CD, MBR_ID, PRIO, VER_NBR, ACTN_RQST_PLCY_CD, RSP_ID, FRC_ACTN)
  	values ('KC' || KREW_PPL_FLW_MBR_S.nextval, 'KC' || KREW_PPL_FLW_S.currval, 'R', 

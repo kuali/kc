@@ -46,13 +46,13 @@ insert into KREW_PPL_FLW_MBR_S VALUES(NULL);
 insert into KREW_RSP_S VALUES(NULL);
 insert into KREW_PPL_FLW_MBR_T (PPL_FLW_MBR_ID, PPL_FLW_ID, MBR_TYP_CD, MBR_ID, PRIO, VER_NBR, ACTN_RQST_PLCY_CD, RSP_ID, FRC_ACTN)
  	values (CONCAT('KC', (select max(ID) from KREW_PPL_FLW_MBR_S)), CONCAT('KC', (select max(ID) from KREW_PPL_FLW_S)), 'R', 
- 		(select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'Investigators' and NMSPC_CD = 'KC-PD'), 100, 1, 'A', (select max(ID) from KREW_RSP_S), 1);
- 		
+ 		(select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'OSPApprover' and NMSPC_CD = 'KC-WKFLW'), 100, 1, 'F', (select max(ID) from KREW_RSP_S), 1);
+		
 insert into KREW_PPL_FLW_MBR_S VALUES(NULL);
 insert into KREW_RSP_S VALUES(NULL);
 insert into KREW_PPL_FLW_MBR_T (PPL_FLW_MBR_ID, PPL_FLW_ID, MBR_TYP_CD, MBR_ID, PRIO, VER_NBR, ACTN_RQST_PLCY_CD, RSP_ID, FRC_ACTN)
  	values (CONCAT('KC', (select max(ID) from KREW_PPL_FLW_MBR_S)), CONCAT('KC', (select max(ID) from KREW_PPL_FLW_S)), 'R', 
- 		(select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'OSPApprover' and NMSPC_CD = 'KC-WKFLW'), 200, 1, 'F', (select max(ID) from KREW_RSP_S), 1);
+ 		(select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'Investigators' and NMSPC_CD = 'KC-PD'), 200, 1, 'A', (select max(ID) from KREW_RSP_S), 1);
 
 insert into KREW_PPL_FLW_MBR_S VALUES(NULL);
 insert into KREW_RSP_S VALUES(NULL);
