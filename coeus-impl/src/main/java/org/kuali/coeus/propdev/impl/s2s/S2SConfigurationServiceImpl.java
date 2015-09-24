@@ -207,4 +207,17 @@ public class S2SConfigurationServiceImpl implements S2SConfigurationService {
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
+
+	@Override
+	public List<String> getValuesFromCommaSeparatedParam(String name) {
+		if (StringUtils.isBlank(name)) {
+			throw new IllegalArgumentException("name is blank");
+		}
+		String value = getValueAsString(name);
+		if(StringUtils.isEmpty(value)) {
+			return new ArrayList<String>();
+		}
+		String[] valuesAsStringArray = value.split(",");
+		return Arrays.asList(valuesAsStringArray);
+	}
 }
