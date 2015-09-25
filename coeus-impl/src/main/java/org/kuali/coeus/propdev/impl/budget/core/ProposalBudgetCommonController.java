@@ -221,7 +221,9 @@ public class ProposalBudgetCommonController extends ProposalBudgetControllerBase
                 form.getDevelopmentProposal().setFinalBudget(form.getBudget());
                 getDataObjectService().save(form.getDevelopmentProposal());
             }
-            return super.save(form);
+            super.save(form);
+            form.setEvaluateFlagsAndModes(true);
+            form.setCanEditView(null);
         }
         return getModelAndViewService().getModelAndView(form);
 	}
