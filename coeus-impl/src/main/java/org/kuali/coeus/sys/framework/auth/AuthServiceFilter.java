@@ -29,6 +29,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class AuthServiceFilter implements Filter {
 
+	private static final String SECONDS_TO_CACHE_AUTH_TOKEN_RESPONSE_CONFIG = "secondsToCacheAuthTokenResponse";
 	private static final String BASIC_AUTH_KC_USERNAME = "admin";
 	private static final long SECONDS_TO_CACHE_AUTH_TOKEN_IN_SESSION_DEFAULT = 300L;
 	private static final String ACCESS_DENIED_MESSAGE = "Access Denied";
@@ -59,7 +60,7 @@ public class AuthServiceFilter implements Filter {
 		if (authServiceUrl == null) {
 			authServiceUrl = "";
 		}
-		String secondsToCache = filterConfig.getInitParameter("secondsToCacheAuthTokenResponse");
+		String secondsToCache = filterConfig.getInitParameter(SECONDS_TO_CACHE_AUTH_TOKEN_RESPONSE_CONFIG);
 		if (secondsToCache != null) {
 			secondsToCacheAuthTokenInSession = Long.parseLong(secondsToCache);
 		}
@@ -160,7 +161,7 @@ public class AuthServiceFilter implements Filter {
 
 	}
 	
-	class AuthServiceRequestWrapper extends HttpServletRequestWrapper {
+	static class AuthServiceRequestWrapper extends HttpServletRequestWrapper {
 		
 		private String username;
 		public AuthServiceRequestWrapper(String username, HttpServletRequest request) {

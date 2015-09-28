@@ -1,12 +1,15 @@
 package org.kuali.coeus.sys.framework.auth;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown = true)
-class AuthUser {
+class AuthUser implements Serializable {
+	
 	private String id;
 	private String name;
 	private String username;
