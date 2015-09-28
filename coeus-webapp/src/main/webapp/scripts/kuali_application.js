@@ -1886,6 +1886,8 @@ function setDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, proto
 
 var REVIEWERS_ARRAY_ELEMENTS_PER_RECORD = 4;
 
+var IRB_REVIEWERS_ARRAY_ELEMENTS_PER_RECORD = 3;
+
 function setModifySubmissionDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, protocolId, beanName, protocolReviewTypeCode) {	
 	var reviewerBean = "actionHelper." + beanName + ".reviewer[";
 	var cmtId = dwr.util.getValue(committeeId); 
@@ -2028,12 +2030,12 @@ function updateReviewerHtml(reviewerData, reviewerTypesData) {
 	document.getElementById("reviewers").style.display = '';
 	var reviewersArr = reviewerData.split(";");
 	var arrLength = reviewersArr.length;
-	var numReviewers = Math.floor(reviewersArr.length / REVIEWERS_ARRAY_ELEMENTS_PER_RECORD);
+	var numReviewers = Math.floor(reviewersArr.length / IRB_REVIEWERS_ARRAY_ELEMENTS_PER_RECORD);
 	var numRows = Math.floor((numReviewers+1) / 2);
 	var reviewersTableLeft = document.getElementById("reviewersTableLeft");
 	var reviewersTableRight = document.getElementById("reviewersTableRight");
-	setReviewers(reviewersArr, 0, REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numRows, reviewerTypes, reviewersTableLeft);
-	setReviewers(reviewersArr, REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numRows, REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numReviewers, reviewerTypes, reviewersTableRight);
+	setReviewers(reviewersArr, 0, IRB_REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numRows, reviewerTypes, reviewersTableLeft);
+	setReviewers(reviewersArr, IRB_REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numRows, IRB_REVIEWERS_ARRAY_ELEMENTS_PER_RECORD*numReviewers, reviewerTypes, reviewersTableRight);
 	//finally set the number of reviewers for proper trucation
 	document.getElementById("numberOfReviewers").value = numReviewers;
 }
@@ -2113,8 +2115,8 @@ function setReviewers(reviewers, beginIndex, endIndex, reviewerTypes, htmlElemen
 	removeAllChildren(htmlElement);
 				
     var tbody = document.createElement('tbody');
-	for (var i = beginIndex; i < endIndex; i += REVIEWERS_ARRAY_ELEMENTS_PER_RECORD) {
-		reviewerIndex = i/REVIEWERS_ARRAY_ELEMENTS_PER_RECORD;
+	for (var i = beginIndex; i < endIndex; i += IRB_REVIEWERS_ARRAY_ELEMENTS_PER_RECORD) {
+		reviewerIndex = i/IRB_REVIEWERS_ARRAY_ELEMENTS_PER_RECORD;
 		
 		var row = document.createElement('tr');
 		var data = document.createElement('td');
