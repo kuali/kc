@@ -19,6 +19,7 @@
 package org.kuali.coeus.propdev.impl.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kuali.coeus.coi.framework.*;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
 import org.kuali.coeus.common.framework.compliance.core.SaveDocumentSpecialReviewEvent;
 import org.kuali.coeus.common.framework.compliance.exemption.ExemptionType;
@@ -44,6 +45,7 @@ import org.kuali.coeus.propdev.impl.specialreview.ProposalSpecialReviewExemption
 import org.kuali.coeus.sys.framework.controller.KcCommonControllerService;
 import org.kuali.coeus.sys.framework.controller.UifExportControllerService;
 import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
+import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.coeus.sys.framework.validation.AuditHelper;
 import org.kuali.coeus.sys.impl.validation.DataValidationItem;
 import org.kuali.kra.infrastructure.Constants;
@@ -80,6 +82,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class ProposalDevelopmentControllerBase {
 
@@ -189,6 +192,21 @@ public abstract class ProposalDevelopmentControllerBase {
     @Qualifier("dateTimeService")
     private DateTimeService dateTimeService;
 
+    private ProjectPublisher projectPublisher;
+
+    public ProjectPublisher getProjectPublisher() {
+        //since COI is loaded last and @Lazy does not work, we have to use the ServiceLocator
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
+    }
+
     protected DocumentFormBase createInitialForm(HttpServletRequest request) {
         return new ProposalDevelopmentDocumentForm();
     }
@@ -227,6 +245,25 @@ public abstract class ProposalDevelopmentControllerBase {
              proposalDevelopmentDocument.setDefaultDocumentDescription();
          }
      }
+
+    protected Project createProject(ProposalDevelopmentDocument document) {
+        final Project project = new Project();
+        project.setTitle(document.getDevelopmentProposal().getTitle());
+        project.setTypeCode(ProjectTypeCode.PROPOSAL.getId());
+        project.setSourceSystem(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
+        project.setSourceIdentifier(document.getDevelopmentProposal().getProposalNumber());
+        project.setSourceStatus(document.getDevelopmentProposal().getProposalStateTypeCode());
+        project.setPersons(document.getDevelopmentProposal().getProposalPersons()
+                .stream()
+                .map(person -> new ProjectPerson(person.getPersonId(), RoleCode.valueOf(person.getRoleCode()).toString()))
+                .collect(Collectors.toList()));
+        project.setSponsorCode(document.getDevelopmentProposal().getSponsorCode());
+        project.setSponsorName(document.getDevelopmentProposal().getSponsor() != null ? document.getDevelopmentProposal().getSponsor().getSponsorName() : null);
+        project.setStartDate(document.getDevelopmentProposal().getRequestedStartDateInitial());
+        project.setEndDate(document.getDevelopmentProposal().getRequestedEndDateInitial());
+
+        return project;
+    }
 
      public ModelAndView save(ProposalDevelopmentDocumentForm form, BindingResult result,
              HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -295,7 +332,8 @@ public abstract class ProposalDevelopmentControllerBase {
                  }
              }
          }
-         
+         getProjectPublisher().publishProject(createProject(form.getProposalDevelopmentDocument()));
+
          return view;
      }
 
@@ -335,6 +373,7 @@ public abstract class ProposalDevelopmentControllerBase {
                  }
              }
          }
+         getProjectPublisher().publishProject(createProject(pdForm.getProposalDevelopmentDocument()));
 
          return view;
      }

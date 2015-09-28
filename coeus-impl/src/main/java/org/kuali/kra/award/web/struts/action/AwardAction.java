@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.coi.framework.*;
 import org.kuali.coeus.common.framework.auth.SystemAuthorizationService;
 import org.kuali.coeus.common.framework.version.VersionStatus;
 import org.kuali.coeus.common.framework.version.history.VersionHistory;
@@ -41,7 +42,6 @@ import org.kuali.kra.award.*;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyBean;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
-import org.kuali.kra.award.awardhierarchy.AwardHierarchyTempObject;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncCreationService;
@@ -108,6 +108,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.replace;
 import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
@@ -156,7 +157,7 @@ public class AwardAction extends BudgetParentActionBase {
         SUPER_USER_APPROVE, TAKE_SUPER_USER_ACTIONS
     }
     
-    private ParameterService parameterService;
+    private transient ParameterService parameterService;
     private transient AwardBudgetService awardBudgetService;
     private transient AwardService awardService;
     private transient ReportTrackingService reportTrackingService;
@@ -164,6 +165,7 @@ public class AwardAction extends BudgetParentActionBase {
     private transient SubAwardService subAwardService;
     TimeAndMoneyAwardDateSaveRuleImpl timeAndMoneyAwardDateSaveRuleImpl;
     private transient TimeAndMoneyVersionService timeAndMoneyVersionService;
+    private transient ProjectPublisher projectPublisher;
     
     private static final Log LOG = LogFactory.getLog( AwardAction.class );
     
@@ -397,7 +399,26 @@ public class AwardAction extends BudgetParentActionBase {
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
-    
+
+    protected Project createProject(AwardDocument document) {
+        final Project project = new Project();
+        project.setTitle(document.getAward().getTitle());
+        project.setTypeCode(ProjectTypeCode.AWARD.getId());
+        project.setSourceSystem(Constants.MODULE_NAMESPACE_AWARD);
+        project.setSourceIdentifier(document.getAward().getAwardId().toString());
+        project.setSourceStatus(document.getAward().getStatusCode() != null ? document.getAward().getStatusCode().toString() : null);
+        project.setPersons(document.getAward().getProjectPersons()
+                .stream()
+                .map(person -> new ProjectPerson(person.getPersonId(), RoleCode.valueOf(person.getRoleCode()).toString()))
+                .collect(Collectors.toList()));
+        project.setSponsorCode(document.getAward().getSponsorCode());
+        project.setSponsorName(document.getAward().getSponsor() != null ? document.getAward().getSponsor().getSponsorName() : null);
+        project.setStartDate(document.getAward().getRequestedStartDateInitial());
+        project.setEndDate(document.getAward().getRequestedEndDateInitial());
+
+        return project;
+    }
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -447,6 +468,8 @@ public class AwardAction extends BudgetParentActionBase {
          * deal with the award report tracking generation business.
          */
         getReportTrackingService().generateReportTrackingAndSave(award, false);
+
+        getProjectPublisher().publishProject(createProject(awardForm.getAwardDocument()));
 
         return forward;
     }
@@ -1659,4 +1682,18 @@ public class AwardAction extends BudgetParentActionBase {
 		}
 		return result;
 	}
+
+
+    public ProjectPublisher getProjectPublisher() {
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
+    }
+
 }

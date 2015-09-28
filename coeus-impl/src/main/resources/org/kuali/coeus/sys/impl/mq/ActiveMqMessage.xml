@@ -72,11 +72,19 @@
     <bean id="ActiveMqMessage-message" parent="ActiveMqMessage-message-parentBean" />
     <bean id="ActiveMqMessage-message-parentBean" abstract="true" parent="AttributeReferenceDummy-extendedTextArea"
           p:name="message">
+        <property name="label" value="Message" />
+        <property name="shortLabel" value="Message" />
+        <property name="summary" value="Message" />
+        <property name="description" value="Message" />
     </bean>
 
     <bean id="ActiveMqMessage-messageJson" parent="ActiveMqMessage-messageJson-parentBean" />
     <bean id="ActiveMqMessage-messageJson-parentBean" abstract="true" parent="AttributeReferenceDummy-extendedTextArea"
           p:name="messageJson">
+        <property name="label" value="Message" />
+        <property name="shortLabel" value="Message" />
+        <property name="summary" value="Message" />
+        <property name="description" value="Message" />
     </bean>
 
     <bean id="ActiveMqMessage-priority" parent="ActiveMqMessage-priority-parentBean" />

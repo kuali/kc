@@ -10,8 +10,9 @@ import java.util.*;
 public final class RestRequest implements Serializable {
     private HttpMethod method;
     private String destination;
-    private Map<String, Collection<String>> params;
+    private Map<String, List<String>> params;
     private String body;
+    private Map<String, List<String>> headers;
 
     public HttpMethod getMethod() {
         return method;
@@ -29,11 +30,11 @@ public final class RestRequest implements Serializable {
         this.destination = destination;
     }
 
-    public Map<String, Collection<String>> getParams() {
+    public Map<String, List<String>> getParams() {
         return params;
     }
 
-    public void setParams(Map<String, Collection<String>> params) {
+    public void setParams(Map<String, List<String>> params) {
         this.params = params;
     }
 
@@ -43,6 +44,14 @@ public final class RestRequest implements Serializable {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Map<String, List<String>> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Map<String, List<String>> headers) {
+        this.headers = headers;
     }
 
     @Override
@@ -55,7 +64,8 @@ public final class RestRequest implements Serializable {
         if (method != that.method) return false;
         if (destination != null ? !destination.equals(that.destination) : that.destination != null) return false;
         if (params != null ? !params.equals(that.params) : that.params != null) return false;
-        return !(body != null ? !body.equals(that.body) : that.body != null);
+        if (body != null ? !body.equals(that.body) : that.body != null) return false;
+        return !(headers != null ? !headers.equals(that.headers) : that.headers != null);
 
     }
 
@@ -65,6 +75,7 @@ public final class RestRequest implements Serializable {
         result = 31 * result + (destination != null ? destination.hashCode() : 0);
         result = 31 * result + (params != null ? params.hashCode() : 0);
         result = 31 * result + (body != null ? body.hashCode() : 0);
+        result = 31 * result + (headers != null ? headers.hashCode() : 0);
         return result;
     }
 
@@ -75,6 +86,7 @@ public final class RestRequest implements Serializable {
                 ", destination='" + destination + '\'' +
                 ", params=" + params +
                 ", body='" + body + '\'' +
+                ", headers=" + headers +
                 '}';
     }
 }

@@ -305,4 +305,8 @@
         <property name="sessionTransacted" value="true" />
     </bean>
 
+    <bean id="beanValidator"
+          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+    </bean>
+
 </beans>

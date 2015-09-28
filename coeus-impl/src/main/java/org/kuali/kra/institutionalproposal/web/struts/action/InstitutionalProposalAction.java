@@ -18,10 +18,8 @@
  */
 package org.kuali.kra.institutionalproposal.web.struts.action;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.coi.framework.*;
 import org.kuali.coeus.common.framework.person.KcPerson;
 import org.kuali.coeus.common.framework.person.KcPersonService;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
@@ -68,6 +67,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
     public static final String DISABLE_ATTACHMENT_REMOVAL = "disableAttachmentRemoval";
 
     private KcNotificationService notificationService;
+    private ProjectPublisher projectPublisher;
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -159,17 +159,35 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         return KcServiceLocator.getService(KcPersonService.class);
     }
 
-    
+    protected Project createProject(InstitutionalProposalDocument document) {
+        final Project project = new Project();
+        project.setTitle(document.getInstitutionalProposal().getTitle());
+        project.setTypeCode(ProjectTypeCode.INSTITUTIONAL_PROPOSAL.getId());
+        project.setSourceSystem(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
+        project.setSourceIdentifier(document.getInstitutionalProposal().getProposalNumber());
+        project.setSourceStatus(document.getInstitutionalProposal().getStatusCode() != null ? document.getInstitutionalProposal().getStatusCode().toString() : null);
+        project.setPersons(document.getInstitutionalProposal().getProjectPersons()
+                .stream()
+                .map(person -> new ProjectPerson(person.getPersonId(), RoleCode.valueOf(person.getRoleCode()).toString()))
+                .collect(Collectors.toList()));
+        project.setSponsorCode(document.getInstitutionalProposal().getSponsorCode());
+        project.setSponsorName(document.getInstitutionalProposal().getSponsor() != null ? document.getInstitutionalProposal().getSponsor().getSponsorName() : null);
+        project.setStartDate(document.getInstitutionalProposal().getRequestedStartDateInitial());
+        project.setEndDate(document.getInstitutionalProposal().getRequestedEndDateInitial());
+
+        return project;
+    }
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        forward = super.save(mapping, form, request, response);
+        ActionForward forward = super.save(mapping, form, request, response);
             if (institutionalProposalForm.getMethodToCall().equals("save") && institutionalProposalForm.isAuditActivated()) {
                 forward = mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
             }
-       
+
+        getProjectPublisher().publishProject(createProject(institutionalProposalForm.getInstitutionalProposalDocument()));
 
         return forward;
     }
@@ -444,5 +462,18 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         KrmsRulesExecutionService rulesService = KcServiceLocator.getService(KrmsRulesExecutionService.class);
         return rulesService.processUnitValidations(ipDoc.getLeadUnitNumber(), ipDoc);
     }
+
+    public ProjectPublisher getProjectPublisher() {
+        if (projectPublisher == null) {
+            projectPublisher = KcServiceLocator.getService(ProjectPublisher.class);
+        }
+
+        return projectPublisher;
+    }
+
+    public void setProjectPublisher(ProjectPublisher projectPublisher) {
+        this.projectPublisher = projectPublisher;
+    }
+
 
 }
