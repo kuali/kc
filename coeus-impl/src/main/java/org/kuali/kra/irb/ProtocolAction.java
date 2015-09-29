@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.coeus.coi.framework.ProjectTypeCode;
 import org.kuali.coeus.common.framework.module.CoeusSubModule;
 import org.kuali.coeus.common.notification.impl.service.KcNotificationService;
 import org.kuali.coeus.common.framework.auth.perm.KcAuthorizationService;
@@ -418,5 +419,14 @@ public abstract class ProtocolAction extends ProtocolActionBase {
             getProtocolActionRequestService().createProtocol(protocolForm);
         }
     }
-    
+
+    @Override
+    protected ProjectTypeCode getProjectTypeCode() {
+        return ProjectTypeCode.IRB_PROTOCOL;
+    }
+
+    @Override
+    protected String getSourceSystem() {
+        return Constants.MODULE_NAMESPACE_PROTOCOL;
+    }
 }

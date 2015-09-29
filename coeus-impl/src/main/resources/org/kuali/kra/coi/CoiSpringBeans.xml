@@ -35,6 +35,8 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
     <context:annotation-config />
 
+    <context:component-scan base-package="org.kuali.coeus.coi" />
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
     </bean>
@@ -58,7 +60,15 @@
             </list>
         </property>
     </bean>
-    
+
+    <bean id="restMessageProducer" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="restMessageProducer" />
+    </bean>
+
+    <bean id="beanValidator" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="beanValidator" />
+    </bean>
+
     <bean id="businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="businessObjectService" />
     </bean>

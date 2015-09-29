@@ -8,18 +8,18 @@ import org.kuali.coeus.sys.framework.mq.rest.RestRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.UnknownHttpStatusCodeException;
 
 import javax.jms.*;
 
 import java.lang.IllegalStateException;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 
@@ -57,14 +57,22 @@ public class RestMessageConsumer implements MessageListener {
         if (StringUtils.isBlank(url)) {
             throw new IllegalStateException("url not found for destination " + request.getDestination());
         }
-        final Map<String, Collection<String>> params = request.getParams() != null ? request.getParams() : Collections.emptyMap();
-        final HttpEntity<String> entity = StringUtils.isNotBlank(request.getBody()) ? new HttpEntity<>(request.getBody()): HttpEntity.EMPTY;
+        final Map<String, List<String>> params = request.getParams() != null ? request.getParams() : Collections.emptyMap();
+        final HttpHeaders headers = new HttpHeaders();
+        if (request.getHeaders() != null) {
+            headers.putAll(request.getHeaders());
+        }
+
+        //temp until auth service is integrated
+        headers.put("Cookie", Collections.singletonList("authToken=p34"));
+
+        final HttpEntity<String> entity = StringUtils.isNotBlank(request.getBody()) ? new HttpEntity<>(request.getBody(), headers): HttpEntity.EMPTY;
         final HttpMethod method = HttpMethod.valueOf(request.getMethod().name());
 
         makeCall(url, params, entity, method);
     }
 
-    protected void makeCall(String url, Map<String, Collection<String>> params, HttpEntity<String> entity, HttpMethod method) {
+    protected void makeCall(String url, Map<String, List<String>> params, HttpEntity<String> entity, HttpMethod method) {
         try {
             ResponseEntity<Void> response = consumerRestOperations.exchange(url, method, entity, Void.class, params);
             if (LOG.isDebugEnabled()) {
@@ -83,7 +91,7 @@ public class RestMessageConsumer implements MessageListener {
         }
     }
 
-    protected String createSentMsg(String url, Map<String, Collection<String>> params, HttpEntity<String> entity, HttpMethod method) {
+    protected String createSentMsg(String url, Map<String, List<String>> params, HttpEntity<String> entity, HttpMethod method) {
         return "REST request sent for url: " + url + " method " + method + " body " + entity + " parameters " + params;
     }
 
