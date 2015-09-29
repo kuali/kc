@@ -1,6 +1,26 @@
 
 
 ##CURRENT
+* Cannot submit IRB protocol because of The Reviewer N is not
+  * available.
+  * Create protocol or use existing one. Test Protocol #: 1509002481
+  * Added an attachment (probably not relevant)
+  * Submit for Review, as follows in this test:
+  * -Initial protocol appl.
+  * -Expedited
+  * -Committee=KC JF III
+  * -No schedules available
+  * -Reviewers are Claudia Hovis and N 
+  * -Select Claudia as primary and N as secondary
+  * -check a checklist item
+  * Submit
+  * If you don't select N as a reviewer then you only get one error "The
+  * Reviewer N is not available"
+  * Attempted with several different committees and each time N appears as a
+  * reviewer. 
+  * vineeth on Mon, 28 Sep 2015 16:24:41 -0400 [View Commit](../../commit/c71f9eb12922869bf032785428087289ab430f7c)
+
+##coeus-1509.61
 * No Changes
 
 
