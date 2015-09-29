@@ -57,9 +57,6 @@
         <convert converter="bean" match="org.kuali.rice.location.framework.state.StateEbo">
             <param name="include" value="code,name,countryCode" />
         </convert>
-        <convert converter="bean" match="org.kuali.rice.location.api.state.State">
-            <param name="include" value="code,name,countryCode" />
-        </convert>
 
         <create creator="spring" javascript="SponsorService">
             <param name="beanName" value="sponsorService" />
@@ -174,10 +171,6 @@
         <create creator="spring" javascript="SubAwardService">
             <param name="beanName" value="subAwardService" />
             <include method="getCalculatedFollowupDateForAjaxCall" />
-        </create>  	
-		<create creator="spring" javascript="StateService">
-            <param name="beanName" value="stateService" />
-            <include method="findAllStatesInCountryByAltCode" />
         </create>
 		<create creator="spring" javascript="BudgetRatesService">
 			<param name="beanName" value="budgetRatesService" />

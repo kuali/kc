@@ -298,6 +298,10 @@
             <param-name>config-kew</param-name>
             <param-value>/WEB-INF/dwr-kew.xml</param-value>
         </init-param>
+        <init-param>
+            <param-name>config-krlc</param-name>
+            <param-value>/WEB-INF/dwr-krlc.xml</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
