@@ -1,6 +1,18 @@
 
 
 ##CURRENT
+*  Adding support for canadian provinces.
+  * Need new field to capture Canadian Providences in both Addressbook and Person Record for Key Personnel use and Records for Subcontracts, these should map to the R&R forms
+  * NIH requires the Canadian province code as a separate field
+  * NIH began enforcing this recently without announcing
+  * Forms:
+  * On the SF424 Face Page (RR_SF424_2_0-V2.0 and RR_SF424_1_2-V1.2): Applicant Information (Address book) Person to be Contacted (Person Record), Authorized Representative (Person Record), PD/PI (Person Record) all require a province code for people/subcontracts from Canada (screenshot2)
+  * On the RR_KeyPersonExpanded_2_0 and RR_KeyPerson-V1.1: Key Personnel for each personnel profile (Addressbook for non-personnel and Person Record for personnel) listed (screenshot 1)
+  * On the PerformanceSite_2_0 and PerformanceSite_1_2-V1.2: Project/ Performance Site (Address book) Locations (screenshot3)
+  * Update needs to be available in both 5.2.1 and 6.0
+  * Gayathri Athreya on Wed, 23 Sep 2015 15:53:16 -0700 [View Commit](../../commit/503eeeaa3088f9e7914d7f401e044f8f38e8c4dd)
+
+##coeus-1509.63
 *  implementing project push
   * Travis Schneeberger on Mon, 28 Sep 2015 11:13:39 -0400 [View Commit](../../commit/f7d169fe3e12b9e6ab2593cbf378608df8dea79e)
 
