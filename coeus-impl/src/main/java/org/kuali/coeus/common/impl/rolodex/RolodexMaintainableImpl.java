@@ -26,6 +26,7 @@ import org.kuali.coeus.sys.framework.gv.GlobalVariableService;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -34,6 +35,9 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.data.platform.MaxValueIncrementerFactory;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.framework.state.StateValuesFinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -55,6 +59,7 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public static final String AUTO_GEN_ROLODEX_ID_PARM = "AUTO_GENERATE_NON_EMPLOYEE_ID";
     public static final String SECTION_ID = "Edit Address Book";
     public static final String ROLODEX_ID_NAME = "rolodexId";
+    public static final String STATE = "state";
 
     @Autowired
     @Qualifier("kradApplicationDataSource")
@@ -75,7 +80,11 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     @Autowired
     @Qualifier("kcPersonService")
     private KcPersonService kcPersonService;
-   
+
+    @Autowired
+    @Qualifier("countryService")
+    private transient CountryService countryService;
+
     @Override
     public void setGenerateDefaultValues(String docTypeName) {
         super.setGenerateDefaultValues(docTypeName);
@@ -103,12 +112,21 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
                         if (StringUtils.equals(field.getPropertyName(), ROLODEX_ID_NAME)) {
                             field.setReadOnly(true);
                         }
+                        if (StringUtils.equals(field.getPropertyName(), STATE)) {
+                            field.setFieldValidValues(getFieldValues(((Rolodex) this.businessObject).getCountryCode()));
+                        }
                     }
                 }
             }
         }        
     }
 
+    protected List<KeyValue> getFieldValues(String alternateCode) {
+        StateValuesFinder valuesFinder = new StateValuesFinder();
+        Country country = this.getCountryService().getCountryByAlternateCode(alternateCode);
+        valuesFinder.setCountryCode(country.getCode());
+        return valuesFinder.getKeyValues();
+    }
 
     public void processAfterNew(org.kuali.rice.krad.maintenance.MaintenanceDocument document, Map<String, String[]> requestParameters) {
         Rolodex rolodex = (Rolodex) document.getNewMaintainableObject().getDataObject();
@@ -130,6 +148,7 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, AUTO_GEN_ROLODEX_ID_PARM);
     }
 
+
     @Override
     public void saveDataObject() {
 		if(getBusinessObject() instanceof Rolodex) {
@@ -143,6 +162,13 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
             parameterService = KcServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
+    }
+
+    protected CountryService getCountryService() {
+        if (countryService == null) {
+            countryService = KcServiceLocator.getService(CountryService.class);
+        }
+        return countryService;
     }
 
     public void setParameterService(ParameterService parameterService) {
