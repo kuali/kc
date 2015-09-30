@@ -20,6 +20,7 @@ package org.kuali.kra.protocol.correspondence;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.coeus.sys.framework.model.KcPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
@@ -30,7 +31,7 @@ import java.sql.Timestamp;
  * 
  * This class manages the attributes needed to maintain and protocol correspondence.
  */
-public class ProtocolCorrespondence extends KcPersistableBusinessObjectBase {
+public class ProtocolCorrespondence extends ProtocolAssociateBase {
 
     private static final long serialVersionUID = 8032222937155468412L;
 
@@ -227,4 +228,10 @@ public class ProtocolCorrespondence extends KcPersistableBusinessObjectBase {
     public void setFinalFlagTimestamp(Timestamp finalFlagTimestamp) {
         this.finalFlagTimestamp = finalFlagTimestamp;
     }
+
+    @Override
+    public void resetPersistenceState() {
+    	id = null;
+    }
+    
 }

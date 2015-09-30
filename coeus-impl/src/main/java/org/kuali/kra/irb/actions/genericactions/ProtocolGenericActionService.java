@@ -46,10 +46,9 @@ public interface ProtocolGenericActionService extends org.kuali.kra.protocol.act
      * Defer a protocol.
      * @param protocol Protocol object
      * @param actionBean ProtocolGenericActionBean object
-     * @return the newly versioned Protocol document
      * @throws Exception if there was a general problem performing the action
      */
-    ProtocolDocument defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    void defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
     /**
      * Record IRB Acknowledgement for a protocol.
@@ -82,4 +81,7 @@ public interface ProtocolGenericActionService extends org.kuali.kra.protocol.act
      * @throws Exception if there was a general problem performing the action
      */
     void suspendByDsmb(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    
+    ProtocolDocument getDeferredVersionedDocument(Protocol protocol) throws Exception;
+    
 }

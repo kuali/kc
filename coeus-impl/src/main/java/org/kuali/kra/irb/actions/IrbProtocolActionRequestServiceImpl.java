@@ -810,12 +810,13 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         ProtocolDocument document = protocolForm.getProtocolDocument();
         Protocol protocol = document.getProtocol();
         ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
-        ProtocolDocument newDocument = getProtocolGenericActionService().defer(protocol, actionBean);
+        getProtocolGenericActionService().defer(protocol, actionBean);
         saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
         generateActionCorrespondence(ProtocolActionType.DEFERRED, protocolForm.getProtocolDocument().getProtocol());
+        ProtocolDocument newDocument = getProtocolGenericActionService().getDeferredVersionedDocument(protocol);
         refreshAfterProtocolAction(protocolForm, newDocument.getDocumentNumber(), ACTION_NAME_DEFER, false);
         ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.DEFERRED, "Deferred");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IrbConstants.PROTOCOL_TAB, notificationBean, false));
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(newDocument.getProtocol(), IrbConstants.PROTOCOL_TAB, notificationBean, false));
         return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IrbConstants.PROTOCOL_TAB);
     }
 
