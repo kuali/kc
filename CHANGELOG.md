@@ -1,6 +1,10 @@
 
 
 ##CURRENT
+*  Rolodex state display issues.
+  * Gayathri Athreya on Wed, 30 Sep 2015 11:15:34 -0700 [View Commit](../../commit/eee8cc9d466974b92d4de355771b44b66e4a1901)
+
+##coeus-1509.64
 *  Adding support for canadian provinces.
   * Need new field to capture Canadian Providences in both Addressbook and Person Record for Key Personnel use and Records for Subcontracts, these should map to the R&R forms
   * NIH requires the Canadian province code as a separate field
