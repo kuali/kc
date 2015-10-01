@@ -255,7 +255,7 @@ public abstract class ProposalDevelopmentControllerBase {
         project.setSourceStatus(document.getDevelopmentProposal().getProposalStateTypeCode());
         project.setPersons(document.getDevelopmentProposal().getProposalPersons()
                 .stream()
-                .map(person -> new ProjectPerson(person.getPersonId(), RoleCode.valueOf(person.getRoleCode()).toString()))
+                .map(person -> new ProjectPerson(person.getPersonId(), person.getRoleCode()))
                 .collect(Collectors.toList()));
         project.setSponsorCode(document.getDevelopmentProposal().getSponsorCode());
         project.setSponsorName(document.getDevelopmentProposal().getSponsor() != null ? document.getDevelopmentProposal().getSponsor().getSponsorName() : null);

@@ -168,7 +168,7 @@ public class InstitutionalProposalAction extends KcTransactionalDocumentActionBa
         project.setSourceStatus(document.getInstitutionalProposal().getStatusCode() != null ? document.getInstitutionalProposal().getStatusCode().toString() : null);
         project.setPersons(document.getInstitutionalProposal().getProjectPersons()
                 .stream()
-                .map(person -> new ProjectPerson(person.getPersonId(), RoleCode.valueOf(person.getRoleCode()).toString()))
+                .map(person -> new ProjectPerson(person.getPersonId(), person.getRoleCode()))
                 .collect(Collectors.toList()));
         project.setSponsorCode(document.getInstitutionalProposal().getSponsorCode());
         project.setSponsorName(document.getInstitutionalProposal().getSponsor() != null ? document.getInstitutionalProposal().getSponsor().getSponsorName() : null);
