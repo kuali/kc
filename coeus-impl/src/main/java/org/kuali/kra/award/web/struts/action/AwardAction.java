@@ -409,7 +409,7 @@ public class AwardAction extends BudgetParentActionBase {
         project.setSourceStatus(document.getAward().getStatusCode() != null ? document.getAward().getStatusCode().toString() : null);
         project.setPersons(document.getAward().getProjectPersons()
                 .stream()
-                .map(person -> new ProjectPerson(person.getPersonId(), RoleCode.valueOf(person.getRoleCode()).toString()))
+                .map(person -> new ProjectPerson(person.getPersonId(), person.getRoleCode()))
                 .collect(Collectors.toList()));
         project.setSponsorCode(document.getAward().getSponsorCode());
         project.setSponsorName(document.getAward().getSponsor() != null ? document.getAward().getSponsor().getSponsorName() : null);

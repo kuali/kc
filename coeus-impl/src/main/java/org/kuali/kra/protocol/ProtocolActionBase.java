@@ -247,7 +247,7 @@ public abstract class ProtocolActionBase extends KcTransactionalDocumentActionBa
         project.setSourceStatus(document.getProtocol().getProtocolStatusCode() != null ? document.getProtocol().getProtocolStatusCode().toString() : null);
         project.setPersons(document.getProtocol().getProtocolPersons()
                 .stream()
-                .map(person -> new ProjectPerson(person.getPersonId(), RoleCode.valueOf(person.getRoleCode()).toString()))
+                .map(person -> new ProjectPerson(person.getPersonId(), person.getRoleCode()))
                 .collect(Collectors.toList()));
         project.setStartDate(document.getProtocol().getApplicationDate());
         project.setEndDate(document.getProtocol().getExpirationDate());
