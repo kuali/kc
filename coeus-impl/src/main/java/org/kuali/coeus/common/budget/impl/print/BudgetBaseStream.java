@@ -19,7 +19,6 @@
 package org.kuali.coeus.common.budget.impl.print;
 
 import org.kuali.coeus.common.budget.framework.nonpersonnel.*;
-import org.kuali.coeus.sys.api.model.AbstractDecimal;
 import org.kuali.coeus.sys.api.model.ScaleTwoDecimal;
 import org.kuali.coeus.common.framework.print.stream.xml.XmlStream;
 import org.kuali.kra.printing.schema.GroupsType;
@@ -50,7 +49,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public abstract class BudgetBaseStream implements XmlStream {
 
@@ -281,7 +279,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 			ScaleTwoDecimal calculatedCost = ScaleTwoDecimal.ZERO;
 			ScaleTwoDecimal calculatedCostSharing = ScaleTwoDecimal.ZERO;
 			ScaleTwoDecimal salary = ScaleTwoDecimal.ZERO;
-
+            HashSet<Long> lineItemFringe = new HashSet<>();
 			for (ReportTypeVO tempReportTypeVO : reportTypeVOList) {
 				String budgetLASalaryTempKey = tempReportTypeVO.getCostElementDesc();
 				if (budgetLASalaryTempKey.equals(budgetLASalaryKey)) {
@@ -291,7 +289,10 @@ public abstract class BudgetBaseStream implements XmlStream {
 					if (endDate.before(tempReportTypeVO.getEndDate())) {
 						endDate = tempReportTypeVO.getEndDate();
 					}
-					fringe = fringe.add(tempReportTypeVO.getFringe());
+                    if (tempReportTypeVO.getBudgetLineItemId() == null || !lineItemFringe.contains(tempReportTypeVO.getBudgetLineItemId())) {
+                        fringe = fringe.add(tempReportTypeVO.getFringe());
+                    }
+                    lineItemFringe.add(tempReportTypeVO.getBudgetLineItemId());
 					calculatedCost = calculatedCost.add(tempReportTypeVO.getCalculatedCost());
 					calculatedCostSharing = calculatedCostSharing.add(tempReportTypeVO.getCostSharingAmount());
 					salary = salary.add(tempReportTypeVO.getSalaryRequested());
@@ -324,13 +325,13 @@ public abstract class BudgetBaseStream implements XmlStream {
 	protected void setBudgetLASalaryForBudgetRateAndBase (List<ReportType> reportTypeList) {
 		List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
 		for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-			for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
-				if (isRateAndBaseOfRateClassTypeLAwithEBVA(budgetRateAndBase)) {
-					ReportTypeVO reportTypeVO = getReportTypeVOForBudgetLASalaryForRateBase(budgetLineItem, budgetRateAndBase);
+            for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
+                if (isRateAndBaseOfRateClassTypeLAwithEBVA(budgetRateAndBase)) {
+                    ReportTypeVO reportTypeVO = getReportTypeVOForBudgetLASalaryForRateBase(budgetLineItem, budgetRateAndBase);
 					reportTypeVOList.add(reportTypeVO);
-				}
+                }
 			}
-		}
+        }
 		setReportTypeBudgetLASalary(reportTypeList, reportTypeVOList);
 	}
 
@@ -342,9 +343,10 @@ public abstract class BudgetBaseStream implements XmlStream {
 		reportTypeVO.setStartDate(startDate);
 		reportTypeVO.setEndDate(endDate);
 		reportTypeVO.setSalaryRequested(budgetRateAndBase.getCalculatedCost());
+        reportTypeVO.setFringe(getFringeForLASalaryForRateAndBase(budgetLineItem, startDate, endDate));
 		reportTypeVO.setCostSharingAmount(budgetRateAndBase.getCalculatedCostSharing());
-		reportTypeVO.setFringe(getFringeForLASalaryForRateAndBase(budgetLineItem, startDate, endDate));
         reportTypeVO.setCalculatedCost(getFringeCostSharingLASalaryRateAndBase(budgetLineItem, startDate, endDate));
+        reportTypeVO.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
 		return reportTypeVO;
 	}
 
@@ -1141,21 +1143,21 @@ public abstract class BudgetBaseStream implements XmlStream {
 		return category;
 	}
 
-	private ScaleTwoDecimal getFringeForLASalaryForRateAndBase(BudgetLineItem budgetLineItem, Date startDate, Date endDate) {
-        ScaleTwoDecimal fringe = budgetLineItem.getBudgetRateAndBaseList().stream()
-                .peek(budgetRateAndBase -> budgetRateAndBase.refreshReferenceObject(RATE_CLASS))
-                .filter(budgetRateAndBase -> budgetRateAndBase.getCalculatedCost() != null)
-                .filter(budgetRateAndBase -> budgetRateAndBase.getStartDate().equals(startDate) && budgetRateAndBase.getEndDate().equals(endDate))
-                .filter(budgetRateAndBase -> isRateAndBaseEBonLA(budgetRateAndBase) || isRateAndBaseVAonLA(budgetRateAndBase))
-                .collect(Collectors.toMap(budgetRateAndBase -> budgetRateAndBase.getRateClass().getCode() + budgetRateAndBase.getRateTypeCode(),
-                        BudgetRateAndBase::getCalculatedCost, (key1, key2) -> key1))
-                .values().stream()
-                .reduce(ScaleTwoDecimal.ZERO, AbstractDecimal::add);
-
+	protected ScaleTwoDecimal getFringeForLASalaryForRateAndBase(BudgetLineItem budgetLineItem, Date startDate, Date endDate) {
+		ScaleTwoDecimal fringe = ScaleTwoDecimal.ZERO;
+		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
+			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
+			if (budgetRateAndBase.getStartDate().equals(startDate) && budgetRateAndBase.getEndDate().equals(endDate)
+                    && budgetRateAndBase.getCalculatedCost() != null) {
+				if (isRateAndBaseEBonLA(budgetRateAndBase) || isRateAndBaseVAonLA(budgetRateAndBase)) {
+					fringe = fringe.add(budgetRateAndBase.getCalculatedCost());
+				}
+			}
+		}
 		return fringe;
 	}
 
-	private ScaleTwoDecimal getFringeCostSharingLASalaryRateAndBase(BudgetLineItem budgetLineItem, Date startDate, Date endDate) {
+    protected ScaleTwoDecimal getFringeCostSharingLASalaryRateAndBase(BudgetLineItem budgetLineItem, Date startDate, Date endDate) {
 		ScaleTwoDecimal fringeCostSharing = ScaleTwoDecimal.ZERO;
 		for (BudgetRateAndBase budgetRateAndBase : budgetLineItem.getBudgetRateAndBaseList()) {
 			budgetRateAndBase.refreshReferenceObject(RATE_CLASS);
