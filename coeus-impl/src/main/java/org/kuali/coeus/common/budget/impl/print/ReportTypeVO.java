@@ -24,6 +24,7 @@ import java.sql.Date;
 
 public class ReportTypeVO {
 
+    private Long budgetLineItemId;
 	private String rateClassDesc;
 	private String rateTypeDesc;
 	private Date startDate;
@@ -195,4 +196,12 @@ public class ReportTypeVO {
 	public void setEmployeeBenefitRate(ScaleTwoDecimal employeeBenefitRate) {
 		this.employeeBenefitRate = employeeBenefitRate;
 	}
+
+    public Long getBudgetLineItemId() {
+        return budgetLineItemId;
+    }
+
+    public void setBudgetLineItemId(Long budgetLineItemId) {
+        this.budgetLineItemId = budgetLineItemId;
+    }
 }
