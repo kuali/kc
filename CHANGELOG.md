@@ -1,6 +1,49 @@
 
 
 ##CURRENT
+*  Attempting to fix tim sort issue.
+  * User experiences the attached error message on award 337 when attempting to click on any other tab of the award. This error seems to be local only to award 337 and not happening to other awards.
+  * Stack trace error displays. See below.
+  * java.lang.IllegalArgumentException: Comparison method violates its general contract!
+  * at java.util.ComparableTimSort.mergeHi(ComparableTimSort.java:866)
+  * at java.util.ComparableTimSort.mergeAt(ComparableTimSort.java:483)
+  * at java.util.ComparableTimSort.mergeForceCollapse(ComparableTimSort.java:422)
+  * at java.util.ComparableTimSort.sort(ComparableTimSort.java:222)
+  * at java.util.Arrays.sort(Arrays.java:1312)
+  * at java.util.Arrays.sort(Arrays.java:1506)
+  * at java.util.ArrayList.sort(ArrayList.java:1454)
+  * at java.util.Collections.sort(Collections.java:141)
+  * at org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingServiceImpl.getReportTacking(ReportTrackingServiceImpl.java:343)
+  * at org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingServiceImpl.shouldAlertReportTrackingDetailChange(ReportTrackingServiceImpl.java:405)
+  * at org.kuali.kra.award.web.struts.action.AwardHomeAction.save(AwardHomeAction.java:272)
+  * Gayathri Athreya on Thu, 1 Oct 2015 15:14:21 -0700 [View Commit](../../commit/4ce4d30f00ee279c1c265e90cd17b01fed79624e)
+*  changing s2s version in pom file
+  * Geo Thomas on Thu, 1 Oct 2015 18:07:21 -0400 [View Commit](../../commit/37e4d5af94340f2d4b76d806e768a03263b030bb)
+*  implementing project push (allowing any role code to be sent)
+  * Travis Schneeberger on Thu, 1 Oct 2015 17:10:18 -0400 [View Commit](../../commit/37a96bf1d3d4812deb954842830f68275ddede34)
+*  New proposal types have been added to support new submission type settings in RR SF424 Form V2.0. The script also have parameters to define comma separated values for these parameters. If school wants to use different proposal types to set Application Type and Submission Type in RR SF424 forms, they should change these PROPOSAL_TYPE_X_X parameters and set appropriate values
+  * Geo Thomas on Wed, 30 Sep 2015 14:09:56 -0400 [View Commit](../../commit/185045b3ccab915c4ebd114bdd787e490849168b)
+*  Fixing budget cost share summary print
+  * Budget Print Report: "1 Cost Share Summary Report"
+  * Issue 1: When more than one person is detailed in a group, only the salary of the first person is published, making the remaining sums on the form incorrect.
+  * Issue 2: Due to incorrect LA total, other values on the print out are incorrect
+  * – Total Direct Cost incorrect sum
+  * – Total Cost incorrect sum
+  * See Res Demo 1 proposal # 791 budget version 2 has the grouped salaries.
+  * The lead unit is a Lab Allocated unit.
+  * The budget is built with with 2 individuals assigned to the default Cost Element/group and 2 individuals assigned to a custom group.
+  * LA Rates Maintained for Salaries, M&S
+  * Problems:
+  * 1.	Personnel Section: Lab Allocation Category
+  * •	Allocated Admin Support: Faculty Salaries - Amount is INCORRECT
+  * •	Total Lab Allocation: Salaries & Wages - Amount shown in report is INCORRECT due to prior value
+  * 2.	Total Salaries & Wages: Amount Shown is INCORRECT due to prior value
+  * 3.	TOTAL SALARIES & WAGES & FRINGE BENEFITS is INCORRECT due to prior value
+  * 4 Total Direct Cost value is incorrect as it is using the sum of this column
+  * 5 Total Cost is incorrect as it is using the sum of this column
+  * Gayathri Athreya on Thu, 1 Oct 2015 09:31:34 -0700 [View Commit](../../commit/e1d67a2257b387703080af021c1345544d3c1190)
+
+##coeus-1509.65
 *  Rolodex state display issues.
   * Gayathri Athreya on Wed, 30 Sep 2015 11:15:34 -0700 [View Commit](../../commit/eee8cc9d466974b92d4de355771b44b66e4a1901)
 
