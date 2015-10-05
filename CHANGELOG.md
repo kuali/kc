@@ -1,6 +1,15 @@
 
 
 ##CURRENT
+* IRB - Unable to see Deferred Letter in Protocol History for a production protocols.
+  * The deferred letters don't seem to make it to the Protocol History. Action is available but the letter cannot be opened or viewed.
+  * The issue here is that the current document is cancelled and a new document is created. Correspondence is tied only to the
+  * old version. While analyzing data found that there is a mismatch in protocol sequence number. That is fixed along with this since
+  * migration script rely on sequence to fetch the prior correspondece. Also included in this PR migration script for protocol
+sequence mismatch and create version for protocol correspondence.
+  * rmancher on Wed, 30 Sep 2015 09:37:53 -0400 [View Commit](../../commit/0b872bd470b43e4e0217218c2ceb28a2d13282f8)
+
+##coeus-1510.2
 * No Changes
 
 
