@@ -868,6 +868,8 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="IsAmendment" type="xs:boolean" />
+        <xs:element name="IsRenewal" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
