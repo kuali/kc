@@ -25,25 +25,38 @@ import org.jmock.lib.concurrent.Synchroniser;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.coeus.propdev.impl.core.ProposalDevelopmentDocument;
+import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
+import org.kuali.coeus.common.budget.framework.core.category.BudgetCategory;
+import org.kuali.coeus.common.budget.framework.nonpersonnel.BudgetLineItem;
 import org.kuali.coeus.common.budget.framework.period.BudgetPeriod;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPerson;
+import org.kuali.coeus.common.budget.framework.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.coeus.propdev.impl.core.DevelopmentProposal;
 import org.kuali.coeus.propdev.impl.budget.ProposalDevelopmentBudgetExt;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.kuali.rice.krad.data.DataObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
+import com.ibm.icu.util.Calendar;
+
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
 public class AwardBudgetServiceImplTest {
 
 	protected Mockery context;
-    protected AwardBudgetService awardBudgetService;
+    protected AwardBudgetServiceImpl awardBudgetService;
     protected String testAwardNumber = "000000-00000";
     protected Long awardId = 1L;
     protected String proposalNumber = "111";
@@ -99,6 +112,141 @@ public class AwardBudgetServiceImplTest {
         assertTrue(periods.size() == 2);
         assertEquals(proposalNumber, periods.get(0).getInstitutionalProposalNumber());
     }
+    
+    @Test
+    public void testCopyProposalBudgetLineItemsToAwardBudget() {
+    	awardBudgetService = new AwardBudgetServiceImpl() {
+    		@Override
+    		protected void populateCalculatedAmount(AwardBudgetPeriodExt awardBudgetPeriod, AwardBudgetLineItemExt awardBudgetLineItem) {
+    			return;
+    		}
+    	};
+    	LocalDateTime awardBudgetStartDate = LocalDateTime.now().minusWeeks(26);
+		LocalDateTime awardBudgetEndDate = awardBudgetStartDate.plusYears(1);
+		final LocalDateTime proposalBudgetStartDate = awardBudgetStartDate;
+		final LocalDateTime proposalBudgetEndDate = awardBudgetEndDate;
+    	
+		AwardBudgetPeriodExt awardBudgetPeriod1 = prepareAwardBudgetPeriod(awardBudgetStartDate, awardBudgetEndDate);
+    	
+    	BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
+    	
+    	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
+    	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
+    	assertEquals(convertToSqlDate(proposalBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
+    	assertEquals(convertToSqlDate(proposalBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
+    }
+    
+    @Test
+    public void testCopyProposalBudgetLineItemsToAwardBudgetWithDifferentStartDates() {
+    	awardBudgetService = new AwardBudgetServiceImpl() {
+    		@Override
+    		protected void populateCalculatedAmount(AwardBudgetPeriodExt awardBudgetPeriod, AwardBudgetLineItemExt awardBudgetLineItem) {
+    			return;
+    		}
+    	};
+    	LocalDateTime awardBudgetStartDate = LocalDateTime.now().minusWeeks(26);
+    	LocalDateTime awardBudgetEndDate = awardBudgetStartDate.plusYears(1);
+    	final LocalDateTime proposalBudgetStartDate = awardBudgetStartDate.minusWeeks(2);
+    	final LocalDateTime proposalBudgetEndDate = awardBudgetEndDate.minusWeeks(2);
+    	
+    	AwardBudgetPeriodExt awardBudgetPeriod1 = prepareAwardBudgetPeriod(awardBudgetStartDate, awardBudgetEndDate);
+    	
+    	BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
+    	
+    	GlobalVariables.getMessageMap().clearErrorMessages();
+    	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
+    	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
+    	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
+    	assertEquals(convertToSqlDate(proposalBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
+    	assertEquals(convertToSqlDate(awardBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getStartDate());
+    	assertEquals(convertToSqlDate(proposalBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getEndDate());
+    	assertEquals(1, GlobalVariables.getMessageMap().getWarningCount());
+    }
+    
+    @Test
+    public void testCopyProposalBudgetLineItemsToAwardBudgetWithDifferentEndDates() {
+    	awardBudgetService = new AwardBudgetServiceImpl() {
+    		@Override
+    		protected void populateCalculatedAmount(AwardBudgetPeriodExt awardBudgetPeriod, AwardBudgetLineItemExt awardBudgetLineItem) {
+    			return;
+    		}
+    	};
+    	LocalDateTime awardBudgetStartDate = LocalDateTime.now().minusWeeks(26);
+    	LocalDateTime awardBudgetEndDate = awardBudgetStartDate.plusYears(1);
+    	final LocalDateTime proposalBudgetStartDate = awardBudgetStartDate.plusWeeks(2);
+    	final LocalDateTime proposalBudgetEndDate = awardBudgetEndDate.plusWeeks(2);
+    	
+    	AwardBudgetPeriodExt awardBudgetPeriod1 = prepareAwardBudgetPeriod(awardBudgetStartDate, awardBudgetEndDate);
+    	
+    	BudgetPeriod proposalBudgetPeriod = prepareProposalBudgetPeriod(proposalBudgetStartDate, proposalBudgetEndDate);
+    	
+    	GlobalVariables.getMessageMap().clearErrorMessages();
+    	awardBudgetService.copyProposalBudgetLineItemsToAwardBudget(awardBudgetPeriod1, proposalBudgetPeriod);
+    	assertEquals(1, awardBudgetPeriod1.getBudgetLineItems().size());
+    	assertEquals(convertToSqlDate(proposalBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getStartDate());
+    	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getEndDate());
+    	assertEquals(convertToSqlDate(proposalBudgetStartDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getStartDate());
+    	assertEquals(convertToSqlDate(awardBudgetEndDate), awardBudgetPeriod1.getBudgetLineItems().get(0).getBudgetPersonnelDetailsList().get(0).getEndDate());
+    	assertEquals(1, GlobalVariables.getMessageMap().getWarningCount());
+    }
+
+	protected BudgetPeriod prepareProposalBudgetPeriod(
+			final LocalDateTime proposalBudgetStartDate,
+			final LocalDateTime proposalBudgetEndDate) {
+		BudgetCategory category = new BudgetCategory();
+    	category.setDescription("Equipment");
+    	
+    	ProposalDevelopmentBudgetExt budget = new ProposalDevelopmentBudgetExt();
+    	BudgetPeriod proposalBudgetPeriod = new BudgetPeriod();
+    	proposalBudgetPeriod.setBudget(budget);
+    	BudgetLineItem lineItem = new BudgetLineItem() {
+    		@Override
+    		public PersistableBusinessObjectExtension getExtension() {
+    			return null;
+    		}
+    	};
+    	lineItem.setBudgetCategory(category);
+		lineItem.setStartDate(convertToSqlDate(proposalBudgetStartDate));
+		lineItem.setEndDate(convertToSqlDate(proposalBudgetEndDate));
+		BudgetPerson person = new BudgetPerson() {
+			@Override
+    		public PersistableBusinessObjectExtension getExtension() {
+				return null;
+			}
+		};
+		person.setNonEmployeeFlag(false);
+		person.setPersonId("1");
+		budget.getBudgetPersons().add(person);
+		BudgetPersonnelDetails personnelLineItem = new BudgetPersonnelDetails() {
+			@Override
+    		public PersistableBusinessObjectExtension getExtension() {
+				return null;
+			}
+		};
+		personnelLineItem.setStartDate(convertToSqlDate(proposalBudgetStartDate));
+		personnelLineItem.setEndDate(convertToSqlDate(proposalBudgetEndDate));
+		personnelLineItem.setBudgetPerson(person);
+		lineItem.getBudgetPersonnelDetailsList().add(personnelLineItem);
+    	proposalBudgetPeriod.getBudgetLineItems().add(lineItem);
+		return proposalBudgetPeriod;
+	}
+
+	protected AwardBudgetPeriodExt prepareAwardBudgetPeriod(
+			LocalDateTime awardBudgetStartDate, LocalDateTime awardBudgetEndDate) {
+		AwardBudgetDocument awardBudgetDoc = new AwardBudgetDocument();
+    	AwardBudgetExt awardBudget = new AwardBudgetExt();
+    	awardBudget.setBudgetDocument(awardBudgetDoc);
+    	AwardBudgetPeriodExt awardBudgetPeriod1 = new AwardBudgetPeriodExt();
+    	awardBudgetPeriod1.setBudget(awardBudget);
+    	awardBudget.getBudgetPeriods().add(awardBudgetPeriod1);
+    	awardBudgetPeriod1.setStartDate(convertToSqlDate(awardBudgetStartDate));
+    	awardBudgetPeriod1.setEndDate(convertToSqlDate(awardBudgetEndDate));
+		return awardBudgetPeriod1;
+	}
+
+	protected Date convertToSqlDate(LocalDateTime awardBudgetStartDate) {
+		return new java.sql.Date(awardBudgetStartDate.toEpochSecond(ZoneOffset.ofHours(0)));
+	}
     
     protected List<AwardFundingProposal> getTestAwardFundingProposals() {
     	List<AwardFundingProposal> result = new ArrayList<>();
