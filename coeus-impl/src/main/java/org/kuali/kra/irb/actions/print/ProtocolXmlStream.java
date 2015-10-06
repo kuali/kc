@@ -52,6 +52,7 @@ import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStreamBase;
 
 import java.math.BigInteger;
@@ -68,8 +69,10 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
     private KcPersonService kcPersonService;
     private ScheduleXmlStream scheduleXmlStream;
     private CommitteeXmlStream committeeXmlStream;
+    protected static final String AMEND_COMMENT = "Amendment-";
+    protected static final String RENEW_COMMENT = "Renewal-";
 
-    @Override
+	@Override
     public Map<String, XmlObject> generateXmlStream(KcPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         org.kuali.kra.irb.Protocol protocol = (org.kuali.kra.irb.Protocol)printableBusinessObject;
         edu.mit.irb.irbnamespace.ProtocolDocument protocolDocumentType = edu.mit.irb.irbnamespace.ProtocolDocument.Factory.newInstance();
@@ -231,9 +234,23 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
             NextSchedule nextSchedule = submission.addNewNextSchedule();
             getScheduleXmlStream().setNextSchedule(committeeSchedule, nextSchedule.addNewScheduleMasterData());
         }
+        
+        setAmendmentOrRenewal(protocol,submissionDetail,submissionNumber);
+        
     }
 
-
+    protected void setAmendmentOrRenewal(org.kuali.kra.irb.Protocol protocol,SubmissionDetails submissionDetail,Integer submissionNumber) {
+    	for (ProtocolActionBase protocolAction : protocol.getProtocolActions()) {
+    		if (protocolAction.getSubmissionNumber()!=null && protocolAction.getSubmissionNumber().equals(submissionNumber)) {
+    			if (protocolAction.getComments()!=null && protocolAction.getComments().startsWith(AMEND_COMMENT)) {
+    				submissionDetail.setIsAmendment(true);
+    			} else if(protocolAction.getComments()!=null && protocolAction.getComments().startsWith(RENEW_COMMENT)) {
+    				submissionDetail.setIsRenewal(true);
+    			}
+    		}
+    	}
+    }
+    
     protected void setMinutes(org.kuali.kra.irb.actions.submit.ProtocolSubmission submissionInfoBean,
             Submissions submission) {
         CommitteeSchedule committeeSchedule = (CommitteeSchedule) submissionInfoBean.getCommitteeSchedule();
