@@ -1,7 +1,8 @@
 package org.kuali.coeus.award.finance;
 
 import com.codiform.moo.annotation.CollectionProperty;
-import org.kuali.coeus.sys.framework.Rest.ResponseResults;
+
+import org.kuali.coeus.sys.framework.rest.ResponseResults;
 
 import java.util.Collection;
 

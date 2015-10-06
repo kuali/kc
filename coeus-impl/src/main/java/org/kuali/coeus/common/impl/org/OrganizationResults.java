@@ -3,7 +3,7 @@ package org.kuali.coeus.common.impl.org;
 import java.util.Collection;
 
 import org.kuali.coeus.common.framework.org.OrganizationSummaryDto;
-import org.kuali.coeus.sys.framework.Rest.ResponseResults;
+import org.kuali.coeus.sys.framework.rest.ResponseResults;
 
 import com.codiform.moo.annotation.CollectionProperty;
 

@@ -82,7 +82,7 @@
 
     <filter>
         <filter-name>UserLoginFilter</filter-name>
-        <filter-class>org.kuali.rice.krad.web.filter.UserLoginFilter</filter-class>
+        <filter-class>org.kuali.coeus.sys.framework.auth.AuthServiceUserLoginFilter</filter-class>
     </filter>
 
     <filter>

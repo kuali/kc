@@ -15,8 +15,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.util.Base64;
 import org.kuali.coeus.sys.framework.service.KcServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -29,11 +32,12 @@ import org.springframework.web.client.RestTemplate;
 
 public class AuthServiceFilter implements Filter {
 
+	public static final String AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR = "AUTH_SERVICE_FILTER_AUTH_TOKEN";
+	public static final String AUTH_SERVICE_FILTER_AUTHED_USER_ATTR = "AUTH_SERVICE_FILTER_AUTHED_USER";
 	private static final String SECONDS_TO_CACHE_AUTH_TOKEN_RESPONSE_CONFIG = "secondsToCacheAuthTokenResponse";
 	private static final String BASIC_AUTH_KC_USERNAME = "admin";
 	private static final long SECONDS_TO_CACHE_AUTH_TOKEN_IN_SESSION_DEFAULT = 300L;
 	private static final String ACCESS_DENIED_MESSAGE = "Access Denied";
-	private static final String AUTH_SERVICE_FILTER_AUTHED_USER_ATTR = "AUTH_SERVICE_FILTER_AUTHED_USER";
 	private static final String AUTHORIZATION_PREFIX = "Bearer ";
 	private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 	private static final String KUALICO_VERSION_1_MEDIA_TYPE = "application/vnd.kuali.v1+json";
@@ -43,6 +47,7 @@ public class AuthServiceFilter implements Filter {
 	private static final String AUTH_RETURN_TO = "/auth?return_to=";
 	private static final String KC_REST_ADMIN_PASSWORD = "kc.rest.admin.password";
 	private static final String KC_REST_ADMIN_USERNAME = "kc.rest.admin.username";
+	private static final Log LOG = LogFactory.getLog(AuthServiceFilter.class);
 	
 	private String authServiceUrl;
 	private String authWithReturnTo;
@@ -90,7 +95,7 @@ public class AuthServiceFilter implements Filter {
 	protected void authenticateWebBasedUser(FilterChain chain,
 			HttpServletRequest httpRequest, HttpServletResponse httpResponse)
 			throws IOException, ServletException {
-		Cookie authToken = Arrays.asList(httpRequest.getCookies()).stream().filter(cookie -> { return cookie.getName().equals(AUTH_TOKEN_COOKIE_NAME); }).findFirst().orElse(null);
+		Cookie authToken = httpRequest.getCookies() != null ? Arrays.asList(httpRequest.getCookies()).stream().filter(cookie -> { return cookie.getName().equals(AUTH_TOKEN_COOKIE_NAME); }).findFirst().orElse(null) : null;
 		if (authToken == null) {
 			redirectToLogin(httpRequest, httpResponse);
 		} else {
@@ -105,6 +110,7 @@ public class AuthServiceFilter implements Filter {
 		try {
 			authedUser = validateAuthToken(authTokenValue, httpRequest);
 		} catch (Exception e) {
+			LOG.warn("Error validating auth token", e);
 			redirectToLogin(httpRequest, httpResponse);
 			return;
 		}
@@ -146,14 +152,28 @@ public class AuthServiceFilter implements Filter {
 		headers.setAccept(Arrays.asList(MediaType.parseMediaType(KUALICO_VERSION_1_MEDIA_TYPE)));
 		headers.set(AUTHORIZATION_HEADER_NAME, AUTHORIZATION_PREFIX + authTokenValue);
 		
-		ResponseEntity<AuthUser> result = new RestTemplate().exchange(getCurrentUserUrl, HttpMethod.GET, new HttpEntity<String>(headers), AuthUser.class);
+		String currentGetUserUrl = getCurrentUserUrl;
+		if (!currentGetUserUrl.startsWith("http")) {
+			currentGetUserUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + currentGetUserUrl;
+		}
+		
+		ResponseEntity<AuthUser> result = getRestTemplate().exchange(currentGetUserUrl, HttpMethod.GET, new HttpEntity<String>(headers), AuthUser.class);
 		
 		authedUser = result.getBody();
 		if (authedUser != null) {
 			authedUser.setAuthToken(authTokenValue);
 			request.getSession().setAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR, authedUser);
+			request.getSession().setAttribute(AUTH_SERVICE_FILTER_AUTH_TOKEN_SESSION_ATTR, authTokenValue);
 		}
 		return authedUser;
+	}
+	
+	public static String getAuthToken(HttpSession session) {
+		return ((AuthUser)session.getAttribute(AUTH_SERVICE_FILTER_AUTHED_USER_ATTR)).getAuthToken();
+	}
+
+	protected RestTemplate getRestTemplate() {
+		return KcServiceLocator.getService("consumerRestOperations");
 	}
 
 	@Override
