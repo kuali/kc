@@ -1,6 +1,33 @@
 
 
 ##CURRENT
+* Award budget line items imported with wrong dates
+
+  * PB expenses where end dates are not period end dates shows wrong amounts pulled into AB.
+  * When personnel is added to a proposal budget in a way that the end date for personnel expense is not the same as the period end date, it is not converting properly when adding the award budget. The award budget shows those end dates as the period end date and causes an STE when user tries to correct the end dates.
+  * blackcathacker on Mon, 5 Oct 2015 16:05:15 -0700 [View Commit](../../commit/88034f0e9a2067624489f8bb15e747ac99826fdd)
+* Approval letter not generating correctly for amendments after
+  * an SMR or SRR.
+  * 1. Create protocol 
+  * 2. Submit and Approve 
+  * 3. Create Amendment 
+  * 4. Submit amendment for full board review 
+  * 5. *SMR ​ or SRR the amendment​*
+  * 6. Submit amendment​ as Response
+  * 8. Approve ​
+  * Result: Approval Letter appears to be for the main protocol not the
+  * amendment because the system cannot tell it is an amendment after it is
+submitted as a response. 
+  * Expected: Approval Letter should be for the amendment.
+  * We are using SubmissionTypeCode in stylesheet to identify whether the
+  * protocol is an amendment 
+  * Above scenario will indicate that the submission is "Response to
+  * Previous IRB Notification" 
+  * See attached schema.
+  * We need a way to specify in the stream whether the current protocol
+  * approved is an amendment  * vineeth on Mon, 5 Oct 2015 11:33:09 -0400 [View Commit](../../commit/c0945c932959c9ed475fbc46f7e118097929deb5)
+
+##coeus-1510.4
 * No Changes
 
 
