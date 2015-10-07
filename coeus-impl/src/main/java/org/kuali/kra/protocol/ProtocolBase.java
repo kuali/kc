@@ -58,6 +58,7 @@ import org.kuali.coeus.common.questionnaire.framework.answer.AnswerHeader;
 import org.kuali.coeus.common.questionnaire.framework.answer.QuestionnaireAnswerService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -510,9 +511,17 @@ public abstract class ProtocolBase extends KcPersistableBusinessObjectBase imple
 
     
     public ProtocolDocumentBase getProtocolDocument() {
+    	loadWorkflowDocument(this.protocolDocument);
         return protocolDocument;
     }
 
+    protected void loadWorkflowDocument(ProtocolDocumentBase protocolDocument) {
+    	if (protocolDocument != null && protocolDocument.getDocumentHeader() != null && !protocolDocument.getDocumentHeader().hasWorkflowDocument()) {
+		    protocolDocument.getDocumentHeader().setWorkflowDocument(WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), 
+		    		protocolDocument.getDocumentNumber()));
+		}
+    }
+    
     public void setProtocolDocument(ProtocolDocumentBase protocolDocument) {
         this.protocolDocument = protocolDocument;
     }
