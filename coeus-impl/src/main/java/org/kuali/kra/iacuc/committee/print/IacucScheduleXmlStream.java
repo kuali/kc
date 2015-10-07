@@ -443,7 +443,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     }
 
     public void setPreviousSchedule(CommitteeScheduleBase scheduleDetailsBean,ScheduleMasterDataType scheduleMasterDataType) {
-        CommitteeScheduleBase prevSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
+        CommitteeScheduleBase prevSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, false);
         if (prevSchedule != null){
             setScheduleMasterData(prevSchedule, scheduleMasterDataType);
         }
@@ -458,7 +458,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         Map<String, String> scheduleParam = new HashMap<>();
         scheduleParam.put(COMMITTEE_ID_FK, scheduleDetailsBean.getParentCommittee().getId().toString());
         List<IacucCommitteeSchedule> schedules = (List<IacucCommitteeSchedule>) getBusinessObjectService().findMatchingOrderBy(IacucCommitteeSchedule.class,
-                scheduleParam, SCHEDULED_DATE, false);
+                scheduleParam, SCHEDULED_DATE, true);
         if (!schedules.isEmpty()) {
             int size = schedules.size();
             for (int i = 0; i < size; i++) {
