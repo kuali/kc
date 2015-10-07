@@ -1,6 +1,12 @@
 
 
 ##CURRENT
+* IRB/IACUC - Sections to amend or edit via admin correction on protocols are not unlocked after amendment is approved.
+  * Modules are released once the amendment is approved and final. We need to load the document via document service to
+  * get the workflow document to check for document status.
+  * rmancher on Tue, 6 Oct 2015 11:53:05 -0400 [View Commit](../../commit/b65427e0376f1b9a07b89f28ec0edc23fea84447)
+
+##coeus-1510.7
 * No Changes
 
 
